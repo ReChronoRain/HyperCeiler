@@ -91,7 +91,7 @@ public class ShellExec {
     private final ArrayList<String> cList = new ArrayList<>();
 
     private final boolean result;
-    private final boolean init;
+    private boolean init;
     private boolean destroy;
     private boolean appending = false;
     private boolean isFilter = false;
@@ -372,7 +372,7 @@ public class ShellExec {
         try {
             isFilter = true;
             os.writeBytes("result=$?; string=\"The execution of command <" + count + "> is complete. Return value: <$result>\"; " +
-                "if [[ $result != 0 ]]; then echo $string 1>&2; else echo $string 2>/dev/null; fi");
+                    "if [[ $result != 0 ]]; then echo $string 1>&2; else echo $string 2>/dev/null; fi");
             // os.writeBytes("echo \"The execution of command <" + count + "> is complete. Return value: <$?>\" 1>&2 2>&1");
             os.writeBytes("\n");
             os.flush();
@@ -568,7 +568,7 @@ public class ShellExec {
                         if (result != null && count != null) {
                             if (use) {
                                 mIResult.result(command.passCommands.get(Integer.parseInt(count)),
-                                    Integer.parseInt(result));
+                                        Integer.parseInt(result));
                                 if (finish) mIResult.readOutput("Finish!!", true);
                             }
                             shellExec.setResult = Integer.parseInt(result);
