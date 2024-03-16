@@ -58,6 +58,7 @@
     <string name="settings_icon_medium">Meio</string>
     <string name="settings_icon_down">Fundo</string>
     <string name="settings_icon_mode">Estilo do ícone</string>
+    <string name="settings_app_language">Idioma</string>
     <string name="settings_icon_miui_14">Retângulo arredondado</string>
     <string name="settings_icon_miui_13">Recorte de fundo</string>
     <string name="settings_reboot">Reiniciar app de destino</string>
@@ -756,6 +757,7 @@
     <string name="system_ui_control_center_redirect_notice_desc">Ao abrir o menu de configurações de notificações, navega-se para as configurações do canal de destino em vez de aplicar as configurações de notificação.</string>
     <string name="system_ui_control_center_show_weather">Exibir clima</string>
     <string name="system_ui_control_center_show_weather_city">Exibir cidade</string>
+    <string name="system_ui_control_center_disable_device_managed">Ocultar solicitações de monitoramento de rede</string>
     <string name="system_ui_control_center_mute_visible_notice">Silenciar quando a tela estiver ligada</string>
     <string name="system_ui_control_center_expand_notification">Expandir notificações</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Quando a tela está ligada, a notificação pop-up não reproduz o som de aviso.</string>
@@ -1092,6 +1094,7 @@
     <string name="home_title_disable_hide_file">Desativar ocultação do ícone \"Arquivos\"</string>
     <string name="home_title_disable_hide_theme">Não oculte o ícone \"Temas\"</string>
     <string name="home_title_disable_hide_google">Não oculte o ícone \"Google\"</string>
+    <string name="home_title_fake_non_default_icon">Ícone falso não padrão</string>
     <string name="home_title_custom_anim_param">Parâmetro de animação personalizado</string>
     <string name="home_title_custom_anim_param_damping_title">Amortecimento</string>
     <string name="home_title_custom_anim_param_stiffness_title">Rigidez</string>
@@ -1360,6 +1363,8 @@
     <string name="security_center_sidebar_function_title">Função da barra lateral</string>
     <string name="security_center_game_speed">Iniciar jogo rapidamente</string>
     <string name="security_center_game_speed_desc">Ao iniciar o jogo, ele passa a animação da tela de abertura em velocidade 3x, o que só é suportado por alguns jogos.</string>
+    <string name="security_center_bypass_simlock_miaccount_auth">Ignorar segurança do SIM da Conta Mi</string>
+    <string name="security_center_bypass_simlock_miaccount_auth_desc">É necessário ignorar a segurança do SIM da Conta Mi. Você pode usar esta função mesmo sem fazer login em sua conta Conta Mi.</string>
     <string name="security_center_aosp_app_info_label">Informações do app AOSP</string>
     <string name="security_center_aosp_app_info">Adicionar entrada de informações do app AOSP</string>
     <string name="security_center_aosp_app_manager_label">Gerenciar apps AOSP</string>

@@ -58,6 +58,7 @@
     <string name="settings_icon_medium">Ở giữa</string>
     <string name="settings_icon_down">Bên dưới</string>
     <string name="settings_icon_mode">Phong cách biểu tượng</string>
+    <string name="settings_app_language">Ngôn ngữ</string>
     <string name="settings_icon_miui_14">Ô hình chữ nhật bo tròn</string>
     <string name="settings_icon_miui_13">Nền màn hình khuyết</string>
     <string name="settings_reboot">Khởi động lại ứng dụng liên quan</string>
@@ -758,6 +759,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_redirect_notice_desc">Mở chuyển hướng cài đặt thông báo đích thay vì áp dụng cài đặt thông báo</string>
     <string name="system_ui_control_center_show_weather">Hiển thị thời tiết</string>
     <string name="system_ui_control_center_show_weather_city">Hiện thị thành phố</string>
+    <string name="system_ui_control_center_disable_device_managed">Ẩn lời nhắc giám sát mạng</string>
     <string name="system_ui_control_center_mute_visible_notice">Tắt âm thông báo khi màn hình bật</string>
     <string name="system_ui_control_center_expand_notification">Mở rộng thông báo</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Khi màn hình đang bật, thông báo không phát âm thanh</string>
@@ -1098,6 +1100,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_title_disable_hide_file">Không ẩn biểu tượng \"Tệp\"</string>
     <string name="home_title_disable_hide_theme">Không ẩn biểu tượng \"Theme\"</string>
     <string name="home_title_disable_hide_google">Không ẩn biểu tượng Google</string>
+    <string name="home_title_fake_non_default_icon">Giả mạo là một biểu tượng không mặc định</string>
     <string name="home_title_custom_anim_param">Tuỳ chỉnh thông số hoạt ảnh</string>
     <string name="home_title_custom_anim_param_damping_title">Giảm dần</string>
     <string name="home_title_custom_anim_param_stiffness_title">Độ gấp</string>
@@ -1373,6 +1376,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_sidebar_function_title">Chức năng thanh bên</string>
     <string name="security_center_game_speed">Mở trò chơi nhanh chóng</string>
     <string name="security_center_game_speed_desc">Khi khởi chạy trò chơi, nó chuyển hoạt ảnh màn hình mở đầu với tốc độ gấp 3 lần, tốc độ này chỉ được hỗ trợ bởi một số trò chơi</string>
+    <string name="security_center_bypass_simlock_miaccount_auth">Bảo mật thẻ SIM bỏ qua xác minh đăng nhập</string>
+    <string name="security_center_bypass_simlock_miaccount_auth_desc">Không cần đăng nhập tài khoản Xiaomi khi bật bảo mật thẻ SIM</string>
     <string name="security_center_aosp_app_info_label">Thông tin ứng dụng AOSP</string>
     <string name="security_center_aosp_app_info">Thêm mục nhập Thông tin ứng dụng AOSP</string>
     <string name="security_center_aosp_app_manager_label">Trình quản lý ứng dụng AOSP</string>
