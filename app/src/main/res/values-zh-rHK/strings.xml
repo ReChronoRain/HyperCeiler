@@ -757,6 +757,7 @@
     <string name="system_ui_control_center_redirect_notice_desc">打開通知選單的設定將導航到目標頻道設定，而不是應用程式通知設定</string>
     <string name="system_ui_control_center_show_weather">顯示天氣</string>
     <string name="system_ui_control_center_show_weather_city">顯示地區</string>
+    <string name="system_ui_control_center_disable_device_managed">隱藏網路監控提示</string>
     <string name="system_ui_control_center_mute_visible_notice">亮屏時靜音</string>
     <string name="system_ui_control_center_expand_notification">展開通知</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">亮屏時彈出通知不播放提示音</string>
