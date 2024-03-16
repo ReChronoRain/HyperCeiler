@@ -63,6 +63,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     SwitchPreference mMusicCtrlPanelMix;
 
     SwitchPreference mTaplus;
+    SwitchPreference mNotifrowmenu;
     Handler handler;
 
     // 临时的，旧控制中心
@@ -99,6 +100,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mTaplus = findPreference("prefs_key_security_center_taplus");
         mThemeBlur = findPreference("prefs_key_system_ui_control_center_unlock_blur_supported");
         mMusicCtrlPanelMix = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix");
+        mNotifrowmenu = findPreference("prefs_key_system_ui_control_center_notifrowmenu");
         handler = new Handler();
 
         mExpandNotification.setOnPreferenceClickListener(
@@ -130,6 +132,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mThemeBlur.setVisible(isMoreHyperOSVersion(1f));
         mRoundedRectRadius.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false) && isMoreHyperOSVersion(1f));
         mMusicCtrlPanelMix.setVisible(isMoreHyperOSVersion(1f));
+        mNotifrowmenu.setVisible(!isMoreHyperOSVersion(1f));
 
         mOldCCGrid = findPreference("prefs_key_system_control_center_old_enable");
         mOldCCGrid1 = findPreference("prefs_key_system_control_center_old_enable_1");

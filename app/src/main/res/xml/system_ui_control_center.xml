@@ -64,11 +64,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix"
-            android:title="@string/system_ui_control_center_media_control_panel_background_mix" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_n_enable"
             android:title="@string/system_ui_control_center_notification_blur_model" />
 
@@ -130,14 +125,12 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:dependency="prefs_key_system_ui_control_center_media_control_panel_background_mix"
-        android:title="@string/system_ui_controlcenter_media_card_title">
+    <PreferenceCategory android:title="@string/system_ui_controlcenter_media_card_title">
+
         <SwitchPreference
             android:defaultValue="false"
-            android:disableDependentsState="true"
-            android:key="prefs_key_system_ui_control_center_remove_media_control_panel_background"
-            android:title="@string/system_ui_control_center_remove_media_control_panel_background" />
+            android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix"
+            android:title="@string/system_ui_control_center_media_control_panel_background_mix" />
 
         <SeekBarPreferenceEx
             android:defaultValue="40"
@@ -148,7 +141,15 @@
             app:maxValue="150"
             app:minValue="0"
             app:showSeekBarValue="true"
+            android:dependency="prefs_key_system_ui_control_center_media_control_panel_background_mix"
             app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:disableDependentsState="true"
+            android:dependency="prefs_key_system_ui_control_center_media_control_panel_background_mix"
+            android:key="prefs_key_system_ui_control_center_remove_media_control_panel_background"
+            android:title="@string/system_ui_control_center_remove_media_control_panel_background" />
 
         <SeekBarPreferenceEx
             android:defaultValue="20"
