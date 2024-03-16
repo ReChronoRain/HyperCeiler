@@ -80,8 +80,8 @@ import java.util.regex.Pattern;
  */
 public class ShellExec {
     private final static String TAG = "ShellExec";
-    private final Process process;
-    private final DataOutputStream os;
+    private Process process;
+    private DataOutputStream os;
     private static IPassCommands pass0;
     private static IPassCommands pass1;
     private Error mError;
@@ -90,7 +90,7 @@ public class ShellExec {
     private final ArrayList<String> error = new ArrayList<>();
     private final ArrayList<String> cList = new ArrayList<>();
 
-    private final boolean result;
+    private boolean result;
     private boolean init;
     private boolean destroy;
     private boolean appending = false;
@@ -174,7 +174,8 @@ public class ShellExec {
             init = true;
             destroy = false;
         } catch (IOException e) {
-            throw new RuntimeException("ShellExec boot failed!!\n" + e);
+            init = false;
+            // throw new RuntimeException("ShellExec boot failed!!\n" + e);
             // AndroidLogUtils.logE(TAG, "ShellExec E", e);
             // init = false;
         }
