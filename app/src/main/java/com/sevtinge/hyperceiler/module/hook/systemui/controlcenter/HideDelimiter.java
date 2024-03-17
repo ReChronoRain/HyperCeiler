@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
 import android.view.View;
@@ -34,18 +34,36 @@ public class HideDelimiter extends BaseHook {
         try {
             findClass("com.android.systemui.statusbar.policy.MiuiCarrierTextController").getDeclaredMethod("fireCarrierTextChanged", String.class);
             findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextController",
-                "fireCarrierTextChanged", String.class,
-                new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        String mCurrentCarrier = (String) param.args[0];
-                        param.args[0] = operator ? mCurrentCarrier.replace(" | ", "") : "";
+                    "fireCarrierTextChanged", String.class,
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            String mCurrentCarrier = (String) param.args[0];
+                            param.args[0] = operator ? mCurrentCarrier.replace(" | ", "") : "";
+                        }
                     }
-                }
             );
         } catch (Throwable e) {
-            if (operator) {
-                findAndHookMethod("androidx.constraintlayout.core.PriorityGoalRow$GoalVariableAccessor$$ExternalSyntheticOutline0",
+            findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl",
+                    "addCallback", "com.android.systemui.plugins.miui.statusbar.MiuiCarrierTextController$CarrierTextListener",
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            String mCurrentCarrier = (String) XposedHelpers.getObjectField(param.thisObject, "mCurrentCarrier");
+                            StringBuilder stringBuffer = new StringBuilder();
+                            for (int i = 0; i < mCurrentCarrier.length(); i++) {
+                                char ch = mCurrentCarrier.charAt(i);
+                                if (" ".equals(String.valueOf(ch)) || "|".equals(String.valueOf(ch))) {
+                                    continue;
+                                }
+                                stringBuffer.append(ch);
+                            }
+                            XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", operator ? stringBuffer.toString() : "");
+                        }
+                    }
+            );
+
+            findAndHookMethod("androidx.constraintlayout.core.PriorityGoalRow$GoalVariableAccessor$$ExternalSyntheticOutline0",
                     "m", String.class, String.class, new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
@@ -55,8 +73,19 @@ public class HideDelimiter extends BaseHook {
                             }
                         }
                     }
-                );
-            }
+            );
+
+            findAndHookMethodSilently("androidx.concurrent.futures.AbstractResolvableFuture$$ExternalSyntheticOutline0",
+                    "m", String.class, String.class, String.class,
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            if (param.args[1].equals(" | ")) {
+                                param.args[1] = "";
+                            }
+                        }
+                    }
+            );
         }
 
         if (!operator) {
@@ -77,20 +106,20 @@ public class HideDelimiter extends BaseHook {
             };
 
             boolean hookedFlaresInfo = hookAllMethodsBoolean("com.android.systemui.controlcenter.phone.widget.ControlCenterStatusBar",
-                "updateFlaresInfo", hideOperatorHook);
+                    "updateFlaresInfo", hideOperatorHook);
             if (!hookedFlaresInfo) {
                 findAndHookMethodSilently("com.android.systemui.controlcenter.phone.widget.ControlCenterStatusBar",
-                    "onFinishInflate", hideOperatorHook);
+                        "onFinishInflate", hideOperatorHook);
             }
 
             findAndHookMethodSilently("com.android.systemui.qs.MiuiNotificationHeaderView",
-                "updateCarrierTextVisibility", hideOperatorHook);
+                    "updateCarrierTextVisibility", hideOperatorHook);
 
             hookedFlaresInfo = findAndHookMethodSilently("com.android.systemui.qs.MiuiQSHeaderView",
-                "updateCarrierVisibility", hideOperatorHook);
+                    "updateCarrierVisibility", hideOperatorHook);
             if (!hookedFlaresInfo) {
                 findAndHookMethodSilently("com.android.systemui.qs.MiuiQSHeaderView",
-                    "onFinishInflate", hideOperatorHook);
+                        "onFinishInflate", hideOperatorHook);
             }
         }
     }
