@@ -504,10 +504,6 @@
     <!--Calendar-->
     <string name="calendar">Calendar</string>
     <string name="calendar_unlock_subscription">Unlock Subscription</string>
-    <!--Clock-->
-    <string name="clock">Clock</string>
-    <string name="clock_enable_hour_glass">Unlock the clock hourglass animation</string>
-    <string name="clock_enable_hour_glass_desc">Version 13.65.0 and above are not supported</string>
     <!--File Manager-->
     <string name="fileexplorer">File Manager</string>
     <string name="file_explorer_can_selectable">File Explorer Can Selectable</string>
@@ -795,7 +791,6 @@
     <string name="system_ui_control_center_corner_radius_desc">The default theme does not need to be adjusted</string>
     <string name="system_ui_control_center_blur_background_alpha">Blur Background value</string>
     <string name="system_ui_control_center_default_background_alpha">Default Background value</string>
-    <string name="system_ui_control_center_fix_media_control_panel">Fix media control panel</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Optimize the color mixing effect of the media control panel</string>
     <string name="system_ui_control_center_remove_media_control_panel_background">Remove mixed color background from card</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Background blur radius</string>
@@ -828,9 +823,6 @@
     <string name="system_ui_controlcenter_old_title">Legacy control center</string>
     <string name="system_ui_controlcenter_unlock_old_title">Unlock control center styles</string>
     <string name="system_ui_controlcenter_enable_title">Customize the number of rows and columns</string>
-    <string name="system_control_center_old_qs_rows_desc">Labels will be hidden for 5 rows in a portrait orientation. Number of rows is limited to 3 with hidden labels in a landscape orientation.</string>
-    <string name="system_control_center_old_qs_columns_desc">Landscape orientation will have one additional column\nIf your ROM has a compact Quick Settings layout option, it will add another column in both orientations</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">Landscape orientation will have one additional column</string>
     <string name="system_control_center_old_qs_grid_columns">Number of columns in collapsed panel</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Number of columns in collapsed panel (Landscape)</string>
     <string name="system_ui_control_center_more_card_tiles">Show Card Tiles</string>
@@ -848,7 +840,6 @@
     <string name="system_ui_charge_animation_title">Charge animation</string>
     <string name="system_ui_charge_animation_style">Charging animation style</string>
     <string name="system_ui_charge_animation_style_desc">Select the lock screen charging animation style</string>
-    <string name="system_ui_origin_charge_animation">Native charging animation</string>
     <string name="system_ui_another_title">Other</string>
     <string name="system_ui_disable_bluetooth_restrict">Prevent bluetooth from being turned off temporarily</string>
     <string name="system_ui_disable_miui_multi_win_switch">Hide the Convenience Window button</string>
@@ -1237,7 +1228,6 @@
     <string name="system_framework_guided_access_e">Please unlock it in the locked app interface</string>
     <string name="system_framework_guided_access_more">iOS-like Guided Access that pins the current application to the screen\nTo use, press and hold the top status bar, and if you want to exit, press and hold the top status bar again\nThe first time you use it, you need to restart the device.</string>
     <string name="home_other_shortcut_remove_restrictions">Remove restrictions on shortcuts</string>
-    <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut menu blur value</string>
     <string name="home_other_high_models">Mandatory recognition as a high-end model</string>
     <string name="home_recent_blur_level">Blur level</string>
@@ -1296,9 +1286,6 @@
     <string name="personal_assistant_blur_value">Background style</string>
     <string name="personal_assistant_blurradius">Personal assistant blur value</string>
     <string name="personal_assistant_color">Personal assistant color</string>
-    <!--Music-->
-    <string name="music">Music</string>
-    <string name="music_disable_ad">Remove ads</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Battery and performance</string>
     <string name="powerkeeper_custom_refresh_rate">Custom high refresh rate apps</string>

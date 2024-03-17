@@ -62,9 +62,8 @@ object TimeStyle : BaseHook() {
     private var rightMargin =
         mPrefsMap.getInt("system_ui_statusbar_clock_right_margin", 0)
 
-    private val mClockClass = when {
-        getAndroidVersion() >= 31 -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
-        else -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
+    private val mClockClass by lazy {
+        loadClass("com.android.systemui.statusbar.views.MiuiClock")
     }
 
     @SuppressLint("RtlHardcoded", "DiscouragedApi")

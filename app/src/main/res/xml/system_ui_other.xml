@@ -13,11 +13,6 @@
             app:entries="@array/charge_animation_entries"
             app:entryValues="@array/charge_animation_values" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_origin_charge_animation"
-            android:title="@string/system_ui_origin_charge_animation" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

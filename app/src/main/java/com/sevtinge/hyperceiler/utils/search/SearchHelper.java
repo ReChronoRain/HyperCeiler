@@ -248,9 +248,6 @@ public class SearchHelper {
         parsePrefXml(context, !isMoreHyperOSVersion(1f) ? R.xml.camera : R.xml.camera_new,
                 !isMoreHyperOSVersion(1f) ? "com.sevtinge.hyperceiler.ui.fragment.CameraFragment" : "com.sevtinge.hyperceiler.ui.fragment.CameraNewFragment");
 
-        parsePrefXml(context, R.xml.clock,
-                "com.sevtinge.hyperceiler.ui.fragment.ClockFragment");
-
         parsePrefXml(context, R.xml.fileexplorer,
                 "com.sevtinge.hyperceiler.ui.fragment.FileExplorerFragment");
 
@@ -303,9 +300,6 @@ public class SearchHelper {
 
         parsePrefXml(context, R.xml.package_installer,
                 "com.sevtinge.hyperceiler.ui.fragment.MiuiPackageInstallerFragment");
-
-        parsePrefXml(context, R.xml.music,
-                "com.sevtinge.hyperceiler.ui.fragment.MusicFragment");
 
         parsePrefXml(context, R.xml.powerkeeper,
                 "com.sevtinge.hyperceiler.ui.fragment.PowerKeeperFragment");

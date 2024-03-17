@@ -504,10 +504,6 @@
     <!--日历-->
     <string name="calendar">日历</string>
     <string name="calendar_unlock_subscription">解锁订阅服务</string>
-    <!--时钟-->
-    <string name="clock">时钟</string>
-    <string name="clock_enable_hour_glass">解锁计时器沙漏动画</string>
-    <string name="clock_enable_hour_glass_desc">不支持 13.65.0 及以上版本</string>
     <!--文件管理-->
     <string name="fileexplorer">文件管理</string>
     <string name="file_explorer_can_selectable">文件夹名称允许长按选择操作</string>
@@ -808,7 +804,6 @@
     <string name="system_ui_control_center_corner_radius_desc">默认主题无需调节</string>
     <string name="system_ui_control_center_blur_background_alpha">通知背景透明度</string>
     <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
-    <string name="system_ui_control_center_fix_media_control_panel">修复音乐面板背景图异常</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">优化音乐面板背景混色效果</string>
     <string name="system_ui_control_center_remove_media_control_panel_background">移除卡片混色背景</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景模糊半径</string>
@@ -844,9 +839,6 @@
     <string name="system_ui_controlcenter_old_title">经典控制中心</string>
     <string name="system_ui_controlcenter_unlock_old_title">解锁控制中心样式</string>
     <string name="system_ui_controlcenter_enable_title">自定义行列数</string>
-    <string name="system_control_center_old_qs_rows_desc">竖屏显示 5 行时会隐藏标签，横屏时则限制为 3 行</string>
-    <string name="system_control_center_old_qs_columns_desc">竖屏时会额外增加一列\n如果您的 ROM 具有快速设置紧凑布局选项，不管是横屏还是竖屏都会增加其他列</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">横屏时将会额外增加一列</string>
     <string name="system_control_center_old_qs_grid_columns">折叠面板中的列数</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折叠面板中的列数（横屏）</string>
     <string name="system_ui_control_center_more_card_tiles">卡片磁贴数量</string>
@@ -862,7 +854,6 @@
     <string name="system_ui_charge_animation_title">充电动画</string>
     <string name="system_ui_charge_animation_style">充电动画样式</string>
     <string name="system_ui_charge_animation_style_desc">选择锁屏充电动画样式</string>
-    <string name="system_ui_origin_charge_animation">原生充电动画</string>
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
     <string name="system_ui_disable_miui_multi_win_switch">隐藏快捷窗口按钮</string>
@@ -1259,7 +1250,6 @@
     <string name="system_framework_guided_access_e">当前应用不是进入引导式访问时固定的应用，请在被固定应用界面退出引导式访问</string>
     <string name="system_framework_guided_access_r">引导式访问超次还原</string>
     <string name="home_other_shortcut_remove_restrictions">解锁快捷菜单数量限制</string>
-    <string name="home_other_fix_android_r_s">修复兼容性问题导致桌面黑屏</string>
     <string name="home_other_shortcut_background_blur_custom">快捷菜单背景透明度</string>
     <string name="home_other_high_models">强制识别为高端机型</string>
     <string name="home_other_mi_pad_enable_more_setting_title">解锁桌面设置更多选项</string>
@@ -1319,9 +1309,6 @@
     <string name="personal_assistant_blur_value">背景样式</string>
     <string name="personal_assistant_blurradius">负一屏背景模糊程度</string>
     <string name="personal_assistant_color">负一屏背景叠加层颜色</string>
-    <!--音乐-->
-    <string name="music">音乐</string>
-    <string name="music_disable_ad">移除广告</string>
     <!--电量与性能-->
     <string name="powerkeeper">电量与性能</string>
     <string name="powerkeeper_custom_refresh_rate">自定义高刷新率应用</string>

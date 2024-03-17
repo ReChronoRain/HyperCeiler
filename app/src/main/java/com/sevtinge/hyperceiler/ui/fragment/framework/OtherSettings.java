@@ -45,7 +45,6 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
     Preference mCleanOpenApps;
     Preference mClipboardWhitelistApps;
     SwitchPreference mEntry;
-    SwitchPreference mAppLinkVerify;
     SwitchPreference mUseOriginalAnim;
     SwitchPreference mVerifyDisable;
     SwitchPreference mDisableDeviceLog; // 关闭访问设备日志确认
@@ -64,7 +63,6 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
         mCleanShareApps = findPreference("prefs_key_system_framework_clean_share_apps");
         mCleanOpenApps = findPreference("prefs_key_system_framework_clean_open_apps");
         mClipboardWhitelistApps = findPreference("prefs_key_system_framework_clipboard_whitelist_apps");
-        mAppLinkVerify = findPreference("prefs_key_system_framework_disable_app_link_verify");
         mVerifyDisable = findPreference("prefs_key_system_framework_disable_verify_can_ve_disabled");
         mUseOriginalAnim = findPreference("prefs_key_system_framework_other_use_original_animation");
         mEntry = findPreference("prefs_key_system_framework_hook_entry");
@@ -78,7 +76,6 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
 
         mDisableDeviceLog = findPreference("prefs_key_various_disable_access_device_logs");
 
-        mAppLinkVerify.setVisible(!isAndroidVersion(30));
         // mVerifyDisable.setVisible(isMoreHyperOSVersion(1f));
         mEntry.setVisible(isMoreHyperOSVersion(1f));
         mUseOriginalAnim.setVisible(!isAndroidVersion(33));

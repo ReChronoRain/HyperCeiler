@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.home.AnimDurationRatio;
@@ -79,7 +78,6 @@ import com.sevtinge.hyperceiler.module.hook.home.other.AlwaysShowStatusClock;
 import com.sevtinge.hyperceiler.module.hook.home.other.BlurRadius;
 import com.sevtinge.hyperceiler.module.hook.home.other.BlurWhenShowShortcutMenu;
 import com.sevtinge.hyperceiler.module.hook.home.other.DisableHideGoogle;
-import com.sevtinge.hyperceiler.module.hook.home.other.FixAndroidRS;
 import com.sevtinge.hyperceiler.module.hook.home.other.FreeformShortcutMenu;
 import com.sevtinge.hyperceiler.module.hook.home.other.HomeMode;
 import com.sevtinge.hyperceiler.module.hook.home.other.InfiniteScroll;
@@ -192,7 +190,7 @@ public class Home extends BaseModule {
         // 抽屉
         initHook(AppDrawer.INSTANCE, mPrefsMap.getBoolean("home_drawer_all") ||
             mPrefsMap.getBoolean("home_drawer_editor"));
-        initHook(AllAppsContainerViewBlur.INSTANCE, mPrefsMap.getBoolean("home_drawer_blur") && !isAndroidVersion(30));
+        initHook(AllAppsContainerViewBlur.INSTANCE, mPrefsMap.getBoolean("home_drawer_blur"));
         initHook(new PinyinArrangement(), mPrefsMap.getBoolean("home_drawer_pinyin"));
 
         // 最近任务
@@ -268,14 +266,13 @@ public class Home extends BaseModule {
         initHook(BlurRadius.INSTANCE, mPrefsMap.getInt("home_other_blur_radius", 100) != 100);
         initHook(ShortcutItemCount.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_remove_restrictions"));
         initHook(ShowAllHideApp.INSTANCE); // 桌面快捷方式管理
-        initHook(FixAndroidRS.INSTANCE, mPrefsMap.getBoolean("home_other_fix_android_r_s"));
         initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
 
         // 实验性功能
-        initHook(BlurWhenShowShortcutMenu.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur") && !isAndroidVersion(30));
-        initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur") && !isAndroidVersion(30));
+        initHook(BlurWhenShowShortcutMenu.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));
+        initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur"));
         initHook(new FoldDock(), mPrefsMap.getBoolean("home_other_fold_dock"));
-        // initHook(new AllAppsBlur(), !isAndroidVersion(30)); // ??
+        // initHook(new AllAppsBlur); // ??
         initHook(new FixAnimation(), mPrefsMap.getBoolean("home_title_fix_animation"));
         initHook(new LargeIconCornerRadius(), mPrefsMap.getBoolean("home_large_icon_enable"));
 
@@ -284,7 +281,7 @@ public class Home extends BaseModule {
         initHook(new MaxFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_count"));
 
         // Fold2样式负一屏
-        initHook(new OverlapMode(), mPrefsMap.getBoolean("personal_assistant_overlap_mode") && !isAndroidVersion(30));
+        initHook(new OverlapMode(), mPrefsMap.getBoolean("personal_assistant_overlap_mode"));
 
         // Other
         initHook(new ToastSlideAgain(), mPrefsMap.getBoolean("home_other_toast_slide_again"));
@@ -293,10 +290,12 @@ public class Home extends BaseModule {
         initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
 
         // 小米/红米平板相关
-        boolean mMoreSetting = mPrefsMap.getBoolean("home_other_mi_pad_enable_more_setting") && isPad();
-        initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num") && isPad());
-        initHook(EnableMoreSetting.INSTANCE, mMoreSetting);
-        initHook(EnableHideGestureLine.INSTANCE, mMoreSetting);
+        if (isPad()){
+            boolean mMoreSetting = mPrefsMap.getBoolean("home_other_mi_pad_enable_more_setting");
+            initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num"));
+            initHook(EnableMoreSetting.INSTANCE, mMoreSetting);
+            initHook(EnableHideGestureLine.INSTANCE, mMoreSetting);
+        }
     }
 
 }

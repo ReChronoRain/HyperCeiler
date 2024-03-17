@@ -454,10 +454,6 @@
     <!--Calendar-->
     <string name="calendar">カレンダー</string>
     <string name="calendar_unlock_subscription">サブスクリプションをアンロック</string>
-    <!--Clock-->
-    <string name="clock">時計</string>
-    <string name="clock_enable_hour_glass">タイマーの砂時計アニメーションをアンロック</string>
-    <string name="clock_enable_hour_glass_desc">バージョン 13.65.0 以降はサポートされていません</string>
     <!--File Manager-->
     <string name="fileexplorer">ファイルマネージャー</string>
     <string name="file_explorer_can_selectable">フォルダ名の長押しで選択可能にする</string>
@@ -745,7 +741,6 @@
     <string name="system_ui_control_center_corner_radius_desc">デフォルトのテーマでは調整する必要はありません</string>
     <string name="system_ui_control_center_blur_background_alpha">背景ぼかしの値</string>
     <string name="system_ui_control_center_default_background_alpha">デフォルトの背景値</string>
-    <string name="system_ui_control_center_fix_media_control_panel">メディアコントロールパネルを修正</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">メディアコントロールパネルの色混合効果を最適化</string>
     <string name="system_ui_control_center_remove_media_control_panel_background">カードから混在色の背景を削除</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景画像のぼかし半径</string>
@@ -777,9 +772,6 @@
     <string name="system_ui_controlcenter_old_title">従来のコントロールセンター</string>
     <string name="system_ui_controlcenter_unlock_old_title">コントロールセンターのスタイルをアンロック</string>
     <string name="system_ui_controlcenter_enable_title">行数と列数をカスタマイズ</string>
-    <string name="system_control_center_old_qs_rows_desc">縦向き時のラベルは5列分が隠されます。横向き時でラベル非表示を使用する場合、行数は3行に制限されます。</string>
-    <string name="system_control_center_old_qs_columns_desc">横向きでは列が1つ増えます\nROM がコンパクトなクイック設定レイアウトに対応している場合は、両方の方向で1列追加されます</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">横向き時は1列追加されます</string>
     <string name="system_control_center_old_qs_grid_columns">折りたたまれたパネルの行数</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折りたたまれたパネル内の列数 (横画面)</string>
     <string name="system_ui_control_center_more_card_tiles">カードのタイルを表示</string>
@@ -796,7 +788,6 @@
     <string name="system_ui_charge_animation_title">充電時のアニメーション</string>
     <string name="system_ui_charge_animation_style">充電アニメーションのスタイル</string>
     <string name="system_ui_charge_animation_style_desc">ロック画面の充電アニメーションのスタイルを選択します</string>
-    <string name="system_ui_origin_charge_animation">ネイティブ充電アニメーション</string>
     <string name="system_ui_another_title">その他</string>
     <string name="system_ui_disable_bluetooth_restrict">Bluetooth が一時的にオフにされないようにする</string>
     <string name="system_ui_disable_miui_multi_win_switch">コンビニエンスウインドウボタンを非表示</string>
@@ -1179,7 +1170,6 @@
     <string name="system_framework_guided_access_e">ロックされたアプリの画面からロックを解除してください</string>
     <string name="system_framework_guided_access_more">現在のアプリを画面にピン留めする、iOS のアクセスガイド風の機能です\nステータスバー上部を長押しすると使用でき、再度ステータスバー上部を長押しすると終了できます\n初回利用時はシステム再起動が必要です</string>
     <string name="home_other_shortcut_remove_restrictions">ショートカットの制限を無効化</string>
-    <string name="home_other_fix_android_r_s">デスクトップが黒く表示される互換性の問題を修正</string>
     <string name="home_other_shortcut_background_blur_custom">ショートカットメニューのぼかし値</string>
     <string name="home_other_high_models">ハイエンドモデルとして認識させる必要があります</string>
     <string name="home_recent_blur_level">ぼかしのレベル</string>
@@ -1238,9 +1228,6 @@
     <string name="personal_assistant_blur_value">背景のスタイル</string>
     <string name="personal_assistant_blurradius">パーソナルアシスタントのぼかし値</string>
     <string name="personal_assistant_color">パーソナルアシスタントの色</string>
-    <!--Music-->
-    <string name="music">ミュージック</string>
-    <string name="music_disable_ad">広告を削除</string>
     <!--Battery and performance-->
     <string name="powerkeeper">バッテリーとパフォーマンス</string>
     <string name="powerkeeper_custom_refresh_rate">高リフレッシュレートのアプリを指定</string>

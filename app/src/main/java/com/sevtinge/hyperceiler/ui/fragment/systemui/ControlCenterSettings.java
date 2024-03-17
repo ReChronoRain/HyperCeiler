@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -47,13 +46,11 @@ import moralnorm.preference.SwitchPreference;
 
 public class ControlCenterSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
-    SwitchPreference mFixMediaPanel;
     Preference mExpandNotification;
     SwitchPreference mNotice;
     SwitchPreference mNoticex;
     SeekBarPreferenceEx mNewCCGrid;
     SeekBarPreferenceEx mNewCCGridColumns;
-    SwitchPreference mNewCCGridRect;
     SwitchPreference mNewCCGridLabel;
     DropDownPreference mFiveG;
     DropDownPreference mBluetoothSytle;
@@ -65,10 +62,6 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     SwitchPreference mTaplus;
     SwitchPreference mNotifrowmenu;
     Handler handler;
-
-    // 临时的，旧控制中心
-    SwitchPreference mOldCCGrid;
-    SwitchPreference mOldCCGrid1;
 
     @Override
     public int getContentResId() {
@@ -86,10 +79,8 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     @Override
     public void initPrefs() {
         mExpandNotification = findPreference("prefs_key_system_ui_control_center_expand_notification");
-        mFixMediaPanel = findPreference("prefs_key_system_ui_control_center_fix_media_control_panel");
         mNewCCGrid = findPreference("prefs_key_system_control_center_cc_rows");
         mNewCCGridColumns = findPreference("prefs_key_system_control_center_cc_columns");
-        mNewCCGridRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
         mNewCCGridLabel = findPreference("prefs_key_system_control_center_qs_tile_label");
         mNotice = findPreference("prefs_key_n_enable");
         mNoticex = findPreference("prefs_key_n_enable_fix");
@@ -120,25 +111,17 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
             }
         );
 
-        mFixMediaPanel.setVisible(isAndroidVersion(31) || isAndroidVersion(32));
-        mNewCCGrid.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
+        mNewCCGrid.setVisible(!isHyperOSVersion(1f));
         mNewCCGridColumns.setVisible(!isHyperOSVersion(1f));
-        mNewCCGridRect.setVisible(!isAndroidVersion(30));
         mNewCCGridLabel.setVisible(!isHyperOSVersion(1f));
-        mNotice.setVisible(!isAndroidVersion(30) && !isMoreHyperOSVersion(1f));
+        mNotice.setVisible(!isMoreHyperOSVersion(1f));
         mNoticex.setVisible(isMoreAndroidVersion(33));
-        mBluetoothSytle.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
+        mBluetoothSytle.setVisible(!isHyperOSVersion(1f));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
         mThemeBlur.setVisible(isMoreHyperOSVersion(1f));
         mRoundedRectRadius.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false) && isMoreHyperOSVersion(1f));
         mMusicCtrlPanelMix.setVisible(isMoreHyperOSVersion(1f));
         mNotifrowmenu.setVisible(!isMoreHyperOSVersion(1f));
-
-        mOldCCGrid = findPreference("prefs_key_system_control_center_old_enable");
-        mOldCCGrid1 = findPreference("prefs_key_system_control_center_old_enable_1");
-
-        mOldCCGrid.setVisible(isMoreAndroidVersion(33));
-        mOldCCGrid1.setVisible(!isMoreAndroidVersion(33));
 
         mRoundedRect.setOnPreferenceChangeListener(this);
 

@@ -457,10 +457,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Calendar-->
     <string name="calendar">Lịch</string>
     <string name="calendar_unlock_subscription">Mở khóa đăng ký</string>
-    <!--Clock-->
-    <string name="clock">Đồng hồ</string>
-    <string name="clock_enable_hour_glass">Mở khóa hoạt ảnh đồng hồ hẹn giờ</string>
-    <string name="clock_enable_hour_glass_desc">Phiên bản 13.65.0 trở lên không được hỗ trợ</string>
     <!--File Manager-->
     <string name="fileexplorer">Tập tin</string>
     <string name="file_explorer_can_selectable">Trình quản lý tập tin có thể lựa chọn</string>
@@ -748,7 +744,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_corner_radius_desc">Theme mặc định không cần chỉnh</string>
     <string name="system_ui_control_center_blur_background_alpha">Giá trị làm mờ nền</string>
     <string name="system_ui_control_center_default_background_alpha">Độ trong suốt nền thanh thông báo kéo xuống</string>
-    <string name="system_ui_control_center_fix_media_control_panel">Sửa nút điều chỉnh phương tiện</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Tối ưu hóa hiệu ứng trộn màu của bảng điều khiển phương tiện</string>
     <string name="system_ui_control_center_remove_media_control_panel_background">Xóa nền màu hỗn hợp khỏi thẻ</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Bán kính mờ ảnh nền</string>
@@ -781,9 +776,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_controlcenter_old_title">Trung tâm điều khiển kiểu cũ</string>
     <string name="system_ui_controlcenter_unlock_old_title">Mở khóa các kiểu trung tâm điều khiển</string>
     <string name="system_ui_controlcenter_enable_title">Tùy chỉnh số lượng hàng và cột</string>
-    <string name="system_control_center_old_qs_rows_desc">Nhãn sẽ bị ẩn khi hiển thị 5 dòng ở chế độ dọc và giới hạn 3 dòng ở chế độ ngang.</string>
-    <string name="system_control_center_old_qs_columns_desc">Hướng ngang sẽ có thêm một cột\nNếu ROM của bạn có tùy chọn bố cục Phiên bản cũ, nó sẽ thêm một cột khác theo cả hai hướng</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">Một cột bổ sung sẽ được thêm vào hướng ngang</string>
     <string name="system_control_center_old_qs_grid_columns">Hàng trong bảng thu gọn</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Số hàng trong bảng thu gọn (màn hình ngang)</string>
     <string name="system_ui_control_center_more_card_tiles">Hiện các ô thẻ</string>
@@ -800,7 +792,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_charge_animation_title">Hiệu ứng sạc</string>
     <string name="system_ui_charge_animation_style">Hiệu ứng khi sạc</string>
     <string name="system_ui_charge_animation_style_desc">Lựa chọn hiệu ứng sạc màn hình khóa</string>
-    <string name="system_ui_origin_charge_animation">Hiệu ứng sạc</string>
     <string name="system_ui_another_title">Khác</string>
     <string name="system_ui_disable_bluetooth_restrict">Ngăn Bluetooth bị tắt tạm thời</string>
     <string name="system_ui_disable_miui_multi_win_switch">Ẩn nút Cửa sổ tiện lợi</string>
@@ -1188,7 +1179,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_guided_access_e">Vui lòng mở khóa trong giao diện ứng dụng bị khóa</string>
     <string name="system_framework_guided_access_more">Nhấn và giữ phía dưới màn hình để vào, thoát lại và khởi động lại hệ thống ở lần đầu tiên</string>
     <string name="home_other_shortcut_remove_restrictions">Loại bỏ giới hạn phím tắt</string>
-    <string name="home_other_fix_android_r_s">Khắc phục sự cố tương thích khiến màn hình chuyển sang màu đen</string>
     <string name="home_other_shortcut_background_blur_custom">Giá trị làm mờ menu phím tắt</string>
     <string name="home_other_high_models">Giả dạng thiết bị cao cấp</string>
     <string name="home_recent_blur_level">Làm mờ</string>
@@ -1247,9 +1237,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="personal_assistant_blur_value">Kiểu nền</string>
     <string name="personal_assistant_blurradius">Giá trị làm mờ nền trợ lý cá nhân</string>
     <string name="personal_assistant_color">Màu trợ lý cá nhân</string>
-    <!--Music-->
-    <string name="music">Âm nhạc</string>
-    <string name="music_disable_ad">Loại bỏ quảng cáo</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Pin và hiệu suất</string>
     <string name="powerkeeper_custom_refresh_rate">Tùy chỉnh tốc độ làm mới cao</string>

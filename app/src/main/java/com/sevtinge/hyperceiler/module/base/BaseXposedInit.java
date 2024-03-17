@@ -23,6 +23,7 @@ import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
@@ -36,7 +37,6 @@ import com.sevtinge.hyperceiler.module.app.Barrage;
 import com.sevtinge.hyperceiler.module.app.Browser;
 import com.sevtinge.hyperceiler.module.app.Calendar;
 import com.sevtinge.hyperceiler.module.app.Camera;
-import com.sevtinge.hyperceiler.module.app.Clock;
 import com.sevtinge.hyperceiler.module.app.ContentExtension;
 import com.sevtinge.hyperceiler.module.app.Creation;
 import com.sevtinge.hyperceiler.module.app.Downloads;
@@ -59,7 +59,6 @@ import com.sevtinge.hyperceiler.module.app.MiSound;
 import com.sevtinge.hyperceiler.module.app.MiWallpaper;
 import com.sevtinge.hyperceiler.module.app.Mms;
 import com.sevtinge.hyperceiler.module.app.Mtb;
-import com.sevtinge.hyperceiler.module.app.Music;
 import com.sevtinge.hyperceiler.module.app.Nfc;
 import com.sevtinge.hyperceiler.module.app.Notes;
 import com.sevtinge.hyperceiler.module.app.PackageInstaller;
@@ -126,9 +125,7 @@ public abstract class BaseXposedInit {
     public final VariousThirdApps mVariousThirdApps = new VariousThirdApps();
     public final VariousSystemApps mVariousSystemApps = new VariousSystemApps();
     public final Weather mWeather = new Weather();
-    public final Clock mClock = new Clock();
     public final FileExplorer mFileExplorer = new FileExplorer();
-    public final Music mMusic = new Music();
     public final Gallery mGallery = new Gallery();
     public final AiAsst mAiAsst = new AiAsst();
     public final Scanner mScanner = new Scanner();
@@ -207,8 +204,10 @@ public abstract class BaseXposedInit {
             logI(packageName, "versionName = " + getPackageVersionName(lpparam) + ", versionCode = " + getPackageVersionCode(lpparam));
         switch (packageName) {
             case "android" -> {
-                mSystemFramework.init(lpparam);
-                mVariousSystemApps.init(lpparam);
+                if (isMoreAndroidVersion(33)) {
+                    mSystemFramework.init(lpparam);
+                    mVariousSystemApps.init(lpparam);
+                }
                 // try {
                 //     new CrashHook(lpparam);
                 //     logI(TAG.TAG, "Success Hook Crash");
@@ -217,19 +216,19 @@ public abstract class BaseXposedInit {
                 // }
             }
             case "com.android.systemui" -> {
-                if (isSystemUIModuleEnable()) {
+                if (isSystemUIModuleEnable() && isMoreAndroidVersion(33)) {
                     mSystemUI.init(lpparam);
                     mVariousSystemApps.init(lpparam);
                 }
             }
             case "com.miui.home" -> {
-                if (isHomeModuleEnable()) {
+                if (isHomeModuleEnable() && isMoreAndroidVersion(33)) {
                     mHome.init(lpparam);
                     mVariousSystemApps.init(lpparam);
                 }
             }
             case "com.miui.securitycenter" -> {
-                if (isSecurityCenterModuleEnable()) {
+                if (isSecurityCenterModuleEnable() && isMoreAndroidVersion(33)) {
                     mSecurityCenter.init(lpparam);
                     mVariousSystemApps.init(lpparam);
                 }
@@ -292,12 +291,6 @@ public abstract class BaseXposedInit {
                 mWeather.init(lpparam);
                 mVariousSystemApps.init(lpparam);
             }
-            case "com.android.deskclock" -> {
-                mClock.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.player" -> mMusic.init(lpparam);
-
             case "com.miui.gallery" -> {
                 mGallery.init(lpparam);
                 mVariousSystemApps.init(lpparam);

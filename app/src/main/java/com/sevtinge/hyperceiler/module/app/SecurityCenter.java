@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.app;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-
 import android.os.Build;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
@@ -128,11 +126,9 @@ public class SecurityCenter extends BaseModule {
             mPrefsMap.getBoolean("security_center_unlock_s_resolution") ||
             mPrefsMap.getBoolean("security_center_unlock_enhance_contours");
 
-        if (!isAndroidVersion(30)) {
-            initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
-            initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
-            initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
-        }
+        initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
+        initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
+        initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
         initHook(new ScLockApp(), mPrefsMap.getBoolean("system_framework_guided_access_sc"));
         initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
         initHook(UnlockGunService.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_gun_service"));

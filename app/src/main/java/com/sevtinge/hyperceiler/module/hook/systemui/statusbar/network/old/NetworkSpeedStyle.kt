@@ -18,17 +18,12 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old
 
-import android.graphics.Typeface
-import android.util.TypedValue
-import android.view.View
-import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.ObjectUtils
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
+import android.graphics.*
+import android.util.*
+import android.view.*
+import android.widget.*
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 object NetworkSpeedStyle : BaseHook() {
     private val fontSize by lazy {
@@ -51,27 +46,6 @@ object NetworkSpeedStyle : BaseHook() {
     }
 
     override fun init() {
-        if (isAndroidVersion(30)) {
-            // Android 11 or MIUI12.5 Need to hook Statusbar in Screen Lock interface, to set front size
-            // Thanks for CustoMIUIzerMod
-            loadClass("com.android.systemui.statusbar.phone.MiuiKeyguardStatusBarView").methodFinder()
-                .filterByName("onDensityOrFontScaleChanged")
-                .single().createHook {
-                    after { params ->
-                        val meter =
-                            ObjectUtils.getObjectOrNullAs<TextView>(
-                                params.thisObject, "mNetworkSpeedView"
-                            ) ?: return@after
-
-                        // 网速字体大小调整
-                        textSize(meter)
-
-                        // 网速行间距调整
-                        textLineSpacing(meter)
-                    }
-                }
-        }
-
         hookAllConstructors("com.android.systemui.statusbar.views.NetworkSpeedView",
             object : MethodHook() {
                 override fun after(param: MethodHookParam) {

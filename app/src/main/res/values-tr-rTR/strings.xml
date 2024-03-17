@@ -258,9 +258,6 @@
     <string name="camera_settings_men_makeup">Erkekler için makyaj efektlerini ayarlama kilidini aç</string>
     <string name="camera_settings_lab_options">Laboratuvar seçeneklerini etkinleştir</string>
     <string name="camera_settings_track_eyes">Parça gözlerinin kilidini aç</string>
-    <!--Clock-->
-    <string name="clock">Saat</string>
-    <string name="clock_enable_hour_glass">Kum saati animasyonunun kilidini aç</string>
     <!--File Manager-->
     <!--Phone-->
     <string name="incallui">Telefon</string>
@@ -404,7 +401,6 @@
     <string name="system_ui_charge_animation_title">Şarj animasyonu</string>
     <string name="system_ui_charge_animation_style">Şarj animasyon stili</string>
     <string name="system_ui_charge_animation_style_desc">Şarj animasyon stili</string>
-    <string name="system_ui_origin_charge_animation">Yerel şarj animasyonu</string>
     <string name="system_ui_another_title">Diğer</string>
     <string name="system_ui_disable_bluetooth_restrict">Bluetooth\'un geçici olarak kapatılmasını önleyin</string>
     <string name="system_ui_notification_freeform">Ücretsiz bir form açmak için daha fazla uygulamanın bildirim çubuğunu aşağı çekin</string>
@@ -625,7 +621,6 @@
     <string name="home_large_icon_corner_radius">Köşeleri yuvarlatılmış büyük simgeler</string>
     <string name="home_other_app_icon_hide">Masaüstü kısayol yönetimi</string>
     <string name="home_other_shortcut_remove_restrictions">Kısayollardaki kısıtlamaları kaldırın</string>
-    <string name="home_other_fix_android_r_s">Masaüstünün kararmasına neden olan bir uyumluluk sorununu düzeltin</string>
     <string name="home_other_shortcut_background_blur_custom">Kısayol menüsü bulanıklık değeri</string>
     <string name="home_recent_blur_level">Bulanıklık seviyesi</string>
     <string name="home_recent_complete_blur_plus">Tam Bulanıklık Artı</string>
@@ -664,9 +659,6 @@
     <string name="personal_assistant_blur_model">Kişisel asistan bulanıklık modeli</string>
     <string name="personal_assistant_blurradius">Kişisel asistan bulanıklık değeri</string>
     <string name="personal_assistant_color">Kişisel asistan rengi</string>
-    <!--Music-->
-    <string name="music">Müzik</string>
-    <string name="music_disable_ad">Reklamları kaldır</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Pil ve performans</string>
     <string name="powerkeeper_custom_refresh_rate">Özel yüksek yenileme hızı uygulamaları</string>

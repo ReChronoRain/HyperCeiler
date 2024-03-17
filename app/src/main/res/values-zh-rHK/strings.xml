@@ -455,10 +455,6 @@
     <!--Calendar-->
     <string name="calendar">日曆</string>
     <string name="calendar_unlock_subscription">解鎖訂閱服務</string>
-    <!--Clock-->
-    <string name="clock">時鐘</string>
-    <string name="clock_enable_hour_glass">解鎖計時器沙漏動畫</string>
-    <string name="clock_enable_hour_glass_desc">不支援 13.65.0 及以上版本</string>
     <!--File Manager-->
     <string name="fileexplorer">檔案管理</string>
     <string name="file_explorer_can_selectable">資料夾名稱可以選擇操作</string>
@@ -746,7 +742,6 @@
     <string name="system_ui_control_center_corner_radius_desc">預設主題無需調節</string>
     <string name="system_ui_control_center_blur_background_alpha">通知背景透明度</string>
     <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
-    <string name="system_ui_control_center_fix_media_control_panel">修正音樂面板背景圖異常</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">最佳化媒體控制面板混色效果</string>
     <string name="system_ui_control_center_remove_media_control_panel_background">從卡片中刪除混合顏色背景</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景圖案模糊半徑</string>
@@ -779,9 +774,6 @@
     <string name="system_ui_controlcenter_old_title">經典控制中心</string>
     <string name="system_ui_controlcenter_unlock_old_title">解鎖控制中心樣式</string>
     <string name="system_ui_controlcenter_enable_title">自訂行列數</string>
-    <string name="system_control_center_old_qs_rows_desc">豎屏顯示 5 行時會隱藏標籤，橫屏時則限制為 3 行</string>
-    <string name="system_control_center_old_qs_columns_desc">豎屏時會額外增加一列\n如果您的 ROM 具有快速設置緊湊佈局選項，不管是橫屏還是豎屏都會增加其他列</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">橫屏時將會額外增加一列</string>
     <string name="system_control_center_old_qs_grid_columns">折疊面板中的列數</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折疊面板中的列數（橫向）</string>
     <string name="system_ui_control_center_more_card_tiles">顯示卡片圖塊</string>
@@ -798,7 +790,6 @@
     <string name="system_ui_charge_animation_title">充電動畫</string>
     <string name="system_ui_charge_animation_style">充電動畫樣式</string>
     <string name="system_ui_charge_animation_style_desc">選擇鎖定螢幕充電動畫樣式</string>
-    <string name="system_ui_origin_charge_animation">原生充電動畫</string>
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_disable_bluetooth_restrict">禁用藍牙臨時關閉</string>
     <string name="system_ui_disable_miui_multi_win_switch">隱藏快捷視窗按鈕</string>
@@ -1182,7 +1173,6 @@
     <string name="system_framework_guided_access_e">當前應用程式不是進入引導使用模式時固定的應用程式，請在被固定應用程式介面退出引導式訪問。</string>
     <string name="system_framework_guided_access_more">類似 iOS 的引導使用模式，將當前應用程式固定到螢幕\n使用時，請按住頂部狀態欄，如果要退出，請再次按住頂部狀態欄\n第一次使用時，您需要重新啟動裝置。</string>
     <string name="home_other_shortcut_remove_restrictions">解鎖 shortcut 數量限制</string>
-    <string name="home_other_fix_android_r_s">修復相容性問題導致系统桌布黑屏</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut 選單背景透明度</string>
     <string name="home_other_high_models">強制識別為高端機型</string>
     <string name="home_recent_blur_level">模糊等級</string>
@@ -1241,9 +1231,6 @@
     <string name="personal_assistant_blur_value">背景樣式</string>
     <string name="personal_assistant_blurradius">智慧助理背景模糊程度</string>
     <string name="personal_assistant_color">智慧助理背景疊加層顏色</string>
-    <!--Music-->
-    <string name="music">音樂</string>
-    <string name="music_disable_ad">移除廣告</string>
     <!--Battery and performance-->
     <string name="powerkeeper">電量和性能</string>
     <string name="powerkeeper_custom_refresh_rate">自訂高螢幕更新率的應用程式</string>

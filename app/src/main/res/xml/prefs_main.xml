@@ -45,13 +45,6 @@
             android:title="@string/camera" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.ClockFragment"
-            android:icon="@drawable/ic_clock"
-            android:key="prefs_key_clock"
-            android:summary="com.android.deskclock"
-            android:title="@string/clock" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.FileExplorerFragment"
             android:icon="@drawable/ic_fileexplorer"
             android:key="prefs_key_file_explorer"
@@ -239,13 +232,6 @@
             android:key="prefs_key_home_personal_assistant"
             android:summary="com.miui.personalassistant"
             android:title="@string/personal_assistant" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MusicFragment"
-            android:icon="@drawable/ic_music"
-            android:key="prefs_key_music"
-            android:summary="com.miui.player"
-            android:title="@string/music" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.PowerKeeperFragment"

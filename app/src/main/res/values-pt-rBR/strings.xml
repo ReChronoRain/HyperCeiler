@@ -455,10 +455,6 @@
     <!--Calendar-->
     <string name="calendar">Calendário</string>
     <string name="calendar_unlock_subscription">Desbloquear inscrições</string>
-    <!--Clock-->
-    <string name="clock">Relógio</string>
-    <string name="clock_enable_hour_glass">Desbloquear animação da ampulheta do relógio</string>
-    <string name="clock_enable_hour_glass_desc">Versão 13.65.0 e superior não são suportadas</string>
     <!--File Manager-->
     <string name="fileexplorer">Arquivos</string>
     <string name="file_explorer_can_selectable">Arquivos pode ser selecionável</string>
@@ -746,7 +742,6 @@
     <string name="system_ui_control_center_corner_radius_desc">O tema padrão não precisa ser ajustado</string>
     <string name="system_ui_control_center_blur_background_alpha">Valor do blur de fundo</string>
     <string name="system_ui_control_center_default_background_alpha">Valor padrão de fundo</string>
-    <string name="system_ui_control_center_fix_media_control_panel">Corrigir painel de controle de mídia</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Otimizar efeito de mistura de cores do painel de controle de mídia</string>
     <string name="system_ui_control_center_remove_media_control_panel_background">Remover fundo de cores misturadas do cartão</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Raio do blur da imagem de fundo</string>
@@ -779,9 +774,6 @@
     <string name="system_ui_controlcenter_old_title">Centro de controle antigo</string>
     <string name="system_ui_controlcenter_unlock_old_title">Desbloquear estilos do centro de controle</string>
     <string name="system_ui_controlcenter_enable_title">Personalize o número de linhas e colunas</string>
-    <string name="system_control_center_old_qs_rows_desc">Os nomes ficarão ocultos por 5 linhas na orientação retrato. O número de linhas é limitado a 3 com nomes ocultos na orientação paisagem.</string>
-    <string name="system_control_center_old_qs_columns_desc">A orientação paisagem terá uma coluna adicional.\nSe sua ROM tiver uma opção compacta de layout das configurações rápidas, ela adicionará outra coluna em ambas as orientações.</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">A orientação paisagem terá uma coluna adicional</string>
     <string name="system_control_center_old_qs_grid_columns">Número de colunas no painel recolhido</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Número de colunas no painel recolhido (Paisagem)</string>
     <string name="system_ui_control_center_more_card_tiles">Mostrar blocos de cartão</string>
@@ -798,7 +790,6 @@
     <string name="system_ui_charge_animation_title">Animação de carregamento</string>
     <string name="system_ui_charge_animation_style">Estilo da animação de carregamento</string>
     <string name="system_ui_charge_animation_style_desc">Selecione o estilo da animação de carregamento da tela de bloqueio</string>
-    <string name="system_ui_origin_charge_animation">Animação de carregamento nativa</string>
     <string name="system_ui_another_title">Outros</string>
     <string name="system_ui_disable_bluetooth_restrict">Impedir que o Bluetooth seja desligado temporariamente</string>
     <string name="system_ui_disable_miui_multi_win_switch">Ocultar botão de tela dividida</string>
@@ -1182,7 +1173,6 @@
     <string name="system_framework_guided_access_e">Por favor, desbloqueie-o na interface bloqueada do app.</string>
     <string name="system_framework_guided_access_more">Acesso guiado semelhante ao iOS que fixa o app atual na tela.\nPara usar, pressione e segure a barra de status superior e, se quiser sair, pressione e segure a barra de status superior novamente.\nNa primeira vez que você usá-lo, você precisa para reiniciar o dispositivo.</string>
     <string name="home_other_shortcut_remove_restrictions">Remover restrições de atalhos</string>
-    <string name="home_other_fix_android_r_s">Corrigir um problema de compatibilidade que fazia com que a tela inicial ficasse preta</string>
     <string name="home_other_shortcut_background_blur_custom">Valor do blur do menu de atalho</string>
     <string name="home_other_high_models">Reconhecimento obrigatório como modelo high-end</string>
     <string name="home_recent_blur_level">Nível do blur</string>
@@ -1241,9 +1231,6 @@
     <string name="personal_assistant_blur_value">Estilo do fundo</string>
     <string name="personal_assistant_blurradius">Valor do blur do assistente pessoal</string>
     <string name="personal_assistant_color">Cor do assistente pessoal</string>
-    <!--Music-->
-    <string name="music">Música</string>
-    <string name="music_disable_ad">Remover anúncios</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Bateria e desempenho</string>
     <string name="powerkeeper_custom_refresh_rate">Apps personalizados com alta taxa de atualização</string>

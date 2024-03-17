@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -65,7 +64,7 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
         mIconManagerNew = findPreference("prefs_key_icon_manager_new");
         mStatusBarLayout = findPreference("pref_key_system_ui_statusbar_layout");
 
-        mDeviceStatus.setVisible(!isAndroidVersion(30) && (!isHyperOSVersion(1f) && !isMoreAndroidVersion(34)));
+        mDeviceStatus.setVisible(!isHyperOSVersion(1f) && !isMoreAndroidVersion(34));
         mToastStatus.setVisible(isHyperOSVersion(1f));
 
         mIconManagerOld.setVisible(!isMoreHyperOSVersion(1f));

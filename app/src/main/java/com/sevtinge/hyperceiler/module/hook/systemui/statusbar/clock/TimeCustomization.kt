@@ -54,9 +54,8 @@ object TimeCustomization : BaseHook() {
     private val getGeekClockSize = mPrefsMap.getInt("system_ui_statusbar_clock_size_geek", 0)
     private val getGeekFormat = mPrefsMap.getString("system_ui_statusbar_clock_editor", "HH:mm:ss")
 
-    private val mClockClass = when {
-        getAndroidVersion() >= 31 -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
-        else -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
+    private val mClockClass by lazy {
+        loadClass("com.android.systemui.statusbar.views.MiuiClock")
     }
 
     private lateinit var nowTime: Date

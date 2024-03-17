@@ -436,10 +436,6 @@
     <string name="camera_settings_men_makeup">Desbloquear ajustes de maquillaje para hombres</string>
     <string name="camera_settings_lab_options">Activar opciones de laboratorio</string>
     <string name="camera_settings_track_eyes">Desbloquear enfoque ocular</string>
-    <!--Clock-->
-    <string name="clock">Reloj</string>
-    <string name="clock_enable_hour_glass">Desbloquea la animación de reloj de arena del temporizador</string>
-    <string name="clock_enable_hour_glass_desc">No funciona en la versión de 13.65.0 o las superiores</string>
     <!--File Manager-->
     <string name="fileexplorer">Archivos</string>
     <string name="file_explorer_can_selectable">Los nombres de carpetas pueden seleccionarse mediante pulsación larga</string>
@@ -709,7 +705,6 @@
     <string name="system_ui_control_center_corner_radius_desc">El tema predeterminado no se necesita ajustar</string>
     <string name="system_ui_control_center_blur_background_alpha">Valor de fondo desenfocado</string>
     <string name="system_ui_control_center_default_background_alpha">Valor de fondo predeterminado</string>
-    <string name="system_ui_control_center_fix_media_control_panel">Corregir la imagen de fondo del panel de música</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Optimizar el efecto de mezcla de colores del panel de control de medios</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Radio de borrosidad de imagen de fondo</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacidad de la capa de fondo</string>
@@ -740,9 +735,6 @@
     <string name="system_ui_controlcenter_old_title">Centro de control clásico</string>
     <string name="system_ui_controlcenter_unlock_old_title">Desbloquear estilos del centro de control</string>
     <string name="system_ui_controlcenter_enable_title">Personalizar el número de filas y columnas</string>
-    <string name="system_control_center_old_qs_rows_desc">Las etiquetas se ocultarán para 5 filas en orientación vertical, y para 3 filas en orientación horizontal.</string>
-    <string name="system_control_center_old_qs_columns_desc">La orientación horizontal tendrá una columna adicional\nSi en su ROM hay la opción de vista del panel de ajustes rápidos, se añadirá otra columna más en ambas orientaciones</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">La orientación horizontal tendrá una columna adicional</string>
     <string name="system_control_center_old_qs_grid_columns">Cantidad de columnas en el panel contraído</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Cantidad de columnas en el panel contraído (horizontal)</string>
     <string name="system_ui_control_center_more_card_tiles">Mostrar mosaicos</string>
@@ -757,7 +749,6 @@
     <string name="system_ui_charge_animation_title">Animación de carga</string>
     <string name="system_ui_charge_animation_style">Estilo de animación de carga</string>
     <string name="system_ui_charge_animation_style_desc">Seleccione el estilo de animación de carga de la pantalla de bloqueo</string>
-    <string name="system_ui_origin_charge_animation">Animación predeterminada de carga</string>
     <string name="system_ui_another_title">Otros</string>
     <string name="system_ui_disable_bluetooth_restrict">Evitar que el bluetooth se apague temporalmente</string>
     <string name="system_ui_disable_miui_multi_win_switch">Ocultar el botón de ventana fácil</string>
@@ -1134,7 +1125,6 @@
     <string name="system_framework_guided_access_e">Desbloquéelo en la interfaz de la aplicación bloqueada</string>
     <string name="system_framework_guided_access_more">Acceso guiado semejante a iOS que ancla la aplicación actual a la pantalla\nPara usarlo, presione y mantenga presionada la barra de estado superior y si quieres salir, pulsa y mantén pulsada la barra de estado superior otra vez\nSi es la primera vez que lo use, necesita reiniciar el dispositivo.</string>
     <string name="home_other_shortcut_remove_restrictions">Eliminar restricciones de cantidad de atajos</string>
-    <string name="home_other_fix_android_r_s">Corregir el problema de compatibilidad que hace el fondo de inicio negro</string>
     <string name="home_other_shortcut_background_blur_custom">Valor del desenfoque del menú de atajos</string>
     <string name="home_other_high_models">Obligar su móvil a identificarse como modelo alto</string>
     <string name="home_recent_blur_level">Nivel de desenfoque</string>
@@ -1191,9 +1181,7 @@
     <string name="personal_assistant_blur_value">Estilo del fondo</string>
     <string name="personal_assistant_blurradius">Valor del desenfoque del fondo de la pantalla inteligente</string>
     <string name="personal_assistant_color">Color del fondo de la pantalla inteligente</string>
-    <!--Music-->
-    <string name="music">Música</string>
-    <string name="music_disable_ad">Quitar la publicidad</string>
+
     <!--Battery and performance-->
     <string name="powerkeeper">Batería y rendimiento</string>
     <string name="powerkeeper_custom_refresh_rate">Personalizar FPS de aplicaciones</string>
