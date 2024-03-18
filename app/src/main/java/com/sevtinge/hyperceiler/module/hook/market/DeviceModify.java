@@ -42,8 +42,8 @@ public class DeviceModify extends BaseHook {
             mDevice = "shennong";
             mModel = "23116PN5BC";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 154) {
-            // civi4
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 155) {
+            // civi4p
             mDevice = "ruyi";
             mModel = "24053PY09C";
             mManufacturer = "Xiaomi";
@@ -83,7 +83,7 @@ public class DeviceModify extends BaseHook {
             mModel = "23113RKC6C";
             mManufacturer = "Redmi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 335) {
-            // n13t
+            // t
             mDevice = "peridot";
             mModel = "24069PC21C";
             mManufacturer = "Redmi";
