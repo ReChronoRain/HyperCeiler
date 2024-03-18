@@ -10,11 +10,11 @@
 
 </div>
 
-## Currently Supported Versions
+## Currently supported versions
 
 MIUI and HyperOS for Android 13-14
 
-Note: Android 11-12 will gradually stop supporting it in subsequent versions. The current system framework, system ui, system desktop, and security manager scope do not support the MIUI of Android 11-12.
+Note: Android 11-12 will gradually stop supporting it in subsequent versions. The current System Framework, System UI, System launcher, and Security scope do not support the MIUI of Android 11-12.
 
 ## Pre-use instructions
 
@@ -22,9 +22,9 @@ Please enable HyperCeiler in [LSPosed](https://github.com/LSPosed/LSPosed/releas
 
 This module <b>does not support</b> `third-party MIUI/Xiaomi HyperOS ROMs with a lot of modifications`, `system software with a lot of modifications`, and some `international MIUI/Xiaomi HyperOS ROMs`.
 
-Before submitting feedback, please pay attention to whether there is already the same feedback to avoid causing trouble to developers. Spending the same energy reading the same feedback is a waste of time
+Before submitting feedback, please pay attention to whether there is already the same feedback to avoid causing trouble to developers. Spending the same energy reading the same feedback is a waste of time.
 
-HyperCeiler has stopped maintaining the MIUI ROM for Android 11-12. Currently, except for core scopes such as the system framework and system ui, in principle other scopes can be used normally. If you want to use the core scope, please stay in [this version](https:// github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130)
+HyperCeiler has stopped maintaining the MIUI ROM for Android 11-12. Currently, except for core scopes such as the System Framework and System UI, in principle other scopes can be used normally. If you want to use the core scope, please stay in [this version](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
 
 ## Supported apps
 
@@ -49,7 +49,7 @@ HyperCeiler has stopped maintaining the MIUI ROM for Android 11-12. Currently, e
 | Battery and performance    | com.miui.powerkeeper               |
 | Messaging                  | com.android.mms                    |
 | Screenshot                 | com.miui.screenshot                |
-| Calendar                    | com.android.calendar               |
+| Calendar                   | com.android.calendar               |
 | Browser                    | com.android.browser                |
 | Rueban (MTB)               | com.xiaomi.mtb                     |
 | Screen Recorder            | com.miui.screenrecorder            |
@@ -58,7 +58,7 @@ HyperCeiler has stopped maintaining the MIUI ROM for Android 11-12. Currently, e
 | Sogou Keyboard for MIUI    | com.sohu.inputmethod.sogou.xiaomi  |
 | Weather                    | com.miui.weather2                  |
 | Cast                       | com.milink.service                 |
-| MIUI+                      | com.xiaomi.mirror                  |
+| Xiaomi Interconnectivity   | com.xiaomi.mirror                  |
 | External Storage           | com.android.externalstorage        |
 | Always-on display          | com.miui.aod                       |
 | File Manager               | com.android.fileexplorer           |
@@ -76,7 +76,7 @@ HyperCeiler has stopped maintaining the MIUI ROM for Android 11-12. Currently, e
 | GetApps                    | com.xiaomi.market                  |
 | App vault                  | com.miui.personalassistant         |
 | Themes                     | com.android.thememanager           |
-| MIUI Security Components   | com.miui.guardprovider             |
+| HyperOS Security Components| com.miui.guardprovider             |
 | Camera                     | com.android.camera                 |
 | Mi AI Translate            | com.xiaomi.aiasst.vision           |
 | Scanner                    | com.xiaomi.scanner                 |
@@ -107,7 +107,7 @@ You can provide translations for the HyperCeiler project [here](https://crwd.in/
 
 ## Thanks!
 
-<b>HyperCeiler</b> uses some or all of the following projects, thanks to the developers of these projects for their support (in no particular order).
+> <b>HyperCeiler</b> uses some or all of the following projects, thanks to the developers of these projects for their support (in no particular order).
 
 - [「Accompanist」 by Android Open Source Project, Google Inc.](https://google.github.io/accompanist)
 - [「Android」 by Android Open Source Project, Google Inc.](https://source.android.google.cn/license)
