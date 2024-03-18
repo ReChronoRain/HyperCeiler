@@ -10,11 +10,11 @@
 
 </div>
 
-## 支持的版本
+## 当前支持的版本
 
-Android 11-14 的 MIUI 和 HyperOS
+Android 13-14 的 MIUI 和 HyperOS
 
-注：系统框架、系统界面作用域不支持 Android 11-12 的 MIUI
+注：Android 11-12 将在后续版本陆续停止支持， 当前系统框架、系统界面、系统桌面、手机管家作用域不支持 Android 11-12 的 MIUI
 
 ## 使用前说明
 
@@ -24,7 +24,9 @@ Android 11-14 的 MIUI 和 HyperOS
 
 目前 HyperCeiler 是基于 Android 14 的 Xiaomi HyperOS1.0 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进
 
-HyperCeiler 已停止维护 Android 11-12 的 MIUI ROM，除系统框架、系统界面等核心作用域，原则上其他作用域可正常使用，核心作用域如需使用请停留[此版本](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130)
+提交反馈前请注意是否已有相同反馈，避免给开发者造成困扰。花相同精力看相同反馈是一件很浪费时间的事情
+
+HyperCeiler 已停止维护 Android 11-12 的 MIUI ROM，当前除系统框架、系统界面等核心作用域，原则上其他作用域可正常使用，核心作用域如需使用请停留[此版本](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130)
 
 ## 作用域包含的应用
 
