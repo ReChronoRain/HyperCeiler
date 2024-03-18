@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.ui.fragment;
 import static com.sevtinge.hyperceiler.utils.DisplayUtils.dip2px;
 import static com.sevtinge.hyperceiler.utils.DisplayUtils.sp2px;
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -118,15 +119,20 @@ public class MainFragment extends SettingsPreferenceFragment {
 
     public boolean getIsOfficialRom() {
         return (
-                !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("V") &&
-                        !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("Xiaomi") &&
-                        !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("Redmi") &&
-                        !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("POCO") &&
-                        !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().isEmpty()) ||
-                !getRomAuthor().isEmpty() ||
-                Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") ||
-                !SystemSDKKt.getHost().startsWith("pangu-build-component-system");
+                !getBaseOs().startsWith("V") &&
+                        !getBaseOs().startsWith("Xiaomi") &&
+                        !getBaseOs().startsWith("Redmi") &&
+                        !getBaseOs().startsWith("POCO") &&
+                        !getBaseOs().isEmpty()
+        ) ||
+        !getRomAuthor().isEmpty() ||
+        Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") ||
+        (
+           !SystemSDKKt.getHost().startsWith("pangu-build-component-system") &&
+           !SystemSDKKt.getHost().startsWith("non-pangu-pod-g0sww")
+        );
     }
+
 
     public void isSignPass() {
         mHeadtipWarn.setTitle(R.string.headtip_warn_sign_verification_failed);

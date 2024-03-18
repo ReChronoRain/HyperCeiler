@@ -60,18 +60,13 @@ public class MainActivity extends NavigationActivity implements IResult {
 
     @Override
     public void error(String reason) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                new AlertDialog.Builder(context)
-                        .setCancelable(false)
-                        .setTitle(getResources().getString(R.string.tip))
-                        .setMessage(getResources().getString(R.string.root))
-                        .setHapticFeedbackEnabled(true)
-                        .setPositiveButton(android.R.string.ok, null)
-                        .show();
-            }
-        });
+        handler.post(() -> new AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setTitle(getResources().getString(R.string.tip))
+                .setMessage(getResources().getString(R.string.root))
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, null)
+                .show());
     }
 
     @Override
