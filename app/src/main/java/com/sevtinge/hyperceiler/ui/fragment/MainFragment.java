@@ -38,8 +38,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.helper.HomepageEntrance;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 
@@ -47,7 +49,7 @@ import java.util.Objects;
 
 import moralnorm.preference.Preference;
 
-public class MainFragment extends SettingsPreferenceFragment {
+public class MainFragment extends SettingsPreferenceFragment implements HomepageEntrance.EntranceState {
 
     Preference mCamera;
     Preference mCameraNew;
@@ -69,6 +71,7 @@ public class MainFragment extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
+        HomepageEntrance.setEntranceStateListen(this);
         mCamera = findPreference("prefs_key_camera");
         mCameraNew = findPreference("prefs_key_camera_new");
         mPowerSetting = findPreference("prefs_key_powerkeeper");
@@ -151,9 +154,16 @@ public class MainFragment extends SettingsPreferenceFragment {
                 Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
                         insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
                 // 22dp + 2dp + 12sp + 10dp + 18dp + 0.5dp + inset.bottom + 4dp(?)
-                v.setPadding(inset.left, 0, inset.right, inset.bottom + dip2px(requireContext(), 56.5F) + sp2px(requireContext(),12));
+                v.setPadding(inset.left, 0, inset.right, inset.bottom + dip2px(requireContext(), 56.5F) + sp2px(requireContext(), 12));
                 return insets;
             }
         });
+    }
+
+    @Override
+    public void onEntranceStateChange(String key, boolean state) {
+        String mainKey = key.replace("_state", "");
+        PreferenceHeader preferenceHeader = findPreference(mainKey);
+        preferenceHeader.setVisible(state);
     }
 }
