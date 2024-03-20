@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.market;
+package com.sevtinge.hyperceiler.module.hook.getapps;
 
 import android.os.Build;
 

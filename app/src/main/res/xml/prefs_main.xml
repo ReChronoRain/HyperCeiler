@@ -311,7 +311,7 @@
             android:title="@string/joyose" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MarketFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.GetAppsFragment"
             android:icon="@drawable/ic_market"
             android:key="prefs_key_market"
             android:summary="com.xiaomi.market"

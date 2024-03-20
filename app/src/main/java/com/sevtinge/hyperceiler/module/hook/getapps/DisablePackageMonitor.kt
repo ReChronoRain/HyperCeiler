@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.module.hook.market
+package com.sevtinge.hyperceiler.module.hook.getapps
 
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*

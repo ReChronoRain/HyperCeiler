@@ -19,10 +19,10 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.hook.market.DeviceModify;
-import com.sevtinge.hyperceiler.module.hook.market.DisablePackageMonitor;
+import com.sevtinge.hyperceiler.module.hook.getapps.DeviceModify;
+import com.sevtinge.hyperceiler.module.hook.getapps.DisablePackageMonitor;
 
-public class Market extends BaseModule {
+public class GetApps extends BaseModule {
 
     @Override
     public void handleLoadPackage() {

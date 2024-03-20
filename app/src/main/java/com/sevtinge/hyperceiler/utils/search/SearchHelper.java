@@ -331,7 +331,7 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.joyose,
                 "com.sevtinge.hyperceiler.ui.fragment.JoyoseFragment");
 
-        parsePrefXml(context, R.xml.market,
+        parsePrefXml(context, R.xml.getapps,
                 "com.sevtinge.hyperceiler.ui.fragment.MarketFragment");
 
         parsePrefXml(context, R.xml.mirror,

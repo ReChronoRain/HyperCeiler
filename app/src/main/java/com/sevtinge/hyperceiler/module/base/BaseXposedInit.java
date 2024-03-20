@@ -49,7 +49,7 @@ import com.sevtinge.hyperceiler.module.app.Huanji;
 import com.sevtinge.hyperceiler.module.app.InCallUi;
 import com.sevtinge.hyperceiler.module.app.Joyose;
 import com.sevtinge.hyperceiler.module.app.Lbe;
-import com.sevtinge.hyperceiler.module.app.Market;
+import com.sevtinge.hyperceiler.module.app.GetApps;
 import com.sevtinge.hyperceiler.module.app.MediaEditor;
 import com.sevtinge.hyperceiler.module.app.MiCloudService;
 import com.sevtinge.hyperceiler.module.app.MiLink;
@@ -116,7 +116,7 @@ public abstract class BaseXposedInit {
     public final PersonalAssistant mPersonalAssistant = new PersonalAssistant();
     public final ThemeManager mThemeManager = new ThemeManager();
     public final Updater mUpdater = new Updater();
-    public final Market mMarket = new Market();
+    public final GetApps mGetApps = new GetApps();
     public final MediaEditor mMediaEditor = new MediaEditor();
     public final PackageInstaller mPackageInstaller = new PackageInstaller();
     public final PowerKeeper mPowerKeeper = new PowerKeeper();
@@ -261,7 +261,7 @@ public abstract class BaseXposedInit {
                 mUpdater.init(lpparam);
                 mVariousSystemApps.init(lpparam);
             }
-            case "com.xiaomi.market" -> mMarket.init(lpparam);
+            case "com.xiaomi.market" -> mGetApps.init(lpparam);
 
             case "com.miui.packageinstaller" -> {
                 mPackageInstaller.init(lpparam);

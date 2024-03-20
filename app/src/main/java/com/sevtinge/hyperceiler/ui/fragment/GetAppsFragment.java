@@ -24,10 +24,10 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-public class MarketFragment extends SettingsPreferenceFragment {
+public class GetAppsFragment extends SettingsPreferenceFragment {
     @Override
     public int getContentResId() {
-        return R.xml.market;
+        return R.xml.getapps;
     }
 
     @Override
