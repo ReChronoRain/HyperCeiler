@@ -30,7 +30,7 @@
         android:summary="com.android.calendar"
         android:title="@string/calendar" />
 
-    <SwitchPreference
+    <!--<SwitchPreference
         android:defaultValue="true"
         android:icon="@drawable/ic_camera"
         android:key="prefs_key_camera_state"
@@ -44,7 +44,7 @@
         android:key="prefs_key_camera_new_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.camera"
-        android:title="@string/camera" />
+        android:title="@string/camera" />-->
 
     <SwitchPreference
         android:defaultValue="true"
@@ -263,13 +263,13 @@
         android:summary="com.miui.personalassistant"
         android:title="@string/personal_assistant" />
 
-    <SwitchPreference
+    <!--<SwitchPreference
         android:defaultValue="true"
         android:icon="@drawable/ic_powerkeeper"
         android:key="prefs_key_powerkeeper_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.powerkeeper"
-        android:title="@string/powerkeeper" />
+        android:title="@string/powerkeeper" />-->
 
     <SwitchPreference
         android:defaultValue="true"
@@ -369,13 +369,13 @@
         android:summary="com.xiaomi.misettings"
         android:title="@string/mi_settings" />
 
-    <SwitchPreference
+    <!--<SwitchPreference
         android:defaultValue="true"
         android:icon="@drawable/ic_mtb"
         android:key="prefs_key_mtb_state"
         android:layout="@layout/preference_header"
         android:summary="com.xiaomi.mtb"
-        android:title="@string/mtb" />
+        android:title="@string/mtb" />-->
 
     <SwitchPreference
         android:defaultValue="true"

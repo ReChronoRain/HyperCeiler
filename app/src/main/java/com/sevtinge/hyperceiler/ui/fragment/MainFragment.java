@@ -26,6 +26,8 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
+import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.view.View;
 
@@ -43,8 +45,14 @@ import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.fragment.helper.HomepageEntrance;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
+import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 import java.util.Objects;
 
 import moralnorm.preference.Preference;
@@ -63,6 +71,8 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     Preference mTip;
     Preference mHeadtipWarn;
     MainActivityContextHelper mainActivityContextHelper;
+    private final String TAG = "MainFragment";
+    public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
 
     @Override
     public int getContentResId() {
@@ -72,6 +82,34 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     @Override
     public void initPrefs() {
         HomepageEntrance.setEntranceStateListen(this);
+        Resources resources = getResources();
+        ThreadPoolManager.getInstance().submit(() -> {
+            try (XmlResourceParser xml = resources.getXml(R.xml.prefs_set_homepage_entrance)) {
+                try {
+                    int event = xml.getEventType();
+                    while (event != XmlPullParser.END_DOCUMENT) {
+                        if (event == XmlPullParser.START_TAG) {
+                            if (xml.getName().equals("SwitchPreference")) {
+                                String key = xml.getAttributeValue(ANDROID_NS, "key");
+                                if (key != null) {
+                                    String checkKey = key.replace("_state", "");
+                                    boolean state = getSharedPreferences().getBoolean(key, true);
+                                    if (key.contains(checkKey)) {
+                                        PreferenceHeader preferenceHeader = findPreference(checkKey);
+                                        if (preferenceHeader != null) {
+                                            preferenceHeader.setVisible(state);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        event = xml.next();
+                    }
+                } catch (XmlPullParserException | IOException e) {
+                    AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
+                }
+            }
+        });
         mCamera = findPreference("prefs_key_camera");
         mCameraNew = findPreference("prefs_key_camera_new");
         mPowerSetting = findPreference("prefs_key_powerkeeper");
@@ -128,12 +166,12 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
                         !getBaseOs().startsWith("POCO") &&
                         !getBaseOs().isEmpty()
         ) ||
-        !getRomAuthor().isEmpty() ||
-        Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") ||
-        (
-           !SystemSDKKt.getHost().startsWith("pangu-build-component-system") &&
-           !SystemSDKKt.getHost().startsWith("non-pangu-pod-g0sww")
-        );
+                !getRomAuthor().isEmpty() ||
+                Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") ||
+                (
+                        !SystemSDKKt.getHost().startsWith("pangu-build-component-system") &&
+                                !SystemSDKKt.getHost().startsWith("non-pangu-pod-g0sww")
+                );
     }
 
 
