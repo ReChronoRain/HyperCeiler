@@ -18,13 +18,19 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
+import moralnorm.preference.DropDownPreference;
+
 public class WeatherFragment extends SettingsPreferenceFragment {
+
+    DropDownPreference mCardDisplayType;
     @Override
     public int getContentResId() {
         return R.xml.weather;
@@ -36,5 +42,11 @@ public class WeatherFragment extends SettingsPreferenceFragment {
             getResources().getString(R.string.weather),
             "com.miui.weather2"
         );
+    }
+
+    @Override
+    public void initPrefs() {
+        mCardDisplayType = findPreference("prefs_key_weather_card_display_type");
+        mCardDisplayType.setVisible(isMoreHyperOSVersion(1f));
     }
 }

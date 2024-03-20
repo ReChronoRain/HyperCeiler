@@ -1429,6 +1429,9 @@
     <string name="weather_device_level_title_low">Low</string>
     <string name="weather_device_level_title_middle">Middle</string>
     <string name="weather_device_level_title_high">High</string>
+    <string name="weather_card_display_type_title">Card Display Type</string>
+    <string name="weather_card_display_type_title_2">Light mode</string>
+    <string name="weather_card_display_type_title_3">Dark mode</string>
     <!--AI Translate-->
     <string name="aiasst">AI Translate</string>
     <string name="aiasst_ai_captions">Force enabled AI captions</string>

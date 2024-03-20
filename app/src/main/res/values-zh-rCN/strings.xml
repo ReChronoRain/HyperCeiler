@@ -1452,6 +1452,9 @@
     <string name="weather_device_level_title_low">低</string>
     <string name="weather_device_level_title_middle">中</string>
     <string name="weather_device_level_title_high">高</string>
+    <string name="weather_card_display_type_title">卡片显示样式</string>
+    <string name="weather_card_display_type_title_2">浅色模式</string>
+    <string name="weather_card_display_type_title_3">深色模式</string>
     <!--小爱翻译-->
     <string name="aiasst">小爱翻译</string>
     <string name="aiasst_ai_captions">强制启用实时字幕</string>
