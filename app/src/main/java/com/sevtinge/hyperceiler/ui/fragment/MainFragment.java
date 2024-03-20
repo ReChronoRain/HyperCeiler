@@ -94,10 +94,13 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
                                 if (key != null) {
                                     String checkKey = key.replace("_state", "");
                                     boolean state = getSharedPreferences().getBoolean(key, true);
-                                    if (key.contains(checkKey)) {
+                                    if (!state) {
                                         PreferenceHeader preferenceHeader = findPreference(checkKey);
                                         if (preferenceHeader != null) {
-                                            preferenceHeader.setVisible(state);
+                                            boolean visible = preferenceHeader.isVisible();
+                                            if (visible) {
+                                                preferenceHeader.setVisible(false);
+                                            }
                                         }
                                     }
                                 }
@@ -202,6 +205,10 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     public void onEntranceStateChange(String key, boolean state) {
         String mainKey = key.replace("_state", "");
         PreferenceHeader preferenceHeader = findPreference(mainKey);
-        preferenceHeader.setVisible(state);
+        if (preferenceHeader != null) {
+            boolean last = preferenceHeader.isVisible();
+            if (!last || state) return;
+            preferenceHeader.setVisible(false);
+        }
     }
 }

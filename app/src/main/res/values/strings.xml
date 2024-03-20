@@ -1618,7 +1618,7 @@
     <string name="enable_suggest">Enable Suggest</string>
     <string name="set_homepage_entrance">Set up the home page entry</string>
     <string name="help_cant_see_apps_guide">Can\'t find the app functionalities?</string>
-    <string name="set_homepage_entrance_about">Note:\nThis setting is only the home page entry visibility setting, and features that have already been enabled will not be turned off! Some of the entrances set by the interior do not support customization!</string>
+    <string name="set_homepage_entrance_about">Note:\nThis setting is only the homepage entry visibility setting, and the functions that have been turned on will not be turned off!\nClosing the portal will take effect in real time, and the application needs to be restarted to reappear.</string>
     <string name="help_cant_see_apps_title">Can\'t find the app functionalities in home?</string>
     <string name="help_cant_see_apps_desc">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app functionalities:\n\n - Those currently disabled or hidden\n - Those no found apps in your device\n - Those incompatible with the current system or app version\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app functionality, it may be a bug. Please provide timely and effective feedback to us.\n\nCurrently hidden app functionalities:\n\n</string>
     <string name="help_cant_see_apps_uninstall">Uninstalled apps:\n</string>
