@@ -1387,6 +1387,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="weather_device_level_title_low">Thấp</string>
     <string name="weather_device_level_title_middle">Trung bình</string>
     <string name="weather_device_level_title_high">Cao</string>
+    <string name="weather_card_display_type_title">Loại thẻ hiển thị</string>
+    <string name="weather_card_display_type_title_2">Chế độ sáng</string>
+    <string name="weather_card_display_type_title_3">Chế độ tối</string>
     <!--AI Translate-->
     <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Mở khoá Phụ đề AI</string>
@@ -1571,7 +1574,9 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="log_level_none">Tắt nhật ký</string>
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
+    <string name="set_homepage_entrance">Thiết lập lối vào trang chủ</string>
     <string name="help_cant_see_apps_guide">Không thể tìm thấy các tính năng của ứng dụng?</string>
+    <string name="set_homepage_entrance_about">Lưu ý:\nCài đặt này chỉ là cài đặt hiển thị lối vào trang chủ và các chức năng đã bật sẽ không bị tắt!\nViệc đóng cổng sẽ có hiệu lực trong thời gian thực và ứng dụng cần được khởi động lại để xuất hiện lại.</string>
     <string name="help_cant_see_apps_title">Không thể tìm thấy các tính năng của ứng dụng trên trang chủ?</string>
     <string name="help_cant_see_apps_desc">Để duy trì tính đơn giản và khả năng sử dụng của trang chủ, chúng tôi ẩn quyền truy cập vào các loại tính năng ứng dụng sau:\n\n - Những tính năng này hiện bị vô hiệu hóa hoặc bị ẩn\n - Những tính năng này không được tìm thấy trên thiết bị của bạn\n - Những tính năng không tương thích với hệ thống hiện tại hoặc phiên bản ứng dụng\n\nVui lòng khắc phục sự cố dựa trên thông tin ở trên, khởi động lại HyperCeiler và thử lại. Nếu bạn vẫn không thể tìm thấy tính năng ứng dụng thì đó có thể là lỗi. Vui lòng cung cấp cho chúng tôi phản hồi kịp thời và hiệu quả.\n\nCác tính năng ứng dụng hiện bị ẩn:\n\n</string>
     <string name="help_cant_see_apps_uninstall">Ứng dụng đã gỡ cài đặt:\n</string>

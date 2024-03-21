@@ -1374,6 +1374,9 @@
     <string name="weather_device_level_title_low">Baixa</string>
     <string name="weather_device_level_title_middle">Média</string>
     <string name="weather_device_level_title_high">Alta</string>
+    <string name="weather_card_display_type_title">Tipo de exibição do cartão</string>
+    <string name="weather_card_display_type_title_2">Modo claro</string>
+    <string name="weather_card_display_type_title_3">Modo escuro</string>
     <!--AI Translate-->
     <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Forçar legendas IA habilitadas</string>
@@ -1557,7 +1560,9 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
+    <string name="set_homepage_entrance">Configurar entrada da página inicial</string>
     <string name="help_cant_see_apps_guide">Não consegue encontrar os recursos do app?</string>
+    <string name="set_homepage_entrance_about">Observação:\nEsta configuração é apenas a configuração de visibilidade de entrada da página inicial e as funções que foram ativadas não serão desativadas!\nO fechamento do portal terá efeito em tempo real e o app precisa ser reiniciado para reaparecer.</string>
     <string name="help_cant_see_apps_title">Não consegue encontrar os recursos do app na página inicial?</string>
     <string name="help_cant_see_apps_desc">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n - Aqueles atualmente desativados ou ocultos\n - Aqueles que não foram encontrados em seu dispositivo\n - Aqueles incompatíveis com a versão atual do sistema ou do app\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nRecursos do app atualmente ocultos:\n\n</string>
     <string name="help_cant_see_apps_uninstall">Apps desinstalados:\n</string>
