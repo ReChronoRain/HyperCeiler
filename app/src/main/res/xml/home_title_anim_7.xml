@@ -11,7 +11,7 @@
             android:defaultValue="990"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -22,7 +22,7 @@
             android:defaultValue="315"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -37,7 +37,7 @@
             android:defaultValue="990"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -48,7 +48,7 @@
             android:defaultValue="315"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -63,7 +63,7 @@
             android:defaultValue="990"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -74,7 +74,7 @@
             android:defaultValue="315"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -89,7 +89,7 @@
             android:defaultValue="990"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -100,7 +100,7 @@
             android:defaultValue="315"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />

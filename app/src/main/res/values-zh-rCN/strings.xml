@@ -1162,7 +1162,7 @@
     <string name="home_title_disable_hide_google">禁止隐藏 \"Google\" 图标</string>
     <string name="home_title_fake_non_default_icon">伪装为非默认图标</string>
     <string name="home_title_custom_anim_param">自定义动画曲线</string>
-    <string name="home_title_custom_anim_param_damping_title">阻尼</string>
+    <string name="home_title_custom_anim_param_damping_title">回弹</string>
     <string name="home_title_custom_anim_param_stiffness_title">刚度</string>
 
     <string name="home_recent">最近任务</string>
