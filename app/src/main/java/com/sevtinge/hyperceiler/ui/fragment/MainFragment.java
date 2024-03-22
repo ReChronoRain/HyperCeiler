@@ -182,6 +182,8 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         mTips = findPreference("prefs_key_tips");
 
         Bundle args = new Bundle();
+        args.putString(":settings:fragment_args_key", "prefs_key_various_state");
+
         mRecommend = new RecommendPreference(getContext());
         getPreferenceScreen().addPreference(mRecommend);
 
