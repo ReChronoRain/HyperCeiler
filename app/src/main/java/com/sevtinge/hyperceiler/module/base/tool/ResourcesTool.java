@@ -311,10 +311,10 @@ public class ResourcesTool {
             Pair<ReplacementType, Object> replacement = null;
             if (replacements.containsKey(resFullName)) {
                 replacement = replacements.get(resFullName);
-                replacements.remove(resFullName);
+                // replacements.remove(resFullName);
             } else if (replacements.containsKey(resAnyPkgName)) {
                 replacement = replacements.get(resAnyPkgName);
-                replacements.remove(resAnyPkgName);
+                // replacements.remove(resAnyPkgName);
             }
             if (replacement != null) {
                 switch (replacement.first) {
