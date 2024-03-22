@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.module.hook.systemframework;
 
 import android.content.Context;
 
-import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -42,6 +41,6 @@ public class ScreenRotation extends BaseHook {
     }
 
     public static void initRes() {
-        XposedInit.mResHook.setObjectReplacement("android", "bool", "config_allowAllRotations", mPrefsMap.getBoolean("system_framework_screen_all_rotations"));
+        mResHook.setObjectReplacement("android", "bool", "config_allowAllRotations", mPrefsMap.getBoolean("system_framework_screen_all_rotations"));
     }
 }

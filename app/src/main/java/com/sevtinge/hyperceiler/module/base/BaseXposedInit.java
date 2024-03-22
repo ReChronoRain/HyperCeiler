@@ -39,17 +39,18 @@ import com.sevtinge.hyperceiler.module.app.Calendar;
 import com.sevtinge.hyperceiler.module.app.Camera;
 import com.sevtinge.hyperceiler.module.app.ContentExtension;
 import com.sevtinge.hyperceiler.module.app.Creation;
+import com.sevtinge.hyperceiler.module.app.Demo;
 import com.sevtinge.hyperceiler.module.app.Downloads;
 import com.sevtinge.hyperceiler.module.app.ExternalStorage;
 import com.sevtinge.hyperceiler.module.app.FileExplorer;
 import com.sevtinge.hyperceiler.module.app.Gallery;
+import com.sevtinge.hyperceiler.module.app.GetApps;
 import com.sevtinge.hyperceiler.module.app.GuardProvider;
 import com.sevtinge.hyperceiler.module.app.Home;
 import com.sevtinge.hyperceiler.module.app.Huanji;
 import com.sevtinge.hyperceiler.module.app.InCallUi;
 import com.sevtinge.hyperceiler.module.app.Joyose;
 import com.sevtinge.hyperceiler.module.app.Lbe;
-import com.sevtinge.hyperceiler.module.app.GetApps;
 import com.sevtinge.hyperceiler.module.app.MediaEditor;
 import com.sevtinge.hyperceiler.module.app.MiCloudService;
 import com.sevtinge.hyperceiler.module.app.MiLink;
@@ -100,10 +101,9 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 public abstract class BaseXposedInit {
 
     public static boolean isSafeModeOn = false;
-
-    public static ResourcesTool mResHook;
     public static String mModulePath = null;
     public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<>();
+    public static ResourcesTool mResHook;
 
     public final SystemFramework mSystemFramework = new SystemFramework();
     public final SystemUI mSystemUI = new SystemUI();
@@ -151,7 +151,7 @@ public abstract class BaseXposedInit {
     public final Barrage mBarrage = new Barrage();
     public final Notes mNotes = new Notes();
     public final Creation mCreation = new Creation();
-    // public final Demo mDemo = new Demo();
+    public final Demo mDemo = new Demo();
     public final Nfc mNfc = new Nfc();
     public final MiSound mMiSound = new MiSound();
     public final Backup mBackup = new Backup();
@@ -167,21 +167,21 @@ public abstract class BaseXposedInit {
     }
 
     public void setXSharedPrefs() {
-        if (mPrefsMap.size() == 0) {
+        if (mPrefsMap.isEmpty()) {
             XSharedPreferences mXSharedPreferences;
             try {
                 mXSharedPreferences = new XSharedPreferences(ProjectApi.mAppModulePkg, PrefsUtils.mPrefsName);
                 mXSharedPreferences.makeWorldReadable();
 
                 Map<String, ?> allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
-                if (allPrefs == null || allPrefs.size() == 0) {
+                if (allPrefs == null || allPrefs.isEmpty()) {
                     mXSharedPreferences = new XSharedPreferences(new File(PrefsUtils.mPrefsFile));
                     mXSharedPreferences.makeWorldReadable();
                     allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
-                    if (allPrefs == null || allPrefs.size() == 0) {
+                    if (allPrefs == null || allPrefs.isEmpty()) {
                         XposedLogUtils.logE(
-                            "[UID" + android.os.Process.myUid() + "]",
-                            "Cannot read module's SharedPreferences, some mods might not work!"
+                                "[UID" + android.os.Process.myUid() + "]",
+                                "Cannot read module's SharedPreferences, some mods might not work!"
                         );
                     } else {
                         mPrefsMap.putAll(allPrefs);
@@ -389,9 +389,9 @@ public abstract class BaseXposedInit {
                 mTrustService.init(lpparam);
                 mVariousSystemApps.init(lpparam);
             }
-            // case "com.hchen.demo" -> {
-            //     mDemo.init(lpparam);
-            // }
+            case "com.hchen.demo" -> {
+                mDemo.init(lpparam);
+            }
             case ProjectApi.mAppModulePkg -> ModuleActiveHook(lpparam);
             default -> mVariousThirdApps.init(lpparam);
         }

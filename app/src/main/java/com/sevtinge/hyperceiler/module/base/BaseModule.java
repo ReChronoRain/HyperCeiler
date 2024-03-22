@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.module.base;
 import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.dexkit.InitDexKit;
-import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
@@ -52,11 +51,12 @@ public abstract class BaseModule implements IXposedHook {
         try {
             if (!ProjectApi.mAppModulePkg.equals(lpparam.packageName)) {
                 ContextUtils.getWaitContext(
-                    context -> {
-                        if (context != null) {
-                            ResourcesTool.loadModuleRes(context);
-                        }
-                    }, "android".equals(lpparam.packageName));
+                        context -> {
+                            if (context != null) {
+                                BaseXposedInit.mResHook.loadModuleRes(context);
+                                // mResHook.loadModuleRes(context);
+                            }
+                        }, "android".equals(lpparam.packageName));
             }
         } catch (Throwable e) {
             XposedLogUtils.logE(TAG, "get context failed!" + e);

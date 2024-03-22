@@ -56,6 +56,7 @@
         <item>com.xiaomi.trustservice</item> <!--trustservice-->
         <item>com.iflytek.inputmethod.miui</item> <!--讯飞输入法小米版-->
         <item>com.sohu.inputmethod.sogou.xiaomi</item> <!--搜狗输入法小米版-->
+        <!--<item>com.hchen.demo</item>--> <!--Demo-->
     </string-array>
 
     <string-array name="app_module_support">

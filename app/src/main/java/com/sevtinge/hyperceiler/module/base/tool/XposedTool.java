@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.module.base.tool;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.util.TypedValue;
@@ -32,9 +32,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
-import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.io.File;
@@ -55,7 +53,6 @@ public class XposedTool extends XposedLogUtils {
     public static WeakReference<TextView> mPct;
 
     // public  Context mModuleContext = null;
-    public static final ResourcesTool mResHook = XposedInit.mResHook;
 
     public static void setTextView(TextView textView) {
         mPct = new WeakReference<>(textView);
@@ -65,30 +62,21 @@ public class XposedTool extends XposedLogUtils {
         return mPct != null ? mPct.get() : null;
     }
 
-    public static synchronized Context getModuleContext(Context context) throws Throwable {
-        return getModuleContext(context, null);
-    }
-
-    public static Context getModuleContext(Context context, Configuration config) throws Throwable {
-        Context mModuleContext;
-        mModuleContext = context.createPackageContext(ProjectApi.mAppModulePkg, Context.CONTEXT_IGNORE_SECURITY).createDeviceProtectedStorageContext();
-        return config == null ? mModuleContext : mModuleContext.createConfigurationContext(config);
-    }
-
-    public static Resources getModuleRes(Context context) throws Throwable {
-        return ResourcesTool.loadModuleRes(context);
+    public static Resources getModuleRes(Context context)
+            throws PackageManager.NameNotFoundException {
+        return ResourcesTool.getModuleRes(context);
     }
 
     public static Context findContext(@ContextUtils.Duration int flag) {
         Context context = null;
         try {
             switch (flag) {
-                case 0 -> {
+                case FLAG_ALL -> {
                     if ((context = currentApplication()) == null)
                         context = getSystemContext();
                 }
-                case 1 -> context = currentApplication();
-                case 2 -> context = getSystemContext();
+                case FLAG_CURRENT_APP -> context = currentApplication();
+                case FlAG_ONLY_ANDROID -> context = getSystemContext();
                 default -> {
                 }
             }
@@ -100,29 +88,29 @@ public class XposedTool extends XposedLogUtils {
 
     private static Context currentApplication() {
         return (Application) XposedHelpers.callStaticMethod(XposedHelpers.findClass(
-                "android.app.ActivityThread", null),
-            "currentApplication");
+                        "android.app.ActivityThread", null),
+                "currentApplication");
     }
 
     private static Context getSystemContext() {
         Context context = null;
         Object currentActivityThread = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread",
-                null),
-            "currentActivityThread");
+                        null),
+                "currentActivityThread");
         if (currentActivityThread != null)
             context = (Context) XposedHelpers.callMethod(currentActivityThread,
-                "getSystemContext");
+                    "getSystemContext");
         if (context == null)
             context = (Context) XposedHelpers.callMethod(currentActivityThread,
-                "getSystemUiContext");
+                    "getSystemUiContext");
         return context;
     }
 
     public static String getProp(String key, String defaultValue) {
         try {
             return (String) XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.os.SystemProperties",
-                    null),
-                "get", key, defaultValue);
+                            null),
+                    "get", key, defaultValue);
         } catch (Throwable throwable) {
             logE("getProp", "key get e: " + key + " will return default: " + defaultValue + " e:" + throwable);
             return defaultValue;
@@ -132,8 +120,8 @@ public class XposedTool extends XposedLogUtils {
     public static void setProp(String key, String val) {
         try {
             XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.os.SystemProperties",
-                    null),
-                "set", key, val);
+                            null),
+                    "set", key, val);
         } catch (Throwable throwable) {
             logE("setProp", "set key e: " + key + " e:" + throwable);
         }

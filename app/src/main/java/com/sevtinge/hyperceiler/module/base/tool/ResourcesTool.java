@@ -21,35 +21,41 @@ package com.sevtinge.hyperceiler.module.base.tool;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.DENSITY;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.ID;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.OBJECT;
+import static com.sevtinge.hyperceiler.utils.api.ProjectApi.mAppModulePkg;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Pair;
 
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
-import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
-import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
 
-import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 /**
  * 重写资源钩子，希望本钩子能有更好的生命力。
+ *
+ * @rewrite 焕晨HChen
  */
 public class ResourcesTool {
     private static final String TAG = "ResourcesTool";
     private boolean hooksApplied = false;
+    private boolean isInit = false;
+    private boolean useModuleRes = true;
     // private Context mContext = null;
-    private WeakReference<Context> weakContext;
+    private final ConcurrentHashMap<Integer, Boolean> resMap = new ConcurrentHashMap<>();
+    private final ArrayList<XC_MethodHook.Unhook> unhooks = new ArrayList<>();
 
     protected enum ReplacementType {
         ID,
@@ -60,14 +66,12 @@ public class ResourcesTool {
     private final ConcurrentHashMap<String, Pair<ReplacementType, Object>> replacements = new ConcurrentHashMap<>();
 
     public ResourcesTool() {
+        applyHooks();
+        isInit = true;
     }
 
-    private Context getWeakContext() {
-        return weakContext != null ? weakContext.get() : null;
-    }
-
-    private void setWeakContext(Context context) {
-        weakContext = new WeakReference<>(context);
+    public boolean isInit() {
+        return isInit;
     }
 
     /**
@@ -80,17 +84,11 @@ public class ResourcesTool {
     /**
      * @noinspection JavaReflectionMemberAccess
      */
-    private static int loadRes(Context context) {
+    private int loadRes(Context context) {
         // String TAG = "addModuleRes";
         try {
-            int result = (int) XposedHelpers.callMethod(context.getResources().getAssets(), "addAssetPath",
-                XposedInit.mModulePath);
-            // XposedLogUtils.logE(TAG, "Have Apk Assets:" + XposedInit.mModulePath);
-            /*Object[] apk = (Object[]) XposedHelpers.callMethod(context.getResources().getAssets(), "getApkAssets");
-            for (Object a : apk) {
-                XposedLogUtils.logE(TAG, "Have Apk Assets:" + a);
-            }*/
-            return result;
+            return (int) XposedHelpers.callMethod(context.getResources().getAssets(), "addAssetPath",
+                    XposedInit.mModulePath);
         } catch (Throwable e) {
             XposedLogUtils.logE(TAG, "CallMethod addAssetPathInternal failed!" + e);
         }
@@ -115,38 +113,41 @@ public class ResourcesTool {
      * 获取添加后的 Res.
      * 一般不需要，除非上面 loadModuleRes 加载后依然无效。
      */
-    public static Resources loadModuleRes(Context context) {
+    public Resources loadModuleRes(Context context) {
         if (context == null) {
             XposedLogUtils.logE(TAG, "context can't is null!!");
             return null;
         }
         if (loadRes(context) == 0) {
-            // loopAttempt(context);
-            XposedLogUtils.logE(TAG, "loadModuleRes return 0, It may have failed.");
+            XposedLogUtils.logW(TAG, "loadModuleRes return 0, It may have failed. Try the second method ...");
+            try {
+                Resources resources = getModuleRes(context);
+                useModuleRes = true;
+                return resources;
+            } catch (PackageManager.NameNotFoundException e) {
+                XposedLogUtils.logE(TAG, "Failed to load resource!Critical error!!Scope may crash!!\n" + e);
+            }
         }
         return context.getResources();
     }
 
-    private static void loopAttempt(Context context) {
-        try {
-            ExecutorService executorService = ThreadPoolManager.getInstance();
-            executorService.submit(() -> {
-                long time = System.currentTimeMillis();
-                long timeout = 2000; // 2秒
-                int result = 0;
-                while (true) {
-                    long nowTime = System.currentTimeMillis();
-                    result = loadRes(context);
-                    if (nowTime - time > timeout || result != 0) {
-                        break;
-                    }
-                }
-                if (result == 0)
-                    XposedLogUtils.logE(TAG, "If the timeout still returns 0, it must have failed!");
-            });
-        } catch (Throwable e) {
-            XposedLogUtils.logE(TAG, "Unknown!" + e);
-        }
+    public static Context getModuleContext(Context context)
+            throws PackageManager.NameNotFoundException {
+        return getModuleContext(context, null);
+    }
+
+    public static Context getModuleContext(Context context, Configuration config)
+            throws PackageManager.NameNotFoundException {
+        Context mModuleContext;
+        mModuleContext = context.createPackageContext(mAppModulePkg, Context.CONTEXT_IGNORE_SECURITY).createDeviceProtectedStorageContext();
+        return config == null ? mModuleContext : mModuleContext.createConfigurationContext(config);
+    }
+
+    public static Resources getModuleRes(Context context)
+            throws PackageManager.NameNotFoundException {
+        Configuration config = context.getResources().getConfiguration();
+        Context moduleContext = getModuleContext(context);
+        return (config == null ? moduleContext.getResources() : moduleContext.createConfigurationContext(config).getResources());
     }
 
     private void applyHooks() {
@@ -156,12 +157,12 @@ public class ResourcesTool {
         for (Method method : resMethods) {
             switch (method.getName()) {
                 case "getInteger", "getLayout", "getBoolean",
-                    "getDimension", "getDimensionPixelOffset",
-                    "getDimensionPixelSize", "getText",
-                    "getString", "getIntArray", "getStringArray",
-                    "getTextArray", "getAnimation" -> {
+                        "getDimension", "getDimensionPixelOffset",
+                        "getDimensionPixelSize", "getText",
+                        "getIntArray", "getStringArray",
+                        "getTextArray", "getAnimation" -> {
                     if (method.getParameterTypes().length == 1
-                        && method.getParameterTypes()[0].equals(int.class)) {
+                            && method.getParameterTypes()[0].equals(int.class)) {
                         hookResMethod(method.getName(), int.class, hookBefore);
                     }
                 }
@@ -180,26 +181,76 @@ public class ResourcesTool {
     }
 
     private void hookResMethod(String name, Object... args) {
-        HookTool.findAndHookMethod(Resources.class, name, args);
+        XC_MethodHook.Unhook unhook = HookTool.findAndHookMethod(Resources.class, name, args);
+        unhooks.add(unhook);
+    }
+
+    public void unHookRes() {
+        if (unhooks.isEmpty()) {
+            isInit = false;
+            return;
+        }
+        for (XC_MethodHook.Unhook unhook : unhooks) {
+            unhook.unhook();
+        }
+        unhooks.clear();
+        isInit = false;
     }
 
     private final HookTool.MethodHook hookBefore = new HookTool.MethodHook() {
         @Override
         protected void before(MethodHookParam param) {
             Context context;
-            if ((context = getWeakContext()) == null) {
-                context = XposedTool.findContext(ContextUtils.FLAG_ALL);
-            }
+            context = XposedTool.findContext(ContextUtils.FLAG_ALL);
             if (context == null) return;
             String method = param.method.getName();
-            Object value = getResourceReplacement(context, (Resources) param.thisObject, method, param.args);
-            if (value == null) return;
-            if ("getDimensionPixelOffset".equals(method) || "getDimensionPixelSize".equals(method)) {
-                if (value instanceof Float) value = ((Float) value).intValue();
+            Object value;
+            value = getResourceReplacement(context, (Resources) param.thisObject, method, param.args);
+            if (value != null) {
+                if ("getDimensionPixelOffset".equals(method) || "getDimensionPixelSize".equals(method)) {
+                    if (value instanceof Float) value = ((Float) value).intValue();
+                }
+                param.setResult(value);
+            } else {
+                if (useModuleRes) {
+                    try {
+                        if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
+                            return;
+                        }
+                        context.getResources().getResourceName((int) param.args[0]);
+                    } catch (Resources.NotFoundException e) {
+                        value = findRes(context, method, param.args);
+                    }
+
+                    if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
+                        resMap.remove((int) param.args[0]);
+                    }
+                }
+                if (value == null) return;
+                param.setResult(value);
             }
-            param.setResult(value);
         }
     };
+
+    private Object findRes(Context context, String method, Object[] args) {
+        try {
+            int modResId = (int) args[0];
+            if (modResId == 0) return null;
+            resMap.put(modResId, true);
+            Object value;
+            Resources modRes = getModuleRes(context);
+            if ("getDrawable".equals(method))
+                value = XposedHelpers.callMethod(modRes, method, modResId, args[1]);
+            else if ("getDrawableForDensity".equals(method) || "getFraction".equals(method))
+                value = XposedHelpers.callMethod(modRes, method, modResId, args[1], args[2]);
+            else
+                value = XposedHelpers.callMethod(modRes, method, modResId);
+            return value;
+        } catch (Throwable t) {
+            // XposedLogUtils.logE(TAG, "Failed to get module resources and may not work! " + t);
+            return null;
+        }
+    }
 
     /**
      * 设置资源 ID 类型的替换
@@ -209,20 +260,7 @@ public class ResourcesTool {
             applyHooks();
             replacements.put(pkg + ":" + type + "/" + name, new Pair<>(ID, replacementResId));
         } catch (Throwable t) {
-            XposedBridge.log(t);
-        }
-    }
-
-    /**
-     * 设置资源 ID 类型的替换
-     * 请注意无论何时设置 Context 都是最正确的
-     */
-    public void setResReplacement(Context context, String pkg, String type, String name, int replacementResId) {
-        try {
-            setWeakContext(context);
-            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(ID, replacementResId));
-        } catch (Throwable t) {
-            XposedBridge.log(t);
+            XposedLogUtils.logE(TAG, "setResReplacement: " + t);
         }
     }
 
@@ -234,21 +272,7 @@ public class ResourcesTool {
             applyHooks();
             replacements.put(pkg + ":" + type + "/" + name, new Pair<>(DENSITY, replacementResValue));
         } catch (Throwable t) {
-            XposedBridge.log(t);
-        }
-    }
-
-    /**
-     * 设置密度类型的资源
-     * 请注意无论何时使用 Context 总是最好的
-     */
-    public void setDensityReplacement(Context context, String pkg, String type, String name, float replacementResValue) {
-        try {
-            setWeakContext(context);
-            applyHooks();
-            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(DENSITY, replacementResValue));
-        } catch (Throwable t) {
-            XposedBridge.log(t);
+            XposedLogUtils.logE(TAG, "setDensityReplacement: " + t);
         }
     }
 
@@ -260,27 +284,13 @@ public class ResourcesTool {
             applyHooks();
             replacements.put(pkg + ":" + type + "/" + name, new Pair<>(OBJECT, replacementResValue));
         } catch (Throwable t) {
-            XposedBridge.log(t);
-        }
-    }
-
-    /**
-     * 设置 Object 类型的资源
-     * 请注意无论何时使用 Context 总是最好的
-     */
-    public void setObjectReplacement(Context context, String pkg, String type, String name, Object replacementResValue) {
-        try {
-            setWeakContext(context);
-            applyHooks();
-            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(OBJECT, replacementResValue));
-        } catch (Throwable t) {
-            XposedBridge.log(t);
+            XposedLogUtils.logE(TAG, "setObjectReplacement: " + t);
         }
     }
 
     private Object getResourceReplacement(Context context, Resources res, String method, Object[] args) {
         if (context == null) return null;
-        loadModuleRes(context);
+        // loadModuleRes(context);
         String pkgName = null;
         String resType = null;
         String resName = null;
@@ -299,10 +309,13 @@ public class ResourcesTool {
             Object value;
             Integer modResId;
             Pair<ReplacementType, Object> replacement = null;
-            if (replacements.containsKey(resFullName))
+            if (replacements.containsKey(resFullName)) {
                 replacement = replacements.get(resFullName);
-            else if (replacements.containsKey(resAnyPkgName))
+                replacements.remove(resFullName);
+            } else if (replacements.containsKey(resAnyPkgName)) {
                 replacement = replacements.get(resAnyPkgName);
+                replacements.remove(resAnyPkgName);
+            }
             if (replacement != null) {
                 switch (replacement.first) {
                     case OBJECT -> {
@@ -315,7 +328,11 @@ public class ResourcesTool {
                         modResId = (Integer) replacement.second;
                         if (modResId == 0) return null;
 
-                        Resources modRes = loadModuleRes(context);
+                        Resources modRes;
+                        if (useModuleRes) {
+                            modRes = getModuleRes(context);
+                        } else modRes = context.getResources();
+                        if (method == null) return null;
                         if ("getDrawable".equals(method))
                             value = XposedHelpers.callMethod(modRes, method, modResId, args[1]);
                         else if ("getDrawableForDensity".equals(method) || "getFraction".equals(method))
