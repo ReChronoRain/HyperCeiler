@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.ui.preference;
+package com.sevtinge.hyperceiler.prefs;
 
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.checkRootPermission;
