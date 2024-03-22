@@ -21,4 +21,10 @@
     <color name="color_surface_variant">#DC9A9B9D</color>
     <color name="color_on_surface_variant">#FAFCFCFC</color>
     <color name="ic_launcher_background">#FC5B8D</color>
+
+    <color name="preference_recommend_region_color">#fff0f0f0</color>
+    <color name="preference_recommend_title_color">#66000000</color>
+
+    <color name="preference_recommend_item_link">#ff0d84ff</color>
+    <color name="preference_recommend_item_link_pressed">#990d84ff</color>
 </resources>
