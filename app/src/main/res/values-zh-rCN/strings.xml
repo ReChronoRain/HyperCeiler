@@ -1552,6 +1552,7 @@
     <string name="various_open_aosp_app_manage_title">应用管理</string>
     <string name="various_open_aosp_language_title">语言设置</string>
     <string name="various_open_aosp_extremely_dark_title">极暗</string>
+    <string name="various_open_aosp_default_apps_title">默认应用</string>
 
     <string name="various_mipad_input_title">输入</string>
     <string name="various_mipad_input_close_magic_title">关闭 Magic Pointer</string>

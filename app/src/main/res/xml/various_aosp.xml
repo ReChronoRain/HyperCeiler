@@ -38,6 +38,12 @@
                 android:targetClass="com.android.settings.LanguageSettings"
                 android:targetPackage="com.android.settings" />
         </Preference>
+        
+        <Preference android:title="@string/various_open_aosp_default_apps_title">
+            <intent
+                android:targetClass="com.android.permissioncontroller.role.ui.DefaultAppListActivity"
+                android:targetPackage="com.android.permissioncontroller" />
+        </Preference>
 
     </PreferenceCategory>
 

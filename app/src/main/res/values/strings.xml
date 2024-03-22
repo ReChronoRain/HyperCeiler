@@ -1522,6 +1522,7 @@
     <string name="various_open_aosp_app_manage_title">App Management</string>
     <string name="various_open_aosp_language_title">Language Settings</string>
     <string name="various_open_aosp_extremely_dark_title">Extremely Dark</string>
+    <string name="various_open_aosp_default_apps_title">Default apps</string>
     <string name="various_mipad_input_title">Input</string>
     <string name="various_mipad_input_close_magic_title">No Magic Pointer</string>
     <string name="various_mipad_input_close_magic_desc">Turn the round Xiaomi Pad system pointer to AOSP pointer.</string>
