@@ -76,6 +76,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     Preference mGuardProvider;
     Preference mMirror;
     Preference mHeadtipWarn;
+    Preference mHelpCantSeeApps;
     TipsPreference mTips;
     MainActivityContextHelper mainActivityContextHelper;
     Handler mHandler = new Handler() {
@@ -149,6 +150,9 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         mMirror = findPreference("prefs_key_mirror");
         mTips = findPreference("prefs_key_tips");
         mHeadtipWarn = findPreference("prefs_key_headtip_warn");
+        mHelpCantSeeApps = findPreference("prefs_key_help_cant_see_app");
+
+        mHelpCantSeeApps.setVisible(!getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false));
 
         mCamera.setVisible(!isMoreHyperOSVersion(1f) && !PackagesUtils.checkAppStatus(getContext(), "com.android.camera"));
         mCameraNew.setVisible(isMoreHyperOSVersion(1f) && !PackagesUtils.checkAppStatus(getContext(), "com.android.camera"));
