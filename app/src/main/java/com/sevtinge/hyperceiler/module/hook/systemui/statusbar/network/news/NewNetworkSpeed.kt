@@ -203,7 +203,7 @@ object NewNetworkSpeed : BaseHook() {
                         }
                     // 计算总网速
                     val ax =
-                        humanReadableByteCount(mContext, newTxBytesFixed + newRxBytesFixed)
+                        humanReadableByteCount(mContext, txSpeed + rxSpeed)
                     // 存储是否隐藏慢速的条件的结果
                     val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
                     val isAllLowSpeed =
