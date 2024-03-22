@@ -22,10 +22,13 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVers
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
+import com.sevtinge.hyperceiler.ui.fragment.MiSettingsFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import moralnorm.preference.Preference;
@@ -40,6 +43,7 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
     Preference mIconManagerOld;
     Preference mIconManagerNew;
     PreferenceCategory mStatusBarLayout; // 状态栏布局
+    RecommendPreference mRecommend;
 
     @Override
     public int getContentResId() {
@@ -74,5 +78,18 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
         mNewClockStatus.setVisible(isMoreHyperOSVersion(1f));
 
         mStatusBarLayout.setVisible(!isMoreHyperOSVersion(1f));
+
+        Bundle args1 = new Bundle();
+        mRecommend = new RecommendPreference(getContext());
+        getPreferenceScreen().addPreference(mRecommend);
+
+        args1.putString(":settings:fragment_args_key", "prefs_key_system_ui_lock_screen_hide_status_bar");
+        mRecommend.addRecommendView(getString(R.string.system_ui_lock_screen_hide_status_bar),
+                null,
+                LockScreenSettings.class,
+                args1,
+                R.string.system_ui_lockscreen_title
+        );
+
     }
 }

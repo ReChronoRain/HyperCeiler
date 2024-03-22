@@ -23,12 +23,15 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroid
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
+import com.sevtinge.hyperceiler.ui.fragment.PhoneFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 import com.sevtinge.hyperceiler.utils.KillApp;
@@ -51,6 +54,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
     SwitchPreference mLockApp;
     SwitchPreference mLockAppSc;
     SwitchPreference mLockAppScreen;
+    RecommendPreference mRecommend;
     Handler handler;
 
     @Override
@@ -105,6 +109,18 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
             return true;
         });
         handler = new Handler(requireContext().getMainLooper());
+
+        Bundle args1 = new Bundle();
+        mRecommend = new RecommendPreference(getContext());
+        getPreferenceScreen().addPreference(mRecommend);
+
+        args1.putString(":settings:fragment_args_key", "prefs_key_system_ui_display_use_aosp_screenshot_enable");
+        mRecommend.addRecommendView(getString(R.string.system_ui_display_use_aosp_screenshot),
+                null,
+                PhoneFragment.class,
+                args1,
+                R.string.system_framework_display_title
+        );
     }
 
     public void initApp(ExecutorService executorService, Runnable runnable) {

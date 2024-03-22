@@ -77,7 +77,6 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     Preference mMirror;
     Preference mHeadtipWarn;
     TipsPreference mTips;
-    RecommendPreference mRecommend;
     MainActivityContextHelper mainActivityContextHelper;
     Handler mHandler = new Handler() {
         @Override
@@ -180,25 +179,6 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         if (!getIsOfficialRom()) isSignPass();
 
         mTips = findPreference("prefs_key_tips");
-
-        Bundle args = new Bundle();
-        args.putString(":settings:fragment_args_key", "prefs_key_various_state");
-
-        mRecommend = new RecommendPreference(getContext());
-        getPreferenceScreen().addPreference(mRecommend);
-
-        mRecommend.addRecommendView(getString(R.string.set_homepage_entrance),
-                null,
-                HomepageEntrance.class,
-                args,
-                R.string.set_homepage_entrance
-        );
-        mRecommend.addRecommendView(getString(R.string.help_cant_see_apps_guide),
-                null,
-                CantSeeAppsFragment.class,
-                args,
-                0
-        );
     }
 
     public void isOfficialRom() {

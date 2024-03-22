@@ -27,6 +27,8 @@
     <string name="hyperceiler_notice">下拉状态栏，同时展示快捷开关和系统通知</string>
     <string name="hyperceiler_restart_quick">快速重启作用域</string>
 
+    <string name="preference_recommend_tip">在查找其他内容吗？</string>
+
     <string name="set_homepage_entrance">主页入口设置</string>
     <string name="set_homepage_entrance_about">注意：\n此设置仅主页入口可见性设置，已经开启的功能不会被关闭！\n关闭入口实时生效，重新显示需要重启应用。</string>
     <string name="help_cant_see_apps_guide">列表中没有您想要找的应用？</string>

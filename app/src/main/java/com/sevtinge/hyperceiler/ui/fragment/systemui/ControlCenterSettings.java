@@ -23,12 +23,14 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroid
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
@@ -61,6 +63,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
 
     SwitchPreference mTaplus;
     SwitchPreference mNotifrowmenu;
+    RecommendPreference mRecommend;
     Handler handler;
 
     @Override
@@ -145,6 +148,19 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+
+        Bundle args1 = new Bundle();
+        mRecommend = new RecommendPreference(getContext());
+        getPreferenceScreen().addPreference(mRecommend);
+
+        if(isMoreHyperOSVersion(1f)) args1.putString(":settings:fragment_args_key", "prefs_key_new_clock_status"); else args1.putString(":settings:fragment_args_key", "prefs_key_old_clock_status");
+        mRecommend.addRecommendView(getString(R.string.system_ui_statusbar_clock_title),
+                null,
+                StatusBarSettings.class,
+                args1,
+                R.string.system_ui_statusbar_title
+        );
+
     }
 
     public void killTaplus() {

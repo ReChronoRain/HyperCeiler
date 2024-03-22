@@ -98,7 +98,9 @@
             app:entries="@array/home_mode"
             app:entryValues="@array/home_mode_value" />
 
-        <Preference android:title="@string/home_other_app_icon_hide">
+        <Preference
+            android:title="@string/home_other_app_icon_hide"
+            android:key="prefs_key_home_other_all_hide_app_activity">
             <intent
                 android:targetClass="com.miui.home.settings.AllHideAppActivity"
                 android:targetPackage="com.miui.home" />
