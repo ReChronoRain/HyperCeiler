@@ -1680,5 +1680,7 @@
     <string name="bamboo_weather_set_sunny_desc">不要让雨水阻挡你出行的步伐</string>
     <string name="bamboo_security_center_score_zero">锁定体验分数为 0 分</string>
     <string name="bamboo_security_center_score_zero_desc">保护您的安全，我们比小米更专业</string>
+    <string name="bamboo_systemui_lock_6g">锁定为 6G 信号</string>
+    <string name="bamboo_systemui_lock_6g_desc">快人一步，遥遥领先</string>
 
 </resources>

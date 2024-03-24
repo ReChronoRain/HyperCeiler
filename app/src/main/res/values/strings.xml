@@ -1637,4 +1637,6 @@
     <string name="bamboo_weather_set_sunny_desc">Don’t let the rain stop you from traveling</string>
     <string name="bamboo_security_center_score_zero">Lock 0 score</string>
     <string name="bamboo_security_center_score_zero_desc">Protect your safety, we are more professional than Xiaomi</string>
+    <string name="bamboo_systemui_lock_6g">Lock mobile type to 6G</string>
+    <string name="bamboo_systemui_lock_6g_desc">One step ahead</string>
 </resources>

@@ -2,6 +2,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory android:title="@string/system_ui">
+
+        <SwitchPreference
+            android:key="prefs_key_bamboo_systemui_lock_6g"
+            android:summary="@string/bamboo_systemui_lock_6g_desc"
+            android:title="@string/bamboo_systemui_lock_6g" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/security_center_hyperos">
 
         <SwitchPreference

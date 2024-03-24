@@ -115,6 +115,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.layout.StatusBarL
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileNetwork;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobilePublicHook;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeLock6G;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeSingleHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeTextCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSec;
@@ -132,6 +133,8 @@ import java.util.Objects;
 public class SystemUI extends BaseModule {
     @Override
     public void handleLoadPackage() {
+
+        initHook(MobileTypeLock6G.INSTANCE, mPrefsMap.getBoolean("bamboo_systemui_lock_6g"));
 
         // 充电动画
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
@@ -179,7 +182,7 @@ public class SystemUI extends BaseModule {
         initHook(new MobileNetwork(), isEnableMobileNetwork);
         initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
         initHook(MobileTypeSingleHook.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
-        initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
+        initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), "") && !mPrefsMap.getBoolean("bamboo_systemui_lock_6g"));
 
         // 电池相关
         boolean isHideBatteryIcon = mPrefsMap.getBoolean("system_ui_status_bar_battery_icon") ||
