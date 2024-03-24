@@ -21,11 +21,14 @@ package com.sevtinge.hyperceiler.module.app;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.weather.SetCardLightDarkMode;
 import com.sevtinge.hyperceiler.module.hook.weather.SetDeviceLevel;
+import com.sevtinge.hyperceiler.module.hook.weather.SetWeatherSunny;
 
 public class Weather extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        initHook(new SetWeatherSunny(), mPrefsMap.getBoolean("bamboo_weather_set_sunny"));
+
         initHook(new SetCardLightDarkMode(), mPrefsMap.getStringAsInt("weather_card_display_type", 0) != 0);
         initHook(new SetDeviceLevel(), mPrefsMap.getStringAsInt("weather_device_level", 3) != 3);
     }
