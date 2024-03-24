@@ -60,6 +60,8 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     SeekBarPreferenceEx mRoundedRectRadius;
     SwitchPreference mThemeBlur;
     SwitchPreference mMusicCtrlPanelMix;
+    DropDownPreference mProgressMode;
+    SeekBarPreferenceEx mProgressModeThickness;
 
     SwitchPreference mTaplus;
     SwitchPreference mNotifrowmenu;
@@ -95,6 +97,8 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mThemeBlur = findPreference("prefs_key_system_ui_control_center_unlock_blur_supported");
         mMusicCtrlPanelMix = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix");
         mNotifrowmenu = findPreference("prefs_key_system_ui_control_center_notifrowmenu");
+        mProgressMode = findPreference("prefs_key_system_ui_control_center_media_control_progress_mode");
+        mProgressModeThickness = findPreference("prefs_key_system_ui_control_center_media_control_progress_thickness");
         handler = new Handler();
 
         mExpandNotification.setOnPreferenceClickListener(
@@ -125,8 +129,10 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mRoundedRectRadius.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false) && isMoreHyperOSVersion(1f));
         mMusicCtrlPanelMix.setVisible(isMoreHyperOSVersion(1f));
         mNotifrowmenu.setVisible(!isMoreHyperOSVersion(1f));
+        mProgressModeThickness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
 
         mRoundedRect.setOnPreferenceChangeListener(this);
+        mProgressMode.setOnPreferenceChangeListener(this);
 
         ((SeekBarPreferenceEx) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -171,12 +177,18 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
         if (preference == mRoundedRect) {
-            setCanBeVisible((Boolean) o);
+            setCanBeVisibleRoundedRect((Boolean) o);
+        } else if (preference == mProgressMode) {
+            setCanBeVisibleProgressMode(Integer.parseInt((String) o));
         }
         return true;
     }
 
-    private void setCanBeVisible(boolean mode) {
+    private void setCanBeVisibleRoundedRect(boolean mode) {
         mRoundedRectRadius.setVisible(mode && isMoreHyperOSVersion(1f));
+    }
+
+    private void setCanBeVisibleProgressMode(int mode) {
+        mProgressModeThickness.setVisible(mode == 2);
     }
 }

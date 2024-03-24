@@ -597,6 +597,18 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="system_ui_control_center_media_control_progress_mode">
+        <item>@string/array_default</item>
+        <item>@string/system_ui_control_center_media_control_progress_wavy</item>
+        <item>@string/system_ui_control_center_media_control_progress_sleek</item>
+    </string-array>
+
+    <string-array name="system_ui_control_center_media_control_progress_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="system_ui_status_bar_battery_show">
         <item>@string/array_battery_both</item>
         <item>@string/array_battery_power</item>

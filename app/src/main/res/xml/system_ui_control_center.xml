@@ -127,10 +127,22 @@
 
     <PreferenceCategory android:title="@string/system_ui_controlcenter_media_card_title">
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_center_squiggly_progress"
-            android:title="@string/system_ui_control_center_squiggly_progress" />
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_control_center_media_control_progress_mode"
+            android:title="@string/system_ui_control_center_media_control_progress_"
+            app:entries="@array/system_ui_control_center_media_control_progress_mode"
+            app:entryValues="@array/system_ui_control_center_media_control_progress_mode_value" />
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_system_ui_control_center_media_control_progress_thickness"
+            android:title="@string/system_ui_control_center_media_control_progress_thickness"
+            app:format="%d dp"
+            app:maxValue="260"
+            app:minValue="20"
+            android:defaultValue="80"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
         <SwitchPreference
             android:defaultValue="false"

@@ -161,7 +161,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                             action3?.setColorFilter(Color.BLACK)
                             action4?.setColorFilter(Color.BLACK)
                             seekBar?.progressDrawable?.colorFilter = colorFilter(Color.BLACK)
-                            seekBar?.thumb?.colorFilter = colorFilter(Color.BLACK)
+                            seekBar?.thumb?.colorFilter = colorFilter(if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else Color.BLACK)
                             elapsedTimeView?.setTextColor(grey)
                             totalTimeView?.setTextColor(grey)
                         } else {
@@ -174,7 +174,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                             action3?.setColorFilter(Color.WHITE)
                             action4?.setColorFilter(Color.WHITE)
                             seekBar?.progressDrawable?.colorFilter = colorFilter(Color.WHITE)
-                            seekBar?.thumb?.colorFilter = colorFilter(Color.WHITE)
+                            seekBar?.thumb?.colorFilter = colorFilter((if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else Color.WHITE))
                             elapsedTimeView?.setTextColor(grey)
                             totalTimeView?.setTextColor(grey)
                         }
@@ -216,7 +216,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         albumView?.setImageDrawable(BitmapDrawable(context.resources, newBitmap))
 
                         if (appIcon?.parent != null) {
-                            (appIcon.parent as ViewGroup).removeView(appIcon)
+                            (appIcon?.parent as ViewGroup?)?.removeView(appIcon)
                         }
                     }
                 }
