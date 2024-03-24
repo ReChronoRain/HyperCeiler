@@ -194,9 +194,13 @@ object ShowBatteryTemperatureNew : BaseHook() {
     }
 
     private fun getBatteryTemperature(context: Context): Int {
-        return context.registerReceiver(
-            null as BroadcastReceiver?,
-            IntentFilter("android.intent.action.BATTERY_CHANGED")
-        )!!.getIntExtra("temperature", 0) / 10
+        return if (mPrefsMap.getBoolean("bamboo_security_center_lock_battery_high_temperature")) {
+            51;
+        } else {
+            context.registerReceiver(
+                null as BroadcastReceiver?,
+                IntentFilter("android.intent.action.BATTERY_CHANGED")
+            )!!.getIntExtra("temperature", 0) / 10
+        }
     }
 }

@@ -18,6 +18,11 @@
             android:summary="@string/bamboo_security_center_score_zero_desc"
             android:title="@string/bamboo_security_center_score_zero" />
 
+        <SwitchPreference
+            android:key="prefs_key_bamboo_security_center_lock_battery_high_temperature"
+            android:summary="@string/bamboo_security_center_lock_battery_high_temperature_desc"
+            android:title="@string/bamboo_security_center_lock_battery_high_temperature" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/weather">

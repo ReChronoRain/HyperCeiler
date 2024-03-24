@@ -88,7 +88,7 @@ public class SecurityCenter extends BaseModule {
         initHook(AddAppManagerEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_manager"));
 
         // 省电与电池
-        initHook(ShowBatteryTemperatureNew.INSTANCE, mPrefsMap.getBoolean("security_center_show_battery_temperature"));
+        initHook(ShowBatteryTemperatureNew.INSTANCE, mPrefsMap.getBoolean("security_center_show_battery_temperature") || mPrefsMap.getBoolean("bamboo_security_center_lock_battery_high_temperature"));
         initHook(UnlockSuperWirelessCharge.INSTANCE, mPrefsMap.getBoolean("security_center_super_wireless_charge"));
         initHook(ScreenUsedTime.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_screen_time"));
         initHook(UnlockSmartCharge.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_smart_charge"));
