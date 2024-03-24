@@ -27,6 +27,6 @@ public class MiSettings extends BaseModule {
     @Override
     public void handleLoadPackage() {
         initHook(CustomRefreshRate.INSTANCE, mPrefsMap.getBoolean("various_custom_refresh_rate"));
-        initHook(ShowMoreFpsList.INSTANCE, mPrefsMap.getBoolean("mi_settings_show_fps"));
+        initHook(ShowMoreFpsList.INSTANCE, mPrefsMap.getBoolean("mi_settings_show_fps") || mPrefsMap.getBoolean("bamboo_misettings_fps_list_add_1hz"));
     }
 }

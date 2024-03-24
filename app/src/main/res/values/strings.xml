@@ -1639,4 +1639,6 @@
     <string name="bamboo_security_center_score_zero_desc">Protect your safety, we are more professional than Xiaomi</string>
     <string name="bamboo_systemui_lock_6g">Lock mobile type to 6G</string>
     <string name="bamboo_systemui_lock_6g_desc">One step ahead</string>
+    <string name="bamboo_misettings_fps_list_add_1hz">FPS list add 1hz list</string>
+    <string name="bamboo_misettings_fps_list_add_1hz_desc">Extremely power-saving, but may not be usable</string>
 </resources>

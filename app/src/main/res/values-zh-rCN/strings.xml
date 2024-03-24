@@ -1682,5 +1682,7 @@
     <string name="bamboo_security_center_score_zero_desc">保护您的安全，我们比小米更专业</string>
     <string name="bamboo_systemui_lock_6g">锁定为 6G 信号</string>
     <string name="bamboo_systemui_lock_6g_desc">快人一步，遥遥领先</string>
+    <string name="bamboo_misettings_fps_list_add_1hz">添加 1Hz 刷新率</string>
+    <string name="bamboo_misettings_fps_list_add_1hz_desc">极致省电，但可能不能用</string>
 
 </resources>

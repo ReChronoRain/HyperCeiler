@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.misettings
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
 
 object ShowMoreFpsList : BaseHook() {
     override fun init() {
@@ -30,7 +30,13 @@ object ShowMoreFpsList : BaseHook() {
             .single().createHook {
                 before {
                     if (it.args[0] == "fpsList") {
-                        it.result = intArrayOf(144, 120, 90, 60, 30)
+                        if (mPrefsMap.getBoolean("mi_settings_show_fps") && mPrefsMap.getBoolean("bamboo_misettings_fps_list_add_1hz")) {
+                            it.result = intArrayOf(144, 120, 90, 60, 30, 1)
+                        } else if (mPrefsMap.getBoolean("mi_settings_show_fps")) {
+                            it.result = intArrayOf(144, 120, 90, 60, 30)
+                        } else if (mPrefsMap.getBoolean("bamboo_misettings_fps_list_add_1hz")) {
+                            it.result = intArrayOf(120, 90, 60, 1)
+                        }
                     }
                 }
             }

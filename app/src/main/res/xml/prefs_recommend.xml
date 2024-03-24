@@ -29,4 +29,13 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/mi_settings">
+
+        <SwitchPreference
+            android:key="prefs_key_bamboo_misettings_fps_list_add_1hz"
+            android:summary="@string/bamboo_misettings_fps_list_add_1hz_desc"
+            android:title="@string/bamboo_misettings_fps_list_add_1hz" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
