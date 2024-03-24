@@ -226,7 +226,7 @@ public class HookTool extends XposedTool {
         XposedHelpers.findAndHookConstructor(hookClass, parameterTypesAndCallback);
     }
 
-    public void findAndHookConstructor(String className, ClassLoader classLoader, Object... parameterTypesAndCallback) {
+    public static void findAndHookConstructor(String className, ClassLoader classLoader, Object... parameterTypesAndCallback) {
         XposedHelpers.findAndHookConstructor(className, classLoader, parameterTypesAndCallback);
     }
 

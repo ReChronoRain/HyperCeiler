@@ -18,33 +18,31 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.ApplicationInfo
-import android.text.TextUtils
-import android.util.AttributeSet
-import android.view.View
-import android.widget.TextView
+import android.annotation.*
+import android.content.*
+import android.content.pm.*
+import android.text.*
+import android.util.*
+import android.view.*
+import android.widget.*
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.R
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isHyperOSVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
-import de.robv.android.xposed.XposedHelpers
+import com.sevtinge.hyperceiler.*
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
+import de.robv.android.xposed.*
 
-object CCGrid : BaseHook() {
+object CCGridOld : BaseHook() {
     private val cols by lazy {
-        mPrefsMap.getInt("system_control_center_cc_columns", 4)
+        mPrefsMap.getInt("system_control_center_cc_columns", 4) // 列数
     }
     private val rows by lazy {
-        mPrefsMap.getInt("system_control_center_cc_rows", 4)
+        mPrefsMap.getInt("system_control_center_cc_rows", 4) // 行数
     }
     private val label by lazy {
-        mPrefsMap.getBoolean("system_control_center_qs_tile_label")
+        mPrefsMap.getBoolean("system_control_center_qs_tile_label") // 移除标题
     }
     private var scaledTileWidthDim = -1f
 
