@@ -26,4 +26,9 @@ public class RecommendFragment extends SettingsPreferenceFragment {
     public int getContentResId() {
         return R.xml.prefs_recommend;
     }
+
+    @Override
+    public void initPrefs() {
+        setTitle(R.string.bamboo_title);
+    }
 }

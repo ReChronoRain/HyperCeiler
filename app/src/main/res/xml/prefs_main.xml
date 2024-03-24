@@ -12,10 +12,10 @@
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.RecommendFragment"
-            android:icon="@drawable/ic_android"
+            android:icon="@drawable/ic_bamboo"
             android:key="prefs_key_bamboo"
-            android:summary="bamboo"
-            android:title="Bamboo" />
+            android:summary="Make Bamboo Great Again!"
+            android:title="One More Thing..." />
 
     </PreferenceCategory>
 

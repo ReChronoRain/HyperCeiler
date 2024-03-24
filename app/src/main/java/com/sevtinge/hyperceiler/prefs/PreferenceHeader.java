@@ -60,17 +60,17 @@ public class PreferenceHeader extends Preference {
     }
 
     private boolean isUninstall(Context context) {
-        if (getSummary() == null || "android".contentEquals(getSummary()) || "bamboo".contentEquals(getSummary())) return false;
+        if (getSummary() == null || "android".contentEquals(getSummary()) || "Make Bamboo Great Again!".contentEquals(getSummary())) return false;
         return PackagesUtils.isUninstall(context, (String) getSummary());
     }
 
     private boolean isDisable(Context context) {
-        if (getSummary() == null || "android".contentEquals(getSummary()) || "bamboo".contentEquals(getSummary())) return false;
+        if (getSummary() == null || "android".contentEquals(getSummary()) || "Make Bamboo Great Again!".contentEquals(getSummary())) return false;
         return PackagesUtils.isDisable(context, (String) getSummary());
     }
 
     private boolean isHidden(Context context) {
-        if (getSummary() == null || "android".contentEquals(getSummary()) || "bamboo".contentEquals(getSummary())) return false;
+        if (getSummary() == null || "android".contentEquals(getSummary()) || "Make Bamboo Great Again!".contentEquals(getSummary())) return false;
         return PackagesUtils.isHidden(context, (String) getSummary());
     }
 }
