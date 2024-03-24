@@ -23,23 +23,14 @@ import com.sevtinge.hyperceiler.module.base.BaseHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class IconsFromSystemManager extends BaseHook {
-    Class<?> statusBarIcon;
 
     @Override
     public void init() {
-        try {
-            statusBarIcon = findClass("com.android.internal.statusbar.StatusBarIcon");
-        } catch (Throwable e) {
-            statusBarIcon = findClass("com.android.systemui.statusbar.phone.StatusBarIconHolder");
-        }
+        Class<?> statusBarIconControllerImpl = findClass("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl");
 
-        if (statusBarIcon == null) {
-            logE(TAG, "statusBarIcon is null");
-            return;
-        }
-
-        findAndHookMethod("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl",
-            "setIcon", String.class, statusBarIcon,
+        boolean successHooked = findAndHookMethodSilently(statusBarIconControllerImpl,
+            "setIcon",
+            String.class, findClass("com.android.internal.statusbar.StatusBarIcon"),
             new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
@@ -50,6 +41,23 @@ public class IconsFromSystemManager extends BaseHook {
                 }
             }
         );
+
+        if (!successHooked) {
+            findAndHookMethod(statusBarIconControllerImpl,
+                "setIcon",
+                String.class, findClass("com.android.systemui.statusbar.phone.StatusBarIconHolder"),
+                new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        String slotName = (String) param.args[0];
+                        if (checkSlot(slotName)) {
+                            Object statusBarIconInstance = XposedHelpers.getObjectField(param.args[1], "mIcon");
+                            XposedHelpers.setObjectField(statusBarIconInstance, "visible", false);
+                        }
+                    }
+                });
+        }
+
     }
 
     public boolean checkSlot(String slotName) {
