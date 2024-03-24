@@ -56,6 +56,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.other.BypassSimLockMi
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.DisableRootCheck;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.FuckRiskPkg;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.LockOneHundredPoints;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.other.LockZeroPoints;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.NoLowBatteryWarning;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.SkipCountDownLimit;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.AddSideBarExpandReceiver;
@@ -71,6 +72,8 @@ public class SecurityCenter extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+
+        initHook(LockZeroPoints.INSTANCE, mPrefsMap.getBoolean("bamboo_security_center_score_zero"));
 
         // 应用管理
         initHook(new AppDefaultSort(), mPrefsMap.getStringAsInt("security_center_app_default_sort", 0) > 0);
@@ -105,7 +108,7 @@ public class SecurityCenter extends BaseModule {
 
         // 其他
         initHook(new InstallIntercept(), mPrefsMap.getBoolean("security_center_install_intercept"));
-        initHook(LockOneHundredPoints.INSTANCE, mPrefsMap.getBoolean("security_center_score"));
+        initHook(LockOneHundredPoints.INSTANCE, mPrefsMap.getBoolean("security_center_score") && !mPrefsMap.getBoolean("bamboo_security_center_score_zero"));
         initHook(new SkipCountDownLimit(), mPrefsMap.getBoolean("security_center_skip_count_down_limit"));
         initHook(DisableRootCheck.INSTANCE, mPrefsMap.getBoolean("security_center_disable_root_check"));
         initHook(FuckRiskPkg.INSTANCE, mPrefsMap.getBoolean("security_center_disable_send_malicious_app_notification"));

@@ -1678,5 +1678,7 @@
 
     <string name="bamboo_weather_set_sunny">锁定天气为晴天</string>
     <string name="bamboo_weather_set_sunny_desc">不要让雨水阻挡你出行的步伐</string>
+    <string name="bamboo_security_center_score_zero">锁定体验分数为 0 分</string>
+    <string name="bamboo_security_center_score_zero_desc">保护您的安全，我们比小米更专业</string>
 
 </resources>
