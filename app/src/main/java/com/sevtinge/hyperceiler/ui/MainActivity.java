@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -31,6 +32,7 @@ import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.ui.base.NavigationActivity;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.PropUtils;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
@@ -46,6 +48,9 @@ public class MainActivity extends NavigationActivity implements IResult {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        SharedPreferences mPrefs = PrefsUtils.mSharedPreferences;
+        int count = Integer.parseInt(mPrefs.getString("prefs_key_settings_app_language", ""));
+        LanguageHelper.setIndexLanguage(this, count, false);
         handler = new Handler(this.getMainLooper());
         context = this;
         int def = Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_log_level", "2"));

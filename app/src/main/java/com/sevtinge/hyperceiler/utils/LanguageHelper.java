@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -53,6 +54,55 @@ public class LanguageHelper {
         Locale.setDefault(locale);
         configuration.setLocale(locale);
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+    }
+
+    public static void setIndexLanguage(Activity activity, int index, boolean recreate) {
+        switch (index) {
+            case 0 -> {
+                LanguageHelper.setLanguage(activity.getBaseContext(), "en");
+                if (recreate) activity.recreate();
+            }
+            case 1 -> {
+                LanguageHelper.setLanguage(activity.getBaseContext(), "zh", "CN");
+                if (recreate) activity.recreate();
+            }
+            case 2 -> {
+                LanguageHelper.setLanguage(activity.getBaseContext(), "zh", "TW");
+                if (recreate) activity.recreate();
+            }
+            case 3 -> {
+                LanguageHelper.setLanguage(activity.getBaseContext(), "zh", "HK");
+                if (recreate) activity.recreate();
+            }
+            case 4 -> {
+                LanguageHelper.setLanguage(activity.getBaseContext(), "ja", "JP");
+                if (recreate) activity.recreate();
+            }
+            case 5 -> {
+                LanguageHelper.setLanguage(activity.getBaseContext(), "ru", "RU");
+                if (recreate) activity.recreate();
+            }
+            case 6 -> {
+                LanguageHelper.setLanguage(activity.getBaseContext(), "es", "ES");
+                if (recreate) activity.recreate();
+            }
+            case 7 -> {
+                LanguageHelper.setLanguage(activity.getBaseContext(), "pt", "BR");
+                if (recreate) activity.recreate();
+            }
+            case 8 -> {
+                LanguageHelper.setLanguage(activity.getBaseContext(), "in", "ID");
+                if (recreate) activity.recreate();
+            }
+            case 9 -> {
+                LanguageHelper.setLanguage(activity.getBaseContext(), "tr", "TR");
+                if (recreate) activity.recreate();
+            }
+            case 10 -> {
+                LanguageHelper.setLanguage(activity.getBaseContext(), "vi", "VN");
+                if (recreate) activity.recreate();
+            }
+        }
     }
 
     public static String getLanguage(Context context) {
