@@ -53,6 +53,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FlashLight;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.GmsTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.HideDelimiter;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlPanelBackgroundMix;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlSeekbarCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MoreCardTiles;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationImportanceHyperOSFix;
@@ -159,7 +160,8 @@ public class SystemUI extends BaseModule {
 
         initHook(new StatusBarIcon());
         initHook(new IconsFromSystemManager());
-        initHook(new SquigglyProgress(), mPrefsMap.getBoolean("system_ui_control_center_squiggly_progress"));
+        initHook(new SquigglyProgress(), mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 1);
+        initHook(new MediaControlSeekbarCustom(), mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2);
         initHook(new BluetoothIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0) != 0 && !isMoreHyperOSVersion(1f));
         initHook(new WifiStandard(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
         initHook(new SelectiveHideIconForAlarmClock(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
