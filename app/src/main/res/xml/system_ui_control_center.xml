@@ -129,11 +129,17 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_squiggly_progress"
+            android:title="@string/system_ui_control_center_squiggly_progress" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix"
             android:title="@string/system_ui_control_center_media_control_panel_background_mix" />
 
         <SeekBarPreferenceEx
             android:defaultValue="40"
+            android:dependency="prefs_key_system_ui_control_center_media_control_panel_background_mix"
             android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix_blur_radius"
             android:title="@string/system_ui_control_center_media_control_panel_background_mix_blur_radius"
             app:defaultValueText="@string/array_default"
@@ -141,13 +147,12 @@
             app:maxValue="150"
             app:minValue="0"
             app:showSeekBarValue="true"
-            android:dependency="prefs_key_system_ui_control_center_media_control_panel_background_mix"
             app:stepValue="1" />
 
         <SwitchPreference
             android:defaultValue="false"
-            android:disableDependentsState="true"
             android:dependency="prefs_key_system_ui_control_center_media_control_panel_background_mix"
+            android:disableDependentsState="true"
             android:key="prefs_key_system_ui_control_center_remove_media_control_panel_background"
             android:title="@string/system_ui_control_center_remove_media_control_panel_background" />
 
