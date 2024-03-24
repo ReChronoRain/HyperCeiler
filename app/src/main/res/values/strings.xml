@@ -1633,6 +1633,9 @@
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
     <string name="preference_recommend_tip">Looking for something else?</string>
 
+    <string name="bamboo_copyright">© 2023-2024 Tuan. All rights reserved.\nHyperCeiler is licensed to use its artwork on a non-commercial basis.\nAll rights reserved, please do not use it for any purpose. Violators will be held legally responsible.\nThe work is registered with the Hubei Provincial Copyright Protection Center of the People\'s Republic of China (Hubei Province, People\'s Republic of China).</string>
+    <string name="bamboo_app_name" translatable="false">TuanCeiler</string>
+    <string name="bamboo_description" translatable="false">Make Bamboo Great Again!</string>
     <string name="bamboo_title">"Tuan" Linkage Content</string>
     <string name="bamboo_weather_set_sunny">Set weather sunny</string>
     <string name="bamboo_weather_set_sunny_desc">Don’t let the rain stop you from traveling</string>

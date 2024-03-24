@@ -107,6 +107,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
 
     @Override
     public void initPrefs() {
+        setTitle(R.string.bamboo_app_name);
         HomepageEntrance.setEntranceStateListen(this);
         Resources resources = getResources();
         ThreadPoolManager.getInstance().submit(() -> {

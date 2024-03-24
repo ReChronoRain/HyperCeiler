@@ -1676,6 +1676,7 @@
     <string name="headtip_warn_not_offical_rom">您正在使用的 ROM 来源可能并不是 Xiaomi 官方，部分功能可能会失效，详情请咨询您正在使用 ROM 的提供者。</string>
     <string name="headtip_warn_sign_verification_failed">签名校验失败，您当前使用的版本可能并非来自于 Re.chronoRain 的官方版本，可能包含恶意代码，请注意使用安全。</string>
 
+    <string name="bamboo_copyright">© 2023-2024 Tuan. All rights reserverd.\nHyperCeiler 在非商用层面经过授权使用其美术作品。\n版权所有，请勿将其用于任何用途。违者将追究其法律责任。\n作品登记于中华人民共和国湖北省版权保护中心 (中华人民共和国，湖北省)。</string>
     <string name="bamboo_title">『团』联动内容</string>
     <string name="bamboo_weather_set_sunny">锁定天气为晴天</string>
     <string name="bamboo_weather_set_sunny_desc">不要让雨水阻挡你出行的步伐</string>

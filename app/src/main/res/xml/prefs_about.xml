@@ -3,7 +3,7 @@
     <SwitchPreference
         android:key="prefs_key_various_enable_super_function"
         android:layout="@layout/activity_about"
-        android:summary="@string/xposed_description" />
+        android:summary="@string/bamboo_description" />
 
     <PreferenceCategory android:title="@string/about_developer_title">
         <Preference
@@ -63,8 +63,8 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_translator_title">
         <Preference
-            android:title="@string/language"
-            android:summary="@string/translator">
+            android:summary="@string/translator"
+            android:title="@string/language">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/translator_url" />
@@ -123,15 +123,13 @@
                 android:data="https://blog.sevtinge.cc/donation" />
         </Preference>
 
-        <Preference
-            android:title="@string/about_protocol">
+        <Preference android:title="@string/about_protocol">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://hyperceiler.sevtinge.cc/Protocol" />
         </Preference>
 
-        <Preference
-            android:title="@string/about_privacy">
+        <Preference android:title="@string/about_privacy">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://hyperceiler.sevtinge.cc/Privacy" />
@@ -141,11 +139,17 @@
 
     <PreferenceCategory>
 
-    <Preference
-        android:enabled="false"
-        android:key="prefs_key_tip"
-        android:layout="@layout/preference_text"
-        android:summary="© 2023-2024 Re.chronoRain &amp; Sevtinge &amp; HyperCeiler Contributions." />
+        <Preference
+            android:enabled="false"
+            android:key="prefs_key_tip"
+            android:layout="@layout/preference_text"
+            android:summary="© 2023-2024 Re.chronoRain &amp; Sevtinge &amp; HyperCeiler Contributions." />
+
+        <Preference
+            android:enabled="false"
+            android:key="prefs_key_bamboo_copyright"
+            android:layout="@layout/preference_text"
+            android:summary="@string/bamboo_copyright" />
 
     </PreferenceCategory>
 
