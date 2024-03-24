@@ -212,19 +212,16 @@ public class ResourcesTool {
                 }
                 param.setResult(value);
             } else {
-                if (useModuleRes) {
-                    try {
-                        if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
-                            return;
-                        }
-                        context.getResources().getResourceName((int) param.args[0]);
-                    } catch (Resources.NotFoundException e) {
-                        value = findRes(context, method, param.args);
-                    }
-
+                try {
                     if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
-                        resMap.remove((int) param.args[0]);
+                        return;
                     }
+                    context.getResources().getResourceName((int) param.args[0]);
+                } catch (Resources.NotFoundException e) {
+                    value = findRes(context, method, param.args);
+                }
+                if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
+                    resMap.remove((int) param.args[0]);
                 }
                 if (value == null) return;
                 param.setResult(value);
