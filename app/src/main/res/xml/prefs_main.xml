@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        android:layout="@layout/headtip_warn"
+        android:key="prefs_key_headtip_warn"
+        android:enabled="false"
+        android:title="This is warn of headtip."
+        app:isPreferenceVisible="false" />
+
     <PreferenceCategory>
-        <Preference
-            android:layout="@layout/headtip_warn"
-            android:key="prefs_key_headtip_warn"
-            android:enabled="false"
-            android:title="This is warn of headtip."
-            app:isPreferenceVisible="false" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.RecommendFragment"
+            android:icon="@drawable/ic_android"
+            android:key="prefs_key_bamboo"
+            android:summary="bamboo"
+            android:title="Bamboo" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.SystemFrameworkFragment"
