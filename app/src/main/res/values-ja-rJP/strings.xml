@@ -8,7 +8,7 @@
     <string name="new_cta_app_main_purpose">システムアプリの変更</string>
     <string name="new_cta_app_all_purpose_title">HyperCeiler へようこそ。このアプリはシステムの機能強化をするために Xposed フレームワークを利用して対応アプリを改変します。使用中、より多くの機能を提供するために root/su 権限の許可を求める場合があります。お使いの root/su マネージャーにアクセスして許可してください。</string>
     <!--HyperCeiler Settings/About Page-->
-    <string name="language">日本語</string>
+    <string name="language">Japanese (日本語)</string>
     <string name="translator">AndroPlus</string>
     <string name="translator_url">https://github.com/AndroPlus-org</string>
     <string name="home">ホーム</string>
@@ -58,6 +58,7 @@
     <string name="settings_icon_medium">中間</string>
     <string name="settings_icon_down">下部</string>
     <string name="settings_icon_mode">アイコンのスタイル</string>
+    <string name="settings_app_language">言語 (Language)</string>
     <string name="settings_icon_miui_14">丸みを帯びた長方形のスタイル</string>
     <string name="settings_icon_miui_13">背景の切り抜きスタイル</string>
     <string name="settings_reboot">ターゲットアプリを再起動</string>
@@ -742,6 +743,10 @@
     <string name="system_ui_control_center_blur_background_alpha">背景ぼかしの値</string>
     <string name="system_ui_control_center_default_background_alpha">デフォルトの背景値</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">メディアコントロールパネルの色混合効果を最適化</string>
+    <string name="system_ui_control_center_media_control_progress_">プログレスバー</string>
+    <string name="system_ui_control_center_media_control_progress_wavy">波状</string>
+    <string name="system_ui_control_center_media_control_progress_sleek">スリーク</string>
+    <string name="system_ui_control_center_media_control_progress_thickness">太さ</string>
     <string name="system_ui_control_center_remove_media_control_panel_background">カードから混在色の背景を削除</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景画像のぼかし半径</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景オーバーレイレイヤーの不透明度</string>
@@ -751,6 +756,7 @@
     <string name="system_ui_control_center_redirect_notice_desc">通知メニューの設定を開いたとき、通知設定を適用するのではなくターゲットアプリの通知チャンネル設定に移動します</string>
     <string name="system_ui_control_center_show_weather">天気を表示</string>
     <string name="system_ui_control_center_show_weather_city">都市を表示</string>
+    <string name="system_ui_control_center_disable_device_managed">ネットワーク監視のプロンプトを非表示</string>
     <string name="system_ui_control_center_mute_visible_notice">画面が ON のときはミュートする</string>
     <string name="system_ui_control_center_expand_notification">通知を展開</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">画面がオンになっているとき、ポップアップ通知でプロンプト音を再生しません</string>
@@ -1083,6 +1089,7 @@
     <string name="home_title_disable_hide_file">「ファイル」アイコンの非表示を無効化</string>
     <string name="home_title_disable_hide_theme">テーママネージャーアイコンを非表示にしない</string>
     <string name="home_title_disable_hide_google">Google の非表示を無効化</string>
+    <string name="home_title_fake_non_default_icon">デフォルト以外のアイコンを偽装する</string>
     <string name="home_title_custom_anim_param">アニメーションパラメーターのカスタム</string>
     <string name="home_title_custom_anim_param_damping_title">減衰</string>
     <string name="home_title_custom_anim_param_stiffness_title">剛性</string>
@@ -1347,6 +1354,8 @@
     <string name="security_center_sidebar_function_title">サイドバー機能</string>
     <string name="security_center_game_speed">すぐにゲームを起動</string>
     <string name="security_center_game_speed_desc">ゲーム起動時に開始画面のアニメーションを3倍の速度で表示します。一部のゲームにのみ対応しています</string>
+    <string name="security_center_bypass_simlock_miaccount_auth">SIM セキュリティとアカウントを不要にする</string>
+    <string name="security_center_bypass_simlock_miaccount_auth_desc">一部の機能での SIM と Xiaomi アカウントの要求を回避します。Xiaomi アカウントにログインしなくても機能を使えるようにできます</string>
     <string name="security_center_aosp_app_info_label">AOSP のアプリ情報</string>
     <string name="security_center_aosp_app_info">AOSP 版のアプリ情報項目を追加します</string>
     <string name="security_center_aosp_app_manager_label">AOSP アプリマネージャー</string>
@@ -1369,6 +1378,9 @@
     <string name="weather_device_level_title_low">低</string>
     <string name="weather_device_level_title_middle">中</string>
     <string name="weather_device_level_title_high">高</string>
+    <string name="weather_card_display_type_title">カード表示方法</string>
+    <string name="weather_card_display_type_title_2">ライトモード</string>
+    <string name="weather_card_display_type_title_3">ダークモード</string>
     <!--AI Translate-->
     <string name="aiasst">AI 翻訳</string>
     <string name="aiasst_ai_captions">AI キャプションを強制的に有効化</string>
@@ -1457,6 +1469,7 @@
     <string name="various_open_aosp_app_manage_title">アプリを管理</string>
     <string name="various_open_aosp_language_title">アプリの言語</string>
     <string name="various_open_aosp_extremely_dark_title">さらに輝度を下げる</string>
+    <string name="various_open_aosp_default_apps_title">デフォルトのアプリ</string>
     <string name="various_mipad_input_title">入力</string>
     <string name="various_mipad_input_close_magic_title">Magic Pointer をオフにする</string>
     <string name="various_mipad_input_close_magic_desc">Xiaomi Pad のマウスポインターを丸ではなく AOSP 版に戻します</string>
@@ -1552,13 +1565,18 @@
     <string name="log_level_none">ログを無効化</string>
     <string name="disable_suggest">サジェストを無効化</string>
     <string name="enable_suggest">サジェストを有効化</string>
+    <string name="set_homepage_entrance">ホームページのエントリを設定</string>
     <string name="help_cant_see_apps_guide">アプリの機能が見つかりませんか？</string>
+    <string name="set_homepage_entrance_about">注意:\nこの設定はホームページのエントリーの表示設定だけで、有効にした機能は無効にはなりません!\nポータルを閉じるとすぐ変更が反映されます。再表示するにはアプリの再起動が必要です</string>
     <string name="help_cant_see_apps_title">ホームページでアプリの機能が見つかりませんか？</string>
     <string name="help_cant_see_apps_desc">ホームページのシンプルさと使いやすさを維持するため、以下のタイプのアプリ機能を非表示にしています:\n\n - 現在無効か非表示になっているアプリ向けの機能\n - デバイスにないアプリ向けの機能\n - 現在のアプリやバージョンに非対応の機能\n\n上記に当てはまるか確認し、修正したら HyperCeiler を再起動してください。それでも出てこなければバグかもしれません。開発者にフィードバックしてください。\n\n現在非表示になっているアプリ機能:\n\n</string>
     <string name="help_cant_see_apps_uninstall">アンインストールされたアプリ:\n</string>
     <string name="help_cant_see_apps_disable">無効または非表示のアプリ:\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">ホームページのシンプルさと使いやすさを維持するため、以下のタイプのアプリ機能を非表示にしています:\n\n - 現在無効か非表示になっているアプリ向けの機能\n - デバイスにないアプリ向けの機能\n - 現在のアプリやバージョンに非対応の機能\n\n上記に当てはまるか確認し、修正したら HyperCeiler を再起動してください。それでも出てこなければバグかもしれません。開発者にフィードバックしてください。\n\n現在非表示になっているアプリ機能はありません</string>
+    <string name="help_cant_see_apps_switch">ホームページでこのヘルプを隠す</string>
+    <string name="help_cant_see_apps_switch_desc">このページは「設定 - ホームページのエントリを設定」で確認できます。適用するにはアプリを再起動してください。</string>
     <string name="headtip_warn_not_offical_rom">使用している ROM は Xiaomi 公式ではないかもしれません。 一部の機能が動作しない場合がありますので、ご利用の ROM の提供者にお問い合わせください。</string>
     <string name="headtip_warn_sign_verification_failed">署名の検証に失敗しました。現在使用しているバージョンは Re.chronoRain の公式バージョンではないため、悪意のあるコードが含まれている可能性があります。</string>
     <string name="tip_default">ヒント: デフォルトのヒントはこちらです。 このメッセージが出るということは HyperCeiler に問題があります。 出たら開発者に教えてください。</string>
+    <string name="preference_recommend_tip">何か他のものをお探しですか?</string>
 </resources>
