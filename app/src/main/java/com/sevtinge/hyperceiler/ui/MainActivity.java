@@ -49,8 +49,10 @@ public class MainActivity extends NavigationActivity implements IResult {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         SharedPreferences mPrefs = PrefsUtils.mSharedPreferences;
-        int count = Integer.parseInt(mPrefs.getString("prefs_key_settings_app_language", ""));
-        LanguageHelper.setIndexLanguage(this, count, false);
+        int count = Integer.parseInt(mPrefs.getString("prefs_key_settings_app_language", "-1"));
+        if (count != -1) {
+            LanguageHelper.setIndexLanguage(this, count, false);
+        }
         handler = new Handler(this.getMainLooper());
         context = this;
         int def = Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_log_level", "2"));
