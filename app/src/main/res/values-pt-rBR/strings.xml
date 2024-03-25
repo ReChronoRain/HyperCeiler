@@ -743,6 +743,10 @@
     <string name="system_ui_control_center_blur_background_alpha">Valor do blur de fundo</string>
     <string name="system_ui_control_center_default_background_alpha">Valor padrão de fundo</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Otimizar efeito de mistura de cores do painel de controle de mídia</string>
+    <string name="system_ui_control_center_media_control_progress_">Barra de progresso</string>
+    <string name="system_ui_control_center_media_control_progress_wavy">Ondulado</string>
+    <string name="system_ui_control_center_media_control_progress_sleek">Suave</string>
+    <string name="system_ui_control_center_media_control_progress_thickness">Rígido</string>
     <string name="system_ui_control_center_remove_media_control_panel_background">Remover fundo de cores misturadas do cartão</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Raio do blur da imagem de fundo</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacidade da camada de sobreposição do fundo</string>
@@ -1465,6 +1469,7 @@
     <string name="various_open_aosp_app_manage_title">Gerenciamento de apps</string>
     <string name="various_open_aosp_language_title">Idiomas, entrada e gestos</string>
     <string name="various_open_aosp_extremely_dark_title">Ultra escuro</string>
+    <string name="various_open_aosp_default_apps_title">Apps padrão</string>
     <string name="various_mipad_input_title">Entrada</string>
     <string name="various_mipad_input_close_magic_title">Sem ponteiro mágico</string>
     <string name="various_mipad_input_close_magic_desc">Transforme o ponteiro redondo do sistema Xiaomi Pad em ponteiro AOSP.</string>
@@ -1568,7 +1573,10 @@
     <string name="help_cant_see_apps_uninstall">Apps desinstalados:\n</string>
     <string name="help_cant_see_apps_disable">Apps desativados ou ocultos:\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n - Aqueles atualmente desativados ou ocultos\n - Aqueles que não foram encontrados em seu dispositivo\n - Aqueles incompatíveis com a versão atual do sistema ou do app\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nAtualmente não há entrada oculta!</string>
+    <string name="help_cant_see_apps_switch">Ocultar esta ajuda na página inicial</string>
+    <string name="help_cant_see_apps_switch_desc">Você ainda pode encontrar esta página em Configurações - Configurar entrada da página inicial. Reinicie o app para aplicar.</string>
     <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
+    <string name="preference_recommend_tip">Procurando outra coisa?</string>
 </resources>
