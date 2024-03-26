@@ -26,13 +26,11 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.SpannableString;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -45,11 +43,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
-import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.prefs.TipsPreference;
 import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.ui.fragment.helper.CantSeeAppsFragment;
 import com.sevtinge.hyperceiler.ui.fragment.helper.HomepageEntrance;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
@@ -193,10 +189,10 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     public boolean getIsOfficialRom() {
         return (
                 !getBaseOs().startsWith("V") &&
-                        !getBaseOs().startsWith("Xiaomi") &&
-                        !getBaseOs().startsWith("Redmi") &&
-                        !getBaseOs().startsWith("POCO") &&
-                        !getBaseOs().isEmpty()
+                !getBaseOs().startsWith("Xiaomi") &&
+                !getBaseOs().startsWith("Redmi") &&
+                !getBaseOs().startsWith("POCO") &&
+                !getBaseOs().isEmpty()
         ) ||
                 !getRomAuthor().isEmpty() ||
                 Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") ||
