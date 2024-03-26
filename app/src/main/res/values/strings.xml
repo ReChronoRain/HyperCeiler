@@ -793,10 +793,13 @@
     <string name="system_ui_control_center_default_background_alpha">Default Background value</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Optimize the color mixing effect of the media control panel</string>
     <string name="system_ui_control_center_media_control_progress">Progress Bar</string>
+    <string name="system_ui_control_center_media_control_unlock_custom_actions">Remove the restriction on the application of custom actions for media notification cards</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Wavy</string>
     <string name="system_ui_control_center_media_control_progress_sleek">Sleek</string>
     <string name="system_ui_control_center_media_control_progress_thickness">Thickness</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">Time view text size</string>
+    <string name="system_ui_control_center_media_control_media_button_custom">Customize the size of the action button</string>
+    <string name="system_ui_control_center_media_control_media_button">Intrinsic action button size</string>
     <string name="system_ui_control_center_remove_media_control_panel_background">Remove mixed color background from card</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Background blur radius</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacity of the background overlay layer</string>
