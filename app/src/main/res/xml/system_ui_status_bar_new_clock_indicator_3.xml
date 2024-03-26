@@ -7,7 +7,7 @@
             android:title="@string/system_ui_statusbar_clock_size"
             android:defaultValue="9"
             app:defaultValueText="@string/array_default"
-            app:maxValue="22"
+            app:maxValue="32"
             app:minValue="9"
             app:stepValue="1"
             app:format="%d dp"
