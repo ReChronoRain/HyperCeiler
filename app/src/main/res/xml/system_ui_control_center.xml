@@ -180,6 +180,17 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
+        <SeekBarPreferenceEx
+            android:key="prefs_key_system_ui_control_center_media_control_time_view_text_size"
+            android:title="@string/system_ui_control_center_media_control_time_view_text_size"
+            app:format="%d f"
+            app:maxValue="20"
+            app:minValue="5"
+            android:defaultValue="13"
+            app:defaultValueText="@string/array_default"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_controlcenter_card_title">

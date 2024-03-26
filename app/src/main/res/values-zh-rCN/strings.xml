@@ -813,6 +813,7 @@
     <string name="system_ui_control_center_media_control_progress_wavy">波浪</string>
     <string name="system_ui_control_center_media_control_progress_sleek">圆滑</string>
     <string name="system_ui_control_center_media_control_progress_thickness">粗细</string>
+    <string name="system_ui_control_center_media_control_time_view_text_size">时间预览文本大小</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">优化音乐面板背景混色效果</string>
     <string name="system_ui_control_center_remove_media_control_panel_background">移除卡片混色背景</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景模糊半径</string>
