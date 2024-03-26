@@ -632,7 +632,6 @@
     <string name="system_ui_statusbar_clock_double_size">Tamaño del reloj de dos filas</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Funciona solo cuando se muestra en dos filas</string>
     <string name="system_ui_statusbar_clock_fix_color">Corregir color</string>
-    <string name="system_ui_statusbar_clock_fix_color_desc">Características experimentales</string>
     <string name="system_ui_disable_clock_anim">Deshabilite la animación de transición del reloj deslizante en el Centro de notificaciones</string>
     <string name="system_ui_statusbar_indicator_battery_title">Potencia relacionada</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Temperatura relacionada</string>
