@@ -1228,6 +1228,10 @@
     <string name="home_dock_icon_title">显示应用标题</string>
     <string name="home_dock_disable_recents_icon">隐藏 Dock 栏最近应用的图标</string>
     <string name="home_dock_add_blur">添加 Dock 栏背景模糊</string>
+    <string name="home_dock_slide_up_only_show_dock">上滑只展示 Dock 栏</string>
+    <string name="home_dock_slide_up_only_show_dock_desc">第二次上滑再跳转到最近任务</string>
+    <string name="home_dock_hide_dock">隐藏 Dock 栏</string>
+    <string name="home_dock_hide_dock_desc">开启后 \"上滑只展示 Dock 栏\" 将失效</string>
 
     <string name="home_other">其他</string>
     <string name="home_other_shortcut_title">快捷菜单</string>

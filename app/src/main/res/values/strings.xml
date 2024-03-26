@@ -1201,6 +1201,10 @@
     <string name="home_dock_icon_title">Show icon title in dock</string>
     <string name="home_dock_disable_recents_icon">Hide recent app icons from the Dock</string>
     <string name="home_dock_add_blur">Custom background blur</string>
+    <string name="home_dock_slide_up_only_show_dock">Swipe up to show only the Dock</string>
+    <string name="home_dock_slide_up_only_show_dock_desc">Swipe up a second time and jump to the recent task</string>
+    <string name="home_dock_hide_dock">Hide the Dock</string>
+    <string name="home_dock_hide_dock_desc">After turning it on, \"Swipe up to show only the Dock\" will be invalid.</string>
 
     <string name="home_other">Other</string>
     <string name="home_other_shortcut_title">Shortcut</string>
