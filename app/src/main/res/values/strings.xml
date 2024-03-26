@@ -326,9 +326,9 @@
     <string name="system_ui_statusbar_network_speed_style_2">Values and units are displayed in two rows</string>
     <string name="system_ui_statusbar_network_speed_style_3">The uplink and downlink network speed is displayed in a single line</string>
     <string name="system_ui_statusbar_network_speed_style_4">Dual-row display of uplink and downlink network speeds</string>
-    <string name="system_ui_statusbar_clock_style_1">Single line status bar clock</string>
-    <string name="system_ui_statusbar_clock_style_2">Status bar clock\nNotification bar mini clock</string>
-    <string name="system_ui_statusbar_clock_style_3">Notification bar mini clock\nStatus bar clock</string>
+    <string name="system_ui_statusbar_clock_style_1">Single line display\n\nStatus bar clock only</string>
+    <string name="system_ui_statusbar_clock_style_2">Two-line display\n\nStatus bar clock on top\nNotification bar mini clock on bottom</string>
+    <string name="system_ui_statusbar_clock_style_3">Two-line display\n\nNotification bar mini clock on top\nStatus bar clock on bottom</string>
     <string name="mediaeditor_mickey">Mickey Mouse</string>
     <string name="mediaeditor_strawberry_bear">Strawberry Bear</string>
     <!--System Framework-->

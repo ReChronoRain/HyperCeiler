@@ -5,7 +5,7 @@
         <SeekBarPreferenceEx
             android:key="prefs_key_system_ui_statusbar_clock_size_3"
             android:title="@string/system_ui_statusbar_clock_size"
-            android:defaultValue="9"
+            android:defaultValue="12"
             app:defaultValueText="@string/array_default"
             app:maxValue="32"
             app:minValue="9"
