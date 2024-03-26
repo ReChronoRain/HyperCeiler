@@ -39,6 +39,7 @@ import com.sevtinge.hyperceiler.module.hook.home.dock.DockCustom;
 import com.sevtinge.hyperceiler.module.hook.home.dock.DockCustomNew;
 import com.sevtinge.hyperceiler.module.hook.home.dock.FoldDeviceDock;
 import com.sevtinge.hyperceiler.module.hook.home.dock.FoldDock;
+import com.sevtinge.hyperceiler.module.hook.home.dock.HideDock;
 import com.sevtinge.hyperceiler.module.hook.home.dock.ShowDockIconTitle;
 import com.sevtinge.hyperceiler.module.hook.home.dock.SlideUpOnlyShowDock;
 import com.sevtinge.hyperceiler.module.hook.home.drawer.AllAppsContainerViewBlur;
@@ -253,6 +254,7 @@ public class Home extends BaseModule {
         initHook(new HideNavigationBar(), mPrefsMap.getBoolean("system_ui_hide_navigation_bar"));
         initHook(DisableRecentsIcon.INSTANCE, mPrefsMap.getBoolean("home_dock_disable_recents_icon"));
         initHook(SlideUpOnlyShowDock.INSTANCE, mPrefsMap.getBoolean("home_dock_slide_up_only_show_dock"));
+        initHook(HideDock.INSTANCE, mPrefsMap.getBoolean("home_dock_hide_dock"));
 
         // 其他
         initHook(new LockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));

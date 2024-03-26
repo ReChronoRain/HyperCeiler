@@ -134,4 +134,9 @@
         android:summary="@string/home_dock_slide_up_only_show_dock_desc"
         android:title="@string/home_dock_slide_up_only_show_dock" />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="prefs_key_home_dock_hide_dock"
+        android:summary="@string/home_dock_hide_dock_desc"
+        android:title="@string/home_dock_hide_dock" />
 </PreferenceScreen>
