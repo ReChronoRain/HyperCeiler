@@ -809,7 +809,7 @@
     <string name="system_ui_control_center_corner_radius_desc">默认主题无需调节</string>
     <string name="system_ui_control_center_blur_background_alpha">通知背景透明度</string>
     <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
-    <string name="system_ui_control_center_media_control_progress_">媒体进度条样式</string>
+    <string name="system_ui_control_center_media_control_progress">媒体进度条样式</string>
     <string name="system_ui_control_center_media_control_progress_wavy">波浪</string>
     <string name="system_ui_control_center_media_control_progress_sleek">圆滑</string>
     <string name="system_ui_control_center_media_control_progress_thickness">粗细</string>

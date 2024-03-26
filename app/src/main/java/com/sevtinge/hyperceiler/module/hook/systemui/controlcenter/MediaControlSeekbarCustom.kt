@@ -15,6 +15,8 @@ class MediaControlSeekbarCustom : BaseHook() {
     private val progressThickness by lazy {
         mPrefsMap.getInt("system_ui_control_center_media_control_progress_thickness", 80)
     }
+
+    //from https://github.com/YuKongA/MediaControl-BlurBg
     override fun init() {
         EzXHelper.initHandleLoadPackage(lpparam)
         EzXHelper.setLogTag(TAG)

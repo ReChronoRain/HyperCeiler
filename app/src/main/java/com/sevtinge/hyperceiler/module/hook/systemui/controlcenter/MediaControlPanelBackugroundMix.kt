@@ -26,6 +26,7 @@ import android.graphics.drawable.*
 import android.hardware.*
 import android.media.*
 import android.os.*
+import android.util.*
 import android.view.*
 import android.widget.*
 import androidx.annotation.*
@@ -34,6 +35,7 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.Log
 import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
@@ -160,8 +162,8 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                             action2?.setColorFilter(Color.BLACK)
                             action3?.setColorFilter(Color.BLACK)
                             action4?.setColorFilter(Color.BLACK)
-                            seekBar?.progressDrawable?.colorFilter = colorFilter(Color.BLACK)
-                            seekBar?.thumb?.colorFilter = colorFilter(if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else Color.BLACK)
+                            seekBar?.progressDrawable?.colorFilter = colorFilter(Color.argb(165, 0, 0, 0))
+                            seekBar?.thumb?.colorFilter = colorFilter(if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else Color.argb(165, 0, 0, 0))
                             elapsedTimeView?.setTextColor(grey)
                             totalTimeView?.setTextColor(grey)
                         } else {
@@ -173,8 +175,8 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                             action2?.setColorFilter(Color.WHITE)
                             action3?.setColorFilter(Color.WHITE)
                             action4?.setColorFilter(Color.WHITE)
-                            seekBar?.progressDrawable?.colorFilter = colorFilter(Color.WHITE)
-                            seekBar?.thumb?.colorFilter = colorFilter((if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else Color.WHITE))
+                            seekBar?.progressDrawable?.colorFilter = colorFilter(Color.argb(165, 255, 255, 255))
+                            seekBar?.thumb?.colorFilter = colorFilter((if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else Color.argb(165, 255, 255, 255)))
                             elapsedTimeView?.setTextColor(grey)
                             totalTimeView?.setTextColor(grey)
                         }
