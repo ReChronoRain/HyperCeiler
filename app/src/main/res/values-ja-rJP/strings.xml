@@ -655,7 +655,6 @@
     <string name="system_ui_statusbar_clock_double_size">二行の時計のサイズ</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">2 行で表示されている場合にのみ有効です</string>
     <string name="system_ui_statusbar_clock_fix_color">色を修正</string>
-    <string name="system_ui_statusbar_clock_fix_color_desc">実験的機能です</string>
     <string name="system_ui_disable_clock_anim">通知センターでのスライド時計遷移アニメーションを無効化</string>
     <string name="system_ui_disable_clock_synch">ステータスバーの時計設定が同期されていません</string>
     <string name="system_ui_disable_clock_synch_desc">大きな通知バーの時計はステータスバーの時計形式と同期されなくなりました</string>

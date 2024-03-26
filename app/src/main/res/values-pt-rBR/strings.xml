@@ -655,7 +655,6 @@
     <string name="system_ui_statusbar_clock_double_size">Tamanho do relógio de duas linhas</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Válido somente quando exibido em duas linhas</string>
     <string name="system_ui_statusbar_clock_fix_color">Corrigir cor</string>
-    <string name="system_ui_statusbar_clock_fix_color_desc">Recurso experimental</string>
     <string name="system_ui_disable_clock_anim">Desativar animação de transição do relógio na central de notificações</string>
     <string name="system_ui_disable_clock_synch">Configurações do relógio da barra de status não sincronizadas</string>
     <string name="system_ui_disable_clock_synch_desc">O grande relógio da barra de notificação não está mais sincronizado com o formato do relógio da barra de status</string>

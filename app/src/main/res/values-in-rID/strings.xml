@@ -655,7 +655,6 @@
     <string name="system_ui_statusbar_clock_double_size">Ukuran jam baris ganda</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Hanya valid jika ditampilkan dalam dua baris</string>
     <string name="system_ui_statusbar_clock_fix_color">Perbaiki warna</string>
-    <string name="system_ui_statusbar_clock_fix_color_desc">Fitur eksperimental</string>
     <string name="system_ui_disable_clock_anim">Nonaktifkan animasi transisi jam slide di Pusat Pemberitahuan</string>
     <string name="system_ui_disable_clock_synch">Pengaturan jam bilah status tidak disinkronkan</string>
     <string name="system_ui_disable_clock_synch_desc">Jam bilah notifikasi besar tidak lagi disinkronkan dengan format jam bilah status</string>

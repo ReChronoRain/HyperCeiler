@@ -721,7 +721,6 @@
     <string name="system_ui_disable_clock_synch">不同步状态栏时钟设置</string>
     <string name="system_ui_disable_clock_synch_desc">通知中心大时钟不再同步状态栏时钟格式</string>
     <string name="system_ui_statusbar_clock_fix_color">修复时钟反色时颜色异常</string>
-    <string name="system_ui_statusbar_clock_fix_color_desc">实验性功能</string>
 
     <string name="system_ui_statusbar_clock_show">显示</string>
     <string name="system_ui_statusbar_clock_big_bold">通知中心大时钟加粗</string>

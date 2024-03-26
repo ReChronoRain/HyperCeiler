@@ -655,7 +655,6 @@
     <string name="system_ui_statusbar_clock_double_size">雙排時鐘大小</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">僅在雙排顯示下生效</string>
     <string name="system_ui_statusbar_clock_fix_color">修復時鐘反色時的顏色異常</string>
-    <string name="system_ui_statusbar_clock_fix_color_desc">實驗性功能</string>
     <string name="system_ui_disable_clock_anim">停用通知中心下滑時鐘過渡動畫</string>
     <string name="system_ui_disable_clock_synch">狀態欄時鐘設定不同步</string>
     <string name="system_ui_disable_clock_synch_desc">大通知欄時鐘不再與狀態欄時鐘格式同步</string>

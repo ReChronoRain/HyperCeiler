@@ -705,7 +705,6 @@
     <string name="system_ui_statusbar_clock_double_size">Double row clock size</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Valid only when displayed in two rows</string>
     <string name="system_ui_statusbar_clock_fix_color">Fix color</string>
-    <string name="system_ui_statusbar_clock_fix_color_desc">Experimental features</string>
     <string name="system_ui_disable_clock_anim">Disable the slide clock transition animation in Notification Center</string>
     <string name="system_ui_disable_clock_synch">Status bar clock settings not synchronized</string>
     <string name="system_ui_disable_clock_synch_desc">The big notification bar clock is no longer synchronized with the status bar clock format</string>
