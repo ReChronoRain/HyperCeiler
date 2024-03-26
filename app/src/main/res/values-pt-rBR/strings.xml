@@ -742,7 +742,7 @@
     <string name="system_ui_control_center_blur_background_alpha">Valor do blur de fundo</string>
     <string name="system_ui_control_center_default_background_alpha">Valor padrão de fundo</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Otimizar efeito de mistura de cores do painel de controle de mídia</string>
-    <string name="system_ui_control_center_media_control_progress_">Barra de progresso</string>
+    <string name="system_ui_control_center_media_control_progress">Barra de progresso</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Ondulado</string>
     <string name="system_ui_control_center_media_control_progress_sleek">Suave</string>
     <string name="system_ui_control_center_media_control_progress_thickness">Rígido</string>

@@ -792,7 +792,7 @@
     <string name="system_ui_control_center_blur_background_alpha">Blur Background value</string>
     <string name="system_ui_control_center_default_background_alpha">Default Background value</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Optimize the color mixing effect of the media control panel</string>
-    <string name="system_ui_control_center_media_control_progress_">Progress Bar</string>
+    <string name="system_ui_control_center_media_control_progress">Progress Bar</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Wavy</string>
     <string name="system_ui_control_center_media_control_progress_sleek">Sleek</string>
     <string name="system_ui_control_center_media_control_progress_thickness">Thickness</string>
