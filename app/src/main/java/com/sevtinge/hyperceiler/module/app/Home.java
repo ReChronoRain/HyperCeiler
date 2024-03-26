@@ -253,7 +253,7 @@ public class Home extends BaseModule {
         initHook(ShowDockIconTitle.INSTANCE, mPrefsMap.getBoolean("home_dock_icon_title"));
         initHook(new HideNavigationBar(), mPrefsMap.getBoolean("system_ui_hide_navigation_bar"));
         initHook(DisableRecentsIcon.INSTANCE, mPrefsMap.getBoolean("home_dock_disable_recents_icon"));
-        initHook(SlideUpOnlyShowDock.INSTANCE, mPrefsMap.getBoolean("home_dock_slide_up_only_show_dock"));
+        initHook(SlideUpOnlyShowDock.INSTANCE, mPrefsMap.getBoolean("home_dock_slide_up_only_show_dock") && !mPrefsMap.getBoolean("home_dock_hide_dock"));
         initHook(HideDock.INSTANCE, mPrefsMap.getBoolean("home_dock_hide_dock"));
 
         // 其他

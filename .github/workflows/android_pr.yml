@@ -57,7 +57,7 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           DEBUG: ${{ env.APK_FILE_DEBUG }}
           COMMIT_MESSAGE:  |+
-            New push to GitHub Action
+            New push to GitHub
             by `${{ github.triggering_actor }}`
             See commit detail [here](${{ github.event.head_commit.url }})
         run: |
