@@ -28,7 +28,7 @@
             app:defaultValueText="@string/array_default"
             app:displayDividerValue="20"
             app:format="%s dp"
-            app:maxValue="22"
+            app:maxValue="32"
             app:minValue="14"
             app:stepValue="1" />
 
