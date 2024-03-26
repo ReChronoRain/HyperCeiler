@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.ChargeAnimationStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.DisableBottomBar;
 import com.sevtinge.hyperceiler.module.hook.systemui.DisableMiuiMultiWinSwitch;
 import com.sevtinge.hyperceiler.module.hook.systemui.DisableTransparent;
+import com.sevtinge.hyperceiler.module.hook.systemui.MediaButton;
 import com.sevtinge.hyperceiler.module.hook.systemui.MonetThemeOverlay;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFix;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFreeform;
@@ -40,6 +41,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.SquigglyProgress;
 import com.sevtinge.hyperceiler.module.hook.systemui.StatusBarActions;
 import com.sevtinge.hyperceiler.module.hook.systemui.UiLockApp;
 import com.sevtinge.hyperceiler.module.hook.systemui.UnlockClipboard;
+import com.sevtinge.hyperceiler.module.hook.systemui.UnlockCustomActions;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AddBlurEffectToNotificationView;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AllowAllThemesNotificationBlur;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGrid;
@@ -161,6 +163,9 @@ public class SystemUI extends BaseModule {
 
         initHook(new StatusBarIcon());
         initHook(new IconsFromSystemManager());
+        initHook(new UnlockCustomActions(), mPrefsMap.getBoolean("system_ui_control_center_media_control_unlock_custom_actions"));
+        initHook(new MediaButton(), mPrefsMap.getInt("system_ui_control_center_media_control_media_button", 140) != 140
+                || mPrefsMap.getInt("system_ui_control_center_media_control_media_button_custom", 140) != 140);
         initHook(new SquigglyProgress(), mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 1);
         initHook(new MediaControlSeekbarCustom(), mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2);
         initHook(new MediaControlPanelTimeViewTextSize(), mPrefsMap.getInt("system_ui_control_center_media_control_time_view_text_size", 13) != 13);
@@ -236,6 +241,8 @@ public class SystemUI extends BaseModule {
         // 硬件指示器
         initHook(new DisplayHardwareDetail(), mPrefsMap.getBoolean("system_ui_statusbar_battery_enable") ||
                 mPrefsMap.getBoolean("system_ui_statusbar_temp_enable"));
+
+        // initHook(new DisplayHardwareDetailForHyper(), true);
 
         // 灵动提示
         initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_strong_toast_hide"));
