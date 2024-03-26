@@ -326,9 +326,9 @@
     <string name="system_ui_statusbar_network_speed_style_3">上下行网速单行显示</string>
     <string name="system_ui_statusbar_network_speed_style_4">上下行网速双排显示</string>
 
-    <string name="system_ui_statusbar_clock_style_1">单行显示 (仅状态栏时钟)</string>
-    <string name="system_ui_statusbar_clock_style_2">双行显示 (状态栏时钟在上, 通知中心迷你时钟在下)</string>
-    <string name="system_ui_statusbar_clock_style_3">双行显示 (通知中心迷你时钟在上, 状态栏时钟在下)</string>
+    <string name="system_ui_statusbar_clock_style_1">单行显示\n\n仅状态栏时钟</string>
+    <string name="system_ui_statusbar_clock_style_2">双行显示\n\n状态栏时钟在上\n通知中心迷你时钟在下</string>
+    <string name="system_ui_statusbar_clock_style_3">双行显示\n\n通知中心迷你时钟在上\n状态栏时钟在下</string>
 
     <string name="mediaeditor_mickey">米老鼠</string>
     <string name="mediaeditor_strawberry_bear">草莓熊</string>

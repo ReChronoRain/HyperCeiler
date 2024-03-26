@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory>
         <SeekBarPreferenceEx
-            android:defaultValue="20"
+            android:defaultValue="54"
             android:key="prefs_key_system_ui_statusbar_clock_size_2"
             android:title="@string/system_ui_statusbar_clock_size"
             app:defaultValueText="@string/array_default"
             app:format="%d dp"
-            app:maxValue="60"
+            app:maxValue="66"
             app:minValue="20"
             app:showSeekBarValue="true"
             app:stepValue="1" />
