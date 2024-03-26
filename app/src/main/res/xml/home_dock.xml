@@ -22,6 +22,22 @@
         android:key="prefs_key_home_dock_disable_recents_icon"
         android:title="@string/home_dock_disable_recents_icon" />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:disableDependentsState="true"
+        android:key="prefs_key_home_dock_hide_dock"
+        android:summary="@string/home_dock_hide_dock_desc"
+        android:title="@string/home_dock_hide_dock"
+        app:isPreferenceVisible="false" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:dependency="prefs_key_home_dock_hide_dock"
+        android:key="prefs_key_home_dock_slide_up_only_show_dock"
+        android:summary="@string/home_dock_slide_up_only_show_dock_desc"
+        android:title="@string/home_dock_slide_up_only_show_dock"
+        app:isPreferenceVisible="false" />
+
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
@@ -128,15 +144,4 @@
             android:dependency="prefs_key_home_dock_bg_custom_enable" />-->
 
     </PreferenceCategory>
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_home_dock_slide_up_only_show_dock"
-        android:summary="@string/home_dock_slide_up_only_show_dock_desc"
-        android:title="@string/home_dock_slide_up_only_show_dock" />
-
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_home_dock_hide_dock"
-        android:summary="@string/home_dock_hide_dock_desc"
-        android:title="@string/home_dock_hide_dock" />
 </PreferenceScreen>
