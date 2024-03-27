@@ -744,6 +744,14 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_blur_background_alpha">Giá trị làm mờ nền</string>
     <string name="system_ui_control_center_default_background_alpha">Độ trong suốt nền thanh thông báo kéo xuống</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Tối ưu hóa hiệu ứng trộn màu của bảng điều khiển phương tiện</string>
+    <string name="system_ui_control_center_media_control_progress">Thanh tiến trình</string>
+    <string name="system_ui_control_center_media_control_unlock_custom_actions">Loại bỏ hạn chế trong việc áp dụng các hành động tùy chỉnh cho thẻ thông báo phương tiện</string>
+    <string name="system_ui_control_center_media_control_progress_wavy">Sóng</string>
+    <string name="system_ui_control_center_media_control_progress_sleek">Trơn</string>
+    <string name="system_ui_control_center_media_control_progress_thickness">Độ dày</string>
+    <string name="system_ui_control_center_media_control_time_view_text_size">Kích thước văn bản xem thời gian</string>
+    <string name="system_ui_control_center_media_control_media_button_custom">Tùy chỉnh kích thước của nút hành động</string>
+    <string name="system_ui_control_center_media_control_media_button">Kích thước nút hành động có sẵn</string>
     <string name="system_ui_control_center_remove_media_control_panel_background">Xóa nền màu hỗn hợp khỏi thẻ</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Bán kính mờ ảnh nền</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Độ mờ của lớp phủ nền</string>
@@ -1144,6 +1152,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_dock_icon_title">Hiển thị tiêu đề ứng dụng</string>
     <string name="home_dock_disable_recents_icon">Ẩn ứng dụng gần đây khỏi thanh Dock</string>
     <string name="home_dock_add_blur">Tùy chỉnh làm mờ nền</string>
+    <string name="home_dock_slide_up_only_show_dock">Vuốt lên để chỉ hiển thị Dock</string>
+    <string name="home_dock_slide_up_only_show_dock_desc">Vuốt lên lần thứ hai và chuyển đến tác vụ gần đây</string>
+    <string name="home_dock_hide_dock">Ẩn Dock</string>
+    <string name="home_dock_hide_dock_desc">Sau khi bật, \"Vuốt lên để chỉ hiển thị Dock\" sẽ không hợp lệ.</string>
     <string name="home_other">Khác</string>
     <string name="home_other_shortcut_title">Phím tắt</string>
     <string name="home_other_home_mode">Chế độ máy tính</string>
@@ -1478,6 +1490,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="various_open_aosp_app_manage_title">Quản lý ứng dụng</string>
     <string name="various_open_aosp_language_title">Cài đặt ngôn ngữ</string>
     <string name="various_open_aosp_extremely_dark_title">Siêu tối</string>
+    <string name="various_open_aosp_default_apps_title">Ứng dụng mặc định</string>
     <string name="various_mipad_input_title">Nhập</string>
     <string name="various_mipad_input_close_magic_title">Không có con trỏ ảo</string>
     <string name="various_mipad_input_close_magic_desc">Biến con trỏ MIUI tròn thành con trỏ AOSP.</string>
@@ -1581,7 +1594,10 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="help_cant_see_apps_uninstall">Ứng dụng đã gỡ cài đặt:\n</string>
     <string name="help_cant_see_apps_disable">Ứng dụng bị tắt hoặc bị ẩn:\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">Để duy trì tính đơn giản và khả năng sử dụng của trang chủ, chúng tôi ẩn quyền truy cập vào các loại tính năng ứng dụng sau:\n\n - Những tính năng này hiện bị vô hiệu hóa hoặc bị ẩn\n - Những tính năng này không được tìm thấy trên thiết bị của bạn\n - Những tính năng không tương thích với hệ thống hiện tại hoặc phiên bản ứng dụng\n\nVui lòng khắc phục sự cố dựa trên thông tin ở trên, khởi động lại HyperCeiler và thử lại. Nếu bạn vẫn không thể tìm thấy tính năng ứng dụng thì đó có thể là lỗi. Vui lòng cung cấp cho chúng tôi phản hồi kịp thời và hiệu quả.\n\nHiện không có mục ẩn nào!</string>
+    <string name="help_cant_see_apps_switch">Ẩn trợ giúp này trong trang chủ</string>
+    <string name="help_cant_see_apps_switch_desc">Bạn vẫn có thể tìm thấy trang này trong \"Cài đặt - Thiết lập lối tắt trang chủ\". Khởi động lại ứng dụng để áp dụng.</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>
+    <string name="preference_recommend_tip">Bạn đang cần tìm gì?</string>
 </resources>
