@@ -28,6 +28,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_unimportant_notification"
+            android:title="@string/system_ui_control_center_unimportant_notification" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_control_center_mute_visible_notice"
             android:summary="@string/system_ui_control_center_mute_visible_notice_desc"
             android:title="@string/system_ui_control_center_mute_visible_notice" />
