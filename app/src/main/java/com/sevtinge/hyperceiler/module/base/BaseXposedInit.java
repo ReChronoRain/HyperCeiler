@@ -162,7 +162,7 @@ public abstract class BaseXposedInit {
     @CallSuper
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
         setXSharedPrefs();
-        mResHook = new ResourcesTool();
+        mResHook = new ResourcesTool(startupParam.modulePath);
         mModulePath = startupParam.modulePath;
     }
 

@@ -29,12 +29,20 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.content.res.loader.ResourcesLoader;
+import android.content.res.loader.ResourcesProvider;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.ParcelFileDescriptor;
 import android.util.Pair;
 
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -53,7 +61,9 @@ public class ResourcesTool {
     private boolean hooksApplied = false;
     private boolean isInit = false;
     private boolean useModuleRes = true;
-    // private Context mContext = null;
+    private final String mModulePath;
+    private Handler mHandler = null;
+    private ResourcesLoader resourcesLoader = null;
     private final ConcurrentHashMap<Integer, Boolean> resMap = new ConcurrentHashMap<>();
     private final ArrayList<XC_MethodHook.Unhook> unhooks = new ArrayList<>();
 
@@ -65,7 +75,8 @@ public class ResourcesTool {
 
     private final ConcurrentHashMap<String, Pair<ReplacementType, Object>> replacements = new ConcurrentHashMap<>();
 
-    public ResourcesTool() {
+    public ResourcesTool(String modulePath) {
+        mModulePath = modulePath;
         applyHooks();
         isInit = true;
     }
@@ -84,11 +95,11 @@ public class ResourcesTool {
     /**
      * @noinspection JavaReflectionMemberAccess
      */
-    private int loadRes(Context context) {
+    private boolean loadResBelowApi30(Context context) {
         // String TAG = "addModuleRes";
         try {
             return (int) XposedHelpers.callMethod(context.getResources().getAssets(), "addAssetPath",
-                    XposedInit.mModulePath);
+                    XposedInit.mModulePath) != 0;
         } catch (Throwable e) {
             XposedLogUtils.logE(TAG, "CallMethod addAssetPathInternal failed!" + e);
         }
@@ -96,7 +107,7 @@ public class ResourcesTool {
             @SuppressLint({"SoonBlockedPrivateApi", "DiscouragedPrivateApi"})
             Method AssetPath = AssetManager.class.getDeclaredMethod("addAssetPath", String.class);
             AssetPath.setAccessible(true);
-            return Integer.parseInt(String.valueOf(AssetPath.invoke(context.getResources().getAssets(), XposedInit.mModulePath)));
+            return Integer.parseInt(String.valueOf(AssetPath.invoke(context.getResources().getAssets(), XposedInit.mModulePath))) != 0;
         } catch (NoSuchMethodException e) {
             XposedLogUtils.logE(TAG, "Method addAssetPath is null: ", e);
         } catch (InvocationTargetException e) {
@@ -106,19 +117,55 @@ public class ResourcesTool {
         } catch (NumberFormatException e) {
             XposedLogUtils.logE(TAG, "NumberFormatException: ", e);
         }
-        return 0;
+        return false;
+    }
+
+    /**
+     * 来自 QA 的方法
+     */
+    private boolean loadResAboveApi30(Context context) {
+        if (resourcesLoader == null) {
+            try (ParcelFileDescriptor pfd = ParcelFileDescriptor.open(new File(mModulePath),
+                    ParcelFileDescriptor.MODE_READ_ONLY)) {
+                ResourcesProvider provider = ResourcesProvider.loadFromApk(pfd);
+                ResourcesLoader loader = new ResourcesLoader();
+                loader.addProvider(provider);
+                resourcesLoader = loader;
+            } catch (IOException e) {
+                XposedLogUtils.logE(TAG, "Failed to add resource!: " + e);
+                return false;
+            }
+        }
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            context.getResources().addLoaders(resourcesLoader);
+        } else {
+            if (mHandler != null) {
+                mHandler.post(() -> context.getResources().addLoaders(resourcesLoader));
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
      * 获取添加后的 Res.
      * 一般不需要，除非上面 loadModuleRes 加载后依然无效。
+     *
+     * @noinspection UnusedReturnValue
      */
     public Resources loadModuleRes(Context context) {
+        boolean load;
         if (context == null) {
             XposedLogUtils.logE(TAG, "context can't is null!!");
             return null;
         }
-        if (loadRes(context) == 0) {
+        if (Build.VERSION.SDK_INT >= 30) {
+            load = loadResAboveApi30(context);
+        } else {
+            load = loadResBelowApi30(context);
+        }
+        if (!load) {
             XposedLogUtils.logW(TAG, "loadModuleRes return 0, It may have failed. Try the second method ...");
             try {
                 Resources resources = getModuleRes(context);
@@ -129,6 +176,10 @@ public class ResourcesTool {
             }
         }
         return context.getResources();
+    }
+
+    public void putHandler(Handler handler) {
+        mHandler = handler;
     }
 
     public static Context getModuleContext(Context context)
@@ -212,19 +263,21 @@ public class ResourcesTool {
                 }
                 param.setResult(value);
             } else {
-                try {
-                    if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
-                        return;
+                if (useModuleRes) {
+                    try {
+                        if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
+                            return;
+                        }
+                        context.getResources().getResourceName((int) param.args[0]);
+                    } catch (Resources.NotFoundException e) {
+                        value = findRes(context, method, param.args);
                     }
-                    context.getResources().getResourceName((int) param.args[0]);
-                } catch (Resources.NotFoundException e) {
-                    value = findRes(context, method, param.args);
+                    if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
+                        resMap.remove((int) param.args[0]);
+                    }
+                    if (value == null) return;
+                    param.setResult(value);
                 }
-                if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
-                    resMap.remove((int) param.args[0]);
-                }
-                if (value == null) return;
-                param.setResult(value);
             }
         }
     };

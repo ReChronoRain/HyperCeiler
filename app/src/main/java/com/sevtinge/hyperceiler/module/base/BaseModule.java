@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.base;
 
+import android.os.Handler;
+
 import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.dexkit.InitDexKit;
@@ -53,6 +55,11 @@ public abstract class BaseModule implements IXposedHook {
                 ContextUtils.getWaitContext(
                         context -> {
                             if (context != null) {
+                                try {
+                                    Handler handler = new Handler(context.getMainLooper());
+                                    BaseXposedInit.mResHook.putHandler(handler);
+                                } catch (Throwable e) {
+                                }
                                 BaseXposedInit.mResHook.loadModuleRes(context);
                                 // mResHook.loadModuleRes(context);
                             }
