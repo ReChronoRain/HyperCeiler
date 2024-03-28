@@ -33,6 +33,7 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,44 +42,67 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class RotationButton extends BaseHook {
     boolean isListen = false;
-
-    boolean enable = mPrefsMap.getBoolean("system_framework_other_rotation_button");
+    boolean isHyper = false;
+    boolean enable = mPrefsMap.getStringAsInt("system_framework_other_rotation_button_int", 0) != 1;
 
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookConstructor("com.android.systemui.navigationbar.NavigationBarView",
-                Context.class, AttributeSet.class, new MethodHook() {
-                    @Override
-                    protected void after(MethodHookParam param) {
-                        if (!enable) return;
-                        Context mContext = (Context) param.args[0];
-                        if (!isListen) {
-                            if (mContext == null) {
-                                logE(TAG, "context can't is null!");
-                                return;
-                            }
-                            ContentObserver contentObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
-                                @Override
-                                public void onChange(boolean selfChange, @Nullable Uri uri) {
-                                    boolean isShow = getBoolean(mContext);
-                                    int rotation = getInt(mContext);
-                                    Object mRotationButtonController = XposedHelpers.getObjectField(param.thisObject, "mRotationButtonController");
-                                    try {
-                                        XposedHelpers.callMethod(mRotationButtonController, "onRotationProposal", rotation, isShow);
-                                    } catch (Throwable e) {
-                                        Object mUpdateActiveTouchRegionsCallback = XposedHelpers.getObjectField(param.thisObject, "mUpdateActiveTouchRegionsCallback");
-                                        Object NavigationBar = XposedHelpers.getObjectField(mUpdateActiveTouchRegionsCallback, "f$0");
-                                        XposedHelpers.callMethod(NavigationBar, "onRotationProposal", rotation, isShow);
-                                    }
+        isHyper = SystemSDKKt.isMoreHyperOSVersion(1f);
+        if (!isHyper)
+            findAndHookConstructor("com.android.systemui.navigationbar.NavigationBarView",
+                    Context.class, AttributeSet.class, new MethodHook() {
+                        @Override
+                        protected void after(MethodHookParam param) {
+                            if (!enable) return;
+                            Context mContext = (Context) param.args[0];
+                            if (!isListen) {
+                                if (mContext == null) {
+                                    logE(TAG, "context can't is null!");
+                                    return;
                                 }
-                            };
-                            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor("rotation_button_data"),
-                                    false, contentObserver);
-                            isListen = true;
+                                ContentObserver contentObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
+                                    @Override
+                                    public void onChange(boolean selfChange, @Nullable Uri uri) {
+                                        boolean isShow = getBoolean(mContext);
+                                        int rotation = getInt(mContext);
+                                        Object mRotationButtonController = XposedHelpers.getObjectField(param.thisObject, "mRotationButtonController");
+                                        XposedHelpers.callMethod(mRotationButtonController, "onRotationProposal", rotation, isShow);
+                                    }
+                                };
+                                mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor("rotation_button_data"),
+                                        false, contentObserver);
+                                isListen = true;
+                            }
                         }
                     }
-                }
-        );
+            );
+        else
+            hookAllConstructors("com.android.systemui.navigationbar.NavigationBar",
+                    new MethodHook() {
+                        @Override
+                        protected void after(MethodHookParam param) {
+                            if (!enable) return;
+                            Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                            if (!isListen) {
+                                if (mContext == null) {
+                                    logE(TAG, "context can't is null!");
+                                    return;
+                                }
+                                ContentObserver contentObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
+                                    @Override
+                                    public void onChange(boolean selfChange, @Nullable Uri uri) {
+                                        boolean isShow = getBoolean(mContext);
+                                        int rotation = getInt(mContext);
+                                        XposedHelpers.callMethod(param.thisObject, "onRotationProposal", rotation, isShow);
+                                    }
+                                };
+                                mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor("rotation_button_data"),
+                                        false, contentObserver);
+                                isListen = true;
+                            }
+                        }
+                    }
+            );
 
 
         try {
@@ -135,6 +159,10 @@ public class RotationButton extends BaseHook {
                     new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) {
+                            if (!enable) return;
+                            Object mDumpHandler = XposedHelpers.getObjectField(param.thisObject, "mDumpHandler");
+                            Context context = (Context) XposedHelpers.getObjectField(mDumpHandler, "context");
+                            setData(context, param.args[0] + "," + param.args[1]);
                             if (enable) param.setResult(null);
                         }
                     }
@@ -143,11 +171,21 @@ public class RotationButton extends BaseHook {
             findAndHookMethod("com.android.systemui.navigationbar.NavigationBar",
                     "onRotationProposal", int.class, boolean.class,
                     new MethodHook() {
+                        Unhook unhook;
+
                         @Override
                         protected void before(MethodHookParam param) {
                             if (!enable) {
                                 param.setResult(null);
+                                return;
                             }
+                            unhook = findAndHookMethod(View.class, "isAttachedToWindow",
+                                    MethodHook.returnConstant(true));
+                        }
+
+                        @Override
+                        protected void after(MethodHookParam param) {
+                            if (unhook != null) unhook.unhook();
                         }
                     }
             );
@@ -161,67 +199,6 @@ public class RotationButton extends BaseHook {
                                 param.setResult(null);
                                 // return;
                             }
-                        /*Context mContext =
-                                (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                        Object mWindowRotationProvider = XposedHelpers.getObjectField(param.thisObject, "mWindowRotationProvider");
-                        int i = (int) param.args[0];
-                        boolean z = (boolean) param.args[1];
-                        int intValue = switch (getScreenOrientation(mContext)) {
-                            case 0 -> 1;
-                            case 1 -> 0;
-                            default -> -1;
-                        };
-                        if (intValue == -1) {
-                            logE(TAG, "Unknown parameters, unable to continue execution, execute the original method!");
-                            return;
-                        }
-                        Object mRotationButton = XposedHelpers.getObjectField(param.thisObject, "mRotationButton");
-                        boolean acceptRotationProposal = false;
-                        try {
-                            acceptRotationProposal = (boolean) XposedHelpers.callMethod(mRotationButton, "acceptRotationProposal");
-                        } catch (Throwable e) {
-                            // logE(TAG, "E: " + e);
-                        }
-                        if (true) {
-                            boolean mHomeRotationEnabled = XposedHelpers.getBooleanField(param.thisObject, "mHomeRotationEnabled");
-                            boolean mIsRecentsAnimationRunning = XposedHelpers.getBooleanField(param.thisObject, "mIsRecentsAnimationRunning");
-                            Handler mMainThreadHandler = (Handler) XposedHelpers.getObjectField(param.thisObject, "mMainThreadHandler");
-                            if (mHomeRotationEnabled || !mIsRecentsAnimationRunning) {
-                                if (!z) {
-                                    XposedHelpers.callMethod(param.thisObject, "setRotateSuggestionButtonState", false);
-                                    param.setResult(null);
-                                } else if (i == intValue) {
-                                    mMainThreadHandler.removeCallbacks((Runnable) XposedHelpers.getObjectField(param.thisObject, "mRemoveRotationProposal"));
-                                    XposedHelpers.callMethod(param.thisObject, "setRotateSuggestionButtonState", false);
-                                    param.setResult(null);
-                                } else {
-                                    XposedHelpers.setIntField(param.thisObject, "mLastRotationSuggestion", i);
-                                    boolean isRotationAnimationCCW = isRotationAnimationCCW(intValue, i);
-                                    if (intValue == 0) {
-                                        int mIconCcwStart0ResId = XposedHelpers.getIntField(param.thisObject, "mIconCcwStart0ResId");
-                                        int mIconCwStart0ResId = XposedHelpers.getIntField(param.thisObject, "mIconCwStart0ResId");
-                                        XposedHelpers.setIntField(param.thisObject, "mIconResId", isRotationAnimationCCW ? mIconCcwStart0ResId : mIconCwStart0ResId);
-                                    } else {
-                                        int mIconCcwStart90ResId = XposedHelpers.getIntField(param.thisObject, "mIconCcwStart90ResId");
-                                        int mIconCwStart90ResId = XposedHelpers.getIntField(param.thisObject, "mIconCwStart90ResId");
-                                        XposedHelpers.setIntField(param.thisObject, "mIconResId", isRotationAnimationCCW ? mIconCcwStart90ResId : mIconCwStart90ResId);
-                                    }
-                                    int mLightIconColor = XposedHelpers.getIntField(param.thisObject, "mLightIconColor");
-                                    int mDarkIconColor = XposedHelpers.getIntField(param.thisObject, "mDarkIconColor");
-                                    XposedHelpers.callMethod(mRotationButton, "updateIcon", mLightIconColor, mDarkIconColor);
-                                    if ((boolean) XposedHelpers.callMethod(param.thisObject, "canShowRotationButton")) {
-                                        XposedHelpers.callMethod(param.thisObject, "showAndLogRotationSuggestion");
-                                        param.setResult(null);
-                                        return;
-                                    }
-                                    XposedHelpers.setBooleanField(param.thisObject, "mPendingRotationSuggestion", true);
-                                    Runnable mCancelPendingRotationProposal = (Runnable) XposedHelpers.getObjectField(param.thisObject, "mCancelPendingRotationProposal");
-                                    mMainThreadHandler.removeCallbacks(mCancelPendingRotationProposal);
-                                    mMainThreadHandler.postDelayed(mCancelPendingRotationProposal, 20000L);
-                                    param.setResult(null);
-                                }
-                            }
-                        }*/
                         }
                     }
             );
@@ -254,8 +231,10 @@ public class RotationButton extends BaseHook {
                     new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) {
-                            if (enable)
-                                XposedHelpers.callMethod(param.thisObject, "setRotateSuggestionButtonState", false, false);
+                            if (enable) {
+                                Object rotationButtonController = XposedHelpers.getObjectField(param.thisObject, "f$0");
+                                XposedHelpers.callMethod(rotationButtonController, "setRotateSuggestionButtonState", false, true);
+                            }
                         }
                     }
             );
@@ -285,41 +264,8 @@ public class RotationButton extends BaseHook {
         return orientation;
     }
 
-    public static boolean isRotationAnimationCCW(int i, int i2) {
-        if (i == 0 && i2 == 1) {
-            return false;
-        }
-        if (i == 0 && i2 == 2) {
-            return true;
-        }
-        if (i == 0 && i2 == 3) {
-            return true;
-        }
-        if (i == 1 && i2 == 0) {
-            return true;
-        }
-        if (i == 1 && i2 == 2) {
-            return false;
-        }
-        if (i == 1 && i2 == 3) {
-            return true;
-        }
-        if (i == 2 && i2 == 0) {
-            return true;
-        }
-        if (i == 2 && i2 == 1) {
-            return true;
-        }
-        if (i == 2 && i2 == 3) {
-            return false;
-        }
-        if (i == 3 && i2 == 0) {
-            return false;
-        }
-        if (i == 3 && i2 == 1) {
-            return true;
-        }
-        return i == 3 && i2 == 2;
+    private void setData(Context context, String value) {
+        Settings.System.putString(context.getContentResolver(), "rotation_button_data", value);
     }
 
     private String getData(Context context) {

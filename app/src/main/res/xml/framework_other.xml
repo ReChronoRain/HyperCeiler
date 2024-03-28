@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/system_framework_other_title">
     <PreferenceCategory android:title="@string/system_framework_screen_title">
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_framework_other_rotation_button_int"
+            android:title="@string/system_framework_other_rotation_button"
+            app:entries="@array/system_framework_other_rotation_button_mode"
+            app:entryValues="@array/status_bar_icon_mode_value" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_screen_all_rotations"
