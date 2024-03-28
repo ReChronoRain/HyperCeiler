@@ -19,24 +19,30 @@
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
 import android.content.Context;
-import android.os.Handler;
 import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 
 import de.robv.android.xposed.XposedHelpers;
 
 public class RotationButton extends BaseHook {
     Context context;
 
+    boolean isHyper = false;
+
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookConstructor("com.android.server.wm.DisplayRotation$OrientationListener",
-                "com.android.server.wm.DisplayRotation", Context.class, Handler.class,
+        isHyper = SystemSDKKt.isMoreHyperOSVersion(1f);
+        if (isHyper) return;
+        hookAllConstructors("com.android.server.wm.DisplayRotation$OrientationListener",
                 new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
-                        context = (Context) param.args[1];
+                        Object arg = param.args[1];
+                        if (arg instanceof Context) {
+                            context = (Context) param.args[1];
+                        }
                     }
                 }
         );
@@ -67,7 +73,7 @@ public class RotationButton extends BaseHook {
         );
 
 
-        findAndHookMethod("com.android.server.wm.DisplayRotation",
+        /*findAndHookMethod("com.android.server.wm.DisplayRotation",
                 "isRotationChoicePossible", int.class,
                 new MethodHook() {
                     @Override
@@ -80,7 +86,7 @@ public class RotationButton extends BaseHook {
                         // }
                     }
                 }
-        );
+        );*/
     }
 
     private void setData(Context context, String value) {
