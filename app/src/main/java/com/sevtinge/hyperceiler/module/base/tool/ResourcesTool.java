@@ -33,7 +33,6 @@ import android.content.res.loader.ResourcesLoader;
 import android.content.res.loader.ResourcesProvider;
 import android.os.Build;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.util.Pair;
 
@@ -136,15 +135,15 @@ public class ResourcesTool {
                 return false;
             }
         }
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            context.getResources().addLoaders(resourcesLoader);
-        } else {
-            if (mHandler != null) {
-                mHandler.post(() -> context.getResources().addLoaders(resourcesLoader));
-            } else {
-                return false;
-            }
-        }
+        // if (Looper.myLooper() == Looper.getMainLooper()) {
+        context.getResources().addLoaders(resourcesLoader);
+        // } else {
+        //     if (mHandler != null) {
+        //         mHandler.post(() -> context.getResources().addLoaders(resourcesLoader));
+        //     } else {
+        //         return false;
+        //     }
+        // }
         return true;
     }
 
