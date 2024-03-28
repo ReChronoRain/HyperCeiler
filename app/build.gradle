@@ -39,8 +39,8 @@ android {
         applicationId namespace
         minSdk 30
         targetSdk 34
-        versionCode 141
-        versionName "2.4.141"
+        versionCode 141 // Deliberate
+        versionName "2.4.142"
         project.archivesBaseName = "HyperCeiler"
         ndk {
             // noinspection ChromeOsAbiSupport
