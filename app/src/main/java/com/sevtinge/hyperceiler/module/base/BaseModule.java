@@ -22,6 +22,7 @@ import android.os.Handler;
 
 import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.XposedInit;
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.module.base.dexkit.InitDexKit;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
@@ -34,16 +35,7 @@ public abstract class BaseModule implements IXposedHook {
 
     public LoadPackageParam mLoadPackageParam = null;
     public String TAG = getClass().getSimpleName();
-    public static ILoadDexKit loadDexKit;
     public final PrefsMap<String, Object> mPrefsMap = XposedInit.mPrefsMap;
-
-    public interface ILoadDexKit {
-        void createDexKit(LoadPackageParam lpparam, String TAG);
-    }
-
-    public static void setLoadDexKit(ILoadDexKit iLoadDexKit) {
-        loadDexKit = iLoadDexKit;
-    }
 
     public void init(LoadPackageParam lpparam) {
         EzXHelper.initHandleLoadPackage(lpparam);
@@ -69,12 +61,11 @@ public abstract class BaseModule implements IXposedHook {
             XposedLogUtils.logE(TAG, "get context failed!" + e);
         }
         mLoadPackageParam = lpparam;
+        InitDexKit kit = new InitDexKit(lpparam, TAG);
+        DexKit.INSTANCE.setInitDexKit(kit);
         initZygote();
-        DexKitHelper helper = new DexKitHelper();
-        InitDexKit kit = new InitDexKit();
-        loadDexKit.createDexKit(mLoadPackageParam, TAG);
         handleLoadPackage();
-        if (helper.useDexKit) {
+        if (kit.isInit) {
             try {
                 kit.closeHostDir();
                 // XposedLogUtils.logE(TAG, "close dexkit s: " + lpparam.packageName);
@@ -95,19 +86,6 @@ public abstract class BaseModule implements IXposedHook {
     public void initHook(BaseHook baseHook, boolean isInit) {
         if (isInit) {
             baseHook.onCreate(mLoadPackageParam);
-        }
-    }
-
-    private static class DexKitHelper implements InitDexKit.IUseDexKit {
-        public boolean useDexKit = false;
-
-        public DexKitHelper() {
-            InitDexKit.setUseDexKit(this);
-        }
-
-        @Override
-        public void useDexKit(boolean use) {
-            useDexKit = use;
         }
     }
 }
