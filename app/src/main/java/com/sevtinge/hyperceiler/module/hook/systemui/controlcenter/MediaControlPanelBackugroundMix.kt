@@ -52,6 +52,12 @@ private var artwork: Icon? = null
 
 //from https://github.com/YuKongA/MediaControl-BlurBg/blob/752de17a31d940683648cee7b957d4ff48d381a3/app/src/main/kotlin/top/yukonga/mediaControlBlur/MainHook.kt
 class MediaControlPanelBackgroundMix : BaseHook() {
+    private val radius by lazy {
+        mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_blur_radius", 40)
+    }
+    private val overlay by lazy {
+        mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_overlay", 20)
+    }
     @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
         EzXHelper.initHandleLoadPackage(lpparam)
@@ -78,27 +84,22 @@ class MediaControlPanelBackgroundMix : BaseHook() {
         playerTwoCircleView: Class<*>?
     ) {
         try {
-            mediaControlPanel?.methodFinder()?.filterByName("attachPlayer")?.first()
-                ?.createAfterHook {
-                    val context = AndroidAppHelper.currentApplication().applicationContext
+            mediaControlPanel?.methodFinder()?.filterByName("attachPlayer")?.first()?.createAfterHook {
+                val context = AndroidAppHelper.currentApplication().applicationContext
 
-                    val isBackgroundBlurOpened =
-                        XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
-                    if (!isBackgroundBlurOpened) return@createAfterHook
+                val isBackgroundBlurOpened = XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
+                if (!isBackgroundBlurOpened) return@createAfterHook
 
-                    val mMediaViewHolder =
-                        it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder") ?: return@createAfterHook
-                    val mediaBg =
-                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("mediaBg") ?: return@createAfterHook
-                    val radius = mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_blur_radius", 40)
+                val mMediaViewHolder = it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder") ?: return@createAfterHook
+                val mediaBg = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("mediaBg") ?: return@createAfterHook
 
-                    mediaBg.apply {
-                        setMiViewBlurMode(1)
-                        setMiBackgroundBlurRadius(radius)
-                        setBlurRoundRect(getNotificationElementRoundRect(context))
-                        setMiBackgroundBlendColors(getNotificationElementBlendColors(context), 1f)
-                    }
+                mediaBg.apply {
+                    setMiViewBlurMode(1)
+                    setMiBackgroundBlurRadius(radius)
+                    setBlurRoundRect(getNotificationElementRoundRect(context))
+                    setMiBackgroundBlendColors(getNotificationElementBlendColors(context), 1f)
                 }
+            }
 
             miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()
                 ?.createAfterHook {
@@ -391,10 +392,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
 
                         val backgroundColorMode = if (isDarkMode()) 0 else 248
                         val backgroundColor = Color.argb(
-                            mPrefsMap.getInt(
-                                "system_ui_control_center_media_control_panel_background_mix_overlay",
-                                20
-                            ), backgroundColorMode, backgroundColorMode, backgroundColorMode
+                            overlay, backgroundColorMode, backgroundColorMode, backgroundColorMode
                         )
 
                         // 应用颜色过滤器
@@ -409,7 +407,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         // 模糊处理
                         artworkLayer = BitmapDrawable(
                             imageView.resources, bigBitmap.blur(
-                                mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_blur_radius", 40).toFloat()
+                                radius.toFloat()
                             )
                         )
 
