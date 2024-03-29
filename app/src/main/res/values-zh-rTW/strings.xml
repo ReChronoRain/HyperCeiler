@@ -263,6 +263,7 @@
     <string name="control_center_sunshine_mode_default">關閉</string>
     <string name="control_center_sunshine_mode_one">系統預設模式</string>
     <string name="control_center_sunshine_mode_two">強制最大亮度</string>
+    <string name="system_framework_other_rotation_button_3">強制</string>
     <string name="security_center_flash_light_default">關閉</string>
     <string name="security_center_flash_light_1">預設寫入模式</string>
     <string name="security_center_flash_light_2">寫入模式一</string>
@@ -277,9 +278,9 @@
     <string name="system_ui_statusbar_network_speed_style_2">值和單位雙排顯示</string>
     <string name="system_ui_statusbar_network_speed_style_3">上下行網路單行顯示</string>
     <string name="system_ui_statusbar_network_speed_style_4">上下行網路雙排顯示</string>
-    <string name="system_ui_statusbar_clock_style_1">單行狀態欄時鐘</string>
-    <string name="system_ui_statusbar_clock_style_2">狀態欄時鐘\n通知欄迷你時鐘</string>
-    <string name="system_ui_statusbar_clock_style_3">通知欄迷你時鐘\n狀態欄時鐘</string>
+    <string name="system_ui_statusbar_clock_style_1">單行顯示\n\n僅狀態欄時鐘</string>
+    <string name="system_ui_statusbar_clock_style_2">兩行顯示\n\n頂部狀態欄時鐘\n底部通知欄迷你時鐘</string>
+    <string name="system_ui_statusbar_clock_style_3">兩行顯示\n\n頂部通知欄迷你時鐘\n底部狀態欄時鐘</string>
     <string name="mediaeditor_mickey">米奇</string>
     <string name="mediaeditor_strawberry_bear">草莓熊</string>
     <!--System Framework-->
@@ -511,6 +512,7 @@
     <string name="system_ui_navigation_handle_title">手勢提示線</string>
     <string name="system_ui_hide_navigation_bar">隱藏導覽列</string>
     <string name="system_ui_hide_navigation_bar_toast">不要切換導航鍵</string>
+    <string name="system_ui_hide_navigation_bar_toast_2">不要隱藏手勢提示線</string>
     <string name="system_ui_hide_navigation_bar_more">請重新啟動 「系統桌面」 和 「系統介面」</string>
     <string name="system_ui_navigation_handle_custom">手勢提示線自訂</string>
     <string name="system_ui_navigation_handle_custom_height">高度</string>
@@ -742,6 +744,14 @@
     <string name="system_ui_control_center_blur_background_alpha">通知背景透明度</string>
     <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">最佳化媒體控制面板混色效果</string>
+    <string name="system_ui_control_center_media_control_progress">進度條</string>
+    <string name="system_ui_control_center_media_control_unlock_custom_actions">取消媒體通知卡應用程式自訂操作的限制</string>
+    <string name="system_ui_control_center_media_control_progress_wavy">波浪</string>
+    <string name="system_ui_control_center_media_control_progress_sleek">平滑</string>
+    <string name="system_ui_control_center_media_control_progress_thickness">粗細</string>
+    <string name="system_ui_control_center_media_control_time_view_text_size">時間文字大小</string>
+    <string name="system_ui_control_center_media_control_media_button_custom">自訂操作按鈕的大小</string>
+    <string name="system_ui_control_center_media_control_media_button">固有操作按鈕尺寸</string>
     <string name="system_ui_control_center_remove_media_control_panel_background">從卡片中刪除混合顏色背景</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景圖案模糊半徑</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景覆蓋層的不透明度</string>
@@ -753,6 +763,7 @@
     <string name="system_ui_control_center_show_weather_city">顯示地區</string>
     <string name="system_ui_control_center_disable_device_managed">隱藏網路監控提示</string>
     <string name="system_ui_control_center_mute_visible_notice">開啟螢幕時靜音</string>
+    <string name="system_ui_control_center_unimportant_notification">禁止折疊到歷史通知中</string>
     <string name="system_ui_control_center_expand_notification">展開通知</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">開啟螢幕時彈出通知不播放提示音</string>
     <string name="system_ui_control_center_rounded_rect">圓角矩形磁貼</string>
@@ -1138,6 +1149,10 @@
     <string name="home_dock_icon_title">顯示應用程式標題</string>
     <string name="home_dock_disable_recents_icon">在 Dock 欄中隱藏最近應用圖示</string>
     <string name="home_dock_add_blur">背景模糊自訂</string>
+    <string name="home_dock_slide_up_only_show_dock">向上滑動以僅顯示 Dock</string>
+    <string name="home_dock_slide_up_only_show_dock_desc">第二次向上滑動，跳到最近的任務</string>
+    <string name="home_dock_hide_dock">隱藏 Dock</string>
+    <string name="home_dock_hide_dock_desc">開啟後「向上滑動僅顯示 Dock」將失效。</string>
     <string name="home_other">其他</string>
     <string name="home_other_shortcut_title">快捷選單</string>
     <string name="home_other_home_mode">桌面模式</string>
@@ -1254,7 +1269,7 @@
     <string name="screenshot_unlock_privacy_marking_desc">需要預先安裝更高版本的「Mi AI Engine」應用程式才能正常使用</string>
     <string name="screenshot_save_to_pictures_desc">規範截圖儲存位置為 /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自訂帶殼截圖型號</string>
-    <string name="screenshot_device_customize_desc">請輸入機型代號，有顏色的裝置填寫時應加上後綴，例如：\n- 小米 13 填寫的內容是 fuxi\n-小米 14 粉色版填寫的內容是 houji_PK</string>
+    <string name="screenshot_device_customize_desc">請輸入機型代號，有顏色的裝置填寫時應加上後綴，例如：\n- 小米 13 填寫的內容是 fuxi\n- 小米 14 粉色版填寫的內容是 houji_PK</string>
     <!--Security/Tablet security center-->
     <string name="security_center">手機管家</string>
     <string name="security_center_pad">平板管家</string>
@@ -1373,6 +1388,9 @@
     <string name="weather_device_level_title_low">低</string>
     <string name="weather_device_level_title_middle">中</string>
     <string name="weather_device_level_title_high">高</string>
+    <string name="weather_card_display_type_title">卡片顯示類型</string>
+    <string name="weather_card_display_type_title_2">淺色模式</string>
+    <string name="weather_card_display_type_title_3">深色模式</string>
     <!--AI Translate-->
     <string name="aiasst">小愛翻譯</string>
     <string name="aiasst_ai_captions">強制啟用即時字幕</string>
@@ -1461,6 +1479,7 @@
     <string name="various_open_aosp_app_manage_title">應用程式管理</string>
     <string name="various_open_aosp_language_title">語言設定</string>
     <string name="various_open_aosp_extremely_dark_title">極暗模式</string>
+    <string name="various_open_aosp_default_apps_title">預設應用程式</string>
     <string name="various_mipad_input_title">輸入</string>
     <string name="various_mipad_input_close_magic_title">關閉 Magic Pointer</string>
     <string name="various_mipad_input_close_magic_desc">移除 Xiaomi Pad 系統破爛的圓形滑鼠指針，並恢復為安卓原生的滑鼠指針</string>
@@ -1556,13 +1575,18 @@
     <string name="log_level_none">停用日誌輸出</string>
     <string name="disable_suggest">停用推薦</string>
     <string name="enable_suggest">啟用推薦</string>
+    <string name="set_homepage_entrance">設定首頁入口</string>
     <string name="help_cant_see_apps_guide">找不到應用程式功能？</string>
+    <string name="set_homepage_entrance_about">注意：\n此設定只是主頁入口可見性設定，已開啟的功能不會關閉！\n關閉入口會即時生效，需要重新啟動應用程式才能重新出現。</string>
     <string name="help_cant_see_apps_title">在主頁找不到應用程式功能？</string>
     <string name="help_cant_see_apps_desc">為了保持主頁的簡單性和可用性，我們隱藏了對以下類型的應用程式功能的存取：\n\n - 目前已停用或隱藏的應用程式\n - 在您的裝置中未找到的應用程式\n -與目前版本不相容的應用程式系統或應用程式版本\n\n請根據上述資訊排查問題，重新啟動 HyperCeiler，然後重試。如果您仍然找不到應用程式功能，則可能是錯誤。請提供我們及時有效的回饋。\n\n目前隱藏的應用功能：\n\n</string>
     <string name="help_cant_see_apps_uninstall">已解除安裝的應用程式:\n</string>
     <string name="help_cant_see_apps_disable">停用或隱藏的應用程式:\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">為了保持主頁的簡單性和可用性，我們隱藏了對以下類型的應用程式功能的存取：\n\n - 目前已停用或隱藏的應用程式\n - 在您的裝置中未找到的應用程式\n -與目前版本不相容的應用程式系統或應用程式版本\n\n請根據上述資訊排查問題，重新啟動 HyperCeiler，然後重試。如果您仍然找不到應用程式功能，則可能是錯誤。請及時有效的回饋給我們。\n\n目前沒有隱藏入口！</string>
+    <string name="help_cant_see_apps_switch">在主頁中隱藏此幫助</string>
+    <string name="help_cant_see_apps_switch_desc">您仍然可以在「設定-設定主頁入口」中找到該頁面。重新啟動應用程式即可套用。</string>
     <string name="headtip_warn_not_offical_rom">您所使用的 ROM 來源可能不是屬於小米官方版本，部分功能可能無法使用，具體請聯絡您所使用的 ROM 開發者。</string>
     <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 Re.chronoRain 的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
     <string name="tip_default">提示：這是預設提示。如果你能看到我，則表示 HyperCeiler 有問題，請及時有效地向開發者報告。</string>
+    <string name="preference_recommend_tip">在找什麼嗎？</string>
 </resources>
