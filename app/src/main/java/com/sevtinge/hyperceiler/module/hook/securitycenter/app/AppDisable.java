@@ -44,6 +44,7 @@ import de.robv.android.xposed.XposedHelpers;
 public class AppDisable extends BaseHook {
 
     public ArrayList<String> mMiuiCoreApps = new ArrayList<>();
+    private MenuItem menuItem = null;
 
     @Override
     public void init() {
@@ -54,6 +55,8 @@ public class AppDisable extends BaseHook {
                     protected void after(MethodHookParam param) throws Throwable {
                         Activity act = (Activity) param.thisObject;
                         Menu menu = (Menu) param.args[0];
+                        menuItem = menu.findItem(6);
+                        if (menuItem != null) menuItem.setVisible(false);
                         MenuItem dis = menu.add(0, 666, 1,
                                 act.getResources().getIdentifier("app_manager_disable_text", "string", lpparam.packageName));
                         dis.setIcon(act.getResources().getIdentifier("action_button_stop_svg", "drawable", lpparam.packageName));
@@ -66,7 +69,8 @@ public class AppDisable extends BaseHook {
                         ApplicationInfo appInfo = pm.getApplicationInfo(mPackageInfo.packageName, PackageManager.GET_META_DATA);
                         boolean isSystem = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
                         boolean isUpdatedSystem = (appInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0;
-                        dis.setTitle(act.getResources().getIdentifier(appInfo.enabled ? "app_manager_disable_text" : "app_manager_enable_text", "string", lpparam.packageName));
+                        dis.setTitle(act.getResources().getIdentifier(appInfo.enabled ? "app_manager_disable_text" : "app_manager_enable_text",
+                                "string", lpparam.packageName));
                         getModuleRes(act);
                         mMiuiCoreApps = new ArrayList<>(Arrays.asList(act.getResources().getStringArray(R.array.miui_core_app_package_name)));
                         if (mMiuiCoreApps.contains(mPackageInfo.packageName)) {
@@ -76,6 +80,26 @@ public class AppDisable extends BaseHook {
                             MenuItem item = menu.findItem(2);
                             if (item != null) item.setVisible(false);
                         }
+                    }
+                }
+        );
+
+        findAndHookMethod("com.miui.appmanager.ApplicationsDetailsActivity",
+                "onPrepareOptionsMenu", Menu.class,
+                new MethodHook() {
+                    @Override
+                    protected void after(MethodHookParam param) {
+                        if (menuItem != null) menuItem.setVisible(false);
+                    }
+                }
+        );
+
+        findAndHookMethod("com.miui.appmanager.ApplicationsDetailsActivity",
+                "onResume",
+                new MethodHook() {
+                    @Override
+                    protected void after(MethodHookParam param) {
+                        if (menuItem != null) menuItem.setVisible(false);
                     }
                 }
         );
