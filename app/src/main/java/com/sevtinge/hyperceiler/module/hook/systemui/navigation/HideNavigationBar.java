@@ -20,10 +20,13 @@ package com.sevtinge.hyperceiler.module.hook.systemui.navigation;
 
 import android.content.Context;
 import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
 import android.view.Display;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
@@ -116,13 +119,20 @@ public class HideNavigationBar extends BaseHook {
             run = true;
             ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
                 @Override
-                public void onChange(boolean z) {
-                    Settings.Global.putInt(context.getContentResolver(), "force_fsg_nav_bar", 1);
-                    Toast.makeText(context, R.string.system_ui_hide_navigation_bar_toast, Toast.LENGTH_SHORT).show();
-                    logW(TAG, lpparam.packageName, "Please don't switch classic navigation keys");
+                public void onChange(boolean selfChange, @Nullable Uri uri) {
+                    if (Settings.Global.getUriFor("hide_gesture_line").toString().equals(uri.toString())) {
+                        Settings.Global.putInt(context.getContentResolver(), "hide_gesture_line", 0);
+                        Toast.makeText(context, R.string.system_ui_hide_navigation_bar_toast_2, Toast.LENGTH_SHORT).show();
+                        logW(TAG, lpparam.packageName, "Please don't hide gesture lines!");
+                    } else if (Settings.Global.getUriFor("force_fsg_nav_bar").toString().equals(uri.toString())) {
+                        Settings.Global.putInt(context.getContentResolver(), "force_fsg_nav_bar", 1);
+                        Toast.makeText(context, R.string.system_ui_hide_navigation_bar_toast, Toast.LENGTH_SHORT).show();
+                        logW(TAG, lpparam.packageName, "Please don't switch classic navigation keys!");
+                    }
                 }
             };
             context.getContentResolver().registerContentObserver(Settings.Global.getUriFor("force_fsg_nav_bar"), false, contentObserver);
+            context.getContentResolver().registerContentObserver(Settings.Global.getUriFor("hide_gesture_line"), false, contentObserver);
         }
     }
 }

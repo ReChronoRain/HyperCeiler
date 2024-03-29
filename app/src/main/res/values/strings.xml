@@ -562,6 +562,7 @@
     <string name="system_ui_navigation_handle_title">Handle line</string>
     <string name="system_ui_hide_navigation_bar">Hide Navigation Bar</string>
     <string name="system_ui_hide_navigation_bar_toast">Don\'t switch navigation keys</string>
+    <string name="system_ui_hide_navigation_bar_toast_2">Don\'t hide gesture lines</string>
     <string name="system_ui_hide_navigation_bar_more">Please restart both the Miui Home and SystemUi scopes</string>
     <string name="system_ui_navigation_handle_custom">Custom handle line</string>
     <string name="system_ui_navigation_handle_custom_height">Height</string>

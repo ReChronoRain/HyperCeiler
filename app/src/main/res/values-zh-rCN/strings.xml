@@ -569,6 +569,7 @@
     <string name="system_ui_navigation_handle_title">手势提示线</string>
     <string name="system_ui_hide_navigation_bar">隐藏手势提示线</string>
     <string name="system_ui_hide_navigation_bar_toast">请勿切换经典导航键</string>
+    <string name="system_ui_hide_navigation_bar_toast_2">请勿隐藏手势提示线</string>
     <string name="system_ui_hide_navigation_bar_more">请重启 \"系统桌面\" 和 \"系统界面\" 两个作用域</string>
     <string name="system_ui_navigation_handle_custom">自定义手势提示线</string>
     <string name="system_ui_navigation_handle_custom_height">高度</string>
