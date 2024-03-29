@@ -263,6 +263,7 @@
     <string name="control_center_sunshine_mode_default">Đóng</string>
     <string name="control_center_sunshine_mode_one">Mặc định của hệ thống</string>
     <string name="control_center_sunshine_mode_two">Buộc độ sáng tối đa</string>
+    <string name="system_framework_other_rotation_button_3">Bắt buộc</string>
     <string name="security_center_flash_light_default">Đóng</string>
     <string name="security_center_flash_light_1">Chế độ ghi mặc định</string>
     <string name="security_center_flash_light_2">Chế độ viết một</string>
@@ -277,9 +278,9 @@
     <string name="system_ui_statusbar_network_speed_style_2">Giá trị và đơn vị hiển thị theo hàng đôi</string>
     <string name="system_ui_statusbar_network_speed_style_3">Tốc độ mạng up và down được hiển thị trên một dòng duy nhất</string>
     <string name="system_ui_statusbar_network_speed_style_4">Tốc độ mạng up và down được hiển thị trên dòng đôi</string>
-    <string name="system_ui_statusbar_clock_style_1">Đồng hồ ở thanh trạng thái hàng đơn</string>
-    <string name="system_ui_statusbar_clock_style_2">Đồng hồ trên thanh trạng thái\nĐồng hồ nhỏ trên thanh thông báo</string>
-    <string name="system_ui_statusbar_clock_style_3">Đồng hồ nhỏ trên thanh thông báo\nĐồng hồ trên thanh trạng thái</string>
+    <string name="system_ui_statusbar_clock_style_1">Chỉ hiển thị một dòng\n\nChỉ đồng hồ trên thanh trạng thái</string>
+    <string name="system_ui_statusbar_clock_style_2">Hiển thị hai dòng\n\nĐồng hồ thanh trạng thái ở trên cùng\nĐồng hồ nhỏ trên thanh thông báo ở dưới cùng</string>
+    <string name="system_ui_statusbar_clock_style_3">Hiển thị hai dòng\n\nĐồng hồ nhỏ trên thanh thông báo ở trên cùng\nĐồng hồ trên thanh trạng thái ở dưới cùng</string>
     <string name="mediaeditor_mickey">Chuột Mickey</string>
     <string name="mediaeditor_strawberry_bear">Gấu dâu</string>
     <!--System Framework-->
@@ -763,6 +764,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_show_weather_city">Hiện thị thành phố</string>
     <string name="system_ui_control_center_disable_device_managed">Ẩn lời nhắc giám sát mạng</string>
     <string name="system_ui_control_center_mute_visible_notice">Tắt âm thông báo khi màn hình bật</string>
+    <string name="system_ui_control_center_unimportant_notification">Thu gọn vào thông báo lịch sử bị cấm</string>
     <string name="system_ui_control_center_expand_notification">Mở rộng thông báo</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Khi màn hình đang bật, thông báo không phát âm thanh</string>
     <string name="system_ui_control_center_rounded_rect">Ô hình chữ nhật bo tròn</string>
