@@ -72,8 +72,8 @@ public class HideNavigationBar extends BaseHook {
                         if (!mIsInFsMode) {
                             if (motionEvent.getAction() == 0) {
                                 XposedHelpers.setObjectField(param.thisObject, "mHideGestureLine", true);
-                                XposedHelpers.setObjectField(param.thisObject, "mIsShowNavBar", true);
-                                XposedHelpers.setObjectField(param.thisObject, "mIsShowStatusBar", true);
+                                // XposedHelpers.setObjectField(param.thisObject, "mIsShowNavBar", true);
+                                // XposedHelpers.setObjectField(param.thisObject, "mIsShowStatusBar", true);
                             }
                         }
                     }
