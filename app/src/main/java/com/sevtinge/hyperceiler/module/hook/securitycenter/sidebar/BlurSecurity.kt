@@ -16,40 +16,36 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.securitycenter
+package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar
 
-import android.content.Context
-import android.graphics.Color
-import android.graphics.ColorMatrixColorFilter
-import android.graphics.RenderEffect
-import android.graphics.drawable.LayerDrawable
-import android.graphics.drawable.VectorDrawable
-import android.os.Build
-import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
-import androidx.annotation.RequiresApi
+import android.content.*
+import android.graphics.*
+import android.graphics.drawable.*
+import android.os.*
+import android.util.*
+import android.view.*
+import android.widget.*
+import androidx.annotation.*
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
+import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import com.sevtinge.hyperceiler.utils.blur.BlurUtils.createBlurDrawable
-import com.sevtinge.hyperceiler.utils.blur.BlurUtils.isBlurDrawable
-import com.sevtinge.hyperceiler.utils.color.ColorUtils
-import com.sevtinge.hyperceiler.utils.getValueByField
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XC_MethodReplacement
-import de.robv.android.xposed.XposedBridge
-import de.robv.android.xposed.XposedHelpers
+import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
+import com.sevtinge.hyperceiler.utils.color.*
+import de.robv.android.xposed.*
 
 object BlurSecurity : BaseHook() {
-    val blurRadius = mPrefsMap.getInt("security_center_blurradius", 60)
-    val backgroundColor = mPrefsMap.getInt("security_center_color", -1)
-    val isInvertColor = mPrefsMap.getBoolean("security_center_invert_color")
-    val shouldInvertColor = !ColorUtils.isDarkColor(backgroundColor)
+    private val blurRadius by lazy {
+        mPrefsMap.getInt("security_center_blurradius", 60)
+    }
+    private val backgroundColor by lazy {
+        mPrefsMap.getInt("security_center_color", -1)
+    }
+    private val isInvertColor by lazy {
+        mPrefsMap.getBoolean("security_center_invert_color")
+    }
+    private val shouldInvertColor = !ColorUtils.isDarkColor(backgroundColor)
 
     private var appVersionCode = 40000727
 
@@ -122,8 +118,7 @@ object BlurSecurity : BaseHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val view = param.thisObject as View
                 view.addOnAttachStateChangeListener(
-                    object :
-                        View.OnAttachStateChangeListener {
+                    object : View.OnAttachStateChangeListener {
                         override fun onViewAttachedToWindow(view: View) {
                             val viewPaernt = view.parent as ViewGroup
                             val gameContentLayout = viewPaernt.parent as ViewGroup
@@ -134,27 +129,19 @@ object BlurSecurity : BaseHook() {
                             }
 
                             gameContentLayout.background =
-                                createBlurDrawable(
-                                    gameContentLayout,
-                                    blurRadius,
-                                    40,
-                                    backgroundColor
-                                )
+                                createBlurDrawable(gameContentLayout, blurRadius, 40, backgroundColor)
 
-                            if (shouldInvertColor) {
-                               if (isInvertColor) invertViewColor(gameContentLayout)
+                            if (shouldInvertColor && isInvertColor) {
+                                invertViewColor(gameContentLayout)
 
                                 // 设置 RenderEffect 后会导致文字动画出现问题，故去除动画
-                                val performanceTextView = XposedHelpers.callMethod(
-                                    param.thisObject,
-                                    "getPerformanceTextView"
-                                ) as View
+                                val performanceTextView =
+                                    XposedHelpers.callMethod(param.thisObject, "getPerformanceTextView") as View
+
                                 XposedHelpers.findAndHookMethod(
                                     performanceTextView.javaClass,
                                     if (appVersionCode >= 40000749) "e" else "a",
-                                    Boolean::class.java,
-                                    object :
-                                        XC_MethodReplacement() {
+                                    Boolean::class.java, object : XC_MethodReplacement() {
                                         override fun replaceHookedMethod(param: MethodHookParam?) {
                                             param?.result = null
                                         }
@@ -192,29 +179,28 @@ object BlurSecurity : BaseHook() {
                 returnType = "android.view.View"
                 paramTypes = listOf("android.content.Context", "boolean", "boolean")
             }
-        }.single().getMethodInstance(lpparam.classLoader).createHook {
-            after { param ->
-                val mainContent = getValueByField(param.thisObject, "b") as ViewGroup
-                mainContent.addOnAttachStateChangeListener(object :
-                    View.OnAttachStateChangeListener {
-                        override fun onViewAttachedToWindow(view: View) {
-                            if (view.background != null) {
-                                if (isBlurDrawable(view.background)) return
-                            }
-                            view.background =
-                                createBlurDrawable(view, blurRadius, 40, backgroundColor)
+        }.single().getMethodInstance(lpparam.classLoader).createAfterHook { param ->
+            val mainContent = getValueByField(param.thisObject, "b") as ViewGroup
+            mainContent.addOnAttachStateChangeListener(object :
+                View.OnAttachStateChangeListener {
+                @RequiresApi(Build.VERSION_CODES.S)
+                override fun onViewAttachedToWindow(view: View) {
+                    if (view.background != null) {
+                        if (isBlurDrawable(view.background)) return
+                    }
+                    view.background =
+                        createBlurDrawable(view, blurRadius, 40, backgroundColor)
 
-                            if (shouldInvertColor && isInvertColor) invertViewColor(mainContent)
-                        }
-
-                        override fun onViewDetachedFromWindow(view: View) {
-                            view.background = null
-                        }
-                    })
+                    if (shouldInvertColor && isInvertColor) invertViewColor(mainContent)
                 }
+
+                override fun onViewDetachedFromWindow(view: View) {
+                    view.background = null
+                }
+            })
         }
 
-        if (shouldInvertColor) {
+        if (shouldInvertColor && isInvertColor) {
             val detailSettingsLayoutClass = findClassIfExists(
                 "com.miui.gamebooster.videobox.view.DetailSettingsLayout"
             ) ?: return
@@ -256,25 +242,20 @@ object BlurSecurity : BaseHook() {
                 "seekbar_text_speed"
             )
 
-            if (isInvertColor) {
-                val gameManagerMethod = dexKitBridge.findMethod {
-                    searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
-                    matcher {
-                        usingStrings = listOf("addView error")
-                    }
-                }.single().getMethodInstance(safeClassLoader)
-
-                gameManagerMethod.createHook {
-                    after {
-                        val view = it.args[0] as View
-                        invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
-                    }
+            val gameManagerMethod = dexKitBridge.findMethod {
+                searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
+                matcher {
+                    usingStrings = listOf("addView error")
                 }
+            }.single().getMethodInstance(safeClassLoader)
+
+            gameManagerMethod.createAfterHook {
+                val view = it.args[0] as View
+                invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
             }
 
             val auditionViewClass =
-                findClassIfExists("com.miui.gamebooster.customview.AuditionView")
-                    ?: return
+                findClassIfExists("com.miui.gamebooster.customview.AuditionView") ?: return
 
             XposedBridge.hookAllMethods(
                 detailSettingsLayoutClass,
@@ -289,8 +270,7 @@ object BlurSecurity : BaseHook() {
                         val listView = getValueByField(param.thisObject, "c") as ListView
                         val listViewAdapterClassName = listView.adapter.javaClass.name
                         val listViewAdapterInnerClass =
-                            findClassIfExists("$listViewAdapterClassName\$a")
-                                ?: return
+                            findClassIfExists("$listViewAdapterClassName\$a") ?: return
                         XposedBridge.hookAllMethods(
                             listViewAdapterInnerClass,
                             "a",
@@ -302,10 +282,7 @@ object BlurSecurity : BaseHook() {
                                         listViewAdapterInnerClass.declaredFields.forEach { field ->
                                             val currentObject = field.get(param.thisObject)
                                             if (currentObject is ImageView) {
-                                                if (getId(currentObject) == "img1" || getId(
-                                                        currentObject
-                                                    ) == "img2"
-                                                ) {
+                                                if (getId(currentObject) == "img1" || getId(currentObject) == "img2") {
                                                     currentObject.setRenderEffect(
                                                         RenderEffect.createColorFilterEffect(
                                                             ColorMatrixColorFilter(
@@ -321,13 +298,7 @@ object BlurSecurity : BaseHook() {
                                                 }
                                             }
                                             if (currentObject is View) {
-                                                if (isInvertColor) {
-                                                    invertViewColor(
-                                                        currentObject,
-                                                        videoBoxWhiteList,
-                                                        videoBoxKeepList
-                                                    )
-                                                }
+                                                invertViewColor(currentObject, videoBoxWhiteList, videoBoxKeepList)
                                             }
                                         }
                                     }
@@ -406,10 +377,11 @@ object BlurSecurity : BaseHook() {
                                 lastChild.setImageDrawable(newDrawable)
                             }
                         }
-                        if (isInvertColor) invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
+                        invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
                     }
                 })
-        }
+
+            }
     }
 
     // 尽量给最外层加 RenderEffect 而不是 最内层
