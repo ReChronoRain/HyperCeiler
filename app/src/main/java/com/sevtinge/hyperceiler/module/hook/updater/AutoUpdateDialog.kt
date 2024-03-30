@@ -4,7 +4,7 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 class AutoUpdateDialog : BaseHook() {
     override fun init() {
-        println("*AUD")
+        //TODO 不写死程序
         findAndHookMethod(
             "com.android.updater.i1",
             "Z2",
@@ -12,7 +12,6 @@ class AutoUpdateDialog : BaseHook() {
             Boolean::class.java,
             object : replaceHookedMethod() {
                 override fun replace(param: MethodHookParam?): Any {
-                    println("asd")
                     return 0
                 }
             }
