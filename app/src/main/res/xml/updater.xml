@@ -48,4 +48,8 @@
         android:key="prefs_key_updater_device"
         app:isPreferenceVisible="true" />
 
+    <SwitchPreference
+        android:title="@string/auto_update_dialog"
+        android:key="prefs_key_auto_update_dialog"
+        android:defaultValue="false" />
 </PreferenceScreen>

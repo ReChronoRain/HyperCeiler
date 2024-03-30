@@ -42,6 +42,6 @@ public class Updater extends BaseModule {
             initHook(DeviceModify.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("updater_device", "")));
         }
         initHook(new VabUpdate(), mPrefsMap.getBoolean("updater_fuck_vab"));
-        initHook(new AutoUpdateDialog());
+        initHook(new AutoUpdateDialog(), mPrefsMap.getBoolean("auto_update_dialog"));
     }
 }
