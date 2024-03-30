@@ -640,7 +640,7 @@
     <string name="system_ui_status_bar_icon_roaming">Hide roaming icon</string>
     <string name="system_ui_status_bar_icon_vowifi">Hide VoWiFi icon</string>
     <string name="system_ui_status_bar_icon_volte">Hide VoLTE icon</string>
-    <string name="system_ui_status_bar_icon_headset">Headset</string>
+    <string name="system_ui_status_bar_icon_headset">Wired Headphones</string>
     <string name="system_ui_status_bar_icon_volume">Volume</string>
     <string name="system_ui_status_bar_icon_data_saver">Data Saver</string>
     <string name="system_ui_status_bar_icon_zen">Zen</string>

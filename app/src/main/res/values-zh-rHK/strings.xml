@@ -590,7 +590,7 @@
     <string name="system_ui_status_bar_icon_roaming">隱藏漫遊圖示</string>
     <string name="system_ui_status_bar_icon_vowifi">隱藏 VoWiFi 圖示</string>
     <string name="system_ui_status_bar_icon_volte">隱藏 VoLTE 圖示</string>
-    <string name="system_ui_status_bar_icon_headset">耳機</string>
+    <string name="system_ui_status_bar_icon_headset">有線耳機</string>
     <string name="system_ui_status_bar_icon_volume">音量</string>
     <string name="system_ui_status_bar_icon_data_saver">數據節省模式</string>
     <string name="system_ui_status_bar_icon_zen">免打擾模式</string>
