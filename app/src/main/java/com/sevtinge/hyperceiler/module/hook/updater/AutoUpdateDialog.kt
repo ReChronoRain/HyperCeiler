@@ -2,41 +2,39 @@ package com.sevtinge.hyperceiler.module.hook.updater
 
 import com.github.kyuubiran.ezxhelper.*
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.utils.*
 import de.robv.android.xposed.XposedBridge.*
+import org.luckypray.dexkit.query.enums.*
 
-class AutoUpdateDialog : BaseHook() {
+object AutoUpdateDialog : BaseHook() {
+    private val find1 by lazy {
+        dexKitBridge.findMethod {
+            matcher {
+                addCall {
+                    addUsingString("isShowAutoSetDialog", StringMatchType.Contains)
+                }
+                paramTypes("boolean", "boolean")
+            }
+        }.single().getMethodInstance(EzXHelper.safeClassLoader)
+    }
+
+    private val find2 by lazy {
+        dexKitBridge.findMethod {
+            matcher {
+                addCall {
+                    addUsingString("isShowMobileDownloadDialog", StringMatchType.Contains)
+                }
+                paramTypes("long", "int")
+            }
+        }.single().getMethodInstance(EzXHelper.safeClassLoader)
+    }
+
     override fun init() {
-        // TODO 不写死程序
-        try {
-            findAndHookMethod(
-                "com.android.updater.i1",
-                "Z2",
-                Boolean::class.java,
-                Boolean::class.java,
-                object : replaceHookedMethod() {
-                    override fun replace(param: MethodHookParam?): Any {
-                        return 0
-                    }
-                }
-            )
-        } catch (e: Exception) {
-            log(e)
-        }
-
-        try {
-            findAndHookMethod(
-                "com.android.updater.i1",
-                "q3",
-                Long::class.java,
-                Int::class.java,
-                object : replaceHookedMethod() {
-                    override fun replace(param: MethodHookParam?): Any {
-                        return 0
-                    }
-                }
-            )
-        } catch (e: Exception) {
-            log(e)
+        logD(TAG, lpparam.packageName, "get find1 is $find1")
+        logD(TAG, lpparam.packageName, "get find2 is $find2")
+        setOf(find1, find2).forEach {
+            it.replaceMethod { 0 }
         }
     }
 }
