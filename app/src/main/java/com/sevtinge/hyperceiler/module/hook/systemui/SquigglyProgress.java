@@ -11,7 +11,8 @@ public class SquigglyProgress extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
         findAndHookConstructor("com.android.systemui.media.controls.models.player.MediaViewHolder",
-                android.view.View.class, new MethodHook() {
+                android.view.View.class,
+                new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
                         SeekBar seekBar = (SeekBar) XposedHelpers.getObjectField(param.thisObject, "seekBar");

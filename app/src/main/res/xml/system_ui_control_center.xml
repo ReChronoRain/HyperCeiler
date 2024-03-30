@@ -224,6 +224,18 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
+        <moralnorm.preference.ColorPickerPreference
+            android:title="@string/system_ui_control_center_media_control_seekbar_color"
+            android:key="prefs_key_system_ui_control_center_media_control_seekbar_color"
+            android:defaultValue="-1"
+            app:showAlphaSlider="true" />
+
+        <moralnorm.preference.ColorPickerPreference
+            android:title="@string/system_ui_control_center_media_control_seekbar_thumb_color"
+            android:key="prefs_key_system_ui_control_center_media_control_seekbar_thumb_color"
+            android:defaultValue="-1"
+            app:showAlphaSlider="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_controlcenter_card_title">

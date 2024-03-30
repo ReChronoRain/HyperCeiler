@@ -33,6 +33,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.DisableBottomBar;
 import com.sevtinge.hyperceiler.module.hook.systemui.DisableMiuiMultiWinSwitch;
 import com.sevtinge.hyperceiler.module.hook.systemui.DisableTransparent;
 import com.sevtinge.hyperceiler.module.hook.systemui.MediaButton;
+import com.sevtinge.hyperceiler.module.hook.systemui.MediaSeekBarColor;
 import com.sevtinge.hyperceiler.module.hook.systemui.MonetThemeOverlay;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFix;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFreeform;
@@ -167,6 +168,8 @@ public class SystemUI extends BaseModule {
         initHook(new UnlockCustomActions(), mPrefsMap.getBoolean("system_ui_control_center_media_control_unlock_custom_actions"));
         initHook(new MediaButton(), mPrefsMap.getInt("system_ui_control_center_media_control_media_button", 140) != 140
                 || mPrefsMap.getInt("system_ui_control_center_media_control_media_button_custom", 140) != 140);
+        initHook(new MediaSeekBarColor(), mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_color", -1) != -1
+                || mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1) != -1);
         initHook(new SquigglyProgress(), mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 1);
         initHook(new MediaControlSeekbarCustom(), mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2);
         initHook(new MediaControlPanelTimeViewTextSize(), mPrefsMap.getInt("system_ui_control_center_media_control_time_view_text_size", 13) != 13);
