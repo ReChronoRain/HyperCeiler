@@ -22,7 +22,6 @@ import android.os.Build;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.AppLockPinScramble;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.BlurSecurity;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.DisableReport;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.GetBubbleAppString;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.InstallIntercept;
@@ -60,6 +59,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.other.LockZeroPoints;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.NoLowBatteryWarning;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.SkipCountDownLimit;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.AddSideBarExpandReceiver;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.BlurSecurity;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.GamePerformanceWildMode;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.UnlockGunService;

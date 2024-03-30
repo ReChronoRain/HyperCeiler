@@ -652,7 +652,7 @@
     <string name="system_ui_status_bar_icon_roaming">隐藏漫游图标</string>
     <string name="system_ui_status_bar_icon_vowifi">隐藏 VoWiFi 图标</string>
     <string name="system_ui_status_bar_icon_volte">隐藏 VoLTE 图标</string>
-    <string name="system_ui_status_bar_icon_headset">耳机</string>
+    <string name="system_ui_status_bar_icon_headset">有线耳机</string>
     <string name="system_ui_status_bar_icon_volume">静音</string>
     <string name="system_ui_status_bar_icon_data_saver">流量节省</string>
     <string name="system_ui_status_bar_icon_zen">勿扰</string>
