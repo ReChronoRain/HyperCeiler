@@ -895,6 +895,7 @@
     <string name="updater_miui_version_desc">僅對系统更新修改，可在一定程度上遮罩系统更新</string>
     <string name="updater_device">偽裝機型</string>
     <string name="updater_device_desc">輸入目標設備代號以指定設備，可用於獲取其他機型的 ROM 包，此功能極度危險</string>
+    <string name="updater_diable_dialog">移除 “開啟自動更新” 對話框</string>
     <!--Permissions-->
     <string name="lbe">權限管理服務</string>
     <string name="clipboard">剪貼簿</string>
