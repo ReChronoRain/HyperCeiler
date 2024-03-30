@@ -47,16 +47,18 @@ public class HideNavigationBar extends BaseHook {
                 new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        View navView = (View) param.thisObject;
-                        boolean misTouch;
-                        boolean setting = Settings.Global.getInt(navView.getContext().getContentResolver(), "show_mistake_touch_toast", 1) == 0;
-                        if (setting) {
-                            param.setResult(setting);
-                            return;
-                        }
                         // boolean mIsShowStatusBar = (boolean) XposedHelpers.callMethod(param.thisObject, "isImmersive");
-                        misTouch = (boolean) XposedHelpers.callMethod(param.thisObject, "isLandScapeActually");
-                        param.setResult(misTouch);
+                        /*boolean mIsShowNavBar = XposedHelpers.getBooleanField(param.thisObject, "mIsShowNavBar");
+                        boolean mHideGestureLine = XposedHelpers.getBooleanField(param.thisObject, "mHideGestureLine");
+                        boolean mIsShowStatusBar = XposedHelpers.getBooleanField(param.thisObject, "mIsShowStatusBar");
+                        logE(TAG, "mIsShowNavBar: " + mIsShowNavBar);
+                        logE(TAG, "mHideGestureLine: " + mHideGestureLine);
+                        logE(TAG, "mIsShowStatusBar: " + mIsShowStatusBar);*/
+                        // 按道理仅横屏时显示也是可以的，不知道为什么小米要判断这么多。
+                        View navView = (View) param.thisObject;
+                        boolean setting = Settings.Global.getInt(navView.getContext().getContentResolver(), "show_mistake_touch_toast", 1) == 1;
+                        boolean misTouch = (boolean) XposedHelpers.callMethod(param.thisObject, "isLandScapeActually");
+                        param.setResult(misTouch && setting);
                     }
                 }
         );
