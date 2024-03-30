@@ -215,9 +215,9 @@
     <string name="array_global_actions_onehanded_left">Chế độ một tay (trái)</string>
     <string name="array_global_actions_onehanded_right">Chế độ một tay (phải)</string>
     <string name="array_global_actions_scrolltotop">Cuộn lên đầu</string>
-    <string name="array_global_actions_expandsidebar">Hiển thị Thanh bên</string>
+    <string name="array_global_actions_expandsidebar">Hiện thanh bên</string>
     <string name="array_global_actions_floatingwindow">Cửa sổ nổi</string>
-    <string name="array_global_actions_pinningwindow">Ghim cửa sổ</string>
+    <string name="array_global_actions_pinningwindow">Cửa sổ bên</string>
     <string name="array_align_top">Trên</string>
     <string name="array_align_bottom">Dưới cùng</string>
     <string name="array_discrete">Riêng lẻ</string>
@@ -514,6 +514,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_navigation_handle_title">Thanh ngang</string>
     <string name="system_ui_hide_navigation_bar">Ẩn thanh ngang</string>
     <string name="system_ui_hide_navigation_bar_toast">Không chuyển đổi phím điều hướng</string>
+    <string name="system_ui_hide_navigation_bar_toast_2">Không ẩn dòng nhắc cử chỉ</string>
     <string name="system_ui_hide_navigation_bar_more">Vui lòng khởi động lại Miui Home và SystemUi</string>
     <string name="system_ui_navigation_handle_custom">Tùy chỉnh thanh ngang</string>
     <string name="system_ui_navigation_handle_custom_height">Chiều cao</string>

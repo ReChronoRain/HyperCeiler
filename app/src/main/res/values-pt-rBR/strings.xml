@@ -217,7 +217,7 @@
     <string name="array_global_actions_scrolltotop">Role para cima</string>
     <string name="array_global_actions_expandsidebar">Exibir barra lateral</string>
     <string name="array_global_actions_floatingwindow">Janela flutuante</string>
-    <string name="array_global_actions_pinningwindow">Fixar janela</string>
+    <string name="array_global_actions_pinningwindow">Janela lateral</string>
     <string name="array_align_top">Topo</string>
     <string name="array_align_bottom">Fundo</string>
     <string name="array_discrete">Separado</string>
@@ -512,6 +512,7 @@
     <string name="system_ui_navigation_handle_title">Indicador de tela infinita</string>
     <string name="system_ui_hide_navigation_bar">Ocultar indicador de tela infinita</string>
     <string name="system_ui_hide_navigation_bar_toast">Não alternar teclas de navegação</string>
+    <string name="system_ui_hide_navigation_bar_toast_2">Não ocultar indicador de tela infinita</string>
     <string name="system_ui_hide_navigation_bar_more">Por favor, reinicie os escopos Launcher do sistema e UI do Sistema.</string>
     <string name="system_ui_navigation_handle_custom">Indicador de tela infinita personalizado</string>
     <string name="system_ui_navigation_handle_custom_height">Altura</string>
@@ -519,7 +520,7 @@
     <string name="system_ui_navigation_handle_custom_width_land">Largura em paisagem</string>
     <string name="system_ui_navigation_handle_custom_thickness">Espessura</string>
     <string name="system_ui_navigation_handle_custom_color">Cor quando estiver no modo claro</string>
-    <string name="system_ui_navigation_handle_custom_color_dark">Cor quando estiver no modo escuro</string>
+    <string name="system_ui_navigation_handle_custom_color_dark">Cor quando estiver no Modo escuro</string>
     <string name="system_ui_navigation_custom">Navegação personalizada</string>
     <string name="system_ui_navigation_custom_height">Altura da navegação</string>
     <string name="system_ui_navigation_custom_height_land">Altura da navegação no modo paisagem</string>
@@ -566,7 +567,7 @@
     <string name="system_ui_statusbar_iconmanage_left_title">Exibir ícones do lado esquerdo</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Exibir ícones do lado direito</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
-    <string name="system_ui_status_bar_icon_wifi_slave">Wi-Fi escravo</string>
+    <string name="system_ui_status_bar_icon_wifi_slave">Wi-Fi auxiliar</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Padrão Wi-Fi</string>
     <string name="system_ui_status_bar_icon_hotspot">Ponto de acesso Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_network_indicator">Indicador de atividade de rede</string>
@@ -629,7 +630,7 @@
     <string name="system_ui_statusbar_network_speed_all_status">Ativar modificação</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Intervalo de atualização da velocidade da rede</string>
     <string name="system_ui_statusbar_network_speed_font_size">Tamanho da fonte da velocidade da rede</string>
-    <string name="system_ui_statusbar_network_speed_font_style">Estilo de fonte da velocidade de rede</string>
+    <string name="system_ui_statusbar_network_speed_font_style">Estilo da fonte da velocidade de rede</string>
     <string name="system_ui_statusbar_network_speed_style">Estilo do indicador da velocidade de rede</string>
     <string name="system_ui_statusbar_network_speed_swap_places">Trocar velocidades de uplink e downlink e posições de ícones</string>
     <string name="system_ui_statusbar_network_speed_hide">Ocultar velocidade de rede lenta</string>
@@ -658,15 +659,15 @@
     <string name="system_ui_statusbar_clock_fix_color">Corrigir cor</string>
     <string name="system_ui_disable_clock_anim">Desativar animação de transição do relógio na central de notificações</string>
     <string name="system_ui_disable_clock_synch">Configurações do relógio da barra de status não sincronizadas</string>
-    <string name="system_ui_disable_clock_synch_desc">O grande relógio da barra de notificação não está mais sincronizado com o formato do relógio da barra de status</string>
+    <string name="system_ui_disable_clock_synch_desc">O grande relógio da central de notificações não está mais sincronizado com o formato do relógio da barra de status</string>
     <string name="system_ui_statusbar_clock_show">Exibir</string>
-    <string name="system_ui_statusbar_clock_big_bold">Grande relógio da barra de notificação em negrito</string>
+    <string name="system_ui_statusbar_clock_big_bold">Grande relógio da central de notificações em negrito</string>
     <string name="system_ui_statusbar_clock_layout_s">Relógio da barra de status</string>
-    <string name="system_ui_statusbar_clock_layout_b">Grande relógio da barra de notificação</string>
-    <string name="system_ui_statusbar_clock_layout_n">Mini-relógio da barra de notificação</string>
-    <string name="system_ui_statusbar_clock_layout_n_desc">Este projeto também contém modificações no relógio da barra de notificação horizontal</string>
+    <string name="system_ui_statusbar_clock_layout_b">Grande relógio da central de notificações</string>
+    <string name="system_ui_statusbar_clock_layout_n">Mini-relógio da central de notificações</string>
+    <string name="system_ui_statusbar_clock_layout_n_desc">Este projeto também contém modificações no relógio da central de notificações horizontal</string>
     <string name="system_ui_statusbar_clock_editor_s">Formato do relógio da barra de status</string>
-    <string name="system_ui_statusbar_clock_editor_n">Formato do mini-relógio da barra de notificação</string>
+    <string name="system_ui_statusbar_clock_editor_n">Formato do mini-relógio da central de notificações</string>
     <string name="system_ui_statusbar_clock_style_f">Arranjo do relógio da barra de status</string>
     <string name="system_ui_statusbar_indicator_battery_title">Relacionado à energia</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Relacionado à temperatura</string>
@@ -728,7 +729,7 @@
     <string name="system_control_center_qs_columns_format">%d colunas</string>
     <string name="system_control_center_qs_columns_horizontal">Colunas (Paisagem)</string>
     <string name="system_ui_control_center_hide_mi_play_entry">Entrada do Mi Play</string>
-    <string name="system_ui_control_center_hide_mi_smart_hub_entry">Entrada do Mi Smart Hub</string>
+    <string name="system_ui_control_center_hide_mi_smart_hub_entry">Entrada do Xiaomi Smart Hub</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">Entrada de controle do dispositivo</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Valor do blur do detalhe de fundo do controle</string>
     <string name="system_ui_control_center_notification_disable_transparent">Desativar modo transparente</string>
@@ -1447,7 +1448,7 @@
     <!--Other-->
     <string name="various">Outros</string>
     <string name="notes">Notas</string>
-    <string name="share_center">Mi Smart Hub</string>
+    <string name="share_center">Xiaomi Smart Hub</string>
     <string name="new_task">Nova tarefa</string>
     <string name="custom_hook">Personalizado</string>
     <string name="app_version_not_supported">Versão não suportada</string>
