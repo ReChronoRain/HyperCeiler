@@ -22,6 +22,7 @@ import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.updater.AndroidVersionCode;
+import com.sevtinge.hyperceiler.module.hook.updater.AutoUpdateDialog;
 import com.sevtinge.hyperceiler.module.hook.updater.DeviceModify;
 import com.sevtinge.hyperceiler.module.hook.updater.VabUpdate;
 import com.sevtinge.hyperceiler.module.hook.updater.VersionCodeModify;
@@ -41,5 +42,6 @@ public class Updater extends BaseModule {
             initHook(DeviceModify.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("updater_device", "")));
         }
         initHook(new VabUpdate(), mPrefsMap.getBoolean("updater_fuck_vab"));
+        initHook(AutoUpdateDialog.INSTANCE, mPrefsMap.getBoolean("updater_diable_dialog"));
     }
 }

@@ -10,6 +10,11 @@
         android:defaultValue="false" />
 
     <SwitchPreference
+        android:title="@string/updater_diable_dialog"
+        android:key="prefs_key_updater_diable_dialog"
+        android:defaultValue="false" />
+
+    <SwitchPreference
         android:title="@string/updater_enable_miui_version"
         android:key="prefs_key_updater_enable_miui_version"
         android:defaultValue="false" />
@@ -47,5 +52,4 @@
         android:summary="@string/updater_device_desc"
         android:key="prefs_key_updater_device"
         app:isPreferenceVisible="true" />
-
 </PreferenceScreen>
