@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.base;
 
+import static com.sevtinge.hyperceiler.callback.ITAG.TAG;
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
@@ -26,6 +27,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersio
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
+import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
 
 import androidx.annotation.CallSuper;
@@ -82,8 +84,8 @@ import com.sevtinge.hyperceiler.module.app.VariousThirdApps;
 import com.sevtinge.hyperceiler.module.app.VoiceAssist;
 import com.sevtinge.hyperceiler.module.app.Weather;
 import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
+import com.sevtinge.hyperceiler.safe.CrashHook;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
@@ -190,7 +192,7 @@ public abstract class BaseXposedInit {
                     mPrefsMap.putAll(allPrefs);
                 }
             } catch (Throwable t) {
-                AndroidLogUtils.logD("setXSharedPrefs", t);
+                XposedLogUtils.logE("setXSharedPrefs", t);
             }
         }
     }
@@ -208,12 +210,12 @@ public abstract class BaseXposedInit {
                     mSystemFramework.init(lpparam);
                     mVariousSystemApps.init(lpparam);
                 }
-                // try {
-                //     new CrashHook(lpparam);
-                //     logI(TAG.TAG, "Success Hook Crash");
-                // } catch (Exception e) {
-                //     logE(TAG.TAG, "Hook Crash E: " + e);
-                // }
+                try {
+                    new CrashHook(lpparam);
+                    logI(TAG, "Success Hook Crash");
+                } catch (Exception e) {
+                    logE(TAG, "Hook Crash E: " + e);
+                }
             }
             case "com.android.systemui" -> {
                 if (isSystemUIModuleEnable() && isMoreAndroidVersion(33)) {
