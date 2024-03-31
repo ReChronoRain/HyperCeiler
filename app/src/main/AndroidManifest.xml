@@ -67,8 +67,7 @@
             android:name=".ui.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="DiscouragedApi,LockedOrientationActivity"
-            android:theme="@style/Theme.HyperCeiler.SystemBarBackgrounds">
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
@@ -88,25 +87,16 @@
                 <category android:name="android.intent.category.CrashDailog" />
             </intent-filter>
         </activity>
-        <!--<activity
-            android:name=".ui.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
-            </intent-filter>
-        </activity>-->
 
         <activity-alias
             android:name=".ui.LauncherActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:targetActivity=".ui.MainActivity"
             android:screenOrientation="portrait"
+            android:targetActivity=".ui.MainActivity"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
@@ -118,7 +108,6 @@
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -167,6 +156,7 @@
                 <action android:name="com.sevtinge.hyperceiler.crash.Service" />
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>
