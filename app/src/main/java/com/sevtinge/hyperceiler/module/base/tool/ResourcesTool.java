@@ -29,12 +29,14 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.content.res.loader.ResourcesLoader;
 import android.content.res.loader.ResourcesProvider;
 import android.os.Build;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.util.Pair;
+import android.util.TypedValue;
 
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
@@ -208,23 +210,37 @@ public class ResourcesTool {
             switch (method.getName()) {
                 case "getInteger", "getLayout", "getBoolean",
                         "getDimension", "getDimensionPixelOffset",
-                        "getDimensionPixelSize", "getText",
+                        "getDimensionPixelSize", "getText", "getFloat",
                         "getIntArray", "getStringArray",
                         "getTextArray", "getAnimation" -> {
                     if (method.getParameterTypes().length == 1
                             && method.getParameterTypes()[0].equals(int.class)) {
-                        hookResMethod(method.getName(), int.class, hookBefore);
+                        hookResMethod(method.getName(), int.class, hookResBefore);
+                    }
+                }
+                case "getColor" -> {
+                    if (method.getParameterTypes().length == 2) {
+                        hookResMethod(method.getName(), int.class, Resources.Theme.class, hookResBefore);
                     }
                 }
                 case "getFraction" -> {
                     if (method.getParameterTypes().length == 3) {
-                        hookResMethod(method.getName(), int.class, int.class, int.class, hookBefore);
+                        hookResMethod(method.getName(), int.class, int.class, int.class, hookResBefore);
                     }
                 }
                 case "getDrawableForDensity" -> {
                     if (method.getParameterTypes().length == 3) {
-                        hookResMethod(method.getName(), int.class, int.class, Resources.Theme.class, hookBefore);
+                        hookResMethod(method.getName(), int.class, int.class, Resources.Theme.class, hookResBefore);
                     }
+                }
+            }
+        }
+
+        Method[] typedMethod = TypedArray.class.getDeclaredMethods();
+        for (Method method : typedMethod) {
+            switch (method.getName()) {
+                case "getColor" -> {
+                    hookTypedMethod(method.getName(), int.class, int.class, hookTypedBefore);
                 }
             }
         }
@@ -232,6 +248,11 @@ public class ResourcesTool {
 
     private void hookResMethod(String name, Object... args) {
         XC_MethodHook.Unhook unhook = HookTool.findAndHookMethod(Resources.class, name, args);
+        unhooks.add(unhook);
+    }
+
+    private void hookTypedMethod(String name, Object... args) {
+        XC_MethodHook.Unhook unhook = HookTool.findAndHookMethod(TypedArray.class, name, args);
         unhooks.add(unhook);
     }
 
@@ -247,7 +268,27 @@ public class ResourcesTool {
         isInit = false;
     }
 
-    private final HookTool.MethodHook hookBefore = new HookTool.MethodHook() {
+    private final HookTool.MethodHook hookTypedBefore = new HookTool.MethodHook() {
+        @Override
+        protected void before(MethodHookParam param) {
+            Resources mResources = (Resources) XposedHelpers.getObjectField(param.thisObject, "mResources");
+            int index = (int) param.args[0];
+            int[] mData = (int[]) XposedHelpers.getObjectField(param.thisObject, "mData");
+            int type = mData[index + 0];
+            if (type == TypedValue.TYPE_NULL) {
+                return;
+            }
+            int id = mData[index + 3];
+            if (id != 0) {
+                Object value = getTypedArrayReplacement(mResources, id);
+                if (value != null) {
+                    param.setResult(value);
+                }
+            }
+        }
+    };
+
+    private final HookTool.MethodHook hookResBefore = new HookTool.MethodHook() {
         @Override
         protected void before(MethodHookParam param) {
             Context context;
@@ -394,6 +435,43 @@ public class ResourcesTool {
             }
         } catch (Throwable t) {
             XposedLogUtils.logE("getResourceReplacement", t);
+        }
+        return null;
+    }
+
+    private Object getTypedArrayReplacement(Resources resources, int id) {
+        if (id != 0) {
+            String pkgName = null;
+            String resType = null;
+            String resName = null;
+            try {
+                pkgName = resources.getResourcePackageName(id);
+                resType = resources.getResourceTypeName(id);
+                resName = resources.getResourceEntryName(id);
+            } catch (Throwable ignore) {
+            }
+            if (pkgName == null || resType == null || resName == null) return null;
+
+            try {
+                String resFullName = pkgName + ":" + resType + "/" + resName;
+                String resAnyPkgName = "*:" + resType + "/" + resName;
+
+                Pair<ReplacementType, Object> replacement = null;
+                if (replacements.containsKey(resFullName)) {
+                    replacement = replacements.get(resFullName);
+                } else if (replacements.containsKey(resAnyPkgName)) {
+                    replacement = replacements.get(resAnyPkgName);
+                }
+                if (replacement != null) {
+                    switch (replacement.first) {
+                        case OBJECT -> {
+                            return replacement.second;
+                        }
+                    }
+                }
+            } catch (Throwable e) {
+                XposedLogUtils.logE("getTypedArrayReplacement", e);
+            }
         }
         return null;
     }

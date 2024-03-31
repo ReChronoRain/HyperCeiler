@@ -31,7 +31,6 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.CleanOpenMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.VolumeSeparateControlForSettings;
-import com.sevtinge.hyperceiler.module.hook.systemui.navigation.HandleLineCustom;
 import com.sevtinge.hyperceiler.module.hook.tsmclient.AutoNfc;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
@@ -67,7 +66,7 @@ public class XposedInit extends BaseXposedInit implements IXposedHookInitPackage
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if ("com.miui.contentcatcher".equals(lpparam.packageName) ||
-            "com.miui.catcherpatch".equals(lpparam.packageName)) {
+                "com.miui.catcherpatch".equals(lpparam.packageName)) {
             return;
         }
         init(lpparam);
@@ -95,12 +94,6 @@ public class XposedInit extends BaseXposedInit implements IXposedHookInitPackage
             case "com.miui.securitycenter":
                 if (mPrefsMap.getBoolean("security_center_sidebar_line_color")) {
                     SidebarLineCustom.INSTANCE.initResource(resparam);
-                }
-                break;
-
-            case "com.android.systemui":
-                if (mPrefsMap.getBoolean("system_ui_navigation_handle_custom")) {
-                    HandleLineCustom.INSTANCE.initResource(resparam);
                 }
                 break;
         }
