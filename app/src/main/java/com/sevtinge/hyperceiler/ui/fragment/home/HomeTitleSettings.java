@@ -30,8 +30,6 @@ import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.ui.fragment.helper.CantSeeAppsFragment;
-import com.sevtinge.hyperceiler.ui.fragment.helper.HomepageEntrance;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 
 import moralnorm.preference.Preference;

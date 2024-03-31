@@ -94,7 +94,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                                 pkg = appData1.packageName;
                             }
                         }
-                        if (!(pkg == null || pkg.equals(""))) {
+                        if (!(pkg == null || pkg.isEmpty())) {
                             showOutDialog(listToString("PID：       Process：\n",
                                 pidAndPkg(pkg)));
                             return;
@@ -107,18 +107,18 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                 showInDialog(new EditDialogCallback() {
                     @Override
                     public void onInputReceived(String userInput) {
-                        if (!userInput.equals("")) {
+                        if (!userInput.isEmpty()) {
                             String pkg = "";
                             for (AppData appData1 : appData) {
                                 if (appData1.packageName.equalsIgnoreCase(userInput)) {
                                     pkg = appData1.packageName;
                                 }
                             }
-                            if (pkg.equals("")) {
+                            if (pkg.isEmpty()) {
                                 showOutDialog("包名错误或不存在，请查证后输入！\n" + "\"" + userInput + "\"");
                                 return;
                             }
-                            if (pidAndPkg(pkg).size() != 0) {
+                            if (!pidAndPkg(pkg).isEmpty()) {
                                 String result = listToString("成功 Kill：\n", pidAndPkg(pkg));
                                 if (killPackage(pkg)) {
                                     showOutDialog(result);
@@ -136,15 +136,15 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                 showInDialog(new EditDialogCallback() {
                     @Override
                     public void onInputReceived(String userInput) {
-                        if (!userInput.equals("")) {
+                        if (!userInput.isEmpty()) {
                             String pkg = "";
                             for (AppData appData1 : appData) {
                                 if (appData1.label.equalsIgnoreCase(userInput)) {
                                     pkg = appData1.packageName;
                                 }
                             }
-                            if (!(pkg == null || pkg.equals(""))) {
-                                if (pidAndPkg(pkg).size() != 0) {
+                            if (!(pkg == null || pkg.isEmpty())) {
+                                if (!pidAndPkg(pkg).isEmpty()) {
                                     String result = listToString("成功 Kill：\n", pidAndPkg(pkg));
                                     if (killPackage(pkg)) {
                                         showOutDialog(result);
@@ -172,7 +172,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
             .add(" ps -A -o PID,ARGS=CMD | grep \"" + pkg + "\" | grep -v \"grep\"")
             .add("fi").over().sync();
         ArrayList<String> pid = mShell.getOutPut();
-        if (pid.size() == 0) {
+        if (pid.isEmpty()) {
             return new ArrayList<>();
         }
         if (pid.get(0).equals("No Find Pid!")) {
@@ -233,7 +233,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
             .setCancelable(false)
             .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                 String userInput = input.getText().toString();
-                if (userInput.equals("")) {
+                if (userInput.isEmpty()) {
                     dialog.dismiss();
                     showInDialog(callback);
                     return;

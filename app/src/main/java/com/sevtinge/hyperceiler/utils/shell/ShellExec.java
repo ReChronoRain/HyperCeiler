@@ -148,7 +148,7 @@ public class ShellExec {
             Error.setOutputListen(listen);
             Check.setOutputListen(listen);
             this.result = result;
-            boolean need = command != null && !("".equals(command));
+            boolean need = command != null && !(command.isEmpty());
             process = Runtime.getRuntime().exec(root ? "su" : "sh");
             // 注意处理
             if (root) {
