@@ -16,8 +16,8 @@ public class HandleLineCustom extends BaseHook {
         int mNavigationHandleDarkColor =
                 mPrefsMap.getInt("system_ui_navigation_handle_custom_color_dark", -1);
         mResHook.setObjectReplacement("com.android.systemui", "color",
-                "navigation_bar_home_handle_dark_color", mNavigationHandleDarkColor);
+                "navigation_bar_home_handle_dark_color", mNavigationHandleLightColor);
         mResHook.setObjectReplacement("com.android.systemui", "color",
-                "navigation_bar_home_handle_light_color", mNavigationHandleLightColor);
+                "navigation_bar_home_handle_light_color", mNavigationHandleDarkColor);
     }
 }

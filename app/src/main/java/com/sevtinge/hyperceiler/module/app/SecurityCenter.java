@@ -147,5 +147,8 @@ public class SecurityCenter extends BaseModule {
 
         // initHook(new EnableGameSpeed(), mPrefsMap.getBoolean("security_center_game_speed"));
 
+        //reshook
+        initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
+
     }
 }

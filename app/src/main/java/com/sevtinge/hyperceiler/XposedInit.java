@@ -39,7 +39,7 @@ import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class XposedInit extends BaseXposedInit implements IXposedHookInitPackageResources, IXposedHookZygoteInit, IXposedHookLoadPackage {
+public class XposedInit extends BaseXposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     private final String TAG = "HyperCeiler";
 
     @Override
@@ -71,31 +71,5 @@ public class XposedInit extends BaseXposedInit implements IXposedHookInitPackage
         }
         init(lpparam);
         new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
-    }
-
-    @Override
-    public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) throws Throwable {
-        switch (resparam.packageName) {
-            case "com.miui.tsmclient":
-                if (mPrefsMap.getBoolean("tsmclient_auto_nfc")) {
-                    AutoNfc.INSTANCE.initResource(resparam);
-                }
-                break;
-
-            case "com.miui.home":
-                if (mPrefsMap.getBoolean("home_other_icon_monet_color")) {
-                    EnableIconMonetColor.INSTANCE.initResource(resparam);
-                }
-                if (mPrefsMap.getBoolean("home_other_allow_share_apk")) {
-                    new AllowShareApk().initResource(resparam);
-                }
-                break;
-
-            case "com.miui.securitycenter":
-                if (mPrefsMap.getBoolean("security_center_sidebar_line_color")) {
-                    SidebarLineCustom.INSTANCE.initResource(resparam);
-                }
-                break;
-        }
     }
 }
