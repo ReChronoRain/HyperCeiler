@@ -215,7 +215,7 @@ public class ShellUtils {
             }
         }
         return new CommandResult(result, successMsg == null ? null : successMsg.toString(), errorMsg == null ? null
-            : errorMsg.toString());
+                : errorMsg.toString());
     }
 
     /**

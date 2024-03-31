@@ -67,12 +67,35 @@
             android:name=".ui.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="DiscouragedApi,LockedOrientationActivity">
+            tools:ignore="DiscouragedApi,LockedOrientationActivity"
+            android:theme="@style/Theme.HyperCeiler.SystemBarBackgrounds">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".safe.CrashReportActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.HyperCeiler.Translucent.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.Crash" />
+                <category android:name="android.intent.category.CrashDailog" />
+            </intent-filter>
+        </activity>
+        <!--<activity
+            android:name=".ui.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>-->
 
         <activity-alias
             android:name=".ui.LauncherActivity"
@@ -135,6 +158,15 @@
         <meta-data
             android:name="xposedscope"
             android:resource="@array/xposed_scope" />
+
+        <service
+            android:name="com.sevtinge.hyperceiler.safe.CrashService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.sevtinge.hyperceiler.crash.Service" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
