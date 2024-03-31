@@ -228,9 +228,8 @@ public class Helpers {
             Object parser = parserCls.newInstance();
             File apkPath = new File(lpparam.appInfo.sourceDir);
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
-            String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
             //XposedLogUtils.logI("getPackageVersionName", lpparam.packageName + " versionName is " + versionName);
-            return versionName;
+            return (String) XposedHelpers.getObjectField(pkg, "mVersionName");
         } catch (Throwable e) {
             //XposedLogUtils.logW("getPackageVersionName", e);
             return "null";
@@ -243,9 +242,8 @@ public class Helpers {
             Object parser = parserCls.newInstance();
             File apkPath = new File(lpparam.appInfo.sourceDir);
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
-            int versionCode = XposedHelpers.getIntField(pkg, "mVersionCode");
             //XposedLogUtils.logI("getPackageVersionCode", lpparam.packageName + " versionCode is " + versionCode);
-            return versionCode;
+            return XposedHelpers.getIntField(pkg, "mVersionCode");
         } catch (Throwable e) {
             //XposedLogUtils.logW("getPackageVersionCode", e);
             return -1;

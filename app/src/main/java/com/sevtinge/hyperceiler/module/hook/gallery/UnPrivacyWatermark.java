@@ -84,9 +84,8 @@ public class UnPrivacyWatermark extends BaseHook {
         float max = (float) ((Math.max(i6 / mHeight, mHeight / i6) * Math.sin(abs)) + 1.0d);
         if (angle != 90) {
             if (angle == 180) {
-                float f3 = mHeight;
-                i4 = (int) (max * f3);
-                canvas.translate(i6 - height2, f3 - height3);
+                i4 = (int) (max * (float) mHeight);
+                canvas.translate(i6 - height2, (float) mHeight - height3);
             } else if (angle == 270) {
                 float f4 = i6;
                 i4 = (int) (max * f4);

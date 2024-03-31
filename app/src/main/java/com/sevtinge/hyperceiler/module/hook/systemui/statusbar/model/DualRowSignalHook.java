@@ -74,14 +74,14 @@ public class DualRowSignalHook extends BaseHook {
                     for (int slot = 1; slot <= 2; slot++) {
                         for (int lvl = 0; lvl <= 5; lvl++) {
                             for (String colorMode : colorModeList) {
-                                String colorModeEq = !colorMode.equals("") ? ("_" + colorMode) : "";
+                                String colorModeEq = !colorMode.isEmpty() ? ("_" + colorMode) : "";
                                 if (selectedIconTheme == 1) {
                                     String dualIconResName = "statusbar_signal_classic_" + slot + "_" + lvl + colorModeEq;
                                     int iconResId = modRes.getIdentifier(dualIconResName, "drawable", ProjectApi.mAppModulePkg);
                                     dualSignalResMap.put(dualIconResName, iconResId);
                                 } else if (selectedIconTheme == 2) {
                                     if (!selectedIconStyle.equals("theme") || !colorMode.equals("tint")) {
-                                        String dualIconResName = "statusbar_signal_oa_" + slot + "_" + lvl + colorModeEq + (!selectedIconStyle.equals("") ? ("_" + selectedIconStyle) : "");
+                                        String dualIconResName = "statusbar_signal_oa_" + slot + "_" + lvl + colorModeEq + (!selectedIconStyle.isEmpty() ? ("_" + selectedIconStyle) : "");
                                         int iconResId = modRes.getIdentifier(dualIconResName, "drawable", ProjectApi.mAppModulePkg);
                                         dualSignalResMap.put(dualIconResName, iconResId);
                                     }
@@ -231,7 +231,7 @@ public class DualRowSignalHook extends BaseHook {
                     colorMode = "_dark";
                 }
                 String iconStyle = "";
-                if (!selectedIconStyle.equals("")) {
+                if (!selectedIconStyle.isEmpty()) {
                     iconStyle = "_" + selectedIconStyle;
                 }
                 String sim1IconId;

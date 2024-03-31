@@ -75,7 +75,7 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
         assert appInfo != null;
         if (mMode == AppPicker.INPUT_MODE) {
             String edit = getEdit(appInfo.packageName);
-            if (!edit.equals("")) {
+            if (!edit.isEmpty()) {
                 appName.setText(edit);
             } else {
                 appName.setText(appInfo.label);
@@ -105,7 +105,7 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
                 }
             }
         }
-        if (string2 != null && !string2.equals("")) {
+        if (string2 != null && !string2.isEmpty()) {
             for (int i = 0; i < appLists.size(); i++) {
                 AppArrayList arrayList = appLists.get(i);
                 if (arrayList.mPackageName.equals(packageName)) {

@@ -18,28 +18,19 @@
 */
 package com.sevtinge.hyperceiler.ui;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLanguage;
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.R;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 

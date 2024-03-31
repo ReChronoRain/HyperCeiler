@@ -147,7 +147,7 @@ public class DevelopmentPrefsFragment extends SettingsPreferenceFragment {
             .setCancelable(false)
             .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                 String userInput = input.getText().toString();
-                if (userInput.equals("")) {
+                if (userInput.isEmpty()) {
                     dialog.dismiss();
                     showInDialog(callback);
                     return;

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.appcompat.app.AppCompatActivity;
 
 public class CrashReportActivity extends AppCompatActivity {

@@ -88,7 +88,7 @@ public class LinkOpenMode extends BaseHook {
         Uri uri = Uri.parse("http://");
         intent.setDataAndType(uri, null);
         List<ResolveInfo> resolveInfoList = context.getPackageManager().queryIntentActivities(intent, PackageManager.GET_INTENT_FILTERS);
-        if (resolveInfoList.size() > 0) {
+        if (!resolveInfoList.isEmpty()) {
             ActivityInfo activityInfo = resolveInfoList.get(0).activityInfo;
             return activityInfo.packageName;
         } else {

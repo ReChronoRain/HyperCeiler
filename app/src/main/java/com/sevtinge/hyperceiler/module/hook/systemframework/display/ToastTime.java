@@ -41,7 +41,7 @@ public class ToastTime extends BaseHook {
                     Context mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getContext");
                     Handler mHandler = (Handler) XposedHelpers.getObjectField(param.thisObject, "mHandler");
                     ArrayList<Object> mToastQueue = (ArrayList<Object>) XposedHelpers.getObjectField(param.thisObject, "mToastQueue");
-                    if (mContext == null || mHandler == null || mToastQueue == null || mToastQueue.size() == 0)
+                    if (mContext == null || mHandler == null || mToastQueue == null || mToastQueue.isEmpty())
                         return;
                     int mod = (PrefsUtils.getSharedIntPrefs(mContext, "system_ui_display_toast_times", 0) - 4) * 1000;
                     for (Object record : mToastQueue)

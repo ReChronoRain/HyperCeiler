@@ -60,7 +60,6 @@ public class AddSideBarExpandReceiver extends BaseHook {
                     View view = (View) param.args[0];
                     if (originDockLocation == -1) {
                         originDockLocation = view.getContext().getSharedPreferences("sp_video_box", 0).getInt("dock_line_location", 0);
-                        ;
                     }
                     BroadcastReceiver showReceiver = new BroadcastReceiver() {
                         @Override

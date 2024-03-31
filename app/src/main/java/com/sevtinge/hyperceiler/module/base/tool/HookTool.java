@@ -271,7 +271,7 @@ public class HookTool extends XposedTool {
         try {
             Class<?> hookClass = findClassIfExists(className);
             if (hookClass != null) {
-                return XposedBridge.hookAllMethods(hookClass, methodName, callback).size() > 0;
+                return !XposedBridge.hookAllMethods(hookClass, methodName, callback).isEmpty();
             }
         } catch (Throwable ignored) {
             return false;
@@ -282,7 +282,7 @@ public class HookTool extends XposedTool {
     public boolean hookAllMethodsBoolean(Class<?> hookClass, String methodName, MethodHook callback) {
         try {
             if (hookClass != null) {
-                return XposedBridge.hookAllMethods(hookClass, methodName, callback).size() > 0;
+                return !XposedBridge.hookAllMethods(hookClass, methodName, callback).isEmpty();
             }
             return false;
         } catch (Throwable t) {

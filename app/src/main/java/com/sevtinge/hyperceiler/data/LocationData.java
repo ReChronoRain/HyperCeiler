@@ -109,6 +109,6 @@ public class LocationData {
     }
 
     public String toString() {
-        return String.valueOf(Latitude) + "," + String.valueOf(Longitude) + "," + String.valueOf(Offset) + "," + String.valueOf(RegionCode) + "," + String.valueOf(BaseStationCode) + "," + Remarks;
+        return Latitude + "," + Longitude + "," + Offset + "," + RegionCode + "," + BaseStationCode + "," + Remarks;
     }
 }

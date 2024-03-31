@@ -1,11 +1,5 @@
 package com.sevtinge.hyperceiler.module.hook.calendar;
 
-import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 
