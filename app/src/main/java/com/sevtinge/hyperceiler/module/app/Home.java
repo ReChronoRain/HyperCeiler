@@ -111,6 +111,7 @@ import com.sevtinge.hyperceiler.module.hook.home.title.BigIconCorner;
 import com.sevtinge.hyperceiler.module.hook.home.title.DisableHideFile;
 import com.sevtinge.hyperceiler.module.hook.home.title.DisableHideTheme;
 import com.sevtinge.hyperceiler.module.hook.home.title.DownloadAnimation;
+import com.sevtinge.hyperceiler.module.hook.home.title.EnableIconMonetColor;
 import com.sevtinge.hyperceiler.module.hook.home.title.EnableIconMonoChrome;
 import com.sevtinge.hyperceiler.module.hook.home.title.FakeNonDefaultIcon;
 import com.sevtinge.hyperceiler.module.hook.home.title.FixAnimation;
@@ -300,6 +301,10 @@ public class Home extends BaseModule {
             initHook(EnableMoreSetting.INSTANCE, mMoreSetting);
             initHook(EnableHideGestureLine.INSTANCE, mMoreSetting);
         }
+
+        //reshook
+        initHook(EnableIconMonetColor.INSTANCE, mPrefsMap.getBoolean("home_other_icon_monet_color"));
+        initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
     }
 
 }
