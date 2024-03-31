@@ -264,7 +264,7 @@ public class SystemUI extends BaseModule {
         initHook(new StatusBarIconPositionAdjust(), isStatusBarIconAtRightEnable);
 
         // 导航栏
-        initHook(HandleLineCustom.INSTANCE, mPrefsMap.getBoolean("system_ui_navigation_handle_custom"));
+        initHook(new HandleLineCustom(), mPrefsMap.getBoolean("system_ui_navigation_handle_custom"));
         initHook(new NavigationCustom(), mPrefsMap.getBoolean("system_ui_navigation_custom"));
         initHook(new HideNavigationBar(), mPrefsMap.getBoolean("system_ui_hide_navigation_bar"));
         initHook(new RotationButton(), mPrefsMap.getStringAsInt("system_framework_other_rotation_button_int", 0) != 0);
