@@ -100,8 +100,6 @@ public class CrashData {
         }
         return swappedMap;
     }
-
-
 }
 
 /**

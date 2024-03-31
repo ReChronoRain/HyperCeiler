@@ -22,12 +22,10 @@ import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.module.base.dexkit.InitDexKit;
-import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.safe.CrashData;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.PropUtils;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
 
@@ -47,7 +45,7 @@ public abstract class BaseModule implements IXposedHook {
     public void init(LoadPackageParam lpparam) {
         if (swappedMap.isEmpty()) swappedMap = CrashData.swappedData();
         if (needIntercept(lpparam.packageName)) {
-            AndroidLogUtils.logI(TAG, "进入安全模式: " + lpparam.packageName);
+            XposedLogUtils.logI(TAG, "进入安全模式: " + lpparam.packageName);
             return;
         }
         EzXHelper.initHandleLoadPackage(lpparam);

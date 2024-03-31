@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.base;
 
+import static com.sevtinge.hyperceiler.callback.ITAG.TAG;
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
@@ -31,7 +32,6 @@ import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
 
 import androidx.annotation.CallSuper;
 
-import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.module.app.AiAsst;
 import com.sevtinge.hyperceiler.module.app.Aod;
 import com.sevtinge.hyperceiler.module.app.Backup;
@@ -210,12 +210,12 @@ public abstract class BaseXposedInit {
                     mSystemFramework.init(lpparam);
                     mVariousSystemApps.init(lpparam);
                 }
-                // try {
-                //     new CrashHook(lpparam);
-                //     logI(TAG.TAG, "Success Hook Crash");
-                // } catch (Exception e) {
-                //     logE(TAG.TAG, "Hook Crash E: " + e);
-                // }
+                try {
+                    new CrashHook(lpparam);
+                    logI(TAG, "Success Hook Crash");
+                } catch (Exception e) {
+                    logE(TAG, "Hook Crash E: " + e);
+                }
             }
             case "com.android.systemui" -> {
                 if (isSystemUIModuleEnable() && isMoreAndroidVersion(33)) {

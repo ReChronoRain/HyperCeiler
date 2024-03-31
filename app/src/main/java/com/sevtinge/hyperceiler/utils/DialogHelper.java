@@ -38,58 +38,59 @@ public class DialogHelper {
 
     public static void showDialog(Activity activity, String title, String message, DialogInterface.OnClickListener onClickListener) {
         new AlertDialog.Builder(activity)
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton(android.R.string.ok, onClickListener)
-            .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
-            .show();
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, onClickListener)
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     public static void showDialog(Activity activity, int title, int message, DialogInterface.OnClickListener onClickListener) {
         new AlertDialog.Builder(activity)
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton(android.R.string.ok, onClickListener)
-            .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
-            .show();
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, onClickListener)
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
 
     public static void showPositiveButtonDialog(Activity activity, String title, String message, DialogInterface.OnClickListener onClickListener) {
         new AlertDialog.Builder(activity)
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton(android.R.string.ok, onClickListener)
-            .show();
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, onClickListener)
+                .show();
     }
 
     public static void showXposedActivateDialog(Context context) {
         new AlertDialog.Builder(context)
-            .setCancelable(false)
-            .setTitle(R.string.tip)
-            .setMessage(R.string.hook_failed)
-            .setHapticFeedbackEnabled(true)
-            .setPositiveButton(R.string.exit, (dialogInterface, i) -> System.exit(0))
-            .setNegativeButton(R.string.ignore, null)
-            .show();
+                .setCancelable(false)
+                .setTitle(R.string.tip)
+                .setMessage(R.string.hook_failed)
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(R.string.exit, (dialogInterface, i) -> System.exit(0))
+                .setNegativeButton(R.string.ignore, null)
+                .show();
     }
 
     public static void showRestartDialog(Context context) {
         new RestartAlertDialog(context).show();
     }
 
-    public static void showCrashReportDialog(Activity activity, String pkg, View view) {
+    public static void showCrashReportDialog(Activity activity, View view) {
         new AlertDialog.Builder(activity)
-            .setCancelable(false)
-            .setTitle("警告")
-            .setView(view)
-            .setHapticFeedbackEnabled(true)
-            .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                ShellExec shellExec = ShellInit.getShell();
-                shellExec.run("setprop persist.hyperceiler.crash.report \"\"").sync();
-                shellExec.run("settings put system hyperceiler_crash_report \"[]\"").sync();
-                activity.finish();
-            })
-            .show();
+                .setCancelable(false)
+                .setTitle("警告")
+                .setView(view)
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    ShellExec shellExec = ShellInit.getShell();
+                    shellExec.run("setprop persist.hyperceiler.crash.report \"\"").sync();
+                    shellExec.run("settings put system hyperceiler_crash_report \"[]\"").sync();
+                    activity.finish();
+                })
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> activity.finish())
+                .show();
     }
 }

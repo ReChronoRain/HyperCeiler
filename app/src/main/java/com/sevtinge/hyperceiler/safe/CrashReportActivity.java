@@ -1,12 +1,12 @@
 package com.sevtinge.hyperceiler.safe;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.appcompat.app.AppCompatActivity;
 
 public class CrashReportActivity extends AppCompatActivity {
@@ -27,6 +28,7 @@ public class CrashReportActivity extends AppCompatActivity {
 
     private static HashMap<String, String> swappedMap = CrashData.swappedData();
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
@@ -35,17 +37,26 @@ public class CrashReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crash_dialog);
         Intent intent = getIntent();
         String code = intent.getStringExtra("key_report");
+        String stackTrace = intent.getStringExtra("key_stackTrace");
+        String longMsg = intent.getStringExtra("key_longMsg");
         String pkg = getReportCrashPkg(code);
         View view = LayoutInflater.from(this).inflate(R.layout.crash_report_dialog, null);
         mMessageTv = view.findViewById(R.id.tv_message);
-        mMessageTv.setText(pkg + "已进入安全模式，点击确定取消");
+        mMessageTv.setText("作用域: " + "\n\"" + pkg + "\"\n已进入安全模式,点击确定解除，点击取消稍后处理。");
         mCrashRecordTv = view.findViewById(R.id.tv_record);
         mCrashRecordTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);// 下划线并加清晰
         mCrashRecordTv.getPaint().setAntiAlias(true);// 抗锯齿
         mCrashRecordTv.setOnClickListener(v -> {
-            Toast.makeText(this, "查看异常记录", Toast.LENGTH_SHORT).show();
+            new AlertDialog.Builder(v.getContext())
+                    .setCancelable(false)
+                    .setTitle("异常记录")
+                    .setMessage("异常信息: \n" + longMsg + "\n堆栈跟踪: \n" + stackTrace)
+                    .setHapticFeedbackEnabled(true)
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
+                    .show();
+            // Toast.makeText(this, "查看异常记录", Toast.LENGTH_SHORT).show();
         });
-        DialogHelper.showCrashReportDialog(this, pkg, view);
+        DialogHelper.showCrashReportDialog(this, view);
     }
 
     private String getReportCrashPkg(String data) {
