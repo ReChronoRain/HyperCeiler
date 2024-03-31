@@ -40,7 +40,7 @@ android {
         minSdk 30
         targetSdk 34
         versionCode 141 // Deliberate
-        versionName "2.4.142"
+        versionName "2.4.141"
         project.archivesBaseName = "HyperCeiler"
         ndk {
             // noinspection ChromeOsAbiSupport
@@ -106,11 +106,11 @@ android {
     }
 
     buildTypes {
-        release {
+        bamboo {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-log.pro'
-            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
+            versionNameSuffix "_14060332"
             buildConfigField "String", "GIT_HASH", "\"${gitHash}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler

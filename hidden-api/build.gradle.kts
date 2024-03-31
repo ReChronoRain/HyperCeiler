@@ -7,7 +7,7 @@ android {
     compileSdk = 34
     namespace = "com.android.internal"
     buildTypes {
-        getByName("release") {
+        create("bamboo") {
             isMinifyEnabled = false
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
         }
