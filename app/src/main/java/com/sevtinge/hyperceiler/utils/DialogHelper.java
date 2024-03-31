@@ -93,4 +93,14 @@ public class DialogHelper {
                 .setNegativeButton(android.R.string.cancel, (dialog, which) -> activity.finish())
                 .show();
     }
+
+    public static void showCrashMsgDialog(Context context, String longMsg, String stackTrace) {
+        new AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setTitle("异常记录")
+                .setMessage("异常信息: \n" + longMsg + "\n堆栈跟踪: \n" + stackTrace)
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
+                .show();
+    }
 }

@@ -45,17 +45,8 @@ public class CrashReportActivity extends AppCompatActivity {
         mMessageTv.setText("作用域: " + "\n\"" + pkg + "\"\n已进入安全模式,点击确定解除，点击取消稍后处理。");
         mCrashRecordTv = view.findViewById(R.id.tv_record);
         mCrashRecordTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);// 下划线并加清晰
-        mCrashRecordTv.getPaint().setAntiAlias(true);// 抗锯齿
-        mCrashRecordTv.setOnClickListener(v -> {
-            new AlertDialog.Builder(v.getContext())
-                    .setCancelable(false)
-                    .setTitle("异常记录")
-                    .setMessage("异常信息: \n" + longMsg + "\n堆栈跟踪: \n" + stackTrace)
-                    .setHapticFeedbackEnabled(true)
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
-                    .show();
-            // Toast.makeText(this, "查看异常记录", Toast.LENGTH_SHORT).show();
-        });
+        mCrashRecordTv.getPaint().setAntiAlias(true);
+        mCrashRecordTv.setOnClickListener(v -> DialogHelper.showCrashMsgDialog(this, longMsg, stackTrace));
         DialogHelper.showCrashReportDialog(this, view);
     }
 
