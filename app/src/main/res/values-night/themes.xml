@@ -1,28 +1,15 @@
 <resources>
-
-    <style name="Base.Theme.HyperCeiler.DayNight" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.Dark</item>
+    <style name="Theme.HyperCeiler.SystemBarBackgrounds">
         <item name="android:forceDarkAllowed">false</item>
-        <item name="rebootIconColor">@color/white</item>
-        <item name="android:windowTranslucentNavigation">true</item>
-        <item name="seekBarPreferenceExStyle">@style/Preference.SeekBarPreferenceEx</item>
-    </style>
-
-    <style name="Base.Theme.HyperCeiler.DayNight.SystemBarBackgrounds" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.Dark</item>
-        <item name="android:forceDarkAllowed">false</item>
-        <item name="rebootIconColor">@color/white</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="seekBarPreferenceExStyle">@style/Preference.SeekBarPreferenceEx</item>
     </style>
 
-    <style name="Theme.Transparent" parent="Theme.AppCompat">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowFullscreen">true</item>
+    <style name="Base.Theme.HyperCeiler" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="rebootIconColor">@color/white</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.Dark</item>
+        <item name="seekBarPreferenceExStyle">@style/Preference.SeekBarPreferenceEx</item>
     </style>
 </resources>

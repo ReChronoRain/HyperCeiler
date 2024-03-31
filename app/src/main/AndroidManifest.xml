@@ -66,7 +66,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            android:theme="@style/Base.Theme.HyperCeiler.DayNight.SystemBarBackgrounds">
+            android:theme="@style/Theme.HyperCeiler.SystemBarBackgrounds">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
@@ -75,11 +75,12 @@
 
         <activity
             android:name=".safe.CrashReportActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
+            android:exported="true"
             android:finishOnTaskLaunch="true"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.HyperCeiler.Translucent.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.Crash" />
                 <category android:name="android.intent.category.CrashDailog" />
@@ -115,9 +116,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.ModuleSettingsActivity"
-            android:label="@string/settings" />
+
         <activity android:name=".ui.SubPickerActivity" />
 
         <provider

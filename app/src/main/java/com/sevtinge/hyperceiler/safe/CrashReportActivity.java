@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
@@ -30,16 +32,19 @@ public class CrashReportActivity extends AppCompatActivity {
         super.onCreate(bundle);
         ShellInit.init();
         if (swappedMap.isEmpty()) swappedMap = CrashData.swappedData();
-        setContentView(com.sevtinge.hyperceiler.R.layout.activity_crash_dialog);
+        setContentView(R.layout.activity_crash_dialog);
         Intent intent = getIntent();
         String code = intent.getStringExtra("key_report");
         String pkg = getReportCrashPkg(code);
-        View view = LayoutInflater.from(this).inflate(com.sevtinge.hyperceiler.R.layout.crash_report_dialog, null);
-        mMessageTv = view.findViewById(com.sevtinge.hyperceiler.R.id.tv_message);
-        mMessageTv.setText("此应用进入安全模式:\n" + pkg + "\n点击确定取消");
-        mCrashRecordTv = view.findViewById(com.sevtinge.hyperceiler.R.id.tv_record);
+        View view = LayoutInflater.from(this).inflate(R.layout.crash_report_dialog, null);
+        mMessageTv = view.findViewById(R.id.tv_message);
+        mMessageTv.setText(pkg + "已进入安全模式，点击确定取消");
+        mCrashRecordTv = view.findViewById(R.id.tv_record);
         mCrashRecordTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);// 下划线并加清晰
         mCrashRecordTv.getPaint().setAntiAlias(true);// 抗锯齿
+        mCrashRecordTv.setOnClickListener(v -> {
+            Toast.makeText(this, "查看异常记录", Toast.LENGTH_SHORT).show();
+        });
         DialogHelper.showCrashReportDialog(this, pkg, view);
     }
 
