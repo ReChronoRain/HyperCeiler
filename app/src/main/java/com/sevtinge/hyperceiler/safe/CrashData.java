@@ -28,6 +28,7 @@ public class CrashData {
             scopeMap.put("android", "android");
             scopeMap.put("com.android.browser", "browser");
             scopeMap.put("com.android.camera", "camera");
+            scopeMap.put("com.android.calendar", "calendar");
             scopeMap.put("com.android.externalstorage", "external");
             scopeMap.put("com.android.fileexplorer", "file");
             scopeMap.put("com.android.incallui", "incallui");
@@ -40,13 +41,10 @@ public class CrashData {
             scopeMap.put("com.android.settings", "settings");
             scopeMap.put("com.android.thememanager", "theme");
             scopeMap.put("com.android.updater", "updater");
-            scopeMap.put("com.baidu.input_mi", "mi");
-            scopeMap.put("com.iflytek.inputmethod.miui", "ifly");
             scopeMap.put("com.lbe.security.miui", "lbe");
             scopeMap.put("com.milink.service", "milink");
             scopeMap.put("com.miui.aod", "aod");
             scopeMap.put("com.miui.backup", "backup");
-            scopeMap.put("com.miui.cleanmaster", "clean");
             scopeMap.put("com.miui.cloudservice", "cloud");
             scopeMap.put("com.miui.contentextension", "content");
             scopeMap.put("com.miui.creation", "creation");
@@ -69,7 +67,6 @@ public class CrashData {
             scopeMap.put("com.miui.tsmclient", "tsmclient");
             scopeMap.put("com.miui.voiceassist", "voice");
             scopeMap.put("com.miui.weather2", "weather");
-            scopeMap.put("com.sohu.inputmethod.sogou.xiaomi", "sogou");
             scopeMap.put("com.xiaomi.aiasst.vision", "vision");
             scopeMap.put("com.xiaomi.barrage", "barrage");
             scopeMap.put("com.xiaomi.joyose", "joyose");
@@ -77,7 +74,6 @@ public class CrashData {
             scopeMap.put("com.xiaomi.mirror", "mirror");
             scopeMap.put("com.xiaomi.misettings", "misettings");
             scopeMap.put("com.xiaomi.mtb", "mtb");
-            scopeMap.put("com.xiaomi.NetworkBoost", "Boost");
             scopeMap.put("com.xiaomi.scanner", "scanner");
             scopeMap.put("com.xiaomi.trustservice", "trust");
             scopeMap.put("com.hchen.demo", "demo");
