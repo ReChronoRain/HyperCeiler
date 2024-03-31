@@ -3,7 +3,7 @@
     <SwitchPreference
         android:key="prefs_key_various_enable_super_function"
         android:layout="@layout/activity_about"
-        android:summary="@string/happy_chinese_new_year" />
+        android:summary="@string/xposed_description" />
 
     <PreferenceCategory android:title="@string/about_developer_title">
         <Preference
@@ -19,15 +19,15 @@
         <Preference
             android:icon="@drawable/ic_moralnorm"
             android:layout="@layout/preference_round_layout"
-            android:summary="\@MoralNorm | UI &amp; Hook"
-            android:title="MoralNorm">
+            android:summary="\@Fan095 | UI &amp; Hook"
+            android:title="Moral Norm">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/MoralNorm" />
+                android:data="https://github.com/Fan095" />
         </Preference>
 
         <Preference
-            android:icon="@drawable/ic_lingqiqi"
+            android:icon="@drawable/ic_nekoqiqi"
             android:layout="@layout/preference_round_layout"
             android:summary="\@mu7220 | Hook"
             android:title="Neko Qiqi">
@@ -74,12 +74,6 @@
         <Preference
             android:key="prefs_key_about_join_qq_group"
             android:title="@string/about_qq_group" />
-
-        <Preference android:title="@string/about_qq_channel">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://qun.qq.com/qqweb/qunpro/share?_wv=3&amp;_wwv=128&amp;appChannel=share&amp;inviteCode=1XAId3dB6BS&amp;businessType=9&amp;from=246610&amp;biz=ka" />
-        </Preference>
 
         <Preference android:title="@string/about_tg_group">
             <intent
@@ -144,5 +138,15 @@
         </Preference>
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
+    <PreferenceCategory>
+
+    <Preference
+        android:enabled="false"
+        android:key="prefs_key_tip"
+        android:layout="@layout/preference_text"
+        android:summary="© 2023-2024 Re.chronoRain &amp; Sevtinge &amp; HyperCeiler Contributions." />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

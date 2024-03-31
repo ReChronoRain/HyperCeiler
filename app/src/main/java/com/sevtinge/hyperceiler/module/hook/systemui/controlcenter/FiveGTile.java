@@ -31,10 +31,10 @@ import android.util.ArrayMap;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.TileUtils;
+import com.sevtinge.hyperceiler.utils.devicesdk.TelephonyManager;
 
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedHelpers;
-import miui.telephony.TelephonyManager;
 
 public class FiveGTile extends TileUtils {
     String mNfcTileClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tiles.MiuiNfcTile" :

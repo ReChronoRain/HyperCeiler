@@ -18,29 +18,22 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.os.Handler
-import android.provider.Settings
-import android.util.TypedValue
-import android.widget.TextView
+import android.annotation.*
+import android.content.*
+import android.os.*
+import android.provider.*
+import android.util.*
+import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.api.LazyClass.mNewClockClass
-import com.sevtinge.hyperceiler.utils.callMethod
-import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
-import com.sevtinge.hyperceiler.utils.getObjectField
-import java.lang.reflect.Method
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Timer
-import java.util.TimerTask
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
+import java.lang.reflect.*
+import java.text.*
+import java.util.*
 
 object TimeCustomization : BaseHook() {
     // 预设模式
@@ -61,9 +54,8 @@ object TimeCustomization : BaseHook() {
     private val getGeekClockSize = mPrefsMap.getInt("system_ui_statusbar_clock_size_geek", 0)
     private val getGeekFormat = mPrefsMap.getString("system_ui_statusbar_clock_editor", "HH:mm:ss")
 
-    private val mClockClass = when {
-        getAndroidVersion() >= 31 -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
-        else -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
+    private val mClockClass by lazy {
+        loadClass("com.android.systemui.statusbar.views.MiuiClock")
     }
 
     private lateinit var nowTime: Date
@@ -95,7 +87,6 @@ object TimeCustomization : BaseHook() {
                                         TypedValue.COMPLEX_UNIT_DIP,
                                         clockDoubleLineSize
                                     )
-                                    textV.setLineSpacing(0F, 0.8F)
                                 } else {
                                     if (getClockSize != 0) {
                                         val clockSize = getClockSize.toFloat()
@@ -139,25 +130,6 @@ object TimeCustomization : BaseHook() {
                             }
                         }
                     }
-
-                if (isMoreHyperOSVersion(1f)) {
-                    mNewClockClass!!.methodFinder()
-                        .filterByName("updateTime")
-                        .single().createHook {
-                            after {
-                                try {
-                                    val textV = it.thisObject as TextView
-                                    val t = Settings.System.getString(
-                                        c!!.contentResolver, Settings.System.TIME_12_24
-                                    )
-                                    val is24 = t == "24"
-                                    nowTime = Calendar.getInstance().time
-                                    textV.text = getDate(c!!) + str + getTime(c!!, is24)
-                                } catch (_: Exception) {
-                                }
-                            }
-                        }
-                }
             }
             // 极客模式
             2 -> {
@@ -172,7 +144,6 @@ object TimeCustomization : BaseHook() {
                                 val textV = it.thisObject as TextView
                                 if (textV.resources.getResourceEntryName(textV.id) != "clock") return@after
                                 textV.isSingleLine = false
-                                textV.setLineSpacing(0F, 0.8F)
                                 if (getGeekClockSize != 0) {
                                     val clockSize = getGeekClockSize.toFloat()
                                     textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSize)
@@ -211,21 +182,6 @@ object TimeCustomization : BaseHook() {
                             }
                         }
                     }
-
-                if (isMoreHyperOSVersion(1f)) {
-                    mNewClockClass!!.methodFinder()
-                        .filterByName("updateTime")
-                        .single().createHook {
-                            before {
-                                try {
-                                    val textV = it.thisObject as TextView
-                                    setClock(c, textV)
-                                    it.result = null
-                                } catch (_: Exception) {
-                                }
-                            }
-                        }
-                }
             }
         }
     }

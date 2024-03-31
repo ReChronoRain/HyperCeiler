@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -27,9 +28,11 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.callback.IResult;
+import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.ui.base.NavigationActivity;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.PropUtils;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
@@ -45,6 +48,11 @@ public class MainActivity extends NavigationActivity implements IResult {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        SharedPreferences mPrefs = PrefsUtils.mSharedPreferences;
+        int count = Integer.parseInt(mPrefs.getString("prefs_key_settings_app_language", "-1"));
+        if (count != -1) {
+            LanguageHelper.setIndexLanguage(this, count, false);
+        }
         handler = new Handler(this.getMainLooper());
         context = this;
         int def = Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_log_level", "2"));
@@ -53,30 +61,27 @@ public class MainActivity extends NavigationActivity implements IResult {
         Helpers.checkXposedActivateState(this);
         ShellInit.init(this);
         PropUtils.setProp("persist.hyperceiler.log.level",
-            (ProjectApi.isRelease() ? def : ProjectApi.isCanary() ? (def == 0 ? 3 : 4) : def));
+                (ProjectApi.isRelease() ? def : ProjectApi.isCanary() ? (def == 0 ? 3 : 4) : def));
         // test();
     }
 
     @Override
     public void error(String reason) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                new AlertDialog.Builder(context)
-                    .setCancelable(false)
-                    .setTitle(getResources().getString(R.string.tip))
-                    .setMessage(getResources().getString(R.string.root))
-                    .setHapticFeedbackEnabled(true)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show();
-            }
-        });
+        handler.post(() -> new AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setTitle(getResources().getString(R.string.tip))
+                .setMessage(getResources().getString(R.string.root))
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, null)
+                .show());
     }
 
     @Override
     protected void onDestroy() {
         ShellInit.destroy();
         ThreadPoolManager.shutdown();
+        PreferenceHeader.mUninstallApp.clear();
+        PreferenceHeader.mDisableOrHiddenApp.clear();
         super.onDestroy();
     }
 

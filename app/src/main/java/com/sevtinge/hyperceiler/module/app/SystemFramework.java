@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
@@ -40,10 +40,12 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FreeFormCount;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.module.hook.systemframework.HookEntry;
+import com.sevtinge.hyperceiler.module.hook.systemframework.LinkTurboToast;
 import com.sevtinge.hyperceiler.module.hook.systemframework.MultiFreeFormSupported;
 import com.sevtinge.hyperceiler.module.hook.systemframework.PackagePermissions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.QuickScreenshot;
 import com.sevtinge.hyperceiler.module.hook.systemframework.RemoveSmallWindowRestrictions;
+import com.sevtinge.hyperceiler.module.hook.systemframework.RotationButton;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.SpeedInstall;
 import com.sevtinge.hyperceiler.module.hook.systemframework.StickyFloatingWindows;
@@ -60,6 +62,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.BypassSign
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.AllDarkMode;
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.DisplayCutout;
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.ToastTime;
+import com.sevtinge.hyperceiler.module.hook.systemframework.display.UseAOSPScreenShot;
 import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.OpenAppInFreeForm;
 import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.UnForegroundPin;
 import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.IgnoreStylusKeyGesture;
@@ -101,7 +104,6 @@ public class SystemFramework extends BaseModule {
         initHook(new VolumeSteps(), mPrefsMap.getInt("system_framework_volume_steps", 0) > 0);
         initHook(new VolumeMediaSteps(), mPrefsMap.getBoolean("system_framework_volume_media_steps_enable"));
         initHook(new VolumeDisableSafe(), mPrefsMap.getBoolean("system_framework_volume_disable_safe"));
-        // initHook(new ClockShowSecond(), mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second"));
 
         // 其他
         initHook(new SystemLockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));
@@ -124,6 +126,7 @@ public class SystemFramework extends BaseModule {
 
         // 显示
         initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));
+        initHook(UseAOSPScreenShot.INSTANCE, mPrefsMap.getBoolean("system_ui_display_use_aosp_screenshot_enable"));
         initHook(new ToastTime(), mPrefsMap.getBoolean("system_ui_display_toast_times_enable"));
         initHook(new AllDarkMode(), mPrefsMap.getBoolean("system_framework_allow_all_dark_mode"));
         // initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
@@ -153,12 +156,14 @@ public class SystemFramework extends BaseModule {
 
         // Other
         initHook(new PackagePermissions());
+        initHook(new RotationButton(), mPrefsMap.getStringAsInt("system_framework_other_rotation_button_int", 0) == 2);
         initHook(new GlobalActions(), mLoadPackageParam.processName.equals("android"));
         initHook(new ThermalBrightness(), mPrefsMap.getBoolean("system_framework_other_thermal_brightness"));
         initHook(DisableCleaner.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_cleaner"));
         initHook(new DisablePinVerifyPer72h(), mPrefsMap.getBoolean("system_framework_disable_72h_verify"));
         initHook(new DisableVerifyCanBeDisabled(), mPrefsMap.getBoolean("system_framework_disable_verify_can_ve_disabled"));
         initHook(new QuickScreenshot(), mPrefsMap.getBoolean("system_framework_quick_screenshot"));
+        initHook(new LinkTurboToast(), mPrefsMap.getBoolean("system_framework_disable_link_turbo_toast"));
 
         initHook(new DisableLowApiCheckForU(), mPrefsMap.getBoolean("system_framework_disable_low_api_check") && isMoreAndroidVersion(34));
     }

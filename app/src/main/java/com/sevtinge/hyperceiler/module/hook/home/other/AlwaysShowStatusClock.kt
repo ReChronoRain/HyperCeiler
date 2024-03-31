@@ -19,9 +19,9 @@
 package com.sevtinge.hyperceiler.module.hook.home.other
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
 
 object AlwaysShowStatusClock : BaseHook() {
     private val mWorkspaceClass by lazy {
@@ -32,15 +32,10 @@ object AlwaysShowStatusClock : BaseHook() {
         val methodNames =
             setOf("isScreenHasClockGadget", "isScreenHasClockWidget", "isClockWidget")
 
-        methodNames.forEach { methodName ->
-            val result = runCatching {
-                mWorkspaceClass.methodFinder()
-                    .filterByName(methodName)
-                    .single().createHook {
-                        returnConstant(false)
-                    }
-            }
-            if (result.isSuccess) return@forEach
+        mWorkspaceClass.methodFinder().filter {
+            name in methodNames
+        }.toList().createHooks {
+            returnConstant(false)
         }
     }
 }

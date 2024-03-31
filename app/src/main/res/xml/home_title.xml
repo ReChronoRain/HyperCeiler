@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/mihome">
     <PreferenceCategory android:title="@string/home_title_icon_title">
         <SwitchPreference
             android:defaultValue="false"
@@ -37,6 +38,11 @@
             android:defaultValue="false"
             android:key="prefs_key_home_title_disable_hide_google"
             android:title="@string/home_title_disable_hide_google" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_fake_non_default_icon"
+            android:title="@string/home_title_fake_non_default_icon" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -159,5 +165,5 @@
             app:stepValue="1" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.base;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
@@ -23,6 +23,7 @@ import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
@@ -36,8 +37,8 @@ import com.sevtinge.hyperceiler.module.app.Aod;
 import com.sevtinge.hyperceiler.module.app.Backup;
 import com.sevtinge.hyperceiler.module.app.Barrage;
 import com.sevtinge.hyperceiler.module.app.Browser;
+import com.sevtinge.hyperceiler.module.app.Calendar;
 import com.sevtinge.hyperceiler.module.app.Camera;
-import com.sevtinge.hyperceiler.module.app.Clock;
 import com.sevtinge.hyperceiler.module.app.ContentExtension;
 import com.sevtinge.hyperceiler.module.app.Creation;
 import com.sevtinge.hyperceiler.module.app.Demo;
@@ -45,13 +46,13 @@ import com.sevtinge.hyperceiler.module.app.Downloads;
 import com.sevtinge.hyperceiler.module.app.ExternalStorage;
 import com.sevtinge.hyperceiler.module.app.FileExplorer;
 import com.sevtinge.hyperceiler.module.app.Gallery;
+import com.sevtinge.hyperceiler.module.app.GetApps;
 import com.sevtinge.hyperceiler.module.app.GuardProvider;
 import com.sevtinge.hyperceiler.module.app.Home;
 import com.sevtinge.hyperceiler.module.app.Huanji;
 import com.sevtinge.hyperceiler.module.app.InCallUi;
 import com.sevtinge.hyperceiler.module.app.Joyose;
 import com.sevtinge.hyperceiler.module.app.Lbe;
-import com.sevtinge.hyperceiler.module.app.Market;
 import com.sevtinge.hyperceiler.module.app.MediaEditor;
 import com.sevtinge.hyperceiler.module.app.MiCloudService;
 import com.sevtinge.hyperceiler.module.app.MiLink;
@@ -61,8 +62,6 @@ import com.sevtinge.hyperceiler.module.app.MiSound;
 import com.sevtinge.hyperceiler.module.app.MiWallpaper;
 import com.sevtinge.hyperceiler.module.app.Mms;
 import com.sevtinge.hyperceiler.module.app.Mtb;
-import com.sevtinge.hyperceiler.module.app.Music;
-import com.sevtinge.hyperceiler.module.app.NetworkBoost;
 import com.sevtinge.hyperceiler.module.app.Nfc;
 import com.sevtinge.hyperceiler.module.app.Notes;
 import com.sevtinge.hyperceiler.module.app.PackageInstaller;
@@ -104,10 +103,9 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 public abstract class BaseXposedInit {
 
     public static boolean isSafeModeOn = false;
-
-    public static ResourcesTool mResHook;
     public static String mModulePath = null;
     public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<>();
+    public static ResourcesTool mResHook;
 
     public final SystemFramework mSystemFramework = new SystemFramework();
     public final SystemUI mSystemUI = new SystemUI();
@@ -120,7 +118,7 @@ public abstract class BaseXposedInit {
     public final PersonalAssistant mPersonalAssistant = new PersonalAssistant();
     public final ThemeManager mThemeManager = new ThemeManager();
     public final Updater mUpdater = new Updater();
-    public final Market mMarket = new Market();
+    public final GetApps mGetApps = new GetApps();
     public final MediaEditor mMediaEditor = new MediaEditor();
     public final PackageInstaller mPackageInstaller = new PackageInstaller();
     public final PowerKeeper mPowerKeeper = new PowerKeeper();
@@ -129,9 +127,7 @@ public abstract class BaseXposedInit {
     public final VariousThirdApps mVariousThirdApps = new VariousThirdApps();
     public final VariousSystemApps mVariousSystemApps = new VariousSystemApps();
     public final Weather mWeather = new Weather();
-    public final Clock mClock = new Clock();
     public final FileExplorer mFileExplorer = new FileExplorer();
-    public final Music mMusic = new Music();
     public final Gallery mGallery = new Gallery();
     public final AiAsst mAiAsst = new AiAsst();
     public final Scanner mScanner = new Scanner();
@@ -156,7 +152,6 @@ public abstract class BaseXposedInit {
     public final Aod mAod = new Aod();
     public final Barrage mBarrage = new Barrage();
     public final Notes mNotes = new Notes();
-    public final NetworkBoost networkBoost = new NetworkBoost();
     public final Creation mCreation = new Creation();
     public final Demo mDemo = new Demo();
     public final Nfc mNfc = new Nfc();
@@ -164,11 +159,12 @@ public abstract class BaseXposedInit {
     public final Backup mBackup = new Backup();
     public final Huanji mHuanji = new Huanji();
     public final TrustService mTrustService = new TrustService();
+    public final Calendar mCalendar = new Calendar();
 
     @CallSuper
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
         setXSharedPrefs();
-        mResHook = new ResourcesTool();
+        mResHook = new ResourcesTool(startupParam.modulePath);
         mModulePath = startupParam.modulePath;
     }
 
@@ -186,8 +182,8 @@ public abstract class BaseXposedInit {
                     allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
                     if (allPrefs == null || allPrefs.isEmpty()) {
                         XposedLogUtils.logE(
-                            "[UID" + android.os.Process.myUid() + "]",
-                            "Cannot read module's SharedPreferences, some mods might not work!"
+                                "[UID" + android.os.Process.myUid() + "]",
+                                "Cannot read module's SharedPreferences, some mods might not work!"
                         );
                     } else {
                         mPrefsMap.putAll(allPrefs);
@@ -210,29 +206,31 @@ public abstract class BaseXposedInit {
             logI(packageName, "versionName = " + getPackageVersionName(lpparam) + ", versionCode = " + getPackageVersionCode(lpparam));
         switch (packageName) {
             case "android" -> {
-                mSystemFramework.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-                try {
-                    new CrashHook(lpparam);
-                    logI(ITAG.TAG, "Success Hook Crash");
-                } catch (Exception e) {
-                    logE(ITAG.TAG, "Hook Crash E: " + e);
+                if (isMoreAndroidVersion(33)) {
+                    mSystemFramework.init(lpparam);
+                    mVariousSystemApps.init(lpparam);
                 }
+                // try {
+                //     new CrashHook(lpparam);
+                //     logI(TAG.TAG, "Success Hook Crash");
+                // } catch (Exception e) {
+                //     logE(TAG.TAG, "Hook Crash E: " + e);
+                // }
             }
             case "com.android.systemui" -> {
-                if (isSystemUIModuleEnable()) {
+                if (isSystemUIModuleEnable() && isMoreAndroidVersion(33)) {
                     mSystemUI.init(lpparam);
                     mVariousSystemApps.init(lpparam);
                 }
             }
             case "com.miui.home" -> {
-                if (isHomeModuleEnable()) {
+                if (isHomeModuleEnable() && isMoreAndroidVersion(33)) {
                     mHome.init(lpparam);
                     mVariousSystemApps.init(lpparam);
                 }
             }
             case "com.miui.securitycenter" -> {
-                if (isSecurityCenterModuleEnable()) {
+                if (isSecurityCenterModuleEnable() && isMoreAndroidVersion(33)) {
                     mSecurityCenter.init(lpparam);
                     mVariousSystemApps.init(lpparam);
                 }
@@ -253,19 +251,19 @@ public abstract class BaseXposedInit {
                 mBrowser.init(lpparam);
                 mVariousSystemApps.init(lpparam);
             }
-            /*case "com.sohu.inputmethod.sogou.xiaomi", "com.sohu.inputmethod.sogou" -> {
-                mSoGou.init(lpparam);
-                mVarious.init(lpparam);
-            }*/
             case "com.android.nfc" -> {
                 mNfc.init(lpparam);
+                mVariousSystemApps.init(lpparam);
+            }
+            case "com.android.calendar" -> {
+                mCalendar.init(lpparam);
                 mVariousSystemApps.init(lpparam);
             }
             case "com.android.updater" -> {
                 mUpdater.init(lpparam);
                 mVariousSystemApps.init(lpparam);
             }
-            case "com.xiaomi.market" -> mMarket.init(lpparam);
+            case "com.xiaomi.market" -> mGetApps.init(lpparam);
 
             case "com.miui.packageinstaller" -> {
                 mPackageInstaller.init(lpparam);
@@ -295,12 +293,6 @@ public abstract class BaseXposedInit {
                 mWeather.init(lpparam);
                 mVariousSystemApps.init(lpparam);
             }
-            case "com.android.deskclock" -> {
-                mClock.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.player" -> mMusic.init(lpparam);
-
             case "com.miui.gallery" -> {
                 mGallery.init(lpparam);
                 mVariousSystemApps.init(lpparam);
@@ -402,7 +394,6 @@ public abstract class BaseXposedInit {
             case "com.hchen.demo" -> {
                 mDemo.init(lpparam);
             }
-            case "com.xiaomi.NetworkBoost" -> networkBoost.init(lpparam);
             case ProjectApi.mAppModulePkg -> ModuleActiveHook(lpparam);
             default -> mVariousThirdApps.init(lpparam);
         }

@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_framework_other_title">
     <PreferenceCategory android:title="@string/system_framework_screen_title">
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_framework_other_rotation_button_int"
+            android:title="@string/system_framework_other_rotation_button"
+            app:entries="@array/system_framework_other_rotation_button_mode"
+            app:entryValues="@array/status_bar_icon_mode_value" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_screen_all_rotations"
@@ -40,12 +48,15 @@
             android:key="prefs_key_various_disable_access_device_logs"
             android:title="@string/various_disable_access_device_logs" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disable_link_turbo_toast"
+            android:title="@string/system_framework_disable_link_turbo_toast" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_allow_manage_all_notifications"
             android:title="@string/system_framework_allow_manage_all_notifications" />
-
 
         <SwitchPreference
             android:defaultValue="false"
@@ -129,11 +140,11 @@
             android:title="@string/system_framework_clipboard_whitelist_list" />
 
         <EditTextPreference
-            android:key="prefs_key_system_framework_clipboard_whitelist_list"
-            android:title="@string/system_framework_clipboard_whitelist_list"
-            android:summary="@string/system_framework_clipboard_whitelist_list_desc"
             android:defaultValue="com.fooview.android.fooview"
-            app:isPreferenceVisible="false"/>
+            android:key="prefs_key_system_framework_clipboard_whitelist_list"
+            android:summary="@string/system_framework_clipboard_whitelist_list_desc"
+            android:title="@string/system_framework_clipboard_whitelist_list"
+            app:isPreferenceVisible="false" />
 
     </PreferenceCategory>
 
@@ -161,5 +172,4 @@
             android:title="@string/system_framework_clean_open_apps" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
 </PreferenceScreen>

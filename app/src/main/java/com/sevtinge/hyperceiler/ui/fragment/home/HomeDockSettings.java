@@ -19,9 +19,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
-import android.os.Build;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
@@ -37,7 +35,6 @@ import moralnorm.preference.SwitchPreference;
 public class HomeDockSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     SwitchPreference mDisableRecentIcon;
-    SwitchPreference mDockBackground;
     Preference mDockBackgroundBlur;
     DropDownPreference mDockBackgroundBlurEnable;
     SeekBarPreferenceEx mDockBackgroundBlurRadius;
@@ -58,10 +55,7 @@ public class HomeDockSettings extends SettingsPreferenceFragment implements Pref
     @Override
     public void initPrefs() {
         mDisableRecentIcon = findPreference("prefs_key_home_dock_disable_recents_icon");
-        mDockBackground = findPreference("prefs_key_home_dock_bg_custom_enable");
         mDisableRecentIcon.setVisible(isPad());
-        mDockBackground.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.S));
-        mDockBackground.setEnabled(mDockBackground.isVisible());
         mDockBackgroundBlur = findPreference("prefs_key_home_dock_bg_custom");
         mDockBackgroundBlurRadius = findPreference("prefs_key_home_dock_bg_radius");
         int mBlurMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_home_dock_add_blur", "0"));

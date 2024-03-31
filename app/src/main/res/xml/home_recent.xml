@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/home_recent">
     <PreferenceCategory>
         <SwitchPreference
             android:key="prefs_key_home_recent_disable_wallpaper_dimming"
@@ -28,9 +29,17 @@
             android:title="@string/home_recent_modify_animation"
             android:defaultValue="false" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory>
         <SwitchPreference
             android:key="prefs_key_home_recent_hide_status_bar_in_task_view"
             android:title="@string/home_recent_hide_status_bar_in_task_view"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="prefs_key_home_recent_hide_world_circulate"
+            android:title="@string/home_recent_hide_world_circulate"
             android:defaultValue="false" />
 
         <SwitchPreference
@@ -45,12 +54,6 @@
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:key="prefs_key_home_recent_unlock_pin"
-            android:summary="@string/only_new_version_can_do"
-            android:title="@string/home_recent_unlock_pin"
-            android:defaultValue="false" />
-
-        <SwitchPreference
             android:key="prefs_key_always_show_clean_up"
             android:dependency="prefs_key_home_recent_hide_clean_up"
             android:title="@string/home_recent_always_show_clean_up"
@@ -61,6 +64,15 @@
             android:title="@string/home_recent_remove_icon"
             android:defaultValue="false" />
 
+        <SwitchPreference
+            android:key="prefs_key_home_recent_unlock_pin"
+            android:summary="@string/only_new_version_can_do"
+            android:title="@string/home_recent_unlock_pin"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
         <EditTextPreference
             android:key="prefs_key_home_recent_text"
             android:title="@string/home_recent_text" />
@@ -146,5 +158,4 @@
             app:showAlphaSlider="true" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
 </PreferenceScreen>

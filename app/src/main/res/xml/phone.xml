@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/phone">
 
     <PreferenceCategory>
-        <!--<com.sevtinge.hyperceiler.ui.preference.StartActivityWithRootPreference
+        <!--<com.sevtinge.hyperceiler.prefs.StartActivityWithRootPreference
             android:key="prefs_key_phone_additional_network_settings"
             android:title="@string/phone_additional_network_settings"
             app:targetActivityClass="com.android.phone/.SwitchDebugActivity" />-->
@@ -32,7 +34,5 @@
             android:title="@string/phone_vice_slot_volte" />
 
     </PreferenceCategory>
-
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

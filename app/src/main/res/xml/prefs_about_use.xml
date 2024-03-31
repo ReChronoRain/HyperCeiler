@@ -355,5 +355,5 @@
                 android:data="https://www.coolapk.com/u/9021855" />
         </Preference>
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

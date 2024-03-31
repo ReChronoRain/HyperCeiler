@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_ui_lockscreen_title">
 
     <PreferenceCategory android:title="@string/system_ui_lockscreen_ui_title">
         <SwitchPreference
@@ -123,5 +124,5 @@
             android:title="@string/system_ui_lock_screen_hide_status_bar" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

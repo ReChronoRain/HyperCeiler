@@ -58,6 +58,5 @@
             app:entryValues="@array/home_recent_blur_value" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

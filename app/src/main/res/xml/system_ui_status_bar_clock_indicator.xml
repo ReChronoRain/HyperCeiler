@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_ui_statusbar_clock_title">
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
@@ -13,17 +14,6 @@
             android:title="@string/system_ui_statusbar_clock_mode"
             app:entries="@array/system_ui_status_bar_clock_mode"
             app:entryValues="@array/system_ui_status_bar_clock_mode_value" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_disable_clock_anim"
-            android:title="@string/system_ui_disable_clock_anim" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_statusbar_clock_fix_color"
-            android:title="@string/system_ui_statusbar_clock_fix_color"
-            android:summary="@string/system_ui_statusbar_clock_fix_color_desc"/>
 
     </PreferenceCategory>
 
@@ -59,6 +49,18 @@
             app:stepValue="1"
             app:negativeShift="12"
             app:displayDividerValue="2" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="30"
+            android:key="prefs_key_system_ui_statusbar_clock_fixedcontent_width"
+            android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
+            android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
+            app:defaultValueText="@string/array_default"
+            app:format="%d dp"
+            app:maxValue="120"
+            app:minValue="30"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
     </PreferenceCategory>
 
@@ -200,5 +202,4 @@
             app:stepValue="1" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
 </PreferenceScreen>

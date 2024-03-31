@@ -3,8 +3,15 @@
     <color name="textview_white">#FF000000</color>
     <color name="textview_black">#BEFFFFFF</color>
 
+    <color name="navigation_divider">#33FFFFFF</color>
     <color name="navigation_icon_light">#FF000000</color>
     <color name="navigation_icon_dark">#FFFFFFFF</color>
+
     <color name="color_on_surface_variant">#FAABABAD</color>
     <color name="color_surface_variant">#DC2E2E30</color>
+
+    <color name="preference_recommend_region_color">#ff222224</color>
+    <color name="preference_recommend_title_color">#ffffffff</color>
+
+    <color name="preference_recommend_item_link">#ff0097ff</color>
 </resources>

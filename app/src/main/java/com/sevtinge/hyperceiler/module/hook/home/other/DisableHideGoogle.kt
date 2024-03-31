@@ -18,16 +18,15 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.other
 
-import android.content.ComponentName
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedHelpers
-import miui.os.Build
+import android.content.*
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
+import de.robv.android.xposed.*
 
 @Suppress("UNCHECKED_CAST")
 object DisableHideGoogle : BaseHook() {
     override fun init() {
-        if (Build.IS_INTERNATIONAL_BUILD)
+        if (InvokeUtils.invokeStaticField("miui.os.Build", "IS_INTERNATIONAL_BUILD"))
             return
 
         XposedHelpers.findAndHookConstructor(

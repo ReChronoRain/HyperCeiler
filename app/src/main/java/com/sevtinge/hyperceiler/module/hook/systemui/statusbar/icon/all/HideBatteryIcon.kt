@@ -18,24 +18,20 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all
 
-import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.*
+import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
-import com.sevtinge.hyperceiler.utils.getObjectField
-import com.sevtinge.hyperceiler.utils.getObjectFieldAs
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
 
 object HideBatteryIcon : BaseHook() {
     override fun init() {
-        val mBatteryMeterViewClass = when {
-            isMoreAndroidVersion(31) -> loadClass("com.android.systemui.statusbar.views.MiuiBatteryMeterView")
-            else -> loadClass("com.android.systemui.MiuiBatteryMeterView")
+        val mBatteryMeterViewClass by lazy {
+            loadClass("com.android.systemui.statusbar.views.MiuiBatteryMeterView")
         }
+
         try {
             mBatteryMeterViewClass.methodFinder()
                 .filterByName("updateResources")

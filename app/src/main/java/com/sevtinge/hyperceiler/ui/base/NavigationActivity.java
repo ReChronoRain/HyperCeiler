@@ -1,25 +1,27 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.base;
 
+import static com.sevtinge.hyperceiler.utils.DisplayUtils.dip2px;
 import static com.sevtinge.hyperceiler.utils.Helpers.isDarkMode;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -30,6 +32,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.Insets;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -90,6 +96,17 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
 
         mSearchView.setOnClickListener(v -> startSearchMode());
         mSearchAdapter.setOnItemClickListener((view, ad) -> onSearchItemClickListener(ad));
+
+        ViewCompat.setOnApplyWindowInsetsListener(mSearchResultView, new OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
+                        insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
+                v.setPadding(0, 0, 0, inset.bottom);
+                return insets;
+            }
+        });
     }
 
     private void initNavigationView() {
@@ -105,11 +122,17 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         mNavigationPagerAdapter = new NavigationPagerAdapter(getSupportFragmentManager(), mFragmentList);
         mFragmentPage.setAdapter(mNavigationPagerAdapter);
 
+        Context context = this;
+        addPaddingForRadioButton(mHomeNav, context);
+        addPaddingForRadioButton(mSettingsNav, context);
+        addPaddingForRadioButton(mAboutNav, context);
 
         int i;
-        if (isDarkMode(this)) i = 140; else i = 180;
+        if (isDarkMode(this)) i = 160;
+        else i = 200;
         int a;
-        if (isDarkMode(this)) a = 80; else a = 100;
+        if (isDarkMode(this)) a = 100;
+        else a = 140;
         MiBlurUtils.setContainerPassBlur(mNavigationView, i);
         MiBlurUtils.setMiViewBlurMode(mNavigationView, 3);
         MiBlurUtils.clearMiBackgroundBlendColor(mNavigationView);
@@ -144,6 +167,18 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         });
     }
 
+    private void addPaddingForRadioButton(View view, Context context) {
+        ViewCompat.setOnApplyWindowInsetsListener(view, new OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
+                        insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
+                v.setPadding(0, dip2px(context, 10), 0, inset.bottom + dip2px(context, 18));
+                return insets;
+            }
+        });
+    }
 
     private void changeSelect(int position) {
         switch (position) {
@@ -169,28 +204,29 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         Bundle args = new Bundle();
         args.putString(":settings:fragment_args_key", ad.key);
         SettingLauncherHelper.onStartSettingsForArguments(
-            this,
-            SubSettings.class,
-            ad.fragment,
-            args,
-            ad.catTitleResId
+                this,
+                SubSettings.class,
+                ad.fragment,
+                args,
+                ad.catTitleResId
         );
     }
 
     private SearchActionMode startSearchMode() {
         return SearchModeHelper.startSearchMode(
-            this,
-            mSearchResultView,
-            mFragmentPage,
-            mSearchView,
-            findViewById(android.R.id.list_container),
-            mSearchResultListener
+                this,
+                mSearchResultView,
+                mFragmentPage,
+                mSearchView,
+                findViewById(android.R.id.list_container),
+                mSearchResultListener
         );
     }
 
     TextWatcher mSearchResultListener = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -199,16 +235,16 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
 
         @Override
         public void afterTextChanged(Editable s) {
-            findMod(s.toString());
+            // findMod(s.toString());
         }
     };
 
     void findMod(String filter) {
         lastFilter = filter;
-        mSearchResultView.setVisibility(filter.equals("") ? View.GONE : View.VISIBLE);
+        mSearchResultView.setVisibility(filter.isEmpty() ? View.GONE : View.VISIBLE);
         ModSearchAdapter adapter = (ModSearchAdapter) mSearchResultView.getAdapter();
         if (adapter == null) return;
-        adapter.getFilter().filter(filter);
+        adapter.getFilter(NavigationActivity.this).filter(filter);
     }
 
     @Override

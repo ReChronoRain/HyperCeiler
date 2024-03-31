@@ -1,11 +1,18 @@
 <resources>
-
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.HyperCeiler" />
+    <style name="AppTheme" parent="Base.Theme.HyperCeiler.DayNight"/>
 
     <style name="Theme.HyperCeiler.SystemBarBackgrounds">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="Base.Theme.HyperCeiler.DayNight" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.Light</item>
+        <item name="rebootIconColor">@color/black</item>
+        <item name="seekBarPreferenceExStyle">@style/Preference.SeekBarPreferenceEx</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <style name="Theme.HyperCeiler" parent="Base.Theme.HyperCeiler">

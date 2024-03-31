@@ -354,6 +354,7 @@
     <string name="system_framework_allow_manage_all_notifications">Разрешить управление всеми уведомлениями</string>
     <string name="system_framework_quick_screenshot">Быстрый скриншот</string>
     <string name="system_framework_quick_screenshot_desc">Отключить задержку скриншота</string>
+    <string name="system_framework_disable_link_turbo_toast">Скрыть LinkTurbo Toast</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Патч ядра</string>
     <string name="system_framework_core_patch_downgr">Разрешить понижение версии</string>
@@ -428,10 +429,6 @@
     <string name="camera_settings_men_makeup">Настройка макияжа для мужчин</string>
     <string name="camera_settings_lab_options">Тестовые функции</string>
     <string name="camera_settings_track_eyes">Следить за глазами</string>
-    <!--Clock-->
-    <string name="clock">Часы</string>
-    <string name="clock_enable_hour_glass">Анимация песочных часов</string>
-    <string name="clock_enable_hour_glass_desc">Версии 13.65.0 и выше не поддерживаются</string>
     <!--File Manager-->
     <string name="fileexplorer">Проводник</string>
     <string name="file_explorer_can_selectable">Название папки, при длительном нажатии, позволяет выбрать действие</string>
@@ -680,7 +677,6 @@
     <string name="system_ui_control_center_corner_radius_desc">Тема по умолчанию не нуждается в настройке</string>
     <string name="system_ui_control_center_blur_background_alpha">Значение размытия фона</string>
     <string name="system_ui_control_center_default_background_alpha">Фоновое значение по умолчанию</string>
-    <string name="system_ui_control_center_fix_media_control_panel">Исправление панели управления мультимедиа</string>
     <string name="system_ui_control_center_compact_notice">Компактные уведомления</string>
     <string name="system_ui_control_center_compact_notice_desc">Уменьшить вертикальные отступы уведомлений</string>
     <string name="system_ui_control_center_redirect_notice">Перенаправить настройки уведомлений</string>
@@ -707,9 +703,6 @@
     <string name="system_ui_controlcenter_old_title">Старый центр управления</string>
     <string name="system_ui_controlcenter_unlock_old_title">Разблокировать стиль центра управления</string>
     <string name="system_ui_controlcenter_enable_title">Настроить количество строк и столбцов</string>
-    <string name="system_control_center_old_qs_rows_desc">Надписи будут скрыты для 5 строк в портретной ориентации. Количество строк ограничено тремя со скрытыми надписями в альбомной ориентации.</string>
-    <string name="system_control_center_old_qs_columns_desc">Альбомная ориентация будет иметь один дополнительный столбец\nЕсли в вашем ROM есть опция компактной компоновки быстрых настроек, она добавит еще один столбец в обеих ориентациях</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">Альбомная ориентация + один доп.столбец</string>
     <string name="system_control_center_old_qs_grid_columns">Количество столбцов в свернутой панели</string>
     <string name="system_ui_control_center_more_card_tiles">Показать плитки карт</string>
     <string name="system_ui_control_center_more_card_tiles_less">Ничего</string>
@@ -719,7 +712,6 @@
     <string name="system_ui_charge_animation_title">Анимация заряда</string>
     <string name="system_ui_charge_animation_style">Стиль анимации зарядки</string>
     <string name="system_ui_charge_animation_style_desc">Выберите стиль анимации зарядки на экране блокировки</string>
-    <string name="system_ui_origin_charge_animation">Встроенная анимация зарядки</string>
     <string name="system_ui_another_title">Другое</string>
     <string name="system_ui_disable_bluetooth_restrict">Предотвратить временное отключение Bluetooth</string>
     <string name="system_ui_disable_miui_multi_win_switch">Скрыть кнопку Удобства</string>
@@ -1087,7 +1079,6 @@
     <string name="home_other_app_icon_hide">Управление значками раб.стола</string>
     <string name="home_other_toast_slide_again">Запрет на запрос подсказки \"Проведите пальцем еще раз\"</string>
     <string name="home_other_shortcut_remove_restrictions">Разблокировать ограничение на количество контекстных меню</string>
-    <string name="home_other_fix_android_r_s">Исправлена проблема совместимости, из-за которой рабочий стол становился черным</string>
     <string name="home_other_shortcut_background_blur_custom">Уровень размытия контекстного меню</string>
     <string name="home_other_high_models">Принудительная идентификация как модели высокого класса</string>
     <string name="home_recent_blur_level">Уровень размытия</string>
@@ -1129,9 +1120,6 @@
     <string name="miui_package_installer_install_source">Свой источник установки</string>
     <string name="miui_package_installer_apk_info">Показать дополнительную информацию о пакете</string>
     <string name="miui_package_installer_apk_info_desc">Показать доп.информацию об устанавливаемом приложении</string>
-    <!--Networkboost-->
-    <string name="various_disable_link_turbo_toast">Скрыть LinkTurbo Toast</string>
-    <string name="various_disable_link_turbo_toast_more">Пожалуйста, перезапустите NetworkBoost для быстрого перезапуска области</string>
     <!--NFC-->
     <string name="nfc">Служба NFC</string>
     <string name="nfc_disable_sound">Отключить звук уведомлений NFC</string>
@@ -1145,9 +1133,6 @@
     <string name="personal_assistant_blur_value">Стиль фона</string>
     <string name="personal_assistant_blurradius">Значение размытия персонального помощника</string>
     <string name="personal_assistant_color">Цвет персонального помощника</string>
-    <!--Music-->
-    <string name="music">Музыка</string>
-    <string name="music_disable_ad">Удалить рекламу</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Батарея и производительность</string>
     <string name="powerkeeper_custom_refresh_rate">Пользовательские приложения с высокой частотой обновления</string>

@@ -27,6 +27,7 @@
     <string name="prefs_5">Pilih tipe</string>
     <string name="prefs_6">Periksa preferensi berbagi</string>
     <string name="prefs_7">Hapus Kunci yang ditentukan</string>
+    <string name="help">Bantuan</string>
     <string name="settings">Pengaturan</string>
     <string name="about">Tentang</string>
     <string name="about_use">Kutipan</string>
@@ -57,6 +58,7 @@
     <string name="settings_icon_medium">Tengah</string>
     <string name="settings_icon_down">Bawah</string>
     <string name="settings_icon_mode">Gaya ikon</string>
+    <string name="settings_app_language">Bahasa</string>
     <string name="settings_icon_miui_14">Bentuk kotak membulat</string>
     <string name="settings_icon_miui_13">Gaya potongan latar belakang</string>
     <string name="settings_reboot">Restart aplikasi target</string>
@@ -261,6 +263,10 @@
     <string name="control_center_sunshine_mode_default">Menutup</string>
     <string name="control_center_sunshine_mode_one">Mode default sistem</string>
     <string name="control_center_sunshine_mode_two">Paksa kecerahan maksimum</string>
+    <string name="security_center_flash_light_default">Tutup</string>
+    <string name="security_center_flash_light_1">Mode tulis default</string>
+    <string name="security_center_flash_light_2">Mode tulis satu</string>
+    <string name="security_center_flash_light_3">Mode tulis dua</string>
     <string name="control_center_5g_off">Mati</string>
     <string name="control_center_5g_v1">5G Gaya Satu</string>
     <string name="control_center_5g_v2">5G Gaya Dua</string>
@@ -271,6 +277,11 @@
     <string name="system_ui_statusbar_network_speed_style_2">Nilai dan unit ditampilkan dalam dua baris</string>
     <string name="system_ui_statusbar_network_speed_style_3">Kecepatan jaringan uplink dan downlink ditampilkan dalam satu baris</string>
     <string name="system_ui_statusbar_network_speed_style_4">Tampilan dua baris kecepatan jaringan uplink dan downlink</string>
+    <string name="system_ui_statusbar_clock_style_1">Jam bilah status satu baris</string>
+    <string name="system_ui_statusbar_clock_style_2">Jam bilah status\nJam mini bilah notifikasi</string>
+    <string name="system_ui_statusbar_clock_style_3">Jam mini bilah notifikasi\nJam bilah status</string>
+    <string name="mediaeditor_mickey">Mickey Mouse</string>
+    <string name="mediaeditor_strawberry_bear">Beruang Stroberi</string>
     <!--System Framework-->
     <string name="system_framework">Kerangka Sistem</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -299,6 +310,8 @@
     <string name="system_framework_volume_steps">Pengganda tingkat volume</string>
     <string name="system_ui_display_cutout_title">Potongan Tampilan</string>
     <string name="system_ui_display_hide_cutout">Sembunyikan Potongan Tampilan</string>
+    <string name="system_ui_display_use_aosp_screenshot">Gunakan Tangkapan Layar AOSP</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">Arahkan ulang aplikasi tangkapan layar ke tangkapan layar AOSP, aplikasi tangkapan layar di MIUI/HyperOS tidak akan merespons operasi tangkapan layar</string>
     <string name="system_ui_display_brightness_title">Kecerahan</string>
     <string name="system_ui_display_auto_brightness">Rentang kecerahan otomatis</string>
     <string name="system_ui_display_auto_brightness_desc">Tentukan nilai minimum dan maksimum untuk kecerahan otomatis</string>
@@ -348,6 +361,7 @@
     <string name="system_framework_other_use_original_animation">Animasi transisi menggunakan gaya asli</string>
     <string name="system_framework_other_speed_install">Instal Kecepatan</string>
     <string name="system_framework_other_speed_install_desc">Instal ke memori yang berjalan untuk mempercepat instalasi</string>
+    <string name="system_framework_other_rotation_button">Rekomendasi rotasi</string>
     <string name="system_framework_other_thermal_brightness">Nonaktifkan pengurangan kecerahan layar otomatis</string>
     <string name="system_framework_other_thermal_brightness_more">Hanya secara otomatis mengurangi kecerahan layar yang bukan disebabkan oleh kontrol suhu</string>
     <string name="system_framework_other_disable_cleaner">Nonaktifkan aplikasi latar belakang yang mematikan</string>
@@ -359,6 +373,7 @@
     <string name="system_framework_allow_manage_all_notifications">Izinkan untuk mengelola semua notifikasi</string>
     <string name="system_framework_quick_screenshot">Tangkapan layar cepat</string>
     <string name="system_framework_quick_screenshot_desc">Nonaktifkan penundaan tangkapan layar</string>
+    <string name="system_framework_disable_link_turbo_toast">Sembunyikan LinkTurbo Toast</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Layanan Manajer Paket</string>
     <string name="system_framework_core_patch_downgr">Izinkan penurunan versi</string>
@@ -367,6 +382,8 @@
     <string name="system_framework_core_patch_auth_creak_desc">Memungkinkan pemasangan aplikasi setelah memodifikasi file dalam apk (abaikan kesalahan intisari yang tidak valid)</string>
     <string name="system_framework_disable_integrity">Nonaktifkan pemeriksaan integritas sistem</string>
     <string name="system_framework_disable_integrity_desc">Pemulihan otomatis atas konten yang dirusak dilarang. Jika fungsi \"Nonaktifkan verifikasi intisari\" diaktifkan, fungsi tersebut akan diaktifkan secara default.\nHanya mendukung Android 13 dan yang lebih baru</string>
+    <string name="system_framework_core_patch_shared_user">Lewati verifikasi tanda tangan pengguna bersama</string>
+    <string name="system_framework_core_patch_shared_user_desc">Izinkan pemasangan aplikasi yang berbeda dari tanda tangan pengguna bersama. Fitur ini agak berbahaya dan sebaiknya hanya diaktifkan bila diperlukan</string>
     <string name="system_framework_core_patch_digest_creak">Nonaktifkan bandingkan tanda tangan</string>
     <string name="system_framework_core_patch_digest_creak_desc">Izinkan menginstal ulang aplikasi dengan tanda tangan berbeda</string>
     <string name="system_framework_core_patch_use_pre_signature">Gunakan tanda tangan yang terpasang</string>
@@ -435,10 +452,9 @@
     <string name="camera_settings_men_makeup">Buka kunci Sesuaikan efek riasan untuk pria</string>
     <string name="camera_settings_lab_options">Aktifkan opsi Lab</string>
     <string name="camera_settings_track_eyes">Buka kunci Lacak mata</string>
-    <!--Clock-->
-    <string name="clock">Jam</string>
-    <string name="clock_enable_hour_glass">Buka kunci animasi jam pasir</string>
-    <string name="clock_enable_hour_glass_desc">Versi 13.65.0 dan lebih tinggi tidak didukung</string>
+    <!--Calendar-->
+    <string name="calendar">Kalender</string>
+    <string name="calendar_unlock_subscription">Buka Kunci Langganan</string>
     <!--File Manager-->
     <string name="fileexplorer">Manajer File</string>
     <string name="file_explorer_can_selectable">File Explorer Dapat Dipilih</string>
@@ -494,6 +510,7 @@
     <string name="system_ui_navigation_title">Navigasi</string>
     <string name="system_ui_navigation_handle_title">Tangani garis</string>
     <string name="system_ui_hide_navigation_bar">Sembunyikan Bilah Navigasi</string>
+    <string name="system_ui_hide_navigation_bar_toast">Jangan mengganti tombol navigasi</string>
     <string name="system_ui_hide_navigation_bar_more">Silakan mulai ulang cakupan Miui Home dan SystemUi</string>
     <string name="system_ui_navigation_handle_custom">Garis pegangan khusus</string>
     <string name="system_ui_navigation_handle_custom_height">Tinggi</string>
@@ -638,8 +655,18 @@
     <string name="system_ui_statusbar_clock_double_size">Ukuran jam baris ganda</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Hanya valid jika ditampilkan dalam dua baris</string>
     <string name="system_ui_statusbar_clock_fix_color">Perbaiki warna</string>
-    <string name="system_ui_statusbar_clock_fix_color_desc">Fitur eksperimental</string>
     <string name="system_ui_disable_clock_anim">Nonaktifkan animasi transisi jam slide di Pusat Pemberitahuan</string>
+    <string name="system_ui_disable_clock_synch">Pengaturan jam bilah status tidak disinkronkan</string>
+    <string name="system_ui_disable_clock_synch_desc">Jam bilah notifikasi besar tidak lagi disinkronkan dengan format jam bilah status</string>
+    <string name="system_ui_statusbar_clock_show">Tampilkan</string>
+    <string name="system_ui_statusbar_clock_big_bold">Bilah notifikasi jam besar dicetak tebal</string>
+    <string name="system_ui_statusbar_clock_layout_s">Jam Bilah Status</string>
+    <string name="system_ui_statusbar_clock_layout_b">Jam Besar Pemberitahuan</string>
+    <string name="system_ui_statusbar_clock_layout_n">Jam Mini Bilah Pemberitahuan</string>
+    <string name="system_ui_statusbar_clock_layout_n_desc">Proyek ini juga berisi modifikasi pada jam bilah notifikasi horizontal</string>
+    <string name="system_ui_statusbar_clock_editor_s">Format jam bilah status</string>
+    <string name="system_ui_statusbar_clock_editor_n">Format jam mini bilah notifikasi</string>
+    <string name="system_ui_statusbar_clock_style_f">Pengaturan jam bilah status</string>
     <string name="system_ui_statusbar_indicator_battery_title">Terkait dengan kekuatan</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Terkait suhu</string>
     <string name="system_ui_statusbar_battery_size">Ukuran huruf</string>
@@ -679,6 +706,7 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Ini adalah teks panjang yang akan ditampilkan dalam bentuk bergulir</string>
     <string name="system_ui_controlcenter_title">Pusat kendali</string>
     <string name="system_ui_controlcenter_card_title">Kartu</string>
+    <string name="system_ui_controlcenter_media_card_title">Kartu Pemberitahuan Media</string>
     <string name="system_ui_controlcenter_magnet_title">magnet</string>
     <string name="system_ui_control_center_notification_blur_title">Pemberitahuan</string>
     <string name="system_control_center_qs_detail_bg">Transparansi latar belakang kartu</string>
@@ -702,6 +730,8 @@
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Entri hub pintar Mi</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">Entri kontrol perangkat</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Kontrol Detail Nilai keburaman latar belakang</string>
+    <string name="system_ui_control_center_notification_disable_transparent">Nonaktifkan Mode Transparan</string>
+    <string name="system_ui_control_center_notification_disable_transparent_desc">Nonaktifkan pengaturan latar belakang notifikasi menjadi transparan</string>
     <string name="system_ui_control_center_notification_blur_model">Model Buram Pemberitahuan</string>
     <string name="system_ui_control_center_notification_blur_fix">Optimalisasi notifikasi</string>
     <string name="system_ui_control_center_notification_blur_fix_desc">Fungsi eksperimental, hanya tersedia untuk model Android 13 dan yang lebih baru. Setelah diaktifkan, notifikasi buram di beberapa area akan dioptimalkan\nMungkin ada masalah antarmuka sistem crash pada beberapa model.</string>
@@ -711,8 +741,8 @@
     <string name="system_ui_control_center_corner_radius_desc">Tema default tidak perlu disesuaikan</string>
     <string name="system_ui_control_center_blur_background_alpha">Nilai Latar Belakang Buram</string>
     <string name="system_ui_control_center_default_background_alpha">Nilai Latar Belakang Default</string>
-    <string name="system_ui_control_center_fix_media_control_panel">Perbaiki panel kontrol media</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Optimalkan efek pencampuran warna pada media panel kontrol</string>
+    <string name="system_ui_control_center_remove_media_control_panel_background">Hapus latar belakang warna campuran dari kartu</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Radius keburaman latar belakang gambar</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opasitas lapisan overlay latar belakang</string>
     <string name="system_ui_control_center_compact_notice">Notifikasi ringkas</string>
@@ -721,6 +751,7 @@
     <string name="system_ui_control_center_redirect_notice_desc">Membuka pengaturan menu notifikasi akan menavigasi ke pengaturan saluran target alih-alih menerapkan pengaturan notifikasi</string>
     <string name="system_ui_control_center_show_weather">Tunjukkan cuaca</string>
     <string name="system_ui_control_center_show_weather_city">Tunjukkan kota</string>
+    <string name="system_ui_control_center_disable_device_managed">Sembunyikan perintah pemantauan jaringan</string>
     <string name="system_ui_control_center_mute_visible_notice">Bisukan saat layar menyala</string>
     <string name="system_ui_control_center_expand_notification">Perluas Notifikasi</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Saat layar dihidupkan, notifikasi pop-up tidak memutar suara prompt</string>
@@ -742,9 +773,6 @@
     <string name="system_ui_controlcenter_old_title">Pusat kendali warisan</string>
     <string name="system_ui_controlcenter_unlock_old_title">Buka kunci gaya pusat kendali</string>
     <string name="system_ui_controlcenter_enable_title">Sesuaikan jumlah baris dan kolom</string>
-    <string name="system_control_center_old_qs_rows_desc">Label akan disembunyikan selama 5 baris dalam orientasi potret. Jumlah baris dibatasi hingga 3 dengan label tersembunyi dalam orientasi lanskap.</string>
-    <string name="system_control_center_old_qs_columns_desc">Orientasi lanskap akan memiliki satu kolom tambahan\nJika ROM Anda memiliki opsi tata letak Pengaturan Cepat yang ringkas, ROM akan menambahkan kolom lain di kedua orientasi</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">Orientasi lanskap akan memiliki satu kolom tambahan</string>
     <string name="system_control_center_old_qs_grid_columns">Jumlah kolom di panel yang diciutkan</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Jumlah kolom di panel yang diciutkan (Lanskap)</string>
     <string name="system_ui_control_center_more_card_tiles">Tampilkan Ubin Kartu</string>
@@ -756,10 +784,11 @@
     <string name="system_ui_other_title">Lainnya</string>
     <string name="system_ui_disable_volume">Bilah volume asli</string>
     <string name="system_ui_disable_volume_desc">Modifikasi bilah volume Xiaomi tidak berlaku untuk bilah volume asli</string>
+    <string name="system_ui_unlock_clipboard">Buka kunci editor papan klip AOSP</string>
+    <string name="system_ui_unlock_clipboard_desc">Setelah dibuka, itu akan muncul bersama dengan editor MIUI/HyperOS.</string>
     <string name="system_ui_charge_animation_title">Mengisi animasi</string>
     <string name="system_ui_charge_animation_style">Gaya animasi pengisian daya</string>
     <string name="system_ui_charge_animation_style_desc">Pilih gaya animasi pengisian daya layar kunci</string>
-    <string name="system_ui_origin_charge_animation">Animasi pengisian daya asli</string>
     <string name="system_ui_another_title">Lainnya</string>
     <string name="system_ui_disable_bluetooth_restrict">Cegah bluetooth dimatikan sementara</string>
     <string name="system_ui_disable_miui_multi_win_switch">Sembunyikan tombol Jendela Kenyamanan</string>
@@ -905,6 +934,7 @@
     <string name="gallery_enable_pdf">Buka kunci menghasilkan PDF</string>
     <string name="gallery_enable_ocr">Buka kunci OCR</string>
     <string name="gallery_enable_ocr_form">Buka kunci tabel pemindaian</string>
+    <string name="gallery_enable_ai_gallery">Buka kunci foto AI</string>
     <string name="gallery_enable_id_photo">Buka kunci ID</string>
     <string name="gallery_enable_photo_movie">Buka Kunci Klip</string>
     <string name="gallery_enable_video_post">Buka kunci efek Video</string>
@@ -1054,6 +1084,7 @@
     <string name="home_title_disable_hide_file">Nonaktifkan penyembunyian ikon \"File\".</string>
     <string name="home_title_disable_hide_theme">Jangan sembunyikan ikon \"Pengelola Tema\".</string>
     <string name="home_title_disable_hide_google">Jangan sembunyikan ikon \"Google\".</string>
+    <string name="home_title_fake_non_default_icon">Ikon non-default palsu</string>
     <string name="home_title_custom_anim_param">Parameter Animasi Kustom</string>
     <string name="home_title_custom_anim_param_damping_title">Pembasahan</string>
     <string name="home_title_custom_anim_param_stiffness_title">Kekakuan</string>
@@ -1062,6 +1093,7 @@
     <string name="home_recent_disable_wallpaper_dimming">Nonaktifkan peredupan wallpaper</string>
     <string name="home_recent_unlock_pin">Buka kunci aplikasi yang disematkan</string>
     <string name="home_recent_hide_status_bar_in_task_view">Sembunyikan bilah status di tampilan tugas</string>
+    <string name="home_recent_hide_world_circulate">Sembunyikan jendela mengambang aplikasi pencerminan layar</string>
     <string name="home_recent_hide_freeform">Sembunyikan tombol bentuk bebas</string>
     <string name="home_recent_hide_clean_up">Sembunyikan tombol pembersihan</string>
     <string name="home_recent_remove_icon">Hapus ikon</string>
@@ -1140,7 +1172,6 @@
     <string name="system_framework_guided_access_e">Silakan buka kuncinya di antarmuka aplikasi yang terkunci</string>
     <string name="system_framework_guided_access_more">Akses Terpandu seperti iOS yang menyematkan aplikasi saat ini ke layar\nUntuk menggunakan, tekan dan tahan bilah status atas, dan jika Anda ingin keluar, tekan dan tahan lagi bilah status atas\nPertama kali Anda menggunakannya, Anda perlu me-restart perangkat.</string>
     <string name="home_other_shortcut_remove_restrictions">Hapus batasan pada pintasan</string>
-    <string name="home_other_fix_android_r_s">Perbaiki masalah kompatibilitas yang menyebabkan desktop menjadi hitam</string>
     <string name="home_other_shortcut_background_blur_custom">Nilai blur menu pintasan</string>
     <string name="home_other_high_models">Pengakuan wajib sebagai model kelas atas</string>
     <string name="home_recent_blur_level">Tingkat keburaman</string>
@@ -1184,9 +1215,8 @@
     <string name="miui_package_installer_install_source">Sumber pemasangan khusus</string>
     <string name="miui_package_installer_apk_info">Tampilkan lebih banyak informasi paket</string>
     <string name="miui_package_installer_apk_info_desc">Tampilkan info lebih lanjut tentang aplikasi yang sedang diinstal</string>
-    <!--Networkboost-->
-    <string name="various_disable_link_turbo_toast">Sembunyikan LinkTurbo Toast</string>
-    <string name="various_disable_link_turbo_toast_more">Silakan mulai ulang NetworkBoost dalam cakupan mulai ulang cepat</string>
+    <string name="miui_package_installer_upload_appinfo">Larang mengunggah info aplikasi</string>
+    <string name="miui_package_installer_upload_appinfo_desc">Pemeriksaan keamanan tidak dapat dilakukan jika dinonaktifkan</string>
     <!--NFC-->
     <string name="nfc">Layanan NFC</string>
     <string name="nfc_disable_sound">Nonaktifkan suara notifikasi NFC</string>
@@ -1200,9 +1230,6 @@
     <string name="personal_assistant_blur_value">Gaya latar belakang</string>
     <string name="personal_assistant_blurradius">Nilai blur asisten pribadi</string>
     <string name="personal_assistant_color">Warna asisten pribadi</string>
-    <!--Music-->
-    <string name="music">Musik</string>
-    <string name="music_disable_ad">Hilangkan iklan</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Baterai dan kinerja</string>
     <string name="powerkeeper_custom_refresh_rate">Aplikasi khusus dengan kecepatan refresh tinggi</string>
@@ -1322,6 +1349,13 @@
     <string name="security_center_sidebar_function_title">Fungsi Bilah Sisi</string>
     <string name="security_center_game_speed">Luncurkan game dengan cepat</string>
     <string name="security_center_game_speed_desc">Saat meluncurkan game, animasi layar pembuka diputar dengan kecepatan 3x, yang hanya didukung oleh beberapa game</string>
+    <string name="security_center_bypass_simlock_miaccount_auth">Keamanan SIM tidak memerlukan Akun</string>
+    <string name="security_center_bypass_simlock_miaccount_auth_desc">Lewati keamanan SIM Mi Account yang diperlukan, Anda dapat membuka fungsi ini bahkan tanpa masuk ke Akun XiaoMi</string>
+    <string name="security_center_aosp_app_info_label">Info Aplikasi AOSP</string>
+    <string name="security_center_aosp_app_info">Tambahkan entri Info Aplikasi AOSP</string>
+    <string name="security_center_aosp_app_manager_label">Manajer Aplikasi AOSP</string>
+    <string name="security_center_aosp_app_manager">Tambahkan entri AOSP App Manager</string>
+    <string name="security_center_power_consumption_ranking">Tampilkan Peringkat Konsumsi Daya</string>
     <!--MiTrustService-->
     <string name="trustservice">Layanan MiTrust</string>
     <string name="trustservice_disable_mrm">Nonaktifkan deteksi risiko</string>
@@ -1360,6 +1394,8 @@
     <string name="market_device_modify_desc">Terima pembaruan dari perangkat terkait dengan menyamarkan model sebagai perangkat lain</string>
     <string name="market_disable_new_icon">Melarang penggunaan ikon pihak ketiga</string>
     <string name="market_disable_new_icon_desc">Jadikan desktop lebih bersih</string>
+    <string name="market_package_monitor">Nonaktifkan monitor paket</string>
+    <string name="market_package_monitor_desc">Larang GetApps memantau pemasangan dan pencopotan aplikasi</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+ Beta</string>
     <string name="mirror_hyperos">Layanan Interkonektivitas Perangkat</string>
@@ -1520,13 +1556,13 @@
     <string name="log_level_none">Nonaktifkan catatan</string>
     <string name="disable_suggest">Nonaktifkan Saran</string>
     <string name="enable_suggest">Aktifkan Saran</string>
-    <string name="security_center_aosp_app_info_label">Info Aplikasi AOSP</string>
-    <string name="security_center_aosp_app_info">Tambahkan entri Info Aplikasi AOSP</string>
-    <string name="security_center_aosp_app_manager_label">Manajer Aplikasi AOSP</string>
-    <string name="security_center_aosp_app_manager">Tambahkan entri AOSP App Manager</string>
-    <string name="security_center_power_consumption_ranking">Tampilkan Peringkat Konsumsi Daya</string>
+    <string name="help_cant_see_apps_guide">Tidak dapat menemukan fungsi aplikasi?</string>
+    <string name="help_cant_see_apps_title">Tidak dapat menemukan fungsi aplikasi di beranda?</string>
+    <string name="help_cant_see_apps_desc">Untuk menjaga kesederhanaan dan kegunaan beranda, kami memiliki akses tersembunyi ke jenis fungsi aplikasi berikut:\n\n - Aplikasi yang saat ini dinonaktifkan atau disembunyikan\n - Aplikasi yang tidak ditemukan di perangkat Anda\n - Aplikasi yang tidak kompatibel dengan aplikasi saat ini versi sistem atau aplikasi\n\nHarap pecahkan masalah berdasarkan informasi di atas, mulai ulang HyperCeiler, dan coba lagi. Jika Anda masih tidak dapat menemukan fungsionalitas aplikasi, mungkin ada bug. Harap berikan masukan yang tepat waktu dan efektif kepada kami.\n\nFungsi aplikasi yang saat ini tersembunyi:\n\n</string>
+    <string name="help_cant_see_apps_uninstall">Aplikasi yang diuninstall:\n</string>
+    <string name="help_cant_see_apps_disable">Dinonaktifkan atau aplikasi tersembunyi:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">Untuk menjaga kesederhanaan dan kegunaan beranda, kami memiliki akses tersembunyi ke jenis fungsi aplikasi berikut:\n\n - Aplikasi yang saat ini dinonaktifkan atau disembunyikan\n - Aplikasi yang tidak ditemukan di perangkat Anda\n - Aplikasi yang tidak kompatibel dengan aplikasi saat ini versi sistem atau aplikasi\n\nHarap pecahkan masalah berdasarkan informasi di atas, mulai ulang HyperCeiler, dan coba lagi. Jika Anda masih tidak dapat menemukan fungsionalitas aplikasi, mungkin ada bug. Harap berikan masukan yang tepat waktu dan efektif kepada kami.\n\nSaat ini tidak ada pintu masuk tersembunyi!</string>
     <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
     <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi Re.chronoRain, dan mungkin berisi kode berbahaya.</string>
     <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan kepada pengembang secara tepat waktu dan sopan.</string>
-    <string name="happy_chinese_new_year">Selamat Tahun Baru Cina</string>
 </resources>

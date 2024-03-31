@@ -18,11 +18,11 @@
 */
 package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
-import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import org.luckypray.dexkit.query.enums.StringMatchType
+import org.luckypray.dexkit.query.enums.*
 
 object CustomWatermark : BaseHook() {
     private val name by lazy {
@@ -42,7 +42,7 @@ object CustomWatermark : BaseHook() {
     }
 
     override fun init() {
-        logI(TAG, "[CustomWatermark] search method is $search")
+        logD(TAG, lpparam.packageName, "[CustomWatermark] search method is $search")
         search.createHook {
             // 当前只能修改后缀
             returnConstant(name)

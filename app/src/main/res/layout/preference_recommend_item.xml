@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/recommend_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/preference_recommend_item_margin_start"
+            android:layout_marginTop="@dimen/preference_recommend_item_margin_vertical"
+            android:layout_marginBottom="@dimen/preference_recommend_item_margin_vertical"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/preference_recommend_item_text_color"
+            android:textSize="@dimen/miuix_appcompat_normal_text_size" />
+    </LinearLayout>
+</RelativeLayout>

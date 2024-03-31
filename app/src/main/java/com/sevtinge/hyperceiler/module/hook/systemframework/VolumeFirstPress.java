@@ -34,7 +34,7 @@ public class VolumeFirstPress extends BaseHook {
 
         findAndHookMethod(mVolumeController, "suppressAdjustment", int.class, int.class, boolean.class, new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 int streamType = (int) param.args[0];
                 if (streamType != AudioManager.STREAM_MUSIC) return;
                 boolean isMuteAdjust = (boolean) param.args[2];

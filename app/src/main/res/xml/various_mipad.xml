@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/various_mipad_title">
     <PreferenceCategory android:title="@string/various_mipad_input_title">
         <SwitchPreference
             android:title="@string/various_mipad_input_close_magic_title"
@@ -41,5 +42,5 @@
             app:entryValues="@array/mipad_input_bluetooth_version_value" />
             
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

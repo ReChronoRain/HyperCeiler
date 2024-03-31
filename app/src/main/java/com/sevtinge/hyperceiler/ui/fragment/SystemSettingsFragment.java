@@ -24,11 +24,13 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroid
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
 
+import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
@@ -43,6 +45,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
     SwitchPreference mNoveltyHaptic; // 新版触感调节页面
     SwitchPreference mPad; // 解锁平板分区
     SwitchPreference mNotice; // 重要通知程度
+    RecommendPreference mRecommend;
 
     @Override
     public int getContentResId() {
@@ -75,6 +78,18 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
         if (isMoreHyperOSVersion(1f)) {
             mNotice.setSummary(R.string.system_settings_more_notification_settings_summary);
         }
+
+        Bundle args1 = new Bundle();
+        mRecommend = new RecommendPreference(getContext());
+        getPreferenceScreen().addPreference(mRecommend);
+
+        args1.putString(":settings:fragment_args_key", "prefs_key_mi_settings_show_fps");
+        mRecommend.addRecommendView(getString(R.string.mi_settings_show_fps),
+                null,
+                MiSettingsFragment.class,
+                args1,
+                R.string.mi_settings
+        );
 
         animationScale();
     }

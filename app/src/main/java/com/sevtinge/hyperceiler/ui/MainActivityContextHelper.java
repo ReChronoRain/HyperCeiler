@@ -144,47 +144,4 @@ public class MainActivityContextHelper {
             return e.toString();
         }
     }
-
-    public String getRandomTip() {
-        AssetManager assetManager = context.getAssets();
-        String fileName = "tips/tips-" + getLanguage();
-        List<String> tipsList = new ArrayList<>();
-
-        try {
-            InputStream inputStream;
-            try {
-                inputStream = assetManager.open(fileName);
-            } catch (IOException ex) {
-                inputStream = assetManager.open("tips/tips");
-            }
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (!line.trim().startsWith("//")) {
-                    tipsList.add(line);
-                }
-            }
-
-            reader.close();
-            inputStream.close();
-
-            Random random = new Random();
-            String randomTip = "";
-            while (randomTip.isEmpty() && !tipsList.isEmpty()) {
-                int randomIndex = random.nextInt(tipsList.size());
-                randomTip = tipsList.get(randomIndex);
-                tipsList.remove(randomIndex);
-            }
-
-            if (!randomTip.isEmpty()) {
-                return randomTip;
-            } else {
-                return "Get random tip is empty.";
-            }
-        } catch (IOException e) {
-            logE("MainActivityContextHelper", "getRandomTip() error: " + e.getMessage());
-            return "error";
-        }
-    }
 }

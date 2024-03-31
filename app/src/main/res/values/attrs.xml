@@ -57,6 +57,10 @@
     <!-- Default style for seekbar preferences. -->
     <attr name="seekBarPreferenceExStyle" format="reference" />
 
+    <attr name="myLocation" format="string" />
+    <attr name="myLocationHyper" format="string" />
+    <attr name="myLocationPad" format="string" />
+
     <declare-styleable name="SeekBarPreferenceEx">
         <attr name="note" format="string" />
         <attr name="format" format="string" />

@@ -6,15 +6,15 @@
 
 ### Make HyperOS/MIUI Great Again!
 
-[简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;English |&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
+[简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;English&nbsp;&nbsp;|&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
 
 </div>
 
-## Supported versions
+## Currently supported versions
 
-MIUI and HyperOS for Android 11-14
+MIUI and HyperOS for Android 13-14
 
-Note: The System Framework and System UI scope do not support MIUI for Android 11-12.
+Note: Android 11-12 will gradually stop supporting it in subsequent versions. The current System Framework, System UI, System launcher, and Security scope do not support the MIUI of Android 11-12.
 
 ## Pre-use instructions
 
@@ -22,9 +22,9 @@ Please enable HyperCeiler in [LSPosed](https://github.com/LSPosed/LSPosed/releas
 
 This module <b>does not support</b> `third-party MIUI/Xiaomi HyperOS ROMs with a lot of modifications`, `system software with a lot of modifications`, and some `international MIUI/Xiaomi HyperOS ROMs`.
 
-At present, HyperCeiler is adapted to the mobile device of Xiaomi HyperOS1.0 based on Android 14, and the coverage is not very complete, and it needs to be continuously tested and improved.
+Before submitting feedback, please pay attention to whether there is already the same feedback to avoid causing trouble to developers. Spending the same energy reading the same feedback is a waste of time.
 
-HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for the core scope such as the System Framework and System UI, in principle, other scopes can be used normally, if you need to use the core scope, please stay in [this version](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
+HyperCeiler has stopped maintaining the MIUI ROM for Android 11-12. Currently, except for core scopes such as the System Framework and System UI, in principle other scopes can be used normally. If you want to use the core scope, please stay in [this version](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
 
 ## Supported apps
 
@@ -44,13 +44,12 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 | Mi Wallpaper               | com.miui.miwallpaper               |
 | Taplus                     | com.miui.contentextension          |
 | Bullet screen notification | com.xiaomi.barrage                 |
-| Baidu IME for MIUI         | com.baidu.input_mi                 |
 | Phone                      | com.android.incallui               |
 | Phone Service              | com.android.phone                  |
 | Battery and performance    | com.miui.powerkeeper               |
 | Messaging                  | com.android.mms                    |
 | Screenshot                 | com.miui.screenshot                |
-| Cleaner                    | com.miui.cleanmaster               |
+| Calendar                   | com.android.calendar               |
 | Browser                    | com.android.browser                |
 | Rueban (MTB)               | com.xiaomi.mtb                     |
 | Screen Recorder            | com.miui.screenrecorder            |
@@ -59,7 +58,7 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 | Sogou Keyboard for MIUI    | com.sohu.inputmethod.sogou.xiaomi  |
 | Weather                    | com.miui.weather2                  |
 | Cast                       | com.milink.service                 |
-| MIUI+                      | com.xiaomi.mirror                  |
+| Xiaomi Interconnectivity   | com.xiaomi.mirror                  |
 | External Storage           | com.android.externalstorage        |
 | Always-on display          | com.miui.aod                       |
 | File Manager               | com.android.fileexplorer           |
@@ -77,13 +76,11 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 | GetApps                    | com.xiaomi.market                  |
 | App vault                  | com.miui.personalassistant         |
 | Themes                     | com.android.thememanager           |
-| MIUI Security Components   | com.miui.guardprovider             |
+| HyperOS Security Components| com.miui.guardprovider             |
 | Camera                     | com.android.camera                 |
 | Mi AI Translate            | com.xiaomi.aiasst.vision           |
-| Mi AI Suggestions          | com.xiaomi.aireco                  |
 | Scanner                    | com.xiaomi.scanner                 |
 | Mi AI                      | com.miui.voiceassist               |
-| NetworkBoost               | com.xiaomi.NetworkBoost            |
 | NFC Service                | com.android.nfc                    |
 | Earphones                  | com.miui.misound                   |
 | Backup                     | com.miui.backup                    |
@@ -110,7 +107,7 @@ You can provide translations for the HyperCeiler project [here](https://crwd.in/
 
 ## Thanks!
 
-<b>HyperCeiler</b> uses some or all of the following projects, thanks to the developers of these projects for their support (in no particular order).
+> <b>HyperCeiler</b> uses some or all of the following projects, thanks to the developers of these projects for their support (in no particular order).
 
 - [「Accompanist」 by Android Open Source Project, Google Inc.](https://google.github.io/accompanist)
 - [「Android」 by Android Open Source Project, Google Inc.](https://source.android.google.cn/license)

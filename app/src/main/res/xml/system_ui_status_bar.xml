@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_ui_statusbar_title">
 
     <Preference
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageSettings"
@@ -20,6 +21,12 @@
 
     <Preference
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.ClockIndicatorSettings"
+        android:key="prefs_key_old_clock_status"
+        android:title="@string/system_ui_statusbar_clock_title" />
+
+    <Preference
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.NewClockIndicatorSettings"
+        android:key="prefs_key_new_clock_status"
         android:title="@string/system_ui_statusbar_clock_title" />
 
     <Preference
@@ -63,5 +70,4 @@
 
     </PreferenceCategory>
 
-    <Preference android:enabled="false" />
 </PreferenceScreen>

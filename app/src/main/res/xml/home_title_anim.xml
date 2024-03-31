@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/home_title_custom_anim_param">
 
     <SwitchPreference
         android:defaultValue="false"
@@ -7,6 +9,14 @@
         android:title="@string/enable" />
 
     <Preference
+        app:isPreferenceVisible="false"
+        android:key="prefs_key_home_title_custom_anim_param_9_title"
+        android:title="@string/home_title_custom_anim_param_9_title"
+        android:dependency="prefs_key_home_title_custom_anim_param_main"
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim9Settings" />
+
+    <Preference
+        app:isPreferenceVisible="false"
         android:key="prefs_key_home_title_custom_anim_param_1_title"
         android:title="@string/home_title_custom_anim_param_1_title"
         android:dependency="prefs_key_home_title_custom_anim_param_main"
@@ -53,7 +63,5 @@
         android:title="@string/home_title_custom_anim_param_8_title"
         android:dependency="prefs_key_home_title_custom_anim_param_main"
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim8Settings" />
-
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

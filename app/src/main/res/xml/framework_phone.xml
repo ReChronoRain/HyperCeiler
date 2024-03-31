@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_framework_phone_title">
     <PreferenceCategory android:title="@string/system_framework_phone_network_title">
 
         <SwitchPreference
-            android:title="@string/phone_double_5g_nr"
-            android:summary="@string/phone_double_5g_nr_desc"
+            android:defaultValue="false"
             android:key="prefs_key_phone_double_5g_nr"
-            android:defaultValue="false" />
+            android:summary="@string/phone_double_5g_nr_desc"
+            android:title="@string/phone_double_5g_nr" />
 
         <SwitchPreference
-            android:title="@string/phone_double_5g_sa"
-            android:summary="@string/phone_double_5g_sa_desc"
+            android:defaultValue="false"
             android:key="prefs_key_phone_double_5g_sa"
-            android:defaultValue="false" />
+            android:summary="@string/phone_double_5g_sa_desc"
+            android:title="@string/phone_double_5g_sa" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_framework_phone_band_title">
 
         <SwitchPreference
-            android:title="@string/phone_n1"
-            android:summary="@string/phone_n1_desc"
+            android:defaultValue="false"
             android:key="prefs_key_phone_n1"
-            android:defaultValue="false" />
+            android:summary="@string/phone_n1_desc"
+            android:title="@string/phone_n1" />
 
         <SwitchPreference
-            android:title="@string/phone_n5_n8"
-            android:summary="@string/phone_n5_n8_desc"
+            android:defaultValue="false"
             android:key="prefs_key_phone_n5_n8"
-            android:defaultValue="false" />
+            android:summary="@string/phone_n5_n8_desc"
+            android:title="@string/phone_n5_n8" />
 
         <SwitchPreference
-            android:title="@string/phone_n28"
-            android:summary="@string/phone_n28_desc"
+            android:defaultValue="false"
             android:key="prefs_key_phone_n28"
-            android:defaultValue="false" />
+            android:summary="@string/phone_n28_desc"
+            android:title="@string/phone_n28" />
 
     </PreferenceCategory>
-
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

@@ -24,6 +24,13 @@
             android:title="@string/browser" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.CalendarFragment"
+            android:icon="@drawable/ic_calendar"
+            android:key="prefs_key_calendar"
+            android:summary="com.android.calendar"
+            android:title="@string/calendar" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.CameraFragment"
             android:icon="@drawable/ic_camera"
             android:key="prefs_key_camera"
@@ -31,11 +38,11 @@
             android:title="@string/camera" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.ClockFragment"
-            android:icon="@drawable/ic_clock"
-            android:key="prefs_key_clock"
-            android:summary="com.android.deskclock"
-            android:title="@string/clock" />
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.CameraNewFragment"
+            android:icon="@drawable/ic_camera"
+            android:key="prefs_key_camera_new"
+            android:summary="com.android.camera"
+            android:title="@string/camera" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.FileExplorerFragment"
@@ -227,13 +234,6 @@
             android:title="@string/personal_assistant" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MusicFragment"
-            android:icon="@drawable/ic_music"
-            android:key="prefs_key_music"
-            android:summary="com.miui.player"
-            android:title="@string/music" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.PowerKeeperFragment"
             android:icon="@drawable/ic_powerkeeper"
             android:key="prefs_key_powerkeeper"
@@ -311,7 +311,7 @@
             android:title="@string/joyose" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MarketFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.GetAppsFragment"
             android:icon="@drawable/ic_market"
             android:key="prefs_key_market"
             android:summary="com.xiaomi.market"
@@ -337,13 +337,6 @@
             android:key="prefs_key_mtb"
             android:summary="com.xiaomi.mtb"
             android:title="@string/mtb" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.NetworkBoostFragment"
-            android:icon="@drawable/ic_default_icon"
-            android:key="prefs_key_networkboost"
-            android:summary="com.xiaomi.networkboost"
-            android:title="@string/networkboost" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.ScannerFragment"
@@ -372,13 +365,19 @@
             android:key="prefs_key_various"
             android:title="@string/various" />
 
+        <Preference
+            android:key="prefs_key_help_cant_see_app"
+            android:title="@string/help_cant_see_apps_guide"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.helper.CantSeeAppsFragment"
+            android:layout="@layout/preference_hyperlink">
+        </Preference>
     </PreferenceCategory>
 
-    <Preference
-        android:enabled="false"
-        android:key="prefs_key_tip"
-        android:layout="@layout/preference_text"
-        android:summary="@string/tip_default" />
+    <PreferenceCategory>
 
-    <Preference android:enabled="false" />
+        <com.sevtinge.hyperceiler.prefs.TipsPreference
+            android:key="prefs_key_tips" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

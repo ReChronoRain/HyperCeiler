@@ -18,13 +18,10 @@
  */
 package com.sevtinge.hyperceiler.module.app;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-
 import android.os.Build;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.AppLockPinScramble;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.BlurSecurity;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.DisableReport;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.GetBubbleAppString;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.InstallIntercept;
@@ -54,12 +51,14 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.beauty.BeautyPrivacy;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.lab.AiClipboardEnable;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.lab.BlurLocationEnable;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.lab.GetNumberEnable;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.other.BypassSimLockMiAccountAuth;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.DisableRootCheck;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.FuckRiskPkg;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.LockOneHundredPoints;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.NoLowBatteryWarning;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.SkipCountDownLimit;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.AddSideBarExpandReceiver;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.BlurSecurity;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.GamePerformanceWildMode;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.UnlockGunService;
@@ -112,6 +111,7 @@ public class SecurityCenter extends BaseModule {
         initHook(FuckRiskPkg.INSTANCE, mPrefsMap.getBoolean("security_center_disable_send_malicious_app_notification"));
         initHook(NoLowBatteryWarning.INSTANCE, mPrefsMap.getBoolean("security_center_remove_low_battery_reminder"));
         initHook(new UnlockFbo(), mPrefsMap.getBoolean("security_center_unlock_fbo"));
+        initHook(BypassSimLockMiAccountAuth.INSTANCE, mPrefsMap.getBoolean("security_center_bypass_simlock_miaccount_auth"));
 
         // 小窗和气泡通知
         initHook(new RemoveConversationBubbleSettingsRestriction(), mPrefsMap.getBoolean("security_center_remove_conversation_bubble_settings_restriction"));
@@ -126,11 +126,9 @@ public class SecurityCenter extends BaseModule {
             mPrefsMap.getBoolean("security_center_unlock_s_resolution") ||
             mPrefsMap.getBoolean("security_center_unlock_enhance_contours");
 
-        if (!isAndroidVersion(30)) {
-            initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
-            initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
-            initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
-        }
+        initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
+        initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
+        initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
         initHook(new ScLockApp(), mPrefsMap.getBoolean("system_framework_guided_access_sc"));
         initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
         initHook(UnlockGunService.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_gun_service"));

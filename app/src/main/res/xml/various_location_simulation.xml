@@ -75,6 +75,5 @@
         <EditTextPreference android:title="@string/location_simulation_wifi" />
         <EditTextPreference android:title="@string/location_simulation_router_mac" />
     </PreferenceCategory>
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

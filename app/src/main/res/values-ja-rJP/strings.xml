@@ -27,6 +27,7 @@
     <string name="prefs_5">種類を選択</string>
     <string name="prefs_6">共有設定を確認</string>
     <string name="prefs_7">指定したキーを削除</string>
+    <string name="help">ヘルプ</string>
     <string name="settings">設定</string>
     <string name="about">アプリについて</string>
     <string name="about_use">引用</string>
@@ -57,6 +58,7 @@
     <string name="settings_icon_medium">中間</string>
     <string name="settings_icon_down">下部</string>
     <string name="settings_icon_mode">アイコンのスタイル</string>
+    <string name="settings_app_language">言語 (Language)</string>
     <string name="settings_icon_miui_14">丸みを帯びた長方形のスタイル</string>
     <string name="settings_icon_miui_13">背景の切り抜きスタイル</string>
     <string name="settings_reboot">ターゲットアプリを再起動</string>
@@ -261,6 +263,10 @@
     <string name="control_center_sunshine_mode_default">オフ</string>
     <string name="control_center_sunshine_mode_one">システムのデフォルトモード</string>
     <string name="control_center_sunshine_mode_two">明るさを最大に強制</string>
+    <string name="security_center_flash_light_default">オフ</string>
+    <string name="security_center_flash_light_1">既定の書き込みモード</string>
+    <string name="security_center_flash_light_2">書き込みモード 1</string>
+    <string name="security_center_flash_light_3">書き込みモード 2</string>
     <string name="control_center_5g_off">オフ</string>
     <string name="control_center_5g_v1">5G スタイル 1</string>
     <string name="control_center_5g_v2">5G スタイル 2</string>
@@ -271,6 +277,11 @@
     <string name="system_ui_statusbar_network_speed_style_2">値と単位を2行で表示</string>
     <string name="system_ui_statusbar_network_speed_style_3">アップリンクとダウンリンクのネットワーク速度を1行で表示</string>
     <string name="system_ui_statusbar_network_speed_style_4">アップリンクとダウンリンクのネットワーク速度を2行で表示</string>
+    <string name="system_ui_statusbar_clock_style_1">単一行のステータスバー時計</string>
+    <string name="system_ui_statusbar_clock_style_2">ステータスバーの時計\n通知バーのミニ時計</string>
+    <string name="system_ui_statusbar_clock_style_3">通知バーのミニ時計\nステータスバーの時計</string>
+    <string name="mediaeditor_mickey">ミッキーマウス</string>
+    <string name="mediaeditor_strawberry_bear">ストロベリーベア</string>
     <!--System Framework-->
     <string name="system_framework">システムフレームワーク</string>
     <string name="system_framework_volume_title">音量</string>
@@ -299,6 +310,8 @@
     <string name="system_framework_volume_steps">音量のステップ数</string>
     <string name="system_ui_display_cutout_title">画面のノッチ</string>
     <string name="system_ui_display_hide_cutout">画面のノッチを隠す</string>
+    <string name="system_ui_display_use_aosp_screenshot">AOSP スクリーンショットを使用</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">スクリーンショットアプリを AOSP スクリーンショットにリダイレクトします。MIUI/HyperOS のスクリーンショットアプリはスクリーンショット操作に応答しなくなります</string>
     <string name="system_ui_display_brightness_title">明るさ</string>
     <string name="system_ui_display_auto_brightness">明るさの自動調整範囲</string>
     <string name="system_ui_display_auto_brightness_desc">明るさの自動調整での最小値と最大値を設定します</string>
@@ -348,6 +361,7 @@
     <string name="system_framework_other_use_original_animation">ネイティブスタイルの遷移アニメーションを使用する</string>
     <string name="system_framework_other_speed_install">スピードインストール</string>
     <string name="system_framework_other_speed_install_desc">インストール速度を上げるためにメモリへインストールします</string>
+    <string name="system_framework_other_rotation_button">画面回転のおすすめ</string>
     <string name="system_framework_other_thermal_brightness">自動的な明るさ制限を無効化</string>
     <string name="system_framework_other_thermal_brightness_more">高温時でも明るさを減少させないようにします</string>
     <string name="system_framework_other_disable_cleaner">バックグラウンドアプリの強制終了を無効化</string>
@@ -359,6 +373,7 @@
     <string name="system_framework_allow_manage_all_notifications">すべての通知の管理を許可</string>
     <string name="system_framework_quick_screenshot">クイックスクリーンショット</string>
     <string name="system_framework_quick_screenshot_desc">スクリーンショットの遅延を無効化</string>
+    <string name="system_framework_disable_link_turbo_toast">LinkTurbo トーストを隠す</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">パッケージマネージャーサービス</string>
     <string name="system_framework_core_patch_downgr">ダウングレードを許可</string>
@@ -367,6 +382,8 @@
     <string name="system_framework_core_patch_auth_creak_desc">改変されたapkのインストールを許可します(無効なダイジェストエラーを無視)</string>
     <string name="system_framework_disable_integrity">システムの整合性チェックを無効化</string>
     <string name="system_framework_disable_integrity_desc">改ざんされたコンテンツの自動復元を禁止します。「ダイジェスト認証を無効にする」機能をオンにすると、デフォルトで有効になります。\nAndroid 13 以降のみ対応しています</string>
+    <string name="system_framework_core_patch_shared_user">共有ユーザー署名検証をバイパスする</string>
+    <string name="system_framework_core_patch_shared_user_desc">共有ユーザー署名が異なるアプリのインストールを許可します、この機能は大変危険なため、本当に必要な場合のみ有効化してください</string>
     <string name="system_framework_core_patch_digest_creak">比較署名を無効にする</string>
     <string name="system_framework_core_patch_digest_creak_desc">異なる署名を持つアプリの再インストールを許可します</string>
     <string name="system_framework_core_patch_use_pre_signature">インストール済みの署名を使用</string>
@@ -435,10 +452,9 @@
     <string name="camera_settings_men_makeup">男性用のメイクアップ効果をアンロック</string>
     <string name="camera_settings_lab_options">ラボオプションを有効化</string>
     <string name="camera_settings_track_eyes">目のトラッキングをアンロック</string>
-    <!--Clock-->
-    <string name="clock">時計</string>
-    <string name="clock_enable_hour_glass">タイマーの砂時計アニメーションをアンロック</string>
-    <string name="clock_enable_hour_glass_desc">バージョン 13.65.0 以降はサポートされていません</string>
+    <!--Calendar-->
+    <string name="calendar">カレンダー</string>
+    <string name="calendar_unlock_subscription">サブスクリプションをアンロック</string>
     <!--File Manager-->
     <string name="fileexplorer">ファイルマネージャー</string>
     <string name="file_explorer_can_selectable">フォルダ名の長押しで選択可能にする</string>
@@ -494,6 +510,7 @@
     <string name="system_ui_navigation_title">ナビゲーション</string>
     <string name="system_ui_navigation_handle_title">ハンドルライン</string>
     <string name="system_ui_hide_navigation_bar">ナビゲーションバーを非表示</string>
+    <string name="system_ui_hide_navigation_bar_toast">ナビゲーションキーを切り替えしない</string>
     <string name="system_ui_hide_navigation_bar_more">システムランチャーとシステム UI スコープの両方を再起動してください</string>
     <string name="system_ui_navigation_handle_custom">カスタムハンドルライン</string>
     <string name="system_ui_navigation_handle_custom_height">高さ</string>
@@ -638,8 +655,18 @@
     <string name="system_ui_statusbar_clock_double_size">二行の時計のサイズ</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">2 行で表示されている場合にのみ有効です</string>
     <string name="system_ui_statusbar_clock_fix_color">色を修正</string>
-    <string name="system_ui_statusbar_clock_fix_color_desc">実験的機能です</string>
     <string name="system_ui_disable_clock_anim">通知センターでのスライド時計遷移アニメーションを無効化</string>
+    <string name="system_ui_disable_clock_synch">ステータスバーの時計設定が同期されていません</string>
+    <string name="system_ui_disable_clock_synch_desc">大きな通知バーの時計はステータスバーの時計形式と同期されなくなりました</string>
+    <string name="system_ui_statusbar_clock_show">表示</string>
+    <string name="system_ui_statusbar_clock_big_bold">大きな通知バー時計を太字にする</string>
+    <string name="system_ui_statusbar_clock_layout_s">ステータスバーの時計</string>
+    <string name="system_ui_statusbar_clock_layout_b">通知バーの大きな時計</string>
+    <string name="system_ui_statusbar_clock_layout_n">通知バーのミニ時計</string>
+    <string name="system_ui_statusbar_clock_layout_n_desc">このプロジェクトは水平方向の通知バー時計への変更も含んでいます</string>
+    <string name="system_ui_statusbar_clock_editor_s">ステータスバーの時計の形式</string>
+    <string name="system_ui_statusbar_clock_editor_n">通知バーのミニ時計の形式</string>
+    <string name="system_ui_statusbar_clock_style_f">ステータスバーの時計の配置</string>
     <string name="system_ui_statusbar_indicator_battery_title">電源関連</string>
     <string name="system_ui_statusbar_indicator_temperature_title">温度関連</string>
     <string name="system_ui_statusbar_battery_size">フォントのサイズ</string>
@@ -679,6 +706,7 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">これはスクロール形式で出力される長いテキストです</string>
     <string name="system_ui_controlcenter_title">コントロールセンター</string>
     <string name="system_ui_controlcenter_card_title">カード</string>
+    <string name="system_ui_controlcenter_media_card_title">メディア通知カード</string>
     <string name="system_ui_controlcenter_magnet_title">便利ツール</string>
     <string name="system_ui_control_center_notification_blur_title">通知</string>
     <string name="system_control_center_qs_detail_bg">カード背景の透明度</string>
@@ -702,6 +730,8 @@
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Mi スマートハブのエントリ</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">デバイス制御項目</string>
     <string name="system_ui_control_center_control_detail_background_alpha">コントロールセンター詳細の背景ぼかしの値</string>
+    <string name="system_ui_control_center_notification_disable_transparent">透明モードを無効化</string>
+    <string name="system_ui_control_center_notification_disable_transparent_desc">通知の背景を透明にする設定を無効にします</string>
     <string name="system_ui_control_center_notification_blur_model">通知のぼかしモデル</string>
     <string name="system_ui_control_center_notification_blur_fix">通知の最適化</string>
     <string name="system_ui_control_center_notification_blur_fix_desc">実験的な機能で、Android 13以上のモデルでのみ利用可能です。有効にすると、一部の領域での通知のぼかしが最適化されます。\n一部のモデルではシステム UI がクラッシュする場合があります。</string>
@@ -711,8 +741,12 @@
     <string name="system_ui_control_center_corner_radius_desc">デフォルトのテーマでは調整する必要はありません</string>
     <string name="system_ui_control_center_blur_background_alpha">背景ぼかしの値</string>
     <string name="system_ui_control_center_default_background_alpha">デフォルトの背景値</string>
-    <string name="system_ui_control_center_fix_media_control_panel">メディアコントロールパネルを修正</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">メディアコントロールパネルの色混合効果を最適化</string>
+    <string name="system_ui_control_center_media_control_progress">プログレスバー</string>
+    <string name="system_ui_control_center_media_control_progress_wavy">波状</string>
+    <string name="system_ui_control_center_media_control_progress_sleek">スリーク</string>
+    <string name="system_ui_control_center_media_control_progress_thickness">太さ</string>
+    <string name="system_ui_control_center_remove_media_control_panel_background">カードから混在色の背景を削除</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景画像のぼかし半径</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景オーバーレイレイヤーの不透明度</string>
     <string name="system_ui_control_center_compact_notice">コンパクトな通知</string>
@@ -721,6 +755,7 @@
     <string name="system_ui_control_center_redirect_notice_desc">通知メニューの設定を開いたとき、通知設定を適用するのではなくターゲットアプリの通知チャンネル設定に移動します</string>
     <string name="system_ui_control_center_show_weather">天気を表示</string>
     <string name="system_ui_control_center_show_weather_city">都市を表示</string>
+    <string name="system_ui_control_center_disable_device_managed">ネットワーク監視のプロンプトを非表示</string>
     <string name="system_ui_control_center_mute_visible_notice">画面が ON のときはミュートする</string>
     <string name="system_ui_control_center_expand_notification">通知を展開</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">画面がオンになっているとき、ポップアップ通知でプロンプト音を再生しません</string>
@@ -742,9 +777,6 @@
     <string name="system_ui_controlcenter_old_title">従来のコントロールセンター</string>
     <string name="system_ui_controlcenter_unlock_old_title">コントロールセンターのスタイルをアンロック</string>
     <string name="system_ui_controlcenter_enable_title">行数と列数をカスタマイズ</string>
-    <string name="system_control_center_old_qs_rows_desc">縦向き時のラベルは5列分が隠されます。横向き時でラベル非表示を使用する場合、行数は3行に制限されます。</string>
-    <string name="system_control_center_old_qs_columns_desc">横向きでは列が1つ増えます\nROM がコンパクトなクイック設定レイアウトに対応している場合は、両方の方向で1列追加されます</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">横向き時は1列追加されます</string>
     <string name="system_control_center_old_qs_grid_columns">折りたたまれたパネルの行数</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折りたたまれたパネル内の列数 (横画面)</string>
     <string name="system_ui_control_center_more_card_tiles">カードのタイルを表示</string>
@@ -756,10 +788,11 @@
     <string name="system_ui_other_title">その他</string>
     <string name="system_ui_disable_volume">ネイティブ音量バー</string>
     <string name="system_ui_disable_volume_desc">Xiaomi の音量バーへの変更はネイティブの音量バーには適用されません</string>
+    <string name="system_ui_unlock_clipboard">AOSP クリップボードエディタをアンロック</string>
+    <string name="system_ui_unlock_clipboard_desc">アンロック後は MIUI/HyperOS エディタと一緒にポップアップします</string>
     <string name="system_ui_charge_animation_title">充電時のアニメーション</string>
     <string name="system_ui_charge_animation_style">充電アニメーションのスタイル</string>
     <string name="system_ui_charge_animation_style_desc">ロック画面の充電アニメーションのスタイルを選択します</string>
-    <string name="system_ui_origin_charge_animation">ネイティブ充電アニメーション</string>
     <string name="system_ui_another_title">その他</string>
     <string name="system_ui_disable_bluetooth_restrict">Bluetooth が一時的にオフにされないようにする</string>
     <string name="system_ui_disable_miui_multi_win_switch">コンビニエンスウインドウボタンを非表示</string>
@@ -905,6 +938,7 @@
     <string name="gallery_enable_pdf">PDF の生成をアンロック</string>
     <string name="gallery_enable_ocr">OCR をアンロック</string>
     <string name="gallery_enable_ocr_form">表のスキャンをアンロック</string>
+    <string name="gallery_enable_ai_gallery">AI 写真をアンロック</string>
     <string name="gallery_enable_id_photo">ID をアンロック</string>
     <string name="gallery_enable_photo_movie">クリップ機能をアンロック</string>
     <string name="gallery_enable_video_post">ビデオエフェクトをアンロック</string>
@@ -1054,6 +1088,7 @@
     <string name="home_title_disable_hide_file">「ファイル」アイコンの非表示を無効化</string>
     <string name="home_title_disable_hide_theme">テーママネージャーアイコンを非表示にしない</string>
     <string name="home_title_disable_hide_google">Google の非表示を無効化</string>
+    <string name="home_title_fake_non_default_icon">デフォルト以外のアイコンを偽装する</string>
     <string name="home_title_custom_anim_param">アニメーションパラメーターのカスタム</string>
     <string name="home_title_custom_anim_param_damping_title">減衰</string>
     <string name="home_title_custom_anim_param_stiffness_title">剛性</string>
@@ -1062,6 +1097,7 @@
     <string name="home_recent_disable_wallpaper_dimming">壁紙の調光を無効化</string>
     <string name="home_recent_unlock_pin">固定アプリのロックを解除</string>
     <string name="home_recent_hide_status_bar_in_task_view">アプリ履歴のステータスバーを非表示</string>
+    <string name="home_recent_hide_world_circulate">画面ミラーリングアプリフローティングウィンドウを隠す</string>
     <string name="home_recent_hide_freeform">フリーフォームボタンを隠す</string>
     <string name="home_recent_hide_clean_up">アプリ履歴の一括消去ボタンを非表示</string>
     <string name="home_recent_remove_icon">アイコンを削除</string>
@@ -1140,7 +1176,6 @@
     <string name="system_framework_guided_access_e">ロックされたアプリの画面からロックを解除してください</string>
     <string name="system_framework_guided_access_more">現在のアプリを画面にピン留めする、iOS のアクセスガイド風の機能です\nステータスバー上部を長押しすると使用でき、再度ステータスバー上部を長押しすると終了できます\n初回利用時はシステム再起動が必要です</string>
     <string name="home_other_shortcut_remove_restrictions">ショートカットの制限を無効化</string>
-    <string name="home_other_fix_android_r_s">デスクトップが黒く表示される互換性の問題を修正</string>
     <string name="home_other_shortcut_background_blur_custom">ショートカットメニューのぼかし値</string>
     <string name="home_other_high_models">ハイエンドモデルとして認識させる必要があります</string>
     <string name="home_recent_blur_level">ぼかしのレベル</string>
@@ -1184,9 +1219,8 @@
     <string name="miui_package_installer_install_source">カスタムインストールソース</string>
     <string name="miui_package_installer_apk_info">パッケージ詳細情報の表示</string>
     <string name="miui_package_installer_apk_info_desc">インストール中のアプリの詳細情報を表示する</string>
-    <!--Networkboost-->
-    <string name="various_disable_link_turbo_toast">LinkTurbo トーストを隠す</string>
-    <string name="various_disable_link_turbo_toast_more">高速再起動スコープで NetworkBoost を再起動してください</string>
+    <string name="miui_package_installer_upload_appinfo">アプリ情報のアップロードを許可しない</string>
+    <string name="miui_package_installer_upload_appinfo_desc">無効にした場合、セキュリティチェックはできません</string>
     <!--NFC-->
     <string name="nfc">NFC サービス</string>
     <string name="nfc_disable_sound">NFC 通知音を無効化</string>
@@ -1200,9 +1234,6 @@
     <string name="personal_assistant_blur_value">背景のスタイル</string>
     <string name="personal_assistant_blurradius">パーソナルアシスタントのぼかし値</string>
     <string name="personal_assistant_color">パーソナルアシスタントの色</string>
-    <!--Music-->
-    <string name="music">ミュージック</string>
-    <string name="music_disable_ad">広告を削除</string>
     <!--Battery and performance-->
     <string name="powerkeeper">バッテリーとパフォーマンス</string>
     <string name="powerkeeper_custom_refresh_rate">高リフレッシュレートのアプリを指定</string>
@@ -1322,6 +1353,13 @@
     <string name="security_center_sidebar_function_title">サイドバー機能</string>
     <string name="security_center_game_speed">すぐにゲームを起動</string>
     <string name="security_center_game_speed_desc">ゲーム起動時に開始画面のアニメーションを3倍の速度で表示します。一部のゲームにのみ対応しています</string>
+    <string name="security_center_bypass_simlock_miaccount_auth">SIM セキュリティとアカウントを不要にする</string>
+    <string name="security_center_bypass_simlock_miaccount_auth_desc">一部の機能での SIM と Xiaomi アカウントの要求を回避します。Xiaomi アカウントにログインしなくても機能を使えるようにできます</string>
+    <string name="security_center_aosp_app_info_label">AOSP のアプリ情報</string>
+    <string name="security_center_aosp_app_info">AOSP 版のアプリ情報項目を追加します</string>
+    <string name="security_center_aosp_app_manager_label">AOSP アプリマネージャー</string>
+    <string name="security_center_aosp_app_manager">AOSP 版のアプリマネージャー項目を追加します</string>
+    <string name="security_center_power_consumption_ranking">消費電力ランキングを表示</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">リスクの検出を無効化</string>
@@ -1339,6 +1377,9 @@
     <string name="weather_device_level_title_low">低</string>
     <string name="weather_device_level_title_middle">中</string>
     <string name="weather_device_level_title_high">高</string>
+    <string name="weather_card_display_type_title">カード表示方法</string>
+    <string name="weather_card_display_type_title_2">ライトモード</string>
+    <string name="weather_card_display_type_title_3">ダークモード</string>
     <!--AI Translate-->
     <string name="aiasst">AI 翻訳</string>
     <string name="aiasst_ai_captions">AI キャプションを強制的に有効化</string>
@@ -1360,6 +1401,8 @@
     <string name="market_device_modify_desc">モデルを別のデバイスに偽装することで、そのデバイスのアップデートを受信します</string>
     <string name="market_disable_new_icon">サードパーティ製アイコンの使用を禁止</string>
     <string name="market_disable_new_icon_desc">デスクトップをよりクリーンにする</string>
+    <string name="market_package_monitor">パッケージモニターを無効化</string>
+    <string name="market_package_monitor_desc">GetApps にアプリのインストールとアンインストールを監視させないようにします</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
     <string name="mirror_hyperos">デバイス相互接続サービス</string>
@@ -1425,6 +1468,7 @@
     <string name="various_open_aosp_app_manage_title">アプリを管理</string>
     <string name="various_open_aosp_language_title">アプリの言語</string>
     <string name="various_open_aosp_extremely_dark_title">さらに輝度を下げる</string>
+    <string name="various_open_aosp_default_apps_title">デフォルトのアプリ</string>
     <string name="various_mipad_input_title">入力</string>
     <string name="various_mipad_input_close_magic_title">Magic Pointer をオフにする</string>
     <string name="various_mipad_input_close_magic_desc">Xiaomi Pad のマウスポインターを丸ではなく AOSP 版に戻します</string>
@@ -1520,13 +1564,18 @@
     <string name="log_level_none">ログを無効化</string>
     <string name="disable_suggest">サジェストを無効化</string>
     <string name="enable_suggest">サジェストを有効化</string>
-    <string name="security_center_aosp_app_info_label">AOSP のアプリ情報</string>
-    <string name="security_center_aosp_app_info">AOSP 版のアプリ情報項目を追加します</string>
-    <string name="security_center_aosp_app_manager_label">AOSP アプリマネージャー</string>
-    <string name="security_center_aosp_app_manager">AOSP 版のアプリマネージャー項目を追加します</string>
-    <string name="security_center_power_consumption_ranking">消費電力ランキングを表示</string>
+    <string name="set_homepage_entrance">ホームページのエントリを設定</string>
+    <string name="help_cant_see_apps_guide">アプリの機能が見つかりませんか？</string>
+    <string name="set_homepage_entrance_about">注意:\nこの設定はホームページのエントリーの表示設定だけで、有効にした機能は無効にはなりません!\nポータルを閉じるとすぐ変更が反映されます。再表示するにはアプリの再起動が必要です</string>
+    <string name="help_cant_see_apps_title">ホームページでアプリの機能が見つかりませんか？</string>
+    <string name="help_cant_see_apps_desc">ホームページのシンプルさと使いやすさを維持するため、以下のタイプのアプリ機能を非表示にしています:\n\n - 現在無効か非表示になっているアプリ向けの機能\n - デバイスにないアプリ向けの機能\n - 現在のアプリやバージョンに非対応の機能\n\n上記に当てはまるか確認し、修正したら HyperCeiler を再起動してください。それでも出てこなければバグかもしれません。開発者にフィードバックしてください。\n\n現在非表示になっているアプリ機能:\n\n</string>
+    <string name="help_cant_see_apps_uninstall">アンインストールされたアプリ:\n</string>
+    <string name="help_cant_see_apps_disable">無効または非表示のアプリ:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">ホームページのシンプルさと使いやすさを維持するため、以下のタイプのアプリ機能を非表示にしています:\n\n - 現在無効か非表示になっているアプリ向けの機能\n - デバイスにないアプリ向けの機能\n - 現在のアプリやバージョンに非対応の機能\n\n上記に当てはまるか確認し、修正したら HyperCeiler を再起動してください。それでも出てこなければバグかもしれません。開発者にフィードバックしてください。\n\n現在非表示になっているアプリ機能はありません</string>
+    <string name="help_cant_see_apps_switch">ホームページでこのヘルプを隠す</string>
+    <string name="help_cant_see_apps_switch_desc">このページは「設定 - ホームページのエントリを設定」で確認できます。適用するにはアプリを再起動してください。</string>
     <string name="headtip_warn_not_offical_rom">使用している ROM は Xiaomi 公式ではないかもしれません。 一部の機能が動作しない場合がありますので、ご利用の ROM の提供者にお問い合わせください。</string>
     <string name="headtip_warn_sign_verification_failed">署名の検証に失敗しました。現在使用しているバージョンは Re.chronoRain の公式バージョンではないため、悪意のあるコードが含まれている可能性があります。</string>
     <string name="tip_default">ヒント: デフォルトのヒントはこちらです。 このメッセージが出るということは HyperCeiler に問題があります。 出たら開発者に教えてください。</string>
-    <string name="happy_chinese_new_year">明けましておめでとうございます</string>
+    <string name="preference_recommend_tip">何か他のものをお探しですか?</string>
 </resources>

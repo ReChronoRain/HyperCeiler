@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/home_title_custom_anim_param_5_title">
 
     <PreferenceCategory android:title="@string/home_title_custom_anim_param_RECT_CENTERX_title">
 
@@ -10,7 +11,7 @@
             android:defaultValue="990"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -21,7 +22,7 @@
             android:defaultValue="450"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -36,7 +37,7 @@
             android:defaultValue="990"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -47,7 +48,7 @@
             android:defaultValue="450"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -62,7 +63,7 @@
             android:defaultValue="900"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -73,7 +74,7 @@
             android:defaultValue="450"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -88,7 +89,7 @@
             android:defaultValue="990"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -99,7 +100,7 @@
             android:defaultValue="370"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -114,7 +115,7 @@
             android:defaultValue="990"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -125,7 +126,7 @@
             android:defaultValue="150"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -140,7 +141,7 @@
             android:defaultValue="990"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
@@ -151,13 +152,11 @@
             android:defaultValue="420"
             app:format="%s f"
             app:defaultValueText="@string/array_default"
-            app:maxValue="999"
+            app:maxValue="1999"
             app:minValue="1"
             app:stepValue="1"
             app:displayDividerValue="1000" />
 
     </PreferenceCategory>
-
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

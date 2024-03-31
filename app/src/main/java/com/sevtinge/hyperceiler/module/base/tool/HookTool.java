@@ -150,8 +150,8 @@ public class HookTool extends XposedTool {
         XposedBridge.hookMethod(method, callback);
     }
 
-    public static void findAndHookMethod(Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
-        XposedHelpers.findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
+    public static XC_MethodHook.Unhook findAndHookMethod(Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
+        return XposedHelpers.findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
     }
 
     public void findAndHookMethod(String className, String methodName, Object... parameterTypesAndCallback) {
@@ -226,7 +226,7 @@ public class HookTool extends XposedTool {
         XposedHelpers.findAndHookConstructor(hookClass, parameterTypesAndCallback);
     }
 
-    public void findAndHookConstructor(String className, ClassLoader classLoader, Object... parameterTypesAndCallback) {
+    public static void findAndHookConstructor(String className, ClassLoader classLoader, Object... parameterTypesAndCallback) {
         XposedHelpers.findAndHookConstructor(className, classLoader, parameterTypesAndCallback);
     }
 
@@ -318,7 +318,7 @@ public class HookTool extends XposedTool {
 
     public Object proxySystemProperties(String method, String prop, int val, ClassLoader classLoader) {
         return XposedHelpers.callStaticMethod(findClassIfExists("android.os.SystemProperties", classLoader),
-            method, prop, val);
+                method, prop, val);
     }
 
     public Method getDeclaredMethod(String className, String method, Object... type) throws NoSuchMethodException {
@@ -385,7 +385,7 @@ public class HookTool extends XposedTool {
                 if (!allHave) {
                     if (methodNum - 1 == i) {
                         logE(tag, "type bad: " + Arrays.toString(hqMethod.getParameterTypes())
-                            + " input: " + Arrays.toString(classes));
+                                + " input: " + Arrays.toString(classes));
                         throw new NoSuchMethodException("type bad");
                     } else {
                         noError = false;

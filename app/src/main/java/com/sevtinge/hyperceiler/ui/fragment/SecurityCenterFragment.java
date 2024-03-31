@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.Manifest;
@@ -34,17 +33,15 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import moralnorm.preference.Preference;
+import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
 
 public class SecurityCenterFragment extends SettingsPreferenceFragment {
     String mSecurity;
     SwitchPreference mAiClipboard;
     SwitchPreference mBlurLocation;
-    SwitchPreference mGetNumber;
+    PreferenceCategory mPrivacy;
     Preference mNewboxBackgroundCustom;
-    SwitchPreference mOpenByDefaultSetting;
-    SwitchPreference mSecurityBackground;
-    SwitchPreference mSecurityColor;
 
     @Override
     public int getContentResId() {
@@ -66,47 +63,42 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
 
         mBlurLocation = findPreference("prefs_key_security_center_blur_location");
         mAiClipboard = findPreference("prefs_key_security_center_ai_clipboard");
-        mGetNumber = findPreference("prefs_key_security_center_get_number");
-        mOpenByDefaultSetting = findPreference("prefs_key_security_center_app_default_setting");
-        mSecurityColor = findPreference("prefs_key_security_center_sidebar_line_color");
-        mSecurityBackground = findPreference("prefs_key_se_enable");
 
+        mPrivacy = findPreference("prefs_key_security_center_privacy");
         mNewboxBackgroundCustom = findPreference("prefs_key_security_center_newbox_bg_custom");
 
-        if (permission != PermissionChecker.PERMISSION_GRANTED) {
-            mBlurLocation.setSummary(R.string.security_center_no_permission);
-            mAiClipboard.setSummary(R.string.security_center_no_permission);
-            mBlurLocation.setEnabled(false);
-            mAiClipboard.setEnabled(false);
-        } else {
+        if (!isMoreHyperOSVersion(1f)) {
+            if (permission != PermissionChecker.PERMISSION_GRANTED) {
+                mBlurLocation.setSummary(R.string.security_center_no_permission);
+                mAiClipboard.setSummary(R.string.security_center_no_permission);
+                mBlurLocation.setEnabled(false);
+                mAiClipboard.setEnabled(false);
+            } else {
+                boolean mBlurLocationEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_blur_location_enable", 0) == 1;
+                boolean mAiClipboardEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_ai_clipboard_enable", 0) == 1;
+
+                mBlurLocation.setChecked(mBlurLocationEnable);
+                mAiClipboard.setChecked(mAiClipboardEnable);
+            }
+
             boolean mBlurLocationEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_blur_location_enable", 0) == 1;
             boolean mAiClipboardEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_ai_clipboard_enable", 0) == 1;
 
             mBlurLocation.setChecked(mBlurLocationEnable);
             mAiClipboard.setChecked(mAiClipboardEnable);
+
+            mBlurLocation.setOnPreferenceChangeListener((preference, o) -> {
+                Settings.Secure.putInt(getContext().getContentResolver(), "mi_lab_blur_location_enable", (Boolean) o ? 1 : 0);
+                return true;
+            });
+
+            mAiClipboard.setOnPreferenceChangeListener((preference, o) -> {
+                Settings.Secure.putInt(getContext().getContentResolver(), "mi_lab_ai_clipboard_enable", (Boolean) o ? 1 : 0);
+                return true;
+            });
+        } else {
+            mPrivacy.setVisible(!isMoreHyperOSVersion(1f));
         }
-
-        mGetNumber.setVisible(!isMoreHyperOSVersion(1f));
-        mSecurityColor.setVisible(!isAndroidVersion(30)); // 侧滑栏提示线自定义
-        mSecurityBackground.setVisible(!isAndroidVersion(30)); // 侧滑栏背景自定义
-        mOpenByDefaultSetting.setVisible(!isAndroidVersion(30)); // 应用打开链接管理
-
-        boolean mBlurLocationEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_blur_location_enable", 0) == 1;
-        boolean mAiClipboardEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_ai_clipboard_enable", 0) == 1;
-
-        mBlurLocation.setChecked(mBlurLocationEnable);
-        mAiClipboard.setChecked(mAiClipboardEnable);
-
-        mBlurLocation.setOnPreferenceChangeListener((preference, o) -> {
-            Settings.Secure.putInt(getContext().getContentResolver(), "mi_lab_blur_location_enable", (Boolean) o ? 1 : 0);
-            return true;
-        });
-
-        mAiClipboard.setOnPreferenceChangeListener((preference, o) -> {
-            Settings.Secure.putInt(getContext().getContentResolver(), "mi_lab_ai_clipboard_enable", (Boolean) o ? 1 : 0);
-            return true;
-        });
-
     }
 
     @Override

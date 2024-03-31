@@ -18,16 +18,33 @@
 */
 package com.sevtinge.hyperceiler.module.hook.externalstorage;
 
+import static com.sevtinge.hyperceiler.module.base.tool.HookTool.MethodHook.returnConstant;
+
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class DisableFolderCantUse extends BaseHook {
+
+    private final static List<String> METHOD_NAME_LIST = Arrays.asList("shouldBlockFromTree", "shouldBlockDirectoryFromTree");
+
     @Override
     public void init() {
-        findAndHookMethod("com.android.externalstorage.ExternalStorageProvider", "shouldBlockFromTree", String.class, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) {
-                param.setResult(false);
-            }
-        });
+        Class<?> externalStorageProvider = findClass("com.android.externalstorage.ExternalStorageProvider");
+        List<Method> methodList = Arrays.stream(externalStorageProvider.getDeclaredMethods())
+                .filter(method -> METHOD_NAME_LIST.contains(method.getName()))
+                .filter(method -> method.getReturnType() == boolean.class).collect(Collectors.toList());
+
+        if (methodList.isEmpty()) {
+            logE(TAG, lpparam.packageName, new NoSuchMethodException("shouldBlockFromTree"));
+            return;
+        }
+
+        for (Method method : methodList) {
+            hookMethod(method, returnConstant(false));
+        }
     }
 }

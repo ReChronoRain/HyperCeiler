@@ -44,7 +44,7 @@ public class KillApp {
         }
         for (String pkg : pkgs) {
             if (pkg == null) continue;
-            if ("".equals(pkg)) continue;
+            if (pkg.isEmpty()) continue;
             result =
                 ShellInit.getShell().add("pid=$(pgrep -f \"" + pkg + "\" | grep -v $$)")
                     .add("if [[ $pid == \"\" ]]; then")

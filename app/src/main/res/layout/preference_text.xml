@@ -24,7 +24,7 @@
     android:layout_gravity="center_vertical"
     android:paddingStart="@dimen/preference_item_padding_start"
     android:paddingEnd="@dimen/preference_item_padding_end"
-    android:paddingBottom="@dimen/preference_item_padding_inner">
+    android:paddingBottom="@dimen/preference_item_padding_end">
 
     <include layout="@layout/image_frame" />
 

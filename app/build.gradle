@@ -7,11 +7,26 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
 }
 
-static def getGitRevision() {
+def getGitCommitCount() {
+    def output = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-list', '--count', 'HEAD'
+        standardOutput = output
+    }
+    return output.toString().trim().toInteger()
+}
+
+def getVersionCode() {
+    def commitCount = getGitCommitCount()
+    def major = 5
+    return major + commitCount
+}
+
+static def getGitHash() {
     return "git rev-parse --short HEAD".execute().text.trim()
 }
 
-def getGitHash = { ->
+static def getGitHashLong() {
     def process = "git rev-parse HEAD".execute()
     process.in.text.trim()
 }
@@ -24,8 +39,8 @@ android {
         applicationId namespace
         minSdk 30
         targetSdk 34
-        versionCode 140
-        versionName "2.4.140"
+        versionCode 141 // Deliberate
+        versionName "2.4.142"
         project.archivesBaseName = "HyperCeiler"
         ndk {
             // noinspection ChromeOsAbiSupport
@@ -74,7 +89,8 @@ android {
             System.console()?.readLine('\n' + prompt + ': ')
     }
     def keyStoreFile = getString('storeFile', 'STORE_FILE', 'Store file')?.with(rootProject.&file)
-    def gitRevision = getGitRevision()
+    def gitCode = getVersionCode()
+    def gitHash = getGitHash()
 
     signingConfigs {
         hyperceiler {
@@ -95,7 +111,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-log.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
-            buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
+            buildConfigField "String", "GIT_HASH", "\"${gitHash}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
@@ -105,7 +121,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
-            buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
+            buildConfigField "String", "GIT_HASH", "\"${gitHashLong}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
@@ -114,15 +130,15 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + gitRevision
-            buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
+            versionNameSuffix "_" + gitHash + "_r" + gitCode
+            buildConfigField "String", "GIT_HASH", "\"${gitHashLong}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
         }
         debug {
-            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + gitRevision
-            buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
+            versionNameSuffix "_" + gitHash + "_r" + gitCode
+            buildConfigField "String", "GIT_HASH", "\"${gitHashLong}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
@@ -130,12 +146,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_19
-        targetCompatibility JavaVersion.VERSION_19
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_19.toString()
+        jvmTarget = JavaVersion.VERSION_21.toString()
     }
 
 }
@@ -143,8 +159,8 @@ android {
 dependencies {
     compileOnly(project(":hidden-api"))
 
-    compileOnly files('libs/miui.jar')
-    compileOnly files("libs/miui-framework.jar")
+//    compileOnly files('libs/miui.jar')
+//    compileOnly files("libs/miui-framework.jar")
 
     compileOnly libs.xposed.api
 

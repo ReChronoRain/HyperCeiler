@@ -28,7 +28,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLocale;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getManufacture;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getMarketName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getModelName;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSerial;
+// import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSerial;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSoc;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBuildDate;
@@ -89,8 +89,8 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
         } catch (Exception ignored) {
         }
         try {
-            propertiesDevice.put("DeviceName", getDeviceName());
             propertiesDevice.put("MarketName", getMarketName());
+            propertiesDevice.put("DeviceName", getDeviceName());
             propertiesDevice.put("Model", getModelName());
             propertiesDevice.put("Brand", getBrand());
             propertiesDevice.put("Manufacture", getManufacture());

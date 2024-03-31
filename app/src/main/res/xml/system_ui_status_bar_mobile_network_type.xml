@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_ui_status_bar_mobile_type_single_title">
     <DropDownPreference
         android:defaultValue="0"
         android:key="prefs_key_system_ui_status_bar_icon_show_mobile_network_type"
@@ -82,5 +83,5 @@
             app:stepValue="1" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

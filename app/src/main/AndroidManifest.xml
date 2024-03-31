@@ -66,6 +66,8 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity"
             android:theme="@style/Theme.HyperCeiler.SystemBarBackgrounds">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -99,7 +101,9 @@
             android:name=".ui.LauncherActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:targetActivity=".ui.MainActivity">
+            android:targetActivity=".ui.MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -109,7 +113,9 @@
 
         <activity
             android:name=".ui.SubSettings"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -117,7 +123,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.SubPickerActivity" />
+        <activity
+            android:name=".ui.SubPickerActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
         <provider
             android:name=".provider.SharedPrefsProvider"
