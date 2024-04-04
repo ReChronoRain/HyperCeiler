@@ -59,6 +59,13 @@
                 android:data="https://github.com/Horange321" />
         </Preference>
         <Preference
+            android:summary="GitHub@hrsthrt74"
+            android:title="hrsthrt74">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/hrsthrt74" />
+        </Preference>
+        <Preference
             android:summary="GitHub@igormiguell"
             android:title="igor">
             <intent
