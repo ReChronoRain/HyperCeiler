@@ -32,8 +32,8 @@
     <string name="home_title_custom_anim_param_RADIUS_title" translatable="false">RADIUS</string>
     <string name="home_title_custom_anim_param_ALPHA_title" translatable="false">ALPHA</string>
 
-    <string name="miui_quick_settings_tiles_stock" translatable="false">reduce_brightness,vowifi1,vowifi2,cell,wifi,bt,airplane,autobrightness,mute,screenshot,flashlight,rotation,screenlock,dtmdtm,scanner,papermode,night,quietmode,batterysaver,uwb_shp,aitranslate,aisubtitles,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,gps,edit,hearingassisttile,controls,wallet,settings</string>
-    <string name="miui_quick_settings_tiles_stock_pad" translatable="false">reduce_brightness,vowifi1,vowifi2,cell,wifi,rotation,airplane,mute,screenshot,bt,autobrightness,screenlock,dtmdtm,night,papermode,quietmode,batterysaver,gps,flashlight,scanner,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,edit,controls,workmode,wallet,settings</string>
+    <string name="miui_quick_settings_tiles_stock" translatable="false">reduce_brightness,vowifi1,vowifi2,cell,wifi,bt,airplane,autobrightness,mute,screenshot,flashlight,rotation,screenlock,dtmdtm,scanner,papermode,night,quietmode,batterysaver,uwb_shp,aitranslate,aisubtitles,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,gps,edit,hearingassisttile,controls,wallet,inversion,saver,dark,onehanded,color_correction,user,dnd,settings</string>
+    <string name="miui_quick_settings_tiles_stock_pad" translatable="false">reduce_brightness,vowifi1,vowifi2,cell,wifi,rotation,airplane,mute,screenshot,bt,autobrightness,screenlock,dtmdtm,night,papermode,quietmode,batterysaver,gps,flashlight,scanner,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,edit,controls,workmode,wallet,inversion,saver,dark,onehanded,color_correction,user,dnd,settings</string>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Make HyperOS/MIUI Great Again!</string>
 
