@@ -70,10 +70,12 @@ public class UiLockApp extends BaseHook {
                                 isLock = getLockApp(context) != -1;
                                 if (getLockApp(context) != -1) {
                                     try {
-                                        XposedHelpers.callMethod(param.thisObject, "scheduleAutoHide");
+                                        //XposedHelpers.callMethod(param.thisObject, "scheduleAutoHide");
                                     } catch (Exception e) {
 
                                     }
+                                }else {//退出时引发崩溃以恢复底栏
+                                    XposedHelpers.callMethod(param.thisObject, "scheduleAutoHide");
                                 }
                             }
                         };
