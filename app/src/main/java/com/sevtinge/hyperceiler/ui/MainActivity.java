@@ -70,16 +70,16 @@ public class MainActivity extends NavigationActivity implements IResult {
                 (ProjectApi.isRelease() ? def : ProjectApi.isCanary() ? (def == 0 ? 3 : 4) : def));
         if (haveCrashReport()) {
             new AlertDialog.Builder(this)
-                    .setTitle("提示")
-                    .setMessage("存在处于安全模式的作用域: \n" + appCrash.toString() + " \n请选择是否解除？")
+                    .setTitle(R.string.safe_mode_later_title)
+                    .setMessage(appCrash.toString() + " " + getString(R.string.safe_mode_later_desc))
                     .setHapticFeedbackEnabled(true)
                     .setCancelable(false)
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
                         ShellInit.getShell().run("setprop persist.hyperceiler.crash.report \"\"").sync();
                         ShellInit.getShell().run("settings put system hyperceiler_crash_report \"[]\"").sync();
                         dialog.dismiss();
                     })
-                    .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                    .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> dialog.dismiss())
                     .show();
         }
     }

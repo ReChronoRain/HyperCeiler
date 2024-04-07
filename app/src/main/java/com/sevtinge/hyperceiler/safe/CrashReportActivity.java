@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -41,7 +42,7 @@ public class CrashReportActivity extends AppCompatActivity {
         String pkg = getReportCrashPkg(code);
         View view = LayoutInflater.from(this).inflate(R.layout.crash_report_dialog, null);
         mMessageTv = view.findViewById(R.id.tv_message);
-        mMessageTv.setText("作用域: " + "\n\"" + pkg + "\"\n已进入安全模式,点击确定解除，点击取消稍后处理。");
+        mMessageTv.setText(pkg + " " + getString(R.string.safe_mode_desc));
         mCrashRecordTv = view.findViewById(R.id.tv_record);
         mCrashRecordTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);// 下划线并加清晰
         mCrashRecordTv.getPaint().setAntiAlias(true);

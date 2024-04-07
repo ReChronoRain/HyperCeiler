@@ -81,16 +81,16 @@ public class DialogHelper {
     public static void showCrashReportDialog(Activity activity, View view) {
         new AlertDialog.Builder(activity)
                 .setCancelable(false)
-                .setTitle("警告")
+                .setTitle(R.string.safe_mode_title)
                 .setView(view)
                 .setHapticFeedbackEnabled(true)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
                     ShellExec shellExec = ShellInit.getShell();
                     shellExec.run("setprop persist.hyperceiler.crash.report \"\"").sync();
                     shellExec.run("settings put system hyperceiler_crash_report \"[]\"").sync();
                     activity.finish();
                 })
-                .setNegativeButton(android.R.string.cancel, (dialog, which) -> activity.finish())
+                .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> activity.finish())
                 .show();
     }
 

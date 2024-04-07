@@ -7,6 +7,7 @@
 
     <TextView
         android:id="@+id/tv_message"
+        android:textColor="@color/textview_black"
         android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -14,7 +15,7 @@
 
     <TextView
         android:id="@+id/tv_record"
-        android:text="查看异常记录"
+        android:text="@string/safe_mode_history"
         android:textColor="#ff0d84ff"
         android:textSize="16sp"
         android:layout_width="match_parent"
