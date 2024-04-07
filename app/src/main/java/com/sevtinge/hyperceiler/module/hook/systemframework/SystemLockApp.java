@@ -88,19 +88,22 @@ public class SystemLockApp extends BaseHook {
         );
 
         findAndHookMethod("com.android.server.policy.PhoneWindowManager",
-                "powerLongPress",
-                long.class,
-                new MethodHook() {
-                    @Override
-                    protected void after(MethodHookParam param) {
-                        Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                        isLock = getLockApp(context) != -1;
-                        if (isLock) {
-                            com.sevtinge.hyperceiler.module.hook.systemui.UiLockApp.setLockApp(context,-1);
-                        }
+            "powerLongPress",
+            long.class,
+            new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) {
+                    if(!mPrefsMap.getBoolean("system_framework_guided_access_status")) return;//不知道为什么还是需要重启才生效
+
+                    Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                    isLock = getLockApp(context) != -1;
+                    if (isLock) {
+                        com.sevtinge.hyperceiler.module.hook.systemui.UiLockApp.setLockApp(context, -1);
                     }
                 }
+            }
         );
+
 
         findAndHookMethod("com.android.server.wm.LockTaskController",
             "shouldLockKeyguard", int.class,

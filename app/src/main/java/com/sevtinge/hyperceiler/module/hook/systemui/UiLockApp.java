@@ -92,8 +92,9 @@ public class UiLockApp extends BaseHook {
             }
         );
 
-        hookAllConstructors("com.android.systemui.statusbar.window.StatusBarWindowController",
-                 new MethodHook() {
+        if (mPrefsMap.getBoolean("system_framework_guided_access_status")) {
+            hookAllConstructors("com.android.systemui.statusbar.window.StatusBarWindowController",
+                new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
                         try {
@@ -121,7 +122,8 @@ public class UiLockApp extends BaseHook {
                         }
                     }
                 }
-        );
+            );
+        }
 
         findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView",
             "onTouchEvent", MotionEvent.class, new MethodHook() {

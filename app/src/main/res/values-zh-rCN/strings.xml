@@ -1263,6 +1263,8 @@
     <string name="home_large_icon_corner_radius">大图标圆角</string>
     <string name="home_other_app_icon_hide">桌面快捷方式管理</string>
     <string name="home_other_toast_slide_again">禁止提示 \"请再划一次\" Toast</string>
+    <string name="system_framework_guided_access_status">固定时完全隐藏状态栏</string>
+    <string name="system_framework_guided_access_status_more">如同ios的引导式访问，只能通过按键方式退出，把屏幕完全交给app。退出方式为长按电源键</string>
     <string name="system_framework_guided_access_sc">固定时禁止呼出侧边栏</string>
     <string name="system_framework_guided_access_screen">解除固定时跳转锁屏</string>
     <string name="system_framework_guided_access">引导式访问</string>
