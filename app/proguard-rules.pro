@@ -19,6 +19,5 @@
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
 -dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo
 -dontwarn com.android.internal.view.menu.MenuBuilder
--dontwarn android.text.FontConfig$FontFamily
 -allowaccessmodification
 -overloadaggressively
