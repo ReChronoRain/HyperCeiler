@@ -87,6 +87,21 @@ public class SystemLockApp extends BaseHook {
             }
         );
 
+        findAndHookMethod("com.android.server.policy.PhoneWindowManager",
+                "powerLongPress",
+                long.class,
+                new MethodHook() {
+                    @Override
+                    protected void after(MethodHookParam param) {
+                        Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                        isLock = getLockApp(context) != -1;
+                        if (isLock) {
+                            com.sevtinge.hyperceiler.module.hook.systemui.UiLockApp.setLockApp(context,-1);
+                        }
+                    }
+                }
+        );
+
         findAndHookMethod("com.android.server.wm.LockTaskController",
             "shouldLockKeyguard", int.class,
             new MethodHook() {
