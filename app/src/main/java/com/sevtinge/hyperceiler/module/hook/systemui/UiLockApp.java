@@ -56,6 +56,8 @@ public class UiLockApp extends BaseHook {
     public int eCount = 0;
     boolean isLock = false;
 
+    boolean isObserver2 = false;
+
     @Override
     public void init() throws NoSuchMethodException {
         hookAllConstructors("com.android.systemui.statusbar.phone.AutoHideController",
@@ -182,6 +184,18 @@ public class UiLockApp extends BaseHook {
                     if (getLockApp(mContext) == taskId && lockId != -1) {
                         param.setResult(true);
                     }
+                }
+            }
+        );
+
+        findAndHookMethod("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration",
+            "shouldHideCaption",
+            new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) {
+                    Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                    isLock = getLockApp(context) != -1;
+                    param.setResult(isLock);
                 }
             }
         );
