@@ -26,6 +26,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
@@ -55,6 +57,8 @@ public class UiLockApp extends BaseHook {
     public int count = 0;
     public int eCount = 0;
     boolean isLock = false;
+
+    boolean isObserver = false;
 
     @Override
     public void init() throws NoSuchMethodException {
@@ -86,6 +90,37 @@ public class UiLockApp extends BaseHook {
                     }
                 }
             }
+        );
+
+        hookAllConstructors("com.android.systemui.statusbar.window.StatusBarWindowController",
+                 new MethodHook() {
+                    @Override
+                    protected void after(MethodHookParam param) {
+                        try {
+                            Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                            if (context == null) return;
+
+                            View view = (FrameLayout) XposedHelpers.getObjectField(param.thisObject, "mStatusBarWindowView");
+
+                            if (!isObserver) {
+                                ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
+                                    @Override
+                                    public void onChange(boolean selfChange) {
+                                        isLock = getLockApp(context) != -1;
+                                        //logE(TAG, "hide SUCCESS");
+                                        view.setVisibility(isLock ? View.GONE : View.VISIBLE);
+                                    }
+                                };
+                                context.getContentResolver().registerContentObserver(
+                                        Settings.Global.getUriFor("key_lock_app"),
+                                        false, contentObserver);
+                                isObserver = true;
+                            }
+                        } catch (Throwable e) {
+                            logE(TAG, "E: " + e);
+                        }
+                    }
+                }
         );
 
         findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView",
