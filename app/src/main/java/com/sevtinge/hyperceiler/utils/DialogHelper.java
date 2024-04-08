@@ -94,11 +94,13 @@ public class DialogHelper {
                 .show();
     }
 
-    public static void showCrashMsgDialog(Context context, String longMsg, String stackTrace) {
+    public static void showCrashMsgDialog(Context context, String throwClassName, String throwFileName,
+                                          int throwLineNumber, String throwMethodName, String longMsg, String stackTrace) {
         new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setTitle("异常记录")
-                .setMessage("异常信息: \n" + longMsg + "\n堆栈跟踪: \n" + stackTrace)
+                .setMessage("抛错类: " + throwClassName + "\n抛错文件: " + throwFileName + "\n抛错方法: " + throwMethodName +
+                        "\n抛错行: " + throwLineNumber + "\n异常信息: \n" + longMsg + "\n堆栈跟踪: \n" + stackTrace)
                 .setHapticFeedbackEnabled(true)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
                 .show();

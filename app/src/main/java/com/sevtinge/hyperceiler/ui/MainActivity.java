@@ -42,7 +42,6 @@ import com.sevtinge.hyperceiler.utils.search.SearchHelper;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import moralnorm.appcompat.app.AlertDialog;
 
@@ -68,6 +67,7 @@ public class MainActivity extends NavigationActivity implements IResult {
         ShellInit.init(this);
         PropUtils.setProp("persist.hyperceiler.log.level",
                 (ProjectApi.isRelease() ? def : ProjectApi.isCanary() ? (def == 0 ? 3 : 4) : def));
+        appCrash = CrashData.needIntercept();
         if (haveCrashReport()) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.safe_mode_later_title)
@@ -96,29 +96,8 @@ public class MainActivity extends NavigationActivity implements IResult {
     }
 
     private boolean haveCrashReport() {
-        return !needIntercept().isEmpty();
+        return !appCrash.isEmpty();
     }
-
-    private ArrayList<String> needIntercept() {
-        ArrayList<String> report = getReportCrashProp();
-        for (String s : report) {
-            String mPkg = CrashData.swappedData().get(s);
-            if (mPkg != null) {
-                appCrash.add(mPkg);
-            }
-        }
-        return appCrash;
-    }
-
-    private ArrayList<String> getReportCrashProp() {
-        String data = PropUtils.getProp("persist.hyperceiler.crash.report", "");
-        if (data.isEmpty()) {
-            return new ArrayList<>();
-        }
-        String[] sp = data.split(",");
-        return new ArrayList<>(Arrays.asList(sp));
-    }
-
 
     @Override
     protected void onDestroy() {

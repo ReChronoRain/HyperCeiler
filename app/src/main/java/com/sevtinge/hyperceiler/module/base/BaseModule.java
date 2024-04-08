@@ -24,13 +24,10 @@ import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.module.base.dexkit.InitDexKit;
 import com.sevtinge.hyperceiler.safe.CrashData;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
-import com.sevtinge.hyperceiler.utils.PropUtils;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
@@ -44,7 +41,7 @@ public abstract class BaseModule implements IXposedHook {
 
     public void init(LoadPackageParam lpparam) {
         if (swappedMap.isEmpty()) swappedMap = CrashData.swappedData();
-        if (needIntercept(lpparam.packageName)) {
+        if (CrashData.needIntercept(lpparam.packageName)) {
             XposedLogUtils.logI(TAG, "进入安全模式: " + lpparam.packageName);
             return;
         }
@@ -83,26 +80,6 @@ public abstract class BaseModule implements IXposedHook {
                 XposedLogUtils.logE(TAG, "close dexkit failed!" + e);
             }
         }
-    }
-
-    private boolean needIntercept(String pkg) {
-        ArrayList<String> report = getReportCrashProp();
-        for (String s : report) {
-            String mPkg = swappedMap.get(s);
-            if (mPkg != null) {
-                return mPkg.equals(pkg);
-            }
-        }
-        return false;
-    }
-
-    private ArrayList<String> getReportCrashProp() {
-        String data = PropUtils.getProp("persist.hyperceiler.crash.report", "");
-        if (data.isEmpty()) {
-            return new ArrayList<>();
-        }
-        String[] sp = data.split(",");
-        return new ArrayList<>(Arrays.asList(sp));
     }
 
     @Override

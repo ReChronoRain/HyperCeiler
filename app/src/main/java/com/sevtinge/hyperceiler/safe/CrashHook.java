@@ -5,8 +5,9 @@ import android.app.ApplicationErrorReport;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.provider.Settings;
+
+import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.module.base.tool.HookTool;
@@ -17,6 +18,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -129,150 +131,149 @@ public class CrashHook extends HookTool {
         );
     }
 
+    private String mPkg;
+    private String longMsg;
+    private String stackTrace;
+    private String throwClassName;
+    private String throwFileName;
+    private int throwLineNumber;
+    private String throwMethodName;
+    private long timeMillis;
+    private Context mContext;
+    private ArrayList<JSONObject> data = new ArrayList<>();
+    private final ArrayList<JSONObject> updateCount = new ArrayList<>();
+    private final ArrayList<JSONObject> reportData = new ArrayList<>();
+
     private void recordCrash(Context mContext, Object proc, ApplicationErrorReport.CrashInfo crashInfo,
                              String shortMsg, String longMsg, String stackTrace, long timeMillis, int pid, int uid) {
-        PackageManager pm = mContext.getPackageManager();
         ApplicationInfo info = (ApplicationInfo) XposedHelpers.getObjectField(proc, "info");
-        String pkg = info.packageName; // 包名
-        String label = info.loadLabel(pm).toString(); // 应用名
-        if (scopeMap.isEmpty()) scopeMap = CrashData.scopeData();
-        if (scopeMap.get(pkg) == null) {
-            return; // 不属于作用域范围
-        }
+        mPkg = info.packageName;
+        this.mContext = mContext;
+        this.timeMillis = timeMillis;
+        this.longMsg = longMsg;
+        this.stackTrace = stackTrace;
+        throwClassName = crashInfo.throwClassName;
+        throwFileName = crashInfo.throwFileName;
+        throwLineNumber = crashInfo.throwLineNumber;
+        throwMethodName = crashInfo.throwMethodName;
+        if (!isScopeApp()) return; // 不属于作用域范围
         ArrayList<JSONObject> arrayList = new ArrayList<>();
-        arrayList.add(new CrashRecord(label, pkg, timeMillis, 0).toJSON()); // 添加本次崩溃记录
-        ArrayList<JSONObject> data = getCrashRecord(mContext);
+        ArrayList<JSONObject> report = getReportCrash();
+        arrayList.add(new CrashRecord(mPkg, timeMillis, 0).toJSON()); // 添加本次崩溃记录
+        data = getCrashRecord();
+        longTimeRemove();
         if (!data.isEmpty()) {
-            boolean isNewCrash = false; // 此条崩溃记录是否是全新的
-            boolean needReplace = false; // 是否需要更新记录
-            boolean isReport = false; // 是否需要报告崩溃
-            boolean needRemoveList = false; // 是否更新列表
-            ArrayList<Integer> removeList = new ArrayList<>();
-            int remove = -1;
-            JSONObject add = null;
-            for (int i = 0; i < data.size(); i++) {
-                remove = remove + 1;
-                JSONObject jsonObject = data.get(i); // 读取
-                long mTime = CrashRecord.getTime(jsonObject);
-                if ((timeMillis - mTime) > 60000) {
-                    removeList.add(remove);
-                    needRemoveList = true;
-                    if (removeList.size() == data.size()) {
+            Iterator<JSONObject> iterator = data.iterator();
+            while (iterator.hasNext()) {
+                JSONObject oldData = iterator.next();
+                boolean isReport = false;
+                for (JSONObject next : report) {
+                    if (compare(next)) {
+                        isReport = true;
                         break;
                     }
-                    continue;
                 }
-                if (compare(jsonObject, label, pkg)) { // 如果全部匹配代表已经在数据库中
-                    isNewCrash = false; // 不需要再添加
-                    if ((timeMillis - mTime) < 10240) {
-                        needReplace = true;
-                        int count = CrashRecord.getCount(jsonObject);
-                        if (count >= 2) { // 崩溃报告临界值
-                            ArrayList<JSONObject> report = getReportCrash(mContext); // 获取已经存在的报告记录
-                            ArrayList<JSONObject> newReport = new ArrayList<>();
-                            if (!report.isEmpty()) {
-                                boolean isNewReport = false; // 是否是新的报告
-                                for (JSONObject j : report) {
-                                    if (compare(j, label, pkg)) {
-                                        isNewReport = false; // 不是新的直接跳过
-                                        break;
-                                    }
-                                    isNewReport = true;
-                                }
-                                if (isNewReport) newReport.add(jsonObject); // 是新的则添加
-                            } else {
-                                newReport.add(jsonObject);
-                            }
-                            if (!newReport.isEmpty()) { // 非空则报告
-                                try {
-                                    report.addAll(newReport);
-                                    reportCrash(mContext, report);
-                                    reportCrashByIntent(mContext, longMsg, stackTrace, newReport.get(0));
-                                } catch (Throwable e) {
-                                    logE(TAG, "Report crash failed!" + e);
-                                }
-                                // logE(TAG, "new: " + report);
-                            }
+                if (isReport) break;
+                if (compare(oldData)) {
+                    long time = CrashRecord.getTime(oldData);
+                    if ((timeMillis - time) < 10240) {
+                        int count = CrashRecord.getCount(oldData);
+                        if (count >= 2) {
+                            reportData.add(oldData);
                         } else {
-                            add = CrashRecord.putCount(jsonObject, count + 1); // 崩溃次数不足则累加
+                            updateCount.add(CrashRecord.putParam(oldData, timeMillis, count + 1));
                         }
+                        iterator.remove();
                     } else {
-                        needReplace = true; // 超出时间则直接清楚本条记录
-                    }
-                    break;
-                } else {
-                    if (isReport) break; // 是否已经报告过了
-                    isNewCrash = true;
-                    ArrayList<JSONObject> report = getReportCrash(mContext);
-                    if (!report.isEmpty()) {
-                        for (JSONObject c : report) {
-                            if (compare(c, label, pkg)) {
-                                isReport = true; // 已经报告过了
-                                break;
-                            }
-                        }
+                        iterator.remove();
                     }
                 }
             }
-            if (needRemoveList) {
-                for (int i = removeList.size() - 1; i >= 0; i--) {
-                    int id = removeList.get(i);
-                    data.remove(id);
-                }
+            setCrashRecord(data);
+            if (!updateCount.isEmpty()) {
+                data.addAll(updateCount);
+                setCrashRecord(data);
+                updateCount.clear();
             }
-            if (needReplace) {
-                if (!(removeList.contains(remove) && needRemoveList))
-                    data.remove(remove);
-                if (add != null) data.add(add);
+            if (!reportData.isEmpty()) {
+                reportData.addAll(report);
+                reportCrash(reportData);
+                reportCrashByIntent(reportData);
+                reportData.clear();
             }
-            if (isNewCrash) {
-                if (!isReport)
-                    data.addAll(arrayList);
-            }
-            // logE(TAG, "data: " + data);
-            setCrashRecord(mContext, data);
         } else {
-            // logE(TAG, "arr: " + arrayList);
-            setCrashRecord(mContext, arrayList);
+            setCrashRecord(arrayList);
         }
     }
 
-    private boolean compare(JSONObject object, String label, String pkg) {
-        String mLabel = CrashRecord.getLabel(object);
-        String mPkg = CrashRecord.getPkg(object);
-        return mLabel.equals(label) && mPkg.equals(pkg);
+    private boolean isScopeApp() {
+        if (scopeMap.isEmpty()) scopeMap = CrashData.scopeData();
+        return scopeMap.get(mPkg) != null;
     }
 
-    private void reportCrashByIntent(Context context, String longMsg, String stackTrace, JSONObject report) {
+    private void longTimeRemove() {
+        Iterator<JSONObject> it = data.iterator();
+        while (it.hasNext()) {
+            JSONObject jsonObject = it.next();
+            long time = CrashRecord.getTime(jsonObject);
+            if ((timeMillis - time) > 60000) {
+                it.remove();
+            }
+        }
+    }
+
+    private boolean compare(JSONObject object) {
+        // String mLabel = CrashRecord.getLabel(object);
+        String mPkg = CrashRecord.getPkg(object);
+        return mPkg.equals(this.mPkg);
+    }
+
+    private void reportCrashByIntent(ArrayList<JSONObject> report) {
         if (scopeMap.isEmpty()) scopeMap = CrashData.scopeData();
-        String pkg = CrashRecord.getPkg(report);
-        String abbr = scopeMap.get(pkg);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (JSONObject j : report) {
+            String b = scopeMap.get(CrashRecord.getPkg(j));
+            if (stringBuilder.length() == 0) stringBuilder.append(b);
+            else stringBuilder.append(",").append(b);
+        }
+        String abbr = scopeMap.get(CrashRecord.getPkg(report.get(0)));
+        Intent intent = getIntent(abbr, stringBuilder);
+        mContext.startService(intent);
+    }
+
+    @NonNull
+    private Intent getIntent(String abbr, StringBuilder stringBuilder) {
         Intent intent = new Intent();
         intent.setAction("com.sevtinge.hyperceiler.crash.Service");
         intent.setPackage("com.sevtinge.hyperceiler");
         intent.putExtra("key_longMsg", longMsg);
+        intent.putExtra("key_throwClassName", throwClassName);
+        intent.putExtra("key_throwFileName", throwFileName);
+        intent.putExtra("key_throwLineNumber", throwLineNumber);
+        intent.putExtra("key_throwMethodName", throwMethodName);
         intent.putExtra("key_stackTrace", stackTrace);
-        intent.putExtra("key_report", abbr);
-        context.startService(intent);
+        intent.putExtra("key_pkg", abbr);
+        intent.putExtra("key_all", stringBuilder.toString());
+        return intent;
     }
 
-    private void reportCrash(Context mContext, ArrayList<JSONObject> data) {
+    private void reportCrash(ArrayList<JSONObject> data) {
         Settings.System.putString(mContext.getContentResolver(), "hyperceiler_crash_report", data.toString());
     }
 
-    private ArrayList<JSONObject> getReportCrash(Context context) {
-        String data = Settings.System.getString(context.getContentResolver(), "hyperceiler_crash_report");
+    private ArrayList<JSONObject> getReportCrash() {
+        String data = Settings.System.getString(mContext.getContentResolver(), "hyperceiler_crash_report");
         if (data == null || data.isEmpty() || data.equals("[]")) {
             return new ArrayList<>();
         }
         return CrashRecord.toArray(data);
     }
 
-    private void setCrashRecord(Context mContext, ArrayList<JSONObject> data) {
+    private void setCrashRecord(ArrayList<JSONObject> data) {
         Settings.System.putString(mContext.getContentResolver(), "hyperceiler_crash_record_data", data.toString());
     }
 
-    private ArrayList<JSONObject> getCrashRecord(Context mContext) {
+    private ArrayList<JSONObject> getCrashRecord() {
         String data = Settings.System.getString(mContext.getContentResolver(), "hyperceiler_crash_record_data");
         if (data == null || data.isEmpty() || data.equals("[]")) {
             return new ArrayList<>();
