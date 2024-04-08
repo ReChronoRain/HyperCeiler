@@ -222,7 +222,7 @@ class CrashRecord {
             jsonObject.put("t", time);
             return jsonObject;
         } catch (JSONException e) {
-            logE(TAG, "Failed to set the number of times!" + e);
+            logE(TAG, "Failed to update data!" + e);
         }
         return null;
     }

@@ -156,10 +156,10 @@ public class CrashHook extends HookTool {
         throwFileName = crashInfo.throwFileName;
         throwLineNumber = crashInfo.throwLineNumber;
         throwMethodName = crashInfo.throwMethodName;
-        if (!isScopeApp()) return; // 不属于作用域范围
+        if (!isScopeApp()) return;
         ArrayList<JSONObject> arrayList = new ArrayList<>();
         ArrayList<JSONObject> report = getReportCrash();
-        arrayList.add(new CrashRecord(mPkg, timeMillis, 0).toJSON()); // 添加本次崩溃记录
+        arrayList.add(new CrashRecord(mPkg, timeMillis, 0).toJSON());
         data = getCrashRecord();
         longTimeRemove();
         if (!data.isEmpty()) {
