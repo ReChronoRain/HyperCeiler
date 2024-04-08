@@ -1656,6 +1656,13 @@
     <string name="safe_mode_ok">Deal with it later</string>
     <string name="safe_mode_later_title">Tip</string>
     <string name="safe_mode_later_desc">is still in safe mode and HyperCeiler functionality has been disabled. Disable safe mode?</string>
+    <string name="safe_mode_recorder_title">Exception records</string>
+    <string name="safe_mode_recorder_file">File</string>
+    <string name="safe_mode_recorder_class">Class</string>
+    <string name="safe_mode_recorder_method">Method</string>
+    <string name="safe_mode_recorder_line">Line</string>
+    <string name="safe_mode_recorder_msg">Exception Message</string>
+    <string name="safe_mode_recorder_st">Stack Trace</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
 
     <string name="preference_recommend_tip">Looking for something else?</string>

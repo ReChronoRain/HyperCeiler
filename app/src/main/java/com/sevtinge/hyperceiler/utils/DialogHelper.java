@@ -98,9 +98,14 @@ public class DialogHelper {
                                           int throwLineNumber, String throwMethodName, String longMsg, String stackTrace) {
         new AlertDialog.Builder(context)
                 .setCancelable(false)
-                .setTitle("异常记录")
-                .setMessage("抛错类: " + throwClassName + "\n抛错文件: " + throwFileName + "\n抛错方法: " + throwMethodName +
-                        "\n抛错行: " + throwLineNumber + "\n异常信息: \n" + longMsg + "\n堆栈跟踪: \n" + stackTrace)
+                .setTitle(R.string.safe_mode_recorder_title)
+                .setMessage(
+                        "[" + context.getString(R.string.safe_mode_recorder_file) + "]: " + throwFileName +
+                        "\n[" + context.getString(R.string.safe_mode_recorder_class) + "]: " + throwClassName +
+                        "\n[" + context.getString(R.string.safe_mode_recorder_method) + "]: " + throwMethodName +
+                        "\n[" + context.getString(R.string.safe_mode_recorder_line) + "]: " + throwLineNumber +
+                        "\n[" + context.getString(R.string.safe_mode_recorder_msg) + "]: " + longMsg +
+                        "\n[" + context.getString(R.string.safe_mode_recorder_st) + "]: " + stackTrace)
                 .setHapticFeedbackEnabled(true)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
                 .show();
