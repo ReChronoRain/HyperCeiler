@@ -68,20 +68,21 @@ public class MainActivity extends NavigationActivity implements IResult {
         PropUtils.setProp("persist.hyperceiler.log.level",
                 (ProjectApi.isRelease() ? def : ProjectApi.isCanary() ? (def == 0 ? 3 : 4) : def));
         appCrash = CrashData.needIntercept();
-        if (haveCrashReport()) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.safe_mode_later_title)
-                    .setMessage(appCrash.toString() + " " + getString(R.string.safe_mode_later_desc))
-                    .setHapticFeedbackEnabled(true)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
-                        ShellInit.getShell().run("setprop persist.hyperceiler.crash.report \"\"").sync();
-                        ShellInit.getShell().run("settings put system hyperceiler_crash_report \"[]\"").sync();
-                        dialog.dismiss();
-                    })
-                    .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> dialog.dismiss())
-                    .show();
-        }
+        handler.postDelayed(() -> {
+            if (haveCrashReport()) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle(R.string.safe_mode_later_title)
+                        .setMessage(appCrash.toString() + " " + getString(R.string.safe_mode_later_desc))
+                        .setHapticFeedbackEnabled(true)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
+                            ShellInit.getShell().run("setprop persist.hyperceiler.crash.report \"\"").sync();
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> dialog.dismiss())
+                        .show();
+            }
+        }, 600);
     }
 
     @Override

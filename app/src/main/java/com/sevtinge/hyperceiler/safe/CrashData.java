@@ -149,11 +149,6 @@ class CrashRecord {
         count = c;
     }
 
-    public CrashRecord(String p, int c) {
-        pkg = p;
-        count = c;
-    }
-
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {

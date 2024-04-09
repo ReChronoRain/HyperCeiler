@@ -30,11 +30,13 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class CrashHook extends HookTool {
     private static final String TAG = ITAG.TAG + ": CrashHook";
     private static HashMap<String, String> scopeMap = new HashMap<>();
+    private static HashMap<String, String> swappedMap = new HashMap<>();
 
     public CrashHook(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Exception {
         backgroundActivity(loadPackageParam.classLoader);
         init(loadPackageParam.classLoader);
         scopeMap = CrashData.scopeData();
+        swappedMap = CrashData.swappedData();
     }
 
     public void init(ClassLoader classLoader) throws Exception {
@@ -197,7 +199,6 @@ public class CrashHook extends HookTool {
             }
             if (!reportData.isEmpty()) {
                 reportData.addAll(report);
-                reportCrash(reportData);
                 reportCrashByIntent(reportData);
                 reportData.clear();
             }
@@ -257,16 +258,15 @@ public class CrashHook extends HookTool {
         return intent;
     }
 
-    private void reportCrash(ArrayList<JSONObject> data) {
-        Settings.System.putString(mContext.getContentResolver(), "hyperceiler_crash_report", data.toString());
-    }
-
     private ArrayList<JSONObject> getReportCrash() {
-        String data = Settings.System.getString(mContext.getContentResolver(), "hyperceiler_crash_report");
-        if (data == null || data.isEmpty() || data.equals("[]")) {
-            return new ArrayList<>();
+        ArrayList<String> stringData = CrashData.getReportCrashProp();
+        ArrayList<JSONObject> objects = new ArrayList<>();
+        if (swappedMap.isEmpty()) swappedMap = CrashData.swappedData();
+        for (String s : stringData) {
+            String pkg = swappedMap.get(s);
+            objects.add(new CrashRecord(pkg, -1, -1).toJSON());
         }
-        return CrashRecord.toArray(data);
+        return objects;
     }
 
     private void setCrashRecord(ArrayList<JSONObject> data) {

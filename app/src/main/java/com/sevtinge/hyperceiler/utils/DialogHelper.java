@@ -87,7 +87,6 @@ public class DialogHelper {
                 .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
                     ShellExec shellExec = ShellInit.getShell();
                     shellExec.run("setprop persist.hyperceiler.crash.report \"\"").sync();
-                    shellExec.run("settings put system hyperceiler_crash_report \"[]\"").sync();
                     activity.finish();
                 })
                 .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> activity.finish())
