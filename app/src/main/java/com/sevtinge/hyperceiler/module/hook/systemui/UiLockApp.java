@@ -213,7 +213,7 @@ public class UiLockApp extends BaseHook {
                 }
         );
 
-        findAndHookMethod("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration",
+        safeFindAndHookMethod("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration",
             "shouldHideCaption",
             new MethodHook() {
                 @Override
