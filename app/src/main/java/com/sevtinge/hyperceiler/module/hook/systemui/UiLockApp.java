@@ -213,6 +213,18 @@ public class UiLockApp extends BaseHook {
                 }
         );
 
+        safeFindAndHookMethod("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration",
+            "shouldHideCaption",
+            new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) {
+                    Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                    isLock = getLockApp(context) != -1;
+                    param.setResult(isLock);
+                }
+            }
+        );
+
         safeFindAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
                 "isLockTaskKioskModeActive", new MethodHook() {
                     @Override
