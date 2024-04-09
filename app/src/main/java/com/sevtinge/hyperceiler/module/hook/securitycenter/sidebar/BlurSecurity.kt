@@ -21,11 +21,9 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar
 import android.content.*
 import android.graphics.*
 import android.graphics.drawable.*
-import android.os.*
 import android.util.*
 import android.view.*
 import android.widget.*
-import androidx.annotation.*
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.sevtinge.hyperceiler.module.base.*
@@ -50,7 +48,6 @@ object BlurSecurity : BaseHook() {
     private var appVersionCode = 40000727
 
     // 反色 同时保持红蓝色变化不大
-    @RequiresApi(Build.VERSION_CODES.S)
     val invertColorRenderEffect = RenderEffect.createColorFilterEffect(
         ColorMatrixColorFilter(
             floatArrayOf(
@@ -69,7 +66,6 @@ object BlurSecurity : BaseHook() {
     // keepList 列表内元素及其子元素不会反色
     private val keepColorList = arrayOf("rv_information")
 
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
         val turboLayoutClass = findClassIfExists(
             "com.miui.gamebooster.windowmanager.newbox.TurboLayout"
@@ -183,7 +179,6 @@ object BlurSecurity : BaseHook() {
             val mainContent = getValueByField(param.thisObject, "b") as ViewGroup
             mainContent.addOnAttachStateChangeListener(object :
                 View.OnAttachStateChangeListener {
-                @RequiresApi(Build.VERSION_CODES.S)
                 override fun onViewAttachedToWindow(view: View) {
                     if (view.background != null) {
                         if (isBlurDrawable(view.background)) return
@@ -357,7 +352,6 @@ object BlurSecurity : BaseHook() {
                 if (appVersionCode >= 40000749) "M" else "a",
                 Context::class.java,
                 object : XC_MethodHook() {
-                    @RequiresApi(Build.VERSION_CODES.S)
                     override fun afterHookedMethod(param: MethodHookParam) {
                         val view = getValueByField(param.thisObject, "d") as View
                         val parentView = view.parent
@@ -387,7 +381,6 @@ object BlurSecurity : BaseHook() {
     // 尽量给最外层加 RenderEffect 而不是 最内层
     // whiteList 不在名单内的子视图依旧反转
     // keepList 本身及子视图均不反转
-    @RequiresApi(Build.VERSION_CODES.S)
     fun invertViewColor(
         view: View,
         whiteList: Array<String> = invertColorWhiteList,

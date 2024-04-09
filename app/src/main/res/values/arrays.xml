@@ -173,6 +173,7 @@
         <item>@string/settings_app_in_id</item>
         <item>@string/settings_app_tr_tr</item>
         <item>@string/settings_app_vi_vn</item>
+        <item>@string/settings_app_it_it</item>
 
     </string-array>
 
@@ -188,6 +189,7 @@
         <item>8</item>
         <item>9</item>
         <item>10</item>
+        <item>11</item>
     </string-array>
 
     <array name="miui_volume_timer_segments">

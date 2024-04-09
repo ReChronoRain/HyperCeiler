@@ -107,6 +107,7 @@
     <string name="settings_app_in_id" translatable="false">Bahasa Indonesia</string>
     <string name="settings_app_tr_tr" translatable="false">Türkçe</string>
     <string name="settings_app_vi_vn" translatable="false">Tiếng Việt</string>
+    <string name="settings_app_it_it" translatable="false">Italiano</string>
     <string name="settings_app_language">Language</string>
     <string name="settings_icon_miui_14">Rounded rectangle style</string>
     <string name="settings_icon_miui_13">Background cutout style</string>
@@ -1236,6 +1237,8 @@
     <string name="home_large_icon_corner_radius">Large icons with rounded corners</string>
     <string name="home_other_app_icon_hide">Desktop shortcut management</string>
     <string name="home_other_toast_slide_again">Prohibit prompts \"please stroke again\" Toast</string>
+    <string name="system_framework_guided_access_status">Hide status bar when app is locking</string>
+    <string name="system_framework_guided_access_status_more">The exit way will change to long press the power button and the status bar will hide until you exit the lock mod</string>
     <string name="system_framework_guided_access_sc">It is forbidden to call out the sidebar when pinned</string>
     <string name="system_framework_guided_access_screen">Jump to the lock screen when unpinned</string>
     <string name="system_framework_guided_access">Fixed applications</string>
@@ -1648,6 +1651,20 @@
     <string name="help_cant_see_apps_switch_desc">You can still find this page in \"Settings - Set up the homepage entry\". Reboot app to apply.</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be official from Xiaomi, and some functions may not work, please contact the provider you are using for details.</string>
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of Re.chronoRain, and may contain malicious code.</string>
+    <string name="safe_mode_title">Warning</string>
+    <string name="safe_mode_desc">has entered safe mode due to multiple crashes and HyperCeiler functionality has been temporarily disabled. \nClick OK to cancel, click Cancel to process later.</string>
+    <string name="safe_mode_history">View exception records</string>
+    <string name="safe_mode_cancel">Disable safe mode</string>
+    <string name="safe_mode_ok">Deal with it later</string>
+    <string name="safe_mode_later_title">Tip</string>
+    <string name="safe_mode_later_desc">is still in safe mode and HyperCeiler functionality has been disabled. Disable safe mode?</string>
+    <string name="safe_mode_recorder_title">Exception records</string>
+    <string name="safe_mode_recorder_file">File</string>
+    <string name="safe_mode_recorder_class">Class</string>
+    <string name="safe_mode_recorder_method">Method</string>
+    <string name="safe_mode_recorder_line">Line</string>
+    <string name="safe_mode_recorder_msg">Exception Message</string>
+    <string name="safe_mode_recorder_st">Stack Trace</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
 
     <string name="preference_recommend_tip">Looking for something else?</string>

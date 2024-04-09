@@ -150,6 +150,14 @@ public class HookTool extends XposedTool {
         XposedBridge.hookMethod(method, callback);
     }
 
+    public void safeHookMethod(Method method, MethodHook callback) {
+        try {
+            hookMethod(method, callback);
+        } catch (Throwable e) {
+
+        }
+    }
+
     public static XC_MethodHook.Unhook findAndHookMethod(Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
         return XposedHelpers.findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
     }

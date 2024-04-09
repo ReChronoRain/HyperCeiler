@@ -39,7 +39,7 @@ object EnableIconMonetColor : BaseHook() {
             "com.miui.home",
             "color",
             "monochrome_default",
-            Color.valueOf(monoColor)
+            monoColor
         )
     }
 /*
