@@ -24,11 +24,12 @@ import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
+
+import android.os.Process;
 
 import androidx.annotation.CallSuper;
 
@@ -86,7 +87,6 @@ import com.sevtinge.hyperceiler.module.app.Weather;
 import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.safe.CrashHook;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -144,7 +144,6 @@ public abstract class BaseXposedInit {
     public final ExternalStorage mExternalStorage = new ExternalStorage();
     public final Camera mCamera = new Camera();
     public final Browser mBrowser = new Browser();
-    // public final SoGou mSoGou = new SoGou();
     public final Mtb mMtb = new Mtb();
     public final Phone mPhone = new Phone();
     public final MiWallpaper mMiWallpaper = new MiWallpaper();
@@ -168,7 +167,7 @@ public abstract class BaseXposedInit {
         mModulePath = startupParam.modulePath;
     }
 
-    public void setXSharedPrefs() {
+    private void setXSharedPrefs() {
         if (mPrefsMap.isEmpty()) {
             XSharedPreferences mXSharedPreferences;
             try {
@@ -181,8 +180,8 @@ public abstract class BaseXposedInit {
                     mXSharedPreferences.makeWorldReadable();
                     allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
                     if (allPrefs == null || allPrefs.isEmpty()) {
-                        XposedLogUtils.logE(
-                                "[UID" + android.os.Process.myUid() + "]",
+                        logE(
+                                "[UID" + Process.myUid() + "]",
                                 "Cannot read module's SharedPreferences, some mods might not work!"
                         );
                     } else {
@@ -192,7 +191,7 @@ public abstract class BaseXposedInit {
                     mPrefsMap.putAll(allPrefs);
                 }
             } catch (Throwable t) {
-                XposedLogUtils.logE("setXSharedPrefs", t);
+                logE("setXSharedPrefs", t);
             }
         }
     }
@@ -206,10 +205,8 @@ public abstract class BaseXposedInit {
             logI(packageName, "versionName = " + getPackageVersionName(lpparam) + ", versionCode = " + getPackageVersionCode(lpparam));
         switch (packageName) {
             case "android" -> {
-                if (isMoreAndroidVersion(33)) {
-                    mSystemFramework.init(lpparam);
-                    mVariousSystemApps.init(lpparam);
-                }
+                mSystemFramework.init(lpparam);
+                mVariousSystemApps.init(lpparam);
                 try {
                     new CrashHook(lpparam);
                     logI(TAG, "Success Hook Crash");
@@ -218,19 +215,19 @@ public abstract class BaseXposedInit {
                 }
             }
             case "com.android.systemui" -> {
-                if (isSystemUIModuleEnable() && isMoreAndroidVersion(33)) {
+                if (isSystemUIModuleEnable()) {
                     mSystemUI.init(lpparam);
                     mVariousSystemApps.init(lpparam);
                 }
             }
             case "com.miui.home" -> {
-                if (isHomeModuleEnable() && isMoreAndroidVersion(33)) {
+                if (isHomeModuleEnable()) {
                     mHome.init(lpparam);
                     mVariousSystemApps.init(lpparam);
                 }
             }
             case "com.miui.securitycenter" -> {
-                if (isSecurityCenterModuleEnable() && isMoreAndroidVersion(33)) {
+                if (isSecurityCenterModuleEnable()) {
                     mSecurityCenter.init(lpparam);
                     mVariousSystemApps.init(lpparam);
                 }
@@ -391,9 +388,7 @@ public abstract class BaseXposedInit {
                 mTrustService.init(lpparam);
                 mVariousSystemApps.init(lpparam);
             }
-            case "com.hchen.demo" -> {
-                mDemo.init(lpparam);
-            }
+            case "com.hchen.demo" -> mDemo.init(lpparam);
             case ProjectApi.mAppModulePkg -> ModuleActiveHook(lpparam);
             default -> mVariousThirdApps.init(lpparam);
         }
@@ -408,19 +403,19 @@ public abstract class BaseXposedInit {
     }
 
 
-    public boolean isSafeModeEnable(String key) {
+    private boolean isSafeModeEnable(String key) {
         return !mPrefsMap.getBoolean(key);
     }
 
-    public boolean isSystemUIModuleEnable() {
+    private boolean isSystemUIModuleEnable() {
         return isSafeModeEnable("system_ui_safe_mode_enable");
     }
 
-    public boolean isHomeModuleEnable() {
+    private boolean isHomeModuleEnable() {
         return isSafeModeEnable("home_safe_mode_enable");
     }
 
-    public boolean isSecurityCenterModuleEnable() {
+    private boolean isSecurityCenterModuleEnable() {
         return isSafeModeEnable("security_center_safe_mode_enable");
     }
 

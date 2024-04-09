@@ -42,7 +42,6 @@ import com.sevtinge.hyperceiler.utils.search.SearchHelper;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import moralnorm.appcompat.app.AlertDialog;
 
@@ -68,20 +67,22 @@ public class MainActivity extends NavigationActivity implements IResult {
         ShellInit.init(this);
         PropUtils.setProp("persist.hyperceiler.log.level",
                 (ProjectApi.isRelease() ? def : ProjectApi.isCanary() ? (def == 0 ? 3 : 4) : def));
-        if (haveCrashReport()) {
-            new AlertDialog.Builder(this)
-                    .setTitle("提示")
-                    .setMessage("存在处于安全模式的作用域: \n" + appCrash.toString() + " \n请选择是否解除？")
-                    .setHapticFeedbackEnabled(true)
-                    .setCancelable(false)
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                        ShellInit.getShell().run("setprop persist.hyperceiler.crash.report \"\"").sync();
-                        ShellInit.getShell().run("settings put system hyperceiler_crash_report \"[]\"").sync();
-                        dialog.dismiss();
-                    })
-                    .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
-                    .show();
-        }
+        appCrash = CrashData.needIntercept();
+        handler.postDelayed(() -> {
+            if (haveCrashReport()) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle(R.string.safe_mode_later_title)
+                        .setMessage(appCrash.toString() + " " + getString(R.string.safe_mode_later_desc))
+                        .setHapticFeedbackEnabled(true)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
+                            ShellInit.getShell().run("setprop persist.hyperceiler.crash.report \"\"").sync();
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> dialog.dismiss())
+                        .show();
+            }
+        }, 600);
     }
 
     @Override
@@ -96,29 +97,8 @@ public class MainActivity extends NavigationActivity implements IResult {
     }
 
     private boolean haveCrashReport() {
-        return !needIntercept().isEmpty();
+        return !appCrash.isEmpty();
     }
-
-    private ArrayList<String> needIntercept() {
-        ArrayList<String> report = getReportCrashProp();
-        for (String s : report) {
-            String mPkg = CrashData.swappedData().get(s);
-            if (mPkg != null) {
-                appCrash.add(mPkg);
-            }
-        }
-        return appCrash;
-    }
-
-    private ArrayList<String> getReportCrashProp() {
-        String data = PropUtils.getProp("persist.hyperceiler.crash.report", "");
-        if (data.isEmpty()) {
-            return new ArrayList<>();
-        }
-        String[] sp = data.split(",");
-        return new ArrayList<>(Arrays.asList(sp));
-    }
-
 
     @Override
     protected void onDestroy() {

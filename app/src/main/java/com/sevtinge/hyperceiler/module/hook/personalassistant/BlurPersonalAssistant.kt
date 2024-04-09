@@ -18,16 +18,14 @@
 */
 package com.sevtinge.hyperceiler.module.hook.personalassistant
 
-import android.graphics.drawable.ColorDrawable
-import android.os.Build
-import android.view.Window
-import androidx.annotation.RequiresApi
+import android.graphics.drawable.*
+import android.view.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import com.sevtinge.hyperceiler.utils.api.BlurDraw
-import kotlin.math.abs
+import com.sevtinge.hyperceiler.utils.api.*
+import kotlin.math.*
 
 object BlurPersonalAssistant : BaseHook() {
     private val blurRadius by lazy {
@@ -37,7 +35,6 @@ object BlurPersonalAssistant : BaseHook() {
         mPrefsMap.getInt("personal_assistant_color", -1)
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
         var lastBlurRadius = -1
 

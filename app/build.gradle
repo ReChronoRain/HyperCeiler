@@ -37,7 +37,7 @@ android {
     defaultConfig {
         namespace 'com.sevtinge.hyperceiler'
         applicationId namespace
-        minSdk 31
+        minSdk 33
         targetSdk 34
         versionCode 143
         versionName "2.4.143"
