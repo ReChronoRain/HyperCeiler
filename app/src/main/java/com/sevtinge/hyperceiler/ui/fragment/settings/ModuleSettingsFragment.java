@@ -80,12 +80,9 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
         int value = LanguageHelper.resultIndex(LanguageHelper.appLanguages, language);
         mLanguage.setValueIndex(value);
         mLanguage.setOnPreferenceChangeListener(
-                new Preference.OnPreferenceChangeListener() {
-                    @Override
-                    public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
-                        LanguageHelper.setIndexLanguage(getActivity(), Integer.parseInt((String) o), true);
-                        return true;
-                    }
+                (preference, o) -> {
+                    LanguageHelper.setIndexLanguage(getActivity(), Integer.parseInt((String) o), true);
+                    return true;
                 }
         );
 

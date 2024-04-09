@@ -107,7 +107,7 @@
     <string name="settings_app_in_id" translatable="false">Bahasa Indonesia</string>
     <string name="settings_app_tr_tr" translatable="false">Türkçe</string>
     <string name="settings_app_vi_vn" translatable="false">Tiếng Việt</string>
-    <string name="settings_app_en_it" translatable="false">Italiano</string>
+    <string name="settings_app_it_it" translatable="false">Italiano</string>
     <string name="settings_app_language">Language</string>
     <string name="settings_icon_miui_14">Rounded rectangle style</string>
     <string name="settings_icon_miui_13">Background cutout style</string>

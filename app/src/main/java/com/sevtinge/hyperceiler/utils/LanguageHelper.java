@@ -27,7 +27,7 @@ import java.util.Locale;
 
 public class LanguageHelper {
     public static final String[] appLanguages = {
-            "en", "zh_CN", "zh_TW", "zh_HK", "ja_JP", "ru_RU", "es_ES", "pt_BR", "in_ID", "tr_TR", "vi_VN", "en_IT"
+            "en", "zh_CN", "zh_TW", "zh_HK", "ja_JP", "ru_RU", "es_ES", "pt_BR", "in_ID", "tr_TR", "vi_VN", "it_IT"
     };
 
     public static void setLanguage(Context context, String language) {
@@ -103,7 +103,7 @@ public class LanguageHelper {
                 if (recreate) activity.recreate();
             }
             case 11 -> {
-                LanguageHelper.setLanguage(activity.getBaseContext(), "en", "IT");
+                LanguageHelper.setLanguage(activity.getBaseContext(), "it", "IT");
                 if (recreate) activity.recreate();
             }
         }
