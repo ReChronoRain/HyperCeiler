@@ -87,24 +87,25 @@ public class SystemLockApp extends BaseHook {
                 }
         );
 
-        findAndHookMethod("com.android.server.policy.PhoneWindowManager",
-                "powerLongPress",
-                long.class,
+        findAndHookMethod("com.miui.server.input.util.ShortCutActionsUtils",
+                "triggerHapticFeedback", boolean.class, String.class,
+                String.class, boolean.class, String.class,
                 new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
                         if (!mPrefsMap.getBoolean("system_framework_guided_access_status"))
                             return; // 不知道为什么还是需要重启才生效
-
-                        Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                        isLock = getLockApp(context) != -1;
-                        if (isLock) {
-                            setLockApp(context, -1);
+                        String shortcut = (String) param.args[1];
+                        if ("imperceptible_press_power_key".equals(shortcut) || "long_press_power_key".equals(shortcut)) {
+                            Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                            isLock = getLockApp(context) != -1;
+                            if (isLock) {
+                                setLockApp(context, -1);
+                            }
                         }
                     }
                 }
         );
-
 
         findAndHookMethod("com.android.server.wm.LockTaskController",
                 "shouldLockKeyguard", int.class,
