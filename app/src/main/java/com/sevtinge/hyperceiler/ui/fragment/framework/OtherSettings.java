@@ -53,6 +53,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
     SwitchPreference mLockApp;
     SwitchPreference mLockAppSc;
     SwitchPreference mLockAppScreen;
+    SwitchPreference mLockAppStatus;
     RecommendPreference mRecommend;
     Handler handler;
 
@@ -72,10 +73,12 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
         mLockApp = findPreference("prefs_key_system_framework_guided_access");
         mLockAppSc = findPreference("prefs_key_system_framework_guided_access_sc");
         mLockAppScreen = findPreference("prefs_key_system_framework_guided_access_screen");
+        mLockAppStatus = findPreference("prefs_key_system_framework_guided_access_status");
 
         mLockApp.setOnPreferenceChangeListener(this);
         mLockAppSc.setOnPreferenceChangeListener(this);
         mLockAppScreen.setOnPreferenceChangeListener(this);
+        mLockAppStatus.setOnPreferenceChangeListener(this);
 
         mDisableDeviceLog = findPreference("prefs_key_various_disable_access_device_logs");
 
@@ -142,6 +145,9 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
             }
             case "prefs_key_system_framework_guided_access_screen" -> {
                 initApp(executorService, () -> KillApp.killApps("com.android.systemui"));
+            }
+            case "prefs_key_system_framework_guided_access_status" -> {
+                initApp(executorService, () -> KillApp.killApps("com.miui.home","com.android.systemui"));
             }
         }
         return true;

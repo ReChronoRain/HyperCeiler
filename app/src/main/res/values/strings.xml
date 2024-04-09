@@ -1237,6 +1237,8 @@
     <string name="home_large_icon_corner_radius">Large icons with rounded corners</string>
     <string name="home_other_app_icon_hide">Desktop shortcut management</string>
     <string name="home_other_toast_slide_again">Prohibit prompts \"please stroke again\" Toast</string>
+    <string name="system_framework_guided_access_status">Hide status bar when app is locking</string>
+    <string name="system_framework_guided_access_status_more">The exit way will change to long press the power button and the status bar will hide until you exit the lock mod</string>
     <string name="system_framework_guided_access_sc">It is forbidden to call out the sidebar when pinned</string>
     <string name="system_framework_guided_access_screen">Jump to the lock screen when unpinned</string>
     <string name="system_framework_guided_access">Fixed applications</string>

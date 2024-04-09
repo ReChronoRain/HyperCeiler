@@ -51,51 +51,50 @@ public class ScLockApp extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
         MethodData methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(
-            FindMethod.create()
-                .matcher(MethodMatcher.create()
-                    .declaredClass(ClassMatcher.create()
-                        .usingStrings("startRegionSampling")
-                    )
-                    .name("dispatchTouchEvent")
-                )
+                FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .declaredClass(ClassMatcher.create()
+                                        .usingStrings("startRegionSampling")
+                                )
+                                .name("dispatchTouchEvent")
+                        )
         ).singleOrNull();
         ClassData data = DexKit.INSTANCE.getDexKitBridge().findClass(
-            FindClass.create()
-                .matcher(ClassMatcher.create()
-                    .usingStrings("startRegionSampling")
-                )
+                FindClass.create()
+                        .matcher(ClassMatcher.create()
+                                .usingStrings("startRegionSampling")
+                        )
         ).singleOrNull();
         FieldData fieldData = null;
         if (methodData == null) {
             value = 1;
             methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(
-                FindMethod.create()
-                    .matcher(MethodMatcher.create()
-                        .declaredClass(ClassMatcher.create()
-                            .usingStrings("SidebarTouchListener")
-                        )
-                        .name("onTouch")
-                    )
+                    FindMethod.create()
+                            .matcher(MethodMatcher.create()
+                                    .declaredClass(ClassMatcher.create()
+                                            .usingStrings("SidebarTouchListener")
+                                    )
+                                    .name("onTouch")
+                            )
             ).singleOrNull();
             data = DexKit.INSTANCE.getDexKitBridge().findClass(
-                FindClass.create()
-                    .matcher(ClassMatcher.create()
-                        .usingStrings("onTouch: \taction = ")
-                    )
-            ).singleOrNull();
-            fieldData = DexKit.INSTANCE.getDexKitBridge().findField(
-                FindField.create()
-                    .matcher(
-                        FieldMatcher.create()
-                            .declaredClass(
-                                ClassMatcher.create()
+                    FindClass.create()
+                            .matcher(ClassMatcher.create()
                                     .usingStrings("onTouch: \taction = ")
                             )
-                            .type(View.class)
-                    )
+            ).singleOrNull();
+            fieldData = DexKit.INSTANCE.getDexKitBridge().findField(
+                    FindField.create()
+                            .matcher(FieldMatcher.create()
+                                    .declaredClass(ClassMatcher.create()
+                                            .usingStrings("onTouch: \taction = ")
+                                    )
+                                    .type(View.class)
+                            )
             ).singleOrNull();
         }
         try {
+            Field field = null;
             // logE(TAG, "dispatchTouchEvent: " + methodData + " Constructor: " + data + " class: " + data.getInstance(lpparam.classLoader) + " f: " + fieldData.getFieldInstance(lpparam.classLoader));
             if (data == null) {
                 logE(TAG, "Class is null");
@@ -104,16 +103,20 @@ public class ScLockApp extends BaseHook {
             if (fieldData == null && value == 1) {
                 logE(TAG, "Field is null");
                 return;
-            }
-            assert fieldData != null;
-            Field field = fieldData.getFieldInstance(lpparam.classLoader);
+            } else if (fieldData != null) field = fieldData.getFieldInstance(lpparam.classLoader);
+            // logE(TAG, "data: " + data + " fieldData: " + fieldData + " methodData: " + methodData);
+            Field finalField = field;
             hookAllConstructors(data.getInstance(lpparam.classLoader), new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) {
                     Context context = null;
                     if (value == 1) {
                         try {
-                            context = ((View) field.get(param.thisObject)).getContext();
+                            if (finalField == null) {
+                                logE(TAG, "finalField is null!");
+                                return;
+                            }
+                            context = ((View) finalField.get(param.thisObject)).getContext();
                         } catch (IllegalAccessException e) {
                             logE(TAG, "getContext E: " + e);
                         }
@@ -133,8 +136,8 @@ public class ScLockApp extends BaseHook {
                             }
                         };
                         context.getContentResolver().registerContentObserver(
-                            Settings.Global.getUriFor("key_lock_app"),
-                            false, contentObserver);
+                                Settings.Global.getUriFor("key_lock_app"),
+                                false, contentObserver);
                         isListen = true;
                     }
                 }
@@ -148,14 +151,14 @@ public class ScLockApp extends BaseHook {
             return;
         }
         hookMethod(methodData.getMethodInstance(lpparam.classLoader),
-            new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    if (isLock) {
-                        param.setResult(false);
+                new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        if (isLock) {
+                            param.setResult(false);
+                        }
                     }
                 }
-            }
         );
     }
 
