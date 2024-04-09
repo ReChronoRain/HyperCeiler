@@ -298,6 +298,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_fix_tiles_list"
+            android:title="@string/system_ui_control_center_fix_tiles_list" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_reduce_bright_colors_tile"
             android:title="@string/security_center_reduce_bright_colors_tile" />
 
@@ -364,11 +369,6 @@
             app:minValue="1"
             app:showSeekBarValue="true"
             app:stepValue="1" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_center_fix_tiles_list"
-            android:title="@string/system_ui_control_center_fix_tiles_list" />
 
         <SwitchPreference
             android:defaultValue="false"

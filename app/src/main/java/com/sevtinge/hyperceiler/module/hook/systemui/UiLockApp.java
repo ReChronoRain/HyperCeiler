@@ -74,12 +74,10 @@ public class UiLockApp extends BaseHook {
                                 isLock = getLockApp(context) != -1;
                                 if (getLockApp(context) != -1) {
                                     try {
-                                        //XposedHelpers.callMethod(param.thisObject, "scheduleAutoHide");
-                                    } catch (Exception e) {
+                                        XposedHelpers.callMethod(param.thisObject, "scheduleAutoHide");
+                                    } catch (Throwable e) {
 
                                     }
-                                }else {//退出时引发崩溃以恢复底栏
-                                    XposedHelpers.callMethod(param.thisObject, "scheduleAutoHide");
                                 }
                             }
                         };
@@ -255,7 +253,7 @@ public class UiLockApp extends BaseHook {
     }
 
     public void hookToast(Method method) {
-        hookMethod(method,
+        safeHookMethod(method,
             new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {

@@ -23,10 +23,11 @@ import org.luckypray.dexkit.DexKitBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class InitDexKit {
-    public String mTAG;
-    public XC_LoadPackage.LoadPackageParam mLpparam;
-    public DexKitBridge mDexKitBridge = null;
     public boolean isInit = false;
+
+    private final String mTAG;
+    private final XC_LoadPackage.LoadPackageParam mLpparam;
+    private DexKitBridge mDexKitBridge = null;
     private String hostDir = null;
 
     public InitDexKit(XC_LoadPackage.LoadPackageParam param, String tag) {

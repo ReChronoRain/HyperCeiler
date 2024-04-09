@@ -18,28 +18,16 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.other
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ValueAnimator
-import android.graphics.RenderEffect
-import android.graphics.Shader
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
-import android.os.Build
-import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.annotation.RequiresApi
-import androidx.core.view.ViewCompat.animate
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.getObjectField
-import com.sevtinge.hyperceiler.utils.getValueByField
-
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedBridge
-import de.robv.android.xposed.XposedHelpers
-import kotlin.math.sqrt
+import android.animation.*
+import android.graphics.*
+import android.graphics.drawable.*
+import android.view.*
+import android.widget.*
+import androidx.core.view.ViewCompat.*
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
+import de.robv.android.xposed.*
+import kotlin.math.*
 
 object BlurWhenShowShortcutMenu : BaseHook() {
 
@@ -79,7 +67,6 @@ object BlurWhenShowShortcutMenu : BaseHook() {
             shortcutMenuLayerClass,
             "showShortcutMenu",
             object : XC_MethodHook() {
-                @RequiresApi(Build.VERSION_CODES.S)
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     val dragObject = param.args[0]
                     val dragViewInfo = XposedHelpers.callMethod(dragObject, "getDragInfo")
@@ -193,7 +180,6 @@ object BlurWhenShowShortcutMenu : BaseHook() {
             shortcutMenuLayerClass,
             "hideShortcutMenu",
             object : XC_MethodHook() {
-                @RequiresApi(Build.VERSION_CODES.S)
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     if (isShortcutMenuLayerBlurred) {
                         val editStateChangeReason = param.args[0]

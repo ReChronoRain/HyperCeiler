@@ -1691,6 +1691,21 @@
     <string name="disable_suggest">禁用推荐</string>
     <string name="enable_suggest">启用推荐</string>
 
+    <string name="safe_mode_title">警告</string>
+    <string name="safe_mode_desc">由于多次崩溃，已进入安全模式，HyperCeiler 功能已暂时停用。\n点击确定解除，点击取消稍后处理。</string>
+    <string name="safe_mode_history">查看异常记录</string>
+    <string name="safe_mode_cancel">解除</string>
+    <string name="safe_mode_ok">稍后处理</string>
+    <string name="safe_mode_later_title">提示</string>
+    <string name="safe_mode_later_desc">仍处于安全模式中，HyperCeiler对其的功能已停用。\n是否解除安全模式？</string>
+    <string name="safe_mode_recorder_title">异常记录</string>
+    <string name="safe_mode_recorder_file">文件名</string>
+    <string name="safe_mode_recorder_class">抛出类</string>
+    <string name="safe_mode_recorder_method">抛出方法</string>
+    <string name="safe_mode_recorder_line">行号</string>
+    <string name="safe_mode_recorder_msg">异常类型及信息</string>
+    <string name="safe_mode_recorder_st">异常堆栈内容</string>
+
     <string name="tip_default">Tip: 这里是默认 tip ~ 如果你能看见我，就说明 HyperCeiler 出现了问题，请及时且有效的反馈给开发者。</string>
 
     <string name="headtip_warn_not_offical_rom">您正在使用的 ROM 来源可能并不是 Xiaomi 官方，部分功能可能会失效，详情请咨询您正在使用 ROM 的提供者。</string>

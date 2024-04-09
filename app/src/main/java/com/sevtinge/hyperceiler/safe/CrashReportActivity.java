@@ -24,6 +24,12 @@ public class CrashReportActivity extends AppCompatActivity {
 
     TextView mMessageTv;
     TextView mCrashRecordTv;
+    private String longMsg;
+    private String stackTrace;
+    private String throwClassName;
+    private String throwFileName;
+    private int throwLineNumber;
+    private String throwMethodName;
 
     private static HashMap<String, String> swappedMap = CrashData.swappedData();
 
@@ -35,17 +41,22 @@ public class CrashReportActivity extends AppCompatActivity {
         if (swappedMap.isEmpty()) swappedMap = CrashData.swappedData();
         setContentView(R.layout.activity_crash_dialog);
         Intent intent = getIntent();
-        String code = intent.getStringExtra("key_report");
-        String stackTrace = intent.getStringExtra("key_stackTrace");
-        String longMsg = intent.getStringExtra("key_longMsg");
+        String code = intent.getStringExtra("key_pkg");
+        longMsg = intent.getStringExtra("key_longMsg");
+        stackTrace = intent.getStringExtra("key_stackTrace");
+        throwClassName = intent.getStringExtra("key_throwClassName");
+        throwFileName = intent.getStringExtra("key_throwFileName");
+        throwLineNumber = intent.getIntExtra("key_throwLineNumber", -1);
+        throwMethodName = intent.getStringExtra("key_throwMethodName");
         String pkg = getReportCrashPkg(code);
         View view = LayoutInflater.from(this).inflate(R.layout.crash_report_dialog, null);
         mMessageTv = view.findViewById(R.id.tv_message);
-        mMessageTv.setText("作用域: " + "\n\"" + pkg + "\"\n已进入安全模式,点击确定解除，点击取消稍后处理。");
+        mMessageTv.setText(pkg + " " + getString(R.string.safe_mode_desc));
         mCrashRecordTv = view.findViewById(R.id.tv_record);
         mCrashRecordTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);// 下划线并加清晰
         mCrashRecordTv.getPaint().setAntiAlias(true);
-        mCrashRecordTv.setOnClickListener(v -> DialogHelper.showCrashMsgDialog(this, longMsg, stackTrace));
+        mCrashRecordTv.setOnClickListener(v -> DialogHelper.showCrashMsgDialog(this, throwClassName,
+                throwFileName, throwLineNumber, throwMethodName, longMsg, stackTrace));
         DialogHelper.showCrashReportDialog(this, view);
     }
 

@@ -3,12 +3,14 @@ package com.sevtinge.hyperceiler.safe;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 
 import com.sevtinge.hyperceiler.callback.ITAG;
+import com.sevtinge.hyperceiler.utils.PropUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,6 +98,38 @@ public class CrashData {
         }
         return swappedMap;
     }
+
+    public static boolean needIntercept(String pkg) {
+        ArrayList<String> report = getReportCrashProp();
+        for (String s : report) {
+            String mPkg = swappedData().get(s);
+            if (mPkg != null) {
+                return mPkg.equals(pkg);
+            }
+        }
+        return false;
+    }
+
+    public static ArrayList<String> needIntercept() {
+        ArrayList<String> appCrash = new ArrayList<>();
+        ArrayList<String> report = getReportCrashProp();
+        for (String s : report) {
+            String mPkg = swappedData().get(s);
+            if (mPkg != null) {
+                appCrash.add(mPkg);
+            }
+        }
+        return appCrash;
+    }
+
+    public static ArrayList<String> getReportCrashProp() {
+        String data = PropUtils.getProp("persist.hyperceiler.crash.report", "");
+        if (data.isEmpty()) {
+            return new ArrayList<>();
+        }
+        String[] sp = data.split(",");
+        return new ArrayList<>(Arrays.asList(sp));
+    }
 }
 
 /**
@@ -103,27 +137,22 @@ public class CrashData {
  */
 class CrashRecord {
     public static final String TAG = ITAG.TAG + ": CrashRecord";
-    public String label;
+    // public String label;
     public String pkg;
     public long time;
     public int count;
 
-    public CrashRecord(String l, String p, long t, int c) {
-        label = l;
+    public CrashRecord(String p, long t, int c) {
+        // label = l;
         pkg = p;
         time = t;
-        count = c;
-    }
-
-    public CrashRecord(String p, int c) {
-        pkg = p;
         count = c;
     }
 
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("l", label);
+            // jsonObject.put("l", label);
             jsonObject.put("p", pkg);
             jsonObject.put("t", time);
             jsonObject.put("c", count);
@@ -146,14 +175,14 @@ class CrashRecord {
         return jsonObject;
     }
 
-    public static String getLabel(JSONObject jsonObject) {
+    /*public static String getLabel(JSONObject jsonObject) {
         try {
             return jsonObject.getString("l");
         } catch (JSONException e) {
             logE(TAG, "Failed to get name!" + e);
         }
         return "null";
-    }
+    }*/
 
     public static String getPkg(JSONObject jsonObject) {
         try {
@@ -182,11 +211,13 @@ class CrashRecord {
         return -1;
     }
 
-    public static JSONObject putCount(JSONObject jsonObject, int count) {
+    public static JSONObject putParam(JSONObject jsonObject, long time, int count) {
         try {
-            return jsonObject.put("c", count);
+            jsonObject.put("c", count);
+            jsonObject.put("t", time);
+            return jsonObject;
         } catch (JSONException e) {
-            logE(TAG, "Failed to set the number of times!" + e);
+            logE(TAG, "Failed to update data!" + e);
         }
         return null;
     }

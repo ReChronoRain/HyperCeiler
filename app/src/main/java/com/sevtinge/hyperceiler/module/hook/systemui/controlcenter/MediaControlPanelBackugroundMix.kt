@@ -25,17 +25,13 @@ import android.graphics.*
 import android.graphics.drawable.*
 import android.hardware.*
 import android.media.*
-import android.os.*
-import android.util.*
 import android.view.*
 import android.widget.*
-import androidx.annotation.*
 import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.Log
 import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
@@ -58,7 +54,6 @@ class MediaControlPanelBackgroundMix : BaseHook() {
     private val overlay by lazy {
         mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_overlay", 20)
     }
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
         EzXHelper.initHandleLoadPackage(lpparam)
         EzXHelper.setLogTag(TAG)
@@ -163,8 +158,8 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                             action2?.setColorFilter(Color.BLACK)
                             action3?.setColorFilter(Color.BLACK)
                             action4?.setColorFilter(Color.BLACK)
-                            seekBar?.progressDrawable?.colorFilter = colorFilter(Color.argb(165, 0, 0, 0))
-                            seekBar?.thumb?.colorFilter = colorFilter(if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else Color.argb(165, 0, 0, 0))
+                            seekBar?.progressDrawable?.colorFilter = colorFilter(Color.BLACK)
+                            seekBar?.thumb?.colorFilter = colorFilter(if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else Color.BLACK)
                             elapsedTimeView?.setTextColor(grey)
                             totalTimeView?.setTextColor(grey)
                         } else {
@@ -219,7 +214,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         albumView?.setImageDrawable(BitmapDrawable(context.resources, newBitmap))
 
                         if (appIcon?.parent != null) {
-                            (appIcon?.parent as ViewGroup?)?.removeView(appIcon)
+                            (appIcon.parent as ViewGroup?)?.removeView(appIcon)
                         }
                     }
                 }
@@ -250,7 +245,6 @@ class MediaControlPanelBackgroundMix : BaseHook() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     private fun setBlurBackground(
         miuiMediaControlPanel: Class<*>?,
         playerTwoCircleView: Class<*>?
@@ -441,7 +435,6 @@ class MediaControlPanelBackgroundMix : BaseHook() {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.S)
 private fun Bitmap.blur(radius: Float): Bitmap {
 
     // 该部分来自 Google (https://developer.android.google.cn/guide/topics/renderscript/migrate)
