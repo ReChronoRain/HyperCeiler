@@ -27,13 +27,12 @@ import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext*/
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
-import android.content.pm.verify.domain.DomainVerificationManager
-import android.view.Gravity
-import android.view.View
-import android.widget.LinearLayout
+import android.annotation.*
+import android.app.*
+import android.content.*
+import android.content.pm.verify.domain.*
+import android.view.*
+import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.github.kyuubiran.ezxhelper.EzXHelper.initAppContext
@@ -41,10 +40,9 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.R
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import de.robv.android.xposed.XposedHelpers.getAdditionalInstanceField
-import de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField
+import com.sevtinge.hyperceiler.*
+import com.sevtinge.hyperceiler.module.base.*
+import de.robv.android.xposed.XposedHelpers.*
 
 
 @SuppressLint("DiscouragedApi")
@@ -148,7 +146,7 @@ object OpenByDefaultSetting : BaseHook() {
         }
         invokeMethodBestMatch(activity, "startActivity", null, intent)
     }
-    /*@RequiresApi(Build.VERSION_CODES.S)
+    /*
     override fun init() {
         val domainVerificationManager: DomainVerificationManager by lazy {
             appContext.getSystemService(
