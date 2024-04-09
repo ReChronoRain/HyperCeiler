@@ -63,180 +63,172 @@ public class UiLockApp extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
         hookAllConstructors("com.android.systemui.statusbar.phone.AutoHideController",
-            new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) {
-                    Context context = (Context) param.args[0];
-                    if (!isListen) {
-                        ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
-                            @Override
-                            public void onChange(boolean selfChange) {
-                                isLock = getLockApp(context) != -1;
-                                if (getLockApp(context) != -1) {
-                                    try {
-                                        XposedHelpers.callMethod(param.thisObject, "scheduleAutoHide");
-                                    } catch (Throwable e) {
+                new MethodHook() {
+                    @Override
+                    protected void after(MethodHookParam param) {
+                        Context context = (Context) param.args[0];
+                        if (!isListen) {
+                            ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
+                                @Override
+                                public void onChange(boolean selfChange) {
+                                    isLock = getLockApp(context) != -1;
+                                    if (getLockApp(context) != -1) {
+                                        try {
+                                            XposedHelpers.callMethod(param.thisObject, "scheduleAutoHide");
+                                        } catch (Throwable e) {
 
+                                        }
                                     }
                                 }
-                            }
-                        };
-                        context.getContentResolver().registerContentObserver(
-                            Settings.Global.getUriFor("key_lock_app"),
-                            false, contentObserver);
-                        isListen = true;
+                            };
+                            context.getContentResolver().registerContentObserver(
+                                    Settings.Global.getUriFor("key_lock_app"),
+                                    false, contentObserver);
+                            isListen = true;
+                        }
                     }
                 }
-            }
         );
 
         if (mPrefsMap.getBoolean("system_framework_guided_access_status")) {
             hookAllConstructors("com.android.systemui.statusbar.window.StatusBarWindowController",
-                new MethodHook() {
-                    @Override
-                    protected void after(MethodHookParam param) {
-                        try {
-                            Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                            if (context == null) return;
+                    new MethodHook() {
+                        @Override
+                        protected void after(MethodHookParam param) {
+                            try {
+                                Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                                if (context == null) return;
 
-                            View view = (FrameLayout) XposedHelpers.getObjectField(param.thisObject, "mStatusBarWindowView");
+                                View view = (FrameLayout) XposedHelpers.getObjectField(param.thisObject, "mStatusBarWindowView");
 
-                            if (!isObserver) {
-                                ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
-                                    @Override
-                                    public void onChange(boolean selfChange) {
-                                        isLock = getLockApp(context) != -1;
-                                        //logE(TAG, "hide SUCCESS");
-                                        view.setVisibility(isLock ? View.GONE : View.VISIBLE);
-                                    }
-                                };
-                                context.getContentResolver().registerContentObserver(
-                                        Settings.Global.getUriFor("key_lock_app"),
-                                        false, contentObserver);
-                                isObserver = true;
+                                if (!isObserver) {
+                                    ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
+                                        @Override
+                                        public void onChange(boolean selfChange) {
+                                            isLock = getLockApp(context) != -1;
+                                            // logE(TAG, "hide SUCCESS");
+                                            view.setVisibility(isLock ? View.GONE : View.VISIBLE);
+                                        }
+                                    };
+                                    context.getContentResolver().registerContentObserver(
+                                            Settings.Global.getUriFor("key_lock_app"),
+                                            false, contentObserver);
+                                    isObserver = true;
+                                }
+                            } catch (Throwable e) {
+                                logE(TAG, "E: " + e);
                             }
-                        } catch (Throwable e) {
-                            logE(TAG, "E: " + e);
                         }
                     }
-                }
             );
         }
 
         findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView",
-            "onTouchEvent", MotionEvent.class, new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    MotionEvent motionEvent = (MotionEvent) param.args[0];
-                    // logE(TAG, "mo: " + motionEvent.getActionMasked());
-                    mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getContext");
-                    int action = motionEvent.getActionMasked();
-                    int lockId = getLockApp(mContext);
-                    if (getSystemLockEnable(mContext)) {
+                "onTouchEvent", MotionEvent.class, new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        MotionEvent motionEvent = (MotionEvent) param.args[0];
+                        // logE(TAG, "mo: " + motionEvent.getActionMasked());
+                        mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getContext");
+                        int action = motionEvent.getActionMasked();
+                        int lockId = getLockApp(mContext);
                         setSystemLockApp(mContext);
-                    }
-                    if (getSystemLockScreen(mContext)) {
-                        setSystemLockScreen(mContext, 0);
-                    }
-                    if (mPrefsMap.getBoolean("system_framework_guided_access_screen")) {
-                        if (!getMyLockScreen(mContext)) {
+                        setSystemLockScreen(mContext);
+                        if (mPrefsMap.getBoolean("system_framework_guided_access_screen")) {
                             setMyLockScreen(mContext, 1);
-                        }
-                    } else {
-                        if (getMyLockScreen(mContext)) {
+                        } else {
                             setMyLockScreen(mContext, 0);
                         }
-                    }
-                    if (action == 2) {
-                        count = count + 1;
-                        if (count > 6) {
-                            remoAllMes();
-                            count = 0;
-                            return;
-                        }
-                    }
-                    if (action == 0) {
-                        Class<?> ActivityManagerWrapper = findClassIfExists("com.android.systemui.shared.system.ActivityManagerWrapper");
-                        ActivityManager.RunningTaskInfo runningTaskInfo;
-                        if (ActivityManagerWrapper != null) {
-                            try {
-                                ActivityManagerWrapper.getDeclaredMethod("getInstance");
-                                Object getInstance = XposedHelpers.callStaticMethod(
-                                    ActivityManagerWrapper,
-                                    "getInstance");
-                                runningTaskInfo = (ActivityManager.RunningTaskInfo) XposedHelpers.callMethod(
-                                    getInstance, "getRunningTask");
-                            } catch (NoSuchMethodException e) {
-                                Object sInstance = XposedHelpers.getStaticObjectField(ActivityManagerWrapper, "sInstance");
-                                runningTaskInfo = (ActivityManager.RunningTaskInfo) XposedHelpers.callMethod(
-                                    sInstance, "getRunningTask");
+                        if (action == 2) { // 移动手指判定失效
+                            count = count + 1;
+                            if (count > 6) {
+                                remoAllMes();
+                                count = 0;
+                                return;
                             }
-                        } else {
-                            logE(TAG, "ActivityManagerWrapper is null");
-                            return;
                         }
-                        if (runningTaskInfo == null) {
-                            logE(TAG, "runningTaskInfo is null");
-                            return;
-                        }
-                        // ActivityManager.RunningTaskInfo runningTaskInfo = (ActivityManager.RunningTaskInfo) XposedHelpers.callMethod(
-                        //     XposedHelpers.callStaticMethod(findClassIfExists("com.miui.home.recents.RecentsModel"), "getInstance",
-                        //         mContext), "getRunningTaskContainHome");
-                        taskId = runningTaskInfo.taskId;
-                        ComponentName topActivity = runningTaskInfo.topActivity;
-                        String pkg = topActivity.getPackageName();
-                        if ("com.miui.home".equals(pkg)) {
-                            return;
-                        }
-                        // logE(TAG, "task id: " + taskId + " a: " + pkg);
-                        remoAllMes();
-                        if (lockId == -1) {
-                            mHandler.sendMessageDelayed(mHandler.obtainMessage(WILL_LOCK_APP), 1000);
-                            mHandler.sendMessageDelayed(mHandler.obtainMessage(LOCK_APP, taskId), 1500);
-                            // XposedHelpers.callMethod(param.thisObject, "updateLayoutForCutout");
-                        } else {
-                            if (lockId == taskId) {
-                                mHandler.sendMessageDelayed(mHandler.obtainMessage(WILL_UNLOCK_APP), 1000);
-                                mHandler.sendMessageDelayed(mHandler.obtainMessage(UNLOCK_APP), 1500);
+                        if (action == 0) {
+                            Class<?> ActivityManagerWrapper = findClassIfExists("com.android.systemui.shared.system.ActivityManagerWrapper");
+                            ActivityManager.RunningTaskInfo runningTaskInfo;
+                            if (ActivityManagerWrapper != null) {
+                                try {
+                                    ActivityManagerWrapper.getDeclaredMethod("getInstance");
+                                    Object getInstance = XposedHelpers.callStaticMethod(
+                                            ActivityManagerWrapper,
+                                            "getInstance");
+                                    runningTaskInfo = (ActivityManager.RunningTaskInfo) XposedHelpers.callMethod(
+                                            getInstance, "getRunningTask");
+                                } catch (NoSuchMethodException e) {
+                                    Object sInstance = XposedHelpers.getStaticObjectField(ActivityManagerWrapper, "sInstance");
+                                    runningTaskInfo = (ActivityManager.RunningTaskInfo) XposedHelpers.callMethod(
+                                            sInstance, "getRunningTask");
+                                }
                             } else {
-                                if (lockId != -1) {
-                                    if (eCount < 2) {
-                                        mHandler.sendMessage(mHandler.obtainMessage(UNKNOWN_ERROR));
-                                        eCount = eCount + 1;
-                                    } else {
-                                        mHandler.sendMessage(mHandler.obtainMessage(RESTORE));
-                                        eCount = 0;
+                                logE(TAG, "ActivityManagerWrapper is null");
+                                return;
+                            }
+                            if (runningTaskInfo == null) {
+                                logE(TAG, "runningTaskInfo is null");
+                                return;
+                            }
+                            // ActivityManager.RunningTaskInfo runningTaskInfo = (ActivityManager.RunningTaskInfo) XposedHelpers.callMethod(
+                            //     XposedHelpers.callStaticMethod(findClassIfExists("com.miui.home.recents.RecentsModel"), "getInstance",
+                            //         mContext), "getRunningTaskContainHome");
+                            taskId = runningTaskInfo.taskId;
+                            ComponentName topActivity = runningTaskInfo.topActivity;
+                            String pkg = topActivity.getPackageName();
+                            if ("com.miui.home".equals(pkg)) {
+                                return;
+                            }
+                            // logE(TAG, "task id: " + taskId + " a: " + pkg);
+                            remoAllMes();
+                            if (lockId == -1) {
+                                mHandler.sendMessageDelayed(mHandler.obtainMessage(WILL_LOCK_APP), 1000);
+                                mHandler.sendMessageDelayed(mHandler.obtainMessage(LOCK_APP, taskId), 1500);
+                                // XposedHelpers.callMethod(param.thisObject, "updateLayoutForCutout");
+                            } else {
+                                if (lockId == taskId) {
+                                    mHandler.sendMessageDelayed(mHandler.obtainMessage(WILL_UNLOCK_APP), 1000);
+                                    mHandler.sendMessageDelayed(mHandler.obtainMessage(UNLOCK_APP), 1500);
+                                } else {
+                                    if (lockId != -1) {
+                                        if (eCount < 2) {
+                                            mHandler.sendMessage(mHandler.obtainMessage(UNKNOWN_ERROR));
+                                            eCount = eCount + 1;
+                                        } else {
+                                            mHandler.sendMessage(mHandler.obtainMessage(RESTORE));
+                                            eCount = 0;
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    if (action == 1) {
-                        remoAllMes();
-                    }
-                    if (getLockApp(mContext) == taskId && lockId != -1) {
-                        param.setResult(true);
+                        if (action == 1) {
+                            remoAllMes();
+                        }
+                        if (getLockApp(mContext) == taskId && lockId != -1) {
+                            param.setResult(true);
+                        }
                     }
                 }
-            }
         );
 
         safeFindAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
-            "isLockTaskKioskModeActive", new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    param.setResult(false);
+                "isLockTaskKioskModeActive", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        param.setResult(false);
+                    }
                 }
-            }
         );
 
         safeFindAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
-            "isScreenPinningActive", new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    param.setResult(false);
+                "isScreenPinningActive", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        param.setResult(false);
+                    }
                 }
-            }
         );
 
         Class<?> ScreenPinningNotify = findClassIfExists("com.android.systemui.navigationbar.ScreenPinningNotify");
@@ -254,12 +246,12 @@ public class UiLockApp extends BaseHook {
 
     public void hookToast(Method method) {
         safeHookMethod(method,
-            new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    param.setResult(null);
+                new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        param.setResult(null);
+                    }
                 }
-            }
         );
     }
 
@@ -274,40 +266,10 @@ public class UiLockApp extends BaseHook {
         try {
             return Settings.Global.getInt(context.getContentResolver(), "key_lock_app");
         } catch (Settings.SettingNotFoundException e) {
-            logE("LockApp", "getInt hyceiler_lock_app will set E: " + e);
+            logE("LockApp", "getInt hyceiler_lock_app e: " + e);
             setLockApp(context, -1);
         }
         return -1;
-    }
-
-    public boolean getSystemLockEnable(Context context) {
-        try {
-            return Settings.System.getInt(context.getContentResolver(), "lock_to_app_enabled") == 1;
-        } catch (Settings.SettingNotFoundException e) {
-            logE(TAG, "getSystemLock E will set " + e);
-            setSystemLockApp(context);
-        }
-        return false;
-    }
-
-    public boolean getSystemLockScreen(Context context) {
-        try {
-            return Settings.Secure.getInt(context.getContentResolver(), "lock_to_app_exit_locked") == 1;
-        } catch (Settings.SettingNotFoundException e) {
-            logE(TAG, "getSystemLockScreen E will set " + e);
-            setSystemLockScreen(context, 0);
-        }
-        return false;
-    }
-
-    public boolean getMyLockScreen(Context context) {
-        try {
-            return Settings.Global.getInt(context.getContentResolver(), "exit_lock_app_screen") == 1;
-        } catch (Settings.SettingNotFoundException e) {
-            logE(TAG, "getMyLockScreen E will set " + e);
-            setMyLockScreen(context, 0);
-        }
-        return false;
     }
 
     public static void setLockApp(Context context, int id) {
@@ -318,8 +280,8 @@ public class UiLockApp extends BaseHook {
         Settings.System.putInt(context.getContentResolver(), "lock_to_app_enabled", 0);
     }
 
-    public static void setSystemLockScreen(Context context, int value) {
-        Settings.Secure.putInt(context.getContentResolver(), "lock_to_app_exit_locked", value);
+    public static void setSystemLockScreen(Context context) {
+        Settings.Secure.putInt(context.getContentResolver(), "lock_to_app_exit_locked", 0);
     }
 
     public static void setMyLockScreen(Context context, int value) {
@@ -341,43 +303,43 @@ public class UiLockApp extends BaseHook {
             switch (msg.what) {
                 case WILL_LOCK_APP -> {
                     ToastHelper.makeText(context,
-                        context.getResources().getString(
-                            R.string.system_framework_guided_access_will_lock),
-                        false);
+                            context.getResources().getString(
+                                    R.string.system_framework_guided_access_will_lock),
+                            false);
                 }
                 case LOCK_APP -> {
                     int taskId = (int) msg.obj;
                     setLockApp(context, taskId);
                     ToastHelper.makeText(context,
-                        context.getResources().getString(
-                            R.string.system_framework_guided_access_lock),
-                        false);
+                            context.getResources().getString(
+                                    R.string.system_framework_guided_access_lock),
+                            false);
                 }
                 case WILL_UNLOCK_APP -> {
                     ToastHelper.makeText(context,
-                        context.getResources().getString(
-                            R.string.system_framework_guided_access_will_unlock),
-                        false);
+                            context.getResources().getString(
+                                    R.string.system_framework_guided_access_will_unlock),
+                            false);
                 }
                 case UNLOCK_APP -> {
                     setLockApp(context, -1);
                     ToastHelper.makeText(context,
-                        context.getResources().getString(
-                            R.string.system_framework_guided_access_unlock),
-                        false);
+                            context.getResources().getString(
+                                    R.string.system_framework_guided_access_unlock),
+                            false);
                 }
                 case UNKNOWN_ERROR -> {
                     ToastHelper.makeText(context,
-                        context.getResources().getString(
-                            R.string.system_framework_guided_access_e),
-                        false);
+                            context.getResources().getString(
+                                    R.string.system_framework_guided_access_e),
+                            false);
                 }
                 case RESTORE -> {
                     setLockApp(context, -1);
                     ToastHelper.makeText(context,
-                        context.getResources().getString(
-                            R.string.system_framework_guided_access_r),
-                        false);
+                            context.getResources().getString(
+                                    R.string.system_framework_guided_access_r),
+                            false);
                 }
             }
         }
