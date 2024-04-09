@@ -142,7 +142,6 @@ public class SystemLockApp extends BaseHook {
     public int getLockApp(Context context) {
         try {
             return Settings.Global.getInt(context.getContentResolver(), "key_lock_app");
-
         } catch (Settings.SettingNotFoundException e) {
             logE(TAG, "getInt hyceiler_lock_app E: " + e);
         }
