@@ -61,7 +61,7 @@ public class SystemLockApp extends BaseHook {
                                             taskId = getLockApp(context);
                                             XposedHelpers.callMethod(param.thisObject, "startSystemLockTaskMode", taskId);
                                         } else {
-                                            XposedHelpers.callMethod(param.thisObject, "stopSystemLockTaskMode");
+                                            new Handler(context.getMainLooper()).postDelayed(() -> XposedHelpers.callMethod(param.thisObject, "stopSystemLockTaskMode"),300);
                                         }
                                     }
                                 };
