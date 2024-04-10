@@ -169,7 +169,7 @@ public class HookTool extends XposedTool {
     public void safeFindAndHookMethod(String className, String methodName, Object... parameterTypesAndCallback) {
         try {
             findAndHookMethod(className, methodName, parameterTypesAndCallback);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             logE(TAG, "safeHook: " + e);
         }
     }
