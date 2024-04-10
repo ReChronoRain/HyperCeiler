@@ -426,6 +426,8 @@
     <string name="system_framework_disable_72h_verify">禁用每 72 小时验证锁屏密码</string>
     <string name="system_framework_disable_verify_can_ve_disabled">禁用是否允许禁用 APP 校验</string>
     <string name="system_framework_allow_all_dark_mode">允许所有 APP 使用深色模式</string>
+    <string name="system_framework_background_blur_supported">强开高级材质</string>
+    <string name="system_framework_background_blur_supported_more">开启此功能后请在系统设置中控制高级材质开关</string>
     <string name="system_framework_disablt_miuilite_check">禁用 MIUI Lite 检查</string>
     <string name="system_framework_allow_manage_all_notifications">允许管理所有通知</string>
     <string name="system_framework_quick_screenshot">秒截图</string>

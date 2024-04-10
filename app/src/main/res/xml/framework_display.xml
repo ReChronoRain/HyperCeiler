@@ -5,6 +5,12 @@
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
+            android:title="@string/system_framework_background_blur_supported"
+            android:key="prefs_key_system_framework_background_blur_supported"
+            android:summary="@string/system_framework_background_blur_supported_more" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:title="@string/system_framework_allow_all_dark_mode"
             android:key="prefs_key_system_framework_allow_all_dark_mode" />
 

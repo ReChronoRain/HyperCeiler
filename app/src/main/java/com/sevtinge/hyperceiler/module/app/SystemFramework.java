@@ -26,6 +26,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouch;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AppLinkVerify;
+import com.sevtinge.hyperceiler.module.hook.systemframework.BackgroundBlur;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanOpenMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ClipboardWhitelist;
@@ -125,6 +126,7 @@ public class SystemFramework extends BaseModule {
         initHook(new ClipboardWhitelist(), mPrefsMap.getBoolean("system_framework_clipboard_whitelist"));
 
         // 显示
+        initHook(new BackgroundBlur(), mPrefsMap.getBoolean("system_framework_background_blur_supported"));
         initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));
         initHook(UseAOSPScreenShot.INSTANCE, mPrefsMap.getBoolean("system_ui_display_use_aosp_screenshot_enable"));
         initHook(new ToastTime(), mPrefsMap.getBoolean("system_ui_display_toast_times_enable"));

@@ -21,9 +21,6 @@ package com.sevtinge.hyperceiler;
 import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.module.app.SystemFrameworkForCorePatch;
 import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
-import com.sevtinge.hyperceiler.module.hook.home.other.AllowShareApk;
-import com.sevtinge.hyperceiler.module.hook.home.title.EnableIconMonetColor;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.SidebarLineCustom;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUninstall;
 import com.sevtinge.hyperceiler.module.hook.systemframework.BackgroundBlurDrawable;
@@ -31,12 +28,9 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.CleanOpenMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.VolumeSeparateControlForSettings;
-import com.sevtinge.hyperceiler.module.hook.tsmclient.AutoNfc;
 
-import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
-import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class XposedInit extends BaseXposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage {
