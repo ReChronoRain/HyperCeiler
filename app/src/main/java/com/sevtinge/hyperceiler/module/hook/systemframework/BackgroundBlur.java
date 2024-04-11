@@ -12,6 +12,7 @@ public class BackgroundBlur extends BaseHook {
     private final static String TAG = "MYBackgroundBlur";
     private final static String mode = "persist.sys.background_blur_mode";
     private final static String supported = "persist.sys.background_blur_supported";
+    private final static String status = "persist.sys.background_blur_status_default";
     private final static String version = "persist.sys.background_blur_version";
     private Class<?> SystemProperties = null;
     private boolean done = false;
@@ -20,11 +21,17 @@ public class BackgroundBlur extends BaseHook {
     public void init() throws NoSuchMethodException {
         SystemProperties = findClassIfExists("android.os.SystemProperties");
         if (SystemProperties == null) return;
-        Method[] methods = SystemProperties.getDeclaredMethods();
-        for (Method method : methods) {
-            switch (method.getName()) {
-                case "get", "getInt", "getBoolean" -> {
-                    hookProp(method);
+        try {
+            setProp();
+            logI(TAG, "Enabled Advanced Materials Successfully!");
+        } catch (Throwable e) {
+            logE(TAG, "Failed to turn on advanced materials!Try the second method...");
+            Method[] methods = SystemProperties.getDeclaredMethods();
+            for (Method method : methods) {
+                switch (method.getName()) {
+                    case "get", "getInt", "getBoolean" -> {
+                        hookProp(method);
+                    }
                 }
             }
         }
@@ -49,9 +56,7 @@ public class BackgroundBlur extends BaseHook {
             }
             if (supported.equals(key)) {
                 try {
-                    XposedHelpers.callStaticMethod(SystemProperties, "set", supported, String.valueOf(true));
-                    XposedHelpers.callStaticMethod(SystemProperties, "set", mode, String.valueOf(0));
-                    XposedHelpers.callStaticMethod(SystemProperties, "set", version, String.valueOf(2));
+                    setProp();
                     done = true;
                     // logE(TAG, "key: " + key + " set: " + String.valueOf(get));
                 } catch (Throwable e) {
@@ -66,9 +71,16 @@ public class BackgroundBlur extends BaseHook {
         XposedBridge.hookMethod(method, xcMethodHook);
     }
 
+    private void setProp() throws Throwable {
+        XposedHelpers.callStaticMethod(SystemProperties, "set", supported, String.valueOf(true));
+        XposedHelpers.callStaticMethod(SystemProperties, "set", status, String.valueOf(true));
+        XposedHelpers.callStaticMethod(SystemProperties, "set", mode, String.valueOf(0));
+        XposedHelpers.callStaticMethod(SystemProperties, "set", version, String.valueOf(2));
+    }
+
     private Object isBlurProp(String key) {
         switch (key) {
-            case supported -> {
+            case supported, status -> {
                 return true;
             }
             case mode -> {
@@ -77,9 +89,6 @@ public class BackgroundBlur extends BaseHook {
             case version -> {
                 return 2;
             }
-            // case "persist.sys.background_blur_status_default" -> {
-            //     return false;
-            // }
             default -> {
                 return null;
             }
