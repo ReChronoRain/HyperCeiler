@@ -39,6 +39,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     DropDownPreference mChargeAnimationStyle;
     PreferenceCategory mChargeAnimationTitle;
     SwitchPreference mMiuiMultiWinSwitch;
+    SwitchPreference mMiuiMultiWinSwitchRemove;
     SwitchPreference mBottomBar;
     SwitchPreference mVolume;
     SwitchPreference mDisableBluetoothRestrict; // 禁用蓝牙临时关闭
@@ -62,12 +63,14 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mChargeAnimationTitle = findPreference("prefs_key_system_ui_statusbar_charge_animation_title");
         mDisableBluetoothRestrict = findPreference("prefs_key_system_ui_disable_bluetooth_restrict");
         mMiuiMultiWinSwitch = findPreference("prefs_key_system_ui_disable_miui_multi_win_switch");
+        mMiuiMultiWinSwitchRemove = findPreference("prefs_key_system_ui_remove_miui_multi_win_switch");
         mBottomBar = findPreference("prefs_key_system_ui_disable_bottombar");
         mVolume = findPreference("prefs_key_system_ui_disable_volume");
 
         mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && isMoreAndroidVersion(31));
         mMiuiMultiWinSwitch.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
+        mMiuiMultiWinSwitchRemove.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
         mBottomBar.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
 
         mVolume.setOnPreferenceChangeListener(
