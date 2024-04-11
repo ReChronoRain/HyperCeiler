@@ -11,6 +11,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:title="@string/system_framework_background_blur_toast"
+            android:key="prefs_key_system_framework_background_blur_toast" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:title="@string/system_framework_allow_all_dark_mode"
             android:key="prefs_key_system_framework_allow_all_dark_mode" />
 

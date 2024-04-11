@@ -423,6 +423,7 @@
     <string name="system_framework_disable_verify_can_ve_disabled">Disable to verify can be disabled</string>
     <string name="system_framework_allow_all_dark_mode">Allow all apps to use dark mode</string>
     <string name="system_framework_background_blur_supported">Strong open high-grade material</string>
+    <string name="system_framework_background_blur_toast">Toast Premium Materials</string>
     <string name="system_framework_background_blur_supported_more">When this feature is turned on, please control the advanced material switch in the system settings, as the system may need to be restarted twice</string>
     <string name="system_framework_disablt_miuilite_check">Disable MIUI Lite Check</string>
     <string name="system_framework_allow_manage_all_notifications">Allow to manage all notifications</string>

@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.BackgroundBlurDrawab
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanOpenMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
+import com.sevtinge.hyperceiler.module.hook.systemframework.ToastBlur;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.VolumeSeparateControlForSettings;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -55,6 +56,8 @@ public class XposedInit extends BaseXposedInit implements IXposedHookZygoteInit,
             new BackgroundBlurDrawable().initZygote(startupParam);
             new SystemFrameworkForCorePatch().initZygote(startupParam);
         }
+        if (mPrefsMap.getBoolean("system_framework_background_blur_toast"))
+            new ToastBlur().initZygote(startupParam);
     }
 
     @Override
