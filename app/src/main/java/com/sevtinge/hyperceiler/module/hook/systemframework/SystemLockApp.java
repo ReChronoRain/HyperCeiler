@@ -78,6 +78,8 @@ public class SystemLockApp extends BaseHook {
                                 context.getContentResolver().registerContentObserver(
                                         Settings.Global.getUriFor("exit_lock_app_screen"),
                                         false, contentObserver1);
+                                needLockScreen = getMyLockScreen(context) == 1;
+
                                 isObserver = true;
                             }
                         } catch (Throwable e) {
