@@ -219,8 +219,9 @@ public class UiLockApp extends BaseHook {
                 @Override
                 protected void after(MethodHookParam param) {
                     Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                    isLock = getLockApp(context) != -1;
-                    param.setResult(isLock);
+                    if(getLockApp(context) != -1){
+                        param.setResult(true);
+                    }
                 }
             }
         );

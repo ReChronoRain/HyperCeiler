@@ -82,6 +82,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_remove_miui_multi_win_switch"
+            android:title="@string/system_ui_remove_miui_multi_win_switch" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_disable_bottombar"
             android:title="@string/system_ui_disable_bottombar" />
 

@@ -862,6 +862,7 @@
     <string name="system_ui_disable_bluetooth_restrict">Prevent bluetooth from being turned off temporarily</string>
     <string name="system_ui_disable_miui_multi_win_switch">Hide the Convenience Window button</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Hide the three permanent dots, including the top of the small window and the button in the middle of the top of the HyperOS for Pad horizontal screen (does not affect the use of functions)</string>
+    <string name="system_ui_remove_miui_multi_win_switch">Disable the Convenience Window button</string>
     <string name="system_ui_disable_bottombar">Hide the bottom gesture of the small window</string>
     <string name="system_ui_others_pct_title">Data display</string>
     <string name="system_showpct_title">Displays the brightness percentage</string>

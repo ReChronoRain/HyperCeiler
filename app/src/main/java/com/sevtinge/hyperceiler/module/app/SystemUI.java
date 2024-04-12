@@ -38,6 +38,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.MonetThemeOverlay;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFix;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFreeform;
 import com.sevtinge.hyperceiler.module.hook.systemui.QSDetailBackGround;
+import com.sevtinge.hyperceiler.module.hook.systemui.RemoveMiuiMultiWinSwitch;
 import com.sevtinge.hyperceiler.module.hook.systemui.SquigglyProgress;
 import com.sevtinge.hyperceiler.module.hook.systemui.StatusBarActions;
 import com.sevtinge.hyperceiler.module.hook.systemui.UiLockApp;
@@ -328,6 +329,7 @@ public class SystemUI extends BaseModule {
         initHook(new NotificationFix(), mPrefsMap.getBoolean("system_ui_other_notification_fix") && isMoreHyperOSVersion(1f));
         initHook(new BrightnessPct(), mPrefsMap.getBoolean("system_showpct_title"));
         initHook(DisableMiuiMultiWinSwitch.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_miui_multi_win_switch"));
+        initHook(RemoveMiuiMultiWinSwitch.INSTANCE, mPrefsMap.getBoolean("system_ui_remove_miui_multi_win_switch"));
         initHook(DisableBottomBar.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_bottombar"));
         initHook(UnlockClipboard.INSTANCE, mPrefsMap.getBoolean("system_ui_unlock_clipboard"));
 
