@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler;
 import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.module.app.SystemFrameworkForCorePatch;
 import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
+import com.sevtinge.hyperceiler.module.hook.aod.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUninstall;
 import com.sevtinge.hyperceiler.module.hook.systemframework.BackgroundBlurDrawable;
@@ -58,6 +59,8 @@ public class XposedInit extends BaseXposedInit implements IXposedHookZygoteInit,
         }
         if (mPrefsMap.getBoolean("system_framework_background_blur_toast"))
             new ToastBlur().initZygote(startupParam);
+        if (mPrefsMap.getBoolean("aod_unlock_always_on_display"))
+            new UnlockAlwaysOnDisplay().initZygote(startupParam);
     }
 
     @Override
