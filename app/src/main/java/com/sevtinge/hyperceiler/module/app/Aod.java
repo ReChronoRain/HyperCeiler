@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
-import com.sevtinge.hyperceiler.module.hook.aod.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.hook.aod.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.module.hook.aod.UnlockAodAon;
 
 public class Aod extends BaseModule {

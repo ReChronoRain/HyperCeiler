@@ -974,6 +974,7 @@
     <string name="aod">Always-on display</string>
     <string name="aod_hyperos">Always-on Display And Lock Screen Editor</string>
     <string name="aod_unlock_always_on_display">Unlock the display time limit of the always-on screen</string>
+    <string name="aod_unlock_always_on_display_more">Restart the system interface to fully enable the function</string>
     <string name="aod_unlock_aon">Unlock Aod Aon</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
