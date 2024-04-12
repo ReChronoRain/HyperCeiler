@@ -86,6 +86,11 @@ public class UiLockApp extends BaseHook {
                                     false, contentObserver);
                             isListen = true;
                         }
+                        if (mPrefsMap.getBoolean("system_framework_guided_access_screen")) {
+                            setMyLockScreen(mContext, 1);
+                        } else {
+                            setMyLockScreen(mContext, 0);
+                        }
                     }
                 }
         );

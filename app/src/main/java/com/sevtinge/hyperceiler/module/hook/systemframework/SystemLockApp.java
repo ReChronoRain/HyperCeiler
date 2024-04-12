@@ -40,7 +40,6 @@ public class SystemLockApp extends BaseHook {
     private int taskId;
     private boolean isObserver = false;
     boolean isLock = false;
-    boolean needLockScreen = false;
 
     @Override
     public void init() throws NoSuchMethodException {
@@ -63,21 +62,12 @@ public class SystemLockApp extends BaseHook {
                                         } else {
                                             new Handler(context.getMainLooper()).postDelayed(() -> XposedHelpers.callMethod(param.thisObject, "stopSystemLockTaskMode"),300);
                                         }
+
                                     }
                                 };
                                 context.getContentResolver().registerContentObserver(
                                         Settings.Global.getUriFor("key_lock_app"),
                                         false, contentObserver);
-
-                                ContentObserver contentObserver1 = new ContentObserver(new Handler(context.getMainLooper())) {
-                                    @Override
-                                    public void onChange(boolean selfChange) {
-                                        needLockScreen = getMyLockScreen(context) == 1;
-                                    }
-                                };
-                                context.getContentResolver().registerContentObserver(
-                                        Settings.Global.getUriFor("exit_lock_app_screen"),
-                                        false, contentObserver1);
                                 isObserver = true;
                             }
                         } catch (Throwable e) {
@@ -112,7 +102,8 @@ public class SystemLockApp extends BaseHook {
                 new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        if (needLockScreen) {
+                        Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                        if (getMyLockScreen(context) == 1) {
                             param.setResult(true);
                         } else {
                             param.setResult(false);
