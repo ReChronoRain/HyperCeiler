@@ -34,6 +34,7 @@ public class ToastBlur implements IXposedHookZygoteInit {
                     protected void beforeHookedMethod(MethodHookParam param) {
                         boolean mCustomizeView = false;
                         View mView = (View) XposedHelpers.getObjectField(param.thisObject, "mView");
+                        if (mView == null) return;
                         if (mView != null) {
                             mCustomizeView = true;
                         }
