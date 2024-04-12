@@ -10,19 +10,24 @@ public class UnlockAlwaysOnDisplay implements IXposedHookZygoteInit {
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
-        ClassLoader classLoader = startupParam.getClass().getClassLoader();
-        XposedHelpers.findAndHookMethod("miui.util.FeatureParser", classLoader, "getBoolean",
-                String.class, boolean.class,
-                new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) {
-                        XposedBridge.log(TAG + " " + " key: " + param.args[0] + " def: " + param.args[1]);
-                        String key = (String) param.args[0];
-                        if ("is_only_support_keycode_goto".equals(key)) {
-                            param.setResult(false);
+        try {
+            ClassLoader classLoader = startupParam.getClass().getClassLoader();
+            XposedHelpers.findAndHookMethod("miui.util.FeatureParser", classLoader, "getBoolean",
+                    String.class, boolean.class,
+                    new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) {
+                            XposedBridge.log(TAG + " " + " key: " + param.args[0] + " def: " + param.args[1]);
+                            String key = (String) param.args[0];
+                            if ("is_only_support_keycode_goto".equals(key)) {
+                                param.setResult(false);
+                            }
                         }
                     }
-                }
-        );
+            );
+            XposedBridge.log(TAG + " " + "Hook Done");
+        } catch (Throwable e) {
+            XposedBridge.log(TAG + " " + "Hook Error: " + e);
+        }
     }
 }

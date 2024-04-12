@@ -44,6 +44,7 @@ public class XposedInit extends BaseXposedInit implements IXposedHookZygoteInit,
         EzXHelper.initZygote(startupParam);
         EzXHelper.setLogTag(TAG);
         EzXHelper.setToastTag(TAG);
+        new UnlockAlwaysOnDisplay().initZygote(startupParam);
         if (mPrefsMap.getBoolean("system_framework_allow_uninstall"))
             new AllowUninstall().initZygote(startupParam);
         if (mPrefsMap.getBoolean("system_framework_screen_all_rotations")) ScreenRotation.initRes();
@@ -59,8 +60,6 @@ public class XposedInit extends BaseXposedInit implements IXposedHookZygoteInit,
         }
         if (mPrefsMap.getBoolean("system_framework_background_blur_toast"))
             new ToastBlur().initZygote(startupParam);
-        if (mPrefsMap.getBoolean("aod_unlock_always_on_display"))
-            new UnlockAlwaysOnDisplay().initZygote(startupParam);
     }
 
     @Override
