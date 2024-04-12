@@ -61,8 +61,6 @@ public class FreeformShortcutMenu extends BaseHook {
     public void init() {
 
         if (isPad()) {
-            hookAllMethods("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$MultipleSmallWindowShortcutMenuItem", "isValid",
-                MethodHook.returnConstant(true));
             hookAllMethods("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$SmallWindowShortcutMenuItem", "isValid",
                 MethodHook.returnConstant(true));
             return;
