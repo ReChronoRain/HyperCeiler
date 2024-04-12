@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
+import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -70,7 +71,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && isMoreAndroidVersion(31));
         mMiuiMultiWinSwitch.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
-        mMiuiMultiWinSwitchRemove.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
+        mMiuiMultiWinSwitchRemove.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34) && isPad());
         mBottomBar.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
 
         mVolume.setOnPreferenceChangeListener(
