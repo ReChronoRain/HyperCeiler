@@ -20,16 +20,10 @@ package com.sevtinge.hyperceiler.utils.log;
 
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevel;
 
-import com.sevtinge.hyperceiler.XposedInit;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
-
 import de.robv.android.xposed.XposedBridge;
 
 
 public class XposedLogUtils {
-
-    public static final PrefsMap<String, Object> mPrefsMap = XposedInit.mPrefsMap;
-
     public static void logI(String msg) {
         if (logLevel < 3) return;
         XposedBridge.log("[HyperCeiler][I]: " + msg);

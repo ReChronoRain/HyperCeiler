@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.utils.log;
 
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.mPrefsMap;
+import static com.sevtinge.hyperceiler.module.base.tool.HookTool.mPrefsMap;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 

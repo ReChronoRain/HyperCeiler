@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.demo;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.widget.Toast;

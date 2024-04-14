@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes;
 import static com.sevtinge.hyperceiler.utils.devicesdk.AppUtilsKt.dp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 

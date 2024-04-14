@@ -26,6 +26,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.*
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
 import de.robv.android.xposed.*
 import java.net.*
 import kotlin.math.*

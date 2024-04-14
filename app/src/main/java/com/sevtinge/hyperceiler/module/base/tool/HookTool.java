@@ -18,6 +18,10 @@
  */
 package com.sevtinge.hyperceiler.module.base.tool;
 
+import com.sevtinge.hyperceiler.XposedInit;
+import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -28,7 +32,8 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class HookTool extends XposedTool {
+public class HookTool extends XposedLogUtils {
+    public static final PrefsMap<String, Object> mPrefsMap = XposedInit.mPrefsMap;
     private String TAG = getClass().getSimpleName();
 
     public XC_LoadPackage.LoadPackageParam lpparam;

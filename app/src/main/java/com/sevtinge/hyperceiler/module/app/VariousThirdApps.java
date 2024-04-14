@@ -23,7 +23,7 @@ import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.tool.XposedTool;
+import com.sevtinge.hyperceiler.module.base.tool.OtherTool;
 import com.sevtinge.hyperceiler.module.hook.clipboard.BaiduClipboard;
 import com.sevtinge.hyperceiler.module.hook.clipboard.SoGouClipboard;
 import com.sevtinge.hyperceiler.module.hook.various.ClipboardList;
@@ -41,7 +41,7 @@ public class VariousThirdApps extends BaseModule {
     @Override
     public void handleLoadPackage() {
         if (mAppsUsingInputMethod.isEmpty()) {
-            mAppsUsingInputMethod = getAppsUsingInputMethod(XposedTool.findContext(XposedTool.FlAG_ONLY_ANDROID));
+            mAppsUsingInputMethod = getAppsUsingInputMethod(OtherTool.findContext(OtherTool.FlAG_ONLY_ANDROID));
         }
         mPackageName = mLoadPackageParam.packageName;
         initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));

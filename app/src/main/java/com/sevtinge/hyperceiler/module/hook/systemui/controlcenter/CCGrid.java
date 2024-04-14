@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes;
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;

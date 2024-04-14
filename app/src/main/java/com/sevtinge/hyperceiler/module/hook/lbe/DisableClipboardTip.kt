@@ -18,17 +18,16 @@
 */
 package com.sevtinge.hyperceiler.module.hook.lbe
 
-import android.content.Context
-import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
-import android.os.Build
-import android.widget.Toast
+import android.content.*
+import android.content.pm.*
+import android.os.*
+import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.sevtinge.hyperceiler.R
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedHelpers
-import de.robv.android.xposed.callbacks.XC_LoadPackage
+import com.sevtinge.hyperceiler.*
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
+import de.robv.android.xposed.*
+import de.robv.android.xposed.callbacks.*
 
 
 object DisableClipboardTip : BaseHook() {

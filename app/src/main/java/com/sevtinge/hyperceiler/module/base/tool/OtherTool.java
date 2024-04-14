@@ -18,6 +18,9 @@
  */
 package com.sevtinge.hyperceiler.module.base.tool;
 
+import static com.sevtinge.hyperceiler.module.base.tool.HookTool.mPrefsMap;
+import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -34,7 +37,6 @@ import android.widget.TextView;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -42,7 +44,7 @@ import java.lang.ref.WeakReference;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class XposedTool extends XposedLogUtils {
+public class OtherTool {
     // 尝试全部
     public static final int FLAG_ALL = ContextUtils.FLAG_ALL;
     // 仅获取当前应用
@@ -170,7 +172,7 @@ public class XposedTool extends XposedLogUtils {
                 getTextView().setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFFFF")));
                 getTextView().setBackground(modRes.getDrawable(R.drawable.input_background));
             } catch (Throwable err) {
-                XposedLogUtils.logE("ShowVolumePct", err);
+                logE("ShowVolumePct", err);
             }
             try {
                 MiBlurUtils.setContainerPassBlur(getTextView(), 160);
@@ -178,7 +180,7 @@ public class XposedTool extends XposedLogUtils {
                 MiBlurUtils.clearMiBackgroundBlendColor(getTextView());
                 MiBlurUtils.addMiBackgroundBlendColor(getTextView(), Color.argb(120, 0, 0, 0), 103);
             } catch (Throwable e) {
-                XposedLogUtils.logE("ShowVolumePct", e);
+                logE("ShowVolumePct", e);
             }
             container.addView(getTextView());
         }

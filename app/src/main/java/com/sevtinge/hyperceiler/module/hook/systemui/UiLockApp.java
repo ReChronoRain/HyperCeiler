@@ -18,6 +18,9 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.FLAG_CURRENT_APP;
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.findContext;
+
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;

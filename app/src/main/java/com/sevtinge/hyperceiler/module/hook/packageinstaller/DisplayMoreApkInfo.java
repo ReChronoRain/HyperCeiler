@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.packageinstaller;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes;
+
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.res.Resources;

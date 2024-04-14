@@ -19,11 +19,11 @@
 package com.sevtinge.hyperceiler.module.hook.browser
 
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import de.robv.android.xposed.XC_MethodReplacement
-import de.robv.android.xposed.XposedBridge
+import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
+import de.robv.android.xposed.*
 
 object DebugMode : BaseHook() {
     private var found = false

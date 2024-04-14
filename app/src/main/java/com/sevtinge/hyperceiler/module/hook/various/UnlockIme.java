@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.various;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getProp;
+
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 import java.util.List;

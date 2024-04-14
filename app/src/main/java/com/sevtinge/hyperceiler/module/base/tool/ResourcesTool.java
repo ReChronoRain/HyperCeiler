@@ -251,7 +251,7 @@ public class ResourcesTool {
         @Override
         protected void before(MethodHookParam param) throws PackageManager.NameNotFoundException {
             Context context;
-            context = XposedTool.findContext(ContextUtils.FLAG_ALL);
+            context = OtherTool.findContext(ContextUtils.FLAG_ALL);
             if (context == null) return;
             String method = param.method.getName();
             Object value;

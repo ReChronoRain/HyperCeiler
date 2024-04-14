@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.other;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes;
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 
