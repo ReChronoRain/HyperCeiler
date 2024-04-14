@@ -115,6 +115,13 @@
                 android:data="https://github.com/NextAlone" />
         </Preference>
         <Preference
+            android:summary="GitHub@nxibjzC"
+            android:title="nxibjz">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/nxibjzC" />
+        </Preference>
+        <Preference
             android:summary="GitHub@pzcn"
             android:title="PedroZ">
             <intent
