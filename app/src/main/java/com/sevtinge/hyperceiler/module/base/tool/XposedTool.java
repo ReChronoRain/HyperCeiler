@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtils;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.io.File;
@@ -170,6 +171,14 @@ public class XposedTool extends XposedLogUtils {
                 getTextView().setBackground(modRes.getDrawable(R.drawable.input_background));
             } catch (Throwable err) {
                 XposedLogUtils.logE("ShowVolumePct", err);
+            }
+            try {
+                MiBlurUtils.setContainerPassBlur(getTextView(), 160);
+                MiBlurUtils.setMiViewBlurMode(getTextView(), 3);
+                MiBlurUtils.clearMiBackgroundBlendColor(getTextView());
+                MiBlurUtils.addMiBackgroundBlendColor(getTextView(), Color.argb(120, 0, 0, 0), 103);
+            } catch (Throwable e) {
+                XposedLogUtils.logE("ShowVolumePct", e);
             }
             container.addView(getTextView());
         }
