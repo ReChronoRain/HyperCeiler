@@ -133,7 +133,7 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         int a;
         if (isDarkMode(this)) a = 100;
         else a = 140;
-        MiBlurUtils.setContainerPassBlur(mNavigationView, 160);
+        MiBlurUtils.setContainerPassBlur(mNavigationView, i);
         MiBlurUtils.setMiViewBlurMode(mNavigationView, 3);
         MiBlurUtils.clearMiBackgroundBlendColor(mNavigationView);
         MiBlurUtils.addMiBackgroundBlendColor(mNavigationView, Color.argb(a, 0, 0, 0), 103);
