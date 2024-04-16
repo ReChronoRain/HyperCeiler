@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.GetBubbleAppString;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.InstallIntercept;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.IsSbnBelongToActiveBubbleApp;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.NewBoxBlur;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.PowerSaver;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.RemoveConversationBubbleSettingsRestriction;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.RemoveOpenAppConfirmationPopup;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.ScLockApp;
@@ -99,7 +100,7 @@ public class SecurityCenter extends BaseModule {
 
         // 前置摄像助手
         initHook(BeautyLightAuto.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_face") ||
-            mPrefsMap.getBoolean("security_center_beauty_light_auto"));
+                mPrefsMap.getBoolean("security_center_beauty_light_auto"));
         initHook(BeautyPrivacy.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_privacy"));
         initHook(BeautyPc.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_pc"));
 
@@ -123,9 +124,10 @@ public class SecurityCenter extends BaseModule {
 
         // 全局侧边栏
         boolean isVideoFunc = mPrefsMap.getBoolean("security_center_unlock_memc") ||
-            mPrefsMap.getBoolean("security_center_unlock_s_resolution") ||
-            mPrefsMap.getBoolean("security_center_unlock_enhance_contours");
+                mPrefsMap.getBoolean("security_center_unlock_s_resolution") ||
+                mPrefsMap.getBoolean("security_center_unlock_enhance_contours");
 
+        initHook(new PowerSaver(), mPrefsMap.getBoolean("security_center_power_saver"));
         initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
         initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
         initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
@@ -144,7 +146,7 @@ public class SecurityCenter extends BaseModule {
 
         // initHook(new EnableGameSpeed(), mPrefsMap.getBoolean("security_center_game_speed"));
 
-        //reshook
+        // reshook
         initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
 
     }

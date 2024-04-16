@@ -46,9 +46,9 @@ public class VariousThirdApps extends BaseModule {
         mPackageName = mLoadPackageParam.packageName;
         initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
         initHook(new SoGouClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
-            ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
+                ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
         initHook(new BaiduClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
-            ("com.baidu.input".equals(mPackageName) || "com.baidu.input_mi".equals(mPackageName)));
+                ("com.baidu.input".equals(mPackageName) || "com.baidu.input_mi".equals(mPackageName)));
         initHook(new ClipboardList(), mPrefsMap.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
     }
 
