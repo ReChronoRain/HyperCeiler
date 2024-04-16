@@ -16,7 +16,7 @@ constraintlayout = "2.2.0-alpha13"
 xposed-api = "82"
 
 gson = "2.10.1"
-dexkit = "2.0.0"
+dexkit = "2.0.1"
 tinyPinyin = "2.0.3.RELEASE"
 ezxhelper = "2.1.2"
 accompanist = "0.34.0"
