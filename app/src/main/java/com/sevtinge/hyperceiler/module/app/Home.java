@@ -86,6 +86,7 @@ import com.sevtinge.hyperceiler.module.hook.home.other.InfiniteScroll;
 import com.sevtinge.hyperceiler.module.hook.home.other.OverlapMode;
 import com.sevtinge.hyperceiler.module.hook.home.other.ShortcutItemCount;
 import com.sevtinge.hyperceiler.module.hook.home.other.ShowAllHideApp;
+import com.sevtinge.hyperceiler.module.hook.home.other.TasksShortcutMenu;
 import com.sevtinge.hyperceiler.module.hook.home.recent.AlwaysShowCleanUp;
 import com.sevtinge.hyperceiler.module.hook.home.recent.BackgroundBlur;
 import com.sevtinge.hyperceiler.module.hook.home.recent.BlurLevel;
@@ -262,7 +263,12 @@ public class Home extends BaseModule {
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);
         initHook(AlwaysShowStatusClock.INSTANCE, mPrefsMap.getBoolean("home_other_show_clock"));
         initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));
-        initHook(new FreeformShortcutMenu(), (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu") || (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"))));
+        if(isPad()){
+            initHook(new FreeformShortcutMenu(), mPrefsMap.getBoolean("home_other_freeform_shortcut_menu"));
+            initHook(new TasksShortcutMenu(), mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"));
+        } else {
+            initHook(new FreeformShortcutMenu(), (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu") || (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"))));
+        }
         initHook(new UserPresentAnimation(), mPrefsMap.getBoolean("home_other_user_present_animation"));
         initHook(new PerfectIcon(), mPrefsMap.getBoolean("home_other_perfect_icon"));
         initHook(new EnableIconMonoChrome(), mPrefsMap.getBoolean("home_other_icon_mono_chrome"));
