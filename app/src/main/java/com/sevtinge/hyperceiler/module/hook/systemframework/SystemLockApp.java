@@ -60,6 +60,7 @@ public class SystemLockApp extends BaseHook {
                                         if (isLock) {
                                             taskId = getLockApp(context);
                                             XposedHelpers.callMethod(param.thisObject, "startSystemLockTaskMode", taskId);
+                                            needLockScreen = getMyLockScreen(context) == 1;
                                         } else {
                                             new Handler(context.getMainLooper()).postDelayed(() -> XposedHelpers.callMethod(param.thisObject, "stopSystemLockTaskMode"),300);
                                         }
@@ -68,18 +69,6 @@ public class SystemLockApp extends BaseHook {
                                 context.getContentResolver().registerContentObserver(
                                         Settings.Global.getUriFor("key_lock_app"),
                                         false, contentObserver);
-
-                                ContentObserver contentObserver1 = new ContentObserver(new Handler(context.getMainLooper())) {
-                                    @Override
-                                    public void onChange(boolean selfChange) {
-                                        needLockScreen = getMyLockScreen(context) == 1;
-                                    }
-                                };
-                                context.getContentResolver().registerContentObserver(
-                                        Settings.Global.getUriFor("exit_lock_app_screen"),
-                                        false, contentObserver1);
-                                needLockScreen = getMyLockScreen(context) == 1;
-
                                 isObserver = true;
                             }
                         } catch (Throwable e) {

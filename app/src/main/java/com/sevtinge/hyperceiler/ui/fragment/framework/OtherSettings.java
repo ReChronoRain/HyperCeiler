@@ -38,6 +38,7 @@ import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 
 import java.util.concurrent.ExecutorService;
 
+import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;
 import moralnorm.preference.SwitchPreference;
 
@@ -52,7 +53,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
     SwitchPreference mDisableDeviceLog; // 关闭访问设备日志确认
     SwitchPreference mLockApp;
     SwitchPreference mLockAppSc;
-    SwitchPreference mLockAppScreen;
+    DropDownPreference mLockAppScreen;
     SwitchPreference mLockAppStatus;
     RecommendPreference mRecommend;
     Handler handler;
@@ -72,7 +73,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
         mEntry = findPreference("prefs_key_system_framework_hook_entry");
         mLockApp = findPreference("prefs_key_system_framework_guided_access");
         mLockAppSc = findPreference("prefs_key_system_framework_guided_access_sc");
-        mLockAppScreen = findPreference("prefs_key_system_framework_guided_access_screen");
+        mLockAppScreen = findPreference("prefs_key_system_framework_guided_access_screen_int");
         mLockAppStatus = findPreference("prefs_key_system_framework_guided_access_status");
 
         mLockApp.setOnPreferenceChangeListener(this);
@@ -143,7 +144,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
             case "prefs_key_system_framework_guided_access_sc" -> {
                 initApp(executorService, () -> KillApp.killApps("com.miui.securitycenter"));
             }
-            case "prefs_key_system_framework_guided_access_screen" -> {
+            case "prefs_key_system_framework_guided_access_screen_int" -> {
                 initApp(executorService, () -> KillApp.killApps("com.android.systemui"));
             }
             case "prefs_key_system_framework_guided_access_status" -> {

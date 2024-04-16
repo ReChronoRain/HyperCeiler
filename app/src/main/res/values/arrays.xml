@@ -272,6 +272,13 @@
         <item>@string/system_framework_other_rotation_button_3</item>
     </string-array>
 
+    <string-array name="guided_access_screen_area">
+        <item>@string/array_close</item>
+        <item>@string/guided_access_screen_area_full</item>
+        <item>@string/guided_access_screen_area_left</item>
+        <item>@string/guided_access_screen_area_right</item>
+    </string-array>
+
     <string-array name="security_center_flash_light">
         <item>@string/security_center_flash_light_default</item>
         <item>@string/security_center_flash_light_1</item>
@@ -305,6 +312,13 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+    </string-array>
+
+    <string-array name="guided_access_screen_area_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="security_center_flash_light_value">

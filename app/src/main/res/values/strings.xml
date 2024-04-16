@@ -315,6 +315,9 @@
     <string name="control_center_sunshine_mode_one">System default mode</string>
     <string name="control_center_sunshine_mode_two">Force maximum brightness</string>
     <string name="system_framework_other_rotation_button_3">Forced</string>
+    <string name="guided_access_screen_area_full">Normal Enable</string>
+    <string name="guided_access_screen_area_left">Left side Enable</string>
+    <string name="guided_access_screen_area_right">Right side Enable</string>
     <string name="security_center_flash_light_default">Close</string>
     <string name="security_center_flash_light_1">Default write mode</string>
     <string name="security_center_flash_light_2">Write mode one</string>
