@@ -33,8 +33,8 @@ public class PowerSaver extends BaseHook {
                 FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
-                                        .usingStrings("getEnduranceFromPowerKeeper flag: "))
-                                .usingStrings("changePowerMode")
+                                        .usingStrings("hang_up_enable"))
+                                .usingStrings("hang_up_enable")
                         )
         ).singleOrNull();
         if (methodData == null) {
