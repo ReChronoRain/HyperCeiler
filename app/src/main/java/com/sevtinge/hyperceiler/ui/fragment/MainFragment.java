@@ -198,7 +198,8 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
                 Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") ||
                 (
                         !SystemSDKKt.getHost().startsWith("pangu-build-component-system") &&
-                                !SystemSDKKt.getHost().startsWith("non-pangu-pod-g0sww")
+                        !SystemSDKKt.getHost().startsWith("non-pangu-pod") &&
+                        !Objects.equals(SystemSDKKt.getHost(), "xiaomi.com")
                 );
     }
 

@@ -371,6 +371,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_disable_72h_verify">Tắt xác minh khóa màn hình sau 72 giờ</string>
     <string name="system_framework_disable_verify_can_ve_disabled">Cho phép tắt xác minh ứng dụng</string>
     <string name="system_framework_allow_all_dark_mode">Cho phép tất cả ứng dụng sử dụng chế độ tối</string>
+    <string name="system_framework_background_blur_supported">Mở họa tiết nâng cao</string>
+    <string name="system_framework_background_blur_toast">Thông báo họa tiết nâng cao</string>
+    <string name="system_framework_background_blur_supported_more">Khi tính năng này được bật, vui lòng điều khiển công tắc vật liệu nâng cao trong cài đặt hệ thống vì hệ thống có thể cần phải khởi động lại hai lần</string>
     <string name="system_framework_disablt_miuilite_check">Tắt kiểm tra MIUI Lite</string>
     <string name="system_framework_allow_manage_all_notifications">Cho phép quản lý tất cả thông báo</string>
     <string name="system_framework_quick_screenshot">Chụp ảnh màn hình nhanh</string>
@@ -808,6 +811,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_disable_bluetooth_restrict">Ngăn Bluetooth bị tắt tạm thời</string>
     <string name="system_ui_disable_miui_multi_win_switch">Ẩn nút Cửa sổ tiện lợi</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Ẩn nút cửa sổ tiện lợi ở giữa trên cùng trong HyperOS cho màn hình ngang của Pad</string>
+    <string name="system_ui_remove_miui_multi_win_switch">Tắt nút Cửa sổ tiện lợi</string>
     <string name="system_ui_disable_bottombar">Ẩn cử chỉ dưới cùng của cửa sổ nhỏ</string>
     <string name="system_ui_others_pct_title">Hiển thị dữ liệu</string>
     <string name="system_showpct_title">Hiển thị phần trăm độ sáng</string>
@@ -922,6 +926,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="aod">Màn hình Ambient</string>
     <string name="aod_hyperos">Trình chỉnh sửa màn hình khóa và AOD</string>
     <string name="aod_unlock_always_on_display">Mở khóa Giới hạn thời gian</string>
+    <string name="aod_unlock_always_on_display_more">Khởi động lại giao diện hệ thống để kích hoạt đầy đủ chức năng</string>
     <string name="aod_unlock_aon">Mở khóa AOD Aon</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
@@ -1185,6 +1190,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_large_icon_corner_radius">Các biểu tượng lớn với các góc tròn</string>
     <string name="home_other_app_icon_hide">Quản lý phím tắt trên màn hình</string>
     <string name="home_other_toast_slide_again">Cấm thông báo nhắc nhở \"Vui lòng chạm lại\"</string>
+    <string name="system_framework_guided_access_status">Ẩn thanh trạng thái khi ứng dụng bị khóa</string>
+    <string name="system_framework_guided_access_status_more">Hình dạng đầu ra sẽ thay đổi khi nhấn và giữ nút nguồn. Thanh trạng thái sẽ bị ẩn cho đến khi bạn thoát khỏi chế độ khóa</string>
     <string name="system_framework_guided_access_sc">Cấm gọi ra thanh bên khi được ghim</string>
     <string name="system_framework_guided_access_screen">Chuyển tới màn hình khóa khi được bỏ ghim</string>
     <string name="system_framework_guided_access">Cố định ứng dụng</string>
@@ -1611,6 +1618,13 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="safe_mode_ok">Tiếp tục sau</string>
     <string name="safe_mode_later_title">Mẹo</string>
     <string name="safe_mode_later_desc">Bạn vẫn đang ở Chế độ an toàn và các tính năng HyperCeiler bị tắt. Bạn có muốn tắt Chế độ an toàn không?</string>
+    <string name="safe_mode_recorder_title">Nhật ký ngoại lệ</string>
+    <string name="safe_mode_recorder_file">Tập tin</string>
+    <string name="safe_mode_recorder_class">Lớp</string>
+    <string name="safe_mode_recorder_method">Phương thức</string>
+    <string name="safe_mode_recorder_line">Hàng</string>
+    <string name="safe_mode_recorder_msg">Tin nhắn ngoại lệ</string>
+    <string name="safe_mode_recorder_st">Dấu vết ngăn xếp</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>
     <string name="preference_recommend_tip">Bạn đang cần tìm gì?</string>
 </resources>
