@@ -18,17 +18,12 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.other;
 
-import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 public class TasksShortcutMenu extends BaseHook {
     @Override
     public void init() {
-
-        if (isPad()) {
-            hookAllMethods("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$MultipleSmallWindowShortcutMenuItem", "isValid",
-                    MethodHook.returnConstant(true));
-        }
+        hookAllMethods("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$MultipleSmallWindowShortcutMenuItem", "isValid",
+                 MethodHook.returnConstant(true));
     }
 }
