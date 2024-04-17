@@ -19,12 +19,14 @@
 package com.sevtinge.hyperceiler.module.hook.home.dock
 
 import android.app.AndroidAppHelper
+import android.graphics.*
 import android.view.Gravity
 import android.widget.FrameLayout
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.api.dp2px
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setBlurRoundRect
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.utils.findClass
@@ -60,8 +62,11 @@ object DockCustomNew : BaseHook() {
             val mDockBottomMargin = dp2px(
                 appContext, (mPrefsMap.getInt("home_dock_bg_margin_bottom", 30) - 92).toFloat()
             )
-            mDockBlur.setMiViewBlurMode(1)
+            if (mPrefsMap.getStringAsInt("home_dock_add_blur", 0) == 1) {
+                mDockBlur.setMiViewBlurMode(1)
+            }
             mDockBlur.setBlurRoundRect(mDockRadius)
+            mDockBlur.setBackgroundColor(mPrefsMap.getInt("home_dock_bg_color", -1))
             mDockBlur.layoutParams =
                 FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, mDockHeight)
                     .also { layoutParams ->

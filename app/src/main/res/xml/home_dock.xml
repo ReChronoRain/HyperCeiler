@@ -117,6 +117,13 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
+        <moralnorm.preference.ColorPickerPreference
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
+            android:title="@string/home_dock_bg_color"
+            android:key="prefs_key_home_dock_bg_color"
+            android:defaultValue="-1"
+            app:showAlphaSlider="true" />
+
         <!--<SeekBarPreferenceEx
             android:key="prefs_key_home_dock_icon_margin_bottom"
             android:title="@string/home_dock_icon_margin_bottom"
