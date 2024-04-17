@@ -85,6 +85,7 @@ import com.sevtinge.hyperceiler.module.app.VariousThirdApps;
 import com.sevtinge.hyperceiler.module.app.VoiceAssist;
 import com.sevtinge.hyperceiler.module.app.Weather;
 import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
+import com.sevtinge.hyperceiler.module.base.tool.XmlTool;
 import com.sevtinge.hyperceiler.safe.CrashHook;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
@@ -106,6 +107,7 @@ public abstract class BaseXposedInit {
     public static String mModulePath = null;
     public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<>();
     public static ResourcesTool mResHook;
+    public static XmlTool mXmlTool;
 
     public final SystemFramework mSystemFramework = new SystemFramework();
     public final SystemUI mSystemUI = new SystemUI();
@@ -164,6 +166,7 @@ public abstract class BaseXposedInit {
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
         setXSharedPrefs();
         mResHook = new ResourcesTool(startupParam.modulePath);
+        mXmlTool = new XmlTool(startupParam);
         mModulePath = startupParam.modulePath;
     }
 

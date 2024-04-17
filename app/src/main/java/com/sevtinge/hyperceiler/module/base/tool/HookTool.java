@@ -151,7 +151,7 @@ public class HookTool extends XposedLogUtils {
         }
     }
 
-    public void hookMethod(Method method, MethodHook callback) {
+    public static void hookMethod(Method method, MethodHook callback) {
         XposedBridge.hookMethod(method, callback);
     }
 

@@ -86,7 +86,7 @@ android {
     }
     def getString = { String propertyName, String environmentName, String prompt ->
         return properties?.get(propertyName) ?: System.getenv(environmentName) ?:
-            System.console()?.readLine('\n' + prompt + ': ')
+                System.console()?.readLine('\n' + prompt + ': ')
     }
     def keyStoreFile = getString('storeFile', 'STORE_FILE', 'Store file')?.with(rootProject.&file)
     def gitCode = getVersionCode()
@@ -169,6 +169,7 @@ dependencies {
     implementation libs.gson
     implementation libs.commons.codec
 
+    // implementation libs.kxml2
     implementation libs.core
     implementation libs.collection
     implementation libs.recyclerview
