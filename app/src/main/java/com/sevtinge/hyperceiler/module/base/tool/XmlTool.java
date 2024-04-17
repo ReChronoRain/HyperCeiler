@@ -107,10 +107,14 @@ public class XmlTool {
     private final HookTool.MethodHook hookGetAttributeValueBlock = new HookTool.MethodHook() {
         @Override
         protected void after(MethodHookParam param) {
+            String name = (String) param.args[1];
+            // 先限制一下
+            if (!"title".equals(name) && !"summary".equals(name)) return;
             Context context;
             context = OtherTool.findContext(ContextUtils.FLAG_ALL);
             if (context == null) return;
             String result = (String) param.getResult();
+            if (result == null) return;
             int id = getModId(result);
             if (id == -1) return;
             Resources res = context.getResources();
@@ -131,7 +135,7 @@ public class XmlTool {
                 param.setResult(String.valueOf("@" + mID));
                 // mid = getModTitle(res, "@" + mID);
             }
-            // XposedLogUtils.logW(TAG, "pk: " + pkgName + " ty: " + resType + " na: " + resName + " sss: " + test + " m: " + mid);
+            // XposedLogUtils.logE(TAG, "pk: " + pkgName + " ty: " + resType + " na: " + resName + " sss: " + test + " m: " + mid);
             // XposedLogUtils.logE(TAG, "namespace: " + param.args[0] + " name: " + param.args[1] + " result: " + result);
         }
     };
@@ -158,7 +162,12 @@ public class XmlTool {
         if (title == null) {
             return -1;
         }
-        int titleResId = Integer.parseInt(title.substring(1));
+        int titleResId = -1;
+        try {
+            titleResId = Integer.parseInt(title.substring(1));
+        } catch (Throwable e) {
+            return titleResId;
+        }
         if (titleResId <= 0) {
             return -1;
         }
