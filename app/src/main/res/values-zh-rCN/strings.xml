@@ -1387,7 +1387,8 @@
     <string name="security_center_flash_light_more">开启手电筒时劫持亮度条，拖动亮度条即可控制手电筒亮度</string>
     <string name="security_center_get_number">管理应用获取手机号并一键登录</string>
     <string name="security_center_applock_pin_scramble">应用锁乱序 PIN</string>
-    <string name="security_center_power_saver">妙享不省电</string>
+    <string name="security_center_power_saver">禁止妙享省电</string>
+    <string name="security_center_power_saver_desc">禁止在通过小米妙享镜像流转屏幕时开启省电模式</string>
     <string name="security_center_applock_pin_scramble_desc">随机更改应用锁 PIN 键盘顺序</string>
     <string name="security_center_beauty_light_auto">解锁智能调节补光灯亮度</string>
     <string name="security_center_beauty_face">解锁视频通话美颜</string>

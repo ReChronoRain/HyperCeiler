@@ -236,7 +236,8 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_security_center_power_saver"
-            android:title="@string/security_center_power_saver" />
+            android:title="@string/security_center_power_saver"
+            android:summary="@string/security_center_power_saver_desc" />
 
         <SwitchPreference
             android:defaultValue="false"
