@@ -869,6 +869,7 @@
     <string name="system_cc_volume_showpct_title">Displays the percentage of sound</string>
     <string name="system_ui_others_showpct_top">Top of percentage</string>
     <string name="system_ui_others_showpct_top_desc">Percentage distance from the top of the screen</string>
+    <string name="system_showpct_use_blur">Use blur</string>
     <string name="system_ui_notification_freeform">Pull down the notification bar of more apps to open a freeform</string>
     <string name="system_ui_notification_freeform_desc">Notifications from Mi Push may not be supported</string>
     <string name="system_ui_monet_title">Monet</string>

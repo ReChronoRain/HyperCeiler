@@ -71,6 +71,11 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_showpct_use_blur"
+            android:title="@string/system_showpct_use_blur" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_another_title">

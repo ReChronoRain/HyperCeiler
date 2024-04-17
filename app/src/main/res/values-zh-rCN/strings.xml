@@ -320,7 +320,7 @@
     <string name="control_center_5g_v2">样式二</string>
 
     <string name="no_blur">无模糊</string>
-    <string name="miui_blur">系统模糊</string>
+    <string name="miui_blur">高级材质</string>
     <string name="android_blur">原生模糊</string>
 
     <string name="system_ui_statusbar_network_speed_style_1">值和单位单行显示</string>
@@ -888,6 +888,7 @@
     <string name="system_cc_volume_showpct_title">显示声音百分比</string>
     <string name="system_ui_others_showpct_top">顶部边距</string>
     <string name="system_ui_others_showpct_top_desc">百分比提示框距屏幕顶部的距离</string>
+    <string name="system_showpct_use_blur">使用高级材质效果</string>
     <string name="system_ui_notification_freeform_desc">可能不支持 Mi Push 推送的通知</string>
     <string name="system_ui_monet_title">主题色</string>
     <string name="system_ui_monet_overlay_custom">自定义主题色</string>

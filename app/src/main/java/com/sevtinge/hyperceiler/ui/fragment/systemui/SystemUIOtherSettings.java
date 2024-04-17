@@ -44,6 +44,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     SwitchPreference mBottomBar;
     SwitchPreference mVolume;
     SwitchPreference mDisableBluetoothRestrict; // 禁用蓝牙临时关闭
+    SwitchPreference mPctUseBlur;
 
     @Override
     public int getContentResId() {
@@ -67,12 +68,14 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mMiuiMultiWinSwitchRemove = findPreference("prefs_key_system_ui_remove_miui_multi_win_switch");
         mBottomBar = findPreference("prefs_key_system_ui_disable_bottombar");
         mVolume = findPreference("prefs_key_system_ui_disable_volume");
+        mPctUseBlur = findPreference("prefs_key_system_showpct_use_blur");
 
         mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && isMoreAndroidVersion(31));
         mMiuiMultiWinSwitch.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
         mMiuiMultiWinSwitchRemove.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34) && isPad());
         mBottomBar.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
+        mPctUseBlur.setVisible(isMoreHyperOSVersion(1f));
 
         mVolume.setOnPreferenceChangeListener(
                 (preference, o) -> {
