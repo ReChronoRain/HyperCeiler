@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
@@ -44,20 +43,18 @@ public class NotificationIconColumns extends BaseHook {
     @Override
     public void init() {
         int maxIconsNum;
-        if (!isAndroidVersion(30)) {
-            int maxDotsNum = mPrefsMap.getInt("system_ui_status_bar_notification_dots_maximum", 3);
-            if (isMoreHyperOSVersion(1f)) {
-                maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 1);
-            } else {
-                maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 3);
-            }
-            if (isMoreHyperOSVersion(1f)) {
-                mHyperOsNew(maxIconsNum);
-            } else if (isMoreAndroidVersion(34)) {
-                mAndroidU(maxIconsNum, maxDotsNum);
-            } else {
-                mAndroidS(maxIconsNum, maxDotsNum);
-            }
+        int maxDotsNum = mPrefsMap.getInt("system_ui_status_bar_notification_dots_maximum", 3);
+        if (isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) {
+            maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 1);
+        } else {
+            maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 3);
+        }
+        if (isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) {
+            mHyperOsNew(maxIconsNum);
+        } else if (isMoreAndroidVersion(34)) {
+            mAndroidU(maxIconsNum, maxDotsNum);
+        } else {
+            mAndroidS(maxIconsNum, maxDotsNum);
         }
     }
 
@@ -203,19 +200,11 @@ public class NotificationIconColumns extends BaseHook {
                     if ((boolean) param.args[0]) {
                         XposedHelpers.setObjectField(param.thisObject, "MAX_DOTS", maxDotsNum);
                         XposedHelpers.setObjectField(param.thisObject, "MAX_STATIC_ICONS", maxIconsNum);
-                        if (isAndroidVersion(33)) {
-                            XposedHelpers.setObjectField(param.thisObject, "MAX_ICONS_ON_LOCKSCREEN", maxIconsNum);
-                        } else {
-                            XposedHelpers.setObjectField(param.thisObject, "MAX_VISIBLE_ICONS_ON_LOCK", maxIconsNum);
-                        }
+                        XposedHelpers.setObjectField(param.thisObject, "MAX_ICONS_ON_LOCKSCREEN", maxIconsNum);
                     } else {
                         XposedHelpers.setObjectField(param.thisObject, "MAX_DOTS", 0);
                         XposedHelpers.setObjectField(param.thisObject, "MAX_STATIC_ICONS", 0);
-                        if (isAndroidVersion(33)) {
-                            XposedHelpers.setObjectField(param.thisObject, "MAX_ICONS_ON_LOCKSCREEN", 0);
-                        } else {
-                            XposedHelpers.setObjectField(param.thisObject, "MAX_VISIBLE_ICONS_ON_LOCK", 0);
-                        }
+                        XposedHelpers.setObjectField(param.thisObject, "MAX_ICONS_ON_LOCKSCREEN", 0);
                     }
                     XposedHelpers.callMethod(param.thisObject, "updateState");
                     param.setResult(null);

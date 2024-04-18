@@ -21,19 +21,19 @@ package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
 
 object NoPassword : BaseHook() {
     override fun init() {
         loadClass("com.android.internal.widget.LockPatternUtils\$StrongAuthTracker").methodFinder()
             .filterByName("isBiometricAllowedForUser")
-            .single().createHook {
+            .first().createHook {
                 returnConstant(true)
             }
 
         loadClass("com.android.internal.widget.LockPatternUtils").methodFinder()
             .filterByName("isBiometricAllowedForUser")
-            .single().createHook {
+            .first().createHook {
                 returnConstant(true)
             }
     }
