@@ -14,8 +14,6 @@
 
 MIUI and HyperOS for Android 13-14
 
-Note: Android 11-12 will gradually stop supporting it in subsequent versions. The current System Framework, System UI, System launcher, and Security scope do not support the MIUI of Android 11-12.
-
 ## Pre-use instructions
 
 Please enable HyperCeiler in [LSPosed](https://github.com/LSPosed/LSPosed/releases), then enable the corresponding feature in the HyperCeiler app and restart the scope (root access required).
@@ -24,7 +22,7 @@ This module <b>does not support</b> `third-party MIUI/Xiaomi HyperOS ROMs with a
 
 Before submitting feedback, please pay attention to whether there is already the same feedback to avoid causing trouble to developers. Spending the same energy reading the same feedback is a waste of time.
 
-HyperCeiler has stopped maintaining the MIUI ROM for Android 11-12. Currently, except for core scopes such as the System Framework and System UI, in principle other scopes can be used normally. If you want to use the core scope, please stay in [this version](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
+HyperCeiler has stopped maintaining MIUI ROM for Android 11-12. If you want to use it, please stay at [this version](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130)
 
 ## Supported apps
 
@@ -58,7 +56,6 @@ HyperCeiler has stopped maintaining the MIUI ROM for Android 11-12. Currently, e
 | Sogou Keyboard for MIUI    | com.sohu.inputmethod.sogou.xiaomi  |
 | Weather                    | com.miui.weather2                  |
 | Cast                       | com.milink.service                 |
-| Xiaomi Interconnectivity   | com.xiaomi.mirror                  |
 | External Storage           | com.android.externalstorage        |
 | Always-on display          | com.miui.aod                       |
 | File Manager               | com.android.fileexplorer           |

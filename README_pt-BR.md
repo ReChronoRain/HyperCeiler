@@ -14,8 +14,6 @@
 
 MIUI e HyperOS para Android 13-14
 
-Observação: O Android 11-12 deixará gradualmente de oferecer suporte nas versões subsequentes. O Framework do Sistema, a UI do Sistema, a Launcher do sistema e o escopo de Segurança atuais não são compatíveis com a MIUI do Android 11-12.
-
 ## Instruções de pré-uso
 
 Por favor, ative o HyperCeiler no [LSPosed](https://github.com/LSPosed/LSPosed/releases), em seguida, ative o recurso correspondente no app HyperCeiler e reinicie o escopo (é necessário acesso root).
@@ -58,7 +56,6 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12. Atualmente
 | Sogou Keyboard for MIUI             | com.sohu.inputmethod.sogou.xiaomi  |
 | Clima                               | com.miui.weather2                  |
 | Transmitir                          | com.milink.service                 |
-| Interconectividade Xiaomi           | com.xiaomi.mirror                  |
 | Armazenamento externo               | com.android.externalstorage        |
 | Tela ambiente                       | com.miui.aod                       |
 | Arquivos                            | com.android.fileexplorer           |
