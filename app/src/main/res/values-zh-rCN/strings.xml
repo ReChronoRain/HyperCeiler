@@ -310,6 +310,10 @@
 
     <string name="system_framework_other_rotation_button_3">强制启用</string>
 
+    <string name="guided_access_screen_area_full">始终触发</string>
+    <string name="guided_access_screen_area_left">左侧区域触发</string>
+    <string name="guided_access_screen_area_right">右侧区域触发</string>
+
     <string name="security_center_flash_light_default">关闭</string>
     <string name="security_center_flash_light_1">默认写入模式</string>
     <string name="security_center_flash_light_2">写入模式一</string>

@@ -131,16 +131,18 @@ public class UiLockApp extends BaseHook {
                     @Override
                     protected void before(MethodHookParam param) {
                         MotionEvent motionEvent = (MotionEvent) param.args[0];
+                        View view = (View)param.thisObject;
                         // logE(TAG, "mo: " + motionEvent.getActionMasked());
                         mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getContext");
                         int action = motionEvent.getActionMasked();
                         int lockId = getLockApp(mContext);
                         setSystemLockApp(mContext);
                         setSystemLockScreen(mContext);
-                        if (mPrefsMap.getBoolean("system_framework_guided_access_screen")) {
-                            setMyLockScreen(mContext, 1);
-                        } else {
-                            setMyLockScreen(mContext, 0);
+                        switch (mPrefsMap.getStringAsInt("system_framework_guided_access_screen_int",0)){
+                            case 0-> setMyLockScreen(mContext, 0);
+                            case 1-> setMyLockScreen(mContext, 1);
+                            case 2-> setMyLockScreen(mContext, motionEvent.getRawX() < ((float) view.getWidth() / 2) ? 1 : 0);
+                            case 3-> setMyLockScreen(mContext, motionEvent.getRawX() < ((float) view.getWidth() / 2) ? 0 : 1);
                         }
                         if (action == 2) { // 移动手指判定失效
                             count = count + 1;
