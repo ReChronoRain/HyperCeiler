@@ -16,11 +16,13 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.app;
+package com.sevtinge.hyperceiler.module.skip;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.mirror.UnlockMiuiPlus;
 
+@HookExpand(pkg = "com.xiaomi.mirror", isPad = false, tarAndroid = 34)
 public class Mirror extends BaseModule {
 
     @Override

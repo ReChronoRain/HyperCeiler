@@ -18,9 +18,11 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.barrage.*;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 
+@HookExpand(pkg = "com.xiaomi.barrage", isPad = false, tarAndroid = 34)
 public class Barrage extends BaseModule {
     @Override
     public void handleLoadPackage() {

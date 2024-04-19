@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.app;
+package com.sevtinge.hyperceiler.module.hook;
 
 import static java.lang.System.currentTimeMillis;
 

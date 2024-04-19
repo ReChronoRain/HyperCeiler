@@ -19,8 +19,10 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.hook.trustservice.*;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
+import com.sevtinge.hyperceiler.module.hook.trustservice.DisableMrm;
 
+@HookExpand(pkg = "com.xiaomi.trustservice", isPad = false, tarAndroid = 34)
 public class TrustService extends BaseModule {
     @Override
     public void handleLoadPackage() {

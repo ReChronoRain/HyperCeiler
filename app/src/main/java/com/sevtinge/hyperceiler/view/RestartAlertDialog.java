@@ -26,7 +26,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.module.app.GlobalActions;
+import com.sevtinge.hyperceiler.module.hook.GlobalActions;
 import com.sevtinge.hyperceiler.utils.KillApp;
 
 import java.util.Arrays;

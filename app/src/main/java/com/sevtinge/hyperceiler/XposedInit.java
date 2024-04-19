@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler;
 
 import com.github.kyuubiran.ezxhelper.EzXHelper;
-import com.sevtinge.hyperceiler.module.app.SystemFrameworkForCorePatch;
 import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUninstall;
@@ -30,6 +29,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ToastBlur;
 import com.sevtinge.hyperceiler.module.hook.systemframework.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.VolumeSeparateControlForSettings;
+import com.sevtinge.hyperceiler.module.skip.SystemFrameworkForCorePatch;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;

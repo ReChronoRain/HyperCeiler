@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemframework.corepatch;
 
-import static com.sevtinge.hyperceiler.module.app.SystemFrameworkForCorePatch.TAG;
+import static com.sevtinge.hyperceiler.module.skip.SystemFrameworkForCorePatch.TAG;
 
 import android.util.Log;
 

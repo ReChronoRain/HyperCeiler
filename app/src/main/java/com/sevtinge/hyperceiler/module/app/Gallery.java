@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.gallery.ChangeBackupServer;
 import com.sevtinge.hyperceiler.module.hook.gallery.EnableHdrEnhance;
 import com.sevtinge.hyperceiler.module.hook.gallery.EnableIdPhoto;
@@ -34,6 +35,7 @@ import com.sevtinge.hyperceiler.module.hook.gallery.UnPrivacyWatermark;
 import com.sevtinge.hyperceiler.module.hook.gallery.UnlockAIGallery;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
+@HookExpand(pkg = "com.miui.gallery", isPad = false, tarAndroid = 34)
 public class Gallery extends BaseModule {
 
     @Override

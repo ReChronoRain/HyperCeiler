@@ -19,9 +19,11 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.getapps.DeviceModify;
 import com.sevtinge.hyperceiler.module.hook.getapps.DisablePackageMonitor;
 
+@HookExpand(pkg = "com.xiaomi.market", isPad = false, tarAndroid = 34)
 public class GetApps extends BaseModule {
 
     @Override

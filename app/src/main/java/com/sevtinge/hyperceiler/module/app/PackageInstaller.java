@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.module.app;
 import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.AllAsSystemApp;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableAD;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableAppInfoUpload;
@@ -30,6 +31,7 @@ import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisplayMoreApkInfoN
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.InstallRiskDisable;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.InstallSource;
 
+@HookExpand(pkg = "com.miui.packageinstaller", isPad = false, tarAndroid = 34)
 public class PackageInstaller extends BaseModule {
 
     public void handleLoadPackage() {

@@ -352,13 +352,13 @@
         android:summary="com.xiaomi.market"
         android:title="@string/market" />
 
-    <SwitchPreference
+    <!--<SwitchPreference
         android:defaultValue="true"
         android:icon="@drawable/ic_miui_plus"
         android:key="prefs_key_mirror_state"
         android:layout="@layout/preference_header"
         android:summary="com.xiaomi.mirror"
-        android:title="@string/mirror" />
+        android:title="@string/mirror" />-->
 
     <SwitchPreference
         android:defaultValue="true"

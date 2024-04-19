@@ -49,7 +49,7 @@
         <item>com.xiaomi.barrage</item> <!--弹幕通知-->
         <item>com.xiaomi.joyose</item> <!--Joyose-->
         <item>com.xiaomi.market</item> <!--应用商店-->
-        <item>com.xiaomi.mirror</item> <!--MIUI+-->
+        <!--<item>com.xiaomi.mirror</item>--> <!--MIUI+-->
         <item>com.xiaomi.misettings</item> <!--小米设置-->
         <item>com.xiaomi.mtb</item> <!--mtb-->
         <item>com.xiaomi.scanner</item> <!--小爱视觉-->

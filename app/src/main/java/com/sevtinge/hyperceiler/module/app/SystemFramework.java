@@ -23,6 +23,8 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroid
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
+import com.sevtinge.hyperceiler.module.hook.GlobalActions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouch;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AppLinkVerify;
@@ -80,7 +82,7 @@ import com.sevtinge.hyperceiler.module.hook.various.NoAccessDeviceLogsRequest;
 
 import de.robv.android.xposed.XposedBridge;
 
-
+@HookExpand(pkg = "android", isPad = false, tarAndroid = 34)
 public class SystemFramework extends BaseModule {
 
     @Override

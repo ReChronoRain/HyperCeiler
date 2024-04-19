@@ -1,5 +1,5 @@
 -keep class com.sevtinge.hyperceiler.XposedInit
--keep class com.sevtinge.hyperceiler.module.app.SystemFrameworkForCorePatch
+-keep class com.sevtinge.hyperceiler.module.skip.SystemFrameworkForCorePatch
 -keep class com.sevtinge.hyperceiler.ui.LauncherActivity
 -keep class com.sevtinge.hyperceiler.utils.blur.*
 -keep class com.sevtinge.hyperceiler.utils.Helpers { boolean isModuleActive; }
@@ -9,6 +9,7 @@
 -keep class * extends com.sevtinge.hyperceiler.ui.fragment.base.*
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook { <init>(); }
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseModule
+-keep class com.sevtinge.hyperceiler.module.base.BaseModule {*;}
 #-keep class com.sevtinge.hyperceiler.utils.XposedUtils {
 #    *;
 #}

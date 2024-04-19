@@ -19,9 +19,11 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.mtb.BypassAuthentication;
 import com.sevtinge.hyperceiler.module.hook.mtb.IsUserBuild;
 
+@HookExpand(pkg = "com.xiaomi.mtb", isPad = false, tarAndroid = 34)
 public class Mtb extends BaseModule {
     @Override
     public void handleLoadPackage() {

@@ -73,7 +73,7 @@ public class CrashData {
             scopeMap.put("com.xiaomi.barrage", "barrage");
             scopeMap.put("com.xiaomi.joyose", "joyose");
             scopeMap.put("com.xiaomi.market", "market");
-            scopeMap.put("com.xiaomi.mirror", "mirror");
+            // scopeMap.put("com.xiaomi.mirror", "mirror");
             scopeMap.put("com.xiaomi.misettings", "misettings");
             scopeMap.put("com.xiaomi.mtb", "mtb");
             scopeMap.put("com.xiaomi.scanner", "scanner");

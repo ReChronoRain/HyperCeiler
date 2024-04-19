@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.scanner.EnableCard;
 import com.sevtinge.hyperceiler.module.hook.scanner.EnableDocPpt;
 import com.sevtinge.hyperceiler.module.hook.scanner.EnableOcr;
@@ -27,6 +28,7 @@ import com.sevtinge.hyperceiler.module.hook.scanner.document.EnableDocument;
 import com.sevtinge.hyperceiler.module.hook.scanner.document.EnableExcel;
 import com.sevtinge.hyperceiler.module.hook.scanner.document.EnablePpt;
 
+@HookExpand(pkg = "com.xiaomi.scanner", isPad = false, tarAndroid = 34)
 public class Scanner extends BaseModule {
 
     @Override

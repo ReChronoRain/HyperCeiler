@@ -21,10 +21,12 @@ package com.sevtinge.hyperceiler.module.app;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.BlurPersonalAssistant;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.BlurPersonalAssistantBackGround;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.EnableFoldWidget;
 
+@HookExpand(pkg = "com.miui.personalassistant", isPad = false, tarAndroid = 34)
 public class PersonalAssistant extends BaseModule {
 
     @Override

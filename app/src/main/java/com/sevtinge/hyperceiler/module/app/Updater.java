@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.module.app;
 import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.updater.AndroidVersionCode;
 import com.sevtinge.hyperceiler.module.hook.updater.AutoUpdateDialog;
 import com.sevtinge.hyperceiler.module.hook.updater.DeviceModify;
@@ -28,6 +29,7 @@ import com.sevtinge.hyperceiler.module.hook.updater.VabUpdate;
 import com.sevtinge.hyperceiler.module.hook.updater.VersionCodeModify;
 import com.sevtinge.hyperceiler.module.hook.updater.VersionCodeNew;
 
+@HookExpand(pkg = "com.android.updater", isPad = false, tarAndroid = 34)
 public class Updater extends BaseModule {
 
     @Override

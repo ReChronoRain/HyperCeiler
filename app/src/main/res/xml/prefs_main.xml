@@ -317,12 +317,12 @@
             android:summary="com.xiaomi.market"
             android:title="@string/market" />
 
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+        <!--<com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.MirrorFragment"
             android:icon="@drawable/ic_miui_plus"
             android:key="prefs_key_mirror"
             android:summary="com.xiaomi.mirror"
-            android:title="@string/mirror" />
+            android:title="@string/mirror" />-->
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiSettingsFragment"

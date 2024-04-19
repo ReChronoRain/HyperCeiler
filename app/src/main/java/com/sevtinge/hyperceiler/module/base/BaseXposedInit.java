@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.base;
 
-import static com.sevtinge.hyperceiler.callback.ITAG.TAG;
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
@@ -28,62 +27,14 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
+import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW;
 
 import android.os.Process;
 
 import androidx.annotation.CallSuper;
 
-import com.sevtinge.hyperceiler.module.app.AiAsst;
-import com.sevtinge.hyperceiler.module.app.Aod;
-import com.sevtinge.hyperceiler.module.app.Backup;
-import com.sevtinge.hyperceiler.module.app.Barrage;
-import com.sevtinge.hyperceiler.module.app.Browser;
-import com.sevtinge.hyperceiler.module.app.Calendar;
-import com.sevtinge.hyperceiler.module.app.Camera;
-import com.sevtinge.hyperceiler.module.app.ContentExtension;
-import com.sevtinge.hyperceiler.module.app.Creation;
-import com.sevtinge.hyperceiler.module.app.Demo;
-import com.sevtinge.hyperceiler.module.app.Downloads;
-import com.sevtinge.hyperceiler.module.app.ExternalStorage;
-import com.sevtinge.hyperceiler.module.app.FileExplorer;
-import com.sevtinge.hyperceiler.module.app.Gallery;
-import com.sevtinge.hyperceiler.module.app.GetApps;
-import com.sevtinge.hyperceiler.module.app.GuardProvider;
-import com.sevtinge.hyperceiler.module.app.Home;
-import com.sevtinge.hyperceiler.module.app.Huanji;
-import com.sevtinge.hyperceiler.module.app.InCallUi;
-import com.sevtinge.hyperceiler.module.app.Joyose;
-import com.sevtinge.hyperceiler.module.app.Lbe;
-import com.sevtinge.hyperceiler.module.app.MediaEditor;
-import com.sevtinge.hyperceiler.module.app.MiCloudService;
-import com.sevtinge.hyperceiler.module.app.MiLink;
-import com.sevtinge.hyperceiler.module.app.MiSettings;
-import com.sevtinge.hyperceiler.module.app.MiShare;
-import com.sevtinge.hyperceiler.module.app.MiSound;
-import com.sevtinge.hyperceiler.module.app.MiWallpaper;
-import com.sevtinge.hyperceiler.module.app.Mms;
-import com.sevtinge.hyperceiler.module.app.Mtb;
-import com.sevtinge.hyperceiler.module.app.Nfc;
-import com.sevtinge.hyperceiler.module.app.Notes;
-import com.sevtinge.hyperceiler.module.app.PackageInstaller;
-import com.sevtinge.hyperceiler.module.app.PersonalAssistant;
-import com.sevtinge.hyperceiler.module.app.Phone;
-import com.sevtinge.hyperceiler.module.app.PowerKeeper;
-import com.sevtinge.hyperceiler.module.app.Scanner;
-import com.sevtinge.hyperceiler.module.app.ScreenRecorder;
-import com.sevtinge.hyperceiler.module.app.ScreenShot;
-import com.sevtinge.hyperceiler.module.app.SecurityCenter;
-import com.sevtinge.hyperceiler.module.app.SystemFramework;
-import com.sevtinge.hyperceiler.module.app.SystemSettings;
-import com.sevtinge.hyperceiler.module.app.SystemUI;
-import com.sevtinge.hyperceiler.module.app.ThemeManager;
-import com.sevtinge.hyperceiler.module.app.TrustService;
-import com.sevtinge.hyperceiler.module.app.TsmClient;
-import com.sevtinge.hyperceiler.module.app.Updater;
 import com.sevtinge.hyperceiler.module.app.VariousSystemApps;
 import com.sevtinge.hyperceiler.module.app.VariousThirdApps;
-import com.sevtinge.hyperceiler.module.app.VoiceAssist;
-import com.sevtinge.hyperceiler.module.app.Weather;
 import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.module.base.tool.XmlTool;
 import com.sevtinge.hyperceiler.safe.CrashHook;
@@ -92,9 +43,16 @@ import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.Objects;
 
+import dalvik.system.DexFile;
+import dalvik.system.PathClassLoader;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
@@ -103,64 +61,15 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public abstract class BaseXposedInit {
 
+    private static final String TAG = "BaseXposedInit";
     public static boolean isSafeModeOn = false;
     public static String mModulePath = null;
     public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<>();
     public static ResourcesTool mResHook;
     public static XmlTool mXmlTool;
-
-    public final SystemFramework mSystemFramework = new SystemFramework();
-    public final SystemUI mSystemUI = new SystemUI();
-    public final Home mHome = new Home();
-    public final ScreenShot mScreenShot = new ScreenShot();
-
-    public final ScreenRecorder mScreenRecorder = new ScreenRecorder();
-    public final SecurityCenter mSecurityCenter = new SecurityCenter();
-    public final SystemSettings mSystemSettings = new SystemSettings();
-    public final PersonalAssistant mPersonalAssistant = new PersonalAssistant();
-    public final ThemeManager mThemeManager = new ThemeManager();
-    public final Updater mUpdater = new Updater();
-    public final GetApps mGetApps = new GetApps();
-    public final MediaEditor mMediaEditor = new MediaEditor();
-    public final PackageInstaller mPackageInstaller = new PackageInstaller();
-    public final PowerKeeper mPowerKeeper = new PowerKeeper();
-    public final MiSettings mMiSettings = new MiSettings();
-    public final Joyose mJoyose = new Joyose();
+    public static ArrayList<String> classPaths = new ArrayList<>();
     public final VariousThirdApps mVariousThirdApps = new VariousThirdApps();
     public final VariousSystemApps mVariousSystemApps = new VariousSystemApps();
-    public final Weather mWeather = new Weather();
-    public final FileExplorer mFileExplorer = new FileExplorer();
-    public final Gallery mGallery = new Gallery();
-    public final AiAsst mAiAsst = new AiAsst();
-    public final Scanner mScanner = new Scanner();
-    public final MiShare mMiShare = new MiShare();
-    public final MiCloudService miCloudService = new MiCloudService();
-    public final MiLink mMiLink = new MiLink();
-    public final GuardProvider mGuardProvider = new GuardProvider();
-    public final Lbe mLbe = new Lbe();
-    public final InCallUi mInCallUi = new InCallUi();
-    public final TsmClient mTsmClient = new TsmClient();
-    public final ContentExtension mContentExtension = new ContentExtension();
-    public final VoiceAssist mVoiceAssist = new VoiceAssist();
-    public final Mms mMms = new Mms();
-    public final ExternalStorage mExternalStorage = new ExternalStorage();
-    public final Camera mCamera = new Camera();
-    public final Browser mBrowser = new Browser();
-    public final Mtb mMtb = new Mtb();
-    public final Phone mPhone = new Phone();
-    public final MiWallpaper mMiWallpaper = new MiWallpaper();
-    public final Downloads mDownloads = new Downloads();
-    public final Aod mAod = new Aod();
-    public final Barrage mBarrage = new Barrage();
-    public final Notes mNotes = new Notes();
-    public final Creation mCreation = new Creation();
-    public final Demo mDemo = new Demo();
-    public final Nfc mNfc = new Nfc();
-    public final MiSound mMiSound = new MiSound();
-    public final Backup mBackup = new Backup();
-    public final Huanji mHuanji = new Huanji();
-    public final TrustService mTrustService = new TrustService();
-    public final Calendar mCalendar = new Calendar();
 
     @CallSuper
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
@@ -168,6 +77,24 @@ public abstract class BaseXposedInit {
         mResHook = new ResourcesTool(startupParam.modulePath);
         mXmlTool = new XmlTool(startupParam);
         mModulePath = startupParam.modulePath;
+        if (classPaths.isEmpty()) {
+            PathClassLoader pathClassLoader = new PathClassLoader(startupParam.modulePath, ClassLoader.getSystemClassLoader());
+            Object pathList = XposedHelpers.getObjectField(pathClassLoader, "pathList");
+            Object[] dexElements = (Object[]) XposedHelpers.getObjectField(pathList, "dexElements");
+            DexFile dexFile = null;
+            for (Object element : dexElements) {
+                dexFile = (DexFile) XposedHelpers.getObjectField(element, "dexFile");
+            }
+            if (dexFile != null) {
+                Enumeration<String> enumeration = dexFile.entries();
+                while (enumeration.hasMoreElements()) {
+                    String className = enumeration.nextElement();
+                    if (className.contains("com.sevtinge.hyperceiler.module.app")) {
+                        classPaths.add(className);
+                    }
+                }
+            }
+        }
     }
 
     private void setXSharedPrefs() {
@@ -206,10 +133,10 @@ public abstract class BaseXposedInit {
             logI(packageName, "androidVersion = " + getAndroidVersion() + ", miuiVersion = " + getMiuiVersion() + ", hyperosVersion = " + getHyperOSVersion());
         else
             logI(packageName, "versionName = " + getPackageVersionName(lpparam) + ", versionCode = " + getPackageVersionCode(lpparam));
-        switch (packageName) {
-            case "android" -> {
-                mSystemFramework.init(lpparam);
-                mVariousSystemApps.init(lpparam);
+        boolean hookDone = invokeHookInit(lpparam);
+        if (hookDone) {
+            mVariousSystemApps.init(lpparam);
+            if ("android".equals(packageName)) {
                 try {
                     new CrashHook(lpparam);
                     logI(TAG, "Success Hook Crash");
@@ -217,184 +144,114 @@ public abstract class BaseXposedInit {
                     logE(TAG, "Hook Crash E: " + e);
                 }
             }
-            case "com.android.systemui" -> {
-                if (isSystemUIModuleEnable()) {
-                    mSystemUI.init(lpparam);
-                    mVariousSystemApps.init(lpparam);
+        }
+        if (!hookDone) mVariousThirdApps.init(lpparam);
+    }
+
+    private boolean invokeHookInit(LoadPackageParam lpparam) {
+        if (classPaths.isEmpty()) {
+            logE(TAG, "The class directory list is empty, and the hook cannot be executed!");
+            return false;
+        }
+        String mPkgName = lpparam.packageName;
+        if (ProjectApi.mAppModulePkg.equals(mPkgName)) {
+            ModuleActiveHook(lpparam);
+            return true;
+        }
+        if (mPkgName == null) return false;
+        if (isInSafeMode(mPkgName)) return true;
+        if (isOtherRestrictions(mPkgName)) return true;
+        ClassLoader classLoader = getClass().getClassLoader();
+        if (classLoader == null) return false;
+        ArrayList<Class<?>> classList = new ArrayList<>();
+        for (String path : classPaths) {
+            try {
+                classList.add(classLoader.loadClass(path));
+            } catch (ClassNotFoundException e) {
+                logE(TAG, "This class failed to find it for unknown reasons! class: " + path + " e: " + e);
+            }
+        }
+        if (classList.isEmpty()) {
+            logE(TAG, "The number of classes found is 0!");
+            return false;
+        }
+        for (Class<?> clzz : classList) {
+            boolean have = clzz.isAnnotationPresent(HookExpand.class);
+            if (have) {
+                HookExpand hookExpand = clzz.getAnnotation(HookExpand.class);
+                if (hookExpand == null) {
+                    logE(TAG, "The annotation obtained by this class is null: " + clzz.getName());
+                    continue;
                 }
+                String mPkg = hookExpand.pkg();
+                boolean isPad = hookExpand.isPad();
+                int android = hookExpand.tarAndroid();
+                boolean skip = hookExpand.skip();
+                if (skip) continue;
+                if (mPkgName.equals(mPkg)) {
+                    // 需要限制安卓版本和设备取消这些注释，并删除下面的invoke方法。
+                    // if (!isAndroidVersion(android)) continue;
+                    // if (isPad() && isPad) {
+                    //     return invoke(lpparam, clzz);
+                    // } else if (isPad() && !isPad) {
+                    //     continue;
+                    // } else {
+                    //     return invoke(lpparam, clzz);
+                    // }
+                    return invoke(lpparam, clzz);
+                }
+            } else {
+                logW(TAG, "This class does not use the specified annotation: " + clzz.getName());
+            }
+        }
+        return false;
+    }
+
+    private boolean invoke(LoadPackageParam lpparam, Class<?> clzz) {
+        Object newInstance = null;
+        try {
+            newInstance = clzz.newInstance();
+            Method[] methods = clzz.getMethods();
+            for (Method method : methods) {
+                if ("init".equals(method.getName())) {
+                    try {
+                        method.invoke(newInstance, lpparam);
+                        return true;
+                    } catch (IllegalAccessException |
+                             InvocationTargetException e) {
+                        logE(TAG, "The method failed to be called! " + e);
+                        return false;
+                    }
+                }
+            }
+        } catch (IllegalAccessException | InstantiationException e) {
+            logE(TAG, "If the instance fails, the hook may not function properly: " + clzz.getName() + " e: " + e);
+        }
+        return false;
+    }
+
+    private boolean isInSafeMode(String pkg) {
+        switch (pkg) {
+            case "com.android.systemui" -> {
+                return isSystemUIModuleEnable();
             }
             case "com.miui.home" -> {
-                if (isHomeModuleEnable()) {
-                    mHome.init(lpparam);
-                    mVariousSystemApps.init(lpparam);
-                }
+                return isHomeModuleEnable();
             }
             case "com.miui.securitycenter" -> {
-                if (isSecurityCenterModuleEnable()) {
-                    mSecurityCenter.init(lpparam);
-                    mVariousSystemApps.init(lpparam);
-                }
+                return isSecurityCenterModuleEnable();
             }
-            case "com.android.settings" -> {
-                mSystemSettings.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.personalassistant" -> {
-                mPersonalAssistant.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.android.thememanager" -> {
-                mThemeManager.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.android.browser" -> {
-                mBrowser.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.android.nfc" -> {
-                mNfc.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.android.calendar" -> {
-                mCalendar.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.android.updater" -> {
-                mUpdater.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.xiaomi.market" -> mGetApps.init(lpparam);
-
-            case "com.miui.packageinstaller" -> {
-                mPackageInstaller.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.powerkeeper" -> mPowerKeeper.init(lpparam);
-
-            case "com.xiaomi.misettings" -> {
-                mMiSettings.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.xiaomi.joyose" -> mJoyose.init(lpparam);
-
-            case "com.miui.screenshot" -> mScreenShot.init(lpparam);
-
-            case "com.miui.screenrecorder" -> {
-                mScreenRecorder.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.mediaeditor" -> mMediaEditor.init(lpparam);
-
-            case "com.miui.miwallpaper" -> {
-                mMiWallpaper.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.weather2" -> {
-                mWeather.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.gallery" -> {
-                mGallery.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.aod" -> {
-                mAod.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.xiaomi.barrage" -> mBarrage.init(lpparam);
-
-            case "com.xiaomi.aiasst.vision" -> {
-                mAiAsst.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.xiaomi.scanner" -> {
-                mScanner.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.mishare.connectivity" -> {
-                mMiShare.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.misound" -> {
-                mMiSound.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.milink.service" -> mMiLink.init(lpparam);
-
-            case "com.miui.guardprovider" -> mGuardProvider.init(lpparam);
-
-            case "com.lbe.security.miui" -> {
-                if (!isMoreHyperOSVersion(1f)) {
-                    mLbe.init(lpparam);
-                    mVariousSystemApps.init(lpparam);
-                }
-            }
-            case "com.android.incallui" -> {
-                mInCallUi.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.notes" -> {
-                mNotes.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.tsmclient" -> {
-                mTsmClient.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.contentextension" -> {
-                mContentExtension.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.voiceassist" -> {
-                mVoiceAssist.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.android.mms" -> {
-                mMms.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.android.fileexplorer" -> {
-                mFileExplorer.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.android.phone" -> mPhone.init(lpparam);
-
-            case "com.xiaomi.mtb" -> mMtb.init(lpparam);
-
-            case "com.android.externalstorage" -> {
-                mExternalStorage.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.android.camera" -> {
-                mCamera.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.android.providers.downloads" -> mDownloads.init(lpparam);
-
-            case "com.miui.cloudservice" -> {
-                miCloudService.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.creation" -> {
-                mCreation.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.backup" -> {
-                mBackup.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.miui.huanji" -> {
-                mHuanji.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.xiaomi.trustservice" -> {
-                mTrustService.init(lpparam);
-                mVariousSystemApps.init(lpparam);
-            }
-            case "com.hchen.demo" -> mDemo.init(lpparam);
-            case ProjectApi.mAppModulePkg -> ModuleActiveHook(lpparam);
-            default -> mVariousThirdApps.init(lpparam);
         }
+        return false;
+    }
+
+    private boolean isOtherRestrictions(String pkg) {
+        switch (pkg) {
+            case "com.lbe.security.miui" -> {
+                return isMoreHyperOSVersion(1f);
+            }
+        }
+        return false;
     }
 
     public void ModuleActiveHook(LoadPackageParam lpparam) {
@@ -407,7 +264,7 @@ public abstract class BaseXposedInit {
 
 
     private boolean isSafeModeEnable(String key) {
-        return !mPrefsMap.getBoolean(key);
+        return mPrefsMap.getBoolean(key);
     }
 
     private boolean isSystemUIModuleEnable() {

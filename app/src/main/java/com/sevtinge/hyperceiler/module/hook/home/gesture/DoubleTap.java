@@ -23,8 +23,8 @@ import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 
-import com.sevtinge.hyperceiler.module.app.GlobalActions;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.module.hook.GlobalActions;
 
 import de.robv.android.xposed.XposedHelpers;
 

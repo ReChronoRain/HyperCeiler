@@ -16,19 +16,21 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.app;
+package com.sevtinge.hyperceiler.module.base;
 
-import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
-import com.sevtinge.hyperceiler.module.hook.aiasst.AiCaptions;
-import com.sevtinge.hyperceiler.module.hook.aiasst.DisableWatermark;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@HookExpand(pkg = "com.xiaomi.aiasst.vision", isPad = false, tarAndroid = 34)
-public class AiAsst extends BaseModule {
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface HookExpand {
+    String pkg();
 
-    @Override
-    public void handleLoadPackage() {
-        initHook(new AiCaptions(), mPrefsMap.getBoolean("aiasst_ai_captions"));
-        initHook(new DisableWatermark(), mPrefsMap.getBoolean("aiasst_disable_watermark"));
-    }
+    boolean isPad();
+
+    int tarAndroid();
+
+    boolean skip() default false;
 }
