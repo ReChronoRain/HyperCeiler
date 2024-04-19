@@ -70,7 +70,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     Preference mMiLink;
     Preference mAod;
     Preference mGuardProvider;
-    Preference mMirror;
+    // Preference mMirror;
     Preference mHeadtipWarn;
     Preference mHelpCantSeeApps;
     TipsPreference mTips;
@@ -143,7 +143,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         mMiLink = findPreference("prefs_key_milink");
         mAod = findPreference("prefs_key_aod");
         mGuardProvider = findPreference("prefs_key_guardprovider");
-        mMirror = findPreference("prefs_key_mirror");
+        // mMirror = findPreference("prefs_key_mirror");
         mTips = findPreference("prefs_key_tips");
         mHeadtipWarn = findPreference("prefs_key_headtip_warn");
         mHelpCantSeeApps = findPreference("prefs_key_help_cant_see_app");
@@ -159,13 +159,13 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
             mAod.setTitle(R.string.aod_hyperos);
             mMiLink.setTitle(R.string.milink_hyperos);
             mGuardProvider.setTitle(R.string.guard_provider_hyperos);
-            mMirror.setTitle(R.string.mirror_hyperos);
+            // mMirror.setTitle(R.string.mirror_hyperos);
             mSecurityCenter.setTitle(R.string.security_center_hyperos);
         } else {
             mAod.setTitle(R.string.aod);
             mMiLink.setTitle(R.string.milink);
             mGuardProvider.setTitle(R.string.guard_provider);
-            mMirror.setTitle(R.string.mirror);
+            // mMirror.setTitle(R.string.mirror);
             if (isPad()) {
                 mSecurityCenter.setTitle(R.string.security_center_pad);
             } else {
