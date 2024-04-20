@@ -46,7 +46,6 @@ import com.sevtinge.hyperceiler.prefs.TipsPreference;
 import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.fragment.helper.HomepageEntrance;
-import com.sevtinge.hyperceiler.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
@@ -62,8 +61,6 @@ import moralnorm.preference.Preference;
 public class MainFragment extends SettingsPreferenceFragment implements HomepageEntrance.EntranceState {
 
     Preference mCamera;
-    Preference mPowerSetting;
-    Preference mMTB;
     Preference mSecurityCenter;
     Preference mMiLink;
     Preference mAod;
@@ -133,8 +130,6 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
             }
         });
         mCamera = findPreference("prefs_key_camera_2");
-        mPowerSetting = findPreference("prefs_key_powerkeeper");
-        mMTB = findPreference("prefs_key_mtb");
         mSecurityCenter = findPreference("prefs_key_security_center");
         mMiLink = findPreference("prefs_key_milink");
         mAod = findPreference("prefs_key_aod");
@@ -144,10 +139,6 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         mHelpCantSeeApps = findPreference("prefs_key_help_cant_see_app");
 
         mHelpCantSeeApps.setVisible(!getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false));
-
-        mCamera.setVisible(!PackagesUtils.checkAppStatus(getContext(), "com.android.camera"));
-        mPowerSetting.setVisible(!PackagesUtils.checkAppStatus(getContext(), "com.miui.powerkeeper"));
-        mMTB.setVisible(!PackagesUtils.checkAppStatus(getContext(), "com.xiaomi.mtb"));
 
         if (isMoreHyperOSVersion(1f)) {
             mCamera.setFragment("com.sevtinge.hyperceiler.ui.fragment.CameraNewFragment");
