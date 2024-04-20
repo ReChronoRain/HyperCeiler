@@ -9,7 +9,7 @@
         <Preference
             android:icon="@drawable/ic_sevtinge"
             android:layout="@layout/preference_round_layout"
-            android:summary="\@Sevtinge | Main design &amp; Hook"
+            android:summary="\@Sevtinge | Main Design &amp; Architecture &amp; Hook"
             android:title="绀漓 | Sevtinge">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -29,7 +29,7 @@
         <Preference
             android:icon="@drawable/ic_nekoqiqi"
             android:layout="@layout/preference_round_layout"
-            android:summary="\@mu7220 | Hook"
+            android:summary="\@mu7220 | Architecture &amp; Hook"
             android:title="Neko Qiqi">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -39,7 +39,7 @@
         <Preference
             android:icon="@drawable/ic_hchenx"
             android:layout="@layout/preference_round_layout"
-            android:summary="\@HChenX | Hook"
+            android:summary="\@HChenX | Architecture &amp; Hook"
             android:title="焕晨HChen">
             <intent
                 android:action="android.intent.action.VIEW"
