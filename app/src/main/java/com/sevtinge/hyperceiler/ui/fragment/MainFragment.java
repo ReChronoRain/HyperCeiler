@@ -62,7 +62,6 @@ import moralnorm.preference.Preference;
 public class MainFragment extends SettingsPreferenceFragment implements HomepageEntrance.EntranceState {
 
     Preference mCamera;
-    Preference mCameraNew;
     Preference mPowerSetting;
     Preference mMTB;
     Preference mSecurityCenter;
@@ -133,8 +132,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
                 }
             }
         });
-        mCamera = findPreference("prefs_key_camera");
-        mCameraNew = findPreference("prefs_key_camera_new");
+        mCamera = findPreference("prefs_key_camera_2");
         mPowerSetting = findPreference("prefs_key_powerkeeper");
         mMTB = findPreference("prefs_key_mtb");
         mSecurityCenter = findPreference("prefs_key_security_center");
@@ -147,17 +145,18 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
 
         mHelpCantSeeApps.setVisible(!getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false));
 
-        mCamera.setVisible(!isMoreHyperOSVersion(1f) && !PackagesUtils.checkAppStatus(getContext(), "com.android.camera"));
-        mCameraNew.setVisible(isMoreHyperOSVersion(1f) && !PackagesUtils.checkAppStatus(getContext(), "com.android.camera"));
+        mCamera.setVisible(!PackagesUtils.checkAppStatus(getContext(), "com.android.camera"));
         mPowerSetting.setVisible(!PackagesUtils.checkAppStatus(getContext(), "com.miui.powerkeeper"));
         mMTB.setVisible(!PackagesUtils.checkAppStatus(getContext(), "com.xiaomi.mtb"));
 
         if (isMoreHyperOSVersion(1f)) {
+            mCamera.setFragment("com.sevtinge.hyperceiler.ui.fragment.CameraNewFragment");
             mAod.setTitle(R.string.aod_hyperos);
             mMiLink.setTitle(R.string.milink_hyperos);
             mGuardProvider.setTitle(R.string.guard_provider_hyperos);
             mSecurityCenter.setTitle(R.string.security_center_hyperos);
         } else {
+            mCamera.setFragment("com.sevtinge.hyperceiler.ui.fragment.CameraFragment");
             mAod.setTitle(R.string.aod);
             mMiLink.setTitle(R.string.milink);
             mGuardProvider.setTitle(R.string.guard_provider);

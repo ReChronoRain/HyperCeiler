@@ -31,16 +31,8 @@
             android:title="@string/calendar" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.CameraFragment"
             android:icon="@drawable/ic_camera"
-            android:key="prefs_key_camera"
-            android:summary="com.android.camera"
-            android:title="@string/camera" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.CameraNewFragment"
-            android:icon="@drawable/ic_camera"
-            android:key="prefs_key_camera_new"
+            android:key="prefs_key_camera_2"
             android:summary="com.android.camera"
             android:title="@string/camera" />
 

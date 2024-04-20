@@ -4,29 +4,15 @@
     app:myLocation="@string/system_ui_statusbar_title">
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageSettings"
         android:title="@string/system_ui_statusbar_iconmanage_title"
-        android:key="prefs_key_icon_manager_old"
-        app:isPreferenceVisible="false"/>
-
-    <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageNewSettings"
-        android:title="@string/system_ui_statusbar_iconmanage_title"
-        android:key="prefs_key_icon_manager_new"
-        app:isPreferenceVisible="false"/>
+        android:key="prefs_key_icon_manager" />
 
     <Preference
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.NetworkSpeedIndicatorSettings"
         android:title="@string/system_ui_statusbar_network_speed_indicator_title" />
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.ClockIndicatorSettings"
-        android:key="prefs_key_old_clock_status"
-        android:title="@string/system_ui_statusbar_clock_title" />
-
-    <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.NewClockIndicatorSettings"
-        android:key="prefs_key_new_clock_status"
+        android:key="prefs_key_clock_status"
         android:title="@string/system_ui_statusbar_clock_title" />
 
     <Preference
