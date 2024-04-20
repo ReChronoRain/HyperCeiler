@@ -18,18 +18,17 @@
 */
 package com.sevtinge.hyperceiler.utils.api
 
-import android.content.Context
-import android.util.TypedValue
-import android.view.Window
+import android.content.*
+import android.util.*
+import android.view.*
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNullAs
 import com.github.kyuubiran.ezxhelper.ClassUtils.invokeStaticMethodBestMatch
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.api.LazyClass.SystemProperties
 import com.sevtinge.hyperceiler.utils.api.LazyClass.clazzMiuiBuild
-import com.sevtinge.hyperceiler.utils.isStatic
-import java.lang.reflect.Field
-import java.lang.reflect.Method
+import java.lang.reflect.*
 
 @JvmInline
 value class Args(val args: Array<out Any?>)
@@ -71,7 +70,7 @@ fun Any.field(
 }
 
 /**
- * 判断运行模块的机型是否是平板
+ * 判断运行模块的机型是否是平板，仅支持小米设备
  * @return 一个 Boolean 值，true 代表是平板，false 代表不是平板
  * @author Voyager
  */
@@ -80,10 +79,17 @@ val IS_TABLET by lazy {
 }
 
 /**
- * 函数调用，适用于其他一些需要判断的情况
+ * 函数调用，适用于其他一些需要判断的情况，仅支持小米设备的判断
+ * 2024-04-20 更新对非小米设备的判断方式，仅防止闪退
+ * @return 一个 Boolean 值，true 代表是平板，false 代表不是平板
  */
-fun isPad() =
-    clazzMiuiBuild.getField("IS_TABLET").getBoolean(null)
+fun isPad(): Boolean {
+    return try {
+        clazzMiuiBuild.getField("IS_TABLET").getBoolean(null)
+    } catch(_: Throwable) {
+        false
+    }
+}
 
 /**
  * 是否为国际版系统

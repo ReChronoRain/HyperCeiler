@@ -29,11 +29,8 @@ object AlwaysShowStatusClock : BaseHook() {
     }
 
     override fun init() {
-        val methodNames =
-            setOf("isScreenHasClockGadget", "isScreenHasClockWidget", "isClockWidget")
-
         mWorkspaceClass.methodFinder().filter {
-            name in methodNames
+            name in setOf("isScreenHasClockGadget", "isScreenHasClockWidget", "isClockWidget")
         }.toList().createHooks {
             returnConstant(false)
         }
