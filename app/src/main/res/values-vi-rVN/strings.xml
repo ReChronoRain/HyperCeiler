@@ -264,6 +264,9 @@
     <string name="control_center_sunshine_mode_one">Mặc định của hệ thống</string>
     <string name="control_center_sunshine_mode_two">Buộc độ sáng tối đa</string>
     <string name="system_framework_other_rotation_button_3">Bắt buộc</string>
+    <string name="guided_access_screen_area_full">Kích hoạt bình thường</string>
+    <string name="guided_access_screen_area_left">Kích hoạt lề trái</string>
+    <string name="guided_access_screen_area_right">Kích hoạt lề phải</string>
     <string name="security_center_flash_light_default">Đóng</string>
     <string name="security_center_flash_light_1">Chế độ ghi mặc định</string>
     <string name="security_center_flash_light_2">Chế độ viết một</string>
@@ -811,13 +814,14 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_disable_bluetooth_restrict">Ngăn Bluetooth bị tắt tạm thời</string>
     <string name="system_ui_disable_miui_multi_win_switch">Ẩn nút Cửa sổ tiện lợi</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Ẩn nút cửa sổ tiện lợi ở giữa trên cùng trong HyperOS cho màn hình ngang của Pad</string>
-    <string name="system_ui_remove_miui_multi_win_switch">Tắt nút Cửa sổ tiện lợi</string>
+    <string name="system_ui_remove_miui_multi_win_switch">Vô hiệu hóa nút Cửa sổ tiện lợi</string>
     <string name="system_ui_disable_bottombar">Ẩn cử chỉ dưới cùng của cửa sổ nhỏ</string>
     <string name="system_ui_others_pct_title">Hiển thị dữ liệu</string>
     <string name="system_showpct_title">Hiển thị phần trăm độ sáng</string>
     <string name="system_cc_volume_showpct_title">Hiển thị phần trăm âm thanh</string>
     <string name="system_ui_others_showpct_top">Phần trăm cao nhất</string>
     <string name="system_ui_others_showpct_top_desc">Khoảng cách phần trăm từ đầu màn hình</string>
+    <string name="system_showpct_use_blur">Sử dụng làm mờ</string>
     <string name="system_ui_notification_freeform">Kéo thanh thông báo của ứng dụng xuống để mở cửa sổ nổi</string>
     <string name="system_ui_notification_freeform_desc">Thông báo từ Mi Push có thể không được hỗ trợ</string>
     <string name="system_ui_monet_title">Monet</string>
@@ -1167,6 +1171,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_dock_slide_up_only_show_dock_desc">Vuốt lên lần thứ hai và chuyển đến tác vụ gần đây</string>
     <string name="home_dock_hide_dock">Ẩn Dock</string>
     <string name="home_dock_hide_dock_desc">Sau khi bật, \"Vuốt lên để chỉ hiển thị Dock\" sẽ không hợp lệ.</string>
+    <string name="home_dock_bg_color">Màu nền</string>
     <string name="home_other">Khác</string>
     <string name="home_other_shortcut_title">Phím tắt</string>
     <string name="home_other_home_mode">Chế độ máy tính</string>
@@ -1308,6 +1313,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_flash_light_more">Cho phép bạn điều khiển độ sáng của đèn pin bằng cách kéo thanh trượt độ sáng</string>
     <string name="security_center_get_number">Quản lý ứng dụng truy cập số điện thoại</string>
     <string name="security_center_applock_pin_scramble">Mã PIN khoá ứng dụng ngẫu nhiên</string>
+    <string name="security_center_power_saver">Dịch vụ bảo mật không tiết kiệm pin</string>
+    <string name="security_center_power_saver_desc">Tắt chế độ tiết kiệm pin khi phản chiếu màn hình qua Mi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Thay đổi ngẫu nhiên thứ tự bàn phím mã PIN khóa ứng dụng</string>
     <string name="security_center_beauty_light_auto">Mở khóa Độ sáng Flash tự động</string>
     <string name="security_center_beauty_face">Làm đẹp cho cuộc gọi video</string>
@@ -1618,13 +1625,13 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="safe_mode_ok">Tiếp tục sau</string>
     <string name="safe_mode_later_title">Mẹo</string>
     <string name="safe_mode_later_desc">Bạn vẫn đang ở Chế độ an toàn và các tính năng HyperCeiler bị tắt. Bạn có muốn tắt Chế độ an toàn không?</string>
-    <string name="safe_mode_recorder_title">Nhật ký ngoại lệ</string>
-    <string name="safe_mode_recorder_file">Tập tin</string>
+    <string name="safe_mode_recorder_title">Bản ghi ngoại lệ</string>
+    <string name="safe_mode_recorder_file">Tệp tin</string>
     <string name="safe_mode_recorder_class">Lớp</string>
     <string name="safe_mode_recorder_method">Phương thức</string>
     <string name="safe_mode_recorder_line">Hàng</string>
-    <string name="safe_mode_recorder_msg">Tin nhắn ngoại lệ</string>
-    <string name="safe_mode_recorder_st">Dấu vết ngăn xếp</string>
+    <string name="safe_mode_recorder_msg">Thông báo ngoại lệ</string>
+    <string name="safe_mode_recorder_st">Danh sách ngăn xếp</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>
     <string name="preference_recommend_tip">Bạn đang cần tìm gì?</string>
 </resources>
