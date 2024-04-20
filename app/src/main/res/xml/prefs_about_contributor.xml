@@ -150,6 +150,13 @@
                 android:data="https://github.com/ri-char" />
         </Preference>
         <Preference
+            android:summary="GitHub@FurryRbl"
+            android:title="SharpIce 锐冰龙">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/FurryRbl" />
+        </Preference>
+        <Preference
             android:summary="GitHub@tehcneko"
             android:title="tehcneko">
             <intent
@@ -176,6 +183,13 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Wansn-w" />
+        </Preference>
+        <Preference
+            android:summary="GitHub@weigui404"
+            android:title="weigui404">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/weigui404" />
         </Preference>
         <Preference
             android:summary="GitHub@Weverses / CoolApk@Weverse"
