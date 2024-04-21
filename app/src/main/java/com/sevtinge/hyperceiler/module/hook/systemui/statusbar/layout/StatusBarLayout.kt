@@ -18,23 +18,19 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.layout
 
-import android.annotation.SuppressLint
-import android.app.KeyguardManager
-import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Resources
-import android.view.Gravity
-import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.annotation.*
+import android.app.*
+import android.content.*
+import android.content.res.*
+import android.view.*
+import android.widget.*
+import androidx.constraintlayout.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.api.dp2px
-import com.sevtinge.hyperceiler.utils.getObjectFieldAs
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 object StatusBarLayout : BaseHook() {
     private val getMode = mPrefsMap.getStringAsInt("system_ui_statusbar_layout_mode", 0)
@@ -316,7 +312,7 @@ object StatusBarLayout : BaseHook() {
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.MATCH_PARENT
                             ).also {
-                                it.marginStart = dp2px(context, 5f)
+                                it.marginStart = dp2px(5f)
                             }
                             mRightLayout = LinearLayout(context).also {
                                 it.layoutParams = rightLp

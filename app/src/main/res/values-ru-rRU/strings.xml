@@ -1293,10 +1293,6 @@
     <string name="market_device_modify_desc">Подмененная модель - Xiaomi 13 Ultra</string>
     <string name="market_disable_new_icon">Запретить использование сторонних значков</string>
     <string name="market_disable_new_icon_desc">Делает раб.стол более чистым</string>
-    <!--MIUI+-->
-    <string name="mirror">MIUI+ Бета</string>
-    <string name="mirror_hyperos">Сервисы подключения устройства</string>
-    <string name="mirror_unlock_miui_plus">Разблокировать MIUI+</string>
     <!--Mi sound-->
     <string name="misound">Наушники</string>
     <string name="misound_increase_sampling_rate">Увеличить частоту выборки</string>

@@ -1396,10 +1396,6 @@
     <string name="market_disable_new_icon_desc">Jadikan desktop lebih bersih</string>
     <string name="market_package_monitor">Nonaktifkan monitor paket</string>
     <string name="market_package_monitor_desc">Larang GetApps memantau pemasangan dan pencopotan aplikasi</string>
-    <!--MIUI+-->
-    <string name="mirror">MIUI+ Beta</string>
-    <string name="mirror_hyperos">Layanan Interkonektivitas Perangkat</string>
-    <string name="mirror_unlock_miui_plus">Buka kunci MIUI+</string>
     <!--Mi sound-->
     <string name="misound">earphone</string>
     <string name="misound_increase_sampling_rate">Meningkatkan tingkat pengambilan sampel</string>

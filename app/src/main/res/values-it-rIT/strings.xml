@@ -1417,10 +1417,6 @@
     <string name="market_disable_new_icon_desc">Rendi il desktop più pulito</string>
     <string name="market_package_monitor">Disabilita il monitoraggio dei pacchetti</string>
     <string name="market_package_monitor_desc">Proibisci il monitoraggio di GetApps installazione e disinstallazione di app</string>
-    <!--MIUI+-->
-    <string name="mirror">MIUI+ Beta</string>
-    <string name="mirror_hyperos">Servizi di interconnettività dispositivo</string>
-    <string name="mirror_unlock_miui_plus">Sblocca MIUI+</string>
     <!--Mi sound-->
     <string name="misound">Auricolari</string>
     <string name="misound_increase_sampling_rate">Aumenta frequenza di campionamento</string>

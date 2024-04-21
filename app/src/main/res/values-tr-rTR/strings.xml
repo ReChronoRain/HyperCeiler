@@ -745,9 +745,6 @@
     <string name="market">GetApps</string>
     <string name="market_device_modify">Model kılığında</string>
     <string name="market_device_modify_desc">Gizlenmiş cihaz modeli Xiaomi 13 Ultra\'dır</string>
-    <!--MIUI+-->
-    <string name="mirror">MIUI+ Beta</string>
-    <string name="mirror_unlock_miui_plus">MIUI + \'nın kilidini aç</string>
     <!--Mi sound-->
     <!--Mi Settings-->
     <!--MTB-->

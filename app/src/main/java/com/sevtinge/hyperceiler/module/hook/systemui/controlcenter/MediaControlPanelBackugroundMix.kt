@@ -55,10 +55,6 @@ class MediaControlPanelBackgroundMix : BaseHook() {
         mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_overlay", 20)
     }
     override fun init() {
-        EzXHelper.initHandleLoadPackage(lpparam)
-        EzXHelper.setLogTag(TAG)
-        EzXHelper.setToastTag(TAG)
-
         // 部分代码来自 Hyper Helper (https://github.com/HowieHChen/XiaomiHelper/blob/master/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/systemui/CustomMusicControl.kt)
         val mediaControlPanel = loadClassOrNull("com.android.systemui.media.controls.ui.MediaControlPanel")
         val miuiMediaControlPanel = loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaControlPanel")
@@ -171,8 +167,8 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                             action2?.setColorFilter(Color.WHITE)
                             action3?.setColorFilter(Color.WHITE)
                             action4?.setColorFilter(Color.WHITE)
-                            seekBar?.progressDrawable?.colorFilter = colorFilter(Color.argb(165, 255, 255, 255))
-                            seekBar?.thumb?.colorFilter = colorFilter((if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else Color.argb(165, 255, 255, 255)))
+                            seekBar?.progressDrawable?.colorFilter = colorFilter(Color.WHITE)
+                            seekBar?.thumb?.colorFilter = colorFilter((if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else Color.WHITE))
                             elapsedTimeView?.setTextColor(grey)
                             totalTimeView?.setTextColor(grey)
                         }

@@ -1431,10 +1431,6 @@
     <string name="market_disable_new_icon_desc">Deixe a tela inicial mais limpa</string>
     <string name="market_package_monitor">Desativar monitor de pacote</string>
     <string name="market_package_monitor_desc">Proíba que o GetApps pare de monitorar a instalação e desinstalação de apps</string>
-    <!--MIUI+-->
-    <string name="mirror">MIUI+</string>
-    <string name="mirror_hyperos">Serviços de interconectividade de dispositivos</string>
-    <string name="mirror_unlock_miui_plus">Desbloquear MIUI+</string>
     <!--Mi sound-->
     <string name="misound">Fones de ouvido</string>
     <string name="misound_increase_sampling_rate">Aumentar taxa de amostragem</string>

@@ -1417,10 +1417,6 @@
     <string name="market_disable_new_icon_desc">使桌面更加整潔</string>
     <string name="market_package_monitor">停用安裝包監控器</string>
     <string name="market_package_monitor_desc">禁止應用程式商店監控應用程式安裝和解除安裝</string>
-    <!--MIUI+-->
-    <string name="mirror">MIUI+</string>
-    <string name="mirror_hyperos">跨螢幕協同服務</string>
-    <string name="mirror_unlock_miui_plus">解鎖跨螢幕協同服務</string>
     <!--Mi sound-->
     <string name="misound">音質音效</string>
     <string name="misound_increase_sampling_rate">提高音頻採樣率</string>

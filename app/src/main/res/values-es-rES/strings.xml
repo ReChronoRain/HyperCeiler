@@ -1343,10 +1343,6 @@
     <string name="market_device_modify_desc">El modelo de dispositivo disfrazado es Xiaomi 13 Ultra</string>
     <string name="market_disable_new_icon">Prohibir el uso de iconos de terceros</string>
     <string name="market_disable_new_icon_desc">Haz que el escritorio esté más limpio</string>
-    <!--MIUI+-->
-    <string name="mirror">MIUI+ Beta</string>
-    <string name="mirror_hyperos">Servicios de interconectividad de dispositivos</string>
-    <string name="mirror_unlock_miui_plus">Desbloquear MIUI+</string>
     <!--Mi sound-->
     <string name="misound">Auriculares</string>
     <string name="misound_increase_sampling_rate">Aumentar la frecuencia de muestreo</string>

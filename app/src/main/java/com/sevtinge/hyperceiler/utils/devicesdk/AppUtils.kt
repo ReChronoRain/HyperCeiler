@@ -23,7 +23,6 @@ import android.content.*
 import android.content.pm.*
 import android.content.res.*
 import android.graphics.*
-import android.os.*
 import android.text.*
 import android.util.*
 import android.util.Log
@@ -37,8 +36,6 @@ fun dp2px(dpValue: Float): Int = TypedValue.applyDimension(
     TypedValue.COMPLEX_UNIT_DIP, dpValue, EzXHelper.appContext.resources.displayMetrics
 ).toInt()
 
-fun dp2px2(dp: Float): Float = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().displayMetrics)
-
 fun px2dp(pxValue: Int): Int = (pxValue / EzXHelper.appContext.resources.displayMetrics.density + 0.5f).toInt()
 
 fun getDensityDpi(): Int =
@@ -50,14 +47,10 @@ fun isDarkMode(): Boolean =
 fun colorFilter(colorInt: Int) = BlendModeColorFilter(colorInt, BlendMode.SRC_IN)
 
 fun getPackageInfoCompat(packageName: String, flags: Int = 0): PackageInfo =
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        EzXHelper.appContext.packageManager.getPackageInfo(
-            packageName,
-            PackageManager.PackageInfoFlags.of(flags.toLong())
-        )
-    } else {
-        EzXHelper.appContext.packageManager.getPackageInfo(packageName, flags)
-    }
+    EzXHelper.appContext.packageManager.getPackageInfo(
+        packageName,
+        PackageManager.PackageInfoFlags.of(flags.toLong())
+    )
 
 fun checkVersionName(): String = getPackageInfoCompat(EzXHelper.appContext.packageName).versionName
 

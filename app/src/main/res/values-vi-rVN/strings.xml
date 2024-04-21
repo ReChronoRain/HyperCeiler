@@ -1444,10 +1444,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="market_disable_new_icon_desc">Không thêm biểu tượng ra màn hình Desktop</string>
     <string name="market_package_monitor">Tắt trình giám sát cài đặt gói</string>
     <string name="market_package_monitor_desc">Cấm GetApps giám sát việc cài đặt và gỡ cài đặt ứng dụng</string>
-    <!--MIUI+-->
-    <string name="mirror">MIUI+</string>
-    <string name="mirror_hyperos">Dịch vụ kết nối thiết bị</string>
-    <string name="mirror_unlock_miui_plus">Mở khóa MIUI+</string>
     <!--Mi sound-->
     <string name="misound">Mi Sound</string>
     <string name="misound_increase_sampling_rate">Tăng tốc độ lấy mẫu</string>

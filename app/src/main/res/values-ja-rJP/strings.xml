@@ -1424,10 +1424,6 @@
     <string name="market_disable_new_icon_desc">デスクトップをよりクリーンにする</string>
     <string name="market_package_monitor">パッケージモニターを無効化</string>
     <string name="market_package_monitor_desc">GetApps にアプリのインストールとアンインストールを監視させないようにします</string>
-    <!--MIUI+-->
-    <string name="mirror">MIUI+</string>
-    <string name="mirror_hyperos">デバイス相互接続サービス</string>
-    <string name="mirror_unlock_miui_plus">MIUI+ をアンロック</string>
     <!--Mi sound-->
     <string name="misound">Xiaomi サウンド</string>
     <string name="misound_increase_sampling_rate">サンプリングレートを上げる</string>

@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.utils.api
 
-import android.content.*
-import android.util.*
 import android.view.*
 import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNullAs
@@ -152,12 +150,6 @@ fun findAllMethods(
 ): List<Method> {
     return findAllMethods(loadClass(clzName, classLoader), findSuper, condition)
 }
-
-fun dp2px(context: Context, dpValue: Float): Int = TypedValue.applyDimension(
-    TypedValue.COMPLEX_UNIT_DIP,
-    dpValue,
-    context.resources.displayMetrics
-).toInt()
 
 /**
  * 模糊查找组件调用
