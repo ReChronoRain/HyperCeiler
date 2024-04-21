@@ -67,7 +67,7 @@ public class MainActivity extends NavigationActivity implements IResult {
         ShellInit.init(this);
         PropUtils.setProp("persist.hyperceiler.log.level",
                 (ProjectApi.isRelease() ? def : ProjectApi.isCanary() ? (def == 0 ? 3 : 4) : def));
-        appCrash = CrashData.needIntercept();
+        appCrash = CrashData.toPkgList();
         handler.postDelayed(() -> {
             if (haveCrashReport()) {
                 new AlertDialog.Builder(MainActivity.this)

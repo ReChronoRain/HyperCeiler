@@ -136,6 +136,7 @@ public abstract class BaseXposedInit {
         if (hookDone) {
             mVariousSystemApps.init(lpparam);
             if ("android".equals(packageName)) {
+                XposedBridge.log("[HyperCeiler][I]: Log level is " + logLevelDesc());
                 try {
                     new CrashHook(lpparam);
                     logI(TAG, "Success Hook Crash");
@@ -187,10 +188,6 @@ public abstract class BaseXposedInit {
                 int android = hookExpand.tarAndroid();
                 boolean skip = hookExpand.skip();
                 if (skip) continue;
-                if (mPkgName.equals("android")) {
-                    XposedBridge.log("[HyperCeiler][I]: Log level is " + logLevelDesc());
-                    continue;
-                }
                 if (mPkgName.equals(mPkg)) {
                     // 需要限制安卓版本和设备取消这些注释，并删除下面的invoke方法。
                     // if (!isAndroidVersion(android)) continue;

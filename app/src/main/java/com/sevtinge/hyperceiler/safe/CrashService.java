@@ -50,7 +50,7 @@ public class CrashService extends Service {
 
     @NonNull
     private Intent getIntent(String abbr) {
-        Intent intent1 = new Intent(this, CrashReportActivity.class);
+        Intent intent1 = new Intent(this, CrashActivity.class);
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent1.putExtra("key_longMsg", longMsg);
         intent1.putExtra("key_stackTrace", stackTrace);

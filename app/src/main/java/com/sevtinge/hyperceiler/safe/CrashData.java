@@ -27,7 +27,12 @@ public class CrashData {
      */
     public static HashMap<String, String> scopeData() {
         if (scopeMap.isEmpty()) {
-            scopeMap.put("android", "android");
+            scopeMap.put("com.android.systemui", "systemui");
+            scopeMap.put("com.android.settings", "settings");
+            scopeMap.put("com.miui.home", "home");
+            scopeMap.put("com.miui.securitycenter", "center");
+            scopeMap.put("com.hchen.demo", "demo");
+            /*scopeMap.put("android", "android");
             scopeMap.put("com.android.browser", "browser");
             scopeMap.put("com.android.camera", "camera");
             scopeMap.put("com.android.calendar", "calendar");
@@ -78,7 +83,7 @@ public class CrashData {
             scopeMap.put("com.xiaomi.mtb", "mtb");
             scopeMap.put("com.xiaomi.scanner", "scanner");
             scopeMap.put("com.xiaomi.trustservice", "trust");
-            scopeMap.put("com.hchen.demo", "demo");
+            scopeMap.put("com.hchen.demo", "demo");*/
             return scopeMap;
         }
         return scopeMap;
@@ -99,7 +104,7 @@ public class CrashData {
         return swappedMap;
     }
 
-    public static boolean needIntercept(String pkg) {
+    public static boolean toPkgList(String pkg) {
         ArrayList<String> report = getReportCrashProp();
         for (String s : report) {
             String mPkg = swappedData().get(s);
@@ -110,7 +115,7 @@ public class CrashData {
         return false;
     }
 
-    public static ArrayList<String> needIntercept() {
+    public static ArrayList<String> toPkgList() {
         ArrayList<String> appCrash = new ArrayList<>();
         ArrayList<String> report = getReportCrashProp();
         for (String s : report) {

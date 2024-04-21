@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 import moralnorm.appcompat.app.AppCompatActivity;
 
-public class CrashReportActivity extends AppCompatActivity {
+public class CrashActivity extends AppCompatActivity {
 
     TextView mMessageTv;
     TextView mCrashRecordTv;

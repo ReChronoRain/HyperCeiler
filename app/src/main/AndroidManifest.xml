@@ -75,7 +75,7 @@
         </activity>
 
         <activity
-            android:name=".safe.CrashReportActivity"
+            android:name=".safe.CrashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
             android:exported="true"

@@ -41,7 +41,7 @@ public abstract class BaseModule implements IXposedHook {
 
     public void init(LoadPackageParam lpparam) {
         if (swappedMap.isEmpty()) swappedMap = CrashData.swappedData();
-        if (CrashData.needIntercept(lpparam.packageName)) {
+        if (CrashData.toPkgList(lpparam.packageName)) {
             XposedLogUtils.logI(TAG, "进入安全模式: " + lpparam.packageName);
             return;
         }
