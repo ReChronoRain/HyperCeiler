@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.module.hook.browser.DisableReadFiles;
 import com.sevtinge.hyperceiler.module.hook.browser.EnableDebugEnvironment;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
-@HookExpand(pkg = "com.android.browser", isPad = false, tarAndroid = 34)
+@HookExpand(pkg = "com.android.browser", isPad = false, tarAndroid = 33)
 public class Browser extends BaseModule {
 
     @Override

@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.app;
+package com.sevtinge.hyperceiler.module.app.SystemUI.Phone;
 
 import static com.sevtinge.hyperceiler.utils.api.NekoQiqiApisKt.isNewNetworkStyle;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
@@ -138,12 +138,12 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.strongtoast.HideS
 
 import java.util.Objects;
 
-@HookExpand(pkg = "com.android.systemui", isPad = false, tarAndroid = 34)
-public class SystemUI extends BaseModule {
+@HookExpand(pkg = "com.android.systemui", isPad = false, tarAndroid = 33)
+public class SystemUIT extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // PluginHelper
-        initHook(new PluginHelper());
+        initHook(new PluginHelper(), true);
         // 充电动画
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         // initHook(DisableChargeAnimation.INSTANCE);
@@ -162,8 +162,8 @@ public class SystemUI extends BaseModule {
                 mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2")) &&
                 !mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable") && !isMoreHyperOSVersion(1f);
 
-        initHook(new StatusBarIcon());
-        initHook(new IconsFromSystemManager());
+        initHook(new StatusBarIcon(), true);
+        initHook(new IconsFromSystemManager(), true);
         initHook(new UnlockCustomActions(), mPrefsMap.getBoolean("system_ui_control_center_media_control_unlock_custom_actions"));
         initHook(new MediaButton(), mPrefsMap.getInt("system_ui_control_center_media_control_media_button", 140) != 140
                 || mPrefsMap.getInt("system_ui_control_center_media_control_media_button_custom", 140) != 140);
@@ -215,11 +215,11 @@ public class SystemUI extends BaseModule {
             if (!isNewNetworkStyle()) {
                 initHook(NetworkSpeed.INSTANCE, !isMoreAndroidVersion(34));
                 initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
-                initHook(NetworkSpeedStyle.INSTANCE);
+                initHook(NetworkSpeedStyle.INSTANCE, true);
                 initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
             } else {
-                initHook(NewNetworkSpeed.INSTANCE);
-                initHook(NewNetworkSpeedStyle.INSTANCE);
+                initHook(NewNetworkSpeed.INSTANCE, true);
+                initHook(NewNetworkSpeedStyle.INSTANCE, true);
             }
             initHook(new NetworkSpeedSpacing(), mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacing", 3) != 3);
             initHook(new NetworkSpeedSec(), mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit"));
@@ -324,7 +324,7 @@ public class SystemUI extends BaseModule {
         initHook(DisableDeviceManaged.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"));
 
         // Actions
-        initHook(new StatusBarActions());
+        initHook(new StatusBarActions(), true);
 
         // Other
         initHook(new UiLockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));

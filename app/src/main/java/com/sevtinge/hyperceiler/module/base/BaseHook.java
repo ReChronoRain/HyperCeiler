@@ -32,6 +32,10 @@ public abstract class BaseHook extends HookTool {
     public static final XmlTool mXmlTool = BaseXposedInit.mXmlTool;
     public static final String ACTION_PREFIX = "com.sevtinge.hyperceiler.module.action.";
 
+    public boolean isLoad() {
+        return false;
+    }
+
     public abstract void init() throws NoSuchMethodException;
 
     public void onCreate(LoadPackageParam lpparam) {

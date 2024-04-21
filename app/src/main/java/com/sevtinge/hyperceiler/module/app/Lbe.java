@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.lbe.DisableClipboardTip;
 
-@HookExpand(pkg = "com.lbe.security.miui", isPad = false, tarAndroid = 34)
+@HookExpand(pkg = "com.lbe.security.miui", isPad = false, tarAndroid = 33)
 public class Lbe extends BaseModule {
 
     @Override

@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.app;
+package com.sevtinge.hyperceiler.module.app.SystemSettings.Phone;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -53,8 +53,8 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockAi;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockMemc;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockSuperResolution;
 
-@HookExpand(pkg = "com.android.settings", isPad = false, tarAndroid = 34)
-public class SystemSettings extends BaseModule {
+@HookExpand(pkg = "com.android.settings", isPad = false, tarAndroid = 33)
+public class SystemSettingsT extends BaseModule {
 
     @Override
     public void handleLoadPackage() {

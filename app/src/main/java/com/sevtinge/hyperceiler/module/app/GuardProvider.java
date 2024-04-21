@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.guardprovider.DisableUploadAppListNew;
 
-@HookExpand(pkg = "com.miui.guardprovider", isPad = false, tarAndroid = 34)
+@HookExpand(pkg = "com.miui.guardprovider", isPad = false, tarAndroid = 33)
 public class GuardProvider extends BaseModule {
     @Override
     public void handleLoadPackage() {

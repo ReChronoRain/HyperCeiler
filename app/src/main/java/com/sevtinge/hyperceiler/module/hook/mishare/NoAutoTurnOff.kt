@@ -21,12 +21,12 @@ package com.sevtinge.hyperceiler.module.hook.mishare
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import com.sevtinge.hyperceiler.utils.getObjectField
-import de.robv.android.xposed.XposedHelpers
-import java.lang.reflect.Modifier
+import com.sevtinge.hyperceiler.utils.*
+import de.robv.android.xposed.*
+import java.lang.reflect.*
 
 object NoAutoTurnOff : BaseHook() {
     private val nullMethod by lazy {
@@ -86,6 +86,10 @@ object NoAutoTurnOff : BaseHook() {
                 type = "int"
             }
         }.singleOrNull()?.getFieldInstance(safeClassLoader)
+    }
+
+    override fun isLoad(): Boolean {
+        return mPrefsMap.getBoolean("disable_mishare_auto_off")
     }
 
     override fun init() {

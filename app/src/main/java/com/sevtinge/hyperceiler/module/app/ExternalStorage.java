@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.externalstorage.DisableFolderCantUse;
 
-@HookExpand(pkg = "com.android.externalstorage", isPad = false, tarAndroid = 34)
+@HookExpand(pkg = "com.android.externalstorage", isPad = false, tarAndroid = 33)
 public class ExternalStorage extends BaseModule {
 
     @Override

@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.contentextension.DoublePress;
@@ -30,7 +28,7 @@ import com.sevtinge.hyperceiler.module.hook.contentextension.Taplus;
 import com.sevtinge.hyperceiler.module.hook.contentextension.UnlockTaplus;
 import com.sevtinge.hyperceiler.module.hook.contentextension.UseThirdPartyBrowser;
 
-@HookExpand(pkg = "com.miui.contentextension", isPad = false, tarAndroid = 34)
+@HookExpand(pkg = "com.miui.contentextension", isPad = false, tarAndroid = 33)
 public class ContentExtension extends BaseModule {
 
     @Override
@@ -39,11 +37,8 @@ public class ContentExtension extends BaseModule {
         initHook(new DoublePress(), mPrefsMap.getBoolean("content_extension_double_press"));
         initHook(new SuperImage(), mPrefsMap.getBoolean("content_extension_super_image"));
         initHook(new Taplus(), mPrefsMap.getBoolean("security_center_taplus"));
-        initHook(new LinkOpenMode());
+        initHook(new LinkOpenMode(), true);
         initHook(HorizontalContentExtension.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus_horizontal"));
-
-        if (!isAndroidVersion(30)) {
-            initHook(UnlockTaplus.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
-        }
+        initHook(UnlockTaplus.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
     }
 }

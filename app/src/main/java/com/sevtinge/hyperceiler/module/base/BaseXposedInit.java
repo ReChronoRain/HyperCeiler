@@ -46,7 +46,6 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Objects;
@@ -188,6 +187,10 @@ public abstract class BaseXposedInit {
                 int android = hookExpand.tarAndroid();
                 boolean skip = hookExpand.skip();
                 if (skip) continue;
+                if (mPkgName.equals("android")) {
+                    XposedBridge.log("[HyperCeiler][I]: Log level is " + logLevelDesc());
+                    continue;
+                }
                 if (mPkgName.equals(mPkg)) {
                     // 需要限制安卓版本和设备取消这些注释，并删除下面的invoke方法。
                     // if (!isAndroidVersion(android)) continue;

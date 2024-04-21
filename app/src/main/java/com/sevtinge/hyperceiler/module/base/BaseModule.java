@@ -87,7 +87,9 @@ public abstract class BaseModule implements IXposedHook {
     }
 
     public void initHook(BaseHook baseHook) {
-        initHook(baseHook, true);
+        if (baseHook.isLoad()) {
+            baseHook.onCreate(mLoadPackageParam);
+        }
     }
 
     public void initHook(BaseHook baseHook, boolean isInit) {

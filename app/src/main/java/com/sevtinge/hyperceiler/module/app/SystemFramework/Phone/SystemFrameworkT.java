@@ -16,11 +16,10 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.app;
+package com.sevtinge.hyperceiler.module.app.SystemFramework.Phone;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
@@ -80,15 +79,11 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N5N8Band;
 import com.sevtinge.hyperceiler.module.hook.various.NoAccessDeviceLogsRequest;
 
-import de.robv.android.xposed.XposedBridge;
-
-@HookExpand(pkg = "android", isPad = false, tarAndroid = 34)
-public class SystemFramework extends BaseModule {
+@HookExpand(pkg = "android", isPad = false, tarAndroid = 33)
+public class SystemFrameworkT extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        XposedBridge.log("[HyperCeiler][I]: Log level is " + logLevelDesc());
-
         // 小窗
         initHook(new FreeFormCount(), mPrefsMap.getBoolean("system_framework_freeform_count"));
         initHook(new FreeformBubble(), mPrefsMap.getBoolean("system_framework_freeform_bubble"));
@@ -101,7 +96,7 @@ public class SystemFramework extends BaseModule {
         // initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_jump"));
 
         // 音量
-        initHook(new VolumeDefaultStream());
+        initHook(new VolumeDefaultStream(), true);
         initHook(new VolumeFirstPress(), mPrefsMap.getBoolean("system_framework_volume_first_press"));
         initHook(new VolumeSeparateControl(), mPrefsMap.getBoolean("system_framework_volume_separate_control"));
         initHook(new VolumeSteps(), mPrefsMap.getInt("system_framework_volume_steps", 0) > 0);
@@ -148,8 +143,7 @@ public class SystemFramework extends BaseModule {
         }
 
         // 核心破解
-        if (isMoreAndroidVersion(33))
-            initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));
+        initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));
 
         // 网络
         initHook(DualNRSupport.INSTANCE, mPrefsMap.getBoolean("phone_double_5g_nr"));
@@ -159,7 +153,7 @@ public class SystemFramework extends BaseModule {
         initHook(N28Band.INSTANCE, mPrefsMap.getBoolean("phone_n28"));
 
         // Other
-        initHook(new PackagePermissions());
+        initHook(new PackagePermissions(), true);
         initHook(new RotationButton(), mPrefsMap.getStringAsInt("system_framework_other_rotation_button_int", 0) == 2);
         initHook(new GlobalActions(), mLoadPackageParam.processName.equals("android"));
         initHook(new ThermalBrightness(), mPrefsMap.getBoolean("system_framework_other_thermal_brightness"));

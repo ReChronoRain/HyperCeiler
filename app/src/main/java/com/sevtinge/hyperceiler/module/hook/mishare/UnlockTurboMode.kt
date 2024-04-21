@@ -18,9 +18,9 @@
 */
 package com.sevtinge.hyperceiler.module.hook.mishare
 
-import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 
@@ -31,6 +31,10 @@ object UnlockTurboMode : BaseHook() {
                 addUsingStringsEquals("DeviceUtil", "xiaomi.hardware.p2p_160m")
             }
         }.single().getMethodInstance(EzXHelper.safeClassLoader)
+    }
+
+    override fun isLoad(): Boolean {
+        return mPrefsMap.getBoolean("unlock_turbo_mode")
     }
 
     override fun init() {

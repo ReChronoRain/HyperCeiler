@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.app;
+package com.sevtinge.hyperceiler.module.app.Home.Phone;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
 
@@ -135,8 +135,8 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.SetGestureNeed
 
 import java.util.Objects;
 
-@HookExpand(pkg = "com.miui.home", isPad = false, tarAndroid = 34)
-public class Home extends BaseModule {
+@HookExpand(pkg = "com.miui.home", isPad = false, tarAndroid = 33)
+public class HomeT extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
@@ -204,13 +204,13 @@ public class Home extends BaseModule {
         initHook(DisableRecentViewWallpaperDarken.INSTANCE, mPrefsMap.getBoolean("home_recent_disable_wallpaper_dimming"));
         initHook(HideStatusBarWhenEnterRecent.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_status_bar_in_task_view"));
         initHook(RemoveCardAnim.INSTANCE, mPrefsMap.getBoolean("home_recent_modify_animation"));
-        initHook(TaskViewHorizontal.INSTANCE);
-        initHook(TaskViewVertical.INSTANCE);
+        initHook(TaskViewHorizontal.INSTANCE, true);
+        initHook(TaskViewVertical.INSTANCE, true);
         initHook(HideFreeform.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_freeform"));
         initHook(new HideCleanUp(), mPrefsMap.getBoolean("home_recent_hide_clean_up"));
-        initHook(FreeformCardBackgroundColor.INSTANCE);
-        initHook(CardTextColor.INSTANCE);
-        initHook(CardTextSize.INSTANCE);
+        initHook(FreeformCardBackgroundColor.INSTANCE, true);
+        initHook(CardTextColor.INSTANCE, true);
+        initHook(CardTextSize.INSTANCE, true);
         initHook(UnlockPin.INSTANCE, mPrefsMap.getBoolean("home_recent_unlock_pin"));
         initHook(RecentText.INSTANCE, !Objects.equals(mPrefsMap.getString("home_recent_text", ""), ""));
         initHook(RemoveIcon.INSTANCE, mPrefsMap.getBoolean("home_recent_remove_icon"));
@@ -238,7 +238,7 @@ public class Home extends BaseModule {
         initHook(new IconTitleCustomization(), mPrefsMap.getBoolean("home_title_title_icontitlecustomization_onoff"));
         initHook(new HiddenAllTitle(), mPrefsMap.getBoolean("home_drawer_font_hidden"));
         initHook(new TitleFontSize(), mPrefsMap.getInt("home_title_font_size", 12) != 12);
-        initHook(IconTitleColor.INSTANCE);
+        initHook(IconTitleColor.INSTANCE, true);
         initHook(new UnlockHotseatIcon(), mPrefsMap.getBoolean("home_dock_unlock_hotseat"));
 
         // 小部件
@@ -278,7 +278,7 @@ public class Home extends BaseModule {
         initHook(AlwaysBlurWallpaper.INSTANCE, mPrefsMap.getBoolean("home_other_always_blur_launcher_wallpaper"));
         initHook(BlurRadius.INSTANCE, mPrefsMap.getInt("home_other_blur_radius", 100) != 100);
         initHook(ShortcutItemCount.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_remove_restrictions"));
-        initHook(ShowAllHideApp.INSTANCE); // 桌面快捷方式管理
+        initHook(ShowAllHideApp.INSTANCE, true); // 桌面快捷方式管理
         initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
 
         // 实验性功能

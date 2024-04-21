@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.aiasst.AiCaptions;
 import com.sevtinge.hyperceiler.module.hook.aiasst.DisableWatermark;
 
-@HookExpand(pkg = "com.xiaomi.aiasst.vision", isPad = false, tarAndroid = 34)
+@HookExpand(pkg = "com.xiaomi.aiasst.vision", isPad = false, tarAndroid = 33)
 public class AiAsst extends BaseModule {
 
     @Override

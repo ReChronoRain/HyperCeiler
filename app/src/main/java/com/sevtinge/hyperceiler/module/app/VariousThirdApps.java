@@ -34,7 +34,7 @@ import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-@HookExpand(pkg = "VariousThirdApps", isPad = false, tarAndroid = 34, skip = true)
+@HookExpand(pkg = "VariousThirdApps", isPad = false, tarAndroid = 33, skip = true)
 public class VariousThirdApps extends BaseModule {
     String mPackageName;
 

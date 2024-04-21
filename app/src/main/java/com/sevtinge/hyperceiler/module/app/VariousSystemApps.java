@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.module.hook.various.MiuiAppNoOverScroll;
 import java.util.Arrays;
 import java.util.HashSet;
 
-@HookExpand(pkg = "VariousSystemApps", isPad = false, tarAndroid = 34, skip = true)
+@HookExpand(pkg = "VariousSystemApps", isPad = false, tarAndroid = 33, skip = true)
 public class VariousSystemApps extends BaseModule {
     Class<?> mHelpers;
     String mPackageName;

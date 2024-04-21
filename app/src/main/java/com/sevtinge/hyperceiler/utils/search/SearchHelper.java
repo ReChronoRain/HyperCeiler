@@ -35,13 +35,14 @@ import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class SearchHelper {
 
     public static final int MARK_COLOR_VIBRANT = Color.rgb(255, 0, 0);
     public static final String NEW_MODS_SEARCH_QUERY = "\uD83C\uDD95";
-    public static ArrayList<ModData> allModsList = new ArrayList<>();
+    public static List<ModData> allModsList = new ArrayList<>();
 
     public static String TAG = "SearchHelper";
 
@@ -333,9 +334,6 @@ public class SearchHelper {
 
         parsePrefXml(context, R.xml.getapps,
                 "com.sevtinge.hyperceiler.ui.fragment.MarketFragment");
-
-        parsePrefXml(context, R.xml.mirror,
-                "com.sevtinge.hyperceiler.ui.fragment.MirrorFragment");
 
         parsePrefXml(context, R.xml.mtb,
                 "com.sevtinge.hyperceiler.ui.fragment.MtbFragment");

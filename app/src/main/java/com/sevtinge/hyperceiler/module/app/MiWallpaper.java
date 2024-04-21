@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.miwallpaper.UnlockSuperWallpaper;
 
-@HookExpand(pkg = "com.miui.miwallpaper", isPad = false, tarAndroid = 34)
+@HookExpand(pkg = "com.miui.miwallpaper", isPad = false, tarAndroid = 33)
 public class MiWallpaper extends BaseModule {
 
     @Override

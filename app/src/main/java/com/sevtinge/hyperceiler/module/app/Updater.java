@@ -29,14 +29,14 @@ import com.sevtinge.hyperceiler.module.hook.updater.VabUpdate;
 import com.sevtinge.hyperceiler.module.hook.updater.VersionCodeModify;
 import com.sevtinge.hyperceiler.module.hook.updater.VersionCodeNew;
 
-@HookExpand(pkg = "com.android.updater", isPad = false, tarAndroid = 34)
+@HookExpand(pkg = "com.android.updater", isPad = false, tarAndroid = 33)
 public class Updater extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
         if (mPrefsMap.getBoolean("updater_enable_miui_version")) {
             if (mPrefsMap.getStringAsInt("updater_version_mode", 1) != 1) {
-                initHook(VersionCodeNew.INSTANCE);
+                initHook(VersionCodeNew.INSTANCE, true);
             } else {
                 initHook(new VersionCodeModify(), !TextUtils.isEmpty(mPrefsMap.getString("various_updater_miui_version", "")));
             }
