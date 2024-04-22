@@ -174,8 +174,8 @@ public class ResourcesTool {
             String name = method.getName();
             switch (name) {
                 case "getInteger", "getLayout", "getBoolean", "getDimension",
-                     "getDimensionPixelOffset", "getDimensionPixelSize", "getText", "getFloat",
-                     "getIntArray", "getStringArray", "getTextArray", "getAnimation" -> {
+                        "getDimensionPixelOffset", "getDimensionPixelSize", "getText", "getFloat",
+                        "getIntArray", "getStringArray", "getTextArray", "getAnimation" -> {
                     if (method.getParameterTypes().length == 1
                             && method.getParameterTypes()[0].equals(int.class)) {
                         hookResMethod(method.getName(), int.class, hookResBefore);
@@ -412,7 +412,7 @@ public class ResourcesTool {
                     replacement = replacements.get(resAnyPkgName);
                 }
                 if (replacement != null && (Objects.requireNonNull(replacement.first) == ReplacementType.OBJECT)) {
-                        return replacement.second;
+                    return replacement.second;
                 }
             } catch (Throwable e) {
                 XposedLogUtils.logE("getTypedArrayReplacement", e);
