@@ -29,6 +29,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.blur.*
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
 import com.sevtinge.hyperceiler.utils.color.*
 import de.robv.android.xposed.*
@@ -36,6 +37,9 @@ import de.robv.android.xposed.*
 object BlurSecurity : BaseHook() {
     private val blurRadius by lazy {
         mPrefsMap.getInt("security_center_blurradius", 60)
+    }
+    private val blurSuper by lazy {
+        mPrefsMap.getBoolean("security_center_blur_model_super")
     }
     private val backgroundColor by lazy {
         mPrefsMap.getInt("security_center_color", -1)
@@ -93,14 +97,25 @@ object BlurSecurity : BaseHook() {
                         override fun onViewAttachedToWindow(view: View) {
                             // 已有背景 避免重复添加
 
-                            if (view.background != null) {
-                                if (isBlurDrawable(view.background)) {
-                                    return
+                            if (!blurSuper) {
+                                if (view.background != null) {
+                                    if (isBlurDrawable(view.background)) {
+                                        return
+                                    }
                                 }
-                            }
 
-                            view.background =
-                                createBlurDrawable(view, blurRadius, 40, backgroundColor)
+                                view.background =
+                                    createBlurDrawable(view, blurRadius, 40, backgroundColor)
+                            } else {
+                                view.setBackgroundColor(backgroundColor)
+                                MiBlurUtils.clearMiBackgroundBlendColor(view)
+                                MiBlurUtils.setMiViewBlurMode(view, 1)
+                                MiBlurUtils.addMiBackgroundBlendColor(
+                                    view,
+                                    Color.argb(255, 0, 0, 0),
+                                    103
+                                )
+                            }
                         }
 
                         override fun onViewDetachedFromWindow(view: View) {
@@ -118,21 +133,39 @@ object BlurSecurity : BaseHook() {
                         override fun onViewAttachedToWindow(view: View) {
                             val viewPaernt = view.parent as ViewGroup
                             val gameContentLayout = viewPaernt.parent as ViewGroup
-                            if (gameContentLayout.background != null) {
-                                if (isBlurDrawable(gameContentLayout.background)) {
-                                    return
+                            if (!blurSuper) {
+                                if (gameContentLayout.background != null) {
+                                    if (isBlurDrawable(gameContentLayout.background)) {
+                                        return
+                                    }
                                 }
+
+                                gameContentLayout.background =
+                                    createBlurDrawable(
+                                        gameContentLayout,
+                                        blurRadius,
+                                        40,
+                                        backgroundColor
+                                    )
+                            } else {
+                                view.setBackgroundColor(backgroundColor)
+                                MiBlurUtils.clearMiBackgroundBlendColor(view)
+                                MiBlurUtils.setMiViewBlurMode(view, 1)
+                                MiBlurUtils.addMiBackgroundBlendColor(
+                                    view,
+                                    Color.argb(255, 0, 0, 0),
+                                    103
+                                )
                             }
-
-                            gameContentLayout.background =
-                                createBlurDrawable(gameContentLayout, blurRadius, 40, backgroundColor)
-
                             if (shouldInvertColor && isInvertColor) {
                                 invertViewColor(gameContentLayout)
 
                                 // 设置 RenderEffect 后会导致文字动画出现问题，故去除动画
                                 val performanceTextView =
-                                    XposedHelpers.callMethod(param.thisObject, "getPerformanceTextView") as View
+                                    XposedHelpers.callMethod(
+                                        param.thisObject,
+                                        "getPerformanceTextView"
+                                    ) as View
 
                                 XposedHelpers.findAndHookMethod(
                                     performanceTextView.javaClass,
@@ -180,12 +213,18 @@ object BlurSecurity : BaseHook() {
             mainContent.addOnAttachStateChangeListener(object :
                 View.OnAttachStateChangeListener {
                 override fun onViewAttachedToWindow(view: View) {
-                    if (view.background != null) {
-                        if (isBlurDrawable(view.background)) return
+                    if (!blurSuper) {
+                        if (view.background != null) {
+                            if (isBlurDrawable(view.background)) return
+                        }
+                        view.background =
+                            createBlurDrawable(view, blurRadius, 40, backgroundColor)
+                    } else {
+                        view.setBackgroundColor(backgroundColor)
+                        MiBlurUtils.clearMiBackgroundBlendColor(view)
+                        MiBlurUtils.setMiViewBlurMode(view, 1)
+                        MiBlurUtils.addMiBackgroundBlendColor(view, Color.argb(255, 0, 0, 0), 103)
                     }
-                    view.background =
-                        createBlurDrawable(view, blurRadius, 40, backgroundColor)
-
                     if (shouldInvertColor && isInvertColor) invertViewColor(mainContent)
                 }
 
@@ -277,7 +316,10 @@ object BlurSecurity : BaseHook() {
                                         listViewAdapterInnerClass.declaredFields.forEach { field ->
                                             val currentObject = field.get(param.thisObject)
                                             if (currentObject is ImageView) {
-                                                if (getId(currentObject) == "img1" || getId(currentObject) == "img2") {
+                                                if (getId(currentObject) == "img1" || getId(
+                                                        currentObject
+                                                    ) == "img2"
+                                                ) {
                                                     currentObject.setRenderEffect(
                                                         RenderEffect.createColorFilterEffect(
                                                             ColorMatrixColorFilter(
@@ -293,7 +335,11 @@ object BlurSecurity : BaseHook() {
                                                 }
                                             }
                                             if (currentObject is View) {
-                                                invertViewColor(currentObject, videoBoxWhiteList, videoBoxKeepList)
+                                                invertViewColor(
+                                                    currentObject,
+                                                    videoBoxWhiteList,
+                                                    videoBoxKeepList
+                                                )
                                             }
                                         }
                                     }
@@ -375,7 +421,7 @@ object BlurSecurity : BaseHook() {
                     }
                 })
 
-            }
+        }
     }
 
     // 尽量给最外层加 RenderEffect 而不是 最内层

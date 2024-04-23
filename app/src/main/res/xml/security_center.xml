@@ -196,6 +196,13 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_center_blur_model_super"
+            android:dependency="prefs_key_se_enable"
+            android:disableDependentsState="true"
+            android:title="@string/security_center_blur_model_super" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:dependency="prefs_key_se_enable"
             android:key="prefs_key_security_center_invert_color"
             android:summary="@string/security_center_invert_color_summary"
@@ -203,7 +210,7 @@
 
         <SeekBarPreferenceEx
             android:defaultValue="60"
-            android:dependency="prefs_key_se_enable"
+            android:dependency="prefs_key_security_center_blur_model_super"
             android:key="prefs_key_security_center_blurradius"
             android:title="@string/security_center_blurradius"
             app:defaultValueText="@string/array_default"
