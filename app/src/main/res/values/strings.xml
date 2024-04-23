@@ -1137,6 +1137,7 @@
     <string name="home_drawer_editor">Hide \"Edit\" Button</string>
     <string name="home_drawer_editor_desc">Removed the \"Edit\" button from the Apps tab in the drawer</string>
     <string name="home_drawer_blur">Enable All Apps Container View Blur</string>
+    <string name="home_drawer_blur_super">Drawer fuzzy premium material</string>
     <string name="home_drawer_blur_desc">Please set app drawer background transparency to 100% to use this feature</string>
     <string name="home_drawer_pinyin">Arranged in pinyin order</string>
     <string name="home_drawer_pinyin_more">When the language is not Simplified Chinese, the apps in the drawer are still arranged according to Pinyin</string>

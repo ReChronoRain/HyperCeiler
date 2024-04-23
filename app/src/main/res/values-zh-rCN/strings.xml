@@ -1162,6 +1162,7 @@
     <string name="home_drawer_all_desc">移除抽屉栏内应用分组的 \"全部\" 分页</string>
     <string name="home_drawer_editor">移除 \"编辑\" 按钮</string>
     <string name="home_drawer_editor_desc">移除抽屉栏内应用分页的 \"编辑\" 按钮</string>
+    <string name="home_drawer_blur_super">抽屉模糊高级材质</string>
     <string name="home_drawer_blur">抽屉模糊</string>
     <string name="home_drawer_blur_desc">需将应用程序抽屉的背景透明度设置为 100%</string>
     <string name="home_drawer_pinyin">按拼音顺序排列</string>
