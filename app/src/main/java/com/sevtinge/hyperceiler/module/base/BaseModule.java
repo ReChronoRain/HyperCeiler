@@ -24,6 +24,7 @@ import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.module.base.dexkit.InitDexKit;
 import com.sevtinge.hyperceiler.safe.CrashData;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
+import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
@@ -95,6 +96,57 @@ public abstract class BaseModule implements IXposedHook {
     public void initHook(BaseHook baseHook, boolean isInit) {
         if (isInit) {
             baseHook.onCreate(mLoadPackageParam);
+        }
+    }
+
+    public void initHook(BaseHook baseHook, boolean isInit, String versionName) {
+        initHook(baseHook, isInit, versionName, -1, -1);
+    }
+
+    public void initHook(BaseHook baseHook, boolean isInit, String versionName, int versionCodeStart, int versionCodeEnd) {
+        if (isInit) {
+            String mVName = Helpers.getPackageVersionName(mLoadPackageParam);
+            if (mVName == null) return;
+            if (mVName.equals(versionName)) {
+                initHook(baseHook, true, versionCodeStart, versionCodeEnd);
+            }
+        }
+    }
+
+    public void initHook(BaseHook baseHook, boolean isInit, String versionName, int versionCodes) {
+        initHook(baseHook, isInit, versionName, versionCodes, -1);
+    }
+
+    public void initHook(BaseHook baseHook, boolean isInit, String versionName, int[] versionCodes) {
+        for (int code : versionCodes) {
+            initHook(baseHook, isInit, versionName, code, -1);
+        }
+    }
+
+    public void initHook(BaseHook baseHook, boolean isInit, int versionCodes) {
+        initHook(baseHook, isInit, versionCodes, -1);
+    }
+
+    public void initHook(BaseHook baseHook, boolean isInit, int[] versionCodes) {
+        for (int code : versionCodes) {
+            initHook(baseHook, isInit, code, -1);
+        }
+    }
+
+    public void initHook(BaseHook baseHook, boolean isInit, int versionCodeStart, int versionCodeEnd) {
+        if (isInit) {
+            if (versionCodeStart == -1) {
+                baseHook.onCreate(mLoadPackageParam);
+                return;
+            }
+            int code = Helpers.getPackageVersionCode(mLoadPackageParam);
+            if (code == versionCodeStart) {
+                baseHook.onCreate(mLoadPackageParam);
+            } else if (versionCodeEnd != -1) {
+                if (code >= versionCodeStart && code <= versionCodeEnd) {
+                    baseHook.onCreate(mLoadPackageParam);
+                }
+            }
         }
     }
 }
