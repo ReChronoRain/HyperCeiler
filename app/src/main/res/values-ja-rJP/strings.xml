@@ -264,6 +264,9 @@
     <string name="control_center_sunshine_mode_one">システムのデフォルトモード</string>
     <string name="control_center_sunshine_mode_two">明るさを最大に強制</string>
     <string name="system_framework_other_rotation_button_3">強制</string>
+    <string name="guided_access_screen_area_full">通常の有効化</string>
+    <string name="guided_access_screen_area_left">左側の有効化</string>
+    <string name="guided_access_screen_area_right">右側の有効化</string>
     <string name="security_center_flash_light_default">オフ</string>
     <string name="security_center_flash_light_1">既定の書き込みモード</string>
     <string name="security_center_flash_light_2">書き込みモード 1</string>
@@ -816,6 +819,7 @@
     <string name="system_cc_volume_showpct_title">音のパーセンテージを表示</string>
     <string name="system_ui_others_showpct_top">パーセンテージの上余白</string>
     <string name="system_ui_others_showpct_top_desc">画面上部からの距離を指定します</string>
+    <string name="system_showpct_use_blur">ぼかしを使用</string>
     <string name="system_ui_notification_freeform">他のアプリの通知バーをプルダウンしてフリーフォームを開く</string>
     <string name="system_ui_notification_freeform_desc">Mi Push からの通知では機能しない可能性があります</string>
     <string name="system_ui_monet_title">Monet</string>
@@ -1161,6 +1165,7 @@
     <string name="home_dock_slide_up_only_show_dock_desc">再度上にスワイプするとアプリ履歴にジャンプします</string>
     <string name="home_dock_hide_dock">ドックを非表示</string>
     <string name="home_dock_hide_dock_desc">有効にすると、「上にスワイプしてドックのみを表示」が無効になります。</string>
+    <string name="home_dock_bg_color">背景色</string>
     <string name="home_other">その他</string>
     <string name="home_other_shortcut_title">ショートカット</string>
     <string name="home_other_home_mode">デスクトップモード</string>
@@ -1302,6 +1307,8 @@
     <string name="security_center_flash_light_more">明るさスライダーをドラッグしてフラッシュライトの明るさを制御できるようにします</string>
     <string name="security_center_get_number">電話番号を使って簡単ログインするアプリを管理</string>
     <string name="security_center_applock_pin_scramble">アプリロックのPINの順序をランダムにする</string>
+    <string name="security_center_power_saver">Magic Share の省電力モードを無効化</string>
+    <string name="security_center_power_saver_desc">Mi Smart Hub 経由で画面をミラーリングする際に省電力モードを無効にします</string>
     <string name="security_center_applock_pin_scramble_desc">アプリロックのPINキーパッドの配列をランダムにする</string>
     <string name="security_center_beauty_light_auto">フィルライトの明るさの自動調整をアンロック</string>
     <string name="security_center_beauty_face">ビデオ通話のビューティ機能をアンロック</string>
