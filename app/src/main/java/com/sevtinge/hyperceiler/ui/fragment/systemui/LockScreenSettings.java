@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
-import static com.sevtinge.hyperceiler.utils.api.NekoQiqiApisKt.isDeviceEncrypted;
+import static com.sevtinge.hyperceiler.utils.api.OldFunApisKt.isDeviceEncrypted;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 

@@ -27,7 +27,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.sevtinge.hyperceiler.XposedInit;
-import com.sevtinge.hyperceiler.utils.DisplayUtils;
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -66,7 +66,7 @@ public class BlurFrameLayout {
 
             mBgColor = XposedInit.mPrefsMap.getInt(mBgColorKey, -1);
             mBgAlpha = XposedInit.mPrefsMap.getInt(mBgAlphaKey, 60);
-            mBgCornerRadius = DisplayUtils.dip2px(mContext, XposedInit.mPrefsMap.getInt(mBgCornerRadiusKey, 90));
+            mBgCornerRadius = DisplayUtils.dp2px(XposedInit.mPrefsMap.getInt(mBgCornerRadiusKey, 90));
         }
         setOnAttachStateChangeListener(mBlurView);
     }
@@ -123,7 +123,7 @@ public class BlurFrameLayout {
         GradientDrawable mBackgroundDrawable = new GradientDrawable();
         mBackgroundDrawable.setShape(GradientDrawable.RECTANGLE);
         mBackgroundDrawable.setColor(Color.argb(alpha, mColorRed, mColorGreen, mColorBlue));
-        mBackgroundDrawable.setCornerRadius(DisplayUtils.dip2px(context, cornerRadius));
+        mBackgroundDrawable.setCornerRadius(DisplayUtils.dp2px(cornerRadius));
         return mBackgroundDrawable;
     }
 }

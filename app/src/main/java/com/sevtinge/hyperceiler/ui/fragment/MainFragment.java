@@ -18,9 +18,9 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment;
 
-import static com.sevtinge.hyperceiler.utils.DisplayUtils.dip2px;
-import static com.sevtinge.hyperceiler.utils.DisplayUtils.sp2px;
-import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.sp2px;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -206,7 +206,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
                 Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
                         insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
                 // 22dp + 2dp + 12sp + 10dp + 18dp + 0.5dp + inset.bottom + 4dp(?)
-                v.setPadding(inset.left, 0, inset.right, inset.bottom + dip2px(requireContext(), 56.5F) + sp2px(requireContext(), 12));
+                v.setPadding(inset.left, 0, inset.right, inset.bottom + dp2px(requireContext(), 56.5F) + sp2px(requireContext(), 12));
                 return insets;
             }
         });

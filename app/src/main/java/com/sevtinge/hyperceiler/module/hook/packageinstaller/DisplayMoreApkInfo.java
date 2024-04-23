@@ -32,7 +32,7 @@ import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.DisplayUtils;
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -95,14 +95,14 @@ public class DisplayMoreApkInfo extends BaseHook {
                     linearLayout.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
 
                     LinearLayout.LayoutParams AppNameViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    AppNameViewParams.setMargins(0, DisplayUtils.dip2px(mRootView.getContext(), 10), 0, 0);
+                    AppNameViewParams.setMargins(0, DisplayUtils.dp2px(10), 0, 0);
                     mAppNameView.setLayoutParams(AppNameViewParams);
                     mAppNameView.setGravity(Gravity.CENTER);
 
                     LinearLayout linearLayout2 = new LinearLayout(mRootView.getContext());
                     linearLayout2.setOrientation(LinearLayout.VERTICAL);
                     linearLayout2.setGravity(Gravity.CENTER);
-                    linearLayout2.setPadding(0, DisplayUtils.dip2px(mRootView.getContext(), 10), 0, 0);
+                    linearLayout2.setPadding(0, DisplayUtils.dp2px(10), 0, 0);
                     linearLayout2.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
 
                     TextView mAppVersionNameView = new TextView(mRootView.getContext());

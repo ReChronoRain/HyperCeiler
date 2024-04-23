@@ -18,17 +18,16 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model
 
-import android.graphics.Typeface
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.graphics.*
+import android.view.*
+import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
-import de.robv.android.xposed.XposedHelpers
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
+import de.robv.android.xposed.*
 
 object MobileTypeSingleHook : BaseHook() {
     // 初始化开关

@@ -18,15 +18,14 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.title
 
-import android.content.ComponentName
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.api.IS_INTERNATIONAL_BUILD
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedHelpers
+import android.content.*
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
+import de.robv.android.xposed.*
 
 object DisableHideFile : BaseHook() {
     override fun init() {
-        if (IS_INTERNATIONAL_BUILD) return
+        if (isInternational()) return
 
         XposedHelpers.findAndHookConstructor(
             "com.miui.home.launcher.AppFilter",

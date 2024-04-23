@@ -18,14 +18,81 @@
 */
 package com.sevtinge.hyperceiler.utils.api
 
-import android.app.admin.DevicePolicyManager
-import android.content.Context
-import android.widget.LinearLayout
-import com.github.kyuubiran.ezxhelper.EzXHelper
+import android.app.admin.*
+import android.content.*
+import android.view.*
+import android.widget.*
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.MemberExtensions.isStatic
-import de.robv.android.xposed.XposedHelpers
-import java.lang.reflect.Method
+import de.robv.android.xposed.*
+import java.lang.reflect.*
 
+@JvmInline
+value class Args(val args: Array<out Any?>)
+
+@JvmInline
+value class ArgTypes(val argTypes: Array<out Class<*>>)
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun args(vararg args: Any?) = Args(args)
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun argTypes(vararg argTypes: Class<*>) = ArgTypes(argTypes)
+
+/**
+ * 扩展函数 用于遍历到指定或哪些 Field
+ *  @param target 获得目标函数的 object
+ *  @param fieldNames 指定遍历的 field 范围
+ *  @param clazz 宿主的 classLoader
+ *  @return 符合条件的 field
+ */
+fun getValueByFields(target: Any, fieldNames: List<String>, clazz: Class<*>? = null): Any? {
+    var targetClass = clazz ?: target.javaClass
+    while (targetClass != Any::class.java) {
+        for (fieldName in fieldNames) {
+            try {
+                val field = targetClass.getDeclaredField(fieldName)
+                field.isAccessible = true
+                val value = field[target]
+                if (value is Window) {
+                    // Log.i("BlurPersonalAssistant Window field name: $fieldName")
+                    return value
+                }
+            } catch (e: NoSuchFieldException) {
+                // This field doesn't exist in this class, skip it
+            } catch (e: IllegalAccessException) {
+                // This field isn't accessible, skip it
+            }
+        }
+        targetClass = targetClass.superclass ?: break
+    }
+    return null
+}
+
+/**
+ * 扩展函数 通过类或者对象获取单个属性
+ * @param fieldName 属性名
+ * @param isStatic 是否静态类型
+ * @param fieldType 属性类型
+ * @return 符合条件的属性
+ * @throws IllegalArgumentException 属性名为空
+ * @throws NoSuchFieldException 未找到属性
+ */
+fun Any.field(
+    fieldName: String,
+    isStatic: Boolean = false,
+    fieldType: Class<*>? = null
+): Field {
+    if (fieldName.isBlank()) throw IllegalArgumentException("Field name must not be empty!")
+    var c: Class<*> = if (this is Class<*>) this else this.javaClass
+    do {
+        c.declaredFields
+            .filter { isStatic == it.isStatic }
+            .firstOrNull { (fieldType == null || it.type == fieldType) && (it.name == fieldName) }
+            ?.let { it.isAccessible = true;return it }
+    } while (c.superclass?.also { c = it } != null)
+    throw NoSuchFieldException("Name: $fieldName,Static: $isStatic, Type: ${if (fieldType == null) "ignore" else fieldType.name}")
+}
 
 /**
  * 源自 EzXHelper 1.x 版本所附赠的扩展函数，2.0 丢失，暂时先复用

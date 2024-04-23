@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
 import static com.sevtinge.hyperceiler.module.base.BaseXposedInit.mPrefsMap;
-import static com.sevtinge.hyperceiler.utils.devicesdk.AppUtilsKt.dp2px;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

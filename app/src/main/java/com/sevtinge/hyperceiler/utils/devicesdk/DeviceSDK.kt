@@ -18,8 +18,13 @@
 */
 package com.sevtinge.hyperceiler.utils.devicesdk
 
-import com.sevtinge.hyperceiler.utils.PropUtils.getProp
-import java.util.Locale
+import android.annotation.*
+import android.content.res.*
+import android.graphics.*
+import com.github.kyuubiran.ezxhelper.*
+import com.sevtinge.hyperceiler.utils.PropUtils.*
+import moralnorm.internal.utils.*
+import java.util.*
 
 
 fun getFingerPrint(): String = android.os.Build.FINGERPRINT
@@ -33,3 +38,22 @@ fun getModelName(): String = android.os.Build.MODEL
 fun getBrand(): String = android.os.Build.BRAND
 fun getManufacture(): String = android.os.Build.MANUFACTURER
 fun getSerial(): String = getProp("ro.serialno").replace("\n", "")
+
+fun getDensityDpi(): Int =
+    (EzXHelper.appContext.resources.displayMetrics.widthPixels / EzXHelper.appContext.resources.displayMetrics.density).toInt()
+
+@SuppressLint("DiscouragedApi")
+fun getCornerRadiusTop(): Int {
+    val resourceId = EzXHelper.appContext.resources.getIdentifier(
+        "rounded_corner_radius_top", "dimen", "android"
+    )
+    return if (resourceId > 0) {
+        EzXHelper.appContext.resources.getDimensionPixelSize(resourceId)
+    } else 100
+}
+
+fun isTablet(): Boolean = Resources.getSystem().configuration.smallestScreenWidthDp >= 600
+fun isPadDevice(): Boolean = isTablet() || DeviceHelper.isFoldDevice()
+fun isDarkMode(): Boolean =
+    EzXHelper.appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+fun colorFilter(colorInt: Int) = BlendModeColorFilter(colorInt, BlendMode.SRC_IN)

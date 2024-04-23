@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all;
 
-import static com.sevtinge.hyperceiler.utils.api.NekoQiqiApisKt.isNewNetworkStyle;
+import static com.sevtinge.hyperceiler.utils.api.OldFunApisKt.isNewNetworkStyle;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;

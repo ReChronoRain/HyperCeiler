@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
-import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.view.View;
 
@@ -30,7 +30,6 @@ import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import moralnorm.preference.ColorPickerPreference;
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;
-import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
 public class HomeDockSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {

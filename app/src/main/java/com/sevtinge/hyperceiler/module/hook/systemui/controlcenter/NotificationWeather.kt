@@ -18,25 +18,19 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
-import android.annotation.SuppressLint
-import android.content.ComponentName
-import android.content.Intent
-import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.annotation.*
+import android.content.*
+import android.view.*
+import android.widget.*
+import androidx.constraintlayout.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.DisplayUtils.dip2px
-import com.sevtinge.hyperceiler.utils.PropUtils
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
-import com.sevtinge.hyperceiler.utils.getObjectField
-import com.sevtinge.hyperceiler.utils.setObjectField
-import com.sevtinge.hyperceiler.view.WeatherView
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
+import com.sevtinge.hyperceiler.view.*
 
 
 object NotificationWeather : BaseHook() {
@@ -110,7 +104,7 @@ object NotificationWeather : BaseHook() {
                                     context.packageName
                                 )
                             )
-                            it.bottomMargin = dip2px(context, 5f)
+                            it.bottomMargin = dp2px(5f)
                         }
                         dateTime.layoutParams = dateTimeLp
 

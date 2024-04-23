@@ -18,17 +18,12 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
-import android.annotation.SuppressLint
-import android.app.AndroidAppHelper
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.os.BatteryManager
-import android.os.Handler
-import android.os.PowerManager
-import android.util.ArrayMap
-import android.widget.TextView
+import android.annotation.*
+import android.app.*
+import android.content.*
+import android.os.*
+import android.util.*
+import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNull
 import com.github.kyuubiran.ezxhelper.ClassUtils.invokeStaticMethodBestMatch
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
@@ -40,17 +35,12 @@ import com.github.kyuubiran.ezxhelper.ObjectUtils.getObjectOrNull
 import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.ObjectUtils.setObject
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.api.IS_HYPER_OS
-import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedHelpers
-import java.io.BufferedReader
-import java.io.FileReader
-import java.math.BigDecimal
-import java.math.RoundingMode
-import kotlin.math.abs
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
+import de.robv.android.xposed.*
+import java.io.*
+import java.math.*
+import kotlin.math.*
 
 object ChargingCVP : BaseHook() {
     private val showSpacingValue by lazy {
@@ -148,9 +138,9 @@ object ChargingCVP : BaseHook() {
                 )!!
 
                 override fun run() {
-                    if (IS_HYPER_OS) {
+                    if (isMoreHyperOSVersion(1f)) {
                         doUpdateForHyperOS()
-                    } else if (!IS_HYPER_OS && isAndroidVersion(34)) {
+                    } else if (!isMoreHyperOSVersion(1f) && isAndroidVersion(34)) {
                         XposedHelpers.callStaticMethod(
                             loadClass("com.android.systemui.statusbar.KeyguardIndicationController"),
                             "updatePowerIndication"

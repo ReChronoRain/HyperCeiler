@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.hook.home;
 
-import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.content.Context;
 import android.database.ContentObserver;

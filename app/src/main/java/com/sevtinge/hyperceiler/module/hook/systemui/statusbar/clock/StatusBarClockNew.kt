@@ -33,6 +33,7 @@ import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.api.LazyClass.mNewClockClass
 import com.sevtinge.hyperceiler.utils.devicesdk.*
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import java.lang.reflect.*
 import java.util.*
 

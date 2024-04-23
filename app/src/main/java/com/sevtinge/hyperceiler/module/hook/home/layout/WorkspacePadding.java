@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.home.layout;
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.DisplayUtils;
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
 
 public class WorkspacePadding extends BaseHook {
 
@@ -44,7 +44,7 @@ public class WorkspacePadding extends BaseHook {
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingBottom", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
-                    param.setResult(DisplayUtils.dip2px(mContext, mPrefsMap.getInt("home_layout_workspace_padding_bottom", 0)));
+                    param.setResult(DisplayUtils.dp2px(mPrefsMap.getInt("home_layout_workspace_padding_bottom", 0)));
                 }
             });
         }
@@ -55,14 +55,14 @@ public class WorkspacePadding extends BaseHook {
                 findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", Context.class, new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        param.setResult(DisplayUtils.dip2px(mContext, mPrefsMap.getInt("home_layout_workspace_padding_top", 0)));
+                        param.setResult(DisplayUtils.dp2px(mPrefsMap.getInt("home_layout_workspace_padding_top", 0)));
                     }
                 });
             } catch (Throwable t) {
                 findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        param.setResult(DisplayUtils.dip2px(mContext, mPrefsMap.getInt("home_layout_workspace_padding_top", 0)));
+                        param.setResult(DisplayUtils.dp2px(mPrefsMap.getInt("home_layout_workspace_padding_top", 0)));
                     }
                 });
             }
@@ -73,7 +73,7 @@ public class WorkspacePadding extends BaseHook {
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingSide", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
-                    param.setResult(DisplayUtils.dip2px(mContext, mPrefsMap.getInt("home_layout_workspace_padding_horizontal", 0)));
+                    param.setResult(DisplayUtils.dp2px(mPrefsMap.getInt("home_layout_workspace_padding_horizontal", 0)));
                 }
             });
         }

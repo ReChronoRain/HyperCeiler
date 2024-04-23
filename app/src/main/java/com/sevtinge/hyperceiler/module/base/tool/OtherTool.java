@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.module.base.tool;
 
 import static com.sevtinge.hyperceiler.module.base.tool.HookTool.mPrefsMap;
-import static com.sevtinge.hyperceiler.utils.devicesdk.AppUtilsKt.isDarkMode;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.isDarkMode;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 
 import android.app.Application;

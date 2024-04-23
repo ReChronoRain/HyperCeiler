@@ -47,7 +47,7 @@ object BlurPersonalAssistant : BaseHook() {
                 after {
                 val scrollX = it.args[0] as Float
                     val fieldNames = ('a'..'z').map { name -> name.toString() }
-                    val window = BlurDraw.getValueByFields(it.thisObject, fieldNames) ?: return@after
+                    val window = getValueByFields(it.thisObject, fieldNames) ?: return@after
 
                     if (window.javaClass.name.contains("Window")) {
                         runCatching {

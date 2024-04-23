@@ -19,15 +19,14 @@
 package com.sevtinge.hyperceiler.module.hook.home.folder;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.DisplayUtils;
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils;
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -81,7 +80,7 @@ public class SmallFolderIconBlur extends BaseHook {
                 }
 
                 Context mContext = mIconImageView.getContext();
-                mFolderIconSize = DisplayUtils.dip2px(mContext, mPrefsMap.getInt("home_small_folder_icon_bg_size", 56));
+                mFolderIconSize = DisplayUtils.dp2px(mPrefsMap.getInt("home_small_folder_icon_bg_size", 56));
 
                 FrameLayout mIconContainer = (FrameLayout) mIconImageView.getParent();
                 FrameLayout mDockBlur = (FrameLayout) XposedHelpers.getAdditionalInstanceField(param.thisObject, "mDockBlur");
@@ -89,9 +88,7 @@ public class SmallFolderIconBlur extends BaseHook {
 
                 mIconImageView.setVisibility(View.GONE);
                 mDockBlur.addView(view);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    new BlurUtils(mDockBlur, "home_small_folder_icon_bg_custom");
-                }
+                new BlurUtils(mDockBlur, "home_small_folder_icon_bg_custom");
                 mIconContainer.addView(mDockBlur, 0);
                 FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mDockBlur.getLayoutParams();
                 lp.gravity = Gravity.CENTER;

@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setBlurRoundRect
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
-import com.sevtinge.hyperceiler.utils.devicesdk.*
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import de.robv.android.xposed.*
 
 object DockCustomNew : BaseHook() {

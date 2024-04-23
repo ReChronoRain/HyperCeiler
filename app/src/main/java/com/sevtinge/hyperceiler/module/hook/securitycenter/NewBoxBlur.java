@@ -26,8 +26,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.DisplayUtils;
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils;
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -57,10 +57,10 @@ public class NewBoxBlur extends BaseHook {
 
         hookAllConstructors(mDockLayout, new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 ViewGroup view = (ViewGroup) param.thisObject;
-                int paddingVertical = DisplayUtils.dip2px(view.getContext(), mPrefsMap.getInt("security_center_newbox_bg_padding_vertical", 10));
-                int paddingHorizontal = DisplayUtils.dip2px(view.getContext(), mPrefsMap.getInt("security_center_newbox_bg_padding_horizontal", 10));
+                int paddingVertical = DisplayUtils.dp2px(mPrefsMap.getInt("security_center_newbox_bg_padding_vertical", 10));
+                int paddingHorizontal = DisplayUtils.dp2px(mPrefsMap.getInt("security_center_newbox_bg_padding_horizontal", 10));
                 view.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
                 new BlurUtils(view, "security_center_newbox_bg_custom");
             }

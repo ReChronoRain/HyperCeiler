@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.*
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
 import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.DisplayUtils.*
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import de.robv.android.xposed.*
 import java.io.*
 import java.lang.reflect.*
@@ -93,7 +93,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
                             LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.MATCH_PARENT
                         )
-                    appNameViewParams.setMargins(0, dip2px(mContext, 10f), 0, 0)
+                    appNameViewParams.setMargins(0, dp2px(10f), 0, 0)
                     mAppNameView.layoutParams = appNameViewParams
                     mAppNameView.gravity = Gravity.CENTER
                     val linearLayout2 = LinearLayout(mContainerView.context)
@@ -101,16 +101,16 @@ object DisplayMoreApkInfoNew : BaseHook() {
                     linearLayout2.orientation = LinearLayout.VERTICAL
                     linearLayout2.gravity = Gravity.CENTER
                     linearLayout2.setPadding(
-                        dip2px(mContext, 18f),
-                        dip2px(mContext, 15f),
-                        dip2px(mContext, 18f),
-                        dip2px(mContext, 15f)
+                        dp2px(18f),
+                        dp2px(15f),
+                        dp2px(18f),
+                        dp2px(15f)
                     )
                     linearLayout2.layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT
                     ).also {
-                        it.setMargins(0, dip2px(mContext, 13f), 0, 0)
+                        it.setMargins(0, dp2px(13f), 0, 0)
                     }
                     linearLayout2.background =
                         modRes.getDrawable(

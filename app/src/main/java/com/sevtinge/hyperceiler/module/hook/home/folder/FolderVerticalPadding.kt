@@ -18,12 +18,11 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.folder
 
-import android.widget.GridView
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
-import com.sevtinge.hyperceiler.utils.findClass
-import com.sevtinge.hyperceiler.utils.hookAfterAllMethods
-import de.robv.android.xposed.XposedHelpers
+import android.widget.*
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
+import de.robv.android.xposed.*
 
 object FolderVerticalPadding : BaseHook() {
     override fun init() {

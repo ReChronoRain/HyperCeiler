@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.home.drawer;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.AppUtilsKt.dp2px;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
 
 import android.graphics.Color;
 import android.view.View;

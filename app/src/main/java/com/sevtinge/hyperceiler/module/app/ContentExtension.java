@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.contentextension.DoublePress;
@@ -39,6 +41,6 @@ public class ContentExtension extends BaseModule {
         initHook(new Taplus(), mPrefsMap.getBoolean("security_center_taplus"));
         initHook(new LinkOpenMode(), true);
         initHook(HorizontalContentExtension.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus_horizontal"));
-        initHook(UnlockTaplus.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
+        initHook(UnlockTaplus.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus") && isPad());
     }
 }

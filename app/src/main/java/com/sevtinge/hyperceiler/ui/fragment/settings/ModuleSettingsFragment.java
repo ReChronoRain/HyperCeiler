@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.settings;
 
-import static com.sevtinge.hyperceiler.utils.DisplayUtils.dip2px;
-import static com.sevtinge.hyperceiler.utils.DisplayUtils.sp2px;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.sp2px;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -185,7 +185,7 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
                 Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
                         insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
                 // 22dp + 2dp + 12sp + 10dp + 18dp + 0.5dp + inset.bottom + 4dp(?)
-                v.setPadding(inset.left, 0, inset.right, inset.bottom + dip2px(requireContext(), 56.5F) + sp2px(requireContext(), 12));
+                v.setPadding(inset.left, 0, inset.right, inset.bottom + dp2px(requireContext(), 56.5F) + sp2px(requireContext(), 12));
                 return insets;
             }
         });

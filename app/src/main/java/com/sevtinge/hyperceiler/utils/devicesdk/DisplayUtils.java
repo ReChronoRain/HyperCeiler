@@ -16,11 +16,13 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.utils;
+package com.sevtinge.hyperceiler.utils.devicesdk;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+
+import com.github.kyuubiran.ezxhelper.EzXHelper;
 
 public class DisplayUtils {
 
@@ -44,9 +46,19 @@ public class DisplayUtils {
         mHeightDps = (int) ((float) mHeightPixels / f);
     }
 
-    public static int dip2px(Context context, float dipValue) {
+    public static int dp2px(float dipValue) {
+        final float scale = EzXHelper.getAppContext().getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
+    }
+
+    public static int dp2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
+    }
+
+    public static int sp2px(float spValue) {
+        final float scale = EzXHelper.getAppContext().getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * scale + 0.5f);
     }
 
     public static int sp2px(Context context, float spValue) {
@@ -54,8 +66,8 @@ public class DisplayUtils {
         return (int) (spValue * scale + 0.5f);
     }
 
-    public static int px2dip(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
+    public static int px2dp(float pxValue) {
+        final float scale = EzXHelper.getAppContext().getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 }

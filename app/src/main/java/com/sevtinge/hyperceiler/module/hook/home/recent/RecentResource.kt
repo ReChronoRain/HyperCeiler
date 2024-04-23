@@ -18,17 +18,15 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.recent
 
-import android.app.Application
-import android.content.Context
-import android.content.res.Resources
-import com.github.kyuubiran.ezxhelper.EzXHelper
+import android.app.*
+import android.content.*
+import android.content.res.*
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.ResourcesHookData
-import com.sevtinge.hyperceiler.utils.ResourcesHookMap
-import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
-import com.sevtinge.hyperceiler.utils.hookBeforeMethod
-import de.robv.android.xposed.XC_MethodHook
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
+import de.robv.android.xposed.*
 
 object RecentResource : BaseHook() {
     private val hookMap = ResourcesHookMap<String, ResourcesHookData>()

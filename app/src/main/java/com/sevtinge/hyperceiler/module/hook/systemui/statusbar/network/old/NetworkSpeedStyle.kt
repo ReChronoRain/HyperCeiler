@@ -23,7 +23,7 @@ import android.util.*
 import android.view.*
 import android.widget.*
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.utils.devicesdk.*
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 
 object NetworkSpeedStyle : BaseHook() {
     private val fontSize by lazy {
