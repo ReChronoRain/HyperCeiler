@@ -30,10 +30,10 @@ public class AllAppsContainerViewSuperBlur extends BaseHook {
                         view.getLayoutParams().height = FrameLayout.LayoutParams.MATCH_PARENT;
                         view.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
                         view.setBackgroundColor(mPrefsMap.getInt("home_drawer_blur_super_bg_color", -1));
-                        MiBlurUtils.setContainerPassBlur(view, 100);
+                        MiBlurUtils.setContainerPassBlur(view, 200);
                         MiBlurUtils.setMiViewBlurMode(view, 3);
                         MiBlurUtils.clearMiBackgroundBlendColor(view);
-                        MiBlurUtils.addMiBackgroundBlendColor(view, Color.argb(200, 0, 0, 0), 103);
+                        MiBlurUtils.addMiBackgroundBlendColor(view, Color.argb(255, 0, 0, 0), 103);
                         MiBlurUtilsKt.INSTANCE.setBlurRoundRect(frameLayout, dp2px(
                                 mPrefsMap.getInt("home_drawer_blur_super_radius", 30)));
                         appsView.addView(frameLayout, 0);
