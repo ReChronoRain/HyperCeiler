@@ -1083,6 +1083,7 @@
     <string name="home_drawer_editor">Ocultar botão Editar</string>
     <string name="home_drawer_editor_desc">Remover o botão Editar da guia de apps na gaveta</string>
     <string name="home_drawer_blur">Ativar blur de exibição de contêiner de todos os apps</string>
+    <string name="home_drawer_blur_super">Texturas avançadas difuso na gaveta</string>
     <string name="home_drawer_blur_desc">Por favor, defina a transparência do fundo da Gaveta de apps para 100% para usar este recurso.</string>
     <string name="home_drawer_pinyin">Organizado em ordem Pinyin</string>
     <string name="home_drawer_pinyin_more">Quando o idioma não é o Chinês Simplificado, os apps na gaveta ainda são organizados de acordo com o Pinyin.</string>
@@ -1353,6 +1354,7 @@
     <string name="security_center_unlock_smart_charge_title_summary">Funções completas:\n- Proteção da bateria -&gt; Proteção contra quebra de carga de navegação\n- Mais recursos de bateria -&gt; Emergência de carga baixa</string>
     <string name="security_center_super_wireless_charge">Desbloquear Carregamento rápido sem fio</string>
     <string name="security_center_blur_model">Modelo do blur da barra lateral</string>
+    <string name="security_center_blur_model_super">Texturas avançadas</string>
     <string name="security_center_invert_color">Ícone invertido</string>
     <string name="security_center_invert_color_summary">Inverta as cores selecionadas dos ícones em alguns planos de fundo para melhor visibilidade.\nEsta função pode ter inversões de cores anormais. Por favor, ative-a conforme apropriado.</string>
     <string name="security_center_blurradius">Valor do blur da barra lateral</string>
