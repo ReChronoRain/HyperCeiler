@@ -1089,6 +1089,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_drawer_editor">Xoá nút \"Sửa\"</string>
     <string name="home_drawer_editor_desc">Xoá nút \"Sửa\" trong ngăn kéo</string>
     <string name="home_drawer_blur">Bật chế độ làm mờ Ngăn chứa ứng dụng</string>
+    <string name="home_drawer_blur_super">Ngăn kéo mờ họa tiết nâng cao</string>
     <string name="home_drawer_blur_desc">Vui lòng đặt độ trong suốt của nền ngăn kéo ứng dụng thành 100% để sử dụng tính năng này</string>
     <string name="home_drawer_pinyin">Sắp xếp thứ tự theo bính âm</string>
     <string name="home_drawer_pinyin_more">Khi ngôn ngữ không phải là tiếng Trung giản thể, các ứng dụng trong ngăn vẫn được sắp xếp theo bính âm</string>
@@ -1366,6 +1367,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_unlock_smart_charge_title_summary">Các chức năng đã hoàn thiện:\n-Bảo vệ pin-Bảo vệ sạc khi ngắt kết nối điều hướng\n-Các chức năng khác của pin-Sạc pin khẩn cấp khi pin yếu</string>
     <string name="security_center_super_wireless_charge">Mở khóa Sạc không dây siêu nhanh</string>
     <string name="security_center_blur_model">Cài đặt nền Thanh bên toàn cầu</string>
+    <string name="security_center_blur_model_super">Họa tiết nâng cao</string>
     <string name="security_center_invert_color">Đảo màu biểu tượng</string>
     <string name="security_center_invert_color_summary">Đảo ngược màu đã chọn của các biểu tượng trong một số nền nhất định để đạt được hiệu ứng hình ảnh tốt hơn\nChức năng này có thể gây ra hiện tượng đảo màu bất thường, vui lòng bật chức năng này nếu thích hợp</string>
     <string name="security_center_blurradius">Độ mờ nền thanh bên</string>

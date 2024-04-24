@@ -264,6 +264,9 @@
     <string name="control_center_sunshine_mode_one">系統預設模式</string>
     <string name="control_center_sunshine_mode_two">強制最大亮度</string>
     <string name="system_framework_other_rotation_button_3">強制</string>
+    <string name="guided_access_screen_area_full">正常啟用</string>
+    <string name="guided_access_screen_area_left">左側啟用</string>
+    <string name="guided_access_screen_area_right">右側啟用</string>
     <string name="security_center_flash_light_default">關閉</string>
     <string name="security_center_flash_light_1">預設寫入模式</string>
     <string name="security_center_flash_light_2">寫入模式一</string>
@@ -370,6 +373,9 @@
     <string name="system_framework_disable_72h_verify">禁用每 72 小時驗證鎖定螢幕密碼</string>
     <string name="system_framework_disable_verify_can_ve_disabled">停用驗證是否可以禁用</string>
     <string name="system_framework_allow_all_dark_mode">允許所有應用程式使用深色模式</string>
+    <string name="system_framework_background_blur_supported">強制開啟高級材質</string>
+    <string name="system_framework_background_blur_toast">快顯通知高級材質</string>
+    <string name="system_framework_background_blur_supported_more">開啟此功能時，請打開系統設定中的高級材質開關，系統可能需要重新啟動兩次</string>
     <string name="system_framework_disablt_miuilite_check">停用 MIUI Lite 檢查</string>
     <string name="system_framework_allow_manage_all_notifications">允許管理所有通知</string>
     <string name="system_framework_quick_screenshot">快速截圖</string>
@@ -806,12 +812,14 @@
     <string name="system_ui_disable_bluetooth_restrict">禁用藍牙臨時關閉</string>
     <string name="system_ui_disable_miui_multi_win_switch">隱藏快捷視窗按鈕</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">隱藏常駐的三個小點，包括小窗應用程式頂部和 HyperOS for Pad 橫向螢幕下頂部中間的快速視窗按鈕（不影響功能使用）</string>
+    <string name="system_ui_remove_miui_multi_win_switch">隱藏快捷視窗按鈕</string>
     <string name="system_ui_disable_bottombar">隱藏小窗應用程式的手勢提示線</string>
     <string name="system_ui_others_pct_title">數據顯示</string>
     <string name="system_showpct_title">顯示亮度百分比</string>
     <string name="system_cc_volume_showpct_title">顯示聲音百分比</string>
     <string name="system_ui_others_showpct_top">頂部邊距</string>
     <string name="system_ui_others_showpct_top_desc">距離螢幕頂部的百分比距離</string>
+    <string name="system_showpct_use_blur">使用模糊</string>
     <string name="system_ui_notification_freeform">更多應用程式通知欄下拉打開小窗應用程式</string>
     <string name="system_ui_notification_freeform_desc">可能不支援 Mi Push 推送的通知</string>
     <string name="system_ui_monet_title">主題色</string>
@@ -897,7 +905,7 @@
     <string name="updater_miui_version_desc">僅對系统更新修改，可在一定程度上遮罩系统更新</string>
     <string name="updater_device">偽裝機型</string>
     <string name="updater_device_desc">輸入目標設備代號以指定設備，可用於獲取其他機型的 ROM 包，此功能極度危險</string>
-    <string name="updater_diable_dialog">移除 “開啟自動更新” 對話框</string>
+    <string name="updater_diable_dialog">移除「開啟自動更新」對話框</string>
     <!--Permissions-->
     <string name="lbe">權限管理服務</string>
     <string name="clipboard">剪貼簿</string>
@@ -916,6 +924,7 @@
     <string name="aod">萬象息屏</string>
     <string name="aod_hyperos">隨顯屏幕與鎖定屏幕編輯</string>
     <string name="aod_unlock_always_on_display">解鎖息屏顯示時長限制</string>
+    <string name="aod_unlock_always_on_display_more">重啟系統介面即可完全啟用此功能</string>
     <string name="aod_unlock_aon">解鎖萬象待機智慧顯示</string>
     <!--Taplus-->
     <string name="content_extension">傳送門</string>
@@ -1074,6 +1083,7 @@
     <string name="home_drawer_editor">移除「編輯」按鈕</string>
     <string name="home_drawer_editor_desc">移除抽屜欄內應用程式分頁的「編輯」按鈕</string>
     <string name="home_drawer_blur">抽屜模糊</string>
+    <string name="home_drawer_blur_super">抽屜模糊高級材質</string>
     <string name="home_drawer_blur_desc">請將應用程式抽屜的背景透明度設定為 100% 以使用此功能</string>
     <string name="home_drawer_pinyin">按拼音順序排列</string>
     <string name="home_drawer_pinyin_more">非簡體中文語言時抽屜內應用程式仍按照拼音排列</string>
@@ -1156,6 +1166,7 @@
     <string name="home_dock_slide_up_only_show_dock_desc">第二次向上滑動，跳到最近的任務</string>
     <string name="home_dock_hide_dock">隱藏 Dock</string>
     <string name="home_dock_hide_dock_desc">開啟後「向上滑動僅顯示 Dock」將失效。</string>
+    <string name="home_dock_bg_color">背景顏色</string>
     <string name="home_other">其他</string>
     <string name="home_other_shortcut_title">快捷選單</string>
     <string name="home_other_home_mode">桌面模式</string>
@@ -1179,6 +1190,8 @@
     <string name="home_large_icon_corner_radius">大圖示圓角</string>
     <string name="home_other_app_icon_hide">桌面快捷方式管理</string>
     <string name="home_other_toast_slide_again">不再提示 「請再次觸摸」</string>
+    <string name="system_framework_guided_access_status">應用程式鎖定時隱藏狀態欄</string>
+    <string name="system_framework_guided_access_status_more">退出方式將變更為長按電源按鈕，狀態欄將隱藏，直到退出鎖定模式</string>
     <string name="system_framework_guided_access_sc">固定時禁止叫出側邊欄</string>
     <string name="system_framework_guided_access_screen">解除固定時跳轉鎖定螢幕</string>
     <string name="system_framework_guided_access">引導使用模式</string>
@@ -1295,6 +1308,8 @@
     <string name="security_center_flash_light_more">啓用手電筒時通過拖動亮度條來控制手電筒亮度</string>
     <string name="security_center_get_number">管理應用程式取得手機號碼並一鍵登入</string>
     <string name="security_center_applock_pin_scramble">應用程式鎖亂序 PIN</string>
+    <string name="security_center_power_saver">妙享不省電</string>
+    <string name="security_center_power_saver_desc">透過小米妙享中心投影時停用省電模式</string>
     <string name="security_center_applock_pin_scramble_desc">隨機更改應用程式鎖 PIN 鍵盤順序</string>
     <string name="security_center_beauty_light_auto">解鎖智慧調節補光燈亮度</string>
     <string name="security_center_beauty_face">解鎖視訊通話美肌</string>
@@ -1318,7 +1333,7 @@
     <string name="security_disable_app_title">應用程式狀態控制</string>
     <string name="security_disable_app_summary">允許從應用程式資訊頁面禁用任何應用程式</string>
     <string name="security_disable_app_url_title">應用程式打開連結管理</string>
-    <string name="security_disable_app_url_summary">將應用程式詳情中 “消除預設操作” 更改為 “預設打開” 設置</string>
+    <string name="security_disable_app_url_summary">將應用程式詳情中「消除預設操作」更改為「預設為打開」設定</string>
     <string name="app_link_open_always">允許應用程式打開支援的連結</string>
     <string name="app_link_open_never">不允許應用程式打開連結</string>
     <string name="open_by_default">預設打開</string>
@@ -1339,6 +1354,7 @@
     <string name="security_center_unlock_smart_charge_title_summary">已補全功能：\n- 電池保護-導航斷充保護\n- 更多電池功能-低電急充</string>
     <string name="security_center_super_wireless_charge">解鎖極速無線充電模式</string>
     <string name="security_center_blur_model">全域側邊欄背景設定</string>
+    <string name="security_center_blur_model_super">高級材質</string>
     <string name="security_center_invert_color">圖示反色</string>
     <string name="security_center_invert_color_summary">對某些背景下的圖示選中顏色進行反色，以達到更好的可視效果\n該功能可能會有反色異常的情況，請酌情開啟</string>
     <string name="security_center_blurradius">全域側邊欄背景模糊程度</string>
@@ -1483,7 +1499,7 @@
     <string name="various_mipad_input_close_magic_title">關閉 Magic Pointer</string>
     <string name="various_mipad_input_close_magic_desc">移除 Xiaomi Pad 系統破爛的圓形滑鼠指針，並恢復為安卓原生的滑鼠指針</string>
     <string name="various_mipad_input_restore_esc_title">恢復 ESC 鍵功能</string>
-    <string name="various_mipad_input_restore_esc_desc">恢復被 Xiaomi Pad 系統強硬射為 “返回” 功能的 ESC 鍵</string>
+    <string name="various_mipad_input_restore_esc_desc">恢復被 Xiaomi Pad 系統強制映射 ESC 鍵為「返回」功能</string>
     <string name="various_mipad_input_disable_bluetooth_title">去除觸控筆藍牙限制</string>
     <string name="various_mipad_input_disable_bluetooth_desc">無需連結小米靈感觸控筆的藍牙即可使用相容的觸控筆</string>
     <string name="various_mipad_input_bluetooth_version_title">驅動版本</string>
@@ -1586,6 +1602,20 @@
     <string name="help_cant_see_apps_switch_desc">您仍然可以在「設定-設定主頁入口」中找到該頁面。重新啟動應用程式即可套用。</string>
     <string name="headtip_warn_not_offical_rom">您所使用的 ROM 來源可能不是屬於小米官方版本，部分功能可能無法使用，具體請聯絡您所使用的 ROM 開發者。</string>
     <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 Re.chronoRain 的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
+    <string name="safe_mode_title">警告</string>
+    <string name="safe_mode_desc">由於多次閃退已進入安全模式，且 HyperCeiler 功能已暫時停用。 \n按一下「確定」取消，按一下「取消」稍後處理。</string>
+    <string name="safe_mode_history">查看異常記錄</string>
+    <string name="safe_mode_cancel">停用安全模式</string>
+    <string name="safe_mode_ok">稍後再處理</string>
+    <string name="safe_mode_later_title">提示</string>
+    <string name="safe_mode_later_desc">仍處於安全模式且 HyperCeiler 功能已停用。停用安全模式？</string>
+    <string name="safe_mode_recorder_title">異常記錄</string>
+    <string name="safe_mode_recorder_file">檔案</string>
+    <string name="safe_mode_recorder_class">種類</string>
+    <string name="safe_mode_recorder_method">分法</string>
+    <string name="safe_mode_recorder_line">行</string>
+    <string name="safe_mode_recorder_msg">異常訊息</string>
+    <string name="safe_mode_recorder_st">堆疊追蹤</string>
     <string name="tip_default">提示：這是預設提示。如果你能看到我，則表示 HyperCeiler 有問題，請及時有效地向開發者報告。</string>
     <string name="preference_recommend_tip">在找什麼嗎？</string>
 </resources>
