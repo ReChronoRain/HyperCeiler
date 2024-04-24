@@ -23,7 +23,6 @@ import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
@@ -246,11 +245,11 @@ public abstract class BaseXposedInit {
     }
 
     private boolean isOtherRestrictions(String pkg) {
-        switch (pkg) {
-            case "com.lbe.security.miui" -> {
-                return isMoreHyperOSVersion(1f);
-            }
-        }
+        // switch (pkg) {
+        //     case "com.lbe.security.miui" -> {
+        //         return isMoreHyperOSVersion(1f);
+        //     }
+        // }
         return false;
     }
 

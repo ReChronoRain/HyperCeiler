@@ -16,19 +16,24 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.app;
+package com.sevtinge.hyperceiler.module.hook.lbe;
 
-import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
-import com.sevtinge.hyperceiler.module.hook.lbe.AutoStart;
-import com.sevtinge.hyperceiler.module.hook.lbe.DisableClipboardTip;
+import android.content.Context;
 
-@HookExpand(pkg = "com.lbe.security.miui", isPad = false, tarAndroid = 33)
-public class Lbe extends BaseModule {
+import com.sevtinge.hyperceiler.module.base.BaseHook;
 
+public class AutoStart extends BaseHook {
     @Override
-    public void handleLoadPackage() {
-        initHook(new AutoStart(), mPrefsMap.getBoolean("lbe_auto_start"));
-        initHook(DisableClipboardTip.INSTANCE, mPrefsMap.getBoolean("lbe_clipboard_tip_toast"));
+    public void init() throws NoSuchMethodException {
+        findAndHookMethod("com.miui.privacy.autostart.AutoRevokePermissionManager",
+                "lambda$startScheduleASCheck$1",
+                Context.class, boolean.class,
+                new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        param.setResult(null);
+                    }
+                }
+        );
     }
 }

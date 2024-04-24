@@ -987,6 +987,7 @@
     <string name="lbe">权限管理服务</string>
     <string name="clipboard">剪切板</string>
     <string name="lbe_disable_clipboard_tip">隐藏 Toast 提示</string>
+    <string name="lbe_auto_start">禁止自动关闭自启动</string>
     <string name="lbe_clipboard_tip_toast">使用 Toast 提示读取剪贴板</string>
     <string name="lbe_clipboard_tip_toast_desc">隐藏对话框并允许应用默认读取剪切板</string>
     <string name="lbe_clipboard_tip">读取了剪贴板</string>

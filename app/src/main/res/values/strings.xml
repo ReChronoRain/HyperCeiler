@@ -964,6 +964,7 @@
     <string name="lbe">Permissions</string>
     <string name="clipboard">Clipboard</string>
     <string name="lbe_disable_clipboard_tip">Hide Toast Tips</string>
+    <string name="lbe_auto_start">Auto-shutdown of auto-start is prohibited</string>
     <string name="lbe_clipboard_tip_toast">Read the clipboard using Toast hints</string>
     <string name="lbe_clipboard_tip_toast_desc">Hide the dialog and allow the app to read the clipboard by default</string>
     <string name="lbe_clipboard_tip">Read clipboard</string>
