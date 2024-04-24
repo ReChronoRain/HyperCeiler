@@ -45,6 +45,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.HookEntry;
 import com.sevtinge.hyperceiler.module.hook.systemframework.LinkTurboToast;
 import com.sevtinge.hyperceiler.module.hook.systemframework.MultiFreeFormSupported;
 import com.sevtinge.hyperceiler.module.hook.systemframework.PackagePermissions;
+import com.sevtinge.hyperceiler.module.hook.systemframework.PstedClipboard;
 import com.sevtinge.hyperceiler.module.hook.systemframework.QuickScreenshot;
 import com.sevtinge.hyperceiler.module.hook.systemframework.RemoveSmallWindowRestrictions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.RotationButton;
@@ -119,6 +120,7 @@ public class SystemFrameworkT extends BaseModule {
         initHook(NoAccessDeviceLogsRequest.INSTANCE, mPrefsMap.getBoolean("various_disable_access_device_logs"));
         initHook(new DisableMiuiLite(), mPrefsMap.getBoolean("system_framework_disablt_miuilite_check"));
         initHook(new HookEntry(), mPrefsMap.getBoolean("system_framework_hook_entry"));
+        initHook(new PstedClipboard(), mPrefsMap.getBoolean("system_framework_posted_clipboard"));
         // 允许应用后台读取剪切板
         initHook(new ClipboardWhitelist(), mPrefsMap.getBoolean("system_framework_clipboard_whitelist"));
 

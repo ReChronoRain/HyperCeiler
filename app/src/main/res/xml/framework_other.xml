@@ -86,8 +86,7 @@
             android:key="prefs_key_system_framework_guided_access_screen_int"
             android:title="@string/system_framework_guided_access_screen"
             app:entries="@array/guided_access_screen_area"
-            app:entryValues="@array/guided_access_screen_area_value"
-            />
+            app:entryValues="@array/guided_access_screen_area_value" />
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="prefs_key_system_framework_guided_access"
@@ -130,6 +129,11 @@
             android:defaultValue="false"
             android:key="prefs_key_system_framework_disablt_miuilite_check"
             android:title="@string/system_framework_disablt_miuilite_check" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_posted_clipboard"
+            android:title="@string/system_framework_posted_clipboard" />
 
         <SwitchPreference
             android:defaultValue="false"

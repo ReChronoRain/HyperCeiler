@@ -434,6 +434,7 @@
     <string name="system_framework_background_blur_toast">Toast 高级材质</string>
     <string name="system_framework_background_blur_supported_more">开启此功能后请在系统设置中控制高级材质开关，可能需要重启两次系统</string>
     <string name="system_framework_disablt_miuilite_check">禁用 MIUI Lite 检查</string>
+    <string name="system_framework_posted_clipboard">禁止显示剪贴板粘贴 Toast</string>
     <string name="system_framework_allow_manage_all_notifications">允许管理所有通知</string>
     <string name="system_framework_quick_screenshot">秒截图</string>
     <string name="system_framework_quick_screenshot_desc">禁用截图延迟</string>
