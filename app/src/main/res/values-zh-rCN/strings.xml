@@ -735,6 +735,8 @@
 
     <string name="system_ui_statusbar_clock_show">显示</string>
     <string name="system_ui_statusbar_clock_big_bold">通知中心大时钟加粗</string>
+    <string name="system_ui_clock_is_show_sec">秒数刷新器</string>
+    <string name="system_ui_clock_is_show_sec_desc">如果要显示秒数的话，请记得打开\n显示秒数会增加不必要的性能开销，请酌情使用</string>
     <string name="system_ui_statusbar_clock_layout_s">状态栏时钟</string>
     <string name="system_ui_statusbar_clock_layout_b">通知中心大时钟</string>
     <string name="system_ui_statusbar_clock_layout_n">通知中心迷你时钟</string>

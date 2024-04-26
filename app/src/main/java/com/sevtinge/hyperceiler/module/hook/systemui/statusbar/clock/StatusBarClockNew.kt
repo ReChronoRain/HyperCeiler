@@ -96,6 +96,9 @@ object StatusBarClockNew : BaseHook() {
     private val clockAlign by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_1", 0)
     }
+    private val isShowSec by lazy {
+        mPrefsMap.getBoolean("system_ui_clock_is_show_sec")
+    }
 
     // 时钟格式
     private val getFormatS = mPrefsMap.getString("system_ui_statusbar_clock_editor_s", "HH:mm:ss")
@@ -126,7 +129,7 @@ object StatusBarClockNew : BaseHook() {
                     if (getClockStyle != 0 && miuiClockName == "clock")
                         miuiClock.isSingleLine = false
 
-                    if (isSec) {
+                    if (isSec && isShowSec) {
                         val d: Method = miuiClock.javaClass.getDeclaredMethod("updateTime")
                         val r = Runnable {
                             d.isAccessible = true

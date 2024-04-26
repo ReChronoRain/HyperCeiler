@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.module.hook.personalassistant
 
 import android.graphics.drawable.*
 import android.view.*
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
@@ -43,24 +43,22 @@ object BlurPersonalAssistant : BaseHook() {
                 addUsingStringsEquals("ScrollStateManager")
             }
         }.forEach { methodData ->
-            methodData.getMethodInstance(lpparam.classLoader).createHook {
-                after {
+            methodData.getMethodInstance(lpparam.classLoader).createAfterHook {
                 val scrollX = it.args[0] as Float
-                    val fieldNames = ('a'..'z').map { name -> name.toString() }
-                    val window = getValueByFields(it.thisObject, fieldNames) ?: return@after
+                val fieldNames = ('a'..'z').map { name -> name.toString() }
+                val window = getValueByFields(it.thisObject, fieldNames) ?: return@createAfterHook
 
-                    if (window.javaClass.name.contains("Window")) {
-                        runCatching {
-                            window as Window
-                            val blurRadius = (scrollX * blurRadius).toInt()
-                            if (abs(blurRadius - lastBlurRadius) > 2) {
-                                window.setBackgroundBlurRadius(blurRadius)
-                                lastBlurRadius = blurRadius
-                            }
-                            val backgroundColorDrawable = ColorDrawable(backgroundColor)
-                            backgroundColorDrawable.alpha = (scrollX * 255).toInt()
-                            window.setBackgroundDrawable(backgroundColorDrawable)
+                if (window.javaClass.name.contains("Window")) {
+                    runCatching {
+                        window as Window
+                        val blurRadius = (scrollX * blurRadius).toInt()
+                        if (abs(blurRadius - lastBlurRadius) > 2) {
+                            window.setBackgroundBlurRadius(blurRadius)
+                            lastBlurRadius = blurRadius
                         }
+                        val backgroundColorDrawable = ColorDrawable(backgroundColor)
+                        backgroundColorDrawable.alpha = (scrollX * 255).toInt()
+                        window.setBackgroundDrawable(backgroundColorDrawable)
                     }
                 }
             }

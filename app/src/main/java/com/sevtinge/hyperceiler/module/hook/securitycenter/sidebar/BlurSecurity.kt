@@ -29,8 +29,11 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.blur.*
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.utils.color.*
 import de.robv.android.xposed.*
 
@@ -107,19 +110,18 @@ object BlurSecurity : BaseHook() {
                                 view.background =
                                     createBlurDrawable(view, blurRadius, 40, backgroundColor)
                             } else {
-                                view.setBackgroundColor(backgroundColor)
-                                MiBlurUtils.clearMiBackgroundBlendColor(view)
-                                MiBlurUtils.setMiViewBlurMode(view, 1)
-                                MiBlurUtils.addMiBackgroundBlendColor(
-                                    view,
-                                    Color.argb(255, 0, 0, 0),
-                                    103
-                                )
+                                view.apply {
+                                    setBackgroundColor(backgroundColor)
+                                    clearMiBackgroundBlendColor()
+                                    setMiViewBlurMode(1)
+                                    setMiBackgroundBlurRadius(40)
+                                    addMiBackgroundBlendColor(Color.argb(255, 0, 0, 0), 103)
+                                }
                             }
                         }
 
                         override fun onViewDetachedFromWindow(view: View) {
-                            view.background = null
+                            if (!blurSuper) view.background = null
                         }
                     })
             }
@@ -148,14 +150,13 @@ object BlurSecurity : BaseHook() {
                                         backgroundColor
                                     )
                             } else {
-                                view.setBackgroundColor(backgroundColor)
-                                MiBlurUtils.clearMiBackgroundBlendColor(view)
-                                MiBlurUtils.setMiViewBlurMode(view, 1)
-                                MiBlurUtils.addMiBackgroundBlendColor(
-                                    view,
-                                    Color.argb(255, 0, 0, 0),
-                                    103
-                                )
+                                view.apply {
+                                    setBackgroundColor(backgroundColor)
+                                    clearMiBackgroundBlendColor()
+                                    setMiViewBlurMode(1)
+                                    setMiBackgroundBlurRadius(40)
+                                    addMiBackgroundBlendColor(Color.argb(255, 0, 0, 0), 103)
+                                }
                             }
                             if (shouldInvertColor && isInvertColor) {
                                 invertViewColor(gameContentLayout)
@@ -196,7 +197,7 @@ object BlurSecurity : BaseHook() {
                         override fun onViewDetachedFromWindow(view: View) {
                             val viewPaernt = view.parent as ViewGroup
                             val gameContentLayout = viewPaernt.parent as ViewGroup
-                            gameContentLayout.background = null
+                            if (!blurSuper) gameContentLayout.background = null
                         }
                     })
             }
@@ -220,16 +221,19 @@ object BlurSecurity : BaseHook() {
                         view.background =
                             createBlurDrawable(view, blurRadius, 40, backgroundColor)
                     } else {
-                        view.setBackgroundColor(backgroundColor)
-                        MiBlurUtils.clearMiBackgroundBlendColor(view)
-                        MiBlurUtils.setMiViewBlurMode(view, 1)
-                        MiBlurUtils.addMiBackgroundBlendColor(view, Color.argb(255, 0, 0, 0), 103)
+                        view.apply {
+                            setBackgroundColor(backgroundColor)
+                            clearMiBackgroundBlendColor()
+                            setMiViewBlurMode(1)
+                            setMiBackgroundBlurRadius(40)
+                            addMiBackgroundBlendColor(Color.argb(255, 0, 0, 0), 103)
+                        }
                     }
                     if (shouldInvertColor && isInvertColor) invertViewColor(mainContent)
                 }
 
                 override fun onViewDetachedFromWindow(view: View) {
-                    view.background = null
+                    if (!blurSuper) view.background = null
                 }
             })
         }
