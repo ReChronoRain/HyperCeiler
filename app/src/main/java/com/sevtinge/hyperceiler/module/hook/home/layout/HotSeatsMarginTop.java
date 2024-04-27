@@ -36,7 +36,7 @@ public class HotSeatsMarginTop extends BaseHook {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 Context context = (Context) param.args[0];
-                param.setResult(DisplayUtils.dp2px(mPrefsMap.getInt("home_layout_hotseats_margin_top", 60)));
+                param.setResult(DisplayUtils.dp2px(context, mPrefsMap.getInt("home_layout_hotseats_margin_top", 60)));
             }
         });
     }

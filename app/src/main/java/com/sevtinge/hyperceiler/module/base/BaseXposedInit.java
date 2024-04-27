@@ -185,8 +185,9 @@ public abstract class BaseXposedInit {
                 String mPkg = hookExpand.pkg();
                 boolean isPad = hookExpand.isPad();
                 int android = hookExpand.tarAndroid();
-                boolean skip = hookExpand.skip();
-                if (skip) continue;
+                // 等待改写...
+                // boolean skip = hookExpand.skip();
+                // if (skip) continue;
                 if (mPkgName.equals(mPkg)) {
                     // 需要限制安卓版本和设备取消这些注释，并删除下面的invoke方法。
                     // if (!isAndroidVersion(android)) continue;
@@ -207,7 +208,7 @@ public abstract class BaseXposedInit {
     }
 
     private boolean invoke(LoadPackageParam lpparam, Class<?> clzz) {
-        Object newInstance = null;
+        Object newInstance;
         try {
             newInstance = clzz.newInstance();
             Method[] methods = clzz.getMethods();

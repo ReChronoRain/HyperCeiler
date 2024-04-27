@@ -36,7 +36,7 @@ public class SearchBarMarginBottom extends BaseHook {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 Context context = (Context) param.args[0];
-                param.setResult(DisplayUtils.dp2px(mPrefsMap.getInt("home_layout_searchbar_margin_bottom", 0)));
+                param.setResult(DisplayUtils.dp2px(context, mPrefsMap.getInt("home_layout_searchbar_margin_bottom", 0)));
             }
         });
     }
