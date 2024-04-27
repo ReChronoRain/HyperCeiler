@@ -41,6 +41,7 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageOverlayPer
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageUnknownAppSources;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManagerAccessibilityPermission;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.RunningServices;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.ShowAutoUIMode;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnLockAreaScreenshot;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockMaxFps;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockNeverSleepScreen;
@@ -60,10 +61,11 @@ public class SystemSettingsT extends BaseModule {
     public void handleLoadPackage() {
         initHook(new HyperCeilerSettings(), mPrefsMap.getStringAsInt("settings_icon", 0) != 0);
 
+        initHook(new ShowAutoUIMode(), mPrefsMap.getBoolean("system_settings_unlock_ui_mode"));
         initHook(new LinkTurbo(), mPrefsMap.getBoolean("system_settings_linkturbo"));
         initHook(new RunningServices(), true); // 显示原生内存信息
         initHook(new UsbModeChoose(), mPrefsMap.getStringAsInt("system_settings_usb_mode_choose", 0) != 0
-            || mPrefsMap.getBoolean("system_settings_usb_mode"));
+                || mPrefsMap.getBoolean("system_settings_usb_mode"));
         initHook(new ViewWifiPasswordHook(), mPrefsMap.getBoolean("system_settings_safe_wifi"));
         initHook(new VoipAssistantController(), mPrefsMap.getBoolean("system_settings_voip_assistant_controller"));
         initHook(new AddMiuiPlusEntry(), mPrefsMap.getBoolean("mirror_unlock_miui_plus"));

@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
@@ -45,6 +45,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
     SwitchPreference mNoveltyHaptic; // 新版触感调节页面
     SwitchPreference mPad; // 解锁平板分区
     SwitchPreference mNotice; // 重要通知程度
+    SwitchPreference mUiMode;
     RecommendPreference mRecommend;
 
     @Override
@@ -55,8 +56,8 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
     @Override
     public View.OnClickListener addRestartListener() {
         return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-            getResources().getString(R.string.system_settings),
-            "com.android.settings"
+                getResources().getString(R.string.system_settings),
+                "com.android.settings"
         );
     }
 
@@ -68,7 +69,9 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
         mNoveltyHaptic = findPreference("prefs_key_system_settings_novelty_haptic");
         mPad = findPreference("prefs_key_system_settings_enable_pad_area");
         mNotice = findPreference("prefs_key_system_settings_more_notification_settings");
+        mUiMode = findPreference("prefs_key_system_settings_unlock_ui_mode");
 
+        mUiMode.setVisible(isPad());
         mHighMode.setVisible(!isAndroidVersion(30));
         mAreaScreenshot.setVisible(isAndroidVersion(30));
         mNewNfc.setVisible((isMoreMiuiVersion(14f) || isMoreHyperOSVersion(1f)) && isMoreAndroidVersion(33));
