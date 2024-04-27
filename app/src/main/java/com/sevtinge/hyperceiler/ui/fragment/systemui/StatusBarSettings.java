@@ -63,7 +63,7 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
         mDeviceStatus = findPreference("prefs_key_system_ui_status_bar_device");
         mToastStatus = findPreference("prefs_key_system_ui_status_bar_toast");
         mStatusBarLayout = findPreference("pref_key_system_ui_statusbar_layout");
-        mDeviceStatus.setVisible(!isHyperOSVersion(1f) && !isMoreAndroidVersion(34));
+        mDeviceStatus.setVisible(!isHyperOSVersion(1f) || !isMoreAndroidVersion(34));
         mToastStatus.setVisible(isHyperOSVersion(1f));
 
         if (isMoreHyperOSVersion(1f)) {

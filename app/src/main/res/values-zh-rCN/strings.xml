@@ -740,8 +740,7 @@
     <string name="system_ui_statusbar_clock_layout_s">状态栏时钟</string>
     <string name="system_ui_statusbar_clock_layout_b">通知中心大时钟</string>
     <string name="system_ui_statusbar_clock_layout_n">通知中心迷你时钟</string>
-    <string name="system_ui_statusbar_clock_layout_n_desc">此项目还包含对横屏通知中心时钟的修改</string>
-    <string name="system_ui_statusbar_clock_editor_s">状态栏时钟格式</string>
+   <string name="system_ui_statusbar_clock_editor_s">状态栏时钟格式</string>
     <string name="system_ui_statusbar_clock_editor_n">通知中心迷你时钟格式</string>
     <string name="system_ui_statusbar_clock_style_f">状态栏时钟排列</string>
 

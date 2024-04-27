@@ -671,7 +671,6 @@
     <string name="system_ui_statusbar_clock_layout_s">ステータスバーの時計</string>
     <string name="system_ui_statusbar_clock_layout_b">通知バーの大きな時計</string>
     <string name="system_ui_statusbar_clock_layout_n">通知バーのミニ時計</string>
-    <string name="system_ui_statusbar_clock_layout_n_desc">このプロジェクトは水平方向の通知バー時計への変更も含んでいます</string>
     <string name="system_ui_statusbar_clock_editor_s">ステータスバーの時計の形式</string>
     <string name="system_ui_statusbar_clock_editor_n">通知バーのミニ時計の形式</string>
     <string name="system_ui_statusbar_clock_style_f">ステータスバーの時計の配置</string>

@@ -665,7 +665,6 @@
     <string name="system_ui_statusbar_clock_layout_s">Orologio barra di stato</string>
     <string name="system_ui_statusbar_clock_layout_b">Orologio barra notifiche in grassetto</string>
     <string name="system_ui_statusbar_clock_layout_n">Mini Orologio Della Barra Delle Notifiche</string>
-    <string name="system_ui_statusbar_clock_layout_n_desc">Questo progetto contiene anche modifiche all\'orologio orizzontale della barra di notifica</string>
     <string name="system_ui_statusbar_clock_editor_s">Formato orologio barra di stato</string>
     <string name="system_ui_statusbar_clock_editor_n">Formato mini orologio barra delle notifiche</string>
     <string name="system_ui_statusbar_clock_style_f">Disposizione orologio barra di stato</string>

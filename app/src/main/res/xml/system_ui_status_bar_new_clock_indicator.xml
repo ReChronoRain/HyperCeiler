@@ -61,7 +61,6 @@
 
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.clock.SmallClock"
-            android:summary="@string/system_ui_statusbar_clock_layout_n_desc"
             android:title="@string/system_ui_statusbar_clock_layout_n" />
 
     </PreferenceCategory>

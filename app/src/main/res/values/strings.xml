@@ -726,8 +726,7 @@
     <string name="system_ui_statusbar_clock_layout_s">Status Bar Clock</string>
     <string name="system_ui_statusbar_clock_layout_b">Notification Bar Big Clock</string>
     <string name="system_ui_statusbar_clock_layout_n">Notification Bar Mini Clock</string>
-    <string name="system_ui_statusbar_clock_layout_n_desc">This project also contains modifications to the horizontal notification bar clock</string>
-    <string name="system_ui_statusbar_clock_editor_s">Status bar clock format</string>
+     <string name="system_ui_statusbar_clock_editor_s">Status bar clock format</string>
     <string name="system_ui_statusbar_clock_editor_n">Notification bar mini clock format</string>
     <string name="system_ui_statusbar_clock_style_f">Status bar clock arrangement</string>
     <string name="system_ui_statusbar_indicator_battery_title">Power related</string>

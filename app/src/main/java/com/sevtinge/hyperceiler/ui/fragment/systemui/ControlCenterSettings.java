@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
@@ -43,12 +42,14 @@ import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;
+import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
 public class ControlCenterSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     Preference mExpandNotification;
+    PreferenceCategory mMusic;
     SwitchPreference mNotice;
     SwitchPreference mNoticex;
     SeekBarPreferenceEx mNewCCGrid;
@@ -59,7 +60,6 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     SwitchPreference mRoundedRect;
     SeekBarPreferenceEx mRoundedRectRadius;
     SwitchPreference mThemeBlur;
-    SwitchPreference mMusicCtrlPanelMix;
     DropDownPreference mProgressMode;
     SeekBarPreferenceEx mProgressModeThickness;
 
@@ -83,6 +83,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
 
     @Override
     public void initPrefs() {
+        mMusic = findPreference("prefs_key_system_ui_control_center_media_control_media_custom");
         mExpandNotification = findPreference("prefs_key_system_ui_control_center_expand_notification");
         mNewCCGrid = findPreference("prefs_key_system_control_center_cc_rows");
         mNewCCGridColumns = findPreference("prefs_key_system_control_center_cc_columns");
@@ -95,7 +96,6 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mRoundedRectRadius = findPreference("prefs_key_system_ui_control_center_rounded_rect_radius");
         mTaplus = findPreference("prefs_key_security_center_taplus");
         mThemeBlur = findPreference("prefs_key_system_ui_control_center_unlock_blur_supported");
-        mMusicCtrlPanelMix = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix");
         mNotifrowmenu = findPreference("prefs_key_system_ui_control_center_notifrowmenu");
         mProgressMode = findPreference("prefs_key_system_ui_control_center_media_control_progress_mode");
         mProgressModeThickness = findPreference("prefs_key_system_ui_control_center_media_control_progress_thickness");
@@ -122,12 +122,11 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mNewCCGridColumns.setVisible(!isHyperOSVersion(1f));
         mNewCCGridLabel.setVisible(!isHyperOSVersion(1f));
         mNotice.setVisible(!isMoreHyperOSVersion(1f));
-        mNoticex.setVisible(isMoreAndroidVersion(33));
         mBluetoothSytle.setVisible(!isHyperOSVersion(1f));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
         mThemeBlur.setVisible(isMoreHyperOSVersion(1f));
         mRoundedRectRadius.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false) && isMoreHyperOSVersion(1f));
-        mMusicCtrlPanelMix.setVisible(isMoreHyperOSVersion(1f));
+        mMusic.setVisible(isMoreHyperOSVersion(1f));
         mNotifrowmenu.setVisible(!isMoreHyperOSVersion(1f));
         mProgressModeThickness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
 

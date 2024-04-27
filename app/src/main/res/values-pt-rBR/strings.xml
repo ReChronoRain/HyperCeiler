@@ -671,7 +671,6 @@
     <string name="system_ui_statusbar_clock_layout_s">Relógio da barra de status</string>
     <string name="system_ui_statusbar_clock_layout_b">Grande relógio da central de notificações</string>
     <string name="system_ui_statusbar_clock_layout_n">Mini-relógio da central de notificações</string>
-    <string name="system_ui_statusbar_clock_layout_n_desc">Este projeto também contém modificações no relógio da central de notificações horizontal</string>
     <string name="system_ui_statusbar_clock_editor_s">Formato do relógio da barra de status</string>
     <string name="system_ui_statusbar_clock_editor_n">Formato do mini-relógio da central de notificações</string>
     <string name="system_ui_statusbar_clock_style_f">Arranjo do relógio da barra de status</string>

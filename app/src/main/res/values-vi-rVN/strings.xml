@@ -673,7 +673,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_clock_layout_s">Đồng hồ trên thanh trạng thái</string>
     <string name="system_ui_statusbar_clock_layout_b">Đồng hồ lớn trên thanh thông báo</string>
     <string name="system_ui_statusbar_clock_layout_n">Đồng hồ nhỏ trên thanh thông báo</string>
-    <string name="system_ui_statusbar_clock_layout_n_desc">Dự án này cũng chứa các sửa đổi đối với đồng hồ trên thanh thông báo ngang</string>
     <string name="system_ui_statusbar_clock_editor_s">Định dạng đồng hồ trên thanh trạng thái</string>
     <string name="system_ui_statusbar_clock_editor_n">Định dạng đồng hồ nhỏ trên thanh thông báo</string>
     <string name="system_ui_statusbar_clock_style_f">Sắp xếp đồng hồ trên thanh trạng thái</string>

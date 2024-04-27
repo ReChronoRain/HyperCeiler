@@ -663,7 +663,6 @@
     <string name="system_ui_statusbar_clock_layout_s">Jam Bilah Status</string>
     <string name="system_ui_statusbar_clock_layout_b">Jam Besar Pemberitahuan</string>
     <string name="system_ui_statusbar_clock_layout_n">Jam Mini Bilah Pemberitahuan</string>
-    <string name="system_ui_statusbar_clock_layout_n_desc">Proyek ini juga berisi modifikasi pada jam bilah notifikasi horizontal</string>
     <string name="system_ui_statusbar_clock_editor_s">Format jam bilah status</string>
     <string name="system_ui_statusbar_clock_editor_n">Format jam mini bilah notifikasi</string>
     <string name="system_ui_statusbar_clock_style_f">Pengaturan jam bilah status</string>

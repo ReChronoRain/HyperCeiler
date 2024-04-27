@@ -119,7 +119,7 @@ object StatusBarClockNew : BaseHook() {
                     setMiuiClockStyle(miuiClockName, miuiClock)
 
                     val isSec =
-                        miuiClockName in setOf("clock", "big_time", "horizontal_time", "date_time")
+                        miuiClockName in setOf("clock", "big_time", "date_time")
                     // miuiClockName 内部标签分类如下
                     // clock 竖屏状态栏时钟
                     // big_time 通知中心时钟
@@ -158,10 +158,10 @@ object StatusBarClockNew : BaseHook() {
                     val context = textV.context
                     val miuiClockName =
                         textV.resources.getResourceEntryName(textV.id) ?: return@createBeforeHook
-                    if (miuiClockName in setOf("clock", "big_time", "horizontal_time", "date_time")) {
+                    if (miuiClockName in setOf("clock", "big_time", "date_time")) {
                         setMiuiClockStyle(miuiClockName, textV)
 
-                        if ((isSync && miuiClockName == "big_time") || (getFormatN.isEmpty() && miuiClockName in setOf("date_time", "horizontal_time"))) return@createBeforeHook
+                        if ((isSync && miuiClockName == "big_time") || (getFormatN.isEmpty() && miuiClockName == "date_time")) return@createBeforeHook
                         setMiuiClockFormat(context, miuiClockName, textV)
                         it.result = null
                     }
@@ -177,11 +177,13 @@ object StatusBarClockNew : BaseHook() {
                     val context = textV.context
                     val miuiClockName =
                         textV.resources.getResourceEntryName(textV.id) ?: return@createBeforeHook
-                    setMiuiClockStyle(miuiClockName, textV)
+                    if (miuiClockName in setOf("clock", "big_time", "date_time")) {
+                        setMiuiClockStyle(miuiClockName, textV)
 
-                    if ((isSync && miuiClockName == "big_time") || (getFormatN.isEmpty() && miuiClockName in setOf("date_time", "horizontal_time"))) return@createBeforeHook
-                    setMiuiClockFormat(context, miuiClockName, textV)
-                    it.result = null
+                        if ((isSync && miuiClockName == "big_time") || (getFormatN.isEmpty() && miuiClockName == "date_time")) return@createBeforeHook
+                        setMiuiClockFormat(context, miuiClockName, textV)
+                        it.result = null
+                    }
                 } catch (_: Exception) {
                 }
             }
@@ -292,12 +294,6 @@ object StatusBarClockNew : BaseHook() {
             "big_time" -> {
                 textSb = StringBuilder()
                 formatSb = StringBuilder(getFormatS.split("\n")[0])
-            }
-
-            "horizontal_time" -> {
-                textSb = StringBuilder()
-                formatSb =
-                    StringBuilder("${getFormatN.split("\n")[0]} ${getFormatS.split("\n")[0]}")
             }
 
             else -> {

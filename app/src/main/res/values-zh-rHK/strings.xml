@@ -671,7 +671,6 @@
     <string name="system_ui_statusbar_clock_layout_s">狀態欄時鐘</string>
     <string name="system_ui_statusbar_clock_layout_b">通知欄大時鐘</string>
     <string name="system_ui_statusbar_clock_layout_n">通知欄迷你時鐘</string>
-    <string name="system_ui_statusbar_clock_layout_n_desc">該項目還包含水平通知欄時鐘的修改</string>
     <string name="system_ui_statusbar_clock_editor_s">狀態欄時鐘格式</string>
     <string name="system_ui_statusbar_clock_editor_n">通知欄迷你時鐘格式</string>
     <string name="system_ui_statusbar_clock_style_f">狀態欄時鐘排列</string>
