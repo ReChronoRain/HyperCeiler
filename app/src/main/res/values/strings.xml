@@ -903,6 +903,7 @@
     <string name="system_settings_enable_fold_area">Unlock Fold area</string>
     <string name="system_settings_enable_area_desc">Unsupported devices will cause the settings to crash after being unlocked</string>
     <string name="system_settings_unlock_google_header">Unlock Google Entry</string>
+    <string name="system_settings_unlock_ui_mode">Unlock app layout optimizations</string>
     <string name="system_settings_usb_mode">There is no pop-up window when connecting to USB</string>
     <string name="system_settings_usb_mode_choose">USB Default option</string>
     <string name="system_settings_usb_default">default</string>

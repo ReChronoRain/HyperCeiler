@@ -61,7 +61,7 @@ public class SystemSettingsT extends BaseModule {
     public void handleLoadPackage() {
         initHook(new HyperCeilerSettings(), mPrefsMap.getStringAsInt("settings_icon", 0) != 0);
 
-        initHook(new ShowAutoUIMode(), true);
+        initHook(new ShowAutoUIMode(), mPrefsMap.getBoolean("system_settings_unlock_ui_mode"));
         initHook(new LinkTurbo(), mPrefsMap.getBoolean("system_settings_linkturbo"));
         initHook(new RunningServices(), true); // 显示原生内存信息
         initHook(new UsbModeChoose(), mPrefsMap.getStringAsInt("system_settings_usb_mode_choose", 0) != 0
