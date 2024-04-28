@@ -111,6 +111,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-log.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
             buildConfigField "String", "GIT_HASH", "\"${gitHash}\""
+            buildConfigField "String", "GIT_CODE", "\"${gitCode}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
@@ -121,6 +122,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
             buildConfigField "String", "GIT_HASH", "\"${gitHashLong}\""
+            buildConfigField "String", "GIT_CODE", "\"${gitCode}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
@@ -131,6 +133,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             versionNameSuffix "_" + gitHash + "_r" + gitCode
             buildConfigField "String", "GIT_HASH", "\"${gitHashLong}\""
+            buildConfigField "String", "GIT_CODE", "\"${gitCode}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
@@ -138,6 +141,7 @@ android {
         debug {
             versionNameSuffix "_" + gitHash + "_r" + gitCode
             buildConfigField "String", "GIT_HASH", "\"${gitHashLong}\""
+            buildConfigField "String", "GIT_CODE", "\"${gitCode}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
