@@ -33,7 +33,7 @@ public class EnableGameSpeed extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
 
-        MethodData getPropVoidData = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+        MethodData getPropVoidData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("android.os.SystemProperties", "set", "SystemPropertiesUtils", "SystemPropertiesUtils getInt:")
                 .returnType(void.class)
@@ -48,7 +48,7 @@ public class EnableGameSpeed extends BaseHook {
             }
         });
 
-        MethodData getPropBooleanData = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+        MethodData getPropBooleanData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("android.os.SystemProperties", "getBoolean", "SystemPropertiesUtils", "SystemPropertiesUtils getInt:")
                 .returnType(boolean.class)
@@ -63,7 +63,7 @@ public class EnableGameSpeed extends BaseHook {
             }
         });
 
-        MethodData methodData1 = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+        MethodData methodData1 = DexKit.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("debug.game.video.support")
                 .returnType(boolean.class)
@@ -78,7 +78,7 @@ public class EnableGameSpeed extends BaseHook {
             }
         });
 
-        MethodData methodData2 = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+        MethodData methodData2 = DexKit.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("pref_open_game_booster")
                 .returnType(boolean.class)
@@ -93,7 +93,7 @@ public class EnableGameSpeed extends BaseHook {
             }
         });
 
-        MethodData methodData3 = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+        MethodData methodData3 = DexKit.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("debug.game.video.boot")
             )

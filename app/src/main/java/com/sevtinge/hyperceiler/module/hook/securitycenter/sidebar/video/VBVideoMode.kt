@@ -20,13 +20,13 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video
 
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
 
 class VBVideoMode : BaseHook() {
     override fun init() {
         // 开放影院/自定义模式
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 usingStrings = listOf("TheatreModeUtils")
                 usingNumbers = listOf(32)

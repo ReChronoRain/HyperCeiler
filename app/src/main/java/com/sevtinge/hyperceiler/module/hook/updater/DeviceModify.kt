@@ -18,10 +18,10 @@
 */
 package com.sevtinge.hyperceiler.module.hook.updater
 
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import com.sevtinge.hyperceiler.utils.hookBeforeMethod
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.utils.*
 
 
 object DeviceModify : BaseHook() {
@@ -49,7 +49,7 @@ object DeviceModify : BaseHook() {
                 e
             )
         }
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("android.os.SystemProperties", "get", "get e")
             }

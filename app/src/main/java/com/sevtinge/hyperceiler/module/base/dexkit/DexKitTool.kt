@@ -18,20 +18,13 @@
 */
 package com.sevtinge.hyperceiler.module.base.dexkit
 
-import org.luckypray.dexkit.*
 import org.luckypray.dexkit.query.enums.*
 import org.luckypray.dexkit.query.matchers.*
 
 /**
  * DexKit 工具
  */
-object DexKit {
-    var initDexKit: InitDexKit? = null
-
-    val dexKitBridge: DexKitBridge by lazy {
-        initDexKit!!.init()
-    }
-
+object DexKitTool {
     /**
      * DexKit 封装查找方式
      */

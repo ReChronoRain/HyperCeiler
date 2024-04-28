@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.module.hook.browser
 
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
 import de.robv.android.xposed.*
 
@@ -29,7 +29,7 @@ object DebugMode : BaseHook() {
     private var found = false
 
     override fun init() {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("environment_flag")
                 returnType = "java.lang.String"
@@ -43,7 +43,7 @@ object DebugMode : BaseHook() {
             )
         }
 
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("pref_key_debug_mode_new")
                 returnType = "boolean"
@@ -61,7 +61,7 @@ object DebugMode : BaseHook() {
         }
 
         if (!found) {
-            dexKitBridge.findMethod {
+            DexKit.getDexKitBridge().findMethod {
                 matcher {
                     addUsingStringsEquals("pref_key_debug_mode")
                     returnType = "boolean"
@@ -80,7 +80,7 @@ object DebugMode : BaseHook() {
         }
 
         if (!found) {
-            dexKitBridge.findMethod {
+            DexKit.getDexKitBridge().findMethod {
                 matcher {
                     addUsingStringsEquals("pref_key_debug_mode_" + getPackageVersionCode(lpparam))
                     returnType = "boolean"

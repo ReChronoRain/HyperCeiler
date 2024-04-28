@@ -29,7 +29,7 @@ import org.luckypray.dexkit.result.MethodData;
 public class PowerSaver extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(
+        MethodData methodData = DexKit.getDexKitBridge().findMethod(
                 FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()

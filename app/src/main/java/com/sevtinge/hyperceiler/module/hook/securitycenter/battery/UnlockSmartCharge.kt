@@ -20,13 +20,13 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.battery
 
 import com.github.kyuubiran.ezxhelper.ClassLoaderProvider.classLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
 
 object UnlockSmartCharge : BaseHook() {
     private val smartChg by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("persist.vendor.smartchg")
             }

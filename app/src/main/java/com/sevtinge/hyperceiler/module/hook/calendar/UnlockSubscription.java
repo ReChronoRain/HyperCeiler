@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 public class UnlockSubscription extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData methodData1 = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+        MethodData methodData1 = DexKit.getDexKitBridge().findMethod(FindMethod.create()
                 .matcher(MethodMatcher.create()
                         .declaredClass(ClassMatcher.create()
                                 .usingStrings("Cal:D:CalendarApplicationDelegate"))

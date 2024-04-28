@@ -30,7 +30,7 @@ import java.lang.reflect.Method;
 public class UnlockFbo extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData isFboStateOpenInCloud = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+        MethodData isFboStateOpenInCloud = DexKit.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("FBO_STATE_OPEN")
                 .returnType(boolean.class)
@@ -39,7 +39,7 @@ public class UnlockFbo extends BaseHook {
         ).singleOrThrow(() -> new IllegalStateException("UnlockFbo: Cannot found MethodData FBO_STATE_OPEN"));
         hookMethod(isFboStateOpenInCloud.getMethodInstance(lpparam.classLoader), MethodHook.returnConstant(true));
 
-        MethodData methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+        MethodData methodData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("miui.fbo.FboManager")
                 .returnType(boolean.class)

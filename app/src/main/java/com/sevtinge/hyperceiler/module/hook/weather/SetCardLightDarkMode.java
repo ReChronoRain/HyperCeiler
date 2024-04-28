@@ -41,12 +41,12 @@ public class SetCardLightDarkMode extends BaseHook {
     @Override
     public void init() {
         try {
-            MethodData methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+            MethodData methodData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
                     .matcher(METHOD_MATCHER)
             ).singleOrThrow(() -> new NoSuchMethodException("SetCardLightDarkMode: Cannot find method judgeCurrentColor()"));
             Method method = methodData.getMethodInstance(lpparam.classLoader);
             logD(TAG, lpparam.packageName, "judgeCurrentColor() method is " + method);
-            FieldData fieldData = DexKit.INSTANCE.getDexKitBridge().findField(FindField.create()
+            FieldData fieldData = DexKit.getDexKitBridge().findField(FindField.create()
                     .matcher(FieldMatcher.create()
                             .declaredClass(ClassMatcher.create()
                                     .usingStrings(METHOD_NAME))

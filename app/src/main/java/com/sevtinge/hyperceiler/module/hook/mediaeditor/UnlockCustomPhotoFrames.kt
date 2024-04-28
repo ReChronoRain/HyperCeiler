@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.mediaeditor
 import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.dexkit.*
 import java.lang.reflect.*
 
 object UnlockCustomPhotoFrames : BaseHook() {
@@ -36,7 +36,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
     private val isPOCO by lazy { frames == 3 }
 
     private val publicA by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 // 真是妹想到啊，1.5 和 1.6 版本还以为不会套回去了
                 // 现在这个查找方式直接兼容 1.4 - 1.6
@@ -70,7 +70,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
 
     // 公共解锁特定机型定制画框使用限制
     private val publicB by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 declaredClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils")
                 // modifiers = Modifier.STATIC // 1.6.5.10.2 改成 STATIC，原来是 FINAL

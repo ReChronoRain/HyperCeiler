@@ -31,7 +31,7 @@ import java.lang.reflect.Method;
 public class UnlockMinimumCropLimit extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodDataList methodDataList = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+        MethodDataList methodDataList = DexKit.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .returnType(int.class)
                 .paramCount(0)

@@ -19,17 +19,15 @@
 package com.sevtinge.hyperceiler.module.hook.securitycenter.beauty
 
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-
-import de.robv.android.xposed.XC_MethodReplacement
-import de.robv.android.xposed.XposedBridge
-import java.lang.reflect.Method
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import de.robv.android.xposed.*
+import java.lang.reflect.*
 
 object BeautyLightAuto : BaseHook() {
     private val beauty by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("taoyao", "IN", "persist.vendor.vcb.ability")
                 returnType = "boolean"
@@ -37,7 +35,7 @@ object BeautyLightAuto : BaseHook() {
         }.single().getMethodInstance(lpparam.classLoader)
     }
     private val beautyAuto by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("taoyao")
                 returnType = "boolean"

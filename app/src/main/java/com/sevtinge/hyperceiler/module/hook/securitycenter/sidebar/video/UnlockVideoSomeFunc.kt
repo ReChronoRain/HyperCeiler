@@ -3,14 +3,14 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video
 import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import org.luckypray.dexkit.query.enums.StringMatchType
-import java.lang.reflect.Method
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import org.luckypray.dexkit.query.enums.*
+import java.lang.reflect.*
 
 object UnlockVideoSomeFunc : BaseHook() {
     private val findFrc by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 declaredClass {
                     addUsingString("ro.vendor.media.video.frc.support", StringMatchType.Equals)
@@ -21,7 +21,7 @@ object UnlockVideoSomeFunc : BaseHook() {
         }
     }
     private val findTat by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 declaredClass {
                     addUsingString("ro.vendor.media.video.frc.support", StringMatchType.Equals)

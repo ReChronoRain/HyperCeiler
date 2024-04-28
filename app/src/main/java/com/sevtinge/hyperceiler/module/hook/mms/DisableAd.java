@@ -45,7 +45,7 @@ public class DisableAd extends BaseHook {
             });
 
         try {
-            MethodData methodData1 = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+            MethodData methodData1 = DexKit.getDexKitBridge().findMethod(FindMethod.create()
                 .matcher(MethodMatcher.create()
                     .declaredClass(ClassMatcher.create()
                         .usingStrings("Unknown type of the message: "))
@@ -68,7 +68,7 @@ public class DisableAd extends BaseHook {
         }
 
         try {
-            MethodDataList methodDataList = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+            MethodDataList methodDataList = DexKit.getDexKitBridge().findMethod(FindMethod.create()
                 .matcher(MethodMatcher.create()
                     .name("setHideButton")
                 )

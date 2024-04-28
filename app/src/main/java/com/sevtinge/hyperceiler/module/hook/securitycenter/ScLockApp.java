@@ -50,7 +50,7 @@ public class ScLockApp extends BaseHook {
 
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(
+        MethodData methodData = DexKit.getDexKitBridge().findMethod(
                 FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
@@ -59,7 +59,7 @@ public class ScLockApp extends BaseHook {
                                 .name("dispatchTouchEvent")
                         )
         ).singleOrNull();
-        ClassData data = DexKit.INSTANCE.getDexKitBridge().findClass(
+        ClassData data = DexKit.getDexKitBridge().findClass(
                 FindClass.create()
                         .matcher(ClassMatcher.create()
                                 .usingStrings("startRegionSampling")
@@ -68,7 +68,7 @@ public class ScLockApp extends BaseHook {
         FieldData fieldData = null;
         if (methodData == null) {
             value = 1;
-            methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(
+            methodData = DexKit.getDexKitBridge().findMethod(
                     FindMethod.create()
                             .matcher(MethodMatcher.create()
                                     .declaredClass(ClassMatcher.create()
@@ -77,13 +77,13 @@ public class ScLockApp extends BaseHook {
                                     .name("onTouch")
                             )
             ).singleOrNull();
-            data = DexKit.INSTANCE.getDexKitBridge().findClass(
+            data = DexKit.getDexKitBridge().findClass(
                     FindClass.create()
                             .matcher(ClassMatcher.create()
                                     .usingStrings("onTouch: \taction = ")
                             )
             ).singleOrNull();
-            fieldData = DexKit.INSTANCE.getDexKitBridge().findField(
+            fieldData = DexKit.getDexKitBridge().findField(
                     FindField.create()
                             .matcher(FieldMatcher.create()
                                     .declaredClass(ClassMatcher.create()

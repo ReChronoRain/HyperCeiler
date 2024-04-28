@@ -219,8 +219,13 @@ public abstract class BaseXposedInit {
                         return true;
                     } catch (IllegalAccessException |
                              InvocationTargetException e) {
-                        logE(TAG, "The method failed to be called! " + e);
-                        return false;
+                        Throwable cause = e.getCause();
+                        if (cause != null) {
+                            throw new RuntimeException(TAG + ": The method failed to be called due to: \n" + cause +
+                                    " \ncause: " + cause.getCause());
+                        } else {
+                            throw new RuntimeException(TAG + ": The method failed to be called! \n" + e);
+                        }
                     }
                 }
             }

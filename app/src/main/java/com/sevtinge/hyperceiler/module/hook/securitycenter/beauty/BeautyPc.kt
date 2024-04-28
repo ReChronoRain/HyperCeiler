@@ -19,14 +19,14 @@
 package com.sevtinge.hyperceiler.module.hook.securitycenter.beauty
 
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
 
 
 object BeautyPc : BaseHook() {
     override fun init() {
-       dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
           matcher {
               addUsingStringsEquals("persist.vendor.camera.facetracker.support")
               returnType = "boolean"

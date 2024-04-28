@@ -21,15 +21,15 @@ package com.sevtinge.hyperceiler.module.hook.mediaeditor
 import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.api.LazyClass.AndroidBuildCls
 import de.robv.android.xposed.*
 import java.lang.reflect.*
 
 object UnlockLeicaFilter : BaseHook() {
     private val leicaOld by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 // 仅适配 1.5 及 1.6 的部分版本，新版已更换检测方式
                 declaredClass {
@@ -42,7 +42,7 @@ object UnlockLeicaFilter : BaseHook() {
         }.map { it.getMethodInstance(classLoader) }.toSet()
     }
     private val leicaNew by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 declaredClass = "com.miui.mediaeditor.photo.filter.repository.FilterRepository"
                 returnType = "java.io.Serializable"

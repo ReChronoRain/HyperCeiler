@@ -1,15 +1,14 @@
 package com.sevtinge.hyperceiler.module.hook.updater
 
 import com.github.kyuubiran.ezxhelper.*
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.utils.*
-import de.robv.android.xposed.XposedBridge.*
 import org.luckypray.dexkit.query.enums.*
 
 object AutoUpdateDialog : BaseHook() {
     private val find1 by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addCall {
                     addUsingString("isShowAutoSetDialog", StringMatchType.Contains)
@@ -20,7 +19,7 @@ object AutoUpdateDialog : BaseHook() {
     }
 
     private val find2 by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addCall {
                     addUsingString("isShowMobileDownloadDialog", StringMatchType.Contains)

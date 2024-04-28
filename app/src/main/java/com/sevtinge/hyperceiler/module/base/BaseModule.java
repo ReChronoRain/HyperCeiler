@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.module.base;
 import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
-import com.sevtinge.hyperceiler.module.base.dexkit.InitDexKit;
 import com.sevtinge.hyperceiler.safe.CrashData;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
@@ -60,6 +59,7 @@ public abstract class BaseModule implements IXposedHook {
                                 //     BaseXposedInit.mResHook.putHandler(handler);
                                 // } catch (Throwable e) {
                                 // }
+                                // EzXHelper.initAppContext(context, false);
                                 BaseXposedInit.mResHook.loadModuleRes(context);
                                 // mResHook.loadModuleRes(context);
                             }
@@ -69,17 +69,12 @@ public abstract class BaseModule implements IXposedHook {
             XposedLogUtils.logE(TAG, "get context failed!" + e);
         }
         mLoadPackageParam = lpparam;
-        InitDexKit kit = new InitDexKit(lpparam, TAG);
-        DexKit.INSTANCE.setInitDexKit(kit);
+        DexKit dexKit = new DexKit(lpparam, TAG);
         initZygote();
         handleLoadPackage();
-        if (kit.isInit) {
-            try {
-                kit.closeHostDir();
-                // XposedLogUtils.logE(TAG, "close dexkit s: " + lpparam.packageName);
-            } catch (Exception e) {
-                XposedLogUtils.logE(TAG, "close dexkit failed!" + e);
-            }
+        if (dexKit.isInit) {
+            dexKit.close();
+            // XposedLogUtils.logE(TAG, "close dexkit s: " + lpparam.packageName);
         }
     }
 

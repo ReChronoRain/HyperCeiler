@@ -22,8 +22,8 @@ import android.graphics.drawable.*
 import android.view.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.api.*
 import kotlin.math.*
 
@@ -38,7 +38,7 @@ object BlurPersonalAssistant : BaseHook() {
     override fun init() {
         var lastBlurRadius = -1
 
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("ScrollStateManager")
             }

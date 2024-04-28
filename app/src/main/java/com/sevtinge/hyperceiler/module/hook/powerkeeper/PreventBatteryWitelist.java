@@ -44,7 +44,7 @@ public class PreventBatteryWitelist extends BaseHook {
         //     }
         // });
 
-        MethodData methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(
+        MethodData methodData = DexKit.getDexKitBridge().findMethod(
             FindMethod.create()
                 .matcher(MethodMatcher.create()
                     .declaredClass(ClassMatcher.create()

@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.mediaeditor
 import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.dexkit.*
 import org.luckypray.dexkit.query.enums.*
 
 object CustomWatermark : BaseHook() {
@@ -31,7 +31,7 @@ object CustomWatermark : BaseHook() {
 
     // by StarVoyager
     private val search by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingString("K30 Pro Zoom E", StringMatchType.Equals)
                 // modifiers = Modifier.FINAL // 1.6.5.10.2 改成了 STATIC，所以寄了

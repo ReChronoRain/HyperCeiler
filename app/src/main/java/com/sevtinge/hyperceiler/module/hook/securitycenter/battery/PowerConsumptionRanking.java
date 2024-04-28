@@ -17,13 +17,13 @@ import java.lang.reflect.Method;
 public class PowerConsumptionRanking extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        ClassDataList data = DexKit.INSTANCE.getDexKitBridge().findClass(
+        ClassDataList data = DexKit.getDexKitBridge().findClass(
             FindClass.create()
                 .matcher(ClassMatcher.create()
                     .usingStrings("%d %s %d %s")
                 )
         );
-        MethodDataList methodDataList = DexKit.INSTANCE.getDexKitBridge().findMethod(
+        MethodDataList methodDataList = DexKit.getDexKitBridge().findMethod(
             FindMethod.create()
                 .matcher(MethodMatcher.create()
                     .declaredClass(ClassMatcher.create()

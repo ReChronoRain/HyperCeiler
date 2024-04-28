@@ -20,12 +20,12 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.dexkit.*
 import org.luckypray.dexkit.query.enums.*
 
 object BypassSimLockMiAccountAuth : BaseHook() {
     private val findMethod by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 declaredClass {
                     addUsingString("SimLockUtils", StringMatchType.Contains)

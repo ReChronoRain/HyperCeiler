@@ -18,15 +18,15 @@
 */
 package com.sevtinge.hyperceiler.module.hook.packageinstaller
 
-import android.content.Context
+import android.content.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.*
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit
-import org.luckypray.dexkit.query.matchers.base.AccessFlagsMatcher
-import org.luckypray.dexkit.result.MethodDataList
-import java.lang.reflect.Modifier
-import java.util.stream.Collectors
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import org.luckypray.dexkit.query.matchers.base.*
+import org.luckypray.dexkit.result.*
+import java.lang.reflect.*
+import java.util.stream.*
 
 
 object DisableAppInfoUpload : BaseHook() {
@@ -44,7 +44,7 @@ object DisableAppInfoUpload : BaseHook() {
         /**
          * methods invoke api '/avl/upload/'
          */
-        val avlUploadInvokerList = DexKit.dexKitBridge.findMethod {
+        val avlUploadInvokerList = DexKit.getDexKitBridge().findMethod {
             matcher {
                 paramCount(4)
                 paramTypes(
@@ -75,7 +75,7 @@ object DisableAppInfoUpload : BaseHook() {
         /**
          * methods invoke api '/v4/game/interceptcheck/'
          */
-        val interceptCheckInvokerList = DexKit.dexKitBridge.findMethod {
+        val interceptCheckInvokerList = DexKit.getDexKitBridge().findMethod {
             matcher {
                 paramCount(6)
                 paramTypes(
@@ -107,7 +107,7 @@ object DisableAppInfoUpload : BaseHook() {
         /**
          * methods invoke api '/info/layout'
          */
-        val infoLayoutInvokerList = DexKit.dexKitBridge.findMethod {
+        val infoLayoutInvokerList = DexKit.getDexKitBridge().findMethod {
             matcher {
                 paramCount(7)
                 paramTypes(

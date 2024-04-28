@@ -27,7 +27,7 @@ import android.widget.*
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
@@ -204,7 +204,7 @@ object BlurSecurity : BaseHook() {
         })
 
         // if (getPackageVersionCode(lpparam) >= 40000754) {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 returnType = "android.view.View"
                 paramTypes = listOf("android.content.Context", "boolean", "boolean")
@@ -280,7 +280,7 @@ object BlurSecurity : BaseHook() {
                 "seekbar_text_speed"
             )
 
-            val gameManagerMethod = dexKitBridge.findMethod {
+            val gameManagerMethod = DexKit.getDexKitBridge().findMethod {
                 searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
                 matcher {
                     usingStrings = listOf("addView error")

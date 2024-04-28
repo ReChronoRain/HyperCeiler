@@ -22,15 +22,15 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.*
 import de.robv.android.xposed.*
 import java.lang.reflect.*
 
 object NoAutoTurnOff : BaseHook() {
     private val nullMethod by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("MiShareService", "EnabledState")
                 usingNumbers(600000L)
@@ -39,7 +39,7 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     private val null2Method by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 declaredClass {
                     addUsingStringsEquals("mishare:advertise_lock")
@@ -51,7 +51,7 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     private val null3Method by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("com.miui.mishare.action.GRANT_NFC_TOUCH_PERMISSION")
                 usingNumbers(600000L)
@@ -61,7 +61,7 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     private val toastMethod by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 declaredClass {
                     addUsingStringsEquals("null context", "cta_agree")
@@ -74,7 +74,7 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     private val nullField by lazy {
-        dexKitBridge.findField {
+        DexKit.getDexKitBridge().findField {
             matcher {
                 addReadMethod {
                     addUsingStringsEquals("NfcShareTaskManager")
