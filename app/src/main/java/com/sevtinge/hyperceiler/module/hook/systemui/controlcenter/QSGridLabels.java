@@ -47,7 +47,7 @@ public class QSGridLabels extends BaseHook {
                 ArrayList<Object> mPages = (ArrayList<Object>) XposedHelpers.getObjectField(param.thisObject, "mPages");
                 if (mPages == null) return;
                 int mRows = 0;
-                if (mPages.size() > 0) mRows = XposedHelpers.getIntField(mPages.get(0), "mRows");
+                if (!mPages.isEmpty()) mRows = XposedHelpers.getIntField(mPages.get(0), "mRows");
                 updateLabelsVisibility(param.args[0], mRows, ((ViewGroup) param.thisObject).getResources().getConfiguration().orientation);
             }
         });

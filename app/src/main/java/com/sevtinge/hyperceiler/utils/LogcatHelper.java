@@ -127,7 +127,7 @@ public class LogcatHelper {
                     if (!mRunning) {
                         break;
                     }
-                    if (line.length() == 0) {
+                    if (line.isEmpty()) {
                         continue;
                     }
                     if (out != null && line.contains(mPID)) {

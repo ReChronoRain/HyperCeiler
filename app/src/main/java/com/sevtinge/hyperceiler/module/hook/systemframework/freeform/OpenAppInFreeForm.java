@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemframework.freeform;
 
 import android.app.ActivityOptions;
@@ -23,7 +23,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.MiuiMultiWindowUtils;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
@@ -94,7 +93,10 @@ public class OpenAppInFreeForm extends BaseHook {
 
                     if (openInFw) {
                         Context mContext = (Context) XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.thisObject, "mService"), "mContext");
-                        ActivityOptions options = MiuiMultiWindowUtils.getActivityOptions(mContext, intent.getComponent().getPackageName(), true, false);
+                        // ActivityOptions options = MiuiMultiWindowUtils.getActivityOptions(mContext, intent.getComponent().getPackageName(), true, false);
+                        ActivityOptions options = (ActivityOptions) XposedHelpers.callStaticMethod(
+                                findClassIfExists("android.util.MiuiMultiWindowUtils"),
+                                "getActivityOptions", mContext, intent.getComponent().getPackageName(), true, false);
                         XposedHelpers.callMethod(param.thisObject, "setActivityOptions", options.toBundle());
                     }
                 }

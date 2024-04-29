@@ -18,18 +18,18 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 
-import android.view.View
+import android.view.*
 import com.github.kyuubiran.ezxhelper.ClassLoaderProvider.safeClassLoader
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import org.luckypray.dexkit.query.enums.StringMatchType
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import org.luckypray.dexkit.query.enums.*
 
 object LockOneHundredPoints : BaseHook() {
     private val score by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 declaredClass {
                     addUsingString("getMinusPredictScore", StringMatchType.Contains)
@@ -41,7 +41,7 @@ object LockOneHundredPoints : BaseHook() {
     }
 
     private val scoreOld by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                  addUsingString("getMinusPredictScore", StringMatchType.Contains)
             }

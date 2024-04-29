@@ -18,12 +18,9 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
-import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
-import android.os.Build;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
@@ -32,7 +29,6 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
 import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
@@ -44,12 +40,10 @@ public class HomeFolderSettings extends SettingsPreferenceFragment {
     SeekBarPreferenceEx mFolderColumns;
     SwitchPreference mFolderWidth;
     SwitchPreference mFolderSpace;
-    SwitchPreference mUnlockFolderBlur;
     SwitchPreference mUnlockFolderBlurSupport;
-    Preference mSmallFolderIconBackgroundCustom;
-    Preference mSmallFolderIconBackgroundCustom1;
-    Preference mSmallFolderIconBackgroundCustom2;
-    Preference mSmallFolderIconBackgroundCustom3;
+    SwitchPreference mSmallFolderIconBackgroundCustom1;
+    SwitchPreference mSmallFolderIconBackgroundCustom2;
+    SwitchPreference mSmallFolderIconBackgroundCustom3;
 
     @Override
     public int getContentResId() {
@@ -68,38 +62,22 @@ public class HomeFolderSettings extends SettingsPreferenceFragment {
     public void initPrefs() {
         mFolderShade = findPreference("prefs_key_home_folder_shade");
         mFolderShadeLevel = findPreference("prefs_key_home_folder_shade_level");
-        mUnlockFolderBlur = findPreference("prefs_key_home_folder_blur");
         mUnlockFolderBlurSupport = findPreference("prefs_key_home_folder_unlock_blur_supported");
-
-        mUnlockFolderBlur.setVisible(!isAndroidVersion(30));
-        mUnlockFolderBlurSupport.setVisible(!isAndroidVersion(30) && isMoreHyperOSVersion(1f));
 
         mFolderColumns = findPreference("prefs_key_home_folder_columns");
         mFolderWidth = findPreference("prefs_key_home_folder_width");
         mFolderSpace = findPreference("prefs_key_home_folder_space");
-        mSmallFolderIconBackgroundCustom = findPreference("prefs_key_home_small_folder_icon_bg_custom");
-        if (mSmallFolderIconBackgroundCustom != null) {
-            mSmallFolderIconBackgroundCustom.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.S));
-            mSmallFolderIconBackgroundCustom.setEnabled(mSmallFolderIconBackgroundCustom.isVisible());
-        }
 
-        mSmallFolderIconBackgroundCustom1 = findPreference("prefs_key_home_big_folder_icon_bg_2x1");
-        if (mSmallFolderIconBackgroundCustom1 != null) {
-            mSmallFolderIconBackgroundCustom1.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.S));
-            mSmallFolderIconBackgroundCustom1.setEnabled(mSmallFolderIconBackgroundCustom1.isVisible());
-        }
-        mSmallFolderIconBackgroundCustom2 = findPreference("prefs_key_home_big_folder_icon_bg_1x2");
-        if (mSmallFolderIconBackgroundCustom2 != null) {
-            mSmallFolderIconBackgroundCustom2.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.S));
-            mSmallFolderIconBackgroundCustom2.setEnabled(mSmallFolderIconBackgroundCustom2.isVisible());
-        }
-        mSmallFolderIconBackgroundCustom3 = findPreference("prefs_key_home_big_folder_icon_bg");
-        if (mSmallFolderIconBackgroundCustom3 != null) {
-            mSmallFolderIconBackgroundCustom3.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.S));
-            mSmallFolderIconBackgroundCustom3.setEnabled(mSmallFolderIconBackgroundCustom3.isVisible());
-        }
+        if (isPad()) {
+            mSmallFolderIconBackgroundCustom1 = findPreference("prefs_key_home_big_folder_icon_bg_2x1");
+            mSmallFolderIconBackgroundCustom2 = findPreference("prefs_key_home_big_folder_icon_bg_1x2");
+            mSmallFolderIconBackgroundCustom3 = findPreference("prefs_key_home_big_folder_icon_bg");
 
-        setBigFolderTextForPad();
+            mSmallFolderIconBackgroundCustom1.setTitle(R.string.home_big_folder_icon_bg_2x1_n);
+            mSmallFolderIconBackgroundCustom2.setTitle(R.string.home_big_folder_icon_bg_1x2_n);
+            mSmallFolderIconBackgroundCustom3.setTitle(R.string.home_big_folder_icon_bg_n);
+        }
+        mUnlockFolderBlurSupport.setVisible(isMoreHyperOSVersion(1f));
         setFolderShadeLevelEnable(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_home_folder_shade", "0")));
         setFolderWidthEnable(PrefsUtils.mSharedPreferences.getInt(mFolderColumns.getKey(), 3));
         setFolderSpaceEnable(PrefsUtils.mSharedPreferences.getInt(mFolderColumns.getKey(), 3));
@@ -114,14 +92,6 @@ public class HomeFolderSettings extends SettingsPreferenceFragment {
             setFolderSpaceEnable((Integer) o);
             return true;
         }));
-    }
-
-    private void setBigFolderTextForPad(){
-        if (isPad()){
-            mSmallFolderIconBackgroundCustom1.setTitle(R.string.home_big_folder_icon_bg_2x1_n);
-            mSmallFolderIconBackgroundCustom2.setTitle(R.string.home_big_folder_icon_bg_1x2_n);
-            mSmallFolderIconBackgroundCustom3.setTitle(R.string.home_big_folder_icon_bg_n);
-        }
     }
 
     private void setFolderShadeLevelEnable(int i) {

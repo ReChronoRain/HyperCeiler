@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:enabled="false"
+        android:key="prefs_key_set_homepage_entrance_about"
+        android:summary="@string/set_homepage_entrance_about" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_android"
+        android:key="prefs_key_system_framework_state"
+        android:layout="@layout/preference_header"
+        android:summary="android"
+        android:title="@string/system_framework" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_browser"
+        android:key="prefs_key_browser_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.browser"
+        android:title="@string/browser" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_calendar"
+        android:key="prefs_key_calendar_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.calendar"
+        android:title="@string/calendar" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_camera"
+        android:key="prefs_key_camera_2_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.camera"
+        android:title="@string/camera" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_fileexplorer"
+        android:key="prefs_key_file_explorer_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.fileexplorer"
+        android:title="@string/fileexplorer" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_call"
+        android:key="prefs_key_incallui_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.incallui"
+        android:title="@string/incallui" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_mms"
+        android:key="prefs_key_mms_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.mms"
+        android:title="@string/mms" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_default_icon"
+        android:key="prefs_key_nfc_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.nfc"
+        android:title="@string/nfc" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_phone"
+        android:key="prefs_key_phone_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.phone"
+        android:title="@string/phone" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_downloads"
+        android:key="prefs_key_downloads_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.providers.downloads"
+        android:title="@string/downloads" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_system_ui"
+        android:key="prefs_key_system_ui_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.systemui"
+        android:title="@string/system_ui" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_system_settings"
+        android:key="prefs_key_system_settings_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.settings"
+        android:title="@string/system_settings" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_theme_manager"
+        android:key="prefs_key_various_theme_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.thememanager"
+        android:title="@string/theme_manager" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_updater"
+        android:key="prefs_key_updater_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.updater"
+        android:title="@string/updater" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_lbe"
+        android:key="prefs_key_lbe_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.lbe.security.miui"
+        android:title="@string/lbe" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_milink"
+        android:key="prefs_key_milink_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.milink.service"
+        android:title="@string/milink" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_aod"
+        android:key="prefs_key_aod_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.aod"
+        android:title="@string/aod" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_backup"
+        android:key="prefs_key_backup_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.backup"
+        android:title="@string/backup" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_contentextension"
+        android:key="prefs_key_content_extension_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.contentextension"
+        android:title="@string/content_extension" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_micloud_service"
+        android:key="prefs_key_micloud_service_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.cloudservice"
+        android:title="@string/micloud_service" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_creation"
+        android:key="prefs_key_creation_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.creation"
+        android:title="@string/creation" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_gallery"
+        android:key="prefs_key_gallery_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.gallery"
+        android:title="@string/gallery" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_guard_provider_new"
+        android:key="prefs_key_guardprovider_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.guardprovider"
+        android:title="@string/guard_provider" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_home"
+        android:key="prefs_key_home_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.home"
+        android:title="@string/mihome" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_huanji"
+        android:key="prefs_key_huanji_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.huanji"
+        android:title="@string/huanji" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_gallery"
+        android:key="prefs_key_mediaeditor_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.mediaeditor"
+        android:title="@string/mediaeditor" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_mishare"
+        android:key="prefs_key_mishare_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.mishare.connectivity"
+        android:title="@string/mishare" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_misound"
+        android:key="prefs_key_misound_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.misound"
+        android:title="@string/misound" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_miwallpaper"
+        android:key="prefs_key_miwallpaper_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.miwallpaper"
+        android:title="@string/miwallpaper" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_package_installer"
+        android:key="prefs_key_package_installer_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.packageinstaller"
+
+        android:title="@string/package_installer" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_personal_assistant"
+        android:key="prefs_key_home_personal_assistant_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.personalassistant"
+        android:title="@string/personal_assistant" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_powerkeeper"
+        android:key="prefs_key_powerkeeper_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.powerkeeper"
+        android:title="@string/powerkeeper" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_screenrecorder"
+        android:key="prefs_key_screen_recorder_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.screenrecorder"
+        android:title="@string/screenrecorder" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_screenshot"
+        android:key="prefs_key_screenshot_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.screenshot"
+
+        android:title="@string/screenshot" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_security_center"
+        android:key="prefs_key_security_center_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.securitycenter"
+        android:title="@string/security_center" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_tsmclient"
+        android:key="prefs_key_tsmclient_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.tsmclient"
+        android:title="@string/tsmclient" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_voiceassist"
+        android:key="prefs_key_voiceassist_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.voiceassist"
+        android:title="@string/voiceassist" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_weather"
+        android:key="prefs_key_weather_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.weather2"
+        android:title="@string/weather" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_aiasst"
+        android:key="prefs_key_aiasst_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.xiaomi.aiasst.vision"
+        android:title="@string/aiasst" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_default_icon"
+        android:key="prefs_key_barrage_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.xiaomi.barrage"
+        android:title="@string/barrage" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_default_icon"
+        android:key="prefs_key_joyose_state"
+
+        android:layout="@layout/preference_header"
+        android:summary="com.xiaomi.joyose"
+        android:title="@string/joyose" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_market"
+        android:key="prefs_key_market_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.xiaomi.market"
+        android:title="@string/market" />
+
+    <!--<SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_miui_plus"
+        android:key="prefs_key_mirror_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.xiaomi.mirror"
+        android:title="@string/mirror" />-->
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_misettings"
+        android:key="prefs_key_mi_settings_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.xiaomi.misettings"
+        android:title="@string/mi_settings" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_mtb"
+        android:key="prefs_key_mtb_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.xiaomi.mtb"
+        android:title="@string/mtb" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_scanner"
+        android:key="prefs_key_scanner_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.xiaomi.scanner"
+        android:title="@string/scanner" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_default_icon"
+        android:key="prefs_key_trustservice_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.xiaomi.trustservice"
+        android:title="@string/trustservice" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_various_new"
+        android:key="prefs_key_various_state"
+        android:layout="@layout/preference_header"
+        android:title="@string/various" />
+
+    <Preference
+        android:key="prefs_key_help_cant_see_app"
+        android:title="@string/help_cant_see_apps_guide"
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.helper.CantSeeAppsFragment"
+        android:layout="@layout/preference_hyperlink"/>
+
+</PreferenceScreen>

@@ -18,12 +18,9 @@
 */
 package com.sevtinge.hyperceiler.utils;
 
-import android.annotation.SuppressLint;
 import android.graphics.Rect;
 
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
-
-import java.lang.reflect.Method;
 
 public class MathUtils {
     private static final float DEG_TO_RAD = 0.017453292f;
@@ -260,17 +257,9 @@ public class MathUtils {
         }
         float maxSize = Math.max(outToResize.width(), outToResize.height());
         try {
-            Class<?> rectClass = Class.forName("android.graphics.Rect");
-            // 获取带有 @hide 注解的方法名称
-            String methodName = "scale";
-            // 获取方法
-            @SuppressLint("DiscouragedPrivateApi") Method scaleMethod = rectClass.getDeclaredMethod(methodName, float.class);
-            // 创建一个 Rect 实例
             Rect rectInstance = new Rect(outToResize);
-            // 设置方法可访问（即强行访问）
-            scaleMethod.setAccessible(true);
-            // 调用带有 @hide 注解的方法
-            scaleMethod.invoke(rectInstance, largestSide / maxSize);
+            InvokeUtils.invokeMethod("android.graphics.Rect", rectInstance,
+                    "scale", new Class[]{float.class}, largestSide / maxSize);
         } catch (Exception e) {
             AndroidLogUtils.logE("Call Method scale error: ", e);
         }

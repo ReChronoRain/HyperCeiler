@@ -4,72 +4,79 @@
     <PreferenceCategory>
 
         <Preference
-            android:title="@string/floating_window"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.FreeFormSettings"/>
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.FreeFormSettings"
+            android:title="@string/floating_window" />
 
         <Preference
-            android:title="@string/system_framework_volume_title"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.VolumeSettings"/>
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.VolumeSettings"
+            android:title="@string/system_framework_volume_title" />
 
         <Preference
-            android:title="@string/system_framework_display_title"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.DisplaySettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.DisplaySettings"
+            android:title="@string/system_framework_display_title" />
 
         <Preference
-            android:title="@string/system_framework_phone_title"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.NetworkSettings"
             android:key="prefs_key_system_framework_network"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.NetworkSettings"/>
+            android:title="@string/system_framework_phone_title" />
 
         <Preference
-            android:title="@string/system_framework_other_title"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.OtherSettings"/>
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.OtherSettings"
+            android:title="@string/system_framework_other_title" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_framework_corepatch_title">
 
         <SwitchPreference
-            android:title="@string/system_framework_core_patch_downgr"
-            android:summary="@string/system_framework_core_patch_downgr_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_core_patch_downgr"
-            android:defaultValue="false" />
+            android:summary="@string/system_framework_core_patch_downgr_desc"
+            android:title="@string/system_framework_core_patch_downgr" />
 
         <SwitchPreference
-            android:title="@string/system_framework_core_patch_auth_creak"
-            android:summary="@string/system_framework_core_patch_auth_creak_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_core_patch_auth_creak"
-            android:defaultValue="false" />
+            android:summary="@string/system_framework_core_patch_auth_creak_desc"
+            android:title="@string/system_framework_core_patch_auth_creak" />
 
         <SwitchPreference
-            android:title="@string/system_framework_disable_integrity"
-            android:summary="@string/system_framework_disable_integrity_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_core_patch_disable_integrity"
-            android:defaultValue="false" />
+            android:summary="@string/system_framework_disable_integrity_desc"
+            android:title="@string/system_framework_disable_integrity" />
 
         <SwitchPreference
-            android:title="@string/system_framework_core_patch_digest_creak"
-            android:summary="@string/system_framework_core_patch_digest_creak_desc"
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_shared_user"
+            android:summary="@string/system_framework_core_patch_shared_user_desc"
+            android:title="@string/system_framework_core_patch_shared_user"
+            android:dependency="prefs_key_system_framework_core_patch_auth_creak"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_core_patch_digest_creak"
-            android:defaultValue="false" />
+            android:summary="@string/system_framework_core_patch_digest_creak_desc"
+            android:title="@string/system_framework_core_patch_digest_creak" />
 
         <SwitchPreference
-            android:title="@string/system_framework_core_patch_use_pre_signature"
-            android:summary="@string/system_framework_core_patch_use_pre_signature_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_core_patch_use_pre_signature"
-            android:defaultValue="false" />
+            android:summary="@string/system_framework_core_patch_use_pre_signature_desc"
+            android:title="@string/system_framework_core_patch_use_pre_signature" />
 
         <SwitchPreference
-            android:title="@string/system_framework_core_patch_enhanced_mode"
-            android:summary="@string/system_framework_core_patch_enhanced_mode_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_core_patch_enhanced_mode"
-            android:defaultValue="false" />
+            android:summary="@string/system_framework_core_patch_enhanced_mode_desc"
+            android:title="@string/system_framework_core_patch_enhanced_mode" />
 
         <SwitchPreference
-            android:title="@string/system_framework_disable_low_api_check"
-            android:summary="@string/system_framework_disable_low_api_check_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_disable_low_api_check"
-            android:defaultValue="false" />
+            android:summary="@string/system_framework_disable_low_api_check_desc"
+            android:title="@string/system_framework_disable_low_api_check" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

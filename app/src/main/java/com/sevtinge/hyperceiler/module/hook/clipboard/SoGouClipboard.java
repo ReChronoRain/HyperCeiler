@@ -40,7 +40,7 @@ public class SoGouClipboard extends BaseHook {
     @Override
     public void init() {
         // DexKit.INSTANCE.initDexKit(lpparam);
-        MethodData methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(
+        MethodData methodData = DexKit.getDexKitBridge().findMethod(
             FindMethod.create()
                 .matcher(MethodMatcher.create()
                     .declaredClass(ClassMatcher.create()

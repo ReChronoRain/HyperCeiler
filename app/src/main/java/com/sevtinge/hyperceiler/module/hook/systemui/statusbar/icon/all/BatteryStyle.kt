@@ -18,20 +18,15 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all
 
-import android.graphics.Typeface
-import android.util.TypedValue
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.graphics.*
+import android.util.*
+import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
-import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
-
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedHelpers
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
+import de.robv.android.xposed.*
 
 object BatteryStyle : BaseHook() {
     private val fontSize by lazy {
@@ -62,24 +57,17 @@ object BatteryStyle : BaseHook() {
         mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark")
     }
 
-    private val mBatteryMeterViewClass = when {
-        getAndroidVersion() >= 31 -> loadClass("com.android.systemui.statusbar.views.MiuiBatteryMeterView")
-        else -> loadClass("com.android.systemui.MiuiBatteryMeterView")
+    private val mBatteryMeterViewClass by lazy {
+        loadClass("com.android.systemui.statusbar.views.MiuiBatteryMeterView")
     }
 
     override fun init() {
-        if (isAndroidVersion(30)) {
-            mBatteryMeterViewClass.methodFinder()
-                .filterByName("updateResources")
-                .single()
-        } else {
-            mBatteryMeterViewClass.methodFinder()
-                .filterByName("updateAll")
-                .single()
-        }.createHook {
-            after { param ->
-                hookStatusBattery(param)
-            }
+       mBatteryMeterViewClass.methodFinder()
+           .filterByName("updateAll")
+           .single().createHook {
+               after { param ->
+                   hookStatusBattery(param)
+               }
         }
     }
 

@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -27,14 +27,11 @@ import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
 import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
 
@@ -42,12 +39,12 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
 
     DropDownPreference mChargeAnimationStyle;
     PreferenceCategory mChargeAnimationTitle;
-    PreferenceCategory mMonetOverlay;
-    SwitchPreference mOriginCharge;
     SwitchPreference mMiuiMultiWinSwitch;
+    SwitchPreference mMiuiMultiWinSwitchRemove;
     SwitchPreference mBottomBar;
     SwitchPreference mVolume;
     SwitchPreference mDisableBluetoothRestrict; // 禁用蓝牙临时关闭
+    SwitchPreference mPctUseBlur;
 
     @Override
     public int getContentResId() {
@@ -66,24 +63,22 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     public void initPrefs() {
         mChargeAnimationStyle = findPreference("prefs_key_system_ui_charge_animation_style");
         mChargeAnimationTitle = findPreference("prefs_key_system_ui_statusbar_charge_animation_title");
-        mMonetOverlay = findPreference("prefs_key_system_ui_monet");
-        mOriginCharge = findPreference("prefs_key_system_ui_origin_charge_animation");
         mDisableBluetoothRestrict = findPreference("prefs_key_system_ui_disable_bluetooth_restrict");
         mMiuiMultiWinSwitch = findPreference("prefs_key_system_ui_disable_miui_multi_win_switch");
+        mMiuiMultiWinSwitchRemove = findPreference("prefs_key_system_ui_remove_miui_multi_win_switch");
         mBottomBar = findPreference("prefs_key_system_ui_disable_bottombar");
         mVolume = findPreference("prefs_key_system_ui_disable_volume");
+        mPctUseBlur = findPreference("prefs_key_system_showpct_use_blur");
 
         mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
-        mMonetOverlay.setVisible(!isAndroidVersion(30));
-        mOriginCharge.setVisible(isAndroidVersion(31));
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && isMoreAndroidVersion(31));
         mMiuiMultiWinSwitch.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
+        mMiuiMultiWinSwitchRemove.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34) && isPad());
         mBottomBar.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
+        mPctUseBlur.setVisible(isMoreHyperOSVersion(1f));
 
         mVolume.setOnPreferenceChangeListener(
-            new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
+                (preference, o) -> {
                     ComponentName componentName = new ComponentName("miui.systemui.plugin",
                         "miui.systemui.volume.VolumeDialogPlugin");
                     PackageManager packageManager = getContext().getPackageManager();
@@ -98,7 +93,6 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
                     }
                     return true;
                 }
-            }
         );
     }
 }

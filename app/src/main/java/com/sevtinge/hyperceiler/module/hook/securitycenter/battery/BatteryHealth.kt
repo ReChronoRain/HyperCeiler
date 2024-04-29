@@ -1,19 +1,17 @@
 package com.sevtinge.hyperceiler.module.hook.securitycenter.battery
 
-import android.os.Message
-import com.github.kyuubiran.ezxhelper.EzXHelper
+import android.os.*
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import com.sevtinge.hyperceiler.utils.callMethod
-import com.sevtinge.hyperceiler.utils.getObjectField
-import com.sevtinge.hyperceiler.utils.hookAfterMethod
-import org.luckypray.dexkit.query.enums.StringMatchType
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.utils.*
+import org.luckypray.dexkit.query.enums.*
 
 
 object BatteryHealth : BaseHook() {
     private val getSecurityBatteryHealth by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingString("battery_health_soh", StringMatchType.Equals)
             }

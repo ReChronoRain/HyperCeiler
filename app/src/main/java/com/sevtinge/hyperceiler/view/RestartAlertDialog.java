@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.view;
 
-import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Context;
@@ -26,7 +26,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.module.app.GlobalActions;
+import com.sevtinge.hyperceiler.module.hook.GlobalActions;
 import com.sevtinge.hyperceiler.utils.KillApp;
 
 import java.util.Arrays;

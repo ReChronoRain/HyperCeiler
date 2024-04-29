@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_ui_other_title">
     <PreferenceCategory
         android:title="@string/system_ui_charge_animation_title"
         android:key="prefs_key_system_ui_statusbar_charge_animation_title" >
@@ -11,11 +12,6 @@
             android:title="@string/system_ui_charge_animation_style"
             app:entries="@array/charge_animation_entries"
             app:entryValues="@array/charge_animation_values" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_origin_charge_animation"
-            android:title="@string/system_ui_origin_charge_animation" />
 
     </PreferenceCategory>
 
@@ -75,6 +71,11 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_showpct_use_blur"
+            android:title="@string/system_showpct_use_blur" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_another_title">
@@ -83,6 +84,11 @@
             android:key="prefs_key_system_ui_disable_miui_multi_win_switch"
             android:summary="@string/system_ui_disable_miui_multi_win_switch_desc"
             android:title="@string/system_ui_disable_miui_multi_win_switch" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_remove_miui_multi_win_switch"
+            android:title="@string/system_ui_remove_miui_multi_win_switch" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -99,6 +105,12 @@
             android:key="prefs_key_system_ui_disable_volume"
             android:summary="@string/system_ui_disable_volume_desc"
             android:title="@string/system_ui_disable_volume" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_unlock_clipboard"
+            android:summary="@string/system_ui_unlock_clipboard_desc"
+            android:title="@string/system_ui_unlock_clipboard" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -126,5 +138,5 @@
             android:title="@string/system_ui_qs_label" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

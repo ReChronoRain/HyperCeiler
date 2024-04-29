@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/updater">
 
     <SwitchPreference
         android:title="@string/updater_fuck_vab"
         android:summary="@string/updater_fuck_vab_desc"
         android:key="prefs_key_updater_fuck_vab"
+        android:defaultValue="false" />
+
+    <SwitchPreference
+        android:title="@string/updater_diable_dialog"
+        android:key="prefs_key_updater_diable_dialog"
         android:defaultValue="false" />
 
     <SwitchPreference

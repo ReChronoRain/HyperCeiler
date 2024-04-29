@@ -18,21 +18,18 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.TrafficStats
-import android.util.Pair
+import android.annotation.*
+import android.content.*
+import android.net.*
+import android.util.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.R
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
-import de.robv.android.xposed.XposedHelpers
-import java.net.NetworkInterface
-import kotlin.math.pow
-import kotlin.math.roundToLong
+import com.sevtinge.hyperceiler.*
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
+import de.robv.android.xposed.*
+import java.net.*
+import kotlin.math.*
 
 object NetworkSpeed : BaseHook() {
     private var measureTime: Long = 0
@@ -123,13 +120,8 @@ object NetworkSpeed : BaseHook() {
 
     override fun init() {
         // 双排网速相关
-        val networkClass = when {
-            getAndroidVersion() == 30 -> "com.android.systemui.statusbar.NetworkSpeedController"
-            else -> "com.android.systemui.statusbar.policy.NetworkSpeedController"
-        }
-
         val nscCls by lazy {
-            findClassIfExists(networkClass, lpparam.classLoader)
+            findClassIfExists("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader)
         }
 
         if (nscCls == null) {

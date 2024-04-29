@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/home_drawer">
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
@@ -21,10 +23,34 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_home_drawer_blur_super"
+            android:summary="@string/home_drawer_blur_desc"
+            android:title="@string/home_drawer_blur_super" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="30"
+            android:dependency="prefs_key_home_drawer_blur_super"
+            android:key="prefs_key_home_drawer_blur_super_radius"
+            android:title="@string/custom_background_corner_radius"
+            app:defaultValueText="@string/array_default"
+            app:format="%d dp"
+            app:maxValue="60"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <moralnorm.preference.ColorPickerPreference
+            android:dependency="prefs_key_home_drawer_blur_super"
+            android:title="@string/home_dock_bg_color"
+            android:key="prefs_key_home_drawer_blur_super_bg_color"
+            android:defaultValue="-1"
+            app:showAlphaSlider="true" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_drawer_pinyin"
             android:summary="@string/home_drawer_pinyin_more"
             android:title="@string/home_drawer_pinyin" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

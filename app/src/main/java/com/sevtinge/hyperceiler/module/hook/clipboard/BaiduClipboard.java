@@ -16,7 +16,7 @@ public class BaiduClipboard extends BaseHook {
         MethodData methodData1 = null;
         MethodDataList methodDataList = new MethodDataList();
         if ("com.baidu.input".equals(lpparam.packageName)) {
-            methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(
+            methodData = DexKit.getDexKitBridge().findMethod(
                 FindMethod.create()
                     .matcher(
                         MethodMatcher.create()
@@ -29,7 +29,7 @@ public class BaiduClipboard extends BaseHook {
                     )
             ).singleOrNull();
 
-            methodData1 = DexKit.INSTANCE.getDexKitBridge().findMethod(
+            methodData1 = DexKit.getDexKitBridge().findMethod(
                 FindMethod.create()
                     .matcher(
                         MethodMatcher.create()
@@ -41,7 +41,7 @@ public class BaiduClipboard extends BaseHook {
                     )
             ).singleOrNull();
         } else if ("com.baidu.input_mi".equals(lpparam.packageName)) {
-            methodDataList = DexKit.INSTANCE.getDexKitBridge().findMethod(
+            methodDataList = DexKit.getDexKitBridge().findMethod(
                 FindMethod.create()
                     .matcher(
                         MethodMatcher.create()

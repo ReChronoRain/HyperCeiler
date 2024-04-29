@@ -18,58 +18,55 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 import com.sevtinge.hyperceiler.utils.KillApp;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
+import com.sevtinge.hyperceiler.utils.devicesdk.TelephonyManager;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import miui.telephony.TelephonyManager;
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;
+import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
 public class ControlCenterSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
-    SwitchPreference mFixMediaPanel;
     Preference mExpandNotification;
+    PreferenceCategory mMusic;
     SwitchPreference mNotice;
     SwitchPreference mNoticex;
     SeekBarPreferenceEx mNewCCGrid;
     SeekBarPreferenceEx mNewCCGridColumns;
-    SwitchPreference mNewCCGridRect;
     SwitchPreference mNewCCGridLabel;
     DropDownPreference mFiveG;
     DropDownPreference mBluetoothSytle;
     SwitchPreference mRoundedRect;
     SeekBarPreferenceEx mRoundedRectRadius;
     SwitchPreference mThemeBlur;
-    SwitchPreference mMusicCtrlPanelMix;
-    SeekBarPreferenceEx mMusicCtrlPanelMixBlur;
-    SeekBarPreferenceEx mMusicCtrlPanelOverlay;
+    DropDownPreference mProgressMode;
+    SeekBarPreferenceEx mProgressModeThickness;
 
     SwitchPreference mTaplus;
+    SwitchPreference mNotifrowmenu;
+    RecommendPreference mRecommend;
     Handler handler;
-
-    // 临时的，旧控制中心
-    SwitchPreference mOldCCGrid;
-    SwitchPreference mOldCCGrid1;
 
     @Override
     public int getContentResId() {
@@ -86,11 +83,10 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
 
     @Override
     public void initPrefs() {
+        mMusic = findPreference("prefs_key_system_ui_control_center_media_control_media_custom");
         mExpandNotification = findPreference("prefs_key_system_ui_control_center_expand_notification");
-        mFixMediaPanel = findPreference("prefs_key_system_ui_control_center_fix_media_control_panel");
         mNewCCGrid = findPreference("prefs_key_system_control_center_cc_rows");
         mNewCCGridColumns = findPreference("prefs_key_system_control_center_cc_columns");
-        mNewCCGridRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
         mNewCCGridLabel = findPreference("prefs_key_system_control_center_qs_tile_label");
         mNotice = findPreference("prefs_key_n_enable");
         mNoticex = findPreference("prefs_key_n_enable_fix");
@@ -100,9 +96,9 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mRoundedRectRadius = findPreference("prefs_key_system_ui_control_center_rounded_rect_radius");
         mTaplus = findPreference("prefs_key_security_center_taplus");
         mThemeBlur = findPreference("prefs_key_system_ui_control_center_unlock_blur_supported");
-        mMusicCtrlPanelMix = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix");
-        mMusicCtrlPanelMixBlur = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix_blur_radius");
-        mMusicCtrlPanelOverlay = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix_overlay");
+        mNotifrowmenu = findPreference("prefs_key_system_ui_control_center_notifrowmenu");
+        mProgressMode = findPreference("prefs_key_system_ui_control_center_media_control_progress_mode");
+        mProgressModeThickness = findPreference("prefs_key_system_ui_control_center_media_control_progress_thickness");
         handler = new Handler();
 
         mExpandNotification.setOnPreferenceClickListener(
@@ -122,28 +118,20 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
             }
         );
 
-        mFixMediaPanel.setVisible(isAndroidVersion(31) || isAndroidVersion(32));
-        mNewCCGrid.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
+        mNewCCGrid.setVisible(!isHyperOSVersion(1f));
         mNewCCGridColumns.setVisible(!isHyperOSVersion(1f));
-        mNewCCGridRect.setVisible(!isAndroidVersion(30));
         mNewCCGridLabel.setVisible(!isHyperOSVersion(1f));
-        mNotice.setVisible(!isAndroidVersion(30) && !isMoreHyperOSVersion(1f));
-        mNoticex.setVisible(isMoreAndroidVersion(33));
-        mBluetoothSytle.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
+        mNotice.setVisible(!isMoreHyperOSVersion(1f));
+        mBluetoothSytle.setVisible(!isHyperOSVersion(1f));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
         mThemeBlur.setVisible(isMoreHyperOSVersion(1f));
         mRoundedRectRadius.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false) && isMoreHyperOSVersion(1f));
-        mMusicCtrlPanelMix.setVisible(isMoreHyperOSVersion(1f));
-        mMusicCtrlPanelMixBlur.setVisible(isMoreHyperOSVersion(1f));
-        mMusicCtrlPanelOverlay.setVisible(isMoreHyperOSVersion(1f));
-
-        mOldCCGrid = findPreference("prefs_key_system_control_center_old_enable");
-        mOldCCGrid1 = findPreference("prefs_key_system_control_center_old_enable_1");
-
-        mOldCCGrid.setVisible(isMoreAndroidVersion(33));
-        mOldCCGrid1.setVisible(!isMoreAndroidVersion(33));
+        mMusic.setVisible(isMoreHyperOSVersion(1f));
+        mNotifrowmenu.setVisible(!isMoreHyperOSVersion(1f));
+        mProgressModeThickness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
 
         mRoundedRect.setOnPreferenceChangeListener(this);
+        mProgressMode.setOnPreferenceChangeListener(this);
 
         ((SeekBarPreferenceEx) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -165,6 +153,19 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+
+        Bundle args1 = new Bundle();
+        mRecommend = new RecommendPreference(getContext());
+        getPreferenceScreen().addPreference(mRecommend);
+
+        if(isMoreHyperOSVersion(1f)) args1.putString(":settings:fragment_args_key", "prefs_key_new_clock_status"); else args1.putString(":settings:fragment_args_key", "prefs_key_old_clock_status");
+        mRecommend.addRecommendView(getString(R.string.system_ui_statusbar_clock_title),
+                null,
+                StatusBarSettings.class,
+                args1,
+                R.string.system_ui_statusbar_title
+        );
+
     }
 
     public void killTaplus() {
@@ -175,12 +176,18 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
         if (preference == mRoundedRect) {
-            setCanBeVisible((Boolean) o);
+            setCanBeVisibleRoundedRect((Boolean) o);
+        } else if (preference == mProgressMode) {
+            setCanBeVisibleProgressMode(Integer.parseInt((String) o));
         }
         return true;
     }
 
-    private void setCanBeVisible(boolean mode) {
+    private void setCanBeVisibleRoundedRect(boolean mode) {
         mRoundedRectRadius.setVisible(mode && isMoreHyperOSVersion(1f));
+    }
+
+    private void setCanBeVisibleProgressMode(int mode) {
+        mProgressModeThickness.setVisible(mode == 2);
     }
 }

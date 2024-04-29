@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/lbe">
     <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_lbe_auto_start"
+            android:title="@string/lbe_auto_start" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_lbe_clipboard_tip_toast"

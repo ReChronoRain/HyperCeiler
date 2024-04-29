@@ -16,20 +16,18 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-
 package com.sevtinge.hyperceiler.module.hook.home.recent
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
 
 object UnlockPin : BaseHook() {
     override fun init() {
         loadClass("com.miui.home.launcher.DeviceConfig").methodFinder()
             .filterByName("isScreenPinningEnabled")
-            .single()
-            .createHook {
+            .single().createHook {
                 returnConstant(true)
             }
     }

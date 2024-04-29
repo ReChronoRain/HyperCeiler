@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_framework_display_title">
     <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/system_framework_background_blur_supported"
+            android:key="prefs_key_system_framework_background_blur_supported"
+            android:summary="@string/system_framework_background_blur_supported_more" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/system_framework_background_blur_toast"
+            android:key="prefs_key_system_framework_background_blur_toast" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:title="@string/system_framework_allow_all_dark_mode"
             android:key="prefs_key_system_framework_allow_all_dark_mode" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:summary="@string/system_ui_display_use_aosp_screenshot_desc"
+            android:title="@string/system_ui_display_use_aosp_screenshot"
+            android:key="prefs_key_system_ui_display_use_aosp_screenshot_enable" />
 
     </PreferenceCategory>
 

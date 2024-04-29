@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/guard_provider"
+    app:myLocationHyper="@string/guard_provider_hyperos">
     <SwitchPreference
         android:title="@string/guard_provider_disable_upload_applist"
         android:key="prefs_key_disable_upload_applist"
         android:defaultValue="false" />
-
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

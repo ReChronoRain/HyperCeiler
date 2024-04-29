@@ -1,27 +1,26 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.various;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 import de.robv.android.xposed.XposedHelpers;
-import miui.app.ActionBar;
 
 public class CollapseMiuiTitle extends BaseHook {
 
@@ -35,9 +34,14 @@ public class CollapseMiuiTitle extends BaseHook {
             hookAllConstructors(abvCls, new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    XposedHelpers.setIntField(param.thisObject, "mExpandState", ActionBar.STATE_EXPAND);
-                    XposedHelpers.setIntField(param.thisObject, "mInnerExpandState", ActionBar.STATE_COLLAPSE);
-                    if (opt == 2) XposedHelpers.setBooleanField(param.thisObject, "mResizable", false);
+                    XposedHelpers.setIntField(param.thisObject, "mExpandState", (int) XposedHelpers.getStaticObjectField(
+                            findClassIfExists("miui.app.ActionBar"),
+                            "STATE_EXPAND"));
+                    XposedHelpers.setIntField(param.thisObject, "mInnerExpandState", (int) XposedHelpers.getStaticObjectField(
+                            findClassIfExists("miui.app.ActionBar"),
+                            "STATE_COLLAPSE"));
+                    if (opt == 2)
+                        XposedHelpers.setBooleanField(param.thisObject, "mResizable", false);
                 }
             });
 
@@ -57,9 +61,13 @@ public class CollapseMiuiTitle extends BaseHook {
 
     private void setExpandState(Object obj, boolean state) {
         if (state) {
-            XposedHelpers.callMethod(obj, "setExpandState", ActionBar.STATE_COLLAPSE);
+            XposedHelpers.callMethod(obj, "setExpandState", XposedHelpers.getObjectField(
+                    findClassIfExists("miui.app.ActionBar"),
+                    "STATE_COLLAPSE"));
         } else {
-            XposedHelpers.callMethod(obj, "setExpandState", ActionBar.STATE_EXPAND);
+            XposedHelpers.callMethod(obj, "setExpandState", XposedHelpers.getObjectField(
+                    findClassIfExists("miui.app.ActionBar"),
+                    "STATE_EXPAND"));
         }
     }
 

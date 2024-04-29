@@ -18,18 +18,16 @@
 */
 package com.sevtinge.hyperceiler.module.hook.voiceassist
 
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedBridge
-import java.lang.reflect.Method
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import de.robv.android.xposed.*
+import java.lang.reflect.*
 
 object UseThirdPartyBrowser : BaseHook() {
     private var browserActivityWithIntent: Method? = null
     override fun init() {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals(
                     "IntentUtils", "permission click No Application can handle your intent"

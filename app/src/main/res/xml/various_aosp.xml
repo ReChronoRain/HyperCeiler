@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/various_open_aosp_something_title">
     <PreferenceCategory>
         <Preference android:title="@string/various_open_aosp_extremely_dark_title">
             <intent
@@ -36,7 +38,13 @@
                 android:targetClass="com.android.settings.LanguageSettings"
                 android:targetPackage="com.android.settings" />
         </Preference>
+        
+        <Preference android:title="@string/various_open_aosp_default_apps_title">
+            <intent
+                android:targetClass="com.android.permissioncontroller.role.ui.DefaultAppListActivity"
+                android:targetPackage="com.android.permissioncontroller" />
+        </Preference>
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

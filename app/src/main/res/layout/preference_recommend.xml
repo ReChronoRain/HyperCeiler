@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:importantForAccessibility="no">
+
+    <LinearLayout
+        android:id="@+id/line_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/preference_recommend_region_margin"
+        android:background="@drawable/preference_recommend_background"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/preference_recommend_region_padding_bottom">
+
+        <TextView
+            android:id="@+id/recommend_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/preference_recommend_title_margin_horizontal"
+            android:layout_marginVertical="@dimen/preference_recommend_title_margin_top"
+            android:layout_marginBottom="@dimen/preference_recommend_title_margin_bottom"
+            android:text="@string/preference_recommend_tip"
+            android:textColor="@color/preference_recommend_title_color"
+            android:textSize="@dimen/miuix_appcompat_normal_text_size" />
+    </LinearLayout>
+</LinearLayout>

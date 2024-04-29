@@ -18,13 +18,15 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
-import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
@@ -39,6 +41,7 @@ public class HomeTitleSettings extends SettingsPreferenceFragment {
     SwitchPreference mDisableMonetColor;
     SwitchPreference mDisableHideTheme;
     Preference mIconTitleCustomization;
+    RecommendPreference mRecommend;
 
     @Override
     public int getContentResId() {
@@ -71,5 +74,27 @@ public class HomeTitleSettings extends SettingsPreferenceFragment {
             startActivity(intent);
             return true;
         });
+
+
+        Bundle args1 = new Bundle();
+        Bundle args2 = new Bundle();
+        mRecommend = new RecommendPreference(getContext());
+        getPreferenceScreen().addPreference(mRecommend);
+
+        args1.putString(":settings:fragment_args_key", "prefs_key_home_other_shortcut_background_blur");
+        mRecommend.addRecommendView(getString(R.string.home_other_shortcut_background_blur),
+                null,
+                HomeOtherSettings.class,
+                args1,
+                R.string.home_other
+        );
+
+        args2.putString(":settings:fragment_args_key", "prefs_key_home_other_all_hide_app_activity");
+        mRecommend.addRecommendView(getString(R.string.home_other_app_icon_hide),
+                null,
+                HomeOtherSettings.class,
+                args2,
+                R.string.home_other
+        );
     }
 }

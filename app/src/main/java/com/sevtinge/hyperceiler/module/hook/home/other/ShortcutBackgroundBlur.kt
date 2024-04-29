@@ -18,33 +18,19 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.other
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ValueAnimator
-import android.app.Activity
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.RenderEffect
-import android.graphics.Shader
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
-import android.os.Build
-import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.annotation.RequiresApi
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import android.animation.*
+import android.app.*
+import android.graphics.*
+import android.graphics.drawable.*
+import android.view.*
+import android.widget.*
+import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.*
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedBridge
-import de.robv.android.xposed.XposedHelpers
-import kotlin.math.sqrt
+import de.robv.android.xposed.*
+import kotlin.math.*
 
 
 object ShortcutBackgroundBlur : BaseHook() {
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
 
         // if (!mPrefsMap.getBoolean("home_shortcut_blur")) return

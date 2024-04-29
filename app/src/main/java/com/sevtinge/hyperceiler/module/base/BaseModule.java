@@ -20,12 +20,15 @@ package com.sevtinge.hyperceiler.module.base;
 
 import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.XposedInit;
-import com.sevtinge.hyperceiler.module.base.dexkit.InitDexKit;
-import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.safe.CrashData;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
+import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
+
+import java.util.HashMap;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
@@ -33,18 +36,15 @@ public abstract class BaseModule implements IXposedHook {
 
     public LoadPackageParam mLoadPackageParam = null;
     public String TAG = getClass().getSimpleName();
-    public static ILoadDexKit loadDexKit;
     public final PrefsMap<String, Object> mPrefsMap = XposedInit.mPrefsMap;
-
-    public interface ILoadDexKit {
-        void createDexKit(LoadPackageParam lpparam, String TAG);
-    }
-
-    public static void setLoadDexKit(ILoadDexKit iLoadDexKit) {
-        loadDexKit = iLoadDexKit;
-    }
+    private static HashMap<String, String> swappedMap = CrashData.swappedData();
 
     public void init(LoadPackageParam lpparam) {
+        if (swappedMap.isEmpty()) swappedMap = CrashData.swappedData();
+        if (CrashData.toPkgList(lpparam.packageName)) {
+            XposedLogUtils.logI(TAG, "进入安全模式: " + lpparam.packageName);
+            return;
+        }
         EzXHelper.initHandleLoadPackage(lpparam);
         EzXHelper.setLogTag(TAG);
         EzXHelper.setToastTag(TAG);
@@ -52,28 +52,29 @@ public abstract class BaseModule implements IXposedHook {
         try {
             if (!ProjectApi.mAppModulePkg.equals(lpparam.packageName)) {
                 ContextUtils.getWaitContext(
-                    context -> {
-                        if (context != null) {
-                            ResourcesTool.loadModuleRes(context);
-                        }
-                    }, "android".equals(lpparam.packageName));
+                        context -> {
+                            if (context != null) {
+                                // try {
+                                //     Handler handler = new Handler(context.getMainLooper());
+                                //     BaseXposedInit.mResHook.putHandler(handler);
+                                // } catch (Throwable e) {
+                                // }
+                                // EzXHelper.initAppContext(context, false);
+                                BaseXposedInit.mResHook.loadModuleRes(context);
+                                // mResHook.loadModuleRes(context);
+                            }
+                        }, "android".equals(lpparam.packageName));
             }
         } catch (Throwable e) {
             XposedLogUtils.logE(TAG, "get context failed!" + e);
         }
         mLoadPackageParam = lpparam;
+        DexKit dexKit = new DexKit(lpparam, TAG);
         initZygote();
-        DexKitHelper helper = new DexKitHelper();
-        InitDexKit kit = new InitDexKit();
-        loadDexKit.createDexKit(mLoadPackageParam, TAG);
         handleLoadPackage();
-        if (helper.useDexKit) {
-            try {
-                kit.closeHostDir();
-                // XposedLogUtils.logE(TAG, "close dexkit s: " + lpparam.packageName);
-            } catch (Exception e) {
-                XposedLogUtils.logE(TAG, "close dexkit failed!" + e);
-            }
+        if (dexKit.isInit) {
+            dexKit.close();
+            // XposedLogUtils.logE(TAG, "close dexkit s: " + lpparam.packageName);
         }
     }
 
@@ -82,7 +83,9 @@ public abstract class BaseModule implements IXposedHook {
     }
 
     public void initHook(BaseHook baseHook) {
-        initHook(baseHook, true);
+        if (baseHook.isLoad()) {
+            baseHook.onCreate(mLoadPackageParam);
+        }
     }
 
     public void initHook(BaseHook baseHook, boolean isInit) {
@@ -91,16 +94,54 @@ public abstract class BaseModule implements IXposedHook {
         }
     }
 
-    private static class DexKitHelper implements InitDexKit.IUseDexKit {
-        public boolean useDexKit = false;
+    public void initHook(BaseHook baseHook, boolean isInit, String versionName) {
+        initHook(baseHook, isInit, versionName, -1, -1);
+    }
 
-        public DexKitHelper() {
-            InitDexKit.setUseDexKit(this);
+    public void initHook(BaseHook baseHook, boolean isInit, String versionName, int versionCodeStart, int versionCodeEnd) {
+        if (isInit) {
+            String mVName = Helpers.getPackageVersionName(mLoadPackageParam);
+            if (mVName == null) return;
+            if (mVName.equals(versionName)) {
+                initHook(baseHook, true, versionCodeStart, versionCodeEnd);
+            }
         }
+    }
 
-        @Override
-        public void useDexKit(boolean use) {
-            useDexKit = use;
+    public void initHook(BaseHook baseHook, boolean isInit, String versionName, int versionCodes) {
+        initHook(baseHook, isInit, versionName, versionCodes, -1);
+    }
+
+    public void initHook(BaseHook baseHook, boolean isInit, String versionName, int[] versionCodes) {
+        for (int code : versionCodes) {
+            initHook(baseHook, isInit, versionName, code, -1);
+        }
+    }
+
+    public void initHook(BaseHook baseHook, boolean isInit, int versionCodes) {
+        initHook(baseHook, isInit, versionCodes, -1);
+    }
+
+    public void initHook(BaseHook baseHook, boolean isInit, int[] versionCodes) {
+        for (int code : versionCodes) {
+            initHook(baseHook, isInit, code, -1);
+        }
+    }
+
+    public void initHook(BaseHook baseHook, boolean isInit, int versionCodeStart, int versionCodeEnd) {
+        if (isInit) {
+            if (versionCodeStart == -1) {
+                baseHook.onCreate(mLoadPackageParam);
+                return;
+            }
+            int code = Helpers.getPackageVersionCode(mLoadPackageParam);
+            if (code == versionCodeStart) {
+                baseHook.onCreate(mLoadPackageParam);
+            } else if (versionCodeEnd != -1) {
+                if (code >= versionCodeStart && code <= versionCodeEnd) {
+                    baseHook.onCreate(mLoadPackageParam);
+                }
+            }
         }
     }
 }

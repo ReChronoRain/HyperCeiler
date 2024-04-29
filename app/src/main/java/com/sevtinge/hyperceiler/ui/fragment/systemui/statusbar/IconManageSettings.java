@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.view.View;
@@ -30,14 +28,11 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
 import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
 public class IconManageSettings extends SettingsPreferenceFragment {
 
-    Preference UseNewHD;
-    DropDownPreference IconNewHD;
     DropDownPreference mAlarmClockIcon;
     SeekBarPreferenceEx mAlarmClockIconN;
     SeekBarPreferenceEx mNotificationIconMaximum;
@@ -67,11 +62,6 @@ public class IconManageSettings extends SettingsPreferenceFragment {
         mBatteryNumber = findPreference("prefs_key_system_ui_status_bar_battery_percent");
         mBatteryPercentage = findPreference("prefs_key_system_ui_status_bar_battery_percent_mark");
         mNotificationIconColumns = findPreference("prefs_key_system_ui_status_bar_notification_icon_maximum");
-
-        UseNewHD = findPreference("prefs_key_system_ui_status_bar_use_new_hd");
-        IconNewHD = findPreference("prefs_key_system_ui_status_bar_icon_new_hd");
-        UseNewHD.setVisible(isAndroidVersion(33));
-        IconNewHD.setVisible(isMoreAndroidVersion(33));
 
         mNotificationIconColumns.setDefaultValue(isMoreHyperOSVersion(1f) ? 1 : 3);
 

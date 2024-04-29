@@ -6,25 +6,23 @@
 
 ### Torne o HyperOS/MIUI ótimo novamente!
 
-[简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md) |&nbsp;&nbsp;Português (Brasil)
+[简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md)&nbsp;&nbsp;|&nbsp;&nbsp;Português (Brasil)
 
 </div>
 
-## Versões suportadas
+## Versões atualmente suportadas
 
-MIUI e HyperOS para Android 11-14
-
-Observação: O escopo do Framework do Sistema e UI do Sistema não são compatíveis com a MIUI para Android 11-12.
+MIUI e HyperOS para Android 13-14
 
 ## Instruções de pré-uso
 
-Por favor, ative o HyperCeiler no [LSPosed](https://github.com/LSPosed/LSPosed/releases), em seguida, ative o recurso correspondente no app HyperCeiler e reinicie o escopo (é necessário acesso root).
+Por favor, ative o HyperCeiler no [LSPosed](https://github.com/LSPosed/LSPosed/releases), em seguida, ative o recurso correspondente no app HyperCeiler e reinicie o escopo (necessário root).
 
 Este módulo <b>não suporta</b> `ROM MIUI/Xiaomi HyperOS de terceiros com muitas modificações`, `software de sistema com muitas modificações` e algumas `ROM MIUI/Xiaomi HyperOS internacionais`.
 
-Atualmente, o HyperCeiler está adaptado para dispositivos baseado em Xiaomi HyperOS 1.0 no Android 14, e a cobertura não é muito completa e precisa ser continuamente testada e melhorada.
+Antes de enviar feedback, preste atenção se já existe o mesmo feedback para evitar problemas aos desenvolvedores. Gastar a mesma energia lendo o mesmo feedback é uma perda de tempo.
 
-O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12, exceto para o escopo principal, como Framework do Sistema e Ui do Sistema, em princípio, outros escopos podem ser usados ​​normalmente, se você precisar usar o escopo principal, fique [nesta versão](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
+O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12. Se você quiser usá-lo, fique [nesta versão](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
 
 ## Apps suportados
 
@@ -44,13 +42,12 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12, exceto par
 | Papéis de Parede Mi                            | com.miui.miwallpaper               |
 | Taplus                                         | com.miui.contentextension          |
 | Bullet screen notification                     | com.xiaomi.barrage                 |
-| Baidu IME for MIUI                             | com.baidu.input_mi                 |
 | Ui de chamadas                                 | com.android.incallui               |
 | Serviços do smartphone                         | com.android.phone                  |
 | Bateria e desempenho                           | com.miui.powerkeeper               |
 | Mensagens                                      | com.android.mms                    |
 | Captura de tela                                | com.miui.screenshot                |
-| Limpeza                                        | com.miui.cleanmaster               |
+| Calendário                                     | com.android.calendar               |
 | Navegador                                      | com.android.browser                |
 | Rueban (MTB)                                   | com.xiaomi.mtb                     |
 | Gravador de Tela                               | com.miui.screenrecorder            |
@@ -58,10 +55,9 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12, exceto par
 | Configurações                                  | com.android.settings               |
 | Sogou Keyboard for MIUI                        | com.sohu.inputmethod.sogou.xiaomi  |
 | Clima                                          | com.miui.weather2                  |
-| Transmitir                                     | com.milink.service                 |
-| Serviços de interconectividade de dispositivos | com.xiaomi.mirror                  |
+| Serviços de interconectividade                 | com.milink.service                 |
 | Armazenamento externo                          | com.android.externalstorage        |
-| Tela ambiente                                  | com.miui.aod                       |
+| Tela sempre ativa e editor da Tela de bloqueio | com.miui.aod                       |
 | Arquivos                                       | com.android.fileexplorer           |
 | Plugin de serviço de sistema                   | com.miui.securityadd               |
 | Downloads                                      | com.android.providers.downloads.ui |
@@ -80,10 +76,8 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12, exceto par
 | Componentes de segurança do HyperOS            | com.miui.guardprovider             |
 | Câmera                                         | com.android.camera                 |
 | Mi AI Translate                                | com.xiaomi.aiasst.vision           |
-| AI Reco                                        | com.xiaomi.aireco                  |
 | Scanner                                        | com.xiaomi.scanner                 |
 | Mi AI                                          | com.miui.voiceassist               |
-| NetworkBoost                                   | com.xiaomi.NetworkBoost            |
 | Serviço NFC                                    | com.android.nfc                    |
 | Fones de ouvido                                | com.miui.misound                   |
 | Backup                                         | com.miui.backup                    |
@@ -108,9 +102,11 @@ Junte-se ao nosso grupo para relatar problemas ou obter as atualizações mais r
 
 Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler).
 
+Observação: Quando o progresso da tradução do novo idioma for maior ou igual a 90%, ele entrará no processo de mesclagem. Se o progresso da tradução do idioma adicionado for menor ou igual a 30% do texto original, ele será removido temporariamente até que o progresso da tradução seja maior ou igual a 90%.
+
 ## Obrigado!
 
-O <b>HyperCeiler</b> usa alguns ou todos os projetos a seguir, graças ao apoio dos desenvolvedores desses projetos (em nenhuma ordem em particular).
+> O <b>HyperCeiler</b> usa alguns ou todos os projetos a seguir, graças ao apoio dos desenvolvedores desses projetos (em nenhuma ordem em particular).
 
 - [「Accompanist」 por Android Open Source Project, Google Inc.](https://google.github.io/accompanist)
 - [「Android」 por Android Open Source Project, Google Inc.](https://source.android.google.cn/license)

@@ -72,8 +72,20 @@ object AutoNfc : BaseHook() {
                     }
                 }
             }
+        mResHook.setResReplacement(
+            "com.miui.tsmclient",
+            "string",
+            "nfc_off_hint",
+            R.string.tsmclient_nfc_turning_on
+        )
+        mResHook.setResReplacement(
+            "com.miui.tsmclient",
+            "string",
+            "immediately_open",
+            R.string.tsmclient_nfc_turn_on_manually
+        )
     }
-
+/*
     fun initResource(resparam: XC_InitPackageResources.InitPackageResourcesParam) {
         val moduleRes = XModuleResources.createInstance(mModulePath, resparam.res)
         resparam.res.setReplacement(
@@ -88,7 +100,7 @@ object AutoNfc : BaseHook() {
             "immediately_open",
             moduleRes.fwd(R.string.tsmclient_nfc_turn_on_manually)
         )
-    }
+    }*/
 
     private suspend fun waitNFCEnable(context: Context, nfcAdapter: NfcAdapter) {
         repeat(15) {

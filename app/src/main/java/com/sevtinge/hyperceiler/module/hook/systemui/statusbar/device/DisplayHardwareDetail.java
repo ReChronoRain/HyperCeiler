@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.device;
 
-import static com.sevtinge.hyperceiler.utils.api.NekoQiqiApisKt.isNewNetworkStyle;
-import static com.sevtinge.hyperceiler.utils.devicesdk.AppUtilsKt.dp2px;
+import static com.sevtinge.hyperceiler.utils.api.OldFunApisKt.isNewNetworkStyle;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 

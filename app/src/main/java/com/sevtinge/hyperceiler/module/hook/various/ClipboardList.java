@@ -104,7 +104,7 @@ public class ClipboardList extends BaseHook {
                         /*获取原始list数据内容*/
                         ArrayList<?> jsonToBean = jsonToBean((String) param.args[1], classLoader);
                         // logE(TAG, "get: " + listToJson(jsonToBean));
-                        if (jsonToBean.size() == 0) {
+                        if (jsonToBean.isEmpty()) {
                             /*防止在数据为空时误删数据库数据*/
                             // resetFile();
                             lastArray = new ArrayList<>();
@@ -321,11 +321,10 @@ public class ClipboardList extends BaseHook {
                 builder.append(line);
             }
             String jsonString = builder.toString();
-            if ("".equals(jsonString)) {
+            if (jsonString.isEmpty()) {
                 jsonString = "[]";
             }
-            JSONArray jsonArray = new JSONArray(jsonString);
-            return jsonArray;
+            return new JSONArray(jsonString);
         } catch (IOException | JSONException e) {
             logE(TAG, "readFile: " + e);
         }

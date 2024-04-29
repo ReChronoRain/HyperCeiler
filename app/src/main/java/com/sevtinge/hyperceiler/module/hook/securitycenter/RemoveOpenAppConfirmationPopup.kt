@@ -32,7 +32,7 @@ class RemoveOpenAppConfirmationPopup : BaseHook() {
             .filterByName("setText")
             .filterByParamTypes {
                 it[0] == CharSequence::class.java
-            }.single().createHook {
+            }.first().createHook {
                 after {
                     val textView = it.thisObject as TextView
                     if (it.args.isNotEmpty() && it.args[0]?.toString().equals(

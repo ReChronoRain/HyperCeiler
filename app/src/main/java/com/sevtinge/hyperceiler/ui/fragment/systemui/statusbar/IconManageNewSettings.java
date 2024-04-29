@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.view.View;
@@ -45,7 +46,7 @@ public class IconManageNewSettings extends SettingsPreferenceFragment {
         mBatteryPercentage = findPreference("prefs_key_system_ui_status_bar_battery_percent_mark");
         mNotificationIconColumns = findPreference("prefs_key_system_ui_status_bar_notification_icon_maximum");
 
-        mNotificationIconColumns.setDefaultValue(isMoreHyperOSVersion(1f) ? 1 : 3);
+        mNotificationIconColumns.setDefaultValue((isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) ? 1 : 3);
 
         mAlarmClockIconN.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
 

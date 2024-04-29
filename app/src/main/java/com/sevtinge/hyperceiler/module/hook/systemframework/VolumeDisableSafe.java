@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 public class VolumeDisableSafe extends BaseHook {
@@ -26,8 +28,14 @@ public class VolumeDisableSafe extends BaseHook {
 
     @Override
     public void init() {
-        mAudioService = findClassIfExists("com.android.server.audio.AudioService");
-        returnIntConstant(mAudioService, "safeMediaVolumeIndex");
+        if (isMoreAndroidVersion(34)) {
+            // by starVoyager
+            mAudioService = findClassIfExists("com.android.server.audio.SoundDoseHelperStubImpl");
+            returnIntConstant(mAudioService, "updateSafeMediaVolumeIndex");
+        } else {
+            mAudioService = findClassIfExists("com.android.server.audio.AudioService");
+            returnIntConstant(mAudioService, "safeMediaVolumeIndex");
+        }
     }
 
     private void returnIntConstant(Class<?> cls, String methodName) {

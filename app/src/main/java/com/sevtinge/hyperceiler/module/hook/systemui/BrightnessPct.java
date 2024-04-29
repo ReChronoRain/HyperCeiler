@@ -18,6 +18,9 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getTextView;
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.initPct;
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.removePct;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.annotation.SuppressLint;

@@ -18,12 +18,11 @@
 */
 package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
-import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import java.lang.reflect.Method
-import java.lang.reflect.Modifier
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import java.lang.reflect.*
 
 object UnlockCustomPhotoFrames : BaseHook() {
     private val frames by lazy {
@@ -37,7 +36,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
     private val isPOCO by lazy { frames == 3 }
 
     private val publicA by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 // 真是妹想到啊，1.5 和 1.6 版本还以为不会套回去了
                 // 现在这个查找方式直接兼容 1.4 - 1.6
@@ -71,7 +70,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
 
     // 公共解锁特定机型定制画框使用限制
     private val publicB by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 declaredClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils")
                 // modifiers = Modifier.STATIC // 1.6.5.10.2 改成 STATIC，原来是 FINAL
@@ -126,20 +125,20 @@ object UnlockCustomPhotoFrames : BaseHook() {
         var index = 0
 
         differentItems.forEach { method ->
-            logI(TAG, "PublicA name is $method") // debug 用
+            logD(TAG, lpparam.packageName, "PublicA name is $method") // debug 用
             val action = actions.getOrElse(index) { ::other }
             action(method)
             index = (index + 1) % actions.size
         }
 
         publicB.forEach { method ->
-            logI(TAG, "PublicB name is $method") // debug 用
+            logD(TAG, lpparam.packageName, "PublicB name is $method") // debug 用
             other(method)
         }
 
-        if (isOpenSpring) {
+        if (isOpenSpring && orderedPublicC.isNotEmpty()) {
             orderedPublicC.forEach { method ->
-                logI(TAG, "Public Spring name is $method") // debug 用
+                logD(TAG, lpparam.packageName, "Public Spring name is $method") // debug 用
                 other(method)  // 1.6.0.5.2 新增限时新春定制画框
             }
         }

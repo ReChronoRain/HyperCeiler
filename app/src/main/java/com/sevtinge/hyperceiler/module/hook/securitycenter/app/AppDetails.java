@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.app;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;

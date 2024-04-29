@@ -27,8 +27,8 @@ import android.widget.FrameLayout;
 
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.DisplayUtils;
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils;
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import java.lang.reflect.Field;
@@ -82,9 +82,9 @@ public class DialogGravity extends BaseHook {
 
                             layoutParams.gravity = mDialogGravity == 1 ? Gravity.CENTER : Gravity.BOTTOM | Gravity.CENTER;
 
-                            layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
-                            layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
-                            layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dip2px(mContext, mDialogBottomMargin);
+                            layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dp2px(mDialogHorizontalMargin));
+                            layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dp2px(mDialogHorizontalMargin));
+                            layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dp2px(mDialogBottomMargin);
                         }
 
                         mParentPanel.setLayoutParams(layoutParams);
@@ -116,9 +116,9 @@ public class DialogGravity extends BaseHook {
 
                                 layoutParams.gravity = mDialogGravity == 1 ? Gravity.CENTER : Gravity.BOTTOM | Gravity.CENTER;
 
-                                layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
-                                layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
-                                layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dip2px(mContext, mDialogBottomMargin);
+                                layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dp2px(mDialogHorizontalMargin));
+                                layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dp2px(mDialogHorizontalMargin));
+                                layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dp2px(mDialogBottomMargin);
                             }
 
                             mParentPanel.setLayoutParams(layoutParams);

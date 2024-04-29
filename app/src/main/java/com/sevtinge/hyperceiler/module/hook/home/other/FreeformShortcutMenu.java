@@ -18,7 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.other;
 
-import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 import android.annotation.SuppressLint;
@@ -61,8 +62,6 @@ public class FreeformShortcutMenu extends BaseHook {
     public void init() {
 
         if (isPad()) {
-            hookAllMethods("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$MultipleSmallWindowShortcutMenuItem", "isValid",
-                MethodHook.returnConstant(true));
             hookAllMethods("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$SmallWindowShortcutMenuItem", "isValid",
                 MethodHook.returnConstant(true));
             return;

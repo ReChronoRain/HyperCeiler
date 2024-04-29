@@ -22,12 +22,12 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
 
 class RemoveMacroBlackList : BaseHook() {
     override fun init() {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addEqString("pref_gb_unsupport_macro_apps")
                 paramCount = 0
@@ -36,7 +36,7 @@ class RemoveMacroBlackList : BaseHook() {
             returnConstant(ArrayList<String>())
         }
 
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 returnType = "boolean"
                 addInvoke {
@@ -48,7 +48,7 @@ class RemoveMacroBlackList : BaseHook() {
             returnConstant(false)
         }
 
-        dexKitBridge.findClass {
+        DexKit.getDexKitBridge().findClass {
             matcher {
                 usingStrings =
                     listOf("content://com.xiaomi.macro.MacroStatusProvider/game_macro_change")

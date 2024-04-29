@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-    <!--
+<?xml version="1.0" encoding="utf-8"?><!--
       ~ Copyright (C) 2015 The Android Open Source Project
       ~
       ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,59 +15,56 @@
       -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:clickable="false"
-android:clipChildren="false"
-android:gravity="center_vertical"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_gravity="center_vertical"
-android:paddingStart="@dimen/preference_item_padding_start"
-android:paddingEnd="@dimen/preference_item_padding_end"
-android:paddingBottom="@dimen/preference_item_padding_inner">
-
-<include layout="@layout/image_frame" />
-
-<RelativeLayout
-    android:gravity="center_vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:layout_weight="1.0">
-
-    <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@android:id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/textview_white"
-        android:textColor="@color/textview_black"
-        android:typeface="monospace"
-        android:inputType="textMultiLine"
-        android:textIsSelectable="true"
-        android:enabled="false"
-        android:clickable="true"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:longClickable="true"
-        />
-</RelativeLayout>
-
-<!-- Preference should place its actual preference widget here. -->
-<LinearLayout
-    android:id="@android:id/widget_frame"
-    android:gravity="center"
+    android:clickable="false"
     android:clipChildren="false"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:minWidth="@dimen/preference_widget_minWidth" />
+    android:gravity="center_vertical"
+    android:paddingStart="@dimen/preference_item_padding_start"
+    android:paddingEnd="@dimen/preference_item_padding_end"
+    android:paddingTop="@dimen/preference_item_padding_inner"
+    android:paddingBottom="@dimen/preference_item_padding_inner">
 
-<ImageView
-    android:id="@+id/arrow_right"
-    android:gravity="center"
-    android:layout_gravity="center|end"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/ic_preference_arrow_right" />
+    <include layout="@layout/image_frame" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1.0"
+        android:gravity="center_vertical">
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@android:id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/textview_white"
+            android:clickable="false"
+            android:inputType="none"
+            android:textColor="@color/textview_black"
+            android:textIsSelectable="true"
+            android:typeface="monospace" />
+
+
+    </RelativeLayout>
+
+    <!-- Preference should place its actual preference widget here. -->
+    <LinearLayout
+        android:id="@android:id/widget_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:gravity="center"
+        android:minWidth="@dimen/preference_widget_minWidth"
+        android:orientation="vertical" />
+
+    <ImageView
+        android:id="@+id/arrow_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:gravity="center"
+        android:src="@drawable/ic_preference_arrow_right" />
 
 </LinearLayout>

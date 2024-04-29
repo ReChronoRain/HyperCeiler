@@ -21,19 +21,22 @@ package com.sevtinge.hyperceiler.module.app;
 import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.updater.AndroidVersionCode;
+import com.sevtinge.hyperceiler.module.hook.updater.AutoUpdateDialog;
 import com.sevtinge.hyperceiler.module.hook.updater.DeviceModify;
 import com.sevtinge.hyperceiler.module.hook.updater.VabUpdate;
 import com.sevtinge.hyperceiler.module.hook.updater.VersionCodeModify;
 import com.sevtinge.hyperceiler.module.hook.updater.VersionCodeNew;
 
+@HookExpand(pkg = "com.android.updater", isPad = false, tarAndroid = 33)
 public class Updater extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
         if (mPrefsMap.getBoolean("updater_enable_miui_version")) {
             if (mPrefsMap.getStringAsInt("updater_version_mode", 1) != 1) {
-                initHook(VersionCodeNew.INSTANCE);
+                initHook(VersionCodeNew.INSTANCE, true);
             } else {
                 initHook(new VersionCodeModify(), !TextUtils.isEmpty(mPrefsMap.getString("various_updater_miui_version", "")));
             }
@@ -41,5 +44,6 @@ public class Updater extends BaseModule {
             initHook(DeviceModify.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("updater_device", "")));
         }
         initHook(new VabUpdate(), mPrefsMap.getBoolean("updater_fuck_vab"));
+        initHook(AutoUpdateDialog.INSTANCE, mPrefsMap.getBoolean("updater_diable_dialog"));
     }
 }

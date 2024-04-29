@@ -31,8 +31,8 @@ import android.widget.FrameLayout;
 
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.DisplayUtils;
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils;
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -67,9 +67,9 @@ public class DockCustom extends BaseHook {
                 FrameLayout mSearchBarContainer = (FrameLayout) XposedHelpers.callMethod(param.thisObject, "getSearchBarContainer");
                 FrameLayout mSearchEdgeLayout = (FrameLayout) mSearchBarContainer.getParent();
 
-                int mDockHeight = DisplayUtils.dip2px(mSearchBarContainer.getContext(), XposedInit.mPrefsMap.getInt("home_dock_bg_height", 80));
-                int mDockMargin = DisplayUtils.dip2px(mSearchBarContainer.getContext(), XposedInit.mPrefsMap.getInt("home_dock_bg_margin_horizontal", 30));
-                int mDockBottomMargin = DisplayUtils.dip2px(mSearchBarContainer.getContext(), XposedInit.mPrefsMap.getInt("home_dock_bg_margin_bottom", 30));
+                int mDockHeight = DisplayUtils.dp2px(XposedInit.mPrefsMap.getInt("home_dock_bg_height", 80));
+                int mDockMargin = DisplayUtils.dp2px(XposedInit.mPrefsMap.getInt("home_dock_bg_margin_horizontal", 30));
+                int mDockBottomMargin = DisplayUtils.dp2px(XposedInit.mPrefsMap.getInt("home_dock_bg_margin_bottom", 30));
 
                 mDockView = new FrameLayout(mSearchBarContainer.getContext());
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mDockHeight);
@@ -158,7 +158,7 @@ public class DockCustom extends BaseHook {
         GradientDrawable mDockBackground = new GradientDrawable();
         mDockBackground.setShape(GradientDrawable.RECTANGLE);
         mDockBackground.setColor(Color.argb(60, 255, 255, 255));
-        mDockBackground.setCornerRadius(DisplayUtils.dip2px(context, 22));
+        mDockBackground.setCornerRadius(DisplayUtils.dp2px(22));
         return mDockBackground;
     }
 

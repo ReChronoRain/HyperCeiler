@@ -19,13 +19,13 @@
 package com.sevtinge.hyperceiler.module.hook.packageinstaller
 
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
 
 object DisableAD : BaseHook() {
     override fun init() {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("ads_enable")
                 returnType = "boolean"
@@ -34,7 +34,7 @@ object DisableAD : BaseHook() {
             returnConstant(false)
         }
 
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("app_store_recommend")
                 returnType = "boolean"
@@ -43,7 +43,7 @@ object DisableAD : BaseHook() {
             returnConstant(false)
         }
 
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("virus_scan_install")
                 returnType = "boolean"

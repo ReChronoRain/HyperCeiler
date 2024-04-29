@@ -18,23 +18,20 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
-import android.app.KeyguardManager
-import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.LayerDrawable
-import android.os.Build
-import android.view.View
-import android.widget.ImageView
-import androidx.annotation.RequiresApi
+import android.app.*
+import android.content.*
+import android.graphics.*
+import android.graphics.drawable.*
+import android.view.*
+import android.widget.*
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.blur.BlurUtils.createBlurDrawable
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
-import de.robv.android.xposed.XC_MethodHook
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
+import de.robv.android.xposed.*
 
 object BlurButton : BaseHook() {
     private val removeLeft by lazy {
@@ -44,7 +41,6 @@ object BlurButton : BaseHook() {
         mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera")
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
         // by StarVoyager
         if (isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) {
@@ -80,7 +76,6 @@ object BlurButton : BaseHook() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     private fun setNewBackgroundBlur(imageView: ImageView): LayerDrawable {
         val blurDrawable = createBlurDrawable(
             imageView, 40, 100, Color.argb(60, 255, 255, 255)
@@ -90,7 +85,6 @@ object BlurButton : BaseHook() {
         return layoutDrawable
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     private fun setOldBackgroundBlur(view: View): LayerDrawable {
         val blurDrawable = createBlurDrawable(
             view, 40, 100, Color.argb(60, 255, 255, 255)
@@ -100,7 +94,6 @@ object BlurButton : BaseHook() {
         return layoutDrawable
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     private fun systemBlur(param: XC_MethodHook.MethodHookParam) {
         if (isMoreHyperOSVersion(1f)) {
             val mLeftAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(

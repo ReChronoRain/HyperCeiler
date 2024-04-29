@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.home.layout;
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.DisplayUtils;
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
 
 public class HotSeatsMarginTop extends BaseHook {
 
@@ -36,7 +36,7 @@ public class HotSeatsMarginTop extends BaseHook {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 Context context = (Context) param.args[0];
-                param.setResult(DisplayUtils.dip2px(context, mPrefsMap.getInt("home_layout_hotseats_margin_top", 60)));
+                param.setResult(DisplayUtils.dp2px(context, mPrefsMap.getInt("home_layout_hotseats_margin_top", 60)));
             }
         });
     }

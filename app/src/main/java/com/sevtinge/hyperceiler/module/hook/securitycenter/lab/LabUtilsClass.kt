@@ -18,12 +18,12 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.lab
 
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
 
 object LabUtilsClass {
     val labUtilClass by lazy {
-        dexKitBridge.findClass {
+        DexKit.getDexKitBridge().findClass {
             matcher {
                 addUsingStringsEquals("mi_lab_ai_clipboard_enable", "mi_lab_blur_location_enable")
             }

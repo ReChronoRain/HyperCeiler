@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
 import android.provider.Settings;
@@ -24,6 +24,7 @@ import android.view.View;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.utils.KillApp;
 
 import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
@@ -31,6 +32,7 @@ import moralnorm.preference.SwitchPreference;
 public class NavigationSettings extends SettingsPreferenceFragment {
     SwitchPreference customNav;
     PreferenceCategory mNav;
+    SwitchPreference navigation;
 
     @Override
     public int getContentResId() {
@@ -40,8 +42,8 @@ public class NavigationSettings extends SettingsPreferenceFragment {
     @Override
     public View.OnClickListener addRestartListener() {
         return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-            getResources().getString(R.string.system_ui),
-            "com.android.systemui"
+                getResources().getString(R.string.system_ui),
+                "com.android.systemui"
         );
     }
 
@@ -56,10 +58,14 @@ public class NavigationSettings extends SettingsPreferenceFragment {
     public void initPrefs() {
         customNav = findPreference("prefs_key_system_ui_navigation_custom");
         mNav = findPreference("prefs_key_system_ui_navigation");
+        navigation = findPreference("prefs_key_system_ui_hide_navigation_bar");
         if (customNav != null) {
             mNav.setEnabled(!isGestureNavigationEnabled());
             mNav.setVisible(mNav.isEnabled());
         }
-
+        navigation.setOnPreferenceChangeListener((preference, o) -> {
+            KillApp.killApps("com.miui.home", "com.android.systemui");
+            return true;
+        });
     }
 }

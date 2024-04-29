@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/package_installer">
     <PreferenceCategory>
 
         <SwitchPreference
@@ -41,11 +42,17 @@
             android:summary="@string/miui_package_installer_update_system_app_desc"
             android:defaultValue="false" />
 
+        <SwitchPreference
+            android:key="prefs_key_miui_package_installer_upload_appinfo"
+            android:title="@string/miui_package_installer_upload_appinfo"
+            android:summary="@string/miui_package_installer_upload_appinfo_desc"
+            android:defaultValue="false" />
+
         <EditTextPreference
             android:title="@string/miui_package_installer_install_source"
             android:key="prefs_key_miui_package_installer_install_source"
             android:defaultValue="com.android.fileexplorer" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

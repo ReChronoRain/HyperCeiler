@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/security_center"
+    app:myLocationHyper="@string/security_center_hyperos"
+    app:myLocationPad="@string/security_center_pad">
     <PreferenceCategory android:title="@string/security_center_app_title">
         <DropDownPreference
             android:defaultValue="0"
@@ -89,7 +92,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/security_center_privacy_title">
+    <PreferenceCategory
+        android:key="prefs_key_security_center_privacy"
+        android:title="@string/security_center_privacy_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_security_center_ai_clipboard"
@@ -104,12 +109,6 @@
             android:defaultValue="false"
             android:key="prefs_key_security_center_get_number"
             android:title="@string/security_center_get_number" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_applock_pin_scramble"
-            android:summary="@string/security_center_applock_pin_scramble_desc"
-            android:title="@string/security_center_applock_pin_scramble" />
 
     </PreferenceCategory>
 
@@ -197,6 +196,13 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_center_blur_model_super"
+            android:dependency="prefs_key_se_enable"
+            android:disableDependentsState="true"
+            android:title="@string/security_center_blur_model_super" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:dependency="prefs_key_se_enable"
             android:key="prefs_key_security_center_invert_color"
             android:summary="@string/security_center_invert_color_summary"
@@ -204,7 +210,7 @@
 
         <SeekBarPreferenceEx
             android:defaultValue="60"
-            android:dependency="prefs_key_se_enable"
+            android:dependency="prefs_key_security_center_blur_model_super"
             android:key="prefs_key_security_center_blurradius"
             android:title="@string/security_center_blurradius"
             app:defaultValueText="@string/array_default"
@@ -228,6 +234,18 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_other_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_applock_pin_scramble"
+            android:summary="@string/security_center_applock_pin_scramble_desc"
+            android:title="@string/security_center_applock_pin_scramble" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_power_saver"
+            android:title="@string/security_center_power_saver"
+            android:summary="@string/security_center_power_saver_desc" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_security_center_score"
@@ -271,8 +289,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_security_center_disable_send_malicious_app_notification"
-            android:title="@string/security_center_disable_send_malicious_app_notification"
-            app:isPreferenceVisible="true" />
+            android:title="@string/security_center_disable_send_malicious_app_notification" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -281,6 +298,11 @@
             android:title="@string/security_center_game_speed"
             app:isPreferenceVisible="false" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_bypass_simlock_miaccount_auth"
+            android:summary="@string/security_center_bypass_simlock_miaccount_auth_desc"
+            android:title="@string/security_center_bypass_simlock_miaccount_auth" />
+
     </PreferenceCategory>
-    <Preference android:enabled="false" />
 </PreferenceScreen>

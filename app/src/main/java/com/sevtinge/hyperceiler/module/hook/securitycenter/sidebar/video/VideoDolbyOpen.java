@@ -54,7 +54,7 @@ public class VideoDolbyOpen extends BaseHook {
         // List<ClassData> list = Collections.singletonList(data);
 
         // 查找方法
-        MethodData methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(
+        MethodData methodData = DexKit.getDexKitBridge().findMethod(
             FindMethod.create()
                 .matcher(MethodMatcher.create()
                     .declaredClass(ClassMatcher.create()

@@ -20,14 +20,29 @@ package com.sevtinge.hyperceiler.module.hook.home.title
 
 import android.annotation.SuppressLint
 import android.content.res.Resources
+import android.graphics.*
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.module.base.BaseXposedInit
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 
 object EnableIconMonetColor : BaseHook() {
 
-    override fun init() {}
-
+    @SuppressLint("DiscouragedApi")
+    override fun init() {
+        val monet = "system_accent1_100"
+        val monoColorId = Resources.getSystem().getIdentifier(monet, "color", "android")
+        var monoColor = Resources.getSystem().getColor(monoColorId, null)
+        if (BaseXposedInit.mPrefsMap.getBoolean("home_other_use_edit_color")) {
+            monoColor = mPrefsMap.getInt("home_other_your_color_qwq", -1)
+        }
+        mResHook.setObjectReplacement(
+            "com.miui.home",
+            "color",
+            "monochrome_default",
+            monoColor
+        )
+    }
+/*
     @SuppressLint("DiscouragedApi")
     fun initResource(resParam: XC_InitPackageResources.InitPackageResourcesParam) {
         val monet = "system_accent1_100"
@@ -50,5 +65,5 @@ object EnableIconMonetColor : BaseHook() {
 //            ColorEntries.toString(),
 //            "Monet"
 //        )
-    }
+    }*/
 }

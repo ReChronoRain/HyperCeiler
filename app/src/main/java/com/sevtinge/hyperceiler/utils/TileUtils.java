@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.utils;
 
+import static com.sevtinge.hyperceiler.utils.Helpers.getModuleRes;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.annotation.SuppressLint;

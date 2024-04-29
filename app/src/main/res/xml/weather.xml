@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/weather">
     <PreferenceCategory>
         <DropDownPreference
             android:key="prefs_key_weather_device_level"
@@ -9,6 +10,13 @@
             app:entries="@array/weather_device_level"
             app:entryValues="@array/weather_device_level_value" />
 
+        <DropDownPreference
+            android:key="prefs_key_weather_card_display_type"
+            android:title="@string/weather_card_display_type_title"
+            android:defaultValue="0"
+            app:entries="@array/weather_card_display_type"
+            app:entryValues="@array/weather_card_display_type_value" />
+
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

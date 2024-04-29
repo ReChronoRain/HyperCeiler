@@ -18,31 +18,25 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.drawer
 
-import android.app.Application
-import android.content.Context
-import android.os.Build
-import android.view.View
-import android.widget.FrameLayout
-import android.widget.RelativeLayout
-import android.widget.ViewSwitcher
+import android.app.*
+import android.content.*
+import android.view.*
+import android.widget.*
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.getCornerRadiusTop
-import com.sevtinge.hyperceiler.utils.getObjectField
-import com.sevtinge.hyperceiler.utils.hookBeforeMethod
-import com.sevtinge.hyperceiler.utils.blur.zhenxiang.BlurFrameLayout
-import com.sevtinge.hyperceiler.utils.blur.zhenxiang.model.CornersRadius
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.blur.zhenxiang.*
+import com.sevtinge.hyperceiler.utils.blur.zhenxiang.model.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 
 object AllAppsContainerViewBlur : BaseHook() {
     override fun init() {
         Application::class.java.hookBeforeMethod("attach", Context::class.java) {
             EzXHelper.initHandleLoadPackage(lpparam)
-            EzXHelper.setLogTag(TAG)
-            EzXHelper.setToastTag(TAG)
             EzXHelper.initAppContext(it.args[0] as Context)
 
             loadClass("com.miui.home.launcher.allapps.BaseAllAppsContainerView").methodFinder().filter {
@@ -53,10 +47,8 @@ object AllAppsContainerViewBlur : BaseHook() {
                     val appsView = mCategoryContainer.parent as RelativeLayout
                     val blur = BlurFrameLayout(mCategoryContainer.context)
                     val radius = getCornerRadiusTop().toFloat()
-                    if (Build.VERSION.SDK_INT >= 31) {
-                        blur.blurController.apply {
-                            cornerRadius = CornersRadius.custom(radius, radius, 0f, 0f)
-                        }
+                    blur.blurController.apply {
+                        cornerRadius = CornersRadius.custom(radius, radius, 0f, 0f)
                     }
                     val view = View(mCategoryContainer.context)
                     blur.addView(view)

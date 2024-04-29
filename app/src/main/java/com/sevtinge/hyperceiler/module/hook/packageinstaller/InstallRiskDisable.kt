@@ -19,13 +19,13 @@
 package com.sevtinge.hyperceiler.module.hook.packageinstaller
 
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import org.luckypray.dexkit.query.enums.StringMatchType
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import org.luckypray.dexkit.query.enums.*
 
 object InstallRiskDisable : BaseHook() {
     override fun init() {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingString("secure_verify_enable", StringMatchType.Equals)
                 returnType = "boolean"

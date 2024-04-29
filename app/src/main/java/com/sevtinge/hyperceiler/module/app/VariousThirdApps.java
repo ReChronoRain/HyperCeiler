@@ -23,7 +23,8 @@ import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.tool.XposedTool;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
+import com.sevtinge.hyperceiler.module.base.tool.OtherTool;
 import com.sevtinge.hyperceiler.module.hook.clipboard.BaiduClipboard;
 import com.sevtinge.hyperceiler.module.hook.clipboard.SoGouClipboard;
 import com.sevtinge.hyperceiler.module.hook.various.ClipboardList;
@@ -33,6 +34,7 @@ import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+@HookExpand(pkg = "VariousThirdApps", isPad = false, tarAndroid = 33, skip = true)
 public class VariousThirdApps extends BaseModule {
     String mPackageName;
 
@@ -41,14 +43,14 @@ public class VariousThirdApps extends BaseModule {
     @Override
     public void handleLoadPackage() {
         if (mAppsUsingInputMethod.isEmpty()) {
-            mAppsUsingInputMethod = getAppsUsingInputMethod(XposedTool.findContext(XposedTool.FlAG_ONLY_ANDROID));
+            mAppsUsingInputMethod = getAppsUsingInputMethod(OtherTool.findContext(OtherTool.FlAG_ONLY_ANDROID));
         }
         mPackageName = mLoadPackageParam.packageName;
         initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
         initHook(new SoGouClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
-            ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
+                ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
         initHook(new BaiduClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
-            ("com.baidu.input".equals(mPackageName) || "com.baidu.input_mi".equals(mPackageName)));
+                ("com.baidu.input".equals(mPackageName) || "com.baidu.input_mi".equals(mPackageName)));
         initHook(new ClipboardList(), mPrefsMap.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
     }
 

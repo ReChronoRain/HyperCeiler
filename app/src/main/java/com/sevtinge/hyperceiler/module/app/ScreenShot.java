@@ -21,12 +21,14 @@ package com.sevtinge.hyperceiler.module.app;
 import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.screenshot.DeviceShellCustomize;
 import com.sevtinge.hyperceiler.module.hook.screenshot.SaveToPictures;
 import com.sevtinge.hyperceiler.module.hook.screenshot.UnlockMinimumCropLimit;
 import com.sevtinge.hyperceiler.module.hook.screenshot.UnlockPrivacyMarking;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
+@HookExpand(pkg = "com.miui.screenshot", isPad = false, tarAndroid = 33)
 public class ScreenShot extends BaseModule {
 
     @Override

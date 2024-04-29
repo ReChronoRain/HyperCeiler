@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationVolumeSeparateSlider;
 import com.sevtinge.hyperceiler.module.hook.systemui.ShowVolumePct;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.BluetoothTileStyle;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGrid;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGridForHyperOS;
 
 public class PluginHelper extends BaseHook {
@@ -39,83 +40,82 @@ public class PluginHelper extends BaseHook {
     public void init() {
         if (!isAndroidVersion(34) || !isMoreHyperOSVersion(1f)) {
             String pluginLoaderClass = isAndroidVersion(33)
-                ? "com.android.systemui.shared.plugins.PluginInstance$Factory"
-                : "com.android.systemui.shared.plugins.PluginManagerImpl";
-            hookAllMethods(pluginLoaderClass, "getClassLoader", new MethodHook() {
-                    private boolean isHooked = false;
-                    // private boolean run = false;
+                    ? "com.android.systemui.shared.plugins.PluginInstance$Factory"
+                    : "com.android.systemui.shared.plugins.PluginManagerImpl";
+            hookAllMethods(pluginLoaderClass, "getClassLoader",
+                    new MethodHook() {
+                        private boolean isHooked = false;
 
-                    @Override
-                    protected void after(MethodHookParam param) {
-                        appInfo = (ApplicationInfo) param.args[0];
-                        if (appInfo != null) {
-                            if ("miui.systemui.plugin".equals(appInfo.packageName) && !isHooked) {
-                                if (pluginLoader == null) {
-                                    pluginLoader = (ClassLoader) param.getResult();
+                        @Override
+                        protected void after(MethodHookParam param) {
+                            appInfo = (ApplicationInfo) param.args[0];
+                            if (appInfo != null) {
+                                if ("miui.systemui.plugin".equals(appInfo.packageName) && !isHooked) {
+                                    if (pluginLoader == null) {
+                                        pluginLoader = (ClassLoader) param.getResult();
+                                    }
+                                    isHooked = true;
+                                    setClassLoader(pluginLoader);
+                                    logW(TAG, "Get ClassLoader: " + pluginLoader);
+                                } else {
+                                    if (!isHooked)
+                                        logW(TAG, "Get classloader miui.systemui.plugin error");
                                 }
-                                isHooked = true;
-                                setClassLoader(pluginLoader);
-                                logW(TAG, "im get ClassLoader: " + pluginLoader);
-                                // logD("pluginLoader: " + pluginLoader);
-                                // setClassLoader(pluginLoader);
-                                // logE("PluginHelper", "im get ClassLoader: " + pluginLoader);
                             } else {
-                                if (!isHooked)
-                                    logW(TAG, "get classloader miui.systemui.plugin error");
+                                logE(TAG, "AppInfo is null");
                             }
-                        } else {
-                            logE(TAG, "appInfo is null");
                         }
                     }
-                }
             );
         } else {
             hookAllMethods("com.android.systemui.shared.plugins.PluginInstance$Factory",
-                "create", new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        appInfo = (ApplicationInfo) param.args[1];
+                    "create",
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            appInfo = (ApplicationInfo) param.args[1];
+                        }
                     }
-                }
             );
 
             findAndHookMethod("com.android.systemui.shared.plugins.PluginInstance$Factory$$ExternalSyntheticLambda0",
-                "get", new MethodHook() {
-                    private boolean isHooked = false;
+                    "get",
+                    new MethodHook() {
+                        private boolean isHooked = false;
 
-                    @Override
-                    protected void after(MethodHookParam param) {
-                        Object pathClassLoader = param.getResult();
-                        if (pluginLoader == null) {
-                            pluginLoader = (ClassLoader) pathClassLoader;
-                        }
-                        if (!isHooked) {
-                            if (appInfo != null) {
-                                if ("miui.systemui.plugin".equals(appInfo.packageName)) {
-                                    isHooked = true;
-                                    setClassLoader(pluginLoader);
-                                    logI(TAG, "im get ClassLoader: " + pluginLoader);
-                                    // logD("AU pluginLoader: " + pluginLoader);
+                        @Override
+                        protected void after(MethodHookParam param) {
+                            Object pathClassLoader = param.getResult();
+                            if (pluginLoader == null) {
+                                pluginLoader = (ClassLoader) pathClassLoader;
+                            }
+                            if (!isHooked) {
+                                if (appInfo != null) {
+                                    if ("miui.systemui.plugin".equals(appInfo.packageName)) {
+                                        isHooked = true;
+                                        setClassLoader(pluginLoader);
+                                        logI(TAG, "Get ClassLoader: " + pluginLoader);
+                                    } else {
+                                        logW(TAG, "Get to the one that doesn't belong to the plugin ClassLoader！ " + pluginLoader);
+                                    }
                                 } else {
-                                    logW(TAG, "Au get classloader miui.systemui.plugin error: " + pluginLoader);
-                                }
-                            } else {
-                                if (pluginLoader.toString().contains("MIUISystemUIPlugin") ||
-                                    pluginLoader.toString().contains("miui.systemui.plugin")) {
-                                    isHooked = true;
-                                    setClassLoader(pluginLoader);
-                                } else {
-                                    logW(TAG, "Au get classloader miui.systemui.plugin error & appInfo is null");
+                                    if (pluginLoader.toString().contains("MIUISystemUIPlugin") ||
+                                            pluginLoader.toString().contains("miui.systemui.plugin")) {
+                                        isHooked = true;
+                                        setClassLoader(pluginLoader);
+                                    } else {
+                                        logW(TAG, "Au get classloader miui.systemui.plugin error & appInfo is null");
+                                    }
                                 }
                             }
                         }
                     }
-                }
             );
         }
     }
 
     public void setClassLoader(ClassLoader classLoader) {
+        // CCGrid.loadCCGrid(classLoader);
         if (mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"))
             EnableVolumeBlur.initEnableVolumeBlur(classLoader);
         if (mPrefsMap.getStringAsInt("system_ui_control_center_mi_smart_hub_entry", 0) != 0)
@@ -134,5 +134,11 @@ public class PluginHelper extends BaseHook {
             ShowVolumePct.init(classLoader);
         if (mPrefsMap.getBoolean("system_ui_unlock_super_volume"))
             SuperVolume.initSuperVolume(classLoader);
+        if ((mPrefsMap.getInt("system_control_center_cc_rows", 4) > 4 ||
+                mPrefsMap.getInt("system_control_center_cc_columns", 4) > 4 ||
+                mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") ||
+                mPrefsMap.getBoolean("system_control_center_qs_tile_label")) && !isMoreHyperOSVersion(1f)) {
+            CCGrid.loadCCGrid(classLoader);
+        }
     }
 }

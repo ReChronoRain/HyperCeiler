@@ -178,7 +178,7 @@ public class LocationDataActivity extends AppCompatActivity implements View.OnCl
             builder.setView(view);
             builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
                 String n = n(editText.getText().toString());
-                if (n.equals("") || !e(n)) {
+                if (n.isEmpty() || !e(n)) {
                     ToastHelper.makeText(this, "格式错误");
                     return;
                 }

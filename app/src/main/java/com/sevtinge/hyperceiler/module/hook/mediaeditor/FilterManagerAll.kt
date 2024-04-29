@@ -18,20 +18,20 @@
 */
 package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
-import android.os.Build
+import android.os.*
 import com.github.kyuubiran.ezxhelper.ClassLoaderProvider.safeClassLoader
 import com.github.kyuubiran.ezxhelper.ClassUtils.setStaticObject
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.api.LazyClass.AndroidBuildCls
 
 
 object FilterManagerAll : BaseHook() {
     private lateinit var device: String
     private val methodResult by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("wayne")
             }

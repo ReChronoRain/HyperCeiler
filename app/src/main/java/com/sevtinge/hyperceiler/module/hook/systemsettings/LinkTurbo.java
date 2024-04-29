@@ -18,6 +18,9 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemsettings;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.FlAG_ONLY_ANDROID;
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.findContext;
+
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;

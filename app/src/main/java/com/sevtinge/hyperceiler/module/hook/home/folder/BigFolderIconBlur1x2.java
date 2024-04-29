@@ -18,18 +18,16 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.folder;
 
-import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
-import android.content.Context;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.DisplayUtils;
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils;
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -60,10 +58,9 @@ public class BigFolderIconBlur1x2 extends BaseHook {
 
         MethodHook mBigFolderIconBlur = new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
-                Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                int mFolderWidth = DisplayUtils.dip2px(mContext, mPrefsMap.getInt("home_big_folder_icon_bg_width_1x2", 62));
-                int mFolderHeight = DisplayUtils.dip2px(mContext, mPrefsMap.getInt("home_big_folder_icon_bg_height_1x2", 145));
+            protected void after(MethodHookParam param) {
+                int mFolderWidth = DisplayUtils.dp2px(mPrefsMap.getInt("home_big_folder_icon_bg_width_1x2", 62));
+                int mFolderHeight = DisplayUtils.dp2px(mPrefsMap.getInt("home_big_folder_icon_bg_height_1x2", 145));
                 ImageView mIconImageView = (ImageView) XposedHelpers.getObjectField(param.thisObject, "mIconImageView");
                 FrameLayout mIconContainer = (FrameLayout) mIconImageView.getParent();
                 FrameLayout mDockBlur = (FrameLayout) XposedHelpers.getAdditionalInstanceField(param.thisObject, "mDockBlur");
@@ -71,10 +68,7 @@ public class BigFolderIconBlur1x2 extends BaseHook {
 
                 mIconImageView.setVisibility(View.GONE);
                 mDockBlur.addView(view);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    new BlurUtils(mDockBlur, "home_big_folder_icon_bg_1x2_custom");
-                }
+                new BlurUtils(mDockBlur, "home_big_folder_icon_bg_1x2_custom");
 
                 mIconContainer.addView(mDockBlur, 0);
                 FrameLayout.LayoutParams lp1 = (FrameLayout.LayoutParams) mDockBlur.getLayoutParams();

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/camera">
 
     <PreferenceCategory android:title="@string/shot">
 
@@ -271,7 +272,5 @@
             android:defaultValue="false" />
 
     </PreferenceCategory>
-
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

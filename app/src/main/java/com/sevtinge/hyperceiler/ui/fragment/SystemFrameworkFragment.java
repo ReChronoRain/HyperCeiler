@@ -22,14 +22,15 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroid
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.utils.devicesdk.TelephonyManager;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import miui.telephony.TelephonyManager;
 import moralnorm.preference.Preference;
 import moralnorm.preference.SwitchPreference;
 
 public class SystemFrameworkFragment extends SettingsPreferenceFragment {
     SwitchPreference mDisableCreak;
+    SwitchPreference mShareUser;
     SwitchPreference mDisableIntegrity;
     SwitchPreference mDisableLowApiCheck;
     Preference mNetwork;
@@ -43,11 +44,13 @@ public class SystemFrameworkFragment extends SettingsPreferenceFragment {
     public void initPrefs() {
         boolean mCreak = PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_framework_core_patch_auth_creak", false);
         mDisableCreak = findPreference("prefs_key_system_framework_core_patch_auth_creak");
+        mShareUser = findPreference("prefs_key_system_framework_core_patch_shared_user");
         mDisableIntegrity = findPreference("prefs_key_system_framework_core_patch_disable_integrity");
         mDisableLowApiCheck = findPreference("prefs_key_system_framework_disable_low_api_check");
         mNetwork = findPreference("prefs_key_system_framework_network");
 
         mDisableIntegrity.setVisible(isMoreAndroidVersion(33) && !mCreak);
+        mShareUser.setVisible(isMoreAndroidVersion(33)); // 暂时仅开放给 Android 13 及以上使用
         mNetwork.setVisible(TelephonyManager.getDefault().isFiveGCapable());
         mDisableLowApiCheck.setVisible(isMoreAndroidVersion(34));
 

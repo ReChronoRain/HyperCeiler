@@ -21,13 +21,20 @@ package com.sevtinge.hyperceiler.module.base;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevel;
 
 import com.sevtinge.hyperceiler.module.base.tool.HookTool;
+import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
+import com.sevtinge.hyperceiler.module.base.tool.XmlTool;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public abstract class BaseHook extends HookTool {
     public String TAG = getClass().getSimpleName();
-
+    public static final ResourcesTool mResHook = BaseXposedInit.mResHook;
+    public static final XmlTool mXmlTool = BaseXposedInit.mXmlTool;
     public static final String ACTION_PREFIX = "com.sevtinge.hyperceiler.module.action.";
+
+    public boolean isLoad() {
+        return false;
+    }
 
     public abstract void init() throws NoSuchMethodException;
 

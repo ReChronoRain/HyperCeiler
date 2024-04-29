@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_settings">
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
@@ -32,6 +33,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_settings_unlock_ui_mode"
+            android:title="@string/system_settings_unlock_ui_mode" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_usb_mode"
             android:title="@string/system_settings_usb_mode" />
 
@@ -44,8 +50,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/system_settings_connection_sharing_title">
+    <PreferenceCategory android:title="@string/system_settings_connection_sharing_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_settings_safe_wifi"
@@ -182,5 +187,5 @@
             app:stepValue="1" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

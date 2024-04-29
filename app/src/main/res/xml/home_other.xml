@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/home_other">
     <PreferenceCategory android:title="@string/home_other_shortcut_title">
         <SwitchPreference
             android:defaultValue="false"
@@ -71,11 +72,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_home_other_fix_android_r_s"
-            android:title="@string/home_other_fix_android_r_s" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_home_other_high_models"
             android:title="@string/home_other_high_models" />
 
@@ -102,12 +98,14 @@
             app:entries="@array/home_mode"
             app:entryValues="@array/home_mode_value" />
 
-        <Preference android:title="@string/home_other_app_icon_hide">
+        <Preference
+            android:title="@string/home_other_app_icon_hide"
+            android:key="prefs_key_home_other_all_hide_app_activity">
             <intent
                 android:targetClass="com.miui.home.settings.AllHideAppActivity"
                 android:targetPackage="com.miui.home" />
         </Preference>
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

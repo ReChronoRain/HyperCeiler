@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.gallery.ChangeBackupServer;
 import com.sevtinge.hyperceiler.module.hook.gallery.EnableHdrEnhance;
 import com.sevtinge.hyperceiler.module.hook.gallery.EnableIdPhoto;
@@ -31,8 +32,10 @@ import com.sevtinge.hyperceiler.module.hook.gallery.EnableRemover2;
 import com.sevtinge.hyperceiler.module.hook.gallery.EnableTextYanhua;
 import com.sevtinge.hyperceiler.module.hook.gallery.EnableVideoPost;
 import com.sevtinge.hyperceiler.module.hook.gallery.UnPrivacyWatermark;
+import com.sevtinge.hyperceiler.module.hook.gallery.UnlockAIGallery;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
+@HookExpand(pkg = "com.miui.gallery", isPad = false, tarAndroid = 33)
 public class Gallery extends BaseModule {
 
     @Override
@@ -51,6 +54,7 @@ public class Gallery extends BaseModule {
         initHook(new EnableOcr(), mPrefsMap.getBoolean("gallery_enable_ocr"));
         initHook(new EnableOcrForm(), mPrefsMap.getBoolean("gallery_enable_ocr_form"));
         initHook(new ChangeBackupServer(), mPrefsMap.getStringAsInt("gallery_backup_server", 0) != 0);
+        initHook(UnlockAIGallery.INSTANCE, mPrefsMap.getBoolean("gallery_enable_ai_gallery"));
         initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getStringAsInt("various_super_clipboard_e", 0) != 0);
     }
 }

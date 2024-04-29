@@ -18,15 +18,14 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news
 
-import android.graphics.Typeface
-import android.util.TypedValue
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool
-import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
-import com.sevtinge.hyperceiler.utils.getObjectField
+import android.graphics.*
+import android.util.*
+import android.view.*
+import android.widget.*
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.tool.*
+import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 
 object NewNetworkSpeedStyle : BaseHook() {
     private val viewInitedTag = ResourcesTool.getFakeResId("view_inited_tag")

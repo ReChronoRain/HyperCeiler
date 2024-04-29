@@ -18,15 +18,15 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 
-import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
 
 object FuckRiskPkg : BaseHook() {
     private val pkg by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals(
                     "riskPkgList", "key_virus_pkg_list", "show_virus_notification"

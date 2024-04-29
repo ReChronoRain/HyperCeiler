@@ -70,11 +70,10 @@ public class VolumeSeparateControl extends BaseHook {
                     Set<Integer> DEVICE_OUT_ALL = (Set<Integer>) XposedHelpers.getStaticObjectField(audioSystem, "DEVICE_OUT_ALL_SET");
                     int DEVICE_OUT_DEFAULT = XposedHelpers.getStaticIntField(audioSystem, "DEVICE_OUT_DEFAULT");
                     int[] DEFAULT_STREAM_VOLUME = (int[]) XposedHelpers.getStaticObjectField(audioSystem, "DEFAULT_STREAM_VOLUME");
-                    Set<Integer> remainingDevices = DEVICE_OUT_ALL;
                     Object mContentResolver = XposedHelpers.getObjectField(XposedHelpers.getSurroundingThis(param.thisObject), "mContentResolver");
                     SparseIntArray mIndexMap = (SparseIntArray) XposedHelpers.getObjectField(param.thisObject, "mIndexMap");
 
-                    for (Integer deviceType : remainingDevices) {
+                    for (Integer deviceType : DEVICE_OUT_ALL) {
                         int device = deviceType;
                         String name = (String) XposedHelpers.callMethod(param.thisObject, "getSettingNameForDevice", device);
                         int index = (int) XposedHelpers.callStaticMethod(Settings.System.class, "getIntForUser", mContentResolver, name, device == DEVICE_OUT_DEFAULT ? DEFAULT_STREAM_VOLUME[mStreamType] : -1, -2);

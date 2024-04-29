@@ -23,7 +23,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
-import com.sevtinge.hyperceiler.module.app.GlobalActions;
+import com.sevtinge.hyperceiler.module.hook.GlobalActions;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 import de.robv.android.xposed.XposedHelpers;

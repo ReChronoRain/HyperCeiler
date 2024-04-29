@@ -30,7 +30,7 @@ import java.lang.reflect.Method;
 public class DisableChatWatermark extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+        MethodData methodData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("userId", "add watermark")
             )

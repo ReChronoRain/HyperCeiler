@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/mms">
 
     <SwitchPreference
         android:title="@string/mms_disable_ad"
         android:summary="@string/mms_disable_ad_desc"
         android:key="prefs_key_mms_disable_ad"
         android:defaultValue="false" />
-
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

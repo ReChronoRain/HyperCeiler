@@ -18,16 +18,16 @@
 */
 package com.sevtinge.hyperceiler.module.hook.screenrecorder
 
-import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import de.robv.android.xposed.XposedHelpers
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import de.robv.android.xposed.*
 
 object UnlockMoreVolumeFromNew : BaseHook() {
     private val getClass by lazy {
-        dexKitBridge.findClass {
+        DexKit.getDexKitBridge().findClass {
             matcher {
                 addUsingStringsEquals("support_a2dp_inner_record")
             }
@@ -35,7 +35,7 @@ object UnlockMoreVolumeFromNew : BaseHook() {
     }
 
     override fun init() {
-        val fieldData = dexKitBridge.findField {
+        val fieldData = DexKit.getDexKitBridge().findField {
             matcher {
                 declaredClass(getClass)
                 type = "boolean"

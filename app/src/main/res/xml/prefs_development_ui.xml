@@ -14,6 +14,10 @@
         app:entries="@array/development_test"
         app:entryValues="@array/development_test_value" />
 
+    <EditTextPreference
+        android:title="EditTextPreference"
+        android:key="prefs_key_development_ui_test_edit_text"/>
+
     <Preference
         android:title="Preference" />
 

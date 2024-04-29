@@ -18,16 +18,16 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.battery
 
-import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
 
 object UnlockSuperWirelessCharge : BaseHook() {
 
     private val superWirelessCharge by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("persist.vendor.tx.speed.control")
                 returnType = "boolean"
@@ -36,7 +36,7 @@ object UnlockSuperWirelessCharge : BaseHook() {
     }
 
     private val superWirelessChargeTip by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("key_is_connected_super_wls_tx")
                 returnType = "boolean"

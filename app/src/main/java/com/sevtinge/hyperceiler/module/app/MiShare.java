@@ -19,14 +19,16 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.mishare.NoAutoTurnOff;
 import com.sevtinge.hyperceiler.module.hook.mishare.UnlockTurboMode;
 
+@HookExpand(pkg = "com.miui.mishare.connectivity", isPad = false, tarAndroid = 33)
 public class MiShare extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        initHook(NoAutoTurnOff.INSTANCE, mPrefsMap.getBoolean("disable_mishare_auto_off"));
-        initHook(UnlockTurboMode.INSTANCE, mPrefsMap.getBoolean("unlock_turbo_mode"));
+        initHook(NoAutoTurnOff.INSTANCE); // 禁用 10 分钟自动关闭
+        initHook(UnlockTurboMode.INSTANCE); // 解锁极速传输模式
     }
 }

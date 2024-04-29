@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -27,9 +28,12 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.callback.IResult;
+import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
+import com.sevtinge.hyperceiler.safe.CrashData;
 import com.sevtinge.hyperceiler.ui.base.NavigationActivity;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.PropUtils;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
@@ -37,14 +41,23 @@ import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.search.SearchHelper;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
+import java.util.ArrayList;
+
 import moralnorm.appcompat.app.AlertDialog;
 
 public class MainActivity extends NavigationActivity implements IResult {
     private Handler handler;
     private Context context;
 
+    private ArrayList<String> appCrash = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        SharedPreferences mPrefs = PrefsUtils.mSharedPreferences;
+        int count = Integer.parseInt(mPrefs.getString("prefs_key_settings_app_language", "-1"));
+        if (count != -1) {
+            LanguageHelper.setIndexLanguage(this, count, false);
+        }
         handler = new Handler(this.getMainLooper());
         context = this;
         int def = Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_log_level", "2"));
@@ -53,30 +66,46 @@ public class MainActivity extends NavigationActivity implements IResult {
         Helpers.checkXposedActivateState(this);
         ShellInit.init(this);
         PropUtils.setProp("persist.hyperceiler.log.level",
-            (ProjectApi.isRelease() ? def : ProjectApi.isCanary() ? (def == 0 ? 3 : 4) : def));
-        // test();
+                (ProjectApi.isRelease() ? def : ProjectApi.isCanary() ? (def == 0 ? 3 : 4) : def));
+        appCrash = CrashData.toPkgList();
+        handler.postDelayed(() -> {
+            if (haveCrashReport()) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle(R.string.safe_mode_later_title)
+                        .setMessage(appCrash.toString() + " " + getString(R.string.safe_mode_later_desc))
+                        .setHapticFeedbackEnabled(true)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
+                            ShellInit.getShell().run("setprop persist.hyperceiler.crash.report \"\"").sync();
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> dialog.dismiss())
+                        .show();
+            }
+        }, 600);
     }
 
     @Override
     public void error(String reason) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                new AlertDialog.Builder(context)
-                    .setCancelable(false)
-                    .setTitle(getResources().getString(R.string.tip))
-                    .setMessage(getResources().getString(R.string.root))
-                    .setHapticFeedbackEnabled(true)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show();
-            }
-        });
+        handler.post(() -> new AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setTitle(getResources().getString(R.string.tip))
+                .setMessage(getResources().getString(R.string.root))
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, null)
+                .show());
+    }
+
+    private boolean haveCrashReport() {
+        return !appCrash.isEmpty();
     }
 
     @Override
     protected void onDestroy() {
         ShellInit.destroy();
         ThreadPoolManager.shutdown();
+        PreferenceHeader.mUninstallApp.clear();
+        PreferenceHeader.mDisableOrHiddenApp.clear();
         super.onDestroy();
     }
 

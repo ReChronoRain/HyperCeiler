@@ -18,10 +18,10 @@
 */
 package com.sevtinge.hyperceiler.module.hook.guardprovider
 
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import com.sevtinge.hyperceiler.utils.replaceMethod
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.utils.*
 
 object DisableUploadAppListNew : BaseHook() {
 
@@ -34,7 +34,7 @@ object DisableUploadAppListNew : BaseHook() {
         antiDefraudAppManagerMethod.replaceMethod {
             return@replaceMethod null
         }*/
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 addUsingStringsEquals("AntiDefraudAppManager", "https://flash.sec.miui.com/detect/app")
             }

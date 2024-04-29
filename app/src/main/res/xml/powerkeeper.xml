@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/powerkeeper">
     <PreferenceCategory>
         <SwitchPreference
             android:title="@string/powerkeeper_custom_refresh_rate"
@@ -27,7 +29,5 @@
             android:key="prefs_key_powerkeeper_prevent_recovery_of_battery_optimization_whitelist"
             android:defaultValue="false" />
     </PreferenceCategory>
-
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

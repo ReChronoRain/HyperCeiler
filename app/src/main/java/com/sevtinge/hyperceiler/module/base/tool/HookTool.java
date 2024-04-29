@@ -18,6 +18,10 @@
  */
 package com.sevtinge.hyperceiler.module.base.tool;
 
+import com.sevtinge.hyperceiler.XposedInit;
+import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -28,7 +32,8 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class HookTool extends XposedTool {
+public class HookTool extends XposedLogUtils {
+    public static final PrefsMap<String, Object> mPrefsMap = XposedInit.mPrefsMap;
     private String TAG = getClass().getSimpleName();
 
     public XC_LoadPackage.LoadPackageParam lpparam;
@@ -146,12 +151,20 @@ public class HookTool extends XposedTool {
         }
     }
 
-    public void hookMethod(Method method, MethodHook callback) {
+    public static void hookMethod(Method method, MethodHook callback) {
         XposedBridge.hookMethod(method, callback);
     }
 
-    public static void findAndHookMethod(Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
-        XposedHelpers.findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
+    public void safeHookMethod(Method method, MethodHook callback) {
+        try {
+            hookMethod(method, callback);
+        } catch (Throwable e) {
+
+        }
+    }
+
+    public static XC_MethodHook.Unhook findAndHookMethod(Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
+        return XposedHelpers.findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
     }
 
     public void findAndHookMethod(String className, String methodName, Object... parameterTypesAndCallback) {
@@ -161,7 +174,7 @@ public class HookTool extends XposedTool {
     public void safeFindAndHookMethod(String className, String methodName, Object... parameterTypesAndCallback) {
         try {
             findAndHookMethod(className, methodName, parameterTypesAndCallback);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             logE(TAG, "safeHook: " + e);
         }
     }
@@ -226,7 +239,7 @@ public class HookTool extends XposedTool {
         XposedHelpers.findAndHookConstructor(hookClass, parameterTypesAndCallback);
     }
 
-    public void findAndHookConstructor(String className, ClassLoader classLoader, Object... parameterTypesAndCallback) {
+    public static void findAndHookConstructor(String className, ClassLoader classLoader, Object... parameterTypesAndCallback) {
         XposedHelpers.findAndHookConstructor(className, classLoader, parameterTypesAndCallback);
     }
 
@@ -271,7 +284,7 @@ public class HookTool extends XposedTool {
         try {
             Class<?> hookClass = findClassIfExists(className);
             if (hookClass != null) {
-                return XposedBridge.hookAllMethods(hookClass, methodName, callback).size() > 0;
+                return !XposedBridge.hookAllMethods(hookClass, methodName, callback).isEmpty();
             }
         } catch (Throwable ignored) {
             return false;
@@ -282,7 +295,7 @@ public class HookTool extends XposedTool {
     public boolean hookAllMethodsBoolean(Class<?> hookClass, String methodName, MethodHook callback) {
         try {
             if (hookClass != null) {
-                return XposedBridge.hookAllMethods(hookClass, methodName, callback).size() > 0;
+                return !XposedBridge.hookAllMethods(hookClass, methodName, callback).isEmpty();
             }
             return false;
         } catch (Throwable t) {
@@ -318,7 +331,7 @@ public class HookTool extends XposedTool {
 
     public Object proxySystemProperties(String method, String prop, int val, ClassLoader classLoader) {
         return XposedHelpers.callStaticMethod(findClassIfExists("android.os.SystemProperties", classLoader),
-            method, prop, val);
+                method, prop, val);
     }
 
     public Method getDeclaredMethod(String className, String method, Object... type) throws NoSuchMethodException {
@@ -385,7 +398,7 @@ public class HookTool extends XposedTool {
                 if (!allHave) {
                     if (methodNum - 1 == i) {
                         logE(tag, "type bad: " + Arrays.toString(hqMethod.getParameterTypes())
-                            + " input: " + Arrays.toString(classes));
+                                + " input: " + Arrays.toString(classes));
                         throw new NoSuchMethodException("type bad");
                     } else {
                         noError = false;

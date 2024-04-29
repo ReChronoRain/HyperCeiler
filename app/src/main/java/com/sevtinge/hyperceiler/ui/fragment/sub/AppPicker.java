@@ -64,7 +64,7 @@ public class AppPicker extends Fragment {
     public Handler mHandler;
     private Set<String> selectedApps;
     private List<AppData> appDataList = new ArrayList<>();
-    private HashMap<String, Integer> hashMap = new HashMap<>();
+    private final HashMap<String, Integer> hashMap = new HashMap<>();
     private IAppSelectCallback mAppSelectCallback;
 
     public static IEditCallback iEditCallback;
@@ -203,6 +203,7 @@ public class AppPicker extends Fragment {
                         intent.addCategory(Intent.CATEGORY_LAUNCHER);
                         List<ResolveInfo> resolveInfoList = new ArrayList<>();
                         List<ResolveInfo> resolveInfos = pm.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES);
+                        hashMap.clear();
                         for (ResolveInfo resolveInfo : resolveInfos) {
                             Integer added = hashMap.get(resolveInfo.activityInfo.applicationInfo.packageName);
                             if (added == null || added != 1) {

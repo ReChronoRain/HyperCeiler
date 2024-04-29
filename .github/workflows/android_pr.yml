@@ -25,10 +25,10 @@ jobs:
           fetch-depth: 0
           submodules: true
 
-      - name: Set up JDK 20
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '20'
+          java-version: '21'
           distribution: 'temurin'
           cache: gradle
 
@@ -56,9 +56,10 @@ jobs:
           GROUP_DEBUG_ID: ${{ secrets.GROUP_DEBUG_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           DEBUG: ${{ env.APK_FILE_DEBUG }}
-          COMMIT_MESSAGE: |+
-            **New PR to gitHub\!**
-            by ${{ github.triggering_actor }}
+          COMMIT_MESSAGE:  |+
+            New push to GitHub
+            by `${{ github.triggering_actor }}`
+            See commit detail [here](${{ github.event.head_commit.url }})
         run: |
           ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')
           cd ${{ github.workspace }}

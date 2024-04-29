@@ -162,7 +162,7 @@ public class IconTitleCustomization extends BaseHook {
         // String actName = (String) XposedHelpers.callMethod(thisObject, "getClassName");
         // UserHandle user = (UserHandle) XposedHelpers.getObjectField(thisObject, "user");
         String newTitle = (String) getAppName(pkgName);
-        if (newTitle != null && !newTitle.equals(""))
+        if (newTitle != null && !newTitle.isEmpty())
             XposedHelpers.setObjectField(thisObject, "mLabel", newTitle);
     }
 

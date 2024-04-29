@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.CustomWatermark;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.FilterManagerAll;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockCustomPhotoFrames;
@@ -28,6 +29,7 @@ import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockMinimumCropLimit;
 
 import java.util.Objects;
 
+@HookExpand(pkg = "com.miui.mediaeditor", isPad = false, tarAndroid = 33)
 public class MediaEditor extends BaseModule {
 
     @Override
@@ -39,7 +41,7 @@ public class MediaEditor extends BaseModule {
         initHook(CustomWatermark.INSTANCE, !Objects.equals(mPrefsMap.getString("mediaeditor_custom_watermark", ""), ""));
         // AI 创作
         initHook(UnlockCustomPhotoFrames.INSTANCE, mPrefsMap.getStringAsInt("mediaeditor_unlock_custom_photo_frames", 0) != 0);
-        initHook(UnlockDisney.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_disney"));
+        initHook(UnlockDisney.INSTANCE, mPrefsMap.getStringAsInt("mediaeditor_unlock_disney_some_func", 0) != 0);
     }
 
 }

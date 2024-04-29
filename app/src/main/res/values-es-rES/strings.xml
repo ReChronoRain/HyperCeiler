@@ -359,6 +359,7 @@
     <string name="system_framework_allow_manage_all_notifications">Se permite administrar todas las notificaciones</string>
     <string name="system_framework_quick_screenshot">Captura de pantalla rápida</string>
     <string name="system_framework_quick_screenshot_desc">Quitar el retraso de captura de pantalla</string>
+    <string name="system_framework_disable_link_turbo_toast">Se oculta el Toast de que se está utilizando la red móvil para aceleración</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Servicio del administrador de paquetes</string>
     <string name="system_framework_core_patch_downgr">Permitir volver a la versión anterior</string>
@@ -435,10 +436,6 @@
     <string name="camera_settings_men_makeup">Desbloquear ajustes de maquillaje para hombres</string>
     <string name="camera_settings_lab_options">Activar opciones de laboratorio</string>
     <string name="camera_settings_track_eyes">Desbloquear enfoque ocular</string>
-    <!--Clock-->
-    <string name="clock">Reloj</string>
-    <string name="clock_enable_hour_glass">Desbloquea la animación de reloj de arena del temporizador</string>
-    <string name="clock_enable_hour_glass_desc">No funciona en la versión de 13.65.0 o las superiores</string>
     <!--File Manager-->
     <string name="fileexplorer">Archivos</string>
     <string name="file_explorer_can_selectable">Los nombres de carpetas pueden seleccionarse mediante pulsación larga</string>
@@ -635,7 +632,6 @@
     <string name="system_ui_statusbar_clock_double_size">Tamaño del reloj de dos filas</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Funciona solo cuando se muestra en dos filas</string>
     <string name="system_ui_statusbar_clock_fix_color">Corregir color</string>
-    <string name="system_ui_statusbar_clock_fix_color_desc">Características experimentales</string>
     <string name="system_ui_disable_clock_anim">Deshabilite la animación de transición del reloj deslizante en el Centro de notificaciones</string>
     <string name="system_ui_statusbar_indicator_battery_title">Potencia relacionada</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Temperatura relacionada</string>
@@ -708,7 +704,6 @@
     <string name="system_ui_control_center_corner_radius_desc">El tema predeterminado no se necesita ajustar</string>
     <string name="system_ui_control_center_blur_background_alpha">Valor de fondo desenfocado</string>
     <string name="system_ui_control_center_default_background_alpha">Valor de fondo predeterminado</string>
-    <string name="system_ui_control_center_fix_media_control_panel">Corregir la imagen de fondo del panel de música</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Optimizar el efecto de mezcla de colores del panel de control de medios</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Radio de borrosidad de imagen de fondo</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacidad de la capa de fondo</string>
@@ -739,9 +734,6 @@
     <string name="system_ui_controlcenter_old_title">Centro de control clásico</string>
     <string name="system_ui_controlcenter_unlock_old_title">Desbloquear estilos del centro de control</string>
     <string name="system_ui_controlcenter_enable_title">Personalizar el número de filas y columnas</string>
-    <string name="system_control_center_old_qs_rows_desc">Las etiquetas se ocultarán para 5 filas en orientación vertical, y para 3 filas en orientación horizontal.</string>
-    <string name="system_control_center_old_qs_columns_desc">La orientación horizontal tendrá una columna adicional\nSi en su ROM hay la opción de vista del panel de ajustes rápidos, se añadirá otra columna más en ambas orientaciones</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">La orientación horizontal tendrá una columna adicional</string>
     <string name="system_control_center_old_qs_grid_columns">Cantidad de columnas en el panel contraído</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Cantidad de columnas en el panel contraído (horizontal)</string>
     <string name="system_ui_control_center_more_card_tiles">Mostrar mosaicos</string>
@@ -756,7 +748,6 @@
     <string name="system_ui_charge_animation_title">Animación de carga</string>
     <string name="system_ui_charge_animation_style">Estilo de animación de carga</string>
     <string name="system_ui_charge_animation_style_desc">Seleccione el estilo de animación de carga de la pantalla de bloqueo</string>
-    <string name="system_ui_origin_charge_animation">Animación predeterminada de carga</string>
     <string name="system_ui_another_title">Otros</string>
     <string name="system_ui_disable_bluetooth_restrict">Evitar que el bluetooth se apague temporalmente</string>
     <string name="system_ui_disable_miui_multi_win_switch">Ocultar el botón de ventana fácil</string>
@@ -1133,7 +1124,6 @@
     <string name="system_framework_guided_access_e">Desbloquéelo en la interfaz de la aplicación bloqueada</string>
     <string name="system_framework_guided_access_more">Acceso guiado semejante a iOS que ancla la aplicación actual a la pantalla\nPara usarlo, presione y mantenga presionada la barra de estado superior y si quieres salir, pulsa y mantén pulsada la barra de estado superior otra vez\nSi es la primera vez que lo use, necesita reiniciar el dispositivo.</string>
     <string name="home_other_shortcut_remove_restrictions">Eliminar restricciones de cantidad de atajos</string>
-    <string name="home_other_fix_android_r_s">Corregir el problema de compatibilidad que hace el fondo de inicio negro</string>
     <string name="home_other_shortcut_background_blur_custom">Valor del desenfoque del menú de atajos</string>
     <string name="home_other_high_models">Obligar su móvil a identificarse como modelo alto</string>
     <string name="home_recent_blur_level">Nivel de desenfoque</string>
@@ -1177,9 +1167,6 @@
     <string name="miui_package_installer_install_source">Personalizar origen de instalación</string>
     <string name="miui_package_installer_apk_info">Se muestra más información sobre el paquete</string>
     <string name="miui_package_installer_apk_info_desc">Se muestra más información sobre la aplicación que se está instalando</string>
-    <!--Networkboost-->
-    <string name="various_disable_link_turbo_toast">Se oculta el Toast de que se está utilizando la red móvil para aceleración</string>
-    <string name="various_disable_link_turbo_toast_more">Reinicie NetworkBoost en el ámbito de reinicio rápido</string>
     <!--NFC-->
     <string name="nfc">Servicio de NFC</string>
     <string name="nfc_disable_sound">Desactivar el sonido de notificación de NFC</string>
@@ -1193,9 +1180,7 @@
     <string name="personal_assistant_blur_value">Estilo del fondo</string>
     <string name="personal_assistant_blurradius">Valor del desenfoque del fondo de la pantalla inteligente</string>
     <string name="personal_assistant_color">Color del fondo de la pantalla inteligente</string>
-    <!--Music-->
-    <string name="music">Música</string>
-    <string name="music_disable_ad">Quitar la publicidad</string>
+
     <!--Battery and performance-->
     <string name="powerkeeper">Batería y rendimiento</string>
     <string name="powerkeeper_custom_refresh_rate">Personalizar FPS de aplicaciones</string>
@@ -1315,6 +1300,11 @@
     <string name="security_center_sidebar_function_title">Función de barra lateral</string>
     <string name="security_center_game_speed">Se inician juegos rápidamente</string>
     <string name="security_center_game_speed_desc">Al iniciarse el juego, cuya animación de pantalla de apertura pasa a una velocidad de 3 veces, que solo funciona con algunos juegos</string>
+    <string name="security_center_aosp_app_info_label">Información de aplicación de AOSP</string>
+    <string name="security_center_aosp_app_info">Añadir entrada de información de aplicación de AOSP</string>
+    <string name="security_center_aosp_app_manager_label">Administrador de aplicaciones de AOSP</string>
+    <string name="security_center_aosp_app_manager">Añadir entrada de administrador de aplicaciones de AOSP</string>
+    <string name="security_center_power_consumption_ranking">Se muestra la clasificación de consumo de energía</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">No detecta riesgos</string>
@@ -1353,10 +1343,6 @@
     <string name="market_device_modify_desc">El modelo de dispositivo disfrazado es Xiaomi 13 Ultra</string>
     <string name="market_disable_new_icon">Prohibir el uso de iconos de terceros</string>
     <string name="market_disable_new_icon_desc">Haz que el escritorio esté más limpio</string>
-    <!--MIUI+-->
-    <string name="mirror">MIUI+ Beta</string>
-    <string name="mirror_hyperos">Servicios de interconectividad de dispositivos</string>
-    <string name="mirror_unlock_miui_plus">Desbloquear MIUI+</string>
     <!--Mi sound-->
     <string name="misound">Auriculares</string>
     <string name="misound_increase_sampling_rate">Aumentar la frecuencia de muestreo</string>
@@ -1513,13 +1499,7 @@
     <string name="log_level_none">Desactivar registro</string>
     <string name="disable_suggest">Desactivar sugerencias</string>
     <string name="enable_suggest">Activar sugerencias</string>
-    <string name="security_center_aosp_app_info_label">Información de aplicación de AOSP</string>
-    <string name="security_center_aosp_app_info">Añadir entrada de información de aplicación de AOSP</string>
-    <string name="security_center_aosp_app_manager_label">Administrador de aplicaciones de AOSP</string>
-    <string name="security_center_aosp_app_manager">Añadir entrada de administrador de aplicaciones de AOSP</string>
-    <string name="security_center_power_consumption_ranking">Se muestra la clasificación de consumo de energía</string>
     <string name="headtip_warn_not_offical_rom">La fuente de ROM puede no ser oficial de Xiaomi, pero tal vez algunas funciones no funcionen. Póngase en contacto con el proveedor de ROM para obtener más información.</string>
     <string name="headtip_warn_sign_verification_failed">La verificación de la firma falló, y la versión actual que está utilizando puede no ser de la versión oficial de Re.chronoRain, que puede contener código malicioso.</string>
     <string name="tip_default">Consejo: Aquí está el consejo predeterminado. Si puede verlo, significa que hay un problema con HyperCeiler, por favor envíelo al desarrollador a tiempo de manera efectiva.</string>
-    <string name="happy_chinese_new_year">Feliz Año Nuevo Chino</string>
 </resources>

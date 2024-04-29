@@ -30,7 +30,7 @@ import java.lang.reflect.Method;
 public class InstallIntercept extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(
+        MethodData methodData = DexKit.getDexKitBridge().findMethod(
             FindMethod.create()
                 .matcher(MethodMatcher.create()
                     .usingStrings("permcenter_install_intercept_enabled")

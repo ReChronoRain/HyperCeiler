@@ -18,15 +18,15 @@
 */
 package com.sevtinge.hyperceiler.module.hook.screenshot
 
-import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import java.lang.reflect.Modifier
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import java.lang.reflect.*
 
 object UnlockMinimumCropLimit : BaseHook() {
     private val mScreenCropViewMethod by lazy {
-        dexKitBridge.findMethod {
+        DexKit.getDexKitBridge().findMethod {
             matcher {
                 usingNumbers(0.5f, 200)
                 returnType = "int"
