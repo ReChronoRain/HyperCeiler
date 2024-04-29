@@ -1589,6 +1589,7 @@
     <string name="various_dialog_margin_bottom_desc">The distance from the popup window to the bottom of the screen</string>
     <string name="various_dialog_window_blur">Window blur</string>
     <string name="various_dialog_window_blur_radius">Window blur radius</string>
+    <string name="demo" translatable="false">Demo</string>
     <string name="location_data_title">Database</string>
     <string name="various_location_simulation_1_title">Task 1</string>
     <string name="various_location_simulation_2_title">Task 2</string>

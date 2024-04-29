@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreference
+        android:icon="@drawable/ic_system_ui"
+        android:key="prefs_key_system_ui_safe_mode_enable"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.systemui"
+        android:title="@string/system_ui" />
+
+    <SwitchPreference
+        android:icon="@drawable/ic_home"
+        android:key="prefs_key_home_safe_mode_enable"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.home"
+        android:title="@string/mihome" />
+
+    <SwitchPreference
+        android:icon="@drawable/ic_system_settings"
+        android:key="prefs_key_system_settings_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.settings"
+        android:title="@string/system_settings" />
+
+    <SwitchPreference
+        android:icon="@drawable/ic_security_center"
+        android:key="prefs_key_security_center_safe_mode_enable"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.securitycenter"
+        android:title="@string/security_center" />
+
+    <SwitchPreference
+        android:icon="@drawable/ic_default_icon"
+        android:key="prefs_key_demo_safe_mode_enable"
+        android:layout="@layout/preference_header"
+        android:summary="com.hchen.demo"
+        android:title="@string/demo" />
+    
+</PreferenceScreen>
