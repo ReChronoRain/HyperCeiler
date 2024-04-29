@@ -22,7 +22,7 @@ tinyPinyin = "2.0.3.RELEASE"
 ezxhelper = "2.1.2"
 accompanist = "0.34.0"
 hiddenapibypass = "4.3"
-commons-codec = "1.16.1"
+commons-codec = "1.17.0"
 
 [libraries]
 core = { group = "androidx.core", name = "core", version.ref = "core" }
