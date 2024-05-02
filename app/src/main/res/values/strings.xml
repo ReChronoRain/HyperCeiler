@@ -1501,6 +1501,8 @@
     <string name="misound_bluetooth_uuid">Sound effect UUID identifier</string>
     <string name="misound_bluetooth_uuid_more">Dolby and other sound identifiers, fill in when there is no effect, and find a way to get it yourself</string>
     <string name="misound_increase_sampling_rate">Increase sampling rate</string>
+    <string name="misound_sound_effect_switch">Auto switch effect</string>
+    <string name="misound_sound_effect_switch_desc">When Bluetooth is connected, use the original sound effect; restore after Bluetooth is turned off</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi Settings</string>
     <string name="mi_input_settings">Input settings</string>

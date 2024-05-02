@@ -1529,6 +1529,8 @@
     <string name="misound_bluetooth_uuid">音效效果 UUID 标识符</string>
     <string name="misound_bluetooth_uuid_more">杜比等音效标识符，无效果时再填写，自己想办法获取</string>
     <string name="misound_increase_sampling_rate">提高音频采样率</string>
+    <string name="misound_sound_effect_switch">音效自动切换</string>
+    <string name="misound_sound_effect_switch_desc">蓝牙连接时使用原声, 关闭蓝牙后复原</string>
     <!--小米设置-->
     <string name="mi_settings">小米设置</string>
     <string name="mi_input_settings">输入设置</string>

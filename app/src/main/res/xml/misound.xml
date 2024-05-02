@@ -18,4 +18,10 @@
         android:key="prefs_key_misound_increase_sampling_rate"
         android:title="@string/misound_increase_sampling_rate" />
 
+    <SwitchPreference
+        android:title="@string/misound_sound_effect_switch"
+        android:summary="@string/misound_sound_effect_switch_desc"
+        android:key="prefs_key_misound_sound_effect_switch"
+        android:defaultValue="false" />
+
 </PreferenceScreen>

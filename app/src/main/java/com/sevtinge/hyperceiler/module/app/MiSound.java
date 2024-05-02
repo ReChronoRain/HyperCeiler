@@ -22,6 +22,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.misound.BluetoothListener;
 import com.sevtinge.hyperceiler.module.hook.misound.IncreaseSamplingRate;
+import com.sevtinge.hyperceiler.module.hook.misound.SoundEffectSwitch;
 
 @HookExpand(pkg = "com.miui.misound", isPad = false, tarAndroid = 33)
 public class MiSound extends BaseModule {
@@ -30,5 +31,7 @@ public class MiSound extends BaseModule {
     public void handleLoadPackage() {
         initHook(new BluetoothListener(), mPrefsMap.getBoolean("misound_bluetooth"));
         initHook(IncreaseSamplingRate.INSTANCE, mPrefsMap.getBoolean("misound_increase_sampling_rate"));
+
+        initHook(SoundEffectSwitch.INSTANCE, mPrefsMap.getBoolean("misound_sound_effect_switch"));
     }
 }
