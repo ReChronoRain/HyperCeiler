@@ -377,6 +377,7 @@
     <string name="system_framework_background_blur_toast">快顯通知高級材質</string>
     <string name="system_framework_background_blur_supported_more">開啟此功能時，請打開系統設定中的高級材質開關，系統可能需要重新啟動兩次</string>
     <string name="system_framework_disablt_miuilite_check">停用 MIUI Lite 檢查</string>
+    <string name="system_framework_posted_clipboard">禁止顯示讀取剪貼簿 Toast</string>
     <string name="system_framework_allow_manage_all_notifications">允許管理所有通知</string>
     <string name="system_framework_quick_screenshot">快速截圖</string>
     <string name="system_framework_quick_screenshot_desc">停用螢幕截圖延遲</string>
@@ -668,6 +669,8 @@
     <string name="system_ui_disable_clock_synch_desc">大通知欄時鐘不再與狀態欄時鐘格式同步</string>
     <string name="system_ui_statusbar_clock_show">顯示</string>
     <string name="system_ui_statusbar_clock_big_bold">通知欄大時鐘粗體</string>
+    <string name="system_ui_clock_is_show_sec">秒數更新器</string>
+    <string name="system_ui_clock_is_show_sec_desc">如果時鐘要顯示秒，請記得開啟\n顯示秒會增加不必要的效能損耗，請斟酌使用</string>
     <string name="system_ui_statusbar_clock_layout_s">狀態欄時鐘</string>
     <string name="system_ui_statusbar_clock_layout_b">通知欄大時鐘</string>
     <string name="system_ui_statusbar_clock_layout_n">通知欄迷你時鐘</string>
@@ -846,6 +849,7 @@
     <string name="system_settings_enable_fold_area">解鎖折疊屏（Fold）分區</string>
     <string name="system_settings_enable_area_desc">不受支援的設備在解鎖後將會導致崩潰</string>
     <string name="system_settings_unlock_google_header">禁止隱藏 Google 入口</string>
+    <string name="system_settings_unlock_ui_mode">解鎖應用程式佈局最佳化</string>
     <string name="system_settings_usb_mode">接入 USB 時不彈跳視窗</string>
     <string name="system_settings_usb_mode_choose">USB 預設選項</string>
     <string name="system_settings_usb_default">預設</string>
@@ -909,6 +913,7 @@
     <string name="lbe">權限管理服務</string>
     <string name="clipboard">剪貼簿</string>
     <string name="lbe_disable_clipboard_tip">隱藏 Toast 提示</string>
+    <string name="lbe_auto_start">禁止自動關閉自啟動</string>
     <string name="lbe_clipboard_tip_toast">使用 Toast 提示讀取剪貼簿</string>
     <string name="lbe_clipboard_tip_toast_desc">隱藏對話框並允許應用程式預設讀取剪貼簿</string>
     <string name="lbe_clipboard_tip">讀取了剪貼簿</string>
@@ -1601,6 +1606,7 @@
     <string name="help_cant_see_apps_switch_desc">您仍然可以在「設定-設定主頁入口」中找到該頁面。重新啟動應用程式即可套用。</string>
     <string name="headtip_warn_not_offical_rom">您所使用的 ROM 來源可能不是屬於小米官方版本，部分功能可能無法使用，具體請聯絡您所使用的 ROM 開發者。</string>
     <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 Re.chronoRain 的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
+    <string name="headtip_tip_long_press_to_copy">您可以長按或雙擊後選擇文本，或複製它並將其回饋給開發人員。</string>
     <string name="safe_mode_title">警告</string>
     <string name="safe_mode_desc">由於多次閃退已進入安全模式，且 HyperCeiler 功能已暫時停用。 \n按一下「確定」取消，按一下「取消」稍後處理。</string>
     <string name="safe_mode_history">查看異常記錄</string>
