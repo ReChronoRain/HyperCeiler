@@ -378,6 +378,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_background_blur_toast">Thông báo họa tiết nâng cao</string>
     <string name="system_framework_background_blur_supported_more">Khi tính năng này được bật, vui lòng điều khiển công tắc vật liệu nâng cao trong cài đặt hệ thống vì hệ thống có thể cần phải khởi động lại hai lần</string>
     <string name="system_framework_disablt_miuilite_check">Tắt kiểm tra MIUI Lite</string>
+    <string name="system_framework_posted_clipboard">Đã chặn thông báo bộ nhớ tạm khi dán</string>
     <string name="system_framework_allow_manage_all_notifications">Cho phép quản lý tất cả thông báo</string>
     <string name="system_framework_quick_screenshot">Chụp ảnh màn hình nhanh</string>
     <string name="system_framework_quick_screenshot_desc">Tắt độ trễ ảnh chụp màn hình</string>
@@ -670,6 +671,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_disable_clock_synch_desc">Đồng hồ trên thanh thông báo lớn không còn đồng bộ với định dạng đồng hồ trên thanh trạng thái</string>
     <string name="system_ui_statusbar_clock_show">Hiện</string>
     <string name="system_ui_statusbar_clock_big_bold">Thanh thông báo đồng hồ lớn in đậm</string>
+    <string name="system_ui_clock_is_show_sec">Hiển thị giây trên đồng hồ</string>
+    <string name="system_ui_clock_is_show_sec_desc">Nếu muốn hiển thị giây trên đồng hồ, hãy bật nó\nViệc hiển thị giây sẽ làm hao phí hiệu năng không cần thiết, vui lòng sử dụng nó khi thích hợp</string>
     <string name="system_ui_statusbar_clock_layout_s">Đồng hồ trên thanh trạng thái</string>
     <string name="system_ui_statusbar_clock_layout_b">Đồng hồ lớn trên thanh thông báo</string>
     <string name="system_ui_statusbar_clock_layout_n">Đồng hồ nhỏ trên thanh thông báo</string>
@@ -848,6 +851,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_enable_fold_area">Mở khoá khu vực điện thoại gập</string>
     <string name="system_settings_enable_area_desc">Các thiết bị không được hỗ trợ sẽ khiến cài đặt bị lỗi sau khi được mở khóa</string>
     <string name="system_settings_unlock_google_header">Tắt các cổng Google ẩn</string>
+    <string name="system_settings_unlock_ui_mode">Mở khóa tối ưu hóa bố cục ứng dụng</string>
     <string name="system_settings_usb_mode">Tắt cửa sổ nổi lên khi kết nối USB</string>
     <string name="system_settings_usb_mode_choose">Tùy chọn dùng USB mặc định</string>
     <string name="system_settings_usb_default">mặc định</string>
@@ -915,6 +919,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="lbe">Quyền</string>
     <string name="clipboard">Clipboard</string>
     <string name="lbe_disable_clipboard_tip">Ẩn mẹo nhanh</string>
+    <string name="lbe_auto_start">Tự động tắt khi tự khởi động bị cấm</string>
     <string name="lbe_clipboard_tip_toast">Đọc bảng ghi tạm bằng cách sử dụng hộp gợi ý thông báo</string>
     <string name="lbe_clipboard_tip_toast_desc">Ẩn hộp thoại và cho phép ứng dụng đọc bảng ghi tạm theo mặc định</string>
     <string name="lbe_clipboard_tip">Đọc clipboard</string>
@@ -1615,6 +1620,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="help_cant_see_apps_switch_desc">Bạn vẫn có thể tìm thấy trang này trong \"Cài đặt - Thiết lập lối tắt trang chủ\". Khởi động lại ứng dụng để áp dụng.</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
+    <string name="headtip_tip_long_press_to_copy">Bạn có thể chọn văn bản sau khi nhấn và nhấp đúp vào văn bản đó hoặc sao chép văn bản đó và gửi lại cho nhà phát triển.</string>
     <string name="safe_mode_title">Cảnh báo</string>
     <string name="safe_mode_desc">bạn đã vào Chế độ an toàn do một số sự cố và các tính năng của HyperCeiler đã tạm thời bị tắt.\nNhấp OK để hủy hoặc nhấp Hủy để tiếp tục sau.</string>
     <string name="safe_mode_history">Xem nhật ký ngoại lệ</string>
