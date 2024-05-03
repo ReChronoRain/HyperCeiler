@@ -377,6 +377,7 @@
     <string name="system_framework_background_blur_toast">Dica das Texturas avançadas</string>
     <string name="system_framework_background_blur_supported_more">Quando este recurso estiver ativado, controle a opção das Texturas avançadas nas configurações do sistema, pois o sistema pode precisar ser reiniciado duas vezes.</string>
     <string name="system_framework_disablt_miuilite_check">Desativar Verificação MIUI Lite</string>
+    <string name="system_framework_posted_clipboard">Suprimir pasta da área de transferência</string>
     <string name="system_framework_allow_manage_all_notifications">Permitir gerenciar todas as notificações</string>
     <string name="system_framework_quick_screenshot">Captura de tela rápida</string>
     <string name="system_framework_quick_screenshot_desc">Desative o atraso na captura de tela</string>
@@ -668,6 +669,8 @@
     <string name="system_ui_disable_clock_synch_desc">O grande relógio da central de notificações não está mais sincronizado com o formato do relógio da barra de status</string>
     <string name="system_ui_statusbar_clock_show">Exibir</string>
     <string name="system_ui_statusbar_clock_big_bold">Grande relógio da central de notificações em negrito</string>
+    <string name="system_ui_clock_is_show_sec">Interruptor de atualização dos segundos</string>
+    <string name="system_ui_clock_is_show_sec_desc">Se o relógio quiser exibir os segundos, lembre-se de ativá-lo.\nA exibição dos segundos aumentará a sobrecarga desnecessária de desempenho. Por favor, use-o conforme apropriado.</string>
     <string name="system_ui_statusbar_clock_layout_s">Relógio da barra de status</string>
     <string name="system_ui_statusbar_clock_layout_b">Grande relógio da central de notificações</string>
     <string name="system_ui_statusbar_clock_layout_n">Mini-relógio da central de notificações</string>
@@ -846,6 +849,7 @@
     <string name="system_settings_enable_fold_area">Desbloquear área Fold</string>
     <string name="system_settings_enable_area_desc">Dispositivos não suportados farão com que as Configurações travem após serem desbloqueadas</string>
     <string name="system_settings_unlock_google_header">Desbloquear entrada do Google</string>
+    <string name="system_settings_unlock_ui_mode">Desbloquear otimizações de layout dos apps</string>
     <string name="system_settings_usb_mode">Ocultar janela pop-up ao conectar-se ao USB</string>
     <string name="system_settings_usb_mode_choose">Configuração USB padrão</string>
     <string name="system_settings_usb_default">Padrão</string>
@@ -909,6 +913,7 @@
     <string name="lbe">Permissões</string>
     <string name="clipboard">Área de transferência</string>
     <string name="lbe_disable_clipboard_tip">Ocultar dicas rápidas</string>
+    <string name="lbe_auto_start">Proibir desligamento automático da inicialização automática</string>
     <string name="lbe_clipboard_tip_toast">Ler área de transferência usando dicas rápidas</string>
     <string name="lbe_clipboard_tip_toast_desc">Oculte a caixa de diálogo e permita que o app leia a área de transferência por padrão</string>
     <string name="lbe_clipboard_tip">Ler área de transferência</string>
@@ -1601,6 +1606,7 @@
     <string name="help_cant_see_apps_switch_desc">Você ainda pode encontrar esta página em Configurações - Configurar entrada da página inicial. Reinicie o app para aplicar.</string>
     <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
+    <string name="headtip_tip_long_press_to_copy">Você pode selecionar o texto após pressionar longamente ou tocar duas vezes, ou copiá-lo e devolvê-lo ao desenvolvedor.</string>
     <string name="safe_mode_title">Aviso</string>
     <string name="safe_mode_desc">Você entrou no Modo seguro devido a várias falhas e os recursos do HyperCeiler foi temporariamente desativado.\nClique em OK para cancelar ou clique em Cancelar para continuar mais tarde.</string>
     <string name="safe_mode_history">Ver registros de exceção</string>
