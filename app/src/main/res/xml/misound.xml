@@ -3,8 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/misound">
     <SwitchPreference
-        android:title="@string/misound_increase_sampling_rate"
+        android:defaultValue="false"
+        android:key="prefs_key_misound_bluetooth"
+        android:title="@string/misound_bluetooth" />
+
+    <EditTextPreference
+        android:dependency="prefs_key_misound_bluetooth"
+        android:key="prefs_key_misound_bluetooth_uuid"
+        android:title="@string/misound_bluetooth_uuid"
+        android:summary="@string/misound_bluetooth_uuid_more" />
+
+    <SwitchPreference
+        android:defaultValue="false"
         android:key="prefs_key_misound_increase_sampling_rate"
-        android:defaultValue="false" />
+        android:title="@string/misound_increase_sampling_rate" />
 
 </PreferenceScreen>

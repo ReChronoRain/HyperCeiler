@@ -1497,6 +1497,9 @@
     <string name="market_package_monitor_desc">Prohibit GetApps from monitoring app installation and uninstallation</string>
     <!--Mi sound-->
     <string name="misound">Earphones</string>
+    <string name="misound_bluetooth">The headset status automatically switches to the original sound</string>
+    <string name="misound_bluetooth_uuid">Sound effect UUID identifier</string>
+    <string name="misound_bluetooth_uuid_more">Dolby and other sound identifiers, fill in when there is no effect, and find a way to get it yourself</string>
     <string name="misound_increase_sampling_rate">Increase sampling rate</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi Settings</string>
