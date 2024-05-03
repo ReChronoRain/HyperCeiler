@@ -101,7 +101,7 @@ object StatusBarClockNew : BaseHook() {
     }
 
     // 时钟格式
-    private val getFormatS = mPrefsMap.getString("system_ui_statusbar_clock_editor_s", "HH:mm:ss")
+    private val getFormatS = mPrefsMap.getString("system_ui_statusbar_clock_editor_s", "HH:mm")
     private val getFormatN = mPrefsMap.getString("system_ui_statusbar_clock_editor_n", "")
     private val getClockStyle by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_clock_style", 0)
