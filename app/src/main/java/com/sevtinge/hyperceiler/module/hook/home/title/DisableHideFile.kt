@@ -25,7 +25,7 @@ import de.robv.android.xposed.*
 
 object DisableHideFile : BaseHook() {
     override fun init() {
-        if (isInternational()) return
+        if (IS_INTERNATIONAL_BUILD) return
 
         XposedHelpers.findAndHookConstructor(
             "com.miui.home.launcher.AppFilter",
