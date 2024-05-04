@@ -64,7 +64,7 @@ object DockCustomNew : BaseHook() {
                 mDockBlur.setMiViewBlurMode(1)
             }
             mDockBlur.setBlurRoundRect(mDockRadius)
-            mDockBlur.setBackgroundColor(mPrefsMap.getInt("home_dock_bg_color", -1))
+            mDockBlur.setBackgroundColor(mPrefsMap.getInt("home_dock_bg_color", 790568735))
             mDockBlur.layoutParams =
                 FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, mDockHeight)
                     .also { layoutParams ->
