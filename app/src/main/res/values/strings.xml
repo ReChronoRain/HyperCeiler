@@ -1686,6 +1686,6 @@
     <string name="safe_mode_recorder_msg">Exception Message</string>
     <string name="safe_mode_recorder_st">Stack Trace</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
-
     <string name="preference_recommend_tip">Looking for something else?</string>
+    <string name="happy_birthday_hyperceiler">Today is HyperCeiler\'s birthday!\nThank you for your support over the past year, and let\'s continue to work together this year!</string>
 </resources>

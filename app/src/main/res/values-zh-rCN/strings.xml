@@ -1281,7 +1281,6 @@
     <string name="home_other_app_icon_hide">桌面快捷方式管理</string>
     <string name="home_other_toast_slide_again">禁止提示 \"请再划一次\" Toast</string>
     <string name="system_framework_guided_access_status">固定时完全隐藏状态栏</string>
-    <string name="system_framework_guided_access_status_more">如同ios的引导式访问，只能通过按键方式退出，把屏幕完全交给app。退出方式为长按电源键</string>
     <string name="system_framework_guided_access_status_more">将屏幕完全移交至应用，仅允许通过长按电源键退出</string>
     <string name="system_framework_guided_access_sc">固定时禁止呼出侧边栏</string>
     <string name="system_framework_guided_access_screen">解除固定时跳转锁屏</string>
@@ -1731,5 +1730,6 @@
     <string name="headtip_warn_not_offical_rom">您正在使用的 ROM 来源可能并不是 Xiaomi 官方，部分功能可能会失效，详情请咨询您正在使用 ROM 的提供者。</string>
     <string name="headtip_warn_sign_verification_failed">签名校验失败，您当前使用的版本可能并非来自于 Re.chronoRain 的官方版本，可能包含恶意代码，请注意使用安全。</string>
     <string name="headtip_tip_long_press_to_copy">您可以长按或双击后选择文本进行操作，或者复制并反馈给开发者。</string>
+    <string name="happy_birthday_hyperceiler">今天是 HyperCeiler 的生日！\n感谢与您岁月相伴之恩，愿来年再续前缘，共赴风雨，携手并进！</string>
 
 </resources>
