@@ -439,6 +439,7 @@
     <string name="system_framework_quick_screenshot">秒截图</string>
     <string name="system_framework_quick_screenshot_desc">禁用截图延迟</string>
     <string name="system_framework_disable_link_turbo_toast">隐藏正在使用流量加速 Toast</string>
+    <string name="system_framework_allow_third_theme">允许使用第三方主题</string>
     <!--核心破解-->
     <string name="system_framework_corepatch_title">包管理服务</string>
     <string name="system_framework_core_patch_downgr">允许降级安装应用</string>
