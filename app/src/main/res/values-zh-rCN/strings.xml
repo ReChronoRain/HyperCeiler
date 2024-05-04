@@ -976,7 +976,7 @@
     <string name="updater">系统更新</string>
     <string name="updater_enable_miui_version">启用伪装版本</string>
     <string name="updater_fuck_vab">移除 OTA 验证</string>
-    <string name="updater_fuck_vab_desc">仅支持 VAB 设备，其他非 VAB 设备请不要开启！\n- 无需内测权限即可刷入完整内测卡刷包\n- 跨不同版本类型刷入后建议清除数据\n- 不支持任何非官方 ROM 使用\n- 此功能有一定危险性，请在了解 Fastboot 操作后再评估是否开启</string>
+    <string name="updater_fuck_vab_desc">仅支持 VAB 设备\n- 可绕过 ROM 权限校验\n- 不支持任何非官方 ROM 使用\n- 此功能有一定危险性，请在了解 Fastboot 操作后再评估是否开启</string>
     <string name="updater_version_mode">伪装类型</string>
     <string name="updater_big_version">伪装大版本</string>
     <string name="updater_big_version_desc">伪装 Xiaomi HyperOS 版本时需要填写的项目，默认为 V816</string>
@@ -1375,7 +1375,7 @@
     <string name="screenshot_unlock_privacy_marking_desc">需要预装高版本 \"MiAI引擎\" APP 才能正常使用</string>
     <string name="screenshot_save_to_pictures_desc">规范截屏保存位置到 Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自定义带壳截屏机型</string>
-    <string name="screenshot_device_customize_desc">填写请输入 设备代号，有颜色的设备填写应加上后缀，举例：\n- 小米13，填写的内容是 fuxi\n- 小米14 粉色版，填写的内容是 houji_PK</string>
+    <string name="screenshot_device_customize_desc">填写请输入 设备代号，有颜色的设备填写应加上后缀，例如：\n- 小米13，填写的内容是 fuxi\n- 小米14 粉色版，填写的内容是 houji_PK</string>
     <!--手机管家/平板管家-->
     <string name="security_center">手机管家</string>
     <string name="security_center_pad">平板管家</string>
@@ -1527,7 +1527,7 @@
     <string name="misound">音质音效</string>
     <string name="misound_bluetooth">耳机状态自动切换原声</string>
     <string name="misound_bluetooth_uuid">音效效果 UUID 标识符</string>
-    <string name="misound_bluetooth_uuid_more">杜比等音效标识符，无效果时再填写，自己想办法获取</string>
+    <string name="misound_bluetooth_uuid_more">音效无效果时可尝试进行修改</string>
     <string name="misound_increase_sampling_rate">提高音频采样率</string>
     <!--小米设置-->
     <string name="mi_settings">小米设置</string>
@@ -1596,7 +1596,7 @@
 
     <string name="various_mipad_input_title">输入</string>
     <string name="various_mipad_input_close_magic_title">关闭 Magic Pointer</string>
-    <string name="various_mipad_input_close_magic_desc">移除 Xiaomi Pad 系统破烂的圆形鼠标指针，并恢复为安卓原生的鼠标指针</string>
+    <string name="various_mipad_input_close_magic_desc">移除圆形鼠标指针，并恢复为安卓原生的鼠标指针</string>
     <string name="various_mipad_input_restore_esc_title">恢复 ESC 键功能</string>
     <string name="various_mipad_input_restore_esc_desc">恢复被 Xiaomi Pad 系统强硬射为 \"返回\" 功能的 ESC 键</string>
     <string name="various_mipad_input_disable_bluetooth_title">移除触控笔蓝牙限制</string>
