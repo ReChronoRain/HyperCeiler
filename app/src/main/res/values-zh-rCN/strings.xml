@@ -1053,6 +1053,7 @@
     <string name="gallery_backup_server">备份服务提供商</string>
     <string name="gallery_backup_server_xiaomi">小米云服务</string>
     <string name="gallery_backup_server_google">Google</string>
+    <string name="gallery_backup_server_onedrive">Google 与 OneDrive</string>
     <!--MIUI 安全组件-->
     <string name="guard_provider">MIUI 安全组件</string>
     <string name="guard_provider_hyperos">系统安全组件</string>

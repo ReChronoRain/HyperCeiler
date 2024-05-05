@@ -1030,6 +1030,7 @@
     <string name="gallery_backup_server">Backup server</string>
     <string name="gallery_backup_server_xiaomi">Xiaomi Cloud Service</string>
     <string name="gallery_backup_server_google">Google</string>
+    <string name="gallery_backup_server_onedrive">Google &amp; OneDrive</string>
     <!--MIUI security components-->
     <string name="guard_provider">MIUI security components</string>
     <string name="guard_provider_hyperos">System Security Components</string>
