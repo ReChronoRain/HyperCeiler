@@ -121,7 +121,7 @@
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:title="@string/home_dock_bg_color"
             android:key="prefs_key_home_dock_bg_color"
-            android:defaultValue="-1"
+            android:defaultValue="0"
             app:showAlphaSlider="true" />
 
         <!--<SeekBarPreferenceEx

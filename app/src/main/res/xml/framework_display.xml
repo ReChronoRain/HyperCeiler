@@ -21,6 +21,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:title="@string/system_framework_allow_third_theme"
+            android:key="prefs_key_system_framework_allow_third_theme" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:summary="@string/system_ui_display_use_aosp_screenshot_desc"
             android:title="@string/system_ui_display_use_aosp_screenshot"
             android:key="prefs_key_system_ui_display_use_aosp_screenshot_enable" />

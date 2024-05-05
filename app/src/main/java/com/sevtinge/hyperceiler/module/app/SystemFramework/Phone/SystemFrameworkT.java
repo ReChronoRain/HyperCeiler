@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.app.SystemFramework.Phone;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
@@ -64,6 +64,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeSteps;
 import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.BypassSignCheckForT;
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.AllDarkMode;
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.DisplayCutout;
+import com.sevtinge.hyperceiler.module.hook.systemframework.display.ThemeProvider;
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.ToastTime;
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.UseAOSPScreenShot;
 import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.OpenAppInFreeForm;
@@ -130,13 +131,14 @@ public class SystemFrameworkT extends BaseModule {
         initHook(UseAOSPScreenShot.INSTANCE, mPrefsMap.getBoolean("system_ui_display_use_aosp_screenshot_enable"));
         initHook(new ToastTime(), mPrefsMap.getBoolean("system_ui_display_toast_times_enable"));
         initHook(new AllDarkMode(), mPrefsMap.getBoolean("system_framework_allow_all_dark_mode"));
+        initHook(new ThemeProvider(), mPrefsMap.getBoolean("system_framework_allow_third_theme"));
         // initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
 
         // 位置模拟
         // initHook(new LocationSimulation(), false);
 
         // 小米/红米平板设置相关
-        if (isPad()) {
+        if (getIS_TABLET()) {
             initHook(IgnoreStylusKeyGesture.INSTANCE, mPrefsMap.getBoolean("mipad_input_ingore_gesture"));
             initHook(NoMagicPointer.INSTANCE, mPrefsMap.getBoolean("mipad_input_close_magic"));
             initHook(RemoveStylusBluetoothRestriction.INSTANCE, mPrefsMap.getBoolean("mipad_input_disable_bluetooth"));

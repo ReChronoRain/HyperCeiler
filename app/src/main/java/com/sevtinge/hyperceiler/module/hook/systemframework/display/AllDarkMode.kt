@@ -22,6 +22,7 @@ import android.content.pm.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.ClassUtils.setStaticObject
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
+
 import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
@@ -31,7 +32,7 @@ import com.sevtinge.hyperceiler.utils.devicesdk.*
 //from SetoHook by SetoSkins
 class AllDarkMode : BaseHook() {
     override fun init() {
-        if (isInternational()) return
+        if (IS_INTERNATIONAL_BUILD) return
         val clazzForceDarkAppListManager =
             loadClass("com.android.server.ForceDarkAppListManager")
         clazzForceDarkAppListManager.methodFinder().filterByName("getDarkModeAppList").toList()
@@ -43,7 +44,7 @@ class AllDarkMode : BaseHook() {
                     setStaticObject(
                         clazzMiuiBuild,
                         "IS_INTERNATIONAL_BUILD",
-                        isInternational()
+                        IS_INTERNATIONAL_BUILD
                     )
                 }
             }

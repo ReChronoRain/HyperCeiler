@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.hook.home;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-
 import android.content.Context;
 import android.database.ContentObserver;
 import android.os.Handler;
@@ -32,6 +30,8 @@ import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 import de.robv.android.xposed.XposedHelpers;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
+
 /**
  * @author 焕晨HChen
  */
@@ -42,7 +42,7 @@ public class LockApp extends BaseHook {
 
     @Override
     public void init() throws NoSuchMethodException {
-        if (isPad()) {
+        if (getIS_TABLET()) {
             // 平板
             findAndHookConstructor("com.miui.home.recents.GestureStubView",
                 Context.class,

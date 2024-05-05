@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.sp2px;
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -54,6 +54,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Objects;
 
 import moralnorm.preference.Preference;
@@ -66,6 +67,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     Preference mAod;
     Preference mGuardProvider;
     Preference mHeadtipWarn;
+    Preference mHeadtipBirthday;
     Preference mHelpCantSeeApps;
     TipsPreference mTips;
     MainActivityContextHelper mainActivityContextHelper;
@@ -136,6 +138,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         mGuardProvider = findPreference("prefs_key_guardprovider");
         mTips = findPreference("prefs_key_tips");
         mHeadtipWarn = findPreference("prefs_key_headtip_warn");
+        mHeadtipBirthday = findPreference("prefs_key_headtip_hyperceiler");
         mHelpCantSeeApps = findPreference("prefs_key_help_cant_see_app");
 
         mHelpCantSeeApps.setVisible(!getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false));
@@ -151,7 +154,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
             mAod.setTitle(R.string.aod);
             mMiLink.setTitle(R.string.milink);
             mGuardProvider.setTitle(R.string.guard_provider);
-            if (isPad()) {
+            if (getIS_TABLET()) {
                 mSecurityCenter.setTitle(R.string.security_center_pad);
             } else {
                 mSecurityCenter.setTitle(R.string.security_center);
@@ -160,10 +163,19 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
 
         mainActivityContextHelper = new MainActivityContextHelper(requireContext());
 
+        isBirthday();
         isOfficialRom();
         if (!getIsOfficialRom()) isSignPass();
 
         mTips = findPreference("prefs_key_tips");
+    }
+
+    public void isBirthday() {
+        Calendar calendar = Calendar.getInstance();
+        int currentMonth = calendar.get(Calendar.MONTH);
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        mHeadtipBirthday.setVisible(currentMonth == Calendar.MAY && currentDay == 1);
+
     }
 
     public void isOfficialRom() {

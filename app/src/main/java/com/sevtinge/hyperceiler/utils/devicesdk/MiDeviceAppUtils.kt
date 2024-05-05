@@ -1,6 +1,14 @@
 package com.sevtinge.hyperceiler.utils.devicesdk
 
+import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNullAs
 import com.sevtinge.hyperceiler.utils.api.LazyClass.clazzMiuiBuild
+
+val IS_TABLET by lazy {
+    getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_TABLET") ?: false
+}
+val IS_INTERNATIONAL_BUILD by lazy {
+    getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD") ?: false
+}
 
 /**
  * 函数调用，适用于其他一些需要判断的情况，仅支持小米设备的判断

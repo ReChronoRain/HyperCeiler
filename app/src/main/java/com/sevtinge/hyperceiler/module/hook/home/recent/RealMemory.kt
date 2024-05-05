@@ -41,7 +41,7 @@ object RealMemory : BaseHook() {
         fun Any.formatSize(): String = Formatter.formatFileSize(context, this as Long)
 
         val recentContainerClass = loadClass(
-            when (isPad()) {
+            when (IS_TABLET) {
                 false -> "com.miui.home.recents.views.RecentsContainer"
                 true -> "com.miui.home.recents.views.RecentsDecorations"
             }

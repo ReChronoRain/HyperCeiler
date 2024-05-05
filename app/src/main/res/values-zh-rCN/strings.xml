@@ -430,7 +430,7 @@
     <string name="system_framework_disable_72h_verify">禁用每 72 小时验证锁屏密码</string>
     <string name="system_framework_disable_verify_can_ve_disabled">禁用是否允许禁用 APP 校验</string>
     <string name="system_framework_allow_all_dark_mode">允许所有 APP 使用深色模式</string>
-    <string name="system_framework_background_blur_supported">强开高级材质</string>
+    <string name="system_framework_background_blur_supported">强制启用高级材质</string>
     <string name="system_framework_background_blur_toast">Toast 高级材质</string>
     <string name="system_framework_background_blur_supported_more">开启此功能后请在系统设置中控制高级材质开关，可能需要重启两次系统</string>
     <string name="system_framework_disablt_miuilite_check">禁用 MIUI Lite 检查</string>
@@ -439,6 +439,7 @@
     <string name="system_framework_quick_screenshot">秒截图</string>
     <string name="system_framework_quick_screenshot_desc">禁用截图延迟</string>
     <string name="system_framework_disable_link_turbo_toast">隐藏正在使用流量加速 Toast</string>
+    <string name="system_framework_allow_third_theme">允许使用第三方主题</string>
     <!--核心破解-->
     <string name="system_framework_corepatch_title">包管理服务</string>
     <string name="system_framework_core_patch_downgr">允许降级安装应用</string>
@@ -976,7 +977,7 @@
     <string name="updater">系统更新</string>
     <string name="updater_enable_miui_version">启用伪装版本</string>
     <string name="updater_fuck_vab">移除 OTA 验证</string>
-    <string name="updater_fuck_vab_desc">仅支持 VAB 设备，其他非 VAB 设备请不要开启！\n- 无需内测权限即可刷入完整内测卡刷包\n- 跨不同版本类型刷入后建议清除数据\n- 不支持任何非官方 ROM 使用\n- 此功能有一定危险性，请在了解 Fastboot 操作后再评估是否开启</string>
+    <string name="updater_fuck_vab_desc">仅支持 VAB 设备\n- 可绕过 ROM 权限校验\n- 不支持任何非官方 ROM 使用\n- 此功能有一定危险性，请在了解 Fastboot 操作后再评估是否开启</string>
     <string name="updater_version_mode">伪装类型</string>
     <string name="updater_big_version">伪装大版本</string>
     <string name="updater_big_version_desc">伪装 Xiaomi HyperOS 版本时需要填写的项目，默认为 V816</string>
@@ -1280,7 +1281,7 @@
     <string name="home_other_app_icon_hide">桌面快捷方式管理</string>
     <string name="home_other_toast_slide_again">禁止提示 \"请再划一次\" Toast</string>
     <string name="system_framework_guided_access_status">固定时完全隐藏状态栏</string>
-    <string name="system_framework_guided_access_status_more">如同ios的引导式访问，只能通过按键方式退出，把屏幕完全交给app。退出方式为长按电源键</string>
+    <string name="system_framework_guided_access_status_more">将屏幕完全移交至应用，仅允许通过长按电源键退出</string>
     <string name="system_framework_guided_access_sc">固定时禁止呼出侧边栏</string>
     <string name="system_framework_guided_access_screen">解除固定时跳转锁屏</string>
     <string name="system_framework_guided_access">引导式访问</string>
@@ -1375,7 +1376,7 @@
     <string name="screenshot_unlock_privacy_marking_desc">需要预装高版本 \"MiAI引擎\" APP 才能正常使用</string>
     <string name="screenshot_save_to_pictures_desc">规范截屏保存位置到 Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自定义带壳截屏机型</string>
-    <string name="screenshot_device_customize_desc">填写请输入 设备代号，有颜色的设备填写应加上后缀，举例：\n- 小米13，填写的内容是 fuxi\n- 小米14 粉色版，填写的内容是 houji_PK</string>
+    <string name="screenshot_device_customize_desc">填写请输入 设备代号，有颜色的设备填写应加上后缀，例如：\n- 小米13，填写的内容是 fuxi\n- 小米14 粉色版，填写的内容是 houji_PK</string>
     <!--手机管家/平板管家-->
     <string name="security_center">手机管家</string>
     <string name="security_center_pad">平板管家</string>
@@ -1527,7 +1528,7 @@
     <string name="misound">音质音效</string>
     <string name="misound_bluetooth">耳机状态自动切换原声</string>
     <string name="misound_bluetooth_uuid">音效效果 UUID 标识符</string>
-    <string name="misound_bluetooth_uuid_more">杜比等音效标识符，无效果时再填写，自己想办法获取</string>
+    <string name="misound_bluetooth_uuid_more">音效无效果时可尝试进行修改</string>
     <string name="misound_increase_sampling_rate">提高音频采样率</string>
     <!--小米设置-->
     <string name="mi_settings">小米设置</string>
@@ -1596,7 +1597,7 @@
 
     <string name="various_mipad_input_title">输入</string>
     <string name="various_mipad_input_close_magic_title">关闭 Magic Pointer</string>
-    <string name="various_mipad_input_close_magic_desc">移除 Xiaomi Pad 系统破烂的圆形鼠标指针，并恢复为安卓原生的鼠标指针</string>
+    <string name="various_mipad_input_close_magic_desc">移除圆形鼠标指针，并恢复为安卓原生的鼠标指针</string>
     <string name="various_mipad_input_restore_esc_title">恢复 ESC 键功能</string>
     <string name="various_mipad_input_restore_esc_desc">恢复被 Xiaomi Pad 系统强硬射为 \"返回\" 功能的 ESC 键</string>
     <string name="various_mipad_input_disable_bluetooth_title">移除触控笔蓝牙限制</string>
@@ -1710,12 +1711,12 @@
     <string name="enable_suggest">启用推荐</string>
 
     <string name="safe_mode_title">警告</string>
-    <string name="safe_mode_desc">由于多次崩溃，已进入安全模式，HyperCeiler 功能已暂时停用。\n点击确定解除，点击取消稍后处理。</string>
+    <string name="safe_mode_desc">由于多次崩溃，已进入安全模式，HyperCeiler 功能已暂时停用。\n您可以解除其的安全模式，也可稍后进入 HyperCeiler 处理。</string>
     <string name="safe_mode_history">查看异常记录</string>
     <string name="safe_mode_cancel">解除</string>
     <string name="safe_mode_ok">稍后处理</string>
     <string name="safe_mode_later_title">提示</string>
-    <string name="safe_mode_later_desc">仍处于安全模式中，HyperCeiler对其的功能已停用。\n是否解除安全模式？</string>
+    <string name="safe_mode_later_desc">处于安全模式中，HyperCeiler 对其的功能已停用。\n您可以解除其的安全模式，也可稍后处理。</string>
     <string name="safe_mode_recorder_title">异常记录</string>
     <string name="safe_mode_recorder_file">文件名</string>
     <string name="safe_mode_recorder_class">抛出类</string>
@@ -1729,5 +1730,6 @@
     <string name="headtip_warn_not_offical_rom">您正在使用的 ROM 来源可能并不是 Xiaomi 官方，部分功能可能会失效，详情请咨询您正在使用 ROM 的提供者。</string>
     <string name="headtip_warn_sign_verification_failed">签名校验失败，您当前使用的版本可能并非来自于 Re.chronoRain 的官方版本，可能包含恶意代码，请注意使用安全。</string>
     <string name="headtip_tip_long_press_to_copy">您可以长按或双击后选择文本进行操作，或者复制并反馈给开发者。</string>
+    <string name="happy_birthday_hyperceiler">今天是 HyperCeiler 的生日！\n感谢与您岁月相伴之恩，愿来年再续前缘，共赴风雨，携手并进！</string>
 
 </resources>
