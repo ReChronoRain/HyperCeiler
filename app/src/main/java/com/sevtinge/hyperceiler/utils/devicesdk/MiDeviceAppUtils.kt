@@ -17,7 +17,7 @@ val IS_INTERNATIONAL_BUILD by lazy {
  */
 fun isPad(): Boolean {
     return try {
-        getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_TABLET") ?: false
+        IS_TABLET
     } catch(_: Throwable) {
         isPadDevice()
     }
@@ -29,7 +29,7 @@ fun isPad(): Boolean {
  */
 fun isInternational(): Boolean {
     return  try {
-        clazzMiuiBuild.getField("IS_INTERNATIONAL_BUILD").getBoolean(null)
+        IS_INTERNATIONAL_BUILD
     } catch(_: Throwable) {
         false
     }
