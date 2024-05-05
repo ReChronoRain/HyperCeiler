@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.app.Home.Phone;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
@@ -220,14 +220,14 @@ public class HomeT extends BaseModule {
         initHook(RecentResource.INSTANCE, mPrefsMap.getInt("task_view_corners", 20) != 20 ||
                 mPrefsMap.getInt("task_view_header_height", 40) != 40);
         initHook(RealMemory.INSTANCE, mPrefsMap.getBoolean("home_recent_show_real_memory"));
-        initHook(MemInfoShow.INSTANCE, mPrefsMap.getBoolean("home_recent_show_memory_info") && isPad());
+        initHook(MemInfoShow.INSTANCE, mPrefsMap.getBoolean("home_recent_show_memory_info") && getIS_TABLET());
         initHook(AlwaysShowCleanUp.INSTANCE, mPrefsMap.getBoolean("always_show_clean_up"));
         initHook(new BackgroundBlur(), mPrefsMap.getBoolean("home_recent_blur"));
 
         // 图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
         initHook(new DownloadAnimation(), mPrefsMap.getBoolean("home_title_download_animation"));
-        initHook(DisableHideTheme.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_theme") && isPad());
+        initHook(DisableHideTheme.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_theme") && getIS_TABLET());
         initHook(DisableHideFile.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_file"));
         initHook(DisableHideGoogle.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_google"));
         initHook(new FakeNonDefaultIcon(), mPrefsMap.getBoolean("fake_non_default_icon"));
@@ -267,7 +267,7 @@ public class HomeT extends BaseModule {
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);
         initHook(AlwaysShowStatusClock.INSTANCE, mPrefsMap.getBoolean("home_other_show_clock"));
         initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));
-        if (isPad()) {
+        if (getIS_TABLET()) {
             initHook(new FreeformShortcutMenu(), mPrefsMap.getBoolean("home_other_freeform_shortcut_menu"));
             initHook(new TasksShortcutMenu(), mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"));
         } else {
@@ -305,7 +305,7 @@ public class HomeT extends BaseModule {
         initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
 
         // 小米/红米平板相关
-        if (isPad()) {
+        if (getIS_TABLET()) {
             boolean mMoreSetting = mPrefsMap.getBoolean("home_other_mi_pad_enable_more_setting");
             initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num"));
             initHook(EnableMoreSetting.INSTANCE, mMoreSetting);

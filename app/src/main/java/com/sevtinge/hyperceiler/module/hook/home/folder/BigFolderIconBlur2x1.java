@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.folder;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
 
 import android.os.Build;
 import android.view.Gravity;
@@ -45,7 +45,7 @@ public class BigFolderIconBlur2x1 extends BaseHook {
 
     @Override
     public void init() {
-        if (isPad()) {
+        if (getIS_TABLET()) {
             mFolderIcon2x1 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon4x2_8");
         } else {
             mFolderIcon2x1 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon2x1");
@@ -77,7 +77,7 @@ public class BigFolderIconBlur2x1 extends BaseHook {
                 mIconContainer.addView(mDockBlur, 0);
                 FrameLayout.LayoutParams lp1 = (FrameLayout.LayoutParams) mDockBlur.getLayoutParams();
                 lp1.gravity = Gravity.CENTER;
-                if (isPad()) {
+                if (getIS_TABLET()) {
                     lp1.width = mFolderWidth * 2;
                     lp1.height = mFolderHeight * 2;
                 }else {

@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.app.SystemFramework.Phone;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
@@ -138,7 +138,7 @@ public class SystemFrameworkT extends BaseModule {
         // initHook(new LocationSimulation(), false);
 
         // 小米/红米平板设置相关
-        if (isPad()) {
+        if (getIS_TABLET()) {
             initHook(IgnoreStylusKeyGesture.INSTANCE, mPrefsMap.getBoolean("mipad_input_ingore_gesture"));
             initHook(NoMagicPointer.INSTANCE, mPrefsMap.getBoolean("mipad_input_close_magic"));
             initHook(RemoveStylusBluetoothRestriction.INSTANCE, mPrefsMap.getBoolean("mipad_input_disable_bluetooth"));
