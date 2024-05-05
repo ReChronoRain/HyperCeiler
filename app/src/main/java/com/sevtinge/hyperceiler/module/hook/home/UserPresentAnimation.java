@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.view.View;
 
@@ -30,7 +30,7 @@ public class UserPresentAnimation extends BaseHook {
 
     @Override
     public void init() {
-        mUserPresentAnimationCompatV12Phone = !getIS_TABLET() ?
+        mUserPresentAnimationCompatV12Phone = !isPad() ?
             findClassIfExists("com.miui.home.launcher.compat.UserPresentAnimationCompatV12Phone") :
         findClassIfExists("com.miui.home.launcher.compat.UserPresentAnimationCompatV12Spring");
         findAndHookMethod(mUserPresentAnimationCompatV12Phone, "getSpringAnimator", View.class, int.class, float.class, float.class, float.class, float.class, new MethodHook() {

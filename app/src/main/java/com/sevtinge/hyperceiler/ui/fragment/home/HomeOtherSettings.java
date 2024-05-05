@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.view.View;
 
@@ -49,7 +49,7 @@ public class HomeOtherSettings extends SettingsPreferenceFragment{
     @Override
     public void initPrefs() {
         mEnableMoreSettings = findPreference("prefs_key_home_other_mi_pad_enable_more_setting");
-        mEnableMoreSettings.setVisible(getIS_TABLET());
+        mEnableMoreSettings.setVisible(isPad());
     }
 
 }

@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.view.View;
@@ -68,7 +68,7 @@ public class HomeFolderSettings extends SettingsPreferenceFragment {
         mFolderWidth = findPreference("prefs_key_home_folder_width");
         mFolderSpace = findPreference("prefs_key_home_folder_space");
 
-        if (getIS_TABLET()) {
+        if (isPad()) {
             mSmallFolderIconBackgroundCustom1 = findPreference("prefs_key_home_big_folder_icon_bg_2x1");
             mSmallFolderIconBackgroundCustom2 = findPreference("prefs_key_home_big_folder_icon_bg_1x2");
             mSmallFolderIconBackgroundCustom3 = findPreference("prefs_key_home_big_folder_icon_bg");

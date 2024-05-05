@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.content.Context;
 import android.database.ContentObserver;
@@ -112,7 +112,7 @@ public class SystemLockApp extends BaseHook {
                 }
         );
 
-        if (getIS_TABLET()) {
+        if (isPad()) {
             findAndHookMethod("com.android.server.wm.MiuiCvwGestureController$GesturePointerEventListener",
                     "onPointerEvent", MotionEvent.class,
                     new MethodHook() {

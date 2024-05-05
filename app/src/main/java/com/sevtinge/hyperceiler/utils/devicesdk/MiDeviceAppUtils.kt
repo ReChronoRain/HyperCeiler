@@ -17,7 +17,7 @@ val IS_INTERNATIONAL_BUILD by lazy {
  */
 fun isPad(): Boolean {
     return try {
-        clazzMiuiBuild.getField("IS_TABLET").getBoolean(null)
+        getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_TABLET") ?: false
     } catch(_: Throwable) {
         isPadDevice()
     }

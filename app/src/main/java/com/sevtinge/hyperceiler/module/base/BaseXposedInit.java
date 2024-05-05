@@ -190,9 +190,9 @@ public abstract class BaseXposedInit {
                 if (mPkgName.equals(mPkg)) {
                     // 需要限制安卓版本和设备取消这些注释，并删除下面的invoke方法。
                     // if (!isAndroidVersion(android)) continue;
-                    // if (getIS_TABLET() && isPad) {
+                    // if (isPad() && isPad) {
                     //     return invoke(lpparam, clzz);
-                    // } else if (getIS_TABLET() && !isPad) {
+                    // } else if (isPad() && !isPad) {
                     //     continue;
                     // } else {
                     //     return invoke(lpparam, clzz);

@@ -37,6 +37,8 @@ fun getMarketName(): String = getProp("ro.product.marketname")
 fun getModelName(): String = android.os.Build.MODEL
 fun getBrand(): String = android.os.Build.BRAND
 fun getManufacture(): String = android.os.Build.MANUFACTURER
+fun getModDevice(): String = getProp("ro.product.mod_device")
+fun getCharacteristics(): String = getProp("ro.build.characteristics")
 fun getSerial(): String = getProp("ro.serialno").replace("\n", "")
 
 fun getDensityDpi(): Int =

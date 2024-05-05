@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.utils.devicesdk.*
 object AlwaysShowCleanUp: BaseHook() {
     override fun init() {
         loadClass(
-            when (IS_TABLET) {
+            when (isPad()) {
                 false -> "com.miui.home.recents.views.RecentsContainer"
                 true -> "com.miui.home.recents.views.RecentsDecorations"
             }

@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.content.Intent;
@@ -66,7 +66,7 @@ public class HomeTitleSettings extends SettingsPreferenceFragment {
         mDisableMonetColor.setVisible(isMoreAndroidVersion(33));
         mDisableMonetColor.setOnPreferenceChangeListener((preference, o) -> true);
         mDisableHideTheme = findPreference("prefs_key_home_title_disable_hide_theme");
-        mDisableHideTheme.setVisible(getIS_TABLET());
+        mDisableHideTheme.setVisible(isPad());
         mIconTitleCustomization.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
             intent.putExtra("mode", AppPicker.INPUT_MODE);

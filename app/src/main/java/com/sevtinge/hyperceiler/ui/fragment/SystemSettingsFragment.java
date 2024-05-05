@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -71,12 +71,12 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
         mNotice = findPreference("prefs_key_system_settings_more_notification_settings");
         mUiMode = findPreference("prefs_key_system_settings_unlock_ui_mode");
 
-        mUiMode.setVisible(getIS_TABLET());
+        mUiMode.setVisible(isPad());
         mHighMode.setVisible(!isAndroidVersion(30));
         mAreaScreenshot.setVisible(isAndroidVersion(30));
         mNewNfc.setVisible((isMoreMiuiVersion(14f) || isMoreHyperOSVersion(1f)) && isMoreAndroidVersion(33));
         mNoveltyHaptic.setVisible((isMoreMiuiVersion(14f) || isMoreHyperOSVersion(1f)) && isMoreAndroidVersion(31));
-        mPad.setVisible(getIS_TABLET());
+        mPad.setVisible(isPad());
 
         if (isMoreHyperOSVersion(1f)) {
             mNotice.setSummary(R.string.system_settings_more_notification_settings_summary);

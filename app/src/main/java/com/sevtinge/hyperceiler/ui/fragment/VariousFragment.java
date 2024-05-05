@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.os.Handler;
 
@@ -57,7 +57,7 @@ public class VariousFragment extends SettingsPreferenceFragment
         mDefault = findPreference("prefs_key_various_super_clipboard_key");
         mMipad = findPreference("prefs_key_various_mipad");
         mClipboard = findPreference("prefs_key_sogou_xiaomi_clipboard");
-        mMipad.setVisible(getIS_TABLET());
+        mMipad.setVisible(isPad());
         handler = new Handler();
 
         mClipboard.setOnPreferenceChangeListener((preference, o) -> {

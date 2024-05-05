@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.view.View;
@@ -57,7 +57,7 @@ public class HomeRecentSettings extends SettingsPreferenceFragment {
         mDimming = findPreference("prefs_key_home_recent_disable_wallpaper_dimming");
 
         mDimming.setVisible(!isMoreHyperOSVersion(1f));
-        mShowMenInfo.setVisible(getIS_TABLET());
+        mShowMenInfo.setVisible(isPad());
 
         mHideCleanIcon.setOnPreferenceChangeListener((preference, o) -> {
             if (!(boolean) o) {

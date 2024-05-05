@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.utils.search;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Context;
@@ -366,7 +366,7 @@ public class SearchHelper {
                 "com.sevtinge.hyperceiler.ui.fragment.various.AOSPSettings",
                 R.string.various);
 
-        if (getIS_TABLET()) {
+        if (isPad()) {
             parsePrefXml(context, R.xml.various_mipad,
                     "com.sevtinge.hyperceiler.ui.fragment.VariousFragment",
                     R.string.various);
@@ -390,7 +390,7 @@ public class SearchHelper {
             int locationId = 0;
             int locationHyperId = 0;
             int locationPadId = 0;
-            boolean isPad = getIS_TABLET();
+            boolean isPad = isPad();
             StringBuilder internalName = null;
             int eventType = xml.getEventType();
             if (internalId.length != 0) {

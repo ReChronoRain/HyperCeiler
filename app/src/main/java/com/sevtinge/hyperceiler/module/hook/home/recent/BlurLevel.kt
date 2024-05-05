@@ -82,7 +82,7 @@ object BlurLevel : BaseHook() {
                     it.result = false
                 }
 
-                if (IS_TABLET) {
+                if (isPad()) {
                     navStubViewClass.hookAfterAllMethods("onTouchEvent") {
                         val mLauncher = applicationClass.callStaticMethod("getLauncher") as Activity
                         blurClass.callStaticMethod("fastBlur", 1.0f, mLauncher.window, true, 500L)

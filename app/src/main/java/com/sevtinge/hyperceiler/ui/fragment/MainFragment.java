@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.sp2px;
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -154,7 +154,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
             mAod.setTitle(R.string.aod);
             mMiLink.setTitle(R.string.milink);
             mGuardProvider.setTitle(R.string.guard_provider);
-            if (getIS_TABLET()) {
+            if (isPad()) {
                 mSecurityCenter.setTitle(R.string.security_center_pad);
             } else {
                 mSecurityCenter.setTitle(R.string.security_center);

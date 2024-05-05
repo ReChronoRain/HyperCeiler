@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.getIS_TABLET;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.view.View;
 
@@ -55,7 +55,7 @@ public class HomeDockSettings extends SettingsPreferenceFragment implements Pref
     @Override
     public void initPrefs() {
         mDisableRecentIcon = findPreference("prefs_key_home_dock_disable_recents_icon");
-        mDisableRecentIcon.setVisible(getIS_TABLET());
+        mDisableRecentIcon.setVisible(isPad());
         mDockBackgroundBlur = findPreference("prefs_key_home_dock_bg_custom");
         mDockBackgroundColor = findPreference("prefs_key_home_dock_bg_color");
         int mBlurMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_home_dock_add_blur", "0"));
