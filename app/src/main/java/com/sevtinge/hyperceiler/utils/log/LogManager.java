@@ -26,8 +26,8 @@ public class LogManager {
     public static final int logLevel = getLogLevel();
 
     public static int getLogLevel() {
-        int level = mPrefsMap.getStringAsInt("log_level", 2);
-        return BuildConfig.BUILD_TYPE.equals("canary") ? (level != 3 && level != 4 && level != 0 ? 3 : level) : level;
+        int level = mPrefsMap.getStringAsInt("log_level", 3);
+        return BuildConfig.BUILD_TYPE.equals("canary") ? (level != 3 && level != 4 ? 3 : level) : level;
     }
 
 
