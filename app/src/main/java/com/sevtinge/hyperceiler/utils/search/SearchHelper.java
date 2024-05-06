@@ -311,8 +311,25 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.screenshot,
                 "com.sevtinge.hyperceiler.ui.fragment.ScreenShotFragment");
 
-        parsePrefXml(context, R.xml.security_center,
-                "com.sevtinge.hyperceiler.ui.fragment.SecurityCenterFragment");
+        parsePrefXml(context, R.xml.security_center_app,
+                "com.sevtinge.hyperceiler.ui.fragment.securitycenter.ApplicationsSettings",
+                R.string.security_center);
+
+        parsePrefXml(context, R.xml.security_center_battery,
+                "com.sevtinge.hyperceiler.ui.fragment.securitycenter.BatterySettings",
+                R.string.security_center);
+
+        parsePrefXml(context, R.xml.security_center_privacy_safety,
+                "com.sevtinge.hyperceiler.ui.fragment.securitycenter.PrivacySafetySettings",
+                R.string.security_center);
+
+        parsePrefXml(context, R.xml.security_center_sidebar,
+                "com.sevtinge.hyperceiler.ui.fragment.securitycenter.SidebarSettings",
+                R.string.security_center);
+
+        parsePrefXml(context, R.xml.security_center_other,
+                "com.sevtinge.hyperceiler.ui.fragment.securitycenter.OtherSettings",
+                R.string.security_center);
 
         parsePrefXml(context, R.xml.tsmclient,
                 "com.sevtinge.hyperceiler.ui.fragment.TsmClientFragment");

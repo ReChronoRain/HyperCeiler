@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/security_center_other_title">
+
+    <PreferenceCategory android:title="@string/security_center_beauty_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_beauty_light_auto"
+            android:title="@string/security_center_beauty_light_auto" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_beauty_face"
+            android:title="@string/security_center_beauty_face" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_beauty_privacy"
+            android:title="@string/security_center_beauty_privacy" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_beauty_pc"
+            android:title="@string/security_center_beauty_pc" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/security_center_bubble_and_freeform_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_unlock_side_hide_freeform"
+            android:summary="@string/security_center_unlock_side_hide_freeform_desc"
+            android:title="@string/security_center_unlock_side_hide_freeform"
+            app:isPreferenceVisible="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_remove_conversation_bubble_settings_restriction"
+            android:title="@string/security_center_remove_conversation_bubble_settings_restriction" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_applock_pin_scramble"
+            android:summary="@string/security_center_applock_pin_scramble_desc"
+            android:title="@string/security_center_applock_pin_scramble" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_power_saver"
+            android:summary="@string/security_center_power_saver_desc"
+            android:title="@string/security_center_power_saver" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_score"
+            android:summary="@string/security_score_summary"
+            android:title="@string/security_score" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_skip_count_down_limit"
+            android:summary="@string/security_center_skip_waiting_time_desc"
+            android:title="@string/security_center_skip_waiting_time"
+            app:isPreferenceVisible="true" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_disable_root_check"
+            android:title="@string/security_center_disable_root_check" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_install_intercept"
+            android:title="@string/security_center_install_intercept" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_unlock_fbo"
+            android:title="@string/security_center_unlock_fbo" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_remove_low_battery_reminder"
+            android:summary="@string/security_center_remove_low_battery_reminder_summary"
+            android:title="@string/security_center_remove_low_battery_reminder_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_remove_open_app_confirmation_popup"
+            android:summary="@string/security_center_remove_open_app_confirmation_popup_summary"
+            android:title="@string/security_center_remove_open_app_confirmation_popup" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_disable_send_malicious_app_notification"
+            android:title="@string/security_center_disable_send_malicious_app_notification" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_game_speed"
+            android:summary="@string/security_center_game_speed_desc"
+            android:title="@string/security_center_game_speed"
+            app:isPreferenceVisible="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_bypass_simlock_miaccount_auth"
+            android:summary="@string/security_center_bypass_simlock_miaccount_auth_desc"
+            android:title="@string/security_center_bypass_simlock_miaccount_auth" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
