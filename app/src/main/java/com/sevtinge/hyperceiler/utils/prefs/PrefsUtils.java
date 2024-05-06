@@ -99,6 +99,10 @@ public class PrefsUtils {
         return mSharedPreferences.edit();
     }
 
+    public static void putString(String key, String defValue) {
+        mSharedPreferences.edit().putString(key, defValue).apply();
+    }
+
 
     public static String getSharedStringPrefs(Context context, String name, String defValue) {
         Uri uri = PrefToUri.stringPrefToUri(name, defValue);

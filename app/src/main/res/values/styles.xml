@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DividerViewStyle">
+        <item name="android:background">@color/divider_line_light</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1.0px</item>
+        <item name="android:layout_marginTop">@dimen/divider_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/divider_margin_bottom</item>
+        <item name="android:layout_marginStart">?android:attr/listPreferredItemPaddingLeft</item>
+        <item name="android:layout_marginEnd">?android:attr/listPreferredItemPaddingRight</item>
+    </style>
+</resources>

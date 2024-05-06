@@ -384,6 +384,11 @@
             app:entries="@array/card_style_tile"
             app:entryValues="@array/card_style_tiles_value" />
 
+        <Preference
+            android:title="自定义卡片"
+            android:key="prefs_key_card_tile"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.CardTileSettings" />
+
         <DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_control_center_hide_operator"

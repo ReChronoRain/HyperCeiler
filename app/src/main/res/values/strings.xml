@@ -1689,4 +1689,17 @@
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
     <string name="preference_recommend_tip">Looking for something else?</string>
     <string name="happy_birthday_hyperceiler">Today is HyperCeiler\'s birthday!\nThank you for your support over the past year, and let\'s continue to work together this year!</string>
+
+
+
+    <string name="ic_qs_title_wifi">WLAN</string>
+    <string name="ic_qs_title_cellular">数据网络</string>
+    <string name="ic_qs_title_bluetooth">蓝牙</string>
+    <string name="ic_qs_title_gps">位置信息</string>
+    <string name="ic_qs_title_nfc">NFC</string>
+    <string name="ic_qs_title_hotspot">热点</string>
+    <string name="ic_qs_title_flashlight">手电筒</string>
+    <string name="ic_qs_title_settings">设置</string>
+    <string name="ic_qs_title_airplane">飞行模式</string>
+    <string name="ic_qs_title_autobrightness">自动亮度</string>
 </resources>

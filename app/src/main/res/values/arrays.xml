@@ -998,4 +998,43 @@
         <item>150</item>
     </string-array>
 
+    <string-array name="card_tile_list">
+        <item>wifi</item>
+        <item>cell</item>
+        <item>bt</item>
+        <item>gps</item>
+        <item>nfc</item>
+        <item>hotspot</item>
+        <item>flashlight</item>
+        <item>settings</item>
+        <item>airplane</item>
+        <item>autobrightness</item>
+    </string-array>
+
+    <integer-array name="card_tile_icon_list">
+        <item>@drawable/ic_cc_qs_wifi</item>
+        <item>@drawable/ic_cc_qs_cellular</item>
+        <item>@drawable/ic_cc_qs_bluetooth</item>
+        <item>@drawable/ic_cc_qs_gps</item>
+        <item>@drawable/ic_cc_qs_nfc</item>
+        <item>@drawable/ic_cc_qs_hotspot</item>
+        <item>@drawable/ic_cc_qs_flashlight</item>
+        <item>@drawable/ic_cc_qs_settings</item>
+        <item>@drawable/ic_cc_qs_airplane</item>
+        <item>@drawable/ic_cc_qs_auto_brightness</item>
+    </integer-array>
+
+    <string-array name="card_tile_title_list">
+        <item>@string/ic_qs_title_wifi</item>
+        <item>@string/ic_qs_title_cellular</item>
+        <item>@string/ic_qs_title_bluetooth</item>
+        <item>@string/ic_qs_title_gps</item>
+        <item>@string/ic_qs_title_nfc</item>
+        <item>@string/ic_qs_title_hotspot</item>
+        <item>@string/ic_qs_title_flashlight</item>
+        <item>@string/ic_qs_title_settings</item>
+        <item>@string/ic_qs_title_airplane</item>
+        <item>@string/ic_qs_title_autobrightness</item>
+    </string-array>
+
 </resources>
