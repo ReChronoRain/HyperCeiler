@@ -1,28 +1,28 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.utils.blur;
 
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 
-import com.sevtinge.hyperceiler.utils.ReflectUtils;
+import com.sevtinge.hyperceiler.utils.InvokeUtils;
 
 public class MiBlurUtils {
 
@@ -43,15 +43,15 @@ public class MiBlurUtils {
     }
 
     public static boolean setPassWindowBlurEnabled(View view, boolean z) {
-        return ReflectUtils.invokeObject(View.class, view, "setPassWindowBlurEnabled", Boolean.TYPE, Boolean.FALSE, new Class[]{Boolean.TYPE}, z);
+        return InvokeUtils.callMethod(View.class, view, "setPassWindowBlurEnabled", new Class[]{boolean.class}, z);
     }
 
     public static void setMiBackgroundBlurMode(View view, int i) {
-        ReflectUtils.invokeObject(View.class, view, "setMiBackgroundBlurMode", Void.TYPE, new Class[]{Integer.TYPE}, i);
+        InvokeUtils.callMethod(View.class, view, "setMiBackgroundBlurMode", new Class[]{int.class}, i);
     }
 
     public static void setMiBackgroundBlurRadius(View view, int i) {
-        ReflectUtils.invokeObject(View.class, view, "setMiBackgroundBlurRadius", Void.TYPE, new Class[]{Integer.TYPE}, i);
+        InvokeUtils.callMethod(View.class, view, "setMiBackgroundBlurRadius", new Class[]{int.class}, i);
     }
 
     public static void addMiBackgroundBlendColor(View view, int i, int i2) {
@@ -61,19 +61,19 @@ public class MiBlurUtils {
         103 当前view模糊
         105 当前view和子view都模糊
        */
-        ReflectUtils.invokeObject(View.class, view, "addMiBackgroundBlendColor", Void.TYPE, new Class[]{Integer.TYPE, Integer.TYPE}, i, i2);
+        InvokeUtils.callMethod(View.class, view, "addMiBackgroundBlendColor", new Class[]{int.class, int.class}, i, i2);
     }
 
     public static void clearMiBackgroundBlendColor(View view) {
-        ReflectUtils.invokeObject(View.class, view, "clearMiBackgroundBlendColor", Void.TYPE, new Class[0]);
+        InvokeUtils.callMethod(View.class, view, "clearMiBackgroundBlendColor", new Class[]{});
     }
 
     public static void setMiViewBlurMode(View view, int i) {
-        ReflectUtils.invokeObject(View.class, view, "setMiViewBlurMode", Void.TYPE, new Class[]{Integer.TYPE}, i);
+        InvokeUtils.callMethod(View.class, view, "setMiViewBlurMode", new Class[]{int.class}, i);
     }
 
     public static void disableMiBackgroundContainBelow(View view, boolean z) {
-        ReflectUtils.invokeObject(View.class, view, "disableMiBackgroundContainBelow", Void.TYPE, new Class[]{Boolean.TYPE}, z);
+        InvokeUtils.callMethod(View.class, view, "disableMiBackgroundContainBelow", new Class[]{boolean.class}, z);
     }
 
     public static void clearContainerPassBlur(View view) {

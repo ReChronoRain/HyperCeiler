@@ -104,7 +104,7 @@ public class PropUtils {
 
     private static String classLoaderMethod(Context context, String name) throws Throwable {
         ClassLoader classLoader = context.getClassLoader();
-        return InvokeUtils.invokeStaticMethod("android.os.SystemProperties", classLoader,
+        return InvokeUtils.callStaticMethod("android.os.SystemProperties", classLoader,
                 "get", new Class[]{String.class}, name);
     }
 
@@ -112,6 +112,6 @@ public class PropUtils {
      * @noinspection unchecked
      */
     private static <T> T invokeMethod(Class<?> cls, String str, Class<?>[] clsArr, Object... objArr) throws Throwable {
-        return InvokeUtils.invokeStaticMethod(cls, str, clsArr, objArr);
+        return InvokeUtils.callStaticMethod(cls, str, clsArr, objArr);
     }
 }

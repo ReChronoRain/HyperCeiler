@@ -26,7 +26,7 @@ import de.robv.android.xposed.*
 @Suppress("UNCHECKED_CAST")
 object DisableHideGoogle : BaseHook() {
     override fun init() {
-        if (InvokeUtils.invokeStaticField("miui.os.Build", "IS_INTERNATIONAL_BUILD"))
+        if (InvokeUtils.getStaticField("miui.os.Build", "IS_INTERNATIONAL_BUILD"))
             return
 
         XposedHelpers.findAndHookConstructor(

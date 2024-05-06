@@ -258,7 +258,7 @@ public class MathUtils {
         float maxSize = Math.max(outToResize.width(), outToResize.height());
         try {
             Rect rectInstance = new Rect(outToResize);
-            InvokeUtils.invokeMethod("android.graphics.Rect", rectInstance,
+            InvokeUtils.callMethod("android.graphics.Rect", rectInstance,
                     "scale", new Class[]{float.class}, largestSide / maxSize);
         } catch (Exception e) {
             AndroidLogUtils.logE("Call Method scale error: ", e);
