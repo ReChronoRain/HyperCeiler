@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.ui.fragment.settings.development;
+package com.sevtinge.hyperceiler.ui.fragment.base.settings.development;
 
 import android.view.LayoutInflater;
 import android.view.View;

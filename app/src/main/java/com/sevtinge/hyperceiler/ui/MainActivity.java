@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.ui;
 
+import static com.sevtinge.hyperceiler.utils.log.LogManager.getLogLevel;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +28,7 @@ import android.os.Handler;
 
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.callback.IResult;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
@@ -65,8 +68,7 @@ public class MainActivity extends NavigationActivity implements IResult {
         new Thread(() -> SearchHelper.getAllMods(MainActivity.this, savedInstanceState != null)).start();
         Helpers.checkXposedActivateState(this);
         ShellInit.init(this);
-        PropUtils.setProp("persist.hyperceiler.log.level",
-                (ProjectApi.isRelease() ? def : ProjectApi.isCanary() ? (def == 0 ? 3 : 4) : def));
+        PropUtils.setProp("persist.hyperceiler.log.level", ProjectApi.isCanary() ? (def != 3 && def != 4 && def != 0 ? 3 : def) : def);
         appCrash = CrashData.toPkgList();
         handler.postDelayed(() -> {
             if (haveCrashReport()) {

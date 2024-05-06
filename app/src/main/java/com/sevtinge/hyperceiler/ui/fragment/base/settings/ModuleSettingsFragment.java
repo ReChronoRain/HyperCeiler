@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.fragment.settings;
+package com.sevtinge.hyperceiler.ui.fragment.base.settings;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.sp2px;
@@ -88,11 +88,12 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
 
         switch (BuildConfig.BUILD_TYPE) {
             case "canary" -> {
-                mLogLevel.setValueIndex(0);
+                mLogLevel.setDefaultValue(3);
                 mLogLevel.setEntries(new CharSequence[]{"Info", "Debug"});
+                mLogLevel.setEntryValues(new CharSequence[]{"3", "4"});
                 mLogLevel.setOnPreferenceChangeListener(
                         (preference, o) -> {
-                            setLogLevel(Integer.parseInt((String) o) + 3);
+                            setLogLevel(Integer.parseInt((String) o));
                             return true;
                         }
                 );

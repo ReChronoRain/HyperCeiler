@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.fragment.settings;
+package com.sevtinge.hyperceiler.ui.fragment.base.settings;
 
 import static com.sevtinge.hyperceiler.utils.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
