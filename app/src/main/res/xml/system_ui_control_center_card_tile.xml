@@ -5,6 +5,8 @@
         android:key="prefs_key_systemui_plugin_card_tiles_enabled" />
 
     <com.sevtinge.hyperceiler.ui.fragment.systemui.prefs.CardTileEditPreference
+        android:persistent="false"
+        android:key="prefs_key_systemui_plugin_card_tiles_edit"
         android:dependency="prefs_key_systemui_plugin_card_tiles_enabled"/>
 
 </PreferenceScreen>

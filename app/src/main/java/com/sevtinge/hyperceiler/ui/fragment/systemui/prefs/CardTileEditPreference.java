@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +27,7 @@ import moralnorm.preference.PreferenceViewHolder;
 public class CardTileEditPreference extends Preference {
 
     GridLayoutManager mCradLayoutManager;
+    View mItemView;
     RecyclerView mCardTiles;
     RecyclerView mAddCardTiles;
     CardTileAdapter mCardTileAdapter;
@@ -53,9 +53,9 @@ public class CardTileEditPreference extends Preference {
     @Override
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
-        View itemView = holder.itemView;
-        mCardTiles = itemView.findViewById(android.R.id.list);
-        mAddCardTiles = itemView.findViewById(R.id.card_tile_add_list);
+        mItemView = holder.itemView;
+        mCardTiles = mItemView.findViewById(android.R.id.list);
+        mAddCardTiles = mItemView.findViewById(R.id.card_tile_add_list);
         initView();
     }
 
@@ -77,6 +77,12 @@ public class CardTileEditPreference extends Preference {
         mAddCardTileAdapter.setOnDataChangeListener((changed, tile) -> {
             onDataSetChanged(tile, false);
         });
+        setVisibility(PrefsUtils.mSharedPreferences.getBoolean("prefs_key_systemui_plugin_card_tiles_enabled", false));
+    }
+
+    @Override
+    public void onDependencyChanged(@NonNull Preference dependency, boolean disableDependent) {
+        setVisibility(!disableDependent);
     }
 
     private void createCardView(RecyclerView cardView, RecyclerView.Adapter adapter) {
@@ -84,6 +90,12 @@ public class CardTileEditPreference extends Preference {
         cardView.setLayoutManager(mCradLayoutManager);
         cardView.setAdapter(adapter);
         cardView.setNestedScrollingEnabled(false);
+    }
+
+    public void setVisibility(boolean visibility) {
+        if (mItemView != null) {
+            mItemView.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        }
     }
 
     private List<String> getTileList() {
