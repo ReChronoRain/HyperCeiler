@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/card_tile_disabled_color_legacy" />
-    <corners android:radius="@dimen/card_tile_background_radius" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="0.74dp"
+                android:color="@color/textview_white" />
+            <corners android:radius="@dimen/card_tile_background_radius" />
+        </shape>
+    </item>
+    <item android:top="0.74dp" android:right="0.74dp" android:bottom="0.74dp" android:left="0.74dp">
+        <shape>
+            <solid android:color="@color/card_tile_disabled_color_legacy" />
+            <corners android:radius="@dimen/card_tile_background_radius" />
+        </shape>
+    </item>
+</layer-list>

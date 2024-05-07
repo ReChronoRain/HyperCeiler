@@ -29,5 +29,5 @@
     <color name="preference_recommend_item_link">#ff0d84ff</color>
     <color name="preference_recommend_item_link_pressed">#990d84ff</color>
 
-    <color name="card_tile_disabled_color_legacy">#61000000</color>
+    <color name="card_tile_disabled_color_legacy">#9E9E9E</color>
 </resources>
