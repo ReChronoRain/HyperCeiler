@@ -29,9 +29,9 @@ class MediaControlSeekbarCustom : BaseHook() {
             after {
                 it.thisObject.objectHelper().setObject("seekBarEnabledMaxHeight", progressThickness.dp)
                 it.args[0].objectHelper().getObjectOrNullAs<SeekBar>("seekBar")?.apply {
-                    thumb = ShapeDrawable().apply {
-                        intrinsicWidth = progressThickness.dp
-                        intrinsicHeight = progressThickness.dp
+                    thumb = (thumb as Drawable).apply {
+                        setMinimumWidth(progressThickness.dp)
+                        setMinimumHeight(progressThickness.dp)
                     }
                 }
             }
