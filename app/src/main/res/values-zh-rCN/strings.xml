@@ -875,6 +875,10 @@
     <string name="system_control_center_old_qs_grid_columns">折叠面板中的列数</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折叠面板中的列数（横屏）</string>
     <string name="system_ui_control_center_card_tiles_customization">卡片磁贴自定义</string>
+    <string name="system_ui_control_center_card_tiles_customization_desc">长按并拖拽已添加的卡片可调整顺序</string>
+    <string name="system_ui_control_center_card_tiles_customization_add">已添加</string>
+    <string name="system_ui_control_center_card_tiles_customization_not_add">未添加</string>
+    <string name="system_ui_control_center_card_tiles_customization_notice">当前系统版本仅支持 \"WLAN\"、\"数据网络\"、\"蓝牙\"、\"手电筒\"、\"WLAN通话SIM1\"、\"WLAN通话SIM2\" 磁贴正常显示。</string>
 
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_disable_volume">原生音量条</string>

@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
-            android:text="已添加"
+            android:text="@string/system_ui_control_center_card_tiles_customization_add"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.PreferenceCategory" />
 
@@ -24,13 +24,22 @@
             android:layout_height="wrap_content"
             android:overScrollMode="never" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginTop="@dimen/divider_margin_top"
+            android:text="@string/system_ui_control_center_card_tiles_customization_desc"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.PreferenceCategory" />
+
         <View style="@style/DividerViewStyle" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
-            android:text="未添加"
+            android:text="@string/system_ui_control_center_card_tiles_customization_not_add"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.PreferenceCategory" />
 
@@ -39,15 +48,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center"
-            android:layout_marginTop="@dimen/divider_margin_top"
-            android:text="仅xxx支持圆角磁贴"
-            android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.PreferenceCategory" />
 
     </LinearLayout>
 
