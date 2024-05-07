@@ -13,19 +13,12 @@ import de.robv.android.xposed.XC_MethodHook;
 
 public class CustomCardTiles {
 
-    static List<String> mCardStyleTiles = getTileList();
-
-    public static void initCustomCardTiles(ClassLoader classLoader) {
+    public static void initCustomCardTiles(ClassLoader classLoader, List<String> cardStyleTiles) {
         findAndHookMethod("miui.systemui.controlcenter.qs.QSController", classLoader, "getCardStyleTileSpecs", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-                param.setResult(mCardStyleTiles);
+                param.setResult(cardStyleTiles);
             }
         });
-    }
-
-    private static List<String> getTileList() {
-        String str = mPrefsMap.getString("systemui_plugin_card_tiles", "");
-        return TextUtils.isEmpty(str) ? new ArrayList<>() : Arrays.asList(str.split("\\|"));
     }
 }

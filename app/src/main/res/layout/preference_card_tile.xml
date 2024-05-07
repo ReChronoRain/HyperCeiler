@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="25dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center"
+        android:text="已添加"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.PreferenceCategory" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never" />
+
+    <View style="@style/DividerViewStyle" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center"
+        android:text="未添加"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.PreferenceCategory" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/card_tile_add_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center"
+        android:layout_marginTop="@dimen/divider_margin_top"
+        android:text="仅xxx支持圆角磁贴"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.PreferenceCategory" />
+
+</LinearLayout>

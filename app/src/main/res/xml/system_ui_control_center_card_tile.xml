@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:title="@string/enable"
+        android:key="prefs_key_systemui_plugin_card_tiles_enabled" />
+
+    <com.sevtinge.hyperceiler.ui.fragment.systemui.prefs.CardTileEditPreference
+        android:dependency="prefs_key_systemui_plugin_card_tiles_enabled"/>
+
+</PreferenceScreen>

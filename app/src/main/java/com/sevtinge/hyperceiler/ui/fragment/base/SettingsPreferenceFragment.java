@@ -26,6 +26,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.ui.SubSettings;
 import com.sevtinge.hyperceiler.ui.base.BaseActivity;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -65,7 +66,7 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
         if (mTitleResId != 0) setTitle(mTitleResId);
         if (!TextUtils.isEmpty(mTitle)) setTitle(mTitle);
         mContentResId = mContentResId != 0 ? mContentResId : getContentResId();
-        if (mContentResId != 0) {
+        if (mContentResId > 0) {
             setPreferencesFromResource(mContentResId, s);
             initPrefs();
         }
@@ -84,6 +85,10 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
             requestHighlight(key);
             mPreferenceHighlighted = true;
         }
+    }
+
+    public SubSettings getSubSettings() {
+        return (SubSettings) getActivity();
     }
 
     public View.OnClickListener addRestartListener() {

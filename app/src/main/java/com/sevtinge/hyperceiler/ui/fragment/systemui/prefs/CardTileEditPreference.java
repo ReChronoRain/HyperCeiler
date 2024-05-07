@@ -1,11 +1,10 @@
-package com.sevtinge.hyperceiler.ui.fragment.systemui;
+package com.sevtinge.hyperceiler.ui.fragment.systemui.prefs;
 
-import android.os.Bundle;
+import android.content.Context;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.adapter.CardTileAdapter;
 import com.sevtinge.hyperceiler.data.adapter.CardTileAddAdapter;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.util.ArrayList;
@@ -25,46 +22,44 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import moralnorm.preference.SwitchPreference;
+import moralnorm.preference.Preference;
+import moralnorm.preference.PreferenceViewHolder;
 
-public class CardTileSettings extends SettingsPreferenceFragment {
+public class CardTileEditPreference extends Preference {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getSubSettings().getAppCompatActionBar().setSubtitle("拖拽已添加的开关调整顺序");
+    GridLayoutManager mCradLayoutManager;
+    RecyclerView mCardTiles;
+    RecyclerView mAddCardTiles;
+    CardTileAdapter mCardTileAdapter;
+    CardTileAddAdapter mAddCardTileAdapter;
+    List<String> mCardList = new ArrayList<>();
+    List<String> mCardData = new ArrayList<>();
+    List<String> mAddCardData = new ArrayList<>();
+    List<String> mDefaultCardData = new ArrayList<>(Arrays.asList("wifi", "cell"));
+
+    public CardTileEditPreference(@NonNull Context context) {
+        this(context, null);
+    }
+
+    public CardTileEditPreference(@NonNull Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public CardTileEditPreference(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        setLayoutResource(R.layout.preference_card_tile);
     }
 
     @Override
-    public int getContentResId() {
-<<<<<<< Updated upstream
-        return 0;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-                getResources().getString(R.string.system_ui),
-                "com.android.systemui"
-        );
-    }
-
-    @NonNull
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mContentView = inflater.inflate(R.layout.fragment_card_tile, container, false);
-        return mContentView;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
+        super.onBindViewHolder(holder);
+        View itemView = holder.itemView;
+        mCardTiles = itemView.findViewById(android.R.id.list);
+        mAddCardTiles = itemView.findViewById(R.id.card_tile_add_list);
         initView();
     }
 
     private void initView() {
-        mCardTiles = mContentView.findViewById(android.R.id.list);
-        mAddCardTiles = mContentView.findViewById(R.id.card_tile_add_list);
-
         initCardData();
         mCardTileAdapter = new CardTileAdapter(mCardData);
         mAddCardTileAdapter = new CardTileAddAdapter(mAddCardData);
@@ -85,7 +80,7 @@ public class CardTileSettings extends SettingsPreferenceFragment {
     }
 
     private void createCardView(RecyclerView cardView, RecyclerView.Adapter adapter) {
-        mCradLayoutManager = new GridLayoutManager(requireContext(), 2);
+        mCradLayoutManager = new GridLayoutManager(getContext(), 2);
         cardView.setLayoutManager(mCradLayoutManager);
         cardView.setAdapter(adapter);
         cardView.setNestedScrollingEnabled(false);
@@ -97,7 +92,7 @@ public class CardTileSettings extends SettingsPreferenceFragment {
     }
 
     private void initCardData() {
-        String[] cardTileList = requireContext().getResources().getStringArray(R.array.card_tile_list);
+        String[] cardTileList = getContext().getResources().getStringArray(R.array.card_tile_list);
         mCardList = Arrays.asList(cardTileList);
         List<String> tiles = getTileList();
         if (!tiles.isEmpty()) {
@@ -167,8 +162,5 @@ public class CardTileSettings extends SettingsPreferenceFragment {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
         }
-=======
-        return R.xml.system_ui_control_center_card_tile;
->>>>>>> Stashed changes
     }
 }
