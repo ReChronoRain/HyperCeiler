@@ -12,7 +12,7 @@ public class CardTileSettings extends SettingsPreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSubSettings().getAppCompatActionBar().setSubtitle("拖拽已添加的开关调整顺序");
+        getSubSettings().getAppCompatActionBar().setSubtitle("长按并拖拽已添加的卡片调整顺序");
     }
 
     @Override
