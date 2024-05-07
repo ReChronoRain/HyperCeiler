@@ -23,6 +23,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
@@ -153,6 +154,26 @@ public class QSColor extends BaseHook {
                                 Drawable drawable = linearLayout.getContext().getTheme().getResources().getDrawable(id, linearLayout.getContext().getTheme());
                                 drawable.setTint(bigBgColor);
                                 linearLayout.setBackground(drawable);
+                            }
+                        }
+                    }
+            );
+
+            XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader, "updateState",
+                    "com.android.systemui.plugins.qs.QSTile$State", boolean.class, boolean.class,
+                    new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) {
+                            Object state = param.args[0];
+                            int i = XposedHelpers.getIntField(state, "state");
+                            if (i == 2) {
+                                Context context = ((LinearLayout) param.thisObject).getContext();
+                                int title = context.getResources().getIdentifier("title", "id", "miui.systemui.plugin");
+                                int status = context.getResources().getIdentifier("status", "id", "miui.systemui.plugin");
+                                TextView textView = (TextView) XposedHelpers.callMethod(param.thisObject, "_$_findCachedViewById", title);
+                                TextView textView1 = (TextView) XposedHelpers.callMethod(param.thisObject, "_$_findCachedViewById", status);
+                                textView.setTextColor(bigColor);
+                                textView1.setTextColor(bigColor);
                             }
                         }
                     }
