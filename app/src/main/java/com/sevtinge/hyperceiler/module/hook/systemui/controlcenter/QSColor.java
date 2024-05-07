@@ -57,6 +57,7 @@ public class QSColor extends BaseHook {
     }
 
     public static int id = -1;
+    public static float cornerRadiusF = -1;
 
     public static void load() {
         small = mPrefsMap.getBoolean("system_ui_control_center_qs_open_color");
@@ -131,7 +132,11 @@ public class QSColor extends BaseHook {
                     new XC_MethodHook() {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) {
-                            id = ((LinearLayout) param.thisObject).getContext().getResources().getIdentifier("qs_card_cell_background_enabled",
+                            LinearLayout linearLayout = (LinearLayout) param.thisObject;
+                            int cornerRadius = linearLayout.getContext().getResources().getIdentifier(
+                                    "control_center_universal_corner_radius", "dimen", "miui.systemui.plugin");
+                            cornerRadiusF = linearLayout.getContext().getResources().getDimensionPixelSize(cornerRadius);
+                            id = linearLayout.getContext().getResources().getIdentifier("qs_card_wifi_background_enabled",
                                     "drawable", "miui.systemui.plugin");
                         }
                     }
@@ -154,6 +159,18 @@ public class QSColor extends BaseHook {
                                 Drawable drawable = linearLayout.getContext().getTheme().getResources().getDrawable(id, linearLayout.getContext().getTheme());
                                 drawable.setTint(bigBgColor);
                                 linearLayout.setBackground(drawable);
+                            }
+                        }
+                    }
+            );
+
+            XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader,
+                    "setCornerRadius", float.class,
+                    new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) {
+                            if (cornerRadiusF != -1) {
+                                param.args[0] = cornerRadiusF;
                             }
                         }
                     }
