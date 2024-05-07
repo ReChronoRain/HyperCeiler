@@ -282,7 +282,7 @@ public class SystemUIT extends BaseModule {
 
         // 控制中心
         // initHook(new SmartHome(), false);
-        initHook(new QSColor(), mPrefsMap.getBoolean("system_ui_control_center_qs_open_color"));
+        initHook(new QSColor(), mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") || mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color"));
         initHook(new UnimportantNotification(), mPrefsMap.getBoolean("system_ui_control_center_unimportant_notification"));
         initHook(new BlurEnable(), mPrefsMap.getBoolean("system_ui_control_center_statusbar_blur"));
         initHook(new ExpandNotification(), !mPrefsMap.getStringSet("system_ui_control_center_expand_notification").isEmpty());

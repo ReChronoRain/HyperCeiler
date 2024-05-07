@@ -141,7 +141,8 @@ public class PluginHelper extends BaseHook {
                 mPrefsMap.getBoolean("system_control_center_qs_tile_label")) && !isMoreHyperOSVersion(1f)) {
             CCGrid.loadCCGrid(classLoader);
         }
-        if (mPrefsMap.getBoolean("system_ui_control_center_qs_open_color"))
+        if (mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") ||
+                mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color"))
             QSColor.pluginHook(classLoader);
     }
 }
