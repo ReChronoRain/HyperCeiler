@@ -796,10 +796,6 @@
     <string name="system_ui_controlcenter_enable_title">自訂行列數</string>
     <string name="system_control_center_old_qs_grid_columns">折疊面板中的列數</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折疊面板中的列數（橫向）</string>
-    <string name="system_ui_control_center_more_card_tiles">顯示卡片圖塊</string>
-    <string name="system_ui_control_center_more_card_tiles_less">无</string>
-    <string name="system_ui_control_center_more_card_tiles_more">多</string>
-    <string name="system_ui_control_center_more_card_tiles_most">更多</string>
     <string name="system_ui_control_center_unlock_blur_supported">解除通知背景模糊限制</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">僅對第三方主題解除沒有高級材質時背景模糊的限制</string>
     <string name="system_ui_other_title">其他</string>

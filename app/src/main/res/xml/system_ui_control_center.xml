@@ -374,11 +374,6 @@
             android:key="prefs_key_system_ui_control_center_rounded_rect"
             android:title="@string/system_ui_control_center_rounded_rect" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_center_statusbar_blur"
-            android:title="@string/system_ui_control_center_statusbar_blur" />
-
         <SeekBarPreferenceEx
             android:defaultValue="72"
             android:key="prefs_key_system_ui_control_center_rounded_rect_radius"
@@ -393,20 +388,18 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_statusbar_blur"
+            android:title="@string/system_ui_control_center_statusbar_blur" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_control_center_switch_cc_and_notification"
             android:title="@string/system_ui_control_center_switch_cc_and_notification_title" />
-
-        <DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_control_center_more_card_tiles"
-            android:title="@string/system_ui_control_center_more_card_tiles"
-            app:entries="@array/card_style_tile"
-            app:entryValues="@array/card_style_tiles_value" />
 
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.CardTileSettings"
             android:key="prefs_key_card_tile"
-            android:title="自定义卡片" />
+            android:title="@string/system_ui_control_center_card_tiles_customization" />
 
         <DropDownPreference
             android:defaultValue="0"

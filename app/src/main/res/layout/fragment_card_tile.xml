@@ -16,6 +16,12 @@
             android:orientation="vertical"
             android:paddingHorizontal="25dp">
 
+
+            <TextView
+                android:title="已添加"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@android:id/list"
                 android:layout_width="match_parent"
@@ -24,11 +30,23 @@
 
             <View style="@style/DividerViewStyle" />
 
+            <TextView
+                android:title="未添加"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/card_tile_add_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:overScrollMode="never" />
+
+            <View style="@style/DividerViewStyle" />
+
+            <TextView
+                android:title="描述"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

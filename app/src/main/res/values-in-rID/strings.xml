@@ -774,10 +774,6 @@
     <string name="system_ui_controlcenter_enable_title">Sesuaikan jumlah baris dan kolom</string>
     <string name="system_control_center_old_qs_grid_columns">Jumlah kolom di panel yang diciutkan</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Jumlah kolom di panel yang diciutkan (Lanskap)</string>
-    <string name="system_ui_control_center_more_card_tiles">Tampilkan Ubin Kartu</string>
-    <string name="system_ui_control_center_more_card_tiles_less">Tidak ada</string>
-    <string name="system_ui_control_center_more_card_tiles_more">Lagi</string>
-    <string name="system_ui_control_center_more_card_tiles_most">Paling</string>
     <string name="system_ui_control_center_unlock_blur_supported">Hapus batasan blur notifikasi</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">Tidak ada batasan keburaman latar belakang untuk materi premium resmi hanya untuk penghapusan tema pihak ketiga</string>
     <string name="system_ui_other_title">Lainnya</string>

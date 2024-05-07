@@ -793,10 +793,6 @@
     <string name="system_ui_controlcenter_enable_title">行数と列数をカスタマイズ</string>
     <string name="system_control_center_old_qs_grid_columns">折りたたまれたパネルの行数</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折りたたまれたパネル内の列数 (横画面)</string>
-    <string name="system_ui_control_center_more_card_tiles">カードのタイルを表示</string>
-    <string name="system_ui_control_center_more_card_tiles_less">なし</string>
-    <string name="system_ui_control_center_more_card_tiles_more">さらに表示</string>
-    <string name="system_ui_control_center_more_card_tiles_most">最多</string>
     <string name="system_ui_control_center_unlock_blur_supported">通知ぼかしの制限を無効化</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">サードパーティのテーマで背景ぼかしの制限を削除します</string>
     <string name="system_ui_other_title">その他</string>

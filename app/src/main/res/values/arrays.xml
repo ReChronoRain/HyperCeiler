@@ -880,38 +880,6 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="card_style_tiles_more">
-        <item>wifi</item>
-        <item>cell</item>
-        <item>bt</item>
-        <item>flashlight</item>
-    </string-array>
-
-    <string-array name="card_style_tiles_most">
-        <item>wifi</item>
-        <item>cell</item>
-        <item>bt</item>
-        <item>flashlight</item>
-        <item>vowifi1</item>
-        <item>vowifi2</item>
-    </string-array>
-
-    <string-array name="card_style_tiles_less"></string-array>
-
-    <string-array name="card_style_tile">
-        <item>@string/array_default</item>
-        <item>@string/system_ui_control_center_more_card_tiles_less</item>
-        <item>@string/system_ui_control_center_more_card_tiles_more</item>
-        <item>@string/system_ui_control_center_more_card_tiles_most</item>
-    </string-array>
-
-    <string-array name="card_style_tiles_value">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
     <string-array name="security_center_suggest">
         <item>@string/array_default</item>
         <item>@string/disable_suggest</item>
@@ -1009,6 +977,8 @@
         <item>settings</item>
         <item>airplane</item>
         <item>autobrightness</item>
+        <item>vowifi1</item>
+        <item>vowifi2</item>
     </string-array>
 
     <integer-array name="card_tile_icon_list">
@@ -1022,6 +992,8 @@
         <item>@drawable/ic_cc_qs_settings</item>
         <item>@drawable/ic_cc_qs_airplane</item>
         <item>@drawable/ic_cc_qs_auto_brightness</item>
+        <item>@drawable/ic_cc_qs_vowifi</item>
+        <item>@drawable/ic_cc_qs_vowifi</item>
     </integer-array>
 
     <string-array name="card_tile_title_list">
@@ -1035,6 +1007,8 @@
         <item>@string/ic_qs_title_settings</item>
         <item>@string/ic_qs_title_airplane</item>
         <item>@string/ic_qs_title_autobrightness</item>
+        <item>@string/ic_qs_title_vowifi1</item>
+        <item>@string/ic_qs_title_vowifi2</item>
     </string-array>
 
 </resources>

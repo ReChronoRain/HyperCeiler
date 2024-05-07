@@ -736,10 +736,6 @@
     <string name="system_ui_controlcenter_enable_title">Personalizar el número de filas y columnas</string>
     <string name="system_control_center_old_qs_grid_columns">Cantidad de columnas en el panel contraído</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Cantidad de columnas en el panel contraído (horizontal)</string>
-    <string name="system_ui_control_center_more_card_tiles">Mostrar mosaicos</string>
-    <string name="system_ui_control_center_more_card_tiles_less">Ninguno</string>
-    <string name="system_ui_control_center_more_card_tiles_more">Más</string>
-    <string name="system_ui_control_center_more_card_tiles_most">Mayor</string>
     <string name="system_ui_control_center_unlock_blur_supported">Eliminar restricciones de notificación de burbaja</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">No hay restricciones en el desenfoque de fondo para materiales prémium de Xiaomi solo para la eliminación en temas no oficiales</string>
     <string name="system_ui_other_title">Otros</string>

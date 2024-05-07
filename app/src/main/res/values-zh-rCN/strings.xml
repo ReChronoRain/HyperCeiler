@@ -873,10 +873,7 @@
     <string name="system_ui_controlcenter_enable_title">自定义行列数</string>
     <string name="system_control_center_old_qs_grid_columns">折叠面板中的列数</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折叠面板中的列数（横屏）</string>
-    <string name="system_ui_control_center_more_card_tiles">卡片磁贴数量</string>
-    <string name="system_ui_control_center_more_card_tiles_less">无</string>
-    <string name="system_ui_control_center_more_card_tiles_more">多</string>
-    <string name="system_ui_control_center_more_card_tiles_most">更多</string>
+    <string name="system_ui_control_center_card_tiles_customization">卡片磁贴自定义</string>
 
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_disable_volume">原生音量条</string>
@@ -1698,6 +1695,19 @@
     <string name="operator_fix_none">不修复</string>
     <string name="operator_fix_1">方法一</string>
     <string name="operator_fix_2">方法二（推荐）</string>
+
+    <string name="ic_qs_title_wifi">WLAN</string>
+    <string name="ic_qs_title_cellular">数据网络</string>
+    <string name="ic_qs_title_bluetooth">蓝牙</string>
+    <string name="ic_qs_title_gps">位置信息</string>
+    <string name="ic_qs_title_nfc">NFC</string>
+    <string name="ic_qs_title_hotspot">热点</string>
+    <string name="ic_qs_title_flashlight">手电筒</string>
+    <string name="ic_qs_title_settings">设置</string>
+    <string name="ic_qs_title_airplane">飞行模式</string>
+    <string name="ic_qs_title_autobrightness">自动亮度</string>
+    <string name="ic_qs_title_vowifi1">WLAN通话\nSIM1</string>
+    <string name="ic_qs_title_vowifi2">WLAN通话\nSIM2</string>
 
     <string name="custom_hook_new">添加 Hook</string>
     <string name="custom_hook_mode">选择模式</string>

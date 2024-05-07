@@ -704,10 +704,6 @@
     <string name="system_ui_controlcenter_unlock_old_title">Разблокировать стиль центра управления</string>
     <string name="system_ui_controlcenter_enable_title">Настроить количество строк и столбцов</string>
     <string name="system_control_center_old_qs_grid_columns">Количество столбцов в свернутой панели</string>
-    <string name="system_ui_control_center_more_card_tiles">Показать плитки карт</string>
-    <string name="system_ui_control_center_more_card_tiles_less">Ничего</string>
-    <string name="system_ui_control_center_more_card_tiles_more">Еще</string>
-    <string name="system_ui_control_center_more_card_tiles_most">Наиболее</string>
     <string name="system_ui_other_title">Другое</string>
     <string name="system_ui_charge_animation_title">Анимация заряда</string>
     <string name="system_ui_charge_animation_style">Стиль анимации зарядки</string>

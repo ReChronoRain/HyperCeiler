@@ -44,7 +44,7 @@ public class TipsPreference extends Preference {
 
     public void updateTips() {
         String tip = getRandomTip(mContext);
-        setSummary("Tips: " + tip);
+        setSummary("Tip: " + tip);
     }
 
     public static String getRandomTip(Context context) {

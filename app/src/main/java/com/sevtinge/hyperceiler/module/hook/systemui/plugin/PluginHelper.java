@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.ShowVolumePct;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.BluetoothTileStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGrid;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGridForHyperOS;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CustomCardTiles;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSColor;
 
 public class PluginHelper extends BaseHook {
@@ -143,5 +144,6 @@ public class PluginHelper extends BaseHook {
         }
         if (mPrefsMap.getBoolean("system_ui_control_center_qs_open_color"))
             QSColor.pluginHook(classLoader);
+        CustomCardTiles.initCustomCardTiles(classLoader);
     }
 }

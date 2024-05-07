@@ -798,10 +798,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_controlcenter_enable_title">Tùy chỉnh số lượng hàng và cột</string>
     <string name="system_control_center_old_qs_grid_columns">Hàng trong bảng thu gọn</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Số hàng trong bảng thu gọn (màn hình ngang)</string>
-    <string name="system_ui_control_center_more_card_tiles">Hiện các ô thẻ</string>
-    <string name="system_ui_control_center_more_card_tiles_less">Không</string>
-    <string name="system_ui_control_center_more_card_tiles_more">Nhiều hơn</string>
-    <string name="system_ui_control_center_more_card_tiles_most">Nhiều nhất</string>
     <string name="system_ui_control_center_unlock_blur_supported">Xóa hạn chế làm mờ thông báo</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">Không có hạn chế về độ mờ nền đối với các vật liệu cao cấp chính thức chỉ dành cho việc xóa chủ đề của bên thứ ba</string>
     <string name="system_ui_other_title">Khác</string>

@@ -796,10 +796,6 @@
     <string name="system_ui_controlcenter_enable_title">Personalizar número de linhas e colunas</string>
     <string name="system_control_center_old_qs_grid_columns">Número de colunas no painel recolhido</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Número de colunas no painel recolhido (Paisagem)</string>
-    <string name="system_ui_control_center_more_card_tiles">Mostrar blocos de cartão</string>
-    <string name="system_ui_control_center_more_card_tiles_less">Nenhum</string>
-    <string name="system_ui_control_center_more_card_tiles_more">Mais</string>
-    <string name="system_ui_control_center_more_card_tiles_most">Maioria</string>
     <string name="system_ui_control_center_unlock_blur_supported">Remover restrição do blur de notificação</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">Não há restrição ao blur de fundo para materiais premium oficiais, apenas para remoção de temas de terceiros.</string>
     <string name="system_ui_other_title">Outros</string>
