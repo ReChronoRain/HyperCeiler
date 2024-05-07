@@ -1,6 +1,6 @@
 [versions]
 agp = "8.4.0"
-kotlinAndroid = "1.9.23"
+kotlinAndroid = "1.9.24"
 
 core = "1.13.1"
 collection = "1.4.0"
@@ -18,7 +18,7 @@ xposed-api = "82"
 
 gson = "2.10.1"
 dexkit = "2.0.1"
-tinyPinyin = "2.0.3.RELEASE"
+tinyPinyin = "2.0.3"
 ezxhelper = "2.1.2"
 accompanist = "0.34.0"
 hiddenapibypass = "4.3"
