@@ -152,7 +152,7 @@ public class PluginHelper extends BaseHook {
             QSColor.pluginHook(classLoader);
 
         List<String> mCardStyleTiles = getTileList();
-        if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") && mCardStyleTiles.isEmpty()) {
+        if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") && !mCardStyleTiles.isEmpty()) {
             CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles);
         }
     }
