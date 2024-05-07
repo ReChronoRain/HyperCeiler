@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/system_ui_controlcenter_title">
     <PreferenceCategory>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_switch_cc_and_notification"
+            android:title="@string/system_ui_control_center_switch_cc_and_notification_title" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_control_center_show_weather"
@@ -13,11 +19,6 @@
             android:dependency="prefs_key_system_ui_control_center_show_weather"
             android:key="prefs_key_system_ui_control_center_show_weather_city"
             android:title="@string/system_ui_control_center_show_weather_city" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_center_disable_device_managed"
-            android:title="@string/system_ui_control_center_disable_device_managed" />
 
     </PreferenceCategory>
 
@@ -240,7 +241,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_ui_controlcenter_card_title">
+    <PreferenceCategory
+        android:key="prefs_key_system_ui_controlcenter_card"
+        android:title="@string/system_ui_controlcenter_card_title">
         <SeekBarPreferenceEx
             android:defaultValue="0"
             android:key="prefs_key_system_control_center_qs_detail_bg"
@@ -287,6 +290,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_controlcenter_magnet_title">
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.CardTileSettings"
+            android:key="prefs_key_card_tile"
+            android:title="@string/system_ui_control_center_card_tiles_customization" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -382,14 +390,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_control_center_qs_tile_label"
-            android:title="@string/system_control_center_qs_tile_label" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/system_ui_controlcenter_new_title">
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_ui_control_center_rounded_rect"
             android:title="@string/system_ui_control_center_rounded_rect" />
 
@@ -407,18 +407,22 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_center_statusbar_blur"
-            android:title="@string/system_ui_control_center_statusbar_blur" />
+            android:key="prefs_key_system_control_center_qs_tile_label"
+            android:title="@string/system_control_center_qs_tile_label" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_controlcenter_new_title">
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_center_switch_cc_and_notification"
-            android:title="@string/system_ui_control_center_switch_cc_and_notification_title" />
+            android:key="prefs_key_system_ui_control_center_disable_device_managed"
+            android:title="@string/system_ui_control_center_disable_device_managed" />
 
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.CardTileSettings"
-            android:key="prefs_key_card_tile"
-            android:title="@string/system_ui_control_center_card_tiles_customization" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_statusbar_blur"
+            android:title="@string/system_ui_control_center_statusbar_blur" />
 
         <DropDownPreference
             android:defaultValue="0"

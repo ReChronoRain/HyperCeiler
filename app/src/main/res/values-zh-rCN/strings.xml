@@ -832,8 +832,8 @@
     <string name="system_ui_control_center_media_control_seekbar_thumb_color">滑块颜色</string>
     <string name="system_ui_control_center_qs_bg_color">背景颜色</string>
     <string name="system_ui_control_center_qs_color">图标颜色</string>
-    <string name="system_ui_control_center_qs_open_color">已启用小磁贴颜色自定义</string>
-    <string name="system_ui_control_center_qs_big_open_color">已启用大磁贴颜色自定义</string>
+    <string name="system_ui_control_center_qs_open_color">已启用磁贴颜色自定义</string>
+    <string name="system_ui_control_center_qs_big_open_color">已启用卡片磁贴颜色自定义</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">优化音乐面板背景混色效果</string>
     <string name="system_ui_control_center_media_control_media_button_custom">自定义动作按钮大小</string>
     <string name="system_ui_control_center_media_control_media_button">固有动作按钮大小</string>
