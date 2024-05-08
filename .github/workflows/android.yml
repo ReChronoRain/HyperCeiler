@@ -1,8 +1,8 @@
-name: Android Main CI
+name: Android MiuiX_V3_New CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "MiuiX_V3_New" ]
     paths-ignore:
       - ".github/**"
       - "!.github/workflows/**"
@@ -33,7 +33,7 @@ jobs:
           cache: gradle
 
       - name: Create Sign File
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/MiuiX_V3_New'
         run: |
           touch signing.properties
           echo storePassword=${{ secrets.KEY_STORE_PASSWORD }} >> signing.properties
