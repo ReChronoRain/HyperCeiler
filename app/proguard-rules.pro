@@ -4,7 +4,7 @@
 -keep class com.sevtinge.hyperceiler.utils.blur.*
 -keep class com.sevtinge.hyperceiler.utils.Helpers { boolean isModuleActive; }
 -keep class com.sevtinge.hyperceiler.utils.Helpers { int XposedVersion; }
--keep class moralnorm.**{*;}
+-keep class fan.**{*;}
 -keep class org.luckypray.dexkit.*
 -keep class * extends com.sevtinge.hyperceiler.ui.fragment.base.*
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook { <init>(); }
