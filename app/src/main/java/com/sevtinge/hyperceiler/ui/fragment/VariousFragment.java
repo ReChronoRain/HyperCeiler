@@ -35,6 +35,7 @@ import fan.preference.Preference;
 import fan.preference.PreferenceCategory;
 import fan.preference.SwitchPreference;
 
+
 public class VariousFragment extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 

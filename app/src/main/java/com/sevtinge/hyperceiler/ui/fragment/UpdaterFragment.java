@@ -18,12 +18,10 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
+import com.sevtinge.hyperceiler.ui.fragment.base.RestartTag;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -31,6 +29,7 @@ import fan.preference.DropDownPreference;
 import fan.preference.EditTextPreference;
 import fan.preference.Preference;
 
+@RestartTag(appLabel = R.string.updater, pkg = "com.android.updater")
 public class UpdaterFragment extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 
@@ -40,14 +39,6 @@ public class UpdaterFragment extends SettingsPreferenceFragment
     @Override
     public int getContentResId() {
         return R.xml.updater;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.updater),
-            "com.android.updater"
-        );
     }
 
     @Override

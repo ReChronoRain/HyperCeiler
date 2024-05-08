@@ -27,4 +27,6 @@ public class SubSettings extends SettingsActivity {
     public void initCreate() {
         registerCoordinateScrollView(findViewById(R.id.frame_content));
     }
+
+
 }

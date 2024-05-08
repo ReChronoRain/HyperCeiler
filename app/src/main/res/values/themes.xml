@@ -7,11 +7,15 @@
 
     <style name="Theme.HyperCeiler.Light">
         <item name="rebootIconColor">@color/black</item>
+        <item name="dialogMultiChoiceListItemBackground">@drawable/miuix_appcompat_list_item_bg_multichoice_light</item>
+        <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_light</item>
     </style>
 
     <style name="Theme.HyperCeiler.Dark">
         <item name="rebootIconColor">@color/white</item>
         <item name="android:forceDarkAllowed">false</item>
+        <item name="dialogMultiChoiceListItemBackground">@drawable/miuix_appcompat_list_item_bg_multichoice_dark</item>
+        <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_dark</item>
     </style>
 
     <style name="Theme.HyperCeiler" parent="Theme.AppCompat.DayNight">
@@ -19,6 +23,8 @@
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="bgBlurOptions">actionBar</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name="endActionMenuEnabled">true</item>
+        <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>
         <item name="preferenceTheme">@style/ThemeOverlay.Preference.DayNight</item>
         <item name="SeekBarPreferenceCompatStyle">@style/Preference.SeekBarPreferenceCompat</item>
     </style>

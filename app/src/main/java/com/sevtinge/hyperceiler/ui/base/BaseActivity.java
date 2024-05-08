@@ -63,17 +63,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         getAppCompatActionBar().setEndView(view);
     }
 
-    public void setActionBarEndIcon(@DrawableRes int resId, View.OnClickListener listener) {
-        ImageView mRestartView = new ImageView(this);
-        mRestartView.setImageResource(resId);
-        mRestartView.setOnClickListener(listener);
-        setActionBarEndView(mRestartView);
-    }
-
-    public void setRestartView(View.OnClickListener listener) {
-        if (listener != null) setActionBarEndIcon(R.drawable.ic_reboot_small, listener);
-    }
-
     private void registerObserver() {
         PrefsUtils.mSharedPreferences.registerOnSharedPreferenceChangeListener(mSharedPreferenceChangeListener);
         Helpers.fixPermissionsAsync(getApplicationContext());

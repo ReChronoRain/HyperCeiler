@@ -19,6 +19,8 @@
 package com.sevtinge.hyperceiler.ui.base;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 
@@ -58,5 +60,17 @@ public abstract class SettingsActivity extends BaseSettingsActivity implements P
                 preferenceFragmentCompat instanceof MultiActionSettings;
         onStartSettingsForArguments(preference, isBundleEnable);
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        mFragment.onCreateOptionsMenu(menu, getMenuInflater());
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        mFragment.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 }

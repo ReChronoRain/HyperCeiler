@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:id="@id/miuix_action_end_menu_group">
+    <group android:id="@+id/miuix_action_end_menu_group">
         <item
             android:id="@+id/restart"
-            android:title="@string/hyperceiler_restart_quick"
+            android:title="reset"
             android:icon="@drawable/ic_reboot_small"
             android:showAsAction="always"/>
     </group>

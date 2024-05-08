@@ -26,6 +26,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -85,7 +87,6 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         setContentView(R.layout.activity_navigation);
         initSearchView();
         initNavigationView();
-        setRestartView(view -> DialogHelper.showRestartDialog(this));
     }
 
     private void initSearchView() {
@@ -257,5 +258,19 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
     public boolean onPreferenceStartFragment(@NonNull PreferenceFragmentCompat preferenceFragmentCompat, @NonNull Preference preference) {
         mProxy.onStartSettingsForArguments(SubSettings.class, preference, false);
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.restart) {
+            DialogHelper.showRestartDialog(this);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
