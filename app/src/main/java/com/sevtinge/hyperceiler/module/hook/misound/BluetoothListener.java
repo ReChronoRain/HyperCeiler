@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
@@ -15,11 +16,15 @@ import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 
 import org.luckypray.dexkit.query.FindClass;
 import org.luckypray.dexkit.query.FindField;
+import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.FieldMatcher;
+import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.ClassData;
 import org.luckypray.dexkit.result.FieldData;
+import org.luckypray.dexkit.result.MethodData;
 
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -29,6 +34,7 @@ public class BluetoothListener extends BaseHook {
     private static Object miDolby = null;
     private static Object miAudio = null;
     private static String uuid = "";
+    private String mode = null;
 
     @Override
     public void init() throws NoSuchMethodException {
@@ -81,6 +87,63 @@ public class BluetoothListener extends BaseHook {
         } catch (ClassNotFoundException e) {
             logE(TAG, e);
         }
+        MethodData methodData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
+                .matcher(MethodMatcher.create()
+                        .declaredClass(
+                                ClassMatcher.create()
+                                        .usingStrings("getEnabledEffect(): both of enabled, force return misound")
+                        )
+                        .usingStrings("getEnabledEffect(): both of enabled, force return misound")
+                )
+        ).singleOrNull();
+        try {
+            if (methodData == null) {
+                logE(TAG, "null");
+            } else {
+                Method method = methodData.getMethodInstance(lpparam.classLoader);
+                hookMethod(method,
+                        new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) {
+                                Context context = (Context) XposedHelpers.callMethod(param.thisObject, "getActivity");
+                                boolean isBluetoothA2dpOn = ((AudioManager) context.getSystemService(Context.AUDIO_SERVICE)).isBluetoothA2dpOn();
+                                boolean isWiredHeadsetOn = ((AudioManager) context.getSystemService(Context.AUDIO_SERVICE)).isWiredHeadsetOn();
+                                if (isBluetoothA2dpOn || isWiredHeadsetOn) {
+                                    if (mode == null) mode = "none";
+                                }
+                                if (mode != null) {
+                                    param.setResult(mode);
+                                }
+                            }
+                        }
+                );
+                findAndHookMethod(method.getDeclaringClass(), "onPreferenceChange",
+                        "androidx.preference.Preference", Object.class,
+                        new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) {
+                                Object o = param.args[1];
+                                if (o instanceof String) {
+                                    if ("none".equals(o) || "dolby".equals(o) || "misound".equals(o))
+                                        mode = (String) o;
+                                }
+                            }
+                        }
+                );
+                MethodData methodData1 = DexKit.getDexKitBridge().findMethod(FindMethod.create().matcher(
+                        MethodMatcher.create().declaredClass(method.getDeclaringClass())
+                                .usingStrings("refreshEffectSelectionEnabled(): currEffect "))).singleOrNull();
+                hookMethod(methodData1.getMethodInstance(lpparam.classLoader), new MethodHook() {
+                            @Override
+                            protected void after(MethodHookParam param) {
+                                mode = null;
+                            }
+                        }
+                );
+            }
+        } catch (Throwable e) {
+            logE(TAG, e);
+        }
         findAndHookMethod("com.miui.misound.MiSoundApplication", "onCreate",
                 new MethodHook() {
                     @Override
@@ -89,6 +152,7 @@ public class BluetoothListener extends BaseHook {
                         IntentFilter intentFilter = new IntentFilter();
                         intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
                         intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+                        intentFilter.addAction(AudioManager.ACTION_HEADSET_PLUG);
                         application.registerReceiver(new Listener(), intentFilter);
                     }
                 }
@@ -153,33 +217,62 @@ public class BluetoothListener extends BaseHook {
             if (action != null) {
                 switch (action) {
                     case BluetoothDevice.ACTION_ACL_CONNECTED -> {
+                        on(context);
+                    }
+                    case BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
+                        over(context);
+                    }
+                    case AudioManager.ACTION_HEADSET_PLUG -> {
                         init();
-                        lastDolby = setAudio(AudioEffect, miDolby);
-                        lastMiui = setAudio(MiSound, miAudio);
-                        String implementer = effectImplementer(context);
-                        // logE(TAG, "A: " + AudioEffect + " d: " + miDolby + " M: " + MiSound + " a: " + miAudio
-                        //         + " co: " + hasControl(AudioEffect) + " co1: " + hasControl(MiSound) +
-                        //         " laD: " + lastDolby + " laM: " + lastMiui + " im: " + implementer);
-                        if (implementer != null) {
-                            if ("dolby".equals(implementer)) {
-                                lastDolby = true;
-                                lastMiui = false;
-                            } else if ("misound".equals(implementer)) {
-                                lastDolby = false;
-                                lastMiui = true;
+                        if (intent.hasExtra("state")) {
+                            int state = intent.getIntExtra("state", 0);
+                            if (state == 1) {
+                                on(context);
+                            } else if (state == 0) {
+                                over(context);
                             }
                         }
                     }
-                    case BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
-                        init();
-                        recoveryAudio(AudioEffect, miDolby, lastDolby);
-                        recoveryAudio(MiSound, miAudio, lastMiui);
-                        // logE(TAG, "A: " + AudioEffect + " d: " + miDolby + " M: " + MiSound + " a: " + miAudio
-                        //         + " co: " + hasControl(AudioEffect) + " co1: " + hasControl(MiSound) +
-                        //         " laD: " + lastDolby + " laM: " + lastMiui);
-                    }
                 }
             }
+        }
+
+        private void on(Context context) {
+            init();
+            lastDolby = setAudio(AudioEffect, miDolby);
+            lastMiui = setAudio(MiSound, miAudio);
+            String implementer = effectImplementer(context);
+            // logE(TAG, "A: " + AudioEffect + " d: " + miDolby + " M: " + MiSound + " a: " + miAudio
+            //         + " co: " + hasControl(AudioEffect) + " co1: " + hasControl(MiSound) +
+            //         " laD: " + lastDolby + " laM: " + lastMiui + " im: " + implementer);
+            if (implementer != null) {
+                if ("dolby".equals(implementer)) {
+                    lastDolby = true;
+                    lastMiui = false;
+                } else if ("misound".equals(implementer)) {
+                    lastDolby = false;
+                    lastMiui = true;
+                }
+            }
+            refresh(context, false, false);
+        }
+
+        private void refresh(Context context, boolean dolby, boolean miui) {
+            Intent intent = new Intent();
+            intent.setAction("miui.intent.action.ACTION_AUDIO_EFFECT_REFRESH");
+            intent.putExtra("dolby_active", dolby);
+            intent.putExtra("misound_active", miui);
+            context.sendBroadcast(intent);
+        }
+
+        private void over(Context context) {
+            init();
+            recoveryAudio(AudioEffect, miDolby, lastDolby);
+            recoveryAudio(MiSound, miAudio, lastMiui);
+            refresh(context, lastDolby, lastMiui);
+            // logE(TAG, "A: " + AudioEffect + " d: " + miDolby + " M: " + MiSound + " a: " + miAudio
+            //         + " co: " + hasControl(AudioEffect) + " co1: " + hasControl(MiSound) +
+            //         " laD: " + lastDolby + " laM: " + lastMiui);
         }
 
         private static boolean setAudio(Object audio, Object otherAudio) {
