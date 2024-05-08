@@ -20,5 +20,6 @@
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
 -dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo
 -dontwarn com.android.internal.view.menu.MenuBuilder
+-dontwarn miui.util.HapticFeedbackUtil
 -allowaccessmodification
 -overloadaggressively
