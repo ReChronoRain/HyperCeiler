@@ -70,7 +70,6 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -96,7 +95,6 @@
             android:name=".ui.LauncherActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:targetActivity=".ui.MainActivity"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
@@ -108,7 +106,6 @@
         <activity
             android:name=".ui.SubSettings"
             android:exported="true"
-            android:screenOrientation="portrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -118,7 +115,6 @@
 
         <activity
             android:name=".ui.SubPickerActivity"
-            android:screenOrientation="portrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
         <provider
