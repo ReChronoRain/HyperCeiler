@@ -17,6 +17,8 @@
     <style name="Theme.HyperCeiler" parent="Theme.AppCompat.DayNight">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="bgBlurOptions">actionBar</item>
+        <item name="windowActionBarOverlay">true</item>
         <item name="preferenceTheme">@style/ThemeOverlay.Preference.DayNight</item>
         <item name="SeekBarPreferenceCompatStyle">@style/Preference.SeekBarPreferenceCompat</item>
     </style>
