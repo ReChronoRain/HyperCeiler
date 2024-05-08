@@ -734,6 +734,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_qs_bg_color">Màu nền</string>
     <string name="system_ui_control_center_qs_color">Màu biểu tượng</string>
     <string name="system_ui_control_center_qs_open_color">Đã bật tùy chỉnh màu ô</string>
+    <string name="system_ui_control_center_qs_big_open_color">Đã bật tùy chỉnh màu ô lớn</string>
     <string name="system_ui_control_auto_close_more">Sau khi bật, bấm vào biểu tượng thanh trạng thái sẽ tự động thu gọn thanh trạng thái</string>
     <string name="system_control_center_qs_tile_label">Loại bỏ tiêu đề</string>
     <string name="system_control_center_qs_rows">Hàng</string>
@@ -802,6 +803,11 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_controlcenter_enable_title">Tùy chỉnh số lượng hàng và cột</string>
     <string name="system_control_center_old_qs_grid_columns">Hàng trong bảng thu gọn</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Số hàng trong bảng thu gọn (màn hình ngang)</string>
+    <string name="system_ui_control_center_card_tiles_customization">Tùy chỉnh ô thẻ</string>
+    <string name="system_ui_control_center_card_tiles_customization_desc">Nhấn và kéo các ô lớn mới được thêm vào để sắp xếp lại chúng</string>
+    <string name="system_ui_control_center_card_tiles_customization_add">Đã thêm</string>
+    <string name="system_ui_control_center_card_tiles_customization_not_add">Chưa thêm</string>
+    <string name="system_ui_control_center_card_tiles_customization_notice">Phiên bản hệ thống hiện tại chỉ hỗ trợ hiển thị các ô lớn cho \"Wi-Fi\", \"Mạng di động\", \"Bluetooth\", \"Đèn pin\", \"VoWiFi SIM1\" và \"VoWiFi SIM2\".</string>
     <string name="system_ui_control_center_unlock_blur_supported">Xóa hạn chế làm mờ thông báo</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">Không có hạn chế về độ mờ nền đối với các vật liệu cao cấp chính thức chỉ dành cho việc xóa chủ đề của bên thứ ba</string>
     <string name="system_ui_other_title">Khác</string>
@@ -1652,4 +1658,6 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="ic_qs_title_settings">Cài đặt</string>
     <string name="ic_qs_title_airplane">Chế độ máy bay</string>
     <string name="ic_qs_title_autobrightness">Độ sáng tự động</string>
+    <string name="ic_qs_title_vowifi1">VoWiFi SIM1</string>
+    <string name="ic_qs_title_vowifi2">VoWiFi SIM2</string>
 </resources>
