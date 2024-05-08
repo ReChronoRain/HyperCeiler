@@ -18,6 +18,13 @@
 */
 package com.sevtinge.hyperceiler.ui;
 
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.SettingsActivity;
 
-public class SubSettings extends SettingsActivity {}
+public class SubSettings extends SettingsActivity {
+
+    @Override
+    public void initCreate() {
+        registerCoordinateScrollView(findViewById(R.id.frame_content));
+    }
+}
