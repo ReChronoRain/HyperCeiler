@@ -56,6 +56,7 @@ import com.sevtinge.hyperceiler.utils.search.SearchModeHelper;
 
 import java.util.ArrayList;
 
+import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.preference.Preference;
 import fan.preference.PreferenceFragment;
 import fan.preference.core.PreferenceFragmentCompat;
@@ -69,6 +70,7 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
     RecyclerView mSearchResultView;
     ModSearchAdapter mSearchAdapter;
 
+    NestedHeaderLayout mNestedHeaderLayout;
     ViewPager mFragmentPage;
     RadioGroup mNavigationView;
     RadioButton mHomeNav, mSettingsNav, mAboutNav;
@@ -111,11 +113,14 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
     }
 
     private void initNavigationView() {
+        mNestedHeaderLayout = findViewById(R.id.nested_header);
         mFragmentPage = findViewById(R.id.frame_page);
         mNavigationView = findViewById(R.id.navigation);
         mHomeNav = findViewById(R.id.navigation_home);
         mSettingsNav = findViewById(R.id.navigation_settings);
         mAboutNav = findViewById(R.id.navigation_about);
+
+        registerCoordinateScrollView(mNestedHeaderLayout);
 
         mFragmentList.add(mainFragment);
         mFragmentList.add(new ModuleSettingsFragment());
