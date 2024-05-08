@@ -29,8 +29,7 @@
             android:defaultValue="-1"
             android:dependency="prefs_key_system_ui_monet_overlay_custom"
             android:key="prefs_key_system_ui_monet_overlay_custom_color"
-            android:title="@string/system_ui_monet_overlay_custom_color"
-            app:showAlphaSlider="false" />
+            android:title="@string/system_ui_monet_overlay_custom_color" />
 
     </PreferenceCategory>
 
@@ -60,7 +59,7 @@
             android:key="prefs_key_system_showpct_title"
             android:title="@string/system_showpct_title" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="54"
             android:key="prefs_key_system_ui_others_showpct_top"
             android:summary="@string/system_ui_others_showpct_top_desc"

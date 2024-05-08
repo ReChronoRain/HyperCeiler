@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import moralnorm.preference.Preference;
+import fan.preference.Preference;
 
 public class TipsPreference extends Preference {
 

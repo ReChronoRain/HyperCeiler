@@ -22,14 +22,14 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.SeekBarPreferenceEx;
+import fan.preference.DropDownPreference;
+import fan.preference.SeekBarPreferenceCompat;
 
 public class AlertDialogSettings extends SettingsPreferenceFragment {
 
     private DropDownPreference mDialogGravity;
-    private SeekBarPreferenceEx mDialogHorizontalMargin;
-    private SeekBarPreferenceEx mDialogBottomMargin;
+    private SeekBarPreferenceCompat mDialogHorizontalMargin;
+    private SeekBarPreferenceCompat mDialogBottomMargin;
 
     @Override
     public int getContentResId() {

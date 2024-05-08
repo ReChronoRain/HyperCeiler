@@ -40,8 +40,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
-import moralnorm.appcompat.app.AlertDialog;
-import moralnorm.preference.Preference;
+import fan.appcompat.app.AlertDialog;
+import fan.preference.Preference;
 
 public class DevelopmentKillFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceClickListener {
     private List<AppData> appData = new ArrayList<>();

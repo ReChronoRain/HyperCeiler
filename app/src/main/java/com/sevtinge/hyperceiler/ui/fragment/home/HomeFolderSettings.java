@@ -28,16 +28,16 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.SeekBarPreferenceEx;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.DropDownPreference;
+import fan.preference.SeekBarPreferenceCompat;
+import fan.preference.SwitchPreference;
 
 public class HomeFolderSettings extends SettingsPreferenceFragment {
 
     DropDownPreference mFolderShade;
-    SeekBarPreferenceEx mFolderShadeLevel;
+    SeekBarPreferenceCompat mFolderShadeLevel;
 
-    SeekBarPreferenceEx mFolderColumns;
+    SeekBarPreferenceCompat mFolderColumns;
     SwitchPreference mFolderWidth;
     SwitchPreference mFolderSpace;
     SwitchPreference mUnlockFolderBlurSupport;

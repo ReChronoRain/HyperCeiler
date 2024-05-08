@@ -21,8 +21,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceViewHolder;
+import fan.preference.Preference;
+import fan.preference.PreferenceViewHolder;
 
 public class CardTileEditPreference extends Preference {
 

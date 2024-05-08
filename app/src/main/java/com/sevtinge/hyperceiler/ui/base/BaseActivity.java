@@ -37,7 +37,7 @@ import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.util.Set;
 
-import moralnorm.appcompat.app.AppCompatActivity;
+import fan.appcompat.app.AppCompatActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
 

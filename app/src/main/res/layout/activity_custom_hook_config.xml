@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <moralnorm.appcompat.widget.Spinner
+            <fan.appcompat.widget.Spinner
                 android:entries="@array/app_sort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

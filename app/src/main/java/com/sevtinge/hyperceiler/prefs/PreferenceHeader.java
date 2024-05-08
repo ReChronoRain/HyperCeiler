@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.utils.PackagesUtils;
 
 import java.util.ArrayList;
 
-import moralnorm.preference.Preference;
+import fan.preference.Preference;
 
 public class PreferenceHeader extends Preference {
 

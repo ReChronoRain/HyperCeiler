@@ -25,10 +25,10 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceCategory;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.DropDownPreference;
+import fan.preference.Preference;
+import fan.preference.PreferenceCategory;
+import fan.preference.SwitchPreference;
 
 public class MobileNetworkTypeSettings extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {

@@ -40,11 +40,11 @@ import com.sevtinge.hyperceiler.utils.devicesdk.TelephonyManager;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceCategory;
-import moralnorm.preference.SeekBarPreferenceEx;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.DropDownPreference;
+import fan.preference.Preference;
+import fan.preference.PreferenceCategory;
+import fan.preference.SeekBarPreferenceCompat;
+import fan.preference.SwitchPreference;
 
 public class ControlCenterSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
@@ -53,16 +53,16 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     PreferenceCategory mCard;
     SwitchPreference mNotice;
     SwitchPreference mNoticex;
-    SeekBarPreferenceEx mNewCCGrid;
-    SeekBarPreferenceEx mNewCCGridColumns;
+    SeekBarPreferenceCompat mNewCCGrid;
+    SeekBarPreferenceCompat mNewCCGridColumns;
     SwitchPreference mNewCCGridLabel;
     DropDownPreference mFiveG;
     DropDownPreference mBluetoothSytle;
     SwitchPreference mRoundedRect;
-    SeekBarPreferenceEx mRoundedRectRadius;
+    SeekBarPreferenceCompat mRoundedRectRadius;
     SwitchPreference mThemeBlur;
     DropDownPreference mProgressMode;
-    SeekBarPreferenceEx mProgressModeThickness;
+    SeekBarPreferenceCompat mProgressModeThickness;
 
     SwitchPreference mTaplus;
     SwitchPreference mNotifrowmenu;
@@ -149,7 +149,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mRoundedRect.setOnPreferenceChangeListener(this);
         mProgressMode.setOnPreferenceChangeListener(this);
 
-        ((SeekBarPreferenceEx) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        /*((SeekBarPreferenceCompat) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (!fromUser) return;
@@ -157,7 +157,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
                 try {
                     Settings.Secure.putInt(requireActivity().getContentResolver(), "sysui_qqs_count", progress);
                 } catch (Throwable t) {
-                    AndroidLogUtils.logD("SeekBarPreferenceEx", "onProgressChanged -> system_control_center_old_qs_grid_columns", t);
+                    AndroidLogUtils.logD("SeekBarPreferenceCompat", "onProgressChanged -> system_control_center_old_qs_grid_columns", t);
                 }
             }
 
@@ -168,7 +168,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
-        });
+        });*/
 
         Bundle args1 = new Bundle();
         mRecommend = new RecommendPreference(getContext());

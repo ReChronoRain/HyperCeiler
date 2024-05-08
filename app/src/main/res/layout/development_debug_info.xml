@@ -21,10 +21,10 @@
     android:clickable="false"
     android:clipChildren="false"
     android:gravity="center_vertical"
-    android:paddingStart="@dimen/preference_item_padding_start"
-    android:paddingEnd="@dimen/preference_item_padding_end"
-    android:paddingTop="@dimen/preference_item_padding_inner"
-    android:paddingBottom="@dimen/preference_item_padding_inner">
+    android:paddingStart="@dimen/miuix_preference_item_padding_start"
+    android:paddingEnd="@dimen/miuix_preference_item_padding_end"
+    android:paddingTop="@dimen/miuix_preference_item_padding_inner"
+    android:paddingBottom="@dimen/miuix_preference_item_padding_inner">
 
     <include layout="@layout/image_frame" />
 
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:clipChildren="false"
         android:gravity="center"
-        android:minWidth="@dimen/preference_widget_minWidth"
+        android:minWidth="@dimen/miuix_preference_widget_width"
         android:orientation="vertical" />
 
     <ImageView
@@ -65,6 +65,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|end"
         android:gravity="center"
-        android:src="@drawable/ic_preference_arrow_right" />
+        android:src="?arrowRight" />
 
 </LinearLayout>

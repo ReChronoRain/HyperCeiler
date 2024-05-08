@@ -28,8 +28,8 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
-import moralnorm.preference.Preference;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.Preference;
+import fan.preference.SwitchPreference;
 
 public class SafeModeFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 

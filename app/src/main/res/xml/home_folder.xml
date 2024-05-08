@@ -14,7 +14,7 @@
             android:key="prefs_key_home_small_folder_icon_bg_custom"
             android:title="@string/home_small_folder_icon_bg_custom" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="56"
             android:dependency="prefs_key_home_small_folder_icon_bg"
             android:key="prefs_key_home_small_folder_icon_bg_size"
@@ -39,7 +39,7 @@
             android:key="prefs_key_home_big_folder_icon_bg_2x1_custom"
             android:title="@string/home_big_folder_icon_bg_2x1_custom" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="145"
             android:dependency="prefs_key_home_big_folder_icon_bg_2x1"
             android:key="prefs_key_home_big_folder_icon_bg_width_2x1"
@@ -50,7 +50,7 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="62"
             android:dependency="prefs_key_home_big_folder_icon_bg_2x1"
             android:key="prefs_key_home_big_folder_icon_bg_height_2x1"
@@ -72,7 +72,7 @@
             android:key="prefs_key_home_big_folder_icon_bg_1x2_custom"
             android:title="@string/home_big_folder_icon_bg_1x2_custom" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="62"
             android:dependency="prefs_key_home_big_folder_icon_bg_1x2"
             android:key="prefs_key_home_big_folder_icon_bg_width_1x2"
@@ -83,7 +83,7 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="145"
             android:dependency="prefs_key_home_big_folder_icon_bg_1x2"
             android:key="prefs_key_home_big_folder_icon_bg_height_1x2"
@@ -105,7 +105,7 @@
             android:key="prefs_key_home_big_folder_icon_bg_custom"
             android:title="@string/home_big_folder_icon_bg_custom" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="145"
             android:dependency="prefs_key_home_big_folder_icon_bg"
             android:key="prefs_key_home_big_folder_icon_bg_width"
@@ -116,7 +116,7 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="145"
             android:dependency="prefs_key_home_big_folder_icon_bg"
             android:key="prefs_key_home_big_folder_icon_bg_height"
@@ -143,7 +143,7 @@
             app:entries="@array/folder_shade"
             app:entryValues="@array/folder_shade_value" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="0"
             android:key="prefs_key_home_folder_shade_level"
             android:title="@string/home_folder_shade_level_title"
@@ -158,7 +158,7 @@
             android:key="prefs_key_home_folder_animation"
             android:title="@string/home_folder_anim_title" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="110"
             android:dependency="prefs_key_home_folder_animation"
             android:key="prefs_key_home_folder_anim_1"
@@ -170,7 +170,7 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="30"
             android:dependency="prefs_key_home_folder_animation"
             android:key="prefs_key_home_folder_anim_2"
@@ -182,7 +182,7 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="101"
             android:dependency="prefs_key_home_folder_animation"
             android:key="prefs_key_home_folder_anim_3"
@@ -194,7 +194,7 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="24"
             android:dependency="prefs_key_home_folder_animation"
             android:key="prefs_key_home_folder_anim_4"
@@ -238,7 +238,7 @@
             android:key="prefs_key_home_folder_width"
             android:title="@string/home_folder_width_title" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="3"
             android:key="prefs_key_home_folder_columns"
             android:title="@string/home_folder_cols_title"
@@ -249,7 +249,7 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="0"
             android:key="prefs_key_home_folder_vertical_padding"
             android:title="@string/home_folder_vertical_padding_title"

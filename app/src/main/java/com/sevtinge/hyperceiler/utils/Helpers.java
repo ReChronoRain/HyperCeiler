@@ -49,7 +49,8 @@ import java.util.concurrent.Executors;
 
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import moralnorm.internal.utils.ReflectUtils;
+import fan.core.utils.ReflectUtils;
+import fan.reflect.ReflectionHelper;
 
 public class Helpers {
 
@@ -178,7 +179,7 @@ public class Helpers {
         return stackTrace[4].getMethodName();
     }
 
-    public static ActivityOptions makeFreeformActivityOptions(Context context, String str) {
+    /*public static ActivityOptions makeFreeformActivityOptions(Context context, String str) {
 
         ActivityOptions activityOptions;
         try {
@@ -198,7 +199,7 @@ public class Helpers {
         Rect rect = (Rect) ReflectUtils.callObjectMethod("android.util.MiuiMultiWindowUtils", "getFreeformRect", new Class[]{Context.class}, new Object[]{context});
         makeBasic.setLaunchBounds(rect);
         return makeBasic;
-    }
+    }*/
 
     public static void openAppInfo(Context context, String pkg, int user) {
         try {

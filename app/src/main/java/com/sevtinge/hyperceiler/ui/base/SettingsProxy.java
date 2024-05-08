@@ -31,8 +31,8 @@ import androidx.fragment.app.FragmentManager;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 
-import moralnorm.appcompat.app.AppCompatActivity;
-import moralnorm.preference.Preference;
+import fan.appcompat.app.AppCompatActivity;
+import fan.preference.Preference;
 
 public class SettingsProxy extends BaseSettingsProxy {
 

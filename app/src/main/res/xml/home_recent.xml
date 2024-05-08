@@ -77,7 +77,7 @@
             android:key="prefs_key_home_recent_text"
             android:title="@string/home_recent_text" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_task_view_corners"
             android:title="@string/home_recent_task_view_card_rounded_corners"
             android:defaultValue="20"
@@ -86,7 +86,7 @@
             app:stepValue="1"
             app:format="%d dp" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_task_view_header_height"
             android:title="@string/home_recent_app_name_distance_task_view_card"
             android:defaultValue="40"
@@ -95,7 +95,7 @@
             app:stepValue="1"
             app:format="%d dp" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_home_recent_animation_speed"
             android:title="@string/home_recent_animation_speed"
             android:defaultValue="100"
@@ -105,7 +105,7 @@
             app:stepValue="1"
             app:format="%d / 100 f" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_task_view_horizontal1"
             android:title="@string/home_recent_horizontal_task_view_card_size1"
             android:defaultValue="100"
@@ -115,7 +115,7 @@
             app:stepValue="1"
             app:format="%d / 100 f" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_task_view_horizontal2"
             android:title="@string/home_recent_horizontal_task_view_card_size2"
             android:defaultValue="100"
@@ -125,7 +125,7 @@
             app:format="%d / 100 f"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="100"
             android:key="prefs_key_home_recent_vertical_task_view_card_size"
             android:title="@string/home_recent_vertical_task_view_card_size"
@@ -135,7 +135,7 @@
             app:minValue="50"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_home_recent_text_size"
             android:title="@string/home_recent_text_size"
             android:defaultValue="14"
@@ -145,17 +145,15 @@
             app:format="%d f"
             app:stepValue="1" />
 
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:title="@string/home_recent_text_color"
             android:key="prefs_key_home_recent_text_color"
-            android:defaultValue="-1"
-            app:showAlphaSlider="true" />
+            android:defaultValue="-1" />
 
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:title="@string/home_recent_freeform_background_color"
             android:key="prefs_key_home_recent_freeform_background_color"
-            android:defaultValue="-1"
-            app:showAlphaSlider="true" />
+            android:defaultValue="-1" />
 
     </PreferenceCategory>
 </PreferenceScreen>

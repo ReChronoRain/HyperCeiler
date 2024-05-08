@@ -34,9 +34,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceManager;
-import moralnorm.preference.compat.PreferenceFragment;
+import fan.preference.Preference;
+import fan.preference.PreferenceFragment;
+import fan.preference.PreferenceManager;
 
 public class BasePreferenceFragment extends PreferenceFragment {
 
@@ -80,7 +80,7 @@ public class BasePreferenceFragment extends PreferenceFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(moralnorm.preference.R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(fan.preference.R.id.recycler_view);
         ViewCompat.setOnApplyWindowInsetsListener(recyclerView, new OnApplyWindowInsetsListener() {
             @NonNull
             @Override

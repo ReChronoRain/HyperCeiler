@@ -26,8 +26,8 @@ import android.view.MenuItem;
 
 import androidx.fragment.app.Fragment;
 
-import moralnorm.appcompat.app.AppCompatActivity;
-import moralnorm.preference.Preference;
+import fan.appcompat.app.AppCompatActivity;
+import fan.preference.Preference;
 
 public abstract class BaseSettingsProxy {
 

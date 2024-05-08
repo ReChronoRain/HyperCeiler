@@ -57,7 +57,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Objects;
 
-import moralnorm.preference.Preference;
+import fan.preference.Preference;
 
 public class MainFragment extends SettingsPreferenceFragment implements HomepageEntrance.EntranceState {
 
@@ -210,7 +210,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(moralnorm.preference.R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(fan.preference.R.id.recycler_view);
         ViewCompat.setOnApplyWindowInsetsListener(recyclerView, new OnApplyWindowInsetsListener() {
             @NonNull
             @Override

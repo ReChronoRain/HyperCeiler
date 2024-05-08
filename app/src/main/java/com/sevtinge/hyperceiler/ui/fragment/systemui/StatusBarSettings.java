@@ -30,8 +30,8 @@ import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceCategory;
+import fan.preference.Preference;
+import fan.preference.PreferenceCategory;
 
 public class StatusBarSettings extends SettingsPreferenceFragment {
 

@@ -25,8 +25,8 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.devicesdk.TelephonyManager;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.Preference;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.Preference;
+import fan.preference.SwitchPreference;
 
 public class SystemFrameworkFragment extends SettingsPreferenceFragment {
     SwitchPreference mDisableCreak;

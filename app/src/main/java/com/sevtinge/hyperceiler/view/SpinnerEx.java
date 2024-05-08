@@ -27,7 +27,7 @@ import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
-import moralnorm.appcompat.widget.Spinner;
+import fan.appcompat.widget.Spinner;
 
 
 public class SpinnerEx extends Spinner {

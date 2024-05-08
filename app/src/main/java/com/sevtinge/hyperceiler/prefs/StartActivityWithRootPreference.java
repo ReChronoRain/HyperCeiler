@@ -30,8 +30,8 @@ import com.sevtinge.hyperceiler.R;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceViewHolder;
+import fan.preference.Preference;
+import fan.preference.PreferenceViewHolder;
 
 public class StartActivityWithRootPreference extends Preference {
 

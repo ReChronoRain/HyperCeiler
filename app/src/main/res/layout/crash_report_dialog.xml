@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="@dimen/appcompat_dialog_panel_padding_horizontal">
+    android:paddingHorizontal="@dimen/miuix_appcompat_dialog_panel_padding_horizontal">
 
     <TextView
         android:id="@+id/tv_message"

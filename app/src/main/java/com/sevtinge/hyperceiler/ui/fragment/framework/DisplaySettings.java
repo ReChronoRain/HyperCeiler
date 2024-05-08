@@ -22,14 +22,14 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.hyperceiler.R;
-import moralnorm.preference.SeekBarPreferenceEx;
+import fan.preference.SeekBarPreferenceCompat;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class DisplaySettings extends SettingsPreferenceFragment {
 
-    SeekBarPreferenceEx minBrightness;
-    SeekBarPreferenceEx maxBrightness;
+    SeekBarPreferenceCompat minBrightness;
+    SeekBarPreferenceCompat maxBrightness;
 
     @Override
     public int getContentResId() {
@@ -46,7 +46,7 @@ public class DisplaySettings extends SettingsPreferenceFragment {
         maxBrightness = findPreference("pref_key_system_ui_auto_brightness_max");
         minBrightness = findPreference("pref_key_system_ui_auto_brightness_min");
         assert minBrightness != null;
-        minBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        /*minBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (!fromUser) return;
@@ -61,6 +61,6 @@ public class DisplaySettings extends SettingsPreferenceFragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
-        });
+        });*/
     }
 }

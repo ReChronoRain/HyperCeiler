@@ -23,7 +23,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-import moralnorm.preference.Preference;
+import fan.preference.Preference;
 
 public class SecurityCenterFragment extends SettingsPreferenceFragment {
 

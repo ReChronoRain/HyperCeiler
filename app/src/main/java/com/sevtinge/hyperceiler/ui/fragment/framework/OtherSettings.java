@@ -38,9 +38,9 @@ import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 
 import java.util.concurrent.ExecutorService;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.DropDownPreference;
+import fan.preference.Preference;
+import fan.preference.SwitchPreference;
 
 public class OtherSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 

@@ -26,8 +26,8 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import moralnorm.appcompat.app.AppCompatActivity;
-import moralnorm.view.SearchActionMode;
+import fan.appcompat.app.AppCompatActivity;
+import fan.view.SearchActionMode;
 
 public class SearchModeHelper {
 
@@ -62,7 +62,7 @@ public class SearchModeHelper {
                 updateView(contentView, resultView);
             }
         });
-        if (searchActionMode == null) throw new NullPointerException("null cannot be cast to non-null type moralnorm.appcompat.internal.view.SearchActionMode");
+        if (searchActionMode == null) throw new NullPointerException("null cannot be cast to non-null type fan.appcompat.internal.view.SearchActionMode");
         return searchActionMode;
     }
 

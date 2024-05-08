@@ -15,7 +15,7 @@
             app:entries="@array/blur_switch"
             app:entryValues="@array/blur_switch_value" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:title="@string/personal_assistant_blurradius"
             android:key="prefs_key_personal_assistant_blurradius"
             android:defaultValue="80"
@@ -25,11 +25,10 @@
             app:format="%d %%"
             app:stepValue="1" />
 
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:title="@string/personal_assistant_color"
             android:key="prefs_key_personal_assistant_color"
-            android:defaultValue="-1"
-            app:showAlphaSlider="true" />
+            android:defaultValue="-1" />
 
     </PreferenceCategory>
 </PreferenceScreen>

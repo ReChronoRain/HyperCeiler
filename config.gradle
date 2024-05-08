@@ -14,17 +14,21 @@
 
 
 ext {
-    BuildTypes = "release"
+    BuildTypes = "debug"
 
     //公共的(系统的)
     roots = [
-            "animation" : "libs/animation-${BuildTypes}.aar",
+            /*"animation" : "libs/animation-${BuildTypes}.aar",*/
             "appcompat" : "libs/appcompat-${BuildTypes}.aar",
             "core" : "libs/core-${BuildTypes}.aar",
+            "folme" : "libs/folme-${BuildTypes}.aar",
+            "graphics" : "libs/graphics-${BuildTypes}.aar",
             "haptic" : "libs/haptic-${BuildTypes}.aar",
+            "navigator" : "libs/navigator-${BuildTypes}.aar",
+            "nestedheader" : "libs/nestedheader-${BuildTypes}.aar",
             "preference" : "libs/preference-${BuildTypes}.aar",
+            "recyclerview" : "libs/recyclerview-${BuildTypes}.aar",
             "smooth" : "libs/smooth-${BuildTypes}.aar",
-            "springback" : "libs/springback-${BuildTypes}.aar",
-            "external" : "libs/external-${BuildTypes}.aar"
+            "springback" : "libs/springback-${BuildTypes}.aar"
     ]
 }

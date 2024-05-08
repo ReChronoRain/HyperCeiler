@@ -141,10 +141,9 @@
 
     <PreferenceCategory>
 
-    <Preference
+    <TextPreference
         android:enabled="false"
         android:key="prefs_key_tip"
-        android:layout="@layout/preference_text"
         android:summary="© 2023-2024 Re.chronoRain &amp; Sevtinge &amp; HyperCeiler Contributions." />
 
     </PreferenceCategory>

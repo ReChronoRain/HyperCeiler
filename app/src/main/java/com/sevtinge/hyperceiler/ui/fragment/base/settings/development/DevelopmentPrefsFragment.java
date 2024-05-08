@@ -30,8 +30,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 
-import moralnorm.appcompat.app.AlertDialog;
-import moralnorm.preference.Preference;
+import fan.appcompat.app.AlertDialog;
+import fan.preference.Preference;
 
 public class DevelopmentPrefsFragment extends SettingsPreferenceFragment {
     Preference mType;

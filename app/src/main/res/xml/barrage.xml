@@ -10,7 +10,7 @@
             android:key="prefs_key_barrage_any_barrage"
             android:defaultValue="false" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_barrage_custom_barrage_length"
             android:title="@string/barrage_custom_barrage_length"
             android:defaultValue="36"

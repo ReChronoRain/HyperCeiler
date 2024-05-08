@@ -10,7 +10,7 @@
             android:summary="@string/home_navigation_quick_back_more"
             android:title="@string/home_navigation_quick_back" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="60"
             android:key="prefs_key_home_navigation_back_area_height"
             android:title="@string/home_navigation_back_area_height"
@@ -21,7 +21,7 @@
             app:showSeekBarValue="true"
             app:stepValue="5" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="100"
             android:key="prefs_key_home_navigation_back_area_width"
             android:title="@string/home_navigation_back_area_width"

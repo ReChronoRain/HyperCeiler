@@ -22,9 +22,9 @@ import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import moralnorm.animation.Folme;
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceViewHolder;
+import fan.animation.Folme;
+import fan.preference.Preference;
+import fan.preference.PreferenceViewHolder;
 
 public class RecommendPreference extends Preference {
 

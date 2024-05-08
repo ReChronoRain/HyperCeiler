@@ -8,7 +8,7 @@ import androidx.core.content.PermissionChecker;
 
 import com.sevtinge.hyperceiler.R;
 
-import moralnorm.preference.SwitchPreference;
+import fan.preference.SwitchPreference;
 
 public class PrivacySafetySettings extends SecurityCenterBaseSettings {
 

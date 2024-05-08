@@ -35,8 +35,8 @@
         app:showSeekBarValue="true"
         android:format="%d" />
 
-    <SeekBarPreferenceEx
-        android:title="SeekBarPreferenceEx"
+    <SeekBarPreferenceCompat
+        android:title="SeekBarPreferenceCompat"
         android:defaultValue="50"
         app:format="%s"
         app:defaultValueText="@string/array_default"
@@ -47,12 +47,11 @@
         android:title="SwitchPreference"
         android:defaultValue="false" />
 
-    <moralnorm.preference.RadioSetPreferenceCategory>
+    <RadioSetPreferenceCategory>
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:persistent="false"
-            android:title="RadioButtonPreference"
-            android:layout="@layout/preference_radiobutton_two_state" />
+            android:title="RadioButtonPreference" />
 
-    </moralnorm.preference.RadioSetPreferenceCategory>
+    </RadioSetPreferenceCategory>
 </PreferenceScreen>

@@ -46,10 +46,10 @@ import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
-import moralnorm.appcompat.app.AppCompatActivity;
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
-import moralnorm.preference.SwitchPreference;
+import fan.appcompat.app.AppCompatActivity;
+import fan.preference.DropDownPreference;
+import fan.preference.Preference;
+import fan.preference.SwitchPreference;
 
 public class ModuleSettingsFragment extends SettingsPreferenceFragment
         implements Preference.OnPreferenceChangeListener {
@@ -178,7 +178,7 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(moralnorm.preference.R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(fan.preference.R.id.recycler_view);
         ViewCompat.setOnApplyWindowInsetsListener(recyclerView, new OnApplyWindowInsetsListener() {
             @NonNull
             @Override

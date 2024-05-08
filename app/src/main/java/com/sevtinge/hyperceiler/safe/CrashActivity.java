@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import moralnorm.appcompat.app.AppCompatActivity;
+import fan.appcompat.app.AppCompatActivity;
 
 public class CrashActivity extends AppCompatActivity {
 
@@ -78,7 +78,7 @@ public class CrashActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         ShellInit.destroy();
         super.onDestroy();
     }

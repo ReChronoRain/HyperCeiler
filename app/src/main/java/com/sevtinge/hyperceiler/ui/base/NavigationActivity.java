@@ -56,11 +56,12 @@ import com.sevtinge.hyperceiler.utils.search.SearchModeHelper;
 
 import java.util.ArrayList;
 
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceFragmentCompat;
-import moralnorm.view.SearchActionMode;
+import fan.preference.Preference;
+import fan.preference.PreferenceFragment;
+import fan.preference.core.PreferenceFragmentCompat;
+import fan.view.SearchActionMode;
 
-public abstract class NavigationActivity extends BaseActivity implements PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+public abstract class NavigationActivity extends BaseActivity implements PreferenceFragment.OnPreferenceStartFragmentCallback {
 
     String lastFilter;
     View mSearchView;

@@ -43,7 +43,7 @@ import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import java.util.ArrayList;
 
-import moralnorm.appcompat.app.AlertDialog;
+import fan.appcompat.app.AlertDialog;
 
 public class MainActivity extends NavigationActivity implements IResult {
     private Handler handler;
@@ -100,7 +100,7 @@ public class MainActivity extends NavigationActivity implements IResult {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         ShellInit.destroy();
         ThreadPoolManager.shutdown();
         PreferenceHeader.mUninstallApp.clear();

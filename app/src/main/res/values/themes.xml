@@ -1,20 +1,29 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
 
-    <style name="AppTheme" parent="Base.Theme.HyperCeiler.DayNight" />
+    <style name="AppTheme" parent="Theme.HyperCeiler.DayNight" />
 
-    <style name="Base.Theme.HyperCeiler.DayNight" parent="Base.Theme.HyperCeiler">
+    <style name="Theme.HyperCeiler.DayNight" parent="Theme.HyperCeiler.Light" />
+
+    <style name="Theme.HyperCeiler.Light">
+        <item name="rebootIconColor">@color/black</item>
+    </style>
+
+    <style name="Theme.HyperCeiler.Dark">
+        <item name="rebootIconColor">@color/white</item>
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+
+    <style name="Theme.HyperCeiler" parent="Theme.AppCompat.DayNight">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="preferenceTheme">@style/ThemeOverlay.Preference.DayNight</item>
+        <item name="SeekBarPreferenceCompatStyle">@style/Preference.SeekBarPreferenceCompat</item>
     </style>
 
-    <style name="Base.Theme.HyperCeiler" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="rebootIconColor">@color/black</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.Light</item>
-        <item name="seekBarPreferenceExStyle">@style/Preference.SeekBarPreferenceEx</item>
-    </style>
 
-    <style name="Theme.HyperCeiler.Translucent" parent="Base.Theme.HyperCeiler">
-        <item name="android:windowBackground">@color/transparent</item>
+    <style name="Theme.HyperCeiler.Translucent">
+        <item name="android:windowBackground">@color/miuix_appcompat_transparent</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
@@ -28,8 +37,8 @@
         <item name="windowActionBarOverlay">false</item>
     </style>
 
-    <style name="Preference.SeekBarPreferenceEx" parent="@style/Preference" tools:ignore="PrivateResource">
-        <item name="android:layout">@layout/preference_widget_seekbar</item>
+    <style name="Preference.SeekBarPreferenceCompat" parent="@style/Preference">
+        <item name="android:layout">@layout/miuix_preference_widget_seekbar</item>
     </style>
 
 </resources>

@@ -30,8 +30,8 @@ import com.sevtinge.hyperceiler.ui.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.Preference;
-import moralnorm.preference.RadioButtonPreference;
+import fan.preference.Preference;
+import fan.preference.RadioButtonPreference;
 
 public class MultiActionSettings extends SettingsPreferenceFragment {
 

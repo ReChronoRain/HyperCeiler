@@ -54,7 +54,7 @@ import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import moralnorm.preference.Preference;
+import fan.preference.Preference;
 
 public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
 

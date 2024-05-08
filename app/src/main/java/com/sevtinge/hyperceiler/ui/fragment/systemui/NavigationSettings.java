@@ -26,8 +26,8 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.KillApp;
 
-import moralnorm.preference.PreferenceCategory;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.PreferenceCategory;
+import fan.preference.SwitchPreference;
 
 public class NavigationSettings extends SettingsPreferenceFragment {
     SwitchPreference customNav;

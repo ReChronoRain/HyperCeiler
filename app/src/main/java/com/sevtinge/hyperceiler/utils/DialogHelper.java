@@ -28,7 +28,7 @@ import com.sevtinge.hyperceiler.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.view.RestartAlertDialog;
 
-import moralnorm.appcompat.app.AlertDialog;
+import fan.appcompat.app.AlertDialog;
 
 public class DialogHelper {
 

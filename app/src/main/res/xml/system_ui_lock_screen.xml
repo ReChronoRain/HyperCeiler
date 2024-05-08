@@ -77,7 +77,7 @@
             android:title="@string/system_ui_lock_screen_show_spacing"
             android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:dependency="prefs_key_system_ui_lock_screen_show_spacing_value"
             android:key="prefs_key_system_ui_lock_screen_show_spacing"
             android:layout="@layout/preference_seekbar_no_padding"

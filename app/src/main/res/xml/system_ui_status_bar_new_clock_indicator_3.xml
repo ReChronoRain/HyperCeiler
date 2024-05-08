@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory>
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_statusbar_clock_size_3"
             android:title="@string/system_ui_statusbar_clock_size"
             android:defaultValue="12"
@@ -16,7 +16,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory>
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_left_margin_3"
             android:title="@string/left_margin"
@@ -26,7 +26,7 @@
             app:minValue="0"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_right_margin_3"
             android:title="@string/right_margin"
@@ -36,7 +36,7 @@
             app:minValue="0"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="12"
             android:key="prefs_key_system_ui_statusbar_clock_vertical_offset_3"
             android:title="@string/vertical_offset"

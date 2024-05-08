@@ -69,7 +69,7 @@
             android:summary="@string/gallery_enable_un_privacy_watermark_more"
             android:title="@string/gallery_enable_un_privacy_watermark" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="14"
             android:dependency="prefs_key_gallery_enable_un_privacy_watermark"
             android:key="prefs_key_gallery_enable_un_privacy_watermark_value"

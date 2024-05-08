@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.R;
 
 import java.util.List;
 
-import moralnorm.appcompat.widget.CheckedTextView;
+import fan.appcompat.widget.CheckedTextView;
 
 public class MutipleChoiceAdapter extends RecyclerView.Adapter<MutipleChoiceAdapter.ViewHolder> {
 

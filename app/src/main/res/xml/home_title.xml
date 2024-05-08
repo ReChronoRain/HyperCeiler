@@ -8,7 +8,7 @@
             android:key="prefs_key_home_large_icon_enable"
             android:title="@string/home_large_icon_corner_radius" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="32"
             android:dependency="prefs_key_home_large_icon_enable"
             android:key="prefs_key_home_large_icon_corner_radius"
@@ -66,12 +66,11 @@
             android:key="prefs_key_home_other_use_edit_color"
             android:title="@string/home_other_use_edit_color" />
 
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:defaultValue="-1"
             android:dependency="prefs_key_home_other_use_edit_color"
             android:key="prefs_key_home_other_your_color_qwq"
-            android:title="@string/home_other_your_color"
-            app:showAlphaSlider="false" />
+            android:title="@string/home_other_your_color" />
 
     </PreferenceCategory>
 
@@ -91,7 +90,7 @@
             android:key="prefs_key_home_title_custom_anim_param"
             android:title="@string/home_title_custom_anim_param" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="100"
             android:key="prefs_key_home_title_animation_speed"
             android:title="@string/home_title_animation_speed"
@@ -101,7 +100,7 @@
             app:minValue="10"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="45"
             android:key="pref_key_home_title_icon_scale"
             android:title="@string/home_title_icon_scale"
@@ -146,14 +145,13 @@
             android:summary="@string/home_title_title_marquee_desc"
             android:title="@string/home_title_title_marquee" />
 
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:defaultValue="-1"
             android:dependency="prefs_key_home_drawer_font_hidden"
             android:key="prefs_key_home_title_title_color"
-            android:title="@string/home_title_title_color"
-            app:showAlphaSlider="false" />
+            android:title="@string/home_title_title_color" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="12"
             android:dependency="prefs_key_home_drawer_font_hidden"
             android:key="prefs_key_home_title_font_size"

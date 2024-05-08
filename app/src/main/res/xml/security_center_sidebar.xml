@@ -20,26 +20,23 @@
             android:key="prefs_key_security_center_sidebar_line_color"
             android:title="@string/security_center_sidebar_line_color" />
 
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:defaultValue="-1294740525"
             android:dependency="prefs_key_security_center_sidebar_line_color"
             android:key="prefs_key_security_center_sidebar_line_color_default"
-            android:title="@string/security_center_sidebar_line_color_default"
-            app:showAlphaSlider="true" />
+            android:title="@string/security_center_sidebar_line_color_default" />
 
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:defaultValue="-6842473"
             android:dependency="prefs_key_security_center_sidebar_line_color"
             android:key="prefs_key_security_center_sidebar_line_color_dark"
-            android:title="@string/security_center_sidebar_line_color_dark"
-            app:showAlphaSlider="true" />
+            android:title="@string/security_center_sidebar_line_color_dark" />
 
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:defaultValue="-872415232"
             android:dependency="prefs_key_security_center_sidebar_line_color"
             android:key="prefs_key_security_center_sidebar_line_color_light"
-            android:title="@string/security_center_sidebar_line_color_light"
-            app:showAlphaSlider="true" />
+            android:title="@string/security_center_sidebar_line_color_light" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -60,7 +57,7 @@
             android:summary="@string/security_center_invert_color_summary"
             android:title="@string/security_center_invert_color" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="60"
             android:dependency="prefs_key_security_center_blur_model_super"
             android:key="prefs_key_security_center_blurradius"

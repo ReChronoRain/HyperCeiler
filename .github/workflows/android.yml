@@ -68,7 +68,7 @@ jobs:
           path: ${{ env.APK_FILE_CANARY }}
 
       - name: Post to Canary Channel
-        if: ${{ github.ref == 'refs/heads/main' && github.ref == 'refs/heads/MiuiX_V3_New' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
+        if: ${{ github.ref == 'refs/heads/MiuiX_V3_New' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
         shell: bash
         env:
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}

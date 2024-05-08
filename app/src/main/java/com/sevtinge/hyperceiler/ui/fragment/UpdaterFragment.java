@@ -27,9 +27,9 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.EditTextPreference;
-import moralnorm.preference.Preference;
+import fan.preference.DropDownPreference;
+import fan.preference.EditTextPreference;
+import fan.preference.Preference;
 
 public class UpdaterFragment extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {

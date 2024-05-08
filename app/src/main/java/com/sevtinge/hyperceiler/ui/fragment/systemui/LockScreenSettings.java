@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-import moralnorm.preference.SwitchPreference;
+import fan.preference.SwitchPreference;
 
 public class LockScreenSettings extends SettingsPreferenceFragment {
     SwitchPreference mShowSec; // 时钟显示秒数
