@@ -382,6 +382,7 @@
     <string name="system_framework_quick_screenshot">快速截圖</string>
     <string name="system_framework_quick_screenshot_desc">停用螢幕截圖延遲</string>
     <string name="system_framework_disable_link_turbo_toast">隱藏 正在使用行動網络加速 Toast</string>
+    <string name="system_framework_allow_third_theme">允許使用第三方主題</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">包管理服務</string>
     <string name="system_framework_core_patch_downgr">允許降級安裝應用程式</string>
@@ -728,6 +729,10 @@
     <string name="system_control_center_taplus_label">傳送門開關</string>
     <string name="system_control_center_sunshine_mode">陽光模式</string>
     <string name="system_ui_control_auto_close">磁貼自動收起</string>
+    <string name="system_ui_control_center_qs_bg_color">背景顏色</string>
+    <string name="system_ui_control_center_qs_color">圖示顏色</string>
+    <string name="system_ui_control_center_qs_open_color">啟用小磁貼顏色自訂</string>
+    <string name="system_ui_control_center_qs_big_open_color">啟用大磁貼顏色自訂</string>
     <string name="system_ui_control_auto_close_more">開啓後點擊磁貼會自動收起狀態欄</string>
     <string name="system_control_center_qs_tile_label">移除標題</string>
     <string name="system_control_center_qs_rows">行數</string>
@@ -796,6 +801,11 @@
     <string name="system_ui_controlcenter_enable_title">自訂行列數</string>
     <string name="system_control_center_old_qs_grid_columns">折疊面板中的列數</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折疊面板中的列數（橫向）</string>
+    <string name="system_ui_control_center_card_tiles_customization">自訂磁貼</string>
+    <string name="system_ui_control_center_card_tiles_customization_desc">按住並拖曳已新增的大磁貼以調整順序</string>
+    <string name="system_ui_control_center_card_tiles_customization_add">已新增</string>
+    <string name="system_ui_control_center_card_tiles_customization_not_add">未新增</string>
+    <string name="system_ui_control_center_card_tiles_customization_notice">目前系統版本僅支援「Wi-Fi」、「行動網路」、「藍牙」、「手電筒」、「VoWiFi SIM1」、「VoWiFi SIM2」大磁貼正常顯示。</string>
     <string name="system_ui_control_center_unlock_blur_supported">解除通知背景模糊限制</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">僅對第三方主題解除沒有高級材質時背景模糊的限制</string>
     <string name="system_ui_other_title">其他</string>
@@ -971,6 +981,7 @@
     <string name="gallery_backup_server">備份服務提供商</string>
     <string name="gallery_backup_server_xiaomi">小米雲服務</string>
     <string name="gallery_backup_server_google">Google</string>
+    <string name="gallery_backup_server_onedrive">Google &amp; OneDrive</string>
     <!--MIUI security components-->
     <string name="guard_provider">MIUI 安全性群組件</string>
     <string name="guard_provider_hyperos">系統安全組件</string>
@@ -1435,6 +1446,9 @@
     <string name="market_package_monitor_desc">禁止應用程式商店監控應用程式安裝和解除安裝</string>
     <!--Mi sound-->
     <string name="misound">耳機</string>
+    <string name="misound_bluetooth">耳機狀態自動切換原聲</string>
+    <string name="misound_bluetooth_uuid">音效 UUID 識別符</string>
+    <string name="misound_bluetooth_uuid_more">杜比等音效標識符，無效果時再填寫，自己想辦法取得</string>
     <string name="misound_increase_sampling_rate">提高音頻採樣率</string>
     <!--Mi Settings-->
     <string name="mi_settings">小米設定</string>
@@ -1619,4 +1633,17 @@
     <string name="safe_mode_recorder_st">堆疊追蹤</string>
     <string name="tip_default">提示：這是預設提示。如果你能看到我，則表示 HyperCeiler 有問題，請及時有效地向開發者報告。</string>
     <string name="preference_recommend_tip">在找什麼嗎？</string>
+    <string name="happy_birthday_hyperceiler">今天是 HyperCeiler 的生日！ \n感謝您過去一年來的支持，今年讓我們繼續共同努力！</string>
+    <string name="ic_qs_title_wifi">Wi-Fi</string>
+    <string name="ic_qs_title_cellular">行動網路</string>
+    <string name="ic_qs_title_bluetooth">藍牙</string>
+    <string name="ic_qs_title_gps">定位</string>
+    <string name="ic_qs_title_nfc">NFC</string>
+    <string name="ic_qs_title_hotspot">熱點</string>
+    <string name="ic_qs_title_flashlight">手電筒</string>
+    <string name="ic_qs_title_settings">設定</string>
+    <string name="ic_qs_title_airplane">飛航模式</string>
+    <string name="ic_qs_title_autobrightness">自動亮度</string>
+    <string name="ic_qs_title_vowifi1">VoWiFi SIM1</string>
+    <string name="ic_qs_title_vowifi2">VoWiFi SIM2</string>
 </resources>
