@@ -165,7 +165,7 @@ dependencies {
     compileOnly libs.xposed.api
 
     implementation libs.dexkit
-    implementation libs.tinyPinyin
+    // implementation libs.tinyPinyin
     implementation libs.ezxhelper
     implementation libs.accompanist.systemuicontroller
     implementation libs.hiddenapibypass
