@@ -69,7 +69,7 @@
         android:dependency="prefs_key_system_ui_statusbar_clock_all_status_enable"
         android:title="@string/system_ui_statusbar_clock_show">
         <EditTextPreference
-            android:defaultValue="HH:mm:ss"
+            android:defaultValue="HH:mm"
             android:key="prefs_key_system_ui_statusbar_clock_editor_s"
             android:title="@string/system_ui_statusbar_clock_editor_s" />
 
