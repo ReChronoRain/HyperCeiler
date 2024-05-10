@@ -390,7 +390,8 @@
 
     <string name="system_framework_screen_title">Display &amp; Notifications</string>
     <string name="system_framework_core_title">Core underneath</string>
-    <string name="system_framework_hook_entry">Unlock the smart charge off limit</string>
+    <string name="system_framework_hook_entry">Unlock navigation disconnection protection limit</string>
+    <string name="system_framework_hook_entry_desc">Navigation disconnection protection allows it to be used in non-navigation scenarios</string>
     <string name="system_framework_shortcut_title">Share shortcuts</string>
     <string name="system_framework_screen_all_rotations">Screen rotation</string>
     <string name="system_framework_allow_untrusted_touch">Allow untrusted touch</string>

@@ -118,7 +118,8 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_hook_entry"
-            android:title="@string/system_framework_hook_entry" />
+            android:title="@string/system_framework_hook_entry"
+            android:summary="@string/system_framework_hook_entry_desc"/>
 
         <SwitchPreference
             android:defaultValue="false"

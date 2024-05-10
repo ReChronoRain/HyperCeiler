@@ -395,7 +395,8 @@
 
     <string name="system_framework_screen_title">显示与通知</string>
     <string name="system_framework_core_title">底层</string>
-    <string name="system_framework_hook_entry">解锁智能断充限制</string>
+    <string name="system_framework_hook_entry">解锁导航断充保护限制</string>
+    <string name="system_framework_hook_entry_desc">导航断充保护允许非导航场景下使用</string>
     <string name="system_framework_shortcut_title">分享快捷方式</string>
     <string name="system_framework_screen_all_rotations">屏幕旋转</string>
     <string name="system_framework_allow_untrusted_touch">允许不受信任的触摸操作</string>
@@ -1448,7 +1449,7 @@
     <string name="security_center_unlock_side_hide_freeform">解锁贴边小窗</string>
     <string name="security_center_unlock_side_hide_freeform_desc">为底层支持但受限制的设备解锁贴边小窗，这将同时影响手机切后台时小窗的行为</string>
     <string name="security_center_unlock_smart_charge_title">补全充电与电池功能</string>
-    <string name="security_center_unlock_smart_charge_title_summary">已补全功能：\n- 电池保护-导航断充保护\n- 更多电池功能-低电急充</string>
+    <string name="security_center_unlock_smart_charge_title_summary">已补全功能：\n- 电池保护-导航断充保护\n- 更多电池功能-低电疾充</string>
     <string name="security_center_super_wireless_charge">解锁极速无线充电模式</string>
     <string name="security_center_blur_model">全局侧边栏背景自定义</string>
     <string name="security_center_blur_model_super">高级材质</string>
