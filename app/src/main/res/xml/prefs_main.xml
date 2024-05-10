@@ -254,6 +254,13 @@
             android:title="@string/screenshot" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SecurityAddFragment"
+            android:icon="@drawable/ic_securityadd"
+            android:key="prefs_key_securityadd"
+            android:summary="com.miui.securityadd"
+            android:title="@string/securityadd" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.SecurityCenterFragment"
             android:icon="@drawable/ic_security_center"
             android:key="prefs_key_security_center"

@@ -1383,6 +1383,9 @@
     <string name="screenshot_save_to_pictures_desc">规范截屏保存位置到 Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自定义带壳截屏机型</string>
     <string name="screenshot_device_customize_desc">填写请输入 设备代号，有颜色的设备填写应加上后缀，例如：\n- 小米13，填写的内容是 fuxi\n- 小米14 粉色版，填写的内容是 houji_PK</string>
+    <!--系统服务组件-->
+    <string name="securityadd">系统服务组件</string>
+    <string name="securityadd_disable_gb_ads">禁用游戏中心广告</string>
     <!--手机管家/平板管家-->
     <string name="security_center">手机管家</string>
     <string name="security_center_pad">平板管家</string>
