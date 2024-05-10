@@ -879,7 +879,6 @@
     <string name="system_ui_control_center_card_tiles_customization_desc">长按并拖拽已添加的卡片可调整顺序</string>
     <string name="system_ui_control_center_card_tiles_customization_add">已添加</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">未添加</string>
-    <string name="system_ui_control_center_card_tiles_customization_notice">当前系统版本仅支持 \"WLAN\"、\"数据网络\"、\"蓝牙\"、\"手电筒\"、\"WLAN通话SIM1\"、\"WLAN通话SIM2\" 磁贴正常显示。</string>
 
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_disable_volume">原生音量条</string>
@@ -1703,7 +1702,7 @@
     <string name="operator_fix_2">方法二（推荐）</string>
 
     <string name="ic_qs_title_wifi">WLAN</string>
-    <string name="ic_qs_title_cellular">数据网络</string>
+    <string name="ic_qs_title_cellular">移动数据</string>
     <string name="ic_qs_title_bluetooth">蓝牙</string>
     <string name="ic_qs_title_gps">位置信息</string>
     <string name="ic_qs_title_nfc">NFC</string>

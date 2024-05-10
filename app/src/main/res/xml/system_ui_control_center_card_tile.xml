@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference
-        android:layout="@layout/headtip_notice"
-        android:key="prefs_key_headtip_notice"
-        android:enabled="false"
-        android:title="@string/system_ui_control_center_card_tiles_customization_notice
-" />
-
     <SwitchPreference
         android:title="@string/enable"
         android:key="prefs_key_systemui_plugin_card_tiles_enabled" />

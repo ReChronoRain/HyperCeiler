@@ -805,7 +805,6 @@
     <string name="system_ui_control_center_card_tiles_customization_desc">Pressione e segure e arraste os cartões que você adicionou para ajustar a ordem</string>
     <string name="system_ui_control_center_card_tiles_customization_add">Adicionado</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">Não adicionado</string>
-    <string name="system_ui_control_center_card_tiles_customization_notice">A versão atual do sistema suporta apenas os blocos \"Wi-Fi\", \"Rede móvel\", \"Bluetooth\", \"Lanterna\", \"VoWiFi SIM 1\" e \"VoWiFi SIM 2\" exibidos normalmente.</string>
     <string name="system_ui_control_center_unlock_blur_supported">Remover restrição do blur de notificação</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">Não há restrição ao blur de fundo para materiais premium oficiais, apenas para remoção de temas de terceiros.</string>
     <string name="system_ui_other_title">Outros</string>

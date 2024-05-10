@@ -858,7 +858,6 @@
     <string name="system_ui_control_center_card_tiles_customization_desc">Press and hold and drag the cards you\'ve added to adjust the order</string>
     <string name="system_ui_control_center_card_tiles_customization_add">Added</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">Not added</string>
-    <string name="system_ui_control_center_card_tiles_customization_notice">The current system version only support \"WLAN\", \"Cellular\", \"Bluetooth\", \"Flashlight\", \"VoWiFi SIM1\", \"VoWiFi SIM2\" tiles display normally.</string>
     <string name="system_ui_control_center_unlock_blur_supported">Remove the notification blur restriction</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">There is no restriction on background blur for official premium materials only for third-party theme removal</string>
 

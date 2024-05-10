@@ -805,7 +805,6 @@
     <string name="system_ui_control_center_card_tiles_customization_desc">按住並拖曳已新增的大磁貼以調整順序</string>
     <string name="system_ui_control_center_card_tiles_customization_add">已新增</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">未新增</string>
-    <string name="system_ui_control_center_card_tiles_customization_notice">目前系統版本僅支援「Wi-Fi」、「行動網路」、「藍牙」、「手電筒」、「VoWiFi SIM1」、「VoWiFi SIM2」大磁貼正常顯示。</string>
     <string name="system_ui_control_center_unlock_blur_supported">解除通知背景模糊限制</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">僅對第三方主題解除沒有高級材質時背景模糊的限制</string>
     <string name="system_ui_other_title">其他</string>
