@@ -9,6 +9,14 @@ import java.util.*
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    id("org.lsposed.lsparanoid") version "0.6.0"
+}
+
+lsparanoid {
+    seed = 227263
+    classFilter = { true }
+    includeDependencies = true
+    variantFilter = { true }
 }
 
 val apkId = "HyperCeiler"
@@ -124,13 +132,21 @@ android {
     val gitHash = getGitHash()
 
     signingConfigs {
-        create("hyperceiler") {
+        create("hasProperties") {
             if (properties != null) {
                 storeFile = file(getString("storeFile", "STORE_FILE", "Store file"))
                 storePassword = getString("storePassword", "STORE_PASSWORD", "Store password")
                 keyAlias = getString("keyAlias", "KEY_ALIAS", "Key alias")
                 keyPassword = getString("keyPassword", "KEY_PASSWORD", "Key password")
             }
+            enableV1Signing = true
+            enableV2Signing = true
+            enableV3Signing = true
+            enableV4Signing = true
+        }
+        create("withoutProperties") {
+            enableV1Signing = true
+            enableV2Signing = true
             enableV3Signing = true
             enableV4Signing = true
         }
@@ -145,7 +161,9 @@ android {
             buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
             if (properties != null) {
-                signingConfig = signingConfigs["hyperceiler"]
+                signingConfig = signingConfigs["hasProperties"]
+            } else {
+                signingConfig = signingConfigs["withoutProperties"]
             }
         }
         create("beta") {
@@ -156,7 +174,9 @@ android {
             buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
             if (properties != null) {
-                signingConfig = signingConfigs["hyperceiler"]
+                signingConfig = signingConfigs["hasProperties"]
+            } else {
+                signingConfig = signingConfigs["withoutProperties"]
             }
         }
         create("canary") {
@@ -167,7 +187,9 @@ android {
             buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
             if (properties != null) {
-                signingConfig = signingConfigs["hyperceiler"]
+                signingConfig = signingConfigs["hasProperties"]
+            } else {
+                signingConfig = signingConfigs["withoutProperties"]
             }
         }
         debug {
@@ -175,7 +197,7 @@ android {
             buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
             if (properties != null) {
-                signingConfig = signingConfigs["hyperceiler"]
+                signingConfig = signingConfigs["hasProperties"]
             }
         }
     }

@@ -164,6 +164,13 @@
                 android:data="https://github.com/JetBrains/kotlin" />
         </Preference>
         <Preference
+            android:summary="LSPosed | Apache-2.0"
+            android:title="LSParanoid">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/LSPosed/LSParanoid" />
+        </Preference>
+        <Preference
             android:summary="YifePlayte | GPL-3.0"
             android:title="MaxFreeForm">
             <intent

@@ -4,6 +4,9 @@ pluginManagement {
         google()
         mavenCentral()
     }
+    plugins {
+        id("org.lsposed.lsparanoid") version "0.6.0"
+    }
 }
 
 dependencyResolutionManagement {
@@ -15,6 +18,7 @@ dependencyResolutionManagement {
             url = uri("https://api.xposed.info")
         }
         maven("https://jitpack.io")
+
     }
 }
 
