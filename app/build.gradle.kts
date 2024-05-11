@@ -68,8 +68,8 @@ android {
         applicationId = "com.sevtinge.hyperceiler"
         minSdk = 33
         targetSdk = 34
-        versionCode = 144
-        versionName = "2.4.144"
+        versionCode = 145
+        versionName = "2.4.145"
 
         val buildTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
         buildConfigField("String", "BUILD_TIME", "\"$buildTime\"")
