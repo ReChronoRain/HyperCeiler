@@ -12,7 +12,7 @@
             android:title="@string/personal_assistant_blur_model"
             android:key="prefs_key_personal_assistant_value"
             android:defaultValue="0"
-            app:entries="@array/blur_switch"
+            app:entries="@array/blur_switch_per"
             app:entryValues="@array/blur_switch_value" />
 
         <SeekBarPreferenceEx
