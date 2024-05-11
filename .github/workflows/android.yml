@@ -39,7 +39,7 @@ jobs:
           echo storePassword=${{ secrets.KEY_STORE_PASSWORD }} >> signing.properties
           echo keyAlias=${{ secrets.ALIAS }} >> signing.properties
           echo keyPassword='${{ secrets.KEY_STORE_PASSWORD }}' >> signing.properties
-          echo storeFile=key.jks >> signing.properties
+          echo storeFile=../key.jks >> signing.properties
           echo ${{ secrets.SIGNING_KEY }} | base64 --decode > key.jks
 
       - name: Build with Gradle

@@ -1,5 +1,6 @@
 [versions]
 agp = "8.4.0"
+annotation = "1.7.1"
 kotlinAndroid = "1.9.24"
 
 core = "1.13.1"
@@ -18,17 +19,16 @@ xposed-api = "82"
 
 gson = "2.10.1"
 dexkit = "2.0.1"
-tinyPinyin = "2.0.3.RELEASE"
 ezxhelper = "2.1.2"
 accompanist = "0.34.0"
 hiddenapibypass = "4.3"
 commons-codec = "1.17.0"
 
 [libraries]
+annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
 core = { group = "androidx.core", name = "core", version.ref = "core" }
 collection = { group = "androidx.collection", name = "collection", version.ref = "collection" }
 fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
-kxml2 = { module = "com.github.kobjects:kxml2", version.ref = "kxml2" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 lifecycle-common = { group = "androidx.lifecycle", name = "lifecycle-common", version.ref = "lifecycle-common" }
 
@@ -42,7 +42,6 @@ xposed-api = { group = "de.robv.android.xposed", name = "api", version.ref = "xp
 
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 dexkit = { group = "org.luckypray", name = "dexkit", version.ref = "dexkit" }
-tinyPinyin = { group = "io.github.biezhi", name = "TinyPinyin", version.ref = "tinyPinyin" }
 ezxhelper = { group = "com.github.kyuubiran", name = "EzXHelper", version.ref = "ezxhelper" }
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 hiddenapibypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "hiddenapibypass" }

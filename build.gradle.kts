@@ -4,8 +4,8 @@ plugins {
     alias(libs.plugins.kotlinAndroid) apply false
 }
 
-tasks.register('clean', Delete) {
-    delete rootProject.layout.buildDirectory
+tasks.register<Delete>("clean") {
+    delete(rootProject.layout.buildDirectory)
 }
 
-apply from: "config.gradle"
+apply(from = "config.gradle.kts")
