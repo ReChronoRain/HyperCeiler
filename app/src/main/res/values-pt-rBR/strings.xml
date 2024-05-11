@@ -276,6 +276,7 @@
     <string name="control_center_5g_v2">Estilo dois</string>
     <string name="no_blur">Sem blur</string>
     <string name="miui_blur">Blur HyperOS</string>
+    <string name="miui_android_blur">Blur AOSP (autoimplementado pelo app)</string>
     <string name="android_blur">Blur AOSP</string>
     <string name="system_ui_statusbar_network_speed_style_1">Valores e unidades são exibidos em uma única linha</string>
     <string name="system_ui_statusbar_network_speed_style_2">Valores e unidades são exibidos em duas linhas</string>
@@ -339,6 +340,7 @@
     <string name="system_framework_screen_title">Tela e notificações</string>
     <string name="system_framework_core_title">Núcleo por baixo</string>
     <string name="system_framework_hook_entry">Desbloquear limite de carga inteligente</string>
+    <string name="system_framework_hook_entry_desc">A proteção de desconexão de navegação permite que seja usada em cenários que não sejam de navegação</string>
     <string name="system_framework_shortcut_title">Compartilhar atalhos</string>
     <string name="system_framework_screen_all_rotations">Rotação da tela</string>
     <string name="system_framework_allow_untrusted_touch">Permitir toque não confiável</string>
@@ -865,6 +867,7 @@
     <string name="system_usb_reverse_charge">Carregamento reverso</string>
     <string name="system_usb_tethering">Ancoragem USB</string>
     <string name="system_settings_connection_sharing_title">Conectividade</string>
+    <string name="system_settings_lang_menu_shouw_all_app">Mostrar todos os apps no menu de gerenciamento de idiomas</string>
     <string name="system_settings_new_nfc_page">Nova página NFC</string>
     <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Mi Wallet</string>
     <string name="system_settings_lab_title">Funções em destaque</string>
@@ -956,7 +959,7 @@
     <!--Backup-->
     <string name="backup">Backup</string>
     <string name="backup_allow_all_apps">Permitir backup de todos os apps</string>
-    <string name="backup_unlock_broken_screen_backup">Desbloquear backups com tela danificada</string>
+    <string name="backup_unlock_broken_screen_backup">Desbloquear Backups com a tela danificada</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Remover restrições sobre o uso de telefones móveis</string>
@@ -978,7 +981,7 @@
     <string name="gallery_enable_magic_matting">Desbloquear Corte</string>
     <string name="gallery_enable_magic_sky">Desbloquear Céu</string>
     <string name="gallery_backup_server">Servidor de backup</string>
-    <string name="gallery_backup_server_xiaomi">Xiaomi Cloud</string>
+    <string name="gallery_backup_server_xiaomi">MiCloud</string>
     <string name="gallery_backup_server_google">Google</string>
     <string name="gallery_backup_server_onedrive">Google e OneDrive</string>
     <!--MIUI security components-->
@@ -1189,7 +1192,7 @@
     <string name="home_other_allow_share_apk">Permitir compartilhar app</string>
     <string name="home_other_user_present_animation">Otimizar animação de desbloqueio</string>
     <string name="home_other_always_blur_launcher_wallpaper">Desfocar plano de fundo na launcher</string>
-    <string name="home_other_perfect_icon">Forçar ativação de ícones perfeitos</string>
+    <string name="home_other_perfect_icon">Forçar animações globais de ícone</string>
     <string name="home_other_icon_mono_chrome">Cor de fundo do ícone</string>
     <string name="home_other_icon_monet_color">Usar cor do monet</string>
     <string name="home_other_use_edit_color">Editar cor</string>
@@ -1211,7 +1214,7 @@
     <string name="system_framework_guided_access_will_unlock">O app será desbloqueado</string>
     <string name="system_framework_guided_access_r">Restaurar</string>
     <string name="system_framework_guided_access_e">Por favor, desbloqueie-o na interface bloqueada do app.</string>
-    <string name="system_framework_guided_access_more">Acesso guiado semelhante ao iOS que fixa o app atual na tela.\nPara usar, pressione e segure a barra de status superior e, se quiser sair, pressione e segure a barra de status superior novamente.\nNa primeira vez que você usá-lo, você precisa para reiniciar o dispositivo.</string>
+    <string name="system_framework_guided_access_more">Acesso guiado semelhante ao iOS que fixa o app atual na tela.\nPara usar, pressione e segure a barra de status superior e, se quiser sair, pressione e segure a barra de status superior novamente.\nNa primeira vez que você usá-lo, você precisa reiniciar o dispositivo.</string>
     <string name="home_other_shortcut_remove_restrictions">Remover restrições de atalhos</string>
     <string name="home_other_shortcut_background_blur_custom">Valor do blur do menu de atalho</string>
     <string name="home_other_high_models">Reconhecimento obrigatório como modelo high-end</string>
@@ -1242,10 +1245,10 @@
     <string name="mishare_disable_mishare_auto_off">Desativar fechamento automático do Compartilhamento Mi</string>
     <string name="mishare_unlock_turbo_mode">Desbloquear Transferência turbo</string>
     <!--Wallpaper-->
-    <string name="miwallpaper">Papéis de Parede Mi</string>
+    <string name="miwallpaper">Plano de fundo Mi</string>
     <string name="miwallpaper_unlock_super_wallpaper">Desbloquear Super plano de fundo</string>
     <!--Package installer-->
-    <string name="package_installer">Instalador de Pacotes</string>
+    <string name="package_installer">Instalador de pacotes</string>
     <string name="miui_package_installer_modify">Purificar a página</string>
     <string name="miui_package_installer_disable_ad">Desativar promoção</string>
     <string name="miui_package_installer_install_risk">Desativar detecção de risco</string>
@@ -1296,6 +1299,9 @@
     <string name="screenshot_save_to_pictures_desc">Captura de tela canônica salva em /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Modelo de captura de tela personalizado</string>
     <string name="screenshot_device_customize_desc">Por favor, insira o código do dispositivo, e o dispositivo colorido deve ser preenchido com um sufixo. Por exemplo:\n- Xiaomi 13, preencha o conteúdo com fuxi\n- Xiaomi 14 versão rosa, preencha o conteúdo com houji_PK</string>
+    <!--System Service Plugin-->
+    <string name="securityadd">Plugin de serviço de sistema</string>
+    <string name="securityadd_disable_gb_ads">Desativar anúncios do Game Center</string>
     <!--Security/Tablet security center-->
     <string name="security_center">Segurança</string>
     <string name="security_center_pad">Segurança</string>
@@ -1510,7 +1516,7 @@
     <string name="various_open_aosp_default_apps_title">Apps padrão</string>
     <string name="various_mipad_input_title">Entrada</string>
     <string name="various_mipad_input_close_magic_title">Sem ponteiro mágico</string>
-    <string name="various_mipad_input_close_magic_desc">Transforme o ponteiro redondo do sistema Xiaomi Pad em ponteiro AOSP.</string>
+    <string name="various_mipad_input_close_magic_desc">Remove o ponteiro circular do mouse e reverte para o ponteiro do mouse nativo do Android</string>
     <string name="various_mipad_input_restore_esc_title">Restaurar função ESC</string>
     <string name="various_mipad_input_restore_esc_desc">Restaure a função ESC que foi mapeada para a função \"voltar\" pelo sistema Xiaomi Pad.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Remover restrição da caneta Bluetooth</string>

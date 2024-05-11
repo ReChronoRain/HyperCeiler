@@ -124,7 +124,7 @@
     <string name="actionbar_button_up_description">Quay Lại</string>
     <string name="miuix_appcompat_action_mode_select_all">Chọn tất cả</string>
     <string name="miuix_appcompat_cancel_description">Hủy bỏ</string>
-    <string name="miuix_appcompat_confirm_description">Ok</string>
+    <string name="miuix_appcompat_confirm_description">OK</string>
     <string name="miuix_appcompat_select_all_description">Chọn tất cả</string>
     <string name="miuix_appcompat_deselect_all_description">Bỏ chọn tất cả</string>
     <string name="miuix_appcompat_delete_description">Xóa</string>
@@ -276,6 +276,7 @@
     <string name="control_center_5g_v2">5G kiểu 2</string>
     <string name="no_blur">Không làm mờ</string>
     <string name="miui_blur">Làm mờ của HyperOS</string>
+    <string name="miui_android_blur">Mờ AOSP (tự thực hiện bằng ứng dụng)</string>
     <string name="android_blur">Làm mờ của AOSP</string>
     <string name="system_ui_statusbar_network_speed_style_1">Giá trị và đơn vị hiển thị trên một dòng</string>
     <string name="system_ui_statusbar_network_speed_style_2">Giá trị và đơn vị hiển thị theo hàng đôi</string>
@@ -339,7 +340,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="phone_additional_network_settings">Cài đặt mạng bổ sung</string>
     <string name="system_framework_screen_title">Hiển thị &amp; thông báo</string>
     <string name="system_framework_core_title">Lõi bên dưới</string>
-    <string name="system_framework_hook_entry">Mở khóa giới hạn sạc thông minh</string>
+    <string name="system_framework_hook_entry">Mở khóa giới hạn về sạc thông minh</string>
+    <string name="system_framework_hook_entry_desc">Tính năng bảo vệ ngắt kết nối điều hướng cho phép nó được sử dụng trong các tình huống không điều hướng</string>
     <string name="system_framework_shortcut_title">Chia sẻ lối tắt</string>
     <string name="system_framework_screen_all_rotations">Xoay màn hình</string>
     <string name="system_framework_allow_untrusted_touch">Cho phép chạm không tin cậy</string>
@@ -867,6 +869,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_usb_reverse_charge">Sạc ngược</string>
     <string name="system_usb_tethering">Chia sẻ kết nối qua USB</string>
     <string name="system_settings_connection_sharing_title">Kết nối &amp; Chia sẻ</string>
+    <string name="system_settings_lang_menu_shouw_all_app">Hiển thị tất cả ứng dụng trong Thực đơn quản lý ngôn ngữ</string>
     <string name="system_settings_new_nfc_page">Trang NFC mới</string>
     <string name="system_settings_new_nfc_page_desc">Sau khi mở, ứng dụng thanh toán mặc định không được hỗ trợ không thể chọn Ví Xiaomi</string>
     <string name="system_settings_lab_title">Tính năng đặc biệt</string>
@@ -1302,6 +1305,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="screenshot_save_to_pictures_desc">Vị trí lưu ảnh chụp màn hình /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Tuỳ chỉnh khung thiết bị</string>
     <string name="screenshot_device_customize_desc">Vui lòng nhập mã</string>
+    <!--System Service Plugin-->
+    <string name="securityadd">Trình cắm dịch vụ hệ thống</string>
+    <string name="securityadd_disable_gb_ads">Tắt quảng cáo trong trung tâm trò chơi</string>
     <!--Security/Tablet security center-->
     <string name="security_center">Bảo mật</string>
     <string name="security_center_pad">Trung tâm bảo mật dạng máy tính bảng</string>
