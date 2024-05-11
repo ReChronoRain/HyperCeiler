@@ -3,6 +3,7 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.battery
 import android.os.Bundle
 import android.os.Message
 import com.github.kyuubiran.ezxhelper.*
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.*
@@ -39,10 +40,8 @@ object BatteryHealth : BaseHook() {
 
 
     override fun init() {
-        getSecurityBatteryHealth.createHook {
-            after { params ->
-                health = params.args[0] as Int // 获取手机管家内部的健康度
-            }
+        getSecurityBatteryHealth.createAfterHook { param ->
+            health = param.args[0] as Int // 获取手机管家内部的健康度
         }
 
         findAndHookMethod(
