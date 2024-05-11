@@ -919,6 +919,7 @@
     <string name="system_usb_reverse_charge">Reverse Charge</string>
     <string name="system_usb_tethering">USB Tethering</string>
     <string name="system_settings_connection_sharing_title">Network Connection &amp; sharing</string>
+    <string name="system_settings_lang_menu_shouw_all_app">Show All Apps in Language Manage Menu</string>
     <string name="system_settings_new_nfc_page">New NFC Page</string>
     <string name="system_settings_new_nfc_page_desc">After opening, the default payment application for unsupported models cannot select Xiaomi Wallet</string>
 

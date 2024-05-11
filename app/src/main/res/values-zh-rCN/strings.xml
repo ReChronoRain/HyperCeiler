@@ -939,6 +939,7 @@
     <string name="system_settings_wifipassword_btn_title">查看</string>
     <string name="system_settings_wifi_password_label">密码</string>
     <string name="system_settings_wifi_password_dlgtitle">WiFi 详情</string>
+    <string name="system_settings_lang_menu_shouw_all_app">允许管理所有应用的语言</string>
     <string name="system_settings_new_nfc_page">新版 NFC 页面</string>
     <string name="system_settings_new_nfc_page_desc">此功能会导致不支持的机型默认付款应用无法选中小米钱包</string>
 

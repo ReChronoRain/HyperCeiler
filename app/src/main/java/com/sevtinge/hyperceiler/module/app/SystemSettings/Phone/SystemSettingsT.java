@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.EnablePadArea;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.EnableSpeedMode;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.HyperCeilerSettings;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.InternationalBuild;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.LanguageMenuShowAllApps;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.LinkTurbo;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.ModifySystemVersion;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.MoreNotificationSettings;
@@ -87,6 +88,7 @@ public class SystemSettingsT extends BaseModule {
         initHook(NoveltyHaptic.INSTANCE, mPrefsMap.getBoolean("system_settings_novelty_haptic"));
         initHook(new MoreNotificationSettings(), mPrefsMap.getBoolean("system_settings_more_notification_settings"));
         initHook(new AllowManageAllNotifications(), mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"));
+        initHook(new LanguageMenuShowAllApps(), mPrefsMap.getBoolean("system_settings_lang_menu_shouw_all_app"));
 
         initHook(new EnablePadArea(), mPrefsMap.getBoolean("system_settings_enable_pad_area"));
         initHook(new EnableFoldArea(), mPrefsMap.getBoolean("system_settings_enable_fold_area"));
