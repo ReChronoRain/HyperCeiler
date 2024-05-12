@@ -99,7 +99,7 @@ public class CardTileEditPreference extends Preference {
     }
 
     private List<String> getTileList() {
-        String str = PrefsUtils.mSharedPreferences.getString("prefs_key_systemui_plugin_card_tiles", "");
+        String str = PrefsUtils.mSharedPreferences.getString("prefs_key_systemui_plugin_card_tiles", "").replace("List_", "");
         return TextUtils.isEmpty(str) ? new ArrayList<>() : Arrays.asList(str.split("\\|"));
     }
 
@@ -107,7 +107,7 @@ public class CardTileEditPreference extends Preference {
         String[] cardTileList = getContext().getResources().getStringArray(R.array.card_tile_list);
         mCardList = Arrays.asList(cardTileList);
         List<String> tiles = getTileList();
-        if (!tiles.isEmpty()) {
+        if (!PrefsUtils.mSharedPreferences.getString("prefs_key_systemui_plugin_card_tiles", "").isEmpty()) {
             mCardData.clear();
             mCardData.addAll(tiles);
         } else {
@@ -137,7 +137,7 @@ public class CardTileEditPreference extends Preference {
         for (String tile : mCardData) {
             builder.append(tile).append("|");
         }
-        String mCardStyleTiles = builder.toString();
+        String mCardStyleTiles = "List_" + builder;
         PrefsUtils.putString("prefs_key_systemui_plugin_card_tiles", mCardStyleTiles);
     }
 
