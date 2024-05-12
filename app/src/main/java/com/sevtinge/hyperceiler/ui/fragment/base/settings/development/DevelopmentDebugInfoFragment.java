@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.base.settings.development;
 
+import com.sevtinge.hyperceiler.expansionpacks.utils.SignUtils;
+
 import static com.sevtinge.hyperceiler.utils.Helpers.isModuleActive;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getBoard;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getBrand;
@@ -126,8 +128,8 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
         } catch (Exception ignored) {
         }
         try {
-            propertiesCheck.put("Signature", mainActivityContextHelper.getSHA256Signature());
-            propertiesCheck.put("SignCheckPass", String.valueOf(mainActivityContextHelper.isSignCheckPass()));
+            propertiesCheck.put("Signature", SignUtils.getSHA256Signature(requireContext()));
+            propertiesCheck.put("SignCheckPass", String.valueOf(SignUtils.isSignCheckPass(requireContext())));
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActive));
             propertiesCheck.put("RootPermission", String.valueOf(ShellInit.ready()));
         } catch (Exception ignored) {

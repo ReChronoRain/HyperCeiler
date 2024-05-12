@@ -49,6 +49,7 @@ import com.sevtinge.hyperceiler.ui.fragment.helper.HomepageEntrance;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.expansionpacks.utils.SignUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -186,24 +187,24 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     public boolean getIsOfficialRom() {
         return (
                 !getBaseOs().startsWith("V") &&
-                !getBaseOs().startsWith("Xiaomi") &&
-                !getBaseOs().startsWith("Redmi") &&
-                !getBaseOs().startsWith("POCO") &&
-                !getBaseOs().isEmpty()
+                        !getBaseOs().startsWith("Xiaomi") &&
+                        !getBaseOs().startsWith("Redmi") &&
+                        !getBaseOs().startsWith("POCO") &&
+                        !getBaseOs().isEmpty()
         ) ||
                 !getRomAuthor().isEmpty() ||
                 Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") ||
                 (
                         !SystemSDKKt.getHost().startsWith("pangu-build-component-system") &&
-                        !SystemSDKKt.getHost().startsWith("non-pangu-pod") &&
-                        !Objects.equals(SystemSDKKt.getHost(), "xiaomi.com")
+                                !SystemSDKKt.getHost().startsWith("non-pangu-pod") &&
+                                !Objects.equals(SystemSDKKt.getHost(), "xiaomi.com")
                 );
     }
 
 
     public void isSignPass() {
         mHeadtipWarn.setTitle(R.string.headtip_warn_sign_verification_failed);
-        mHeadtipWarn.setVisible(!mainActivityContextHelper.isSignCheckPass());
+        mHeadtipWarn.setVisible(!SignUtils.isSignCheckPass(requireContext()));
     }
 
     @Override
