@@ -4,10 +4,10 @@ plugins {
 }
 
 android {
-    compileSdk = 34
     namespace = "com.android.internal"
+    compileSdk = 34
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
         }
@@ -19,7 +19,7 @@ android {
             isMinifyEnabled = false
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
         }
-        getByName("debug") {
+        debug {
             isMinifyEnabled = false
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
         }

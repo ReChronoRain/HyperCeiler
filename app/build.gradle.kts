@@ -9,7 +9,8 @@ import java.util.*
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
-    id("org.lsposed.lsparanoid") version "0.6.0"
+    id("org.lsposed.lsparanoid")
+    // id("org.lsposed.lsplugin.resopt")
 }
 
 lsparanoid {
@@ -83,15 +84,10 @@ android {
 
         val buildTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
         buildConfigField("String", "BUILD_TIME", "\"$buildTime\"")
-    }
 
-    splits {
-        abi {
-            isEnable = true
-            reset()
+        ndk {
             //noinspection ChromeOsAbiSupport
-            include("arm64-v8a")
-            isUniversalApk = false
+            abiFilters += "arm64-v8a"
         }
     }
 
