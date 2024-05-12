@@ -1,12 +1,13 @@
 [versions]
 agp = "8.4.0"
-annotation = "1.7.1"
 kotlinAndroid = "1.9.24"
+lsparanoid = "0.6.0"
+#lspluginResopt = "1.6"
 
+annotation = "1.7.1"
 core = "1.13.1"
 collection = "1.4.0"
 fragment = "1.8.0-alpha02"
-kxml2 = "v2.4.1"
 recyclerview = "1.3.2"
 lifecycle-common = "2.7.0"
 vectordrawable = "1.2.0"
@@ -51,6 +52,8 @@ commons-codec = { group = "commons-codec", name = "commons-codec", version.ref =
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroid"}
+lsparanoid = { id = "org.lsposed.lsparanoid", version.ref = "lsparanoid" }
+#lspluginResopt = { id = "org.lsposed.lsplugin.resopt", version.ref = "lspluginResopt" }
 
 [bundles]
 

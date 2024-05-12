@@ -9,8 +9,8 @@ import java.util.*
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
-    id("org.lsposed.lsparanoid")
-    // id("org.lsposed.lsplugin.resopt")
+    alias(libs.plugins.lsparanoid)
+    // alias(libs.plugins.lspluginResopt)
 }
 
 lsparanoid {
