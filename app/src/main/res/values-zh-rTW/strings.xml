@@ -276,6 +276,7 @@
     <string name="control_center_5g_v2">樣式二</string>
     <string name="no_blur">無模糊</string>
     <string name="miui_blur">系統模糊 (僅適用 HyperOS)</string>
+    <string name="miui_android_blur">原生模糊（由應用程式本身實現）</string>
     <string name="android_blur">ASOP 模糊</string>
     <string name="system_ui_statusbar_network_speed_style_1">值和單位單行顯示</string>
     <string name="system_ui_statusbar_network_speed_style_2">值和單位雙排顯示</string>
@@ -339,14 +340,15 @@
     <string name="system_framework_screen_title">顯示和通知</string>
     <string name="system_framework_core_title">底層</string>
     <string name="system_framework_hook_entry">解鎖智慧充電斷電限制</string>
+    <string name="system_framework_hook_entry_desc">導航過充保護可用於非導航場景</string>
     <string name="system_framework_shortcut_title">共享快捷方式</string>
     <string name="system_framework_screen_all_rotations">螢幕旋轉</string>
     <string name="system_framework_allow_untrusted_touch">允許不受信任的觸摸操作</string>
     <string name="system_framework_allow_uninstall">允許卸載部分預裝 APP</string>
     <string name="system_framework_allow_uninstall_desc">該功能具有一定危險性</string>
-    <string name="system_framework_clipboard_whitelist">允許應用程式後台讀取剪切板</string>
+    <string name="system_framework_clipboard_whitelist">允許應用程式後台讀取剪貼簿</string>
     <string name="system_framework_clipboard_whitelist_desc">允許應用程式取得 READ_LOGS 權限</string>
-    <string name="system_framework_clipboard_whitelist_list">後台讀取剪切板白名單</string>
+    <string name="system_framework_clipboard_whitelist_list">後台讀取剪貼簿白名單</string>
     <string name="system_framework_clipboard_whitelist_list_desc">對於多個應用，使用 | 分隔</string>
     <string name="system_framework_disable_app_link_verify">停用應用程式連結驗證</string>
     <string name="system_framework_disable_app_link_verify_desc">打開連結時還原為直接打開支援的應用程式，無需在應用程式設定中勾選支援的連結</string>
@@ -865,6 +867,7 @@
     <string name="system_usb_reverse_charge">無線反向充電</string>
     <string name="system_usb_tethering">USB 網路共用</string>
     <string name="system_settings_connection_sharing_title">連接與分享</string>
+    <string name="system_settings_lang_menu_shouw_all_app">在原生的語言管理選單中顯示所有應用程式</string>
     <string name="system_settings_new_nfc_page">新版 NFC 頁面</string>
     <string name="system_settings_new_nfc_page_desc">開啟後，不支援的裝置預設付款應用程式無法選中小米錢包</string>
     <string name="system_settings_lab_title">特色功能</string>
@@ -1296,6 +1299,9 @@
     <string name="screenshot_save_to_pictures_desc">規範截圖儲存位置為 /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自訂帶殼截圖型號</string>
     <string name="screenshot_device_customize_desc">請輸入機型代號，有顏色的裝置填寫時應加上後綴，例如：\n- 小米 13 填寫的內容是 fuxi\n- 小米 14 粉色版填寫的內容是 houji_PK</string>
+    <!--System Service Plugin-->
+    <string name="securityadd">系統服務套件</string>
+    <string name="securityadd_disable_gb_ads">停用遊戲中心廣告</string>
     <!--Security/Tablet security center-->
     <string name="security_center">手機管家</string>
     <string name="security_center_pad">平板管家</string>
@@ -1484,7 +1490,7 @@
     <string name="various_dialog_title">跳出視窗</string>
     <string name="various_mipad_title">平板相關</string>
     <string name="various_open_aosp_something_title">隱藏屬性</string>
-    <string name="various_open_aosp_something_desc">啟用 AOSP 中的「隱藏」介面</string>
+    <string name="various_open_aosp_something_desc">啟用原生中的隱藏介面</string>
     <string name="various_nobrightness">拒絕強制亮度</string>
     <string name="various_no_overscroll">停用越界回彈</string>
     <string name="various_disable_access_device_logs">關閉訪問裝置日誌確認</string>
