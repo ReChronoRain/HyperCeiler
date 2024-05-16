@@ -22,6 +22,7 @@ import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getPackageVers
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitData;
 
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
@@ -32,20 +33,15 @@ import java.lang.reflect.Method;
 public class EnableDebugEnvironment extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData methodData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-            .matcher(MethodMatcher.create()
-                .usingStrings("pref_key_debug_mode_" + getPackageVersionCode(lpparam))
-                .name("getDebugMode")
-                .returnType(boolean.class)
-            )
-        ).singleOrThrow(() -> new IllegalStateException("EnableDebugEnvironment: Cannot found MethodData"));
-        Method method = methodData.getMethodInstance(lpparam.classLoader);
-        logD(TAG, lpparam.packageName, "getDebugMode() method is " + method);
-        hookMethod(method, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(true);
-            }
-        });
+        DexKitData.hookMethodWithDexKit("Key", lpparam,
+                MethodMatcher.create()
+                        .usingStrings("pref_key_debug_mode_" + getPackageVersionCode(lpparam))
+                        .name("getDebugMode")
+                        .returnType(boolean.class), new DexKitData.MethodHookWithDexKit() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        param.setResult(true);
+                    }
+                });
     }
 }
