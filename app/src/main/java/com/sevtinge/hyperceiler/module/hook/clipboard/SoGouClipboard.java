@@ -50,9 +50,9 @@ public class SoGouClipboard extends BaseHook {
             }
         });
         long etime = System.currentTimeMillis();
-        logE(TAG, "time: " + (etime - stime));
+        logE(TAG, "代码执行时间（毫秒）: " + (etime - stime));
         // logE("find class: " + lpparam.packageName);
-        logE(TAG, "method: " + method);
+        // logE(TAG, "method: " + method);
         hookMethod(method, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {

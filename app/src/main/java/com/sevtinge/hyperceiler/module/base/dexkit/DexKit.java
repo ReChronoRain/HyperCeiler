@@ -47,6 +47,7 @@ public class DexKit {
     private static final String TYPE_CONSTRUCTOR = "CONSTRUCTOR";
     private final String TAG;
     private static String callTAG;
+    private ArrayList<AnnotatedElement> elementList = null;
     private static final String DEXKIT_PATH = "/cache/dexkit/";
     private String hostDir = null;
     private XC_LoadPackage.LoadPackageParam loadPackageParam;
@@ -74,6 +75,9 @@ public class DexKit {
         isInit = true;
     }
 
+    /**
+     * 检查当前软件版本是否发生变化。
+     */
     private void versionCheck() {
         String versionName = Helpers.getPackageVersionName(loadPackageParam);
         int versionCode = Helpers.getPackageVersionCode(loadPackageParam);
@@ -114,12 +118,25 @@ public class DexKit {
         return privateDexKitBridge;
     }
 
+    /**
+     * 获取一个结果的时候使用。
+     */
     public static AnnotatedElement getDexKitBridge(String tag, IDexKit iDexKit) {
         return getDexKitBridge(tag, iDexKit, null).get(0);
     }
 
-    public static ArrayList<AnnotatedElement> getDexKitBridge(String tag, IDexKitList iDexKitList) {
-        return getDexKitBridge(tag, null, iDexKitList);
+    /**
+     * 获取列表型结果时使用。<br/>
+     * 配合
+     * {@link DexKit#toClassList()}，
+     * {@link DexKit#toMethodList()}，
+     * {@link DexKit#toFieldList()}，
+     * {@link DexKit#toConstructorList()}
+     * 使用
+     */
+    public static DexKit getDexKitBridge(String tag, IDexKitList iDexKitList) {
+        dexKit.elementList = getDexKitBridge(tag, null, iDexKitList);
+        return dexKit;
     }
 
     private static ArrayList<AnnotatedElement> getDexKitBridge(String tag, IDexKit iDexKit, IDexKitList iDexKitList) {
@@ -325,6 +342,9 @@ public class DexKit {
         return memberList;
     }
 
+    /**
+     * 将 BaseDataList<?> 转为 ArrayList<AnnotatedElement> 时使用，调用 IDexKitList 接口会用到。
+     */
     public static ArrayList<AnnotatedElement> toElementList(BaseDataList<?> baseDataList, ClassLoader classLoader) {
         ArrayList<AnnotatedElement> elements = new ArrayList<>();
         for (Object baseData : baseDataList) {
@@ -349,6 +369,58 @@ public class DexKit {
             }
         }
         return elements;
+    }
+
+    /**
+     * 转为方法列表
+     */
+    public ArrayList<Method> toMethodList() {
+        ArrayList<Method> methods = new ArrayList<>();
+        if (elementList == null) return methods;
+        for (AnnotatedElement element : elementList) {
+            methods.add((Method) element);
+        }
+        elementList = null;
+        return methods;
+    }
+
+    /**
+     * 转为字段列表
+     */
+    public ArrayList<Field> toFieldList() {
+        ArrayList<Field> fields = new ArrayList<>();
+        if (elementList == null) return fields;
+        for (AnnotatedElement element : elementList) {
+            fields.add((Field) element);
+        }
+        elementList = null;
+        return fields;
+    }
+
+    /**
+     * 转为构造函数列表
+     */
+    public ArrayList<Constructor<?>> toConstructorList() {
+        ArrayList<Constructor<?>> constructors = new ArrayList<>();
+        if (elementList == null) return constructors;
+        for (AnnotatedElement element : elementList) {
+            constructors.add((Constructor<?>) element);
+        }
+        elementList = null;
+        return constructors;
+    }
+
+    /**
+     * 转为类列表
+     */
+    public ArrayList<Class<?>> toClassList() {
+        ArrayList<Class<?>> classes = new ArrayList<>();
+        if (elementList == null) return classes;
+        for (AnnotatedElement element : elementList) {
+            classes.add((Class<?>) element);
+        }
+        elementList = null;
+        return classes;
     }
 
     /**
