@@ -32,7 +32,12 @@ public class DeviceModify extends BaseHook {
 
     @Override
     public void init() {
-        if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 104) {
+        if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 105) {
+            // 15
+            mDevice = "haotian";
+            mModel = "24129PN74C";
+            mManufacturer = "Xiaomi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 104) {
             // 14u
             mDevice = "aurora"; // N1
             mModel = "24031PN0DC";
@@ -65,11 +70,6 @@ public class DeviceModify extends BaseHook {
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 190) {
             // alpha
             mDevice = "avenger";
-            mModel = "MIX Alpha";
-            mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 191) {
-            // alpha
-            mDevice = "draco";
             mModel = "MIX Alpha";
             mManufacturer = "Xiaomi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 209) {
