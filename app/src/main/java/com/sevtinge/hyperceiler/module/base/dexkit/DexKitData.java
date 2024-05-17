@@ -17,12 +17,12 @@ public class DexKitData {
     public static final String EMPTY = "";
     public static final ArrayList<String> EMPTYLIST = new ArrayList<>();
     // public String label;
-    private String tag;
-    private String type;
-    private String clazz;
-    private String method;
-    private ArrayList<String> param;
-    private String field;
+    private final String tag;
+    private final String type;
+    private final String clazz;
+    private final String method;
+    private final ArrayList<String> param;
+    private final String field;
 
     public DexKitData(String tag, String type, String clazz,
                       String method, ArrayList<String> param,
@@ -124,7 +124,7 @@ public class DexKitData {
                 list.add(obj);
             }
             return list;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             logE(TAG, "Failed to convert Array!" + e);
         }
         return new ArrayList<>();

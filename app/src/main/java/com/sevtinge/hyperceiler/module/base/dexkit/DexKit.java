@@ -18,9 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.base.dexkit;
 
-import androidx.annotation.Nullable;
-
 import com.sevtinge.hyperceiler.utils.FileUtils;
+import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -48,6 +47,7 @@ public class DexKit {
     private static final String TYPE_CONSTRUCTOR = "CONSTRUCTOR";
     private final String TAG;
     private static String callTAG;
+    private static final String DEXKIT_PATH = "/cache/dexkit/";
     private String hostDir = null;
     private XC_LoadPackage.LoadPackageParam loadPackageParam;
     private static DexKit dexKit = null;
@@ -69,8 +69,36 @@ public class DexKit {
             }
             System.loadLibrary("dexkit");
             privateDexKitBridge = DexKitBridge.create(hostDir);
+            versionCheck();
         }
         isInit = true;
+    }
+
+    private void versionCheck() {
+        String versionName = Helpers.getPackageVersionName(loadPackageParam);
+        int versionCode = Helpers.getPackageVersionCode(loadPackageParam);
+        String dir = loadPackageParam.appInfo.dataDir + DEXKIT_PATH;
+        String dexFile = dir + callTAG;
+        String nameFile = dir + "versionName";
+        String codeFile = dir + "versionCode";
+        if (!FileUtils.mkdirs(dir))
+            XposedLogUtils.logE(callTAG, "failed to create mkdirs: " + dir);
+        if (!FileUtils.touch(nameFile))
+            XposedLogUtils.logE(callTAG, "failed to create file: " + nameFile);
+        if (!FileUtils.touch(codeFile))
+            XposedLogUtils.logE(callTAG, "failed to create file: " + codeFile);
+        String verName = FileUtils.read(nameFile);
+        String codeName = FileUtils.read(codeFile);
+        if (verName != null && codeName != null) {
+            if (verName.isEmpty() || codeName.isEmpty()) {
+                FileUtils.write(nameFile, versionName);
+                FileUtils.write(codeFile, Integer.toString(versionCode));
+            } else if (!(verName.equals(versionName)) || (!codeName.equals(Integer.toString(versionCode)))) {
+                FileUtils.write(nameFile, versionName);
+                FileUtils.write(codeName, String.valueOf(versionCode));
+                FileUtils.write(dexFile, new JSONArray().toString());
+            }
+        }
     }
 
     @NotNull
@@ -99,20 +127,16 @@ public class DexKit {
         String callName = getCallName(stackTrace);
         callTAG = callName;
         DexKitBridge dexKitBridge = getDexKitBridge();
-        String dexPath = dexKit.loadPackageParam.appInfo.dataDir + "/cache/dexkit/";
-        String dexFile = dexKit.loadPackageParam.appInfo.dataDir + "/cache/dexkit/" + callName;
+        String dexFile = dexKit.loadPackageParam.appInfo.dataDir + DEXKIT_PATH + callName;
         // XposedLogUtils.logE(callTAG, "path: " + dexPath + " file: " + dexFile + " cll: " + stackTrace[2].getClassName());
         ClassLoader classLoader = dexKit.loadPackageParam.classLoader;
         if (!FileUtils.exists(dexFile)) {
-            if (FileUtils.mkdirs(dexPath) && FileUtils.touch(dexFile)) {
+            if (FileUtils.touch(dexFile)) {
                 FileUtils.write(dexFile, new JSONArray().toString());
             } else {
+                XposedLogUtils.logE(callTAG, "failed to create file!");
                 return getElement(iDexKit, iDexKitList, dexKitBridge);
             }
-        }
-        if (!FileUtils.exists(dexFile)) {
-            XposedLogUtils.logE(callTAG, "failed to create file!");
-            return getElement(iDexKit, iDexKitList, dexKitBridge);
         }
         ArrayList<JSONObject> dadaList = DexKitData.toArray(FileUtils.read(dexFile));
         boolean isAdded = isAdded(tag, dadaList);
@@ -200,7 +224,6 @@ public class DexKit {
         return getElement;
     }
 
-    @Nullable
     private static ArrayList<AnnotatedElement> getElements(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
                                                            DexKitBridge dexKitBridge, ArrayList<JSONObject> dadaList, String dexFile) {
         ArrayList<JSONObject> jsonList = new ArrayList<>();
