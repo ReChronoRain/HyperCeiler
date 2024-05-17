@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/camera">
 
+    <SwitchPreference
+        android:title="@string/camera_max_brightness"
+        android:key="prefs_key_camera_max_brightness"
+        android:defaultValue="false" />
+
     <PreferenceCategory android:title="@string/shot">
 
         <SwitchPreference

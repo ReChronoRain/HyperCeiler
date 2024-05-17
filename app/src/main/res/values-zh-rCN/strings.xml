@@ -520,6 +520,7 @@
     <string name="camera_settings_men_makeup">解锁男性妆容适配</string>
     <string name="camera_settings_lab_options">启用实验室选项</string>
     <string name="camera_settings_track_eyes">解锁人眼追焦</string>
+    <string name="camera_max_brightness">使用相机时使屏幕亮度最大</string>
     <!--日历-->
     <string name="calendar">日历</string>
     <string name="calendar_unlock_subscription">解锁订阅服务</string>

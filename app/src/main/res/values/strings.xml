@@ -515,6 +515,7 @@
     <string name="camera_settings_men_makeup">Unlock Adjust makeup effects for men</string>
     <string name="camera_settings_lab_options">Enable Lab options</string>
     <string name="camera_settings_track_eyes">Unlock Track eyes</string>
+    <string name="camera_max_brightness">Force Maximum Brightness When Using Camera</string>
     <!--Calendar-->
     <string name="calendar">Calendar</string>
     <string name="calendar_unlock_subscription">Unlock Subscription</string>
