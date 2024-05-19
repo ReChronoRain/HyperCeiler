@@ -22,6 +22,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.aiasst.AiCaptions;
 import com.sevtinge.hyperceiler.module.hook.aiasst.DisableWatermark;
+import com.sevtinge.hyperceiler.module.hook.aiasst.UnlockAllCaptions;
 
 @HookExpand(pkg = "com.xiaomi.aiasst.vision", isPad = false, tarAndroid = 33)
 public class AiAsst extends BaseModule {
@@ -30,5 +31,6 @@ public class AiAsst extends BaseModule {
     public void handleLoadPackage() {
         initHook(new AiCaptions(), mPrefsMap.getBoolean("aiasst_ai_captions"));
         initHook(new DisableWatermark(), mPrefsMap.getBoolean("aiasst_disable_watermark"));
+        initHook(UnlockAllCaptions.INSTANCE, mPrefsMap.getBoolean("aiasst_all_captions"));
     }
 }
