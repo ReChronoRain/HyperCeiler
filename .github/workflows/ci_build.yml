@@ -58,17 +58,25 @@ jobs:
 
       - name: Find APKs
         run: |
-          echo "APK_FILE_CANARY=$(find app/build/outputs/apk/canary -name '*.apk')" >> $GITHUB_ENV
+          APK_FILE=$(find app/build/outputs/apk/canary -name '*.apk')
+          echo "APK_FILE=$APK_FILE" >> $GITHUB_ENV
+          echo "APK_FILE_NAME=$(basename $APK_FILE .apk)" >> $GITHUB_ENV
 
       - name: Show APKs SHA256
         if: success()
         run: |
           echo "### Build Success" >> $GITHUB_STEP_SUMMARY
           echo "|Artifact|SHA256|" >> $GITHUB_STEP_SUMMARY
-          echo "|:--------:|:----------|" >> $GITHUB_STEP_SUMMARY
-          canary=$(sha256sum "${{ env.APK_FILE_CANARY }}")
-          echo "SHA256=$canary" >> $GITHUB_ENV
-          echo "|Canary|$canary" >> $GITHUB_STEP_SUMMARY
+          echo "|:---:|:---|" >> $GITHUB_STEP_SUMMARY
+          APK_SHA256=($(sha256sum ${{ env.APK_FILE }}))
+          echo "|Canary|$APK_SHA256" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APK_FILE_NAME }}
+          path: ${{ env.APK_FILE }}
+          compression-level: 9
 
   build_debug_package:
     if: github.event_name == 'pull_request'
@@ -94,17 +102,25 @@ jobs:
 
       - name: Find APKs
         run: |
-          echo "APK_FILE_DEBUG=$(find app/build/outputs/apk/debug -name '*.apk')" >> $GITHUB_ENV
+          APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')
+          echo "APK_FILE=$APK_FILE" >> $GITHUB_ENV
+          echo "APK_FILE_NAME=$(basename $APK_FILE .apk)" >> $GITHUB_ENV
 
       - name: Show APKs SHA256
         if: success()
         run: |
           echo "### Build Success" >> $GITHUB_STEP_SUMMARY
           echo "|Artifact|SHA256|" >> $GITHUB_STEP_SUMMARY
-          echo "|:--------:|:----------|" >> $GITHUB_STEP_SUMMARY
-          debug=$(sha256sum "${{ env.APK_FILE_DEBUG }}")
-          echo "SHA256=$debug" >> $GITHUB_ENV
-          echo "|Debug|$debug" >> $GITHUB_STEP_SUMMARY
+          echo "|:---:|:---|" >> $GITHUB_STEP_SUMMARY
+          APK_SHA256=($(sha256sum ${{ env.APK_FILE }}))
+          echo "|Debug|$APK_SHA256" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APK_FILE_NAME }}
+          path: ${{ env.APK_FILE }}
+          compression-level: 9
 
   push_to_canary_channel:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && ${{ github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
@@ -112,14 +128,14 @@ jobs:
     name: Push to Canary Channel
     needs: build_canary_package
     steps:
-      - name: Checkout Git Repository
-        uses: actions/checkout@v4
-
-      - name: Upload Canary APK
-        uses: actions/upload-artifact@v4
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
         with:
-          name: HyperCeiler Canary
-          path: ${{ env.APK_FILE_CANARY }}
+          path: artifacts
+
+      - name: Find Artifacts
+        run: |
+          echo "APK_FILE_CANARY=$(find artifacts -name '*.apk')" >> $GITHUB_ENV
 
       - name: Post to Canary Channel
         env:
@@ -143,8 +159,14 @@ jobs:
     name: Push to Debug Group
     needs: build_debug_package
     steps:
-      - name: Checkout Git Repository
-        uses: actions/checkout@v4
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Find Artifacts
+        run: |
+          echo "APK_FILE_DEBUG=$(find artifacts -name '*.apk')" >> $GITHUB_ENV
 
       - name: Post to Debug Group
         shell: bash
