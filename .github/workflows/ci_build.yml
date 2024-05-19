@@ -25,10 +25,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_canary_package:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  build_app:
     runs-on: ubuntu-latest
-    name: Build Canary Package
+    name: Build App
     steps:
       - name: Checkout Git Repository
         uses: actions/checkout@v4
@@ -44,6 +43,7 @@ jobs:
           cache: gradle
 
       - name: Create Sign File
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           touch signing.properties
           echo storePassword=${{ secrets.KEY_STORE_PASSWORD }} >> signing.properties
@@ -53,56 +53,24 @@ jobs:
           echo ${{ secrets.SIGNING_KEY }} | base64 --decode > key.jks
 
       - name: Build with Gradle (Canary)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: bash
         run: ./gradlew assembleCanary
 
-      - name: Find APKs
-        run: |
-          APK_FILE=$(find app/build/outputs/apk/canary -name '*.apk')
-          echo "APK_FILE=$APK_FILE" >> $GITHUB_ENV
-          echo "APK_FILE_NAME=$(basename $APK_FILE .apk)" >> $GITHUB_ENV
-
-      - name: Show APKs SHA256
-        if: success()
-        run: |
-          echo "### Build Success" >> $GITHUB_STEP_SUMMARY
-          echo "|Artifact|SHA256|" >> $GITHUB_STEP_SUMMARY
-          echo "|:---:|:---|" >> $GITHUB_STEP_SUMMARY
-          APK_SHA256=($(sha256sum ${{ env.APK_FILE }}))
-          echo "|Canary|$APK_SHA256" >> $GITHUB_STEP_SUMMARY
-
-      - name: Upload APKs
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.APK_FILE_NAME }}
-          path: ${{ env.APK_FILE }}
-          compression-level: 9
-
-  build_debug_package:
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    name: Build Debug Package
-    steps:
-      - name: Checkout Git Repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          submodules: true
-
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: gradle
-
       - name: Build with Gradle (Debug)
+        if: github.event_name == 'pull_request'
         shell: bash
-        run: ./gradlew assembleDebug
+        run: |
+          ./gradlew assembleDebug
+          echo "IS_DEBUG=true" >> $GITHUB_ENV
 
       - name: Find APKs
         run: |
-          APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')
+          if [ ${{ env.IS_DEBUG }} = true ]; then
+            APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')
+          else
+            APK_FILE=$(find app/build/outputs/apk/canary -name '*.apk')
+          fi
           echo "APK_FILE=$APK_FILE" >> $GITHUB_ENV
           echo "APK_FILE_NAME=$(basename $APK_FILE .apk)" >> $GITHUB_ENV
 
@@ -113,7 +81,11 @@ jobs:
           echo "|Artifact|SHA256|" >> $GITHUB_STEP_SUMMARY
           echo "|:---:|:---|" >> $GITHUB_STEP_SUMMARY
           APK_SHA256=($(sha256sum ${{ env.APK_FILE }}))
-          echo "|Debug|$APK_SHA256" >> $GITHUB_STEP_SUMMARY
+          if [ ${{ env.IS_DEBUG }} = true ]; then
+            echo "|Debug|$APK_SHA256" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "|Canary|$APK_SHA256" >> $GITHUB_STEP_SUMMARY
+          fi
 
       - name: Upload APKs
         uses: actions/upload-artifact@v4
@@ -126,7 +98,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && ${{ github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
     runs-on: ubuntu-latest
     name: Push to Canary Channel
-    needs: build_canary_package
+    needs: build_app
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
@@ -157,7 +129,7 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     name: Push to Debug Group
-    needs: build_debug_package
+    needs: build_app
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
