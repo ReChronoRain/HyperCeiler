@@ -67,6 +67,17 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".ui.HyperCeilerTabActivity"
+            android:exported="true"
+            android:theme="@style/NavigatorActivityTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
@@ -95,7 +106,7 @@
             android:name=".ui.LauncherActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:targetActivity=".ui.MainActivity"
+            android:targetActivity=".ui.HyperCeilerTabActivity"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

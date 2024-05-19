@@ -49,4 +49,35 @@
         <item name="android:layout">@layout/miuix_preference_widget_seekbar</item>
     </style>
 
+
+    <style name="NavigatorActivityTheme" parent="@style/Theme.AppCompat.DayNight.Navigator">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <!--<item name="actionBottomButtonColor">@color/action_bottom_button_color</item>
+        <item name="actionButtonColorSelected">@color/action_button_color_selected</item>-->
+        <item name="bgBlurOptions">splitActionBar</item>
+        <item name="miuixColorBottomSurface">@color/miuix_design_default_color_surface_variant_light</item>
+        <item name="navigationFragmentStyle">@style/Theme.AppCompat.DayNight.NavigationFragment</item>
+    </style>
+
+    <style name="TabNavigatorContentFragmentTheme" parent="Theme.AppCompat.DayNight.Content">
+
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="actionBarBackground">@color/miuix_design_default_color_surface_variant_light</item>
+        <!--<item name="actionbarSearchMaskColor">@color/search_mask_color</item>-->
+        <item name="bgBlurOptions">actionBar|splitActionBar</item>
+        <item name="colorPrimary">@color/miuix_design_default_color_surface_variant_light</item>
+        <item name="responsiveActionMenuViewStyle">@style/Widget.ResponsiveActionMenuView.Light</item>
+
+        <item name="rebootIconColor">@color/black</item>
+        <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>
+        <item name="dialogMultiChoiceListItemBackground">@drawable/miuix_appcompat_list_item_bg_multichoice_light</item>
+        <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_light</item>
+    </style>
+
+    <style name="TabNavigatorContentChildFragmentTheme" parent="@style/Theme.AppCompat.DayNight.ContentChild">
+
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="bgBlurOptions">splitActionBar</item>
+    </style>
 </resources>

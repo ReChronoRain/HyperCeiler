@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group>
+        <item
+            android:enabled="true"
+            android:icon="@drawable/ic_navigation_home"
+            android:title="首页"
+            android:visible="true"
+            app:miuixNavigationId="1000" />
+        <item
+            android:enabled="true"
+            android:icon="@drawable/ic_navigation_settings"
+            android:title="设置"
+            android:visible="true"
+            app:miuixNavigationId="1001" />
+
+        <item
+            android:enabled="true"
+            android:icon="@drawable/ic_navigation_about"
+            android:title="关于"
+            android:visible="true"
+            app:miuixNavigationId="1002" />
+    </group>
+</menu>

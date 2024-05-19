@@ -259,18 +259,4 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         mProxy.onStartSettingsForArguments(SubSettings.class, preference, false);
         return true;
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.restart) {
-            DialogHelper.showRestartDialog(this);
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
