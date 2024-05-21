@@ -221,7 +221,7 @@ public class DexKit {
     /**
      * 删除指定路径缓存内指定标签的数据。
      */
-    public static boolean removeData(String tag) {
+    public static boolean removeData(@NotNull String tag) {
         return removeData(tag, getFile(callTAG));
     }
 
