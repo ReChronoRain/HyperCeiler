@@ -33,7 +33,7 @@ public class ScreenShot extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        initHook(UnlockMinimumCropLimit.INSTANCE, mPrefsMap.getBoolean("screenshot_unlock_minimum_crop_limit"));
+        initHook(new UnlockMinimumCropLimit(), mPrefsMap.getBoolean("screenshot_unlock_minimum_crop_limit"));
         initHook(SaveToPictures.INSTANCE, mPrefsMap.getBoolean("screenshot_save_to_pictures"));
         initHook(DeviceShellCustomize.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("screenshot_device_customize", "")));
         initHook(UnlockPrivacyMarking.INSTANCE, mPrefsMap.getBoolean("screenshot_unlock_privacy_marking"));

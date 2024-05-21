@@ -18,25 +18,35 @@
 */
 package com.sevtinge.hyperceiler.module.hook.milink;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getPackageVersionCode;
+
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+
+import de.robv.android.xposed.XC_MethodHook;
 
 public class UnlockHMind extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData methodData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-            .matcher(MethodMatcher.create()
-                .usingStrings("HMindManager", "isHMindAble() context == null")
-            )
-        ).singleOrThrow(() -> new IllegalStateException("UnlockHMind: Cannot found MethodData"));
-        Method method = methodData.getMethodInstance(lpparam.classLoader);
-        logD(TAG, lpparam.packageName, "isHMindAble() method is " + method);
+        Method method = (Method) DexKit.getDexKitBridge("HMindManager", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("HMindManager", "isHMindAble() context == null")
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
         hookMethod(method, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {

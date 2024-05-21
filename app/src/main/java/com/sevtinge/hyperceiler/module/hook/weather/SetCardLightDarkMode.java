@@ -20,7 +20,9 @@ package com.sevtinge.hyperceiler.module.hook.weather;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindField;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
@@ -29,6 +31,7 @@ import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.FieldData;
 import org.luckypray.dexkit.result.MethodData;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -40,32 +43,34 @@ public class SetCardLightDarkMode extends BaseHook {
 
     @Override
     public void init() {
-        try {
-            MethodData methodData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-                    .matcher(METHOD_MATCHER)
-            ).singleOrThrow(() -> new NoSuchMethodException("SetCardLightDarkMode: Cannot find method judgeCurrentColor()"));
-            Method method = methodData.getMethodInstance(lpparam.classLoader);
-            logD(TAG, lpparam.packageName, "judgeCurrentColor() method is " + method);
-            FieldData fieldData = DexKit.getDexKitBridge().findField(FindField.create()
-                    .matcher(FieldMatcher.create()
-                            .declaredClass(ClassMatcher.create()
-                                    .usingStrings(METHOD_NAME))
-                            .addWriteMethod(METHOD_MATCHER)
-                            .addReadMethod(METHOD_MATCHER)
-                            .type(int.class)
-                    )
-            ).singleOrThrow(() -> new NoSuchFieldException("SetCardLightDarkMode: Cannot find field mLightDarkMode"));
-            Field field = fieldData.getFieldInstance(lpparam.classLoader);
-            logD(TAG, lpparam.packageName, "mLightDarkMode field is " + field);
-            hookMethod(method, new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) {
-                    XposedHelpers.setIntField(param.thisObject, field.getName(), mPrefsMap.getStringAsInt("weather_card_display_type", 0));
-                }
-            });
-        } catch (Exception e) {
-            logE(TAG, lpparam.packageName, e);
-        }
+        Method method = (Method) DexKit.getDexKitBridge("LightDarkMode", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(METHOD_MATCHER)).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+        Field field = (Field) DexKit.getDexKitBridge("LightDarkModeField", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                FieldData fieldData = DexKit.getDexKitBridge().findField(FindField.create()
+                        .matcher(FieldMatcher.create()
+                                .declaredClass(ClassMatcher.create()
+                                        .usingStrings(METHOD_NAME))
+                                .addWriteMethod(METHOD_MATCHER)
+                                .addReadMethod(METHOD_MATCHER)
+                                .type(int.class)
+                        )).singleOrNull();
+                return fieldData.getFieldInstance(lpparam.classLoader);
+            }
+        });
+        hookMethod(method, new MethodHook() {
+            @Override
+            protected void after(MethodHookParam param) {
+                XposedHelpers.setIntField(param.thisObject, field.getName(), mPrefsMap.getStringAsInt("weather_card_display_type", 0));
+            }
+        });
     }
 }
 

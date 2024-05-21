@@ -20,27 +20,34 @@ package com.sevtinge.hyperceiler.module.hook.mediaeditor;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKitList;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.MethodData;
 import org.luckypray.dexkit.result.MethodDataList;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class UnlockMinimumCropLimit extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodDataList methodDataList = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-            .matcher(MethodMatcher.create()
-                .returnType(int.class)
-                .paramCount(0)
-                .usingNumbers(0.5f, 200)
-            )
-        );
-        for (MethodData methodData : methodDataList) {
-            Method method = methodData.getMethodInstance(lpparam.classLoader);
-            logD(TAG, lpparam.packageName, "Current hooking method is " + method);
+        ArrayList<Method> methods = DexKit.getDexKitBridge("MinimumCropLimit", new IDexKitList() {
+            @Override
+            public ArrayList<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodDataList methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .returnType(int.class)
+                                .paramCount(0)
+                                .usingNumbers(0.5f, 200)
+                        )
+                );
+                return DexKit.toElementList(methodData, lpparam.classLoader);
+            }
+        }).toMethodList();
+        for (Method method : methods) {
             hookMethod(method, new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) throws Throwable {

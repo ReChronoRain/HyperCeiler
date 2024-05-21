@@ -16,41 +16,44 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.hook.securitycenter;
+package com.sevtinge.hyperceiler.module.hook.screenshot;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
-import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKitList;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
-import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.MethodDataList;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
-public class PowerSaver extends BaseHook {
+public class UnlockMinimumCropLimit extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("HangUpStatue", new IDexKit() {
+        ArrayList<Method> methods = DexKit.getDexKitBridge("MinimumCropLimit", new IDexKitList() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
+            public ArrayList<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodDataList methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .declaredClass(ClassMatcher.create()
-                                        .usingStrings("hang_up_enable"))
-                                .usingStrings("hang_up_enable")
-                        )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                                .returnType(int.class)
+                                .paramCount(0)
+                                .usingNumbers(0.5f, 200)
+                        )
+                );
+                return DexKit.toElementList(methodData, lpparam.classLoader);
             }
-        });
-        hookMethod(method, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) {
-                param.setResult(null);
-            }
-        });
+        }).toMethodList();
+        for (Method method : methods) {
+            hookMethod(method, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    param.setResult(0);
+                }
+            });
+        }
     }
 }

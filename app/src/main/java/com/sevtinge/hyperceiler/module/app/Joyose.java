@@ -28,7 +28,7 @@ public class Joyose extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        initHook(DisableCloudControl.INSTANCE, mPrefsMap.getBoolean("various_disable_cloud_control"));
-        initHook(EnableGpuTuner.INSTANCE, mPrefsMap.getBoolean("joyose_enable_gpu_tuner"));
+        initHook(new DisableCloudControl(), mPrefsMap.getBoolean("various_disable_cloud_control"));
+        initHook(new EnableGpuTuner(), mPrefsMap.getBoolean("joyose_enable_gpu_tuner"));
     }
 }

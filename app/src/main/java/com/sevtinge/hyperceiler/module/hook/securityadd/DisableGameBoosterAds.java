@@ -20,24 +20,32 @@ package com.sevtinge.hyperceiler.module.hook.securityadd;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 
 import org.json.JSONObject;
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+
+import de.robv.android.xposed.XC_MethodHook;
 
 public class DisableGameBoosterAds extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData methodData1 = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-                .matcher(MethodMatcher.create()
-                        .usingStrings("is_international")
-                )
-        ).singleOrThrow(() -> new IllegalStateException("DisableGameBoosterAds: Cannot found MethodData"));
-        Method method1 = methodData1.getMethodInstance(lpparam.classLoader);
-        logD(TAG, lpparam.packageName, "getDeviceInfo() method is " + method1);
+        Method method1 = (Method) DexKit.getDexKitBridge("IsInternational", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("is_international")
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
         hookMethod(method1, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
@@ -50,13 +58,22 @@ public class DisableGameBoosterAds extends BaseHook {
             }
         });
 
-        MethodData methodData2 = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-                .matcher(MethodMatcher.create()
-                        .usingStrings("gt_xunyou_net_privacy_alter_not_show")
-                )
-        ).singleOrThrow(() -> new IllegalStateException("DisableGameBoosterAds: Cannot found MethodData"));
-        Method method2 = methodData2.getMethodInstance(lpparam.classLoader);
-        logD(TAG, lpparam.packageName, "getShowXunyouGameBooster() method is " + method2);
-        hookMethod(method2, MethodHook.returnConstant(null));
+        Method method2 = (Method) DexKit.getDexKitBridge("Xunyou", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("gt_xunyou_net_privacy_alter_not_show")
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+        hookMethod(method2, new replaceHookedMethod() {
+            @Override
+            protected Object replace(MethodHookParam param) throws Throwable {
+                return null;
+            }
+        });
+
     }
 }

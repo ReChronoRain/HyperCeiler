@@ -39,7 +39,7 @@ public class CustomWatermark extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
         long stime = System.currentTimeMillis();
-        ArrayList<Method> methods = DexKit.getDexKitBridge("water", new IDexKitList() {
+        ArrayList<Method> methods = DexKit.getDexKitBridge("Watermark", new IDexKitList() {
             @Override
             public ArrayList<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodDataList methodData = bridge.findMethod(FindMethod.create()

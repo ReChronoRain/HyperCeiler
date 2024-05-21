@@ -27,6 +27,6 @@ public class MiCloudService extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        initHook(CloudList.INSTANCE, mPrefsMap.getBoolean("micloud_service_list"));
+        initHook(new CloudList(), mPrefsMap.getBoolean("micloud_service_list"));
     }
 }

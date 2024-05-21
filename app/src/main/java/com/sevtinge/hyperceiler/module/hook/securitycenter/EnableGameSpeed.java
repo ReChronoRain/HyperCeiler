@@ -22,87 +22,107 @@ import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.setProp;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+
+import de.robv.android.xposed.XC_MethodHook;
 
 public class EnableGameSpeed extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
 
-        MethodData getPropVoidData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-            .matcher(MethodMatcher.create()
-                .usingStrings("android.os.SystemProperties", "set", "SystemPropertiesUtils", "SystemPropertiesUtils getInt:")
-                .returnType(void.class)
-            )
-        ).singleOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found getPropVoid method"));
-        Method getPropVoid = getPropVoidData.getMethodInstance(lpparam.classLoader);
-        logD(TAG, lpparam.packageName, "getPropVoid method is " + getPropVoid);
-        hookMethod(getPropVoid, new MethodHook() {
+        Method method1 = (Method) DexKit.getDexKitBridge("PropVoidData", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("android.os.SystemProperties", "set", "SystemPropertiesUtils", "SystemPropertiesUtils getInt:")
+                                .returnType(void.class)
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+        hookMethod(method1, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 if (param.args[0] == "debug.game.video.speed") param.args[1] = "true";
             }
         });
 
-        MethodData getPropBooleanData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-            .matcher(MethodMatcher.create()
-                .usingStrings("android.os.SystemProperties", "getBoolean", "SystemPropertiesUtils", "SystemPropertiesUtils getInt:")
-                .returnType(boolean.class)
-            )
-        ).singleOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found getPropBoolean method"));
-        Method getBooleanVoid = getPropBooleanData.getMethodInstance(lpparam.classLoader);
-        logD(TAG, lpparam.packageName, "getPropBoolean method is " + getBooleanVoid);
-        hookMethod(getBooleanVoid, new MethodHook() {
+        Method method2 = (Method) DexKit.getDexKitBridge("PropBooleanData", new IDexKit() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("android.os.SystemProperties", "getBoolean", "SystemPropertiesUtils", "SystemPropertiesUtils getInt:")
+                                .returnType(boolean.class)
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+        hookMethod(method2, new MethodHook() {
+            @Override
+            protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
                 if (param.args[0] == "debug.game.video.support") param.setResult(true);
             }
         });
 
-        MethodData methodData1 = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-            .matcher(MethodMatcher.create()
-                .usingStrings("debug.game.video.support")
-                .returnType(boolean.class)
-            )
-        ).singleOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found MethodData usingString \"debug.game.video.support\""));
-        Method method1 = methodData1.getMethodInstance(lpparam.classLoader);
-        logD(TAG, lpparam.packageName, "UsingString \"debug.game.video.support\" method is " + method1);
-        hookMethod(method1, new MethodHook() {
+        Method method3 = (Method) DexKit.getDexKitBridge("IsSupport", new IDexKit() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(true);
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("debug.game.video.support")
+                                .returnType(boolean.class)
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-
-        MethodData methodData2 = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-            .matcher(MethodMatcher.create()
-                .usingStrings("pref_open_game_booster")
-                .returnType(boolean.class)
-            )
-        ).singleOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found MethodData usingString \"pref_open_game_booster\""));
-        Method method2 = methodData2.getMethodInstance(lpparam.classLoader);
-        logD(TAG, lpparam.packageName, "UsingString \"pref_open_game_booster\" method is " + method2);
-        hookMethod(method2, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(true);
-            }
-        });
-
-        MethodData methodData3 = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-            .matcher(MethodMatcher.create()
-                .usingStrings("debug.game.video.boot")
-            )
-        ).singleOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found MethodData usingString \"debug.game.video.boot\""));
-        Method method3 = methodData3.getMethodInstance(lpparam.classLoader);
-        logD(TAG, lpparam.packageName, "UsingString \"debug.game.video.boot\" method is " + method3);
         hookMethod(method3, new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) {
+            protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
+                param.setResult(true);
+            }
+        });
+
+        Method method4 = (Method) DexKit.getDexKitBridge("OpenGameBooster", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("pref_open_game_booster")
+                                .returnType(boolean.class)
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+        hookMethod(method4, new MethodHook() {
+            @Override
+            protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
+                param.setResult(true);
+            }
+        });
+
+        Method method5 = (Method) DexKit.getDexKitBridge("Boot", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("debug.game.video.boot")
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+        hookMethod(method5, new MethodHook() {
+            @Override
+            protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
                 mSetProp();
                 param.setResult(null);
             }

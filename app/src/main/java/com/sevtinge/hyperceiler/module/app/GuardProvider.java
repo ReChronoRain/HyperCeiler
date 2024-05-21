@@ -26,6 +26,6 @@ import com.sevtinge.hyperceiler.module.hook.guardprovider.DisableUploadAppListNe
 public class GuardProvider extends BaseModule {
     @Override
     public void handleLoadPackage() {
-        initHook(DisableUploadAppListNew.INSTANCE, mPrefsMap.getBoolean("disable_upload_applist"));
+        initHook(new DisableUploadAppListNew(), mPrefsMap.getBoolean("disable_upload_applist"));
     }
 }
