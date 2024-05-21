@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.base.dexkit;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.utils.FileUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
@@ -36,6 +38,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -119,10 +122,31 @@ public class DexKit {
     }
 
     /**
+     * 获取一个结果的时候使用，并且设置 debug 模式，可以使结果不被写入缓存。
+     */
+    public static AnnotatedElement getDexKitBridge(String tag, boolean isDebug, IDexKit iDexKit) {
+        return getDexKitBridge(tag, isDebug, iDexKit, null).get(0);
+    }
+
+    /**
      * 获取一个结果的时候使用。
      */
     public static AnnotatedElement getDexKitBridge(String tag, IDexKit iDexKit) {
-        return getDexKitBridge(tag, iDexKit, null).get(0);
+        return getDexKitBridge(tag, false, iDexKit, null).get(0);
+    }
+
+    /**
+     * 获取列表型结果时使用,并且设置 debug 模式，可以使结果不被写入缓存。。<br/>
+     * 配合
+     * {@link DexKit#toClassList()}，
+     * {@link DexKit#toMethodList()}，
+     * {@link DexKit#toFieldList()}，
+     * {@link DexKit#toConstructorList()}
+     * 使用
+     */
+    public static DexKit getDexKitBridge(String tag, boolean isDebug, IDexKitList iDexKitList) {
+        dexKit.elementList = getDexKitBridge(tag, isDebug, null, iDexKitList);
+        return dexKit;
     }
 
     /**
@@ -135,33 +159,70 @@ public class DexKit {
      * 使用
      */
     public static DexKit getDexKitBridge(String tag, IDexKitList iDexKitList) {
-        dexKit.elementList = getDexKitBridge(tag, null, iDexKitList);
+        dexKit.elementList = getDexKitBridge(tag, false, null, iDexKitList);
         return dexKit;
     }
 
-    private static ArrayList<AnnotatedElement> getDexKitBridge(String tag, IDexKit iDexKit, IDexKitList iDexKitList) {
+    private static ArrayList<AnnotatedElement> getDexKitBridge(@NotNull String tag, boolean isDebug, IDexKit iDexKit, IDexKitList iDexKitList) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         String callName = getCallName(stackTrace);
         callTAG = callName;
         DexKitBridge dexKitBridge = getDexKitBridge();
-        String dexFile = dexKit.loadPackageParam.appInfo.dataDir + DEXKIT_PATH + callName;
+        String dexFile = getFile(callName);
         // XposedLogUtils.logE(callTAG, "path: " + dexPath + " file: " + dexFile + " cll: " + stackTrace[2].getClassName());
         ClassLoader classLoader = dexKit.loadPackageParam.classLoader;
+        if (isDebug) {
+            return getElements(iDexKit, iDexKitList, dexKitBridge);
+        }
         if (!FileUtils.exists(dexFile)) {
             if (FileUtils.touch(dexFile)) {
                 FileUtils.write(dexFile, new JSONArray().toString());
             } else {
                 XposedLogUtils.logE(callTAG, "failed to create file!");
-                return getElement(iDexKit, iDexKitList, dexKitBridge);
+                return getElements(iDexKit, iDexKitList, dexKitBridge);
             }
         }
-        ArrayList<JSONObject> dadaList = DexKitData.toArray(FileUtils.read(dexFile));
-        boolean isAdded = isAdded(tag, dadaList);
+        ArrayList<JSONObject> dataList = DexKitData.toArray(FileUtils.read(dexFile));
+        boolean isAdded = isAdded(tag, dataList);
         if (!isAdded) {
-            return getElements(tag, iDexKit, iDexKitList, dexKitBridge, dadaList, dexFile);
+            return getElementsAndWriteCache(tag, iDexKit, iDexKitList, dexKitBridge, dataList, dexFile);
         } else {
-            return getFileCache(tag, iDexKit, iDexKitList, dadaList, dexKitBridge, classLoader);
+            return getFileCache(tag, iDexKit, iDexKitList, dataList, dexKitBridge, classLoader);
         }
+    }
+
+    @NonNull
+    private static String getFile(String callName) {
+        return dexKit.loadPackageParam.appInfo.dataDir + DEXKIT_PATH + callName;
+    }
+
+    /**
+     * 删除指定路径缓存内指定标签的数据。
+     */
+    public static boolean removeData(@NotNull String tag, @NotNull String filePath) {
+        try {
+            ArrayList<JSONObject> dataList = DexKitData.toArray(FileUtils.read(filePath));
+            Iterator<JSONObject> iterator = dataList.iterator();
+            while (iterator.hasNext()) {
+                JSONObject object = iterator.next();
+                String mTag = DexKitData.getTAG(object);
+                if (mTag.equals(tag)) {
+                    iterator.remove();
+                }
+            }
+            FileUtils.write(filePath, dataList.toString());
+            return true;
+        } catch (Throwable e) {
+            XposedLogUtils.logE(callTAG, e);
+        }
+        return false;
+    }
+
+    /**
+     * 删除指定路径缓存内指定标签的数据。
+     */
+    public static boolean removeData(String tag) {
+        return removeData(tag, getFile(callTAG));
     }
 
     private static String getCallName(StackTraceElement[] stackTrace) {
@@ -190,7 +251,7 @@ public class DexKit {
             }
         }
         if (findJSONs.isEmpty()) {
-            return getElement(iDexKit, iDexKitList, dexKitBridge);
+            return getElements(iDexKit, iDexKitList, dexKitBridge);
         }
         ArrayList<AnnotatedElement> getElement = new ArrayList<>();
         for (JSONObject object : findJSONs) {
@@ -241,11 +302,11 @@ public class DexKit {
         return getElement;
     }
 
-    private static ArrayList<AnnotatedElement> getElements(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
-                                                           DexKitBridge dexKitBridge, ArrayList<JSONObject> dadaList, String dexFile) {
+    private static ArrayList<AnnotatedElement> getElementsAndWriteCache(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
+                                                                        DexKitBridge dexKitBridge, ArrayList<JSONObject> dadaList, String dexFile) {
         ArrayList<JSONObject> jsonList = new ArrayList<>();
         ArrayList<AnnotatedElement> elements = new ArrayList<>();
-        elements = getElement(iDexKit, iDexKitList, dexKitBridge);
+        elements = getElements(iDexKit, iDexKitList, dexKitBridge);
         // if (dadaList.isEmpty()) return elements;
         if (elements == null) return null;
         if (elements.isEmpty()) return null;
@@ -324,7 +385,7 @@ public class DexKit {
         return isAdded;
     }
 
-    private static ArrayList<AnnotatedElement> getElement(IDexKit iDexKit, IDexKitList iDexKitList, DexKitBridge dexKitBridge) {
+    private static ArrayList<AnnotatedElement> getElements(IDexKit iDexKit, IDexKitList iDexKitList, DexKitBridge dexKitBridge) {
         ArrayList<AnnotatedElement> memberList = new ArrayList<>();
         if (iDexKit != null) {
             try {
