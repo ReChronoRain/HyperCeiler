@@ -1,6 +1,6 @@
 [versions]
-agp = "8.4.0"
-kotlinAndroid = "1.9.24"
+agp = "8.4.1"
+kotlinAndroid = "2.0.0"
 lsparanoid = "0.6.0"
 #lspluginResopt = "1.6"
 
@@ -18,9 +18,9 @@ constraintlayout = "2.2.0-alpha13"
 
 xposed-api = "82"
 
-gson = "2.10.1"
+gson = "2.11.0"
 dexkit = "2.0.1"
-ezxhelper = "2.1.2"
+ezxhelper = "2.2.0"
 accompanist = "0.34.0"
 hiddenapibypass = "4.3"
 commons-codec = "1.17.0"
