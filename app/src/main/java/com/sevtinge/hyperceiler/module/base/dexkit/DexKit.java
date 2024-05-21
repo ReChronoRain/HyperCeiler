@@ -192,8 +192,8 @@ public class DexKit {
     }
 
     @NonNull
-    private static String getFile(String callName) {
-        return dexKit.loadPackageParam.appInfo.dataDir + DEXKIT_PATH + callName;
+    public static String getFile(String fileName) {
+        return dexKit.loadPackageParam.appInfo.dataDir + DEXKIT_PATH + fileName;
     }
 
     /**
