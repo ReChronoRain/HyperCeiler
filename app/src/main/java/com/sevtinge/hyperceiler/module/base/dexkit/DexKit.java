@@ -124,15 +124,15 @@ public class DexKit {
     /**
      * 获取一个结果的时候使用，并且设置 debug 模式，可以使结果不被写入缓存。
      */
-    public static AnnotatedElement getDexKitBridge(String tag, boolean isDebug, IDexKit iDexKit) {
-        return getDexKitBridge(tag, isDebug, iDexKit, null).get(0);
+    public static <T> T getDexKitBridge(String tag, boolean isDebug, IDexKit iDexKit) {
+        return (T) getDexKitBridge(tag, isDebug, iDexKit, null).get(0);
     }
 
     /**
      * 获取一个结果的时候使用。
      */
-    public static AnnotatedElement getDexKitBridge(String tag, IDexKit iDexKit) {
-        return getDexKitBridge(tag, false, iDexKit, null).get(0);
+    public static <T> T getDexKitBridge(String tag, IDexKit iDexKit) {
+        return (T) getDexKitBridge(tag, false, iDexKit, null).get(0);
     }
 
     /**
