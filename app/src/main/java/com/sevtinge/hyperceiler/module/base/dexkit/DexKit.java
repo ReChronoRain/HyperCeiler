@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.module.base.dexkit;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.utils.FileUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
@@ -44,7 +45,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -56,9 +57,12 @@ public class DexKit {
     private static final String TYPE_CONSTRUCTOR = "CONSTRUCTOR";
     private final String TAG;
     private static String callTAG;
+    private static final HashMap<String, Boolean> touchMap = new HashMap<>();
+    private static final HashMap<String, ArrayList<JSONObject>> cacheMap = new HashMap<>();
     private ArrayList<AnnotatedElement> elementList = null;
     private static final String DEXKIT_PATH = "/cache/dexkit/";
     private String hostDir = null;
+    private static boolean isMkdir = false;
     private XC_LoadPackage.LoadPackageParam loadPackageParam;
     private static DexKit dexKit = null;
     private static DexKitBridge privateDexKitBridge = null;
@@ -79,7 +83,7 @@ public class DexKit {
             }
             System.loadLibrary("dexkit");
             privateDexKitBridge = DexKitBridge.create(hostDir);
-            versionCheck();
+            versionCheck(hostDir);
         }
         isInit = true;
     }
@@ -87,52 +91,56 @@ public class DexKit {
     /**
      * 检查当前软件版本是否发生变化。
      */
-    private void versionCheck() {
+    private void versionCheck(final String dir) {
         String versionName = Helpers.getPackageVersionName(loadPackageParam);
         int versionCode = Helpers.getPackageVersionCode(loadPackageParam);
-        String dir = loadPackageParam.appInfo.dataDir + DEXKIT_PATH;
         // String dexFile = dir + callTAG;
         String nameFile = dir + "versionName";
         String codeFile = dir + "versionCode";
-        if (!FileUtils.mkdirs(dir))
-            XposedLogUtils.logE(callTAG, "failed to create mkdirs: " + dir);
-        if (!FileUtils.touch(nameFile))
-            XposedLogUtils.logE(callTAG, "failed to create file: " + nameFile);
-        if (!FileUtils.touch(codeFile))
-            XposedLogUtils.logE(callTAG, "failed to create file: " + codeFile);
-        String verName = FileUtils.read(nameFile);
-        String codeName = FileUtils.read(codeFile);
-        if (verName != null && codeName != null) {
-            if (verName.isEmpty() || codeName.isEmpty()) {
-                FileUtils.write(nameFile, versionName);
-                FileUtils.write(codeFile, Integer.toString(versionCode));
-            } else if (!(verName.equals(versionName)) || (!codeName.equals(Integer.toString(versionCode)))) {
-                FileUtils.write(nameFile, versionName);
-                FileUtils.write(codeName, String.valueOf(versionCode));
-                // FileUtils.write(dexFile, new JSONArray().toString());
-                FileUtils.delete(dir, new FileVisitor<Path>() {
-                    @Override
-                    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                        return null;
-                    }
+        if (!FileUtils.mkdirs(dir)) {
+            isMkdir = false;
+            XposedLogUtils.logE(callTAG, "failed to create mkdirs: " + dir + " cant use dexkit cache!!");
+        } else isMkdir = true;
+        if (isMkdir) {
+            if (!FileUtils.touch(nameFile))
+                XposedLogUtils.logE(callTAG, "failed to create file: " + nameFile);
+            if (!FileUtils.touch(codeFile))
+                XposedLogUtils.logE(callTAG, "failed to create file: " + codeFile);
+            String verName = FileUtils.read(nameFile);
+            String codeName = FileUtils.read(codeFile);
+            if (verName != null && codeName != null) {
+                if ("null".equals(versionName) && versionCode == -1) return;
+                if (verName.isEmpty() || codeName.isEmpty()) {
+                    FileUtils.write(nameFile, versionName);
+                    FileUtils.write(codeFile, Integer.toString(versionCode));
+                } else if (!(verName.equals(versionName)) || (!codeName.equals(Integer.toString(versionCode)))) {
+                    FileUtils.write(nameFile, versionName);
+                    FileUtils.write(codeName, String.valueOf(versionCode));
+                    // FileUtils.write(dexFile, new JSONArray().toString());
+                    FileUtils.delete(dir, new FileVisitor<Path>() {
+                        @Override
+                        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                            return FileVisitResult.CONTINUE;
+                        }
 
-                    @Override
-                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                        Files.delete(file);
-                        XposedLogUtils.logI(callTAG, "success delete file: " + file);
-                        return FileVisitResult.CONTINUE;
-                    }
+                        @Override
+                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                            Files.delete(file);
+                            XposedLogUtils.logI(callTAG, "success delete file: " + file);
+                            return FileVisitResult.CONTINUE;
+                        }
 
-                    @Override
-                    public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                        return null;
-                    }
+                        @Override
+                        public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                            return FileVisitResult.CONTINUE;
+                        }
 
-                    @Override
-                    public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                        return null;
-                    }
-                });
+                        @Override
+                        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                            return FileVisitResult.CONTINUE;
+                        }
+                    });
+                }
             }
         }
     }
@@ -193,36 +201,61 @@ public class DexKit {
     }
 
     private static ArrayList<AnnotatedElement> getDexKitBridge(@NotNull String tag, boolean isDebug, IDexKit iDexKit, IDexKitList iDexKitList) {
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        String callName = getCallName(stackTrace);
+        String callName = getCallName(Thread.currentThread().getStackTrace());
         callTAG = callName;
         DexKitBridge dexKitBridge = getDexKitBridge();
         String dexFile = getFile(callName);
         // XposedLogUtils.logE(callTAG, "path: " + dexPath + " file: " + dexFile + " cll: " + stackTrace[2].getClassName());
         ClassLoader classLoader = dexKit.loadPackageParam.classLoader;
+        if (!isMkdir) {
+            return getElements(iDexKit, iDexKitList, dexKitBridge);
+        }
         if (isDebug) {
             return getElements(iDexKit, iDexKitList, dexKitBridge);
         }
-        if (!FileUtils.exists(dexFile)) {
-            if (FileUtils.touch(dexFile)) {
-                FileUtils.write(dexFile, new JSONArray().toString());
-            } else {
-                XposedLogUtils.logE(callTAG, "failed to create file!");
-                return getElements(iDexKit, iDexKitList, dexKitBridge);
+        if (touchIfNeed(dexFile))
+            return getElements(iDexKit, iDexKitList, dexKitBridge);
+        return run(tag, iDexKit, iDexKitList, dexFile, dexKitBridge, classLoader);
+    }
+
+    @Nullable
+    private static ArrayList<AnnotatedElement> run(@NonNull String tag, IDexKit iDexKit, IDexKitList iDexKitList,
+                                                   String dexFile, DexKitBridge dexKitBridge, ClassLoader classLoader) {
+        ArrayList<JSONObject> cacheData = cacheMap.get(dexFile);
+        if (cacheData == null) {
+            ArrayList<JSONObject> dataList = DexKitData.toArray(FileUtils.read(dexFile));
+            cacheMap.put(dexFile, dataList);
+            cacheData = dataList;
+        }
+        boolean isAdded = isAdded(tag, cacheData);
+        if (!isAdded) {
+            return getElementsAndWriteCache(tag, iDexKit, iDexKitList, dexKitBridge, cacheData, dexFile);
+        } else {
+            return getFileCache(tag, iDexKit, iDexKitList, cacheData, dexKitBridge, classLoader);
+        }
+    }
+
+    private static boolean touchIfNeed(String dexFile) {
+        Boolean isTouch = touchMap.get(dexFile);
+        if (!Boolean.TRUE.equals(isTouch)) {
+            if (!FileUtils.exists(dexFile)) {
+                if (FileUtils.touch(dexFile)) {
+                    if (FileUtils.write(dexFile, new JSONArray().toString()))
+                        touchMap.put(dexFile, true);
+                    else touchMap.put(dexFile, true);
+                } else {
+                    XposedLogUtils.logE(callTAG, "failed to create file!");
+                    touchMap.put(dexFile, false);
+                    return true;
+                }
             }
         }
-        ArrayList<JSONObject> dataList = DexKitData.toArray(FileUtils.read(dexFile));
-        boolean isAdded = isAdded(tag, dataList);
-        if (!isAdded) {
-            return getElementsAndWriteCache(tag, iDexKit, iDexKitList, dexKitBridge, dataList, dexFile);
-        } else {
-            return getFileCache(tag, iDexKit, iDexKitList, dataList, dexKitBridge, classLoader);
-        }
+        return false;
     }
 
     @NonNull
     public static String getFile(String fileName) {
-        return dexKit.loadPackageParam.appInfo.dataDir + DEXKIT_PATH + fileName;
+        return dexKit.hostDir + DEXKIT_PATH + fileName;
     }
 
     /**
@@ -231,14 +264,7 @@ public class DexKit {
     public static boolean removeData(@NotNull String tag, @NotNull String filePath) {
         try {
             ArrayList<JSONObject> dataList = DexKitData.toArray(FileUtils.read(filePath));
-            Iterator<JSONObject> iterator = dataList.iterator();
-            while (iterator.hasNext()) {
-                JSONObject object = iterator.next();
-                String mTag = DexKitData.getTAG(object);
-                if (mTag.equals(tag)) {
-                    iterator.remove();
-                }
-            }
+            dataList.removeIf(jsonObject -> tag.equals(DexKitData.getTAG(jsonObject)));
             FileUtils.write(filePath, dataList.toString());
             return true;
         } catch (Throwable e) {
@@ -255,35 +281,70 @@ public class DexKit {
     }
 
     private static String getCallName(StackTraceElement[] stackTrace) {
-        String callName = "";
         for (StackTraceElement stackTraceElement : stackTrace) {
-            callName = stackTraceElement.getClassName();
+            String callName = stackTraceElement.getClassName();
             if (callName.contains("com.sevtinge.hyperceiler.module.hook.")) {
-                break;
+                return callName.substring(callName.lastIndexOf('.') + 1);
             }
         }
-        String[] calls = callName.split("\\.");
-        if (calls.length != 0) {
-            callName = calls[calls.length - 1];
-        } else
-            throw new RuntimeException("calls length is 0! stack: " + stackTrace[2].getClassName());
-        return callName;
+        throw new RuntimeException("Invalid call stack");
+    }
+
+    private static ArrayList<AnnotatedElement> getElementsAndWriteCache(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
+                                                                        DexKitBridge dexKitBridge, ArrayList<JSONObject> dadaList, String dexFile) {
+        ArrayList<JSONObject> jsonList = new ArrayList<>();
+        ArrayList<AnnotatedElement> elements;
+        elements = getElements(iDexKit, iDexKitList, dexKitBridge);
+        // if (dadaList.isEmpty()) return elements;
+        if (elements == null) return null;
+        if (elements.isEmpty()) return null;
+        for (AnnotatedElement element : elements) {
+            if (element instanceof Method method) {
+                String methodName = method.getName();
+                String clName = method.getDeclaringClass().getName();
+                Class<?>[] param = method.getParameterTypes();
+                ArrayList<String> paramList = new ArrayList<>();
+                for (Class<?> p : param) {
+                    paramList.add(p.getName());
+                }
+                JSONObject data = new DexKitData(tag, TYPE_METHOD, clName, methodName, paramList, DexKitData.EMPTY).toJSON();
+                jsonList.add(data);
+            } else if (element instanceof Field field) {
+                String fieldName = field.getName();
+                String clName = field.getDeclaringClass().getName();
+                JSONObject data = new DexKitData(tag, TYPE_FIELD, clName, DexKitData.EMPTY,
+                        DexKitData.EMPTYLIST, fieldName).toJSON();
+                jsonList.add(data);
+            } else if (element instanceof Constructor<?> constructor) {
+                String clzName = constructor.getName();
+                Class<?>[] param = constructor.getParameterTypes();
+                ArrayList<String> paramList = new ArrayList<>();
+                for (Class<?> p : param) {
+                    paramList.add(p.getName());
+                }
+                JSONObject data = new DexKitData(tag, TYPE_CONSTRUCTOR, clzName,
+                        DexKitData.EMPTY, paramList, DexKitData.EMPTY).toJSON();
+                jsonList.add(data);
+            } else if (element instanceof Class<?> c) {
+                String clzName = c.getName();
+                JSONObject data = new DexKitData(tag, TYPE_CLASS, clzName,
+                        DexKitData.EMPTY, DexKitData.EMPTYLIST, DexKitData.EMPTY).toJSON();
+                jsonList.add(data);
+            }
+        }
+        dadaList.addAll(jsonList);
+        FileUtils.write(dexFile, dadaList.toString());
+        cacheMap.put(dexFile, dadaList);
+        return elements;
     }
 
     private static ArrayList<AnnotatedElement> getFileCache(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
                                                             ArrayList<JSONObject> dadaList, DexKitBridge dexKitBridge, ClassLoader classLoader) {
-        ArrayList<JSONObject> findJSONs = new ArrayList<>();
-        for (JSONObject object : dadaList) {
-            String mTag = DexKitData.getTAG(object);
-            if (mTag.equals(tag)) {
-                findJSONs.add(object);
-            }
-        }
-        if (findJSONs.isEmpty()) {
-            return getElements(iDexKit, iDexKitList, dexKitBridge);
-        }
         ArrayList<AnnotatedElement> getElement = new ArrayList<>();
-        for (JSONObject object : findJSONs) {
+        for (JSONObject object : dadaList) {
+            if (!tag.equals(DexKitData.getTAG(object))) {
+                continue;
+            }
             String type = DexKitData.getType(object);
             switch (type) {
                 case TYPE_CLASS -> {
@@ -328,54 +389,10 @@ public class DexKit {
                 }
             }
         }
-        return getElement;
-    }
-
-    private static ArrayList<AnnotatedElement> getElementsAndWriteCache(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
-                                                                        DexKitBridge dexKitBridge, ArrayList<JSONObject> dadaList, String dexFile) {
-        ArrayList<JSONObject> jsonList = new ArrayList<>();
-        ArrayList<AnnotatedElement> elements = new ArrayList<>();
-        elements = getElements(iDexKit, iDexKitList, dexKitBridge);
-        // if (dadaList.isEmpty()) return elements;
-        if (elements == null) return null;
-        if (elements.isEmpty()) return null;
-        for (AnnotatedElement element : elements) {
-            if (element instanceof Method method) {
-                String methodName = method.getName();
-                String clName = method.getDeclaringClass().getName();
-                Class<?>[] param = method.getParameterTypes();
-                ArrayList<String> paramList = new ArrayList<>();
-                for (Class<?> p : param) {
-                    paramList.add(p.getName());
-                }
-                JSONObject data = new DexKitData(tag, TYPE_METHOD, clName, methodName, paramList, DexKitData.EMPTY).toJSON();
-                jsonList.add(data);
-            } else if (element instanceof Field field) {
-                String fieldName = field.getName();
-                String clName = field.getDeclaringClass().getName();
-                JSONObject data = new DexKitData(tag, TYPE_FIELD, clName, DexKitData.EMPTY,
-                        DexKitData.EMPTYLIST, fieldName).toJSON();
-                jsonList.add(data);
-            } else if (element instanceof Constructor<?> constructor) {
-                String clzName = constructor.getName();
-                Class<?>[] param = constructor.getParameterTypes();
-                ArrayList<String> paramList = new ArrayList<>();
-                for (Class<?> p : param) {
-                    paramList.add(p.getName());
-                }
-                JSONObject data = new DexKitData(tag, TYPE_CONSTRUCTOR, clzName,
-                        DexKitData.EMPTY, paramList, DexKitData.EMPTY).toJSON();
-                jsonList.add(data);
-            } else if (element instanceof Class<?> c) {
-                String clzName = c.getName();
-                JSONObject data = new DexKitData(tag, TYPE_CLASS, clzName,
-                        DexKitData.EMPTY, DexKitData.EMPTYLIST, DexKitData.EMPTY).toJSON();
-                jsonList.add(data);
-            }
+        if (getElement.isEmpty()) {
+            return getElements(iDexKit, iDexKitList, dexKitBridge);
         }
-        dadaList.addAll(jsonList);
-        FileUtils.write(dexFile, dadaList.toString());
-        return elements;
+        return getElement;
     }
 
     @NotNull
@@ -393,9 +410,9 @@ public class DexKit {
     }
 
     private static Class<?>[] stringToClassArray(ArrayList<String> arrayList, ClassLoader classLoader) {
-        ArrayList<Class<?>> classes = new ArrayList<>();
         if (arrayList.isEmpty()) return new Class<?>[]{};
         if (arrayList.get(0).isEmpty()) return new Class<?>[]{};
+        ArrayList<Class<?>> classes = new ArrayList<>();
         for (String s : arrayList) {
             classes.add(getClass(s, classLoader));
         }
@@ -403,15 +420,13 @@ public class DexKit {
     }
 
     private static boolean isAdded(String tag, ArrayList<JSONObject> dadaList) {
-        boolean isAdded = false;
         for (JSONObject object : dadaList) {
             String mTag = DexKitData.getTAG(object);
             if (tag.equals(mTag)) {
-                isAdded = true;
-                break;
+                return true;
             }
         }
-        return isAdded;
+        return false;
     }
 
     private static ArrayList<AnnotatedElement> getElements(IDexKit iDexKit, IDexKitList iDexKitList, DexKitBridge dexKitBridge) {
@@ -436,7 +451,7 @@ public class DexKit {
      * 将 BaseDataList<?> 转为 ArrayList<AnnotatedElement> 时使用，调用 IDexKitList 接口会用到。
      */
     public static ArrayList<AnnotatedElement> toElementList(BaseDataList<?> baseDataList, ClassLoader classLoader) {
-        ArrayList<AnnotatedElement> elements = new ArrayList<>();
+        ArrayList<AnnotatedElement> elements = new ArrayList<>(baseDataList.size());
         for (Object baseData : baseDataList) {
             if (baseData instanceof MethodData) {
                 try {
@@ -465,8 +480,8 @@ public class DexKit {
      * 转为方法列表
      */
     public ArrayList<Method> toMethodList() {
-        ArrayList<Method> methods = new ArrayList<>();
-        if (elementList == null) return methods;
+        if (elementList == null) return new ArrayList<>();
+        ArrayList<Method> methods = new ArrayList<>(elementList.size());
         for (AnnotatedElement element : elementList) {
             methods.add((Method) element);
         }
@@ -478,8 +493,8 @@ public class DexKit {
      * 转为字段列表
      */
     public ArrayList<Field> toFieldList() {
-        ArrayList<Field> fields = new ArrayList<>();
-        if (elementList == null) return fields;
+        if (elementList == null) return new ArrayList<>();
+        ArrayList<Field> fields = new ArrayList<>(elementList.size());
         for (AnnotatedElement element : elementList) {
             fields.add((Field) element);
         }
@@ -491,8 +506,8 @@ public class DexKit {
      * 转为构造函数列表
      */
     public ArrayList<Constructor<?>> toConstructorList() {
-        ArrayList<Constructor<?>> constructors = new ArrayList<>();
-        if (elementList == null) return constructors;
+        if (elementList == null) return new ArrayList<>();
+        ArrayList<Constructor<?>> constructors = new ArrayList<>(elementList.size());
         for (AnnotatedElement element : elementList) {
             constructors.add((Constructor<?>) element);
         }
@@ -504,8 +519,8 @@ public class DexKit {
      * 转为类列表
      */
     public ArrayList<Class<?>> toClassList() {
-        ArrayList<Class<?>> classes = new ArrayList<>();
-        if (elementList == null) return classes;
+        if (elementList == null) return new ArrayList<>();
+        ArrayList<Class<?>> classes = new ArrayList<>(elementList.size());
         for (AnnotatedElement element : elementList) {
             classes.add((Class<?>) element);
         }
