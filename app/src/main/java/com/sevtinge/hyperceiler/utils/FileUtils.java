@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -150,5 +151,16 @@ public class FileUtils {
             return null;
         }
         return content.toString();
+    }
+
+    public static boolean delete(String path, FileVisitor<Path> fileVisitor) {
+        Path p = Paths.get(path);
+        try {
+            Files.walkFileTree(p, fileVisitor);
+        } catch (IOException e) {
+            AndroidLogUtils.logE(ITAG.TAG, "delete path: " + path + " e: " + e);
+            return false;
+        }
+        return true;
     }
 }

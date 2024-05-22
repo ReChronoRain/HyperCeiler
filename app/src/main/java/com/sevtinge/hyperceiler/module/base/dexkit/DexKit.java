@@ -33,10 +33,16 @@ import org.luckypray.dexkit.result.ClassData;
 import org.luckypray.dexkit.result.FieldData;
 import org.luckypray.dexkit.result.MethodData;
 
+import java.io.IOException;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -85,7 +91,7 @@ public class DexKit {
         String versionName = Helpers.getPackageVersionName(loadPackageParam);
         int versionCode = Helpers.getPackageVersionCode(loadPackageParam);
         String dir = loadPackageParam.appInfo.dataDir + DEXKIT_PATH;
-        String dexFile = dir + callTAG;
+        // String dexFile = dir + callTAG;
         String nameFile = dir + "versionName";
         String codeFile = dir + "versionCode";
         if (!FileUtils.mkdirs(dir))
@@ -103,7 +109,30 @@ public class DexKit {
             } else if (!(verName.equals(versionName)) || (!codeName.equals(Integer.toString(versionCode)))) {
                 FileUtils.write(nameFile, versionName);
                 FileUtils.write(codeName, String.valueOf(versionCode));
-                FileUtils.write(dexFile, new JSONArray().toString());
+                // FileUtils.write(dexFile, new JSONArray().toString());
+                FileUtils.delete(dir, new FileVisitor<Path>() {
+                    @Override
+                    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                        return null;
+                    }
+
+                    @Override
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                        Files.delete(file);
+                        XposedLogUtils.logI(callTAG, "success delete file: " + file);
+                        return FileVisitResult.CONTINUE;
+                    }
+
+                    @Override
+                    public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                        return null;
+                    }
+
+                    @Override
+                    public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                        return null;
+                    }
+                });
             }
         }
     }
