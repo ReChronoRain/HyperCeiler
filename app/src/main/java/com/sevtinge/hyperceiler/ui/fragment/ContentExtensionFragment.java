@@ -23,7 +23,6 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVers
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.SwitchPreference;
@@ -41,13 +40,5 @@ public class ContentExtensionFragment extends SettingsPreferenceFragment {
         mUnlockTaplus= findPreference("prefs_key_content_extension_unlock_taplus");
 
         mUnlockTaplus.setVisible(!isAndroidVersion(30));
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.content_extension),
-            "com.miui.contentextension"
-        );
     }
 }

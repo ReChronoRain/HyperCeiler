@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.base;
 
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW;
 
 import android.content.SharedPreferences;
@@ -33,7 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.SubSettings;
+import com.sevtinge.hyperceiler.ui.fragment.settings.SubSettings;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
@@ -130,52 +129,9 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item == mRestartMenu) {
-            if (isRestartSystem()) {
-                showRestartSystemDialog();
-            } else {
-                showRestartDialog(getResources().getString(getAppLabel()), getAppPkg());
-            }
+
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private boolean isRestartSystem() {
-        boolean isRestartSystem = false;
-        Class<?> clazz = getClass();
-        boolean isAnnotationPresent = clazz.isAnnotationPresent(RestartTag.class);
-        if (isAnnotationPresent) {
-            RestartTag tag = clazz.getAnnotation(RestartTag.class);
-            isRestartSystem = tag.isRestartSystem();
-        } else {
-            logW(TAG, "This class does not use the specified annotation: " + clazz.getName());
-        }
-        return isRestartSystem;
-    }
-
-    private int getAppLabel() {
-        int appLabel = 0;
-        Class<?> clazz = getClass();
-        boolean isAnnotationPresent = clazz.isAnnotationPresent(RestartTag.class);
-        if (isAnnotationPresent) {
-            RestartTag tag = clazz.getAnnotation(RestartTag.class);
-            appLabel = tag.appLabel();
-        } else {
-            logW(TAG, "This class does not use the specified annotation: " + clazz.getName());
-        }
-        return appLabel;
-    }
-
-    private String getAppPkg() {
-        String mPkg = "";
-        Class<?> clazz = getClass();
-        boolean isAnnotationPresent = clazz.isAnnotationPresent(RestartTag.class);
-        if (isAnnotationPresent) {
-            RestartTag tag = clazz.getAnnotation(RestartTag.class);
-            mPkg = tag.pkg();
-        } else {
-            logW(TAG, "This class does not use the specified annotation: " + clazz.getName());
-        }
-        return mPkg;
     }
 
     public void showRestartSystemDialog() {

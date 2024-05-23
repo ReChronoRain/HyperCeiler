@@ -41,18 +41,15 @@ import fan.appcompat.app.AppCompatActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    protected BaseSettingsProxy mProxy;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        mProxy = new SettingsProxy(this);
         super.onCreate(savedInstanceState);
         initActionBar();
         registerObserver();
     }
 
     protected void initActionBar() {
-        setDisplayHomeAsUpEnabled(!(this instanceof NavigationActivity));
+
     }
 
     public void setDisplayHomeAsUpEnabled(boolean isEnable) {

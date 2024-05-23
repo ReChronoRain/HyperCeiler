@@ -27,11 +27,9 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVer
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
-import android.widget.SeekBar;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
@@ -51,14 +49,6 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
     @Override
     public int getContentResId() {
         return R.xml.system_settings;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-                getResources().getString(R.string.system_settings),
-                "com.android.settings"
-        );
     }
 
     @Override
@@ -89,7 +79,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
         args1.putString(":settings:fragment_args_key", "prefs_key_mi_settings_show_fps");
         mRecommend.addRecommendView(getString(R.string.mi_settings_show_fps),
                 null,
-                MiSettingsFragment.class,
+                CommonFragment.class,
                 args1,
                 R.string.mi_settings
         );

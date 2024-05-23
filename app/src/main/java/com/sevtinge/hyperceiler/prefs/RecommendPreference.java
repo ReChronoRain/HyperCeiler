@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.SubSettings;
+import com.sevtinge.hyperceiler.ui.fragment.settings.SubSettings;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 
 import java.util.ArrayList;

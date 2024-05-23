@@ -21,12 +21,10 @@ package com.sevtinge.hyperceiler.ui.fragment;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.fragment.base.RestartTag;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.DropDownPreference;
 
-@RestartTag(appLabel = R.string.weather, pkg = "com.miui.weather2")
 public class WeatherFragment extends SettingsPreferenceFragment {
 
     DropDownPreference mCardDisplayType;

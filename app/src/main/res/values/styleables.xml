@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Attribute for a header describing the item shown in the top-level list
+         from which the selects the set of preference to dig in to. -->
+    <declare-styleable name="PreferenceHeader">
+        <!-- Identifier value for the header. -->
+        <attr name="android:id" />
+        <!-- An icon for the item. -->
+        <attr name="android:icon" />
+        <!-- The title of the item that is shown to the user. -->
+        <attr name="android:title" />
+        <!-- The summary for the item. -->
+        <attr name="android:summary" />
+        <!-- The fragment that is displayed when the user selects this item. -->
+        <attr name="android:fragment" />
+        <!-- The title for the bread crumb of this item. -->
+        <attr name="android:breadCrumbTitle" />
+        <!-- The short title for the bread crumb of this item. -->
+        <attr name="android:breadCrumbShortTitle" />
+    </declare-styleable>
+
+    <declare-styleable name="Preference">
+        <attr name="forWork" format="boolean" />
+        <attr name="keywords" format="string" />
+        <attr name="controller" format="string" />
+        <attr name="searchable" format="boolean" />
+        <attr name="highlightableMenuKey" format="string" />
+        <attr name="unavailableSliceSubtitle" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="PreferenceScreen">
+        <attr name="staticPreferenceLocation" format="enum">
+            <enum name="append" value="1" />
+            <enum name="prepend" value="0" />
+        </attr>
+    </declare-styleable>
+</resources>

@@ -61,7 +61,6 @@ import fan.preference.Preference;
 
 public class MainFragment extends SettingsPreferenceFragment implements HomepageEntrance.EntranceState {
 
-    Preference mCamera;
     Preference mSecurityCenter;
     Preference mMiLink;
     Preference mAod;
@@ -131,7 +130,6 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
                 }
             }
         });
-        mCamera = findPreference("prefs_key_camera_2");
         mSecurityCenter = findPreference("prefs_key_security_center");
         mMiLink = findPreference("prefs_key_milink");
         mAod = findPreference("prefs_key_aod");
@@ -144,13 +142,11 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         mHelpCantSeeApps.setVisible(!getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false));
 
         if (isMoreHyperOSVersion(1f)) {
-            mCamera.setFragment("com.sevtinge.hyperceiler.ui.fragment.CameraNewFragment");
             mAod.setTitle(R.string.aod_hyperos);
             mMiLink.setTitle(R.string.milink_hyperos);
             mGuardProvider.setTitle(R.string.guard_provider_hyperos);
             mSecurityCenter.setTitle(R.string.security_center_hyperos);
         } else {
-            mCamera.setFragment("com.sevtinge.hyperceiler.ui.fragment.CameraFragment");
             mAod.setTitle(R.string.aod);
             mMiLink.setTitle(R.string.milink);
             mGuardProvider.setTitle(R.string.guard_provider);

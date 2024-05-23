@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fan.nestedheader.widget.NestedHeaderLayout
+        android:id="@+id/nestedheaderlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:headerView="@id/header_view"
+        app:rangeOffset="0px"
+        app:scrollableView="@id/springbacklayout">
+
+        <include
+            android:id="@id/header_view"
+            layout="@layout/miuix_appcompat_search_stub" />
+
+        <fan.springback.view.SpringBackLayout
+            android:id="@+id/springbacklayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:scrollOrientation="vertical"
+            app:scrollableView="@id/scroll_headers">
+
+            <fan.recyclerview.widget.RecyclerView
+                android:id="@+id/scroll_headers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:fadingEdgeLength="16dp"
+                android:paddingTop="@dimen/miuix_preference_rv_padding_top"
+                android:paddingBottom="@dimen/miuix_preference_rv_padding_bottom" />
+        </fan.springback.view.SpringBackLayout>
+    </fan.nestedheader.widget.NestedHeaderLayout>
+
+    <LinearLayout
+        android:id="@+id/search_result_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--<include
+            android:id="@+id/search_history"
+            layout="@layout/search_history_layout"
+            android:visibility="gone" />-->
+
+        <fan.springback.view.SpringBackLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:scrollOrientation="vertical"
+            app:scrollableView="@id/search_result">
+
+            <fan.recyclerview.widget.RecyclerView
+                android:id="@+id/search_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="12dp" />
+        </fan.springback.view.SpringBackLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/search_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+</FrameLayout>

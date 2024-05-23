@@ -23,22 +23,14 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class NfcFragment extends SettingsPreferenceFragment {
+
     RecommendPreference mRecommend;
     @Override
     public int getContentResId() {
         return R.xml.nfc;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.nfc),
-            "com.android.nfc"
-        );
     }
 
     @Override
@@ -51,7 +43,7 @@ public class NfcFragment extends SettingsPreferenceFragment {
         args1.putString(":settings:fragment_args_key", "prefs_key_tsmclient_auto_nfc");
         mRecommend.addRecommendView(getString(R.string.tsmclient_auto_nfc),
                 null,
-                TsmClientFragment.class,
+                CommonFragment.class,
                 args1,
                 R.string.tsmclient
         );

@@ -23,7 +23,6 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.SwitchPreference;
@@ -36,14 +35,6 @@ public class HomeOtherSettings extends SettingsPreferenceFragment{
     @Override
     public int getContentResId() {
         return R.xml.home_other;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-            getResources().getString(R.string.mihome),
-            "com.miui.home"
-        );
     }
 
     @Override

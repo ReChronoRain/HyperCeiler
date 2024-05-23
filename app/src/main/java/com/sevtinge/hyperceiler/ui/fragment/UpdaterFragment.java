@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.ui.fragment;
 import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.fragment.base.RestartTag;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -29,7 +28,6 @@ import fan.preference.DropDownPreference;
 import fan.preference.EditTextPreference;
 import fan.preference.Preference;
 
-@RestartTag(appLabel = R.string.updater, pkg = "com.android.updater")
 public class UpdaterFragment extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 

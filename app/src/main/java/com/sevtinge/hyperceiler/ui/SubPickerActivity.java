@@ -21,13 +21,13 @@ package com.sevtinge.hyperceiler.ui;
 import android.content.Intent;
 
 import com.sevtinge.hyperceiler.callback.IAppSelectCallback;
-import com.sevtinge.hyperceiler.ui.base.SettingsActivity;
+import com.sevtinge.hyperceiler.ui.fragment.settings.SettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 
 public class SubPickerActivity extends SettingsActivity {
     AppPicker mAppSelectFragment = new AppPicker();
 
-    @Override
+    /*@Override
     public void initCreate() {
         mAppSelectFragment.setAppSelectCallback(new IAppSelectCallback() {
             @Override
@@ -45,6 +45,6 @@ public class SubPickerActivity extends SettingsActivity {
                 return null;
             }
         });
-        setFragment(mAppSelectFragment);
-    }
+        //setFragment(mAppSelectFragment);
+    }*/
 }

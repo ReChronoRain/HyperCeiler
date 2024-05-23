@@ -1631,7 +1631,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="safe_mode_cancel">Tắt chế độ an toàn</string>
     <string name="safe_mode_ok">Tiếp tục sau</string>
     <string name="safe_mode_later_title">Mẹo</string>
-    <string name="safe_mode_later_desc">Bạn vẫn đang ở Chế độ an toàn và các tính năng HyperCeiler bị tắt. Bạn có muốn tắt Chế độ an toàn không?</string>
+    <string name="safe_mode_later_desc">%s Bạn vẫn đang ở Chế độ an toàn và các tính năng HyperCeiler bị tắt. Bạn có muốn tắt Chế độ an toàn không?</string>
     <string name="safe_mode_recorder_title">Bản ghi ngoại lệ</string>
     <string name="safe_mode_recorder_file">Tệp tin</string>
     <string name="safe_mode_recorder_class">Lớp</string>

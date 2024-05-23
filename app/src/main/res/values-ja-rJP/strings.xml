@@ -1601,7 +1601,7 @@
     <string name="safe_mode_cancel">セーフモードを無効化</string>
     <string name="safe_mode_ok">後で対処する</string>
     <string name="safe_mode_later_title">ヒント</string>
-    <string name="safe_mode_later_desc">はまだセーフモードになっており、HyperCeiler の機能が無効になっています。セーフモードを無効にしますか？</string>
+    <string name="safe_mode_later_desc">%s はまだセーフモードになっており、HyperCeiler の機能が無効になっています。セーフモードを無効にしますか？</string>
     <string name="safe_mode_recorder_title">例外レコード</string>
     <string name="safe_mode_recorder_file">ファイル</string>
     <string name="safe_mode_recorder_class">クラス</string>

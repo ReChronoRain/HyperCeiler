@@ -30,4 +30,7 @@
     <color name="preference_recommend_item_link_pressed">#990d84ff</color>
 
     <color name="card_tile_disabled_color_legacy">#9E9E9E</color>
+
+
+    <color name="settings_item_touch_color">#14000000</color>
 </resources>

@@ -24,7 +24,6 @@ import android.provider.Settings;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.DropDownPreference;
@@ -38,11 +37,6 @@ public class VolumeSettings extends SettingsPreferenceFragment {
     @Override
     public int getContentResId() {
         return R.xml.framework_volume;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartSystemDialog();
     }
 
     @Override

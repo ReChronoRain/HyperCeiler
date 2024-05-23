@@ -1609,7 +1609,7 @@
     <string name="safe_mode_cancel">Desativar Modo seguro</string>
     <string name="safe_mode_ok">Continuar mais tarde</string>
     <string name="safe_mode_later_title">Dica</string>
-    <string name="safe_mode_later_desc">Você ainda está no Modo seguro e os recursos do HyperCeiler estão desativados. Deseja desativar o Modo seguro?</string>
+    <string name="safe_mode_later_desc">%s Você ainda está no Modo seguro e os recursos do HyperCeiler estão desativados. Deseja desativar o Modo seguro?</string>
     <string name="safe_mode_recorder_title">Registros de exceção</string>
     <string name="safe_mode_recorder_file">Arquivo</string>
     <string name="safe_mode_recorder_class">Classe</string>

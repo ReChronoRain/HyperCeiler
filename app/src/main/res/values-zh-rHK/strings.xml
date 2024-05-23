@@ -1609,7 +1609,7 @@
     <string name="safe_mode_cancel">停用安全模式</string>
     <string name="safe_mode_ok">稍後再處理</string>
     <string name="safe_mode_later_title">提示</string>
-    <string name="safe_mode_later_desc">仍處於安全模式且 HyperCeiler 功能已停用。停用安全模式？</string>
+    <string name="safe_mode_later_desc">%s 仍處於安全模式且 HyperCeiler 功能已停用。停用安全模式？</string>
     <string name="safe_mode_recorder_title">異常記錄</string>
     <string name="safe_mode_recorder_file">檔案</string>
     <string name="safe_mode_recorder_class">種類</string>

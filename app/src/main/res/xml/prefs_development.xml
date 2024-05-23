@@ -2,22 +2,22 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.base.settings.development.DevelopmentDebugInfoFragment"
+        android:fragment="com.sevtinge.hyperceiler.ui.navigator.page.settings.development.DevelopmentDebugInfoFragment"
         android:key="prefs_key_development_debug_info"
         android:title="@string/development_debug_info" />
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.base.settings.development.DevelopmentKillFragment"
+        android:fragment="com.sevtinge.hyperceiler.ui.navigator.page.settings.development.DevelopmentKillFragment"
         android:key="prefs_key_development_kill"
         android:title="@string/kill" />
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.base.settings.development.DevelopmentPrefsFragment"
+        android:fragment="com.sevtinge.hyperceiler.ui.navigator.page.settings.development.DevelopmentPrefsFragment"
         android:key="prefs_key_development_prefs"
         android:title="@string/development_prefs" />
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.base.settings.development.DevelopmentUIFragment"
+        android:fragment="com.sevtinge.hyperceiler.ui.navigator.page.settings.development.DevelopmentUIFragment"
         android:key="prefs_key_development_ui"
         android:title="@string/development_ui" />
 

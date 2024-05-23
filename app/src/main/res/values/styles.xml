@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="Widget.ActionBar.ShowTitle">
+        <item name="tabIndicator">@null</item>
+        <item name="android:displayOptions">showTitle</item>
+    </style>
+
+    <style name="Widget.ActionBar.ShowTitleAndBack">
+        <item name="android:displayOptions">homeAsUp|showTitle</item>
+        <item name="android:homeAsUpIndicator">@drawable/miuix_appcompat_action_bar_back_light</item>
+    </style>
+
     <style name="DividerViewStyle">
         <item name="android:background">@color/card_tile_disabled_color_legacy</item>
         <item name="android:layout_gravity">center</item>

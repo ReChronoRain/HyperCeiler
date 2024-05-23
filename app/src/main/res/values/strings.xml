@@ -1683,7 +1683,7 @@
     <string name="safe_mode_cancel">Disable safe mode</string>
     <string name="safe_mode_ok">Deal with it later</string>
     <string name="safe_mode_later_title">Tip</string>
-    <string name="safe_mode_later_desc">is still in safe mode and HyperCeiler functionality has been disabled. Disable safe mode?</string>
+    <string name="safe_mode_later_desc">%s is still in safe mode and HyperCeiler functionality has been disabled. Disable safe mode?</string>
     <string name="safe_mode_recorder_title">Exception records</string>
     <string name="safe_mode_recorder_file">File</string>
     <string name="safe_mode_recorder_class">Class</string>

@@ -1735,7 +1735,7 @@
     <string name="safe_mode_cancel">解除</string>
     <string name="safe_mode_ok">稍后处理</string>
     <string name="safe_mode_later_title">提示</string>
-    <string name="safe_mode_later_desc">处于安全模式中，HyperCeiler 对其的功能已停用。\n您可以解除其的安全模式，也可稍后处理。</string>
+    <string name="safe_mode_later_desc">%s 处于安全模式中，HyperCeiler 对其的功能已停用。\n您可以解除其的安全模式，也可稍后处理。</string>
     <string name="safe_mode_recorder_title">异常记录</string>
     <string name="safe_mode_recorder_file">文件名</string>
     <string name="safe_mode_recorder_class">抛出类</string>
