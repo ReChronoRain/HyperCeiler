@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.base;
 
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;

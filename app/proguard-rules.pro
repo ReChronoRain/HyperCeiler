@@ -6,7 +6,7 @@
 -keep class com.sevtinge.hyperceiler.utils.Helpers { int XposedVersion; }
 -keep class fan.**{*;}
 -keep class org.luckypray.dexkit.*
--keep class * extends com.sevtinge.hyperceiler.ui.settings.*
+-keep class * extends com.sevtinge.hyperceiler.ui.dashboard.*
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook { <init>(); }
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseModule
 -keep class com.sevtinge.hyperceiler.module.base.BaseModule {*;}
