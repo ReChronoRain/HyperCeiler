@@ -3,15 +3,13 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.SystemFrameworkFragment"
         android:icon="@drawable/ic_android"
-        android:key="prefs_key_system_framework"
-        android:summary="android"
+        android:id="@+id/system_framework"
         android:title="@string/system_framework" />
 
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_browser"
-        android:key="prefs_key_browser"
-        android:summary="com.android.browser"
+        android:id="@+id/browser"
         android:title="@string/browser" >
         <extra
             android:name="contentResId"
@@ -21,8 +19,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_calendar"
-        android:key="prefs_key_calendar"
-        android:summary="com.android.calendar"
+        android:id="@+id/calendar"
         android:title="@string/calendar" >
         <extra
             android:name="contentResId"
@@ -32,15 +29,13 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CameraFragment"
         android:icon="@drawable/ic_camera"
-        android:key="prefs_key_camera_2"
-        android:summary="com.android.camera"
+        android:id="@+id/camera_2"
         android:title="@string/camera" />
 
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_fileexplorer"
-        android:key="prefs_key_file_explorer"
-        android:summary="com.android.fileexplorer"
+        android:id="@+id/file_explorer"
         android:title="@string/fileexplorer" >
         <extra
             android:name="contentResId"
@@ -50,8 +45,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_call"
-        android:key="prefs_key_incallui"
-        android:summary="com.android.incallui"
+        android:id="@+id/incallui"
         android:title="@string/incallui" >
         <extra
             android:name="contentResId"
@@ -61,8 +55,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_mms"
-        android:key="prefs_key_mms"
-        android:summary="com.android.mms"
+        android:id="@+id/mms"
         android:title="@string/mms" >
         <extra
             android:name="contentResId"
@@ -72,22 +65,19 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.NfcFragment"
         android:icon="@drawable/ic_default_icon"
-        android:key="prefs_key_nfc"
-        android:summary="com.android.nfc"
+        android:id="@+id/nfc"
         android:title="@string/nfc" />
 
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.PhoneFragment"
         android:icon="@drawable/ic_phone"
-        android:key="prefs_key_phone"
-        android:summary="com.android.phone"
+        android:id="@+id/phone"
         android:title="@string/phone" />
 
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_downloads"
-        android:key="prefs_key_downloads"
-        android:summary="com.android.providers.downloads"
+        android:id="@+id/downloads"
         android:title="@string/downloads" >
         <extra
             android:name="contentResId"
@@ -97,8 +87,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_system_ui"
-        android:key="prefs_key_system_ui"
-        android:summary="com.android.systemui"
+        android:id="@+id/system_ui"
         android:title="@string/system_ui" >
         <extra
             android:name="contentResId"
@@ -108,15 +97,13 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.SystemSettingsFragment"
         android:icon="@drawable/ic_system_settings"
-        android:key="prefs_key_system_settings"
-        android:summary="com.android.settings"
+        android:id="@+id/system_settings"
         android:title="@string/system_settings" />
 
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_theme_manager"
-        android:key="prefs_key_various_theme"
-        android:summary="com.android.thememanager"
+        android:id="@+id/various_theme"
         android:title="@string/theme_manager" >
         <extra
             android:name="contentResId"
@@ -126,15 +113,13 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.UpdaterFragment"
         android:icon="@drawable/ic_updater"
-        android:key="prefs_key_updater"
-        android:summary="com.android.updater"
+        android:id="@+id/updater"
         android:title="@string/updater" />
 
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_lbe"
-        android:key="prefs_key_lbe"
-        android:summary="com.lbe.security.miui"
+        android:id="@+id/lbe"
         android:title="@string/lbe" >
         <extra
             android:name="contentResId"
@@ -144,22 +129,19 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.MiLinkFragment"
         android:icon="@drawable/ic_milink"
-        android:key="prefs_key_milink"
-        android:summary="com.milink.service"
+        android:id="@+id/milink"
         android:title="@string/milink" />
 
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.AodFragment"
         android:icon="@drawable/ic_aod"
-        android:key="prefs_key_aod"
-        android:summary="com.miui.aod"
+        android:id="@+id/aod"
         android:title="@string/aod" />
 
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_backup"
-        android:key="prefs_key_backup"
-        android:summary="com.miui.backup"
+        android:id="@+id/backup"
         android:title="@string/backup" >
         <extra
             android:name="contentResId"
@@ -169,15 +151,13 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.ContentExtensionFragment"
         android:icon="@drawable/ic_contentextension"
-        android:key="prefs_key_content_extension"
-        android:summary="com.miui.contentextension"
+        android:id="@+id/content_extension"
         android:title="@string/content_extension" />
 
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_micloud_service"
-        android:key="prefs_key_micloud_service"
-        android:summary="com.miui.cloudservice"
+        android:id="@+id/micloud_service"
         android:title="@string/micloud_service" >
         <extra
             android:name="contentResId"
@@ -187,8 +167,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_creation"
-        android:key="prefs_key_creation"
-        android:summary="com.miui.creation"
+        android:id="@+id/creation"
         android:title="@string/creation" >
         <extra
             android:name="contentResId"
@@ -198,8 +177,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_gallery"
-        android:key="prefs_key_gallery"
-        android:summary="com.miui.gallery"
+        android:id="@+id/gallery"
         android:title="@string/gallery" >
         <extra
             android:name="contentResId"
@@ -209,8 +187,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_guard_provider_new"
-        android:key="prefs_key_guardprovider"
-        android:summary="com.miui.guardprovider"
+        android:id="@+id/guardprovider"
         android:title="@string/guard_provider" >
         <extra
             android:name="contentResId"
@@ -220,8 +197,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_home"
-        android:key="prefs_key_home"
-        android:summary="com.miui.home"
+        android:id="@+id/home"
         android:title="@string/mihome" >
         <extra
             android:name="contentResId"
@@ -231,8 +207,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_huanji"
-        android:key="prefs_key_huanji"
-        android:summary="com.miui.huanji"
+        android:id="@+id/huanji"
         android:title="@string/huanji" >
         <extra
             android:name="contentResId"
@@ -242,8 +217,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_gallery"
-        android:key="prefs_key_mediaeditor"
-        android:summary="com.miui.mediaeditor"
+        android:id="@+id/mediaeditor"
         android:title="@string/mediaeditor" >
         <extra
             android:name="contentResId"
@@ -253,15 +227,13 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.MiShareFragment"
         android:icon="@drawable/ic_mishare"
-        android:key="prefs_key_mishare"
-        android:summary="com.miui.mishare.connectivity"
+        android:id="@+id/mishare"
         android:title="@string/mishare" />
 
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_misound"
-        android:key="prefs_key_misound"
-        android:summary="com.miui.misound"
+        android:id="@+id/misound"
         android:title="@string/misound" >
         <extra
             android:name="contentResId"
@@ -271,8 +243,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_miwallpaper"
-        android:key="prefs_key_miwallpaper"
-        android:summary="com.miui.miwallpaper"
+        android:id="@+id/miwallpaper"
         android:title="@string/miwallpaper" >
         <extra
             android:name="contentResId"
@@ -282,8 +253,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_package_installer"
-        android:key="prefs_key_package_installer"
-        android:summary="com.miui.packageinstaller"
+        android:id="@+id/package_installer"
         android:title="@string/package_installer" >
         <extra
             android:name="contentResId"
@@ -293,15 +263,13 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.PersonalAssistantFragment"
         android:icon="@drawable/ic_personal_assistant"
-        android:key="prefs_key_home_personal_assistant"
-        android:summary="com.miui.personalassistant"
+        android:id="@+id/home_personal_assistant"
         android:title="@string/personal_assistant" />
 
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_powerkeeper"
-        android:key="prefs_key_powerkeeper"
-        android:summary="com.miui.powerkeeper"
+        android:id="@+id/powerkeeper"
         android:title="@string/powerkeeper" >
         <extra
             android:name="contentResId"
@@ -311,8 +279,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_screenrecorder"
-        android:key="prefs_key_screen_recorder"
-        android:summary="com.miui.screenrecorder"
+        android:id="@+id/screen_recorder"
         android:title="@string/screenrecorder" >
         <extra
             android:name="contentResId"
@@ -322,8 +289,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_screenshot"
-        android:key="prefs_key_screenshot"
-        android:summary="com.miui.screenshot"
+        android:id="@+id/screenshot"
         android:title="@string/screenshot" >
         <extra
             android:name="contentResId"
@@ -333,8 +299,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_security_center"
-        android:key="prefs_key_security_center"
-        android:summary="com.miui.securitycenter"
+        android:id="@+id/security_center"
         android:title="@string/security_center" >
         <extra
             android:name="contentResId"
@@ -344,8 +309,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_tsmclient"
-        android:key="prefs_key_tsmclient"
-        android:summary="com.miui.tsmclient"
+        android:id="@+id/tsmclient"
         android:title="@string/tsmclient" >
         <extra
             android:name="contentResId"
@@ -355,15 +319,13 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.XiaoAiFragment"
         android:icon="@drawable/ic_voiceassist"
-        android:key="prefs_key_voiceassist"
-        android:summary="com.miui.voiceassist"
+        android:id="@+id/voiceassist"
         android:title="@string/xiaoai" />
 
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.WeatherFragment"
         android:icon="@drawable/ic_weather"
-        android:key="prefs_key_weather"
-        android:summary="com.miui.weather2"
+        android:id="@+id/weather"
         android:title="@string/weather" />
 
     <!--<header
@@ -376,8 +338,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_default_icon"
-        android:key="prefs_key_barrage"
-        android:summary="com.xiaomi.barrage"
+        android:id="@+id/barrage"
         android:title="@string/barrage" >
         <extra
             android:name="contentResId"
@@ -387,8 +348,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_default_icon"
-        android:key="prefs_key_joyose"
-        android:summary="com.xiaomi.joyose"
+        android:id="@+id/joyose"
         android:title="@string/joyose" >
         <extra
             android:name="contentResId"
@@ -398,8 +358,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_market"
-        android:key="prefs_key_market"
-        android:summary="com.xiaomi.market"
+        android:id="@+id/market"
         android:title="@string/market" >
         <extra
             android:name="contentResId"
@@ -409,8 +368,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_misettings"
-        android:key="prefs_key_mi_settings"
-        android:summary="com.xiaomi.misettings"
+        android:id="@+id/mi_settings"
         android:title="@string/mi_settings" >
         <extra
             android:name="contentResId"
@@ -420,8 +378,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_mtb"
-        android:key="prefs_key_mtb"
-        android:summary="com.xiaomi.mtb"
+        android:id="@+id/mtb"
         android:title="@string/mtb" >
         <extra
             android:name="contentResId"
@@ -431,8 +388,7 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
         android:icon="@drawable/ic_default_icon"
-        android:key="prefs_key_trustservice"
-        android:summary="com.xiaomi.trustservice"
+        android:id="@+id/trustservice"
         android:title="@string/trustservice" >
         <extra
             android:name="contentResId"
@@ -442,12 +398,12 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.VariousFragment"
         android:icon="@drawable/ic_various_new"
-        android:key="prefs_key_various"
+        android:id="@+id/various"
         android:title="@string/various" />
 
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.helper.CantSeeAppsFragment"
-        android:key="prefs_key_help_cant_see_app"
+        android:id="@+id/help_cant_see_app"
         android:layout="@layout/preference_hyperlink"
         android:title="@string/help_cant_see_apps_guide" />
 </preference-headers>

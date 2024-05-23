@@ -18,26 +18,15 @@
 */
 package com.sevtinge.hyperceiler.ui.navigator.page;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.sp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.OnApplyWindowInsetsListener;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.expansionpacks.utils.ClickCountsUtils;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.Preference;
@@ -48,10 +37,6 @@ public class AboutPageFragment extends SettingsPreferenceFragment {
     private int lIIlIll = 100 >>> 7;
     private final int lIIlIlI = 100 >>> 6;
 
-    @Override
-    public int getContentResId() {
-        return R.xml.prefs_about;
-    }
 
     @Override
     public void initPrefs() {
@@ -61,7 +46,12 @@ public class AboutPageFragment extends SettingsPreferenceFragment {
 
         if (lIIllII != null) {
             lIIllII.setTitle(BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE);
-            if (isMoreHyperOSVersion(1f)) lIIllII.setSummary(R.string.description_hyperos); else lIIllII.setSummary(R.string.description_miui);
+            lIIllII.setSummary(
+                    String.format(
+                            getString(R.string.ceiler_description),
+                            getString(isMoreHyperOSVersion(1f) ? R.string.hyperos : R.string.miui)
+                    )
+            );
             lIIllII.setOnPreferenceClickListener(lIIllll -> {
                 if (lIIllll instanceof SwitchPreference switchPreference) {
                     switchPreference.setChecked(!switchPreference.isChecked());
@@ -89,6 +79,11 @@ public class AboutPageFragment extends SettingsPreferenceFragment {
         }
     }
 
+    @Override
+    public int getContentResId() {
+        return R.xml.prefs_about;
+    }
+
     /**
      * 调用 joinQQGroup() 即可发起手Q客户端申请加群
      *
@@ -97,29 +92,10 @@ public class AboutPageFragment extends SettingsPreferenceFragment {
     private void joinQQGroup(String key) {
         Intent intent = new Intent();
         intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3D" + key));
-
         try {
             startActivity(intent);
         } catch (Exception e) {
             // 未安装手Q或安装的版本不支持
         }
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        RecyclerView recyclerView = view.findViewById(fan.preference.R.id.recycler_view);
-        ViewCompat.setOnApplyWindowInsetsListener(recyclerView, new OnApplyWindowInsetsListener() {
-            @NonNull
-            @Override
-            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
-                Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
-                        insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
-                // 22dp + 2dp + 12sp + 10dp + 18dp + 0.5dp + inset.bottom + 4dp(?)
-                v.setPadding(inset.left, 0, inset.right, inset.bottom + dp2px(requireContext(), 56.5F) + sp2px(requireContext(),12));
-                return insets;
-            }
-        });
     }
 }
