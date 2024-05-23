@@ -1611,4 +1611,5 @@
     <string name="safe_mode_recorder_st">スタックトレース</string>
     <string name="tip_default">ヒント: デフォルトのヒントはこちらです。 このメッセージが出るということは HyperCeiler に問題があります。 出たら開発者に教えてください。</string>
     <string name="preference_recommend_tip">何か他のものをお探しですか?</string>
+    <string name="xiaoai">小爱同学</string>
 </resources>

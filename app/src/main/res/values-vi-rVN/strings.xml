@@ -1652,4 +1652,5 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="ic_qs_title_settings">Cài đặt</string>
     <string name="ic_qs_title_airplane">Chế độ máy bay</string>
     <string name="ic_qs_title_autobrightness">Độ sáng tự động</string>
+    <string name="xiaoai">小爱同学</string>
 </resources>

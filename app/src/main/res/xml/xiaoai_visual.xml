@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/scanner">
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_scanner_card"
+            android:title="@string/scanner_card" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_scanner_translation"
+            android:title="@string/scanner_translation" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_scanner_ocr"
+            android:title="@string/scanner_ocr" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_scanner_document"
+            android:title="@string/scanner_document" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_scanner_document"
+            android:key="prefs_key_scanner_excel"
+            android:title="@string/scanner_excel" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_scanner_document"
+            android:key="prefs_key_scanner_ppt"
+            android:title="@string/scanner_ppt" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_scanner_doc_ppt"
+            android:title="@string/scanner_doc_ppt" />
+    </PreferenceCategory>
+</PreferenceScreen>

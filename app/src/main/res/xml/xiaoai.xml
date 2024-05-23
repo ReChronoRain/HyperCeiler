@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/xiaoai">
+    <Preference
+        android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
+        android:icon="@drawable/ic_xiaoai_voice"
+        android:title="@string/voiceassist">
+        <extra
+            android:name="contentResId"
+            android:value="xiaoai_voice" />
+    </Preference>
+
+    <Preference
+        android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
+        android:icon="@drawable/ic_xiaoai_visual"
+        android:title="@string/voiceassist">
+        <extra
+            android:name="contentResId"
+            android:value="xiaoai_visual" />
+    </Preference>
+
+    <Preference
+        android:fragment="com.sevtinge.hyperceiler.ui.sub.CommonFragment"
+        android:icon="@drawable/ic_xiaoai_translate"
+        android:title="@string/aiasst">
+        <extra
+            android:name="contentResId"
+            android:value="xiaoai_translate" />
+    </Preference>
+</PreferenceScreen>

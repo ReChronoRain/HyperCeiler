@@ -1619,4 +1619,5 @@
     <string name="safe_mode_recorder_st">堆疊追蹤</string>
     <string name="tip_default">提示：這是預設提示。如果你能看到我，則表示 HyperCeiler 有問題，請及時有效地向開發者報告。</string>
     <string name="preference_recommend_tip">在找什麼嗎？</string>
+    <string name="xiaoai">小爱同学</string>
 </resources>

@@ -52,15 +52,15 @@
         android:dependency="prefs_key_system_ui_statusbar_clock_all_status_enable"
         android:title="@string/system_ui_statusbar_layout_title">
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.clock.StatusBarClock"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.systemui.statusbar.clock.StatusBarClock"
             android:title="@string/system_ui_statusbar_clock_layout_s" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.clock.BigClock"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.systemui.statusbar.clock.BigClock"
             android:title="@string/system_ui_statusbar_clock_layout_b" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.clock.SmallClock"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.systemui.statusbar.clock.SmallClock"
             android:title="@string/system_ui_statusbar_clock_layout_n" />
 
     </PreferenceCategory>

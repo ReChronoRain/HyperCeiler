@@ -10,7 +10,7 @@
 
         <Preference
             android:dependency="prefs_key_home_small_folder_icon_bg"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.CustomBackgroundSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.CustomBackgroundSettings"
             android:key="prefs_key_home_small_folder_icon_bg_custom"
             android:title="@string/home_small_folder_icon_bg_custom" />
 
@@ -35,7 +35,7 @@
 
         <Preference
             android:dependency="prefs_key_home_big_folder_icon_bg_2x1"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.CustomBackgroundSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.CustomBackgroundSettings"
             android:key="prefs_key_home_big_folder_icon_bg_2x1_custom"
             android:title="@string/home_big_folder_icon_bg_2x1_custom" />
 
@@ -68,7 +68,7 @@
 
         <Preference
             android:dependency="prefs_key_home_big_folder_icon_bg_1x2"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.CustomBackgroundSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.CustomBackgroundSettings"
             android:key="prefs_key_home_big_folder_icon_bg_1x2_custom"
             android:title="@string/home_big_folder_icon_bg_1x2_custom" />
 
@@ -101,7 +101,7 @@
 
         <Preference
             android:dependency="prefs_key_home_big_folder_icon_bg"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.CustomBackgroundSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.CustomBackgroundSettings"
             android:key="prefs_key_home_big_folder_icon_bg_custom"
             android:title="@string/home_big_folder_icon_bg_custom" />
 

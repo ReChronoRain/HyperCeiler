@@ -32,7 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.fragment.settings.SubSettings;
+import com.sevtinge.hyperceiler.ui.settings.SubSettings;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
@@ -40,8 +40,9 @@ import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 import java.util.ArrayList;
 
 import fan.appcompat.app.AlertDialog;
+import fan.preference.PreferenceFragment;
 
-public abstract class SettingsPreferenceFragment extends BasePreferenceFragment {
+public abstract class SettingsPreferenceFragment extends PreferenceFragment {
 
     public final String TAG = getClass().getSimpleName();
     public MenuItem mRestartMenu;
@@ -68,7 +69,6 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
-        super.onCreatePreferences(bundle, s);
         Bundle args = getArguments();
         if (args != null) {
             mTitle = args.getString(":fragment:show_title");
@@ -76,8 +76,6 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
             mPreferenceKey = args.getString(":settings:fragment_args_key");
             mContentResId = args.getInt("contentResId");
         }
-        if (mTitleResId != 0) setTitle(mTitleResId);
-        if (!TextUtils.isEmpty(mTitle)) setTitle(mTitle);
         mContentResId = mContentResId != 0 ? mContentResId : getContentResId();
         if (mContentResId > 0) {
             setPreferencesFromResource(mContentResId, s);

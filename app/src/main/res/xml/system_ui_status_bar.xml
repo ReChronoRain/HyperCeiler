@@ -8,7 +8,7 @@
         android:key="prefs_key_icon_manager" />
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.NetworkSpeedIndicatorSettings"
+        android:fragment="com.sevtinge.hyperceiler.ui.sub.systemui.statusbar.NetworkSpeedIndicatorSettings"
         android:title="@string/system_ui_statusbar_network_speed_indicator_title" />
 
     <Preference
@@ -16,12 +16,12 @@
         android:title="@string/system_ui_statusbar_clock_title" />
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.BatteryDetailIndicatorSettings"
+        android:fragment="com.sevtinge.hyperceiler.ui.sub.systemui.statusbar.BatteryDetailIndicatorSettings"
         android:key="prefs_key_system_ui_status_bar_device"
         android:title="@string/system_ui_statusbar_device_title" />
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.StrongToastSettings"
+        android:fragment="com.sevtinge.hyperceiler.ui.sub.systemui.statusbar.StrongToastSettings"
         android:key="prefs_key_system_ui_status_bar_toast"
         android:title="@string/system_ui_statusbar_strong_toast_title" />
 

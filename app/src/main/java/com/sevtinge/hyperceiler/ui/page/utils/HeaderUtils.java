@@ -12,7 +12,7 @@ import androidx.annotation.XmlRes;
 
 import com.android.internal.graphics.util.XmlUtils;
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.fragment.settings.adapter.PreferenceHeader;
+import com.sevtinge.hyperceiler.ui.settings.adapter.PreferenceHeader;
 
 import org.xmlpull.v1.XmlPullParserException;
 

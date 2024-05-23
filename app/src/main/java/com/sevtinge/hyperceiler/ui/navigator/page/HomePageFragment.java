@@ -11,18 +11,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.OnApplyWindowInsetsListener;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.ModData;
 import com.sevtinge.hyperceiler.data.adapter.ModSearchAdapter;
 import com.sevtinge.hyperceiler.ui.CeilerTabActivity;
-import com.sevtinge.hyperceiler.ui.fragment.settings.adapter.HeaderAdapter;
-import com.sevtinge.hyperceiler.ui.fragment.settings.adapter.ProxyHeaderViewAdapter;
+import com.sevtinge.hyperceiler.ui.settings.adapter.HeaderAdapter;
+import com.sevtinge.hyperceiler.ui.settings.adapter.ProxyHeaderViewAdapter;
 import com.sevtinge.hyperceiler.utils.SettingLauncher;
 import com.sevtinge.hyperceiler.utils.search.SearchModeHelper;
 

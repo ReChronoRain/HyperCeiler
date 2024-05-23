@@ -11,9 +11,10 @@ import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.callback.IResult;
 import com.sevtinge.hyperceiler.ui.navigator.ContentFragment;
-import com.sevtinge.hyperceiler.ui.fragment.settings.adapter.PreferenceHeader;
-import com.sevtinge.hyperceiler.ui.fragment.settings.core.SubSettingLauncher;
-import com.sevtinge.hyperceiler.ui.fragment.settings.utils.SettingsFeatures;
+import com.sevtinge.hyperceiler.ui.settings.adapter.PreferenceHeader;
+import com.sevtinge.hyperceiler.ui.settings.core.SubSettingLauncher;
+import com.sevtinge.hyperceiler.ui.settings.utils.SettingsFeatures;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.util.List;
 
@@ -47,6 +48,7 @@ public abstract class BaseCeilerTabActivity extends NavigatorActivity
     protected void onCreate(Bundle savedInstanceState) {
         checkTheme();
         super.onCreate(savedInstanceState);
+        PrefsUtils.registerSharedPrefsObserver(this);
         initializeViews(savedInstanceState);
         hideActionBar();
     }

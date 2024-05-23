@@ -1706,4 +1706,5 @@
     <string name="ic_qs_title_autobrightness">Auto Brightness</string>
     <string name="ic_qs_title_vowifi1">VoWiFi SIM1</string>
     <string name="ic_qs_title_vowifi2">VoWiFi SIM2</string>
+    <string name="xiaoai">小爱同学</string>
 </resources>

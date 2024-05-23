@@ -17,7 +17,7 @@
             app:isPreferenceVisible="false" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SystemFrameworkFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.SystemFrameworkFragment"
             android:icon="@drawable/ic_android"
             android:key="prefs_key_system_framework"
             android:summary="android"
@@ -65,14 +65,14 @@
             android:title="@string/mms" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.NfcFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.NfcFragment"
             android:icon="@drawable/ic_default_icon"
             android:key="prefs_key_nfc"
             android:summary="com.android.nfc"
             android:title="@string/nfc" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.PhoneFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.PhoneFragment"
             android:icon="@drawable/ic_phone"
             android:key="prefs_key_phone"
             android:summary="com.android.phone"
@@ -93,7 +93,7 @@
             android:title="@string/system_ui" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SystemSettingsFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.SystemSettingsFragment"
             android:icon="@drawable/ic_system_settings"
             android:key="prefs_key_system_settings"
             android:summary="com.android.settings"
@@ -107,7 +107,7 @@
             android:title="@string/theme_manager" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.UpdaterFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.UpdaterFragment"
             android:icon="@drawable/ic_updater"
             android:key="prefs_key_updater"
             android:summary="com.android.updater"
@@ -121,14 +121,14 @@
             android:title="@string/lbe" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiLinkFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.MiLinkFragment"
             android:icon="@drawable/ic_milink"
             android:key="prefs_key_milink"
             android:summary="com.milink.service"
             android:title="@string/milink" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.AodFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.AodFragment"
             android:icon="@drawable/ic_aod"
             android:key="prefs_key_aod"
             android:summary="com.miui.aod"
@@ -142,7 +142,7 @@
             android:title="@string/backup" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.ContentExtensionFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.ContentExtensionFragment"
             android:icon="@drawable/ic_contentextension"
             android:key="prefs_key_content_extension"
             android:summary="com.miui.contentextension"
@@ -198,7 +198,7 @@
             android:title="@string/mediaeditor" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiShareFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.MiShareFragment"
             android:icon="@drawable/ic_mishare"
             android:key="prefs_key_mishare"
             android:summary="com.miui.mishare.connectivity"
@@ -226,7 +226,7 @@
             android:title="@string/package_installer" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.PersonalAssistantFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.PersonalAssistantFragment"
             android:icon="@drawable/ic_personal_assistant"
             android:key="prefs_key_home_personal_assistant"
             android:summary="com.miui.personalassistant"
@@ -275,14 +275,14 @@
             android:title="@string/voiceassist" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.WeatherFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.WeatherFragment"
             android:icon="@drawable/ic_weather"
             android:key="prefs_key_weather"
             android:summary="com.miui.weather2"
             android:title="@string/weather" />
 
         <!--<com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SoGouFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.SoGouFragment"
             android:icon="@drawable/ic_sogou"
             android:key="prefs_key_sogou"
             android:summary="com.sohu.inputmethod.sogou.xiaomi"
@@ -352,7 +352,7 @@
             app:isPreferenceVisible="false" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.VariousFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.VariousFragment"
             android:icon="@drawable/ic_various_new"
             android:key="prefs_key_various"
             android:title="@string/various" />
@@ -360,7 +360,7 @@
         <Preference
             android:key="prefs_key_help_cant_see_app"
             android:title="@string/help_cant_see_apps_guide"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.helper.CantSeeAppsFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.helper.CantSeeAppsFragment"
             android:layout="@layout/preference_hyperlink">
         </Preference>
     </PreferenceCategory>

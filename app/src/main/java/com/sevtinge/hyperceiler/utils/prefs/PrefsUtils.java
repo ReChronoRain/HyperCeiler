@@ -18,12 +18,19 @@
 */
 package com.sevtinge.hyperceiler.utils.prefs;
 
+import android.app.backup.BackupManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.FileObserver;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.XposedInit;
+import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
@@ -185,5 +192,48 @@ public class PrefsUtils {
             return (boolean) XposedInit.mPrefsMap.getObject(name, false);
         else
             return defValue;
+    }
+
+    public static void registerSharedPrefsObserver(Context context) {
+        registerOnSharedPrefsChangeListener(context);
+        Helpers.fixPermissionsAsync(context);
+        registerPrefsFileObserver(context);
+    }
+
+    private static void registerOnSharedPrefsChangeListener(Context context) {
+        ContentResolver resolver = context.getContentResolver();
+        mSharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+            Log.i("prefs", "Changed: " + key);
+            requestBackup(context);
+            Object val = sharedPreferences.getAll().get(key);
+            String path = "";
+            if (val instanceof String)
+                path = "string/";
+            else if (val instanceof Set<?>)
+                path = "stringset/";
+            else if (val instanceof Integer)
+                path = "integer/";
+            else if (val instanceof Boolean)
+                path = "boolean/";
+            resolver.notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/" + path + key), null);
+            if (!path.isEmpty()) resolver.notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/" + path + key), null);
+        });
+    }
+
+    private static void registerPrefsFileObserver(Context context) {
+        try {
+            new FileObserver(PrefsUtils.getSharedPrefsPath(), FileObserver.CLOSE_WRITE) {
+                @Override
+                public void onEvent(int event, @Nullable String path) {
+                    Helpers.fixPermissionsAsync(context);
+                }
+            }.startWatching();
+        } catch (Throwable t) {
+            Log.e("prefs", "Failed to start FileObserver!");
+        }
+    }
+
+    private static void requestBackup(Context context) {
+        new BackupManager(context).dataChanged();
     }
 }

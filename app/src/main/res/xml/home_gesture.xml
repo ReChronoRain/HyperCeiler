@@ -36,61 +36,61 @@
 
     <PreferenceCategory android:title="@string/home_gesture_title2">
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_double_tap"
             android:summary="@string/home_gesture_double_tap_desc"
             android:title="@string/home_gesture_double_tap" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_shake"
             android:summary="@string/home_gesture_shake_desc"
             android:title="@string/home_gesture_shake" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_left_swipe"
             android:summary="@string/home_gesture_left_swipe_desc"
             android:title="@string/home_gesture_left_swipe" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_right_swipe"
             android:summary="@string/home_gesture_right_swipe_desc"
             android:title="@string/home_gesture_right_swipe" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_up_swipe"
             android:summary="@string/home_gesture_up_swipe_desc"
             android:title="@string/home_gesture_up_swipe" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_down_swipe"
             android:summary="@string/home_gesture_down_swipe_desc"
             android:title="@string/home_gesture_down_swipe" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.MultiActionSettings"
             android:key="prefs_key_home_navigation_assist_left_slide"
             android:summary="@string/home_navigation_assist_left_slide_desc"
             android:title="@string/home_navigation_assist_left_slide" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.MultiActionSettings"
             android:key="prefs_key_home_navigation_assist_right_slide"
             android:summary="@string/home_navigation_assist_right_slide_desc"
             android:title="@string/home_navigation_assist_right_slide" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_up_swipe2"
             android:summary="@string/home_gesture_up_swipe2_desc"
             android:title="@string/home_gesture_up_swipe2" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_down_swipe2"
             android:summary="@string/home_gesture_down_swipe2_desc"
             android:title="@string/home_gesture_down_swipe2" />
@@ -99,7 +99,7 @@
             android:key="prefs_key_home_gesture_swipe_and_stop"
             android:title="@string/home_gesture_swipe_and_stop"
             android:summary="@string/home_gesture_swipe_and_stop_desc"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"/-->
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.MultiActionSettings"/-->
 
         <!--<Preference
             android:key="prefs_key_home_gesture_pinch"

@@ -33,7 +33,7 @@
         <Preference
             android:key="prefs_key_set_homepage_entrance"
             android:title="@string/set_homepage_entrance"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.helper.HomepageEntrance" />
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.helper.HomepageEntrance" />
 
     </PreferenceCategory>
 

@@ -290,7 +290,7 @@
     <PreferenceCategory android:title="@string/system_ui_controlcenter_magnet_title">
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.CardTileSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.systemui.CardTileSettings"
             android:key="prefs_key_card_tile"
             android:title="@string/system_ui_control_center_card_tiles_customization" />
 

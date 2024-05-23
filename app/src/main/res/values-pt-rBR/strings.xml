@@ -1619,4 +1619,5 @@
     <string name="safe_mode_recorder_st">Rastreamento de erros</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
     <string name="preference_recommend_tip">Precisa de outras configurações?</string>
+    <string name="xiaoai">小爱同学</string>
 </resources>

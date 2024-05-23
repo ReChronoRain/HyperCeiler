@@ -1583,4 +1583,5 @@
     <string name="headtip_warn_sign_verification_failed">La verifica della firma non è riuscita e il la versione corrente che stai utilizzando potrebbe non provenire dalla versione ufficiale di Re.chronoRain e potrebbe contenere codice dannoso.</string>
     <string name="tip_default">Suggerimento: ecco il suggerimento predefinito. Se riesci a vedermi significa che c\'è un problema con HyperCeiler, segnalalo allo sviluppatore in modo tempestivo ed efficace.</string>
     <string name="preference_recommend_tip">Cerchi qualcos\'altro?</string>
+    <string name="xiaoai">小爱同学</string>
 </resources>

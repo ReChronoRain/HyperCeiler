@@ -105,7 +105,7 @@
         </activity-alias>
 
         <activity
-            android:name=".ui.fragment.settings.SubSettings"
+            android:name=".ui.settings.SubSettings"
             android:exported="true"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>

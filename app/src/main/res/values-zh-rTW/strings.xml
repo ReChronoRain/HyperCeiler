@@ -1458,6 +1458,7 @@
     <string name="scanner_ppt">解鎖提取 PPT</string>
     <string name="scanner_doc_ppt">解鎖掃文件</string>
     <!--MI AI-->
+    <string name="xiaoai">小爱同学</string>
     <string name="voiceassist">小愛同學</string>
     <string name="voiceassist_disable_watermark">停用聊天浮水印</string>
     <!--Other-->
