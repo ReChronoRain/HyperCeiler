@@ -23,17 +23,18 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.SwitchPreference;
 
-public class HomeOtherSettings extends SettingsPreferenceFragment{
+public class HomeOtherSettings extends DashboardFragment {
 
     SwitchPreference mEnableMoreSettings;
 
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.home_other;
     }
 

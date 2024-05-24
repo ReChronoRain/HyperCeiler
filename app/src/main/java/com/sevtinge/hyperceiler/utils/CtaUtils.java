@@ -22,8 +22,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.settings.utils.SettingsFeatures;
 
 public class CtaUtils {
     private static final String APP_PERMISSION_MANAGE_PKG = "com.miui.securitycenter";
@@ -51,27 +53,28 @@ public class CtaUtils {
     }
 
     public static boolean showCtaDialog(Activity activity, int requestCode) {
-        Intent intent = new Intent();
-        int mActivities = activity.getPackageManager().queryIntentActivities(intent, 0).size();
-        intent.setAction(mActivities > 0 ? ACTION_START_CTA_V2_NEW : ACTION_START_CTA_V2);
-        intent.setPackage(APP_PERMISSION_MANAGE_PKG);
-        intent.putExtra(KEY_MANDATORY_PERMISSION, true);
+        Intent intent = new Intent(ACTION_START_CTA_V2_NEW);
         intent.putExtra("all_purpose", activity.getString(R.string.new_cta_app_all_purpose_title));
-        intent.putExtra("runtime_perm", getRuntimePermission());
-        intent.putExtra("runtime_perm_desc", getRuntimePermissionDesc(activity));
-        intent.putExtra(KEY_OPTIONAL_PERM, getOptionalPermission());
-        intent.putExtra(KEY_OPTIONAL_PERM_DESC, getOptionalPermissionDesc(activity));
-        intent.putExtra(KEY_OPTIONAL_PERM_SHOW, false);
-        intent.putExtra(KEY_AGREE_DESC, activity.getResources().getString(R.string.new_cta_agree_desc));
+        intent.putExtra(KEY_MANDATORY_PERMISSION, false);
+        intent.putExtra(KEY_USE_NETWORK, false);
+        if (SettingsFeatures.isMiuiXIISdkSupported()) {
+            intent.putExtra(KEY_OPTIONAL_PERM, getOptionalPermission());
+            intent.putExtra(KEY_OPTIONAL_PERM_DESC, getOptionalPermissionDesc(activity));
+            intent.putExtra(KEY_OPTIONAL_PERM_SHOW, false);
+            intent.putExtra(KEY_AGREE_DESC, activity.getResources().getString(R.string.new_cta_agree_desc));
+        } else {
+            intent.putExtra("runtime_perm", getRuntimePermission());
+            intent.putExtra("runtime_perm_desc", getRuntimePermissionDesc(activity));
+        }
+
         intent.putExtra("user_agreement", "https://hyperceiler.sevtinge.cc/Protocol");
         intent.putExtra("privacy_policy", "https://hyperceiler.sevtinge.cc/Privacy");
-        intent.putExtra(KEY_USE_NETWORK, false);
-        intent.putExtra(KEY_SHOW_LOCK, false);
+        intent.setPackage(APP_PERMISSION_MANAGE_PKG);
         try {
-            /*if (!supportNewPermissionStyle() || activity.getPackageManager().queryIntentActivities(intent, 0).size() <= 0) {
-                return false;
-            }*/
-            activity.startActivityForResult(intent, requestCode);
+            int mActivities = activity.getPackageManager().queryIntentActivities(intent, 0).size();
+            if (mActivities > 0) {
+                activity.startActivityForResult(intent, requestCode);
+            }
             return true;
         } catch (Exception unused) {
             return false;

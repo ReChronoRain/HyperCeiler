@@ -24,11 +24,12 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.SwitchPreference;
 
-public class HomeRecentSettings extends SettingsPreferenceFragment {
+public class HomeRecentSettings extends DashboardFragment {
 
     SwitchPreference mDimming;
     SwitchPreference mShowMenInfo;
@@ -36,7 +37,7 @@ public class HomeRecentSettings extends SettingsPreferenceFragment {
     SwitchPreference mNotHideCleanIcon;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.home_recent;
     }
 

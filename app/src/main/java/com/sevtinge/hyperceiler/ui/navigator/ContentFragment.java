@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +18,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import fan.appcompat.app.ActionBar;
+import fan.appcompat.app.AlertDialog;
 import fan.appcompat.app.Fragment;
 import fan.navigator.Navigator;
 import fan.navigator.NavigatorFragmentListener;
@@ -27,6 +30,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
     public static final String ARG_PAGE = "page";
     public static String mCurrTab = "HOME";
     private ActionBar mActionBar;
+    private TextView mCanaryTips;
     private DraggableViewPager mViewPager;
     private FragmentPagerAdapter mViewPagerAdapter;
 
@@ -63,6 +67,9 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
     public void onViewInflated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewInflated(view, savedInstanceState);
         setCorrectNestedScrollMotionEventEnabled(true);
+        mCanaryTips = view.findViewById(R.id.canary_tips);
+        mCanaryTips.setAlpha(0.5f);
+        mCanaryTips.setOnClickListener(v -> DialogHelper.showCanaryTipsDialog(requireActivity(), "当前版本是UI线路，可能包含各种不稳定因素"));
         mViewPager = view.findViewById(R.id.viewpager);
         registerCoordinateScrollView(mViewPager);
         Navigator.get(this).setTabSelectListener((menuItem, info) -> {

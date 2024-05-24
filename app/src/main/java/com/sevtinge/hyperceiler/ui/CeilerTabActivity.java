@@ -12,6 +12,8 @@ import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.crash.CrashData;
 import com.sevtinge.hyperceiler.utils.AppCrashHelper;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
+import com.sevtinge.hyperceiler.utils.CtaUtils;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.PropUtils;
@@ -55,6 +57,7 @@ public class CeilerTabActivity extends BaseCeilerTabActivity {
                 AppCrashHelper.showCrashReportDialog(this, appCrash.toString());
             }
         }, 600);
+        DialogHelper.showCanaryTipsDialog(this, "当前版本是UI线路，可能包含各种不稳定因素");
     }
 
     @Override
@@ -64,9 +67,9 @@ public class CeilerTabActivity extends BaseCeilerTabActivity {
     }
 
     private void requestCta() {
-        /*if (!CtaUtils.isCtaEnabled(this)) {
-            CtaUtils.showCtaDialog(this, REQUEST_CODE);
-        }*/
+        if (!CtaUtils.isCtaEnabled(this)) {
+            CtaUtils.showCtaDialog(this, 1);
+        }
     }
 
     private boolean haveCrashReport() {
@@ -94,7 +97,7 @@ public class CeilerTabActivity extends BaseCeilerTabActivity {
     public void onDestroy() {
         ShellInit.destroy();
         ThreadPoolManager.shutdown();
-        com.sevtinge.hyperceiler.prefs.PreferenceHeader.mUninstallApp.clear();
+        PreferenceHeader.mUninstallApp.clear();
         PreferenceHeader.mDisableOrHiddenApp.clear();
         super.onDestroy();
     }

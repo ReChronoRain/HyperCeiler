@@ -7,16 +7,17 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 
 import fan.preference.SwitchPreference;
 
-public class PrivacySafetySettings extends SecurityCenterBaseSettings {
+public class PrivacySafetySettings extends DashboardFragment {
 
     SwitchPreference mAiClipboard;
     SwitchPreference mBlurLocation;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.security_center_privacy_safety;
     }
 

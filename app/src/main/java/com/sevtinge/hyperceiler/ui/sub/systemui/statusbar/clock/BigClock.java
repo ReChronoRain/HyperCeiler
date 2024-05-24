@@ -21,11 +21,12 @@ package com.sevtinge.hyperceiler.ui.sub.systemui.statusbar.clock;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-public class BigClock extends SettingsPreferenceFragment {
+public class BigClock extends DashboardFragment {
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar_new_clock_indicator_2;
     }
 }

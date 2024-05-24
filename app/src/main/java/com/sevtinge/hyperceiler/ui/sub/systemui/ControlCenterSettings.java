@@ -27,6 +27,7 @@ import android.os.Handler;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.sub.AppPicker;
 import com.sevtinge.hyperceiler.utils.KillApp;
@@ -40,7 +41,7 @@ import fan.preference.PreferenceCategory;
 import fan.preference.SeekBarPreferenceCompat;
 import fan.preference.SwitchPreference;
 
-public class ControlCenterSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class ControlCenterSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
 
     Preference mExpandNotification;
     PreferenceCategory mMusic;
@@ -64,7 +65,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     Handler handler;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.system_ui_control_center;
     }
 

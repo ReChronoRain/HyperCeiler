@@ -32,6 +32,14 @@ import fan.appcompat.app.AlertDialog;
 
 public class DialogHelper {
 
+    public static void showCanaryTipsDialog(Activity activity, String message) {
+        new AlertDialog.Builder(activity)
+                .setTitle(R.string.tip)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
+
     public static void showDialog(Activity activity, String title, String message) {
         showDialog(activity, title, message, null);
     }

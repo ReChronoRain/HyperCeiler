@@ -27,13 +27,14 @@ import android.os.Bundle;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.sub.AppPicker;
 
 import fan.preference.Preference;
 import fan.preference.SwitchPreference;
 
-public class HomeTitleSettings extends SettingsPreferenceFragment {
+public class HomeTitleSettings extends DashboardFragment {
 
     SwitchPreference mDisableMonoChrome;
     SwitchPreference mDisableMonetColor;
@@ -42,7 +43,7 @@ public class HomeTitleSettings extends SettingsPreferenceFragment {
     RecommendPreference mRecommend;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.home_title;
     }
 

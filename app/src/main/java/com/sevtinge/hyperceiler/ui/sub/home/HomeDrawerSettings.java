@@ -21,12 +21,13 @@ package com.sevtinge.hyperceiler.ui.sub.home;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-public class HomeDrawerSettings extends SettingsPreferenceFragment {
+public class HomeDrawerSettings extends DashboardFragment {
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.home_drawer;
     }
 }

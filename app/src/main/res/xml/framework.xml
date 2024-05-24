@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory>
 
@@ -75,7 +76,8 @@
             android:defaultValue="false"
             android:key="prefs_key_system_framework_disable_low_api_check"
             android:summary="@string/system_framework_disable_low_api_check_desc"
-            android:title="@string/system_framework_disable_low_api_check" />
+            android:title="@string/system_framework_disable_low_api_check"
+            app:controller="com.sevtinge.hyperceiler.controller.DisableLowApiCheckController"/>
 
     </PreferenceCategory>
 

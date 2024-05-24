@@ -24,6 +24,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVers
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -32,7 +33,7 @@ import fan.preference.Preference;
 import fan.preference.SeekBarPreferenceCompat;
 import fan.preference.SwitchPreference;
 
-public class NetworkSpeedIndicatorSettings extends SettingsPreferenceFragment
+public class NetworkSpeedIndicatorSettings extends DashboardFragment
     implements Preference.OnPreferenceChangeListener {
 
     SeekBarPreferenceCompat mNetworkSpeedWidth; // 固定宽度
@@ -45,7 +46,7 @@ public class NetworkSpeedIndicatorSettings extends SettingsPreferenceFragment
     DropDownPreference mNetworkIcon;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar_network_speed_indicator;
     }
 

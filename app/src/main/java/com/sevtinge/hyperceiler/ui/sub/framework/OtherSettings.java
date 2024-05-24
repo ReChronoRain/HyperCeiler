@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.sub.AppPicker;
 import com.sevtinge.hyperceiler.utils.KillApp;
@@ -42,7 +43,7 @@ import fan.preference.DropDownPreference;
 import fan.preference.Preference;
 import fan.preference.SwitchPreference;
 
-public class OtherSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class OtherSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
 
     Preference mCleanShareApps;
     Preference mCleanOpenApps;
@@ -59,7 +60,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
     Handler handler;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.framework_other;
     }
 

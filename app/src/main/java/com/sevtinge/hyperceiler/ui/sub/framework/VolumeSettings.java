@@ -24,18 +24,19 @@ import android.provider.Settings;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SwitchPreference;
 
-public class VolumeSettings extends SettingsPreferenceFragment {
+public class VolumeSettings extends DashboardFragment {
     DropDownPreference mDefaultVolumeStream;
     SwitchPreference mVolumeSeparateControl;
     SwitchPreference mVolumeSeparateSlider;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.framework_volume;
     }
 

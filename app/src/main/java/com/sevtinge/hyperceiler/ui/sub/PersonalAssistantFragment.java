@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.ui.sub;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -29,7 +30,7 @@ import fan.preference.DropDownPreference;
 import fan.preference.Preference;
 import fan.preference.SeekBarPreferenceCompat;
 
-public class PersonalAssistantFragment extends SettingsPreferenceFragment
+public class PersonalAssistantFragment extends DashboardFragment
     implements Preference.OnPreferenceChangeListener {
 
     DropDownPreference mBlurBackground;
@@ -38,7 +39,7 @@ public class PersonalAssistantFragment extends SettingsPreferenceFragment
     DropDownPreference mBlurBackgroundStyle;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.personal_assistant;
     }
 

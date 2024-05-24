@@ -18,7 +18,13 @@
 */
 package com.sevtinge.hyperceiler.ui.sub;
 
-import androidx.fragment.app.Fragment;
 
-public class TestFragment extends Fragment {
+import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
+
+public class TestFragment extends DashboardFragment {
+    @Override
+    protected int getPreferenceScreenResId() {
+        return R.xml.xiaoai;
+    }
 }

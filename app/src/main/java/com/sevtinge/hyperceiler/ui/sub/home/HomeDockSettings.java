@@ -23,6 +23,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -31,7 +32,7 @@ import fan.preference.DropDownPreference;
 import fan.preference.Preference;
 import fan.preference.SwitchPreference;
 
-public class HomeDockSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class HomeDockSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
 
     SwitchPreference mDisableRecentIcon;
     Preference mDockBackgroundBlur;
@@ -39,7 +40,7 @@ public class HomeDockSettings extends SettingsPreferenceFragment implements Pref
     ColorPickerPreference mDockBackgroundColor;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.home_dock;
     }
 

@@ -8,6 +8,27 @@
     <com.sevtinge.hyperceiler.ui.navigator.DraggableViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:paddingBottom="120dp"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:paddingStart="10dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="250dp">
+
+        <TextView
+            android:text="Beta"
+            android:id="@+id/canary_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/miuix_appcompat_secondary_text_size"
+            android:textStyle="bold"
+            android:background="@drawable/ic_test_tips_bg"
+            android:textColor="?primaryButtonTextColor"/>
+
+    </FrameLayout>
 
 </FrameLayout>

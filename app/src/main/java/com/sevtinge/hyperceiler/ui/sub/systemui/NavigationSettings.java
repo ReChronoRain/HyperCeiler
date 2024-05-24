@@ -22,19 +22,20 @@ import android.provider.Settings;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.KillApp;
 
 import fan.preference.PreferenceCategory;
 import fan.preference.SwitchPreference;
 
-public class NavigationSettings extends SettingsPreferenceFragment {
+public class NavigationSettings extends DashboardFragment {
     SwitchPreference customNav;
     PreferenceCategory mNav;
     SwitchPreference navigation;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.system_ui_navigation;
     }
 

@@ -21,13 +21,14 @@ package com.sevtinge.hyperceiler.ui.sub;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.SwitchPreference;
 
-public class AodFragment extends SettingsPreferenceFragment {
+public class AodFragment extends DashboardFragment {
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.aod;
     }
 

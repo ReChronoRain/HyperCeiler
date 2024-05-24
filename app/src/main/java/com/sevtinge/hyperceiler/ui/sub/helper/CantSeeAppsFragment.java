@@ -20,16 +20,17 @@ package com.sevtinge.hyperceiler.ui.sub.helper;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.Preference;
 
-public class CantSeeAppsFragment extends SettingsPreferenceFragment {
+public class CantSeeAppsFragment extends DashboardFragment {
 
     Preference mHelpCantSeeApps;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.prefs_help_cant_see_apps;
     }
 

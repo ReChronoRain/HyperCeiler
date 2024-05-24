@@ -21,17 +21,18 @@ package com.sevtinge.hyperceiler.ui.sub.systemui.statusbar;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.api.miuiStringToast.MiuiStringToast;
 
 import fan.preference.Preference;
 
-public class StrongToastSettings extends SettingsPreferenceFragment {
+public class StrongToastSettings extends DashboardFragment {
     Preference mShortToast;
     Preference mLongToast;
 
     @Override
-    public int getContentResId() { return R.xml.system_ui_status_bar_strong_toast; }
+    protected int getPreferenceScreenResId() { return R.xml.system_ui_status_bar_strong_toast; }
 
     @Override
     public void initPrefs() {

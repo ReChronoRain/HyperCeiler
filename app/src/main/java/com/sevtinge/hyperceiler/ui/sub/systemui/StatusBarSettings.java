@@ -26,12 +26,13 @@ import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.Preference;
 import fan.preference.PreferenceCategory;
 
-public class StatusBarSettings extends SettingsPreferenceFragment {
+public class StatusBarSettings extends DashboardFragment {
 
     Preference mClockStatus; // 时钟指示器
     Preference mDeviceStatus; // 硬件指示器
@@ -41,7 +42,7 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
     RecommendPreference mRecommend;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar;
     }
 

@@ -19,16 +19,17 @@
 package com.sevtinge.hyperceiler.ui.sub;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import fan.preference.Preference;
 
-public class PhoneFragment extends SettingsPreferenceFragment {
+public class PhoneFragment extends DashboardFragment {
     Preference mPhone;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.phone;
     }
 

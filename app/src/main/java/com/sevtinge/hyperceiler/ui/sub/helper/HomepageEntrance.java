@@ -6,6 +6,7 @@ import android.content.res.XmlResourceParser;
 import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
@@ -20,7 +21,7 @@ import java.io.IOException;
 import fan.preference.Preference;
 import fan.preference.SwitchPreference;
 
-public class HomepageEntrance extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class HomepageEntrance extends DashboardFragment implements Preference.OnPreferenceChangeListener {
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
 
     private boolean isInit = false;
@@ -28,7 +29,7 @@ public class HomepageEntrance extends SettingsPreferenceFragment implements Pref
     private static EntranceState entranceState = null;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.prefs_set_homepage_entrance;
     }
 

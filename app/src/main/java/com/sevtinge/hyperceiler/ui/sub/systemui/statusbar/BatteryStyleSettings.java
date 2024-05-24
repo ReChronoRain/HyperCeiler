@@ -21,9 +21,10 @@ package com.sevtinge.hyperceiler.ui.sub.systemui.statusbar;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-public class BatteryStyleSettings extends SettingsPreferenceFragment {
+public class BatteryStyleSettings extends DashboardFragment {
     @Override
-    public int getContentResId() { return R.xml.system_ui_status_bar_battery_styles; }
+    protected int getPreferenceScreenResId() { return R.xml.system_ui_status_bar_battery_styles; }
 }

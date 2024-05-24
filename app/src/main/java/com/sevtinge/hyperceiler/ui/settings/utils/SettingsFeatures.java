@@ -27,4 +27,8 @@ public class SettingsFeatures {
     public static boolean isSplitTablet(Context context) {
         return isPadDevice() || (isFoldDevice() && isScreenLayoutLarge(context));
     }
+
+    public static boolean isMiuiXIISdkSupported() {
+        return BuildCompat.MIUI_VERSION_CODE >= 10;
+    }
 }

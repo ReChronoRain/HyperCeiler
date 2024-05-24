@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.ui.sub;
 import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -29,7 +30,7 @@ import fan.preference.Preference;
 import fan.preference.SeekBarPreference;
 import fan.preference.SwitchPreference;
 
-public class CustomBackgroundSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class CustomBackgroundSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
 
     private String mKey = "";
     private String mCustomBackgroundEnabledKey;
@@ -48,7 +49,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     private SeekBarPreference mBlurRadiusPreference;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.custom_background;
     }
 

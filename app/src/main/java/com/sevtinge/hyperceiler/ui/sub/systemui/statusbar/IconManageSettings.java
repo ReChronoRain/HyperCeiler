@@ -23,6 +23,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -30,7 +31,7 @@ import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
 import fan.preference.SwitchPreference;
 
-public class IconManageSettings extends SettingsPreferenceFragment {
+public class IconManageSettings extends DashboardFragment {
 
     DropDownPreference mAlarmClockIcon;
     SeekBarPreferenceCompat mAlarmClockIconN;
@@ -40,7 +41,7 @@ public class IconManageSettings extends SettingsPreferenceFragment {
     SwitchPreference mBatteryPercentage;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar_icon_manage;
     }
 

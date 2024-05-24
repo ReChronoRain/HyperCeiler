@@ -23,15 +23,16 @@ import android.view.View;
 import com.sevtinge.hyperceiler.R;
 import fan.preference.SeekBarPreferenceCompat;
 
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-public class DisplaySettings extends SettingsPreferenceFragment {
+public class DisplaySettings extends DashboardFragment {
 
     SeekBarPreferenceCompat minBrightness;
     SeekBarPreferenceCompat maxBrightness;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.framework_display;
     }
 

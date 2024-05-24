@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.ui.settings.core.lifecycle;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -24,5 +25,14 @@ public abstract class ObservablePreferenceFragment extends PreferenceFragment {
         preferenceManager.setSharedPreferencesName(PrefsUtils.mPrefsName);
         preferenceManager.setSharedPreferencesMode(Context.MODE_PRIVATE);
         preferenceManager.setStorageDeviceProtected();
+    }
+
+
+    public SharedPreferences getSharedPreferences() {
+        return PrefsUtils.mSharedPreferences;
+    }
+
+    public boolean hasKey(String key) {
+        return getSharedPreferences().contains(key);
     }
 }

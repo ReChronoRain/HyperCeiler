@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.ui.sub.systemui.statusbar;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -29,7 +30,7 @@ import fan.preference.Preference;
 import fan.preference.PreferenceCategory;
 import fan.preference.SwitchPreference;
 
-public class MobileNetworkTypeSettings extends SettingsPreferenceFragment
+public class MobileNetworkTypeSettings extends DashboardFragment
     implements Preference.OnPreferenceChangeListener {
 
     DropDownPreference mMobileMode;
@@ -37,7 +38,7 @@ public class MobileNetworkTypeSettings extends SettingsPreferenceFragment
     SwitchPreference mMobileType;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar_mobile_network_type;
     }
 

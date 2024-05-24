@@ -22,13 +22,14 @@ import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-public class NfcFragment extends SettingsPreferenceFragment {
+public class NfcFragment extends DashboardFragment {
 
     RecommendPreference mRecommend;
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.nfc;
     }
 

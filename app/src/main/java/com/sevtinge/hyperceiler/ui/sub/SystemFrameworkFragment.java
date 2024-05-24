@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.ui.sub;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.devicesdk.TelephonyManager;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
@@ -28,7 +29,7 @@ import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import fan.preference.Preference;
 import fan.preference.SwitchPreference;
 
-public class SystemFrameworkFragment extends SettingsPreferenceFragment {
+public class SystemFrameworkFragment extends DashboardFragment {
     SwitchPreference mDisableCreak;
     SwitchPreference mShareUser;
     SwitchPreference mDisableIntegrity;
@@ -36,7 +37,7 @@ public class SystemFrameworkFragment extends SettingsPreferenceFragment {
     Preference mNetwork;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.framework;
     }
 

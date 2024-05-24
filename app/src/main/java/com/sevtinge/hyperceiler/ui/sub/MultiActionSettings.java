@@ -27,13 +27,14 @@ import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.preference.Preference;
 import fan.preference.RadioButtonPreference;
 
-public class MultiActionSettings extends SettingsPreferenceFragment {
+public class MultiActionSettings extends DashboardFragment {
 
     Bundle args;
     String mKey = null;
@@ -54,7 +55,7 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
     Preference mAppSelector;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.home_multi_action;
     }
 

@@ -19,16 +19,17 @@
 package com.sevtinge.hyperceiler.ui.sub;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.SwitchPreference;
 
-public class MiShareFragment extends SettingsPreferenceFragment {
+public class MiShareFragment extends DashboardFragment {
 
     SwitchPreference mMiShareNotAuto;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.mishare;
     }
 

@@ -29,13 +29,15 @@ import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import fan.preference.SeekBarPreferenceCompat;
 import fan.preference.SwitchPreference;
 
-public class SystemSettingsFragment extends SettingsPreferenceFragment {
+public class SystemSettingsFragment extends DashboardFragment {
+
     SwitchPreference mNewNfc; // 新版 NFC 界面
     SwitchPreference mAreaScreenshot; // 区域截屏
     SwitchPreference mHighMode; // 极致模式
@@ -46,7 +48,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
     RecommendPreference mRecommend;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.system_settings;
     }
 

@@ -193,6 +193,12 @@ public abstract class BaseCeilerTabActivity extends NavigatorActivity
 
     @Override
     public boolean onPreferenceStartFragment(@NonNull PreferenceFragmentCompat preferenceFragmentCompat, @NonNull Preference preference) {
-        return false;
+        new SubSettingLauncher(this)
+                .setDestination(preference.getFragment())
+                .setArguments(preference.getExtras())
+                .setSourceMetricsCategory(0)
+                .setTitleText(preference.getTitle())
+                .launch();
+        return true;
     }
 }

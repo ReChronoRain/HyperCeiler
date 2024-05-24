@@ -44,6 +44,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.prefs.TipsPreference;
 import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.sub.helper.HomepageEntrance;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
@@ -59,7 +60,7 @@ import java.util.Objects;
 
 import fan.preference.Preference;
 
-public class MainFragment extends SettingsPreferenceFragment implements HomepageEntrance.EntranceState {
+public class MainFragment extends DashboardFragment implements HomepageEntrance.EntranceState {
 
     Preference mSecurityCenter;
     Preference mMiLink;
@@ -92,7 +93,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     }
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.prefs_main;
     }
 

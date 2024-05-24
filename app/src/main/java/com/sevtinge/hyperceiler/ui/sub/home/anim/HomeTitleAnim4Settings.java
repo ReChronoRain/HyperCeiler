@@ -23,11 +23,12 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.SeekBarPreferenceCompat;
 
-public class HomeTitleAnim4Settings extends SettingsPreferenceFragment {
+public class HomeTitleAnim4Settings extends DashboardFragment {
     SeekBarPreferenceCompat mDRCX;
     SeekBarPreferenceCompat mSRCX;
     SeekBarPreferenceCompat mDRCY;
@@ -42,7 +43,7 @@ public class HomeTitleAnim4Settings extends SettingsPreferenceFragment {
     SeekBarPreferenceCompat mSA;
     
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.home_title_anim_4;
     }
 

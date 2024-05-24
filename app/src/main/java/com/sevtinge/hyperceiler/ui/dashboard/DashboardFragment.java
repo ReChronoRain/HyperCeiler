@@ -95,7 +95,6 @@ public abstract class DashboardFragment extends SettingsPreferenceFragment {
                     // Give all controllers a chance to handle click.
                     //preference.getExtras().putInt(CATEGORY, getMetricsCategory());
                 });
-        initPrefs();
     }
 
     public void initPrefs() {}
@@ -200,6 +199,7 @@ public abstract class DashboardFragment extends SettingsPreferenceFragment {
         final PreferenceScreen screen = getPreferenceScreen();
         //screen.setOnExpandButtonClickListener(this);
         displayResourceTilesToScreen(screen);
+        initPrefs();
     }
 
     /**

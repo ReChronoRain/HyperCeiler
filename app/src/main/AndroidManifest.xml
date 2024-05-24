@@ -50,6 +50,7 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="miui.permission.READ_LOGS" />
     <uses-permission android:name="miui.permission.DUMP_CACHED_LOG" />
+    <uses-permission android:name="com.miui.securitycenter.permission.PERM_USE_INFO" />
     <uses-permission android:name="com.miui.securitycenter.permission.SYSTEM_PERMISSION_DECLARE" />
     <uses-permission android:name="com.miui.securitycenter.permission.ACCESS_SECURITY_CENTER_PROVIDER" />
     <uses-permission

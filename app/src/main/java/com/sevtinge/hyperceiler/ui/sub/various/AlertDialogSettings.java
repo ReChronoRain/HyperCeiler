@@ -19,20 +19,21 @@
 package com.sevtinge.hyperceiler.ui.sub.various;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
 
-public class AlertDialogSettings extends SettingsPreferenceFragment {
+public class AlertDialogSettings extends DashboardFragment {
 
     private DropDownPreference mDialogGravity;
     private SeekBarPreferenceCompat mDialogHorizontalMargin;
     private SeekBarPreferenceCompat mDialogBottomMargin;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.various_dialog;
     }
 

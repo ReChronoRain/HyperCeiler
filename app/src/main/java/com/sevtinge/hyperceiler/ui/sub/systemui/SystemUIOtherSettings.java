@@ -28,13 +28,14 @@ import android.content.pm.PackageManager;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.DropDownPreference;
 import fan.preference.PreferenceCategory;
 import fan.preference.SwitchPreference;
 
-public class SystemUIOtherSettings extends SettingsPreferenceFragment {
+public class SystemUIOtherSettings extends DashboardFragment {
 
     DropDownPreference mChargeAnimationStyle;
     PreferenceCategory mChargeAnimationTitle;
@@ -46,7 +47,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     SwitchPreference mPctUseBlur;
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.system_ui_other;
     }
 
