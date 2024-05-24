@@ -18,10 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.mms;
 
-import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getPackageVersionCode;
-
 import android.content.Context;
-import android.util.SparseArray;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
@@ -30,8 +27,6 @@ import com.sevtinge.hyperceiler.module.base.dexkit.IDexKitList;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
-import org.luckypray.dexkit.query.matchers.AnnotationMatcher;
-import org.luckypray.dexkit.query.matchers.AnnotationsMatcher;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
@@ -40,9 +35,7 @@ import org.luckypray.dexkit.result.MethodDataList;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-
-import de.robv.android.xposed.XC_MethodHook;
+import java.util.List;
 
 public class DisableAd extends BaseHook {
     @Override
@@ -77,9 +70,9 @@ public class DisableAd extends BaseHook {
             }
         });
 
-        ArrayList<Method> methods = DexKit.getDexKitBridge("HideButton", new IDexKitList() {
+        List<Method> methods = DexKit.getDexKitBridgeList("HideButton", new IDexKitList() {
             @Override
-            public ArrayList<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public List<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodDataList methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .name("setHideButton")

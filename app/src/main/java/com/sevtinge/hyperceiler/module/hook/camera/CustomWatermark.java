@@ -33,15 +33,15 @@ import org.luckypray.dexkit.result.MethodDataList;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.List;
 
 public class CustomWatermark extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
         long stime = System.currentTimeMillis();
-        ArrayList<Method> methods = DexKit.getDexKitBridge("Watermark", new IDexKitList() {
+        List<Method> methods = DexKit.getDexKitBridgeList("Watermark", new IDexKitList() {
             @Override
-            public ArrayList<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public List<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodDataList methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .returnType(SparseArray.class)

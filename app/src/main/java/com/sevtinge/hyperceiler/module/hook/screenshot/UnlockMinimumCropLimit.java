@@ -29,14 +29,14 @@ import org.luckypray.dexkit.result.MethodDataList;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.List;
 
 public class UnlockMinimumCropLimit extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        ArrayList<Method> methods = DexKit.getDexKitBridge("MinimumCropLimit", new IDexKitList() {
+        List<Method> methods = DexKit.getDexKitBridgeList("MinimumCropLimit", new IDexKitList() {
             @Override
-            public ArrayList<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public List<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodDataList methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .returnType(int.class)

@@ -46,6 +46,7 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -59,9 +60,10 @@ public class DexKit {
     private static String callTAG;
     private static final HashMap<String, Boolean> touchMap = new HashMap<>();
     private static final HashMap<String, ArrayList<JSONObject>> cacheMap = new HashMap<>();
-    private ArrayList<AnnotatedElement> elementList = null;
+    private List<AnnotatedElement> elementList = new ArrayList<>();
     private static final String DEXKIT_PATH = "/cache/dexkit/";
     private String hostDir = null;
+    private String userDir = null;
     private static boolean isMkdir = false;
     private XC_LoadPackage.LoadPackageParam loadPackageParam;
     private static DexKit dexKit = null;
@@ -80,10 +82,11 @@ public class DexKit {
                     throw new RuntimeException(TAG != null ? TAG : "InitDexKit" + ": lpparam is null");
                 }
                 hostDir = loadPackageParam.appInfo.sourceDir;
+                userDir = loadPackageParam.appInfo.dataDir;
             }
             System.loadLibrary("dexkit");
             privateDexKitBridge = DexKitBridge.create(hostDir);
-            versionCheck(hostDir);
+            versionCheck();
         }
         isInit = true;
     }
@@ -91,15 +94,15 @@ public class DexKit {
     /**
      * 检查当前软件版本是否发生变化。
      */
-    private void versionCheck(final String dir) {
+    private void versionCheck() {
         String versionName = Helpers.getPackageVersionName(loadPackageParam);
         int versionCode = Helpers.getPackageVersionCode(loadPackageParam);
         // String dexFile = dir + callTAG;
-        String nameFile = dir + "versionName";
-        String codeFile = dir + "versionCode";
-        if (!FileUtils.mkdirs(dir)) {
+        String nameFile = getFile("versionName");
+        String codeFile = getFile("versionCode");
+        if (!FileUtils.mkdirs(userDir + DEXKIT_PATH)) {
             isMkdir = false;
-            XposedLogUtils.logE(callTAG, "failed to create mkdirs: " + dir + " cant use dexkit cache!!");
+            XposedLogUtils.logE(callTAG, "failed to create mkdirs: " + userDir + DEXKIT_PATH + " cant use dexkit cache!!");
         } else isMkdir = true;
         if (isMkdir) {
             if (!FileUtils.touch(nameFile))
@@ -117,7 +120,7 @@ public class DexKit {
                     FileUtils.write(nameFile, versionName);
                     FileUtils.write(codeName, String.valueOf(versionCode));
                     // FileUtils.write(dexFile, new JSONArray().toString());
-                    FileUtils.delete(dir, new FileVisitor<Path>() {
+                    FileUtils.delete(userDir + DEXKIT_PATH, new FileVisitor<Path>() {
                         @Override
                         public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                             return FileVisitResult.CONTINUE;
@@ -159,17 +162,63 @@ public class DexKit {
     }
 
     /**
+     * 不检查缓存，每次执行搜索。
+     */
+    public static BaseDataList<?> useDexKitIfNoCache(String[] tags, IDexKitData iDexKitData) {
+        return useDexKitIfNoCache(tags, false, iDexKitData);
+    }
+
+    /**
+     * 当结果被缓存时返回 null，否则执行搜索。
+     */
+    @Nullable
+    public static BaseDataList<?> useDexKitIfNoCache(String[] tags, boolean noCache, IDexKitData iDexKitData) {
+        if (noCache) iDexKitData.dexkit(getDexKitBridge());
+        callTAG = getCallName(Thread.currentThread().getStackTrace());
+        String dexFile = getFile(callTAG);
+        ArrayList<JSONObject> data = getCacheMapOrReadFile(dexFile);
+        // XposedLogUtils.logE(callTAG, "data: " + data);
+        // 非常不严谨，按你需求改吧。
+        boolean have = false;
+        for (String tag : tags) {
+            if (isAdded(tag, data)) {
+                have = true;
+                break;
+            }
+        }
+        if (!have) {
+            return iDexKitData.dexkit(getDexKitBridge());
+        }
+        return null;
+    }
+
+    /**
+     * 不写入缓存，直接返回 baseDataList 内结果。
+     */
+    public static DexKit createCache(String tag, List<?> baseDataList, ClassLoader classLoader) {
+        return createCache(tag, false, baseDataList, classLoader);
+    }
+
+    /**
+     * 创建缓存，创建成功后将返回缓存内结果。
+     */
+    public static DexKit createCache(String tag, boolean noCache, List<?> baseDataList, ClassLoader classLoader) {
+        dexKit.elementList = getDexKitBridge(tag, noCache, null, null, toElementList(baseDataList, classLoader));
+        return dexKit;
+    }
+
+    /**
      * 获取一个结果的时候使用，并且设置 debug 模式，可以使结果不被写入缓存。
      */
-    public static <T> T getDexKitBridge(String tag, boolean isDebug, IDexKit iDexKit) {
-        return (T) getDexKitBridge(tag, isDebug, iDexKit, null).get(0);
+    public static AnnotatedElement getDexKitBridge(String tag, boolean noCache, IDexKit iDexKit) {
+        return getDexKitBridge(tag, noCache, iDexKit, null, null).get(0);
     }
 
     /**
      * 获取一个结果的时候使用。
      */
-    public static <T> T getDexKitBridge(String tag, IDexKit iDexKit) {
-        return (T) getDexKitBridge(tag, false, iDexKit, null).get(0);
+    public static AnnotatedElement getDexKitBridge(String tag, IDexKit iDexKit) {
+        return getDexKitBridge(tag, false, iDexKit, null, null).get(0);
     }
 
     /**
@@ -181,8 +230,8 @@ public class DexKit {
      * {@link DexKit#toConstructorList()}
      * 使用
      */
-    public static DexKit getDexKitBridge(String tag, boolean isDebug, IDexKitList iDexKitList) {
-        dexKit.elementList = getDexKitBridge(tag, isDebug, null, iDexKitList);
+    public static DexKit getDexKitBridgeList(String tag, boolean noCache, IDexKitList iDexKitList) {
+        dexKit.elementList = getDexKitBridge(tag, noCache, null, iDexKitList, null);
         return dexKit;
     }
 
@@ -195,44 +244,52 @@ public class DexKit {
      * {@link DexKit#toConstructorList()}
      * 使用
      */
-    public static DexKit getDexKitBridge(String tag, IDexKitList iDexKitList) {
-        dexKit.elementList = getDexKitBridge(tag, false, null, iDexKitList);
+    public static DexKit getDexKitBridgeList(String tag, IDexKitList iDexKitList) {
+        dexKit.elementList = getDexKitBridge(tag, false, null, iDexKitList, null);
         return dexKit;
     }
 
-    private static ArrayList<AnnotatedElement> getDexKitBridge(@NotNull String tag, boolean isDebug, IDexKit iDexKit, IDexKitList iDexKitList) {
+    // 主体代码
+    private static List<AnnotatedElement> getDexKitBridge(@NotNull String tag, boolean noCache, IDexKit iDexKit,
+                                                          IDexKitList iDexKitList, List<AnnotatedElement> list) {
         String callName = getCallName(Thread.currentThread().getStackTrace());
         callTAG = callName;
         DexKitBridge dexKitBridge = getDexKitBridge();
         String dexFile = getFile(callName);
         // XposedLogUtils.logE(callTAG, "path: " + dexPath + " file: " + dexFile + " cll: " + stackTrace[2].getClassName());
         ClassLoader classLoader = dexKit.loadPackageParam.classLoader;
+        if (noCache) {
+            return getElements(iDexKit, iDexKitList, dexKitBridge);
+        }
         if (!isMkdir) {
             return getElements(iDexKit, iDexKitList, dexKitBridge);
         }
-        if (isDebug) {
+        if (!touchIfNeed(dexFile))
             return getElements(iDexKit, iDexKitList, dexKitBridge);
-        }
-        if (touchIfNeed(dexFile))
-            return getElements(iDexKit, iDexKitList, dexKitBridge);
-        return run(tag, iDexKit, iDexKitList, dexFile, dexKitBridge, classLoader);
+        return run(tag, iDexKit, iDexKitList, dexFile, dexKitBridge, classLoader, list);
     }
 
-    @Nullable
-    private static ArrayList<AnnotatedElement> run(@NonNull String tag, IDexKit iDexKit, IDexKitList iDexKitList,
-                                                   String dexFile, DexKitBridge dexKitBridge, ClassLoader classLoader) {
+    // 执行缓存或读取
+    private static List<AnnotatedElement> run(@NonNull String tag, IDexKit iDexKit, IDexKitList iDexKitList,
+                                              String dexFile, DexKitBridge dexKitBridge, ClassLoader classLoader, List<AnnotatedElement> list) {
+        ArrayList<JSONObject> cacheData = getCacheMapOrReadFile(dexFile);
+        boolean isAdded = isAdded(tag, cacheData);
+        if (!isAdded) {
+            return getElementsAndWriteCache(tag, iDexKit, iDexKitList, dexKitBridge, cacheData, dexFile, list);
+        } else {
+            return getFileCache(tag, iDexKit, iDexKitList, cacheData, dexKitBridge, classLoader, list);
+        }
+    }
+
+    @NonNull
+    private static ArrayList<JSONObject> getCacheMapOrReadFile(String dexFile) {
         ArrayList<JSONObject> cacheData = cacheMap.get(dexFile);
         if (cacheData == null) {
             ArrayList<JSONObject> dataList = DexKitData.toArray(FileUtils.read(dexFile));
             cacheMap.put(dexFile, dataList);
             cacheData = dataList;
         }
-        boolean isAdded = isAdded(tag, cacheData);
-        if (!isAdded) {
-            return getElementsAndWriteCache(tag, iDexKit, iDexKitList, dexKitBridge, cacheData, dexFile);
-        } else {
-            return getFileCache(tag, iDexKit, iDexKitList, cacheData, dexKitBridge, classLoader);
-        }
+        return cacheData;
     }
 
     private static boolean touchIfNeed(String dexFile) {
@@ -246,16 +303,16 @@ public class DexKit {
                 } else {
                     XposedLogUtils.logE(callTAG, "failed to create file!");
                     touchMap.put(dexFile, false);
-                    return true;
+                    return false;
                 }
             }
         }
-        return false;
+        return true;
     }
 
     @NonNull
     public static String getFile(String fileName) {
-        return dexKit.hostDir + DEXKIT_PATH + fileName;
+        return dexKit.userDir + DEXKIT_PATH + fileName;
     }
 
     /**
@@ -284,20 +341,37 @@ public class DexKit {
         for (StackTraceElement stackTraceElement : stackTrace) {
             String callName = stackTraceElement.getClassName();
             if (callName.contains("com.sevtinge.hyperceiler.module.hook.")) {
-                return callName.substring(callName.lastIndexOf('.') + 1);
+                String last = callName.substring(callName.lastIndexOf('.') + 1);
+                if (last.contains("$")) {
+                    continue;
+                }
+                return last;
             }
         }
         throw new RuntimeException("Invalid call stack");
     }
 
-    private static ArrayList<AnnotatedElement> getElementsAndWriteCache(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
-                                                                        DexKitBridge dexKitBridge, ArrayList<JSONObject> dadaList, String dexFile) {
-        ArrayList<JSONObject> jsonList = new ArrayList<>();
+    // 获取结果并写入缓存
+    private static List<AnnotatedElement> getElementsAndWriteCache(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
+                                                                   DexKitBridge dexKitBridge, ArrayList<JSONObject> dadaList, String dexFile,
+                                                                   List<AnnotatedElement> list) {
         ArrayList<AnnotatedElement> elements;
-        elements = getElements(iDexKit, iDexKitList, dexKitBridge);
+        if (iDexKit != null || iDexKitList != null) {
+            elements = new ArrayList<>(getElements(iDexKit, iDexKitList, dexKitBridge));
+        } else {
+            elements = new ArrayList<>(list);
+        }
         // if (dadaList.isEmpty()) return elements;
-        if (elements == null) return null;
-        if (elements.isEmpty()) return null;
+        dadaList.addAll(createJsonList(tag, elements));
+        FileUtils.write(dexFile, dadaList.toString());
+        cacheMap.put(dexFile, dadaList);
+        return elements;
+    }
+
+    // 结果转为 JSON 储存
+    private static ArrayList<JSONObject> createJsonList(String tag, ArrayList<AnnotatedElement> elements) {
+        ArrayList<JSONObject> jsonList = new ArrayList<>();
+        if (elements.isEmpty()) return new ArrayList<>();
         for (AnnotatedElement element : elements) {
             if (element instanceof Method method) {
                 String methodName = method.getName();
@@ -332,14 +406,13 @@ public class DexKit {
                 jsonList.add(data);
             }
         }
-        dadaList.addAll(jsonList);
-        FileUtils.write(dexFile, dadaList.toString());
-        cacheMap.put(dexFile, dadaList);
-        return elements;
+        return jsonList;
     }
 
-    private static ArrayList<AnnotatedElement> getFileCache(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
-                                                            ArrayList<JSONObject> dadaList, DexKitBridge dexKitBridge, ClassLoader classLoader) {
+    // 读取缓存
+    private static List<AnnotatedElement> getFileCache(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
+                                                       ArrayList<JSONObject> dadaList, DexKitBridge dexKitBridge, ClassLoader classLoader,
+                                                       List<AnnotatedElement> list) {
         ArrayList<AnnotatedElement> getElement = new ArrayList<>();
         for (JSONObject object : dadaList) {
             if (!tag.equals(DexKitData.getTAG(object))) {
@@ -390,7 +463,9 @@ public class DexKit {
             }
         }
         if (getElement.isEmpty()) {
-            return getElements(iDexKit, iDexKitList, dexKitBridge);
+            if (iDexKit != null || iDexKitList != null)
+                return getElements(iDexKit, iDexKitList, dexKitBridge);
+            else return list;
         }
         return getElement;
     }
@@ -409,6 +484,7 @@ public class DexKit {
         throw new RuntimeException("failed: " + msg);
     }
 
+    // 字符串获取为类列表
     private static Class<?>[] stringToClassArray(ArrayList<String> arrayList, ClassLoader classLoader) {
         if (arrayList.isEmpty()) return new Class<?>[]{};
         if (arrayList.get(0).isEmpty()) return new Class<?>[]{};
@@ -419,6 +495,7 @@ public class DexKit {
         return classes.toArray(new Class<?>[classes.size()]);
     }
 
+    // 是否已经存在缓存中
     private static boolean isAdded(String tag, ArrayList<JSONObject> dadaList) {
         for (JSONObject object : dadaList) {
             String mTag = DexKitData.getTAG(object);
@@ -429,7 +506,8 @@ public class DexKit {
         return false;
     }
 
-    private static ArrayList<AnnotatedElement> getElements(IDexKit iDexKit, IDexKitList iDexKitList, DexKitBridge dexKitBridge) {
+    // 获取接口结果
+    private static List<AnnotatedElement> getElements(IDexKit iDexKit, IDexKitList iDexKitList, DexKitBridge dexKitBridge) {
         ArrayList<AnnotatedElement> memberList = new ArrayList<>();
         if (iDexKit != null) {
             try {
@@ -439,7 +517,7 @@ public class DexKit {
             }
         } else if (iDexKitList != null) {
             try {
-                memberList = iDexKitList.dexkit(dexKitBridge);
+                memberList.addAll(iDexKitList.dexkit(dexKitBridge));
             } catch (ReflectiveOperationException e) {
                 throwRuntime(e.toString());
             }
@@ -450,7 +528,8 @@ public class DexKit {
     /**
      * 将 BaseDataList<?> 转为 ArrayList<AnnotatedElement> 时使用，调用 IDexKitList 接口会用到。
      */
-    public static ArrayList<AnnotatedElement> toElementList(BaseDataList<?> baseDataList, ClassLoader classLoader) {
+    public static List<AnnotatedElement> toElementList(List<?> baseDataList, ClassLoader classLoader) {
+        if (baseDataList == null) return new ArrayList<>();
         ArrayList<AnnotatedElement> elements = new ArrayList<>(baseDataList.size());
         for (Object baseData : baseDataList) {
             if (baseData instanceof MethodData) {
@@ -479,52 +558,48 @@ public class DexKit {
     /**
      * 转为方法列表
      */
-    public ArrayList<Method> toMethodList() {
-        if (elementList == null) return new ArrayList<>();
+    public List<Method> toMethodList() {
         ArrayList<Method> methods = new ArrayList<>(elementList.size());
         for (AnnotatedElement element : elementList) {
             methods.add((Method) element);
         }
-        elementList = null;
+        elementList.clear();
         return methods;
     }
 
     /**
      * 转为字段列表
      */
-    public ArrayList<Field> toFieldList() {
-        if (elementList == null) return new ArrayList<>();
+    public List<Field> toFieldList() {
         ArrayList<Field> fields = new ArrayList<>(elementList.size());
         for (AnnotatedElement element : elementList) {
             fields.add((Field) element);
         }
-        elementList = null;
+        elementList.clear();
         return fields;
     }
 
     /**
      * 转为构造函数列表
      */
-    public ArrayList<Constructor<?>> toConstructorList() {
-        if (elementList == null) return new ArrayList<>();
+    public List<Constructor<?>> toConstructorList() {
         ArrayList<Constructor<?>> constructors = new ArrayList<>(elementList.size());
         for (AnnotatedElement element : elementList) {
             constructors.add((Constructor<?>) element);
         }
-        elementList = null;
+        elementList.clear();
         return constructors;
     }
 
     /**
      * 转为类列表
      */
-    public ArrayList<Class<?>> toClassList() {
-        if (elementList == null) return new ArrayList<>();
+    public List<Class<?>> toClassList() {
         ArrayList<Class<?>> classes = new ArrayList<>(elementList.size());
         for (AnnotatedElement element : elementList) {
             classes.add((Class<?>) element);
         }
-        elementList = null;
+        elementList.clear();
         return classes;
     }
 
