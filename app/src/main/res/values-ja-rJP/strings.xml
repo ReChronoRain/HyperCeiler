@@ -276,6 +276,7 @@
     <string name="control_center_5g_v2">5G スタイル 2</string>
     <string name="no_blur">ぼかしなし</string>
     <string name="miui_blur">HyperOS のぼかし</string>
+    <string name="miui_android_blur">AOSP ぼかし（アプリ自己実装）</string>
     <string name="android_blur">AOSP のぼかし</string>
     <string name="system_ui_statusbar_network_speed_style_1">値と単位を1行で表示</string>
     <string name="system_ui_statusbar_network_speed_style_2">値と単位を2行で表示</string>
@@ -339,6 +340,7 @@
     <string name="system_framework_screen_title">ディスプレイと通知</string>
     <string name="system_framework_core_title">コア</string>
     <string name="system_framework_hook_entry">スマート充電オフ制限をアンロック</string>
+    <string name="system_framework_hook_entry_desc">ナビゲーション時以外でも自動切断によるバッテリー保護機能を使えるようにします</string>
     <string name="system_framework_shortcut_title">共有ショートカット</string>
     <string name="system_framework_screen_all_rotations">画面の回転</string>
     <string name="system_framework_allow_untrusted_touch">信頼されていないタッチ操作を許可</string>
@@ -375,12 +377,14 @@
     <string name="system_framework_allow_all_dark_mode">すべてのアプリにダークモードの使用を許可</string>
     <string name="system_framework_background_blur_supported">強力な高級テクスチャ</string>
     <string name="system_framework_background_blur_toast">高級テクスチャのトースト通知</string>
-    <string name="system_framework_background_blur_supported_more">この機能をオンにした後、システム設定で高度なテクスチャスイッチを操作してください。システムを2回再起動する必要がある場合があります</string>
+    <string name="system_framework_background_blur_supported_more">この機能をオンにした後、システム設定で高級テクスチャスイッチを操作してください。システムを2回再起動する必要がある場合があります</string>
     <string name="system_framework_disablt_miuilite_check">MIUI Lite チェックを無効化</string>
+    <string name="system_framework_posted_clipboard">クリップボードの貼り付けのトースト通知を抑制</string>
     <string name="system_framework_allow_manage_all_notifications">すべての通知の管理を許可</string>
     <string name="system_framework_quick_screenshot">クイックスクリーンショット</string>
     <string name="system_framework_quick_screenshot_desc">スクリーンショットの遅延を無効化</string>
     <string name="system_framework_disable_link_turbo_toast">LinkTurbo トーストを隠す</string>
+    <string name="system_framework_allow_third_theme">サードパーティテーマの使用を許可</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">パッケージマネージャーサービス</string>
     <string name="system_framework_core_patch_downgr">ダウングレードを許可</string>
@@ -459,6 +463,7 @@
     <string name="camera_settings_men_makeup">男性用のメイクアップ効果をアンロック</string>
     <string name="camera_settings_lab_options">ラボオプションを有効化</string>
     <string name="camera_settings_track_eyes">目のトラッキングをアンロック</string>
+    <string name="camera_max_brightness">カメラ使用時に明るさを最大にする</string>
     <!--Calendar-->
     <string name="calendar">カレンダー</string>
     <string name="calendar_unlock_subscription">サブスクリプションをアンロック</string>
@@ -668,6 +673,8 @@
     <string name="system_ui_disable_clock_synch_desc">大きな通知バーの時計はステータスバーの時計形式と同期されなくなりました</string>
     <string name="system_ui_statusbar_clock_show">表示</string>
     <string name="system_ui_statusbar_clock_big_bold">大きな通知バー時計を太字にする</string>
+    <string name="system_ui_clock_is_show_sec">秒の更新スイッチ</string>
+    <string name="system_ui_clock_is_show_sec_desc">時計で秒を表示したいときは必ずオンにしてください\n秒を表示するとパフォーマンスが低下する可能性があるため、必要な場合だけ使用してください</string>
     <string name="system_ui_statusbar_clock_layout_s">ステータスバーの時計</string>
     <string name="system_ui_statusbar_clock_layout_b">通知バーの大きな時計</string>
     <string name="system_ui_statusbar_clock_layout_n">通知バーのミニ時計</string>
@@ -725,6 +732,10 @@
     <string name="system_control_center_taplus_label">Taplus スイッチ</string>
     <string name="system_control_center_sunshine_mode">太陽光モード</string>
     <string name="system_ui_control_auto_close">タイルを自動的に閉じる</string>
+    <string name="system_ui_control_center_qs_bg_color">背景の色</string>
+    <string name="system_ui_control_center_qs_color">アイコンの色</string>
+    <string name="system_ui_control_center_qs_open_color">小さいタイルの色のカスタマイズが有効です</string>
+    <string name="system_ui_control_center_qs_big_open_color">大きいタイルの色のカスタマイズが有効です</string>
     <string name="system_ui_control_auto_close_more">ステータスバーのタイルをタップしたとき、自動的にステータスバーを閉じるようにします</string>
     <string name="system_control_center_qs_tile_label">タイトルを削除</string>
     <string name="system_control_center_qs_rows">行</string>
@@ -793,6 +804,10 @@
     <string name="system_ui_controlcenter_enable_title">行数と列数をカスタマイズ</string>
     <string name="system_control_center_old_qs_grid_columns">折りたたまれたパネルの行数</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折りたたまれたパネル内の列数 (横画面)</string>
+    <string name="system_ui_control_center_card_tiles_customization">カスタマイズカードタイル</string>
+    <string name="system_ui_control_center_card_tiles_customization_desc">追加したカードを長押ししてドラッグすると順序を調整できます</string>
+    <string name="system_ui_control_center_card_tiles_customization_add">追加済み</string>
+    <string name="system_ui_control_center_card_tiles_customization_not_add">未追加</string>
     <string name="system_ui_control_center_unlock_blur_supported">通知ぼかしの制限を無効化</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">サードパーティのテーマで背景ぼかしの制限を削除します</string>
     <string name="system_ui_other_title">その他</string>
@@ -842,6 +857,7 @@
     <string name="system_settings_enable_fold_area">折りたたみ式デバイスの機能をアンロック</string>
     <string name="system_settings_enable_area_desc">サポートされていないデバイスの場合、アンロック後に設定がクラッシュします</string>
     <string name="system_settings_unlock_google_header">Google 項目をアンロック</string>
+    <string name="system_settings_unlock_ui_mode">アプリのレイアウト最適化をアンロック</string>
     <string name="system_settings_usb_mode">USB 接続時にポップアップウインドウを表示しません</string>
     <string name="system_settings_usb_mode_choose">USB のデフォルトオプション</string>
     <string name="system_settings_usb_default">デフォルト</string>
@@ -852,6 +868,7 @@
     <string name="system_usb_reverse_charge">リバース充電</string>
     <string name="system_usb_tethering">USB テザリング</string>
     <string name="system_settings_connection_sharing_title">ネットワーク接続と共有</string>
+    <string name="system_settings_lang_menu_shouw_all_app">言語管理メニューにすべてのアプリを表示</string>
     <string name="system_settings_new_nfc_page">新しい NFC ページ</string>
     <string name="system_settings_new_nfc_page_desc">これを有効にすると、サポートされていないモデルではデフォルトの支払いアプリとしてMiウォレットを選択できません</string>
     <string name="system_settings_lab_title">注目の機能</string>
@@ -905,6 +922,7 @@
     <string name="lbe">権限</string>
     <string name="clipboard">クリップボード</string>
     <string name="lbe_disable_clipboard_tip">トーストのヒントを隠す</string>
+    <string name="lbe_auto_start">自動起動の自動停止を禁止</string>
     <string name="lbe_clipboard_tip_toast">クリップボード読み取りのトーストヒント</string>
     <string name="lbe_clipboard_tip_toast_desc">ダイアログを非表示にし、アプリがデフォルトでクリップボードを読み込むことを許可します</string>
     <string name="lbe_clipboard_tip">クリップボードの読み取り</string>
@@ -966,6 +984,7 @@
     <string name="gallery_backup_server">バックアップサーバー</string>
     <string name="gallery_backup_server_xiaomi">Xiaomi クラウドサービス</string>
     <string name="gallery_backup_server_google">Google</string>
+    <string name="gallery_backup_server_onedrive">Google &amp; OneDrive</string>
     <!--MIUI security components-->
     <string name="guard_provider">MIUI セキュリティコンポーネント</string>
     <string name="guard_provider_hyperos">システムセキュリティコンポーネント</string>
@@ -1078,6 +1097,7 @@
     <string name="home_drawer_editor">「編集」のボタンを非表示</string>
     <string name="home_drawer_editor_desc">ドロワーのアプリタブから「編集」ボタンを削除します</string>
     <string name="home_drawer_blur">ドロワーのぼかしを有効化</string>
+    <string name="home_drawer_blur_super">ドロワーのファジープレミアムテクスチャ</string>
     <string name="home_drawer_blur_desc">この機能を使用するには、アプリドロワー背景の透明度を100%に設定してください</string>
     <string name="home_drawer_pinyin">ピンイン順に整列</string>
     <string name="home_drawer_pinyin_more">言語が簡体字中国語でない場合でも、ドロワーのアプリをピンイン順で整列します</string>
@@ -1280,6 +1300,9 @@
     <string name="screenshot_save_to_pictures_desc">スクリーンショットの保存場所を /Pictures/Screenshots に設定します</string>
     <string name="screenshot_device_customize_title">デバイスフレームに使うモデルをカスタム</string>
     <string name="screenshot_device_customize_desc">デバイスコードを入力してください。色はアンダーバーで繋げて入力してください。例：\n- Xiaomi 13の場合...fuxi\n- Xiaomi 14 ピンク色の場合...houji_PK</string>
+    <!--System Service Plugin-->
+    <string name="securityadd">システムサービスプラグイン</string>
+    <string name="securityadd_disable_gb_ads">Game Center 広告を無効化</string>
     <!--Security/Tablet security center-->
     <string name="security_center">セキュリティ</string>
     <string name="security_center_pad">タブレットのセキュリティセンター</string>
@@ -1348,6 +1371,7 @@
     <string name="security_center_unlock_smart_charge_title_summary">アンロックされる機能:\n- バッテリー保護 -&gt; ナビ中の自動切断\n- その他のバッテリー機能 -&gt; 緊急省電力モード</string>
     <string name="security_center_super_wireless_charge">スーパーワイヤレス充電をアンロック</string>
     <string name="security_center_blur_model">サイドバーぼかしのモデル</string>
+    <string name="security_center_blur_model_super">高級テクスチャ</string>
     <string name="security_center_invert_color">アイコンを反転</string>
     <string name="security_center_invert_color_summary">一部の背景でアイコンの色を反転させ、見やすくします\n色の反転が異常になる場合があるため、適宜有効化してください</string>
     <string name="security_center_blurradius">サイドバーぼかしの値</string>
@@ -1428,6 +1452,9 @@
     <string name="market_package_monitor_desc">GetApps にアプリのインストールとアンインストールを監視させないようにします</string>
     <!--Mi sound-->
     <string name="misound">Xiaomi サウンド</string>
+    <string name="misound_bluetooth">ヘッドセット接続時にオリジナルサウンドへ自動切り替えする</string>
+    <string name="misound_bluetooth_uuid">サウンドエフェクトUUID</string>
+    <string name="misound_bluetooth_uuid_more">Dolby やその他のサウンド ID です。見つからないときは自分で探してください</string>
     <string name="misound_increase_sampling_rate">サンプリングレートを上げる</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi の設定</string>
@@ -1595,6 +1622,7 @@
     <string name="help_cant_see_apps_switch_desc">このページは「設定 - ホームページのエントリを設定」で確認できます。適用するにはアプリを再起動してください。</string>
     <string name="headtip_warn_not_offical_rom">使用している ROM は Xiaomi 公式ではないかもしれません。 一部の機能が動作しない場合がありますので、ご利用の ROM の提供者にお問い合わせください。</string>
     <string name="headtip_warn_sign_verification_failed">署名の検証に失敗しました。現在使用しているバージョンは Re.chronoRain の公式バージョンではないため、悪意のあるコードが含まれている可能性があります。</string>
+    <string name="headtip_tip_long_press_to_copy">長押しまたは二回タップでテキストを選択したり、コピーして開発者にフィードバックしたりできます。</string>
     <string name="safe_mode_title">警告</string>
     <string name="safe_mode_desc">は複数のクラッシュによりセーフモードに入り、HyperCeiler の機能が一時的に無効になりました。 \nOKを押すとセーフモードを無効化し、キャンセルを押すと後で対処できます。</string>
     <string name="safe_mode_history">例外記録を表示</string>
@@ -1611,4 +1639,17 @@
     <string name="safe_mode_recorder_st">スタックトレース</string>
     <string name="tip_default">ヒント: デフォルトのヒントはこちらです。 このメッセージが出るということは HyperCeiler に問題があります。 出たら開発者に教えてください。</string>
     <string name="preference_recommend_tip">何か他のものをお探しですか?</string>
+    <string name="happy_birthday_hyperceiler">今日は HyperCeiler の誕生日です!\nこの1年間のご支援ありがとうございました。今年も一緒に頑張りましょう!</string>
+    <string name="ic_qs_title_wifi">Wi-Fi</string>
+    <string name="ic_qs_title_cellular">モバイルデータ通信</string>
+    <string name="ic_qs_title_bluetooth">Bluetooth</string>
+    <string name="ic_qs_title_gps">GPS</string>
+    <string name="ic_qs_title_nfc">NFC</string>
+    <string name="ic_qs_title_hotspot">ホットスポット</string>
+    <string name="ic_qs_title_flashlight">ライト</string>
+    <string name="ic_qs_title_settings">設定</string>
+    <string name="ic_qs_title_airplane">機内モード</string>
+    <string name="ic_qs_title_autobrightness">明るさの自動調節</string>
+    <string name="ic_qs_title_vowifi1">VoWiFi SIM1</string>
+    <string name="ic_qs_title_vowifi2">VoWiFi SIM2</string>
 </resources>

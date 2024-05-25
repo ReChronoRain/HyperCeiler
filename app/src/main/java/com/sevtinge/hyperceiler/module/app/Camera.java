@@ -22,6 +22,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.camera.CustomWatermark;
 import com.sevtinge.hyperceiler.module.hook.camera.EnableLabOptions;
+import com.sevtinge.hyperceiler.module.hook.camera.MaxScreenBrightness;
 import com.sevtinge.hyperceiler.module.hook.camera.Unlock120Fps;
 import com.sevtinge.hyperceiler.module.hook.camera.Unlock60Fps;
 import com.sevtinge.hyperceiler.module.hook.camera.UnlockAiEnhance;
@@ -129,5 +130,7 @@ public class Camera extends BaseModule {
         initHook(new UnlockMenMakeup(), mPrefsMap.getBoolean("camera_settings_men_makeup"));
         initHook(new EnableLabOptions(), mPrefsMap.getBoolean("camera_settings_lab_options"));
         initHook(new UnlockTrackEyes(), mPrefsMap.getBoolean("camera_settings_track_eyes"));
+
+        initHook(new MaxScreenBrightness(), mPrefsMap.getBoolean("camera_max_brightness"));
     }
 }

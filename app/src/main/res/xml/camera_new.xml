@@ -6,6 +6,11 @@
     <PreferenceCategory>
 
         <SwitchPreference
+            android:title="@string/camera_max_brightness"
+            android:key="prefs_key_camera_max_brightness"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:title="@string/camera_custom_watermark"
             android:key="prefs_key_camera_custom_watermark"
             android:defaultValue="false" />
