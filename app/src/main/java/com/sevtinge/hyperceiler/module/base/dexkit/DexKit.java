@@ -54,7 +54,9 @@ public class DexKit {
     public boolean isInit = false;
     private static final String TYPE_METHOD = "METHOD";
     private static final String TYPE_CLASS = "CLASS";
-    private static final String TYPE_FIELD = "FILED";
+    private static final String TYPE_FIELD = "FIELD";
+    // 不关我事 (逃 ε=ε=ε=┏(゜ロ゜;)┛
+    private static final String TYPE_FILED = "FILED";
     private static final String TYPE_CONSTRUCTOR = "CONSTRUCTOR";
     private final String TAG;
     private static String callTAG;
@@ -117,8 +119,6 @@ public class DexKit {
                     FileUtils.write(nameFile, versionName);
                     FileUtils.write(codeFile, Integer.toString(versionCode));
                 } else if (!(verName.equals(versionName)) || (!codeName.equals(Integer.toString(versionCode)))) {
-                    FileUtils.write(nameFile, versionName);
-                    FileUtils.write(codeName, String.valueOf(versionCode));
                     // FileUtils.write(dexFile, new JSONArray().toString());
                     FileUtils.delete(dexPath, new FileVisitor<Path>() {
                         @Override
@@ -143,6 +143,8 @@ public class DexKit {
                             return FileVisitResult.CONTINUE;
                         }
                     });
+                    FileUtils.write(nameFile, versionName);
+                    FileUtils.write(codeName, String.valueOf(versionCode));
                 }
             }
         }
@@ -437,7 +439,7 @@ public class DexKit {
                         throwRuntime(e.toString());
                     }
                 }
-                case TYPE_FIELD -> {
+                case TYPE_FIELD, TYPE_FILED -> {
                     String clzName = DexKitData.getClazz(object);
                     String field = DexKitData.getFiled(object);
                     Class<?> clz = getClass(clzName, classLoader);
