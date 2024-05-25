@@ -28,7 +28,7 @@ public class MiShare extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        initHook(NoAutoTurnOff.INSTANCE); // 禁用 10 分钟自动关闭
-        initHook(UnlockTurboMode.INSTANCE); // 解锁极速传输模式
+        initHook(NoAutoTurnOff.INSTANCE, mPrefsMap.getBoolean("disable_mishare_auto_off")); // 禁用 10 分钟自动关闭
+        initHook(UnlockTurboMode.INSTANCE, mPrefsMap.getBoolean("unlock_turbo_mode")); // 解锁极速传输模式
     }
 }

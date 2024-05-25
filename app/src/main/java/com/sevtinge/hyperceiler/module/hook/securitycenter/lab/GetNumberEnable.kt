@@ -18,8 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.lab
 
-import com.github.kyuubiran.ezxhelper.EzXHelper
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.hook.securitycenter.lab.LabUtilsClass.labUtilClass
 
 
@@ -27,7 +26,7 @@ object GetNumberEnable : BaseHook() {
     private var labUtils: Class<*>? = null
     override fun init() {
         labUtilClass.forEach {
-            labUtils = it.getInstance(EzXHelper.classLoader)
+            labUtils = it
             logI(TAG, this.lpparam.packageName, "labUtils class is $labUtils")
             findAndHookMethod(
                 "com.miui.permcenter.settings.PrivacyLabActivity",

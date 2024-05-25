@@ -24,19 +24,22 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toClass
 
 object ShowAllHideApp : BaseHook() {
     override fun init() {
-        DexKit.getDexKitBridge().findClass {
-            matcher {
-                addUsingStringsEquals("appInfo.packageName", "activityInfo")
-            }
-        }.forEach {
-            it.getInstance(EzXHelper.classLoader).methodFinder()
-                .filterByName("isHideAppValid")
-                .single().createHook {
-                    returnConstant(true)
+        val getClass = DexKit.getDexKitBridge("ShowAllHideApp") { bridge ->
+            bridge.findClass {
+                matcher {
+                    addUsingStringsEquals("appInfo.packageName", "activityInfo")
                 }
-        }
+            }.single().getInstance(EzXHelper.classLoader)
+        }.toClass()
+
+        getClass.methodFinder()
+            .filterByName("isHideAppValid")
+            .single().createHook {
+                returnConstant(true)
+            }
     }
 }

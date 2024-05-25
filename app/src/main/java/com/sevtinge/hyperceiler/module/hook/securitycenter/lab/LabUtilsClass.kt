@@ -18,15 +18,19 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.lab
 
+import com.github.kyuubiran.ezxhelper.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
 
 object LabUtilsClass {
-    val labUtilClass by lazy {
-        DexKit.getDexKitBridge().findClass {
-            matcher {
-                addUsingStringsEquals("mi_lab_ai_clipboard_enable", "mi_lab_blur_location_enable")
-            }
-        }
+    val labUtilClass: MutableList<Class<*>> by lazy {
+        DexKit.getDexKitBridgeList("labUtilClass") {
+            it.findClass {
+                matcher {
+                    addUsingStringsEquals("mi_lab_ai_clipboard_enable", "mi_lab_blur_location_enable")
+                }
+            }.toElementList(EzXHelper.classLoader)
+        }.toClassList()
     }
 }

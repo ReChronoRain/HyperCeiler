@@ -24,72 +24,81 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toField
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.*
 import de.robv.android.xposed.*
 import java.lang.reflect.*
 
 object NoAutoTurnOff : BaseHook() {
     private val nullMethod by lazy {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                addUsingStringsEquals("MiShareService", "EnabledState")
-                usingNumbers(600000L)
-            }
-        }.single().getMethodInstance(safeClassLoader)
+        DexKit.getDexKitBridge("NoAutoTurnOff1") {
+            it.findMethod {
+                matcher {
+                    addUsingStringsEquals("MiShareService", "EnabledState")
+                    usingNumbers(600000L)
+                }
+            }.single().getMethodInstance(safeClassLoader)
+        }.toMethod()
     }
 
     private val null2Method by lazy {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                declaredClass {
-                    addUsingStringsEquals("mishare:advertise_lock")
+        DexKit.getDexKitBridge("NoAutoTurnOff2") {
+            it.findMethod {
+                matcher {
+                    declaredClass {
+                        addUsingStringsEquals("mishare:advertise_lock")
+                    }
+                    paramCount = 2
+                    modifiers = Modifier.STATIC
                 }
-                paramCount = 2
-                modifiers = Modifier.STATIC
-            }
-        }.single().getMethodInstance(safeClassLoader)
+            }.single().getMethodInstance(safeClassLoader)
+        }.toMethod()
     }
 
     private val null3Method by lazy {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                addUsingStringsEquals("com.miui.mishare.action.GRANT_NFC_TOUCH_PERMISSION")
-                usingNumbers(600000L)
-                modifiers = Modifier.PRIVATE
-            }
-        }.single().getMethodInstance(safeClassLoader)
+        DexKit.getDexKitBridge("NoAutoTurnOff3") {
+            it.findMethod {
+                matcher {
+                    addUsingStringsEquals("com.miui.mishare.action.GRANT_NFC_TOUCH_PERMISSION")
+                    usingNumbers(600000L)
+                    modifiers = Modifier.PRIVATE
+                }
+            }.single().getMethodInstance(safeClassLoader)
+        }.toMethod()
     }
 
     private val toastMethod by lazy {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                declaredClass {
-                    addUsingStringsEquals("null context", "cta_agree")
+        DexKit.getDexKitBridgeList("NoAutoTurnOff4") {
+            it.findMethod {
+                matcher {
+                    declaredClass {
+                        addUsingStringsEquals("null context", "cta_agree")
+                    }
+                    returnType = "boolean"
+                    paramTypes = listOf("android.content.Context", "java.lang.String")
+                    paramCount = 2
                 }
-                returnType = "boolean"
-                paramTypes = listOf("android.content.Context", "java.lang.String")
-                paramCount = 2
-            }
-        }.map { it.getMethodInstance(safeClassLoader) }.toSet()
+            }.toElementList(safeClassLoader)
+        }.toMethodList()
     }
 
     private val nullField by lazy {
-        DexKit.getDexKitBridge().findField {
-            matcher {
-                addReadMethod {
-                    addUsingStringsEquals("NfcShareTaskManager")
-                    returnType = "void"
-                    paramCount = 1
-                    modifiers = Modifier.PRIVATE
+        DexKit.getDexKitBridge("NoAutoTurnOff3") {
+            it.findField {
+                matcher {
+                    addReadMethod {
+                        addUsingStringsEquals("NfcShareTaskManager")
+                        returnType = "void"
+                        paramCount = 1
+                        modifiers = Modifier.PRIVATE
+                    }
+                    modifiers = Modifier.STATIC or Modifier.FINAL
+                    type = "int"
                 }
-                modifiers = Modifier.STATIC or Modifier.FINAL
-                type = "int"
-            }
-        }.singleOrNull()?.getFieldInstance(safeClassLoader)
-    }
-
-    override fun isLoad(): Boolean {
-        return mPrefsMap.getBoolean("disable_mishare_auto_off")
+            }.singleOrNull()?.getFieldInstance(safeClassLoader)
+        }.toField()
     }
 
     override fun init() {

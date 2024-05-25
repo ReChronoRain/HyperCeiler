@@ -28,9 +28,26 @@ import java.lang.reflect.*
  */
 object DexKitTool {
     /**
-     * 快捷转为 List<AnnotatedElement>
+     * 将 ClassData 列表快捷转为 List<AnnotatedElement>
+     * 使用时在查找后调用 .toElementList(EzXHelper.safeClassLoader) 即可
+     */
+    fun ClassDataList.toElementList(classLoader: ClassLoader): List<AnnotatedElement> {
+        return DexKit.toElementList(this, classLoader)
+    }
+
+    /**
+     * 将 MethodData 列表快捷转为 List<AnnotatedElement>
+     * 使用时在查找后调用 .toElementList(EzXHelper.safeClassLoader) 即可
      */
     fun MethodDataList.toElementList(classLoader: ClassLoader): List<AnnotatedElement> {
+        return DexKit.toElementList(this, classLoader)
+    }
+
+    /**
+     * 将 FieldData 列表快捷转为 List<AnnotatedElement>
+     * 使用时在查找后调用 .toElementList(EzXHelper.safeClassLoader) 即可
+     */
+    fun FieldDataList.toElementList(classLoader: ClassLoader): List<AnnotatedElement> {
         return DexKit.toElementList(this, classLoader)
     }
 

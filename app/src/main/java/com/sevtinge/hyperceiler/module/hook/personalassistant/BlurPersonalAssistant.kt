@@ -20,10 +20,12 @@ package com.sevtinge.hyperceiler.module.hook.personalassistant
 
 import android.graphics.drawable.*
 import android.view.*
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
 import com.sevtinge.hyperceiler.utils.api.*
 import kotlin.math.*
 
@@ -38,12 +40,14 @@ object BlurPersonalAssistant : BaseHook() {
     override fun init() {
         var lastBlurRadius = -1
 
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                addUsingStringsEquals("ScrollStateManager")
-            }
-        }.forEach { methodData ->
-            methodData.getMethodInstance(lpparam.classLoader).createAfterHook {
+        DexKit.getDexKitBridgeList("BlurPersonalAssistant") {
+            it.findMethod {
+                matcher {
+                    addUsingStringsEquals("ScrollStateManager")
+                }
+            }.toElementList(EzXHelper.safeClassLoader)
+        }.toMethodList().forEach { methodData ->
+            methodData.createAfterHook {
                 val scrollX = it.args[0] as Float
                 val fieldNames = ('a'..'z').map { name -> name.toString() }
                 val window = getValueByFields(it.thisObject, fieldNames) ?: return@createAfterHook
