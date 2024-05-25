@@ -5,7 +5,6 @@ import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toClass
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.*
 import de.robv.android.xposed.*
@@ -24,7 +23,7 @@ object BatteryHealth : BaseHook() {
     }
 
     private val cc by lazy {
-        DexKit.getDexKitBridge("getSecurityBatteryHealthClass") {
+        DexKit.useDexKitIfNoCache(arrayOf("getSecurityBatteryHealthClass")) {
             it.findClass {
                 searchPackages("com.miui.powercenter.nightcharge")
                 findFirst = true
@@ -35,7 +34,7 @@ object BatteryHealth : BaseHook() {
                         }
                     }
                 }
-            }.first().getInstance(EzXHelper.safeClassLoader)
+            }
         }
     }
 
@@ -60,8 +59,9 @@ object BatteryHealth : BaseHook() {
             }
         )
 
+        val nameClass = DexKit.createCache("getSecurityBatteryHealthClass", cc, lpparam.classLoader).toMethodList().first().name
         findAndHookMethod(
-            cc.toClass(),
+            nameClass,
             "handleMessage",
             Message::class.java,
             object : XC_MethodHook() {
