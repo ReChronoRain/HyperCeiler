@@ -23,7 +23,7 @@ object BatteryHealth : BaseHook() {
     }
 
     private val cc by lazy {
-        DexKit.useDexKitIfNoCache(arrayOf("getSecurityBatteryHealthClass")) {
+        DexKit.useDexKitIfNoCache(arrayOf("SecurityBatteryHealthClass")) {
             it.findClass {
                 searchPackages("com.miui.powercenter.nightcharge")
                 findFirst = true
@@ -59,7 +59,7 @@ object BatteryHealth : BaseHook() {
             }
         )
 
-        val nameClass = DexKit.createCache("getSecurityBatteryHealthClass", cc, lpparam.classLoader).toMethodList().first().name
+        val nameClass = DexKit.createCache("SecurityBatteryHealthClass", cc, lpparam.classLoader).toClassList().first().name
         findAndHookMethod(
             nameClass,
             "handleMessage",
