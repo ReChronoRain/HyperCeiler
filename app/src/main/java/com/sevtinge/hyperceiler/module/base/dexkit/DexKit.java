@@ -473,17 +473,7 @@ public class DexKit {
     @NotNull
     private static Class<?> getClass(String name, ClassLoader classLoader) {
         try {
-            return switch (name) {
-                case "int" -> int.class;
-                case "boolean" -> boolean.class;
-                case "byte" -> byte.class;
-                case "short" -> short.class;
-                case "long" -> long.class;
-                case "float" -> float.class;
-                case "double" -> double.class;
-                case "char" -> char.class;
-                default -> classLoader.loadClass(name);
-            };
+            return classLoader.loadClass(name);
         } catch (ClassNotFoundException e) {
             throwRuntime(e.toString());
             return null;
@@ -500,7 +490,17 @@ public class DexKit {
         if (arrayList.get(0).isEmpty()) return new Class<?>[]{};
         ArrayList<Class<?>> classes = new ArrayList<>();
         for (String s : arrayList) {
-            classes.add(getClass(s, classLoader));
+            classes.add(switch (s) {
+                case "int" -> int.class;
+                case "boolean" -> boolean.class;
+                case "byte" -> byte.class;
+                case "short" -> short.class;
+                case "long" -> long.class;
+                case "float" -> float.class;
+                case "double" -> double.class;
+                case "char" -> char.class;
+                default -> getClass(s, classLoader);
+            });
         }
         return classes.toArray(new Class<?>[classes.size()]);
     }
