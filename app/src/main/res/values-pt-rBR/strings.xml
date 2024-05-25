@@ -463,6 +463,7 @@
     <string name="camera_settings_men_makeup">Desbloquear Ajustar efeitos de maquiagem para homens</string>
     <string name="camera_settings_lab_options">Ativar Opções de laboratório</string>
     <string name="camera_settings_track_eyes">Desbloquear Foco de rastreamento ocular</string>
+    <string name="camera_max_brightness">Forçar brilho máximo ao usar a câmera</string>
     <!--Calendar-->
     <string name="calendar">Calendário</string>
     <string name="calendar_unlock_subscription">Desbloquear inscrições</string>
@@ -986,7 +987,7 @@
     <string name="gallery_backup_server_onedrive">Google e OneDrive</string>
     <!--MIUI security components-->
     <string name="guard_provider">Componentes de segurança da MIUI</string>
-    <string name="guard_provider_hyperos">Componentes de segurança do HyperOS</string>
+    <string name="guard_provider_hyperos">Componentes de segurança do sistema</string>
     <string name="guard_provider_disable_upload_applist">Impedir o upload automático da lista de apps instalados</string>
     <!--System launcher-->
     <string name="mihome">Launcher do sistema</string>

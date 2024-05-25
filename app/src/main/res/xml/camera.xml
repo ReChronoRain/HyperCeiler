@@ -3,8 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/camera">
 
-    <PreferenceCategory android:title="@string/shot">
+    <SwitchPreference
+        android:title="@string/camera_max_brightness"
+        android:key="prefs_key_camera_max_brightness"
+        android:defaultValue="false" />
 
+    <PreferenceCategory android:title="@string/shot">
         <SwitchPreference
             android:title="@string/camera_shot_hand_gesture"
             android:key="prefs_key_camera_shot_hand_gesture"
@@ -41,7 +45,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/record">
-
         <SwitchPreference
             android:title="@string/camera_record_60fps"
             android:summary="@string/camera_record_60fps_desc"
@@ -88,7 +91,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/camera_pro">
-
         <SwitchPreference
             android:title="@string/camera_pro_raw"
             android:key="prefs_key_camera_pro_raw"
@@ -102,7 +104,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/feature">
-
         <SwitchPreference
             android:title="@string/camera_features_unlock_aiwatermark"
             android:key="prefs_key_camera_features_unlock_aiwatermark"

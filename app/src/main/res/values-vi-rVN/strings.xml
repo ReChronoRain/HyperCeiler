@@ -465,6 +465,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="camera_settings_men_makeup">Mở khóa Trang điểm nam</string>
     <string name="camera_settings_lab_options">Mở khóa Tính năng thử nghiệm</string>
     <string name="camera_settings_track_eyes">Mở khóa Theo dõi mắt người</string>
+    <string name="camera_max_brightness">Tăng tối đa độ sáng khi sử dụng camera</string>
     <!--Calendar-->
     <string name="calendar">Lịch</string>
     <string name="calendar_unlock_subscription">Mở khóa đăng ký</string>

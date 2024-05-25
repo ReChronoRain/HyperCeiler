@@ -76,7 +76,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.sevtinge.hyperceiler"
+        applicationId = namespace
         minSdk = 33
         targetSdk = 34
         versionCode = 145

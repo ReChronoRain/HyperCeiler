@@ -1,8 +1,8 @@
-name: Android Main CI
-
+name: Release Build
+# 待修改
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main2" ]
     paths-ignore:
       - ".github/**"
       - "!.github/workflows/**"

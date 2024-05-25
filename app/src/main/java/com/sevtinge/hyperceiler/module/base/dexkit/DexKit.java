@@ -63,7 +63,7 @@ public class DexKit {
     private List<AnnotatedElement> elementList = new ArrayList<>();
     private static final String DEXKIT_PATH = "/cache/dexkit/";
     private String hostDir = null;
-    private String userDir = null;
+    private String dexPath = null;
     private static boolean isMkdir = false;
     private XC_LoadPackage.LoadPackageParam loadPackageParam;
     private static DexKit dexKit = null;
@@ -82,7 +82,7 @@ public class DexKit {
                     throw new RuntimeException(TAG != null ? TAG : "InitDexKit" + ": lpparam is null");
                 }
                 hostDir = loadPackageParam.appInfo.sourceDir;
-                userDir = loadPackageParam.appInfo.dataDir;
+                dexPath = loadPackageParam.appInfo.dataDir + DEXKIT_PATH;
             }
             System.loadLibrary("dexkit");
             privateDexKitBridge = DexKitBridge.create(hostDir);
@@ -100,9 +100,9 @@ public class DexKit {
         // String dexFile = dir + callTAG;
         String nameFile = getFile("versionName");
         String codeFile = getFile("versionCode");
-        if (!FileUtils.mkdirs(userDir + DEXKIT_PATH)) {
+        if (!FileUtils.mkdirs(dexPath)) {
             isMkdir = false;
-            XposedLogUtils.logE(callTAG, "failed to create mkdirs: " + userDir + DEXKIT_PATH + " cant use dexkit cache!!");
+            XposedLogUtils.logE(callTAG, "failed to create mkdirs: " + dexPath + " cant use dexkit cache!!");
         } else isMkdir = true;
         if (isMkdir) {
             if (!FileUtils.touch(nameFile))
@@ -120,7 +120,7 @@ public class DexKit {
                     FileUtils.write(nameFile, versionName);
                     FileUtils.write(codeName, String.valueOf(versionCode));
                     // FileUtils.write(dexFile, new JSONArray().toString());
-                    FileUtils.delete(userDir + DEXKIT_PATH, new FileVisitor<Path>() {
+                    FileUtils.delete(dexPath, new FileVisitor<Path>() {
                         @Override
                         public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                             return FileVisitResult.CONTINUE;
@@ -312,7 +312,7 @@ public class DexKit {
 
     @NonNull
     public static String getFile(String fileName) {
-        return dexKit.userDir + DEXKIT_PATH + fileName;
+        return dexKit.dexPath + fileName;
     }
 
     /**
