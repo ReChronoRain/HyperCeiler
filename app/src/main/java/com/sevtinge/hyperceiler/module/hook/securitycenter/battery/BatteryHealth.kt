@@ -35,8 +35,8 @@ object BatteryHealth : BaseHook() {
                         }
                     }
                 }
-            }.single().getInstance(EzXHelper.safeClassLoader)
-        }.toClass()
+            }.first().getInstance(EzXHelper.safeClassLoader)
+        }
     }
 
     private lateinit var gff: Any
@@ -61,7 +61,7 @@ object BatteryHealth : BaseHook() {
         )
 
         findAndHookMethod(
-            cc.name,
+            cc.toClass(),
             "handleMessage",
             Message::class.java,
             object : XC_MethodHook() {
