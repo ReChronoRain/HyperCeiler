@@ -1,53 +1,101 @@
-package com.sevtinge.hyperceiler.module.hook.browser;
+/*
+  * This file is part of HyperCeiler.
 
-import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getPackageVersionCode;
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
 
-import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitData;
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
 
-import org.luckypray.dexkit.query.matchers.MethodMatcher;
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-public class DebugMode extends BaseHook {
-    @Override
-    public void init() throws NoSuchMethodException {
-        DexKitData.hookMethodWithDexKit("EnvironmentFlag", lpparam,
-                MethodMatcher.create()
-                        .usingStrings("environment_flag")
-                        .returnType(String.class),
-                new DexKitData.MethodHookWithDexKit() {
-                    @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        param.setResult(1);
-                    }
-                });
-        DexKitData.hookMethodWithDexKit("DebugMode0", lpparam,
-                MethodMatcher.create()
-                        .usingStrings("pref_key_debug_mode_new")
-                        .returnType(boolean.class),
-                new DexKitData.MethodHookWithDexKit() {
-                    @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        param.setResult(true);
-                    }
-                });
-        DexKitData.hookMethodWithDexKit("DebugMode1", lpparam,
-                MethodMatcher.create()
-                        .usingStrings("pref_key_debug_mode")
-                        .returnType(boolean.class),
-                new DexKitData.MethodHookWithDexKit() {
-                    @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        param.setResult(true);
-                    }
-                });
-        DexKitData.hookMethodWithDexKit("Key", lpparam,
-                MethodMatcher.create()
-                        .usingStrings("pref_key_debug_mode_" + getPackageVersionCode(lpparam))
-                        .returnType(boolean.class), new DexKitData.MethodHookWithDexKit() {
-                    @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        param.setResult(true);
-                    }
-                });
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
+package com.sevtinge.hyperceiler.module.hook.browser
+
+import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
+import de.robv.android.xposed.*
+
+object DebugMode : BaseHook() {
+    private var found = false
+
+    override fun init() {
+        DexKit.getDexKitBridge().findMethod {
+            matcher {
+                addUsingStringsEquals("environment_flag")
+                returnType = "java.lang.String"
+            }
+        }.forEach {
+            val environmentFlag = it.getMethodInstance(lpparam.classLoader)
+            logI(TAG, this.lpparam.packageName, "environmentFlag method is $environmentFlag")
+            XposedBridge.hookMethod(
+                environmentFlag,
+                XC_MethodReplacement.returnConstant("1")
+            )
+        }
+
+        DexKit.getDexKitBridge().findMethod {
+            matcher {
+                addUsingStringsEquals("pref_key_debug_mode_new")
+                returnType = "boolean"
+            }
+        }.forEach {
+            val debugMode = it.getMethodInstance(lpparam.classLoader)
+            if (debugMode.toString().contains("getDebugMode")) {
+                logI(TAG, this.lpparam.packageName, "DebugMode method is $debugMode")
+                found = true
+                XposedBridge.hookMethod(
+                    debugMode,
+                    XC_MethodReplacement.returnConstant(true)
+                )
+            }
+        }
+
+        if (!found) {
+            DexKit.getDexKitBridge().findMethod {
+                matcher {
+                    addUsingStringsEquals("pref_key_debug_mode")
+                    returnType = "boolean"
+                }
+            }.forEach {
+                val debugMode1 = it.getMethodInstance(safeClassLoader)
+                if (debugMode1.toString().contains("getDebugMode")) {
+                    logI(TAG, this.lpparam.packageName, "DebugMode1 method is $debugMode1")
+                    found = true
+                    XposedBridge.hookMethod(
+                        debugMode1,
+                        XC_MethodReplacement.returnConstant(true)
+                    )
+                }
+            }
+        }
+
+        if (!found) {
+            DexKit.getDexKitBridge().findMethod {
+                matcher {
+                    addUsingStringsEquals("pref_key_debug_mode_" + getPackageVersionCode(lpparam))
+                    returnType = "boolean"
+                }
+            }.forEach {
+                val debugMode2 = it.getMethodInstance(lpparam.classLoader)
+                if (debugMode2.toString().contains("getDebugMode")) {
+                    logI(TAG, this.lpparam.packageName, "DebugMode2 method is $debugMode2")
+                    found = true
+                    XposedBridge.hookMethod(
+                        debugMode2,
+                        XC_MethodReplacement.returnConstant(true)
+                    )
+                }
+            }
+        }
     }
 }
