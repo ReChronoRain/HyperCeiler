@@ -473,7 +473,17 @@ public class DexKit {
     @NotNull
     private static Class<?> getClass(String name, ClassLoader classLoader) {
         try {
-            return classLoader.loadClass(name);
+            return switch (name) {
+                case "int" -> int.class;
+                case "boolean" -> boolean.class;
+                case "byte" -> byte.class;
+                case "short" -> short.class;
+                case "long" -> long.class;
+                case "float" -> float.class;
+                case "double" -> double.class;
+                case "char" -> char.class;
+                default -> classLoader.loadClass(name);
+            };
         } catch (ClassNotFoundException e) {
             throwRuntime(e.toString());
             return null;
