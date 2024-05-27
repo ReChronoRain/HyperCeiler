@@ -50,15 +50,8 @@ public class HideDelimiter extends BaseHook {
                         @Override
                         protected void before(MethodHookParam param) {
                             String mCurrentCarrier = (String) XposedHelpers.getObjectField(param.thisObject, "mCurrentCarrier");
-                            StringBuilder stringBuffer = new StringBuilder();
-                            for (int i = 0; i < mCurrentCarrier.length(); i++) {
-                                char ch = mCurrentCarrier.charAt(i);
-                                if (" ".equals(String.valueOf(ch)) || "|".equals(String.valueOf(ch))) {
-                                    continue;
-                                }
-                                stringBuffer.append(ch);
-                            }
-                            XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", operator ? stringBuffer.toString() : "");
+                            String updatedCarrier = mCurrentCarrier.replace(" | ", "");
+                            XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", operator ? updatedCarrier : "");
                         }
                     }
             );
