@@ -64,7 +64,7 @@ public class FiveGTile extends TileUtils {
 
     @Override
     public int customRes() {
-        return R.string.system_control_center_5g_toggle_label;
+        return R.string.tiles_5g;
     }
 
     @Override

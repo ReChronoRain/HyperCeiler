@@ -66,7 +66,7 @@ public class GmsTile extends TileUtils {
 
     @Override
     public int customRes() {
-        return R.string.security_center_gms_open;
+        return R.string.tiles_gms;
     }
 
     @Override

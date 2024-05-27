@@ -338,6 +338,10 @@
     <string name="system_ui_statusbar_clock_style_3">Two-line display\n\nNotification bar mini clock on top\nStatus bar clock on bottom</string>
     <string name="mediaeditor_mickey">Mickey Mouse</string>
     <string name="mediaeditor_strawberry_bear">Strawberry Bear</string>
+    <string name="tiles_gms">Google Play Service</string>
+    <string name="tiles_taplus">Taplus</string>
+    <string name="tiles_5g">5G</string>
+    <string name="tiles_sunshine_mode">Sunshine Mode</string>
     <!--System Framework-->
     <string name="system_framework">System Framework</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -779,9 +783,7 @@
     <string name="quick_settings_state_change_message_on_my">%1$s is on</string>
     <string name="quick_settings_state_change_message_off_my">%1$s is off</string>
     <string name="system_control_center_5g_tile">5G network switch</string>
-    <string name="system_control_center_5g_toggle_label">5G Network</string>
     <string name="system_control_center_reduce_bright_colors_tile">Extremely dark</string>
-    <string name="system_control_center_taplus_label">Taplus switches</string>
     <string name="system_control_center_sunshine_mode">Sunshine Mode</string>
     <string name="system_ui_control_auto_close">Magnetic tiles automatically retract</string>
     <string name="system_ui_control_center_qs_bg_color">Background color</string>
