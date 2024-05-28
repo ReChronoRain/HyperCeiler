@@ -6,7 +6,7 @@
     <string name="new_permission_location_desc">ser usado para fornecer serviços como latitude e longitude</string>
     <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciamento de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
     <string name="new_cta_app_main_purpose">modificar apps do sistema</string>
-    <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler. Este app depende da estrutura Xposed para ser executado. Você pode usar este app para sequestrar e modificar outros apps suportados para aprimorar o sistema. Durante o uso, para fornecer mais funções, podemos solicitar suas permissões Root/Su. Você pode gerenciá-lo a qualquer momento acessando seu gerenciador Root/Su.</string>
+    <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler. Este app depende do LSPosed para ser executado. Você pode usar este app para sequestrar e modificar outros apps suportados para aprimorar o sistema. Durante o uso, para fornecer mais funções, podemos solicitar suas permissões Root/Su. Você pode gerenciá-lo a qualquer momento acessando seu gerenciador Root/Su.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Português (Brasil)</string>
     <string name="translator">Igor</string>
@@ -44,8 +44,8 @@
     <string name="development_ui">Interface do usuário </string>
     <string name="development_debug_info">Informações de depuração</string>
     <string name="development_prefs">Preferência de compartilhamento</string>
-    <string name="about_privacy">Política de privacidade</string>
-    <string name="about_protocol">Acordo do usuário</string>
+    <string name="about_privacy">Política de Privacidade</string>
+    <string name="about_protocol">Acordo do Usuário</string>
     <string name="settings_show_title">Ícone</string>
     <string name="settings_data_title">Backup e Restauração</string>
     <string name="settings_bug_title">Solução de problemas</string>
@@ -81,7 +81,7 @@
     <string name="disable_detailed_log_desc">Reinicie para aplicar</string>
     <string name="disable_detailed_log_more">A versão Debug Canary não suporta o ajuste do nível de registro</string>
     <string name="settings_safe_mode">Modo seguro</string>
-    <string name="settings_safe_mode_desc">Parar função do módulo</string>
+    <string name="settings_safe_mode_desc">Desative os recursos do módulo</string>
     <string name="about_developer_title">Desenvolvedores</string>
     <string name="about_translator_title">Tradutor</string>
     <string name="about_chat_title">Discussão</string>
@@ -100,7 +100,7 @@
     <string name="restart_app_desc">Você tem certeza que deseja reiniciar agora %1$s?</string>
     <string name="tip">Dica</string>
     <string name="root">Alguns recursos não estão disponíveis sem permissão Root/Su</string>
-    <string name="hook_failed">O módulo ainda não está ativado.\nPor favor, verifique se o gerenciador do Xposed está ativado. Nesse caso, por favor, reinicie ou otimize novamente o módulo.</string>
+    <string name="hook_failed">O módulo ainda não está ativado.\nPor favor, verifique se o LSPosed está ativado. Nesse caso, por favor, reinicie ou otimize novamente o módulo.</string>
     <string name="kill_failed">Falha ao finalizar o processo. Por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
     <string name="start_failed">Falha ao iniciar a atividade. Por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
     <string name="pid_failed">O app de destino não está em execução e não precisa ser reiniciado.</string>
@@ -250,14 +250,14 @@
     <string name="collapse_miui_title_off_always">Sempre dobrado</string>
     <string name="collapse_miui_title_on_always">Sempre expandir</string>
     <string name="link_open_mode_default">Padrão do sistema</string>
-    <string name="link_open_mode_mi">Navegador Xiaomi</string>
+    <string name="link_open_mode_mi">Navegador Mi</string>
     <string name="app_sort_running">Classificação padrão</string>
     <string name="app_sort_name">Nome do app</string>
     <string name="app_sort_frequency">Recentemente usado</string>
     <string name="app_sort_storage">Armazenamento usado</string>
     <string name="app_sort_install">Data de instalação</string>
     <string name="array_bluetooth_tile_style_3rows">Três blocos grandes</string>
-    <string name="array_bluetooth_tile_style_2rows2cols"> Um bloco grande e dois pequenos</string>
+    <string name="array_bluetooth_tile_style_2rows2cols">Um bloco grande e dois pequenos</string>
     <string name="array_pa_blur_official">Oficial vem com blur</string>
     <string name="array_bpa_blur_customize">Blur de fundo personalizado</string>
     <string name="control_center_sunshine_mode_default">Fechar</string>
@@ -287,6 +287,10 @@
     <string name="system_ui_statusbar_clock_style_3">Exibição de duas linhas\n\nMini-relógio da central de notificações na parte superior\nRelógio da barra de status na parte inferior</string>
     <string name="mediaeditor_mickey">Mickey Mouse</string>
     <string name="mediaeditor_strawberry_bear">Urso de morango</string>
+    <string name="tiles_gms">Google Play Service</string>
+    <string name="tiles_taplus">Taplus</string>
+    <string name="tiles_5g">5G</string>
+    <string name="tiles_sunshine_mode">Modo luz solar</string>
     <!--System Framework-->
     <string name="system_framework">Framework do Sistema</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -330,12 +334,12 @@
     <string name="phone_double_5g_sa">Uso de cartão duplo SA (SA+SA)</string>
     <string name="phone_double_5g_sa_desc">Recurso experimental. Faça com que o SIM secundário suporte SA.</string>
     <string name="system_framework_phone_band_title">Configurações de banda</string>
-    <string name="phone_n1">Banda n1</string>
-    <string name="phone_n1_desc">Suporte Banda n1 (NR)</string>
-    <string name="phone_n28">Banda n28</string>
-    <string name="phone_n28_desc">Suporte Banda n28 (NR)</string>
-    <string name="phone_n5_n8">Banda n5/n8</string>
-    <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* na interface de discagem para suportar a banda n5/n8. Se mostrar \"ativar modo N5 e N8\", o recurso será ativado com sucesso.</string>
+    <string name="phone_n1">Banda N1</string>
+    <string name="phone_n1_desc">Suporta banda N1 (NR)</string>
+    <string name="phone_n28">Banda N28</string>
+    <string name="phone_n28_desc">Suporta banda N28 (NR)</string>
+    <string name="phone_n5_n8">Banda N5/N8</string>
+    <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* na interface de discagem para suportar a banda N5/N8. Se mostrar \"ativar modo N5 e N8\", o recurso será ativado com sucesso.</string>
     <string name="phone_additional_network_settings">Configurações de rede adicionais</string>
     <string name="system_framework_screen_title">Tela e notificações</string>
     <string name="system_framework_core_title">Núcleo por baixo</string>
@@ -372,7 +376,7 @@
     <string name="system_framework_other_thermal_brightness_more">Reduz automaticamente apenas o brilho da tela não causado pelo controle de temperatura</string>
     <string name="system_framework_other_disable_cleaner">Desativar encerramento de apps em segundo plano</string>
     <string name="system_framework_other_disable_cleaner_desc">Recurso experimental. Pode causar uso anormal de memória em execução.</string>
-    <string name="system_framework_disable_72h_verify">Desativar verificação da tela de bloqueio por 72 horas</string>
+    <string name="system_framework_disable_72h_verify">Desativar verificação da tela de bloqueio a cada 72 horas</string>
     <string name="system_framework_disable_verify_can_ve_disabled">Desativar para verificar pode ser desativado</string>
     <string name="system_framework_allow_all_dark_mode">Permitir que todos os apps usem o Modo escuro</string>
     <string name="system_framework_background_blur_supported">Forçar ativação das Texturas avançadas</string>
@@ -702,7 +706,7 @@
     <string name="system_ui_status_bar_battery_indicator_color">Cor</string>
     <string name="system_ui_status_bar_battery_indicator_color_full_power">Cor da bateria cheia</string>
     <string name="system_ui_status_bar_battery_indicator_color_low_power">Cor da bateria baixa</string>
-    <string name="system_ui_status_bar_battery_indicator_color_power_saving">Cor do modo de Economia de bateria</string>
+    <string name="system_ui_status_bar_battery_indicator_color_power_saving">Cor do modo da Economia de bateria</string>
     <string name="system_ui_status_bar_battery_indicator_color_power_charging">Cor do carregamento</string>
     <string name="system_ui_status_bar_battery_indicator_height">Altura</string>
     <string name="system_ui_status_bar_battery_indicator_padding">Margem horizontal</string>
@@ -727,9 +731,7 @@
     <string name="quick_settings_state_change_message_on_my">%1$s está ativado</string>
     <string name="quick_settings_state_change_message_off_my">%1$s está desativado</string>
     <string name="system_control_center_5g_tile">Interruptor de rede 5G</string>
-    <string name="tiles_5g">Rede 5G</string>
     <string name="system_control_center_reduce_bright_colors_tile">Ultra escuro</string>
-    <string name="tiles_taplus">Interruptores Taplus</string>
     <string name="system_control_center_sunshine_mode">Modo luz solar</string>
     <string name="system_ui_control_auto_close">Fechar após tocar</string>
     <string name="system_ui_control_center_qs_bg_color">Cor de fundo</string>
@@ -791,6 +793,7 @@
     <string name="system_ui_control_center_switch_cc_and_notification_title">Alterar centro de controle e a central de notificações</string>
     <string name="system_ui_control_center_hide_operator">Personalizar nome da operadora</string>
     <string name="system_ui_control_center_hide_delimiter">Ocultar apenas o delimitador</string>
+    <string name="system_ui_control_center_hide_display_device_name">Exibir nome do dispositivo</string>
     <string name="system_ui_control_center_hide_name">Ocultar todos os nomes</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Estilo do ícone Bluetooth</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Mova o ícone do Bluetooth para perto do ícone de rede</string>
@@ -809,7 +812,7 @@
     <string name="system_ui_control_center_card_tiles_customization_add">Adicionado</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">Não adicionado</string>
     <string name="system_ui_control_center_unlock_blur_supported">Remover restrição do blur de notificação</string>
-    <string name="system_ui_control_center_unlock_blur_supported_desc">Não há restrição ao blur de fundo para materiais premium oficiais, apenas para remoção de temas de terceiros.</string>
+    <string name="system_ui_control_center_unlock_blur_supported_desc">Não há restrição ao blur de fundo para Texturas avançadas, apenas para remoção de temas de terceiros.</string>
     <string name="system_ui_other_title">Outros</string>
     <string name="system_ui_disable_volume">Barra de volume nativa</string>
     <string name="system_ui_disable_volume_desc">Modificações na barra de volume do HyperOS/MIUI não podem ser aplicadas à barra de volume nativa</string>
@@ -1085,7 +1088,7 @@
     <string name="home_folder_blur_title">Blur de fundo</string>
     <string name="home_folder_recommend_apps_switch">Ocultar a opção Recomendações de hoje</string>
     <string name="home_folder_unlock_blur_supported">Remover restrição do blur da pasta</string>
-    <string name="home_folder_unlock_blur_supported_summary">Não há restrição ao blur de fundo para materiais premium oficiais, apenas para remoção de temas de terceiros.</string>
+    <string name="home_folder_unlock_blur_supported_summary">Não há restrição ao blur de fundo para Texturas avançadas, apenas para remoção de temas de terceiros.</string>
     <string name="home_folder_anim_title">Animação de recuo</string>
     <string name="home_folder_anim_1">Velocidade de abertura 1</string>
     <string name="home_folder_anim_2">Velocidade de abertura 2</string>
@@ -1296,7 +1299,7 @@
     <string name="screenshot">Captura de tela</string>
     <string name="screenshot_unlock_minimum_crop_limit">Remover limite mínimo de corte de imagem</string>
     <string name="screenshot_unlock_privacy_marking_title">Desbloquear marcação de privacidade</string>
-    <string name="screenshot_unlock_privacy_marking_desc">Uma versão superior do app Mi AI Engine precisa ser pré-instalada para uso normal</string>
+    <string name="screenshot_unlock_privacy_marking_desc">Uma versão superior do app Motor Mi IA precisa ser pré-instalada para uso normal</string>
     <string name="screenshot_save_to_pictures_desc">Captura de tela canônica salva em /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Modelo de captura de tela personalizado</string>
     <string name="screenshot_device_customize_desc">Por favor, insira o código do dispositivo, e o dispositivo colorido deve ser preenchido com um sufixo. Por exemplo:\n- Xiaomi 13, preencha o conteúdo com fuxi\n- Xiaomi 14 versão rosa, preencha o conteúdo com houji_PK</string>
@@ -1430,6 +1433,7 @@
     <!--AI Translate-->
     <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Forçar legendas IA habilitadas</string>
+    <string name="aiasst_all_captions">Desbloquear legendas online em vários idiomas</string>
     <string name="aiasst_disable_watermark">Desativar marca d\'água</string>
     <!--Barrage-->
     <string name="barrage">Barragem</string>
@@ -1620,7 +1624,7 @@
     <string name="help_cant_see_apps_desc_no_hidden">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n - Aqueles atualmente desativados ou ocultos\n - Aqueles que não foram encontrados em seu dispositivo\n - Aqueles incompatíveis com a versão atual do sistema ou do app\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nAtualmente não há recursos ocultos!</string>
     <string name="help_cant_see_apps_switch">Ocultar esta ajuda na página inicial</string>
     <string name="help_cant_see_apps_switch_desc">Você ainda pode encontrar esta página em Configurações - Configurar entrada da página inicial. Reinicie o app para aplicar.</string>
-    <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
+    <string name="headtip_warn_not_offical_rom">A ROM que você está usando pode não ser oficial da Xiaomi, e alguns recursos podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
     <string name="headtip_tip_long_press_to_copy">Você pode selecionar o texto após pressionar longamente ou tocar duas vezes, ou copiá-lo e devolvê-lo ao desenvolvedor.</string>
     <string name="safe_mode_title">Aviso</string>
