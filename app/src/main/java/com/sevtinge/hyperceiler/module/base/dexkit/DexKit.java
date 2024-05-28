@@ -477,7 +477,7 @@ public class DexKit {
     private static Class<?> getClass(@Nullable String name, ClassLoader classLoader) {
         if (name == null) throwRuntime("str is null, cant get class!!");
         try {
-            return switch (name) {
+            return switch (name.trim()) {
                 case "int" -> int.class;
                 case "boolean" -> boolean.class;
                 case "byte" -> byte.class;
@@ -504,7 +504,7 @@ public class DexKit {
         if (arrayList.get(0).isEmpty()) return new Class<?>[]{};
         ArrayList<Class<?>> classes = new ArrayList<>();
         for (String s : arrayList) {
-            classes.add(getClass(s.trim(), classLoader));
+            classes.add(getClass(s, classLoader));
         }
         return classes.toArray(new Class<?>[classes.size()]);
     }
