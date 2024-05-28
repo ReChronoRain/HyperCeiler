@@ -51,17 +51,17 @@ object UnlockVideoSomeFunc : BaseHook() {
    }
 
     override fun init() {
-        val orderedB = DexKit.createCache("findFrcB", findFrc.toMethodDataList().filter { methodData ->
+        val orderedB = DexKit.createCache("findFrcB", findFrc?.toMethodDataList()?.filter { methodData ->
             methodData.usingFields.any {
                 it.field.typeName == "java.util.List"
             }
         }, classLoader).toMethodList().toSet()
-        val orderedA = DexKit.createCache("findFrcA", findFrc.toMethodDataList(), classLoader).toMethodList().toSet()
+        val orderedA = DexKit.createCache("findFrcA", findFrc?.toMethodDataList(), classLoader).toMethodList().toSet()
         val differentItems = orderedA.subtract(orderedB)
 
         if (memc) {
             differentItems.forEach { methods ->
-                logI(TAG, "find MeMc Method is $methods")
+                logD(TAG, lpparam.packageName, "find MeMc Method is $methods")
                 hook(methods)
             }
         }
@@ -70,16 +70,16 @@ object UnlockVideoSomeFunc : BaseHook() {
         orderedA.forEach { methods ->
             counter++
             if ((resolution || enhance) && counter == 1) {
-                logI(TAG, "find Tat Method is $findTat")
+                logD(TAG, lpparam.packageName, "find Tat Method is $findTat")
             }
 
             if (counter == 1 && resolution) {
-                logI(TAG, "find SuperResolution Method is $methods")
+                logD(TAG, lpparam.packageName, "find SuperResolution Method is $methods")
 
                 hook(methods)
                 hook(findTat)
             } else if (counter == 3 && enhance) {
-                logI(TAG, "find EnhanceContours Method is $methods")
+                logD(TAG, lpparam.packageName, "find EnhanceContours Method is $methods")
                 hook(methods)
 
                 val newChar = findTat.name.toCharArray()

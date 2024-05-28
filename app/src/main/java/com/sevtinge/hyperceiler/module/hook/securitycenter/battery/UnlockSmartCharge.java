@@ -23,7 +23,7 @@ public class UnlockSmartCharge extends BaseHook {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("persist.vendor.smartchg")
-                        )).singleOrNull();
+                        )).firstOrNull();
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
