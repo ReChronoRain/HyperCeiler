@@ -166,6 +166,7 @@ public class DexKit {
     /**
      * 不检查缓存，每次执行搜索。
      */
+    @Nullable
     public static BaseDataList<?> useDexKitIfNoCache(String[] tags, IDexKitData iDexKitData) {
         return useDexKitIfNoCache(tags, false, iDexKitData);
     }
