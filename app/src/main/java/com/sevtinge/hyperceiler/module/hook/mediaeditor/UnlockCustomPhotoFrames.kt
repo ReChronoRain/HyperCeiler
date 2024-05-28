@@ -73,7 +73,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
 
     override fun init() {
         // 为了减少查询次数，这玩意写得好懵圈.png
-        val publicC = DexKit.createCache("PC", publicA.toMethodDataList().filter { methodData ->
+        val publicC = DexKit.createCache("PC", publicA?.toMethodDataList()?.filter { methodData ->
             methodData.usingFields.any {
                 it.field.typeName == "boolean" // 1.6.3.5 通过此条件应该只会返回 b() 方法
             }

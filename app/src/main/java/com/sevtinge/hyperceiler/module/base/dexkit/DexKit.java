@@ -474,7 +474,8 @@ public class DexKit {
     }
 
     @NotNull
-    private static Class<?> getClass(String name, ClassLoader classLoader) {
+    private static Class<?> getClass(@Nullable String name, ClassLoader classLoader) {
+        if (name == null) throwRuntime("str is null, cant get class!!");
         try {
             return switch (name) {
                 case "int" -> int.class;
