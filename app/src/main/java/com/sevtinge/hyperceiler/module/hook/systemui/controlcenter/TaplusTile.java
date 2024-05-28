@@ -63,7 +63,7 @@ public class TaplusTile extends TileUtils {
 
     @Override
     public int customRes() {
-        return R.string.system_control_center_taplus_label;
+        return R.string.tiles_taplus;
     }
 
     @Override

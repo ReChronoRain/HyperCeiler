@@ -38,19 +38,35 @@ public class UnimportantNotification extends BaseHook {
                 }
         );
 
-        findAndHookMethod("com.android.systemui.statusbar.notification.collection.coordinator.FoldCoordinator",
-                "access$shouldIgnoreEntry",
-                "com.android.systemui.statusbar.notification.collection.coordinator.FoldCoordinator",
-                "com.android.systemui.statusbar.notification.collection.NotificationEntry",
-                new MethodHook() {
-                    @Override
-                    protected void after(MethodHookParam param) {
-                        // Object mSbn = XposedHelpers.getObjectField(param.args[1], "mSbn");
-                        // String getPackageName = (String) XposedHelpers.callMethod(mSbn, "getPackageName");
-                        // logE(TAG, "after: " + param.getResult() + " pkg: " + getPackageName);
-                        param.setResult(true);
+        try {
+            findAndHookMethod("com.android.systemui.statusbar.notification.collection.coordinator.FoldCoordinator",
+                    "access$shouldIgnoreEntry",
+                    "com.android.systemui.statusbar.notification.collection.coordinator.FoldCoordinator",
+                    "com.android.systemui.statusbar.notification.collection.NotificationEntry",
+                    new MethodHook() {
+                        @Override
+                        protected void after(MethodHookParam param) {
+                            // Object mSbn = XposedHelpers.getObjectField(param.args[1], "mSbn");
+                            // String getPackageName = (String) XposedHelpers.callMethod(mSbn, "getPackageName");
+                            // logE(TAG, "after: " + param.getResult() + " pkg: " + getPackageName);
+                            param.setResult(true);
+                        }
                     }
-                }
-        );
+            );
+        }catch (Throwable ignore){
+            findAndHookMethod("com.android.systemui.statusbar.notification.NotificationUtil",
+                    "shouldIgnoreEntry",
+                    "com.android.systemui.statusbar.notification.collection.NotificationEntry",
+                    new MethodHook() {
+                        @Override
+                        protected void after(MethodHookParam param) {
+                            // Object mSbn = XposedHelpers.getObjectField(param.args[1], "mSbn");
+                            // String getPackageName = (String) XposedHelpers.callMethod(mSbn, "getPackageName");
+                            // logE(TAG, "after: " + param.getResult() + " pkg: " + getPackageName);
+                            param.setResult(true);
+                        }
+                    }
+            );
+        }
     }
 }

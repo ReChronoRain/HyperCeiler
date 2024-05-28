@@ -303,9 +303,17 @@
     </string-array>
 
     <string-array name="system_ui_control_center_hide_operator">
-        <item>@string/control_center_5g_off</item>
+        <item>@string/array_default</item>
         <item>@string/system_ui_control_center_hide_delimiter</item>
         <item>@string/system_ui_control_center_hide_name</item>
+        <item>@string/system_ui_control_center_hide_display_device_name</item>
+    </string-array>
+
+    <string-array name="system_ui_control_center_hide_operator_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="status_bar_icon_mode_value">
@@ -679,7 +687,7 @@
 
     <string-array name="market_device_modify_list">
         <item>@string/array_default</item>
-        <item>Xiaomi 15</item>
+        <item>Xiaomi 15 Pro</item>
         <item>Xiaomi 14 Ultra</item>
         <item>Xiaomi 14 Pro</item>
         <item>Xiaomi CIVI 4 Pro</item>
@@ -688,16 +696,17 @@
         <item>Xiaomi MIX Fold 3</item>
         <item>Xiaomi MIX Alpha</item>
         <item>Xiaomi Pad 6S Pro 12.4</item>
-        <item>Redmi K60 Ultra</item>
+        <item>Redmi K70 Ultra</item>
         <item>Redmi K70 Pro</item>
         <item>Redmi K70E</item>
+        <item>Redmi K60 Ultra</item>
         <item>Redmi Turbo 3</item>
         <item>Redmi 13C / Redmi 13R</item>
     </string-array>
 
     <string-array name="market_device_modify_value">
         <item>0</item>
-        <item>105</item>
+        <item>106</item>
         <item>104</item>
         <item>102</item>
         <item>155</item>
@@ -706,9 +715,10 @@
         <item>223</item>
         <item>190</item>
         <item>209</item>
-        <item>307</item>
+        <item>310</item>
         <item>309</item>
         <item>351</item>
+        <item>307</item>
         <item>335</item>
         <item>402</item>
     </string-array>

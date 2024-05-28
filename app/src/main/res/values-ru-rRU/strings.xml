@@ -652,8 +652,8 @@
     <string name="quick_settings_state_change_message_on_my">%1$s вкл.</string>
     <string name="quick_settings_state_change_message_off_my">%1$s выкл.</string>
     <string name="system_control_center_5g_tile">Сетевой коммутатор 5G</string>
-    <string name="system_control_center_5g_toggle_label">Сеть 5G</string>
-    <string name="system_control_center_taplus_label">Переключатели Taplus</string>
+    <string name="tiles_5g">Сеть 5G</string>
+    <string name="tiles_taplus">Переключатели Taplus</string>
     <string name="system_control_center_sunshine_mode">Солнечный режим</string>
     <string name="system_ui_control_auto_close">Автоматически сворачивающийся магнит</string>
     <string name="system_ui_control_auto_close_more">После включения, клик на магнитной плитке на панели состояния автоматически свернет панель состояния</string>

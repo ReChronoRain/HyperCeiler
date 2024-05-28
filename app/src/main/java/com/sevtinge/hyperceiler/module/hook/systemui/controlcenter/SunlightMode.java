@@ -133,7 +133,7 @@ public class SunlightMode extends TileUtils {
 
     @Override
     public int customRes() {
-        return R.string.system_control_center_sunshine_mode;
+        return R.string.tiles_sunshine_mode;
     }
 
     public void refreshState(Object o) {

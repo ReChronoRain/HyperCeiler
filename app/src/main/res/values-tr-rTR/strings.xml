@@ -375,7 +375,7 @@
     <string name="system_ui_control_center_notification_blur_title">Bildirim</string>
     <string name="system_control_center_qs_detail_bg">Kart arka plan saydamlığı</string>
     <string name="system_control_center_5g_tile">5G ağ anahtarı</string>
-    <string name="system_control_center_5g_toggle_label">5G ağı</string>
+    <string name="tiles_5g">5G ağı</string>
     <string name="system_ui_control_auto_close">Magnetik karoları otomatik çekil</string>
     <string name="system_ui_control_auto_close_more">Açıldıktan sonra durum çubuğuna tıklamak durum çubuğunu otomatik olarak geri çekecek</string>
     <string name="system_control_center_qs_tile_label">Başlığı kaldır</string>

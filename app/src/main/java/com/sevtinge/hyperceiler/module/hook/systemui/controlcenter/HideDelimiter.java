@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
+import static com.sevtinge.hyperceiler.utils.PropUtils.getProp;
+
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,6 +30,8 @@ import de.robv.android.xposed.XposedHelpers;
 public class HideDelimiter extends BaseHook {
 
     boolean operator = mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 1;
+    int prefs = mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0);
+    String deviceName = getProp("persist.sys.device_name");
 
     @Override
     public void init() {
@@ -39,7 +43,11 @@ public class HideDelimiter extends BaseHook {
                         @Override
                         protected void before(MethodHookParam param) {
                             String mCurrentCarrier = (String) param.args[0];
-                            param.args[0] = operator ? mCurrentCarrier.replace(" | ", "") : "";
+                            switch (prefs) {
+                                case 1 -> param.args[0] = mCurrentCarrier.replace(" | ", "");
+                                case 2 -> param.args[0] = "";
+                                case 3 -> param.args[0] = deviceName;
+                            }
                         }
                     }
             );
@@ -50,45 +58,67 @@ public class HideDelimiter extends BaseHook {
                         @Override
                         protected void before(MethodHookParam param) {
                             String mCurrentCarrier = (String) XposedHelpers.getObjectField(param.thisObject, "mCurrentCarrier");
-                            StringBuilder stringBuffer = new StringBuilder();
-                            for (int i = 0; i < mCurrentCarrier.length(); i++) {
-                                char ch = mCurrentCarrier.charAt(i);
-                                if (" ".equals(String.valueOf(ch)) || "|".equals(String.valueOf(ch))) {
-                                    continue;
+                            switch (prefs) {
+                                case 1 -> mCurrentCarrier = mCurrentCarrier.replace(" | ", "");
+                                case 2 -> mCurrentCarrier = "";
+                                case 3 -> mCurrentCarrier = deviceName;
+                            }
+                            XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", mCurrentCarrier);
+                        }
+                    }
+            );
+
+            if (prefs == 3) {
+                findAndHookMethod("com.android.keyguard.clock.KeyguardClockContainer$mCarrierTextCallback$1", "onCarrierTextChanged", String.class, new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        param.args[0] = deviceName;
+                    }
+                });
+
+                findAndHookMethod("com.android.keyguard.clock.KeyguardClockContainer$mCarrierTextCallback$1", "onCarrierTextChanged", String.class, int.class, new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        param.args[0] = deviceName;
+                    }
+                });
+
+                findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl", "updateCarrierText", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", deviceName);
+                    }
+                });
+            } else {
+                findAndHookMethod("androidx.constraintlayout.core.PriorityGoalRow$GoalVariableAccessor$$ExternalSyntheticOutline0",
+                        "m", String.class, String.class, new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) throws Throwable {
+                                super.before(param);
+                                // param.args[0] = deviceName;
+                                if (param.args[1].equals(" | ")) {
+                                    param.args[1] = "";
                                 }
-                                stringBuffer.append(ch);
                             }
-                            XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", operator ? stringBuffer.toString() : "");
                         }
-                    }
-            );
+                );
 
-            findAndHookMethod("androidx.constraintlayout.core.PriorityGoalRow$GoalVariableAccessor$$ExternalSyntheticOutline0",
-                    "m", String.class, String.class, new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) throws Throwable {
-                            super.before(param);
-                            if (param.args[1].equals(" | ")) {
-                                param.args[1] = "";
+                findAndHookMethodSilently("androidx.concurrent.futures.AbstractResolvableFuture$$ExternalSyntheticOutline0",
+                        "m", String.class, String.class, String.class,
+                        new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) {
+                                // param.args[0] = deviceName;
+                                if (param.args[1].equals(" | ")) {
+                                    param.args[1] = "";
+                                }
                             }
                         }
-                    }
-            );
-
-            findAndHookMethodSilently("androidx.concurrent.futures.AbstractResolvableFuture$$ExternalSyntheticOutline0",
-                    "m", String.class, String.class, String.class,
-                    new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) {
-                            if (param.args[1].equals(" | ")) {
-                                param.args[1] = "";
-                            }
-                        }
-                    }
-            );
+                );
+            }
         }
 
-        if (!operator) {
+        if (prefs == 2) {
             MethodHook hideOperatorHook = new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
