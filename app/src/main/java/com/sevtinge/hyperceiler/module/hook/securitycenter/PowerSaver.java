@@ -20,36 +20,37 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
 
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
+
 public class PowerSaver extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData methodData = DexKit.getDexKitBridge().findMethod(
-                FindMethod.create()
+        Method method = (Method) DexKit.getDexKitBridge("HangUpStatue", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
                                         .usingStrings("hang_up_enable"))
                                 .usingStrings("hang_up_enable")
-                        )
-        ).singleOrNull();
-        if (methodData == null) {
-            logE(TAG, "method is null!");
-            return;
-        }
-        try {
-            hookMethod(methodData.getMethodInstance(lpparam.classLoader), new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    param.setResult(null);
-                }
-            });
-        } catch (Throwable e) {
-            logE(TAG, e);
-        }
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+        hookMethod(method, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                param.setResult(null);
+            }
+        });
     }
 }

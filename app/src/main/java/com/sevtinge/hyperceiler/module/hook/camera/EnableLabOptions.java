@@ -18,29 +18,39 @@
 */
 package com.sevtinge.hyperceiler.module.hook.camera;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getPackageVersionCode;
+
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.Objects;
+
+import de.robv.android.xposed.XC_MethodHook;
 
 public class EnableLabOptions extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData methodData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-            .matcher(MethodMatcher.create()
-                .usingStrings("getBoolean", "SystemProperties", "Exception while getting system property: ")
-            )
-        ).singleOrThrow(() -> new IllegalStateException("EnableLabOptions: Cannot found MethodData"));
-        Method method = methodData.getMethodInstance(lpparam.classLoader);
-        logD(TAG, lpparam.packageName, "Unlock camera.lab.options method is " + method);
+        Method method = (Method) DexKit.getDexKitBridge("LabOptions", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("getBoolean", "SystemProperties", "Exception while getting system property: ")
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
         hookMethod(method, new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
                 String mStr = (String) param.args[0];
                 if (Objects.equals(mStr, "camera.lab.options")) param.setResult(true);
             }

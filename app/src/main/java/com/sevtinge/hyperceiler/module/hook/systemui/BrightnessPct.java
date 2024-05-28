@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
 import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getTextView;
@@ -34,10 +34,11 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class BrightnessPct extends BaseHook {
+    public boolean isHooked = false;
+
     @Override
     @SuppressLint("SetTextI18n")
     public void init() throws NoSuchMethodException {
-
         if (!isMoreHyperOSVersion(1f)) {
             findAndHookMethod("com.android.systemui.statusbar.policy.BrightnessMirrorController", "showMirror", new MethodHook() {
                 @Override
@@ -82,7 +83,7 @@ public class BrightnessPct extends BaseHook {
             }
         });
 
-        final Class<?> BrightnessUtils = findClassIfExists("com.android.systemui.controlcenter.policy.BrightnessUtils");
+        final Class<?> brightnessUtils = findClassIfExists("com.android.systemui.controlcenter.policy.BrightnessUtils");
         hookAllMethods("com.android.systemui.controlcenter.policy.MiuiBrightnessController", "onChanged", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) {
@@ -92,8 +93,8 @@ public class BrightnessPct extends BaseHook {
                 }
                 if (pctTag == 0 || getTextView() == null) return;
                 int currentLevel = (int) param.args[3];
-                if (BrightnessUtils != null) {
-                    int maxLevel = (int) XposedHelpers.getStaticObjectField(BrightnessUtils, "GAMMA_SPACE_MAX");
+                if (brightnessUtils != null) {
+                    int maxLevel = (int) XposedHelpers.getStaticObjectField(brightnessUtils, "GAMMA_SPACE_MAX");
                     getTextView().setText(((currentLevel * 100) / maxLevel) + "%");
                 }
             }
@@ -103,8 +104,8 @@ public class BrightnessPct extends BaseHook {
     private static Object getObject(XC_MethodHook.MethodHookParam param) {
         Object mMirror = XposedHelpers.getObjectField(param.thisObject, "mControl");
         Object controlCenterWindowViewController = XposedHelpers.getObjectField(mMirror, "controlCenterWindowViewController");
-        String ClsName = controlCenterWindowViewController.getClass().getName();
-        if (!ClsName.equals("ControlCenterWindowViewController")) {
+        String clsName = controlCenterWindowViewController.getClass().getName();
+        if (!clsName.equals("ControlCenterWindowViewController")) {
             controlCenterWindowViewController = XposedHelpers.callMethod(controlCenterWindowViewController, "get");
         }
         return XposedHelpers.callMethod(controlCenterWindowViewController, "getView");

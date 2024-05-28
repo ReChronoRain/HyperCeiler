@@ -19,30 +19,36 @@
 package com.sevtinge.hyperceiler.module.hook.securitycenter.battery
 
 import com.github.kyuubiran.ezxhelper.*
+import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 object ScreenUsedTime : BaseHook() {
     private val method1 by lazy {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                addUsingStringsEquals("ishtar", "nuwa", "fuxi")
-            }
-        }.single().getMethodInstance(EzXHelper.classLoader)
+        DexKit.getDexKitBridge("ScreenUsedTime1") {
+            it.findMethod {
+                matcher {
+                    addUsingStringsEquals("ishtar", "nuwa", "fuxi")
+                }
+            }.single().getMethodInstance(safeClassLoader)
+        }.toMethod()
     }
     private val method2 by lazy {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                declaredClass {
-                    addUsingStringsEquals("not support screenPowerSplit", "PowerRankHelperHolder")
+        DexKit.getDexKitBridgeList("ScreenUsedTime2") {
+            it.findMethod {
+                matcher {
+                    declaredClass {
+                        addUsingStringsEquals("not support screenPowerSplit", "PowerRankHelperHolder")
+                    }
+                    returnType = "boolean"
+                    paramCount = 0
                 }
-                returnType = "boolean"
-                // paramTypes = listOf() 2.0.0-rc3 已经修复此错误，可以使用
-                paramCount = 0
-            }
-        }.map { it.getMethodInstance(EzXHelper.classLoader) }.toList()
+            }.toElementList(safeClassLoader)
+        }.toMethodList()
     }
 
     override fun init() {

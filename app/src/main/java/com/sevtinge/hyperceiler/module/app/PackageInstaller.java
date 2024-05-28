@@ -23,7 +23,7 @@ import android.text.TextUtils;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.AllAsSystemApp;
-import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableAD;
+import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableAd;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableAppInfoUpload;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableCountChecking;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableSafeModelTip;
@@ -40,7 +40,7 @@ public class PackageInstaller extends BaseModule {
         /*initHook(new MiuiPackageInstallModify(), mPrefsMap.getBoolean("miui_package_installer_modify"));*/
 
         // 禁用广告
-        initHook(DisableAD.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_disable_ad"));
+        initHook(new DisableAd(), mPrefsMap.getBoolean("miui_package_installer_disable_ad"));
 
         // 禁用风险检测
         initHook(InstallRiskDisable.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_install_risk"));

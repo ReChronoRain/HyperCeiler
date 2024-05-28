@@ -23,39 +23,46 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.api.LazyClass.AndroidBuildCls
 import de.robv.android.xposed.*
 import java.lang.reflect.*
 
 object UnlockLeicaFilter : BaseHook() {
     private val leicaOld by lazy {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                // 仅适配 1.5 及 1.6 的部分版本，新版已更换检测方式
-                declaredClass {
-                    addUsingStringsEquals("unSupportDeviceList", "stringResUrl")
+        DexKit.getDexKitBridgeList("UnlockLeicaFilterOld") { dexkit ->
+            dexkit.findMethod {
+                matcher {
+                    // 仅适配 1.5 及 1.6 的部分版本，新版已更换检测方式
+                    declaredClass {
+                        addUsingStringsEquals("unSupportDeviceList", "stringResUrl")
+                    }
+                    modifiers = Modifier.FINAL
+                    returnType = "boolean"
+                    paramCount = 0
                 }
-                modifiers = Modifier.FINAL
-                returnType = "boolean"
-                paramCount = 0
-            }
-        }.map { it.getMethodInstance(classLoader) }.toSet()
+            }.toElementList(classLoader)
+        }.toMethodList()
     }
     private val leicaNew by lazy {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                declaredClass = "com.miui.mediaeditor.photo.filter.repository.FilterRepository"
-                returnType = "java.io.Serializable"
-            }
-        }.single().getMethodInstance(classLoader)
+        DexKit.getDexKitBridge("UnlockLeicaFilterNew") { dexkit ->
+            dexkit.findMethod {
+                matcher {
+                    declaredClass = "com.miui.mediaeditor.photo.filter.repository.FilterRepository"
+                    returnType = "java.io.Serializable"
+                }
+            }.single().getMethodInstance(classLoader)
+        }.toMethod()
     }
 
     override fun init() {
         if (leicaOld.isNotEmpty()) {
             leicaOld.forEach { method ->
                 logD(TAG, lpparam.packageName, "Old Leica name is $method") // debug 用
-
-                returnTrue(method)
+                method.createHook {
+                    returnConstant(true)
+                }
             }
         } else {
             logD(TAG, lpparam.packageName, "New Leica name is $leicaNew") // debug 用
@@ -68,12 +75,6 @@ object UnlockLeicaFilter : BaseHook() {
                     )
                 }
             }
-        }
-    }
-
-    private fun returnTrue(method: Method) {
-        method.createHook {
-            returnConstant(true)
         }
     }
 }

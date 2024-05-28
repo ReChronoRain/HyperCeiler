@@ -24,36 +24,44 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toClass
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 class RemoveMacroBlackList : BaseHook() {
     override fun init() {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                addEqString("pref_gb_unsupport_macro_apps")
-                paramCount = 0
-            }
-        }.single().getMethodInstance(safeClassLoader).createHook {
-            returnConstant(ArrayList<String>())
-        }
-
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                returnType = "boolean"
-                addInvoke {
+        DexKit.getDexKitBridge("RemoveMacroBlackList1") {
+            it.findMethod {
+                matcher {
                     addEqString("pref_gb_unsupport_macro_apps")
                     paramCount = 0
                 }
-            }
-        }.single().getMethodInstance(safeClassLoader).createHook {
+            }.single().getMethodInstance(safeClassLoader)
+        }.toMethod().createHook {
+            returnConstant(ArrayList<String>())
+        }
+
+        DexKit.getDexKitBridge("RemoveMacroBlackList2") {
+            it.findMethod {
+                matcher {
+                    returnType = "boolean"
+                    addInvoke {
+                        addEqString("pref_gb_unsupport_macro_apps")
+                        paramCount = 0
+                    }
+                }
+            }.single().getMethodInstance(safeClassLoader)
+        }.toMethod().createHook {
             returnConstant(false)
         }
 
-        DexKit.getDexKitBridge().findClass {
-            matcher {
-                usingStrings =
-                    listOf("content://com.xiaomi.macro.MacroStatusProvider/game_macro_change")
-            }
-        }.single().getInstance(safeClassLoader).apply {
+        DexKit.getDexKitBridge("RemoveMacroBlackList3") {
+            it.findClass {
+                matcher {
+                    usingStrings =
+                        listOf("content://com.xiaomi.macro.MacroStatusProvider/game_macro_change")
+                }
+            }.single().getInstance(safeClassLoader)
+        }.toClass().apply {
             methodFinder().filterByParamCount(2)
                 .toList().createHooks {
                     returnConstant(true)

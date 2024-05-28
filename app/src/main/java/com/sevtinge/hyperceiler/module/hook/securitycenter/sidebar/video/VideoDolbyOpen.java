@@ -21,11 +21,18 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video;
 import com.github.kyuubiran.ezxhelper.HookFactory;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
+
+import de.robv.android.xposed.XC_MethodHook;
 
 public class VideoDolbyOpen extends BaseHook {
     @Override
@@ -54,22 +61,20 @@ public class VideoDolbyOpen extends BaseHook {
         // List<ClassData> list = Collections.singletonList(data);
 
         // 查找方法
-        MethodData methodData = DexKit.getDexKitBridge().findMethod(
-            FindMethod.create()
-                .matcher(MethodMatcher.create()
-                    .declaredClass(ClassMatcher.create()
-                        .usingStrings("checkMiGamePermission error"))
-                    .usingStrings("dolby")
-                )
-        ).singleOrThrow(() -> new IllegalStateException("VideoDolbyOpen: No class found MethodData"));
-
-        // 执行Hook
-        try {
-            HookFactory.createMethodHook(methodData.getMethodInstance(lpparam.classLoader), hookFactory -> hookFactory.before(
-                    methodHookParam -> methodHookParam.setResult(null)
-            ));
-        } catch (NoSuchMethodException e) {
-            logE(TAG, this.lpparam.packageName, "NoSuchMethodException: " + e);
-        }
+        Method method = (Method) DexKit.getDexKitBridge("Dolby", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .declaredClass(ClassMatcher.create()
+                                        .usingStrings("checkMiGamePermission error"))
+                                .usingStrings("dolby")
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+        HookFactory.createMethodHook(method, hookFactory -> hookFactory.before(
+                methodHookParam -> methodHookParam.setResult(null)
+        ));
     }
 }

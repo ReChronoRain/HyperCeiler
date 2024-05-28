@@ -20,34 +20,47 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
+import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 public class UnlockFbo extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData isFboStateOpenInCloud = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-            .matcher(MethodMatcher.create()
-                .usingStrings("FBO_STATE_OPEN")
-                .returnType(boolean.class)
-                .paramCount(0)
-            )
-        ).singleOrThrow(() -> new IllegalStateException("UnlockFbo: Cannot found MethodData FBO_STATE_OPEN"));
-        hookMethod(isFboStateOpenInCloud.getMethodInstance(lpparam.classLoader), MethodHook.returnConstant(true));
 
-        MethodData methodData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-            .matcher(MethodMatcher.create()
-                .usingStrings("miui.fbo.FboManager")
-                .returnType(boolean.class)
-                .paramTypes(String.class)
-            )
-        ).singleOrThrow(() -> new IllegalStateException("UnlockFbo: Cannot found MethodData"));
-        Method method = methodData.getMethodInstance(lpparam.classLoader);
-        logD(TAG, lpparam.packageName, "Unlock FBO method is " + method);
-        hookMethod(method, MethodHook.returnConstant(true));
+        Method method1 = (Method) DexKit.getDexKitBridge("FboStateOpenInCloud", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("FBO_STATE_OPEN")
+                                .returnType(boolean.class)
+                                .paramCount(0)
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+        hookMethod(method1, MethodHook.returnConstant(true));
+
+        Method method2 = (Method) DexKit.getDexKitBridge("FboManager", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("miui.fbo.FboManager")
+                                .returnType(boolean.class)
+                                .paramTypes(String.class)
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+        hookMethod(method2, MethodHook.returnConstant(true));
     }
 }

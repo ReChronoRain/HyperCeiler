@@ -27,6 +27,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 object UnlockSuperClipboard : BaseHook() {
     // by StarVoyager
@@ -93,24 +94,28 @@ object UnlockSuperClipboard : BaseHook() {
 
     private fun dexKitSuperClipboard(switch: Boolean) {
         val ro by lazy {
-            DexKit.getDexKitBridge().findMethod {
-                matcher {
-                    addUsingStringsEquals("ro.miui.support_super_clipboard")
-                    returnType = "boolean"
-                }
-            }.firstOrNull()?.getMethodInstance(safeClassLoader)
+            DexKit.getDexKitBridge("dexKitSuperClipboardRo") {
+                it.findMethod {
+                    matcher {
+                        addUsingStringsEquals("ro.miui.support_super_clipboard")
+                        returnType = "boolean"
+                    }
+                }.singleOrNull()?.getMethodInstance(safeClassLoader)
+            }.toMethod()
         }
 
         val sys by lazy {
-            DexKit.getDexKitBridge().findMethod {
-                matcher {
-                    addUsingStringsEquals("persist.sys.support_super_clipboard")
-                    returnType = "boolean"
-                }
-            }.firstOrNull()?.getMethodInstance(safeClassLoader)
+            DexKit.getDexKitBridge("dexKitSuperClipboardSys") {
+                it.findMethod {
+                    matcher {
+                        addUsingStringsEquals("persist.sys.support_super_clipboard")
+                        returnType = "boolean"
+                    }
+                }.singleOrNull()?.getMethodInstance(safeClassLoader)
+            }.toMethod()
         }
 
-        setOf(ro, sys).filterNotNull().createHooks {
+        setOf(ro, sys).toSet().createHooks {
             returnConstant(switch)
         }
     }

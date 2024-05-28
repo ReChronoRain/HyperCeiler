@@ -1,35 +1,38 @@
 package com.sevtinge.hyperceiler.module.hook.securitycenter.battery
 
-import android.os.Bundle
-import android.os.Message
+import android.os.*
 import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit
-import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.*
 import org.luckypray.dexkit.query.enums.*
 
 
 object BatteryHealth : BaseHook() {
-    private val dexKitBridge = DexKit.getDexKitBridge()
-
     private val getSecurityBatteryHealth by lazy {
-        dexKitBridge.findMethod {
-            matcher {
-                addUsingString("battery_health_soh", StringMatchType.Equals)
-            }
-        }.single().getMethodInstance(EzXHelper.classLoader)
+        DexKit.getDexKitBridge("getSecurityBatteryHealth") {
+            it.findMethod {
+                matcher {
+                    addUsingString("battery_health_soh", StringMatchType.Equals)
+                }
+            }.single().getMethodInstance(EzXHelper.classLoader)
+        }.toMethod()
     }
 
-    private val cc = dexKitBridge.findClass {
-        searchPackages("com.miui.powercenter.nightcharge")
-        findFirst = true
-        matcher {
-            methods {
-                add {
-                    name = "handleMessage"
+    private val cc by lazy {
+        DexKit.useDexKitIfNoCache(arrayOf("SecurityBatteryHealthClass")) {
+            it.findClass {
+                searchPackages("com.miui.powercenter.nightcharge")
+                findFirst = true
+                matcher {
+                    methods {
+                        add {
+                            name = "handleMessage"
+                        }
+                    }
                 }
             }
         }
@@ -56,8 +59,9 @@ object BatteryHealth : BaseHook() {
             }
         )
 
+        val nameClass = DexKit.createCache("SecurityBatteryHealthClass", cc, lpparam.classLoader).toClassList().first().name
         findAndHookMethod(
-            cc.single().name,
+            nameClass,
             "handleMessage",
             Message::class.java,
             object : XC_MethodHook() {

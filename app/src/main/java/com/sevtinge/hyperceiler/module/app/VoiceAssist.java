@@ -28,7 +28,7 @@ public class VoiceAssist extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        initHook(UseThirdPartyBrowser.INSTANCE, mPrefsMap.getBoolean("content_extension_browser"));
+        initHook(new UseThirdPartyBrowser(), mPrefsMap.getBoolean("content_extension_browser"));
         initHook(new DisableChatWatermark(), mPrefsMap.getBoolean("voiceassist_disable_watermark"));
     }
 }

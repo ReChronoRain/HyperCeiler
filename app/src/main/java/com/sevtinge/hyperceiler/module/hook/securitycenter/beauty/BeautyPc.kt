@@ -22,17 +22,20 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 
 object BeautyPc : BaseHook() {
     override fun init() {
-        DexKit.getDexKitBridge().findMethod {
-          matcher {
-              addUsingStringsEquals("persist.vendor.camera.facetracker.support")
-              returnType = "boolean"
-          }
-       }.single().getMethodInstance(lpparam.classLoader).createHook {
-           returnConstant(true)
-       }
+        DexKit.getDexKitBridge("BeautyPc") {
+            it.findMethod {
+                matcher {
+                    addUsingStringsEquals("persist.vendor.camera.facetracker.support")
+                    returnType = "boolean"
+                }
+            }.single().getMethodInstance(lpparam.classLoader)
+        }.toMethod().createHook {
+            returnConstant(true)
+        }
     }
 }

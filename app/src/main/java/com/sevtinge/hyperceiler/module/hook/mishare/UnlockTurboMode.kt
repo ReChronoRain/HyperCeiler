@@ -23,18 +23,17 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 object UnlockTurboMode : BaseHook() {
     private val turboModeMethod by lazy {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                addUsingStringsEquals("DeviceUtil", "xiaomi.hardware.p2p_160m")
-            }
-        }.single().getMethodInstance(EzXHelper.safeClassLoader)
-    }
-
-    override fun isLoad(): Boolean {
-        return mPrefsMap.getBoolean("unlock_turbo_mode")
+        DexKit.getDexKitBridge("UnlockTurboMode") {
+            it.findMethod {
+                matcher {
+                    addUsingStringsEquals("DeviceUtil", "xiaomi.hardware.p2p_160m")
+                }
+            }.single().getMethodInstance(EzXHelper.safeClassLoader)
+        }.toMethod()
     }
 
     override fun init() {

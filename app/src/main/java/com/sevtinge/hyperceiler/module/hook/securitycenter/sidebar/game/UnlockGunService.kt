@@ -22,18 +22,21 @@ import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 object UnlockGunService : BaseHook() {
     override fun init() {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                declaredClass {
-                    addEqString("gb_game_collimator_status")
+        DexKit.getDexKitBridge("UnlockGunService") {
+            it.findMethod {
+                matcher {
+                    declaredClass {
+                        addEqString("gb_game_collimator_status")
+                    }
+                    returnType = "boolean"
+                    paramTypes = listOf("java.lang.String")
                 }
-                returnType = "boolean"
-                paramTypes = listOf("java.lang.String")
-            }
-        }.single().getMethodInstance(EzXHelper.safeClassLoader).createHook {
+            }.single().getMethodInstance(EzXHelper.safeClassLoader)
+        }.toMethod().createHook {
             returnConstant(true)
         }
     }

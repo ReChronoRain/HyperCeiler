@@ -23,15 +23,18 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.*
 
 object DisableSafeModelTip : BaseHook() {
     override fun init() {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                addUsingStringsEquals("android.provider.MiuiSettings\$Ad")
-            }
-        }.single().getMethodInstance(lpparam.classLoader).createHook {
+        DexKit.getDexKitBridge("DisableSafeModelTip") {
+            it.findMethod {
+                matcher {
+                    addUsingStringsEquals("android.provider.MiuiSettings\$Ad")
+                }
+            }.single().getMethodInstance(lpparam.classLoader)
+        }.toMethod().createHook {
             returnConstant(false)
         }
 

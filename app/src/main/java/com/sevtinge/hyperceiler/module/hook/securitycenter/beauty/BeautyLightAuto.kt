@@ -18,29 +18,35 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.beauty
 
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import de.robv.android.xposed.*
-import java.lang.reflect.*
 
 object BeautyLightAuto : BaseHook() {
     private val beauty by lazy {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                addUsingStringsEquals("taoyao", "IN", "persist.vendor.vcb.ability")
-                returnType = "boolean"
-            }
-        }.single().getMethodInstance(lpparam.classLoader)
+        DexKit.getDexKitBridge("superWirelessCharge") {
+            it.findMethod {
+                matcher {
+                    addUsingStringsEquals("taoyao")
+                    returnType = "boolean"
+                }
+            }.single().getMethodInstance(EzXHelper.classLoader)
+        }.toMethod()
     }
     private val beautyAuto by lazy {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                addUsingStringsEquals("taoyao")
-                returnType = "boolean"
-            }
-        }
+        DexKit.getDexKitBridgeList("superWirelessCharge") {
+            it.findMethod {
+                matcher {
+                    addUsingStringsEquals("taoyao")
+                    returnType = "boolean"
+                }
+            }.toElementList(EzXHelper.classLoader)
+        }.toMethodList()
     }
 
     override fun init() {
@@ -52,18 +58,9 @@ object BeautyLightAuto : BaseHook() {
 
         beautyAuto.forEach {
             if (!java.lang.String.valueOf(it).contains("<clinit>")) {
-                val beautyLightAuto: Method =
-                    it.getMethodInstance(lpparam.classLoader)
-                if (!java.lang.String.valueOf(it).contains(beauty.toString()) && beautyLightAuto.name != beauty.name) {
-                    logI(
-                        TAG,
-                        this.lpparam.packageName,
-                        "beautyLightAuto method is $beautyLightAuto"
-                    )
-                    XposedBridge.hookMethod(
-                        beautyLightAuto,
-                        XC_MethodReplacement.returnConstant(true)
-                    )
+                if (!java.lang.String.valueOf(it.name).contains(beauty.toString()) && it.name != beauty.name) {
+                    logI(TAG, this.lpparam.packageName, "beautyLightAuto method is $beautyAuto")
+                    XposedBridge.hookMethod(it, XC_MethodReplacement.returnConstant(true))
                 }
             }
         }

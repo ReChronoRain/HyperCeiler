@@ -22,15 +22,18 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 class GamePerformanceWildMode : BaseHook() {
     override fun init() {
         // 开放均衡/狂暴模式
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                addEqString("support_wild_boost")
-            }
-        }.single().getMethodInstance(safeClassLoader).createHook {
+        DexKit.getDexKitBridge("GamePerformanceWildMode") {
+            it.findMethod {
+                matcher {
+                    addEqString("support_wild_boost")
+                }
+            }.single().getMethodInstance(safeClassLoader)
+        }.toMethod().createHook {
             returnConstant(true)
         }
     }

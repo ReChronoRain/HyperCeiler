@@ -28,6 +28,7 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
@@ -203,13 +204,14 @@ object BlurSecurity : BaseHook() {
             }
         })
 
-        // if (getPackageVersionCode(lpparam) >= 40000754) {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                returnType = "android.view.View"
-                paramTypes = listOf("android.content.Context", "boolean", "boolean")
-            }
-        }.single().getMethodInstance(lpparam.classLoader).createAfterHook { param ->
+        DexKit.getDexKitBridge("BlurSecurity1") {
+            it.findMethod {
+                matcher {
+                    returnType = "android.view.View"
+                    paramTypes = listOf("android.content.Context", "boolean", "boolean")
+                }
+            }.single().getMethodInstance(lpparam.classLoader)
+        }.toMethod().createAfterHook { param ->
             val mainContent = getValueByField(param.thisObject, "b") as ViewGroup
             mainContent.addOnAttachStateChangeListener(object :
                 View.OnAttachStateChangeListener {
@@ -280,12 +282,14 @@ object BlurSecurity : BaseHook() {
                 "seekbar_text_speed"
             )
 
-            val gameManagerMethod = DexKit.getDexKitBridge().findMethod {
-                searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
-                matcher {
-                    usingStrings = listOf("addView error")
-                }
-            }.single().getMethodInstance(safeClassLoader)
+            val gameManagerMethod = DexKit.getDexKitBridge("BlurSecurity2"){
+                it.findMethod {
+                    searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
+                    matcher {
+                        usingStrings = listOf("addView error")
+                    }
+                }.single().getMethodInstance(safeClassLoader)
+            }.toMethod()
 
             gameManagerMethod.createAfterHook {
                 val view = it.args[0] as View

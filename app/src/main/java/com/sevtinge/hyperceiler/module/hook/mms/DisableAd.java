@@ -22,15 +22,20 @@ import android.content.Context;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKitList;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
 import org.luckypray.dexkit.result.MethodDataList;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.List;
 
 public class DisableAd extends BaseHook {
     @Override
@@ -44,52 +49,52 @@ public class DisableAd extends BaseHook {
                 }
             });
 
-        try {
-            MethodData methodData1 = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-                .matcher(MethodMatcher.create()
-                    .declaredClass(ClassMatcher.create()
-                        .usingStrings("Unknown type of the message: "))
-                    .usingNumbers(3, 4)
-                    .returnType(boolean.class)
-                    .paramCount(0)
-                )
-            ).singleOrThrow(() -> new IllegalStateException("DisableAd: Cannot found Method addAdButton()"));
-            Method method1 = methodData1.getMethodInstance(lpparam.classLoader);
-            logD(TAG, lpparam.packageName, "addAdButton() method is " + method1);
-            hookMethod(method1, new MethodHook() {
+        Method method1 = (Method) DexKit.getDexKitBridge("MessageType", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .declaredClass(ClassMatcher.create()
+                                        .usingStrings("Unknown type of the message: "))
+                                .usingNumbers(3, 4)
+                                .returnType(boolean.class)
+                                .paramCount(0)
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+        hookMethod(method1, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                param.setResult(false);
+            }
+        });
+
+        List<Method> methods = DexKit.getDexKitBridgeList("HideButton", new IDexKitList() {
+            @Override
+            public List<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodDataList methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .name("setHideButton")
+                        )
+                );
+                return DexKit.toElementList(methodData, lpparam.classLoader);
+            }
+        }).toMethodList();
+        for (Method method2 : methods) {
+            hookMethod(method2, new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) throws Throwable {
-                    param.setResult(false);
+                    if (!Modifier.isAbstract(method2.getModifiers())) {
+                        hookMethod(method2, new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) throws Throwable {
+                                param.args[0] = true;
+                            }
+                        });
+                    }
                 }
             });
-        } catch (Exception e) {
-            logE(TAG, lpparam.packageName, "find addAdButton() error", e);
-
-        }
-
-        try {
-            MethodDataList methodDataList = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-                .matcher(MethodMatcher.create()
-                    .name("setHideButton")
-                )
-            );
-            if (methodDataList == null)
-                throw new IllegalStateException("DisableAd: Cannot found Method setHideButton()");
-            for (MethodData methodData : methodDataList) {
-                Method method2 = methodData.getMethodInstance(lpparam.classLoader);
-                if (!Modifier.isAbstract(method2.getModifiers())) {
-                    logD(TAG, lpparam.packageName, "Current hooking setHideButton() method is " + method2);
-                    hookMethod(method2, new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) throws Throwable {
-                            param.args[0] = true;
-                        }
-                    });
-                }
-            }
-        } catch (Exception e) {
-            logE(TAG, lpparam.packageName, "find setHideButton() error", e);
-
         }
     }
 }

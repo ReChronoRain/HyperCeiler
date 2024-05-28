@@ -20,26 +20,34 @@ package com.sevtinge.hyperceiler.module.hook.aiasst;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+
+import de.robv.android.xposed.XC_MethodHook;
 
 public class DisableWatermark extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData methodData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-            .matcher(MethodMatcher.create()
-                .usingStrings("userId", "add watermark")
-            )
-        ).singleOrThrow(() -> new IllegalStateException("DisableChatWatermark: Cannot found MethodData"));
-        Method method = methodData.getMethodInstance(lpparam.classLoader);
-        logD(TAG, lpparam.packageName, "addWatermarkIfNeed() method is " + method);
+        Method method = (Method) DexKit.getDexKitBridge("DisableWatermark", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("userId", "add watermark")
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
         hookMethod(method, new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
                 param.setResult(null);
             }
         });

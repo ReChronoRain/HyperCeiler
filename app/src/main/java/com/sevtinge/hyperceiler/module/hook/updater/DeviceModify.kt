@@ -18,9 +18,11 @@
 */
 package com.sevtinge.hyperceiler.module.hook.updater
 
+import com.github.kyuubiran.ezxhelper.*
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
 import com.sevtinge.hyperceiler.utils.*
 
 
@@ -49,15 +51,17 @@ object DeviceModify : BaseHook() {
                 e
             )
         }
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                addUsingStringsEquals("android.os.SystemProperties", "get", "get e")
-            }
-        }.forEach { methodData ->
-            methodData.getMethodInstance(lpparam.classLoader).hookBeforeMethod {
+        DexKit.getDexKitBridgeList("DeviceModify") {
+            it.findMethod {
+                matcher {
+                    addUsingStringsEquals("android.os.SystemProperties", "get", "get e")
+                }
+            }.toElementList(EzXHelper.safeClassLoader)
+        }.toMethodList().forEach { method ->
+            method.hookBeforeMethod {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName
             }
-            logI(TAG, this.lpparam.packageName, "dexkit method is $methodData")
+            logI(TAG, this.lpparam.packageName, "dexkit method is $method")
         }
 
         /*try {

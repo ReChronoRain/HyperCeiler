@@ -22,15 +22,18 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 object DisableRootCheck : BaseHook() {
     override fun init() {
-        DexKit.getDexKitBridge().findMethod {
-            matcher {
-                addUsingStringsEquals("key_check_item_root")
-                returnType = "boolean"
-            }
-        }.single().getMethodInstance(lpparam.classLoader).createHook {
+        DexKit.getDexKitBridge("DisableRootCheck") {
+            it.findMethod {
+                matcher {
+                    addUsingStringsEquals("key_check_item_root")
+                    returnType = "boolean"
+                }
+            }.single().getMethodInstance(lpparam.classLoader)
+        }.toMethod().createHook {
             returnConstant(false)
         }
     }
