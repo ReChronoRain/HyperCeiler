@@ -56,6 +56,7 @@
                 android:data="https://github.com/YifePlayte" />
         </Preference>
 
+        
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.base.about.AboutContributerFragment"
             android:key="prefs_key_about_contributer"
@@ -63,8 +64,8 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_translator_title">
         <Preference
-            android:title="@string/language"
-            android:summary="@string/translator">
+            android:title="@string/translator"
+            android:summary="@string/language">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/translator_url" />

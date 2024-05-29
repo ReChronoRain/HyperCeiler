@@ -47,8 +47,8 @@
     <string name="new_cta_app_all_purpose_title">Welcome to HyperCeiler. This application relies on the Xposed framework to run. You can use this application to hijack and modify other supported applications to enhance the system. During use, in order to provide you with more functions, we may apply for Root/Su permissions from you. You can manage it at any time by going to your Root/Su Manager.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">English</string>
-    <string name="translator">Neko Qiqi</string>
-    <string name="translator_url">https://github.com/mu7220</string>
+    <string name="translator">Re.chronoRain</string>
+    <string name="translator_url">https://github.com/ReChronoRain</string>
     <string name="home">Home</string>
     <string name="edit">Please enter text</string>
     <string name="kill">Kill tool</string>
