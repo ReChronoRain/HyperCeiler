@@ -96,14 +96,17 @@ object MobileTypeTextCustom : BaseHook() {
             }.single().createHook {
                 after {
                     if (isShowPaw && mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", "") == "") {
-                        XposedLogUtils.logD("dataConnected $dataConnected")
-                        XposedLogUtils.logD("wifiAvailable $wifiAvailable")
-                        XposedLogUtils.logD("cache $cache")
                         if ((qpt == 0 && (!dataConnected || wifiAvailable) && cache != 0) || (qpt == 2 && wifiAvailable) || (qpt == 4 && !dataConnected && wifiAvailable)) {
                             it.result = null
                         }
+                    } else if (isShowPaw && mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", "") != ""){
+                        if ((qpt == 0 && (!dataConnected || wifiAvailable) && cache != 0) || (qpt == 2 && wifiAvailable) || (qpt == 4 && !dataConnected && wifiAvailable)) {
+                            it.result = null
+                        } else {
+                            it.result = mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", "ERR")
+                        }
                     } else {
-                        mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", "ERR")
+                        it.result = mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", "ERR")
                     }
                 }
             }
