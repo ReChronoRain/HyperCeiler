@@ -41,8 +41,8 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class DualRowSignalHook extends BaseHook {
-    private final int rightMargin = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_right_margin", 0);
-    private final int leftMargin = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_left_margin", 0);
+    private final int rightMargin = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_right_margin", 8) - 8;
+    private final int leftMargin = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_left_margin", 8) - 8;
     private final int iconScale = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_size", 10); // 图标缩放
     private final int verticalOffset = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_vertical_offset", 8);
     private final boolean mobileTypeSingle = mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"); // 移动网络类型单独显示
@@ -302,7 +302,7 @@ public class DualRowSignalHook extends BaseHook {
     }
 
     private void setDualRowStyle() {
-       if (rightMargin > 0 || leftMargin > 0 || iconScale != 10 || verticalOffset != 8) {
+       if (rightMargin != 0 || leftMargin != 0 || iconScale != 10 || verticalOffset != 8) {
             MethodHook styleHook = new MethodHook() {
                 @Override
                 protected void after(final MethodHookParam param) {

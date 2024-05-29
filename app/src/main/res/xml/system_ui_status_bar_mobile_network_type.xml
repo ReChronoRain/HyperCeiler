@@ -26,7 +26,7 @@
 
     <PreferenceCategory
         android:key="prefs_key_system_ui_statusbar_mobile_type_group"
-        android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable">
+        >
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_statusbar_mobile_type_left"

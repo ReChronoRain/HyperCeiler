@@ -59,6 +59,7 @@ public class MobileNetworkTypeSettings extends SettingsPreferenceFragment
 
         setMobileMode(mobileMode);
         mMobileMode.setOnPreferenceChangeListener(this);
+        mMobileType.setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -66,11 +67,26 @@ public class MobileNetworkTypeSettings extends SettingsPreferenceFragment
         if (preference == mMobileMode) {
             setMobileMode(Integer.parseInt((String) o));
         }
+        if (preference == mMobileType) {
+            setMobileTypeGroup((Boolean) o);
+        }
         return true;
     }
 
+    private void setMobileTypeGroup(boolean prefs) {
+        boolean isPawEnable = PrefsUtils.getSharedBoolPrefs(getActivity(), "prefs_key_system_ui_status_bar_icon_paw", false);
+        mMobileTypeGroup.setVisible(isPawEnable || prefs);
+    }
+
     private void setMobileMode(int mode) {
+        boolean isPawEnable = PrefsUtils.getSharedBoolPrefs(getActivity(), "prefs_key_system_ui_status_bar_icon_paw", false);
         mMobileType.setEnabled(mode != 3);
+        mMobileTypeGroup.setVisible(isPawEnable);
+        if (isPawEnable) {
+            mMobileType.setChecked(true);
+            mMobileType.setEnabled(false);
+            mMobileTypeGroup.setEnabled(true);
+        }
         if (mode == 3) {
             mMobileTypeGroup.setVisible(false);
             mMobileType.setChecked(false);

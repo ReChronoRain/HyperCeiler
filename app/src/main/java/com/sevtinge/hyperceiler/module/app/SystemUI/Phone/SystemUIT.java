@@ -186,7 +186,6 @@ public class SystemUIT extends BaseModule {
         // 移动网络图标
         boolean isEnableMobilePublic = mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
                 mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2") ||
-                mPrefsMap.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0) != 0 ||
                 mPrefsMap.getBoolean("system_ui_status_bar_mobile_hide_roaming_icon") ||
                 mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable") ||
                 mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator");
@@ -197,8 +196,8 @@ public class SystemUIT extends BaseModule {
         initHook(MobilePublicHook.INSTANCE, isEnableMobilePublic);
         initHook(new MobileNetwork(), isEnableMobileNetwork);
         initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
-        initHook(MobileTypeSingleHook.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
-        initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
+        initHook(MobileTypeSingleHook.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable") || mPrefsMap.getBoolean("system_ui_status_bar_icon_paw"));
+        initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), "") || mPrefsMap.getBoolean("system_ui_status_bar_icon_paw"));
 
         // 电池相关
         boolean isHideBatteryIcon = mPrefsMap.getBoolean("system_ui_status_bar_battery_icon") ||
