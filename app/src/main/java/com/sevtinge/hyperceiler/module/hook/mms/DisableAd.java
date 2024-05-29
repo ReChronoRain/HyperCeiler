@@ -49,27 +49,6 @@ public class DisableAd extends BaseHook {
                 }
             });
 
-        Method method1 = (Method) DexKit.getDexKitBridge("MessageType", new IDexKit() {
-            @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .declaredClass(ClassMatcher.create()
-                                        .usingStrings("Unknown type of the message: "))
-                                .usingNumbers(3, 4)
-                                .returnType(boolean.class)
-                                .paramCount(0)
-                        )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
-            }
-        });
-        hookMethod(method1, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(false);
-            }
-        });
-
         List<Method> methods = DexKit.getDexKitBridgeList("HideButton", new IDexKitList() {
             @Override
             public List<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
@@ -82,9 +61,6 @@ public class DisableAd extends BaseHook {
             }
         }).toMethodList();
         for (Method method2 : methods) {
-            hookMethod(method2, new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) throws Throwable {
                     if (!Modifier.isAbstract(method2.getModifiers())) {
                         hookMethod(method2, new MethodHook() {
                             @Override
@@ -93,8 +69,6 @@ public class DisableAd extends BaseHook {
                             }
                         });
                     }
-                }
-            });
         }
-    }
+}
 }
