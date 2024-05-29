@@ -276,8 +276,15 @@
         android:key="prefs_key_screenshot_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.screenshot"
-
         android:title="@string/screenshot" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_securityadd"
+        android:key="prefs_key_securityadd_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.securityadd"
+        android:title="@string/securityadd" />
 
     <SwitchPreference
         android:defaultValue="true"
