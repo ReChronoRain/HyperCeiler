@@ -38,7 +38,6 @@ import java.util.List;
 public class CustomWatermark extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        long stime = System.currentTimeMillis();
         List<Method> methods = DexKit.getDexKitBridgeList("Watermark", new IDexKitList() {
             @Override
             public List<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
@@ -56,9 +55,6 @@ public class CustomWatermark extends BaseHook {
                 return DexKit.toElementList(methodData, lpparam.classLoader);
             }
         }).toMethodList();
-        long etime = System.currentTimeMillis();
-        logE(TAG, "代码执行时间（毫秒）: " + (etime - stime));
-
         for (Method method : methods) {
             // Method method = methodData.getMethodInstance(lpparam.classLoader);
             logD(TAG, lpparam.packageName, "Current hooking method is " + method);
