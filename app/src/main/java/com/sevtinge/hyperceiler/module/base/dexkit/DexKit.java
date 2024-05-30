@@ -150,7 +150,7 @@ public class DexKit {
         }
     }
 
-pubilc static void clearCache(){
+public static void clearCache(){
    clearCache(getFile(callTAG));
 }
 
