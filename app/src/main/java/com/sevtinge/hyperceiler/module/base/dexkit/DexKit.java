@@ -150,6 +150,37 @@ public class DexKit {
         }
     }
 
+pubilc static void clearCache(){
+   clearCache(getFile(callTAG)):
+}
+
+public static void clearCache(@NonNull String path) {
+FileUtils.delete(path, new FileVisitor<Path>() {
+                        @Override
+                        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                            return FileVisitResult.CONTINUE;
+                        }
+
+                        @Override
+                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                            Files.delete(file);
+                            XposedLogUtils.logI(callTAG, "success delete file: " + file);
+                            return FileVisitResult.CONTINUE;
+                        }
+
+                        @Override
+                        public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                            return FileVisitResult.CONTINUE;
+                        }
+
+                        @Override
+                        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                            return FileVisitResult.CONTINUE;
+                        }
+                    });
+
+}
+
     @NotNull
     public static DexKitBridge getDexKitBridge() {
         if (privateDexKitBridge == null) {
