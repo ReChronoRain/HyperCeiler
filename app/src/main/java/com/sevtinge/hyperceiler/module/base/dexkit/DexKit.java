@@ -151,7 +151,7 @@ public class DexKit {
     }
 
 pubilc static void clearCache(){
-   clearCache(getFile(callTAG)):
+   clearCache(getFile(callTAG));
 }
 
 public static void clearCache(@NonNull String path) {
