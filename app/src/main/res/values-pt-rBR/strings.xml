@@ -581,6 +581,7 @@
     <string name="system_ui_statusbar_iconmanage_privacy_title">Privacidade</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Exibir ícones do lado esquerdo</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Exibir ícones do lado direito</string>
+    <string name="system_ui_status_bar_icon_paw">Pata</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_slave">Wi-Fi auxiliar</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Padrão Wi-Fi</string>
