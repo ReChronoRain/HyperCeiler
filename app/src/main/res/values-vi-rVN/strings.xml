@@ -9,8 +9,8 @@
     <string name="new_cta_app_all_purpose_title">Chào mừng đến với HyperCeiler. Ứng dụng này phụ thuộc vào khung Xposed để chạy. Bạn có thể sử dụng ứng dụng này để nâng quyền điều khiển và sửa đổi các ứng dụng được hỗ trợ khác nhằm nâng cao hệ thống. Trong quá trình sử dụng, để cung cấp nhiều chức năng hơn, chúng tôi có thể yêu cầu quyền Root/Su của bạn. Bạn có thể quản lý nó bất kỳ lúc nào bằng cách truy cập trình quản lý Root/Su của mình.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Tiếng Việt</string>
-    <string name="translator">Kimle69</string>
-    <string name="translator_url">https://t.me/Kimle69</string>
+    <string name="translator">MiuiVN &amp; MiuiTN</string>
+    <string name="translator_url">https://t.me/translation_abcxyz</string>
     <string name="home">Trang chủ</string>
     <string name="edit">Vui lòng nhập văn bản</string>
     <string name="kill">Tắt công cụ</string>
@@ -583,6 +583,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_iconmanage_privacy_title">Riêng tư</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Chuyển biểu tượng sang trái</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Chuyển biểu tượng sang phải</string>
+    <string name="system_ui_status_bar_icon_paw">Bàn chân</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_slave">Biểu tượng Wi-Fi phụ</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Hiển thị chuẩn Wi-Fi</string>
