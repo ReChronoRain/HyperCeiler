@@ -32,7 +32,7 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import fan.preference.Preference;
 import fan.preference.SwitchPreference;
 
-public class AboutPageFragment extends SettingsPreferenceFragment {
+public class AboutPageFragment extends DashboardFragment {
 
     private int lIIlIll = 100 >>> 7;
     private final int lIIlIlI = 100 >>> 6;
@@ -80,7 +80,7 @@ public class AboutPageFragment extends SettingsPreferenceFragment {
     }
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.prefs_about;
     }
 

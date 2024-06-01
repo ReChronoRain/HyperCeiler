@@ -22,6 +22,7 @@ import com.sevtinge.hyperceiler.ui.settings.adapter.ProxyHeaderViewAdapter;
 import com.sevtinge.hyperceiler.utils.SettingLauncher;
 import com.sevtinge.hyperceiler.utils.search.SearchModeHelper;
 
+import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.recyclerview.widget.RecyclerView;
 import fan.view.SearchActionMode;
 
@@ -33,6 +34,7 @@ public class HomePageFragment extends BasePageFragment {
     androidx.recyclerview.widget.RecyclerView mSearchResultView;
     ModSearchAdapter mSearchAdapter;
 
+    private NestedHeaderLayout mNestedHeaderView;
     private RecyclerView mListView;
 
     private HeaderAdapter mHeaderAdapter;
@@ -60,6 +62,8 @@ public class HomePageFragment extends BasePageFragment {
     @Override
     public void onViewInflated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewInflated(view, savedInstanceState);
+        mNestedHeaderView = view.findViewById(R.id.nestedheaderlayout);
+        registerCoordinateScrollView(mNestedHeaderView);
         initSearchView(view);
     }
 
@@ -73,7 +77,7 @@ public class HomePageFragment extends BasePageFragment {
         mSearchResultView.setVisibility(View.GONE);
         mSearchResultView.setLayoutManager(new LinearLayoutManager(requireContext()));
         mSearchResultView.setAdapter(mSearchAdapter);
-        registerCoordinateScrollView(mSearchResultView);
+        registerCoordinateScrollView(view.findViewById(R.id.search_result_ll));
 
         mSearchView.setOnClickListener(v -> startSearchMode());
         mSearchAdapter.setOnItemClickListener((v, ad) -> onSearchItemClickListener(ad));

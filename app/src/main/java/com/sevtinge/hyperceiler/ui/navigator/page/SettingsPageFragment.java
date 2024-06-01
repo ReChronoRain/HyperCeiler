@@ -39,8 +39,9 @@ import fan.preference.DropDownPreference;
 import fan.preference.Preference;
 import fan.preference.SwitchPreference;
 
-public class SettingsPageFragment extends SettingsPreferenceFragment
+public class SettingsPageFragment extends DashboardFragment
         implements Preference.OnPreferenceChangeListener {
+
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
     SwitchPreference mHideAppIcon;
@@ -134,7 +135,7 @@ public class SettingsPageFragment extends SettingsPreferenceFragment
     }
 
     @Override
-    public int getContentResId() {
+    protected int getPreferenceScreenResId() {
         return R.xml.prefs_settings;
     }
 

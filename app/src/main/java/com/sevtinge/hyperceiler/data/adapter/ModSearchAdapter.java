@@ -43,6 +43,10 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import fan.animation.Folme;
+import fan.animation.ITouchStyle;
+import fan.animation.base.AnimConfig;
+
 public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.ViewHolder> {
 
     private Context mContext;
@@ -67,7 +71,8 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Folme.useAt(holder.itemView).touch().setScale(1.0f, new ITouchStyle.TouchType[0]).setBackgroundColor(mContext.getResources().getColor(R.color.settings_item_touch_color, mContext.getTheme())).setTintMode(1).handleTouchOf(holder.itemView, new AnimConfig[0]);
         ModData ad = modsList.get(position);
         Spannable spannable = new SpannableString(ad.title);
         if (isChina) {
@@ -79,19 +84,19 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
                     spannable.setSpan(new ForegroundColorSpan(SearchHelper.MARK_COLOR_VIBRANT), start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
             }
-            viewHolder.mName.setText(spannable, TextView.BufferType.SPANNABLE);
+            holder.mName.setText(spannable, TextView.BufferType.SPANNABLE);
         } else {
             int start = ad.title.toLowerCase().indexOf(filterString);
             if (start >= 0) {
                 spannable.setSpan(new ForegroundColorSpan(SearchHelper.MARK_COLOR_VIBRANT), start, start + filterString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                viewHolder.mName.setText(spannable, TextView.BufferType.SPANNABLE);
+                holder.mName.setText(spannable, TextView.BufferType.SPANNABLE);
             } else {
-                viewHolder.mName.setText(ad.title);
+                holder.mName.setText(ad.title);
             }
         }
-        viewHolder.mPackageName.setText(ad.breadcrumbs);
+        holder.mPackageName.setText(ad.breadcrumbs);
         // 设置item点击监听事件
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mItemClickListener.onItemClick(view, ad);

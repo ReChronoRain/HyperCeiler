@@ -19,4 +19,9 @@
         <item name="android:layout_marginTop">@dimen/divider_margin_top</item>
         <item name="android:layout_marginBottom">@dimen/divider_margin_bottom</item>
     </style>
+
+
+    <style name="Preference.SeekBarPreferenceCompat">
+        <item name="android:layout">@layout/miuix_preference_widget_seekbar</item>
+    </style>
 </resources>

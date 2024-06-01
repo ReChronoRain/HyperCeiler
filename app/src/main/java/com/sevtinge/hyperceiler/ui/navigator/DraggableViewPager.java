@@ -7,9 +7,11 @@ import android.view.MotionEvent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class DraggableViewPager extends androidx.viewpager.widget.ViewPager {
+import fan.viewpager.widget.ViewPager;
 
-    private boolean mCanDrag = false;
+public class DraggableViewPager extends ViewPager {
+
+    private boolean mCanDrag = true;
 
     public DraggableViewPager(@NonNull Context context) {
         super(context);
@@ -30,7 +32,7 @@ public class DraggableViewPager extends androidx.viewpager.widget.ViewPager {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         try {
-            return mCanDrag ? super.onInterceptTouchEvent(ev) : false;
+            return mCanDrag && super.onInterceptTouchEvent(ev);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return false;
@@ -40,7 +42,7 @@ public class DraggableViewPager extends androidx.viewpager.widget.ViewPager {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         try {
-            return mCanDrag ? super.onInterceptTouchEvent(ev) : false;
+            return mCanDrag && super.onTouchEvent(ev);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return false;

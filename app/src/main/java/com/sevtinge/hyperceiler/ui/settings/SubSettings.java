@@ -19,12 +19,6 @@ public class SubSettings extends SettingsActivity {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedState) {
-        super.onCreate(savedState);
-        registerCoordinateScrollView(findViewById(R.id.main_content));
-    }
-
-    @Override
     public boolean onNavigateUp() {
         finish();
         return true;

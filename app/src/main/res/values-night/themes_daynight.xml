@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.HyperCeiler.DayNight" parent="Theme.HyperCeiler.Dark" />
+
+    <style name="NavigatorActivityTheme" parent="Theme.NavigatorActivity.Dark" />
+
+    <style name="NavigatorContentFragmentTheme" parent="Theme.NavigatorContentFragment.Dark" />
+
+    <style name="NavigatorContentChildFragmentTheme" parent="Theme.NavigatorContentChildFragment.Dark" />
+
+    <style name="Theme.Settings.DayNight" parent="Theme.Settings.Dark" />
+</resources>

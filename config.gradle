@@ -29,6 +29,7 @@ ext {
             "preference" : "libs/preference-${BuildTypes}.aar",
             "recyclerview" : "libs/recyclerview-${BuildTypes}.aar",
             "smooth" : "libs/smooth-${BuildTypes}.aar",
-            "springback" : "libs/springback-${BuildTypes}.aar"
+            "springback" : "libs/springback-${BuildTypes}.aar",
+            "viewpager" : "libs/viewpager-${BuildTypes}.aar"
     ]
 }

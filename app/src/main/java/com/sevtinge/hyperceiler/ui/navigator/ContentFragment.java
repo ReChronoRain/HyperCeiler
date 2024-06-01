@@ -8,17 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager.widget.ViewPagerCompat;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import fan.appcompat.app.ActionBar;
-import fan.appcompat.app.AlertDialog;
 import fan.appcompat.app.Fragment;
 import fan.navigator.Navigator;
 import fan.navigator.NavigatorFragmentListener;
@@ -37,7 +35,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeRes(R.style.TabNavigatorContentFragmentTheme);
+        setThemeRes(R.style.NavigatorContentFragmentTheme);
     }
 
     @Override
@@ -55,15 +53,6 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
     }
 
     @Override
-    public void onNavigatorModeChanged(Navigator.Mode mode, Navigator.Mode mode2) {
-        if (getView() != null) {
-            Navigator.get(this);
-            mViewPager.setDraggable(true);
-            invalidateOptionsMenu();
-        }
-    }
-
-    @Override
     public void onViewInflated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewInflated(view, savedInstanceState);
         setCorrectNestedScrollMotionEventEnabled(true);
@@ -71,7 +60,6 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
         mCanaryTips.setAlpha(0.5f);
         mCanaryTips.setOnClickListener(v -> DialogHelper.showCanaryTipsDialog(requireActivity(), "当前版本是UI线路，可能包含各种不稳定因素"));
         mViewPager = view.findViewById(R.id.viewpager);
-        registerCoordinateScrollView(mViewPager);
         Navigator.get(this).setTabSelectListener((menuItem, info) -> {
             int position = 0;
             switch (info.getNavigationId()) {
@@ -92,7 +80,6 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
         mActionBar.setDisplayShowTitleEnabled(true);
         mActionBar.setDisplayHomeAsUpEnabled(false);
         Navigator navigator = Navigator.get(this);
-        mViewPager.setDraggable(false);
         mViewPagerAdapter = new FragmentPagerAdapter(getAppCompatActivity(), getChildFragmentManager(), mCurrTab);
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(mViewPagerAdapter);
@@ -105,7 +92,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
             setupHyperOSViewPager(item);
         }
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new ViewPagerCompat.OnPageChangeListener() {
             String leftTab;
             float offSet = 1.0f;
             boolean isHandUp = false;

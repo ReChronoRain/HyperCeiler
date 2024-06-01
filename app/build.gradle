@@ -198,6 +198,7 @@ dependencies {
     implementation files(roots.recyclerview)
     implementation files(roots.smooth)
     implementation files(roots.springback)
+    implementation files(roots.viewpager)
     //implementation files(roots.external)
 
     implementation files("libs/hyperceiler_expansion_packs-debug.aar")

@@ -8,8 +8,7 @@
     <com.sevtinge.hyperceiler.ui.navigator.DraggableViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="120dp"/>
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:layout_width="wrap_content"

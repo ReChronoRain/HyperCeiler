@@ -67,7 +67,7 @@
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/HyperCeilerTheme">
 
         <activity
             android:name=".ui.CeilerTabActivity"
@@ -86,7 +86,7 @@
             android:exported="true"
             android:finishOnTaskLaunch="true"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.HyperCeiler.Translucent.NoActionBar">
+            android:theme="@style/HyperCeilerTranslucentTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.Crash" />
                 <category android:name="android.intent.category.CrashDailog" />
