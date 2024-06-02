@@ -18,18 +18,17 @@
  */
 package com.sevtinge.hyperceiler.utils.log;
 
-import static com.sevtinge.hyperceiler.module.base.tool.HookTool.mPrefsMap;
 
 import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
 
 public class LogManager {
     public static final int logLevel = getLogLevel();
 
     public static int getLogLevel() {
-        int level = mPrefsMap.getStringAsInt("log_level", 3);
+        int level = BaseXposedInit.mPrefsMap.getStringAsInt("log_level", 3);
         return BuildConfig.BUILD_TYPE.equals("canary") ? (level != 3 && level != 4 ? 3 : level) : level;
     }
-
 
     public static String logLevelDesc() {
         return switch (logLevel) {

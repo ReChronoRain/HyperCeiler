@@ -217,6 +217,7 @@ dependencies {
     implementation(libs.hiddenapibypass)
     implementation(libs.gson)
     implementation(libs.commons.codec)
+    implementation(libs.hooktool)
 
     implementation(libs.core)
     implementation(libs.collection)

@@ -19,12 +19,14 @@
 package com.sevtinge.hyperceiler.module.base;
 
 import com.github.kyuubiran.ezxhelper.EzXHelper;
+import com.hchen.hooktool.HCInit;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.safe.CrashData;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
+import com.sevtinge.hyperceiler.utils.log.LogManager;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
 
@@ -48,6 +50,9 @@ public abstract class BaseModule implements IXposedHook {
         EzXHelper.initHandleLoadPackage(lpparam);
         EzXHelper.setLogTag(TAG);
         EzXHelper.setToastTag(TAG);
+        HCInit.setTAG("HyperCeiler");
+        HCInit.setLogLevel(LogManager.getLogLevel());
+        HCInit.initLoadPackageParam(lpparam);
         // 把模块资源加载到目标应用
         try {
             if (!ProjectApi.mAppModulePkg.equals(lpparam.packageName)) {

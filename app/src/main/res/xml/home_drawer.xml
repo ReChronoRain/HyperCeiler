@@ -38,6 +38,17 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
+        <SeekBarPreferenceEx
+            android:defaultValue="200"
+            android:dependency="prefs_key_home_drawer_blur_super"
+            android:key="prefs_key_drawer_background_blur_degree"
+            android:title="@string/custom_background_blur_degree"
+            app:defaultValueText="@string/array_default"
+            app:format="%d bl"
+            app:maxValue="500"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
         <moralnorm.preference.ColorPickerPreference
             android:dependency="prefs_key_home_drawer_blur_super"
             android:title="@string/home_dock_bg_color"

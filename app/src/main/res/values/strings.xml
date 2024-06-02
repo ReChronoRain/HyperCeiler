@@ -1599,6 +1599,7 @@
     <string name="custom_background_color">Background color</string>
     <string name="custom_background_color_alpha">background color transparency</string>
     <string name="custom_background_corner_radius">Background rounded corners</string>
+    <string name="custom_background_blur_degree">Degree of ambiguity</string>
     <string name="custom_blur_enabled">Background blur</string>
     <string name="various_blur_radius">Blurry radius</string>
     <string name="various_background_corner_radius">Background rounded corners</string>
