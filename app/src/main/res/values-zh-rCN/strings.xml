@@ -890,6 +890,8 @@
 
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_disable_volume">原生音量条</string>
+    <string name="system_ui_disable_power">原生关机菜单</string>
+    <string name="system_ui_disable_power_desc">MIUI 为旧版菜单，Hyper 为原生菜单</string>
     <string name="system_ui_disable_volume_desc">针对 MIUI/HyperOS 音量条的修改无法作用于原生音量条</string>
     <string name="system_ui_unlock_clipboard">解锁原生剪切板编辑器</string>
     <string name="system_ui_unlock_clipboard_desc">实验性功能，会导致 MIUI/HyperOS 的编辑器一并弹出</string>

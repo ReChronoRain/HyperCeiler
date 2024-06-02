@@ -868,7 +868,9 @@
     <string name="system_ui_control_center_unlock_blur_supported_desc">There is no restriction on background blur for official premium materials only for third-party theme removal</string>
 
     <string name="system_ui_other_title">Other</string>
-    <string name="system_ui_disable_volume">Native volume bar</string>
+    <string name="system_ui_disable_volume">Native Volume Bar</string>
+    <string name="system_ui_disable_power">Native Shutdown Menu</string>
+    <string name="system_ui_disable_power_desc">MIUI uses the legacy menu UI, while hyperOS uses the AOSP menu UI</string>
     <string name="system_ui_disable_volume_desc">The modification of Xiaomi\'s volume bar does not apply to the native volume bar</string>
     <string name="system_ui_unlock_clipboard">Unlock the AOSP clipboard editor</string>
     <string name="system_ui_unlock_clipboard_desc">After unlocking, it will pop up together with the MIUI/HyperOS editor.</string>

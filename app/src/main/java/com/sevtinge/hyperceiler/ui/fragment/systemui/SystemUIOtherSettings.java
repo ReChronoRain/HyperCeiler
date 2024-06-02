@@ -27,11 +27,14 @@ import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import moralnorm.preference.DropDownPreference;
+import moralnorm.preference.Preference;
 import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
 
@@ -43,6 +46,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     SwitchPreference mMiuiMultiWinSwitchRemove;
     SwitchPreference mBottomBar;
     SwitchPreference mVolume;
+    SwitchPreference mPower;
     SwitchPreference mDisableBluetoothRestrict; // 禁用蓝牙临时关闭
     SwitchPreference mPctUseBlur;
 
@@ -54,8 +58,8 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     @Override
     public View.OnClickListener addRestartListener() {
         return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-            getResources().getString(R.string.system_ui),
-            "com.android.systemui"
+                getResources().getString(R.string.system_ui),
+                "com.android.systemui"
         );
     }
 
@@ -68,6 +72,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mMiuiMultiWinSwitchRemove = findPreference("prefs_key_system_ui_remove_miui_multi_win_switch");
         mBottomBar = findPreference("prefs_key_system_ui_disable_bottombar");
         mVolume = findPreference("prefs_key_system_ui_disable_volume");
+        mPower = findPreference("prefs_key_system_ui_disable_power");
         mPctUseBlur = findPreference("prefs_key_system_showpct_use_blur");
 
         mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
@@ -80,19 +85,38 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mVolume.setOnPreferenceChangeListener(
                 (preference, o) -> {
                     ComponentName componentName = new ComponentName("miui.systemui.plugin",
-                        "miui.systemui.volume.VolumeDialogPlugin");
+                            "miui.systemui.volume.VolumeDialogPlugin");
                     PackageManager packageManager = getContext().getPackageManager();
                     if ((boolean) o) {
                         packageManager.setComponentEnabledSetting(componentName,
-                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                            PackageManager.DONT_KILL_APP);
+                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                                PackageManager.DONT_KILL_APP);
                     } else {
                         packageManager.setComponentEnabledSetting(componentName,
-                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                            PackageManager.DONT_KILL_APP);
+                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                                PackageManager.DONT_KILL_APP);
                     }
                     return true;
                 }
         );
+
+        mPower.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
+                ComponentName componentName = new ComponentName("miui.systemui.plugin",
+                        "miui.systemui.globalactions.GlobalActionsPlugin");
+                PackageManager packageManager = getContext().getPackageManager();
+                if ((boolean) o) {
+                    packageManager.setComponentEnabledSetting(componentName,
+                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                            PackageManager.DONT_KILL_APP);
+                } else {
+                    packageManager.setComponentEnabledSetting(componentName,
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP);
+                }
+                return true;
+            }
+        });
     }
 }
