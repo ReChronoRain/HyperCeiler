@@ -869,6 +869,8 @@
 
     <string name="system_ui_other_title">Other</string>
     <string name="system_ui_disable_volume">Native volume bar</string>
+    <string name="system_ui_disable_power">Native shutdown menu</string>
+    <string name="system_ui_disable_power_desc">MIUI is the old menu, and Hyper is the native menu</string>
     <string name="system_ui_disable_volume_desc">The modification of Xiaomi\'s volume bar does not apply to the native volume bar</string>
     <string name="system_ui_unlock_clipboard">Unlock the AOSP clipboard editor</string>
     <string name="system_ui_unlock_clipboard_desc">After unlocking, it will pop up together with the MIUI/HyperOS editor.</string>
