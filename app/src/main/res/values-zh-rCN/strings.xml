@@ -1252,6 +1252,8 @@
 
     <string name="home_dock">底栏</string>
     <string name="home_dock_bg_enable">添加 Dock 栏背景</string>
+    <string name="home_dock_bg_all_app">兼容抽屉模式</string>
+    <string name="home_dock_bg_all_app_more">开启可防止 Dock 被截断，但是 Dock 高度会被限制</string>
     <string name="home_dock_bg_height">高度</string>
     <string name="home_dock_bg_height_desc">Dock 栏高度</string>
     <string name="home_dock_bg_margin_horizontal">水平边距</string>

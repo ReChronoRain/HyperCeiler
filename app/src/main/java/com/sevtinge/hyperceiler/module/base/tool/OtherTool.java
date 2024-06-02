@@ -183,7 +183,7 @@ public class OtherTool {
                     int a;
                     if (isDarkMode()) a = 120;
                     else a = 140;
-                    MiBlurUtils.setContainerPassBlur(getTextView(), i);
+                    MiBlurUtils.setContainerPassBlur(getTextView(), i, true);
                     MiBlurUtils.setMiViewBlurMode(getTextView(), 3);
                     MiBlurUtils.clearMiBackgroundBlendColor(getTextView());
                     MiBlurUtils.addMiBackgroundBlendColor(getTextView(), Color.argb(a, 0, 0, 0), 103);

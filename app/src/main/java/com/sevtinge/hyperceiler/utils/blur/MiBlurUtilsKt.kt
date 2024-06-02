@@ -18,10 +18,9 @@
 */
 package com.sevtinge.hyperceiler.utils.blur
 
-import android.graphics.Outline
-import android.util.Log
-import android.view.View
-import android.view.ViewOutlineProvider
+import android.graphics.*
+import android.view.*
+
 object MiBlurUtilsKt {
 
     private val setMiViewBlurMode by lazy {
@@ -65,10 +64,10 @@ object MiBlurUtilsKt {
     }
 
     fun View.setMiBackgroundBlurRadius(radius: Int) {
-        if (radius < 0 || radius > 200) {
+        /*if (radius < 0 || radius > 200) {
             Log.e("MiBlurUtils", "setMiBackgroundBlurRadius error radius is " + radius + " " + this.javaClass.getName() + " hashcode " + this.hashCode())
             return
-        }
+        }*/
         setMiBackgroundBlurRadius.invoke(this, radius)
     }
 

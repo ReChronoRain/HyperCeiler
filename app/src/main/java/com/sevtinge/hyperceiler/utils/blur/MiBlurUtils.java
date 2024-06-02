@@ -26,13 +26,13 @@ import com.sevtinge.hyperceiler.utils.InvokeUtils;
 
 public class MiBlurUtils {
 
-    public static void setContainerPassBlur(View view, int i) {
+    public static void setContainerPassBlur(View view, int i, boolean z) {
         if (view == null) {
             Log.d("MiBlurUtils", "setPassBlur view is null");
             return;
         }
         try {
-            boolean passWindowBlurEnabled = setPassWindowBlurEnabled(view, false);
+            boolean passWindowBlurEnabled = setPassWindowBlurEnabled(view, z);
             setMiBackgroundBlurMode(view, 1);
             setMiBackgroundBlurRadius(view, i);
             Log.i("MiBlurUtils", "setContainerPassBlur result :" + passWindowBlurEnabled + ",view : " + view);
@@ -50,7 +50,7 @@ public class MiBlurUtils {
         InvokeUtils.callMethod(View.class, view, "setMiBackgroundBlurMode", new Class[]{int.class}, i);
     }
 
-    public static void setMiBackgroundBlurRadius(View view, int i) {
+    public static void setMiBackgroundBlurRadius(View view, int i /* max 500 */) {
         InvokeUtils.callMethod(View.class, view, "setMiBackgroundBlurRadius", new Class[]{int.class}, i);
     }
 

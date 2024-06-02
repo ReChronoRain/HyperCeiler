@@ -1223,6 +1223,8 @@
 
     <string name="home_dock">Dock</string>
     <string name="home_dock_bg_enable">Add Dock Bar Background</string>
+    <string name="home_dock_bg_all_app">Drawer mode compatible</string>
+    <string name="home_dock_bg_all_app_more">Turning on prevents the Dock from being truncated, but the Dock height is limited</string>
     <string name="home_dock_bg_height">Height</string>
     <string name="home_dock_bg_height_desc">Dock height</string>
     <string name="home_dock_bg_margin_horizontal">Vertical margin</string>

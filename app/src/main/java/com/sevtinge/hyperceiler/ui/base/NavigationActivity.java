@@ -46,8 +46,8 @@ import com.sevtinge.hyperceiler.data.ModData;
 import com.sevtinge.hyperceiler.data.adapter.ModSearchAdapter;
 import com.sevtinge.hyperceiler.data.adapter.NavigationPagerAdapter;
 import com.sevtinge.hyperceiler.ui.SubSettings;
-import com.sevtinge.hyperceiler.ui.fragment.base.AboutFragment;
 import com.sevtinge.hyperceiler.ui.fragment.MainFragment;
+import com.sevtinge.hyperceiler.ui.fragment.base.AboutFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.settings.ModuleSettingsFragment;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
@@ -133,7 +133,7 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         int a;
         if (isDarkMode(this)) a = 100;
         else a = 140;
-        MiBlurUtils.setContainerPassBlur(mNavigationView, i);
+        MiBlurUtils.setContainerPassBlur(mNavigationView, i, true);
         MiBlurUtils.setMiViewBlurMode(mNavigationView, 3);
         MiBlurUtils.clearMiBackgroundBlendColor(mNavigationView);
         MiBlurUtils.addMiBackgroundBlendColor(mNavigationView, Color.argb(a, 0, 0, 0), 103);
