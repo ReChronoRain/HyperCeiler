@@ -818,6 +818,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_unlock_blur_supported_desc">Không có hạn chế về độ mờ nền đối với các vật liệu cao cấp chính thức chỉ dành cho việc xóa chủ đề của bên thứ ba</string>
     <string name="system_ui_other_title">Khác</string>
     <string name="system_ui_disable_volume">Thanh âm lượng gốc</string>
+    <string name="system_ui_disable_power">Menu tắt nguồn mặc định</string>
+    <string name="system_ui_disable_power_desc">MIUI sử dụng UI menu cũ, trong khi HyperOS sử dụng UI menu AOSP</string>
     <string name="system_ui_disable_volume_desc">Việc sửa đổi thanh âm lượng của Xiaomi không áp dụng cho thanh âm lượng gốc</string>
     <string name="system_ui_unlock_clipboard">Mở khóa trình chỉnh sửa bảng ghi tạm AOSP</string>
     <string name="system_ui_unlock_clipboard_desc">Sau khi mở khóa, nó sẽ bật lên cùng với trình chỉnh sửa MIUI/HyperOS.</string>
@@ -1170,6 +1172,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_widget_resizable">Xóa giới hạn kích thước tiện ích</string>
     <string name="home_dock">Thanh dock</string>
     <string name="home_dock_bg_enable">Thêm nền thanh Dock</string>
+    <string name="home_dock_bg_all_app">Chế độ ngăn kéo tương thích</string>
+    <string name="home_dock_bg_all_app_more">Bật để tránh thanh Dock bị ngắn mà chiều cao thanh Dock bị hạn chế</string>
     <string name="home_dock_bg_height">Chiều cao</string>
     <string name="home_dock_bg_height_desc">Chiều cao Dock</string>
     <string name="home_dock_bg_margin_horizontal">Lề dọc</string>
@@ -1552,6 +1556,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="custom_background_color">Màu nền</string>
     <string name="custom_background_color_alpha">Độ trong suốt của màu nền</string>
     <string name="custom_background_corner_radius">Nền góc bo tròn</string>
+    <string name="custom_background_blur_degree">Mức độ mờ</string>
     <string name="custom_blur_enabled">Làm mờ nền</string>
     <string name="various_blur_radius">Bán kính mờ</string>
     <string name="various_background_corner_radius">Nền góc bo tròn</string>

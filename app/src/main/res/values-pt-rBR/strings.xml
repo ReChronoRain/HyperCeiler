@@ -816,6 +816,8 @@
     <string name="system_ui_control_center_unlock_blur_supported_desc">Não há restrição ao blur de fundo para Texturas avançadas, apenas para remoção de temas de terceiros.</string>
     <string name="system_ui_other_title">Outros</string>
     <string name="system_ui_disable_volume">Barra de volume nativa</string>
+    <string name="system_ui_disable_power">Menu de energia nativo</string>
+    <string name="system_ui_disable_power_desc">MIUI usa a interface de menu herdada, enquanto o HyperOS usa a interface de menu AOSP.</string>
     <string name="system_ui_disable_volume_desc">Modificações na barra de volume do HyperOS/MIUI não podem ser aplicadas à barra de volume nativa</string>
     <string name="system_ui_unlock_clipboard">Desbloquear editor da área de transferência AOSP</string>
     <string name="system_ui_unlock_clipboard_desc">Após o desbloqueio, ele aparecerá junto com o editor HyperOS/MIUI.</string>
@@ -1164,6 +1166,8 @@
     <string name="home_widget_resizable">Remover quaisquer limitações de tamanho do widget</string>
     <string name="home_dock">Dock</string>
     <string name="home_dock_bg_enable">Adicionar blur de fundo na dock</string>
+    <string name="home_dock_bg_all_app">Modo de gaveta compatível</string>
+    <string name="home_dock_bg_all_app_more">Ativar evita que a dock seja truncada, mas a altura da dock é limitada.</string>
     <string name="home_dock_bg_height">Altura</string>
     <string name="home_dock_bg_height_desc">Altura da dock</string>
     <string name="home_dock_bg_margin_horizontal">Margem vertical</string>
@@ -1538,6 +1542,7 @@
     <string name="custom_background_color">Cor de fundo</string>
     <string name="custom_background_color_alpha">Transparência da cor de fundo</string>
     <string name="custom_background_corner_radius">Cantos arredondados do fundo</string>
+    <string name="custom_background_blur_degree">Grau de ambiguidade</string>
     <string name="custom_blur_enabled">Blur de fundo</string>
     <string name="various_blur_radius">Raio do blur</string>
     <string name="various_background_corner_radius">Cantos arredondados do fundo</string>

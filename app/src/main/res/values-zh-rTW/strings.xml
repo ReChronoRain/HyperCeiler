@@ -287,6 +287,10 @@
     <string name="system_ui_statusbar_clock_style_3">兩行顯示\n\n頂部通知欄迷你時鐘\n底部狀態欄時鐘</string>
     <string name="mediaeditor_mickey">米奇</string>
     <string name="mediaeditor_strawberry_bear">草莓熊</string>
+    <string name="tiles_gms">Google Play 服務</string>
+    <string name="tiles_taplus">傳送門開關</string>
+    <string name="tiles_5g">5G 網路</string>
+    <string name="tiles_sunshine_mode">陽光模式</string>
     <!--System Framework-->
     <string name="system_framework">系統框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -463,6 +467,7 @@
     <string name="camera_settings_men_makeup">解鎖男性妝容適配</string>
     <string name="camera_settings_lab_options">啟用實驗室選項</string>
     <string name="camera_settings_track_eyes">解鎖人眼追焦</string>
+    <string name="camera_max_brightness">使用相機時強制調整至最大亮度</string>
     <!--Calendar-->
     <string name="calendar">日曆</string>
     <string name="calendar_unlock_subscription">解鎖訂閱服務</string>
@@ -576,6 +581,7 @@
     <string name="system_ui_statusbar_iconmanage_privacy_title">隱私資訊</string>
     <string name="system_ui_statusbar_iconmanage_left_title">圖示左側顯示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">圖示右側顯示</string>
+    <string name="system_ui_status_bar_icon_paw">熊掌</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_slave">從 Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Wi-Fi 標準</string>
@@ -726,9 +732,7 @@
     <string name="quick_settings_state_change_message_on_my">%1$s已開啟</string>
     <string name="quick_settings_state_change_message_off_my">%1$s已關閉</string>
     <string name="system_control_center_5g_tile">5G 網路開關</string>
-    <string name="tiles_5g">5G 網路</string>
     <string name="system_control_center_reduce_bright_colors_tile">極暗模式</string>
-    <string name="tiles_taplus">傳送門開關</string>
     <string name="system_control_center_sunshine_mode">陽光模式</string>
     <string name="system_ui_control_auto_close">磁貼自動收起</string>
     <string name="system_ui_control_center_qs_bg_color">背景顏色</string>
@@ -790,6 +794,7 @@
     <string name="system_ui_control_center_switch_cc_and_notification_title">交換控制中心與通知中心位置</string>
     <string name="system_ui_control_center_hide_operator">運營商名稱自訂</string>
     <string name="system_ui_control_center_hide_delimiter">只隱藏分隔線</string>
+    <string name="system_ui_control_center_hide_display_device_name">顯示裝置名稱</string>
     <string name="system_ui_control_center_hide_name">隱藏全部名稱</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">藍牙磁貼樣式</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">調整藍牙磁貼位置至網路磁貼旁</string>
@@ -811,6 +816,8 @@
     <string name="system_ui_control_center_unlock_blur_supported_desc">僅對第三方主題解除沒有高級材質時背景模糊的限制</string>
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_disable_volume">原生音量條</string>
+    <string name="system_ui_disable_power">原生電源選單</string>
+    <string name="system_ui_disable_power_desc">MIUI 使用舊版選單 UI，而 HyperOS 使用原生選單 UI</string>
     <string name="system_ui_disable_volume_desc">小米音量條修改不適用於原生音量條</string>
     <string name="system_ui_unlock_clipboard">解鎖原生剪貼簿編輯器</string>
     <string name="system_ui_unlock_clipboard_desc">解鎖後會與 MIUI/HyperOS 編輯器一起彈出</string>
@@ -1159,6 +1166,8 @@
     <string name="home_widget_resizable">解除小工具大小的限制</string>
     <string name="home_dock">Dock</string>
     <string name="home_dock_bg_enable">添加底欄背景</string>
+    <string name="home_dock_bg_all_app">相容抽屜模式</string>
+    <string name="home_dock_bg_all_app_more">開啟可防止 Dock 欄被截斷，但 Dock 欄高度有限</string>
     <string name="home_dock_bg_height">高度</string>
     <string name="home_dock_bg_height_desc">Dock 欄高度</string>
     <string name="home_dock_bg_margin_horizontal">垂直邊距</string>
@@ -1429,6 +1438,7 @@
     <!--AI Translate-->
     <string name="aiasst">小愛翻譯</string>
     <string name="aiasst_ai_captions">強制啟用即時字幕</string>
+    <string name="aiasst_all_captions">解鎖多語言線上即時字幕</string>
     <string name="aiasst_disable_watermark">停用浮水印</string>
     <!--Barrage-->
     <string name="barrage">彈幕通知</string>
@@ -1532,6 +1542,7 @@
     <string name="custom_background_color">背景顏色</string>
     <string name="custom_background_color_alpha">背景顏色透明度</string>
     <string name="custom_background_corner_radius">背景圓角</string>
+    <string name="custom_background_blur_degree">模糊程度</string>
     <string name="custom_blur_enabled">背景模糊</string>
     <string name="various_blur_radius">模糊半徑</string>
     <string name="various_background_corner_radius">背景圓角</string>
