@@ -197,13 +197,14 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(22)
+        }
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_21.majorVersion
+    kotlin {
+        jvmToolchain(22)
     }
 }
 
