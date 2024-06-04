@@ -646,9 +646,8 @@
     <string name="system_ui_statusbar_iconmanage_privacy_title">敏感信息</string>
     <string name="system_ui_statusbar_iconmanage_left_title">图标左侧显示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">图标右侧显示</string>
-    <string name="system_ui_status_bar_icon_paw">兽爪</string>
-    <string name="system_ui_status_bar_icon_wifi">WIFI</string>
-    <string name="system_ui_status_bar_icon_wifi_slave">辅助 WIFI</string>
+    <string name="system_ui_status_bar_icon_wifi">WIFI 图标</string>
+    <string name="system_ui_status_bar_icon_wifi_slave">辅助 WIFI 图标</string>
     <string name="system_ui_status_bar_icon_wifi_standard">WIFI 标准</string>
     <string name="system_ui_status_bar_icon_hotspot">WIFI 热点</string>
     <string name="system_ui_status_bar_icon_wifi_network_indicator">网络活动指示器</string>

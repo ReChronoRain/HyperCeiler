@@ -39,7 +39,6 @@ public class IconManageSettings extends SettingsPreferenceFragment {
     SeekBarPreferenceEx mNotificationIconColumns;
     SwitchPreference mBatteryNumber;
     SwitchPreference mBatteryPercentage;
-    SwitchPreference mPaw;
 
     @Override
     public int getContentResId() {
@@ -56,7 +55,6 @@ public class IconManageSettings extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
-        mPaw = findPreference("prefs_key_system_ui_status_bar_icon_paw");
         mAlarmClockIcon = findPreference("prefs_key_system_ui_status_bar_icon_alarm_clock");
         mAlarmClockIconN = findPreference("prefs_key_system_ui_status_bar_icon_alarm_clock_n");
         mNotificationIconMaximum = findPreference("prefs_key_system_ui_status_bar_notification_icon_maximum");
@@ -66,11 +64,6 @@ public class IconManageSettings extends SettingsPreferenceFragment {
         mNotificationIconColumns = findPreference("prefs_key_system_ui_status_bar_notification_icon_maximum");
 
         mNotificationIconColumns.setDefaultValue(isMoreHyperOSVersion(1f) ? 1 : 3);
-
-        if(Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_system_ui_status_bar_icon_show_mobile_network_type", "0")) == 3) {
-            mPaw.setEnabled(false);
-            mPaw.setChecked(false);
-        }
 
         mAlarmClockIconN.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
 

@@ -26,7 +26,6 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.utils.getIntField
-import com.sevtinge.hyperceiler.utils.log.*
 import com.sevtinge.hyperceiler.utils.setObjectField
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import de.robv.android.xposed.XposedHelpers
@@ -57,10 +56,6 @@ object MobilePublicHook : BaseHook() {
     private val card2 by lazy {
         mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2")
     }
-    private val isShowPaw by lazy {
-        // 显示爪爪
-        mPrefsMap.getBoolean("system_ui_status_bar_icon_paw")
-    }
 
     override fun init() {
         updateState()
@@ -76,7 +71,7 @@ object MobilePublicHook : BaseHook() {
             }
 
             override fun after(param: MethodHookParam) {
-                if ((qpt != 0) || hideIndicator || isShowPaw) {
+                if ((qpt != 0) || hideIndicator) {
                     hideMobileType(param) // 隐藏网络类型图标及移动网络指示器
                 }
                 hideIcons(param)
@@ -87,7 +82,7 @@ object MobilePublicHook : BaseHook() {
     private fun applyMobileState() {
         hookAllMethods(statusBarMobileClass, "applyMobileState", object : MethodHook() {
             override fun before(param: MethodHookParam) {
-                if (singleMobileType || isShowPaw) {
+                if (singleMobileType) {
                     showMobileTypeSingle(param) // 使网络类型单独显示
                 }
                 if (isMoreHyperOSVersion(1f)) {
@@ -96,7 +91,7 @@ object MobilePublicHook : BaseHook() {
             }
 
             override fun after(param: MethodHookParam) {
-                if ((qpt != 0) || hideIndicator || isShowPaw) {
+                if ((qpt != 0) || hideIndicator) {
                     hideMobileType(param) // 隐藏网络类型图标及移动网络指示器
                 }
                 hideIcons(param)
@@ -159,19 +154,13 @@ object MobilePublicHook : BaseHook() {
         val dataConnected = XposedHelpers.getObjectField(param.args[0], "dataConnected") as Boolean
         val wifiAvailable = XposedHelpers.getObjectField(param.args[0], "wifiAvailable") as Boolean
 
-        if (qpt != 0 || isShowPaw) {
+        if (qpt != 0) {
             val mMobileTypeSingle =
                 if (singleMobileType)
                     XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle") as TextView
                 else null
             val visibility =
-                if (isShowPaw) {
-                    View.VISIBLE
-                } else if (qpt == 1 || (qpt == 2 && !wifiAvailable) || (qpt == 4 && dataConnected && !wifiAvailable)) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                }
+                if (qpt == 1 || (qpt == 2 && !wifiAvailable) || (qpt == 4 && dataConnected && !wifiAvailable)) View.VISIBLE else View.GONE
 
             if (singleMobileType && mMobileTypeSingle != null) {
                 mMobileTypeSingle.visibility = visibility
