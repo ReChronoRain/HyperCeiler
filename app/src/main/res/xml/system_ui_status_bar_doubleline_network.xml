@@ -35,25 +35,27 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceEx
-            android:defaultValue="0"
+            android:defaultValue="8"
             android:key="prefs_key_system_ui_statusbar_mobile_network_icon_left_margin"
             android:title="@string/left_margin"
             app:defaultValueText="@string/array_default"
             app:displayDividerValue="2"
             app:format="%s dp"
-            app:maxValue="10"
+            app:maxValue="16"
             app:minValue="0"
+            app:negativeShift="8"
             app:stepValue="1" />
 
         <SeekBarPreferenceEx
-            android:defaultValue="0"
+            android:defaultValue="8"
             android:key="prefs_key_system_ui_statusbar_mobile_network_icon_right_margin"
             android:title="@string/right_margin"
             app:defaultValueText="@string/array_default"
             app:displayDividerValue="2"
             app:format="%s dp"
-            app:maxValue="10"
+            app:maxValue="16"
             app:minValue="0"
+            app:negativeShift="8"
             app:stepValue="1" />
 
         <SeekBarPreferenceEx

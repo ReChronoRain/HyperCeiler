@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
 import static com.sevtinge.hyperceiler.utils.PropUtils.getProp;
 
+import android.telephony.SubscriptionInfo;
 import android.view.View;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ public class HideDelimiter extends BaseHook {
     boolean operator = mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 1;
     int prefs = mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0);
     String deviceName = getProp("persist.sys.device_name");
+    String[] deviceNameList = {deviceName};
 
     @Override
     public void init() {
@@ -83,12 +85,41 @@ public class HideDelimiter extends BaseHook {
                     }
                 });
 
+                findAndHookMethod("com.android.keyguard.CarrierText$1", "onCarrierTextChanged", String.class, new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        param.args[0] = deviceName;
+                    }
+                });
+
                 findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl", "updateCarrierText", new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
                         XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", deviceName);
+                        XposedHelpers.setObjectField(param.thisObject, "mCustomCarrier", deviceNameList);
+                        XposedHelpers.setObjectField(param.thisObject, "mCarrier", deviceNameList);
                     }
                 });
+
+                findAndHookMethod(SubscriptionInfo.class, "getCarrierName", new MethodHook(){
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        param.setResult(deviceName);
+                    }
+                });
+
+                findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl", "onCarrierChanged", String[].class, new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        String[] deviceNameList = new String[deviceName.length()];
+                        for (int i = 0; i < deviceName.length(); i++){
+                            deviceNameList[i] = String.valueOf(deviceName.charAt(i));
+                        }
+                        param.args[0] = deviceNameList;
+                        XposedHelpers.setObjectField(param.thisObject, "mRealCarrier", deviceNameList);
+                    }
+                });
+
             } else {
                 findAndHookMethod("androidx.constraintlayout.core.PriorityGoalRow$GoalVariableAccessor$$ExternalSyntheticOutline0",
                         "m", String.class, String.class, new MethodHook() {
@@ -154,3 +185,4 @@ public class HideDelimiter extends BaseHook {
         }
     }
 }
+

@@ -150,11 +150,12 @@ public class PluginHelper extends BaseHook {
         if (mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") ||
                 mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color"))
             QSColor.pluginHook(classLoader);
-
         List<String> mCardStyleTiles = getTileList();
         if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") && !mPrefsMap.getString("systemui_plugin_card_tiles", "").isEmpty()) {
             CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles);
         }
+        if(mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3)
+            ShowDeviceName.initShowDeviceName(classLoader);
     }
 
     private static List<String> getTileList() {
