@@ -54,13 +54,18 @@ public class DeviceModify extends BaseHook {
             mManufacturer = "Xiaomi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 201) {
             // flip
-            mDevice = "ruyi";
+            mDevice = "ruyi"; // N8
             mModel = "2405CPX3DC";
             mManufacturer = "Xiaomi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 224) {
             // f4
-            mDevice = "goku";
+            mDevice = "goku";  // N18
             mModel = "24072PX77C";
+            mManufacturer = "Xiaomi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 225) {
+            // f4 satellite
+            mDevice = "goku";  // N18
+            mModel = "24076PX3BC";
             mManufacturer = "Xiaomi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 223) {
             // f3
