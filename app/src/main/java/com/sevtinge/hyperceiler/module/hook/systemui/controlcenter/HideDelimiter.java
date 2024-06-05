@@ -82,6 +82,7 @@ public class HideDelimiter extends BaseHook {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
                         param.args[0] = deviceName;
+                        param.args[1] = 1;
                     }
                 });
 
@@ -98,6 +99,7 @@ public class HideDelimiter extends BaseHook {
                         XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", deviceName);
                         XposedHelpers.setObjectField(param.thisObject, "mCustomCarrier", deviceNameList);
                         XposedHelpers.setObjectField(param.thisObject, "mCarrier", deviceNameList);
+                        XposedHelpers.setObjectField(param.thisObject, "mRealCarrier", deviceNameList);
                     }
                 });
 
@@ -111,10 +113,6 @@ public class HideDelimiter extends BaseHook {
                 findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl", "onCarrierChanged", String[].class, new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
-                        String[] deviceNameList = new String[deviceName.length()];
-                        for (int i = 0; i < deviceName.length(); i++){
-                            deviceNameList[i] = String.valueOf(deviceName.charAt(i));
-                        }
                         param.args[0] = deviceNameList;
                         XposedHelpers.setObjectField(param.thisObject, "mRealCarrier", deviceNameList);
                     }
