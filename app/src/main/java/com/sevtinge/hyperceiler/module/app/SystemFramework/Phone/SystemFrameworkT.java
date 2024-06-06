@@ -36,6 +36,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.DisableCleaner;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableFreeformBlackList;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableLowApiCheckForU;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableMiuiLite;
+import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePersistent;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePinVerifyPer72h;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableVerifyCanBeDisabled;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
@@ -103,7 +104,7 @@ public class SystemFrameworkT extends BaseModule {
         initHook(new VolumeSeparateControl(), mPrefsMap.getBoolean("system_framework_volume_separate_control"));
         initHook(new VolumeSteps(), mPrefsMap.getInt("system_framework_volume_steps", 0) > 0);
         initHook(new VolumeMediaSteps(), mPrefsMap.getBoolean("system_framework_volume_media_steps_enable"));
-        initHook(new VolumeDisableSafe(), mPrefsMap.getBoolean("system_framework_volume_disable_safe"));
+        initHook(new VolumeDisableSafe(), mPrefsMap.getStringAsInt("system_framework_volume_disable_safe_new", 0) != 0);
 
         // 其他
         initHook(new SystemLockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));
@@ -168,6 +169,7 @@ public class SystemFrameworkT extends BaseModule {
         initHook(new LinkTurboToast(), mPrefsMap.getBoolean("system_framework_disable_link_turbo_toast"));
 
         initHook(new DisableLowApiCheckForU(), mPrefsMap.getBoolean("system_framework_disable_low_api_check") && isMoreAndroidVersion(34));
+        initHook(new DisablePersistent(), mPrefsMap.getBoolean("system_framework_disable_persistent") && isMoreAndroidVersion(34));
     }
 
 }

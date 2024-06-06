@@ -364,6 +364,8 @@
     <string name="system_framework_volume_first_press">Instant volume adjustment</string>
     <string name="system_framework_volume_separate_control">Independent volume control</string>
     <string name="system_framework_volume_disable_safe">Remove high volume safety restrictions</string>
+    <string name="default_volume_safe_all">Enabled for all cases</string>
+    <string name="default_volume_safe_headset">Enabled only when headphones are connected</string>
     <string name="system_framework_volume_separate_slider">Notification volume slider</string>
     <string name="system_framework_volume_media_steps">Media volume level</string>
     <string name="system_framework_volume_media_steps_desc">It may cause the scrolling of the volume bar to freeze or the Bluetooth volume to be abnormal</string>
@@ -459,6 +461,8 @@
     <string name="system_framework_core_patch_enhanced_mode_desc">Pass some validation in the application</string>
     <string name="system_framework_disable_low_api_check">Disable low API check</string>
     <string name="system_framework_disable_low_api_check_desc">Apps with APIs lower than 23 are allowed</string>
+    <string name="system_framework_disable_persistent">Disable persistent checks</string>
+    <string name="system_framework_disable_persistent_more">Allows you to update persistent apps directly, such as updating the system interface directly</string>
     <!--Browser-->
     <string name="browser">Browser</string>
     <string name="browser_debug_mode">Unlock developer options</string>
@@ -734,7 +738,7 @@
     <string name="system_ui_statusbar_clock_layout_s">Status Bar Clock</string>
     <string name="system_ui_statusbar_clock_layout_b">Notification Bar Big Clock</string>
     <string name="system_ui_statusbar_clock_layout_n">Notification Bar Mini Clock</string>
-     <string name="system_ui_statusbar_clock_editor_s">Status bar clock format</string>
+    <string name="system_ui_statusbar_clock_editor_s">Status bar clock format</string>
     <string name="system_ui_statusbar_clock_editor_n">Notification bar mini clock format</string>
     <string name="system_ui_statusbar_clock_style_f">Status bar clock arrangement</string>
     <string name="system_ui_statusbar_indicator_battery_title">Power related</string>

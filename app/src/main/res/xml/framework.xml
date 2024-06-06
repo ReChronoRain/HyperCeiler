@@ -77,6 +77,12 @@
             android:summary="@string/system_framework_disable_low_api_check_desc"
             android:title="@string/system_framework_disable_low_api_check" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disable_persistent"
+            android:summary="@string/system_framework_disable_persistent_more"
+            android:title="@string/system_framework_disable_persistent" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
