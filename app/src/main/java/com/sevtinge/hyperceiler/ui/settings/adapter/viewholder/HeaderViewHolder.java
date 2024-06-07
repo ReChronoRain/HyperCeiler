@@ -23,7 +23,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder {
     public HeaderViewHolder(@NonNull View itemView) {
         super(itemView);
         int viewType = (Integer) itemView.getTag();
-        if (viewType == 0) {
+        if (viewType == 0 || viewType == 7) {
             title = itemView.findViewById(android.R.id.title);
         } else {
             arrowRight = itemView.findViewById(R.id.arrow_right);

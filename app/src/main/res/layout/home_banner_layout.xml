@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:clipChildren="false"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="@dimen/settings_banner_ly_padding_horizontal"
+    android:paddingVertical="@dimen/settings_banner_ly_padding_vertical">
+
+    <LinearLayout
+        android:id="@+id/settings_banner_ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/settings_banner_bg"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/settings_banner_ly_inner_padding_horizontal"
+        android:paddingEnd="@dimen/settings_banner_ly_inner_padding_horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/settings_banner_ly_inner_padding_horizontal"
+            android:gravity="center"
+            android:minWidth="@dimen/miuix_preference_main_icon_min_width"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@android:id/icon"
+                style="@style/Widget.PreferenceIcon"
+                android:layout_width="@dimen/settings_banner_icon_size"
+                android:layout_height="@dimen/settings_banner_icon_size"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.0"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/settings_banner_text_padding_vertical"
+            android:paddingBottom="@dimen/settings_banner_text_padding_vertical">
+
+            <TextView
+                android:id="@android:id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fadingEdge="horizontal"
+                android:hyphenationFrequency="full"
+                android:maxLines="2"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.PreferenceList" />
+
+            <TextView
+                android:id="@android:id/summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@android:id/title"
+                android:layout_alignStart="@android:id/title"
+                android:layout_marginTop="@dimen/miuix_preference_summary_margin_top"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.PreferenceList.Secondary" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|end"
+            android:layout_marginStart="@dimen/settings_banner_ly_inner_padding_horizontal"
+            android:gravity="center"
+            android:paddingStart="@dimen/settings_banner_arrow_right_padding_start"
+            android:src="?arrowRight" />
+    </LinearLayout>
+</LinearLayout>

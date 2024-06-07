@@ -56,6 +56,12 @@
 
     <dimen name="item_card_tile_icon_size">68dp</dimen>
 
+    <dimen name="settings_banner_icon_size">40dp</dimen>
+    <dimen name="settings_banner_ly_padding_vertical">12dp</dimen>
+    <dimen name="settings_banner_ly_padding_horizontal">24dp</dimen>
+    <dimen name="settings_banner_ly_inner_padding_horizontal">16dp</dimen>
+    <dimen name="settings_banner_text_padding_vertical">14dp</dimen>
+    <dimen name="settings_banner_arrow_right_padding_start">26dp</dimen>
 
     <dimen name="miuix_preference_text_right_max_width">130.0dp</dimen>
     <dimen name="miuix_preference_main_icon_min_width">39dp</dimen>

@@ -14,6 +14,7 @@ import com.sevtinge.hyperceiler.ui.navigator.ContentFragment;
 import com.sevtinge.hyperceiler.ui.settings.adapter.PreferenceHeader;
 import com.sevtinge.hyperceiler.ui.settings.core.SubSettingLauncher;
 import com.sevtinge.hyperceiler.ui.settings.utils.SettingsFeatures;
+import com.sevtinge.hyperceiler.utils.FileUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.util.List;
@@ -72,7 +73,11 @@ public abstract class BaseCeilerTabActivity extends NavigatorActivity
     }
 
     public void updateHeaderList(List<PreferenceHeader> headers) {
-
+        for (PreferenceHeader header : headers) {
+            if (header.id == R.id.tips) {
+                header.title = "Tip: " + FileUtils.getRandomTip(this);
+            }
+        }
     }
 
     public void onHeaderClick(PreferenceHeader header, int position) {

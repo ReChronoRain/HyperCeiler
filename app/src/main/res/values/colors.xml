@@ -31,6 +31,7 @@
 
     <color name="card_tile_disabled_color_legacy">#9E9E9E</color>
 
+    <color name="settings_banner_bg_color">#0a000000</color>
 
     <color name="settings_item_touch_color">#14000000</color>
 </resources>

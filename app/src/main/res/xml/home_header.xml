@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <header android:id="@+id/tips" />
+
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.SystemFrameworkFragment"
         android:icon="@drawable/ic_android"
@@ -405,6 +407,5 @@
     <header
         android:fragment="com.sevtinge.hyperceiler.ui.sub.helper.CantSeeAppsFragment"
         android:id="@+id/help_cant_see_app"
-        android:layout="@layout/preference_hyperlink"
         android:title="@string/help_cant_see_apps_guide" />
 </preference-headers>

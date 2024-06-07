@@ -61,27 +61,31 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderViewHolder> {
         if (viewType == 0) {
             itemView = mInflater.inflate(R.layout.miuix_preference_category_layout, parent, false);
         } else {
-            if (viewType == 1 || viewType == 2 || viewType == 3 || viewType == 5 || viewType == 6) {
-                itemView = mInflater.inflate(SettingsFeatures.isSplitTablet(mContext) ?
-                        R.layout.miuix_preference_navigation_item :
-                        R.layout.miuix_preference_main_layout, parent, false);
-                ViewGroup widgetFrame = itemView.findViewById(android.R.id.widget_frame);
-                if (widgetFrame != null) {
-                    LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-                    if (SettingsFeatures.isSplitTablet(mContext)) {
-                        inflater.inflate(R.layout.miuix_preference_widget_navigation_text, widgetFrame, true);
-                    } else {
-                        inflater.inflate(R.layout.miuix_preference_widget_text, widgetFrame, true);
-                        TextView textRight = widgetFrame.findViewById(R.id.text_right);
-                        textRight.setMaxWidth(mContext.getResources().getDimensionPixelSize(R.dimen.miuix_preference_text_right_max_width));
-                    }
-                }
-                View arrowRight = itemView.findViewById(R.id.arrow_right);
-                if (arrowRight != null) arrowRight.setVisibility(View.VISIBLE);
-                if (!SettingsFeatures.isSplitTablet(mContext)) {
-                    Folme.useAt(itemView).touch().setScale(1.0f, new ITouchStyle.TouchType[0]).setBackgroundColor(mContext.getResources().getColor(R.color.settings_item_touch_color, mContext.getTheme())).setTintMode(1).handleTouchOf(itemView, new AnimConfig[0]);
+            if (viewType == 1 || viewType == 2 || viewType == 3 || viewType == 5 || viewType == 6 || viewType == 7) {
+                if (viewType == 7) {
+                    itemView = mInflater.inflate(R.layout.preference_hyperlink, parent, false);
                 } else {
-                    itemView.setForeground(AttributeResolver.resolveDrawable(mContext, R.attr.preferenceItemForeground));
+                    itemView = mInflater.inflate(SettingsFeatures.isSplitTablet(mContext) ?
+                            R.layout.miuix_preference_navigation_item :
+                            R.layout.miuix_preference_main_layout, parent, false);
+                    ViewGroup widgetFrame = itemView.findViewById(android.R.id.widget_frame);
+                    if (widgetFrame != null) {
+                        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                        if (SettingsFeatures.isSplitTablet(mContext)) {
+                            inflater.inflate(R.layout.miuix_preference_widget_navigation_text, widgetFrame, true);
+                        } else {
+                            inflater.inflate(R.layout.miuix_preference_widget_text, widgetFrame, true);
+                            TextView textRight = widgetFrame.findViewById(R.id.text_right);
+                            textRight.setMaxWidth(mContext.getResources().getDimensionPixelSize(R.dimen.miuix_preference_text_right_max_width));
+                        }
+                    }
+                    View arrowRight = itemView.findViewById(R.id.arrow_right);
+                    if (arrowRight != null) arrowRight.setVisibility(View.VISIBLE);
+                    if (!SettingsFeatures.isSplitTablet(mContext)) {
+                        Folme.useAt(itemView).touch().setScale(1.0f, new ITouchStyle.TouchType[0]).setBackgroundColor(mContext.getResources().getColor(R.color.settings_item_touch_color, mContext.getTheme())).setTintMode(1).handleTouchOf(itemView, new AnimConfig[0]);
+                    } else {
+                        itemView.setForeground(AttributeResolver.resolveDrawable(mContext, R.attr.preferenceItemForeground));
+                    }
                 }
             } else {
                 itemView = mInflater.inflate(SettingsFeatures.isSplitTablet(mContext) ?
@@ -133,34 +137,17 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderViewHolder> {
                 }
             } else {
                 if (headerType == 2) {
-                    if (headerType == 5) {
-                        if (headerType != 1) {
-                            if (headerType != 3) {}
-                            holder.value.setCompoundDrawables(null, null, null, null);
-                            final BaseSettingsController tag = mSettingsControllerMap.get(header.id);
-                            if (tag != null) {
-                                if (this.isAdapterVerticalSummary(header)) {
-                                    /*tag.setStatusView(miuiSettings$HeaderViewHolder.summary);*/
-                                    holder.summary.setTextAppearance(R.style.TextAppearance_PreferenceRight);
-                                } else {
-                                    /*tag.setStatusView(miuiSettings$HeaderViewHolder.value);*/
-                                    holder.value.setTag((Object)tag);
-                                }
-                            }
-                        }
-                    }
-                    final TextView value2 = holder.value;
-                    if (value2 != null) {
-                        value2.setBackground(null);
+                    TextView value = holder.value;
+                    if (value != null) {
+                        value.setBackground(null);
                         holder.value.setGravity(8388613);
-                        final BaseSettingsController baseSettingsController2 = mSettingsControllerMap.get(header.id);
-                        if (baseSettingsController2 != null) {
+                        BaseSettingsController controller = mSettingsControllerMap.get(header.id);
+                        if (controller != null) {
                             if (isAdapterVerticalSummary(header)) {
                                 holder.summary.setVisibility(View.VISIBLE);
                                 holder.summary.setTextAppearance(R.style.TextAppearance_PreferenceRight);
                                 /*baseSettingsController2.setStatusView(miuiSettings$HeaderViewHolder.summary);*/
-                            }
-                            else {
+                            } else {
                                 holder.value.setTextAppearance(R.style.TextAppearance_PreferenceRight);
                                 holder.value.setVisibility(View.VISIBLE);
                                 /*baseSettingsController2.setStatusView(miuiSettings$HeaderViewHolder.value);*/
@@ -168,22 +155,25 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderViewHolder> {
                         }
                     }
                 }
+
                 holder.title.setText(header.getTitle(res));
-                CharSequence summary = header.getSummary(res);
-                if (!TextUtils.isEmpty(summary)) {
-                    holder.summary.setVisibility(View.VISIBLE);
-                    holder.summary.setText(summary);
-                } else {
-                    holder.summary.setVisibility(View.GONE);
+                if (headerType != 7) {
+                    CharSequence summary = header.getSummary(res);
+                    if (!TextUtils.isEmpty(summary)) {
+                        holder.summary.setVisibility(View.VISIBLE);
+                        holder.summary.setText(summary);
+                    } else {
+                        holder.summary.setVisibility(View.GONE);
+                    }
+                    if (isAdapterVerticalSummary(header)) {
+                        holder.value.setVisibility(View.GONE);
+                        holder.summary.setVisibility(View.VISIBLE);
+                    }
+                    if (headerType == 2) {
+                        /*((DeviceStatusController)this.mSettingsControllerMap.get(item.id)).setUpTextView(miuiSettings$HeaderViewHolder.value, miuiSettings$HeaderViewHolder.arrowRight);*/
+                    }
+                    setExtraPadding(holder, itemView, header);
                 }
-                if (isAdapterVerticalSummary(header)) {
-                    holder.value.setVisibility(View.GONE);
-                    holder.summary.setVisibility(View.VISIBLE);
-                }
-                if (headerType == 2) {
-                    /*((DeviceStatusController)this.mSettingsControllerMap.get(item.id)).setUpTextView(miuiSettings$HeaderViewHolder.value, miuiSettings$HeaderViewHolder.arrowRight);*/
-                }
-                setExtraPadding(holder, itemView, header);
             }
             setSelectedHeaderView(holder, position);
             setIcon(holder, header);
@@ -319,7 +309,7 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderViewHolder> {
 
     private int getHeaderType(PreferenceHeader header) {
         boolean isClick = header.fragment == null && header.intent == null;
-        return isClick ? 0 : 1;
+        return isClick ? 0 : header.id == R.id.help_cant_see_app ? 7 : 1;
     }
 
     public void start() {
