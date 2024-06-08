@@ -23,10 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fan.animation.Folme;
+import fan.preference.FolmeAnimationController;
 import fan.preference.Preference;
 import fan.preference.PreferenceViewHolder;
 
-public class RecommendPreference extends Preference {
+public class RecommendPreference extends Preference implements FolmeAnimationController {
 
     private Context mContext;
     private int mTopMargin;
@@ -131,5 +132,10 @@ public class RecommendPreference extends Preference {
     public void setRecommendTips(String tips) {
         mRecommendTips = tips;
         notifyChanged();
+    }
+
+    @Override
+    public boolean isTouchAnimationEnable() {
+        return false;
     }
 }

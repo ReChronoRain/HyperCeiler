@@ -69,7 +69,7 @@ public class HomePageFragment extends BasePageFragment {
             super.handleMessage(msg);
             if (msg.what == 0x11) {
                 //在这里写需要刷新完成的代码
-                buildAdapter();
+                mProxyAdapter.updateHeaderViewInfo();
                 loadRemovableHint();
                 removeMessages(0x11);
                 sendEmptyMessageDelayed(0x11, 6000);//这里想几秒刷新一次就写几秒
@@ -123,7 +123,6 @@ public class HomePageFragment extends BasePageFragment {
         mSearchResultView.setVisibility(View.GONE);
         mSearchResultView.setLayoutManager(new LinearLayoutManager(requireContext()));
         mSearchResultView.setAdapter(mSearchAdapter);
-        registerCoordinateScrollView(view.findViewById(R.id.search_result_ll));
 
         mSearchView.setOnClickListener(v -> startSearchMode());
         mSearchAdapter.setOnItemClickListener((v, ad) -> onSearchItemClickListener(ad));
@@ -140,6 +139,7 @@ public class HomePageFragment extends BasePageFragment {
     }
 
     private SearchActionMode startSearchMode() {
+        mNestedHeaderView.setInSearchMode(true);
         return SearchModeHelper.startSearchMode(
                 this,
                 mSearchResultView,
