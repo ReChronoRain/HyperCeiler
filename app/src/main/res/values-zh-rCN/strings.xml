@@ -1772,4 +1772,9 @@
     <string name="headtip_tip_long_press_to_copy">您可以长按或双击后选择文本进行操作，或者复制并反馈给开发者。</string>
     <string name="happy_birthday_hyperceiler">今天是 HyperCeiler 的生日！\n感谢与您岁月相伴之恩，愿来年再续前缘，共赴风雨，携手并进！</string>
 
+    <!--通话管理-->
+    <string name="telecom">通话管理</string>
+    <string name="scam_reminder_bypass_caption">允许直接拨打呼叫转移MMI码</string>
+    <string name="scam_reminder_bypass_description">允许直接拨打类似**21*8#的MMI码来开启呼叫转移</string>
+
 </resources>

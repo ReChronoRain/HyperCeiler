@@ -58,6 +58,13 @@
             android:title="@string/incallui" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.TelecomFragment"
+            android:icon="@drawable/ic_call"
+            android:key="prefs_key_telecom"
+            android:summary="com.android.server.telecom"
+            android:title="@string/telecom" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.MmsFragment"
             android:icon="@drawable/ic_mms"
             android:key="prefs_key_mms"
