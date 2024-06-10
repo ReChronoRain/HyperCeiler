@@ -313,6 +313,8 @@
     <string name="system_framework_volume_first_press">Ajuste de volume instantâneo</string>
     <string name="system_framework_volume_separate_control">Controle de volume independente</string>
     <string name="system_framework_volume_disable_safe">Remover restrições de segurança de volume alto</string>
+    <string name="default_volume_safe_all">Ativado para todos os casos</string>
+    <string name="default_volume_safe_headset">Ativado apenas quando os fones de ouvido estão conectados</string>
     <string name="system_framework_volume_separate_slider">Controle deslizante do volume de notificação</string>
     <string name="system_framework_volume_media_steps">Nível do volume de mídia</string>
     <string name="system_framework_volume_media_steps_desc">Isso pode fazer com que a rolagem da barra de volume congele ou o volume do Bluetooth fique anormal</string>
@@ -407,6 +409,8 @@
     <string name="system_framework_core_patch_enhanced_mode_desc">Realize alguma validação no app</string>
     <string name="system_framework_disable_low_api_check">Desativar verificação de API baixa</string>
     <string name="system_framework_disable_low_api_check_desc">Apps com APIs inferiores a 23 são permitidos</string>
+    <string name="system_framework_disable_persistent">Desativar verificações persistentes</string>
+    <string name="system_framework_disable_persistent_more">Permite atualizar apps persistentes diretamente, como atualizar diretamente a interface do sistema.</string>
     <!--Browser-->
     <string name="browser">Navegador</string>
     <string name="browser_debug_mode">Desbloquear opções do desenvolvedor</string>
@@ -581,7 +585,6 @@
     <string name="system_ui_statusbar_iconmanage_privacy_title">Privacidade</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Exibir ícones do lado esquerdo</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Exibir ícones do lado direito</string>
-    <string name="system_ui_status_bar_icon_paw">Pata</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_slave">Wi-Fi auxiliar</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Padrão Wi-Fi</string>
@@ -1662,4 +1665,8 @@
     <string name="ic_qs_title_autobrightness">Brilho automático</string>
     <string name="ic_qs_title_vowifi1">VoWiFi SIM 1</string>
     <string name="ic_qs_title_vowifi2">VoWiFi SIM 2</string>
+    <!--Telecom-->
+    <string name="telecom">Gerenciamento de chamadas</string>
+    <string name="scam_reminder_bypass_caption">Permitir encaminhamento de chamadas através do código MMI</string>
+    <string name="scam_reminder_bypass_description">Permite a discagem direta de códigos MMI, como **21*8#, para ativar o encaminhamento de chamadas.</string>
 </resources>
