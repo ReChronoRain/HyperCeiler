@@ -21,13 +21,15 @@ package com.sevtinge.hyperceiler.module.base.dexkit;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.sevtinge.hyperceiler.utils.FileUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.result.BaseDataList;
 import org.luckypray.dexkit.result.ClassData;
@@ -36,9 +38,11 @@ import org.luckypray.dexkit.result.MethodData;
 
 import java.io.IOException;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
 import java.nio.file.Files;
@@ -52,6 +56,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class DexKit {
     public boolean isInit = false;
+    private final String version = "2";
     private static final String TYPE_METHOD = "METHOD";
     private static final String TYPE_CLASS = "CLASS";
     private static final String TYPE_FIELD = "FIELD";
@@ -60,8 +65,9 @@ public class DexKit {
     private static final String TYPE_CONSTRUCTOR = "CONSTRUCTOR";
     private final String TAG;
     private static String callTAG;
+    private static Gson gson;
     private static final HashMap<String, Boolean> touchMap = new HashMap<>();
-    private static final HashMap<String, ArrayList<JSONObject>> cacheMap = new HashMap<>();
+    private static final HashMap<String, ArrayList<DexKitData>> cacheMap = new HashMap<>();
     private List<AnnotatedElement> elementList = new ArrayList<>();
     private static final String DEXKIT_PATH = "/cache/dexkit/";
     private String hostDir = null;
@@ -86,6 +92,7 @@ public class DexKit {
                 hostDir = loadPackageParam.appInfo.sourceDir;
                 dexPath = loadPackageParam.appInfo.dataDir + DEXKIT_PATH;
             }
+            gson = new GsonBuilder().setPrettyPrinting().create();
             System.loadLibrary("dexkit");
             privateDexKitBridge = DexKitBridge.create(hostDir);
             versionCheck();
@@ -102,11 +109,19 @@ public class DexKit {
         // String dexFile = dir + callTAG;
         String nameFile = getFile("versionName");
         String codeFile = getFile("versionCode");
+        String dexkitVersion = getFile("cacheVersion");
         if (!FileUtils.mkdirs(dexPath)) {
             isMkdir = false;
             XposedLogUtils.logE(callTAG, "failed to create mkdirs: " + dexPath + " cant use dexkit cache!!");
         } else isMkdir = true;
         if (isMkdir) {
+            if (!FileUtils.touch(dexkitVersion))
+                XposedLogUtils.logE(callTAG, "failed to create file: " + dexkitVersion);
+            String deVer = FileUtils.read(dexkitVersion);
+            if (!version.equals(deVer)) {
+                clearCache(dexPath);
+                FileUtils.write(dexkitVersion, version);
+            }
             if (!FileUtils.touch(nameFile))
                 XposedLogUtils.logE(callTAG, "failed to create file: " + nameFile);
             if (!FileUtils.touch(codeFile))
@@ -120,29 +135,7 @@ public class DexKit {
                     FileUtils.write(codeFile, Integer.toString(versionCode));
                 } else if (!(verName.equals(versionName)) || (!codeName.equals(Integer.toString(versionCode)))) {
                     // FileUtils.write(dexFile, new JSONArray().toString());
-                    FileUtils.delete(dexPath, new FileVisitor<Path>() {
-                        @Override
-                        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                            return FileVisitResult.CONTINUE;
-                        }
-
-                        @Override
-                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                            Files.delete(file);
-                            XposedLogUtils.logI(callTAG, "success delete file: " + file);
-                            return FileVisitResult.CONTINUE;
-                        }
-
-                        @Override
-                        public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                            return FileVisitResult.CONTINUE;
-                        }
-
-                        @Override
-                        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                            return FileVisitResult.CONTINUE;
-                        }
-                    });
+                    clearCache(dexPath);
                     FileUtils.write(nameFile, versionName);
                     FileUtils.write(codeName, String.valueOf(versionCode));
                 }
@@ -150,36 +143,40 @@ public class DexKit {
         }
     }
 
-public static void clearCache(){
-   clearCache(getFile(callTAG));
-}
+    public static void clearCache() {
+        clearCache(getFile(callTAG));
+    }
 
-public static void clearCache(@NonNull String path) {
-FileUtils.delete(path, new FileVisitor<Path>() {
-                        @Override
-                        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                            return FileVisitResult.CONTINUE;
-                        }
+    public static void clearCache(@NonNull String path) {
+        FileUtils.delete(path, new FileVisitor<Path>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                return FileVisitResult.CONTINUE;
+            }
 
-                        @Override
-                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                            Files.delete(file);
-                            XposedLogUtils.logI(callTAG, "success delete file: " + file);
-                            return FileVisitResult.CONTINUE;
-                        }
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                String s = file.toString();
+                if (s.contains("versionName") || s.contains("versionCode")
+                        || s.contains("cacheVersion")
+                ) return FileVisitResult.CONTINUE;
+                Files.delete(file);
+                XposedLogUtils.logI(callTAG, "success delete file: " + file);
+                return FileVisitResult.CONTINUE;
+            }
 
-                        @Override
-                        public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                            return FileVisitResult.CONTINUE;
-                        }
+            @Override
+            public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                return FileVisitResult.CONTINUE;
+            }
 
-                        @Override
-                        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                            return FileVisitResult.CONTINUE;
-                        }
-                    });
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                return FileVisitResult.CONTINUE;
+            }
+        });
 
-}
+    }
 
     @NotNull
     public static DexKitBridge getDexKitBridge() {
@@ -210,7 +207,7 @@ FileUtils.delete(path, new FileVisitor<Path>() {
         if (noCache) iDexKitData.dexkit(getDexKitBridge());
         callTAG = getCallName(Thread.currentThread().getStackTrace());
         String dexFile = getFile(callTAG);
-        ArrayList<JSONObject> data = getCacheMapOrReadFile(dexFile);
+        ArrayList<DexKitData> data = getCacheMapOrReadFile(dexFile);
         // XposedLogUtils.logE(callTAG, "data: " + data);
         // 非常不严谨，按你需求改吧。
         boolean have = false;
@@ -306,7 +303,7 @@ FileUtils.delete(path, new FileVisitor<Path>() {
     // 执行缓存或读取
     private static List<AnnotatedElement> run(@NonNull String tag, IDexKit iDexKit, IDexKitList iDexKitList,
                                               String dexFile, DexKitBridge dexKitBridge, ClassLoader classLoader, List<AnnotatedElement> list) {
-        ArrayList<JSONObject> cacheData = getCacheMapOrReadFile(dexFile);
+        ArrayList<DexKitData> cacheData = getCacheMapOrReadFile(dexFile);
         boolean isAdded = isAdded(tag, cacheData);
         if (!isAdded) {
             return getElementsAndWriteCache(tag, iDexKit, iDexKitList, dexKitBridge, cacheData, dexFile, list);
@@ -315,11 +312,12 @@ FileUtils.delete(path, new FileVisitor<Path>() {
         }
     }
 
-    @NonNull
-    private static ArrayList<JSONObject> getCacheMapOrReadFile(String dexFile) {
-        ArrayList<JSONObject> cacheData = cacheMap.get(dexFile);
+    private static ArrayList<DexKitData> getCacheMapOrReadFile(String dexFile) {
+        ArrayList<DexKitData> cacheData = cacheMap.get(dexFile);
         if (cacheData == null) {
-            ArrayList<JSONObject> dataList = DexKitData.toArray(FileUtils.read(dexFile));
+            Type type = new TypeToken<ArrayList<DexKitData>>() {
+            }.getType();
+            ArrayList<DexKitData> dataList = gson.fromJson(FileUtils.read(dexFile), type);
             cacheMap.put(dexFile, dataList);
             cacheData = dataList;
         }
@@ -354,9 +352,9 @@ FileUtils.delete(path, new FileVisitor<Path>() {
      */
     public static boolean removeData(@NotNull String tag, @NotNull String filePath) {
         try {
-            ArrayList<JSONObject> dataList = DexKitData.toArray(FileUtils.read(filePath));
-            dataList.removeIf(jsonObject -> tag.equals(DexKitData.getTAG(jsonObject)));
-            FileUtils.write(filePath, dataList.toString());
+            ArrayList<DexKitData> dataList = getCacheMapOrReadFile(filePath);
+            dataList.removeIf(dexKitData -> tag.equals(dexKitData.tag));
+            FileUtils.write(filePath, gson.toJson(dataList));
             return true;
         } catch (Throwable e) {
             XposedLogUtils.logE(callTAG, e);
@@ -387,7 +385,7 @@ FileUtils.delete(path, new FileVisitor<Path>() {
 
     // 获取结果并写入缓存
     private static List<AnnotatedElement> getElementsAndWriteCache(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
-                                                                   DexKitBridge dexKitBridge, ArrayList<JSONObject> dadaList, String dexFile,
+                                                                   DexKitBridge dexKitBridge, ArrayList<DexKitData> dadaList, String dexFile,
                                                                    List<AnnotatedElement> list) {
         ArrayList<AnnotatedElement> elements;
         if (iDexKit != null || iDexKitList != null) {
@@ -397,14 +395,14 @@ FileUtils.delete(path, new FileVisitor<Path>() {
         }
         // if (dadaList.isEmpty()) return elements;
         dadaList.addAll(createJsonList(tag, elements));
-        FileUtils.write(dexFile, dadaList.toString());
+        FileUtils.write(dexFile, gson.toJson(dadaList));
         cacheMap.put(dexFile, dadaList);
         return elements;
     }
 
     // 结果转为 JSON 储存
-    private static ArrayList<JSONObject> createJsonList(String tag, ArrayList<AnnotatedElement> elements) {
-        ArrayList<JSONObject> jsonList = new ArrayList<>();
+    private static ArrayList<DexKitData> createJsonList(String tag, ArrayList<AnnotatedElement> elements) {
+        ArrayList<DexKitData> jsonList = new ArrayList<>();
         if (elements.isEmpty()) return new ArrayList<>();
         for (AnnotatedElement element : elements) {
             if (element instanceof Method method) {
@@ -415,13 +413,13 @@ FileUtils.delete(path, new FileVisitor<Path>() {
                 for (Class<?> p : param) {
                     paramList.add(p.getName());
                 }
-                JSONObject data = new DexKitData(tag, TYPE_METHOD, clName, methodName, paramList, DexKitData.EMPTY).toJSON();
+                DexKitData data = new DexKitData(tag, TYPE_METHOD, clName, methodName, paramList, DexKitData.EMPTY);
                 jsonList.add(data);
             } else if (element instanceof Field field) {
                 String fieldName = field.getName();
                 String clName = field.getDeclaringClass().getName();
-                JSONObject data = new DexKitData(tag, TYPE_FIELD, clName, DexKitData.EMPTY,
-                        DexKitData.EMPTYLIST, fieldName).toJSON();
+                DexKitData data = new DexKitData(tag, TYPE_FIELD, clName, DexKitData.EMPTY,
+                        DexKitData.EMPTYLIST, fieldName);
                 jsonList.add(data);
             } else if (element instanceof Constructor<?> constructor) {
                 String clzName = constructor.getName();
@@ -430,13 +428,13 @@ FileUtils.delete(path, new FileVisitor<Path>() {
                 for (Class<?> p : param) {
                     paramList.add(p.getName());
                 }
-                JSONObject data = new DexKitData(tag, TYPE_CONSTRUCTOR, clzName,
-                        DexKitData.EMPTY, paramList, DexKitData.EMPTY).toJSON();
+                DexKitData data = new DexKitData(tag, TYPE_CONSTRUCTOR, clzName,
+                        DexKitData.EMPTY, paramList, DexKitData.EMPTY);
                 jsonList.add(data);
             } else if (element instanceof Class<?> c) {
                 String clzName = c.getName();
-                JSONObject data = new DexKitData(tag, TYPE_CLASS, clzName,
-                        DexKitData.EMPTY, DexKitData.EMPTYLIST, DexKitData.EMPTY).toJSON();
+                DexKitData data = new DexKitData(tag, TYPE_CLASS, clzName,
+                        DexKitData.EMPTY, DexKitData.EMPTYLIST, DexKitData.EMPTY);
                 jsonList.add(data);
             }
         }
@@ -445,23 +443,23 @@ FileUtils.delete(path, new FileVisitor<Path>() {
 
     // 读取缓存
     private static List<AnnotatedElement> getFileCache(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
-                                                       ArrayList<JSONObject> dadaList, DexKitBridge dexKitBridge, ClassLoader classLoader,
+                                                       ArrayList<DexKitData> dadaList, DexKitBridge dexKitBridge, ClassLoader classLoader,
                                                        List<AnnotatedElement> list) {
         ArrayList<AnnotatedElement> getElement = new ArrayList<>();
-        for (JSONObject object : dadaList) {
-            if (!tag.equals(DexKitData.getTAG(object))) {
+        for (DexKitData data : dadaList) {
+            if (!tag.equals(data.tag)) {
                 continue;
             }
-            String type = DexKitData.getType(object);
+            String type = data.type;
             switch (type) {
                 case TYPE_CLASS -> {
-                    String clzName = DexKitData.getClazz(object);
+                    String clzName = data.clazz;
                     getElement.add(getClass(clzName, classLoader));
                 }
                 case TYPE_METHOD -> {
-                    String clzName = DexKitData.getClazz(object);
-                    String method = DexKitData.getMethod(object);
-                    ArrayList<String> paramList = DexKitData.getParam(object);
+                    String clzName = data.clazz;
+                    String method = data.method;
+                    ArrayList<String> paramList = data.param;
                     Class<?> clz = getClass(clzName, classLoader);
                     Class<?>[] paramArray = stringToClassArray(paramList, classLoader);
                     try {
@@ -472,8 +470,8 @@ FileUtils.delete(path, new FileVisitor<Path>() {
                     }
                 }
                 case TYPE_FIELD, TYPE_FILED -> {
-                    String clzName = DexKitData.getClazz(object);
-                    String field = DexKitData.getFiled(object);
+                    String clzName = data.clazz;
+                    String field = data.field;
                     Class<?> clz = getClass(clzName, classLoader);
                     try {
                         Field getField = clz.getDeclaredField(field);
@@ -483,8 +481,8 @@ FileUtils.delete(path, new FileVisitor<Path>() {
                     }
                 }
                 case TYPE_CONSTRUCTOR -> {
-                    String clzName = DexKitData.getClazz(object);
-                    ArrayList<String> paramList = DexKitData.getParam(object);
+                    String clzName = data.clazz;
+                    ArrayList<String> paramList = data.param;
                     Class<?> clz = getClass(clzName, classLoader);
                     Class<?>[] paramArray = stringToClassArray(paramList, classLoader);
                     try {
@@ -508,6 +506,31 @@ FileUtils.delete(path, new FileVisitor<Path>() {
     private static Class<?> getClass(@Nullable String name, ClassLoader classLoader) {
         if (name == null) throwRuntime("str is null, cant get class!!");
         try {
+            Class<?> c = null;
+            boolean isStr = false;
+            String old = name;
+            name = name.replace("[", "");
+            int i = old.length() - name.length();
+            if (name.charAt(0) == 'L') {
+                isStr = true;
+            } else
+                c = switch (name.charAt(0)) {
+                    case 'Z' -> boolean.class;
+                    case 'B' -> byte.class;
+                    case 'C' -> char.class;
+                    case 'S' -> short.class;
+                    case 'I' -> int.class;
+                    case 'J' -> long.class;
+                    case 'F' -> float.class;
+                    case 'D' -> double.class;
+                    default -> null;
+                };
+            if (c != null) {
+                return Array.newInstance(c, new int[i]).getClass();
+            } else if (isStr) {
+                name = name.replace(";", "").substring(1);
+                return Array.newInstance(classLoader.loadClass(name), new int[i]).getClass();
+            }
             return switch (name.trim()) {
                 case "int" -> int.class;
                 case "boolean" -> boolean.class;
@@ -517,6 +540,7 @@ FileUtils.delete(path, new FileVisitor<Path>() {
                 case "float" -> float.class;
                 case "double" -> double.class;
                 case "char" -> char.class;
+                case "void" -> void.class;
                 default -> classLoader.loadClass(name);
             };
         } catch (ClassNotFoundException e) {
@@ -541,9 +565,9 @@ FileUtils.delete(path, new FileVisitor<Path>() {
     }
 
     // 是否已经存在缓存中
-    private static boolean isAdded(String tag, ArrayList<JSONObject> dadaList) {
-        for (JSONObject object : dadaList) {
-            String mTag = DexKitData.getTAG(object);
+    private static boolean isAdded(String tag, ArrayList<DexKitData> dadaList) {
+        for (DexKitData data : dadaList) {
+            String mTag = data.tag;
             if (tag.equals(mTag)) {
                 return true;
             }

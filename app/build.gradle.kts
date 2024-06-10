@@ -219,6 +219,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.commons.codec)
     implementation(libs.hooktool)
+    implementation(libs.gson)
 
     implementation(libs.core)
     implementation(libs.collection)
