@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.gallery;
 
 import android.graphics.Canvas;
@@ -23,44 +23,61 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.TextUtils;
 
-import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.hchen.hooktool.callback.IAction;
+import com.hchen.hooktool.tool.ParamTool;
+import com.sevtinge.hyperceiler.module.base.BaseTool;
 
-import de.robv.android.xposed.XposedHelpers;
-
-public class UnPrivacyWatermark extends BaseHook {
+public class UnPrivacyWatermark extends BaseTool {
 
     public int num = mPrefsMap.getInt("gallery_enable_un_privacy_watermark_value", 14);
 
     @Override
-    public void init() throws NoSuchMethodException {
-        findAndHookMethod("com.miui.gallery.editor.photo.app.PrivacyWatermarkActivity",
-            "setWordMaxLength", int.class, new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    // logE(TAG, "max: " + param.args[0]);
-                    param.args[0] = num;
-                }
-            }
-        );
-
-        findAndHookMethod("com.miui.gallery.editor.photo.app.privacy.PrivacyWatermarkHelper",
-            "drawWatermark",
-            Canvas.class, String.class, int.class, int.class, int.class, new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    drawWatermark(
-                        (Canvas) param.args[0],
-                        (String) param.args[1],
-                        (int) param.args[2],
-                        (int) param.args[3],
-                        (int) param.args[4]);
-                    param.setResult(null);
-                }
-            }
-        );
+    public void doHook() {
+        if (classTool.findClassIfExists("com.miui.gallery.editor.photo.app.PrivacyWatermarkActivity")) {
+            classTool.findClass("pwa", "com.miui.gallery.editor.photo.app.PrivacyWatermarkActivity")
+                    .getMethod("setWordMaxLength", int.class)
+                    .hook(new IAction() {
+                        @Override
+                        public void before(ParamTool param) {
+                            param.first(num);
+                        }
+                    })
+                    .findClass("pwh", "com.miui.gallery.editor.photo.app.privacy.PrivacyWatermarkHelper")
+                    .getMethod("drawWatermark",
+                            Canvas.class, String.class, int.class, int.class, int.class)
+                    .hook(new IAction() {
+                        @Override
+                        public void before(ParamTool param) {
+                            drawWatermark(param.first(), param.second(),
+                                    param.third(), param.fourth(), param.fifth(), true);
+                            param.setResult(null);
+                        }
+                    })
+            ;
+        } else {
+            classTool.findClass("pwa", "com.miui.gallery.privacywatermark.PrivacyWatermarkActivity")
+                    .getMethod("setWordMaxLength", int.class)
+                    .hook(new IAction() {
+                        @Override
+                        public void before(ParamTool param) {
+                            param.first(num);
+                        }
+                    })
+                    .findClass("pwh", "com.miui.gallery.privacywatermark.PrivacyWatermarkHelper")
+                    .getMethod("drawWatermark", Canvas.class, String.class, int.class, int.class, int.class)
+                    .hook(new IAction() {
+                        @Override
+                        public void before(ParamTool param) {
+                            drawWatermark(param.first(), param.second(),
+                                    param.third(), param.fourth(), param.fifth(), false);
+                            param.setResult(null);
+                        }
+                    });
+        }
     }
 
-    public void drawWatermark(Canvas canvas, String text, int mWidth, int mHeight, int angle) {
+
+    public void drawWatermark(Canvas canvas, String text, int mWidth, int mHeight, int angle, boolean is) {
         // logE(TAG, "can: " + canvas + " text: " + text + " wid: " + mWidth + " hei: " + mHeight + " an: " + angle);
         int i4 = 0;
         int i5 = 0;
@@ -70,9 +87,13 @@ public class UnPrivacyWatermark extends BaseHook {
         }
         float min = Math.min(mWidth, mHeight) * 0.02037037f;
         float f2 = 7.0f * min;
-        Paint initialPaint = (Paint) XposedHelpers.callStaticMethod(
-            findClassIfExists("com.miui.gallery.editor.photo.app.privacy.PrivacyWatermarkHelper"),
-            "getInitialPaint");
+        Paint initialPaint = is ? expandTool.callStaticMethod(
+                expandTool.findClass("com.miui.gallery.editor.photo.app.privacy.PrivacyWatermarkHelper"),
+                "getInitialPaint"
+        ) : expandTool.callStaticMethod(
+                expandTool.findClass("com.miui.gallery.privacywatermark.PrivacyWatermarkHelper"),
+                "getInitialPaint"
+        );
         Rect rect = new Rect();
         initialPaint.setTextSize(min);
         initialPaint.getTextBounds(text, 0, text.length(), rect);
