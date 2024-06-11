@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
@@ -30,7 +30,6 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -53,12 +52,7 @@ public class CleanShareMenu extends BaseHook {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 Handler mHandler = (Handler) XposedHelpers.getObjectField(param.thisObject, "mHandler");
 
-                new PrefsChangeObserver(mContext, mHandler, "prefs_key_system_framework_clean_share_apps") {
-                    @Override
-                    public void onChange(String name) {
-                        mPrefsMap.put(name, PrefsUtils.getSharedStringSetPrefs(mContext, name));
-                    }
-                };
+                new PrefsChangeObserver(mContext, mHandler, true, "prefs_key_system_framework_clean_share_apps");
             }
         });
 
@@ -74,8 +68,10 @@ public class CleanShareMenu extends BaseHook {
                     if (!action.equals(Intent.ACTION_SEND) && !action.equals(Intent.ACTION_SENDTO) && !action.equals(Intent.ACTION_SEND_MULTIPLE))
                         return;
                     Intent intent = (Intent) origIntent.clone();
-                    if (intent.getDataString() != null && intent.getDataString().contains(":")) return;
-                    if (intent.hasExtra("HyperCeiler") && intent.getBooleanExtra("HyperCeiler", false)) return;
+                    if (intent.getDataString() != null && intent.getDataString().contains(":"))
+                        return;
+                    if (intent.hasExtra("HyperCeiler") && intent.getBooleanExtra("HyperCeiler", false))
+                        return;
                     Set<String> selectedApps = mPrefsMap.getStringSet("system_framework_clean_share_apps");
                     List<ResolveInfo> resolved = (List<ResolveInfo>) param.getResult();
                     ResolveInfo resolveInfo;
@@ -91,7 +87,8 @@ public class CleanShareMenu extends BaseHook {
                             hasDual = XposedHelpers.callMethod(pm, "getPackageInfoAsUser", resolveInfo.activityInfo.packageName, 0, 999) != null;
                         } catch (Throwable ignore) {
                         }
-                        if ((removeOriginal && !hasDual) || removeOriginal && hasDual && removeDual) itr.remove();
+                        if ((removeOriginal && !hasDual) || removeOriginal && hasDual && removeDual)
+                            itr.remove();
                     }
                     param.setResult(resolved);
                 } catch (Throwable t) {
@@ -128,7 +125,7 @@ public class CleanShareMenu extends BaseHook {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 String mAimPackageName = (String) XposedHelpers.getObjectField(param.thisObject, "mAimPackageName");
                 if (mContext == null || mAimPackageName == null) return;
-                Set<String> selectedApps = PrefsUtils.getSharedStringSetPrefs(mContext, "prefs_key_system_framework_clean_share_apps");
+                Set<String> selectedApps = mPrefsMap.getStringSet("prefs_key_system_framework_clean_share_apps");
                 View mRootView = (View) XposedHelpers.getObjectField(param.thisObject, "mRootView");
                 int appResId1 = mContext.getResources().getIdentifier("app1", "id", "android.miui");
                 int appResId2 = mContext.getResources().getIdentifier("app2", "id", "android.miui");

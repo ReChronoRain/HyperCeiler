@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
@@ -32,6 +32,7 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.utils.prefs.PrefType;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -56,21 +57,18 @@ public class CleanOpenMenu extends BaseHook {
             protected void after(MethodHookParam param) throws Throwable {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 Handler mHandler = (Handler) XposedHelpers.getObjectField(param.thisObject, "mHandler");
-
-                new PrefsChangeObserver(mContext, mHandler) {
+                new PrefsChangeObserver(mContext, mHandler, PrefType.Any, null, null) {
                     @Override
-                    public void onChange(Uri uri) {
+                    public void onChange(PrefType type, Uri uri, String name, Object def) {
                         try {
-                            String type = uri.getPathSegments().get(1);
-                            String key = uri.getPathSegments().get(2);
-                            if (!key.contains("pref_key_system_framework_clean_open_apps")) return;
+                            if (!name.contains("pref_key_system_framework_clean_open_apps")) return;
 
                             switch (type) {
-                                case "stringset" ->
-                                    mPrefsMap.put(key, PrefsUtils.getSharedStringSetPrefs(mContext, key));
+                                case PrefType.StringSet ->
+                                        mPrefsMap.put(name, PrefsUtils.getSharedStringSetPrefs(mContext, name));
 
-                                case "integer" ->
-                                    mPrefsMap.put(key, PrefsUtils.getSharedIntPrefs(mContext, key, 0));
+                                case PrefType.Integer ->
+                                        mPrefsMap.put(name, PrefsUtils.getSharedIntPrefs(mContext, name, 0));
                             }
                         } catch (Throwable t) {
                             logE(TAG, CleanOpenMenu.this.lpparam.packageName, t);
@@ -92,7 +90,8 @@ public class CleanOpenMenu extends BaseHook {
                     String action = intent.getAction();
                     // XposedBridge.log(action + ": " + intent.getType() + " | " + intent.getDataString());
                     if (!Intent.ACTION_VIEW.equals(action)) return;
-                    if (intent.hasExtra("HyperCeiler") && intent.getBooleanExtra("HyperCeiler", false)) return;
+                    if (intent.hasExtra("HyperCeiler") && intent.getBooleanExtra("HyperCeiler", false))
+                        return;
                     String scheme = intent.getScheme();
                     boolean validSchemes = "http".equals(scheme) || "https".equals(scheme) || "vnd.youtube".equals(scheme);
                     if (intent.getType() == null && !validSchemes) return;
@@ -115,7 +114,8 @@ public class CleanOpenMenu extends BaseHook {
                             hasDual = XposedHelpers.callMethod(pm, "getPackageInfoAsUser", resolveInfo.activityInfo.packageName, 0, 999) != null;
                         } catch (Throwable ignore) {
                         }
-                        if ((isRemove.first && !hasDual) || isRemove.first && hasDual && isRemove.second) itr.remove();
+                        if ((isRemove.first && !hasDual) || isRemove.first && hasDual && isRemove.second)
+                            itr.remove();
                     }
 
                     param.setResult(resolved);
@@ -172,23 +172,25 @@ public class CleanOpenMenu extends BaseHook {
             else if (mimeType.startsWith("audio/")) dataType = Helpers.MimeType.AUDIO;
             else if (mimeType.startsWith("video/")) dataType = Helpers.MimeType.VIDEO;
             else if (mimeType.startsWith("text/") ||
-                mimeType.startsWith("application/pdf") ||
-                mimeType.startsWith("application/msword") ||
-                mimeType.startsWith("application/vnd.ms-") ||
-                mimeType.startsWith("application/vnd.openxmlformats-")) dataType = Helpers.MimeType.DOCUMENT;
+                    mimeType.startsWith("application/pdf") ||
+                    mimeType.startsWith("application/msword") ||
+                    mimeType.startsWith("application/vnd.ms-") ||
+                    mimeType.startsWith("application/vnd.openxmlformats-"))
+                dataType = Helpers.MimeType.DOCUMENT;
             else if (mimeType.startsWith("application/vnd.android.package-archive") ||
-                mimeType.startsWith("application/zip") ||
-                mimeType.startsWith("application/x-zip") ||
-                mimeType.startsWith("application/octet-stream") ||
-                mimeType.startsWith("application/rar") ||
-                mimeType.startsWith("application/x-rar") ||
-                mimeType.startsWith("application/x-tar") ||
-                mimeType.startsWith("application/x-bzip") ||
-                mimeType.startsWith("application/gzip") ||
-                mimeType.startsWith("application/x-lz") ||
-                mimeType.startsWith("application/x-compress") ||
-                mimeType.startsWith("application/x-7z") ||
-                mimeType.startsWith("application/java-archive")) dataType = Helpers.MimeType.ARCHIVE;
+                    mimeType.startsWith("application/zip") ||
+                    mimeType.startsWith("application/x-zip") ||
+                    mimeType.startsWith("application/octet-stream") ||
+                    mimeType.startsWith("application/rar") ||
+                    mimeType.startsWith("application/x-rar") ||
+                    mimeType.startsWith("application/x-tar") ||
+                    mimeType.startsWith("application/x-bzip") ||
+                    mimeType.startsWith("application/gzip") ||
+                    mimeType.startsWith("application/x-lz") ||
+                    mimeType.startsWith("application/x-compress") ||
+                    mimeType.startsWith("application/x-7z") ||
+                    mimeType.startsWith("application/java-archive"))
+                dataType = Helpers.MimeType.ARCHIVE;
             else if (mimeType.startsWith("link/")) dataType = Helpers.MimeType.LINK;
         return (mimeFlags & dataType) == dataType;
     }

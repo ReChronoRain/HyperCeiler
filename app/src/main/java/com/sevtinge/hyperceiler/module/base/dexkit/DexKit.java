@@ -67,7 +67,7 @@ public class DexKit {
     private static String callTAG;
     private static Gson gson;
     private static final HashMap<String, Boolean> touchMap = new HashMap<>();
-    private static final HashMap<String, ArrayList<DexKitData>> cacheMap = new HashMap<>();
+    public static final HashMap<String, ArrayList<DexKitData>> cacheMap = new HashMap<>();
     private List<AnnotatedElement> elementList = new ArrayList<>();
     private static final String DEXKIT_PATH = "/cache/dexkit/";
     private String hostDir = null;
@@ -312,77 +312,6 @@ public class DexKit {
         }
     }
 
-    private static ArrayList<DexKitData> getCacheMapOrReadFile(String dexFile) {
-        ArrayList<DexKitData> cacheData = cacheMap.get(dexFile);
-        if (cacheData == null) {
-            Type type = new TypeToken<ArrayList<DexKitData>>() {
-            }.getType();
-            ArrayList<DexKitData> dataList = gson.fromJson(FileUtils.read(dexFile), type);
-            cacheMap.put(dexFile, dataList);
-            cacheData = dataList;
-        }
-        return cacheData;
-    }
-
-    private static boolean touchIfNeed(String dexFile) {
-        Boolean isTouch = touchMap.get(dexFile);
-        if (!Boolean.TRUE.equals(isTouch)) {
-            if (!FileUtils.exists(dexFile)) {
-                if (FileUtils.touch(dexFile)) {
-                    if (FileUtils.write(dexFile, new JSONArray().toString()))
-                        touchMap.put(dexFile, true);
-                    else touchMap.put(dexFile, true);
-                } else {
-                    XposedLogUtils.logE(callTAG, "failed to create file!");
-                    touchMap.put(dexFile, false);
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    @NonNull
-    public static String getFile(String fileName) {
-        return dexKit.dexPath + fileName;
-    }
-
-    /**
-     * 删除指定路径缓存内指定标签的数据。
-     */
-    public static boolean removeData(@NotNull String tag, @NotNull String filePath) {
-        try {
-            ArrayList<DexKitData> dataList = getCacheMapOrReadFile(filePath);
-            dataList.removeIf(dexKitData -> tag.equals(dexKitData.tag));
-            FileUtils.write(filePath, gson.toJson(dataList));
-            return true;
-        } catch (Throwable e) {
-            XposedLogUtils.logE(callTAG, e);
-        }
-        return false;
-    }
-
-    /**
-     * 删除指定路径缓存内指定标签的数据。
-     */
-    public static boolean removeData(@NotNull String tag) {
-        return removeData(tag, getFile(callTAG));
-    }
-
-    private static String getCallName(StackTraceElement[] stackTrace) {
-        for (StackTraceElement stackTraceElement : stackTrace) {
-            String callName = stackTraceElement.getClassName();
-            if (callName.contains("com.sevtinge.hyperceiler.module.hook.")) {
-                String last = callName.substring(callName.lastIndexOf('.') + 1);
-                if (last.contains("$")) {
-                    continue;
-                }
-                return last;
-            }
-        }
-        throw new RuntimeException("Invalid call stack");
-    }
-
     // 获取结果并写入缓存
     private static List<AnnotatedElement> getElementsAndWriteCache(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
                                                                    DexKitBridge dexKitBridge, ArrayList<DexKitData> dadaList, String dexFile,
@@ -502,6 +431,78 @@ public class DexKit {
         return getElement;
     }
 
+    private static ArrayList<DexKitData> getCacheMapOrReadFile(String dexFile) {
+        ArrayList<DexKitData> cacheData = cacheMap.get(dexFile);
+        if (cacheData == null) {
+            Type type = new TypeToken<ArrayList<DexKitData>>() {
+            }.getType();
+            ArrayList<DexKitData> dataList = gson.fromJson(FileUtils.read(dexFile), type);
+            cacheMap.put(dexFile, dataList);
+            cacheData = dataList;
+        }
+        return cacheData;
+    }
+
+    private static boolean touchIfNeed(String dexFile) {
+        Boolean isTouch = touchMap.get(dexFile);
+        if (!Boolean.TRUE.equals(isTouch)) {
+            if (!FileUtils.exists(dexFile)) {
+                if (FileUtils.touch(dexFile)) {
+                    if (FileUtils.write(dexFile, new JSONArray().toString()))
+                        touchMap.put(dexFile, true);
+                    else touchMap.put(dexFile, true);
+                } else {
+                    XposedLogUtils.logE(callTAG, "failed to create file!");
+                    touchMap.put(dexFile, false);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @NonNull
+    public static String getFile(String fileName) {
+        return dexKit.dexPath + fileName;
+    }
+
+    /**
+     * 删除指定路径缓存内指定标签的数据。
+     */
+    public static boolean removeData(@NotNull String tag, @NotNull String filePath) {
+        try {
+            ArrayList<DexKitData> dataList = getCacheMapOrReadFile(filePath);
+            dataList.removeIf(dexKitData -> tag.equals(dexKitData.tag));
+            FileUtils.write(filePath, gson.toJson(dataList));
+            return true;
+        } catch (Throwable e) {
+            XposedLogUtils.logE(callTAG, e);
+        }
+        return false;
+    }
+
+    /**
+     * 删除指定路径缓存内指定标签的数据。
+     */
+    public static boolean removeData(@NotNull String tag) {
+        return removeData(tag, getFile(callTAG));
+    }
+
+    private static String getCallName(StackTraceElement[] stackTrace) {
+        for (StackTraceElement stackTraceElement : stackTrace) {
+            String callName = stackTraceElement.getClassName();
+            if (callName.contains("com.sevtinge.hyperceiler.module.hook.")) {
+                String last = callName.substring(callName.lastIndexOf('.') + 1);
+                if (last.contains("$")) {
+                    continue;
+                }
+                return last;
+            }
+        }
+        throw new RuntimeException("Invalid call stack");
+    }
+
+
     @NotNull
     private static Class<?> getClass(@Nullable String name, ClassLoader classLoader) {
         if (name == null) throwRuntime("str is null, cant get class!!");
@@ -511,7 +512,7 @@ public class DexKit {
             name = name.replace("[", "");
             int i = old.length() - name.length();
             if (i != 0) {
-              c = switch (name.charAt(0)) {
+                c = switch (name.charAt(0)) {
                     case 'Z' -> boolean.class;
                     case 'B' -> byte.class;
                     case 'C' -> char.class;
@@ -521,13 +522,13 @@ public class DexKit {
                     case 'F' -> float.class;
                     case 'D' -> double.class;
                     default -> null;
-                    };
-              if (c != null) {
-                return Array.newInstance(c, new int[i]).getClass();
-              } else {
-                name = name.replace(";", "").substring(1);
-                return Array.newInstance(classLoader.loadClass(name), new int[i]).getClass();
-              }
+                };
+                if (c != null) {
+                    return Array.newInstance(c, new int[i]).getClass();
+                } else {
+                    name = name.replace(";", "").substring(1);
+                    return Array.newInstance(classLoader.loadClass(name), new int[i]).getClass();
+                }
             }
             return switch (name.trim()) {
                 case "int" -> int.class;

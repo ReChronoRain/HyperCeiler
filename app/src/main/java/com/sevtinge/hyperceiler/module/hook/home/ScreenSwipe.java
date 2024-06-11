@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.home;
 
 import android.app.Activity;
@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.hook.GlobalActions;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.utils.prefs.PrefType;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -48,11 +49,13 @@ public class ScreenSwipe extends BaseHook {
         findAndHookMethod(mWorkspace, "onVerticalGesture", int.class, MotionEvent.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
-                if ((boolean) XposedHelpers.callMethod(param.thisObject, "isInNormalEditingMode")) return;
+                if ((boolean) XposedHelpers.callMethod(param.thisObject, "isInNormalEditingMode"))
+                    return;
                 String key = null;
                 Context helperContext = ((ViewGroup) param.thisObject).getContext();
                 int numOfFingers = 1;
-                if (param.args[1] != null) numOfFingers = ((MotionEvent) param.args[1]).getPointerCount();
+                if (param.args[1] != null)
+                    numOfFingers = ((MotionEvent) param.args[1]).getPointerCount();
                 if ((int) param.args[0] == 11) {
                     if (numOfFingers == 1)
                         key = "prefs_key_home_gesture_down_swipe";
@@ -76,18 +79,16 @@ public class ScreenSwipe extends BaseHook {
                 Handler mHandler = (Handler) XposedHelpers.getObjectField(act, "mHandler");
                 new PrefsChangeObserver(act, mHandler) {
                     @Override
-                    public void onChange(Uri uri) {
+                    public void onChange(PrefType type, Uri uri, String name, Object def) {
                         try {
-                            String type = uri.getPathSegments().get(1);
-                            String key = uri.getPathSegments().get(2);
-                            if (key.contains("prefs_key_home_gesture_down_swipe"))
+                            if (name.contains("prefs_key_home_gesture_down_swipe"))
                                 switch (type) {
-                                    case "string" ->
-                                        mPrefsMap.put(key, PrefsUtils.getSharedStringPrefs(act, key, ""));
-                                    case "integer" ->
-                                        mPrefsMap.put(key, PrefsUtils.getSharedIntPrefs(act, key, 1));
-                                    case "boolean" ->
-                                        mPrefsMap.put(key, PrefsUtils.getSharedBoolPrefs(act, key, false));
+                                    case PrefType.String ->
+                                            mPrefsMap.put(name, PrefsUtils.getSharedStringPrefs(act, name, ""));
+                                    case PrefType.Integer ->
+                                            mPrefsMap.put(name, PrefsUtils.getSharedIntPrefs(act, name, 1));
+                                    case PrefType.Boolean ->
+                                            mPrefsMap.put(name, PrefsUtils.getSharedBoolPrefs(act, name, false));
                                 }
                         } catch (Throwable t) {
                             AndroidLogUtils.logD(TAG, "setAction", t);
@@ -100,7 +101,8 @@ public class ScreenSwipe extends BaseHook {
         findAndHookMethodSilently("com.miui.home.launcher.uioverrides.StatusBarSwipeController", "canInterceptTouch", MotionEvent.class, new MethodHook() {
             @Override
             protected void before(final MethodHookParam param) {
-                if (mPrefsMap.getInt("home_gesture_down_swipe_action", 0) > 0) param.setResult(false);
+                if (mPrefsMap.getInt("home_gesture_down_swipe_action", 0) > 0)
+                    param.setResult(false);
             }
         });
 

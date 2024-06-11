@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.view;
 
 import android.animation.ArgbEvaluator;
@@ -42,6 +42,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.sevtinge.hyperceiler.utils.prefs.PrefType;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -109,9 +110,8 @@ public class BatteryIndicatorView extends ImageView {
         updateParameters();
         new PrefsChangeObserver(getContext(), new Handler(getContext().getMainLooper())) {
             @Override
-            public void onChange(Uri uri) {
+            public void onChange(PrefType type, Uri uri, String name, Object def) {
                 try {
-                    String key = uri.getPathSegments().get(2);
                     if (!mTesting) {
                         updateParameters();
                         update();
@@ -120,6 +120,7 @@ public class BatteryIndicatorView extends ImageView {
                 }
             }
         };
+
         getContext().registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -177,7 +178,8 @@ public class BatteryIndicatorView extends ImageView {
     }
 
     public void onBatteryLevelChanged(int powerLevel, boolean isCharging, boolean isCharged) {
-        if (this.mPowerLevel == powerLevel && this.mIsBeingCharged == isCharging && !isCharged) return;
+        if (this.mPowerLevel == powerLevel && this.mIsBeingCharged == isCharging && !isCharged)
+            return;
         this.mPowerLevel = powerLevel;
         this.mIsBeingCharged = isCharging && !isCharged;
 //		if (isCharging != this.mIsCharged) {
@@ -335,10 +337,10 @@ public class BatteryIndicatorView extends ImageView {
             } else {
                 int shadowPadding = sbHeight - mHeight;
                 paint.setShadowLayer(
-                    (mGlow / 100f) * (sbHeight - 9 * mDensity),
-                    (mCentered || mDisplayPadding > 0) ? 0 : shadowPadding / 2f,
-                    mBottom ? mHeight - 10 : 10 - mHeight,
-                    Color.argb(Math.min(Math.round(mGlow / 100f * 255), Math.round(255 - mTransparency / 100f * 255)), Color.red(color), Color.green(color), Color.blue(color))
+                        (mGlow / 100f) * (sbHeight - 9 * mDensity),
+                        (mCentered || mDisplayPadding > 0) ? 0 : shadowPadding / 2f,
+                        mBottom ? mHeight - 10 : 10 - mHeight,
+                        Color.argb(Math.min(Math.round(mGlow / 100f * 255), Math.round(255 - mTransparency / 100f * 255)), Color.red(color), Color.green(color), Color.blue(color))
                 );
                 if (mDisplayPadding == 0)
                     setPadding(mCentered ? 0 : -shadowPadding, mBottom ? shadowPadding : -shadowPadding, mCentered ? 0 : Math.min(mDisplayWidth - mWidth, shadowPadding), mBottom ? -shadowPadding : shadowPadding);
