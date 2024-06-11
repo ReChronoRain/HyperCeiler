@@ -510,22 +510,24 @@ public class DexKit {
             String old = name;
             name = name.replace("[", "");
             int i = old.length() - name.length();
-            c = switch (name.charAt(0)) {
-                  case 'Z' -> boolean.class;
-                  case 'B' -> byte.class;
-                  case 'C' -> char.class;
-                  case 'S' -> short.class;
-                  case 'I' -> int.class;
-                  case 'J' -> long.class;
-                  case 'F' -> float.class;
-                  case 'D' -> double.class;
-                  default -> null;
-                };
-            if (c != null) {
+            if (i != 0) {
+              c = switch (name.charAt(0)) {
+                    case 'Z' -> boolean.class;
+                    case 'B' -> byte.class;
+                    case 'C' -> char.class;
+                    case 'S' -> short.class;
+                    case 'I' -> int.class;
+                    case 'J' -> long.class;
+                    case 'F' -> float.class;
+                    case 'D' -> double.class;
+                    default -> null;
+                    };
+              if (c != null) {
                 return Array.newInstance(c, new int[i]).getClass();
-            } else if (i != 0) {
+              } else {
                 name = name.replace(";", "").substring(1);
                 return Array.newInstance(classLoader.loadClass(name), new int[i]).getClass();
+              }
             }
             return switch (name.trim()) {
                 case "int" -> int.class;
