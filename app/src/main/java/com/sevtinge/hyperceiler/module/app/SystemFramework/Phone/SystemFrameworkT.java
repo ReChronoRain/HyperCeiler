@@ -24,6 +24,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroid
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.GlobalActions;
+import com.sevtinge.hyperceiler.module.hook.systemframework.AllowAutoStart;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouch;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AppLinkVerify;
@@ -88,6 +89,7 @@ public class SystemFrameworkT extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // 小窗
+        initHook(new AllowAutoStart(), mPrefsMap.getBoolean("system_framework_auto_start_apps_enable"));
         initHook(new FreeFormCount(), mPrefsMap.getBoolean("system_framework_freeform_count"));
         initHook(new FreeformBubble(), mPrefsMap.getBoolean("system_framework_freeform_bubble"));
         initHook(new DisableFreeformBlackList(), mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
