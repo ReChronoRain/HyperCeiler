@@ -220,6 +220,18 @@
         <item>5</item>
     </string-array>
 
+    <string-array name="default_volume_safe">
+        <item>@string/array_default</item>
+        <item>@string/default_volume_safe_all</item>
+        <item>@string/default_volume_safe_headset</item>
+    </string-array>
+
+    <string-array name="default_volume_safe_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="open_with_test">
         <item>@string/open_with_test_picture</item>
         <item>@string/open_with_test_audio</item>

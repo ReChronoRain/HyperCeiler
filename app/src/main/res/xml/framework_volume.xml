@@ -4,62 +4,64 @@
     app:myLocation="@string/system_framework_volume_title">
 
     <DropDownPreference
-        android:title="@string/system_framework_default_volume_stream"
+        android:defaultValue="0"
         android:key="prefs_key_system_framework_default_volume_stream"
+        android:title="@string/system_framework_default_volume_stream"
         app:entries="@array/default_volume_stream"
-        app:entryValues="@array/default_volume_streame_value"
-        android:defaultValue="0" />
+        app:entryValues="@array/default_volume_streame_value" />
 
-    <SwitchPreference
-        android:title="@string/system_framework_volume_first_press"
-        android:key="prefs_key_system_framework_volume_first_press"
-        android:defaultValue="false" />
-
-    <SwitchPreference
-        android:title="@string/system_framework_volume_separate_control"
-        android:key="prefs_key_system_framework_volume_separate_control"
-        android:defaultValue="false" />
-
-    <SwitchPreference
-        android:title="@string/system_framework_volume_separate_slider"
-        android:key="prefs_key_system_framework_volume_separate_slider"
-        android:defaultValue="false"
-        android:dependency="prefs_key_system_framework_volume_separate_control" />
-
-    <SwitchPreference
+    <DropDownPreference
+        android:defaultValue="0"
+        android:key="prefs_key_system_framework_volume_disable_safe_new"
         android:title="@string/system_framework_volume_disable_safe"
-        android:key="prefs_key_system_framework_volume_disable_safe"
-        android:defaultValue="false" />
+        app:entries="@array/default_volume_safe"
+        app:entryValues="@array/default_volume_safe_value" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="prefs_key_system_framework_volume_first_press"
+        android:title="@string/system_framework_volume_first_press" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="prefs_key_system_framework_volume_separate_control"
+        android:title="@string/system_framework_volume_separate_control" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:dependency="prefs_key_system_framework_volume_separate_control"
+        android:key="prefs_key_system_framework_volume_separate_slider"
+        android:title="@string/system_framework_volume_separate_slider" />
 
     <SwitchPreference
         android:defaultValue="false"
         android:key="prefs_key_system_framework_volume_media_steps_enable"
-        android:title="@string/system_framework_volume_media_steps"
-        android:summary="@string/system_framework_volume_media_steps_desc" />
+        android:summary="@string/system_framework_volume_media_steps_desc"
+        android:title="@string/system_framework_volume_media_steps" />
 
     <SeekBarPreferenceEx
-        android:layout="@layout/preference_seekbar_no_padding"
-        android:key="prefs_key_system_framework_volume_media_steps"
-        android:dependency="prefs_key_system_framework_volume_media_steps_enable"
         android:defaultValue="15"
+        android:dependency="prefs_key_system_framework_volume_media_steps_enable"
+        android:key="prefs_key_system_framework_volume_media_steps"
+        android:layout="@layout/preference_seekbar_no_padding"
         app:defaultValueText="@string/array_default"
+        app:format="%s"
         app:maxValue="29"
         app:minValue="15"
-        app:stepValue="1"
-        app:format="%s"
-        app:showSeekBarValue="true" />
+        app:showSeekBarValue="true"
+        app:stepValue="1" />
 
     <SeekBarPreferenceEx
+        android:defaultValue="0"
         android:key="prefs_key_system_framework_volume_steps"
         android:title="@string/system_framework_volume_steps"
-        android:defaultValue="0"
         app:defaultValueText="@string/array_default"
-        app:minValue="0"
-        app:maxValue="500"
-        app:stepValue="25"
-        app:format="X %s"
         app:displayDividerValue="100"
+        app:format="X %s"
+        app:isPreferenceVisible="false"
+        app:maxValue="500"
+        app:minValue="0"
         app:showSeekBarValue="true"
-        app:isPreferenceVisible="false" />
+        app:stepValue="25" />
 
 </PreferenceScreen>
