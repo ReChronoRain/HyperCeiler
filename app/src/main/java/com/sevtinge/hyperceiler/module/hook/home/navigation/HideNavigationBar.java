@@ -18,81 +18,64 @@
  */
 package com.sevtinge.hyperceiler.module.hook.home.navigation;
 
+import android.content.res.Configuration;
 import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.hchen.hooktool.callback.IAction;
+import com.hchen.hooktool.tool.ParamTool;
+import com.sevtinge.hyperceiler.module.base.BaseTool;
 
-import de.robv.android.xposed.XposedHelpers;
-
-public class HideNavigationBar extends BaseHook {
+public class HideNavigationBar extends BaseTool {
     @Override
-    public void init() {
-        /*横屏隐藏*/
-        findAndHookMethod("com.miui.home.recents.views.RecentsContainer",
-                "showLandscapeOverviewGestureView",
-                boolean.class,
-                new MethodHook() {
+    public void doHook() {
+        hcHook.findClass("rc", "com.miui.home.recents.views.RecentsContainer")
+                .getMethod("showLandscapeOverviewGestureView", boolean.class)
+                .hook(new IAction() {
                     @Override
-                    protected void before(MethodHookParam param) {
-                        param.args[0] = false;
+                    public void before(ParamTool param) {
+                        param.first(false);
                     }
-                }
-        );
+                });
 
-        /*锁定返回*/
-        findAndHookMethod("com.miui.home.recents.NavStubView",
-                "isMistakeTouch",
-                new MethodHook() {
+        hcHook.findClass("nsv", "com.miui.home.recents.NavStubView")
+                .getMethod("isMistakeTouch")
+                .hook(new IAction() {
                     @Override
-                    protected void before(MethodHookParam param) {
-                        // boolean mIsShowStatusBar = (boolean) XposedHelpers.callMethod(param.thisObject, "isImmersive");
-                        /*boolean mIsShowNavBar = XposedHelpers.getBooleanField(param.thisObject, "mIsShowNavBar");
-                        boolean mHideGestureLine = XposedHelpers.getBooleanField(param.thisObject, "mHideGestureLine");
-                        boolean mIsShowStatusBar = XposedHelpers.getBooleanField(param.thisObject, "mIsShowStatusBar");
-                        logE(TAG, "mIsShowNavBar: " + mIsShowNavBar);
-                        logE(TAG, "mHideGestureLine: " + mHideGestureLine);
-                        logE(TAG, "mIsShowStatusBar: " + mIsShowStatusBar);*/
-                        // 按道理仅横屏时显示也是可以的，不知道为什么小米要判断这么多。
-                        View navView = (View) param.thisObject;
+                    public void before(ParamTool param) {
+                        View navView = param.thisObject();
                         boolean setting = Settings.Global.getInt(navView.getContext().getContentResolver(), "show_mistake_touch_toast", 1) == 1;
-                        boolean misTouch = (boolean) XposedHelpers.callMethod(param.thisObject, "isLandScapeActually");
+                        boolean misTouch = param.callMethod("isLandScapeActually");
                         param.setResult(misTouch && setting);
                     }
-                }
-        );
-
-        /*横屏设置状态*/
-        findAndHookMethod("com.miui.home.recents.NavStubView", "onPointerEvent",
-                MotionEvent.class,
-                new MethodHook() {
+                })
+                .getMethod("onPointerEvent", MotionEvent.class)
+                .hook(new IAction() {
                     @Override
-                    protected void before(MethodHookParam param) {
-                        boolean mIsInFsMode = XposedHelpers.getBooleanField(param.thisObject, "mIsInFsMode");
-                        MotionEvent motionEvent = (MotionEvent) param.args[0];
+                    public void before(ParamTool param) {
+                        boolean mIsInFsMode = param.getField("mIsInFsMode");
+                        MotionEvent motionEvent = param.first();
                         if (!mIsInFsMode) {
                             if (motionEvent.getAction() == 0) {
-                                XposedHelpers.setObjectField(param.thisObject, "mHideGestureLine", true);
-                                // XposedHelpers.setObjectField(param.thisObject, "mIsShowNavBar", true);
-                                // XposedHelpers.setObjectField(param.thisObject, "mIsShowStatusBar", true);
+                                param.setField("mHideGestureLine", true);
                             }
                         }
                     }
-                }
-        );
-
-        /*恢复状态*/
-        findAndHookMethod("com.miui.home.recents.NavStubView", "updateScreenSize",
-                new MethodHook() {
+                })
+                .getMethod("updateScreenSize")
+                .hook(new IAction() {
                     @Override
-                    protected void before(MethodHookParam param) {
-                        XposedHelpers.setObjectField(param.thisObject, "mHideGestureLine", false);
-                        // XposedHelpers.setObjectField(param.thisObject, "mIsShowNavBar", true);
-                        // XposedHelpers.setObjectField(param.thisObject, "mIsShowStatusBar", true);
+                    public void before(ParamTool param) {
+                        param.setField("mHideGestureLine", false);
                     }
-                }
-        );
-
+                })
+                .getMethod("onConfigurationChanged", Configuration.class)
+                .hook(new IAction() {
+                    @Override
+                    public void before(ParamTool param) {
+                        param.setField("mHideGestureLine", false);
+                    }
+                });
     }
 }

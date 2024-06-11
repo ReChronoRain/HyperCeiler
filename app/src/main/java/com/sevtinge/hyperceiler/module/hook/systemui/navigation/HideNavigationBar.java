@@ -28,49 +28,26 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.hchen.hooktool.callback.IAction;
+import com.hchen.hooktool.tool.ParamTool;
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.module.base.BaseTool;
 
-import de.robv.android.xposed.XposedHelpers;
-
-public class HideNavigationBar extends BaseHook {
+public class HideNavigationBar extends BaseTool {
     boolean run = false;
 
     @Override
-    public void init() {
-        /*启用隐藏 旧实现*/
-        /*if (isAndroidVersion(34)) {
-            hookAllConstructors("com.android.systemui.statusbar.phone.NavigationModeControllerExt", new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) throws Throwable {
-                    super.after(param);
-                    XposedHelpers.setStaticBooleanField(findClassIfExists("com.android.systemui.statusbar.phone.NavigationModeControllerExt"),
-                            "mHideGestureLine", true);
-                }
-            });
-        } else {
-            findAndHookMethod("com.android.systemui.statusbar.phone.NavigationModeControllerExt",
-                    "hideNavigationBar",
-                    new MethodHook() {
-                        @Override
-                        protected void after(MethodHookParam param) {
-                            // param.setResult(true);
-                        }
-                    }
-            );
-        }*/
-
-        // 不隐藏时创建手势条
-        hookAllMethods("com.android.systemui.navigationbar.NavigationBarController",
-                "createNavigationBar",
-                new MethodHook() {
+    public void doHook() {
+        hcHook.findClass("nbc", "com.android.systemui.navigationbar.NavigationBarController")
+                .getAnyMethod("createNavigationBar")
+                .hook(new IAction() {
                     @Override
-                    protected void after(MethodHookParam param) {
-                        if (param.args.length >= 3) {
-                            Display display = (Display) param.args[0];
+                    public void after(ParamTool param) {
+                        if (param.size() >= 3) {
+                            Display display = param.first();
                             int id = display.getDisplayId();
-                            XposedHelpers.callMethod(param.thisObject, "removeNavigationBar", id);
-                            Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                            param.callMethod("removeNavigationBar", id);
+                            Context mContext = param.getField("mContext");
                             ContentObserver(mContext);
                             try {
                                 int state = Settings.Global.getInt(mContext.getContentResolver(), "hide_gesture_line");
@@ -82,35 +59,21 @@ public class HideNavigationBar extends BaseHook {
                             }
                         }
                     }
-
-                }
-        );
-
-        /*findAndHookMethod("com.android.systemui.navigationbar.NavigationBar", "onInit",
-                new MethodHook() {
+                })
+                .findClass("mdis", "com.android.systemui.statusbar.phone.MiuiDockIndicatorService")
+                .getMethod("onNavigationModeChanged", int.class)
+                .hook(new IAction() {
                     @Override
-                    protected void after(MethodHookParam param) {
-                        // XposedHelpers.callMethod(param.thisObject, "destroyView");
-                    }
-                }
-        );*/
-
-        /*状态更改设置*/
-        findAndHookMethod("com.android.systemui.statusbar.phone.MiuiDockIndicatorService",
-                "onNavigationModeChanged", int.class,
-                new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        XposedHelpers.setObjectField(param.thisObject, "mNavMode", param.args[0]);
-                        if (XposedHelpers.getObjectField(param.thisObject, "mNavigationBarView") != null) {
-                            XposedHelpers.callMethod(param.thisObject, "setNavigationBarView", (Object) null);
+                    public void before(ParamTool param) {
+                        param.setField("mNavMode", param.first());
+                        if (param.getField("mNavigationBarView") != null) {
+                            param.callMethod("setNavigationBarView", null);
                         } else {
-                            XposedHelpers.callMethod(param.thisObject, "checkAndApplyNavigationMode");
+                            param.callMethod("checkAndApplyNavigationMode");
                         }
                         param.setResult(null);
                     }
-                }
-        );
+                });
     }
 
     /*防呆专用*/
@@ -120,6 +83,7 @@ public class HideNavigationBar extends BaseHook {
             ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
                 @Override
                 public void onChange(boolean selfChange, @Nullable Uri uri) {
+                    if (selfChange) return;
                     if (Settings.Global.getUriFor("hide_gesture_line").toString().equals(uri.toString())) {
                         Settings.Global.putInt(context.getContentResolver(), "hide_gesture_line", 0);
                         Toast.makeText(context, R.string.system_ui_hide_navigation_bar_toast_2, Toast.LENGTH_SHORT).show();
