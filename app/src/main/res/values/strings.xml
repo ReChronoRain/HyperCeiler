@@ -444,6 +444,7 @@
     <string name="system_framework_quick_screenshot_desc">Disable screenshot delay</string>
     <string name="system_framework_disable_link_turbo_toast">Hide LinkTurbo Toast</string>
     <string name="system_framework_allow_third_theme">Allows to use third-party themes</string>
+    <string name="system_framework_allow_disable_protected_package">Allows to disable protected apps</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Package Manager Service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade</string>
