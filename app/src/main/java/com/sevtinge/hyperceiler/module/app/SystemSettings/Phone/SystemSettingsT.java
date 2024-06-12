@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.AddGoogleListHeader;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AddMiuiPlusEntry;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AppsFreezerEnable;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.DisableInstallUnknownVerify;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.EnableFoldArea;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.EnablePadArea;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.EnableSpeedMode;
@@ -75,6 +76,7 @@ public class SystemSettingsT extends BaseModule {
         initHook(new QuickManageUnknownAppSources(), mPrefsMap.getBoolean("system_settings_permission_unknown_origin_app"));
         initHook(new QuickManagerAccessibilityPermission(), mPrefsMap.getBoolean("system_settings_permission_accessibility"));
         initHook(new InternationalBuild(), mPrefsMap.getBoolean("system_settings_international_build"));
+        initHook(new DisableInstallUnknownVerify(), mPrefsMap.getBoolean("system_settings_permission_disable_install_unknown_verify"));
         initHook(new NewNFCPage(), mPrefsMap.getBoolean("system_settings_new_nfc_page"));
         initHook(new AppsFreezerEnable(), mPrefsMap.getBoolean("system_settings_apps_freezer"));
         // initHook(new BluetoothRestrict(), mPrefsMap.getBoolean("various_disable_bluetooth_restrict"));

@@ -134,6 +134,11 @@
             android:key="prefs_key_system_settings_permission_accessibility"
             android:title="@string/system_settings_permission_accessibility" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_permission_disable_install_unknown_verify"
+            android:title="@string/system_settings_permission_disable_install_unknown_verify" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_settings_develop_title">
