@@ -38,7 +38,7 @@ public class NetworkSettings extends DashboardFragment {
     public void initPrefs() {
 
         Bundle args1 = new Bundle();
-        mRecommend = new RecommendPreference(requireContext());
+        mRecommend = new RecommendPreference(getContext());
         getPreferenceScreen().addPreference(mRecommend);
 
         args1.putString(":settings:fragment_args_key", "prefs_key_phone_additional_network_settings");

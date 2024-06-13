@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.controller.TipsInfoController;
 import com.sevtinge.hyperceiler.ui.CeilerTabActivity;
 import com.sevtinge.hyperceiler.ui.settings.utils.SettingsFeatures;
 import com.sevtinge.hyperceiler.ui.settings.adapter.viewholder.HeaderViewHolder;
@@ -41,14 +40,13 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderViewHolder> {
 
     private List<PreferenceHeader> mHeaders;
     private LayoutInflater mInflater;
-    private HashMap<Long, BaseSettingsController> mSettingsControllerMap = new HashMap<>();
+    private HashMap<Long, BaseSettingsController> mSettingsControllerMap;
 
     public HeaderAdapter(AppCompatActivity appCompatActivity, List<PreferenceHeader> headers) {
         mActivity = appCompatActivity;
         mContext = appCompatActivity.getApplicationContext();
         mHeaders = headers;
         mInflater = LayoutInflater.from(appCompatActivity);
-        mSettingsControllerMap.put((long) R.id.tips, new TipsInfoController(appCompatActivity, null));
     }
 
     @Override
@@ -135,12 +133,6 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderViewHolder> {
                             backgroundResource = R.drawable.miuix_preference_category_bg;
                         }
                         itemView.setBackgroundResource(backgroundResource);
-                    }
-                    if (header.id == R.id.tips) {
-                        TipsInfoController controller = (TipsInfoController) mSettingsControllerMap.get((long) R.id.tips);
-                        if (controller != null) {
-                            controller.setUpTextView(holder.title);
-                        }
                     }
                 }
             } else {
@@ -293,12 +285,10 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderViewHolder> {
     }
 
     public void updateHeaderViewInfo() {
-        if (mSettingsControllerMap != null) {
-            TipsInfoController controller = (TipsInfoController) mSettingsControllerMap.get((long) R.id.tips);
-            if (controller != null) {
-                controller.updateStatus();
-            }
-        }
+        /*BaseSettingsController baseSettingsController;
+        if (mSettingsControllerMap != null && (baseSettingsController = mSettingsControllerMap.get(Long.valueOf(R.id.mi_account_settings))) != null) {
+            baseSettingsController.updateStatus();
+        }*/
     }
 
     public PreferenceHeader getItem(int position) {
