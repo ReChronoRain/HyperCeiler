@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.2"
+agp = "8.5.0"
 hooktool = "v.0.8.9"
 kotlinAndroid = "2.0.0"
 lsparanoid = "0.6.0"
