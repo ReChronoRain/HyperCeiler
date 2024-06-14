@@ -1777,7 +1777,7 @@
 
     <!--通话管理-->
     <string name="telecom">通话管理</string>
-    <string name="scam_reminder_bypass_caption">允许直接拨打呼叫转移MMI码</string>
-    <string name="scam_reminder_bypass_description">允许直接拨打类似**21*8#的MMI码来开启呼叫转移</string>
+    <string name="scam_reminder_bypass_caption">允许直接拨打呼叫转移 MMI 码</string>
+    <string name="scam_reminder_bypass_description">允许直接拨打类似 **21*8# 的 MMI 码以开启呼叫转移</string>
 
 </resources>
