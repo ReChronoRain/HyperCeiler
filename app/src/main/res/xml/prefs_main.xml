@@ -93,18 +93,18 @@
             android:title="@string/telecom" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SystemUIFragment"
-            android:icon="@drawable/ic_system_ui"
-            android:key="prefs_key_system_ui"
-            android:summary="com.android.systemui"
-            android:title="@string/system_ui" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.SystemSettingsFragment"
             android:icon="@drawable/ic_system_settings"
             android:key="prefs_key_system_settings"
             android:summary="com.android.settings"
             android:title="@string/system_settings" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SystemUIFragment"
+            android:icon="@drawable/ic_system_ui"
+            android:key="prefs_key_system_ui"
+            android:summary="com.android.systemui"
+            android:title="@string/system_ui" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.ThemeManagerFragment"
@@ -149,18 +149,18 @@
             android:title="@string/backup" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.ContentExtensionFragment"
-            android:icon="@drawable/ic_contentextension"
-            android:key="prefs_key_content_extension"
-            android:summary="com.miui.contentextension"
-            android:title="@string/content_extension" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiCloudServiceFragment"
             android:icon="@drawable/ic_micloud_service"
             android:key="prefs_key_micloud_service"
             android:summary="com.miui.cloudservice"
             android:title="@string/micloud_service" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.ContentExtensionFragment"
+            android:icon="@drawable/ic_contentextension"
+            android:key="prefs_key_content_extension"
+            android:summary="com.miui.contentextension"
+            android:title="@string/content_extension" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.CreationFragment"
