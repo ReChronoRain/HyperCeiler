@@ -95,11 +95,12 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_system_ui"
-        android:key="prefs_key_system_ui_state"
         android:layout="@layout/preference_header"
-        android:summary="com.android.systemui"
-        android:title="@string/system_ui" />
+        android:icon="@drawable/ic_call"
+        android:key="prefs_key_telecom_state"
+        android:summary="com.android.server.telecom"
+        android:title="@string/telecom" />
+
 
     <SwitchPreference
         android:defaultValue="true"
@@ -108,6 +109,14 @@
         android:layout="@layout/preference_header"
         android:summary="com.android.settings"
         android:title="@string/system_settings" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_system_ui"
+        android:key="prefs_key_system_ui_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.systemui"
+        android:title="@string/system_ui" />
 
     <SwitchPreference
         android:defaultValue="true"
@@ -159,19 +168,19 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_contentextension"
-        android:key="prefs_key_content_extension_state"
-        android:layout="@layout/preference_header"
-        android:summary="com.miui.contentextension"
-        android:title="@string/content_extension" />
-
-    <SwitchPreference
-        android:defaultValue="true"
         android:icon="@drawable/ic_micloud_service"
         android:key="prefs_key_micloud_service_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.cloudservice"
         android:title="@string/micloud_service" />
+    
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_contentextension"
+        android:key="prefs_key_content_extension_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.contentextension"
+        android:title="@string/content_extension" />
 
     <SwitchPreference
         android:defaultValue="true"
