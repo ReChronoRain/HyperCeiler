@@ -42,7 +42,7 @@ object UnlockLeicaFilter : BaseHook() {
                     returnType = "boolean"
                     paramCount = 0
                 }
-            }.toElementList(classLoader)
+            }.toElementList()
         }.toMethodList()
     }
     private val leicaNew by lazy {

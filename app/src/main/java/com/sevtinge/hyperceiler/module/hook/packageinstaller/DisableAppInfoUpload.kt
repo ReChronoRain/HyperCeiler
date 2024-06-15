@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.module.hook.packageinstaller
 
 import android.content.*
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.*
 import com.sevtinge.hyperceiler.module.base.*
@@ -60,7 +59,7 @@ object DisableAppInfoUpload : BaseHook() {
                     returnType(Void::class.javaPrimitiveType as Class<*>)
                     modifiers(AccessFlagsMatcher.create(Modifier.STATIC))
                 }
-            }.toElementList(EzXHelper.safeClassLoader)
+            }.toElementList()
         }.toMethodList()
 
         if (avlUploadInvokerList.isEmpty()) {
@@ -94,7 +93,7 @@ object DisableAppInfoUpload : BaseHook() {
                     returnType(Object::class.java)
                     usingStrings("device_type", "packageName", "installationMode", "apk_bit")
                 }
-            }.toElementList(EzXHelper.safeClassLoader)
+            }.toElementList()
         }.toMethodList()
 
         if (interceptCheckInvokerList.isEmpty()) {
@@ -127,7 +126,7 @@ object DisableAppInfoUpload : BaseHook() {
                         null
                     )
                 }
-            }.toElementList(EzXHelper.safeClassLoader)
+            }.toElementList()
         }.toMethodList()
 
         if (infoLayoutInvokerList.isEmpty()) {

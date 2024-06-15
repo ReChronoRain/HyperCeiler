@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.module.hook.personalassistant
 
 import android.graphics.drawable.*
 import android.view.*
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
@@ -45,7 +44,7 @@ object BlurPersonalAssistant : BaseHook() {
                 matcher {
                     addUsingStringsEquals("ScrollStateManager")
                 }
-            }.toElementList(EzXHelper.safeClassLoader)
+            }.toElementList()
         }.toMethodList().forEach { methodData ->
             methodData.createAfterHook {
                 val scrollX = it.args[0] as Float

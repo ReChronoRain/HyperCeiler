@@ -23,6 +23,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethodDataList
 import org.luckypray.dexkit.query.enums.*
@@ -30,7 +31,7 @@ import java.lang.reflect.*
 
 object UnlockVideoSomeFunc : BaseHook() {
     private val findFrc by lazy {
-        DexKit.useDexKitIfNoCache(arrayOf( "findFrcA", "findFrcB")) {
+        DexKit.useDexkitIfNoCache(arrayOf("findFrcA", "findFrcB")) {
             it.findMethod {
                 matcher {
                     declaredClass {
@@ -69,12 +70,16 @@ object UnlockVideoSomeFunc : BaseHook() {
    }
 
     override fun init() {
-        val orderedB = DexKit.createCache("findFrcB", findFrc?.toMethodDataList()?.filter { methodData ->
-            methodData.usingFields.any {
-                it.field.typeName == "java.util.List"
-            }
-        }, classLoader).toMethodList().toSet()
-        val orderedA = DexKit.createCache("findFrcA", findFrc?.toMethodDataList(), classLoader).toMethodList().toSet()
+        val orderedB = DexKit.getDexKitBridgeList("findFrcB") { _ ->
+            findFrc?.toMethodDataList()?.filter { methodData ->
+                methodData.usingFields.any {
+                    it.field.typeName == "java.util.List"
+                }
+            }?.toElementList()
+        }.toMethodList()
+        val orderedA = DexKit.getDexKitBridgeList("findFrcA") { _ ->
+            findFrc?.toElementList()
+        }.toMethodList()
         val differentItems = orderedA.subtract(orderedB)
 
         if (memc) {

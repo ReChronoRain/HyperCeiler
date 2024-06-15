@@ -45,7 +45,7 @@ object BeautyLightAuto : BaseHook() {
                     addUsingStringsEquals("taoyao")
                     returnType = "boolean"
                 }
-            }.toElementList(EzXHelper.classLoader)
+            }.toElementList()
         }.toMethodList()
     }
 

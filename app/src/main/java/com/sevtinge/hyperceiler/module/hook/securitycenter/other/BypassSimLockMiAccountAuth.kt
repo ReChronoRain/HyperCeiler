@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
@@ -40,7 +39,7 @@ object BypassSimLockMiAccountAuth : BaseHook() {
                     paramTypes("android.content.Context")
                     returnType = "boolean"
                 }
-            }.toElementList(EzXHelper.classLoader)
+            }.toElementList()
         }.toMethodList()
     }
 

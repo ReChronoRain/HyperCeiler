@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.updater
 
-import com.github.kyuubiran.ezxhelper.*
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
@@ -56,7 +55,7 @@ object DeviceModify : BaseHook() {
                 matcher {
                     addUsingStringsEquals("android.os.SystemProperties", "get", "get e")
                 }
-            }.toElementList(EzXHelper.safeClassLoader)
+            }.toElementList()
         }.toMethodList().forEach { method ->
             method.hookBeforeMethod {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName

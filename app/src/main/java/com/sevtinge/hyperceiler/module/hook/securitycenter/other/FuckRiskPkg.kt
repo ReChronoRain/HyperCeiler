@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
@@ -34,7 +33,7 @@ object FuckRiskPkg : BaseHook() {
                         "riskPkgList", "key_virus_pkg_list", "show_virus_notification"
                     )
                 }
-            }.toElementList(EzXHelper.classLoader)
+            }.toElementList()
         }.toMethodList()
     }
 

@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.packageinstaller
 
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
@@ -41,7 +40,7 @@ object InstallRiskDisable : BaseHook() {
                     addUsingString("android.provider.MiuiSettings\$Ad", StringMatchType.Equals)
                     returnType = "boolean"
                 }
-            }.toElementList(EzXHelper.safeClassLoader)
+            }.toElementList()
         }.toMethodList().createHooks {
             returnConstant(false)
         }

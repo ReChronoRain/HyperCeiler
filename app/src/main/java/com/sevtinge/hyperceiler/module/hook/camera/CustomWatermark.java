@@ -52,7 +52,7 @@ public class CustomWatermark extends BaseHook {
                                 )
                         )
                 );
-                return DexKit.toElementList(methodData, lpparam.classLoader);
+                return DexKit.toElementList(methodData);
             }
         }).toMethodList();
         for (Method method : methods) {

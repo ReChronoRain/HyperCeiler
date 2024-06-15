@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
@@ -38,7 +37,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
     private val isPOCO by lazy { frames == 3 }
 
     private val publicA by lazy {
-        DexKit.useDexKitIfNoCache(arrayOf("PA", "PC")) { bridge ->
+        DexKit.useDexkitIfNoCache(arrayOf("PC", "PA")) { bridge ->
             bridge.findMethod {
                 matcher {
                     // 真是妹想到啊，1.5 和 1.6 版本还以为不会套回去了
@@ -67,19 +66,28 @@ object UnlockCustomPhotoFrames : BaseHook() {
                         modifiers = Modifier.STATIC or Modifier.FINAL
                     }
                 }
-            }.toElementList(EzXHelper.classLoader)
+            }.toElementList()
         }.toMethodList()
     }
 
     override fun init() {
         // 为了减少查询次数，这玩意写得好懵圈.png
-        val publicC = DexKit.createCache("PC", publicA?.toMethodDataList()?.filter { methodData ->
-            methodData.usingFields.any {
-                it.field.typeName == "boolean" // 1.6.3.5 通过此条件应该只会返回 b() 方法
-            }
-        }, lpparam.classLoader).toMethodList().toSet()
+        // val publicC = DexKit.getDexKitBridge("PC", publicA?.toMethodDataList()?.filter { methodData ->
+        //     methodData.usingFields.any {
+        //         it.field.typeName == "boolean" // 1.6.3.5 通过此条件应该只会返回 b() 方法
+        //     }
+        // }, lpparam.classLoader).toMethodList().toSet()
+        val publicC = DexKit.getDexKitBridgeList("PC") { _ ->
+            publicA?.toMethodDataList()?.filter { methodData ->
+                methodData.usingFields.any {
+                    it.field.typeName == "boolean" // 1.6.3.5 通过此条件应该只会返回 b() 方法
+                }
+            }?.toElementList()
+        }.toMethodList()
         val actions = listOf<(Method) -> Unit>(::xiaomi, ::poco, ::redmi, ::other)
-        val orderedPublicA = DexKit.createCache("PA", publicA, lpparam.classLoader).toMethodList()
+        val orderedPublicA = DexKit.getDexKitBridgeList("PA") { _ ->
+            publicA?.toElementList()
+        }.toMethodList()
         val differentItems = orderedPublicA.subtract(publicC)
         var index = 0
 

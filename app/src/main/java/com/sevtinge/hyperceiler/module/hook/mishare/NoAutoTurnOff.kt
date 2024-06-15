@@ -80,7 +80,7 @@ object NoAutoTurnOff : BaseHook() {
                     paramTypes = listOf("android.content.Context", "java.lang.String")
                     paramCount = 2
                 }
-            }.toElementList(safeClassLoader)
+            }.toElementList()
         }.toMethodList()
     }
 

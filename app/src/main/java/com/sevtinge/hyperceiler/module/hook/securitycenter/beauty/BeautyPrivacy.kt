@@ -55,7 +55,7 @@ object BeautyPrivacy : BaseHook() {
                         paramTypes = listOf(R0.parameterTypes[0].name)
                     }
                 }
-            }.toElementList(EzXHelper.classLoader)
+            }.toElementList()
         }.toMethodList()
     }
 

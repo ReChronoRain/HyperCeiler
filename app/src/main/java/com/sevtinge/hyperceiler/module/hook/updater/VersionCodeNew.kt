@@ -46,7 +46,7 @@ object VersionCodeNew : BaseHook() {
                 matcher {
                     addUsingStringsEquals("ro.mi.os.version.incremental")
                 }
-            }.toElementList(EzXHelper.safeClassLoader)
+            }.toElementList()
         }.toMethodList()
     }
     private val mOSCode by lazy {

@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.module.hook.packageinstaller
 
 import android.content.pm.*
-import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
@@ -33,7 +32,7 @@ object AllAsSystemApp : BaseHook() {
                     paramTypes = listOf("android.content.pm.ApplicationInfo")
                     returnType = "boolean"
                 }
-            }.toElementList(safeClassLoader)
+            }.toElementList()
         }.toMethodList()
     }
 

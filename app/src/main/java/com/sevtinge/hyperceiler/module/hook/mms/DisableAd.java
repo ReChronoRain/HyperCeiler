@@ -22,14 +22,11 @@ import android.content.Context;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
-import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.module.base.dexkit.IDexKitList;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
-import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.MethodData;
 import org.luckypray.dexkit.result.MethodDataList;
 
 import java.lang.reflect.AnnotatedElement;
@@ -57,7 +54,7 @@ public class DisableAd extends BaseHook {
                                 .name("setHideButton")
                         )
                 );
-                return DexKit.toElementList(methodData, lpparam.classLoader);
+                return DexKit.toElementList(methodData);
             }
         }).toMethodList();
         for (Method method2 : methods) {

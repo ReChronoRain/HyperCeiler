@@ -31,24 +31,32 @@ object DexKitTool {
      * 将 ClassData 列表快捷转为 List<AnnotatedElement>
      * 使用时在查找后调用 .toElementList(EzXHelper.safeClassLoader) 即可
      */
-    fun ClassDataList.toElementList(classLoader: ClassLoader): List<AnnotatedElement> {
-        return DexKit.toElementList(this, classLoader)
+    fun ClassDataList.toElementList(): List<AnnotatedElement> {
+        return DexKit.toElementList(this)
     }
 
     /**
      * 将 MethodData 列表快捷转为 List<AnnotatedElement>
      * 使用时在查找后调用 .toElementList(EzXHelper.safeClassLoader) 即可
      */
-    fun MethodDataList.toElementList(classLoader: ClassLoader): List<AnnotatedElement> {
-        return DexKit.toElementList(this, classLoader)
+    fun MethodDataList.toElementList(): List<AnnotatedElement> {
+        return DexKit.toElementList(this)
     }
 
     /**
      * 将 FieldData 列表快捷转为 List<AnnotatedElement>
      * 使用时在查找后调用 .toElementList(EzXHelper.safeClassLoader) 即可
      */
-    fun FieldDataList.toElementList(classLoader: ClassLoader): List<AnnotatedElement> {
-        return DexKit.toElementList(this, classLoader)
+    fun FieldDataList.toElementList(): List<AnnotatedElement> {
+        return DexKit.toElementList(this)
+    }
+
+    fun List<*>.toElementList(): List<AnnotatedElement> {
+        return DexKit.toElementList(this)
+    }
+
+    fun BaseDataList<*>.toElementList(): List<AnnotatedElement> {
+        return DexKit.toElementList(this)
     }
 
     /**

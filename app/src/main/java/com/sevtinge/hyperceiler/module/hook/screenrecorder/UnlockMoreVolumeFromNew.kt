@@ -44,7 +44,7 @@ object UnlockMoreVolumeFromNew : BaseHook() {
                     declaredClass(getClass)
                     type = "boolean"
                 }
-            }.toElementList(safeClassLoader)
+            }.toElementList()
         }.toFieldList()
 
         findAndHookConstructor(getClass, object : MethodHook() {

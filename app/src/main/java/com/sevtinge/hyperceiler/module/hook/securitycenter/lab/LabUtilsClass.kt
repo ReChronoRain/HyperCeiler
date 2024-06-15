@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.lab
 
-import com.github.kyuubiran.ezxhelper.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
@@ -30,7 +29,7 @@ object LabUtilsClass {
                 matcher {
                     addUsingStringsEquals("mi_lab_ai_clipboard_enable", "mi_lab_blur_location_enable")
                 }
-            }.toElementList(EzXHelper.classLoader)
+            }.toElementList()
         }.toClassList()
     }
 }

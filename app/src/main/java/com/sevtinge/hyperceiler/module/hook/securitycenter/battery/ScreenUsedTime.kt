@@ -47,7 +47,7 @@ object ScreenUsedTime : BaseHook() {
                     returnType = "boolean"
                     paramCount = 0
                 }
-            }.toElementList(safeClassLoader)
+            }.toElementList()
         }.toMethodList()
     }
 

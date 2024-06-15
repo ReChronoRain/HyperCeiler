@@ -44,7 +44,7 @@ public class UnlockMinimumCropLimit extends BaseHook {
                                 .usingNumbers(0.5f, 200)
                         )
                 );
-                return DexKit.toElementList(methodData, lpparam.classLoader);
+                return DexKit.toElementList(methodData);
             }
         }).toMethodList();
         for (Method method : methods) {
