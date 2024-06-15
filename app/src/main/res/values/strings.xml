@@ -444,6 +444,7 @@
     <string name="system_framework_quick_screenshot_desc">Disable screenshot delay</string>
     <string name="system_framework_disable_link_turbo_toast">Hide LinkTurbo Toast</string>
     <string name="system_framework_allow_third_theme">Allows to use third-party themes</string>
+    <string name="system_framework_allow_disable_protected_package">Allows to disable protected apps</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Package Manager Service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade</string>
@@ -950,6 +951,7 @@
     <string name="system_settings_permission_unknown_origin_app">Install unknown app permissions without searching the application list</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Use the international build, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
     <string name="system_settings_permission_accessibility">Accessibility services permissions without searching the application list</string>
+    <string name="system_settings_permission_disable_install_unknown_verify">Disable verify when turn on allow install unknown package permission</string>
     <string name="system_settings_develop_title">Developer options</string>
     <string name="system_settings_apps_freezer">Force showing freeze cached apps</string>
     <string name="system_settings_apps_freezer_more">Once enabled, this feature can be found in \"Developer Options,\" but its functionality is not guaranteed</string>

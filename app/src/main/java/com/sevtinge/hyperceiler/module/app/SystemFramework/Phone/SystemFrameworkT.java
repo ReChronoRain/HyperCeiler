@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.GlobalActions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowAutoStart;
+import com.sevtinge.hyperceiler.module.hook.systemframework.AllowDisableProtectedPackage;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouch;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AppLinkVerify;
@@ -125,6 +126,7 @@ public class SystemFrameworkT extends BaseModule {
         initHook(new DisableMiuiLite(), mPrefsMap.getBoolean("system_framework_disablt_miuilite_check"));
         initHook(new HookEntry(), mPrefsMap.getBoolean("system_framework_hook_entry"));
         initHook(new PstedClipboard(), mPrefsMap.getBoolean("system_framework_posted_clipboard"));
+        initHook(new AllowDisableProtectedPackage(), mPrefsMap.getBoolean("system_framework_allow_disable_protected_package"));
         // 允许应用后台读取剪切板
         initHook(new ClipboardWhitelist(), mPrefsMap.getBoolean("system_framework_clipboard_whitelist"));
 

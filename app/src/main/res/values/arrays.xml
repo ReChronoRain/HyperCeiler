@@ -14,8 +14,9 @@
         <item>com.android.phone</item> <!--电话服务-->
         <item>com.android.providers.downloads</item> <!--下载管理程序-->
         <item>com.android.providers.downloads.ui</item> <!--下载管理-->
-        <item>com.android.systemui</item> <!--系统界面-->
+        <item>com.android.server.telecom</item>
         <item>com.android.settings</item> <!--系统设置-->
+        <item>com.android.systemui</item> <!--系统界面-->
         <item>com.android.thememanager</item> <!--主题壁纸-->
         <item>com.android.updater</item> <!--系统更新-->
         <item>com.lbe.security.miui</item> <!--权限管理服务-->

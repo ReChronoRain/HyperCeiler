@@ -451,6 +451,7 @@
     <string name="system_framework_quick_screenshot_desc">禁用截图延迟</string>
     <string name="system_framework_disable_link_turbo_toast">隐藏正在使用流量加速 Toast</string>
     <string name="system_framework_allow_third_theme">允许使用第三方主题</string>
+    <string name="system_framework_allow_disable_protected_package">允许冻结受保护的应用</string>
     <!--核心破解-->
     <string name="system_framework_corepatch_title">包管理服务</string>
     <string name="system_framework_core_patch_downgr">允许降级安装应用</string>
@@ -975,6 +976,7 @@
     <string name="system_settings_permission_unknown_origin_app">安装未知应用权限直达</string>
     <string name="system_settings_permission_unknown_origin_app_desc">使用国际版行为，直接跳转对应应用 \"安装未知应用\" 的权限开关</string>
     <string name="system_settings_permission_accessibility">无障碍服务权限直达</string>
+    <string name="system_settings_permission_disable_install_unknown_verify">禁用开启安装未知应用时的校验</string>
 
     <string name="system_settings_develop_title">开发者选项</string>
     <string name="system_settings_apps_freezer">强制显示暂停执行已缓存的应用</string>
@@ -1775,7 +1777,7 @@
 
     <!--通话管理-->
     <string name="telecom">通话管理</string>
-    <string name="scam_reminder_bypass_caption">允许直接拨打呼叫转移MMI码</string>
-    <string name="scam_reminder_bypass_description">允许直接拨打类似**21*8#的MMI码来开启呼叫转移</string>
+    <string name="scam_reminder_bypass_caption">允许直接拨打呼叫转移 MMI 码</string>
+    <string name="scam_reminder_bypass_description">允许直接拨打类似 **21*8# 的 MMI 码以开启呼叫转移</string>
 
 </resources>
