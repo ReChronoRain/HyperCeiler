@@ -860,6 +860,7 @@
     <string name="system_ui_control_center_show_weather">显示天气</string>
     <string name="system_ui_control_center_show_weather_city">显示地区</string>
     <string name="system_ui_control_center_disable_device_managed">隐藏网络监控提示</string>
+    <string name="system_ui_control_center_hide_edit_botton">隐藏编辑按钮</string>
     <string name="system_ui_control_center_unimportant_notification">禁止折叠为历史通知</string>
     <string name="system_ui_control_center_mute_visible_notice">亮屏时静音</string>
     <string name="system_ui_control_center_expand_notification">展开通知</string>

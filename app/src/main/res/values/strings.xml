@@ -840,6 +840,7 @@
     <string name="system_ui_control_center_show_weather">Show weather</string>
     <string name="system_ui_control_center_show_weather_city">Show city</string>
     <string name="system_ui_control_center_disable_device_managed">Hide network monitoring prompts</string>
+    <string name="system_ui_control_center_hide_edit_botton">Hide edit button</string>
     <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
     <string name="system_ui_control_center_unimportant_notification">Collapse into history notifications is prohibited</string>
     <string name="system_ui_control_center_expand_notification">Expand Notifications</string>

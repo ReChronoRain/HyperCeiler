@@ -123,6 +123,8 @@ public class PluginHelper extends BaseHook {
 
     public void setClassLoader(ClassLoader classLoader) {
         // CCGrid.loadCCGrid(classLoader);
+        if (mPrefsMap.getBoolean("system_ui_control_center_hide_edit_botton"))
+            HideEditButton.initHideEditButton(classLoader);
         if (mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"))
             EnableVolumeBlur.initEnableVolumeBlur(classLoader);
         if (mPrefsMap.getStringAsInt("system_ui_control_center_mi_smart_hub_entry", 0) != 0)
