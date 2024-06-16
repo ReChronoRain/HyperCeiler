@@ -360,6 +360,7 @@
     <string name="system_framework_disable_app_link_verify_desc">Reverter para abrir apps suportados diretamente ao abrir links sem habilitar links suportados nas configurações do app</string>
     <string name="system_framework_clean_share_menu">Limpar menu de compartilhamento</string>
     <string name="system_framework_clean_share_apps">Apps selecionados</string>
+    <string name="system_framework_auto_start_apps">Exceções em cadeia de restrições</string>
     <string name="system_framework_clean_share_apps_desc">O app selecionado não aparecerá no menu de compartilhamento</string>
     <string name="system_framework_clean_open_menu">Limpar menu Abrir com</string>
     <string name="system_framework_clean_open_apps">Apps selecionados</string>
@@ -391,6 +392,7 @@
     <string name="system_framework_quick_screenshot_desc">Desative o atraso na captura de tela</string>
     <string name="system_framework_disable_link_turbo_toast">Ocultar dica da rede móvel usada para aceleração</string>
     <string name="system_framework_allow_third_theme">Permitir usar temas de terceiros</string>
+    <string name="system_framework_allow_disable_protected_package">Permitir desativar apps protegidos</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Serviço de Gerenciador de Pacotes</string>
     <string name="system_framework_core_patch_downgr">Permitir downgrade</string>
@@ -895,6 +897,7 @@
     <string name="system_settings_permission_unknown_origin_app">Instalar apps desconhecidos sem pesquisar na lista de apps</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Use a compilação internacional e vá diretamente para o interruptor de permissão correspondente do app exibido na parte superior de outros apps</string>
     <string name="system_settings_permission_accessibility">Permissões de serviços de acessibilidade sem pesquisar na lista de apps</string>
+    <string name="system_settings_permission_disable_install_unknown_verify">Desativar verificação ao instalar apps desconhecidos</string>
     <string name="system_settings_develop_title">Opções do desenvolvedor</string>
     <string name="system_settings_apps_freezer">Forçar exibição de apps congelados em cache</string>
     <string name="system_settings_apps_freezer_more">Uma vez ativado, esse recurso pode ser encontrado nas Opções do desenvolvedor, mas sua funcionalidade não é garantida.</string>

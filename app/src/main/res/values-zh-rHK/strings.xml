@@ -313,6 +313,8 @@
     <string name="system_framework_volume_first_press">音量即時調整</string>
     <string name="system_framework_volume_separate_control">音量獨立控制</string>
     <string name="system_framework_volume_disable_safe">移除高音量安全限制</string>
+    <string name="default_volume_safe_all">對所有情境下啟用</string>
+    <string name="default_volume_safe_headset">僅當連接耳機時啟用</string>
     <string name="system_framework_volume_separate_slider">通知音量滑動條</string>
     <string name="system_framework_volume_media_steps">媒體音量階數</string>
     <string name="system_framework_volume_media_steps_desc">可能會導致音量條的滾動卡頓或藍牙音量異常</string>
@@ -358,6 +360,7 @@
     <string name="system_framework_disable_app_link_verify_desc">打開連結時還原為直接打開支援的應用程式，無需在應用程式設定中勾選支援的連結</string>
     <string name="system_framework_clean_share_menu">清理分享選單</string>
     <string name="system_framework_clean_share_apps">已選擇的應用程式</string>
+    <string name="system_framework_auto_start_apps">限制鏈豁免</string>
     <string name="system_framework_clean_share_apps_desc">選取的應用程式將不會出現在分享選單中</string>
     <string name="system_framework_clean_open_menu">清理打開方式選單</string>
     <string name="system_framework_clean_open_apps">已選擇的應用程式</string>
@@ -389,6 +392,7 @@
     <string name="system_framework_quick_screenshot_desc">停用螢幕截圖延遲</string>
     <string name="system_framework_disable_link_turbo_toast">隱藏 正在使用行動網络加速 Toast</string>
     <string name="system_framework_allow_third_theme">允許使用第三方主題</string>
+    <string name="system_framework_allow_disable_protected_package">允許停用受保護的應用程式</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">包管理服務</string>
     <string name="system_framework_core_patch_downgr">允許降級安裝應用程式</string>
@@ -407,6 +411,8 @@
     <string name="system_framework_core_patch_enhanced_mode_desc">可以解決一些應用程式內部的完整性校驗，一般不需要開啟</string>
     <string name="system_framework_disable_low_api_check">停用低版本 API 校驗</string>
     <string name="system_framework_disable_low_api_check_desc">允許安裝 API 低於 23 的應用程式</string>
+    <string name="system_framework_disable_persistent">停用持久檢查</string>
+    <string name="system_framework_disable_persistent_more">允許您直接更新持久性應用程式，例如直接更新系統 UI，此功能較為危險，請僅在有救磚能力的情況下啟用</string>
     <!--Browser-->
     <string name="browser">瀏覽器</string>
     <string name="browser_debug_mode">開發者選項</string>
@@ -581,7 +587,6 @@
     <string name="system_ui_statusbar_iconmanage_privacy_title">私隱資訊</string>
     <string name="system_ui_statusbar_iconmanage_left_title">圖示左側顯示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">圖示右側顯示</string>
-    <string name="system_ui_status_bar_icon_paw">熊掌</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_slave">從 Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Wi-Fi 標準</string>
@@ -892,6 +897,7 @@
     <string name="system_settings_permission_unknown_origin_app">安裝未知應用程式許可權免翻應用程式列表</string>
     <string name="system_settings_permission_unknown_origin_app_desc">使用國際版行為，直接跳轉對應應用程式的「安裝未知應用程式」許可權開關</string>
     <string name="system_settings_permission_accessibility">無障礙服務權限直達</string>
+    <string name="system_settings_permission_disable_install_unknown_verify">開啟允許安裝未知應用程式來源權限時停用驗證</string>
     <string name="system_settings_develop_title">開發者選項</string>
     <string name="system_settings_apps_freezer">强制顯示暫停執行已緩存的應用</string>
     <string name="system_settings_apps_freezer_more">開啓后可在「開發者選項」中找到此功能，為强制顯示，不保證可用</string>
@@ -1662,4 +1668,8 @@
     <string name="ic_qs_title_autobrightness">自動亮度</string>
     <string name="ic_qs_title_vowifi1">VoWiFi SIM1</string>
     <string name="ic_qs_title_vowifi2">VoWiFi SIM2</string>
+    <!--Telecom-->
+    <string name="telecom">通話管理</string>
+    <string name="scam_reminder_bypass_caption">允許直接撥號呼叫 MMI 碼</string>
+    <string name="scam_reminder_bypass_description">允許直接撥打 MMI 碼（如 **21*8#）以啟用呼叫轉移</string>
 </resources>
