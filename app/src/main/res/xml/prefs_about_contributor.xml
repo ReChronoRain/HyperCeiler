@@ -73,11 +73,11 @@
                 android:data="https://github.com/igormiguell" />
         </Preference>
         <Preference
-            android:summary="GitHub@CHxCOOH"
+            android:summary="GitHub@NahidaBuer"
             android:title="Nahida">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/CHxCOOH" />
+                android:data="https://github.com/NahidaBuer" />
         </Preference>
         <Preference
             android:summary="GitHub@nakixii / CoolApk@nakixii"
