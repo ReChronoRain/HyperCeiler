@@ -313,6 +313,8 @@
     <string name="system_framework_volume_first_press">即座な音量調整</string>
     <string name="system_framework_volume_separate_control">独立した音量コントロール</string>
     <string name="system_framework_volume_disable_safe">大音量の警告を無効化</string>
+    <string name="default_volume_safe_all">すべての条件で有効</string>
+    <string name="default_volume_safe_headset">ヘッドフォン接続時にのみ有効</string>
     <string name="system_framework_volume_separate_slider">通知の音量スライダー</string>
     <string name="system_framework_volume_media_steps">メディアの音量レベル</string>
     <string name="system_framework_volume_media_steps_desc">オンにすると、音量バーのスクロールがフリーズしたり、Bluetooth の音量が異常になったりする場合があります</string>
@@ -358,6 +360,7 @@
     <string name="system_framework_disable_app_link_verify_desc">アプリ設定で対応リンクを有効化しなくても、リンクを開いたときに対応しているアプリで直接開くようにします</string>
     <string name="system_framework_clean_share_menu">共有メニューを整理する</string>
     <string name="system_framework_clean_share_apps">選択中のアプリ</string>
+    <string name="system_framework_auto_start_apps">自動起動の制限を除外</string>
     <string name="system_framework_clean_share_apps_desc">選択したアプリは共有メニューに表示されません</string>
     <string name="system_framework_clean_open_menu">「アプリで開く」メニューを整理する</string>
     <string name="system_framework_clean_open_apps">選択中のアプリ</string>
@@ -389,6 +392,7 @@
     <string name="system_framework_quick_screenshot_desc">スクリーンショットの遅延を無効化</string>
     <string name="system_framework_disable_link_turbo_toast">LinkTurbo トーストを隠す</string>
     <string name="system_framework_allow_third_theme">サードパーティテーマの使用を許可</string>
+    <string name="system_framework_allow_disable_protected_package">保護されたアプリの無効化を許可</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">パッケージマネージャーサービス</string>
     <string name="system_framework_core_patch_downgr">ダウングレードを許可</string>
@@ -407,6 +411,8 @@
     <string name="system_framework_core_patch_enhanced_mode_desc">アプリケーションのいくつかの検証に合格させます</string>
     <string name="system_framework_disable_low_api_check">低 API チェックを無効化</string>
     <string name="system_framework_disable_low_api_check_desc">API 23 未満のアプリを許可します</string>
+    <string name="system_framework_disable_persistent">常に稼働するアプリのチェックを無効化</string>
+    <string name="system_framework_disable_persistent_more">システムインターフェースなど、常に稼働するアプリを直接更新できるようになります</string>
     <!--Browser-->
     <string name="browser">ブラウザー</string>
     <string name="browser_debug_mode">開発者オプションの有効化</string>
@@ -581,7 +587,6 @@
     <string name="system_ui_statusbar_iconmanage_privacy_title">プライバシー</string>
     <string name="system_ui_statusbar_iconmanage_left_title">アイコンを左側に表示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">アイコンを右側に表示</string>
-    <string name="system_ui_status_bar_icon_paw">肉球</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_slave">補助 Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Wi-Fi 標準規格</string>
@@ -892,6 +897,7 @@
     <string name="system_settings_permission_unknown_origin_app">アプリ一覧を検索せずに「不明なアプリのインストール」権限を表示</string>
     <string name="system_settings_permission_unknown_origin_app_desc">「不明なアプリのインストール」の権限スイッチに直接移動する、グローバル版と同様の動作にします</string>
     <string name="system_settings_permission_accessibility">アプリ一覧を検索せずにユーザー補助サービスの権限を付与</string>
+    <string name="system_settings_permission_disable_install_unknown_verify">不明なパッケージのインストールの許可を有効にするときの認証を無効化</string>
     <string name="system_settings_develop_title">開発者オプション</string>
     <string name="system_settings_apps_freezer">「キャッシュに保存されたアプリの実行を停止」を強制的に表示</string>
     <string name="system_settings_apps_freezer_more">有効にすると開発者向けオプションで表示されますが、動作するかは不明です</string>
@@ -1662,4 +1668,8 @@
     <string name="ic_qs_title_autobrightness">明るさの自動調節</string>
     <string name="ic_qs_title_vowifi1">VoWiFi SIM1</string>
     <string name="ic_qs_title_vowifi2">VoWiFi SIM2</string>
+    <!--Telecom-->
+    <string name="telecom">電話</string>
+    <string name="scam_reminder_bypass_caption">通話転送の MMI コード を許可</string>
+    <string name="scam_reminder_bypass_description">通話転送を有効にするための **21*8# などの MMI コードを許可します</string>
 </resources>

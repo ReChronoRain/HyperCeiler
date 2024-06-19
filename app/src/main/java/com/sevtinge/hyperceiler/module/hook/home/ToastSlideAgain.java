@@ -47,7 +47,7 @@ public class ToastSlideAgain extends BaseHook {
         );
 
         findAndHookMethod("com.miui.home.recents.GestureModeApp",
-            "onStartGesture", new MethodHook() {
+            lpparam.classLoader, "onStartGesture", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
                     unhook = hookToast();

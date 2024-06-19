@@ -73,14 +73,15 @@ fun loadPropertiesFromFile(fileName: String): Properties? {
 
 android {
     namespace = "com.sevtinge.hyperceiler"
-    compileSdk = 34
+    compileSdk = 35
+    buildToolsVersion = "35.0.0"
 
     defaultConfig {
         applicationId = namespace
         minSdk = 33
-        targetSdk = 34
-        versionCode = 146
-        versionName = "2.4.146"
+        targetSdk = 35
+        versionCode = 147
+        versionName = "2.4.147"
 
         val buildTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
         buildConfigField("String", "BUILD_TIME", "\"$buildTime\"")

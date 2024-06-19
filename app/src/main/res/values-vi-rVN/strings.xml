@@ -361,6 +361,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_disable_app_link_verify_desc">Hoàn nguyên để mở trực tiếp các ứng dụng được hỗ trợ khi mở liên kết, không cần kiểm tra liên kết được hỗ trợ trong cài đặt ứng dụng</string>
     <string name="system_framework_clean_share_menu">Dọn dẹp trình đơn chia sẻ</string>
     <string name="system_framework_clean_share_apps">Ứng dụng đã chọn</string>
+    <string name="system_framework_auto_start_apps">Loại bỏ chuỗi hạn chế</string>
     <string name="system_framework_clean_share_apps_desc">Ứng dụng đã chọn sẽ không xuất hiện trong menu chia sẻ</string>
     <string name="system_framework_clean_open_menu">Dọn dẹp mở với menu</string>
     <string name="system_framework_clean_open_apps">Ứng dụng đã lựa chọn</string>
@@ -392,6 +393,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_quick_screenshot_desc">Tắt độ trễ ảnh chụp màn hình</string>
     <string name="system_framework_disable_link_turbo_toast">Ẩn thông báo \"Sử dụng mạng di động để tăng tốc\"</string>
     <string name="system_framework_allow_third_theme">Cho phép sử dụng chủ đề của bên thứ ba</string>
+    <string name="system_framework_allow_disable_protected_package">Cho phép tắt các ứng dụng được bảo vệ</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Quản lý cài đặt gói</string>
     <string name="system_framework_core_patch_downgr">Cho phép hạ cấp</string>
@@ -897,6 +899,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_permission_unknown_origin_app">Quyền cài đặt ứng dụng không xác định nhanh</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Chuyển trực tiếp đến nơi cấp quyền của ứng dụng</string>
     <string name="system_settings_permission_accessibility">Quyền dịch vụ trợ năng mà không cần tìm kiếm danh sách ứng dụng</string>
+    <string name="system_settings_permission_disable_install_unknown_verify">Vô hiệu hóa xác minh khi bật cho phép quyền cài đặt gói không xác định</string>
     <string name="system_settings_develop_title">Tùy chọn nhà phát triển</string>
     <string name="system_settings_apps_freezer">Hiển thị tạm dừng thực thi cho các ứng dụng được lưu trữ</string>
     <string name="system_settings_apps_freezer_more">Khi bật, bạn có thể tìm thấy tùy chọn này trong \"Tùy chọn nhà phát triển\", nhưng không đảm bảo tính khả dụng</string>
