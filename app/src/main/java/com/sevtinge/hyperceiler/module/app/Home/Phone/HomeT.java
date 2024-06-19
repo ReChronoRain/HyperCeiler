@@ -106,6 +106,7 @@ import com.sevtinge.hyperceiler.module.hook.home.recent.RecentText;
 import com.sevtinge.hyperceiler.module.hook.home.recent.RemoveCardAnim;
 import com.sevtinge.hyperceiler.module.hook.home.recent.RemoveIcon;
 import com.sevtinge.hyperceiler.module.hook.home.recent.RemoveLeftShare;
+import com.sevtinge.hyperceiler.module.hook.home.recent.ShowLaunch;
 import com.sevtinge.hyperceiler.module.hook.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.module.hook.home.recent.TaskViewVertical;
 import com.sevtinge.hyperceiler.module.hook.home.recent.UnlockPin;
@@ -224,6 +225,7 @@ public class HomeT extends BaseModule {
         initHook(MemInfoShow.INSTANCE, mPrefsMap.getBoolean("home_recent_show_memory_info") && isPad());
         initHook(AlwaysShowCleanUp.INSTANCE, mPrefsMap.getBoolean("always_show_clean_up"));
         initHook(new BackgroundBlur(), mPrefsMap.getBoolean("home_recent_blur"));
+        initHook(new ShowLaunch(), mPrefsMap.getBoolean("home_recent_show_launch"));
 
         // 图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
