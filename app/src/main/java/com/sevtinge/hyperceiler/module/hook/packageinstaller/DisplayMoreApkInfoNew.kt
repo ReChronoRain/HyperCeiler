@@ -132,7 +132,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
                     mAppVersionCodeView.gravity = Gravity.START
                     mAppSdkView.gravity = Gravity.START
                     mAppSizeView.gravity = Gravity.START
-                    val mPackageName: String = mPkgInfo.applicationInfo.packageName
+                    val mPackageName: String? = mPkgInfo.applicationInfo?.packageName
                     val mAppVersionName: String
                     val mAppVersionCode: String
                     val mAppSdk: String
@@ -146,15 +146,15 @@ object DisplayMoreApkInfoNew : BaseHook() {
                         mAppVersionCode =
                             apkInfo.callMethod("getInstalledVersionCode").toString() + " ➟ " + mPkgInfo.longVersionCode
                         mAppSdk =
-                            mAppInfo.minSdkVersion.toString() + "-" + mAppInfo.targetSdkVersion + " ➟ " + mPkgInfo.applicationInfo.minSdkVersion + "-" + mPkgInfo.applicationInfo.targetSdkVersion
+                            mAppInfo.minSdkVersion.toString() + "-" + mAppInfo.targetSdkVersion + " ➟ " + mPkgInfo.applicationInfo?.minSdkVersion + "-" + mPkgInfo.applicationInfo?.targetSdkVersion
                         val oldAppSize = Integer.valueOf(File(mAppInfo.sourceDir).length().toInt())
                         val oldAppSizeDistance = oldAppSize.toFloat().roundToInt() / 1000000f
                         mOldAppSize = format(oldAppSizeDistance) + " ➟ "
                     } else {
-                        mAppVersionName = mPkgInfo.versionName
+                        mAppVersionName = mPkgInfo.versionName.toString()
                         mAppVersionCode = mPkgInfo.longVersionCode.toString()
                         mAppSdk =
-                            mPkgInfo.applicationInfo.minSdkVersion.toString() + "-" + mPkgInfo.applicationInfo.targetSdkVersion
+                            mPkgInfo.applicationInfo?.minSdkVersion.toString() + "-" + mPkgInfo.applicationInfo?.targetSdkVersion
                     }
                     mAppVersionNameView.text =
                         modRes.getString(R.string.various_install_app_info_version_name) + ": " + mAppVersionName
