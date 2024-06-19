@@ -31,6 +31,18 @@
             app:displayDividerValue="100"
             app:showSeekBarValue="true" />
 
+        <SeekBarPreferenceEx
+            android:defaultValue="100"
+            android:dependency="prefs_key_home_recent_show_launch"
+            android:key="prefs_key_home_recent_show_launch_alpha"
+            android:title="@string/home_recent_show_launch_alpha"
+            app:defaultValueText="@string/array_default"
+            app:format="%s f"
+            app:maxValue="100"
+            app:minValue="0"
+            app:stepValue="1"
+            app:displayDividerValue="100"
+            app:showSeekBarValue="true" />
 
         <SwitchPreference
             android:key="prefs_key_home_recent_show_memory_info"

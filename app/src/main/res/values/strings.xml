@@ -1228,6 +1228,7 @@
     <string name="home_recent_blur">Background blur</string>
     <string name="home_recent_show_launch">Show launcher as background</string>
     <string name="home_recent_show_launch_size">Launcher background size</string>
+    <string name="home_recent_show_launch_alpha">Launcher background alpha</string>
 
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Widget animation</string>
