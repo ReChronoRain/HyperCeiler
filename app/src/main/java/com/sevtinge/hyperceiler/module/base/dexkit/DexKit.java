@@ -347,6 +347,8 @@ public class DexKit {
             ArrayList<DexKitData> dataList = gson.fromJson(FileUtils.read(dexFile),
                     new TypeToken<ArrayList<DexKitData>>() {
                     }.getType());
+            if (dataList == null)
+                return new ArrayList<>();
             cacheMap.put(dexFile, dataList);
             cacheData = dataList;
         }
