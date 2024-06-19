@@ -41,7 +41,17 @@ object RecentResource : BaseHook() {
         }
     }
 
+    val sRoundedCorner by lazy {
+        mPrefsMap.getInt("task_view_corners", 20)
+    }
+
     override fun init() {
+
+        findAndHookMethod("com.miui.home.recents.util.WindowCornerRadiusUtil", "getTaskViewCornerRadius", object : MethodHook(){
+            override fun before(param: MethodHookParam?) {
+                param?.result = sRoundedCorner
+            }
+        })
         Application::class.java.hookBeforeMethod("attach", Context::class.java) { it ->
             EzXHelper.initHandleLoadPackage(lpparam)
             EzXHelper.setLogTag(TAG)
@@ -55,7 +65,7 @@ object RecentResource : BaseHook() {
             Resources::class.java.hookBeforeMethod("getInteger", Int::class.javaPrimitiveType) { hook(it) }
             Resources::class.java.hookBeforeMethod("getText", Int::class.javaPrimitiveType) { hook(it) }
 
-            val value = mPrefsMap.getInt("task_view_corners", -1).toFloat()
+            val value = sRoundedCorner.toFloat()
             val value1 = mPrefsMap.getInt("task_view_header_height", -1).toFloat()
             if (value != -1f && value != 20f) {
                 hookMap["recents_task_view_rounded_corners_radius_min"] = ResourcesHookData("dimen", dp2px(value))

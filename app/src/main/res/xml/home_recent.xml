@@ -82,7 +82,7 @@
             android:title="@string/home_recent_task_view_card_rounded_corners"
             android:defaultValue="20"
             app:defaultValueText="@string/array_default"
-            app:maxValue="60"
+            app:maxValue="180"
             app:stepValue="1"
             app:format="%d dp" />
 
