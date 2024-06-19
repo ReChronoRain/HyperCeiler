@@ -33,7 +33,7 @@ public class UnPrivacyWatermark extends BaseTool {
 
     @Override
     public void doHook() {
-        if (classTool.findClassIfExists("com.miui.gallery.editor.photo.app.PrivacyWatermarkActivity")) {
+        if (expandTool.findClassIfExists("com.miui.gallery.editor.photo.app.PrivacyWatermarkActivity")) {
             classTool.findClass("pwa", "com.miui.gallery.editor.photo.app.PrivacyWatermarkActivity")
                     .getMethod("setWordMaxLength", int.class)
                     .hook(new IAction() {
