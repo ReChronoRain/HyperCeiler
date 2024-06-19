@@ -165,7 +165,6 @@
 
         <SeekBarPreferenceEx
             android:defaultValue="100"
-            android:dependency="prefs_key_home_title_app_blur_enable"
             android:key="prefs_key_home_title_minus_blur_radius"
             android:title="home_title_minus_blur_radius"
             app:defaultValueText="@string/array_default"
@@ -176,7 +175,6 @@
 
         <SeekBarPreferenceEx
             android:defaultValue="50"
-            android:dependency="prefs_key_home_title_app_blur_enable"
             android:key="prefs_key_home_title_minus_dim_alpha"
             android:title="home_title_minus_dim_alpha"
             app:defaultValueText="@string/array_default"
@@ -187,7 +185,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:dependency="prefs_key_home_title_app_blur_enable"
             android:key="prefs_key_home_title_fix_small_window"
             android:summary="@string/home_title_fix_small_window_desc"
             android:title="@string/home_title_fix_small_window"
