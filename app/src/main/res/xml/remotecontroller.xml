@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/remotecontroller">
+
+    <SwitchPreference
+        android:title="@string/remotecontroller_disable_ad"
+        android:key="prefs_key_remotecontroller_disable_ad"
+        android:defaultValue="false" />
+
+</PreferenceScreen>

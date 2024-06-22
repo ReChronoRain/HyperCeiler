@@ -258,6 +258,9 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.mms,
                 "com.sevtinge.hyperceiler.ui.fragment.MmsFragment");
 
+        parsePrefXml(context, R.xml.remotecontroller,
+                "com.sevtinge.hyperceiler.ui.fragment.RemoteControllerFragment");
+
         parsePrefXml(context, R.xml.nfc,
                 "com.sevtinge.hyperceiler.ui.fragment.NfcFragment");
 

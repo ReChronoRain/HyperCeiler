@@ -136,6 +136,14 @@
 
     <SwitchPreference
         android:defaultValue="true"
+        android:icon="@drawable/ic_remotecontroller"
+        android:key="prefs_key_remotecontroller_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.duokan.phone.remotecontroller"
+        android:title="@string/remotecontroller" />
+
+    <SwitchPreference
+        android:defaultValue="true"
         android:icon="@drawable/ic_lbe"
         android:key="prefs_key_lbe_state"
         android:layout="@layout/preference_header"

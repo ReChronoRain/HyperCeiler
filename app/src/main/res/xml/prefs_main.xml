@@ -121,6 +121,13 @@
             android:title="@string/updater" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.RemoteControllerFragment"
+            android:icon="@drawable/ic_remotecontroller"
+            android:key="prefs_key_remotecontroller"
+            android:summary="com.duokan.phone.remotecontroller"
+            android:title="@string/remotecontroller" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.LbeFragment"
             android:icon="@drawable/ic_lbe"
             android:key="prefs_key_lbe"

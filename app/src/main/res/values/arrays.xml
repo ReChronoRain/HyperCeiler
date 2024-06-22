@@ -19,6 +19,7 @@
         <item>com.android.systemui</item> <!--系统界面-->
         <item>com.android.thememanager</item> <!--主题壁纸-->
         <item>com.android.updater</item> <!--系统更新-->
+        <item>com.duokan.phone.remotecontroller</item> <!--万能遥控-->
         <item>com.lbe.security.miui</item> <!--权限管理服务-->
         <item>com.milink.service</item> <!--投屏-->
         <item>com.miui.aod</item> <!--万象息屏-->

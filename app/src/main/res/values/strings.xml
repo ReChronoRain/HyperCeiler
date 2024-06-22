@@ -971,6 +971,9 @@
     <string name="theme_manager_diable_ads_desc">Replace \"guess what you like\" ads with blank cards, and remove the rest of the ads completely</string>
     <string name="theme_manager_enable_pad_theme">Enable Pad theme</string>
     <string name="theme_manager_enable_fold_theme">Enable Fold theme</string>
+    <!--remotecontroller-->
+    <string name="remotecontroller">Remote Controller</string>
+    <string name="remotecontroller_disable_ad">Disable Ad</string>
     <!--Updater-->
     <string name="updater">Updater</string>
     <string name="updater_enable_miui_version">Enable Fake version for Updater</string>
