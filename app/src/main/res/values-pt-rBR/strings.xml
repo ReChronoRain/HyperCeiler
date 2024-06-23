@@ -788,6 +788,7 @@
     <string name="system_ui_control_center_show_weather">Exibir clima</string>
     <string name="system_ui_control_center_show_weather_city">Exibir cidade</string>
     <string name="system_ui_control_center_disable_device_managed">Ocultar solicitações de monitoramento de rede</string>
+    <string name="system_ui_control_center_hide_edit_botton">Ocultar botão Editar</string>
     <string name="system_ui_control_center_mute_visible_notice">Silenciar quando a tela estiver ligada</string>
     <string name="system_ui_control_center_unimportant_notification">Recolher notificações no histórico é proibido</string>
     <string name="system_ui_control_center_expand_notification">Expandir notificações</string>
@@ -916,6 +917,9 @@
     <string name="theme_manager_diable_ads_desc">Substitua anúncios de \"adivinhe o que você gosta\" por cartões em branco e remova completamente o restante dos anúncios</string>
     <string name="theme_manager_enable_pad_theme">Ativar tema Pad</string>
     <string name="theme_manager_enable_fold_theme">Ativar tema Fold</string>
+    <!--remotecontroller-->
+    <string name="remotecontroller">Mi Remote</string>
+    <string name="remotecontroller_disable_ad">Desativar anúncios</string>
     <!--Updater-->
     <string name="updater">Atualizações</string>
     <string name="updater_enable_miui_version">Ativar Versão falsa para Atualizações</string>
@@ -1116,6 +1120,14 @@
     <string name="home_title">Ícone e título</string>
     <string name="home_title_icon_title">Ícone</string>
     <string name="home_title_icon_animation_title">Animação dos ícones</string>
+    <string name="home_title_app_blur_title">Blur do app</string>
+    <string name="home_title_app_blur_enable">Ativar blur de fundo animado do app</string>
+    <string name="home_title_app_blur_radius">Raio de blur do fundo da animação do app</string>
+    <string name="home_title_app_dim_alpha">Transparência da máscara de fundo da animação do app</string>
+    <string name="home_title_wallpaper_blur_radius">Raio de blur do plano de fundo</string>
+    <string name="home_title_wallpaper_dim_alpha">Transparência da máscara do plano de fundo</string>
+    <string name="home_title_fix_small_window">Corrigir animação de janelas pequenas</string>
+    <string name="home_title_fix_small_window_desc">Recurso experimental. Força o uso de animação para evitar oscilações ao arrastar o app para uma pequena janela. Não use se você não se importa.</string>
     <string name="home_title_title_title">Título</string>
     <string name="home_title_title_marquee">Rolagem de texto</string>
     <string name="home_title_title_marquee_desc">Nomes de apps muito longos serão rolados em vez de agrupados</string>
@@ -1162,6 +1174,9 @@
     <string name="home_recent_show_memory_info">Mostrar informações de memória</string>
     <string name="home_recent_always_show_clean_up">Não ocultar o botão de limpeza</string>
     <string name="home_recent_blur">Blur de fundo</string>
+    <string name="home_recent_show_launch">Mostrar launcher como plano de fundo</string>
+    <string name="home_recent_show_launch_size">Tamanho do plano de fundo da launcher</string>
+    <string name="home_recent_show_launch_alpha">Plano de fundo da launcher alfa</string>
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Animação do widget</string>
     <string name="home_widget_show_miui_widget">Exibir widgets do sistema</string>
