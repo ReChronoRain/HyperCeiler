@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.InstallIntercept;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.IsSbnBelongToActiveBubbleApp;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.NewBoxBlur;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.PowerSaver;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.PrivacyThumbnailBlur;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.RemoveConversationBubbleSettingsRestriction;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.RemoveOpenAppConfirmationPopup;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.ScLockApp;
@@ -129,6 +130,7 @@ public class SecurityCenterT extends BaseModule {
                 mPrefsMap.getBoolean("security_center_unlock_s_resolution") ||
                 mPrefsMap.getBoolean("security_center_unlock_enhance_contours");
 
+        initHook(new PrivacyThumbnailBlur(), mPrefsMap.getBoolean("security_center_privacy_thumbnail_blur"));
         initHook(new PowerSaver(), mPrefsMap.getBoolean("security_center_power_saver"));
         initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
         initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));

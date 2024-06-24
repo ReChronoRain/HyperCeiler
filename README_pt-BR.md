@@ -112,6 +112,7 @@ Observação: Quando o progresso da tradução do novo idioma for maior ou igual
 - [「Android」 por Android Open Source Project, Google Inc.](https://source.android.google.cn/license)
 - [「AndroidHiddenApiBypass」 por LSPosed](https://github.com/LSPosed/AndroidHiddenApiBypass)
 - [「AndroidX」 por Android Open Source Project, Google Inc.](https://github.com/androidx/androidx)
+- [「AutoSEffSwitch」 by 焕晨 HChen](https://github.com/HChenX/AutoSEffSwitch)
 - [「AntiAntiDefraud」 por MinaMichita](https://github.com/MinaMichita/AntiAntiDefraud)
 - [「Auto NFC」 por GSWXXN](https://github.com/GSWXXN/AutoNFC)
 - [「BypassSignCheck」 por Weverses](https://github.com/Weverses/BypassSignCheck)
