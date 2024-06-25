@@ -581,6 +581,7 @@
     <string name="system_ui_lock_screen_block_editor_title">Disable long press to access lock screen editing</string>
     <string name="system_ui_lock_screen_allow_third_face">Allows the system to be woken up to verify recognition on a third-party lock screen</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Allows face and fingerprint recognition to be used normally on the lock screen displayed by third-party apps</string>
+    <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Disable show unlock by bluetooth toast</string>
     <string name="system_ui_navigation_title">Navigation</string>
     <string name="system_ui_navigation_handle_title">Handle line</string>
     <string name="system_ui_hide_navigation_bar">Hide Navigation Bar</string>

@@ -588,6 +588,7 @@
     <string name="system_ui_lock_screen_block_editor_title">禁用长按进入锁屏编辑</string>
     <string name="system_ui_lock_screen_allow_third_face">允许三方锁屏界面唤醒系统验证识别</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">允许在第三方应用显示的锁屏界面时，正常使用人脸及指纹识别</string>
+    <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">禁止显示 \"已通过蓝牙设备解锁\" Toast</string>
 
     <string name="system_ui_navigation_title">导航栏</string>
     <string name="system_ui_navigation_handle_title">手势提示线</string>

@@ -83,6 +83,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.BlockEditor;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.BlurButton;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ChargingCVP;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ClockDisplaySeconds;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.DisableUnlockByBleToast;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ForceClockUseSystemFontsHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.HideLockScreenHint;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.HideLockScreenStatusBar;
@@ -349,6 +350,7 @@ public class SystemUIT extends BaseModule {
         initHook(HideLockScreenStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_status_bar"));
         initHook(new BlockEditor(), mPrefsMap.getBoolean("system_ui_lock_screen_block_editor"));
         initHook(new AllowThirdLockScreenUseFace(), mPrefsMap.getBoolean("system_ui_lock_screen_allow_third_face"));
+        initHook(new DisableUnlockByBleToast(), mPrefsMap.getBoolean("system_ui_lock_screen_disable_unlock_by_ble_toast"));
 
         if (!isAndroidVersion(30)) {
             initHook(AddBlurEffectToLockScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));
