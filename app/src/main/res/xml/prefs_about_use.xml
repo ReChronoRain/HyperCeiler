@@ -31,18 +31,18 @@
                 android:data="https://github.com/androidx/androidx" />
         </Preference>
         <Preference
-            android:summary="焕晨 HChen | GPL-3.0"
-            android:title="AutoSEffSwitch">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/HChenX/AutoSEffSwitch" />
-        </Preference>
-        <Preference
             android:summary="MinaMichita | No License"
             android:title="AntiAntiDefraud">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/MinaMichita/AntiAntiDefraud" />
+        </Preference>
+        <Preference
+            android:summary="焕晨 HChen | GPL-3.0"
+            android:title="AutoSEffSwitch">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/HChenX/AutoSEffSwitch" />
         </Preference>
         <Preference
             android:summary="GSWXXN | AGPL-3.0"
