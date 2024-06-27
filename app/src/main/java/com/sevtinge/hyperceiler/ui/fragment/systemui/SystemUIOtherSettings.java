@@ -44,6 +44,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     PreferenceCategory mChargeAnimationTitle;
     SwitchPreference mMiuiMultiWinSwitch;
     SwitchPreference mMiuiMultiWinSwitchRemove;
+    SwitchPreference mDisableInfinitymodeGesture;
     SwitchPreference mBottomBar;
     SwitchPreference mVolume;
     SwitchPreference mPower;
@@ -70,6 +71,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mDisableBluetoothRestrict = findPreference("prefs_key_system_ui_disable_bluetooth_restrict");
         mMiuiMultiWinSwitch = findPreference("prefs_key_system_ui_disable_miui_multi_win_switch");
         mMiuiMultiWinSwitchRemove = findPreference("prefs_key_system_ui_remove_miui_multi_win_switch");
+        mDisableInfinitymodeGesture = findPreference("prefs_key_system_ui_disable_infinitymode_gesture");
         mBottomBar = findPreference("prefs_key_system_ui_disable_bottombar");
         mVolume = findPreference("prefs_key_system_ui_disable_volume");
         mPower = findPreference("prefs_key_system_ui_disable_power");
@@ -79,6 +81,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && isMoreAndroidVersion(31));
         mMiuiMultiWinSwitch.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
         mMiuiMultiWinSwitchRemove.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34) && isPad());
+        mDisableInfinitymodeGesture.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34) && isPad());
         mBottomBar.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
         mPctUseBlur.setVisible(isMoreHyperOSVersion(1f));
 
