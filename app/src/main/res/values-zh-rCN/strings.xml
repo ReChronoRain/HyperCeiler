@@ -356,7 +356,7 @@
     <string name="system_framework_freeform_count">多小窗</string>
     <string name="system_framework_disable_freeform_blacklist">强制允许小窗</string>
     <string name="system_framework_disable_freeform_blacklist_desc">忽略系统黑名单与软件禁用小窗</string>
-    <string name="system_framework_freeform_sticky">记住状态</string>
+    <string name="system_framework_freeform_sticky">记住状态及位置</string>
     <string name="system_framework_freeform_bubble">小窗气泡</string>
     <string name="system_framework_freeform_recents_to_small_freeform">将所有小窗转为迷你小窗</string>
     <string name="system_framework_freeform_recents_to_small_freeform_desc">在最近任务中将所有小窗转为迷你小窗显示\n此功能为实验性功能，具有较高不稳定性</string>

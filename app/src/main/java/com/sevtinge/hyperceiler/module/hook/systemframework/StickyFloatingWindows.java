@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
 import android.annotation.SuppressLint;
@@ -44,7 +44,6 @@ public class StickyFloatingWindows extends BaseHook {
 
     @Override
     public void init() {
-
         final List<String> fwBlackList = new ArrayList<>();
         fwBlackList.add("com.miui.securitycenter");
         fwBlackList.add("com.miui.home");
@@ -54,9 +53,16 @@ public class StickyFloatingWindows extends BaseHook {
             protected void after(MethodHookParam param) {
                 if (param.args.length != 8) return;
                 Intent intent = (Intent) param.args[5];
+                Object activityRecord = param.args[7];
+                Intent recordIntent = (Intent) XposedHelpers.getObjectField(activityRecord, "intent");
+                String recordPackageName = recordIntent.getComponent().getPackageName();
+                String packageName = intent.getComponent().getPackageName();
+                if (recordPackageName.equals(packageName)) {
+                    // 如果是相同应用跳转就忽略,防止出现全屏应用跳转页面之后变成小窗的情况
+                    return;
+                }
                 if (intent == null || intent.getComponent() == null) return;
                 ActivityOptions options = (ActivityOptions) param.getResult();
-                int windowingMode = options == null ? -1 : (int) XposedHelpers.callMethod(options, "getLaunchWindowingMode");
                 String pkgName = intent.getComponent().getPackageName();
                 if (fwBlackList.contains(pkgName)) return;
                 Context mContext;
@@ -65,7 +71,7 @@ public class StickyFloatingWindows extends BaseHook {
                 } catch (Throwable ignore) {
                     mContext = (Context) XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.args[0], "mService"), "mContext");
                 }
-                if (windowingMode != 5 && fwApps.containsKey(pkgName)) {
+                if (fwApps.containsKey(pkgName)) {
                     try {
                         if (MiuiMultiWindowUtils == null) {
                             logE(TAG, StickyFloatingWindows.this.lpparam.packageName, "Cannot find MiuiMultiWindowUtils class");
@@ -76,36 +82,19 @@ public class StickyFloatingWindows extends BaseHook {
                     } catch (Throwable t) {
                         logW(TAG, "", t);
                     }
-                } else if (windowingMode == 5 && !fwApps.containsKey(pkgName)) {
-                    fwApps.put(pkgName, new Pair<>(0f, null));
-                    storeFwAppsInSetting(mContext);
                 }
             }
         });
 
         hookAllMethods("com.android.server.wm.ActivityTaskSupervisor", "startActivityFromRecents", new MethodHook() {
-            @Override
-            protected void after(MethodHookParam param) {
-                Object safeOptions = param.args[3];
-                ActivityOptions options = (ActivityOptions) XposedHelpers.callMethod(safeOptions, "getOptions", param.thisObject);
-                int windowingMode = options == null ? -1 : (int) XposedHelpers.callMethod(options, "getLaunchWindowingMode");
-                String pkgName = getTaskPackageName(param.thisObject, (int) param.args[2], options);
-                if (fwBlackList.contains(pkgName)) return;
-                if (windowingMode == 5 && pkgName != null) {
-                    fwApps.put(pkgName, new Pair<>(0f, null));
-                    Context mContext = (Context) XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.thisObject, "mService"), "mContext");
-                    storeFwAppsInSetting(mContext);
-                }
-            }
 
             @Override
             protected void before(MethodHookParam param) {
                 Object safeOptions = param.args[3];
                 ActivityOptions options = (ActivityOptions) XposedHelpers.callMethod(safeOptions, "getOptions", param.thisObject);
-                int windowingMode = options == null ? -1 : (int) XposedHelpers.callMethod(options, "getLaunchWindowingMode");
                 String pkgName = getTaskPackageName(param.thisObject, (int) param.args[2], options);
                 if (fwBlackList.contains(pkgName)) return;
-                if (windowingMode != 5 && fwApps.containsKey(pkgName)) {
+                if (fwApps.containsKey(pkgName)) {
                     Context mContext = (Context) XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.thisObject, "mService"), "mContext");
                     options = patchActivityOptions(mContext, options, pkgName, MiuiMultiWindowUtils);
                     XposedHelpers.setObjectField(safeOptions, "mOriginalOptions", options);
@@ -184,6 +173,47 @@ public class StickyFloatingWindows extends BaseHook {
                         }
                     }
                 }, new IntentFilter("miui.intent.action_launch_fullscreen_from_freeform"));
+
+                IntentFilter mFilter = new IntentFilter();
+                mFilter.addAction(ACTION_PREFIX + "updateFwApps");
+                mFilter.addAction(ACTION_PREFIX + "getFwApps");
+                mFilter.addAction(ACTION_PREFIX + "removeFwApps");
+                mContext.registerReceiver(new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        String pkgName = intent.getStringExtra("package");
+                        switch (intent.getAction()) {
+                            case ACTION_PREFIX + "updateFwApps":
+                                float scale = intent.getFloatExtra("scale", 0f);
+                                Rect rect = intent.getParcelableExtra("rect");
+                                if (!fwApps.containsKey(pkgName)) {
+                                    fwApps.put(pkgName, new Pair<>(scale, rect));
+                                    storeFwAppsInSetting(context);
+                                    return;
+                                }
+                                Pair<Float, Rect> oldPair = fwApps.get(pkgName);
+                                if (scale == 0f) {
+                                    scale = oldPair.first;
+                                }
+                                if (rect == null) {
+                                    rect = oldPair.second;
+                                }
+                                fwApps.put(pkgName, new Pair<>(scale, rect));
+                                storeFwAppsInSetting(context);
+                                break;
+                            case ACTION_PREFIX + "getFwApps":
+                                syncFwApps(context);
+                                break;
+                            case ACTION_PREFIX + "removeFwApps":
+                                if (pkgName != null && fwApps.remove(pkgName) != null) {
+                                    storeFwAppsInSetting(context);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }, mFilter);
             }
         });
 
@@ -228,8 +258,8 @@ public class StickyFloatingWindows extends BaseHook {
         Object mRootWindowContainer = XposedHelpers.getObjectField(thisObject, "mRootWindowContainer");
         if (mRootWindowContainer == null) return null;
         Object task = withOptions ?
-            XposedHelpers.callMethod(mRootWindowContainer, "anyTaskForId", taskId, 2, options, true) :
-            XposedHelpers.callMethod(mRootWindowContainer, "anyTaskForId", taskId, 0);
+                XposedHelpers.callMethod(mRootWindowContainer, "anyTaskForId", taskId, 2, options, true) :
+                XposedHelpers.callMethod(mRootWindowContainer, "anyTaskForId", taskId, 0);
         if (task == null) return null;
         Intent intent = (Intent) XposedHelpers.getObjectField(task, "intent");
         return intent == null ? null : intent.getComponent().getPackageName();
@@ -260,7 +290,15 @@ public class StickyFloatingWindows extends BaseHook {
         }
     }
 
+    public static void syncFwApps(Context context) {
+        if (context == null) return;
+        Intent intent = new Intent(ACTION_PREFIX + "syncFwApps");
+        intent.putExtra("fwApps", serializeFwApps());
+        context.sendBroadcast(intent);
+    }
+
     public static void storeFwAppsInSetting(Context context) {
+        syncFwApps(context);
         Settings.Global.putString(context.getContentResolver(), ProjectApi.mAppModulePkg + ".fw.apps", serializeFwApps());
     }
 
