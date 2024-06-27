@@ -529,6 +529,7 @@
     <string name="system_ui_lock_screen_block_editor_title">Desativar toque longo para editar a tela de bloqueio</string>
     <string name="system_ui_lock_screen_allow_third_face">Ativar sistema para verificar o reconhecimento por terceiros</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Permite que o reconhecimento facial e de impressão digital seja usado normalmente na tela de bloqueio exibida por apps de terceiros</string>
+    <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Desativar exibição de desbloqueio via dispositivo Bluetooth</string>
     <string name="system_ui_navigation_title">Navegação</string>
     <string name="system_ui_navigation_handle_title">Indicador de tela infinita</string>
     <string name="system_ui_hide_navigation_bar">Ocultar indicador de tela infinita</string>
@@ -1355,6 +1356,7 @@
     <string name="security_center_get_number">Gerencie o app para obter o número do celular e faça login com um clique</string>
     <string name="security_center_applock_pin_scramble">Bloqueio de apps com PIN embaralhado</string>
     <string name="security_center_power_saver">Compartilhamento mágico não economiza energia</string>
+    <string name="security_center_privacy_thumbnail_blur">Desativar pré-visualização automática em imagens desfocadas</string>
     <string name="security_center_power_saver_desc">Desative o modo Economia de bateria ao espelhar a tela via Xiaomi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Altere aleatoriamente a sequência do PIN do Bloqueio de apps</string>
     <string name="security_center_beauty_light_auto">Desbloquear Luz de preenchimento dianteira</string>

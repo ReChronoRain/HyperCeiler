@@ -529,6 +529,7 @@
     <string name="system_ui_lock_screen_block_editor_title">長押しでのロック画面の編集を無効化</string>
     <string name="system_ui_lock_screen_allow_third_face">サードパーティのロック画面で、認証を検証するためのシステム起動を許可</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">サードパーティアプリにより表示されたロック画面で、顔認証と指紋認証を使えるようにします</string>
+    <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Bluetooth によるロック解除トーストの表示を無効化</string>
     <string name="system_ui_navigation_title">ナビゲーション</string>
     <string name="system_ui_navigation_handle_title">ハンドルライン</string>
     <string name="system_ui_hide_navigation_bar">ナビゲーションバーを非表示</string>
@@ -788,6 +789,7 @@
     <string name="system_ui_control_center_show_weather">天気を表示</string>
     <string name="system_ui_control_center_show_weather_city">都市を表示</string>
     <string name="system_ui_control_center_disable_device_managed">ネットワーク監視のプロンプトを非表示</string>
+    <string name="system_ui_control_center_hide_edit_botton">編集ボタンを隠す</string>
     <string name="system_ui_control_center_mute_visible_notice">画面が ON のときはミュートする</string>
     <string name="system_ui_control_center_unimportant_notification">通知履歴への折りたたみを禁止</string>
     <string name="system_ui_control_center_expand_notification">通知を展開</string>
@@ -916,6 +918,9 @@
     <string name="theme_manager_diable_ads_desc">広告を空白のカードに置き換えて、残りの広告を完全に削除します</string>
     <string name="theme_manager_enable_pad_theme">Pad テーマを有効化</string>
     <string name="theme_manager_enable_fold_theme">Fold テーマを有効化</string>
+    <!--remotecontroller-->
+    <string name="remotecontroller">リモートコントローラー</string>
+    <string name="remotecontroller_disable_ad">広告を無効化</string>
     <!--Updater-->
     <string name="updater">アップデーター</string>
     <string name="updater_enable_miui_version">アップデーターのバージョン偽装を有効化</string>
@@ -1116,6 +1121,14 @@
     <string name="home_title">アイコンとタイトル</string>
     <string name="home_title_icon_title">アイコン</string>
     <string name="home_title_icon_animation_title">アイコンのアニメーション</string>
+    <string name="home_title_app_blur_title">アプリのぼかし</string>
+    <string name="home_title_app_blur_enable">アプリのアニメーション背景ぼかしを有効化</string>
+    <string name="home_title_app_blur_radius">アプリのアニメーション背景ぼかしの半径</string>
+    <string name="home_title_app_dim_alpha">アプリのアニメーション背景マスクの透明度</string>
+    <string name="home_title_wallpaper_blur_radius">壁紙ぼかしの半径</string>
+    <string name="home_title_wallpaper_dim_alpha">壁紙マスクの透明度</string>
+    <string name="home_title_fix_small_window">スモールウィンドウアニメーションの追加修正</string>
+    <string name="home_title_fix_small_window_desc">実験的な機能です。アプリをスモールウィンドウにドラッグする際にアニメーションを強制的に使用します。気にならない場合は使用しないでください。</string>
     <string name="home_title_title_title">タイトル</string>
     <string name="home_title_title_marquee">テキストスクロール</string>
     <string name="home_title_title_marquee_desc">長いアプリ名を折り返さずスクロールさせます</string>
@@ -1162,6 +1175,9 @@
     <string name="home_recent_show_memory_info">メモリ情報を表示</string>
     <string name="home_recent_always_show_clean_up">カードがないとき、クリーンアップアイコンを隠さないようにする</string>
     <string name="home_recent_blur">背景のぼかし</string>
+    <string name="home_recent_show_launch">ホーム画面を背景として表示</string>
+    <string name="home_recent_show_launch_size">ホーム画面の背景のサイズ</string>
+    <string name="home_recent_show_launch_alpha">ホーム画面の背景のアルファ</string>
     <string name="home_widget">ウィジェット</string>
     <string name="home_widget_all_widget_animation">ウィジェットのアニメーション</string>
     <string name="home_widget_show_miui_widget">システムウィジェットを表示</string>
@@ -1340,6 +1356,7 @@
     <string name="security_center_get_number">電話番号を使って簡単ログインするアプリを管理</string>
     <string name="security_center_applock_pin_scramble">アプリロックのPINの順序をランダムにする</string>
     <string name="security_center_power_saver">Magic Share の省電力モードを無効化</string>
+    <string name="security_center_privacy_thumbnail_blur">プレビュー画像のぼかしを無効化</string>
     <string name="security_center_power_saver_desc">Mi Smart Hub 経由で画面をミラーリングする際に省電力モードを無効にします</string>
     <string name="security_center_applock_pin_scramble_desc">アプリロックのPINキーパッドの配列をランダムにする</string>
     <string name="security_center_beauty_light_auto">フィルライトの明るさの自動調整をアンロック</string>

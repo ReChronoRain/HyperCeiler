@@ -531,6 +531,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_lock_screen_block_editor_title">Tắt thao tác nhấn và giữ để vào chỉnh sửa màn hình khóa</string>
     <string name="system_ui_lock_screen_allow_third_face">Cho phép đánh thức hệ thống để xác minh nhận dạng trên màn hình khóa của bên thứ ba</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Cho phép sử dụng bình thường tính năng nhận dạng khuôn mặt và vân tay hiển thị trên màn hình khóa do ứng dụng bên thứ ba</string>
+    <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Tắt hiển thị thông báo mở khóa bằng Bluetooth</string>
     <string name="system_ui_navigation_title">Phím điều hướng</string>
     <string name="system_ui_navigation_handle_title">Thanh ngang</string>
     <string name="system_ui_hide_navigation_bar">Ẩn thanh ngang</string>
@@ -790,6 +791,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_show_weather">Hiển thị thời tiết</string>
     <string name="system_ui_control_center_show_weather_city">Hiện thị thành phố</string>
     <string name="system_ui_control_center_disable_device_managed">Ẩn lời nhắc giám sát mạng</string>
+    <string name="system_ui_control_center_hide_edit_botton">Ẩn nút sửa</string>
     <string name="system_ui_control_center_mute_visible_notice">Tắt âm thông báo khi màn hình bật</string>
     <string name="system_ui_control_center_unimportant_notification">Thu gọn vào thông báo lịch sử bị cấm</string>
     <string name="system_ui_control_center_expand_notification">Mở rộng thông báo</string>
@@ -918,6 +920,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="theme_manager_diable_ads_desc">Thay thế \"Có thể bạn thích\" quảng cáo bằng thẻ trống và loại bỏ hoàn toàn phần còn lại của quảng cáo</string>
     <string name="theme_manager_enable_pad_theme">Kích hoạt chủ đề Pad</string>
     <string name="theme_manager_enable_fold_theme">Kích hoạt chủ đề FOLD</string>
+    <!--remotecontroller-->
+    <string name="remotecontroller">Điều khiển MI</string>
+    <string name="remotecontroller_disable_ad">Tắt quảng cáo</string>
     <!--Updater-->
     <string name="updater">Trình cập nhật</string>
     <string name="updater_enable_miui_version">Cho phép giả mạo phiên bản cập nhật</string>
@@ -1122,6 +1127,14 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_title">Biểu tượng và tiêu đề</string>
     <string name="home_title_icon_title">Biểu tượng</string>
     <string name="home_title_icon_animation_title">Hoạt ảnh biểu tượng</string>
+    <string name="home_title_app_blur_title">Làm mờ ứng dụng</string>
+    <string name="home_title_app_blur_enable">Bật tính năng làm mờ hoạt ảnh của ứng dụng</string>
+    <string name="home_title_app_blur_radius">Bán kính làm mờ nền hoạt ảnh ứng dụng</string>
+    <string name="home_title_app_dim_alpha">Độ trong suốt của mặt nạ nền hoạt ảnh ứng dụng</string>
+    <string name="home_title_wallpaper_blur_radius">Bán kính làm mờ hình nền</string>
+    <string name="home_title_wallpaper_dim_alpha">Hình nền mặt nạ trong suốt</string>
+    <string name="home_title_fix_small_window">Sửa lỗi bổ sung cho hoạt ảnh cửa sổ nhỏ</string>
+    <string name="home_title_fix_small_window_desc">Tính năng thử nghiệm, buộc sử dụng hoạt ảnh để tránh hiện tượng nhấp nháy khi kéo ứng dụng vào cửa sổ nhỏ, không phiền thì không sử dụng.</string>
     <string name="home_title_title_title">Tiêu đề</string>
     <string name="home_title_title_marquee">Cuộn văn bản</string>
     <string name="home_title_title_marquee_desc">Tên ứng dụng quá dài sẽ được cuộn một dòng</string>
@@ -1168,6 +1181,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_recent_show_memory_info">Hiển thị thông tin bộ nhớ</string>
     <string name="home_recent_always_show_clean_up">Không ẩn nút xoá khi không có tác vụ</string>
     <string name="home_recent_blur">Làm mờ nền</string>
+    <string name="home_recent_show_launch">Hiện trình khởi chạy ở nền</string>
+    <string name="home_recent_show_launch_size">Kích thước của trình khởi chạy</string>
+    <string name="home_recent_show_launch_alpha">Trình khởi chạy nền alpha</string>
     <string name="home_widget">Tiện ích</string>
     <string name="home_widget_all_widget_animation">Hoạt ảnh tiện ích</string>
     <string name="home_widget_show_miui_widget">Hiển thị tiện ích MIUI</string>
@@ -1346,6 +1362,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_get_number">Quản lý ứng dụng truy cập số điện thoại</string>
     <string name="security_center_applock_pin_scramble">Mã PIN khoá ứng dụng ngẫu nhiên</string>
     <string name="security_center_power_saver">Dịch vụ bảo mật không tiết kiệm pin</string>
+    <string name="security_center_privacy_thumbnail_blur">Tắt hình ảnh xem trước bị mờ</string>
     <string name="security_center_power_saver_desc">Tắt chế độ tiết kiệm pin khi phản chiếu màn hình qua Mi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Thay đổi ngẫu nhiên thứ tự bàn phím mã PIN khóa ứng dụng</string>
     <string name="security_center_beauty_light_auto">Mở khóa Độ sáng Flash tự động</string>
