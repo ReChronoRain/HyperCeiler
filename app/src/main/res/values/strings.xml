@@ -352,7 +352,7 @@
     <string name="system_framework_freeform_count">Multiple freeform</string>
     <string name="system_framework_disable_freeform_blacklist">Force small freeform to be allowed</string>
     <string name="system_framework_disable_freeform_blacklist_desc">Ignore the system blacklist and software ban freeform</string>
-    <string name="system_framework_freeform_sticky">Remember state</string>
+    <string name="system_framework_freeform_sticky">Remember state and position</string>
     <string name="system_framework_freeform_bubble">Bubble freeform</string>
     <string name="system_framework_freeform_recents_to_small_freeform">Turn all freeform into mini freeform</string>
     <string name="system_framework_freeform_recents_to_small_freeform_desc">Turn all freeform into mini freeform in recent tasks\nThis feature is an experimental feature with high instability</string>
@@ -889,6 +889,8 @@
     <string name="system_ui_disable_miui_multi_win_switch">Hide the Convenience Window button</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Hide the three permanent dots, including the top of the small window and the button in the middle of the top of the HyperOS for Pad horizontal screen (does not affect the use of functions)</string>
     <string name="system_ui_remove_miui_multi_win_switch">Disable the Convenience Window button</string>
+    <string name="system_ui_disable_infinitymode_gesture">Disable infinite zoom gestures</string>
+    <string name="system_ui_disable_infinitymode_gesture_sum">For tablet use only</string>
     <string name="system_ui_disable_bottombar">Hide the bottom gesture of the small window</string>
     <string name="system_ui_others_pct_title">Data display</string>
     <string name="system_showpct_title">Displays the brightness percentage</string>

@@ -86,9 +86,15 @@
             android:title="@string/system_ui_disable_miui_multi_win_switch" />
 
         <SwitchPreference
-            android:defaultValue="false"
+        android:defaultValue="false"
             android:key="prefs_key_system_ui_remove_miui_multi_win_switch"
             android:title="@string/system_ui_remove_miui_multi_win_switch" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_disable_infinitymode_gesture"
+            android:summary="@string/system_ui_disable_infinitymode_gesture_sum"
+            android:title="@string/system_ui_disable_infinitymode_gesture" />
 
         <SwitchPreference
             android:defaultValue="false"
