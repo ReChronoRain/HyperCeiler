@@ -51,6 +51,13 @@
             android:title="@string/fileexplorer" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.HtmlViewerFragment"
+            android:icon="@drawable/ic_htmlviewer"
+            android:key="prefs_key_html_viewer"
+            android:summary="com.android.htmlviewer"
+            android:title="@string/html_viewer" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.InCallUiFragment"
             android:icon="@drawable/ic_call"
             android:key="prefs_key_incallui"

@@ -337,6 +337,9 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.tsmclient,
                 "com.sevtinge.hyperceiler.ui.fragment.TsmClientFragment");
 
+        parsePrefXml(context, R.xml.html_viewer,
+                "com.sevtinge.hyperceiler.ui.fragment.HtmlViewerFragment");
+
         parsePrefXml(context, R.xml.weather,
                 "com.sevtinge.hyperceiler.ui.fragment.WeatherFragment");
 

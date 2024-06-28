@@ -1356,6 +1356,9 @@
     <string name="nfc">NFC Service</string>
     <string name="nfc_disable_sound">Disable NFC notification sound</string>
     <string name="nfc_allow_information_screen">Allow recognition when screen is off</string>
+    <!--HTML Viewer-->
+    <string name="html_viewer">HTML Viewer</string>
+    <string name="html_viewer_disable_cloud_control">Disable Cloud control</string>
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold weight</string>

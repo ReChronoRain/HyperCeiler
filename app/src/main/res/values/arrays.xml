@@ -8,6 +8,7 @@
         <item>com.android.camera</item> <!--相机-->
         <item>com.android.externalstorage</item> <!--外部储存设备-->
         <item>com.android.fileexplorer</item> <!--文件管理-->
+        <item>com.android.htmlviewer</item> <!--HTML 查看器-->
         <item>com.android.incallui</item> <!--电话-->
         <item>com.android.mms</item> <!--短信-->
         <item>com.android.nfc</item> <!--NFC-->

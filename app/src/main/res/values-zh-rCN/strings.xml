@@ -1386,6 +1386,9 @@
     <string name="nfc">NFC 服务</string>
     <string name="nfc_disable_sound">禁用 NFC 提示音</string>
     <string name="nfc_allow_information_screen">允许息屏时识别</string>
+    <!--HTML Viewer-->
+    <string name="html_viewer">HTML 查看器</string>
+    <string name="html_viewer_disable_cloud_control">禁用云控</string>
     <!--智能助理-->
     <string name="personal_assistant">智能助理</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold 小部件</string>

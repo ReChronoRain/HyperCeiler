@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/html_viewer">
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:title="@string/html_viewer_disable_cloud_control"
+            android:key="prefs_key_html_viewer_disable_cloud_control"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
