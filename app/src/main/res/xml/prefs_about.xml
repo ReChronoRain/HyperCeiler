@@ -27,13 +27,13 @@
         </Preference>
 
         <Preference
-            android:icon="@drawable/ic_nekoqiqi"
+            android:icon="@drawable/ic_lingqiqi"
             android:layout="@layout/preference_round_layout"
-            android:summary="\@mu7220 | Architecture &amp; Hook"
+            android:summary="\@lingqiqi5211 | Architecture &amp; Hook"
             android:title="铃柒柒">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/mu7220" />
+                android:data="https://github.com/lingqiqi5211" />
         </Preference>
 
         <Preference
