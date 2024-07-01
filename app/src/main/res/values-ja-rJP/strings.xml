@@ -836,6 +836,8 @@
     <string name="system_ui_disable_miui_multi_win_switch">コンビニエンスウインドウボタンを非表示</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">三つのドットとスモールウィンドウの上部、HyperOS for Pad 横画面時の上部中央にあるボタンを非表示にします。機能には影響しません</string>
     <string name="system_ui_remove_miui_multi_win_switch">コンビニエンスウィンドウボタンを無効化</string>
+    <string name="system_ui_disable_infinitymode_gesture">無限ズームジェスチャーを無効化</string>
+    <string name="system_ui_disable_infinitymode_gesture_sum">タブレットでのみ使用できます</string>
     <string name="system_ui_disable_bottombar">スモールウィンドウの下部ジェスチャーバーを隠す</string>
     <string name="system_ui_others_pct_title">データ表示</string>
     <string name="system_showpct_title">明るさのパーセンテージを表示</string>
@@ -1296,6 +1298,9 @@
     <string name="nfc">NFC サービス</string>
     <string name="nfc_disable_sound">NFC 通知音を無効化</string>
     <string name="nfc_allow_information_screen">ロック画面でも認識できるようにする</string>
+    <!--HTML Viewer-->
+    <string name="html_viewer">HTML ビューアー</string>
+    <string name="html_viewer_disable_cloud_control">クラウドコントロールを無効化</string>
     <!--App vault-->
     <string name="personal_assistant">アプリ保管庫</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold ウィジェット</string>

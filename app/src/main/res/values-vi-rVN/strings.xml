@@ -838,6 +838,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_disable_miui_multi_win_switch">Ẩn nút Cửa sổ tiện lợi</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Ẩn nút cửa sổ tiện lợi ở giữa trên cùng trong HyperOS cho màn hình ngang của Pad</string>
     <string name="system_ui_remove_miui_multi_win_switch">Vô hiệu hóa nút Cửa sổ tiện lợi</string>
+    <string name="system_ui_disable_infinitymode_gesture">Tắt cử chỉ thu phóng vô hạn</string>
+    <string name="system_ui_disable_infinitymode_gesture_sum">Chỉ sử dụng cho máy tính bảng</string>
     <string name="system_ui_disable_bottombar">Ẩn cử chỉ dưới cùng của cửa sổ nhỏ</string>
     <string name="system_ui_others_pct_title">Hiển thị dữ liệu</string>
     <string name="system_showpct_title">Hiển thị phần trăm độ sáng</string>
@@ -1302,6 +1304,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="nfc">Dịch vụ NFC</string>
     <string name="nfc_disable_sound">Tắt tiếng</string>
     <string name="nfc_allow_information_screen">Cho phép phát hiện khi gần màn hình</string>
+    <!--HTML Viewer-->
+    <string name="html_viewer">Trình xem HTML</string>
+    <string name="html_viewer_disable_cloud_control">Tắt kiểm soát đám mây</string>
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
     <string name="personal_assistant_fold_widget_enable">Tiện ích Pad/Fold</string>
