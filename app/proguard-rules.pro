@@ -9,7 +9,6 @@
 -keep class * extends com.sevtinge.hyperceiler.ui.fragment.base.*
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook { <init>(); }
 -keep class com.sevtinge.hyperceiler.module.base.dexkit.**{*;}
--keep class com.sevtinge.hyperceiler.module.hook.**{*;}
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseModule
 -keep class com.sevtinge.hyperceiler.module.base.BaseModule {*;}
 #-keep class com.sevtinge.hyperceiler.utils.XposedUtils {
