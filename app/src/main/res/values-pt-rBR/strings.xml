@@ -301,7 +301,7 @@
     <string name="system_framework_freeform_count">Múltiplas Janelas flutuantes</string>
     <string name="system_framework_disable_freeform_blacklist">Permitir Janela flutuante pequena</string>
     <string name="system_framework_disable_freeform_blacklist_desc">Ignore a lista negra do sistema e as restrições do software para o modo Janela flutuante</string>
-    <string name="system_framework_freeform_sticky">Lembrar estado</string>
+    <string name="system_framework_freeform_sticky">Lembrar estado e posição</string>
     <string name="system_framework_freeform_bubble">Bolha de Janelas flutuantes</string>
     <string name="system_framework_freeform_recents_to_small_freeform">Transformar as Janelas flutuantes em mini Janelas flutuantes</string>
     <string name="system_framework_freeform_recents_to_small_freeform_desc">Transforme todas as Janelas flutuantes em mini Janelas flutuantes nos recentes.\nEste recurso é um recurso experimental com alta instabilidade.</string>
@@ -313,8 +313,8 @@
     <string name="system_framework_volume_first_press">Ajuste de volume instantâneo</string>
     <string name="system_framework_volume_separate_control">Controle de volume independente</string>
     <string name="system_framework_volume_disable_safe">Remover restrições de segurança de volume alto</string>
-    <string name="default_volume_safe_all">Ativado para todos os casos</string>
-    <string name="default_volume_safe_headset">Ativado apenas quando os fones de ouvido estão conectados</string>
+    <string name="default_volume_safe_all">Para todos os casos</string>
+    <string name="default_volume_safe_headset">Apenas quando o fone de ouvido estiver conectado</string>
     <string name="system_framework_volume_separate_slider">Controle deslizante do volume de notificação</string>
     <string name="system_framework_volume_media_steps">Nível do volume de mídia</string>
     <string name="system_framework_volume_media_steps_desc">Isso pode fazer com que a rolagem da barra de volume congele ou o volume do Bluetooth fique anormal</string>
@@ -836,6 +836,8 @@
     <string name="system_ui_disable_miui_multi_win_switch">Ocultar botão de tela dividida</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Oculte os três pontos permanentes, incluindo a parte superior da janela pequena e o botão no meio da parte superior da tela horizontal do HyperOS para Pad (não afeta o uso das funções).</string>
     <string name="system_ui_remove_miui_multi_win_switch">Desativar botão de tela dividida</string>
+    <string name="system_ui_disable_infinitymode_gesture">Desativar gestos de zoom infinito</string>
+    <string name="system_ui_disable_infinitymode_gesture_sum">Apenas para tablets</string>
     <string name="system_ui_disable_bottombar">Ocultar gesto inferior da janela pequena</string>
     <string name="system_ui_others_pct_title">Exibição de dados</string>
     <string name="system_showpct_title">Exibir porcentagem do brilho</string>
@@ -1296,6 +1298,9 @@
     <string name="nfc">Serviço NFC</string>
     <string name="nfc_disable_sound">Desativar som de notificação do NFC</string>
     <string name="nfc_allow_information_screen">Permitir reconhecimento quando a tela estiver desligada</string>
+    <!--HTML Viewer-->
+    <string name="html_viewer">Visualizador de HTML</string>
+    <string name="html_viewer_disable_cloud_control">Desativar Controle de nuvem</string>
     <!--App vault-->
     <string name="personal_assistant">Assistente</string>
     <string name="personal_assistant_fold_widget_enable">Widget estilo Pad/Fold</string>
