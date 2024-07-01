@@ -31,6 +31,7 @@ import org.luckypray.dexkit.result.MethodData;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodHook;
 
@@ -52,7 +53,8 @@ public class EnableGameSpeed extends BaseHook {
         hookMethod(method1, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                if (param.args[0] == "debug.game.video.speed") param.args[1] = "true";
+                String param0 = (String) param.args[0];
+                if (Objects.equals(param0, "debug.game.video.speed")) param.args[1] = "true";
             }
         });
 
@@ -70,7 +72,8 @@ public class EnableGameSpeed extends BaseHook {
         hookMethod(method2, new MethodHook() {
             @Override
             protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
-                if (param.args[0] == "debug.game.video.support") param.setResult(true);
+                String param0 = (String) param.args[0];
+                if (Objects.equals(param0, "debug.game.video.support")) param.setResult(true);
             }
         });
 

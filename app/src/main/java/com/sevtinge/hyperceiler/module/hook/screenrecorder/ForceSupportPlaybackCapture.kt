@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.screenrecorder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
+import java.util.*
 
 class ForceSupportPlaybackCapture : BaseHook() {
     override fun init() {
@@ -33,7 +34,8 @@ class ForceSupportPlaybackCapture : BaseHook() {
             Boolean::class.javaPrimitiveType,
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
-                    if (param.args[0] == "ro.vendor.audio.playbackcapture.screen")
+                    val param0 = param.args[0] as String
+                    if (Objects.equals(param0, "ro.vendor.audio.playbackcapture.screen"))
                         param.result = true
                 }
             })

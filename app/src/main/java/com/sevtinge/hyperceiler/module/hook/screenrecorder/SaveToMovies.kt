@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.screenrecorder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
+import java.util.*
 
 object SaveToMovies : BaseHook() {
     override fun init() {
@@ -34,7 +35,8 @@ object SaveToMovies : BaseHook() {
             String::class.java,
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
-                    if (param.args[0] == "relative_path") {
+                    val param0 = param.args[0] as String
+                    if (Objects.equals(param0, "relative_path")) {
                         param.args[1] = (param.args[1] as String).replace("DCIM", "Movies")
                     }
                 }

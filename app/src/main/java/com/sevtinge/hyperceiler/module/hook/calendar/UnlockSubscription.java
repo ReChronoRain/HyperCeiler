@@ -30,6 +30,7 @@ import org.luckypray.dexkit.result.MethodData;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodHook;
 
@@ -49,18 +50,21 @@ public class UnlockSubscription extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
+        logD(TAG, lpparam.packageName, "method is "+method);
         hookMethod(method, new MethodHook() {
             @Override
             protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
+                logD(TAG, lpparam.packageName, "1");
                 try {
                     findAndHookMethod(findClass("android.app.SharedPreferencesImpl$EditorImpl"), "putBoolean", String.class, boolean.class, new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
-                            if (param.args[0] == "key_subscription_display" ||
-                                    param.args[0] == "key_import_todo" ||
-                                    param.args[0] == "key_chinese_almanac_pref" ||
-                                    param.args[0] == "key_weather_display" ||
-                                    param.args[0] == "key_ai_time_parse") param.args[1] = true;
+                            String param0 = (String) param.args[0];
+                            if (Objects.equals(param0, "key_subscription_display") ||
+                                    Objects.equals(param0, "key_import_todo") ||
+                                    Objects.equals(param0, "key_chinese_almanac_pref") ||
+                                    Objects.equals(param0, "key_weather_display") ||
+                                    Objects.equals(param0, "key_ai_time_parse")) param.args[1] = true;
                         }
                     });
                 } catch (Exception e) {
