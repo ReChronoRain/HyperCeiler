@@ -159,12 +159,10 @@ object AppBlurAnim : BaseHook() {
             .first().hookBeforeMethod {
                 val isOpen = it.args[0] as Boolean
                 if (isOpen) {
-                    XposedLogUtils.logD("111")
                     transitionBlurView?.show(true)
                     isStartingApp = true
                 }
                 else {
-                    XposedLogUtils.logD("222")
                     // "isOpen" seems to always be true
                     if (shouldBlurWallpaper(it.args[1] ?: return@hookBeforeMethod)) {
                         wallpaperBlurView?.show(false)
