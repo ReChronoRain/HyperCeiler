@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.home.dock
 import android.app.*
 import android.graphics.*
 import android.view.*
+import android.view.ViewGroup.LayoutParams
 import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
@@ -28,7 +29,9 @@ import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setBackgroundBlurScaleRatio
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setBlurRoundRect
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlendColors
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurMode
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
@@ -68,22 +71,25 @@ object DockCustomNew : BaseHook() {
             )
             if (mPrefsMap.getStringAsInt("home_dock_add_blur", 0) == 1) {
                 mDockBlur.setPassWindowBlurEnabled(true)
-                mDockBlur.setMiBackgroundBlurMode(1)
+                mDockBlur.setMiBackgroundBlurMode(1) //非0时截断
                 mDockBlur.setMiBackgroundBlurRadius(
                     mPrefsMap.getInt(
-                        "custom_background_blur_degree",
-                        200
+                    "custom_background_blur_degree",
+                    200
                     )
                 )
                 mDockBlur.clearMiBackgroundBlendColor()
                 val a = if (Helpers.isDarkMode(mDockBlur.context)) 100
                 else 140
-                mDockBlur.addMiBackgroundBlendColor(Color.argb(a, 0, 0, 0), 103)
+                //mDockBlur.addMiBackgroundBlendColor(Color.argb(a, 0, 0, 0), 103)
                 mDockBlur.setMiViewBlurMode(1)
+                mDockBlur.setMiBackgroundBlurMode(0)
             }
             val mAllApp = mPrefsMap.getBoolean("home_dock_bg_all_app")
             mDockBlur.setBlurRoundRect(mDockRadius)
-            mDockBlur.setBackgroundColor(mPrefsMap.getInt("home_dock_bg_color", 0))
+            //mDockBlur.setBackgroundColor(mPrefsMap.getInt("home_dock_bg_color", 0))
+            //mDockBlur.setMiViewBlurMode(1)
+            mDockBlur.addMiBackgroundBlendColor(mPrefsMap.getInt("home_dock_bg_color", 0), 101)
             mDockBlur.layoutParams =
                 FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, mDockHeight)
                     .also { layoutParams ->
