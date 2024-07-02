@@ -123,7 +123,7 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <!--<SeekBarPreferenceEx
             android:defaultValue="200"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:key="prefs_key_custom_background_blur_degree"
@@ -132,7 +132,7 @@
             app:format="%d bl"
             app:maxValue="500"
             app:showSeekBarValue="true"
-            app:stepValue="1" />
+            app:stepValue="1" />-->
 
         <moralnorm.preference.ColorPickerPreference
             android:defaultValue="0"
