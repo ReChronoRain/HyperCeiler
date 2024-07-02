@@ -121,6 +121,7 @@ import com.sevtinge.hyperceiler.module.hook.home.title.EnableIconMonoChrome;
 import com.sevtinge.hyperceiler.module.hook.home.title.FakeNonDefaultIcon;
 import com.sevtinge.hyperceiler.module.hook.home.title.FixAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.title.HiddenAllTitle;
+import com.sevtinge.hyperceiler.module.hook.home.title.HideReportText;
 import com.sevtinge.hyperceiler.module.hook.home.title.IconTitleColor;
 import com.sevtinge.hyperceiler.module.hook.home.title.IconTitleCustomization;
 import com.sevtinge.hyperceiler.module.hook.home.title.LargeIconCornerRadius;
@@ -286,6 +287,7 @@ public class HomeT extends BaseModule {
         initHook(ShortcutItemCount.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_remove_restrictions"));
         initHook(ShowAllHideApp.INSTANCE, true); // 桌面快捷方式管理
         initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
+        initHook(new HideReportText(), mPrefsMap.getBoolean("home_title_hide_report_text"));
 
         // 实验性功能
         initHook(BlurWhenShowShortcutMenu.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));
