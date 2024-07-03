@@ -393,6 +393,8 @@
     <string name="phone_n28_desc">Support n28 Band (NR)</string>
     <string name="phone_n5_n8">n5/n8 Band</string>
     <string name="phone_n5_n8_desc">Enter *#*#65686633#*#* on the dial interface to Support n5/n8 Band. If it shows \"enable N5 and N8 Mode\", the feature will enable successfully.</string>
+    <string name="phone_flightmode_hotspot">Allow FlightMode Hotspot</string>
+    <string name="phone_flightmode_hotspot_desc">Allow open WiFi Hotspot in FlightMode</string>
     <string name="phone_additional_network_settings">Additional Network Settings</string>
 
     <string name="system_framework_screen_title">Display &amp; Notifications</string>

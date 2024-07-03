@@ -28,6 +28,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ToastBlur;
 import com.sevtinge.hyperceiler.module.hook.systemframework.UnlockAlwaysOnDisplay;
+import com.sevtinge.hyperceiler.module.hook.systemframework.network.FlightModeHotSpot;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.VolumeSeparateControlForSettings;
 import com.sevtinge.hyperceiler.module.skip.SystemFrameworkForCorePatch;
 
@@ -71,5 +72,7 @@ public class XposedInit extends BaseXposedInit implements IXposedHookZygoteInit,
         }
         init(lpparam);
         new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
+        if (mPrefsMap.getBoolean("system_framework_network_flightmode_hotspot"))
+            new FlightModeHotSpot().handleLoadPackage(lpparam);
     }
 }
