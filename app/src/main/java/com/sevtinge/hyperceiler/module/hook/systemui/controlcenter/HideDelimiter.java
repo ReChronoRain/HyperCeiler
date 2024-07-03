@@ -32,8 +32,7 @@ public class HideDelimiter extends BaseHook {
 
     boolean operator = mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 1;
     int prefs = mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0);
-    String deviceName = getProp("persist.sys.device_name");
-    String[] deviceNameList = {deviceName};
+    String[] deviceNameList = {getProp("persist.sys.device_name")};
 
     @Override
     public void init() {
@@ -48,7 +47,7 @@ public class HideDelimiter extends BaseHook {
                             switch (prefs) {
                                 case 1 -> param.args[0] = mCurrentCarrier.replace(" | ", "");
                                 case 2 -> param.args[0] = "";
-                                case 3 -> param.args[0] = deviceName;
+                                case 3 -> param.args[0] = getProp("persist.sys.device_name");
                             }
                         }
                     }
@@ -63,7 +62,7 @@ public class HideDelimiter extends BaseHook {
                             switch (prefs) {
                                 case 1 -> mCurrentCarrier = mCurrentCarrier.replace(" | ", "");
                                 case 2 -> mCurrentCarrier = "";
-                                case 3 -> mCurrentCarrier = deviceName;
+                                case 3 -> mCurrentCarrier = getProp("persist.sys.device_name");
                             }
                             XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", mCurrentCarrier);
                         }
@@ -74,14 +73,14 @@ public class HideDelimiter extends BaseHook {
                 findAndHookMethod("com.android.keyguard.clock.KeyguardClockContainer$mCarrierTextCallback$1", "onCarrierTextChanged", String.class, new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
-                        param.args[0] = deviceName;
+                        param.args[0] = getProp("persist.sys.device_name");
                     }
                 });
 
                 findAndHookMethod("com.android.keyguard.clock.KeyguardClockContainer$mCarrierTextCallback$1", "onCarrierTextChanged", String.class, int.class, new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
-                        param.args[0] = deviceName;
+                        param.args[0] = getProp("persist.sys.device_name");
                         param.args[1] = 1;
                     }
                 });
@@ -89,14 +88,14 @@ public class HideDelimiter extends BaseHook {
                 findAndHookMethod("com.android.keyguard.CarrierText$1", "onCarrierTextChanged", String.class, new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
-                        param.args[0] = deviceName;
+                        param.args[0] = getProp("persist.sys.device_name");
                     }
                 });
 
                 findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl", "updateCarrierText", new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
-                        XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", deviceName);
+                        XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", getProp("persist.sys.device_name"));
                         XposedHelpers.setObjectField(param.thisObject, "mCustomCarrier", deviceNameList);
                         XposedHelpers.setObjectField(param.thisObject, "mCarrier", deviceNameList);
                         XposedHelpers.setObjectField(param.thisObject, "mRealCarrier", deviceNameList);
@@ -106,7 +105,7 @@ public class HideDelimiter extends BaseHook {
                 findAndHookMethod(SubscriptionInfo.class, "getCarrierName", new MethodHook(){
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
-                        param.setResult(deviceName);
+                        param.setResult(getProp("persist.sys.device_name"));
                     }
                 });
 
@@ -124,7 +123,7 @@ public class HideDelimiter extends BaseHook {
                             @Override
                             protected void before(MethodHookParam param) throws Throwable {
                                 super.before(param);
-                                // param.args[0] = deviceName;
+                                // param.args[0] = getProp("persist.sys.device_name");
                                 if (param.args[1].equals(" | ")) {
                                     param.args[1] = "";
                                 }
@@ -137,7 +136,7 @@ public class HideDelimiter extends BaseHook {
                         new MethodHook() {
                             @Override
                             protected void before(MethodHookParam param) {
-                                // param.args[0] = deviceName;
+                                // param.args[0] = getProp("persist.sys.device_name");
                                 if (param.args[1].equals(" | ")) {
                                     param.args[1] = "";
                                 }
