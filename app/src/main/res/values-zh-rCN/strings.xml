@@ -950,6 +950,8 @@
     <string name="system_usb_use_MIDI">MIDI 模式</string>
     <string name="system_usb_reverse_charge">反向充电</string>
     <string name="system_usb_tethering">USB 网络共享</string>
+    <string name="system_settings_anti_ques">禁用设备名称敏感词校验</string>
+    <string name="system_settings_anti_ques_desc">不得使用此功能进行违反当地及国家法律条文的规定</string>
 
     <string name="system_settings_connection_sharing_title">网络连接与共享</string>
     <string name="system_settings_linkturbo">解除网络加速应用限制</string>
