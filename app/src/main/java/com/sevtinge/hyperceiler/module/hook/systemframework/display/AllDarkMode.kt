@@ -27,8 +27,9 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.api.LazyClass.clazzMiuiBuild
 import com.sevtinge.hyperceiler.utils.devicesdk.*
+import de.robv.android.xposed.*
 
-//from SetoHook by SetoSkins
+// from SetoHook by SetoSkins
 class AllDarkMode : BaseHook() {
     override fun init() {
         if (isInternational()) return
@@ -37,14 +38,13 @@ class AllDarkMode : BaseHook() {
         clazzForceDarkAppListManager.methodFinder().filterByName("getDarkModeAppList").toList()
             .createHooks {
                 before {
+                    val originalValue = XposedHelpers.getStaticBooleanField(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD")
                     setStaticObject(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD", true)
+                    it.setObjectExtra("originalValue", originalValue)
                 }
                 after {
-                    setStaticObject(
-                        clazzMiuiBuild,
-                        "IS_INTERNATIONAL_BUILD",
-                        isInternational()
-                    )
+                    val originalValue = it.getObjectExtra("originalValue")
+                    setStaticObject(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD", originalValue)
                 }
             }
         clazzForceDarkAppListManager.methodFinder().filterByName("shouldShowInSettings").toList()
