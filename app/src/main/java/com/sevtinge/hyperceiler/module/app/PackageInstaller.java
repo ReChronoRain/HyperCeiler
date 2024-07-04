@@ -26,6 +26,7 @@ import com.sevtinge.hyperceiler.module.hook.packageinstaller.AllAsSystemApp;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableAd;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableAppInfoUpload;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableCountChecking;
+import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableInstallerFullSafeVersion;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableSafeModelTip;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisplayMoreApkInfoNew;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.InstallRiskDisable;
@@ -57,6 +58,7 @@ public class PackageInstaller extends BaseModule {
         // 显示更多安装包信息
         // initHook(new DisplayMoreApkInfo(), mPrefsMap.getBoolean("miui_package_installer_apk_info"));
         initHook(DisplayMoreApkInfoNew.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_apk_info"));
+        initHook(new DisableInstallerFullSafeVersion(), mPrefsMap.getBoolean("miui_package_installer_apk_info"));
 
         // 禁用频繁安装应用检查
         initHook(DisableCountChecking.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_count_checking"));
