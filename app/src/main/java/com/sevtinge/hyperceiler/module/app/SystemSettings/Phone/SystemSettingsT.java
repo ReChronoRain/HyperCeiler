@@ -26,6 +26,7 @@ import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AddGoogleListHeader;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AddMiuiPlusEntry;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AllowManageAllNotifications;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.AntiQues;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AppsFreezerEnable;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.DisableInstallUnknownVerify;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.EnableFoldArea;
@@ -82,6 +83,7 @@ public class SystemSettingsT extends BaseModule {
         // initHook(new BluetoothRestrict(), mPrefsMap.getBoolean("various_disable_bluetooth_restrict"));
         initHook(new VolumeSeparateControlForSettings(), mPrefsMap.getBoolean("system_framework_volume_separate_control") && !isMoreHyperOSVersion(1f));
         initHook(UnlockMaxFps.INSTANCE, mPrefsMap.getBoolean("system_settings_develop_max_fps"));
+        initHook(new AntiQues(), mPrefsMap.getBoolean("system_settings_anti_ques"));
 
         initHook(new UnlockSuperResolution(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_sr"));
         initHook(new UnlockAi(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_ai"));

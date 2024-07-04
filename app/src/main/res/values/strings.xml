@@ -968,6 +968,8 @@
     <string name="system_settings_transition_animation_scale">Transition Animation Scaling</string>
     <string name="system_settings_animator_duration_scale">Animator duration scaling</string>
     <string name="system_settings_allow_never_lock_screen">Allow never lock screen</string>
+    <string name="system_settings_anti_ques">Anti ques words</string>
+    <string name="system_settings_anti_ques_desc">You may not use this feature in violation of local or national laws</string>
     <!--Themes-->
     <string name="theme_manager">Themes</string>
     <string name="theme_manager_version_code_modify">Adjust detection version</string>
