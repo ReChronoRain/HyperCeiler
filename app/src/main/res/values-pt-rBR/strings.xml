@@ -298,11 +298,11 @@
     <string name="system_framework_display_title">Tela</string>
     <string name="system_framework_phone_title">Rede</string>
     <string name="system_framework_bubble_title">Conversas em bolhas</string>
-    <string name="system_framework_freeform_count">Múltiplas Janelas flutuantes</string>
+    <string name="system_framework_freeform_count">Múltiplas janelas flutuantes</string>
     <string name="system_framework_disable_freeform_blacklist">Permitir Janela flutuante pequena</string>
     <string name="system_framework_disable_freeform_blacklist_desc">Ignore a lista negra do sistema e as restrições do software para o modo Janela flutuante</string>
     <string name="system_framework_freeform_sticky">Lembrar estado e posição</string>
-    <string name="system_framework_freeform_bubble">Bolha de Janelas flutuantes</string>
+    <string name="system_framework_freeform_bubble">Bolha de janelas flutuantes</string>
     <string name="system_framework_freeform_recents_to_small_freeform">Transformar as Janelas flutuantes em mini Janelas flutuantes</string>
     <string name="system_framework_freeform_recents_to_small_freeform_desc">Transforme todas as Janelas flutuantes em mini Janelas flutuantes nos recentes.\nEste recurso é um recurso experimental com alta instabilidade.</string>
     <string name="system_framework_freeform_jump">Abrir com Janela flutuante ao pular para outro app</string>
@@ -912,6 +912,8 @@
     <string name="system_settings_transition_animation_scale">Escala de animação de transição</string>
     <string name="system_settings_animator_duration_scale">Escala de duração da animação</string>
     <string name="system_settings_allow_never_lock_screen">Permitir nunca bloquear a tela</string>
+    <string name="system_settings_anti_ques">Desativar verificação de palavras sensíveis</string>
+    <string name="system_settings_anti_ques_desc">Você não pode usar esse recurso em violação às leis locais ou nacionais</string>
     <!--Themes-->
     <string name="theme_manager">Temas</string>
     <string name="theme_manager_version_code_modify">Ajustar versão de detecção</string>
@@ -957,7 +959,7 @@
     <string name="aod_hyperos">Tela sempre ativa e editor de Tela de bloqueio</string>
     <string name="aod_unlock_always_on_display">Desbloquear limite de tempo de exibição da Tela sempre ativa</string>
     <string name="aod_unlock_always_on_display_more">Reinicie a UI do Sistema para ativar totalmente a função</string>
-    <string name="aod_unlock_aon">Desbloquear exibição da Tela sempre ativa</string>
+    <string name="aod_unlock_aon">Desbloquear exibição da Tela ambiente</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Usar navegador de terceiros</string>
@@ -1153,6 +1155,8 @@
     <string name="home_title_custom_anim_param">Parâmetro de animação personalizado</string>
     <string name="home_title_custom_anim_param_damping_title">Amortecimento</string>
     <string name="home_title_custom_anim_param_stiffness_title">Rigidez</string>
+    <string name="home_title_hide_report_text">Ocultar texto de relatório</string>
+    <string name="home_title_hide_report_text_desc">Oculte o texto de relatório na caixa de diálogo de desinstalação</string>
     <string name="home_recent">Recentes</string>
     <string name="home_recent_animation_speed">Velocidade da animação</string>
     <string name="home_recent_disable_wallpaper_dimming">Desativar escurecimento do plano de fundo</string>
@@ -1361,7 +1365,7 @@
     <string name="security_center_get_number">Gerencie o app para obter o número do celular e faça login com um clique</string>
     <string name="security_center_applock_pin_scramble">Bloqueio de apps com PIN embaralhado</string>
     <string name="security_center_power_saver">Compartilhamento mágico não economiza energia</string>
-    <string name="security_center_privacy_thumbnail_blur">Desativar pré-visualização automática em imagens desfocadas</string>
+    <string name="security_center_privacy_thumbnail_blur">Desativar pré-visualização em imagens desfocadas</string>
     <string name="security_center_power_saver_desc">Desative o modo Economia de bateria ao espelhar a tela via Xiaomi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Altere aleatoriamente a sequência do PIN do Bloqueio de apps</string>
     <string name="security_center_beauty_light_auto">Desbloquear Luz de preenchimento dianteira</string>
@@ -1401,7 +1405,7 @@
     <string name="security_center_remove_open_app_confirmation_popup">Remover pop-up de app aberto</string>
     <string name="security_center_remove_open_app_confirmation_popup_summary">Remova o pop-up \"Permitir que XXX abra XXX\" do início da cadeia</string>
     <string name="security_center_no_permission">Permissões necessárias não concedidas</string>
-    <string name="security_center_unlock_side_hide_freeform">Desbloquear ocultar na lateral em Janelas flutuantes</string>
+    <string name="security_center_unlock_side_hide_freeform">Desbloquear ocultar na lateral em janelas flutuantes</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Desbloquear ocultar na lateral em Janelas flutuantes para dispositivos com suporte limitado, porém restritos. Isso também afetará o comportamento do widget quando o telefone for cortado em segundo plano.</string>
     <string name="security_center_unlock_smart_charge_title">Funções completas de carregamento e bateria</string>
     <string name="security_center_unlock_smart_charge_title_summary">Funções completas:\n- Proteção da bateria -&gt; Proteção contra quebra de carga de navegação\n- Mais recursos de bateria -&gt; Emergência de carga baixa</string>

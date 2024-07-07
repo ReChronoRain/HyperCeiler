@@ -912,6 +912,8 @@
     <string name="system_settings_transition_animation_scale">トランジションアニメスケール</string>
     <string name="system_settings_animator_duration_scale">Animator 再生時間スケール</string>
     <string name="system_settings_allow_never_lock_screen">画面ロックなしの設定を許可</string>
+    <string name="system_settings_anti_ques">デバイス名のセンシティブワード検出を無効化</string>
+    <string name="system_settings_anti_ques_desc">地域または国の法律に違反する場合は使用しないでください</string>
     <!--Themes-->
     <string name="theme_manager">テーマ</string>
     <string name="theme_manager_version_code_modify">バージョン検出の調整</string>
@@ -1153,6 +1155,8 @@
     <string name="home_title_custom_anim_param">アニメーションパラメーターのカスタム</string>
     <string name="home_title_custom_anim_param_damping_title">減衰</string>
     <string name="home_title_custom_anim_param_stiffness_title">剛性</string>
+    <string name="home_title_hide_report_text">報告のテキストを非表示</string>
+    <string name="home_title_hide_report_text_desc">アンインストールダイアログで報告のテキストを隠します</string>
     <string name="home_recent">アプリ履歴</string>
     <string name="home_recent_animation_speed">アニメーションの速度</string>
     <string name="home_recent_disable_wallpaper_dimming">壁紙の調光を無効化</string>
