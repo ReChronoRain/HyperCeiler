@@ -1402,6 +1402,7 @@
     <string name="personal_assistant_blur_value">背景样式</string>
     <string name="personal_assistant_blurradius">负一屏背景模糊程度</string>
     <string name="personal_assistant_color">负一屏背景叠加层颜色</string>
+    <string name="personal_assistant_unlock_widget_count_limit">解除小部件数量限制</string>
     <!--电量与性能-->
     <string name="powerkeeper">电量与性能</string>
     <string name="powerkeeper_custom_refresh_rate">自定义高刷新率应用</string>
