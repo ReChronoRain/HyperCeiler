@@ -76,6 +76,12 @@ public abstract class BaseSettingsActivity extends BaseActivity {
         String isSystem = getResources().getString(R.string.restart_app_desc, appLabel);
         String isOther = getResources().getString(R.string.restart_app_desc, " " + appLabel + " ");
 
+        isSystem = isSystem.replace("  ", " ");
+        isOther = isOther.replace("  ", " ");
+
+        isSystem = isSystem.replaceAll("^\\s+|\\s+$", "");
+        isOther = isOther.replaceAll("^\\s+|\\s+$", "");
+
         new AlertDialog.Builder(this)
             .setCancelable(false)
             .setTitle(getResources().getString(R.string.soft_reboot) + " " + appLabel)
