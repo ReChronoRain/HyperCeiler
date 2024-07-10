@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/system_framework_phone_title">
     <PreferenceCategory android:title="@string/system_framework_phone_network_title">
-        
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_network_flightmode_hotspot"

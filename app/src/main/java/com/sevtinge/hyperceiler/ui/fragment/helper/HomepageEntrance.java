@@ -1,5 +1,8 @@
 package com.sevtinge.hyperceiler.ui.fragment.helper;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 
@@ -26,6 +29,11 @@ public class HomepageEntrance extends SettingsPreferenceFragment implements Pref
     private boolean isInit = false;
     private final String TAG = "HomepageEntrance";
     private static EntranceState entranceState = null;
+
+    Preference mSecurityCenter;
+    Preference mMiLink;
+    Preference mAod;
+    Preference mGuardProvider;
 
     @Override
     public int getContentResId() {
@@ -69,12 +77,31 @@ public class HomepageEntrance extends SettingsPreferenceFragment implements Pref
                 }
             }
         });
+        mSecurityCenter = findPreference("prefs_key_security_center_state");
+        mMiLink = findPreference("prefs_key_milink_state");
+        mAod = findPreference("prefs_key_aod_state");
+        mGuardProvider = findPreference("prefs_key_guardprovider_state");
+        if (isMoreHyperOSVersion(1f)) {
+            mAod.setTitle(R.string.aod_hyperos);
+            mMiLink.setTitle(R.string.milink_hyperos);
+            mGuardProvider.setTitle(R.string.guard_provider_hyperos);
+            mSecurityCenter.setTitle(R.string.security_center_hyperos);
+        } else {
+            mAod.setTitle(R.string.aod);
+            mMiLink.setTitle(R.string.milink);
+            mGuardProvider.setTitle(R.string.guard_provider);
+            if (isPad()) {
+                mSecurityCenter.setTitle(R.string.security_center_pad);
+            } else {
+                mSecurityCenter.setTitle(R.string.security_center);
+            }
+        }
     }
 
     @Override
     public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
         if (!isInit) {
-            ToastHelper.makeText(getContext(), "尚未加载完毕，请稍后");
+            ToastHelper.makeText(getContext(), "Loading. Please wait.");
             return false;
         }
         entranceState.onEntranceStateChange(preference.getKey(), (boolean) o);
