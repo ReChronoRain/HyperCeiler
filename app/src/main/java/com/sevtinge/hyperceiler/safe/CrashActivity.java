@@ -18,6 +18,9 @@
 */
 package com.sevtinge.hyperceiler.safe;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -35,6 +38,7 @@ import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import moralnorm.appcompat.app.AppCompatActivity;
 
@@ -66,10 +70,28 @@ public class CrashActivity extends AppCompatActivity {
         throwFileName = intent.getStringExtra("key_throwFileName");
         throwLineNumber = intent.getIntExtra("key_throwLineNumber", -1);
         throwMethodName = intent.getStringExtra("key_throwMethodName");
+        Map<String, String> appNameMap = new HashMap<>();
+        appNameMap.put("com.android.systemui", getString(R.string.system_ui));
+        appNameMap.put("com.android.settings", getString(R.string.system_settings));
+        appNameMap.put("com.miui.home", getString(R.string.mihome));
+        appNameMap.put("com.hchen.demo", getString(R.string.demo));
+        if (isMoreHyperOSVersion(1f)) {
+            appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_hyperos));
+        } else if (isPad()) {
+            appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_pad));
+        } else {
+            appNameMap.put("com.miui.securitycenter", getString(R.string.security_center));
+        }
         String pkg = getReportCrashPkg(code);
+        String appName = appNameMap.get(pkg);
+        String msg = getString(R.string.safe_mode_desc, " " + appName + " (" + pkg + ") ");
+        msg = msg.replace("  ", " ");
+        msg = msg.replace("， ", "，");
+        msg = msg.replace("、 ", "、");
+        msg = msg.replaceAll("^\\s+|\\s+$", "");
         View view = LayoutInflater.from(this).inflate(R.layout.crash_report_dialog, null);
         mMessageTv = view.findViewById(R.id.tv_message);
-        mMessageTv.setText(pkg + " " + getString(R.string.safe_mode_desc));
+        mMessageTv.setText(msg);
         mCrashRecordTv = view.findViewById(R.id.tv_record);
         mCrashRecordTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);// 下划线并加清晰
         mCrashRecordTv.getPaint().setAntiAlias(true);

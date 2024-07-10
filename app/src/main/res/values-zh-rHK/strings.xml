@@ -1640,12 +1640,12 @@
     <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 Re.chronoRain 的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
     <string name="headtip_tip_long_press_to_copy">您可以長按或雙擊後選擇文本，或複製它並將其回饋給開發人員。</string>
     <string name="safe_mode_title">警告</string>
-    <string name="safe_mode_desc">由於多次閃退已進入安全模式，且 HyperCeiler 功能已暫時停用。 \n按一下「確定」取消，按一下「取消」稍後處理。</string>
+    <string name="safe_mode_desc">%1$s由於多次閃退已進入安全模式，且 HyperCeiler 功能已暫時停用。 \n按一下「確定」取消，按一下「取消」稍後處理。</string>
     <string name="safe_mode_history">查看異常記錄</string>
     <string name="safe_mode_cancel">停用安全模式</string>
     <string name="safe_mode_ok">稍後再處理</string>
     <string name="safe_mode_later_title">提示</string>
-    <string name="safe_mode_later_desc">仍處於安全模式且 HyperCeiler 功能已停用。停用安全模式？</string>
+    <string name="safe_mode_later_desc">%1$s仍處於安全模式且 HyperCeiler 功能已停用。停用安全模式？</string>
     <string name="safe_mode_recorder_title">異常記錄</string>
     <string name="safe_mode_recorder_file">檔案</string>
     <string name="safe_mode_recorder_class">種類</string>

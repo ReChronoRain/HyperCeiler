@@ -1666,12 +1666,12 @@
     <string name="headtip_warn_sign_verification_failed">署名の検証に失敗しました。現在使用しているバージョンは Re.chronoRain の公式バージョンではないため、悪意のあるコードが含まれている可能性があります。</string>
     <string name="headtip_tip_long_press_to_copy">長押しまたは二回タップでテキストを選択したり、コピーして開発者にフィードバックしたりできます。</string>
     <string name="safe_mode_title">警告</string>
-    <string name="safe_mode_desc">は複数のクラッシュによりセーフモードに入り、HyperCeiler の機能が一時的に無効になりました。 \nOKを押すとセーフモードを無効化し、キャンセルを押すと後で対処できます。</string>
+    <string name="safe_mode_desc">%1$sは複数のクラッシュによりセーフモードに入り、HyperCeiler の機能が一時的に無効になりました。 \nOKを押すとセーフモードを無効化し、キャンセルを押すと後で対処できます。</string>
     <string name="safe_mode_history">例外記録を表示</string>
     <string name="safe_mode_cancel">セーフモードを無効化</string>
     <string name="safe_mode_ok">後で対処する</string>
     <string name="safe_mode_later_title">ヒント</string>
-    <string name="safe_mode_later_desc">はまだセーフモードになっており、HyperCeiler の機能が無効になっています。セーフモードを無効にしますか？</string>
+    <string name="safe_mode_later_desc">%1$sはまだセーフモードになっており、HyperCeiler の機能が無効になっています。セーフモードを無効にしますか？</string>
     <string name="safe_mode_recorder_title">例外レコード</string>
     <string name="safe_mode_recorder_file">ファイル</string>
     <string name="safe_mode_recorder_class">クラス</string>

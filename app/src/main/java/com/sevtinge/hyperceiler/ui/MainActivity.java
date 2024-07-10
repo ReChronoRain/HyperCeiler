@@ -18,6 +18,9 @@
  */
 package com.sevtinge.hyperceiler.ui;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,6 +33,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.callback.IResult;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.safe.CrashData;
+import com.sevtinge.hyperceiler.safe.CrashService;
 import com.sevtinge.hyperceiler.ui.base.NavigationActivity;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
@@ -42,6 +46,8 @@ import com.sevtinge.hyperceiler.utils.search.SearchHelper;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import moralnorm.appcompat.app.AlertDialog;
 
@@ -69,9 +75,33 @@ public class MainActivity extends NavigationActivity implements IResult {
         appCrash = CrashData.toPkgList();
         handler.postDelayed(() -> {
             if (haveCrashReport()) {
+                Map<String, String> appNameMap = new HashMap<>();
+                appNameMap.put("com.android.systemui", getString(R.string.system_ui));
+                appNameMap.put("com.android.settings", getString(R.string.system_settings));
+                appNameMap.put("com.miui.home", getString(R.string.mihome));
+                appNameMap.put("com.hchen.demo", getString(R.string.demo));
+                if (isMoreHyperOSVersion(1f)) {
+                    appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_hyperos));
+                } else if (isPad()) {
+                    appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_pad));
+                } else {
+                    appNameMap.put("com.miui.securitycenter", getString(R.string.security_center));
+                }
+                ArrayList<String> appList = new ArrayList<>();
+                for (String element : appCrash) {
+                    if (appNameMap.containsKey(element)) appList.add(appNameMap.get(element) + " (" + element + ")");
+                }
+                String appName = appList.toString();
+                String msg = getString(R.string.safe_mode_later_desc, " " + appName + " ");
+                msg = msg.replace("  ", " ");
+                msg = msg.replace("， ", "，");
+                msg = msg.replace("、 ", "、");
+                msg = msg.replace("[", "");
+                msg = msg.replace("]", "");
+                msg = msg.replaceAll("^\\s+|\\s+$", "");
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle(R.string.safe_mode_later_title)
-                        .setMessage(appCrash.toString() + " " + getString(R.string.safe_mode_later_desc))
+                        .setMessage(msg)
                         .setHapticFeedbackEnabled(true)
                         .setCancelable(false)
                         .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {

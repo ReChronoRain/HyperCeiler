@@ -1729,12 +1729,12 @@
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of Re.chronoRain, and may contain malicious code.</string>
     <string name="headtip_tip_long_press_to_copy">You can select text after long or double press, or copy it and feed it back to the developer.</string>
     <string name="safe_mode_title">Warning</string>
-    <string name="safe_mode_desc">has entered safe mode due to multiple crashes and HyperCeiler functionality has been temporarily disabled. \nClick OK to cancel, click Cancel to process later.</string>
+    <string name="safe_mode_desc">%1$s has entered safe mode due to multiple crashes and HyperCeiler functionality has been temporarily disabled. \nClick OK to cancel, click Cancel to process later.</string>
     <string name="safe_mode_history">View exception records</string>
     <string name="safe_mode_cancel">Disable safe mode</string>
     <string name="safe_mode_ok">Deal with it later</string>
     <string name="safe_mode_later_title">Tip</string>
-    <string name="safe_mode_later_desc">is still in safe mode and HyperCeiler functionality has been disabled. Disable safe mode?</string>
+    <string name="safe_mode_later_desc">%1$s is still in safe mode and HyperCeiler functionality has been disabled. Disable safe mode?</string>
     <string name="safe_mode_recorder_title">Exception records</string>
     <string name="safe_mode_recorder_file">File</string>
     <string name="safe_mode_recorder_class">Class</string>
