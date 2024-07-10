@@ -7,7 +7,7 @@ lsparanoid = "0.6.0"
 
 annotation = "1.8.0"
 core = "1.13.1"
-collection = "1.4.0"
+collection = "1.4.1"
 fragment = "1.8.1"
 recyclerview = "1.3.2"
 lifecycle-common = "2.8.3"
