@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/system_framework_phone_title">
     <PreferenceCategory android:title="@string/system_framework_phone_network_title">
+        
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_network_flightmode_hotspot"
+            android:summary="@string/phone_flightmode_hotspot_desc"
+            android:title="@string/phone_flightmode_hotspot" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -37,12 +43,6 @@
             android:key="prefs_key_phone_n28"
             android:summary="@string/phone_n28_desc"
             android:title="@string/phone_n28" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_framework_network_flightmode_hotspot"
-            android:summary="@string/phone_flightmode_hotspot_desc"
-            android:title="@string/phone_flightmode_hotspot" />
 
     </PreferenceCategory>
 

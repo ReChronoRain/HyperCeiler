@@ -402,7 +402,7 @@
     <string name="phone_n5_n8">解锁 n5/n8 频段</string>
     <string name="phone_n5_n8_desc">在拨号界面输入 *#*#65686633#*#* 以打开 n5/n8 频段，若显示 \"enable N5 and N8 Mode\"，则开启成功</string>
     <string name="phone_flightmode_hotspot">飞行模式下可开启热点</string>
-    <string name="phone_flightmode_hotspot_desc">允许在飞行模式下开启 WiFi 热点</string>
+    <string name="phone_flightmode_hotspot_desc">允许在飞行模式下开启 WLAN 热点</string>
 
     <string name="system_framework_screen_title">显示与通知</string>
     <string name="system_framework_core_title">底层</string>
