@@ -342,6 +342,8 @@
     <string name="phone_n28_desc">Suporta banda N28 (NR)</string>
     <string name="phone_n5_n8">Banda N5/N8</string>
     <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* na interface de discagem para suportar a banda N5/N8. Se mostrar \"ativar modo N5 e N8\", o recurso será ativado com sucesso.</string>
+    <string name="phone_flightmode_hotspot">Permitir hotspot portátil no Modo avião</string>
+    <string name="phone_flightmode_hotspot_desc">Permite que o hotspot portátil Wi-Fi seja ativado no Modo avião</string>
     <string name="phone_additional_network_settings">Configurações de rede adicionais</string>
     <string name="system_framework_screen_title">Tela e notificações</string>
     <string name="system_framework_core_title">Núcleo por baixo</string>
