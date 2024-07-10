@@ -38,6 +38,12 @@
             android:summary="@string/phone_n28_desc"
             android:title="@string/phone_n28" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_network_flightmode_hotspot"
+            android:summary="@string/phone_flightmode_hotspot_desc"
+            android:title="@string/phone_flightmode_hotspot" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
