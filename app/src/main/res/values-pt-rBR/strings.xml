@@ -1314,6 +1314,7 @@
     <string name="personal_assistant_blur_value">Estilo do fundo</string>
     <string name="personal_assistant_blurradius">Valor do blur do assistente pessoal</string>
     <string name="personal_assistant_color">Cor do assistente pessoal</string>
+    <string name="personal_assistant_unlock_widget_count_limit">Desbloquear limite de contagem de widgets</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Bateria e desempenho</string>
     <string name="powerkeeper_custom_refresh_rate">Apps personalizados com alta taxa de atualização</string>
