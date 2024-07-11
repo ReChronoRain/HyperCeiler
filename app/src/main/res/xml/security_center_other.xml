@@ -72,6 +72,14 @@
             android:title="@string/security_center_skip_waiting_time"
             app:isPreferenceVisible="true" />
 
+        <DropDownPreference
+            android:defaultValue="0"
+            android:dependency="prefs_key_security_center_skip_count_down_limit"
+            android:key="prefs_key_security_center_skip_count_down_limit_type"
+            android:title="@string/security_center_skip_waiting_time_type"
+            app:entries="@array/skip_count_down_limit_type"
+            app:entryValues="@array/skip_count_down_limit_type_value" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_security_center_disable_root_check"

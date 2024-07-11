@@ -1489,6 +1489,7 @@
     <string name="security_score_summary">锁定 100 分与禁用优化</string>
     <string name="security_center_skip_waiting_time">跳过倒计时限制</string>
     <string name="security_center_skip_waiting_time_desc">跳过大部分官方危险选项的等待确认倒计时时间</string>
+    <string name="security_center_skip_waiting_time_type">跳过方式</string>
     <string name="security_center_newbox_blur">全局侧边栏模糊</string>
     <string name="security_center_remove_conversation_bubble_settings_restriction">移除气泡通知应用限制</string>
     <string name="security_center_remove_low_battery_reminder_title">隐藏低电量警告</string>
