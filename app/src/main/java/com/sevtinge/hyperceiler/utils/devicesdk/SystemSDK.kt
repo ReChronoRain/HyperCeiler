@@ -22,7 +22,7 @@ import android.os.*
 import com.sevtinge.hyperceiler.utils.PropUtils.*
 
 // 设备信息相关
-fun getSystemVersionIncremental(): String = getProp("ro.system.build.version.incremental")
+fun getSystemVersionIncremental(): String = if (getProp("ro.mi.os.version.incremental") != null) getProp("ro.mi.os.version.incremental") else getProp("ro.system.build.version.incremental")
 fun getBuildDate(): String = getProp("ro.system.build.date")
 fun getHost(): String = Build.HOST
 fun getBuilder(): String = getProp("ro.build.user")
@@ -40,82 +40,55 @@ fun getAndroidVersion(): Int = Build.VERSION.SDK_INT
  * 将获取到的字符串转换为浮点，以提供判断
  * @return 一个 Float 值
  */
-fun getMiuiVersion(): Float {
-    return when (getProp("ro.miui.ui.version.name")) {
-        "V150" -> 15f
-        "V140" -> 14f
-        "V130" -> 13f
-        "V125" -> 12.5f
-        "V12" -> 12f
-        "V11" -> 11f
-        "V10" -> 10f
-        else -> 0f
-    }
-}
+fun getMiuiVersion(): Float = if (getProp("ro.miui.ui.version.name") == "V125") 12.5f else try { getProp("ro.miui.ui.version.code").toFloat() } catch (_: Exception) { -1f }
 
 /**
  * 获取小米设备 HyperOS 版本
  * 将获取到的字符串转换为浮点，以提供判断
  * @return 一个 Float 值
  */
-fun getHyperOSVersion(): Float {
-    return when (getProp("ro.mi.os.version.name")) {
-        "OS2.0" -> 2f
-        "OS1.0" -> 1f
-        else -> 0f
-    }
-}
+fun getHyperOSVersion(): Float = if (getProp("ro.mi.os.version.code") != null) try { getProp("ro.mi.os.version.code").toFloat() } catch (_: Exception) { -1f }else 0f
 
 /**
  * 判断是否为指定某个 Android 版本
  * @param code 传入的 Android SDK Int 数值
  * @return 一个 Boolean 值
  */
-fun isAndroidVersion(code: Int): Boolean {
-    return getAndroidVersion() == code
-}
+fun isAndroidVersion(code: Int): Boolean = getAndroidVersion() == code
 
 /**
  * 判断是否大于某个 Android 版本
  * @param code 传入的 Android SDK Int 数值
  * @return 一个 Boolean 值
  */
-fun isMoreAndroidVersion(code: Int): Boolean {
-    return getAndroidVersion() >= code
-}
+fun isMoreAndroidVersion(code: Int): Boolean = getAndroidVersion() >= code
 
 /**
  * 判断是否为指定某个 MIUI 版本
  * @param code 传入的 MIUI 版本 Float 数值
  * @return 一个 Boolean 值
  */
-fun isMiuiVersion(code: Float): Boolean {
-    return getMiuiVersion() == code
-}
+fun isMiuiVersion(code: Float): Boolean = getMiuiVersion() == code
 
 /**
  * 判断是否大于某个 MIUI 版本
  * @param code 传入的 MIUI 版本 Float 数值
  * @return 一个 Boolean 值
  */
-fun isMoreMiuiVersion(code: Float): Boolean {
-    return getMiuiVersion() >= code
-}
+fun isMoreMiuiVersion(code: Float): Boolean = getMiuiVersion() >= code
 
 /**
  * 判断是否为指定某个 HyperOS 版本
  * @param code 传入的 HyperOS 版本 Float 数值
  * @return 一个 Boolean 值
  */
-fun isHyperOSVersion(code: Float): Boolean{
-    return getHyperOSVersion() == code
-}
+fun isHyperOSVersion(code: Float): Boolean = getHyperOSVersion() == code
+
 
 /**
  * 判断是否大于某个 HyperOS 版本
  * @param code 传入的 HyperOS 版本 Float 数值
  * @return 一个 Boolean 值
  */
-fun isMoreHyperOSVersion(code: Float): Boolean {
-    return getHyperOSVersion() >= code
-}
+fun isMoreHyperOSVersion(code: Float): Boolean = getHyperOSVersion() >= code
+

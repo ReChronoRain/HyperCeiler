@@ -115,7 +115,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
         } catch (Exception ignored) {
         }
         try {
-            propertiesSystem.put("AndroidVersion", String.valueOf(getAndroidVersion()));
+            propertiesSystem.put("AndroidSdkVersion", String.valueOf(getAndroidVersion()));
             propertiesSystem.put("MiuiVersion", String.valueOf(getMiuiVersion()));
             propertiesSystem.put("HyperOsVersion", String.valueOf(getHyperOSVersion()));
             propertiesSystem.put("SystemVersion", getSystemVersionIncremental());
