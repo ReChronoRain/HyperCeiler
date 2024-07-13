@@ -1763,4 +1763,9 @@
     <string name="scam_reminder_bypass_caption">Allow Dail call-forwarding MMI code directly</string>
     <string name="scam_reminder_bypass_description">Allow Dail MMI Code like **21*8# to enable call-forwarding directly</string>
 
+    <!--VoiceTrigger-->
+    <string name="voicetrigger">Voice Trigger</string>
+    <string name="bypass_udk_word_legal_check_caption">Disable ASR Enroll WordCheck</string>
+    <string name="bypass_udk_word_legal_check_description">Allow Enroll ASR without internet and bypass wordcheck</string>
+
 </resources>
