@@ -1459,6 +1459,8 @@
     <string name="security_score_summary">Lock 100 points and disable optimization</string>
     <string name="security_center_skip_waiting_time">Skip countdown limit</string>
     <string name="security_center_skip_waiting_time_desc">Skip the wait for confirmation countdown for most official dangerous options</string>
+    <string name="security_center_skip_waiting_time_direct">Skip countdown limit directly</string>
+    <string name="security_center_skip_waiting_time_direct_desc">Skip the warning page</string>
     <string name="security_center_newbox_blur">Sidebar blur</string>
     <string name="security_center_remove_conversation_bubble_settings_restriction">Remove bubble notification app restrictions</string>
     <string name="security_center_remove_low_battery_reminder_title">Hide warning about low battery level</string>
