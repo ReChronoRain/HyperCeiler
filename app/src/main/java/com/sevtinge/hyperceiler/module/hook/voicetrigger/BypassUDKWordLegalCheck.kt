@@ -28,7 +28,8 @@ import java.lang.reflect.*
 object BypassUDKWordLegalCheck : BaseHook() {
     override fun init() {
         try {
-            DexKit.getDexKitBridge("BypassUDKWordLegalCheck") {
+            // Pangaea引擎录入时的联网检查
+            DexKit.getDexKitBridge("BypassPangaeaWordCheck") {
                 it.findMethod {
                     matcher {
                         addUsingStringsEquals("PangaeaTrainingSession", "onlineQuery=")
@@ -38,11 +39,11 @@ object BypassUDKWordLegalCheck : BaseHook() {
             }.toMethod().createHook {
                 returnConstant(true)
             }
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
         }
-
+        // 默认引擎录入时的联网检查
         try {
-            DexKit.getDexKitBridge("BypassUDKWordLegalCheck1") {
+            DexKit.getDexKitBridge("BypassLegacyTrainingCheck") {
                 it.findMethod {
                     matcher {
                         addUsingStringsEquals("LegacyTrainingSession", "onlineQuery=")
@@ -52,10 +53,11 @@ object BypassUDKWordLegalCheck : BaseHook() {
             }.toMethod().createHook {
                 returnConstant(true)
             }
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
         }
+        // 判断唤醒词是否合规
         try {
-            DexKit.getDexKitBridge("BypassUDKWordLegalCheck2") {
+            DexKit.getDexKitBridge("BypassDefineWordCheck") {
                 it.findMethod {
                     matcher {
                         addUsingStringsEquals(
@@ -69,10 +71,11 @@ object BypassUDKWordLegalCheck : BaseHook() {
             }.toMethod().createHook {
                 returnConstant(true)
             }
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
         }
+        // 根据对应的唤醒词得到其精度，并返回其是否可用
         try {
-            DexKit.getDexKitBridge("BypassUDKWordLegalCheck3") {
+            DexKit.getDexKitBridge("BypassOnlineAccuracyResult") {
                 it.findMethod {
                     matcher {
                         addUsingStringsEquals(
@@ -86,7 +89,7 @@ object BypassUDKWordLegalCheck : BaseHook() {
             }.toMethod().createHook {
                 returnConstant("{\"data\":{\"status\":0,\"msg\":\"\"}}")
             }
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
         }
         try {
             DexKit.getDexKitBridge("BypassUDKWordLegalCheck4") {
@@ -113,7 +116,7 @@ object BypassUDKWordLegalCheck : BaseHook() {
             }.toMethod().createHook {
                 returnConstant(true)
             }
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
         }
     }
 }
