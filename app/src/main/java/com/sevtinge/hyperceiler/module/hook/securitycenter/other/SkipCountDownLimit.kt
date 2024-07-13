@@ -2,6 +2,7 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 
 import android.app.*
 import android.os.*
+import android.view.*
 import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.ClassLoaderProvider.safeClassLoader
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
@@ -53,11 +54,23 @@ object SkipCountDownLimit : BaseHook() {
                 }
         } else {
             val hookClassName = "com.miui.permcenter.privacymanager.InterceptBaseFragment"
-            findAndHookMethod(hookClassName, "onCreate", Bundle::class.java, object : MethodHook() {
-                override fun before(param: MethodHookParam?) {
-                    XposedHelpers.callMethod(param?.thisObject, skipCountDownLimitMethod.name, true)
+            findAndHookMethod(
+                hookClassName,
+                "onInflateView",
+                LayoutInflater::class.java,
+                ViewGroup::class.java,
+                Bundle::class.java,
+                object : MethodHook() {
+                    override fun after(param: MethodHookParam?) {
+                        XposedHelpers.callMethod(
+                            param?.thisObject,
+                            skipCountDownLimitMethod.name,
+                            true
+                        )
+                    }
                 }
-            })
+            )
+
         }
     }
 }
