@@ -227,6 +227,13 @@
                 android:data="https://github.com/xueshiji" />
         </Preference>
         <Preference
+            android:summary="GitHub@xzakota"
+            android:title="xzakota">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/xzakota" />
+        </Preference>
+        <Preference
             android:summary="GitHub@YuKongA"
             android:title="YuKongA">
             <intent
