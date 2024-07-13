@@ -1811,4 +1811,9 @@
     <string name="scam_reminder_bypass_caption">允许直接拨打呼叫转移 MMI 码</string>
     <string name="scam_reminder_bypass_description">允许直接拨打类似 **21*8# 的 MMI 码以开启呼叫转移</string>
 
+    <!--语音唤醒-->
+    <string name="voicetrigger">语音唤醒</string>
+    <string name="bypass_udk_word_legal_check_caption">允许无网录入唤醒词</string>
+    <string name="bypass_udk_word_legal_check_description">允许在无网状态下录入语音唤醒词</string>
+
 </resources>

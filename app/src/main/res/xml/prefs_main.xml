@@ -303,6 +303,13 @@
             android:title="@string/voiceassist" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.VoiceTriggerFragment"
+            android:icon="@drawable/ic_voiceassist"
+            android:key="prefs_key_voicetrigger"
+            android:summary="com.miui.voicetrigger"
+            android:title="@string/voicetrigger" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.WeatherFragment"
             android:icon="@drawable/ic_weather"
             android:key="prefs_key_weather"
