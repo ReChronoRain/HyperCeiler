@@ -342,6 +342,8 @@
     <string name="phone_n28_desc">支援 n28 頻段 (NR)</string>
     <string name="phone_n5_n8">解鎖 n5/n8 頻段</string>
     <string name="phone_n5_n8_desc">在撥號介面輸入 *#*#65686633#*#* 以打開 n5/n8 頻段，若顯示 enable N5 and N8 Mode，則開啟成功</string>
+    <string name="phone_flightmode_hotspot">允許飛航模式熱點</string>
+    <string name="phone_flightmode_hotspot_desc">允許在飛航模式中開啟 Wi-Fi 熱點</string>
     <string name="phone_additional_network_settings">附加網路設定</string>
     <string name="system_framework_screen_title">顯示和通知</string>
     <string name="system_framework_core_title">底層</string>
@@ -529,6 +531,7 @@
     <string name="system_ui_lock_screen_block_editor_title">停用長按進入鎖定螢幕編輯</string>
     <string name="system_ui_lock_screen_allow_third_face">允許第三方螢幕鎖定介面喚醒系統驗證識別</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">允許在第三方應用程式顯示的螢幕鎖定介面時，正常使用人臉和指紋辨識</string>
+    <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">停用藍牙解鎖時的 Toast 提示</string>
     <string name="system_ui_navigation_title">導航欄</string>
     <string name="system_ui_navigation_handle_title">手勢提示線</string>
     <string name="system_ui_hide_navigation_bar">隱藏導覽列</string>
@@ -788,6 +791,7 @@
     <string name="system_ui_control_center_show_weather">顯示天氣</string>
     <string name="system_ui_control_center_show_weather_city">顯示地區</string>
     <string name="system_ui_control_center_disable_device_managed">隱藏網路監控提示</string>
+    <string name="system_ui_control_center_hide_edit_botton">隱藏編輯按鈕</string>
     <string name="system_ui_control_center_mute_visible_notice">開啟螢幕時靜音</string>
     <string name="system_ui_control_center_unimportant_notification">禁止折疊到歷史通知中</string>
     <string name="system_ui_control_center_expand_notification">展開通知</string>
@@ -834,6 +838,8 @@
     <string name="system_ui_disable_miui_multi_win_switch">隱藏快捷視窗按鈕</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">隱藏常駐的三個小點，包括小窗應用程式頂部和 HyperOS for Pad 橫向螢幕下頂部中間的快速視窗按鈕（不影響功能使用）</string>
     <string name="system_ui_remove_miui_multi_win_switch">隱藏快捷視窗按鈕</string>
+    <string name="system_ui_disable_infinitymode_gesture">停用無限縮放手勢</string>
+    <string name="system_ui_disable_infinitymode_gesture_sum">平板裝置專用</string>
     <string name="system_ui_disable_bottombar">隱藏小窗應用程式的手勢提示線</string>
     <string name="system_ui_others_pct_title">數據顯示</string>
     <string name="system_showpct_title">顯示亮度百分比</string>
@@ -908,6 +914,8 @@
     <string name="system_settings_transition_animation_scale">轉場動畫比例縮放</string>
     <string name="system_settings_animator_duration_scale">動畫持續時間縮放</string>
     <string name="system_settings_allow_never_lock_screen">允許永不鎖定螢幕</string>
+    <string name="system_settings_anti_ques">停用裝置名稱的敏感詞檢測</string>
+    <string name="system_settings_anti_ques_desc">您不得在違反當地或國家法律的情況下使用此功能。</string>
     <!--Themes-->
     <string name="theme_manager">主題桌布</string>
     <string name="theme_manager_version_code_modify">調整檢測版本</string>
@@ -916,6 +924,9 @@
     <string name="theme_manager_diable_ads_desc">將「猜你喜歡」的廣告替換為空白卡片，其餘位置的廣告將完全移除</string>
     <string name="theme_manager_enable_pad_theme">啟用 Pad 主題</string>
     <string name="theme_manager_enable_fold_theme">啟用 Fold 主題</string>
+    <!--remotecontroller-->
+    <string name="remotecontroller">萬能遙控</string>
+    <string name="remotecontroller_disable_ad">停用廣告</string>
     <!--Updater-->
     <string name="updater">系統更新</string>
     <string name="updater_enable_miui_version">啟用偽裝版本</string>
@@ -1116,6 +1127,14 @@
     <string name="home_title">圖示與標題</string>
     <string name="home_title_icon_title">圖示</string>
     <string name="home_title_icon_animation_title">圖示動畫</string>
+    <string name="home_title_app_blur_title">應用程式模糊</string>
+    <string name="home_title_app_blur_enable">啟用應用程式的動態背景模糊</string>
+    <string name="home_title_app_blur_radius">應用程式的動態背景模糊參數</string>
+    <string name="home_title_app_dim_alpha">應用程式的動態背景的遮罩透明度</string>
+    <string name="home_title_wallpaper_blur_radius">桌布模糊參數</string>
+    <string name="home_title_wallpaper_dim_alpha">桌布遮罩透明度</string>
+    <string name="home_title_fix_small_window">應用程式小窗動畫額外調整</string>
+    <string name="home_title_fix_small_window_desc">實驗性功能：強制使用動畫以避免拖曳應用程式進入小窗時出現不正常的閃爍。非必要可不啟用。</string>
     <string name="home_title_title_title">標題</string>
     <string name="home_title_title_marquee">文字滾動</string>
     <string name="home_title_title_marquee_desc">過長的應用程式名稱將以滾動進行顯示，不再使用換行</string>
@@ -1138,6 +1157,8 @@
     <string name="home_title_custom_anim_param">動畫曲率自訂</string>
     <string name="home_title_custom_anim_param_damping_title">阻尼</string>
     <string name="home_title_custom_anim_param_stiffness_title">剛度</string>
+    <string name="home_title_hide_report_text">隱藏檢舉選項</string>
+    <string name="home_title_hide_report_text_desc">隱藏解除安裝時彈出的檢舉選項</string>
     <string name="home_recent">最近任務</string>
     <string name="home_recent_animation_speed">動畫速度</string>
     <string name="home_recent_disable_wallpaper_dimming">取消桌布壓暗</string>
@@ -1162,6 +1183,9 @@
     <string name="home_recent_show_memory_info">顯示記憶體資訊</string>
     <string name="home_recent_always_show_clean_up">禁止卡片不存在時隱藏清理圖示</string>
     <string name="home_recent_blur">背景模糊</string>
+    <string name="home_recent_show_launch">最近任務卡片不隱藏桌面</string>
+    <string name="home_recent_show_launch_size">桌面透明度</string>
+    <string name="home_recent_show_launch_alpha">桌面縮放大小</string>
     <string name="home_widget">小工具</string>
     <string name="home_widget_all_widget_animation">小工具動畫</string>
     <string name="home_widget_show_miui_widget">顯示系統小工具</string>
@@ -1280,6 +1304,9 @@
     <string name="nfc">NFC 服務</string>
     <string name="nfc_disable_sound">停用 NFC 提示音</string>
     <string name="nfc_allow_information_screen">允許關閉螢幕時識別</string>
+    <!--HTML Viewer-->
+    <string name="html_viewer">HTML 檢視器</string>
+    <string name="html_viewer_disable_cloud_control">停用雲端控制</string>
     <!--App vault-->
     <string name="personal_assistant">智慧助理</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold 小工具</string>
@@ -1289,6 +1316,7 @@
     <string name="personal_assistant_blur_value">背景樣式</string>
     <string name="personal_assistant_blurradius">智慧助理背景模糊程度</string>
     <string name="personal_assistant_color">智慧助理背景疊加層顏色</string>
+    <string name="personal_assistant_unlock_widget_count_limit">解鎖小工具數量限制</string>
     <!--Battery and performance-->
     <string name="powerkeeper">電量和性能</string>
     <string name="powerkeeper_custom_refresh_rate">自訂高螢幕更新率的應用程式</string>
@@ -1340,6 +1368,7 @@
     <string name="security_center_get_number">管理應用程式取得手機號碼並一鍵登入</string>
     <string name="security_center_applock_pin_scramble">應用程式鎖亂序 PIN</string>
     <string name="security_center_power_saver">妙享不省電</string>
+    <string name="security_center_privacy_thumbnail_blur">停用自啟動最近任務卡片的模糊預覽圖</string>
     <string name="security_center_power_saver_desc">透過小米妙享中心投影時停用省電模式</string>
     <string name="security_center_applock_pin_scramble_desc">隨機更改應用程式鎖 PIN 鍵盤順序</string>
     <string name="security_center_beauty_light_auto">解鎖智慧調節補光燈亮度</string>

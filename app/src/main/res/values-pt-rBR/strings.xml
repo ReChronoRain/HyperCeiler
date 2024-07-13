@@ -1669,12 +1669,12 @@
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
     <string name="headtip_tip_long_press_to_copy">Você pode selecionar o texto após pressionar longamente ou tocar duas vezes, ou copiá-lo e devolvê-lo ao desenvolvedor.</string>
     <string name="safe_mode_title">Aviso</string>
-    <string name="safe_mode_desc">%1$s Você entrou no Modo seguro devido a várias falhas e os recursos do HyperCeiler foi temporariamente desativado.\nClique em OK para cancelar ou clique em Cancelar para continuar mais tarde.</string>
+    <string name="safe_mode_desc">%1$s entrou no Modo seguro devido a várias falhas e os recursos do HyperCeiler foi temporariamente desativado.\nClique em OK para cancelar ou clique em Cancelar para continuar mais tarde.</string>
     <string name="safe_mode_history">Ver registros de exceção</string>
     <string name="safe_mode_cancel">Desativar Modo seguro</string>
     <string name="safe_mode_ok">Continuar mais tarde</string>
     <string name="safe_mode_later_title">Dica</string>
-    <string name="safe_mode_later_desc">%1$s Você ainda está no Modo seguro e os recursos do HyperCeiler estão desativados. Deseja desativar o Modo seguro?</string>
+    <string name="safe_mode_later_desc">%1$s ainda está no Modo seguro e os recursos do HyperCeiler estão desativados. Deseja desativar o Modo seguro?</string>
     <string name="safe_mode_recorder_title">Registros de exceção</string>
     <string name="safe_mode_recorder_file">Arquivo</string>
     <string name="safe_mode_recorder_class">Classe</string>
