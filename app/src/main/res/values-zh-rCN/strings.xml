@@ -1811,7 +1811,7 @@
 
     <!--语音唤醒-->
     <string name="voicetrigger">语音唤醒</string>
-    <string name="bypass_udk_word_legal_check_caption">禁用语音唤醒敏感词检测</string>
-    <string name="bypass_udk_word_legal_check_description">允许在无网状态下录入语音唤醒词，并禁用敏感词检测</string>
+    <string name="bypass_udk_word_legal_check_caption">允许无网录入唤醒词</string>
+    <string name="bypass_udk_word_legal_check_description">允许在无网状态下录入语音唤醒词</string>
 
 </resources>

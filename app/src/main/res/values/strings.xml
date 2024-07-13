@@ -1765,7 +1765,7 @@
 
     <!--VoiceTrigger-->
     <string name="voicetrigger">Voice Trigger</string>
-    <string name="bypass_udk_word_legal_check_caption">Disable ASR Enroll WordCheck</string>
-    <string name="bypass_udk_word_legal_check_description">Allow Enroll ASR without internet and bypass wordcheck</string>
+    <string name="bypass_udk_word_legal_check_caption">ASR Enroll w/o Internet</string>
+    <string name="bypass_udk_word_legal_check_description">Allow Enroll ASR without internet</string>
 
 </resources>
