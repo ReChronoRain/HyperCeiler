@@ -92,7 +92,8 @@ object BypassUDKWordLegalCheck : BaseHook() {
         } catch (_: Throwable) {
         }
         try {
-            DexKit.getDexKitBridge("BypassUDKWordLegalCheck4") {
+            // 禁止判断当前系统网络状态
+            DexKit.getDexKitBridge("BypassNetworkStateCheckForUdkEnroll") {
                 it.findMethod {
                     matcher {
                         addUsingStringsEquals("connectivity")
