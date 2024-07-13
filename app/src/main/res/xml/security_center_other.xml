@@ -72,13 +72,13 @@
             android:title="@string/security_center_skip_waiting_time"
             app:isPreferenceVisible="true" />
 
-        <DropDownPreference
-            android:defaultValue="0"
+        <SwitchPreference
+            android:defaultValue="false"
             android:dependency="prefs_key_security_center_skip_count_down_limit"
-            android:key="prefs_key_security_center_skip_count_down_limit_type"
-            android:title="@string/security_center_skip_waiting_time_type"
-            app:entries="@array/skip_count_down_limit_type"
-            app:entryValues="@array/skip_count_down_limit_type_value" />
+            android:key="prefs_key_security_center_skip_count_down_limit_direct"
+            android:summary="@string/security_center_skip_waiting_time_direct_desc"
+            android:title="@string/security_center_skip_waiting_time_direct"
+            app:isPreferenceVisible="true" />
 
         <SwitchPreference
             android:defaultValue="false"
