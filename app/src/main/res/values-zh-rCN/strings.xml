@@ -616,7 +616,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">网速指示器</string>
     <string name="system_ui_statusbar_clock_title">时钟指示器</string>
     <string name="system_ui_statusbar_device_title">硬件指示器</string>
-    <string name="system_ui_statusbar_strong_toast_title">灵动提示</string>
+    <string name="system_ui_statusbar_strong_toast_title">灵动舞台</string>
     <string name="system_ui_statusbar_layout_title">布局</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">兼容模式</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">对所有异形屏强制开启完整屏布局</string>
@@ -797,7 +797,7 @@
     <string name="system_ui_status_bar_strong_toast_layout">布局</string>
     <string name="system_ui_status_bar_strong_toast_text">信息</string>
     <string name="system_ui_status_bar_strong_toast_test">调试</string>
-    <string name="system_ui_status_bar_strong_toast_hide">隐藏灵动提示</string>
+    <string name="system_ui_status_bar_strong_toast_hide">隐藏灵动舞台</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">短文本输出</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">长文本输出</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">测试</string>

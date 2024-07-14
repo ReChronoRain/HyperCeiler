@@ -251,7 +251,7 @@ public class SystemUIT extends BaseModule {
 
         // initHook(new DisplayHardwareDetailForHyper(), true);
 
-        // 灵动提示
+        // 灵动舞台
         initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_strong_toast_hide"));
 
         // 居右显示
