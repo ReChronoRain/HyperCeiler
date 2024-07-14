@@ -346,6 +346,9 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.aiasst,
                 "com.sevtinge.hyperceiler.ui.fragment.AiAsstFragment");
 
+        parsePrefXml(context, R.xml.voicetrigger,
+                "com.sevtinge.hyperceiler.ui.fragment.VoiceTriggerFragment");
+
         parsePrefXml(context, R.xml.telecom,
                 "com.sevtinge.hyperceiler.ui.fragment.TelecomFragment");
 
