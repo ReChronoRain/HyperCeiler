@@ -69,6 +69,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     Preference mGuardProvider;
     Preference mHeadtipWarn;
     Preference mHeadtipBirthday;
+    Preference mHeadtipHyperCeiler;
     Preference mHelpCantSeeApps;
     TipsPreference mTips;
     MainActivityContextHelper mainActivityContextHelper;
@@ -139,7 +140,8 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         mGuardProvider = findPreference("prefs_key_guardprovider");
         mTips = findPreference("prefs_key_tips");
         mHeadtipWarn = findPreference("prefs_key_headtip_warn");
-        mHeadtipBirthday = findPreference("prefs_key_headtip_hyperceiler");
+        mHeadtipBirthday = findPreference("prefs_key_headtip_hyperceiler_birthday");
+        mHeadtipHyperCeiler = findPreference("prefs_key_headtip_hyperceiler");
         mHelpCantSeeApps = findPreference("prefs_key_help_cant_see_app");
 
         mHelpCantSeeApps.setVisible(!getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false));
@@ -165,6 +167,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         mainActivityContextHelper = new MainActivityContextHelper(requireContext());
 
         isBirthday();
+        isFuckCoolapkSDay();
         isOfficialRom();
         if (!getIsOfficialRom()) isSignPass();
 
@@ -176,7 +179,14 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         int currentMonth = calendar.get(Calendar.MONTH);
         int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
         mHeadtipBirthday.setVisible(currentMonth == Calendar.MAY && currentDay == 1);
+    }
 
+    public void isFuckCoolapkSDay() {
+        Calendar calendar = Calendar.getInstance();
+        int currentMonth = calendar.get(Calendar.MONTH);
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        mHeadtipHyperCeiler.setVisible(currentMonth == Calendar.JULY && currentDay == 14);
+        mHeadtipHyperCeiler.setTitle(R.string.headtip_tip_fuck_coolapk);
     }
 
     public void isOfficialRom() {

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2015 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,63 +15,74 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:clickable="false"
-    android:clipChildren="false"
-    android:gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:paddingTop="6dp"
+    android:clickable="false"
+    android:clipChildren="false"
+    android:gravity="center_vertical"
     android:paddingStart="24dp"
+    android:paddingTop="6dp"
     android:paddingEnd="24dp"
     android:paddingBottom="2dp">
 
     <include layout="@layout/image_frame" />
 
     <RelativeLayout
-        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1.0">
+        android:layout_weight="1.0"
+        android:background="@drawable/headtip_hyperceiler_background"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/image_left"
+            android:layout_width="92dp"
+            android:layout_height="66dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="7dp"
+
+            android:src="@drawable/ic_hyperceiler_cartoon" />
 
         <TextView
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@android:id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/headtip_hyperceiler_background"
-            android:textColor="#fc5b8d"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:inputType="textMultiLine"
-            android:textIsSelectable="true"
-            android:enabled="false"
+            android:layout_toEndOf="@id/image_left"
+            android:layout_centerVertical="true"
             android:clickable="true"
+            android:enabled="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
+            android:inputType="textMultiLine"
             android:longClickable="true"
-            />
+            android:paddingLeft="7dp"
+            android:paddingTop="14dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="14dp"
+            android:textColor="#fc5b8d"
+            android:textIsSelectable="true" />
     </RelativeLayout>
 
     <!-- Preference should place its actual preference widget here. -->
     <LinearLayout
         android:id="@android:id/widget_frame"
-        android:gravity="center"
-        android:clipChildren="false"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="@dimen/preference_widget_minWidth" />
+        android:clipChildren="false"
+        android:gravity="center"
+        android:minWidth="@dimen/preference_widget_minWidth"
+        android:orientation="vertical" />
 
     <ImageView
         android:id="@+id/arrow_right"
-        android:gravity="center"
-        android:layout_gravity="center|end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:gravity="center"
         android:src="@drawable/ic_preference_arrow_right" />
 
 </LinearLayout>
