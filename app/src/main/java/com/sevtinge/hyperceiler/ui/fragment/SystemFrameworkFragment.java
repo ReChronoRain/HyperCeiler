@@ -20,7 +20,10 @@ package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
+import android.view.View;
+
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.devicesdk.TelephonyManager;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
@@ -39,6 +42,11 @@ public class SystemFrameworkFragment extends SettingsPreferenceFragment {
     @Override
     public int getContentResId() {
         return R.xml.framework;
+    }
+
+    @Override
+    public View.OnClickListener addRestartListener() {
+        return view -> ((BaseSettingsActivity)getActivity()).showRestartSystemDialog();
     }
 
     @Override

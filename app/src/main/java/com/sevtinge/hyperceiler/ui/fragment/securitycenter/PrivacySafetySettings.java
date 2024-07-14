@@ -18,13 +18,18 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.securitycenter;
 
+import static com.hchen.hooktool.utils.SystemSDK.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.Manifest;
 import android.provider.Settings;
+import android.view.View;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 
 import moralnorm.preference.SwitchPreference;
 
@@ -36,6 +41,14 @@ public class PrivacySafetySettings extends SecurityCenterBaseSettings {
     @Override
     public int getContentResId() {
         return R.xml.security_center_privacy_safety;
+    }
+
+    @Override
+    public View.OnClickListener addRestartListener() {
+        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
+                isPad() ? getResources().getString(R.string.security_center_pad) : isMoreHyperOSVersion(1f) ? getResources().getString(R.string.security_center_hyperos) : getResources().getString(R.string.security_center),
+                "com.miui.securitycenter"
+        );
     }
 
     @Override

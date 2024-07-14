@@ -25,12 +25,14 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
+import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 import com.sevtinge.hyperceiler.utils.KillApp;
@@ -62,6 +64,11 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
     @Override
     public int getContentResId() {
         return R.xml.framework_other;
+    }
+
+    @Override
+    public View.OnClickListener addRestartListener() {
+        return view -> ((BaseSettingsActivity)getActivity()).showRestartSystemDialog();
     }
 
     @Override
