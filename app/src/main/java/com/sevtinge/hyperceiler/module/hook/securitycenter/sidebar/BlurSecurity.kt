@@ -24,8 +24,10 @@ import android.graphics.drawable.*
 import android.util.*
 import android.view.*
 import android.widget.*
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
@@ -56,7 +58,7 @@ object BlurSecurity : BaseHook() {
     private var appVersionCode = 40000727
 
     // 反色 同时保持红蓝色变化不大
-    val invertColorRenderEffect = RenderEffect.createColorFilterEffect(
+    private val invertColorRenderEffect = RenderEffect.createColorFilterEffect(
         ColorMatrixColorFilter(
             floatArrayOf(
                 1f, 1f, -2f, 0f, 16f,
@@ -74,172 +76,143 @@ object BlurSecurity : BaseHook() {
     // keepList 列表内元素及其子元素不会反色
     private val keepColorList = arrayOf("rv_information")
 
+    private val lottieAnimation by lazy {
+        DexKit.getDexKitBridge("BlurSecurity1") {
+            it.findMethod {
+                matcher {
+                    addUsingString("game_turbo_box_mode_change")
+                }
+            }.single().getMethodInstance(ClassLoaderProvider.safeClassLoader)
+        }.toMethod()
+    }
+
     override fun init() {
         val turboLayoutClass = findClassIfExists(
             "com.miui.gamebooster.windowmanager.newbox.TurboLayout"
         ) ?: return
-        val newToolBoxTopViewClass = findClassIfExists(
-            "com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView"
-        ) ?: return
 
-        var newBoxClass: Class<*>? = null
+        var dockLayoutClass: Class<*>? = null
         turboLayoutClass.methods.forEach {
             if (it.name == "getDockLayout") {
-                newBoxClass = it.returnType
+                dockLayoutClass = it.returnType
             }
         }
-        if (newBoxClass == null) {
+        if (dockLayoutClass == null) {
             return
         }
 
-        XposedBridge.hookAllConstructors(newBoxClass, object : XC_MethodHook() {
+        // dock 应用栏
+        XposedBridge.hookAllConstructors(dockLayoutClass, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val view = param.thisObject as View
                 view.addOnAttachStateChangeListener(
                     object :
                         View.OnAttachStateChangeListener {
                         override fun onViewAttachedToWindow(view: View) {
-                            // 已有背景 避免重复添加
-
-                            if (!blurSuper) {
-                                if (view.background != null) {
-                                    if (isBlurDrawable(view.background)) {
-                                        return
-                                    }
-                                }
-
-                                view.background =
-                                    createBlurDrawable(view, blurRadius, 40, backgroundColor)
-                            } else {
-                                view.apply {
-                                    setBackgroundColor(backgroundColor)
-                                    clearMiBackgroundBlendColor()
-                                    setMiViewBlurMode(1)
-                                    setMiBackgroundBlurRadius(40)
-                                    addMiBackgroundBlendColor(Color.argb(255, 0, 0, 0), 103)
-                                }
-                            }
+                            setBlurBg(view)
                         }
 
                         override fun onViewDetachedFromWindow(view: View) {
-                            if (!blurSuper) view.background = null
+                            clearBlurBg(view)
                         }
                     })
             }
         })
 
+        // 工具箱主体(这里只处理视频/会议/通话工具箱)
+        findAndHookMethod(turboLayoutClass, "getTargetBox", object : MethodHook() {
+            override fun after(param: MethodHookParam) {
+                val targetBox: View? = param.result as View?
+                targetBox?.addOnAttachStateChangeListener(
+                    object : View.OnAttachStateChangeListener {
+                        override fun onViewAttachedToWindow(view: View) {
+                            val mainContent: View? = (view as ViewGroup).getChildAt(0)
+                            if (mainContent != null) {
+                                /**
+                                 * 视频/会议/通话工具箱 ID 为 main_content
+                                 * 游戏工具箱无 ID, 但不要在此操作游戏工具箱
+                                 * 因为会导致游戏工具箱主体扩展时本该透明的区域却设置了背景, 例如“亮度”
+                                 */
+                                if (mainContent.id != View.NO_ID) {
+                                    mainContent.background = null
+                                    setBlurBg(view)
+
+                                    if (shouldInvertColor && isInvertColor) {
+                                        invertViewColor(view)
+                                    }
+                                }
+                            }
+                        }
+
+                        override fun onViewDetachedFromWindow(view: View) {
+                            clearBlurBg(view)
+                        }
+                    }
+                )
+            }
+        })
+
+        val newToolBoxTopViewClass = findClassIfExists(
+            "com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView"
+        ) ?: return
+        // 游戏工具箱
         XposedBridge.hookAllConstructors(newToolBoxTopViewClass, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val view = param.thisObject as View
                 view.addOnAttachStateChangeListener(
                     object : View.OnAttachStateChangeListener {
                         override fun onViewAttachedToWindow(view: View) {
-                            val viewPaernt = view.parent as ViewGroup
-                            val gameContentLayout = viewPaernt.parent as ViewGroup
-                            if (!blurSuper) {
-                                if (gameContentLayout.background != null) {
-                                    if (isBlurDrawable(gameContentLayout.background)) {
-                                        return
-                                    }
-                                }
-
-                                gameContentLayout.background =
-                                    createBlurDrawable(
-                                        gameContentLayout,
-                                        blurRadius,
-                                        40,
-                                        backgroundColor
-                                    )
-                            } else {
-                                view.apply {
-                                    setBackgroundColor(backgroundColor)
-                                    clearMiBackgroundBlendColor()
-                                    setMiViewBlurMode(1)
-                                    setMiBackgroundBlurRadius(40)
-                                    addMiBackgroundBlendColor(Color.argb(255, 0, 0, 0), 103)
-                                }
-                            }
+                            val viewParent = view.parent as ViewGroup
+                            val gameContentLayout = viewParent.parent as ViewGroup
+                            setBlurBg(gameContentLayout)
                             if (shouldInvertColor && isInvertColor) {
                                 invertViewColor(gameContentLayout)
 
-                                // 设置 RenderEffect 后会导致文字动画出现问题，故去除动画
-                                val performanceTextView =
-                                    XposedHelpers.callMethod(
-                                        param.thisObject,
-                                        "getPerformanceTextView"
-                                    ) as View
-
-                                XposedHelpers.findAndHookMethod(
-                                    performanceTextView.javaClass,
-                                    if (appVersionCode >= 40000749) "e" else "a",
-                                    Boolean::class.java, object : XC_MethodReplacement() {
-                                        override fun replaceHookedMethod(param: MethodHookParam?) {
-                                            param?.result = null
-                                        }
-                                    })
-                            }
-
-                            var headBackground =
-                                getValueByField(param.thisObject, "j")
-                            if (headBackground == null) {
-                                headBackground = getValueByField(param.thisObject, "j")
-                            } else if (!headBackground.javaClass.name.contains("ImageView")) {
-                                headBackground = getValueByField(param.thisObject, "C")
-                            }
-                            if (headBackground == null) {
-                                return
-                            }
-                            if (headBackground.javaClass.name.contains("ImageView")) {
-                                headBackground as ImageView
-                                headBackground.visibility = View.GONE
+                                /**
+                                 * 设置 RenderEffect 后会导致文字动画出现问题，故去除动画
+                                 * 暂时把整个动画(包括 lottie 动画和文字动画)去除, 仅去除文字动画可能因版本混淆而 hook 失败
+                                 * 在 40000727 版本号中去除文字动画：
+                                 * com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView
+                                 * ↳ getPerformanceTextView
+                                 *   ↳ e(boolean)
+                                 */
+                                lottieAnimation.createHook {
+                                    replace {
+                                        null
+                                    }
+                                }
                             }
                         }
 
-                        override fun onViewDetachedFromWindow(view: View) {
-                            val viewPaernt = view.parent as ViewGroup
-                            val gameContentLayout = viewPaernt.parent as ViewGroup
-                            if (!blurSuper) gameContentLayout.background = null
+                        override fun onViewDetachedFromWindow(v: View) {
+                            val viewParent = view.parent as ViewGroup
+                            val gameContentLayout = viewParent.parent as ViewGroup
+                            clearBlurBg(gameContentLayout)
                         }
-                    })
+                    }
+                )
             }
         })
 
-        DexKit.getDexKitBridge("BlurSecurity1") {
-            it.findMethod {
-                matcher {
-                    returnType = "android.view.View"
-                    paramTypes = listOf("android.content.Context", "boolean", "boolean")
-                }
-            }.single().getMethodInstance(lpparam.classLoader)
-        }.toMethod().createAfterHook { param ->
-            val mainContent = getValueByField(param.thisObject, "b") as ViewGroup
-            mainContent.addOnAttachStateChangeListener(object :
-                View.OnAttachStateChangeListener {
-                override fun onViewAttachedToWindow(view: View) {
-                    if (!blurSuper) {
-                        if (view.background != null) {
-                            if (isBlurDrawable(view.background)) return
-                        }
-                        view.background =
-                            createBlurDrawable(view, blurRadius, 40, backgroundColor)
-                    } else {
-                        view.apply {
-                            setBackgroundColor(backgroundColor)
-                            clearMiBackgroundBlendColor()
-                            setMiViewBlurMode(1)
-                            setMiBackgroundBlurRadius(40)
-                            addMiBackgroundBlendColor(Color.argb(255, 0, 0, 0), 103)
+        // 隐藏视频/游戏工具箱顶部静态图
+        XposedBridge.hookAllConstructors(
+            ImageView::class.java,
+            object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    (param.thisObject as? ImageView?)?.let {
+                        if (it.id != View.NO_ID) {
+                            val id = getId(it)
+                            if (id == "video_box_top_line_bg" || id == "game_turbo_top_line_bg") {
+                                it.setImageDrawable(null)
+                                it.visibility = View.GONE
+                            }
                         }
                     }
-                    if (shouldInvertColor && isInvertColor) invertViewColor(mainContent)
                 }
+            }
+        )
 
-                override fun onViewDetachedFromWindow(view: View) {
-                    if (!blurSuper) view.background = null
-                }
-            })
-        }
-
+        // ======================================
         if (shouldInvertColor && isInvertColor) {
             val detailSettingsLayoutClass = findClassIfExists(
                 "com.miui.gamebooster.videobox.view.DetailSettingsLayout"
@@ -282,7 +255,7 @@ object BlurSecurity : BaseHook() {
                 "seekbar_text_speed"
             )
 
-            val gameManagerMethod = DexKit.getDexKitBridge("BlurSecurity2"){
+            val gameManagerMethod = DexKit.getDexKitBridge("BlurSecurity2") {
                 it.findMethod {
                     searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
                     matcher {
@@ -430,6 +403,32 @@ object BlurSecurity : BaseHook() {
                 })
 
         }
+    }
+
+    private fun setBlurBg(view: View) {
+        // 已有背景 避免重复添加
+        if (!blurSuper) {
+            if (view.background != null) {
+                if (isBlurDrawable(view.background)) {
+                    return
+                }
+            }
+
+            view.background =
+                createBlurDrawable(view, blurRadius, 40, backgroundColor)
+        } else {
+            view.apply {
+                setBackgroundColor(backgroundColor)
+                clearMiBackgroundBlendColor()
+                setMiViewBlurMode(1)
+                setMiBackgroundBlurRadius(40)
+                addMiBackgroundBlendColor(Color.argb(255, 0, 0, 0), 103)
+            }
+        }
+    }
+
+    private fun clearBlurBg(view: View) {
+        if (!blurSuper) view.background = null
     }
 
     // 尽量给最外层加 RenderEffect 而不是 最内层
