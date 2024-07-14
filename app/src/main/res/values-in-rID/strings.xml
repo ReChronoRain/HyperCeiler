@@ -1556,4 +1556,6 @@
     <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
     <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi Re.chronoRain, dan mungkin berisi kode berbahaya.</string>
     <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan kepada pengembang secara tepat waktu dan sopan.</string>
+    <string name="system_framework_other_disable_gesture_monitor">इशारों की निगरानी अक्षम करें</string>
+    <string name="system_framework_other_disable_gesture_monitor_desc">CPU लोड को कम करता है, लेकिन इनपुट-संबंधी सुविधाओं को बाधित करता है, जैसे कि तीन-उंगली स्क्रीनशॉट</string>
 </resources>

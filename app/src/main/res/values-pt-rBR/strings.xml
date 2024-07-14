@@ -1701,4 +1701,6 @@
     <string name="telecom">Gerenciamento de chamadas</string>
     <string name="scam_reminder_bypass_caption">Permitir encaminhamento de chamadas através do código MMI</string>
     <string name="scam_reminder_bypass_description">Permite a discagem direta de códigos MMI, como **21*8#, para ativar o encaminhamento de chamadas.</string>
+    <string name="system_framework_other_disable_gesture_monitor">Desative o monitoramento de gestos</string>
+    <string name="system_framework_other_disable_gesture_monitor_desc">Reduz a carga da CPU, mas interrompe funções relacionadas à entrada, como capturas de tela com três dedos</string>
 </resources>

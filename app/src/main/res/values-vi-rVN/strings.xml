@@ -1715,4 +1715,6 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="telecom">Gọi điện</string>
     <string name="scam_reminder_bypass_caption">Cho phép quay số trực tiếp mã MMI chuyển tiếp cuộc gọi</string>
     <string name="scam_reminder_bypass_description">Cho phép quay mã MMI như **21*8# để chuyển tiếp cuộc gọi trực tiếp</string>
+    <string name="system_framework_other_disable_gesture_monitor">Tắt giám sát cử chỉ</string>
+    <string name="system_framework_other_disable_gesture_monitor_desc">Giảm tải CPU nhưng làm hỏng các chức năng liên quan đến đầu vào như chụp ảnh màn hình bằng ba ngón tay</string>
 </resources>

@@ -433,6 +433,8 @@
     <string name="system_framework_other_thermal_brightness_more">Only automatically reduces screen brightness not caused by temperature control</string>
     <string name="system_framework_other_disable_cleaner">Disable kill background apps</string>
     <string name="system_framework_other_disable_cleaner_desc">Experimental features, may cause running memory usage abnormally</string>
+    <string name="system_framework_other_disable_gesture_monitor">Disable gesture monitor</string>
+    <string name="system_framework_other_disable_gesture_monitor_desc">Reduces CPU load, but breaks input-related features, such as three-finger screenshots</string>
     <string name="system_framework_disable_72h_verify">Disable lock screen verify when per 72 hours</string>
     <string name="system_framework_disable_verify_can_ve_disabled">Disable to verify can be disabled</string>
     <string name="system_framework_allow_all_dark_mode">Allow all apps to use dark mode</string>
