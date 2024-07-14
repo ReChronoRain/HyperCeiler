@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.hook.voicetrigger;
 
+import android.annotation.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
@@ -74,6 +75,7 @@ object BypassUDKWordLegalCheck : BaseHook() {
         } catch (_: Throwable) {
         }
         // 根据对应的唤醒词得到其精度，并返回其是否可用
+        val accUser = mPrefsMap.getInt("voicetrigger_accuracy_percent", 70).toFloat() / 100
         try {
             DexKit.getDexKitBridge("BypassOnlineAccuracyResult") {
                 it.findMethod {
@@ -87,7 +89,12 @@ object BypassUDKWordLegalCheck : BaseHook() {
                     }
                 }.single().getMethodInstance(lpparam.classLoader)
             }.toMethod().createHook {
-                returnConstant("{\"data\":{\"status\":0,\"msg\":\"\"}}")
+                returnConstant(
+                    "{\"data\":{\"status\":0,\"msg\":\"\",\"accuracy\":\"" + String.format(
+                        "%.1f",
+                        accUser
+                    ) + "\"}}"
+                )
             }
         } catch (_: Throwable) {
         }
