@@ -1769,5 +1769,7 @@
     <string name="voicetrigger">Voice Trigger</string>
     <string name="bypass_udk_word_legal_check_caption">ASR Enroll w/o Internet</string>
     <string name="bypass_udk_word_legal_check_description">Allow Enroll ASR without internet</string>
+    <string name="voicetrigger_accuracy_percent_caption">Set ASR accuracy</string>
+    <string name="voicetrigger_accuracy_percent_description">Set ASR accuracy, higher means harder to identify. default value is 70%, for keyword XATX, it`s 0%. After set, you need to restart target app and re-enroll your wakeup word.</string>
 
 </resources>
