@@ -1816,6 +1816,6 @@
     <string name="bypass_udk_word_legal_check_caption">允许无网录入唤醒词</string>
     <string name="bypass_udk_word_legal_check_description">允许在无网状态下录入语音唤醒词</string>
     <string name="voicetrigger_accuracy_percent_caption">设置唤醒词检测精度</string>
-    <string name="voicetrigger_accuracy_percent_description">用于设置唤醒词检测精度，更大的值意味着更难被检测到。默认值是70%，对于“小爱同学”，其默认值是0%。设置完毕后，需要重启目标APP并重新录入唤醒词。</string>
+    <string name="voicetrigger_accuracy_percent_description">更大的值意味着更难被检测到。对于 \"小爱同学\"，其默认值是 0%。设置完毕后，需要重新录入唤醒词</string>
 
 </resources>
