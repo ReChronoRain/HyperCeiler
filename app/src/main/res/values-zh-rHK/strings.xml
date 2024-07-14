@@ -1701,4 +1701,6 @@
     <string name="telecom">通話管理</string>
     <string name="scam_reminder_bypass_caption">允許直接撥號呼叫 MMI 碼</string>
     <string name="scam_reminder_bypass_description">允許直接撥打 MMI 碼（如 **21*8#）以啟用呼叫轉移</string>
+    <string name="system_framework_other_disable_gesture_monitor">禁止監控手勢</string>
+    <string name="system_framework_other_disable_gesture_monitor_desc">可降低CPU負載，但會破壞輸入相關功能，例如三指截圖</string>
 </resources>
