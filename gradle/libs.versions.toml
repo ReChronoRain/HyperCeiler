@@ -24,7 +24,7 @@ dexkit = "2.0.2"
 ezxhelper = "2.2.0"
 accompanist = "0.34.0"
 hiddenapibypass = "4.3"
-commons-codec = "1.17.0"
+commons-codec = "1.17.1"
 
 [libraries]
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
