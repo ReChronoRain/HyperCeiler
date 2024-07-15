@@ -545,6 +545,10 @@
     <string name="mms">Message</string>
     <string name="mms_disable_ad">Disable ads</string>
     <string name="mms_disable_ad_desc">Remove shortcuts at the bottom of the screen and promotions below SMS content</string>
+    <string name="mms_disable_fraud_risk_tip">Disable suspected fraud tip</string>
+    <string name="mms_disable_fraud_risk_tip_desc">Disable \"Possible scam\" tip</string>
+    <string name="mms_disable_overseas_risk_tip">Disable overseas risk tip</string>
+    <string name="mms_disable_overseas_risk_tip_desc">Disable \"Might be overseas fraud\" tip</string>
     <!--Phone Service-->
     <string name="phone">Phone Service</string>
     <string name="phone_smart_dual_sim">Unlock Smart dual SIM</string>

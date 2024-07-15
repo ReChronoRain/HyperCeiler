@@ -9,4 +9,16 @@
         android:key="prefs_key_mms_disable_ad"
         android:defaultValue="false" />
 
+    <SwitchPreference
+        android:title="@string/mms_disable_fraud_risk_tip"
+        android:summary="@string/mms_disable_fraud_risk_tip_desc"
+        android:key="prefs_key_mms_disable_fraud_risk_tip"
+        android:defaultValue="false" />
+
+    <SwitchPreference
+        android:title="@string/mms_disable_overseas_risk_tip"
+        android:summary="@string/mms_disable_overseas_risk_tip_desc"
+        android:key="prefs_key_mms_disable_overseas_risk_tip"
+        android:defaultValue="false" />
+
 </PreferenceScreen>
