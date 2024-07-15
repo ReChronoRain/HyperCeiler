@@ -381,6 +381,8 @@
     <string name="system_framework_other_thermal_brightness_more">Reduz automaticamente apenas o brilho da tela não causado pelo controle de temperatura</string>
     <string name="system_framework_other_disable_cleaner">Desativar encerramento de apps em segundo plano</string>
     <string name="system_framework_other_disable_cleaner_desc">Recurso experimental. Pode causar uso anormal de memória em execução.</string>
+    <string name="system_framework_other_disable_gesture_monitor">Desativar monitoramento de gestos</string>
+    <string name="system_framework_other_disable_gesture_monitor_desc">Reduz a carga da CPU, mas interrompe recursos relacionados à entrada, como capturas de tela com três dedos.</string>
     <string name="system_framework_disable_72h_verify">Desativar verificação da tela de bloqueio a cada 72 horas</string>
     <string name="system_framework_disable_verify_can_ve_disabled">Desativar para verificar pode ser desativado</string>
     <string name="system_framework_allow_all_dark_mode">Permitir que todos os apps usem o Modo escuro</string>
@@ -1401,6 +1403,8 @@
     <string name="security_score_summary">Bloqueie a pontuação de segurança em 100 e desative o botão Otimizar</string>
     <string name="security_center_skip_waiting_time">Ignorar limite de contagem regressiva</string>
     <string name="security_center_skip_waiting_time_desc">Ignore a contagem regressiva de espera para opções perigosas</string>
+    <string name="security_center_skip_waiting_time_direct">Ignorar limite de contagem regressiva diretamente</string>
+    <string name="security_center_skip_waiting_time_direct_desc">Ignore a caixa de aviso</string>
     <string name="security_center_newbox_blur">Blur da barra lateral</string>
     <string name="security_center_remove_conversation_bubble_settings_restriction">Remover restrições do app de conversas em bolhas</string>
     <string name="security_center_remove_low_battery_reminder_title">Ocultar aviso sobre nível de bateria fraca</string>
@@ -1668,6 +1672,7 @@
     <string name="headtip_warn_not_offical_rom">A ROM que você está usando pode não ser oficial da Xiaomi, e alguns recursos podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
     <string name="headtip_tip_long_press_to_copy">Você pode selecionar o texto após pressionar longamente ou tocar duas vezes, ou copiá-lo e devolvê-lo ao desenvolvedor.</string>
+    <string name="headtip_tip_fuck_coolapk">Hoje na história:\nSevtinge fez um discurso importante em 14 de julho de 2022.</string>
     <string name="safe_mode_title">Aviso</string>
     <string name="safe_mode_desc">%1$s entrou no Modo seguro devido a várias falhas e os recursos do HyperCeiler foi temporariamente desativado.\nClique em OK para cancelar ou clique em Cancelar para continuar mais tarde.</string>
     <string name="safe_mode_history">Ver registros de exceção</string>
@@ -1701,6 +1706,10 @@
     <string name="telecom">Gerenciamento de chamadas</string>
     <string name="scam_reminder_bypass_caption">Permitir encaminhamento de chamadas através do código MMI</string>
     <string name="scam_reminder_bypass_description">Permite a discagem direta de códigos MMI, como **21*8#, para ativar o encaminhamento de chamadas.</string>
-    <string name="system_framework_other_disable_gesture_monitor">Desative o monitoramento de gestos</string>
-    <string name="system_framework_other_disable_gesture_monitor_desc">Reduz a carga da CPU, mas interrompe funções relacionadas à entrada, como capturas de tela com três dedos</string>
+    <!--VoiceTrigger-->
+    <string name="voicetrigger">Acorde com voz</string>
+    <string name="bypass_udk_word_legal_check_caption">Permitir gravação do Acorde com voz sem internet</string>
+    <string name="bypass_udk_word_legal_check_description">Permite a gravação de palavras do Acorde com voz quando estiver offline</string>
+    <string name="voicetrigger_accuracy_percent_caption">Definir precisão da detecção do Acorde com voz</string>
+    <string name="voicetrigger_accuracy_percent_description">Valores maiores são mais difíceis de detectar. O valor padrão é 70%, para a palavra-chave XATX é 0%. Após a configuração, você precisa reiniciar o app de destino e registrar novamente sua palavra de ativação.</string>
 </resources>

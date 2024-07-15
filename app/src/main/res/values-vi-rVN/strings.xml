@@ -382,6 +382,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_other_thermal_brightness_more">Chỉ tự động giảm độ sáng khi độ sáng tự động bật không phải do kiểm soát nhiệt</string>
     <string name="system_framework_other_disable_cleaner">Ngăn chặn tắt ứng dụng nền</string>
     <string name="system_framework_other_disable_cleaner_desc">Tính năng thử nghiệm, có thể gây ra việc sử dụng bộ nhớ bất thường</string>
+    <string name="system_framework_other_disable_gesture_monitor">Tắt giám sát cử chỉ</string>
+    <string name="system_framework_other_disable_gesture_monitor_desc">Giảm tải CPU nhưng làm hỏng các chức năng liên quan đến đầu vào như chụp ảnh màn hình bằng ba ngón tay</string>
     <string name="system_framework_disable_72h_verify">Tắt xác minh khóa màn hình sau 72 giờ</string>
     <string name="system_framework_disable_verify_can_ve_disabled">Cho phép tắt xác minh ứng dụng</string>
     <string name="system_framework_allow_all_dark_mode">Cho phép tất cả ứng dụng sử dụng chế độ tối</string>
@@ -1414,6 +1416,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_score_summary">Khóa 100 điểm và tắt tối ưu</string>
     <string name="security_center_skip_waiting_time">Bỏ qua giới hạn đếm ngược</string>
     <string name="security_center_skip_waiting_time_desc">Bỏ qua thời gian đếm ngược chờ xác nhận cho tính năng không an toàn</string>
+    <string name="security_center_skip_waiting_time_direct">Bỏ qua giới hạn đếm ngược</string>
+    <string name="security_center_skip_waiting_time_direct_desc">Bỏ qua trang cảnh báo</string>
     <string name="security_center_newbox_blur">Làm mờ thanh bên</string>
     <string name="security_center_remove_conversation_bubble_settings_restriction">Xóa giới hạn ứng dụng bong bóng hội thoại</string>
     <string name="security_center_remove_low_battery_reminder_title">Ẩn cảnh báo pin yếu</string>
@@ -1682,6 +1686,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="headtip_tip_long_press_to_copy">Bạn có thể chọn văn bản sau khi nhấn và nhấp đúp vào văn bản đó hoặc sao chép văn bản đó và gửi lại cho nhà phát triển.</string>
+    <string name="headtip_tip_fuck_coolapk">Ngày hôm nay trong lịch sử:\nSevtinge đã có bài phát biểu quan trọng vào ngày 14 tháng 7 năm 2022.</string>
     <string name="safe_mode_title">Cảnh báo</string>
     <string name="safe_mode_desc">%1$s bạn đã vào Chế độ an toàn do một số sự cố và các tính năng của HyperCeiler đã tạm thời bị tắt.\nNhấp OK để hủy hoặc nhấp Hủy để tiếp tục sau.</string>
     <string name="safe_mode_history">Xem nhật ký ngoại lệ</string>
@@ -1715,6 +1720,10 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="telecom">Gọi điện</string>
     <string name="scam_reminder_bypass_caption">Cho phép quay số trực tiếp mã MMI chuyển tiếp cuộc gọi</string>
     <string name="scam_reminder_bypass_description">Cho phép quay mã MMI như **21*8# để chuyển tiếp cuộc gọi trực tiếp</string>
-    <string name="system_framework_other_disable_gesture_monitor">Tắt giám sát cử chỉ</string>
-    <string name="system_framework_other_disable_gesture_monitor_desc">Giảm tải CPU nhưng làm hỏng các chức năng liên quan đến đầu vào như chụp ảnh màn hình bằng ba ngón tay</string>
+    <!--VoiceTrigger-->
+    <string name="voicetrigger">Kích hoạt bằng giọng nói</string>
+    <string name="bypass_udk_word_legal_check_caption">Đăng ký ASR mà không có Internet</string>
+    <string name="bypass_udk_word_legal_check_description">Cho phép đăng ký ASR mà không cần internet</string>
+    <string name="voicetrigger_accuracy_percent_caption">Đặt độ chính xác ASR</string>
+    <string name="voicetrigger_accuracy_percent_description">Đặt độ chính xác ASR, cao hơn có nghĩa là khó xác định hơn. giá trị mặc định là 70%, đối với từ khóa XATX là 0%. Sau khi thiết lập, bạn cần khởi động lại ứng dụng đích và đăng ký lại từ đánh thức của mình.</string>
 </resources>
