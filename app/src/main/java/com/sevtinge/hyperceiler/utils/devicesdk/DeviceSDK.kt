@@ -66,8 +66,9 @@ fun colorFilter(colorInt: Int) = BlendModeColorFilter(colorInt, BlendMode.SRC_IN
 fun getDeviceToken(androidId : String): String {
     val modelName = getModelName()
     val cpuId = getCpuId()
+    val serial = getSerial()
 
-    val originalText = "[$modelName]&&[$androidId]&&[$cpuId]"
+    val originalText = "[$modelName]&&[$serial]&&[$androidId]&&[$cpuId]"
 
     return hashString(originalText, "SHA-256")
 }

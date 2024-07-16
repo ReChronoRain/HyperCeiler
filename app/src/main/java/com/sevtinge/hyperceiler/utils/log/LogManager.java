@@ -19,6 +19,8 @@
 package com.sevtinge.hyperceiler.utils.log;
 
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSerial;
+
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.BuildConfig;
@@ -55,8 +57,8 @@ public class LogManager {
     }
 
     public static boolean isLoggerAlive() {
-        String tag = "111";
-        String message = "11111";
+        String tag = "HyperCeilerLogManager";
+        String message = "LOGGER_ALIVE_SYMBOL_" + getSerial();
         int timeout = 5;
         Log.d(tag, message);
         ExecutorService executor = Executors.newSingleThreadExecutor();
