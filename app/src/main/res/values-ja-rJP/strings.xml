@@ -75,7 +75,7 @@
     <string name="settings_icon_medium">中間</string>
     <string name="settings_icon_down">下部</string>
     <string name="settings_icon_mode">アイコンのスタイル</string>
-    <string name="settings_app_language">言語 (Language)</string>
+    <string name="settings_app_language">言語</string>
     <string name="settings_icon_miui_14">丸みを帯びた長方形のスタイル</string>
     <string name="settings_icon_miui_13">背景の切り抜きスタイル</string>
     <string name="settings_reboot">ターゲットアプリを再起動</string>
