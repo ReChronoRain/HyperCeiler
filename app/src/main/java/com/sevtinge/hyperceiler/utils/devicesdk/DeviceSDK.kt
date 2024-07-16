@@ -25,6 +25,7 @@ import com.github.kyuubiran.ezxhelper.*
 import com.sevtinge.hyperceiler.utils.PropUtils.*
 import com.sevtinge.hyperceiler.utils.shell.ShellUtils.*
 import moralnorm.internal.utils.*
+import java.security.*
 import java.util.*
 
 
@@ -41,7 +42,7 @@ fun getManufacture(): String = android.os.Build.MANUFACTURER
 fun getModDevice(): String = getProp("ro.product.mod_device")
 fun getCharacteristics(): String = getProp("ro.build.characteristics")
 fun getSerial(): String = safeExecCommandWithRoot("getprop ro.serialno").replace("\n", "")
-fun getCpuId(): String = safeExecCommandWithRoot("getprop ro.boot.cpuid")
+fun getCpuId(): String = removeLeadingZeros(safeExecCommandWithRoot("getprop ro.boot.cpuid"))
 
 fun getDensityDpi(): Int =
     (EzXHelper.appContext.resources.displayMetrics.widthPixels / EzXHelper.appContext.resources.displayMetrics.density).toInt()
@@ -66,7 +67,22 @@ fun getDeviceToken(androidId : String): String {
     val modelName = getModelName()
     val cpuId = getCpuId()
 
-    val originalText = "$modelName&&$androidId&&$cpuId"
+    val originalText = "[$modelName]&&[$androidId]&&[$cpuId]"
 
-    return Base64.getEncoder().encodeToString(originalText.toByteArray())
+    return hashString(originalText, "SHA-256")
+}
+
+fun hashString(input: String, algorithm: String): String {
+    val bytes = input.toByteArray()
+    val digest = MessageDigest.getInstance(algorithm)
+    val hashBytes = digest.digest(bytes)
+    return hashBytes.joinToString("") { "%02x".format(it) }
+}
+
+fun removeLeadingZeros(input: String): String {
+    var result = input
+    while (result.startsWith("0") || result.startsWith("x")) {
+        result = result.drop(1)
+    }
+    return result
 }
