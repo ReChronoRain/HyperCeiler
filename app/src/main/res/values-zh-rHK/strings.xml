@@ -1842,7 +1842,7 @@
     <string name="headtip_warn_sign_verification_failed">簽名校驗失敗，您當前使用嘅版本可能並非來自於 Re.chronoRain 嘅官方版本，可能包含惡意代碼，請注意使用安全。</string>
     <string name="headtip_tip_long_press_to_copy">您可以長按或雙擊後選擇文本進行操作，或者複製並反饋俾開發者。</string>
     <string name="happy_birthday_hyperceiler">今日係 HyperCeiler 嘅生日！\n感謝與您歲月相伴之恩，願來年再續前緣，共赴風雨，攜手並進！</string>
-    <string name="headtip_tip_fuck_coolapk">歷史上的今日：\n2022 年 7 月 14 日，Sevtinge 發表重要講話。</string>
+    <string name="headtip_tip_fuck_coolapk">歷史上的今日：\n2022 年 7 月 14 日，紺漓發表重要講話。</string>
     <string name="headtip_notice_dead_logger_errcode">當前設備 Log 服務異常，HyperCeiler 功能將被限制。\n請恢復 Log 服務，使其可以正常運行。\n錯誤代碼: %1$s</string>
     <string name="headtip_notice_dead_logger">當前設備 Log 服務異常，HyperCeiler 功能將被限制。請恢復 Log 服務，使其可以正常運行。</string>
 
