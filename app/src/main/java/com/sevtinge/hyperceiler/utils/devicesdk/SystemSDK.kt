@@ -20,6 +20,8 @@ package com.sevtinge.hyperceiler.utils.devicesdk
 
 import android.os.*
 import com.sevtinge.hyperceiler.utils.PropUtils.*
+import com.sevtinge.hyperceiler.utils.shell.ShellUtils.*
+
 
 // 设备信息相关
 fun getSystemVersionIncremental(): String = if (getProp("ro.mi.os.version.incremental") != null) getProp("ro.mi.os.version.incremental") else getProp("ro.system.build.version.incremental")
@@ -28,6 +30,7 @@ fun getHost(): String = Build.HOST
 fun getBuilder(): String = getProp("ro.build.user")
 fun getBaseOs(): String = getProp("ro.build.version.base_os")
 fun getRomAuthor(): String = getProp("ro.rom.author") + getProp("ro.romid")
+fun getWhoAmI(): String = safeExecCommandWithRoot("whoami")
 
 /**
  * 获取设备 Android 版本

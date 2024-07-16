@@ -1788,7 +1788,7 @@
     <string name="disable_suggest">禁用推荐</string>
     <string name="enable_suggest">启用推荐</string>
 
-    <string name="safe_mode_title">警告</string>
+    <string name="warn">警告</string>
     <string name="safe_mode_desc">%1$s由于多次崩溃，已进入安全模式，HyperCeiler 对其的功能已停用。\n您可以解除对其的安全模式，或稍后进入 HyperCeiler 处理。</string>
     <string name="safe_mode_history">查看异常记录</string>
     <string name="safe_mode_cancel">解除</string>
@@ -1810,6 +1810,8 @@
     <string name="headtip_tip_long_press_to_copy">您可以长按或双击后选择文本进行操作，或者复制并反馈给开发者。</string>
     <string name="happy_birthday_hyperceiler">今天是 HyperCeiler 的生日！\n感谢与您岁月相伴之恩，愿来年再续前缘，共赴风雨，携手并进！</string>
     <string name="headtip_tip_fuck_coolapk">历史上的今天：\n2022 年 7 月 14 日，绀漓发表重要讲话。</string>
+    <string name="headtip_notice_dead_logger_errcode">当前设备 Log 服务异常，HyperCeiler 功能将被限制。\n请恢复 Log 服务，使其可以正常运行。\n错误代码: %1$s</string>
+    <string name="headtip_notice_dead_logger">当前设备 Log 服务异常，HyperCeiler 功能将被限制。请恢复 Log 服务，使其可以正常运行。</string>
 
     <!--通话管理-->
     <string name="telecom">通话管理</string>

@@ -24,6 +24,8 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
+import static com.sevtinge.hyperceiler.utils.log.LogManager.LOGGER_CHECKER_ERR_CODE;
 
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -68,6 +70,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     Preference mAod;
     Preference mGuardProvider;
     Preference mHeadtipWarn;
+    Preference mHeadtipNotice;
     Preference mHeadtipBirthday;
     Preference mHeadtipHyperCeiler;
     Preference mHelpCantSeeApps;
@@ -140,6 +143,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         mGuardProvider = findPreference("prefs_key_guardprovider");
         mTips = findPreference("prefs_key_tips");
         mHeadtipWarn = findPreference("prefs_key_headtip_warn");
+        mHeadtipNotice = findPreference("prefs_key_headtip_notice");
         mHeadtipBirthday = findPreference("prefs_key_headtip_hyperceiler_birthday");
         mHeadtipHyperCeiler = findPreference("prefs_key_headtip_hyperceiler");
         mHelpCantSeeApps = findPreference("prefs_key_help_cant_see_app");
@@ -169,6 +173,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         isBirthday();
         isFuckCoolapkSDay();
         isOfficialRom();
+        isLoggerAlive();
         if (!getIsOfficialRom()) isSignPass();
 
         mTips = findPreference("prefs_key_tips");
@@ -192,6 +197,13 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     public void isOfficialRom() {
         mHeadtipWarn.setTitle(R.string.headtip_warn_not_offical_rom);
         mHeadtipWarn.setVisible(getIsOfficialRom());
+    }
+
+    public void isLoggerAlive() {
+        if (!IS_LOGGER_ALIVE) {
+            mHeadtipNotice.setTitle(R.string.headtip_notice_dead_logger);
+            mHeadtipNotice.setVisible(true);
+        }
     }
 
     public boolean getIsOfficialRom() {

@@ -1737,7 +1737,9 @@
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of Re.chronoRain, and may contain malicious code.</string>
     <string name="headtip_tip_long_press_to_copy">You can select text after long or double press, or copy it and feed it back to the developer.</string>
     <string name="headtip_tip_fuck_coolapk">Today in history:\nSevtinge delivered an important speech on July 14, 2022.</string>
-    <string name="safe_mode_title">Warning</string>
+    <string name="headtip_notice_dead_logger_errcode">The current device Log service is abnormal and HyperCeiler functions will be limited.\nPlease restore the Log service so that it can run normally.\nError code: %1$s</string>
+    <string name="headtip_notice_dead_logger">The current device Log service is abnormal and HyperCeiler functions will be limited. Please restore the Log service so that it can run normally.</string>
+    <string name="warn">Warning</string>
     <string name="safe_mode_desc">%1$s has entered safe mode due to multiple crashes and HyperCeiler functionality has been temporarily disabled. \nClick OK to cancel, click Cancel to process later.</string>
     <string name="safe_mode_history">View exception records</string>
     <string name="safe_mode_cancel">Disable safe mode</string>

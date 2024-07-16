@@ -1687,7 +1687,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="headtip_tip_long_press_to_copy">Bạn có thể chọn văn bản sau khi nhấn và nhấp đúp vào văn bản đó hoặc sao chép văn bản đó và gửi lại cho nhà phát triển.</string>
     <string name="headtip_tip_fuck_coolapk">Ngày hôm nay trong lịch sử:\nSevtinge đã có bài phát biểu quan trọng vào ngày 14 tháng 7 năm 2022.</string>
-    <string name="safe_mode_title">Cảnh báo</string>
+    <string name="warn">Cảnh báo</string>
     <string name="safe_mode_desc">%1$s bạn đã vào Chế độ an toàn do một số sự cố và các tính năng của HyperCeiler đã tạm thời bị tắt.\nNhấp OK để hủy hoặc nhấp Hủy để tiếp tục sau.</string>
     <string name="safe_mode_history">Xem nhật ký ngoại lệ</string>
     <string name="safe_mode_cancel">Tắt chế độ an toàn</string>

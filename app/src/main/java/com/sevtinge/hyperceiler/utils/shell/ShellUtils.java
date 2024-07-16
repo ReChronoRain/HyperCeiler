@@ -254,4 +254,21 @@ public class ShellUtils {
             this.errorMsg = errorMsg;
         }
     }
+
+    public static String safeExecCommandWithRoot(String command) {
+        try {
+            Process suProcess = Runtime.getRuntime().exec("su");
+            DataOutputStream os = new DataOutputStream(suProcess.getOutputStream());
+            os.writeBytes(command + "\n");
+            os.flush();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(suProcess.getInputStream()));
+            String result = reader.readLine();
+            os.writeBytes("exit\n");
+            os.flush();
+            suProcess.waitFor();
+            return result;
+        } catch (IOException | InterruptedException e) {
+            return e.toString();
+        }
+    }
 }

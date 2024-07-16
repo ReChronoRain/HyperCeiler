@@ -81,7 +81,7 @@ public class DialogHelper {
     public static void showCrashReportDialog(Activity activity, View view) {
         new AlertDialog.Builder(activity)
                 .setCancelable(false)
-                .setTitle(R.string.safe_mode_title)
+                .setTitle(R.string.warn)
                 .setView(view)
                 .setHapticFeedbackEnabled(true)
                 .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {

@@ -25,6 +25,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getBoard;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getBrand;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getCharacteristics;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getDeviceName;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getDeviceToken;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getFingerPrint;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLanguage;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLocale;
@@ -43,8 +44,9 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVer
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
-
-import android.widget.TextView;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getWhoAmI;
+import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
+import static com.sevtinge.hyperceiler.utils.log.LogManager.LOGGER_CHECKER_ERR_CODE;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
@@ -62,8 +64,6 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
 
     private Preference mDebugInfo;
     MainActivityContextHelper mainActivityContextHelper;
-    TextView m;
-
 
     @Override
     public int getContentResId() {
@@ -110,8 +110,8 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesDevice.put("Locale", getLocale());
             propertiesDevice.put("Language", getLanguage());
             propertiesDevice.put("AndroidId", mainActivityContextHelper.getAndroidId());
-            //
             // propertiesDevice.put("Serial", getSerial());
+            propertiesDevice.put("DeviceToken", getDeviceToken(mainActivityContextHelper.getAndroidId()));
         } catch (Exception ignored) {
         }
         try {
@@ -132,6 +132,8 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesCheck.put("SignCheckPass", String.valueOf(SignUtils.isSignCheckPass(requireContext())));
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActive));
             propertiesCheck.put("RootPermission", String.valueOf(ShellInit.ready()));
+            propertiesCheck.put("WhoAmI", getWhoAmI());
+            propertiesCheck.put("LoggerStatus", IS_LOGGER_ALIVE + ", " + LOGGER_CHECKER_ERR_CODE);
         } catch (Exception ignored) {
         }
 

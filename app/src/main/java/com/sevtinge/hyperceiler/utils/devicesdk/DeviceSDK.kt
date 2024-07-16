@@ -23,6 +23,7 @@ import android.content.res.*
 import android.graphics.*
 import com.github.kyuubiran.ezxhelper.*
 import com.sevtinge.hyperceiler.utils.PropUtils.*
+import com.sevtinge.hyperceiler.utils.shell.ShellUtils.*
 import moralnorm.internal.utils.*
 import java.util.*
 
@@ -39,7 +40,8 @@ fun getBrand(): String = android.os.Build.BRAND
 fun getManufacture(): String = android.os.Build.MANUFACTURER
 fun getModDevice(): String = getProp("ro.product.mod_device")
 fun getCharacteristics(): String = getProp("ro.build.characteristics")
-fun getSerial(): String = getProp("ro.serialno").replace("\n", "")
+fun getSerial(): String = safeExecCommandWithRoot("getprop ro.serialno").replace("\n", "")
+fun getCpuId(): String = safeExecCommandWithRoot("getprop ro.boot.cpuid")
 
 fun getDensityDpi(): Int =
     (EzXHelper.appContext.resources.displayMetrics.widthPixels / EzXHelper.appContext.resources.displayMetrics.density).toInt()
@@ -59,3 +61,12 @@ fun isPadDevice(): Boolean = isTablet() || DeviceHelper.isFoldDevice()
 fun isDarkMode(): Boolean =
     EzXHelper.appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 fun colorFilter(colorInt: Int) = BlendModeColorFilter(colorInt, BlendMode.SRC_IN)
+
+fun getDeviceToken(androidId : String): String {
+    val modelName = getModelName()
+    val cpuId = getCpuId()
+
+    val originalText = "$modelName&&$androidId&&$cpuId"
+
+    return Base64.getEncoder().encodeToString(originalText.toByteArray())
+}

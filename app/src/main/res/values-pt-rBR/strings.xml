@@ -1673,7 +1673,7 @@
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
     <string name="headtip_tip_long_press_to_copy">Você pode selecionar o texto após pressionar longamente ou tocar duas vezes, ou copiá-lo e devolvê-lo ao desenvolvedor.</string>
     <string name="headtip_tip_fuck_coolapk">Hoje na história:\nSevtinge fez um discurso importante em 14 de julho de 2022.</string>
-    <string name="safe_mode_title">Aviso</string>
+    <string name="warn">Aviso</string>
     <string name="safe_mode_desc">%1$s entrou no Modo seguro devido a várias falhas e os recursos do HyperCeiler foi temporariamente desativado.\nClique em OK para cancelar ou clique em Cancelar para continuar mais tarde.</string>
     <string name="safe_mode_history">Ver registros de exceção</string>
     <string name="safe_mode_cancel">Desativar Modo seguro</string>

@@ -23,6 +23,13 @@
             android:title="This is warn of headtip."
             app:isPreferenceVisible="false" />
 
+        <Preference
+            android:layout="@layout/headtip_notice"
+            android:key="prefs_key_headtip_notice"
+            android:enabled="false"
+            android:title="This is notice of headtip."
+            app:isPreferenceVisible="false" />
+
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.SystemFrameworkFragment"
             android:icon="@drawable/ic_android"
