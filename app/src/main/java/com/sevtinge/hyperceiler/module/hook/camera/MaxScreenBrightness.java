@@ -25,11 +25,15 @@ import android.view.WindowManager;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
+import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -38,13 +42,19 @@ public class MaxScreenBrightness extends BaseHook {
 
     @Override
     public void init() throws NoSuchMethodException {
+
+        Method method = (Method) DexKit.getDexKitBridge("GetHaloBrightness", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingNumbers(0, 8208, -1.0f, 256, 204)
+                        )
+                ).singleOrThrow(() -> new IllegalStateException("MaxScreenBrightness: Cannot found getHaloBrightness()"));
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
         
-        MethodData methodData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-                .matcher(MethodMatcher.create()
-                        .usingNumbers(0, 8208, -1.0f, 256, 204)
-                )
-        ).singleOrThrow(() -> new IllegalStateException("MaxScreenBrightness: Cannot found getHaloBrightness()"));
-        Method method = methodData.getMethodInstance(lpparam.classLoader);
         logD(TAG, lpparam.packageName, "getHaloBrightness() method is " + method);
         hookMethod(method, new MethodHook() {
             @Override

@@ -54,7 +54,7 @@ public class SetCardLightDarkMode extends BaseHook {
         Field field = (Field) DexKit.getDexKitBridge("LightDarkModeField", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                FieldData fieldData = DexKit.getDexKitBridge().findField(FindField.create()
+                FieldData fieldData = bridge.findField(FindField.create()
                         .matcher(FieldMatcher.create()
                                 .declaredClass(ClassMatcher.create()
                                         .usingStrings(METHOD_NAME))

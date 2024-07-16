@@ -26,12 +26,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.provider.Settings;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindClass;
 import org.luckypray.dexkit.query.FindField;
 import org.luckypray.dexkit.query.FindMethod;
@@ -42,6 +45,8 @@ import org.luckypray.dexkit.result.ClassData;
 import org.luckypray.dexkit.result.FieldData;
 import org.luckypray.dexkit.result.MethodData;
 
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
@@ -57,69 +62,85 @@ public class BluetoothListener extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
         uuid = mPrefsMap.getString("misound_bluetooth_uuid", "");
-        ClassData classData = DexKit.getDexKitBridge().findClass(FindClass.create().matcher(ClassMatcher.create()
-                .usingStrings("Creating a DolbyAudioEffect to global output mix!"))).singleOrNull();
-        try {
-            if (classData == null) {
-                logE(TAG, "AudioEffect not found");
+        Class<?> clazz1 = (Class<?>) DexKit.getDexKitBridge("CreateDolbyAudioEffectClazz", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                ClassData clazzData = bridge.findClass(FindClass.create()
+                        .matcher(ClassMatcher.create().usingStrings("Creating a DolbyAudioEffect to global output mix!"))).singleOrNull();
+                return clazzData.getInstance(lpparam.classLoader);
+            }
+        });
+        if (clazz1 == null) {
+            logE(TAG, "AudioEffect not found");
+        } else {
+            findAndHookConstructor(clazz1,
+                    int.class, int.class,
+                    new MethodHook() {
+                        @Override
+                        protected void after(MethodHookParam param) {
+                            miDolby = param.thisObject;
+                            // logE(TAG, "miDolby: " + miDolby);
+                        }
+                    }
+            );
+        }
+        Class<?> clazz2 = (Class<?>) DexKit.getDexKitBridge("MiSoundClazz", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                ClassData clazzData = bridge.findClass(FindClass.create()
+                        .matcher(ClassMatcher.create()
+                                .usingStrings("android.media.audiofx.MiSound"))).singleOrNull();
+                return clazzData.getInstance(lpparam.classLoader);
+            }
+        });
+        if (clazz2 == null) {
+            logE(TAG, "MiSound not found");
+        } else {
+            Field field = (Field) DexKit.getDexKitBridge("Field", new IDexKit() {
+                @Override
+                public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    FieldData fieldData = bridge.findField(FindField.create()
+                            .matcher(FieldMatcher.create()
+                                    .declaredClass(clazz2).type(Object.class)
+                            )).singleOrNull();
+                    return fieldData.getFieldInstance(lpparam.classLoader);
+                }
+            });
+            if (field == null) {
+                logE(TAG, "field not found");
             } else {
-                findAndHookConstructor(classData.getInstance(lpparam.classLoader),
+                String name = field.getName();
+                findAndHookConstructor(clazz2,
                         int.class, int.class,
                         new MethodHook() {
                             @Override
                             protected void after(MethodHookParam param) {
-                                miDolby = param.thisObject;
-                                // logE(TAG, "miDolby: " + miDolby);
+                                miAudio = XposedHelpers.getObjectField(param.thisObject, name);
+                                // logE(TAG, "miAudio: " + miAudio);
                             }
                         }
                 );
             }
-        } catch (ClassNotFoundException e) {
-            logE(TAG, e);
         }
-        ClassData classData1 = DexKit.getDexKitBridge().findClass(FindClass.create().matcher(ClassMatcher.create()
-                .usingStrings("android.media.audiofx.MiSound"))).singleOrNull();
-        try {
-            if (classData1 == null) {
-                logE(TAG, "MiSound not found");
-            } else {
-                FieldData fieldData = DexKit.getDexKitBridge().findField(FindField.create().matcher(FieldMatcher.create()
-                        .declaredClass(classData1.getInstance(lpparam.classLoader)).type(Object.class)
-                )).singleOrNull();
-                if (fieldData == null) {
-                    logE(TAG, "field not found");
-                } else {
-                    String name = fieldData.getFieldName();
-                    findAndHookConstructor(classData1.getInstance(lpparam.classLoader),
-                            int.class, int.class,
-                            new MethodHook() {
-                                @Override
-                                protected void after(MethodHookParam param) {
-                                    miAudio = XposedHelpers.getObjectField(param.thisObject, name);
-                                    // logE(TAG, "miAudio: " + miAudio);
-                                }
-                            }
-                    );
-                }
+        Method method1 = (Method) DexKit.getDexKitBridge("GetEnabledEffect", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .declaredClass(
+                                        ClassMatcher.create()
+                                                .usingStrings("getEnabledEffect(): both of enabled, force return misound")
+                                )
+                                .usingStrings("getEnabledEffect(): both of enabled, force return misound")
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
             }
-        } catch (ClassNotFoundException e) {
-            logE(TAG, e);
-        }
-        MethodData methodData = DexKit.getDexKitBridge().findMethod(FindMethod.create()
-                .matcher(MethodMatcher.create()
-                        .declaredClass(
-                                ClassMatcher.create()
-                                        .usingStrings("getEnabledEffect(): both of enabled, force return misound")
-                        )
-                        .usingStrings("getEnabledEffect(): both of enabled, force return misound")
-                )
-        ).singleOrNull();
+        });
         try {
-            if (methodData == null) {
+            if (method1 == null) {
                 logE(TAG, "null");
             } else {
-                Method method = methodData.getMethodInstance(lpparam.classLoader);
-                hookMethod(method,
+                hookMethod(method1,
                         new MethodHook() {
                             @Override
                             protected void before(MethodHookParam param) {
@@ -135,7 +156,7 @@ public class BluetoothListener extends BaseHook {
                             }
                         }
                 );
-                findAndHookMethod(method.getDeclaringClass(), "onPreferenceChange",
+                findAndHookMethod(method1.getDeclaringClass(), "onPreferenceChange",
                         "androidx.preference.Preference", Object.class,
                         new MethodHook() {
                             @Override
@@ -148,10 +169,16 @@ public class BluetoothListener extends BaseHook {
                             }
                         }
                 );
-                MethodData methodData1 = DexKit.getDexKitBridge().findMethod(FindMethod.create().matcher(
-                        MethodMatcher.create().declaredClass(method.getDeclaringClass())
-                                .usingStrings("refreshEffectSelectionEnabled(): currEffect "))).singleOrNull();
-                hookMethod(methodData1.getMethodInstance(lpparam.classLoader), new MethodHook() {
+                Method method2 = (Method) DexKit.getDexKitBridge("RefreshEffectSelectionEnabled", new IDexKit() {
+                    @Override
+                    public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                        MethodData methodData = bridge.findMethod(FindMethod.create()
+                                .matcher(MethodMatcher.create().declaredClass(method1.getDeclaringClass())
+                                        .usingStrings("refreshEffectSelectionEnabled(): currEffect "))).singleOrNull();
+                        return methodData.getMethodInstance(lpparam.classLoader);
+                    }
+                });
+                hookMethod(method2, new MethodHook() {
                             @Override
                             protected void after(MethodHookParam param) {
                                 mode = null;

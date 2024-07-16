@@ -26,7 +26,9 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindClass;
 import org.luckypray.dexkit.query.FindField;
 import org.luckypray.dexkit.query.FindMethod;
@@ -37,7 +39,9 @@ import org.luckypray.dexkit.result.ClassData;
 import org.luckypray.dexkit.result.FieldData;
 import org.luckypray.dexkit.result.MethodData;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * @author 焕晨HChen
@@ -50,107 +54,122 @@ public class ScLockApp extends BaseHook {
 
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData methodData = DexKit.getDexKitBridge().findMethod(
-                FindMethod.create()
+        Method method = (Method) DexKit.getDexKitBridge("StartRegionSampling", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
                                         .usingStrings("startRegionSampling")
                                 )
                                 .name("dispatchTouchEvent")
-                        )
-        ).singleOrNull();
-        ClassData data = DexKit.getDexKitBridge().findClass(
-                FindClass.create()
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+        Class<?> clazz = (Class<?>) DexKit.getDexKitBridge("StartRegionSamplingClazz", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                ClassData clazzData = bridge.findClass(FindClass.create()
                         .matcher(ClassMatcher.create()
                                 .usingStrings("startRegionSampling")
-                        )
-        ).singleOrNull();
-        FieldData fieldData = null;
-        if (methodData == null) {
+                        )).singleOrNull();
+                return clazzData.getInstance(lpparam.classLoader);
+            }
+        });
+        Field field = null;
+        if (method == null) {
             value = 1;
-            methodData = DexKit.getDexKitBridge().findMethod(
-                    FindMethod.create()
+            method = (Method) DexKit.getDexKitBridge("SidebarTouchListener", new IDexKit() {
+                @Override
+                public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    MethodData methodData = bridge.findMethod(FindMethod.create()
                             .matcher(MethodMatcher.create()
                                     .declaredClass(ClassMatcher.create()
                                             .usingStrings("SidebarTouchListener")
                                     )
                                     .name("onTouch")
-                            )
-            ).singleOrNull();
-            data = DexKit.getDexKitBridge().findClass(
-                    FindClass.create()
+                            )).singleOrNull();
+                    return methodData.getMethodInstance(lpparam.classLoader);
+                }
+            });
+            clazz = (Class<?>) DexKit.getDexKitBridge("OnTouchClazz", new IDexKit() {
+                @Override
+                public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    ClassData clazzData = bridge.findClass(FindClass.create()
                             .matcher(ClassMatcher.create()
                                     .usingStrings("onTouch: \taction = ")
-                            )
-            ).singleOrNull();
-            fieldData = DexKit.getDexKitBridge().findField(
-                    FindField.create()
+                            )).singleOrNull();
+                    return clazzData.getInstance(lpparam.classLoader);
+                }
+            });
+            field = (Field) DexKit.getDexKitBridge("OnTouchField", new IDexKit() {
+                @Override
+                public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    FieldData fieldData = bridge.findField(FindField.create()
                             .matcher(FieldMatcher.create()
                                     .declaredClass(ClassMatcher.create()
                                             .usingStrings("onTouch: \taction = ")
                                     )
                                     .type(View.class)
-                            )
-            ).singleOrNull();
-        }
-        try {
-            Field field = null;
-            // logE(TAG, "dispatchTouchEvent: " + methodData + " Constructor: " + data + " class: " + data.getInstance(lpparam.classLoader) + " f: " + fieldData.getFieldInstance(lpparam.classLoader));
-            if (data == null) {
-                logE(TAG, "Class is null");
-                return;
-            }
-            if (fieldData == null && value == 1) {
-                logE(TAG, "Field is null");
-                return;
-            } else if (fieldData != null) field = fieldData.getFieldInstance(lpparam.classLoader);
-            // logE(TAG, "data: " + data + " fieldData: " + fieldData + " methodData: " + methodData);
-            Field finalField = field;
-            hookAllConstructors(data.getInstance(lpparam.classLoader), new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) {
-                    Context context = null;
-                    if (value == 1) {
-                        try {
-                            if (finalField == null) {
-                                logE(TAG, "finalField is null!");
-                                return;
-                            }
-                            context = ((View) finalField.get(param.thisObject)).getContext();
-                        } catch (IllegalAccessException e) {
-                            logE(TAG, "getContext E: " + e);
-                        }
-                    } else {
-                        context = (Context) param.args[0];
-                    }
-                    if (context == null) {
-                        logE(TAG, "Context is null");
-                        return;
-                    }
-                    if (!isListen) {
-                        Context finalContext = context;
-                        ContentObserver contentObserver = new ContentObserver(new Handler(finalContext.getMainLooper())) {
-                            @Override
-                            public void onChange(boolean selfChange) {
-                                isLock = getLockApp(finalContext) != -1;
-                            }
-                        };
-                        context.getContentResolver().registerContentObserver(
-                                Settings.Global.getUriFor("key_lock_app"),
-                                false, contentObserver);
-                        isListen = true;
-                    }
+                            )).singleOrNull();
+                    return fieldData.getFieldInstance(lpparam.classLoader);
                 }
             });
-        } catch (ClassNotFoundException | NoSuchFieldException e) {
-            logE(TAG, "hook Constructor E: " + data);
         }
+        // logE(TAG, "dispatchTouchEvent: " + methodData + " Constructor: " + data + " class: " + data.getInstance(lpparam.classLoader) + " f: " + fieldData.getFieldInstance(lpparam.classLoader));
+        if (clazz == null) {
+            logE(TAG, "Class is null");
+            return;
+        }
+        if (field == null && value == 1) {
+            logE(TAG, "Field is null");
+            return;
+        }
+        // logE(TAG, "data: " + data + " fieldData: " + fieldData + " methodData: " + methodData);
+        Field finalField = field;
+        hookAllConstructors(clazz, new MethodHook() {
+            @Override
+            protected void after(MethodHookParam param) {
+                Context context = null;
+                if (value == 1) {
+                    try {
+                        if (finalField == null) {
+                            logE(TAG, "finalField is null!");
+                            return;
+                        }
+                        context = ((View) finalField.get(param.thisObject)).getContext();
+                    } catch (IllegalAccessException e) {
+                        logE(TAG, "getContext E: " + e);
+                    }
+                } else {
+                    context = (Context) param.args[0];
+                }
+                if (context == null) {
+                    logE(TAG, "Context is null");
+                    return;
+                }
+                if (!isListen) {
+                    Context finalContext = context;
+                    ContentObserver contentObserver = new ContentObserver(new Handler(finalContext.getMainLooper())) {
+                        @Override
+                        public void onChange(boolean selfChange) {
+                            isLock = getLockApp(finalContext) != -1;
+                        }
+                    };
+                    context.getContentResolver().registerContentObserver(
+                            Settings.Global.getUriFor("key_lock_app"),
+                            false, contentObserver);
+                    isListen = true;
+                }
+            }
+        });
 
-        if (methodData == null) {
+        if (method == null) {
             logE(TAG, "Method is null");
             return;
         }
-        hookMethod(methodData.getMethodInstance(lpparam.classLoader),
+        hookMethod(method,
                 new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
