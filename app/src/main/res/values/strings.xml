@@ -1001,6 +1001,8 @@
     <string name="theme_manager_diable_ads_desc">Replace \"guess what you like\" ads with blank cards, and remove the rest of the ads completely</string>
     <string name="theme_manager_enable_pad_theme">Enable Pad theme</string>
     <string name="theme_manager_enable_fold_theme">Enable Fold theme</string>
+    <string name="theme_manager_allow_download_more">Allow more downloads without logging in</string>
+    <string name="theme_manager_allow_download_more_desc">Allow downloading more than 10 items without logging in</string>
     <!--remotecontroller-->
     <string name="remotecontroller">Remote Controller</string>
     <string name="remotecontroller_disable_ad">Disable Ad</string>

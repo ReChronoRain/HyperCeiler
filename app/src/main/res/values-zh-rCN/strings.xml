@@ -1024,6 +1024,8 @@
     <string name="theme_manager_diable_ads_desc">将 \"猜你喜欢\" 的广告替换为空白卡片，其余位置的广告将完全移除</string>
     <string name="theme_manager_enable_pad_theme">启用 Pad 主题</string>
     <string name="theme_manager_enable_fold_theme">启用 Fold 主题</string>
+    <string name="theme_manager_allow_download_more">允许在未登录的情况下下载更多内容</string>
+    <string name="theme_manager_allow_download_more_desc">允许在未登录的情况下下载超过 10 个内容</string>
     <!--万能遥控-->
     <string name="remotecontroller">万能遥控</string>
     <string name="remotecontroller_disable_ad">禁用推广</string>
