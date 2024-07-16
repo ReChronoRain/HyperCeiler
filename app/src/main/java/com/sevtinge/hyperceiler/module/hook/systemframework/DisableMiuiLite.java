@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
+import static de.robv.android.xposed.XposedHelpers.setStaticBooleanField;
+
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 public class DisableMiuiLite extends BaseHook {
@@ -29,5 +31,8 @@ public class DisableMiuiLite extends BaseHook {
                 param.setResult(false);
             }
         });
+        setStaticBooleanField(findClassIfExists("miui.util.DeviceLevel"), "IS_MIUI_GO_VERSION", false);
+        setStaticBooleanField(findClassIfExists("miui.util.DeviceLevel"), "IS_MIUI_LITE_VERSION", false);
+        setStaticBooleanField(findClassIfExists("miui.util.DeviceLevel"), "IS_MIUI_MIDDLE_VERSION", false);
     }
 }
