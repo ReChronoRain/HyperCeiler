@@ -32,6 +32,7 @@ import android.os.Handler;
 
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.callback.IResult;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
@@ -73,7 +74,7 @@ public class MainActivity extends NavigationActivity implements IResult {
         super.onCreate(savedInstanceState);
         new Thread(() -> SearchHelper.getAllMods(MainActivity.this, savedInstanceState != null)).start();
         Helpers.checkXposedActivateState(this);
-        if (!IS_LOGGER_ALIVE) {
+        if (!IS_LOGGER_ALIVE && BuildConfig.BUILD_TYPE != "release") {
             handler.post(() -> new AlertDialog.Builder(context)
                     .setCancelable(false)
                     .setTitle(getResources().getString(R.string.warn))

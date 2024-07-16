@@ -42,6 +42,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.prefs.TipsPreference;
@@ -200,7 +201,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     }
 
     public void isLoggerAlive() {
-        if (!IS_LOGGER_ALIVE) {
+        if (!IS_LOGGER_ALIVE && BuildConfig.BUILD_TYPE != "release") {
             mHeadtipNotice.setTitle(R.string.headtip_notice_dead_logger);
             mHeadtipNotice.setVisible(true);
         }
