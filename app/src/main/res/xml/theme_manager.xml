@@ -29,7 +29,7 @@
         <SwitchPreference
             android:title="@string/theme_manager_allow_download_more"
             android:summary="@string/theme_manager_allow_download_more_desc"
-            android:key="prefs_key_theme_manager_allow_download_more_ads"
+            android:key="prefs_key_theme_manager_allow_download_more"
             android:defaultValue="false" />
 
         <DropDownPreference
