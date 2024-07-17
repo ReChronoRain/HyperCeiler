@@ -18,9 +18,12 @@
  */
 package com.sevtinge.hyperceiler.utils.shell;
 
+import android.util.Log;
+
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -255,20 +258,51 @@ public class ShellUtils {
         }
     }
 
-    public static String safeExecCommandWithRoot(String command) {
+    public static String safeExecCommandWithRoot(String cmd) {
+        String result = "";
+        DataOutputStream dos = null;
+        DataInputStream dis = null;
+
         try {
-            Process suProcess = Runtime.getRuntime().exec("su");
-            DataOutputStream os = new DataOutputStream(suProcess.getOutputStream());
-            os.writeBytes(command + "\n");
-            os.flush();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(suProcess.getInputStream()));
-            String result = reader.readLine();
-            os.writeBytes("exit\n");
-            os.flush();
-            suProcess.waitFor();
-            return result;
-        } catch (IOException | InterruptedException e) {
-            return e.toString();
+            Process p = Runtime.getRuntime().exec("su");
+            dos = new DataOutputStream(p.getOutputStream());
+            dis = new DataInputStream(p.getInputStream());
+
+            //Log.i("ihasddfihasifha", cmd);
+            dos.writeBytes("nsenter --mount=/proc/1/ns/mnt -- " + cmd + "\n"); // 沟槽的命名空间
+            dos.flush();
+            dos.writeBytes("exit\n");
+            dos.flush();
+            String line = null;
+            while ((line = dis.readLine()) != null) {
+                //Log.d("ihasddfihasifha", line);
+                result += line + "\n";
+            }
+            p.waitFor();
+        } catch (Exception e) {
+            //Log.d("ihasddfihasifha", String.valueOf(e));
+            return String.valueOf(e);
+        } finally {
+            if (dos != null) {
+                try {
+                    dos.close();
+                } catch (IOException e) {
+                    //Log.d("ihasddfihasifha", String.valueOf(e));
+                    return String.valueOf(e);
+                }
+            }
+            if (dis != null) {
+                try {
+                    dis.close();
+                } catch (IOException e) {
+                    //Log.d("ihasddfihasifha", String.valueOf(e));
+                    return String.valueOf(e);
+                }
+            }
         }
+        if (!result.isEmpty()) {
+            result = result.substring(0, result.length() - 1);
+        }
+        return result;
     }
 }

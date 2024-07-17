@@ -46,6 +46,9 @@
 
     <string name="preference_recommend_tip">在查找其他内容吗？</string>
 
+    <string name="delete_all_dexkit_cache_desc">确定要删除全部 DexKit 缓存吗？</string>
+    <string name="delete_all_dexkit_cache_success">已删除全部 DexKit 缓存</string>
+
     <string name="set_homepage_entrance">主页入口设置</string>
     <string name="set_homepage_entrance_about">仅主页入口可见性设置，已经开启的功能不会被关闭。\n关闭入口实时生效，重新显示需重启应用。</string>
     <string name="help_cant_see_apps_guide">列表中没有您想要找的应用？</string>
@@ -79,6 +82,8 @@
     <string name="development_ui">界面元素测试</string>
     <string name="development_debug_info">调试信息</string>
     <string name="development_prefs">共享首选项</string>
+    <string name="development_cmd_r">使用 root 的模拟终端</string>
+    <string name="development_delete_all_dexkit_cache">删除全部 DexKit 缓存</string>
 
     <string name="settings_show_title">显示</string>
     <string name="settings_data_title">备份与恢复</string>

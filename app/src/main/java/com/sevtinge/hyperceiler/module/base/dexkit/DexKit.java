@@ -18,12 +18,17 @@
  */
 package com.sevtinge.hyperceiler.module.base.dexkit;
 
+import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
+
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.FileUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
@@ -565,5 +570,15 @@ public class DexKit {
         dexKit = null;
         hostDir = null;
         isInit = false;
+    }
+
+    public static void deleteAllCache(Context context) {
+        String[] folderNames = context.getResources().getStringArray(R.array.xposed_scope);
+        for (String folderName : folderNames) {
+            String folderPath = "/data/data/" + folderName + "/cache";
+            if (safeExecCommandWithRoot("ls " + folderPath).contains("dexkit")) {
+                safeExecCommandWithRoot("rm -rf " + folderPath + "/dexkit");
+            }
+        }
     }
 }

@@ -99,6 +99,8 @@
     <string name="development_ui">UI</string>
     <string name="development_debug_info">Debug info</string>
     <string name="development_prefs">Share preference</string>
+    <string name="development_cmd_r">CMD with root</string>
+    <string name="development_delete_all_dexkit_cache">Delete all DexKit cache</string>
     <string name="about_privacy">Privacy Policy</string>
     <string name="about_protocol">User Agreement</string>
     <string name="settings_show_title">Show</string>
@@ -163,6 +165,8 @@
     <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">Help us translate HyperCeiler into you language</string>
     <string name="debug_info" translatable="false">Cannot get debug info.</string>
+    <string name="delete_all_dexkit_cache_desc">Are you sure you want to clear all the DexKit cache?</string>
+    <string name="delete_all_dexkit_cache_success">Successfully cleared all the DexKit cache</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Reboot </string>
     <string name="restart_app_desc">Are you sure you want to restart now %1$s?</string>
