@@ -58,7 +58,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class DexKit {
     public boolean isInit = false;
     // 更新版本可触发全部缓存重建
-    private final String version = "2.1";
+    private final String version = "2.2";
     private static final String TYPE_METHOD = "METHOD";
     private static final String TYPE_CLASS = "CLASS";
     private static final String TYPE_FIELD = "FIELD";
@@ -135,6 +135,9 @@ public class DexKit {
                 XposedLogUtils.logE(callTAG, "failed to create file: " + dexkitVersion);
             String deVer = FileUtils.read(dexkitVersion);
             if (!version.equals(deVer)) {
+                FileUtils.write(nameFile, versionName);
+                FileUtils.write(codeFile, versionCode);
+                clearCache(dexPath);
                 clearCache(dexPath);
                 FileUtils.write(dexkitVersion, version);
             }
@@ -151,9 +154,9 @@ public class DexKit {
                     FileUtils.write(codeFile, versionCode);
                 } else if (!(verName.equals(versionName)) || (!codeName.equals(versionCode))) {
                     // FileUtils.write(dexFile, new JSONArray().toString());
-                    clearCache(dexPath);
                     FileUtils.write(nameFile, versionName);
-                    FileUtils.write(codeName, versionCode);
+                    FileUtils.write(codeFile, versionCode);
+                    clearCache(dexPath);
                 }
             }
         }
