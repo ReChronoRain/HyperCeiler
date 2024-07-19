@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -61,6 +62,8 @@
     <string name="development_ui">Interface do usuário </string>
     <string name="development_debug_info">Informações de depuração</string>
     <string name="development_prefs">Preferência de compartilhamento</string>
+    <string name="development_cmd_r">CMD com root</string>
+    <string name="development_delete_all_dexkit_cache">Excluir todo o cache do DexKit</string>
     <string name="about_privacy">Política de Privacidade</string>
     <string name="about_protocol">Acordo do Usuário</string>
     <string name="settings_show_title">Ícone</string>
@@ -112,6 +115,8 @@
     <string name="about_offical">Site oficial</string>
     <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">Ajude-nos a traduzir o HyperCeiler para o seu idioma</string>
+    <string name="delete_all_dexkit_cache_desc">Tem certeza que deseja limpar todo o cache do DexKit?</string>
+    <string name="delete_all_dexkit_cache_success">Cache do DexKit limpo com sucesso</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Reiniciar </string>
     <string name="restart_app_desc">Você tem certeza que deseja reiniciar agora %1$s?</string>
@@ -510,6 +515,10 @@
     <string name="mms">Mensagens</string>
     <string name="mms_disable_ad">Desativar anúncios</string>
     <string name="mms_disable_ad_desc">Remova os atalhos na parte inferior da tela e as promoções abaixo do conteúdo do SMS</string>
+    <string name="mms_disable_fraud_risk_tip">Desativar alerta de risco de fraude</string>
+    <string name="mms_disable_fraud_risk_tip_desc">Desative o alerta \"Possível fraude\"</string>
+    <string name="mms_disable_overseas_risk_tip">Desativar alerta de fraude no exterior</string>
+    <string name="mms_disable_overseas_risk_tip_desc">Desative o alerta \"Pode ser fraude no exterior\"</string>
     <!--Phone Service-->
     <string name="phone">Serviços do smartphone</string>
     <string name="phone_smart_dual_sim">Desbloquear SIM duplo inteligente</string>
@@ -933,7 +942,7 @@
     <string name="system_settings_transition_animation_scale">Escala de animação de transição</string>
     <string name="system_settings_animator_duration_scale">Escala de duração da animação</string>
     <string name="system_settings_allow_never_lock_screen">Permitir nunca bloquear a tela</string>
-    <string name="system_settings_anti_ques">Desativar verificação de palavras sensíveis</string>
+    <string name="system_settings_anti_ques">Desativar verificação de palavras sensíveis no nome do dispositivo</string>
     <string name="system_settings_anti_ques_desc">Você não pode usar esse recurso em violação às leis locais ou nacionais</string>
     <!--Themes-->
     <string name="theme_manager">Temas</string>
@@ -943,6 +952,8 @@
     <string name="theme_manager_diable_ads_desc">Substitua anúncios de \"adivinhe o que você gosta\" por cartões em branco e remova completamente o restante dos anúncios</string>
     <string name="theme_manager_enable_pad_theme">Ativar tema Pad</string>
     <string name="theme_manager_enable_fold_theme">Ativar tema Fold</string>
+    <string name="theme_manager_allow_download_more">Permitir mais downloads sem fazer login</string>
+    <string name="theme_manager_allow_download_more_desc">Permite baixar mais de 10 itens sem fazer login</string>
     <!--remotecontroller-->
     <string name="remotecontroller">Mi Remote</string>
     <string name="remotecontroller_disable_ad">Desativar anúncios</string>
@@ -1690,6 +1701,8 @@
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
     <string name="headtip_tip_long_press_to_copy">Você pode selecionar o texto após pressionar longamente ou tocar duas vezes, ou copiá-lo e devolvê-lo ao desenvolvedor.</string>
     <string name="headtip_tip_fuck_coolapk">Hoje na história:\nSevtinge fez um discurso importante em 14 de julho de 2022.</string>
+    <string name="headtip_notice_dead_logger_errcode">O serviço de registro do dispositivo atual está anormal e os recursos do HyperCeiler serão limitados.\nPor favor, restaure o serviço de registro para que ele possa funcionar normalmente.\nCódigo de erro: %1$s</string>
+    <string name="headtip_notice_dead_logger">O serviço de registro do dispositivo atual está anormal e os recursos do HyperCeiler serão limitados. Por favor, restaure o serviço de registro para que ele possa funcionar normalmente.</string>
     <string name="warn">Aviso</string>
     <string name="safe_mode_desc">%1$s entrou no Modo seguro devido a várias falhas e os recursos do HyperCeiler foi temporariamente desativado.\nClique em OK para cancelar ou clique em Cancelar para continuar mais tarde.</string>
     <string name="safe_mode_history">Ver registros de exceção</string>

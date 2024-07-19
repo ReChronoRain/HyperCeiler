@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -61,6 +62,8 @@
     <string name="development_ui">Giao diện</string>
     <string name="development_debug_info">Thông tin gỡ lỗi</string>
     <string name="development_prefs">Tùy chọn chia sẻ</string>
+    <string name="development_cmd_r">CMD có quyền root</string>
+    <string name="development_delete_all_dexkit_cache">Xóa tất cả bộ đệm DexKit</string>
     <string name="about_privacy">Chính Sách Quyền Riêng Tư</string>
     <string name="about_protocol">Thoả thuận người dùng</string>
     <string name="settings_show_title">Hiện</string>
@@ -112,6 +115,8 @@
     <string name="about_offical">Website chính thức</string>
     <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">Giúp chúng tôi dịch HyperCeiler sang ngôn ngữ của bạn</string>
+    <string name="delete_all_dexkit_cache_desc">Bạn có chắc chắn muốn xóa tất cả bộ đệm DexKit không?</string>
+    <string name="delete_all_dexkit_cache_success">Đã xóa thành công tất cả bộ đệm DexKit</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Khởi động lại nhanh</string>
     <string name="restart_app_desc">Bạn có muốn khởi động lại máy bây giờ %1$s?</string>
@@ -512,6 +517,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="mms">Tin nhắn</string>
     <string name="mms_disable_ad">Tắt quảng cáo</string>
     <string name="mms_disable_ad_desc">Bỏ nút tắt cuối màn hình và khuyến mãi cuối nội dung tin nhắn</string>
+    <string name="mms_disable_fraud_risk_tip">Tắt cảnh báo nghi ngờ gian lận</string>
+    <string name="mms_disable_fraud_risk_tip_desc">Tắt lời nhắc \"nghi ngờ gian lận\"</string>
+    <string name="mms_disable_overseas_risk_tip">Tắt lời nhắc rủi ro ở nước ngoài</string>
+    <string name="mms_disable_overseas_risk_tip_desc">Tắt lời nhắc \"nghi ngờ gian lận ở nước ngoài\"</string>
     <!--Phone Service-->
     <string name="phone">Dịch vụ điện thoại</string>
     <string name="phone_smart_dual_sim">Mở khóa SIM kép thông minh</string>
@@ -945,6 +954,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="theme_manager_diable_ads_desc">Thay thế \"Có thể bạn thích\" quảng cáo bằng thẻ trống và loại bỏ hoàn toàn phần còn lại của quảng cáo</string>
     <string name="theme_manager_enable_pad_theme">Kích hoạt chủ đề Pad</string>
     <string name="theme_manager_enable_fold_theme">Kích hoạt chủ đề FOLD</string>
+    <string name="theme_manager_allow_download_more">Cho phép tải xuống nhiều hơn mà không cần đăng nhập</string>
+    <string name="theme_manager_allow_download_more_desc">Cho phép tải hơn 10 mục mà không cần đăng nhập</string>
     <!--remotecontroller-->
     <string name="remotecontroller">Điều khiển MI</string>
     <string name="remotecontroller_disable_ad">Tắt quảng cáo</string>
@@ -1704,6 +1715,8 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="headtip_tip_long_press_to_copy">Bạn có thể chọn văn bản sau khi nhấn và nhấp đúp vào văn bản đó hoặc sao chép văn bản đó và gửi lại cho nhà phát triển.</string>
     <string name="headtip_tip_fuck_coolapk">Ngày hôm nay trong lịch sử:\nSevtinge đã có bài phát biểu quan trọng vào ngày 14 tháng 7 năm 2022.</string>
+    <string name="headtip_notice_dead_logger_errcode">Dịch vụ Nhật ký của thiết bị hiện tại không bình thường và các chức năng HyperCeiler sẽ bị hạn chế.\nVui lòng khôi phục dịch vụ Nhật ký để nó có thể chạy bình thường.\nMã lỗi: %1$s</string>
+    <string name="headtip_notice_dead_logger">Dịch vụ Nhật ký thiết bị hiện tại không bình thường và các chức năng HyperCeiler sẽ bị hạn chế. Vui lòng khôi phục dịch vụ nhật ký để nó có thể chạy bình thường.</string>
     <string name="warn">Cảnh báo</string>
     <string name="safe_mode_desc">%1$s bạn đã vào Chế độ an toàn do một số sự cố và các tính năng của HyperCeiler đã tạm thời bị tắt.\nNhấp OK để hủy hoặc nhấp Hủy để tiếp tục sau.</string>
     <string name="safe_mode_history">Xem nhật ký ngoại lệ</string>
