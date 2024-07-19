@@ -18,6 +18,10 @@
 */
 package com.sevtinge.hyperceiler.module.hook.voiceassist;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
+
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
@@ -33,7 +37,7 @@ import java.lang.reflect.Method;
 public class UseThirdPartyBrowser extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("AddWatermark", new IDexKit() {
+        Method method = (Method) DexKit.getDexKitBridge("StartActivityWithIntent", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -46,13 +50,11 @@ public class UseThirdPartyBrowser extends BaseHook {
         hookMethod(method, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                super.beforeHookedMethod(param);
                 android.content.Intent intent = (android.content.Intent) param.args[0];
-                logI(TAG, lpparam.packageName, intent.toString());
-
+                logI(TAG, lpparam.packageName, "com.miui.voiceassist get Intent String: " + intent.toString());
                 try {
-                    if ("com.android.browser".equals(intent.getPackage())) {
-                        logI(TAG, lpparam.packageName, "com.miui.voiceassist get URL " + intent.getDataString());
+                    if ("com.android.browser".equals(intent.getPackage()) && intent.getDataString() != null) {
+                        logI(TAG, lpparam.packageName, "com.miui.voiceassist get URL: " + intent.getDataString());
                         android.net.Uri uri = android.net.Uri.parse(intent.getDataString());
                         android.content.Intent newIntent = new android.content.Intent();
                         newIntent.setAction("android.intent.action.VIEW");
