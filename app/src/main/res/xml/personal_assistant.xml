@@ -55,5 +55,15 @@
             android:defaultValue="-1"
             app:showAlphaSlider="true" />
 
+        <SeekBarPreferenceEx
+            android:title="@string/personal_assistant_set_tv_notif_info_max_width"
+            android:key="prefs_key_personal_assistant_set_tv_notif_info_max_width"
+            android:defaultValue="60"
+            app:minValue="30"
+            app:maxValue="180"
+            app:defaultValueText="@string/array_default"
+            app:format="%d f"
+            app:stepValue="1" />
+
     </PreferenceCategory>
 </PreferenceScreen>

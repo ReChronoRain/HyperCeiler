@@ -1404,6 +1404,8 @@
     <string name="personal_assistant_blurradius">Personal assistant blur value</string>
     <string name="personal_assistant_color">Personal assistant color</string>
     <string name="personal_assistant_unlock_widget_count_limit">Unlock widgets count limit</string>
+    <string name="personal_assistant_set_tv_notif_info_max_width">Set travel notification spotlight in status bar max width</string>
+    <string name="personal_assistant_set_tv_notif_info_max_width_desc">Adjust this value appropriately to solve the problem of omitted display content</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Battery and performance</string>
     <string name="powerkeeper_custom_refresh_rate">Custom high refresh rate apps</string>
