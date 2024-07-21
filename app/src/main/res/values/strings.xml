@@ -1583,6 +1583,7 @@
     <string name="market_disable_new_icon_desc">Make Home screen more clean</string>
     <string name="market_package_monitor">Disable package monitor</string>
     <string name="market_package_monitor_desc">Prohibit GetApps from monitoring app installation and uninstallation</string>
+    <string name="market_disable_ads">Disable ads</string>
     <!--Mi sound-->
     <string name="misound">Earphones</string>
     <string name="misound_bluetooth">Change headphone status to the original sound</string>
@@ -1593,11 +1594,11 @@
     <string name="mi_settings">Mi Settings</string>
     <string name="mi_input_settings">Input settings</string>
     <string name="mi_settings_show_fps">Show more FPS list</string>
-    <string name="mi_settings_show_fps_desc">The module unlocks all frame rates by default. It's not guaranteed that all of them will be available.</string>
+    <string name="mi_settings_show_fps_desc">The module unlocks all frame rates by default. It\'s not guaranteed that all of them will be available.</string>
     <!--MTB-->
     <string name="mtb">MTB</string>
     <string name="mtb_auth">Bypass MTB authentication</string>
-    <string name="mtb_auth_desc">This is a high-risk feature; any problems arising from this will be the user's responsibility. Please be cautious and back up your baseband. Enter *#*#MODEMTEST#*#* in the dialer interface to open MTB Settings.</string>
+    <string name="mtb_auth_desc">This is a high-risk feature; any problems arising from this will be the user\'s responsibility. Please be cautious and back up your baseband. Enter *#*#MODEMTEST#*#* in the dialer interface to open MTB Settings.</string>
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Sogou input method</string>
     <string name="sogou_xiaomi_clipboard">Remove the limit on the number of clipboards</string>
