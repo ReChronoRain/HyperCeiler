@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.utils.shell;
 
-import android.util.Log;
-
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import java.io.BufferedReader;
@@ -260,34 +258,31 @@ public class ShellUtils {
 
     public static String safeExecCommandWithRoot(String cmd) {
         String result = "";
+        ProcessBuilder pb = new ProcessBuilder("su");
+        Process p = null;
         DataOutputStream dos = null;
         DataInputStream dis = null;
-
         try {
-            Process p = Runtime.getRuntime().exec("su");
+            pb.redirectErrorStream(true);
+            p = pb.start();
             dos = new DataOutputStream(p.getOutputStream());
             dis = new DataInputStream(p.getInputStream());
-
-            //Log.i("ihasddfihasifha", cmd);
-            dos.writeBytes("nsenter --mount=/proc/1/ns/mnt -- " + cmd + "\n"); // 沟槽的命名空间
+            dos.writeBytes("nsenter --mount=/proc/1/ns/mnt -- " + cmd + "\n");
             dos.flush();
             dos.writeBytes("exit\n");
             dos.flush();
             String line = null;
             while ((line = dis.readLine()) != null) {
-                //Log.d("ihasddfihasifha", line);
                 result += line + "\n";
             }
             p.waitFor();
         } catch (Exception e) {
-            //Log.d("ihasddfihasifha", String.valueOf(e));
             return String.valueOf(e);
         } finally {
             if (dos != null) {
                 try {
                     dos.close();
                 } catch (IOException e) {
-                    //Log.d("ihasddfihasifha", String.valueOf(e));
                     return String.valueOf(e);
                 }
             }
@@ -295,7 +290,6 @@ public class ShellUtils {
                 try {
                     dis.close();
                 } catch (IOException e) {
-                    //Log.d("ihasddfihasifha", String.valueOf(e));
                     return String.valueOf(e);
                 }
             }
@@ -305,4 +299,5 @@ public class ShellUtils {
         }
         return result;
     }
+
 }
