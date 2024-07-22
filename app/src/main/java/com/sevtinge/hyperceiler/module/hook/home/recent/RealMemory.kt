@@ -29,9 +29,13 @@ import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constr
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.PropUtils.*
 import com.sevtinge.hyperceiler.utils.devicesdk.*
+import com.sevtinge.hyperceiler.utils.log.*
+import java.text.*
 
-object RealMemory : BaseHook() {
+object
+RealMemory : BaseHook() {
     @SuppressLint("DiscouragedApi")
     override fun init() {
         lateinit var context: Context
@@ -74,7 +78,20 @@ object RealMemory : BaseHook() {
                     val activityManager =
                         context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
                     activityManager.getMemoryInfo(memoryInfo)
-                    val totalMem = memoryInfo.totalMem.formatSize()
+                    var totalMem = "\\d+\\.\\d+".toRegex().find(memoryInfo.totalMem.formatSize())?.value
+                    val extmSize = getProp("persist.miui.extm.bdsize")
+                    var extmMem = ""
+                    if (!extmSize.equals("none")) {
+                        try {
+                            val number = extmSize.toDouble() / 1024
+                            val df = DecimalFormat("0.00")
+                            extmMem = "+" + df.format(number).toString()
+                        } catch (e: NumberFormatException) {
+                            XposedLogUtils.logE(TAG, lpparam.packageName, "Get extm size failed by: $e"
+                            )
+                        }
+                    }
+                    totalMem = "$totalMem$extmMem GB"
                     val availMem = memoryInfo.availMem.formatSize()
                     (it.thisObject.getObjectField("mTxtMemoryInfo1") as TextView).text =
                         context.getString(memoryInfo1StringId!!, availMem, totalMem)
