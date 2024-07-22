@@ -81,7 +81,7 @@ RealMemory : BaseHook() {
                     var totalMem = "\\d+\\.\\d+".toRegex().find(memoryInfo.totalMem.formatSize())?.value
                     val extmSize = getProp("persist.miui.extm.bdsize")
                     var extmMem = ""
-                    if (getProp("persist.miui.extm.enable") != 0) {
+                    if (getProp("persist.miui.extm.enable").equals("0")) {
                         try {
                             val number = extmSize.toDouble() / 1024
                             val df = DecimalFormat("0.00")
