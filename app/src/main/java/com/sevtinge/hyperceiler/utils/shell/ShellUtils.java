@@ -277,27 +277,43 @@ public class ShellUtils {
             }
             p.waitFor();
         } catch (Exception e) {
-            return String.valueOf(e);
+            if (!cmd.contains("nsenter") && String.valueOf(e).contains("nsenter: exec ")) {
+                return String.valueOf(e).replace("nsenter: exec ", "");
+            } else {
+                return String.valueOf(e);
+            }
         } finally {
             if (dos != null) {
                 try {
                     dos.close();
                 } catch (IOException e) {
-                    return String.valueOf(e);
+                    if (!cmd.contains("nsenter") && String.valueOf(e).contains("nsenter: exec ")) {
+                        return String.valueOf(e).replace("nsenter: exec ", "");
+                    } else {
+                        return String.valueOf(e);
+                    }
                 }
             }
             if (dis != null) {
                 try {
                     dis.close();
                 } catch (IOException e) {
-                    return String.valueOf(e);
+                    if (!cmd.contains("nsenter") && String.valueOf(e).contains("nsenter: exec ")) {
+                        return String.valueOf(e).replace("nsenter: exec ", "");
+                    } else {
+                        return String.valueOf(e);
+                    }
                 }
             }
         }
         if (!result.isEmpty()) {
             result = result.substring(0, result.length() - 1);
         }
-        return result;
+        if (!cmd.contains("nsenter") && result.contains("nsenter: exec ")) {
+            return result.replace("nsenter: exec ", "");
+        } else {
+            return result;
+        }
     }
 
 }
