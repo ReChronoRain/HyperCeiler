@@ -1,6 +1,6 @@
 [versions]
 agp = "8.5.1"
-hooktool = "v.0.9.6.5"
+hooktool = "v.0.9.9.6"
 kotlinAndroid = "2.0.0"
 lsparanoid = "0.6.0"
 #lspluginResopt = "1.6"
@@ -24,7 +24,7 @@ dexkit = "2.0.2"
 ezxhelper = "2.2.0"
 accompanist = "0.34.0"
 hiddenapibypass = "4.3"
-commons-codec = "1.17.0"
+commons-codec = "1.17.1"
 
 [libraries]
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
