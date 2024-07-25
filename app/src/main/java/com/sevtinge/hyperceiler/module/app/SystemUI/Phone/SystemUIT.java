@@ -23,8 +23,8 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVers
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.systemui.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemui.AutoCollapse;
 import com.sevtinge.hyperceiler.module.hook.systemui.BluetoothRestrict;
@@ -141,7 +141,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.strongtoast.HideS
 
 import java.util.Objects;
 
-@HookExpand(pkg = "com.android.systemui", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.android.systemui", isPad = false, tarAndroid = 33)
 public class SystemUIT extends BaseModule {
     @Override
     public void handleLoadPackage() {

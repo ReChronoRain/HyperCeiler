@@ -18,14 +18,14 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.screenrecorder.ForceSupportPlaybackCapture;
 import com.sevtinge.hyperceiler.module.hook.screenrecorder.SaveToMovies;
 import com.sevtinge.hyperceiler.module.hook.screenrecorder.ScreenRecorderConfig;
 import com.sevtinge.hyperceiler.module.hook.screenrecorder.UnlockMoreVolumeFromNew;
 
-@HookExpand(pkg = "com.miui.screenrecorder", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.miui.screenrecorder", isPad = false, tarAndroid = 33)
 public class ScreenRecorder extends BaseModule {
 
     @Override

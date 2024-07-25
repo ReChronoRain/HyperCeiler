@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.app;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.various.CollapseMiuiTitle;
 import com.sevtinge.hyperceiler.module.hook.various.DialogCustom;
 import com.sevtinge.hyperceiler.module.hook.various.MiuiAppNoOverScroll;
@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.module.hook.various.MiuiAppNoOverScroll;
 import java.util.Arrays;
 import java.util.HashSet;
 
-@HookExpand(pkg = "VariousSystemApps", isPad = false, tarAndroid = 33, skip = true)
+@HookBase(pkg = "VariousSystemApps", isPad = false, tarAndroid = 33, skip = true)
 public class VariousSystemApps extends BaseModule {
     Class<?> mHelpers;
     String mPackageName;

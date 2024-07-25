@@ -25,4 +25,5 @@ plugins {
 
 rootProject.name = "HyperCeiler"
 include(":app")
+include(":app:processor")
 include(":hidden-api")

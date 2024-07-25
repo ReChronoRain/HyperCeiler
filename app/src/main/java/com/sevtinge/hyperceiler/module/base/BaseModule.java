@@ -19,7 +19,9 @@
 package com.sevtinge.hyperceiler.module.base;
 
 import com.github.kyuubiran.ezxhelper.EzXHelper;
+import com.hchen.hooktool.BaseHC;
 import com.hchen.hooktool.HCInit;
+import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.safe.CrashData;
@@ -50,8 +52,8 @@ public abstract class BaseModule implements IXposedHook {
         EzXHelper.initHandleLoadPackage(lpparam);
         EzXHelper.setLogTag(TAG);
         EzXHelper.setToastTag(TAG);
-        HCInit.setTAG("HyperCeiler");
-        HCInit.setLogLevel(LogManager.getLogLevel());
+        HCInit.initBasicData(BuildConfig.APPLICATION_ID,
+                "HyperCeiler", LogManager.getLogLevel());
         HCInit.initLoadPackageParam(lpparam);
         // 把模块资源加载到目标应用
         try {
@@ -59,14 +61,7 @@ public abstract class BaseModule implements IXposedHook {
                 ContextUtils.getWaitContext(
                         context -> {
                             if (context != null) {
-                                // try {
-                                //     Handler handler = new Handler(context.getMainLooper());
-                                //     BaseXposedInit.mResHook.putHandler(handler);
-                                // } catch (Throwable e) {
-                                // }
-                                // EzXHelper.initAppContext(context, false);
                                 BaseXposedInit.mResHook.loadModuleRes(context);
-                                // mResHook.loadModuleRes(context);
                             }
                         }, "android".equals(lpparam.packageName));
             }
@@ -79,7 +74,6 @@ public abstract class BaseModule implements IXposedHook {
         handleLoadPackage();
         if (dexKit.isInit) {
             dexKit.close();
-            // XposedLogUtils.logE(TAG, "close dexkit s: " + lpparam.packageName);
         }
     }
 
@@ -93,64 +87,48 @@ public abstract class BaseModule implements IXposedHook {
         }
     }*/
 
-    public void initHook(BaseHook baseHook) {
-        initHook(baseHook, true);
+    public void initHook(Object hook) {
+        initHook(hook, true);
     }
 
-    public void initHook(BaseHook baseHook, boolean isInit) {
-        if (isInit) {
-            baseHook.onCreate(mLoadPackageParam);
-        }
+    public void initHook(Object hook, boolean isInit) {
+        initHook(hook, isInit, null, -1);
     }
 
-    public void initHook(BaseHook baseHook, boolean isInit, String versionName) {
-        initHook(baseHook, isInit, versionName, -1, -1);
+    public void initHook(Object hook, boolean isInit, String versionName) {
+        initHook(hook, isInit, versionName, -1);
     }
 
-    public void initHook(BaseHook baseHook, boolean isInit, String versionName, int versionCodeStart, int versionCodeEnd) {
-        if (isInit) {
-            String mVName = Helpers.getPackageVersionName(mLoadPackageParam);
-            if (mVName == null) return;
-            if (mVName.equals(versionName)) {
-                initHook(baseHook, true, versionCodeStart, versionCodeEnd);
-            }
-        }
-    }
-
-    public void initHook(BaseHook baseHook, boolean isInit, String versionName, int versionCodes) {
-        initHook(baseHook, isInit, versionName, versionCodes, -1);
-    }
-
-    public void initHook(BaseHook baseHook, boolean isInit, String versionName, int[] versionCodes) {
+    public void initHook(Object hook, boolean isInit, String versionName, int... versionCodes) {
         for (int code : versionCodes) {
-            initHook(baseHook, isInit, versionName, code, -1);
+            initHook(hook, isInit, versionName, code);
         }
     }
 
-    public void initHook(BaseHook baseHook, boolean isInit, int versionCodes) {
-        initHook(baseHook, isInit, versionCodes, -1);
-    }
-
-    public void initHook(BaseHook baseHook, boolean isInit, int[] versionCodes) {
+    public void initHook(Object hook, boolean isInit, int... versionCodes) {
         for (int code : versionCodes) {
-            initHook(baseHook, isInit, code, -1);
+            initHook(hook, isInit, null, code);
         }
     }
 
-    public void initHook(BaseHook baseHook, boolean isInit, int versionCodeStart, int versionCodeEnd) {
+    public void initHook(Object hook, boolean isInit, String versionName, int versionCode) {
         if (isInit) {
-            if (versionCodeStart == -1) {
-                baseHook.onCreate(mLoadPackageParam);
+            if (versionCode == -1 && versionName == null) {
+                onCreate(hook);
                 return;
             }
             int code = Helpers.getPackageVersionCode(mLoadPackageParam);
-            if (code == versionCodeStart) {
-                baseHook.onCreate(mLoadPackageParam);
-            } else if (versionCodeEnd != -1) {
-                if (code >= versionCodeStart && code <= versionCodeEnd) {
-                    baseHook.onCreate(mLoadPackageParam);
-                }
-            }
+            String name = Helpers.getPackageVersionName(mLoadPackageParam);
+            if (code == versionCode)
+                onCreate(hook);
+            if (name.equals(versionName))
+                onCreate(hook);
         }
+    }
+
+    private void onCreate(Object hook) {
+        if (hook instanceof BaseHook baseHook) baseHook.onCreate(mLoadPackageParam);
+        else if (hook instanceof BaseHC baseHC) baseHC.onCreate();
+        else throw new RuntimeException("Unknown hook!");
     }
 }

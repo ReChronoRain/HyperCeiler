@@ -22,8 +22,8 @@ import android.content.Context;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool;
 import com.sevtinge.hyperceiler.module.hook.clipboard.BaiduClipboard;
 import com.sevtinge.hyperceiler.module.hook.clipboard.SoGouClipboard;
@@ -34,7 +34,7 @@ import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-@HookExpand(pkg = "VariousThirdApps", isPad = false, tarAndroid = 33, skip = true)
+@HookBase(pkg = "VariousThirdApps", isPad = false, tarAndroid = 33, skip = true)
 public class VariousThirdApps extends BaseModule {
     String mPackageName;
 

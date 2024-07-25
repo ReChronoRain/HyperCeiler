@@ -27,50 +27,51 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 
+import com.hchen.hooktool.BaseHC;
 import com.hchen.hooktool.callback.IAction;
-import com.hchen.hooktool.tool.ParamTool;
-import com.sevtinge.hyperceiler.module.base.BaseTool;
+import com.sevtinge.hyperceiler.module.base.tool.HookTool;
 
-public class VolumeDisableSafe extends BaseTool {
+public class VolumeDisableSafe extends BaseHC {
     private static boolean isHeadsetOn = false;
 
-    private static final int mode = mPrefsMap.getStringAsInt("system_framework_volume_disable_safe_new", 0);
+    private static final int mode = HookTool.mPrefsMap.getStringAsInt("system_framework_volume_disable_safe_new", 0);
 
     @Override
-    public void doHook() {
+    public void init() {
         if (isMoreAndroidVersion(34)) {
-            hcHook.findClass("sound", "com.android.server.audio.SoundDoseHelperStubImpl")
-                    .getMethod("updateSafeMediaVolumeIndex", int.class)
-                    .hook(new IAction() {
+            hook("com.android.server.audio.SoundDoseHelperStubImpl", "updateSafeMediaVolumeIndex", int.class,
+                    new IAction() {
                         @Override
-                        public void before(ParamTool param) {
+                        public void before() throws Throwable {
                             if (mode == 1) {
-                                param.setResult(2147483646);
+                                setResult(2147483646);
                                 return;
                             }
-                            if (isHeadsetOn) param.setResult(2147483646);
+                            if (isHeadsetOn) setResult(2147483646);
                         }
-                    })
-                    .findClass("SoundDoseHelper", "com.android.server.audio.SoundDoseHelper")
-                    .getMethod("safeMediaVolumeIndex", int.class)
+                    });
+
+            chain("com.android.server.audio.SoundDoseHelper", method("safeMediaVolumeIndex", int.class)
+                    .hook(
+                            new IAction() {
+                                @Override
+                                public void before() throws Throwable {
+                                    if (mode == 1) {
+                                        setResult(2147483646);
+                                        return;
+                                    }
+                                    if (isHeadsetOn) setResult(2147483646);
+                                }
+                            })
+
+                    .anyConstructor()
                     .hook(new IAction() {
                         @Override
-                        public void before(ParamTool param) {
-                            if (mode == 1) {
-                                param.setResult(2147483646);
-                                return;
-                            }
-                            if (isHeadsetOn) param.setResult(2147483646);
-                        }
-                    })
-                    .getAnyConstructor()
-                    .hook(new IAction() {
-                        @Override
-                        public void after(ParamTool param) {
+                        public void after() throws Throwable {
                             if (mode == 1) {
                                 return;
                             }
-                            Context context = param.second();
+                            Context context = second();
                             IntentFilter intentFilter = new IntentFilter();
                             intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
                             intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
@@ -78,18 +79,18 @@ public class VolumeDisableSafe extends BaseTool {
                             context.registerReceiver(new Listener(), intentFilter);
                         }
                     })
-            ;
+
+            );
         } else {
-            hcHook.findClass("audio", "com.android.server.audio.AudioService")
-                    .getAnyMethod("safeMediaVolumeIndex")
-                    .hook(new IAction() {
+            hook("com.android.server.audio.AudioService", "safeMediaVolumeIndex",
+                    new IAction() {
                         @Override
-                        public void before(ParamTool param) {
+                        public void before() throws Throwable {
                             if (mode == 1) {
-                                param.setResult(2147483646);
+                                setResult(2147483646);
                                 return;
                             }
-                            if (isHeadsetOn) param.setResult(2147483646);
+                            if (isHeadsetOn) setResult(2147483646);
                         }
                     });
         }

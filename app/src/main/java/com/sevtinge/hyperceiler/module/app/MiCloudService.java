@@ -18,11 +18,11 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.cloudservice.CloudList;
 
-@HookExpand(pkg = "com.miui.cloudservice", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.miui.cloudservice", isPad = false, tarAndroid = 33)
 public class MiCloudService extends BaseModule {
 
     @Override

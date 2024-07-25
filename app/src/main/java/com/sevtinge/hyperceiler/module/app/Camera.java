@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.camera.CustomWatermark;
 import com.sevtinge.hyperceiler.module.hook.camera.EnableLabOptions;
 import com.sevtinge.hyperceiler.module.hook.camera.MaxScreenBrightness;
@@ -68,7 +68,7 @@ import com.sevtinge.hyperceiler.module.hook.camera.UnlockVideosky;
 import com.sevtinge.hyperceiler.module.hook.camera.UnlockVlog;
 import com.sevtinge.hyperceiler.module.hook.camera.UnlockVlogPro;
 
-@HookExpand(pkg = "com.android.camera", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.android.camera", isPad = false, tarAndroid = 33)
 public class Camera extends BaseModule {
 
     @Override

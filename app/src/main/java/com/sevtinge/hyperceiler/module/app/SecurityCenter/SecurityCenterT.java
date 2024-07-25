@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.module.app.SecurityCenter;
 
 import android.os.Build;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.AppLockPinScramble;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.DisableReport;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.GetBubbleAppString;
@@ -70,7 +70,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockV
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VideoDolbyOpen;
 
-@HookExpand(pkg = "com.miui.securitycenter", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.miui.securitycenter", isPad = false, tarAndroid = 33)
 public class SecurityCenterT extends BaseModule {
 
     @Override

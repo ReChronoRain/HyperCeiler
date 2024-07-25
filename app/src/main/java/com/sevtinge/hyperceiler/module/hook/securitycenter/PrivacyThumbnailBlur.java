@@ -20,7 +20,8 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter;
 
 import android.content.Context;
 
-import com.sevtinge.hyperceiler.module.base.BaseTool;
+import com.hchen.hooktool.BaseHC;
+import com.hchen.hooktool.callback.IAction;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 
@@ -33,9 +34,9 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-public class PrivacyThumbnailBlur extends BaseTool {
+public class PrivacyThumbnailBlur extends BaseHC {
     @Override
-    public void doHook() {
+    public void init() {
         Method method = (Method) DexKit.getDexKitBridge("ptb", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
@@ -50,14 +51,14 @@ public class PrivacyThumbnailBlur extends BaseTool {
             }
         });
 
-        hookMethod(method, new MethodHook() {
+        hook(method, new IAction() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            public void before() throws Throwable {
                 StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
                 if (Arrays.stream(stackTraceElements).noneMatch(stackTraceElement ->
                         stackTraceElement.getClassName().equals("PrivacyThumbnailBlurSettings")
                 )) {
-                    param.setResult(null);
+                    setResult(null);
                 }
             }
         });

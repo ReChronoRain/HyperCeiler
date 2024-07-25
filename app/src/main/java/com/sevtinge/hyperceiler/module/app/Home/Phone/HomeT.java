@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.module.app.Home.Phone;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.home.AnimDurationRatio;
 import com.sevtinge.hyperceiler.module.hook.home.FreeFormCountForHome;
 import com.sevtinge.hyperceiler.module.hook.home.HomePortraitReverse;
@@ -139,7 +139,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.SetGestureNeed
 
 import java.util.Objects;
 
-@HookExpand(pkg = "com.miui.home", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.miui.home", isPad = false, tarAndroid = 33)
 public class HomeT extends BaseModule {
 
     @Override

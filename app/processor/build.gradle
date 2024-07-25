@@ -1,0 +1,13 @@
+plugins {
+    id 'java-library'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_22
+    targetCompatibility = JavaVersion.VERSION_22
+}
+
+dependencies {
+    implementation libs.auto.service
+    annotationProcessor libs.auto.service
+}

@@ -21,8 +21,8 @@ package com.sevtinge.hyperceiler.module.app.SystemFramework.Phone;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.GlobalActions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowAutoStart;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowDisableProtectedPackage;
@@ -35,8 +35,8 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ClipboardWhitelist;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DeleteOnPostNotification;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableCleaner;
-import com.sevtinge.hyperceiler.module.hook.systemframework.DisableGestureMonitor;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableFreeformBlackList;
+import com.sevtinge.hyperceiler.module.hook.systemframework.DisableGestureMonitor;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableLowApiCheckForU;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableMiuiLite;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePersistent;
@@ -85,7 +85,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N5N8Band;
 import com.sevtinge.hyperceiler.module.hook.various.NoAccessDeviceLogsRequest;
 
-@HookExpand(pkg = "android", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "android", isPad = false, tarAndroid = 33)
 public class SystemFrameworkT extends BaseModule {
 
     @Override

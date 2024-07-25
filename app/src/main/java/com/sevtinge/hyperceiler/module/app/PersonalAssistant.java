@@ -18,15 +18,15 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.BlurPersonalAssistant;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.BlurPersonalAssistantBackGround;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.EnableFoldWidget;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.SetTravelNotificationStatusBarInfoMaxWidth;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.UnlockWidgetCountLimit;
 
-@HookExpand(pkg = "com.miui.personalassistant", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.miui.personalassistant", isPad = false, tarAndroid = 33)
 public class PersonalAssistant extends BaseModule {
 
     @Override

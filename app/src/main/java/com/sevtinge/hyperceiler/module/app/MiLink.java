@@ -18,14 +18,14 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.milink.AllowCameraDevices;
 import com.sevtinge.hyperceiler.module.hook.milink.FuckHpplay;
 import com.sevtinge.hyperceiler.module.hook.milink.UnlockHMind;
 import com.sevtinge.hyperceiler.module.hook.milink.UnlockMiShare;
 
-@HookExpand(pkg = "com.milink.service", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.milink.service", isPad = false, tarAndroid = 33)
 public class MiLink extends BaseModule {
 
     @Override
