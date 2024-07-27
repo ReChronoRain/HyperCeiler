@@ -24,7 +24,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:enabled="false"
             android:key="prefs_key_system_ui_navigation_custom"
             android:title="@string/system_ui_navigation_custom" />
 
