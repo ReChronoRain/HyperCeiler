@@ -27,6 +27,8 @@ import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import org.luckypray.dexkit.query.enums.*
+import java.io.*
+
 
 object LockOneHundredPoints : BaseHook() {
     private val score by lazy {
@@ -61,12 +63,19 @@ object LockOneHundredPoints : BaseHook() {
                returnConstant(null)
             }
 
-        logI(TAG, lpparam.packageName, "LockOneHundredPoints method is $scoreOld and $score")
+        try {
+            logI(TAG, lpparam.packageName, "LockOneHundredPoints old method is $scoreOld")
+            scoreOld.createHook {
+                replace { 0 }
+            }
+            return
+        } catch (e: Exception) {
+            logE(TAG, lpparam.packageName, "LockOneHundredPoints hook old Failed: ${e.message}")
+        }
+
+        logI(TAG, lpparam.packageName, "LockOneHundredPoints method is $score")
         score.createHook {
             replace { 100 }
-        }
-        scoreOld.createHook {
-            replace { 0 }
         }
     }
 }
