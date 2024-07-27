@@ -61,12 +61,17 @@ object LockOneHundredPoints : BaseHook() {
                returnConstant(null)
             }
 
-        logI(TAG, lpparam.packageName, "LockOneHundredPoints method is $scoreOld and $score")
-        score.createHook {
-            replace { 100 }
-        }
-        scoreOld.createHook {
-            replace { 0 }
+        try {
+            logI(TAG, lpparam.packageName, "LockOneHundredPoints method is $score")
+            score.createHook {
+                replace { 100 }
+            }
+        } catch (e: Exception) {
+            logE(TAG, lpparam.packageName, "LockOneHundredPoints hook Failed: ${e.message}")
+            logI(TAG, lpparam.packageName, "LockOneHundredPoints old method is $scoreOld")
+            scoreOld.createHook {
+                replace { 0 }
+            }
         }
     }
 }
