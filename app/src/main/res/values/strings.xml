@@ -781,6 +781,7 @@
     <string name="system_ui_statusbar_battery_disable">Hide units</string>
     <string name="system_ui_statusbar_battery_right_show">Show on the right</string>
     <string name="system_ui_statusbar_battery_electric_current">The current always shows a positive value</string>
+    <string name="system_ui_statusbar_battery_power_abs">The power always shows a positive value</string>
     <string name="system_ui_statusbar_battery_line_show">Single row display</string>
     <string name="system_ui_statusbar_battery_opposite">Reverse order</string>
     <string name="system_ui_statusbar_battery_only_changing_show">Show only when charging</string>

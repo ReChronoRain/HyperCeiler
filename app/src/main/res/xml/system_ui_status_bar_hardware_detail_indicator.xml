@@ -54,6 +54,12 @@
             android:title="@string/system_ui_statusbar_battery_electric_current" />
 
         <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_power_abs"
+            android:title="@string/system_ui_statusbar_battery_power_abs" />
+
+        <SwitchPreference
             android:defaultValue="false"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_line_show"
