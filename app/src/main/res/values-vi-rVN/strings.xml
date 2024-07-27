@@ -22,9 +22,9 @@
     <string name="xposed_description">Làm cho HyperOS/MIUI trở nên vĩ đại!</string>
     <string name="new_permission_wifi_state_desc">thêm và xóa tập tin trên bộ nhớ trong thiết bị</string>
     <string name="new_permission_location_desc">được sử dụng để cung cấp các dịch vụ như vĩ độ và kinh độ</string>
-    <string name="new_cta_agree_desc">Trong quá trình sử dụng, để cung cấp cho bạn nhiều tính năng hơn, chúng tôi có thể xin phép Root/Su từ bạn. Bạn có thể vào Quản lý quyền bất cứ lúc nào để điều chỉnh trạng thái ủy quyền của tất cả các quyền và vui lòng truy cập trình quản lý Root/Su của bạn để có quyền Root/Su.</string>
+    <string name="new_cta_agree_desc">Trong quá trình sử dụng, để cung cấp cho bạn nhiều tính năng hơn, chúng tôi có thể xin quyền Root/Su. Bạn có thể truy cập Quản lý quyền bất kỳ lúc nào để điều chỉnh trạng thái ủy quyền của tất cả các quyền và vui lòng truy cập trình quản lý Root/Su của bạn để cấp quyền Root/Su.</string>
     <string name="new_cta_app_main_purpose">sửa đổi ứng dụng hệ thống</string>
-    <string name="new_cta_app_all_purpose_title">Chào mừng đến với HyperCeiler. Ứng dụng này phụ thuộc vào khung Xposed để chạy. Bạn có thể sử dụng ứng dụng này để nâng quyền điều khiển và sửa đổi các ứng dụng được hỗ trợ khác nhằm nâng cao hệ thống. Trong quá trình sử dụng, để cung cấp nhiều chức năng hơn, chúng tôi có thể yêu cầu quyền Root/Su của bạn. Bạn có thể quản lý nó bất kỳ lúc nào bằng cách truy cập trình quản lý Root/Su của mình.</string>
+    <string name="new_cta_app_all_purpose_title">Chào mừng đến với HyperCeiler. Ứng dụng này dựa trên khung Xpose để chạy. Bạn có thể sử dụng ứng dụng này để chiếm quyền điều khiển và sửa đổi các ứng dụng được hỗ trợ khác nhằm nâng cao hệ thống.  Trong quá trình sử dụng, để cung cấp cho bạn nhiều chức năng hơn, chúng tôi có thể xin quyền Root/Su từ bạn. Bạn có thể quản lý nó bất kỳ lúc nào bằng cách đi tới Trình quản lý Root/Su.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Tiếng Việt</string>
     <string name="translator">MiuiVN &amp; MiuiTN</string>
@@ -1353,6 +1353,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="personal_assistant_blurradius">Giá trị làm mờ nền trợ lý cá nhân</string>
     <string name="personal_assistant_color">Màu trợ lý cá nhân</string>
     <string name="personal_assistant_unlock_widget_count_limit">Mở khóa giới hạn số lượng tiện ích</string>
+    <string name="personal_assistant_set_tv_notif_info_max_width">Đặt tiêu điểm thông báo du lịch ở độ rộng tối đa của thanh trạng thái</string>
+    <string name="personal_assistant_set_tv_notif_info_max_width_desc">Điều chỉnh giá trị này một cách thích hợp để giải quyết vấn đề bỏ sót nội dung hiển thị</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Pin và hiệu suất</string>
     <string name="powerkeeper_custom_refresh_rate">Tùy chỉnh tốc độ làm mới cao</string>
@@ -1516,7 +1518,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="weather_card_display_type_title_2">Chế độ sáng</string>
     <string name="weather_card_display_type_title_3">Chế độ tối</string>
     <!--AI Translate-->
-    <string name="aiasst">Mi AI Translate</string>
+    <string name="aiasst">Mi AI dịch</string>
     <string name="aiasst_ai_captions">Mở khoá Phụ đề AI</string>
     <string name="aiasst_all_captions">Mở khóa phụ đề trực tuyến đa ngôn ngữ</string>
     <string name="aiasst_disable_watermark">Tắt hình mờ</string>
@@ -1539,6 +1541,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="market_disable_new_icon_desc">Không thêm biểu tượng ra màn hình Desktop</string>
     <string name="market_package_monitor">Tắt trình giám sát cài đặt gói</string>
     <string name="market_package_monitor_desc">Cấm GetApps giám sát việc cài đặt và gỡ cài đặt ứng dụng</string>
+    <string name="market_disable_ads">Tắt quảng cáo</string>
     <!--Mi sound-->
     <string name="misound">Mi Sound</string>
     <string name="misound_bluetooth">Trạng thái tai nghe tự động chuyển sang âm thanh gốc</string>
@@ -1750,7 +1753,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="telecom">Gọi điện</string>
     <string name="scam_reminder_bypass_caption">Cho phép quay số trực tiếp mã MMI chuyển tiếp cuộc gọi</string>
     <string name="scam_reminder_bypass_description">Cho phép quay mã MMI như **21*8# để chuyển tiếp cuộc gọi trực tiếp</string>
-    <!--VoiceTrigger-->
+    <!--Voice Trigger-->
     <string name="voicetrigger">Kích hoạt bằng giọng nói</string>
     <string name="bypass_udk_word_legal_check_caption">Đăng ký ASR mà không có Internet</string>
     <string name="bypass_udk_word_legal_check_description">Cho phép đăng ký ASR mà không cần internet</string>
