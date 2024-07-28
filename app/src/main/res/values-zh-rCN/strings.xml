@@ -800,6 +800,7 @@
     <string name="system_ui_statusbar_battery_disable">隐藏单位</string>
     <string name="system_ui_statusbar_battery_right_show">右侧显示</string>
     <string name="system_ui_statusbar_battery_electric_current">电流总显示正值</string>
+    <string name="system_ui_statusbar_battery_power_abs">功率总显示正值</string>
     <string name="system_ui_statusbar_battery_line_show">单排显示</string>
     <string name="system_ui_statusbar_battery_opposite">反序</string>
     <string name="system_ui_statusbar_battery_only_changing_show">仅在充电时显示</string>
