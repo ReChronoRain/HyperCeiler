@@ -217,7 +217,7 @@ object NetworkSpeed : BaseHook() {
                         else "${humanReadableByteCount(it.args[0] as Context, rxSpeed)}$rxArrow"
 
                         // 计算总网速
-                        val ax = humanReadableByteCount(it.args[0] as Context, newTxBytesFixed + newRxBytesFixed)
+                        val ax = humanReadableByteCount(it.args[0] as Context, txSpeed + rxSpeed)
 
                         // 是否隐藏慢速的判定
                         val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
