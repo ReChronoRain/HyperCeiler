@@ -30,10 +30,11 @@ public class AiCaptions extends BaseHook {
         Class<?> mSupportAiSubtitlesUtils = findClassIfExists("com.xiaomi.aiasst.vision.utils.SupportAiSubtitlesUtils");
         Class<?> mSystemUtils = findClassIfExists("com.xiaomi.aiasst.vision.utils.SystemUtils");
         Class<?> mWhitelistChecker = findClassIfExists("com.xiaomi.aiasst.vision.picksound.whitelist.WhitelistChecker");
+        Class<?> mMMKVUtils = findClassIfExists("com.xiaomi.aiasst.vision.utils.MMKVUtils");
 
         try {
             XposedHelpers.setStaticBooleanField(mWhitelistChecker, "mVerified", true);
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
         }
 
         try {
@@ -43,7 +44,7 @@ public class AiCaptions extends BaseHook {
                     param.setResult(true);
                 }
             });
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
         }
         try {
             findAndHookMethod(mSupportAiSubtitlesUtils, "isSupportOfflineAiSubtitles", Context.class, new MethodHook() {
@@ -52,7 +53,7 @@ public class AiCaptions extends BaseHook {
                     param.setResult(true);
                 }
             });
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
         }
         try {
             findAndHookMethod(mSupportAiSubtitlesUtils, "deviceWhetherSupportOfflineSubtitles", Context.class, new MethodHook() {
@@ -61,7 +62,7 @@ public class AiCaptions extends BaseHook {
                     param.setResult(true);
                 }
             });
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
         }
         try {
             findAndHookMethod(mSupportAiSubtitlesUtils, "isSupportJapanKorea", Context.class, new MethodHook() {
@@ -70,7 +71,38 @@ public class AiCaptions extends BaseHook {
                     param.setResult(true);
                 }
             });
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
+        }
+        try {
+            findAndHookMethod(mSupportAiSubtitlesUtils, "isSupportJapanKoreaTranslation", Context.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    param.setResult(true);
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        try {
+
+            findAndHookMethod(mMMKVUtils, "isSupportJapanKoreaTranslation", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    param.setResult(true);
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        try {
+
+            findAndHookMethod(mMMKVUtils, "isSupportNewSimultaneousInterpretation", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    param.setResult(true);
+                }
+            });
+        } catch (Throwable ignored) {
         }
         try {
             findAndHookMethod(mSystemUtils, "isSupportAiPickSoundDevice", new MethodHook() {
@@ -79,7 +111,7 @@ public class AiCaptions extends BaseHook {
                     param.setResult(true);
                 }
             });
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
         }
     }
 }
