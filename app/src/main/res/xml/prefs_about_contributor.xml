@@ -90,6 +90,13 @@
                 android:data="https://github.com/igormiguell" />
         </Preference>
         <Preference
+            android:summary="4PDA@Kosmosik96"
+            android:title="Kosmosik96">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://4pda.to/forum/index.php?showuser=10789718" />
+        </Preference>
+        <Preference
             android:summary="GitHub@NahidaBuer"
             android:title="Nahida">
             <intent

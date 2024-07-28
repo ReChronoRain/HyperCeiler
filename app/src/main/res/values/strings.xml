@@ -1542,6 +1542,7 @@
     <string name="security_center_aosp_app_manager_label">AOSP app manager</string>
     <string name="security_center_aosp_app_manager">Add AOSP app manager entry</string>
     <string name="security_center_power_consumption_ranking">Show power consumption ranking</string>
+    <string name="security_center_hide_xopt_mode_tip">Hide XOpt mode tip</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Disable risk detections</string>

@@ -37,5 +37,10 @@
             android:key="prefs_key_security_center_get_number"
             android:title="@string/security_center_get_number" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_hide_xopt_mode_tip"
+            android:title="@string/security_center_hide_xopt_mode_tip" />
+
     </PreferenceCategory>
 </PreferenceScreen>

@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.AppLockPinScramble;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.DisableReport;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.GetBubbleAppString;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.HideXOptModeTip;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.InstallIntercept;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.IsSbnBelongToActiveBubbleApp;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.NewBoxBlur;
@@ -100,6 +101,7 @@ public class SecurityCenterT extends BaseModule {
         initHook(AiClipboardEnable.INSTANCE, mPrefsMap.getBoolean("security_center_ai_clipboard"));
         initHook(BlurLocationEnable.INSTANCE, mPrefsMap.getBoolean("security_center_blur_location"));
         initHook(GetNumberEnable.INSTANCE, mPrefsMap.getBoolean("security_center_get_number"));
+        initHook(new HideXOptModeTip(), mPrefsMap.getBoolean("security_center_hide_xopt_mode_tip"));
 
         // 前置摄像助手
         initHook(BeautyLightAuto.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_face") ||

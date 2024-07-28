@@ -49,6 +49,6 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mPrivacy = findPreference("prefs_key_security_center_privacy_safety");
-        mPrivacy.setVisible(!isMoreHyperOSVersion(1f));
+        // mPrivacy.setVisible(!isMoreHyperOSVersion(1f));
     }
 }

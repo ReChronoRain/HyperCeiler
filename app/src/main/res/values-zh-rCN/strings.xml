@@ -1574,6 +1574,7 @@
     <string name="security_center_aosp_app_manager">添加 \"原生应用管理\" 入口</string>
     <string name="security_center_aosp_app_manager_label">原生应用管理</string>
     <string name="security_center_power_consumption_ranking">恢复显示耗电排行</string>
+    <string name="security_center_hide_xopt_mode_tip">隐藏权限使用提示</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">禁用风险检测</string>

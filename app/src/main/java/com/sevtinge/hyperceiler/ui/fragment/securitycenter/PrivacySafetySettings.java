@@ -37,6 +37,8 @@ public class PrivacySafetySettings extends SecurityCenterBaseSettings {
 
     SwitchPreference mAiClipboard;
     SwitchPreference mBlurLocation;
+    SwitchPreference mGetNumber;
+    SwitchPreference mHideXOptModeTip;
 
     @Override
     public int getContentResId() {
@@ -55,6 +57,16 @@ public class PrivacySafetySettings extends SecurityCenterBaseSettings {
     public void initPrefs() {
         mBlurLocation = findPreference("prefs_key_security_center_blur_location");
         mAiClipboard = findPreference("prefs_key_security_center_ai_clipboard");
+        mGetNumber = findPreference("prefs_key_security_center_get_number");
+        mHideXOptModeTip = findPreference("prefs_key_security_center_hide_xopt_mode_tip");
+
+        if (isMoreHyperOSVersion(1f)) {
+            mBlurLocation.setVisible(false);
+            mAiClipboard.setVisible(false);
+            mGetNumber.setVisible(false);
+        } else {
+            mHideXOptModeTip.setVisible(false);
+        }
 
         int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_SECURE_SETTINGS);
         if (permission != PermissionChecker.PERMISSION_GRANTED) {
