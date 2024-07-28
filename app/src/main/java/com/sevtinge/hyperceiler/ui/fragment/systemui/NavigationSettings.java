@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
-import android.provider.Settings;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
@@ -26,12 +25,9 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.KillApp;
 
-import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
 
 public class NavigationSettings extends SettingsPreferenceFragment {
-    SwitchPreference customNav;
-    PreferenceCategory mNav;
     SwitchPreference navigation;
 
     @Override
@@ -47,22 +43,9 @@ public class NavigationSettings extends SettingsPreferenceFragment {
         );
     }
 
-    private boolean isGestureNavigationEnabled() {
-        var defaultNavigationMode = 0;
-        var gestureNavigationMode = 2;
-
-        return Settings.Secure.getInt(requireContext().getContentResolver(), "navigation_mode", defaultNavigationMode) == gestureNavigationMode;
-    }
-
     @Override
     public void initPrefs() {
-        customNav = findPreference("prefs_key_system_ui_navigation_custom");
-        mNav = findPreference("prefs_key_system_ui_navigation");
         navigation = findPreference("prefs_key_system_ui_hide_navigation_bar");
-        if (customNav != null) {
-            mNav.setEnabled(!isGestureNavigationEnabled());
-            mNav.setVisible(mNav.isEnabled());
-        }
         navigation.setOnPreferenceChangeListener((preference, o) -> {
             KillApp.killApps("com.miui.home", "com.android.systemui");
             return true;
