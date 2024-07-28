@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -61,6 +62,8 @@
     <string name="development_ui">UI</string>
     <string name="development_debug_info">デバッグ情報</string>
     <string name="development_prefs">共有設定</string>
+    <string name="development_cmd_r">root 権限ありのコマンド</string>
+    <string name="development_delete_all_dexkit_cache">DexKit キャッシュをすべて消去</string>
     <string name="about_privacy">プライバシーポリシー</string>
     <string name="about_protocol">利用規約</string>
     <string name="settings_show_title">表示</string>
@@ -75,7 +78,7 @@
     <string name="settings_icon_medium">中間</string>
     <string name="settings_icon_down">下部</string>
     <string name="settings_icon_mode">アイコンのスタイル</string>
-    <string name="settings_app_language">言語</string>
+    <string name="settings_app_language">言語 (Language)</string>
     <string name="settings_icon_miui_14">丸みを帯びた長方形のスタイル</string>
     <string name="settings_icon_miui_13">背景の切り抜きスタイル</string>
     <string name="settings_reboot">ターゲットアプリを再起動</string>
@@ -112,6 +115,8 @@
     <string name="about_offical">公式 Web サイト</string>
     <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">HyperCeiler の翻訳にご協力ください</string>
+    <string name="delete_all_dexkit_cache_desc">DexKit キャッシュをすべて消去しますか？</string>
+    <string name="delete_all_dexkit_cache_success">DexKit キャッシュをすべて消去しました</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">再起動 </string>
     <string name="restart_app_desc">%1$s を再起動してもよろしいですか?</string>
@@ -359,6 +364,8 @@
     <string name="phone_n28_desc">n28 バンド (NR) 対応を有効化します</string>
     <string name="phone_n5_n8">n5/n8 バンド</string>
     <string name="phone_n5_n8_desc">電話アプリで *#*#65686633#*#* と入力して n5/n8 バンド対応を有効化できるようにします。「N5とN8モードを有効化しました」と表示されれば、機能は正常に有効になっています</string>
+    <string name="phone_flightmode_hotspot">機内モードでポータブルホットスポットを許可</string>
+    <string name="phone_flightmode_hotspot_desc">機内モード中に Wi-Fi ポータブルホットスポットの有効化を許可します</string>
     <string name="phone_additional_network_settings">追加のネットワーク設定</string>
     <string name="system_framework_screen_title">ディスプレイと通知</string>
     <string name="system_framework_core_title">コア</string>
@@ -396,6 +403,8 @@
     <string name="system_framework_other_thermal_brightness_more">高温時でも明るさを減少させないようにします</string>
     <string name="system_framework_other_disable_cleaner">バックグラウンドアプリの強制終了を無効化</string>
     <string name="system_framework_other_disable_cleaner_desc">実験的な機能です。メモリ使用が異常になる可能性があります</string>
+    <string name="system_framework_other_disable_gesture_monitor">ジェスチャの監視を無効にする</string>
+    <string name="system_framework_other_disable_gesture_monitor_desc">CPU 負荷は軽減されますが、3 本指のスクリーンショットなどの入力関連の機能は機能しません</string>
     <string name="system_framework_disable_72h_verify">72時間ごとのロック画面の認証を無効化</string>
     <string name="system_framework_disable_verify_can_ve_disabled">アプリ検証の無効化を許可</string>
     <string name="system_framework_allow_all_dark_mode">すべてのアプリにダークモードの使用を許可</string>
@@ -506,6 +515,10 @@
     <string name="mms">メッセージ</string>
     <string name="mms_disable_ad">広告を無効化</string>
     <string name="mms_disable_ad_desc">SMS コンテンツの下部にあるショートカットとプロモーションを削除します</string>
+    <string name="mms_disable_fraud_risk_tip">詐欺の疑いのヒントを無効化</string>
+    <string name="mms_disable_fraud_risk_tip_desc">\"詐欺の可能性あり\"のヒントを無効にします</string>
+    <string name="mms_disable_overseas_risk_tip">海外リスクのヒントを無効化</string>
+    <string name="mms_disable_overseas_risk_tip_desc">\"海外の詐欺の可能性あり\"ヒントを無効にします</string>
     <!--Phone Service-->
     <string name="phone">電話サービス</string>
     <string name="phone_smart_dual_sim">スマートデュアル SIM をアンロック</string>
@@ -939,6 +952,8 @@
     <string name="theme_manager_diable_ads_desc">広告を空白のカードに置き換えて、残りの広告を完全に削除します</string>
     <string name="theme_manager_enable_pad_theme">Pad テーマを有効化</string>
     <string name="theme_manager_enable_fold_theme">Fold テーマを有効化</string>
+    <string name="theme_manager_allow_download_more">ログインせずにダウンロードできるようにする</string>
+    <string name="theme_manager_allow_download_more_desc">ログインせずに10個以上のアイテムをダウンロードできるようにします</string>
     <!--remotecontroller-->
     <string name="remotecontroller">リモートコントローラー</string>
     <string name="remotecontroller_disable_ad">広告を無効化</string>
@@ -1331,6 +1346,9 @@
     <string name="personal_assistant_blur_value">背景のスタイル</string>
     <string name="personal_assistant_blurradius">パーソナルアシスタントのぼかし値</string>
     <string name="personal_assistant_color">パーソナルアシスタントの色</string>
+    <string name="personal_assistant_unlock_widget_count_limit">ウィジェット数の制限を解除</string>
+    <string name="personal_assistant_set_tv_notif_info_max_width">ステータスバーのトラベル通知の最大幅を設定</string>
+    <string name="personal_assistant_set_tv_notif_info_max_width_desc">この値を適切に調整すると、コンテンツが省略される問題を解決できます</string>
     <!--Battery and performance-->
     <string name="powerkeeper">バッテリーとパフォーマンス</string>
     <string name="powerkeeper_custom_refresh_rate">高リフレッシュレートのアプリを指定</string>
@@ -1415,6 +1433,8 @@
     <string name="security_score_summary">100 ポイントに固定して、最適化させないようにします</string>
     <string name="security_center_skip_waiting_time">カウントダウン制限をスキップ</string>
     <string name="security_center_skip_waiting_time_desc">危険なオプションの確認カウントダウンをスキップできるようにします</string>
+    <string name="security_center_skip_waiting_time_direct">カウントダウン制限を直接スキップ</string>
+    <string name="security_center_skip_waiting_time_direct_desc">警告ページをスキップします</string>
     <string name="security_center_newbox_blur">サイドバーのぼかし</string>
     <string name="security_center_remove_conversation_bubble_settings_restriction">バブル通知アプリの制限を削除</string>
     <string name="security_center_remove_low_battery_reminder_title">バッテリー残量低下の警告を非表示</string>
@@ -1508,6 +1528,7 @@
     <string name="market_disable_new_icon_desc">デスクトップをよりクリーンにする</string>
     <string name="market_package_monitor">パッケージモニターを無効化</string>
     <string name="market_package_monitor_desc">GetApps にアプリのインストールとアンインストールを監視させないようにします</string>
+    <string name="market_disable_ads">広告を無効化</string>
     <!--Mi sound-->
     <string name="misound">Xiaomi サウンド</string>
     <string name="misound_bluetooth">ヘッドセット接続時にオリジナルサウンドへ自動切り替えする</string>
@@ -1682,6 +1703,9 @@
     <string name="headtip_warn_not_offical_rom">使用している ROM は Xiaomi 公式ではないかもしれません。 一部の機能が動作しない場合がありますので、ご利用の ROM の提供者にお問い合わせください。</string>
     <string name="headtip_warn_sign_verification_failed">署名の検証に失敗しました。現在使用しているバージョンは Re.chronoRain の公式バージョンではないため、悪意のあるコードが含まれている可能性があります。</string>
     <string name="headtip_tip_long_press_to_copy">長押しまたは二回タップでテキストを選択したり、コピーして開発者にフィードバックしたりできます。</string>
+    <string name="headtip_tip_fuck_coolapk">今日は何の日：Sevtinge は2022年7月14日に重要なスピーチを行いました。</string>
+    <string name="headtip_notice_dead_logger_errcode">現在のデバイスのログサービスが異常なため、HyperCeiler の機能が制限されます。\nログサービスを正常に実行できるように復元してください。\nエラーコード: %1$s</string>
+    <string name="headtip_notice_dead_logger">現在のデバイスのログサービスが異常なため、HyperCeiler の機能が制限されます。正常に動作するようにログサービスを復元してください。</string>
     <string name="warn">警告</string>
     <string name="safe_mode_desc">%1$sは複数のクラッシュによりセーフモードに入り、HyperCeiler の機能が一時的に無効になりました。 \nOKを押すとセーフモードを無効化し、キャンセルを押すと後で対処できます。</string>
     <string name="safe_mode_history">例外記録を表示</string>
@@ -1715,6 +1739,10 @@
     <string name="telecom">電話</string>
     <string name="scam_reminder_bypass_caption">通話転送の MMI コード を許可</string>
     <string name="scam_reminder_bypass_description">通話転送を有効にするための **21*8# などの MMI コードを許可します</string>
-    <string name="system_framework_other_disable_gesture_monitor">ジェスチャの監視を無効にする</string>
-    <string name="system_framework_other_disable_gesture_monitor_desc">CPU 負荷は軽減されますが、3 本指のスクリーンショットなどの入力関連の機能は機能しません</string>
+    <!--Voice Trigger-->
+    <string name="voicetrigger">音声トリガー</string>
+    <string name="bypass_udk_word_legal_check_caption">インターネットなしで音声での起動の録音を許可する</string>
+    <string name="bypass_udk_word_legal_check_description">オフライン時でも、音声で起動に使う単語を録音できます</string>
+    <string name="voicetrigger_accuracy_percent_caption">音声での起動を検出する精度を設定する</string>
+    <string name="voicetrigger_accuracy_percent_description">値が高いほど検出が困難になります。キーワード「小愛同學」はデフォルトで0%です。 設定後、ターゲットアプリを再起動し、起動ワードを再度登録する必要があります。</string>
 </resources>

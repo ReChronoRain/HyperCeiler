@@ -40,7 +40,7 @@
     <string name="edit_key">Insira um valor para a chave</string>
     <string name="prefs_1">Esta chave não existe: </string>
     <string name="prefs_2">Chave removida com sucesso: </string>
-    <string name="prefs_3">Falha ao remover a chave, pode não existir: </string>
+    <string name="prefs_3">Falha ao remover a chave. Ela pode não existir: </string>
     <string name="prefs_4">Por favor, verifique o tipo de valor de retorno que requer a obtenção da chave!</string>
     <string name="prefs_5">Selecionar tipo</string>
     <string name="prefs_6">Verifique as preferências de compartilhamento</string>
@@ -70,7 +70,7 @@
     <string name="settings_data_title">Backup e Restauração</string>
     <string name="settings_bug_title">Solução de problemas</string>
     <string name="settings_debug_title">Depurar</string>
-    <string name="settings_hide_app_icon">Ícone na tela inicial</string>
+    <string name="settings_hide_app_icon">Ícone na Tela inicial</string>
     <string name="settings_icon">Ícone nas Configurações</string>
     <string name="settings_icon_desc">Defina onde o ícone do módulo ficará nas Configurações</string>
     <string name="settings_icon_disable">Desativado</string>
@@ -99,7 +99,7 @@
     <string name="rest_permission">Agora você precisa ativar manualmente as permissões para esta opção.</string>
     <string name="disable_detailed_log">Desativar registro detalhado</string>
     <string name="disable_detailed_log_desc">Reinicie para aplicar</string>
-    <string name="disable_detailed_log_more">A versão Debug Canary não suporta o ajuste do nível de registro</string>
+    <string name="disable_detailed_log_more">A versão Debug Canary não suporta o ajuste do nível de log</string>
     <string name="settings_safe_mode">Modo seguro</string>
     <string name="settings_safe_mode_desc">Desative os recursos do módulo</string>
     <string name="about_developer_title">Desenvolvedores</string>
@@ -110,7 +110,7 @@
     <string name="about_qq_channel">Canal QQ</string>
     <string name="about_tg_group">Grupo Telegram</string>
     <string name="about_tg_channel">Canal Telegram</string>
-    <string name="about_github">Código fonte</string>
+    <string name="about_github">Código-fonte</string>
     <string name="about_github_desc">Este projeto é de código aberto baseado na licença AGPL-3.0</string>
     <string name="about_offical">Site oficial</string>
     <string name="about_crwd">Crowdin</string>
@@ -122,7 +122,7 @@
     <string name="restart_app_desc">Você tem certeza que deseja reiniciar agora %1$s?</string>
     <string name="tip">Dica</string>
     <string name="root">Alguns recursos não estão disponíveis sem permissão Root/Su</string>
-    <string name="hook_failed">O módulo ainda não está ativado.\nPor favor, verifique se o LSPosed está ativado. Nesse caso, por favor, reinicie ou otimize novamente o módulo.</string>
+    <string name="hook_failed">O módulo ainda não está ativado.\nPor favor, verifique se o LSPosed está ativado. Nesse caso, por favor, reinicie ou re-otimize o módulo.</string>
     <string name="kill_failed">Falha ao finalizar o processo. Por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
     <string name="start_failed">Falha ao iniciar a atividade. Por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
     <string name="pid_failed">O app de destino não está em execução e não precisa ser reiniciado.</string>
@@ -195,7 +195,7 @@
     <string name="array_align_right">Direita</string>
     <string name="array_align_center">Centralizado</string>
     <string name="array_netspeedicons_no">Sem ícones</string>
-    <string name="array_default_official">Fontes predefinidas oficiais</string>
+    <string name="array_default_official">Fonte oficial</string>
     <string name="array_default_thin">Fonte padrão</string>
     <string name="array_default_bold">Fonte padrão negrito</string>
     <string name="array_bold">Negrito</string>
@@ -211,13 +211,13 @@
     <string name="array_battery_temp">Temperatura da bateria</string>
     <string name="array_cpu_temp">Temperatura da CPU</string>
     <string name="array_global_actions_none">Nenhuma ação</string>
-    <string name="array_global_actions_notif">Abrir central de notificações</string>
+    <string name="array_global_actions_notif">Abrir Área de notificações</string>
     <string name="array_global_actions_eqs">Expandir o painel de configurações rápidas</string>
     <string name="array_global_actions_lock">Tela de bloqueio</string>
     <string name="array_global_actions_sleep">Desligar tela</string>
     <string name="array_global_actions_screenshot">Captura de tela</string>
     <string name="array_global_actions_menu">Abrir menu</string>
-    <string name="array_global_actions_recents">Abrir recentes</string>
+    <string name="array_global_actions_recents">Abrir Recentes</string>
     <string name="array_global_actions_volume">Abrir diálogo de volume</string>
     <string name="array_global_actions_volume_up">Aumentar volume</string>
     <string name="array_global_actions_volume_down">Diminuir volume</string>
@@ -305,8 +305,8 @@
     <string name="system_ui_statusbar_network_speed_style_3">A velocidade da rede uplink e downlink é exibida em uma única linha</string>
     <string name="system_ui_statusbar_network_speed_style_4">Exibição de linha dupla de velocidades da rede de uplink e downlink</string>
     <string name="system_ui_statusbar_clock_style_1">Exibição em uma única linha\n\nSomente relógio da barra de status</string>
-    <string name="system_ui_statusbar_clock_style_2">Exibição de duas linhas\n\nRelógio da barra de status na parte superior\nMini-relógio da central de notificações na parte inferior</string>
-    <string name="system_ui_statusbar_clock_style_3">Exibição de duas linhas\n\nMini-relógio da central de notificações na parte superior\nRelógio da barra de status na parte inferior</string>
+    <string name="system_ui_statusbar_clock_style_2">Exibição de duas linhas\n\nRelógio da barra de status na parte superior\nMini-relógio da Área de notificações na parte inferior</string>
+    <string name="system_ui_statusbar_clock_style_3">Exibição de duas linhas\n\nMini-relógio da Área de notificações na parte superior\nRelógio da barra de status na parte inferior</string>
     <string name="mediaeditor_mickey">Mickey Mouse</string>
     <string name="mediaeditor_strawberry_bear">Urso de morango</string>
     <string name="tiles_gms">Google Play Service</string>
@@ -321,15 +321,15 @@
     <string name="system_framework_phone_title">Rede</string>
     <string name="system_framework_bubble_title">Conversas em bolhas</string>
     <string name="system_framework_freeform_count">Múltiplas janelas flutuantes</string>
-    <string name="system_framework_disable_freeform_blacklist">Permitir Janela flutuante pequena</string>
+    <string name="system_framework_disable_freeform_blacklist">Permitir janela flutuante pequena</string>
     <string name="system_framework_disable_freeform_blacklist_desc">Ignore a lista negra do sistema e as restrições do software para o modo Janela flutuante</string>
     <string name="system_framework_freeform_sticky">Lembrar estado e posição</string>
     <string name="system_framework_freeform_bubble">Bolha de janelas flutuantes</string>
     <string name="system_framework_freeform_recents_to_small_freeform">Transformar as Janelas flutuantes em mini Janelas flutuantes</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">Transforme todas as Janelas flutuantes em mini Janelas flutuantes nos recentes.\nEste recurso é um recurso experimental com alta instabilidade.</string>
+    <string name="system_framework_freeform_recents_to_small_freeform_desc">Transforme todas as janelas flutuantes em mini janelas flutuantes nos Recentes.\nEste recurso é experimental com alta instabilidade.</string>
     <string name="system_framework_freeform_jump">Abrir com Janela flutuante ao pular para outro app</string>
     <string name="system_framework_freeform_foreground_pin">Janelas básicas forçam a recepção</string>
-    <string name="system_framework_freeform_title_desc">Nos cenários a seguir, quando você precisar pular para outros apps, você usará a Janela flutuante para abrir.</string>
+    <string name="system_framework_freeform_title_desc">Nos cenários a seguir, quando você precisar pular para outros apps, você usará a janela flutuante para abrir.</string>
     <string name="system_framework_freeform_content_extension_desc">Suporta apenas links</string>
     <string name="system_framework_default_volume_stream">Ajustar volume por padrão</string>
     <string name="system_framework_volume_first_press">Ajuste de volume instantâneo</string>
@@ -351,7 +351,7 @@
     <string name="system_ui_display_min_brightness">Brilho automático mínimo</string>
     <string name="system_ui_display_max_brightness">Brilho automático máximo</string>
     <string name="system_ui_display_toast_times_title">Exibir ajuste de duração</string>
-    <string name="system_ui_display_toast_times_desc">Modifique a duração de exibição da dica, a duração de exibição é sempre maior que 1 segundo.</string>
+    <string name="system_ui_display_toast_times_desc">Modifique a duração de exibição da dica. A duração de exibição é sempre maior que 1 segundo.</string>
     <string name="system_framework_phone_network_title">Configurações de rede</string>
     <string name="phone_double_5g_nr">Uso de cartão duplo 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">O cartão SIM principal e secundário permite 5G ao mesmo tempo (O cartão SIM secundário suporta apenas NSA)</string>
@@ -405,12 +405,12 @@
     <string name="system_framework_other_disable_cleaner_desc">Recurso experimental. Pode causar uso anormal de memória em execução.</string>
     <string name="system_framework_other_disable_gesture_monitor">Desativar monitoramento de gestos</string>
     <string name="system_framework_other_disable_gesture_monitor_desc">Reduz a carga da CPU, mas interrompe recursos relacionados à entrada, como capturas de tela com três dedos.</string>
-    <string name="system_framework_disable_72h_verify">Desativar verificação da tela de bloqueio a cada 72 horas</string>
+    <string name="system_framework_disable_72h_verify">Desativar verificação da Tela de bloqueio a cada 72 horas</string>
     <string name="system_framework_disable_verify_can_ve_disabled">Desativar para verificar pode ser desativado</string>
     <string name="system_framework_allow_all_dark_mode">Permitir que todos os apps usem o Modo escuro</string>
     <string name="system_framework_background_blur_supported">Forçar ativação das Texturas avançadas</string>
     <string name="system_framework_background_blur_toast">Dica das Texturas avançadas</string>
-    <string name="system_framework_background_blur_supported_more">Quando este recurso estiver ativado, controle a opção das Texturas avançadas nas configurações do sistema, pois o sistema pode precisar ser reiniciado duas vezes.</string>
+    <string name="system_framework_background_blur_supported_more">Quando este recurso estiver ativado, controle a opção das Texturas avançadas nas Configurações, pois o sistema pode precisar ser reiniciado duas vezes.</string>
     <string name="system_framework_disablt_miuilite_check">Desativar Verificação MIUI Lite</string>
     <string name="system_framework_posted_clipboard">Suprimir pasta da área de transferência</string>
     <string name="system_framework_allow_manage_all_notifications">Permitir gerenciar todas as notificações</string>
@@ -488,7 +488,7 @@
     <string name="camera_record_ai">Desbloquear Aprimoramento de IA</string>
     <string name="camera_portrait_new_beauty">Desbloquear Embelezador</string>
     <string name="camera_portrait_new_beauty_desc">Tem efeito apenas ao usar a câmera frontal</string>
-    <string name="camera_portrait_cvlens">Desbloquear Lentes Pro</string>
+    <string name="camera_portrait_cvlens">Desbloquear Retrato master</string>
     <string name="camera_portrait_cvlens_desc">Não funciona corretamente em alguns dispositivos</string>
     <string name="camera_pro_raw">Desbloquear RAW</string>
     <string name="camera_pro_log">Desbloquear LOG</string>
@@ -523,7 +523,7 @@
     <string name="phone">Serviços do smartphone</string>
     <string name="phone_smart_dual_sim">Desbloquear SIM duplo inteligente</string>
     <string name="phone_disable_remove_network_mode">Desativar remoção do modo de rede</string>
-    <string name="phone_vice_slot_volte">Desbloquear Vice slot volte</string>
+    <string name="phone_vice_slot_volte">Desbloquear Vice slot VoLTE</string>
     <string name="phone_vice_slot_volte_desc">Usar dados móveis durante chamadas VoLTE no SIM secundário</string>
     <!--Download management program-->
     <string name="downloads">Downloads</string>
@@ -539,7 +539,7 @@
     <string name="system_ui_lock_screen_scramble_pin_desc">Ordem aleatória do teclado PIN</string>
     <string name="system_ui_lock_screen_password_free">Não é necessário digitar a senha quando inicializar</string>
     <string name="system_ui_lock_screen_password_free_desc">Só terá efeito se o dispositivo não estiver ativado para criptografia</string>
-    <string name="system_ui_lock_screen_password_free_tip">O dispositivo atual está criptografado, esta função não está disponível.</string>
+    <string name="system_ui_lock_screen_password_free_tip">O dispositivo atual está criptografado. Esta função não está disponível.</string>
     <string name="system_ui_lock_screen_default_theme">Suporta apenas o tema padrão</string>
     <string name="system_ui_lock_screen_show_charging_cv">Exibir informações de carregamento na parte inferior</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Exibir corrente detalhada</string>
@@ -551,15 +551,15 @@
     <string name="system_ui_lock_screen_show_second">Exibir segundos do relógio</string>
     <string name="system_ui_lock_screen_blur_button">Desfocar câmera e o botão de tela inteligente</string>
     <string name="system_ui_lock_screen_force_system_fonts">Forçar o relógio a usar fontes do sistema</string>
-    <string name="system_ui_lock_screen_double_lock">Toque duas vezes na tela de bloqueio</string>
+    <string name="system_ui_lock_screen_double_lock">Toque duas vezes na Tela de bloqueio</string>
     <string name="system_ui_lock_screen_double_lock_desc">Toque duas vezes em um local vazio para bloquear a tela</string>
-    <string name="system_ui_lock_screen_not_disturb_mode_title">Ocultar notificação do Modo foco</string>
+    <string name="system_ui_lock_screen_not_disturb_mode_title">Ocultar notificação do Não perturbe</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Ocultar solicitação de desbloqueio</string>
-    <string name="system_ui_lock_screen_hide_status_bar">Remover barra de status na tela de bloqueio</string>
-    <string name="system_ui_lock_screen_block_editor_title">Desativar toque longo para editar a tela de bloqueio</string>
+    <string name="system_ui_lock_screen_hide_status_bar">Remover barra de status na Tela de bloqueio</string>
+    <string name="system_ui_lock_screen_block_editor_title">Desativar toque longo para editar a Tela de bloqueio</string>
     <string name="system_ui_lock_screen_allow_third_face">Ativar sistema para verificar o reconhecimento por terceiros</string>
-    <string name="system_ui_lock_screen_allow_third_face_desc">Permite que o reconhecimento facial e de impressão digital seja usado normalmente na tela de bloqueio exibida por apps de terceiros</string>
-    <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Desativar exibição de desbloqueio via dispositivo Bluetooth</string>
+    <string name="system_ui_lock_screen_allow_third_face_desc">Permite que o reconhecimento facial e de impressão digital seja usado normalmente na Tela de bloqueio exibida por apps de terceiros</string>
+    <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Desativar dica de desbloqueio via Bluetooth</string>
     <string name="system_ui_navigation_title">Navegação</string>
     <string name="system_ui_navigation_handle_title">Indicador de tela infinita</string>
     <string name="system_ui_hide_navigation_bar">Ocultar indicador de tela infinita</string>
@@ -571,7 +571,7 @@
     <string name="system_ui_navigation_handle_custom_width">Largura em retrato</string>
     <string name="system_ui_navigation_handle_custom_width_land">Largura em paisagem</string>
     <string name="system_ui_navigation_handle_custom_thickness">Espessura</string>
-    <string name="system_ui_navigation_handle_custom_color">Cor quando estiver no modo claro</string>
+    <string name="system_ui_navigation_handle_custom_color">Cor quando estiver no Modo claro</string>
     <string name="system_ui_navigation_handle_custom_color_dark">Cor quando estiver no Modo escuro</string>
     <string name="system_ui_navigation_custom">Navegação personalizada</string>
     <string name="system_ui_navigation_custom_height">Altura da navegação</string>
@@ -629,8 +629,8 @@
     <string name="system_ui_status_bar_icon_small_hd">Ícone HD pequeno</string>
     <string name="system_ui_status_bar_icon_big_hd">Ícone HD grande</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Sem ícone do cartão SIM</string>
-    <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Ocultar ícone de sinal do cartão SIM 1</string>
-    <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Ocultar ícone de sinal do cartão SIM 2</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Ocultar ícone de sinal do SIM 1</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Ocultar ícone de sinal do SIM 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Lógica de exibição</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Ícone do tipo de rede grande</string>
     <string name="system_ui_status_bar_icon_location">Localização</string>
@@ -676,7 +676,7 @@
     <string name="system_ui_status_bar_use_new_hd">Forçar o uso do novo ícone HD</string>
     <string name="system_ui_status_bar_use_new_hd_summary">Suporta apenas algumas versões do sistema</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">Separador de velocidade de rede</string>
-    <string name="system_ui_status_bar_no_netspeed_separator_desc">A linha vertical entre o tempo e a velocidade da internet não é exibida em dispositivos com câmera centralizada</string>
+    <string name="system_ui_status_bar_no_netspeed_separator_desc">A linha vertical entre o tempo e a velocidade da internet não é exibida em dispositivos com notch centralizado</string>
     <string name="system_ui_status_bar_hide_icon">Ocultar barra de status ao fazer uma captura de tela</string>
     <string name="system_ui_status_bar_mobile_type_single_title">Ícone do tipo de rede móvel</string>
     <string name="system_ui_statusbar_network_speed_all_status">Ativar modificação</string>
@@ -711,16 +711,16 @@
     <string name="system_ui_statusbar_clock_fix_color">Corrigir cor</string>
     <string name="system_ui_disable_clock_anim">Desativar animação de transição do relógio</string>
     <string name="system_ui_disable_clock_synch">Configurações do relógio da barra de status não sincronizadas</string>
-    <string name="system_ui_disable_clock_synch_desc">O grande relógio da central de notificações não está mais sincronizado com o formato do relógio da barra de status</string>
+    <string name="system_ui_disable_clock_synch_desc">O grande relógio da Área de notificações não está mais sincronizado com o formato do relógio da barra de status</string>
     <string name="system_ui_statusbar_clock_show">Exibir</string>
-    <string name="system_ui_statusbar_clock_big_bold">Grande relógio da central de notificações em negrito</string>
+    <string name="system_ui_statusbar_clock_big_bold">Grande relógio da Área de notificações em negrito</string>
     <string name="system_ui_clock_is_show_sec">Interruptor de atualização dos segundos</string>
     <string name="system_ui_clock_is_show_sec_desc">Se o relógio quiser exibir os segundos, lembre-se de ativá-lo.\nA exibição dos segundos aumentará a sobrecarga desnecessária de desempenho. Por favor, use-o conforme apropriado.</string>
     <string name="system_ui_statusbar_clock_layout_s">Relógio da barra de status</string>
-    <string name="system_ui_statusbar_clock_layout_b">Grande relógio da central de notificações</string>
-    <string name="system_ui_statusbar_clock_layout_n">Mini-relógio da central de notificações</string>
+    <string name="system_ui_statusbar_clock_layout_b">Grande relógio da Área de notificações</string>
+    <string name="system_ui_statusbar_clock_layout_n">Mini-relógio da Área de notificações</string>
     <string name="system_ui_statusbar_clock_editor_s">Formato do relógio da barra de status</string>
-    <string name="system_ui_statusbar_clock_editor_n">Formato do mini-relógio da central de notificações</string>
+    <string name="system_ui_statusbar_clock_editor_n">Formato do mini-relógio da Área de notificações</string>
     <string name="system_ui_statusbar_clock_style_f">Arranjo do relógio da barra de status</string>
     <string name="system_ui_statusbar_indicator_battery_title">Relacionado à energia</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Relacionado à temperatura</string>
@@ -773,8 +773,8 @@
     <string name="system_ui_control_auto_close">Fechar após tocar</string>
     <string name="system_ui_control_center_qs_bg_color">Cor de fundo</string>
     <string name="system_ui_control_center_qs_color">Cor do ícone</string>
-    <string name="system_ui_control_center_qs_open_color">A personalização de cores de blocos pequenos está ativada</string>
-    <string name="system_ui_control_center_qs_big_open_color">A personalização de cores de blocos grandes está ativada</string>
+    <string name="system_ui_control_center_qs_open_color">Ativar personalização do bloco pequeno</string>
+    <string name="system_ui_control_center_qs_big_open_color">Ativar personalização do bloco grande</string>
     <string name="system_ui_control_auto_close_more">Ao tocar no bloco da barra de status, a barra de status será automaticamente retraída.</string>
     <string name="system_control_center_qs_tile_label">Remover nomes</string>
     <string name="system_control_center_qs_rows">Linhas</string>
@@ -783,7 +783,7 @@
     <string name="system_control_center_qs_columns">Colunas</string>
     <string name="system_control_center_qs_columns_format">%d colunas</string>
     <string name="system_control_center_qs_columns_horizontal">Colunas (Paisagem)</string>
-    <string name="system_ui_control_center_hide_mi_play_entry">Entrada do Mi Play</string>
+    <string name="system_ui_control_center_hide_mi_play_entry">Entrada do Xiaomi Smart Play</string>
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Entrada do Xiaomi Smart Hub</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">Entrada de controle do dispositivo</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Valor do blur do detalhe de fundo do controle</string>
@@ -791,7 +791,7 @@
     <string name="system_ui_control_center_notification_disable_transparent_desc">Desative a configuração do plano de fundo da notificação para ser transparente</string>
     <string name="system_ui_control_center_notification_blur_model">Modelo do blur de notificação</string>
     <string name="system_ui_control_center_notification_blur_fix">Otimização de notificação</string>
-    <string name="system_ui_control_center_notification_blur_fix_desc">Função experimental. Disponível apenas para modelos Android 13 e superiores. Após a ativação, o blur de notificação em algumas áreas será otimizado.\nPode haver um problema de travamento da interface do sistema em alguns modelos.</string>
+    <string name="system_ui_control_center_notification_blur_fix_desc">Recurso experimental. Disponível apenas para modelos Android 13 e superiores. Após a ativação, o blur de notificação em algumas áreas será otimizado.\nPode haver um problema de travamento da UI do Sistema em alguns modelos.</string>
     <string name="system_ui_control_center_blur_radius">Raio do blur</string>
     <string name="system_ui_control_center_blur_radius_desc">Sem notificação suspensa</string>
     <string name="system_ui_control_center_corner_radius">Raio do canto</string>
@@ -800,7 +800,7 @@
     <string name="system_ui_control_center_default_background_alpha">Valor padrão de fundo</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Otimizar mistura de cores no painel de controle de mídia</string>
     <string name="system_ui_control_center_media_control_progress">Barra de progresso</string>
-    <string name="system_ui_control_center_media_control_unlock_custom_actions">Remover restrições de ação personalizada para notificação de mídia</string>
+    <string name="system_ui_control_center_media_control_unlock_custom_actions">Remover restrições personalizadas para notificação de mídia</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Ondulado</string>
     <string name="system_ui_control_center_media_control_progress_sleek">Suave</string>
     <string name="system_ui_control_center_media_control_progress_thickness">Rígido</string>
@@ -828,7 +828,7 @@
     <string name="system_ui_control_center_statusbar_blur">Forçar blur de fundo</string>
     <string name="system_ui_control_center_rounded_rect_radius">Raio arredondado</string>
     <string name="system_ui_control_center_fix_tiles_list">Desativar ocultar blocos extremamente escuros</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">Alterar centro de controle e a central de notificações</string>
+    <string name="system_ui_control_center_switch_cc_and_notification_title">Alterar centro de controle e a Área de notificações</string>
     <string name="system_ui_control_center_hide_operator">Personalizar nome da operadora</string>
     <string name="system_ui_control_center_hide_delimiter">Ocultar apenas o delimitador</string>
     <string name="system_ui_control_center_hide_display_device_name">Exibir nome do dispositivo</string>
@@ -850,7 +850,7 @@
     <string name="system_ui_control_center_card_tiles_customization_add">Adicionado</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">Não adicionado</string>
     <string name="system_ui_control_center_unlock_blur_supported">Remover restrição do blur de notificação</string>
-    <string name="system_ui_control_center_unlock_blur_supported_desc">Não há restrição ao blur de fundo para Texturas avançadas, apenas para remoção de temas de terceiros.</string>
+    <string name="system_ui_control_center_unlock_blur_supported_desc">Não há restrição ao blur de fundo para as Texturas avançadas, apenas para remoção de temas de terceiros.</string>
     <string name="system_ui_other_title">Outros</string>
     <string name="system_ui_disable_volume">Barra de volume nativa</string>
     <string name="system_ui_disable_power">Menu de energia nativo</string>
@@ -860,12 +860,12 @@
     <string name="system_ui_unlock_clipboard_desc">Após o desbloqueio, ele aparecerá junto com o editor HyperOS/MIUI.</string>
     <string name="system_ui_charge_animation_title">Animação de carregamento</string>
     <string name="system_ui_charge_animation_style">Estilo da animação de carregamento</string>
-    <string name="system_ui_charge_animation_style_desc">Selecione o estilo da animação de carregamento da tela de bloqueio</string>
+    <string name="system_ui_charge_animation_style_desc">Selecione o estilo da animação de carregamento da Tela de bloqueio</string>
     <string name="system_ui_another_title">Outros</string>
     <string name="system_ui_disable_bluetooth_restrict">Impedir que o Bluetooth seja desligado temporariamente</string>
-    <string name="system_ui_disable_miui_multi_win_switch">Ocultar botão de tela dividida</string>
+    <string name="system_ui_disable_miui_multi_win_switch">Ocultar botão de Tela dividida</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Oculte os três pontos permanentes, incluindo a parte superior da janela pequena e o botão no meio da parte superior da tela horizontal do HyperOS para Pad (não afeta o uso das funções).</string>
-    <string name="system_ui_remove_miui_multi_win_switch">Desativar botão de tela dividida</string>
+    <string name="system_ui_remove_miui_multi_win_switch">Desativar botão de Tela dividida</string>
     <string name="system_ui_disable_infinitymode_gesture">Desativar gestos de zoom infinito</string>
     <string name="system_ui_disable_infinitymode_gesture_sum">Apenas para tablets</string>
     <string name="system_ui_disable_bottombar">Ocultar gesto inferior da janela pequena</string>
@@ -875,7 +875,7 @@
     <string name="system_ui_others_showpct_top">Topo da porcentagem</string>
     <string name="system_ui_others_showpct_top_desc">Distância percentual do topo da tela</string>
     <string name="system_showpct_use_blur">Usar blur</string>
-    <string name="system_ui_notification_freeform">Puxe para baixo para abrir uma Janela flutuante</string>
+    <string name="system_ui_notification_freeform">Puxe para baixo para abrir uma janela flutuante</string>
     <string name="system_ui_notification_freeform_desc">As notificações do Mi Push podem não ser suportadas</string>
     <string name="system_ui_monet_title">Monet</string>
     <string name="system_ui_monet_overlay_custom">Personalizar cores do tema</string>
@@ -892,7 +892,7 @@
     <string name="system_settings_linkturbo">Remover restrições em apps de aceleração de rede</string>
     <string name="system_settings_international_build">Versão internacional das configurações</string>
     <string name="system_settings_safe_wifi">Ver suas senhas de Wi-Fi salvas</string>
-    <string name="system_settings_safe_wifi_desc">Caminho: Configurações - Wi-Fi - Configurações adicionais - Gerenciar redes salvas</string>
+    <string name="system_settings_safe_wifi_desc">Caminho: Configurações &gt; Wi-Fi &gt; Configurações adicionais &gt; Gerenciar redes salvas</string>
     <string name="system_settings_wifipassword_btn_title">Verificar</string>
     <string name="system_settings_wifi_password_label">Senha</string>
     <string name="system_settings_wifi_password_dlgtitle">Detalhes do Wi-Fi</string>
@@ -915,7 +915,7 @@
     <string name="system_settings_connection_sharing_title">Conectividade</string>
     <string name="system_settings_lang_menu_shouw_all_app">Mostrar todos os apps no menu de gerenciamento de idiomas</string>
     <string name="system_settings_new_nfc_page">Nova página NFC</string>
-    <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Mi Wallet</string>
+    <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Xiaomi Wallet.</string>
     <string name="system_settings_lab_title">Funções em destaque</string>
     <string name="system_settings_area_screenshot">Desbloquear captura de tela da área</string>
     <string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
@@ -930,7 +930,7 @@
     <string name="system_settings_permission_show_app_up_desc">Restaure o comportamento antigo e vá diretamente para o interruptor de permissão do app correspondente exibido na parte superior de outros apps.</string>
     <string name="system_settings_permission_unknown_origin_app">Instalar apps desconhecidos sem pesquisar na lista de apps</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Use a compilação internacional e vá diretamente para o interruptor de permissão correspondente do app exibido na parte superior de outros apps</string>
-    <string name="system_settings_permission_accessibility">Permissões de serviços de acessibilidade sem pesquisar na lista de apps</string>
+    <string name="system_settings_permission_accessibility">Permissões de acessibilidade sem pesquisar na lista de apps</string>
     <string name="system_settings_permission_disable_install_unknown_verify">Desativar verificação ao instalar apps desconhecidos</string>
     <string name="system_settings_develop_title">Opções do desenvolvedor</string>
     <string name="system_settings_apps_freezer">Forçar exibição de apps congelados em cache</string>
@@ -961,7 +961,7 @@
     <string name="updater">Atualizações</string>
     <string name="updater_enable_miui_version">Ativar Versão falsa para Atualizações</string>
     <string name="updater_fuck_vab">Remover verificação OTA</string>
-    <string name="updater_fuck_vab_desc">Apenas dispositivos VAB são suportados. Por favor, não habilite outros dispositivos não-VAB!\n- Você pode deslizar para o pacote completo de passagem do cartão de teste interno sem permissões de teste interno.\n- Recomenda-se limpar os dados após o flash em diferentes tipos de versão.\n- Não suporta nenhum uso de ROM não oficial.\n- Esta função é perigosa. Por favor, avalie se deve ativá-la após entender a operação do Fastboot.</string>
+    <string name="updater_fuck_vab_desc">Apenas dispositivos VAB são suportados. Por favor, não ative outros dispositivos não-VAB!\n• Você pode deslizar para o pacote completo de passagem do cartão de teste interno sem permissões de teste interno.\n• Recomenda-se limpar os dados após o flash em diferentes tipos de versão.\n• Não suporta nenhum uso de ROM não oficial.\n• Este recurso é perigoso. Por favor, avalie se deve ativá-lo após entender a operação do Fastboot.</string>
     <string name="updater_version_mode">Tipo de disfarce</string>
     <string name="updater_big_version">Versão grande falsa</string>
     <string name="updater_big_version_desc">Itens que precisam ser preenchidos ao disfarçar a versão Xiaomi HyperOS, o padrão é V816.</string>
@@ -975,7 +975,7 @@
     <string name="lbe">Permissões</string>
     <string name="clipboard">Área de transferência</string>
     <string name="lbe_disable_clipboard_tip">Ocultar dicas rápidas</string>
-    <string name="lbe_auto_start">Proibir desligamento automático da inicialização automática</string>
+    <string name="lbe_auto_start">Desativar desligamento automático do início automático</string>
     <string name="lbe_clipboard_tip_toast">Ler área de transferência usando dicas rápidas</string>
     <string name="lbe_clipboard_tip_toast_desc">Oculte a caixa de diálogo e permita que o app leia a área de transferência por padrão</string>
     <string name="lbe_clipboard_tip">Ler área de transferência</string>
@@ -988,14 +988,14 @@
     <string name="milink_fuck_hpplay">Bloquear a criação de pastas hpplay</string>
     <!--Always-on display-->
     <string name="aod">Tela sempre ativa</string>
-    <string name="aod_hyperos">Tela sempre ativa e editor de Tela de bloqueio</string>
-    <string name="aod_unlock_always_on_display">Desbloquear limite de tempo de exibição da Tela sempre ativa</string>
-    <string name="aod_unlock_always_on_display_more">Reinicie a UI do Sistema para ativar totalmente a função</string>
+    <string name="aod_hyperos">Tela ambiente e editor da Tela de bloqueio</string>
+    <string name="aod_unlock_always_on_display">Desbloquear limite de tempo de exibição da Tela ambiente</string>
+    <string name="aod_unlock_always_on_display_more">Reinicie a UI do Sistema para ativar totalmente o recurso</string>
     <string name="aod_unlock_aon">Desbloquear exibição da Tela ambiente</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Usar navegador de terceiros</string>
-    <string name="content_extension_browser_desc">Torne o Taplus não obrigatório para usar o navegador do sistema para pesquisas. Você mesmo precisa escolher o navegador padrão por conta própria.</string>
+    <string name="content_extension_browser_desc">Torne o Taplus não obrigatório para usar o navegador do sistema para pesquisas. Você mesmo precisa escolher o navegador padrão.</string>
     <string name="content_extension_unlock_taplus_title">Desbloquear Taplus</string>
     <string name="content_extension_unlock_taplus_horizontal_title">Permitir o uso do Taplus em telas de paisagem</string>
     <string name="content_extension_double_press">Gesto de 2 dedos</string>
@@ -1006,7 +1006,7 @@
     <!--Xiaomi Cloud Service-->
     <string name="micloud_service">MiCloud</string>
     <string name="micloud_service_list">Sincronização da nuvem de dados</string>
-    <string name="micloud_service_list_summary">As funções de conclusão são as seguintes:\n- O celular pode ser sincronizado com o Mi Creation.\n- As versões nacional e internacional do Navegador Mi podem ser sincronizadas ao mesmo tempo.\n\nObservação: A primeira sincronização do Mi Creation deve ser ativado nas configurações do Mi Creation, caso contrário, você será avisado que a rede está indisponível ou o sistema está ocupado.</string>
+    <string name="micloud_service_list_summary">Os recursos de conclusão são os seguintes:\n• O dispositivo pode ser sincronizado com o Mi Creation.\n• As versões nacional e internacional do Navegador Mi podem ser sincronizadas simultaneamente.\n\nObservação: A primeira sincronização do Mi Creation deve ser ativado nas configurações do Mi Creation, caso contrário, você será avisado que a rede está indisponível ou o sistema está ocupado.</string>
     <!--Mi Mover-->
     <string name="huanji">Mi Mover</string>
     <string name="huanji_allow_all_apps">Permitir mover todos os apps</string>
@@ -1028,7 +1028,7 @@
     <string name="gallery_enable_photo_movie">Desbloquear Clipe</string>
     <string name="gallery_enable_video_post">Desbloquear Efeitos de vídeo</string>
     <string name="gallery_enable_video_editor">Desbloquear Editor de vídeo</string>
-    <string name="gallery_enable_text_yanhua">Desbloquear Fogos de artifício de texto</string>
+    <string name="gallery_enable_text_yanhua">Desbloquear Fogos de artifício</string>
     <string name="gallery_enable_un_privacy_watermark">Remover limite de palavras da marca d’água de proteção</string>
     <string name="gallery_enable_un_privacy_watermark_more">Ao ativá-lo, aumentará ligeiramente a densidade da marca d\'água para acomodar contagens de palavras mais longas.</string>
     <string name="gallery_enable_remover_2">Desbloquear Apagar</string>
@@ -1058,21 +1058,21 @@
     <string name="home_gesture_mainscreen_title">Tela principal</string>
     <string name="home_gesture_gesture_title">Gesto em tela cheia</string>
     <string name="home_gesture_double_tap">Toque duplo</string>
-    <string name="home_gesture_double_tap_desc">Toque duas vezes em qualquer lugar da tela inicial</string>
+    <string name="home_gesture_double_tap_desc">Toque duas vezes em qualquer lugar da Tela inicial</string>
     <string name="home_gesture_shake">Agitar</string>
-    <string name="home_gesture_shake_desc">Agite o dispositivo em qualquer tela inicial</string>
+    <string name="home_gesture_shake_desc">Agite o dispositivo em qualquer Tela inicial</string>
     <string name="home_gesture_left_swipe">Deslizar para esquerda</string>
-    <string name="home_gesture_left_swipe_desc">Deslize para esquerda na tela inicial da dock</string>
+    <string name="home_gesture_left_swipe_desc">Deslize para esquerda na Tela inicial da dock</string>
     <string name="home_gesture_right_swipe">Deslizar para direita</string>
-    <string name="home_gesture_right_swipe_desc">Deslize para direita na tela inicial da dock</string>
+    <string name="home_gesture_right_swipe_desc">Deslize para direita na Tela inicial da dock</string>
     <string name="home_gesture_up_swipe">Deslizar para cima</string>
-    <string name="home_gesture_up_swipe_desc">Deslize para cima com um dedo em qualquer tela inicial</string>
+    <string name="home_gesture_up_swipe_desc">Deslize para cima com um dedo em qualquer Tela inicial</string>
     <string name="home_gesture_down_swipe">Deslizar para baixo</string>
-    <string name="home_gesture_down_swipe_desc">Deslize para baixo com um dedo em qualquer tela inicial</string>
+    <string name="home_gesture_down_swipe_desc">Deslize para baixo com um dedo em qualquer Tela inicial</string>
     <string name="home_gesture_up_swipe2">Deslizar para cima com dois dedos</string>
-    <string name="home_gesture_up_swipe2_desc">Deslize para cima com dois dedos em qualquer tela inicial</string>
+    <string name="home_gesture_up_swipe2_desc">Deslize para cima com dois dedos em qualquer Tela inicial</string>
     <string name="home_gesture_down_swipe2">Deslizar para baixo com dois dedos</string>
-    <string name="home_gesture_down_swipe2_desc">Deslize para baixo com dois dedos em qualquer tela inicial</string>
+    <string name="home_gesture_down_swipe2_desc">Deslize para baixo com dois dedos em qualquer Tela inicial</string>
     <string name="home_gesture_pinch">Pince com dois dedos</string>
     <string name="home_gesture_spread">Espalhe com dois dedos</string>
     <string name="home_gesture_swipe_and_stop">Deslize e pare</string>
@@ -1087,9 +1087,9 @@
     <string name="home_layout_show_clock">Mostrar hora</string>
     <string name="home_layout_show_clock_desc">A página onde o widget de relógio está localizado sempre exibe a hora</string>
     <string name="home_layout_unlock_grids">Desbloquear layout</string>
-    <string name="home_layout_unlock_grids_desc">Desbloquear limite de tamanho de layout do ícone da tela inicial</string>
+    <string name="home_layout_unlock_grids_desc">Desbloqueie o limite de tamanho de layout do ícone da Tela inicial</string>
     <string name="home_layout_unlock_grids_no_words">Desbloquear layout (sem modo de palavra)</string>
-    <string name="home_layout_unlock_grids_no_words_desc">Desbloquear limite de tamanho de layout do ícone da tela inicial</string>
+    <string name="home_layout_unlock_grids_no_words_desc">Desbloqueie o limite de tamanho de layout do ícone da Tela inicial</string>
     <string name="home_layout_workspace_padding_bottom_desc">Distância da tela inicial da margem inferior da tela</string>
     <string name="home_layout_workspace_padding_top_desc">Distância da tela inicial da margem superior da tela</string>
     <string name="home_layout_workspace_padding_horizontal_desc">Distância da tela inicial da margem lateral da tela</string>
@@ -1098,7 +1098,7 @@
     <string name="home_layout_hotseats_margin_bottom_desc">Distância da dock da margem inferior da tela</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Distância da barra de pesquisa da margem inferior da tela</string>
     <string name="home_folder">Pasta</string>
-    <string name="home_small_folder_title">Pasta Pequena</string>
+    <string name="home_small_folder_title">Pasta pequena</string>
     <string name="home_big_folder_title">Pasta Grande</string>
     <string name="home_small_folder_icon_bg">Fundo do ícone</string>
     <string name="home_small_folder_icon_bg_custom">Fundo personalizado</string>
@@ -1138,7 +1138,7 @@
     <string name="home_folder_blur_title">Blur de fundo</string>
     <string name="home_folder_recommend_apps_switch">Ocultar a opção Recomendações de hoje</string>
     <string name="home_folder_unlock_blur_supported">Remover restrição do blur da pasta</string>
-    <string name="home_folder_unlock_blur_supported_summary">Não há restrição ao blur de fundo para Texturas avançadas, apenas para remoção de temas de terceiros.</string>
+    <string name="home_folder_unlock_blur_supported_summary">Não há restrição ao blur de fundo para as Texturas avançadas, apenas para remoção de temas de terceiros.</string>
     <string name="home_folder_anim_title">Animação de recuo</string>
     <string name="home_folder_anim_1">Velocidade de abertura 1</string>
     <string name="home_folder_anim_2">Velocidade de abertura 2</string>
@@ -1154,12 +1154,12 @@
     <string name="home_drawer_blur_desc">Por favor, defina a transparência do fundo da Gaveta de apps para 100% para usar este recurso.</string>
     <string name="home_drawer_pinyin">Organizado em ordem Pinyin</string>
     <string name="home_drawer_pinyin_more">Quando o idioma não é o Chinês Simplificado, os apps na gaveta ainda são organizados de acordo com o Pinyin.</string>
-    <string name="home_title">Ícone e título</string>
+    <string name="home_title">Ícone e nome</string>
     <string name="home_title_icon_title">Ícone</string>
     <string name="home_title_icon_animation_title">Animação dos ícones</string>
     <string name="home_title_app_blur_title">Blur do app</string>
     <string name="home_title_app_blur_enable">Ativar blur de fundo animado do app</string>
-    <string name="home_title_app_blur_radius">Raio de blur do fundo da animação do app</string>
+    <string name="home_title_app_blur_radius">Raio do blur do fundo da animação do app</string>
     <string name="home_title_app_dim_alpha">Transparência da máscara de fundo da animação do app</string>
     <string name="home_title_wallpaper_blur_radius">Raio de blur do plano de fundo</string>
     <string name="home_title_wallpaper_dim_alpha">Transparência da máscara do plano de fundo</string>
@@ -1193,12 +1193,12 @@
     <string name="home_recent_animation_speed">Velocidade da animação</string>
     <string name="home_recent_disable_wallpaper_dimming">Desativar escurecimento do plano de fundo</string>
     <string name="home_recent_unlock_pin">Desbloquear apps fixados</string>
-    <string name="home_recent_hide_status_bar_in_task_view">Ocultar barra de status nos recentes</string>
-    <string name="home_recent_hide_world_circulate">Ocultar janela flutuante do app em espelhamento de tela</string>
+    <string name="home_recent_hide_status_bar_in_task_view">Ocultar barra de status nos Recentes</string>
+    <string name="home_recent_hide_world_circulate">Ocultar janela flutuante ao espelhar tela</string>
     <string name="home_recent_hide_freeform">Ocultar botão Janelas flutuantes</string>
     <string name="home_recent_hide_clean_up">Ocultar botão de limpeza</string>
-    <string name="home_recent_remove_icon">Remover ícone</string>
-    <string name="home_recent_modify_animation">Modificar animação ao remover apps nos recentes</string>
+    <string name="home_recent_remove_icon">Remover ícone do app</string>
+    <string name="home_recent_modify_animation">Modificar animação ao remover apps nos Recentes</string>
     <string name="home_recent_text">Texto exibido quando não há tarefas recentes</string>
     <string name="home_recent_app_name_distance_task_view_card">Distância do nome e ícone do app nos recentes</string>
     <string name="home_recent_task_view_card_rounded_corners">Cantos arredondados do cartão nos recentes</string>
@@ -1219,7 +1219,7 @@
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Animação do widget</string>
     <string name="home_widget_show_miui_widget">Exibir widgets do sistema</string>
-    <string name="home_widget_show_miui_widget_desc">Exibir widgets do HyperOS/MIUI na página de widgets AOSP</string>
+    <string name="home_widget_show_miui_widget_desc">Exiba widgets do HyperOS/MIUI na página de widgets AOSP</string>
     <string name="home_widget_corner_radius">Cantos arredondados do widget</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Permitir que o widget clássico seja movido para o Assistente</string>
     <string name="home_widget_hide_title">Ocultar nome dos widgets</string>
@@ -1251,7 +1251,7 @@
     <string name="home_dock_bg_color">Cor de fundo</string>
     <string name="home_other">Outros</string>
     <string name="home_other_shortcut_title">Atalho</string>
-    <string name="home_other_home_mode">Modo da tela inicial</string>
+    <string name="home_other_home_mode">Modo da Tela inicial</string>
     <string name="home_other_infinite_scroll">Rolagem infinita</string>
     <string name="home_other_infinite_scroll_desc">Pule da última página para a primeira e vice-versa</string>
     <string name="home_other_freeform_shortcut_menu">Modo Janelas flutuantes</string>
@@ -1270,12 +1270,12 @@
     <string name="home_other_shortcut_background_blur">Blur de fundo para o menu de atalho</string>
     <string name="home_other_blur_radius">Raio do blur</string>
     <string name="home_large_icon_corner_radius">Ícones grandes com cantos arredondados</string>
-    <string name="home_other_app_icon_hide">Gerenciar atalhos da tela inicial</string>
-    <string name="home_other_toast_slide_again">Proibir dica de solicitação \"Deslize novamente\"</string>
+    <string name="home_other_app_icon_hide">Gerenciar atalhos da Tela inicial</string>
+    <string name="home_other_toast_slide_again">Desativar dica \"Deslize novamente\"</string>
     <string name="system_framework_guided_access_status">Ocultar barra de status quando o app estiver bloqueado</string>
     <string name="system_framework_guided_access_status_more">A forma de saída mudará ao pressionar longamente o botão liga/desliga. A barra de status será ocultada até que você saia do modo de bloqueio.</string>
     <string name="system_framework_guided_access_sc">É proibido chamar a barra lateral quando fixado</string>
-    <string name="system_framework_guided_access_screen">Pule para a tela de bloqueio quando estiver desafixado</string>
+    <string name="system_framework_guided_access_screen">Pule para a Tela de bloqueio quando estiver desafixado</string>
     <string name="system_framework_guided_access">Apps fixos</string>
     <string name="system_framework_guided_access_will_lock">O app será bloqueado</string>
     <string name="system_framework_guided_access_lock">Bloquear app</string>
@@ -1294,8 +1294,8 @@
     <string name="home_recent_simple_blur">Blur simples</string>
     <string name="home_recent_none_blur">Sem blur</string>
     <string name="home_recent_none_blur_simple_anim">Sem blur (Animação simples)</string>
-    <string name="home_other_mi_pad_enable_more_setting_title">Desbloquear mais opções para configurações da tela inicial</string>
-    <string name="home_other_mi_pad_enable_more_setting_desc">As funções desbloqueadas podem não estar disponíveis e algumas funções requerem suporte do sistema subjacente</string>
+    <string name="home_other_mi_pad_enable_more_setting_title">Desbloquear mais opções para configurações da Tela inicial</string>
+    <string name="home_other_mi_pad_enable_more_setting_desc">Os recursos desbloqueados podem não estar disponíveis e alguns recursos requerem suporte do sistema subjacente</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Editor da Galeria</string>
     <string name="mediaeditor_foundation">Fundação</string>
@@ -1310,16 +1310,16 @@
     <string name="mediaeditor_unlock_leica_filter_desc">Apenas algumas versões são suportadas</string>
     <string name="mediaeditor_filter_manager">Desbloquear gerenciador de filtros</string>
     <!--Mi Share-->
-    <string name="mishare">Compartilhamento Mi</string>
-    <string name="mishare_disable_mishare_auto_off">Desativar fechamento automático do Compartilhamento Mi</string>
+    <string name="mishare">Xiaomi Share</string>
+    <string name="mishare_disable_mishare_auto_off">Desativar fechamento automático do Xiaomi Share</string>
     <string name="mishare_unlock_turbo_mode">Desbloquear Transferência turbo</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Plano de fundo Mi</string>
     <string name="miwallpaper_unlock_super_wallpaper">Desbloquear Super plano de fundo</string>
     <!--Package installer-->
     <string name="package_installer">Instalador de pacotes</string>
-    <string name="miui_package_installer_modify">Purificar a página</string>
-    <string name="miui_package_installer_disable_ad">Desativar promoção</string>
+    <string name="miui_package_installer_modify">Limpar página</string>
+    <string name="miui_package_installer_disable_ad">Desativar anúncios</string>
     <string name="miui_package_installer_install_risk">Desativar detecção de risco</string>
     <string name="miui_package_installer_safe_model_tip">Desativar alerta de segurança</string>
     <string name="miui_package_installer_count_checking">Desativar verificação de apps instalados com frequência</string>
@@ -1347,6 +1347,8 @@
     <string name="personal_assistant_blurradius">Valor do blur do assistente pessoal</string>
     <string name="personal_assistant_color">Cor do assistente pessoal</string>
     <string name="personal_assistant_unlock_widget_count_limit">Desbloquear limite de contagem de widgets</string>
+    <string name="personal_assistant_set_tv_notif_info_max_width">Definir foco da notificação de viagem na barra de status</string>
+    <string name="personal_assistant_set_tv_notif_info_max_width_desc">Ajuste este valor adequadamente para resolver o problema de conteúdo de exibição omitido</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Bateria e desempenho</string>
     <string name="powerkeeper_custom_refresh_rate">Apps personalizados com alta taxa de atualização</string>
@@ -1380,7 +1382,7 @@
     <string name="security_center_pad">Segurança</string>
     <string name="security_center_hyperos">Segurança</string>
     <string name="security_center_app_title">Gerenciar apps</string>
-    <string name="security_center_battery_title">Economia de bateria e Bateria</string>
+    <string name="security_center_battery_title">Bateria</string>
     <string name="security_center_privacy_title">Proteção de privacidade</string>
     <string name="security_center_beauty_title">Assistente da câmera frontal</string>
     <string name="security_center_bubble_and_freeform_title">Bolha e janelas flutuantes</string>
@@ -1395,9 +1397,9 @@
     <string name="security_center_reduce_bright_colors_tile">Substituir ícone de bloco muito escuro</string>
     <string name="security_center_flash_light">Controle do brilho da lanterna</string>
     <string name="security_center_flash_light_more">Permite que você controle o brilho da lanterna arrastando o controle deslizante de brilho</string>
-    <string name="security_center_get_number">Gerencie o app para obter o número do celular e faça login com um clique</string>
+    <string name="security_center_get_number">Gerenciar app para obter o número de telefone e faça login com um clique</string>
     <string name="security_center_applock_pin_scramble">Bloqueio de apps com PIN embaralhado</string>
-    <string name="security_center_power_saver">Compartilhamento mágico não economiza energia</string>
+    <string name="security_center_power_saver">Remover restrições ao espelhar tela</string>
     <string name="security_center_privacy_thumbnail_blur">Desativar pré-visualização em imagens desfocadas</string>
     <string name="security_center_power_saver_desc">Desative o modo Economia de bateria ao espelhar a tela via Xiaomi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Altere aleatoriamente a sequência do PIN do Bloqueio de apps</string>
@@ -1415,12 +1417,12 @@
     <string name="security_center_newbox_bg_padding_horizontal">Margem vertical</string>
     <string name="security">Segurança</string>
     <string name="security_app_title">Exibir detalhes adicionais do app</string>
-    <string name="security_app_summary">Adicione novos campos à página de informações do app:\n- Número da versão do app\n- ID do usuário\n- Diretório de dados\n- Diretório APK\n- Versão mínima do SDK\n- Versão do SDK de destino\n- Abrir com a Play Store \n- Iniciar</string>
+    <string name="security_app_summary">Adicione novos campos à página de informações do app:\n• Número da versão do app\n• ID do usuário\n• Diretório de dados\n• Diretório APK\n• Versão mínima do SDK\n• Versão do SDK de destino\n• Abrir com a Play Store \n• Iniciar</string>
     <string name="security_app_sort_title">Classificação da lista de gerenciar apps</string>
     <string name="security_app_sort_summary">Modifique a classificação padrão da lista de gerenciar apps</string>
     <string name="security_restrict_app_title">Restrições completas</string>
-    <string name="security_restrict_app_summary">Permite configurar a economia de bateria e acesso ao Wi-Fi para apps do sistema</string>
-    <string name="security_disable_app_title">Controle de estado do app</string>
+    <string name="security_restrict_app_summary">Permite configurar a Economia de bateria e acesso ao Wi-Fi para apps do sistema</string>
+    <string name="security_disable_app_title">Controlar estado do app</string>
     <string name="security_disable_app_summary">Permite desativar qualquer app na página de informações do app</string>
     <string name="security_disable_app_url_title">Aplicar gerenciamento de link aberto</string>
     <string name="security_disable_app_url_summary">Altere a configuração \"Limpar padrões\" para \"Abrir por padrão\" nas informações do app</string>
@@ -1432,7 +1434,7 @@
     <string name="security_center_skip_waiting_time">Ignorar limite de contagem regressiva</string>
     <string name="security_center_skip_waiting_time_desc">Ignore a contagem regressiva de espera para opções perigosas</string>
     <string name="security_center_skip_waiting_time_direct">Ignorar limite de contagem regressiva diretamente</string>
-    <string name="security_center_skip_waiting_time_direct_desc">Ignore a caixa de aviso</string>
+    <string name="security_center_skip_waiting_time_direct_desc">Ignore a caixa de diálogo</string>
     <string name="security_center_newbox_blur">Blur da barra lateral</string>
     <string name="security_center_remove_conversation_bubble_settings_restriction">Remover restrições do app de conversas em bolhas</string>
     <string name="security_center_remove_low_battery_reminder_title">Ocultar aviso sobre nível de bateria fraca</string>
@@ -1441,9 +1443,9 @@
     <string name="security_center_remove_open_app_confirmation_popup_summary">Remova o pop-up \"Permitir que XXX abra XXX\" do início da cadeia</string>
     <string name="security_center_no_permission">Permissões necessárias não concedidas</string>
     <string name="security_center_unlock_side_hide_freeform">Desbloquear ocultar na lateral em janelas flutuantes</string>
-    <string name="security_center_unlock_side_hide_freeform_desc">Desbloquear ocultar na lateral em Janelas flutuantes para dispositivos com suporte limitado, porém restritos. Isso também afetará o comportamento do widget quando o telefone for cortado em segundo plano.</string>
+    <string name="security_center_unlock_side_hide_freeform_desc">Desbloqueie ocultar na lateral em janelas flutuantes para dispositivos com suporte limitado, porém restritos. Isso também afetará o comportamento do widget quando o dispositivo for cortado em segundo plano.</string>
     <string name="security_center_unlock_smart_charge_title">Funções completas de carregamento e bateria</string>
-    <string name="security_center_unlock_smart_charge_title_summary">Funções completas:\n- Proteção da bateria -&gt; Proteção contra quebra de carga de navegação\n- Mais recursos de bateria -&gt; Emergência de carga baixa</string>
+    <string name="security_center_unlock_smart_charge_title_summary">Funções completas:\n• Proteção da bateria &gt; Desconexão automática de carregamento\n• Mais recursos de bateria &gt; Emergência de baixa carga</string>
     <string name="security_center_super_wireless_charge">Desbloquear Carregamento rápido sem fio</string>
     <string name="security_center_blur_model">Modelo do blur da barra lateral</string>
     <string name="security_center_blur_model_super">Texturas avançadas</string>
@@ -1468,7 +1470,7 @@
     <string name="security_center_leave_open">Deixe o slide desdobrado</string>
     <string name="security_center_sidebar_show_suggest">Desativar mostrar sugestões de apps</string>
     <string name="security_center_unlock_new_vb">Desbloquear nova Caixa de ferramentas de vídeo</string>
-    <string name="security_center_game_performance_wild_mode">Desbloquear Modo agressivo de desempenho de jogos</string>
+    <string name="security_center_game_performance_wild_mode">Desbloquear Modo desempenho</string>
     <string name="security_center_unlock_fbo">Desbloquear FBO</string>
     <string name="security_center_sidebar_videobox_title">Caixa de ferramentas de vídeo</string>
     <string name="security_center_sidebar_gamebox_title">Caixa de jogos</string>
@@ -1523,12 +1525,13 @@
     <string name="market_device_modify">Disfarçar modelo</string>
     <string name="market_device_modify_desc">Receba atualizações do dispositivo correspondente disfarçando o modelo como outro dispositivo</string>
     <string name="market_disable_new_icon">Proibir o uso de ícones de terceiros</string>
-    <string name="market_disable_new_icon_desc">Deixe a tela inicial mais limpa</string>
+    <string name="market_disable_new_icon_desc">Deixe a Tela inicial mais limpa</string>
     <string name="market_package_monitor">Desativar monitor de pacote</string>
     <string name="market_package_monitor_desc">Proíba que o GetApps pare de monitorar a instalação e desinstalação de apps</string>
+    <string name="market_disable_ads">Desativar anúncios</string>
     <!--Mi sound-->
     <string name="misound">Fones de ouvido</string>
-    <string name="misound_bluetooth">Mudar status do fone de ouvido automaticamente para o som original</string>
+    <string name="misound_bluetooth">Mudar status do fone de ouvido para o som original</string>
     <string name="misound_bluetooth_uuid">Identificador UUID de efeito sonoro</string>
     <string name="misound_bluetooth_uuid_more">Se o efeito sonoro não tiver efeito, você pode tentar modificá-lo você mesmo.</string>
     <string name="misound_increase_sampling_rate">Aumentar taxa de amostragem</string>
@@ -1572,7 +1575,7 @@
     <string name="various_no_overscroll">Desativar rejeição fora dos limites</string>
     <string name="various_disable_access_device_logs">Ignorar diálogo de solicitação aos logs do dispositivo</string>
     <string name="various_phrase_clipboardlist">Remover o número de frases da área de transferência</string>
-    <string name="various_phrase_clipboardlist_more">Após ativado, selecione o escopo do método de entrada e reinicie-o, o que fará com que a exclusão de um único conteúdo seja inválida.</string>
+    <string name="various_phrase_clipboardlist_more">Após ativado, selecione o escopo do método de entrada e reinicie-o.</string>
     <string name="various_unlock_ime">Desbloquear IME</string>
     <string name="various_unlock_ime_desc">Após abrir, verifique o escopo do método de entrada correspondente no LSPosed.</string>
     <string name="various_collapse_miui_title">Estilo de título do sistema</string>
@@ -1689,27 +1692,27 @@
     <string name="enable_suggest">Ativar sugestão</string>
     <string name="set_homepage_entrance">Configurar entrada da página inicial</string>
     <string name="help_cant_see_apps_guide">Não consegue encontrar os recursos do app?</string>
-    <string name="set_homepage_entrance_about">Observação: Ao modificar esta configuração ela oculta apenas a visibilidade do recurso na página inicial e as funções que foram ativadas não serão desativadas!\nOcultar o recurso na página inicial terá efeito imediato e o app precisara ser reiniciado para reaparecer.</string>
+    <string name="set_homepage_entrance_about">Observação: Ao modificar esta configuração ela oculta apenas a visibilidade do recurso na página inicial e os recursos que foram ativados não serão desativados!\nOcultar o recurso na página inicial terá efeito imediato e o app precisara ser reiniciado para reaparecer.</string>
     <string name="help_cant_see_apps_title">Não consegue encontrar os recursos do app na página inicial?</string>
-    <string name="help_cant_see_apps_desc">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n - Aqueles atualmente desativados ou ocultos\n - Aqueles que não foram encontrados em seu dispositivo\n - Aqueles incompatíveis com a versão atual do sistema ou do app\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nRecursos do app atualmente ocultos:\n\n</string>
+    <string name="help_cant_see_apps_desc">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n • Aqueles atualmente desativados ou ocultos\n • Aqueles que não foram encontrados em seu dispositivo\n • Aqueles incompatíveis com a versão atual do sistema ou do app\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nRecursos do app atualmente ocultos:\n\n</string>
     <string name="help_cant_see_apps_uninstall">Apps desinstalados:\n</string>
     <string name="help_cant_see_apps_disable">Apps desativados ou ocultos:\n</string>
-    <string name="help_cant_see_apps_desc_no_hidden">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n - Aqueles atualmente desativados ou ocultos\n - Aqueles que não foram encontrados em seu dispositivo\n - Aqueles incompatíveis com a versão atual do sistema ou do app\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nAtualmente não há recursos ocultos!</string>
+    <string name="help_cant_see_apps_desc_no_hidden">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n • Aqueles atualmente desativados ou ocultos\n • Aqueles que não foram encontrados em seu dispositivo\n • Aqueles incompatíveis com a versão atual do sistema ou do app\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nAtualmente não há recursos ocultos!</string>
     <string name="help_cant_see_apps_switch">Ocultar esta ajuda na página inicial</string>
-    <string name="help_cant_see_apps_switch_desc">Você ainda pode encontrar esta página em Configurações - Configurar entrada da página inicial. Reinicie o app para aplicar.</string>
+    <string name="help_cant_see_apps_switch_desc">Você ainda pode encontrar esta página em Configurações &gt; Configurar entrada da página inicial. Reinicie o app para aplicar.</string>
     <string name="headtip_warn_not_offical_rom">A ROM que você está usando pode não ser oficial da Xiaomi, e alguns recursos podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
     <string name="headtip_tip_long_press_to_copy">Você pode selecionar o texto após pressionar longamente ou tocar duas vezes, ou copiá-lo e devolvê-lo ao desenvolvedor.</string>
-    <string name="headtip_tip_fuck_coolapk">Hoje na história:\nSevtinge fez um discurso importante em 14 de julho de 2022.</string>
-    <string name="headtip_notice_dead_logger_errcode">O serviço de registro do dispositivo atual está anormal e os recursos do HyperCeiler serão limitados.\nPor favor, restaure o serviço de registro para que ele possa funcionar normalmente.\nCódigo de erro: %1$s</string>
-    <string name="headtip_notice_dead_logger">O serviço de registro do dispositivo atual está anormal e os recursos do HyperCeiler serão limitados. Por favor, restaure o serviço de registro para que ele possa funcionar normalmente.</string>
+    <string name="headtip_tip_fuck_coolapk">Hoje na história: Sevtinge fez um discurso importante em 14 de julho de 2022.</string>
+    <string name="headtip_notice_dead_logger_errcode">O serviço de log do dispositivo atual está anormal e os recursos do HyperCeiler serão limitados.\nPor favor, restaure o serviço de log para que ele possa funcionar normalmente.\nCódigo de erro: %1$s</string>
+    <string name="headtip_notice_dead_logger">O serviço de log do dispositivo atual está anormal e os recursos do HyperCeiler serão limitados. Por favor, restaure o serviço de log para que ele possa funcionar normalmente.</string>
     <string name="warn">Aviso</string>
     <string name="safe_mode_desc">%1$s entrou no Modo seguro devido a várias falhas e os recursos do HyperCeiler foi temporariamente desativado.\nClique em OK para cancelar ou clique em Cancelar para continuar mais tarde.</string>
     <string name="safe_mode_history">Ver registros de exceção</string>
     <string name="safe_mode_cancel">Desativar Modo seguro</string>
     <string name="safe_mode_ok">Continuar mais tarde</string>
     <string name="safe_mode_later_title">Dica</string>
-    <string name="safe_mode_later_desc">%1$s ainda está no Modo seguro e os recursos do HyperCeiler estão desativados. Deseja desativar o Modo seguro?</string>
+    <string name="safe_mode_later_desc">%1$s ainda está no Modo seguro e os recursos do HyperCeiler estão desativados. Desativar Modo seguro?</string>
     <string name="safe_mode_recorder_title">Registros de exceção</string>
     <string name="safe_mode_recorder_file">Arquivo</string>
     <string name="safe_mode_recorder_class">Classe</string>
@@ -1736,7 +1739,7 @@
     <string name="telecom">Gerenciamento de chamadas</string>
     <string name="scam_reminder_bypass_caption">Permitir encaminhamento de chamadas através do código MMI</string>
     <string name="scam_reminder_bypass_description">Permite a discagem direta de códigos MMI, como **21*8#, para ativar o encaminhamento de chamadas.</string>
-    <!--VoiceTrigger-->
+    <!--Voice Trigger-->
     <string name="voicetrigger">Acorde com voz</string>
     <string name="bypass_udk_word_legal_check_caption">Permitir gravação do Acorde com voz sem internet</string>
     <string name="bypass_udk_word_legal_check_description">Permite a gravação de palavras do Acorde com voz quando estiver offline</string>
