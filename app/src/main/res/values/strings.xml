@@ -553,6 +553,8 @@
     <string name="camera_max_brightness">Force maximum brightness when using camera</string>
     <string name="camera_black_leica">Black Leica Watermark</string>
     <string name="camera_black_leica_desc">Change the theme color of the Leica watermark to black when using it. Some devices do not support it yet.</string>
+    <string name="camera_custom_theme_color">Customize theme color</string>
+    <string name="camera_custom_theme_color_picker">Choose theme color</string>
     <!--Calendar-->
     <string name="calendar">Calendar</string>
     <string name="calendar_unlock_subscription">Unlock Subscription</string>
