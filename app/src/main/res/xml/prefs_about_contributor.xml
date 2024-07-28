@@ -139,6 +139,13 @@
                 android:data="https://github.com/nxibjzC" />
         </Preference>
         <Preference
+            android:summary="GitHub@oufm"
+            android:title="oufm">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/oufm" />
+        </Preference>
+        <Preference
             android:summary="GitHub@pzcn"
             android:title="PedroZ">
             <intent
@@ -172,6 +179,13 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/FurryRbl" />
+        </Preference>
+        <Preference
+            android:summary="GitHub@yxsra"
+            android:title="SUMUS">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/yxsra" />
         </Preference>
         <Preference
             android:summary="GitHub@tehcneko"
