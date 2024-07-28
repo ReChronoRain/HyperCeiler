@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
+import com.sevtinge.hyperceiler.module.hook.camera.BlackLeica;
 import com.sevtinge.hyperceiler.module.hook.camera.CustomWatermark;
 import com.sevtinge.hyperceiler.module.hook.camera.EnableLabOptions;
 import com.sevtinge.hyperceiler.module.hook.camera.MaxScreenBrightness;
@@ -104,6 +105,7 @@ public class Camera extends BaseModule {
         initHook(new UnlockColorEnhance(), mPrefsMap.getBoolean("camera_shot_color_enhance"));
         initHook(new UnlockHandGesture(), mPrefsMap.getBoolean("camera_shot_hand_gesture"));
         initHook(new CustomWatermark(), mPrefsMap.getBoolean("camera_custom_watermark"));
+        initHook(new BlackLeica(), mPrefsMap.getBoolean("camera_black_leica"));
 
         // 录像
         initHook(new Unlock60Fps(), mPrefsMap.getBoolean("camera_record_60fps"));

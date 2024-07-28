@@ -45,6 +45,12 @@
             android:dependency="prefs_key_camera_custom_watermark"/>
 
         <SwitchPreference
+            android:title="@string/camera_black_leica"
+            android:summary="@string/camera_black_leica_desc"
+            android:key="prefs_key_camera_black_leica"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:title="@string/camera_settings_lab_options"
             android:key="prefs_key_camera_settings_lab_options"
             android:defaultValue="false" />

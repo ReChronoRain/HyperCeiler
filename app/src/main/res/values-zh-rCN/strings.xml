@@ -560,6 +560,8 @@
     <string name="camera_settings_lab_options">启用实验室选项</string>
     <string name="camera_settings_track_eyes">解锁人眼追焦</string>
     <string name="camera_max_brightness">使用相机时使屏幕亮度最大</string>
+    <string name="camera_black_leica">黑底徕卡水印</string>
+    <string name="camera_black_leica_desc">在使用徕卡水印时，将主题色更改为黑色，部分设备暂不支持</string>
     <!--日历-->
     <string name="calendar">日历</string>
     <string name="calendar_unlock_subscription">解锁订阅服务</string>

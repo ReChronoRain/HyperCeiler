@@ -34,6 +34,13 @@
                 android:data="https://github.com/CLOUDERHEM" />
         </Preference>
         <Preference
+            android:summary="GitHub@ItzDFPlayer"
+            android:title="Denys Kovalevskyi">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/ItzDFPlayer" />
+        </Preference>
+        <Preference
             android:summary="GitHub@heinu123"
             android:title="Elysia">
             <intent
