@@ -33,7 +33,7 @@ object DisableSafeModelTip : BaseHook() {
                 matcher {
                     addUsingStringsEquals("android.provider.MiuiSettings\$Ad")
                 }
-            }.single().getMethodInstance(lpparam.classLoader)
+            }.firstOrNull()?.getMethodInstance(lpparam.classLoader)
         }.toMethod().createHook {
             returnConstant(false)
         }
