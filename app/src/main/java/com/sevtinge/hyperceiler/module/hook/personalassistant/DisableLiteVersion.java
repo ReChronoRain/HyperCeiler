@@ -19,33 +19,24 @@
 
 package com.sevtinge.hyperceiler.module.hook.personalassistant;
 
-import android.util.SparseArray;
-import android.view.View;
-
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.module.base.dexkit.IDexKitList;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindField;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.AnnotationMatcher;
 import org.luckypray.dexkit.query.matchers.AnnotationsMatcher;
-import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.FieldMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.FieldData;
-import org.luckypray.dexkit.result.FieldDataList;
 import org.luckypray.dexkit.result.MethodData;
-import org.luckypray.dexkit.result.MethodDataList;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.List;
 import java.util.Map;
 
 import de.robv.android.xposed.XposedHelpers;
