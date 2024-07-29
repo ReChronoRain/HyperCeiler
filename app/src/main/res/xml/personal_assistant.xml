@@ -22,6 +22,11 @@
     <PreferenceCategory>
 
         <SwitchPreference
+            android:key="prefs_key_personal_assistant_disable_lite_version"
+            android:title="@string/personal_assistant_disable_lite_version"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_personal_assistant_unlock_widget_count_limit"
             android:title="@string/personal_assistant_unlock_widget_count_limit"
             android:defaultValue="false" />

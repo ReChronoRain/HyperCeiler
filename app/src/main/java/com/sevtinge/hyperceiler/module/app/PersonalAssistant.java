@@ -22,6 +22,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.BlurPersonalAssistant;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.BlurPersonalAssistantBackGround;
+import com.sevtinge.hyperceiler.module.hook.personalassistant.DisableLiteVersion;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.EnableFoldWidget;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.SetTravelNotificationStatusBarInfoMaxWidth;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.UnlockWidgetCountLimit;
@@ -32,6 +33,7 @@ public class PersonalAssistant extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // initHook(new BlurOverlay(), false);
+        initHook(new DisableLiteVersion(), mPrefsMap.getBoolean("personal_assistant_disable_lite_version"));
         initHook(new EnableFoldWidget(), mPrefsMap.getBoolean("personal_assistant_fold_widget_enable"));
         initHook(new UnlockWidgetCountLimit(), mPrefsMap.getBoolean("personal_assistant_unlock_widget_count_limit"));
 
