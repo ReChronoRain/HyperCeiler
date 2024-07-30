@@ -4,19 +4,15 @@
 -keep class com.sevtinge.hyperceiler.utils.blur.*
 -keep class com.sevtinge.hyperceiler.utils.Helpers { boolean isModuleActive; }
 -keep class com.sevtinge.hyperceiler.utils.Helpers { int XposedVersion; }
--keep class moralnorm.**{*;}
+-keep class moralnorm.**{ *; }
 -keep class org.luckypray.dexkit.*
 -keep class * extends com.sevtinge.hyperceiler.ui.fragment.base.*
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook { <init>(); }
--keep class com.sevtinge.hyperceiler.module.base.dexkit.**{*;}
+-keep class com.sevtinge.hyperceiler.module.base.dexkit.**{ *; }
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseModule
--keep class com.sevtinge.hyperceiler.module.base.BaseModule {*;}
-#-keep class com.sevtinge.hyperceiler.utils.XposedUtils {
-#    *;
-#}
--keep class com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.** {
-    *;
-}
+-keep class com.sevtinge.hyperceiler.module.base.BaseModule { *; }
+#-keep class com.sevtinge.hyperceiler.utils.XposedUtils { *; }
+-keep class com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.** { *; }
 
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
 -dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo

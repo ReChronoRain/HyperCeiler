@@ -15,14 +15,8 @@ dependencyResolutionManagement {
         mavenCentral()
         maven("https://api.xposed.info")
         maven("https://jitpack.io")
-
     }
 }
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version("0.4.0")
-}
-
 rootProject.name = "HyperCeiler"
-include(":app")
-include(":hidden-api")
+include(":app", ":hidden-api")

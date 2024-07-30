@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.android.internal"
-    compileSdk = 34
+    compileSdk = 35
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -26,12 +26,10 @@ android {
     }
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(22)
+            languageVersion = JavaLanguageVersion.of(21)
         }
     }
-    kotlin {
-        jvmToolchain(22)
-    }
+    kotlin.jvmToolchain(21)
 }
 
 dependencies {
