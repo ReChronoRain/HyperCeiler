@@ -32,10 +32,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-home-cache-cleanup: true
-          validate-wrappers: true
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Create Sign File
         if: github.ref == 'refs/heads/main'
