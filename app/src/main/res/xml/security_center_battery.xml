@@ -49,6 +49,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_center_battery_unlock_low_temp_ext_endurance"
+            android:title="@string/security_center_battery_unlock_low_temp_ext_endurance" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_unlock_smart_charge"
             android:summary="@string/security_center_unlock_smart_charge_title_summary"
             android:title="@string/security_center_unlock_smart_charge_title" />

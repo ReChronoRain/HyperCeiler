@@ -47,6 +47,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.BatteryHealth
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.PowerConsumptionRanking;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.ScreenUsedTime;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.ShowBatteryTemperatureNew;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.UnlockLowTempExtEndurance;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.UnlockSmartCharge;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.UnlockSuperWirelessCharge;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.beauty.BeautyLightAuto;
@@ -95,6 +96,7 @@ public class SecurityCenterT extends BaseModule {
         initHook(ScreenUsedTime.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_screen_time"));
         initHook(new UnlockSmartCharge(), mPrefsMap.getBoolean("security_center_unlock_smart_charge"));
         initHook(BatteryHealth.INSTANCE, mPrefsMap.getBoolean("security_center_show_battery_health"));
+        initHook(new UnlockLowTempExtEndurance(), mPrefsMap.getBoolean("security_center_battery_unlock_low_temp_ext_endurance"));
 
         // 隐私保护
         initHook(new AppLockPinScramble(), mPrefsMap.getBoolean("security_center_applock_pin_scramble"));
