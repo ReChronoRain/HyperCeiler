@@ -562,6 +562,7 @@
     <string name="fileexplorer">File Manager</string>
     <string name="file_explorer_can_selectable">File Manager can be selectable</string>
     <string name="file_explorer_is_single_line">File Manager is single line</string>
+    <string name="file_explorer_unlock_file_parse">Unlock file parse</string>
     <!--Phone-->
     <string name="incallui">Phone</string>
     <string name="incallui_hide_crbt">Hide personalized color ring back tone</string>

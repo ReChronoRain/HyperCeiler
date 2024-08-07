@@ -24,6 +24,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_file_explorer_unlock_file_parse"
+            android:title="@string/file_explorer_unlock_file_parse" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_file_explorer_can_selectable"
             android:title="@string/file_explorer_can_selectable" />
 

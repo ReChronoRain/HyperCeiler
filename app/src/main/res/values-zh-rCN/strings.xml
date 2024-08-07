@@ -571,6 +571,7 @@
     <string name="fileexplorer">文件管理</string>
     <string name="file_explorer_can_selectable">文件夹名称允许长按选择操作</string>
     <string name="file_explorer_is_single_line">文件夹名称以单行显示</string>
+    <string name="file_explorer_unlock_file_parse">解锁超级文档</string>
     <!--电话-->
     <string name="incallui">电话</string>
     <string name="incallui_hide_crbt">隐藏电话彩铃</string>
