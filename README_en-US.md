@@ -39,9 +39,9 @@ HyperCeiler has stopped maintaining MIUI ROM for Android 11-12. If you want to u
 | Mi Settings                | com.xiaomi.misettings              |
 | Security                   | com.miui.securitycenter            |
 | Notes                      | com.miui.notes                     |
-| Mi Wallpaper               | com.miui.miwallpaper               |
+| Wallpaper                  | com.miui.miwallpaper               |
 | Taplus                     | com.miui.contentextension          |
-| Bullet screen notification | com.xiaomi.barrage                 |
+| Bullet screen notification | com.xiaomi.barrage                 |
 | Phone                      | com.android.incallui               |
 | Phone Service              | com.android.phone                  |
 | Battery and performance    | com.miui.powerkeeper               |
@@ -67,13 +67,13 @@ HyperCeiler has stopped maintaining MIUI ROM for Android 11-12. If you want to u
 | Mi Share                   | com.miui.mishare.connectivity      |
 | Gallery Editor             | com.miui.mediaeditor               |
 | Xiaomi Cloud               | com.miui.cloudservice              |
-| Smart Cards                | com.miui.tsmclient                 |
+| Smart cards                | com.miui.tsmclient                 |
 | iFlytek IME for MIUI       | com.iflytek.inputmethod.miui       |
 | Package installer          | com.miui.packageinstaller          |
 | GetApps                    | com.xiaomi.market                  |
 | App vault                  | com.miui.personalassistant         |
 | Themes                     | com.android.thememanager           |
-| HyperOS Security Components| com.miui.guardprovider             |
+| System security components | com.miui.guardprovider             |
 | Camera                     | com.android.camera                 |
 | Mi AI Translate            | com.xiaomi.aiasst.vision           |
 | Scanner                    | com.xiaomi.scanner                 |
