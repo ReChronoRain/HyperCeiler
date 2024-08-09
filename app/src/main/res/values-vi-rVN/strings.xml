@@ -502,6 +502,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="camera_settings_lab_options">Mở khóa Tính năng thử nghiệm</string>
     <string name="camera_settings_track_eyes">Mở khóa Theo dõi mắt người</string>
     <string name="camera_max_brightness">Tăng tối đa độ sáng khi sử dụng camera</string>
+    <string name="camera_black_leica">Hình mờ Leica màu đen</string>
+    <string name="camera_black_leica_desc">Thay đổi màu chủ đề của hình mờ Leica thành màu đen khi sử dụng. Một số thiết bị chưa hỗ trợ.</string>
+    <string name="camera_custom_theme_color">Tùy chỉnh màu chủ đề</string>
+    <string name="camera_custom_theme_color_picker">Chọn màu chủ đề</string>
     <!--Calendar-->
     <string name="calendar">Lịch</string>
     <string name="calendar_unlock_subscription">Mở khóa đăng ký</string>
@@ -509,6 +513,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="fileexplorer">Tập tin</string>
     <string name="file_explorer_can_selectable">Trình quản lý tập tin có thể lựa chọn</string>
     <string name="file_explorer_is_single_line">Trình quản lý tập tin một dòng</string>
+    <string name="file_explorer_unlock_file_parse">Mở khóa phân tích tệp</string>
     <!--Phone-->
     <string name="incallui">Điện thoại</string>
     <string name="incallui_hide_crbt">Ẩn nhạc chuông</string>
@@ -732,6 +737,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_battery_disable">Ẩn đơn vị</string>
     <string name="system_ui_statusbar_battery_right_show">Hiện thị bên phải</string>
     <string name="system_ui_statusbar_battery_electric_current">Luôn hiển thị cưởng độ dòng điện</string>
+    <string name="system_ui_statusbar_battery_power_abs">Năng lượng pin luôn hiện giá trị dương</string>
     <string name="system_ui_statusbar_battery_line_show">Hiển thị 1 hàng</string>
     <string name="system_ui_statusbar_battery_opposite">Đảo thứ tự</string>
     <string name="system_ui_statusbar_battery_only_changing_show">Chỉ hiển thị khi sạc</string>
@@ -1355,6 +1361,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="personal_assistant_unlock_widget_count_limit">Mở khóa giới hạn số lượng tiện ích</string>
     <string name="personal_assistant_set_tv_notif_info_max_width">Đặt tiêu điểm thông báo du lịch ở độ rộng tối đa của thanh trạng thái</string>
     <string name="personal_assistant_set_tv_notif_info_max_width_desc">Điều chỉnh giá trị này một cách thích hợp để giải quyết vấn đề bỏ sót nội dung hiển thị</string>
+    <string name="personal_assistant_disable_lite_version">Tắt phiên bản lite</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Pin và hiệu suất</string>
     <string name="powerkeeper_custom_refresh_rate">Tùy chỉnh tốc độ làm mới cao</string>
@@ -1497,6 +1504,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_aosp_app_manager_label">Trình quản lý ứng dụng AOSP</string>
     <string name="security_center_aosp_app_manager">Thêm mục nhập Trình quản lý ứng dụng AOSP</string>
     <string name="security_center_power_consumption_ranking">Hiển thị mức tiêu thụ điện năng</string>
+    <string name="security_center_hide_xopt_mode_tip">Ẩn mẹo chế độ XOpt</string>
+    <string name="security_center_battery_unlock_low_temp_ext_endurance">Mở khóa siêu bền bỉ ở nhiệt độ thấp</string>
     <!--MiTrustService-->
     <string name="trustservice">Dịch vụ MiTrust</string>
     <string name="trustservice_disable_mrm">Tắt phát hiện rủi ro</string>

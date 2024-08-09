@@ -22,7 +22,7 @@
     <string name="xposed_description">Torne o HyperOS/MIUI ótimo novamente!</string>
     <string name="new_permission_wifi_state_desc">adicionar e excluir arquivos no armazenamento interno do dispositivo</string>
     <string name="new_permission_location_desc">ser usado para fornecer serviços como latitude e longitude</string>
-    <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciamento de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
+    <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciador de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
     <string name="new_cta_app_main_purpose">modificar apps do sistema</string>
     <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler. Este app depende do LSPosed para ser executado. Você pode usar este app para sequestrar e modificar outros apps suportados para aprimorar o sistema. Durante o uso, para fornecer mais funções, podemos solicitar suas permissões Root/Su. Você pode gerenciá-lo a qualquer momento acessando seu gerenciador Root/Su.</string>
     <!--HyperCeiler Settings/About Page-->
@@ -500,6 +500,10 @@
     <string name="camera_settings_lab_options">Ativar Opções de laboratório</string>
     <string name="camera_settings_track_eyes">Desbloquear Foco de rastreamento ocular</string>
     <string name="camera_max_brightness">Forçar brilho máximo ao usar a câmera</string>
+    <string name="camera_black_leica">Marca d’água Leica preta</string>
+    <string name="camera_black_leica_desc">Altere a cor da marca d\'água Leica para preto ao usá-la. Alguns dispositivos ainda não são compatíveis.</string>
+    <string name="camera_custom_theme_color">Personalizar cor do tema</string>
+    <string name="camera_custom_theme_color_picker">Escolher cor do tema</string>
     <!--Calendar-->
     <string name="calendar">Calendário</string>
     <string name="calendar_unlock_subscription">Desbloquear inscrições</string>
@@ -507,6 +511,7 @@
     <string name="fileexplorer">Arquivos</string>
     <string name="file_explorer_can_selectable">Arquivos pode ser selecionável</string>
     <string name="file_explorer_is_single_line">Arquivos é de linha única</string>
+    <string name="file_explorer_unlock_file_parse">Desbloquear análise de arquivos</string>
     <!--Phone-->
     <string name="incallui">Ui de chamadas</string>
     <string name="incallui_hide_crbt">Ocultar tom de toque colorido personalizado</string>
@@ -730,6 +735,7 @@
     <string name="system_ui_statusbar_battery_disable">Ocultar unidades</string>
     <string name="system_ui_statusbar_battery_right_show">Exibir à direita</string>
     <string name="system_ui_statusbar_battery_electric_current">A corrente sempre exibe um valor positivo</string>
+    <string name="system_ui_statusbar_battery_power_abs">A potência sempre exibe um valor positivo</string>
     <string name="system_ui_statusbar_battery_line_show">Exibir em linha única</string>
     <string name="system_ui_statusbar_battery_opposite">Ordem reversa</string>
     <string name="system_ui_statusbar_battery_only_changing_show">Exibir apenas ao carregar</string>
@@ -1349,6 +1355,7 @@
     <string name="personal_assistant_unlock_widget_count_limit">Desbloquear limite de contagem de widgets</string>
     <string name="personal_assistant_set_tv_notif_info_max_width">Definir foco da notificação de viagem na barra de status</string>
     <string name="personal_assistant_set_tv_notif_info_max_width_desc">Ajuste este valor adequadamente para resolver o problema de conteúdo de exibição omitido</string>
+    <string name="personal_assistant_disable_lite_version">Desativar versão lite</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Bateria e desempenho</string>
     <string name="powerkeeper_custom_refresh_rate">Apps personalizados com alta taxa de atualização</string>
@@ -1470,7 +1477,7 @@
     <string name="security_center_leave_open">Deixe o slide desdobrado</string>
     <string name="security_center_sidebar_show_suggest">Desativar mostrar sugestões de apps</string>
     <string name="security_center_unlock_new_vb">Desbloquear nova Caixa de ferramentas de vídeo</string>
-    <string name="security_center_game_performance_wild_mode">Desbloquear Modo desempenho</string>
+    <string name="security_center_game_performance_wild_mode">Desbloquear Wild Boost</string>
     <string name="security_center_unlock_fbo">Desbloquear FBO</string>
     <string name="security_center_sidebar_videobox_title">Caixa de ferramentas de vídeo</string>
     <string name="security_center_sidebar_gamebox_title">Caixa de jogos</string>
@@ -1484,6 +1491,8 @@
     <string name="security_center_aosp_app_manager_label">Gerenciar apps AOSP</string>
     <string name="security_center_aosp_app_manager">Adicionar entrada de gerenciar apps AOSP</string>
     <string name="security_center_power_consumption_ranking">Exibir classificação do consumo de energia</string>
+    <string name="security_center_hide_xopt_mode_tip">Ocultar dica de uso de permissões ocultas</string>
+    <string name="security_center_battery_unlock_low_temp_ext_endurance">Desbloquear Modo de resistência ao frio</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Desativar detecções de risco</string>
