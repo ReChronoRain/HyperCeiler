@@ -51,7 +51,7 @@ public abstract class BaseModule implements IXposedHook {
         EzXHelper.setLogTag(TAG);
         EzXHelper.setToastTag(TAG);
         HCInit.setTAG("HyperCeiler");
-        HCInit.setLogLevel(LogManager.getLogLevel());
+        HCInit.setLogLevel(HCInit.LOG_NONE);
         HCInit.initLoadPackageParam(lpparam);
         // 把模块资源加载到目标应用
         try {
