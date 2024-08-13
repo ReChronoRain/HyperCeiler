@@ -41,6 +41,19 @@ public class AntiQues extends BaseHook {
                 setStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD", originalValue);
             }
         });
+        findAndHookMethod("com.android.settings.wifi.EditTetherFragment", "onSave", new MethodHook(){
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                boolean originalValue = getStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD");
+                setStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD", true);
+                param.setObjectExtra("originalValue", originalValue);
+            }
+            @Override
+            protected void after(MethodHookParam param) throws Throwable {
+                boolean originalValue = (boolean) param.getObjectExtra("originalValue");
+                setStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD", originalValue);
+            }
+        });
         findAndHookMethod("com.android.settings.DeviceNameCheckManager", "getDeviceNameCheckResult", Context.class, String.class, int.class, "com.android.settings.DeviceNameCheckManager$GetResultSuccessCallback", new MethodHook(){
             @Override
             protected void before(MethodHookParam param) throws Throwable {

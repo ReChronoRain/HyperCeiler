@@ -40,6 +40,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_settings_anti_ques"
+            android:summary="@string/system_settings_anti_ques_desc"
+            android:title="@string/system_settings_anti_ques" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_disable_72h_verify"
             android:title="@string/system_framework_disable_72h_verify" />
 

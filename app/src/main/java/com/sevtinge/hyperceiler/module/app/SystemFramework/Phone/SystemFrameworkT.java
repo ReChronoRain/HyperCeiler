@@ -57,6 +57,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.SpeedInstall;
 import com.sevtinge.hyperceiler.module.hook.systemframework.StickyFloatingWindows;
 import com.sevtinge.hyperceiler.module.hook.systemframework.SystemLockApp;
+import com.sevtinge.hyperceiler.module.hook.systemframework.AntiQues;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.module.hook.systemframework.UseOriginalAnimation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDefaultStream;
@@ -90,6 +91,7 @@ public class SystemFrameworkT extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        initHook(new AntiQues());
         // 小窗
         initHook(new AllowAutoStart(), mPrefsMap.getBoolean("system_framework_auto_start_apps_enable"));
         initHook(new FreeFormCount(), mPrefsMap.getBoolean("system_framework_freeform_count"));
