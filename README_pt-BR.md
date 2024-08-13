@@ -39,9 +39,9 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12. Se você q
 | Configurações Mi                               | com.xiaomi.misettings              |
 | Segurança                                      | com.miui.securitycenter            |
 | Notas                                          | com.miui.notes                     |
-| Papéis de Parede Mi                            | com.miui.miwallpaper               |
+| Plano de fundo Mi                              | com.miui.miwallpaper               |
 | Taplus                                         | com.miui.contentextension          |
-| Bullet screen notification                     | com.xiaomi.barrage                 |
+| Barragem                                       | com.xiaomi.barrage                 |
 | Ui de chamadas                                 | com.android.incallui               |
 | Serviços do smartphone                         | com.android.phone                  |
 | Bateria e desempenho                           | com.miui.powerkeeper               |
@@ -57,7 +57,7 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12. Se você q
 | Clima                                          | com.miui.weather2                  |
 | Serviços de interconectividade                 | com.milink.service                 |
 | Armazenamento externo                          | com.android.externalstorage        |
-| Tela sempre ativa e editor da Tela de bloqueio | com.miui.aod                       |
+| Tela ambiente e editor da Tela de bloqueio     | com.miui.aod                       |
 | Arquivos                                       | com.android.fileexplorer           |
 | Plugin de serviço de sistema                   | com.miui.securityadd               |
 | Downloads                                      | com.android.providers.downloads.ui |
@@ -69,11 +69,11 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12. Se você q
 | MiCloud                                        | com.miui.cloudservice              |
 | Smart Cards                                    | com.miui.tsmclient                 |
 | iFlytek IME for MIUI                           | com.iflytek.inputmethod.miui       |
-| Instalador de Pacotes                          | com.miui.packageinstaller          |
+| Instalador de pacotes                          | com.miui.packageinstaller          |
 | GetApps                                        | com.xiaomi.market                  |
 | Assistente                                     | com.miui.personalassistant         |
 | Temas                                          | com.android.thememanager           |
-| Componentes de segurança do HyperOS            | com.miui.guardprovider             |
+| Componentes de segurança do sistema            | com.miui.guardprovider             |
 | Câmera                                         | com.android.camera                 |
 | Mi AI Translate                                | com.xiaomi.aiasst.vision           |
 | Scanner                                        | com.xiaomi.scanner                 |
@@ -112,7 +112,7 @@ Observação: Quando o progresso da tradução do novo idioma for maior ou igual
 - [「Android」 por Android Open Source Project, Google Inc.](https://source.android.google.cn/license)
 - [「AndroidHiddenApiBypass」 por LSPosed](https://github.com/LSPosed/AndroidHiddenApiBypass)
 - [「AndroidX」 por Android Open Source Project, Google Inc.](https://github.com/androidx/androidx)
-- [「AutoSEffSwitch」 by 焕晨 HChen](https://github.com/HChenX/AutoSEffSwitch)
+- [「AutoSEffSwitch」 por 焕晨 HChen](https://github.com/HChenX/AutoSEffSwitch)
 - [「AntiAntiDefraud」 por MinaMichita](https://github.com/MinaMichita/AntiAntiDefraud)
 - [「Auto NFC」 por GSWXXN](https://github.com/GSWXXN/AutoNFC)
 - [「BypassSignCheck」 por Weverses](https://github.com/Weverses/BypassSignCheck)
