@@ -21,16 +21,26 @@ package com.sevtinge.hyperceiler.module.hook.systemframework;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
+import java.lang.reflect.Method;
+
 public class VolumeMediaSteps extends BaseHook {
+    private Class<?> SystemProperties = null;
+
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookMethod("android.os.SystemProperties", "getInt", String.class, int.class, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                if ("ro.config.media_vol_steps".equals(param.args[0])) {
-                    if (mPrefsMap.getInt("system_framework_volume_media_steps", 15) > 15) param.setResult(mPrefsMap.getInt("system_framework_volume_media_steps", 15));
+        SystemProperties = findClassIfExists("android.os.SystemProperties");
+        if (SystemProperties == null) return;
+        Method[] methods = SystemProperties.getDeclaredMethods();
+        for (Method method : methods) {
+            hookMethod(method, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    if ("ro.config.media_vol_steps".equals(param.args[0])) {
+                        if (mPrefsMap.getInt("system_framework_volume_media_steps", 15) > 15)
+                            param.setResult(mPrefsMap.getInt("system_framework_volume_media_steps", 15));
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }
