@@ -50,6 +50,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     SwitchPreference mPower;
     SwitchPreference mDisableBluetoothRestrict; // 禁用蓝牙临时关闭
     SwitchPreference mPctUseBlur;
+    SwitchPreference mShowPct;
 
     @Override
     public int getContentResId() {
@@ -76,6 +77,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mVolume = findPreference("prefs_key_system_ui_disable_volume");
         mPower = findPreference("prefs_key_system_ui_disable_power");
         mPctUseBlur = findPreference("prefs_key_system_showpct_use_blur");
+        mShowPct = findPreference("prefs_key_system_showpct_title");
 
         mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && isMoreAndroidVersion(31));
@@ -84,6 +86,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mDisableInfinitymodeGesture.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34) && isPad());
         mBottomBar.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
         mPctUseBlur.setVisible(isMoreHyperOSVersion(1f));
+        mShowPct.setVisible(!isMoreHyperOSVersion(1f));
 
         mVolume.setOnPreferenceChangeListener(
                 (preference, o) -> {
