@@ -19,14 +19,20 @@
 package com.sevtinge.hyperceiler.ui.fragment.securitycenter;
 
 import static com.hchen.hooktool.utils.SystemSDK.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
+import android.os.Build;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 
+import moralnorm.preference.SwitchPreference;
+
 public class ApplicationsSettings extends SecurityCenterBaseSettings {
+
+    SwitchPreference mUnlockAppSandbox;
 
     @Override
     public int getContentResId() {
@@ -39,5 +45,11 @@ public class ApplicationsSettings extends SecurityCenterBaseSettings {
                 isPad() ? getResources().getString(R.string.security_center_pad) : isMoreHyperOSVersion(1f) ? getResources().getString(R.string.security_center_hyperos) : getResources().getString(R.string.security_center),
                 "com.miui.securitycenter"
         );
+    }
+
+    @Override
+    public void initPrefs() {
+        mUnlockAppSandbox = findPreference("prefs_key_secutity_center_unlock_app_sandbox");
+        mUnlockAppSandbox.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.UPSIDE_DOWN_CAKE));
     }
 }

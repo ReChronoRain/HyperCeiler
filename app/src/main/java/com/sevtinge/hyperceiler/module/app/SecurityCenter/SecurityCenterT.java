@@ -43,6 +43,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDetails;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDisable;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppRestrict;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.OpenByDefaultSetting;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.app.UnlockAppSandbox;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.BatteryHealth;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.PowerConsumptionRanking;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.ScreenUsedTime;
@@ -86,6 +87,9 @@ public class SecurityCenterT extends BaseModule {
         initHook(DisableReport.INSTANCE, mPrefsMap.getBoolean("security_center_disable_ban"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             initHook(OpenByDefaultSetting.INSTANCE, mPrefsMap.getBoolean("security_center_app_default_setting"));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            initHook(new UnlockAppSandbox(), mPrefsMap.getBoolean("secutity_center_unlock_app_sandbox"));
         }
         initHook(AddAppInfoEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_info"));
         initHook(AddAppManagerEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_manager"));

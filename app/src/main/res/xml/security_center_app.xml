@@ -65,6 +65,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_secutity_center_unlock_app_sandbox"
+            android:title="@string/secutity_center_unlock_app_sandbox" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_app_details"
             android:summary="@string/security_app_summary"
             android:title="@string/security_app_title" />
