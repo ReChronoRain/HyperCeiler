@@ -1628,6 +1628,7 @@
     <string name="market_package_monitor_desc">应用商店后台时监控应用安装与删除</string>
     <string name="market_package_monitor">禁止监控应用安装和删除</string>
     <string name="market_disable_ads">禁用推广</string>
+    <string name="market_bypass_risk_check">强制应用安全检测为优秀</string>
     <!--音质音效-->
     <string name="misound">音质音效</string>
     <string name="misound_bluetooth">耳机状态自动切换原声</string>

@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
+import com.sevtinge.hyperceiler.module.hook.getapps.BypassRiskCheck;
 import com.sevtinge.hyperceiler.module.hook.getapps.DeviceModify;
 import com.sevtinge.hyperceiler.module.hook.getapps.DisableAds;
 import com.sevtinge.hyperceiler.module.hook.getapps.DisablePackageMonitor;
@@ -29,6 +30,7 @@ public class GetApps extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        initHook(new BypassRiskCheck(), mPrefsMap.getBoolean("market_bypass_risk_check"));
         initHook(new DisableAds(), mPrefsMap.getBoolean("market_disable_ads"));
         initHook(new DeviceModify(), mPrefsMap.getStringAsInt("market_device_modify_new", 0) != 0);
 

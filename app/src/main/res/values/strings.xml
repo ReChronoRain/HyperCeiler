@@ -1596,6 +1596,7 @@
     <string name="market_package_monitor">Disable package monitor</string>
     <string name="market_package_monitor_desc">Prohibit GetApps from monitoring app installation and uninstallation</string>
     <string name="market_disable_ads">Disable ads</string>
+    <string name="market_bypass_risk_check">Bypass risk check</string>
     <!--Mi sound-->
     <string name="misound">Earphones</string>
     <string name="misound_bluetooth">Change headphone status to the original sound</string>
