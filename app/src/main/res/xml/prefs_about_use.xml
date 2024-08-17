@@ -209,6 +209,13 @@
                 android:data="https://github.com/YuKongA/MediaControl-BlurBg" />
         </Preference>
         <Preference
+            android:summary="Art-Chen | AGPL-3.0"
+            android:title="MIUI Extra">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Art-Chen/MIUI-Extra-YukiAPI" />
+        </Preference>
+        <Preference
             android:summary="qqlittleice | GPL-3.0"
             android:title="MiuiHomeR">
             <intent

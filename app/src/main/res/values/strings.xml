@@ -616,6 +616,9 @@
     <string name="system_ui_lock_screen_allow_third_face">Allow system to verify third-party recognition</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Allows facial recognition and fingerprint to be used normally on the Lock screen displayed by third-party apps</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Disable show unlock by Bluetooth toast</string>
+    <string name="system_ui_lock_screen_linkage_anim">Override Linkage Wallpaper Anim</string>
+    <string name="system_ui_lock_screen_linkage_anim_on">Screen on animation rate</string>
+    <string name="system_ui_lock_screen_linkage_anim_off">Screen off animation rate</string>
     <string name="system_ui_navigation_title">Navigation</string>
     <string name="system_ui_navigation_handle_title">Handle line</string>
     <string name="system_ui_hide_navigation_bar">Hide navigation bar</string>

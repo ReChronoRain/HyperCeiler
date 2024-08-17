@@ -61,6 +61,11 @@
             android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_block_editor"
             android:title="@string/system_ui_lock_screen_block_editor_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_hide_status_bar"
+            android:title="@string/system_ui_lock_screen_hide_status_bar" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_lockscreen_information_title">
@@ -143,8 +148,28 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_ui_lock_screen_hide_status_bar"
-            android:title="@string/system_ui_lock_screen_hide_status_bar" />
+            android:key="prefs_key_system_ui_lock_screen_linkage_anim"
+            android:title="@string/system_ui_lock_screen_linkage_anim" />
+
+        <SeekBarPreference
+            android:dependency="prefs_key_system_ui_lock_screen_linkage_anim"
+            android:defaultValue="300"
+            android:format="%d f"
+            android:key="prefs_key_system_ui_lock_screen_linkage_anim_on"
+            android:min="100"
+            android:max="1600"
+            android:title="@string/system_ui_lock_screen_linkage_anim_on"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+            android:dependency="prefs_key_system_ui_lock_screen_linkage_anim"
+            android:defaultValue="200"
+            android:format="%d f"
+            android:key="prefs_key_system_ui_lock_screen_linkage_anim_off"
+            android:min="100"
+            android:max="1600"
+            android:title="@string/system_ui_lock_screen_linkage_anim_off"
+            app:showSeekBarValue="true" />
 
     </PreferenceCategory>
 

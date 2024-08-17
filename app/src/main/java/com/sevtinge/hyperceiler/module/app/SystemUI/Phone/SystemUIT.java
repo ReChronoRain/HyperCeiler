@@ -90,6 +90,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ForceClockUseSys
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.HideLockScreenHint;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.HideLockScreenStatusBar;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.HideLockscreenZenMode;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.LinkageAnimCustomer;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.LockScreenDoubleTapToSleep;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.NoPassword;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.RemoveCamera;
@@ -146,8 +147,7 @@ public class SystemUIT extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // PluginHelper
-        initHook(new PluginHelper(), true);
-        // 充电动画
+        initHook(new PluginHelper(), true);// 充电动画
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         // initHook(DisableChargeAnimation.INSTANCE);
 
@@ -355,6 +355,7 @@ public class SystemUIT extends BaseModule {
         initHook(new BlockEditor(), mPrefsMap.getBoolean("system_ui_lock_screen_block_editor"));
         initHook(new AllowThirdLockScreenUseFace(), mPrefsMap.getBoolean("system_ui_lock_screen_allow_third_face"));
         initHook(new DisableUnlockByBleToast(), mPrefsMap.getBoolean("system_ui_lock_screen_disable_unlock_by_ble_toast"));
+        initHook(new LinkageAnimCustomer(), mPrefsMap.getBoolean("system_ui_lock_screen_linkage_anim"));
 
         if (!isAndroidVersion(30)) {
             initHook(AddBlurEffectToLockScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));
