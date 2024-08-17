@@ -31,9 +31,9 @@ object ShowAllHideApp : BaseHook() {
         val getClass = DexKit.getDexKitBridge("ShowAllHideApp") { bridge ->
             bridge.findClass {
                 matcher {
-                    addUsingStringsEquals("appInfo.packageName", "activityInfo")
+                    addUsingStringsEquals("appInfo.packageName", "com.android.fileexplorer")
                 }
-            }.single().getInstance(EzXHelper.classLoader)
+            }.first().getInstance(EzXHelper.classLoader)
         }.toClass()
 
         getClass.methodFinder()
