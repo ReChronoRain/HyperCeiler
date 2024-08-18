@@ -49,7 +49,7 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
     @Override
     public void initPrefs() {
         mHome = findPreference("prefs_key_home_safe_mode_enable");
-        mSettings = findPreference("prefs_key_system_settings_state");
+        mSettings = findPreference("prefs_key_system_settings_safe_mode_enable");
         mSystemUi = findPreference("prefs_key_system_ui_safe_mode_enable");
         mSecurityCenter = findPreference("prefs_key_security_center_safe_mode_enable");
         mDemo = findPreference("prefs_key_demo_safe_mode_enable");
