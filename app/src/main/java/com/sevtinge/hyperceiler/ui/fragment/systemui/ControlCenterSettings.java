@@ -40,6 +40,7 @@ import com.sevtinge.hyperceiler.utils.devicesdk.TelephonyManager;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
+import moralnorm.preference.ColorPickerPreference;
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;
 import moralnorm.preference.PreferenceCategory;
@@ -63,6 +64,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     SwitchPreference mThemeBlur;
     DropDownPreference mProgressMode;
     SeekBarPreferenceEx mProgressModeThickness;
+    ColorPickerPreference mSliderColor;
 
     SwitchPreference mTaplus;
     SwitchPreference mNotifrowmenu;
@@ -101,6 +103,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mNotifrowmenu = findPreference("prefs_key_system_ui_control_center_notifrowmenu");
         mProgressMode = findPreference("prefs_key_system_ui_control_center_media_control_progress_mode");
         mProgressModeThickness = findPreference("prefs_key_system_ui_control_center_media_control_progress_thickness");
+        mSliderColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_thumb_color");
         handler = new Handler();
 
         mExpandNotification.setOnPreferenceClickListener(
@@ -145,6 +148,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         }
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
         mProgressModeThickness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
+        mSliderColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
 
         mRoundedRect.setOnPreferenceChangeListener(this);
         mProgressMode.setOnPreferenceChangeListener(this);
@@ -207,5 +211,6 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
 
     private void setCanBeVisibleProgressMode(int mode) {
         mProgressModeThickness.setVisible(mode == 2);
+        mSliderColor.setVisible(mode != 2);
     }
 }
