@@ -86,7 +86,7 @@ class LinkageAnimCustomer : BaseHook() {
                             arrayOf("wallpaperBlack", 0f, animConfig)
                         )
 
-                        XposedHelpers.callMethod(param.thisObject, "doAnimationToAod", false, true)
+                        XposedHelpers.callMethod(param.thisObject, "doAnimationToAod", false, hasNotification)
                         param.result = null
                     }
                 }
