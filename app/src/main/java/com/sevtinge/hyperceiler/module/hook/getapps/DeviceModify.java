@@ -32,7 +32,12 @@ public class DeviceModify extends BaseHook {
 
     @Override
     public void init() {
-        if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 106) {
+        if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 107) {
+            // 15p
+            mDevice = "xuanyuan"; //O1
+            mModel = "25010PN30C";
+            mManufacturer = "Xiaomi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 106) {
             // 15p
             mDevice = "haotian"; //O2
             mModel = "24101PNB7C";

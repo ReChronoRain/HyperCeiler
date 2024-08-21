@@ -730,6 +730,7 @@
 
     <string-array name="market_device_modify_list">
         <item>@string/array_default</item>
+        <item>Xiaomi 15 Ultra</item>
         <item>Xiaomi 15 Pro</item>
         <item>Xiaomi 14 Ultra</item>
         <item>Xiaomi 14 Pro</item>
@@ -750,6 +751,7 @@
 
     <string-array name="market_device_modify_value">
         <item>0</item>
+        <item>107</item>
         <item>106</item>
         <item>104</item>
         <item>102</item>
