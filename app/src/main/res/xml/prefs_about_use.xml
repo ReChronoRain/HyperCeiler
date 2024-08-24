@@ -230,6 +230,13 @@
                 android:data="https://github.com/RC1844/MIUI_IME_Unlock" />
         </Preference>
         <Preference
+            android:summary="gykkuo | GPL-3.0"
+            android:title="MIUI NoGuard">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/gykkuo/MIUI_NoGuard" />
+        </Preference>
+        <Preference
             android:summary="chsbuffer | No License"
             android:title="MIUIQOL">
             <intent

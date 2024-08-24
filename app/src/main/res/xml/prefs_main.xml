@@ -181,6 +181,13 @@
             android:title="@string/milink" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.AnalyticsFragment"
+            android:icon="@drawable/ic_default_icon"
+            android:key="prefs_key_analytics"
+            android:summary="com.miui.analytics"
+            android:title="@string/analytics" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.AodFragment"
             android:icon="@drawable/ic_aod"
             android:key="prefs_key_aod"

@@ -243,6 +243,9 @@ public class SearchHelper {
                 "com.sevtinge.hyperceiler.ui.fragment.SystemSettingsFragment");
 
         // 其他杂项
+        parsePrefXml(context, R.xml.analytics,
+                "com.sevtinge.hyperceiler.ui.fragment.AnalyticsFragment");
+
         parsePrefXml(context, R.xml.browser,
                 "com.sevtinge.hyperceiler.ui.fragment.BrowserFragment");
 

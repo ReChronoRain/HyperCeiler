@@ -40,6 +40,7 @@
         <item>com.duokan.phone.remotecontroller</item> <!--万能遥控-->
         <item>com.lbe.security.miui</item> <!--权限管理服务-->
         <item>com.milink.service</item> <!--投屏-->
+        <item>com.miui.analytics</item> <!--Analytics-->
         <item>com.miui.aod</item> <!--万象息屏-->
         <item>com.miui.backup</item> <!--备份-->
         <!--<item>com.miui.cleanmaster</item>--> <!--垃圾清理-->

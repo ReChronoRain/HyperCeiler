@@ -177,6 +177,14 @@
 
     <SwitchPreference
         android:defaultValue="true"
+        android:icon="@drawable/ic_default_icon"
+        android:key="prefs_key_analytics_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.miui.analytics"
+        android:title="@string/analytics" />
+
+    <SwitchPreference
+        android:defaultValue="true"
         android:icon="@drawable/ic_aod"
         android:key="prefs_key_aod_state"
         android:layout="@layout/preference_header"

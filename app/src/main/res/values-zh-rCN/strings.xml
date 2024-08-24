@@ -1606,6 +1606,9 @@
     <string name="weather_card_display_type_title">卡片显示样式</string>
     <string name="weather_card_display_type_title_2">浅色模式</string>
     <string name="weather_card_display_type_title_3">深色模式</string>
+    <!--Analytics-->
+    <string name="analytics">Analytics</string>
+    <string name="analytics_fuck_guard">禁止收集遥测数据</string>
     <!--小爱翻译-->
     <string name="aiasst">小爱翻译</string>
     <string name="aiasst_ai_captions">强制启用实时字幕</string>

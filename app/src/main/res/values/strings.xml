@@ -1574,6 +1574,9 @@
     <string name="weather_card_display_type_title">Card display type</string>
     <string name="weather_card_display_type_title_2">Light mode</string>
     <string name="weather_card_display_type_title_3">Dark mode</string>
+    <!--Analytics-->
+    <string name="analytics">Analytics</string>
+    <string name="analytics_fuck_guard">Remove guard</string>
     <!--AI Translate-->
     <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Force enabled AI captions</string>
