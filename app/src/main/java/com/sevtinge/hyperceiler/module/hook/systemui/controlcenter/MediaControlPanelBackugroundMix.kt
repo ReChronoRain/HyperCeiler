@@ -270,8 +270,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                             val getStatusBarState = hookParam1.result as Int
                             val isInLockScreen = getStatusBarState == 1
                             val isDarkMode = isDarkMode()
-                            if (lockScreenStatus == null || lockScreenStatus != isInLockScreen || darkModeStatus != isDarkMode) {
-                                lockScreenStatus = isInLockScreen
+                            if (lockScreenStatus == null || darkModeStatus == null || lockScreenStatus != isInLockScreen || darkModeStatus != isDarkMode) {                                lockScreenStatus = isInLockScreen
                                 darkModeStatus = isDarkMode
                                 (it.thisObject as ImageView).apply {
                                     getNotificationElementBlendColors(
