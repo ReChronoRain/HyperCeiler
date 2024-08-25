@@ -90,6 +90,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_home_other_disable_prestart"
+            android:title="@string/home_other_disable_prestart" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_user_present_animation"
             android:title="@string/home_other_user_present_animation" />
 

@@ -1362,6 +1362,7 @@
     <string name="home_recent_none_blur_simple_anim">None blur (Simple anim)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">Unlock more options for Home screen settings</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">The unlocked functions may not be available, and some features require support from the underlying system.</string>
+    <string name="home_other_disable_prestart">Disable app preload</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Gallery Editor</string>
     <string name="mediaeditor_foundation">Foundation</string>

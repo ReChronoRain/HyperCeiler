@@ -23,6 +23,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.home.AnimDurationRatio;
+import com.sevtinge.hyperceiler.module.hook.home.DisablePrestart;
 import com.sevtinge.hyperceiler.module.hook.home.FreeFormCountForHome;
 import com.sevtinge.hyperceiler.module.hook.home.HomePortraitReverse;
 import com.sevtinge.hyperceiler.module.hook.home.LockApp;
@@ -288,6 +289,7 @@ public class HomeT extends BaseModule {
         initHook(ShowAllHideApp.INSTANCE, true); // 桌面快捷方式管理
         initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
         initHook(new HideReportText(), mPrefsMap.getBoolean("home_title_hide_report_text"));
+        initHook(new DisablePrestart(), mPrefsMap.getBoolean("home_other_disable_prestart"));
 
         // 实验性功能
         initHook(BlurWhenShowShortcutMenu.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));
