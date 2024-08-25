@@ -28,7 +28,7 @@ fun getSystemVersionIncremental(): String = if (getProp("ro.mi.os.version.increm
 fun getBuildDate(): String = getProp("ro.system.build.date")
 fun getHost(): String = Build.HOST
 fun getBuilder(): String = getProp("ro.build.user")
-fun getBaseOs(): String = getProp("ro.build.version.base_os")
+fun getBaseOs(): String = if (getProp("ro.build.version.base_os") != "") getProp("ro.build.version.base_os") else "null"
 fun getRomAuthor(): String = getProp("ro.rom.author") + getProp("ro.romid")
 fun getWhoAmI(): String = safeExecCommandWithRoot("whoami")
 

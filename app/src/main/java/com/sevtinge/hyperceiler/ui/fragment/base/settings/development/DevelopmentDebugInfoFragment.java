@@ -120,8 +120,8 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesSystem.put("HyperOsVersion", String.valueOf(getHyperOSVersion()));
             propertiesSystem.put("SystemVersion", getSystemVersionIncremental());
             propertiesSystem.put("InternationalBuild", String.valueOf(isInternational()));
-            propertiesSystem.put("Builder", getBuilder());
-            propertiesSystem.put("RomAuthor", getRomAuthor());
+            // propertiesSystem.put("Builder", getBuilder());
+            // propertiesSystem.put("RomAuthor", getRomAuthor());
             propertiesSystem.put("BaseOs", com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs());
             propertiesSystem.put("Host", com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHost());
             propertiesSystem.put("BuildDate", getBuildDate());
