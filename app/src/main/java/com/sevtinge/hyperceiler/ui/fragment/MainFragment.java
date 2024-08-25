@@ -213,7 +213,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
                         !getBaseOs().startsWith("Xiaomi") &&
                         !getBaseOs().startsWith("Redmi") &&
                         !getBaseOs().startsWith("POCO") &&
-                        !getBaseOs().isEmpty()
+                        !getBaseOs().equals("null")
         ) ||
                 !getRomAuthor().isEmpty() ||
                 Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") ||
