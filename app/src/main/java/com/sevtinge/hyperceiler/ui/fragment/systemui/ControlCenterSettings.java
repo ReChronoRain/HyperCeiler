@@ -65,6 +65,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     DropDownPreference mProgressMode;
     SeekBarPreferenceEx mProgressModeThickness;
     ColorPickerPreference mSliderColor;
+    ColorPickerPreference mProgressBarColor;
 
     SwitchPreference mTaplus;
     SwitchPreference mNotifrowmenu;
@@ -104,6 +105,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mProgressMode = findPreference("prefs_key_system_ui_control_center_media_control_progress_mode");
         mProgressModeThickness = findPreference("prefs_key_system_ui_control_center_media_control_progress_thickness");
         mSliderColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_thumb_color");
+        mProgressBarColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_color");
         handler = new Handler();
 
         mExpandNotification.setOnPreferenceClickListener(
@@ -149,6 +151,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
         mProgressModeThickness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
         mSliderColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
+        mProgressBarColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
 
         mRoundedRect.setOnPreferenceChangeListener(this);
         mProgressMode.setOnPreferenceChangeListener(this);
@@ -212,5 +215,6 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     private void setCanBeVisibleProgressMode(int mode) {
         mProgressModeThickness.setVisible(mode == 2);
         mSliderColor.setVisible(mode != 2);
+        mProgressBarColor.setVisible(mode != 2);
     }
 }

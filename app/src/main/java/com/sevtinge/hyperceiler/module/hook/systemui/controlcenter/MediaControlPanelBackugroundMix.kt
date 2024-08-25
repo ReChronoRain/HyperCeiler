@@ -72,38 +72,8 @@ class MediaControlPanelBackgroundMix : BaseHook() {
         val mediaViewHolder = loadClassOrNull("com.android.systemui.media.controls.models.player.MediaViewHolder")
         val statusBarStateControllerImpl = loadClassOrNull("com.android.systemui.statusbar.StatusBarStateControllerImpl")
 
-        mediaViewHolder?.constructors?.first()?.createAfterHook {
-            val context = AndroidAppHelper.currentApplication().applicationContext
-            val action0 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action0")
-            val action1 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action1")
-            val action2 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action2")
-            val action3 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action3")
-            val action4 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action4")
-
-            fun updateColorFilter() {
-                val color = if (isDarkMode()) Color.WHITE else Color.BLACK
-                action0?.setColorFilter(color)
-                action1?.setColorFilter(color)
-                action2?.setColorFilter(color)
-                action3?.setColorFilter(color)
-                action4?.setColorFilter(color)
-            }
-
-            updateColorFilter()
-
-            val darkModeObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
-                override fun onChange(selfChange: Boolean) {
-                    updateColorFilter()
-                }
-            }
-
-            context.contentResolver.registerContentObserver(
-                Settings.Secure.getUriFor("ui_night_mode"), false, darkModeObserver
-            )
-        }
-
         if (mPrefsMap.getBoolean("system_ui_control_center_remove_media_control_panel_background")) {
-            removeBackground(notificationUtil, miuiMediaControlPanel, playerTwoCircleView, seekBarObserver, statusBarStateControllerImpl)
+            removeBackground(notificationUtil, miuiMediaControlPanel, playerTwoCircleView, seekBarObserver, statusBarStateControllerImpl, mediaViewHolder)
         } else {
             setBlurBackground(miuiMediaControlPanel, playerTwoCircleView)
         }
@@ -115,7 +85,8 @@ class MediaControlPanelBackgroundMix : BaseHook() {
         miuiMediaControlPanel: Class<*>?,
         playerTwoCircleView: Class<*>?,
         seekBarObserver: Class<*>?,
-        statusBarStateControllerImpl: Class<*>?
+        statusBarStateControllerImpl: Class<*>?,
+        mediaViewHolder: Class<*>?
     ) {
         try {
             var lockScreenStatus: Boolean? = null
@@ -142,6 +113,36 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     progressDrawable = layerDrawable
                 }
             }*/
+
+            mediaViewHolder?.constructors?.first()?.createAfterHook {
+                val context = AndroidAppHelper.currentApplication().applicationContext
+                val action0 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action0")
+                val action1 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action1")
+                val action2 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action2")
+                val action3 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action3")
+                val action4 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action4")
+
+                fun updateColorFilter() {
+                    val color = if (isDarkMode()) Color.WHITE else Color.BLACK
+                    action0?.setColorFilter(color)
+                    action1?.setColorFilter(color)
+                    action2?.setColorFilter(color)
+                    action3?.setColorFilter(color)
+                    action4?.setColorFilter(color)
+                }
+
+                updateColorFilter()
+
+                val darkModeObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
+                    override fun onChange(selfChange: Boolean) {
+                        updateColorFilter()
+                    }
+                }
+
+                context.contentResolver.registerContentObserver(
+                    Settings.Secure.getUriFor("ui_night_mode"), false, darkModeObserver
+                )
+            }
 
             miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()
                 ?.createAfterHook {
@@ -202,16 +203,17 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     if (!isBackgroundBlurOpened) {
                         titleText?.setTextColor(Color.WHITE)
                         seamlessIcon?.setColorFilter(Color.WHITE)
-                        seekBar?.progressDrawable?.colorFilter = colorFilter(Color.WHITE)
-                        seekBar?.thumb?.colorFilter = colorFilter(Color.WHITE)
+                        seekBar?.progressDrawable?.colorFilter = colorFilter(grey)
+                        seekBar?.thumb?.colorFilter = colorFilter(if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else grey)
                     } else {
                         artistText?.setTextColor(grey)
                         elapsedTimeView?.setTextColor(grey)
                         totalTimeView?.setTextColor(grey)
-                        titleText?.setTextColor(Color.WHITE)
-                        seamlessIcon?.setColorFilter(Color.WHITE)
-                        seekBar?.progressDrawable?.colorFilter = colorFilter(Color.WHITE)
-                        seekBar?.thumb?.colorFilter = colorFilter(if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else Color.WHITE)
+                        titleText?.setTextColor(grey)
+                        titleText?.setTextColor(color)
+                        seamlessIcon?.setColorFilter(color)
+                        seekBar?.progressDrawable?.colorFilter = colorFilter(grey)
+                        seekBar?.thumb?.colorFilter = colorFilter(if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else grey)
                         /*if (!isDarkMode()) {
                             titleText?.setTextColor(Color.BLACK)
                             artistText?.setTextColor(grey)
