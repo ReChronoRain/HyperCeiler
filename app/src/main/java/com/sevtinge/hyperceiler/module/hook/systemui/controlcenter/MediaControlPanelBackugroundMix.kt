@@ -22,26 +22,26 @@ import android.annotation.*
 import android.app.*
 import android.content.*
 import android.content.res.*
+import android.content.res.Resources.*
+import android.database.*
 import android.graphics.*
 import android.graphics.drawable.*
-import android.content.res.Resources.*
 import android.hardware.*
 import android.media.*
+import android.os.*
+import android.provider.*
 import android.util.*
 import android.view.*
 import android.widget.*
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.Log
 import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setBlurRoundRect
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlendColors
-import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import de.robv.android.xposed.*
@@ -69,7 +69,38 @@ class MediaControlPanelBackgroundMix : BaseHook() {
         val notificationUtil = loadClassOrNull("com.android.systemui.statusbar.notification.NotificationUtil")
         val playerTwoCircleView = loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.PlayerTwoCircleView")
         val seekBarObserver = loadClassOrNull("com.android.systemui.media.controls.models.player.SeekBarObserver")
+        val mediaViewHolder = loadClassOrNull("com.android.systemui.media.controls.models.player.MediaViewHolder")
         val statusBarStateControllerImpl = loadClassOrNull("com.android.systemui.statusbar.StatusBarStateControllerImpl")
+
+        mediaViewHolder?.constructors?.first()?.createAfterHook {
+            val context = AndroidAppHelper.currentApplication().applicationContext
+            val action0 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action0")
+            val action1 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action1")
+            val action2 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action2")
+            val action3 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action3")
+            val action4 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action4")
+
+            fun updateColorFilter() {
+                val color = if (isDarkMode()) Color.WHITE else Color.BLACK
+                action0?.setColorFilter(color)
+                action1?.setColorFilter(color)
+                action2?.setColorFilter(color)
+                action3?.setColorFilter(color)
+                action4?.setColorFilter(color)
+            }
+
+            updateColorFilter()
+
+            val darkModeObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
+                override fun onChange(selfChange: Boolean) {
+                    updateColorFilter()
+                }
+            }
+
+            context.contentResolver.registerContentObserver(
+                Settings.Secure.getUriFor("ui_night_mode"), false, darkModeObserver
+            )
+        }
 
         if (mPrefsMap.getBoolean("system_ui_control_center_remove_media_control_panel_background")) {
             removeBackground(notificationUtil, miuiMediaControlPanel, playerTwoCircleView, seekBarObserver, statusBarStateControllerImpl)
@@ -87,8 +118,12 @@ class MediaControlPanelBackgroundMix : BaseHook() {
         statusBarStateControllerImpl: Class<*>?
     ) {
         try {
-            //这里不能hook，一hook圆角就丢，我也不知道为什么，yukonga那里就没问题，但是他既然已经跑起来了我就不动他了
+            var lockScreenStatus: Boolean? = null
+            var darkModeStatus: Boolean? = null
+            // 这里不能hook，一hook圆角就丢，我也不知道为什么，yukonga那里就没问题，但是他既然已经跑起来了我就不动他了
             /*seekBarObserver?.constructors?.first()?.createAfterHook {
+                it.thisObject.objectHelper().setObject("seekBarEnabledMaxHeight", 9.dp)
+                val seekBar = it.args[0].objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
                 val backgroundDrawable = GradientDrawable().apply {
                     color = ColorStateList(arrayOf(intArrayOf()), intArrayOf(Color.parseColor("#20ffffff")))
                     cornerRadius = 9.dp.toFloat()
@@ -99,22 +134,18 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     cornerRadius = 9.dp.toFloat()
                 }
 
+                val thumbDrawable = seekBar?.thumb as LayerDrawable
                 val layerDrawable = LayerDrawable(arrayOf(backgroundDrawable, ClipDrawable(onProgressDrawable, Gravity.START, ClipDrawable.HORIZONTAL)))
 
-                it.thisObject.objectHelper().setObject("seekBarEnabledMaxHeight", 9.dp)
-                val seekBar = it.args[0].objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
-                seekBar?.apply {
-                    thumb = (thumb as LayerDrawable).apply {
-                        setMinimumWidth(9.dp)
-                        setMinimumHeight(9.dp)
-                    }
+                seekBar.apply {
+                    thumb = thumbDrawable
                     progressDrawable = layerDrawable
                 }
             }*/
 
             miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()
                 ?.createAfterHook {
-                    val context = AndroidAppHelper.currentApplication().applicationContext
+                    val context = it.thisObject.objectHelper().getObjectOrNullUntilSuperclassAs<Context>("mContext") ?: return@createAfterHook
                     val isBackgroundBlurOpened = XposedHelpers.callStaticMethod(
                         notificationUtil,
                         "isBackgroundBlurOpened",
@@ -129,16 +160,6 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("artistText")
                     val seamlessIcon =
                         mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("seamlessIcon")
-                    val action0 =
-                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action0")
-                    val action1 =
-                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action1")
-                    val action2 =
-                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action2")
-                    val action3 =
-                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action3")
-                    val action4 =
-                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action4")
                     val seekBar =
                         mMediaViewHolder.objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
                     val elapsedTimeView = mMediaViewHolder.objectHelper()
@@ -149,23 +170,49 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("albumView")
                     val appIcon =
                         mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("appIcon")
-                    val grey =
-                        if (isDarkMode()) Color.parseColor("#80ffffff") else Color.parseColor(
-                            "#99000000"
-                        )
 
+                    val artwork = it.args[0].objectHelper().getObjectOrNullAs<Icon>("artwork") ?: return@createAfterHook
+                    val artworkLayer = artwork.loadDrawable(context) ?: return@createAfterHook
+
+                    val artworkBitmap = Bitmap.createBitmap(artworkLayer.intrinsicWidth, artworkLayer.intrinsicHeight, Bitmap.Config.ARGB_8888)
+                    val canvas = Canvas(artworkBitmap)
+                    artworkLayer.setBounds(0, 0, artworkLayer.intrinsicWidth, artworkLayer.intrinsicHeight)
+                    artworkLayer.draw(canvas)
+                    val resizedBitmap = Bitmap.createScaledBitmap(artworkBitmap, 300, 300, true)
+                    val radius = 45f
+                    val newBitmap = Bitmap.createBitmap(resizedBitmap.width, resizedBitmap.height, Bitmap.Config.ARGB_8888)
+                    val canvas1 = Canvas(newBitmap)
+                    val paint = Paint()
+                    val rect = Rect(0, 0, resizedBitmap.width, resizedBitmap.height)
+                    val rectF = RectF(rect)
+                    paint.isAntiAlias = true
+                    canvas1.drawARGB(0, 0, 0, 0)
+                    paint.color = Color.BLACK
+                    canvas1.drawRoundRect(rectF, radius, radius, paint)
+                    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+                    canvas1.drawBitmap(resizedBitmap, rect, rect, paint)
+                    albumView?.setImageDrawable(BitmapDrawable(context.resources, newBitmap))
+                    (appIcon?.parent as ViewGroup?)?.removeView(appIcon)
+
+                    val grey = if (isDarkMode()) Color.LTGRAY else Color.DKGRAY
+                    val color = if (isDarkMode()) Color.WHITE else Color.BLACK
+                    seekBar?.thumb?.colorFilter = colorFilter(Color.TRANSPARENT)
+                    elapsedTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11f)
+                    totalTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11f)
                     if (!isBackgroundBlurOpened) {
                         titleText?.setTextColor(Color.WHITE)
                         seamlessIcon?.setColorFilter(Color.WHITE)
-                        action0?.setColorFilter(Color.WHITE)
-                        action1?.setColorFilter(Color.WHITE)
-                        action2?.setColorFilter(Color.WHITE)
-                        action3?.setColorFilter(Color.WHITE)
-                        action4?.setColorFilter(Color.WHITE)
                         seekBar?.progressDrawable?.colorFilter = colorFilter(Color.WHITE)
                         seekBar?.thumb?.colorFilter = colorFilter(Color.WHITE)
                     } else {
-                        if (!isDarkMode()) {
+                        artistText?.setTextColor(grey)
+                        elapsedTimeView?.setTextColor(grey)
+                        totalTimeView?.setTextColor(grey)
+                        titleText?.setTextColor(Color.WHITE)
+                        seamlessIcon?.setColorFilter(Color.WHITE)
+                        seekBar?.progressDrawable?.colorFilter = colorFilter(Color.WHITE)
+                        seekBar?.thumb?.colorFilter = colorFilter(if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else Color.WHITE)
+                        /*if (!isDarkMode()) {
                             titleText?.setTextColor(Color.BLACK)
                             artistText?.setTextColor(grey)
                             seamlessIcon?.setColorFilter(Color.BLACK)
@@ -191,9 +238,9 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                             seekBar?.thumb?.colorFilter = colorFilter((if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else Color.WHITE))
                             elapsedTimeView?.setTextColor(grey)
                             totalTimeView?.setTextColor(grey)
-                        }
+                        }*/
 
-                        val artwork =
+                        /*val artwork =
                             it.args[0].objectHelper().getObjectOrNullAs<Icon>("artwork")
                                 ?: return@createAfterHook
                         val artworkLayer =
@@ -237,12 +284,10 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         )
                         (appIcon?.parent as ViewGroup?)?.removeView(appIcon)
                         elapsedTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11f)
-                        totalTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11f)
+                        totalTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11f)*/
                     }
                 }
 
-            var lockScreenStatus: Boolean? = null
-            var darkModeStatus: Boolean? = null
             playerTwoCircleView?.methodFinder()?.filterByName("onDraw")?.first()
                 ?.createBeforeHook {
                     val context = AndroidAppHelper.currentApplication().applicationContext
@@ -254,16 +299,29 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     ) as Boolean
                     if (!isBackgroundBlurOpened) return@createBeforeHook
 
-                    it.thisObject.objectHelper()
-                        .getObjectOrNullAs<Paint>("mPaint1")?.alpha = 0
-                    it.thisObject.objectHelper()
-                        .getObjectOrNullAs<Paint>("mPaint2")?.alpha = 0
+                    val mPaint1 = it.thisObject.objectHelper().getObjectOrNullAs<Paint>("mPaint1")
+                    val mPaint2 = it.thisObject.objectHelper().getObjectOrNullAs<Paint>("mPaint2")
+                    if (mPaint1?.alpha == 0) return@createBeforeHook
+
+                    mPaint1?.alpha = 0
+                    mPaint2?.alpha = 0
                     it.thisObject.objectHelper().setObject("mRadius", 0f)
 
                     (it.thisObject as ImageView).setMiViewBlurMode(1)
                     (it.thisObject as ImageView).setBlurRoundRect(
                         getNotificationElementRoundRect(context)
                     )
+
+                    val miuiStubClass = loadClassOrNull("miui.stub.MiuiStub")
+                    val miuiStubInstance = XposedHelpers.getStaticObjectField(miuiStubClass, "INSTANCE")
+                    val mSysUIProvider = XposedHelpers.getObjectField(miuiStubInstance, "mSysUIProvider")
+                    val mStatusBarStateController = XposedHelpers.getObjectField(mSysUIProvider, "mStatusBarStateController")
+                    val getLazyClass = XposedHelpers.callMethod(mStatusBarStateController, "get")
+                    val getState = XposedHelpers.callMethod(getLazyClass, "getState")
+
+                    (it.thisObject as ImageView).apply {
+                        getNotificationElementBlendColors(context, getState == 1)?.let { iArr -> setMiBackgroundBlendColors(iArr, 1f) }
+                    }
 
                     statusBarStateControllerImpl?.methodFinder()?.filterByName("getState")
                         ?.first()?.createAfterHook { hookParam1 ->
@@ -280,8 +338,6 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                                 }
                             }
                         }
-
-                    it.result = null
                 }
 
             playerTwoCircleView?.methodFinder()?.filterByName("setBackground")?.first()
@@ -293,12 +349,10 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         context
                     ) as Boolean
                     if (!isBackgroundBlurOpened) return@createBeforeHook
-
-                    (it.thisObject as ImageView).background = null
                     it.result = null
                 }
         } catch (t: Throwable) {
-            Log.ex(t)
+           logE(TAG, lpparam.packageName, t)
         }
     }
 
@@ -469,7 +523,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
 
                 }
         } catch (t: Throwable) {
-            Log.ex(t)
+            logE(TAG, lpparam.packageName, t)
         }
     }
 
