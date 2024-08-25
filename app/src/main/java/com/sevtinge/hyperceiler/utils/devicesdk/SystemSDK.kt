@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.utils.shell.ShellUtils.*
 
 
 // 设备信息相关
-fun getSystemVersionIncremental(): String = if (getProp("ro.mi.os.version.incremental") != null) getProp("ro.mi.os.version.incremental") else getProp("ro.system.build.version.incremental")
+fun getSystemVersionIncremental(): String = if (getProp("ro.mi.os.version.incremental") != "") getProp("ro.mi.os.version.incremental") else getProp("ro.system.build.version.incremental")
 fun getBuildDate(): String = getProp("ro.system.build.date")
 fun getHost(): String = Build.HOST
 fun getBuilder(): String = getProp("ro.build.user")
@@ -50,7 +50,7 @@ fun getMiuiVersion(): Float = if (getProp("ro.miui.ui.version.name") == "V125") 
  * 将获取到的字符串转换为浮点，以提供判断
  * @return 一个 Float 值
  */
-fun getHyperOSVersion(): Float = if (getProp("ro.mi.os.version.code") != null) try { getProp("ro.mi.os.version.code").toFloat() } catch (_: Exception) { -1f }else 0f
+fun getHyperOSVersion(): Float = if (getProp("ro.mi.os.version.code") != null) try { getProp("ro.mi.os.version.code").toFloat() } catch (_: Exception) { -1f } else 0f
 
 /**
  * 判断是否为指定某个 Android 版本
