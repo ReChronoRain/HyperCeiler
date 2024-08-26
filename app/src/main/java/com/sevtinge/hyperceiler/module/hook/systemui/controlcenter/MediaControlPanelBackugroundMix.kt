@@ -182,25 +182,26 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     val canvas = Canvas(artworkBitmap)
                     artworkLayer.setBounds(0, 0, artworkLayer.intrinsicWidth, artworkLayer.intrinsicHeight)
                     artworkLayer.draw(canvas)
-                    val minDimen = Math.min(artworkBitmap.width, artworkBitmap.height)
+                    val minDimen = artworkBitmap.width.coerceAtMost(artworkBitmap.height)
                     val left = (artworkBitmap.width - minDimen) / 2
                     val top = (artworkBitmap.height - minDimen) / 2
                     val rect = Rect(left, top, left + minDimen, top + minDimen)
                     val croppedBitmap = Bitmap.createBitmap(minDimen, minDimen, Bitmap.Config.ARGB_8888)
                     val canvasCropped = Canvas(croppedBitmap)
                     canvasCropped.drawBitmap(artworkBitmap, rect, Rect(0, 0, minDimen, minDimen), null)
-                    val radius = 45f
-                    val newBitmap = Bitmap.createBitmap(croppedBitmap.width, croppedBitmap.height, Bitmap.Config.ARGB_8888)
-                    val canvas1 = Canvas(newBitmap)
+                    // 300px & 45f rounded corners are necessary，otherwise the rounded corners are not drawn correctly.
+                    val resizedBitmap = Bitmap.createScaledBitmap(croppedBitmap, 300, 300, true)
+                    val bitmapNew = Bitmap.createBitmap(resizedBitmap.width, resizedBitmap.height, Bitmap.Config.ARGB_8888)
+                    val canvasNew = Canvas(bitmapNew)
                     val paint = Paint()
-                    val rectF = RectF(0f, 0f, croppedBitmap.width.toFloat(), croppedBitmap.height.toFloat())
+                    val rectF = RectF(0f, 0f, resizedBitmap.width.toFloat(), resizedBitmap.height.toFloat())
                     paint.isAntiAlias = true
-                    canvas1.drawARGB(0, 0, 0, 0)
+                    canvasNew.drawARGB(0, 0, 0, 0)
                     paint.color = Color.BLACK
-                    canvas1.drawRoundRect(rectF, radius, radius, paint)
+                    canvasNew.drawRoundRect(rectF, 45f, 45f, paint)
                     paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-                    canvas1.drawBitmap(croppedBitmap, 0f, 0f, paint)
-                    albumView?.setImageDrawable(BitmapDrawable(context.resources, newBitmap))
+                    canvasNew.drawBitmap(resizedBitmap, 0f, 0f, paint)
+                    albumView?.setImageDrawable(BitmapDrawable(context.resources, bitmapNew))
                     (appIcon?.parent as ViewGroup?)?.removeView(appIcon)
 
                     val grey = if (isDarkMode()) Color.LTGRAY else Color.DKGRAY
