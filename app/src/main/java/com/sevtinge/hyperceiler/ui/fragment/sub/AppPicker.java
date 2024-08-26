@@ -176,7 +176,7 @@ public class AppPicker extends Fragment {
                 })
                 .show();
     }
-    
+
     private void initData() {
         new Thread(new Runnable() {
             @Override
