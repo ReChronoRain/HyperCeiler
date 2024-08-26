@@ -131,7 +131,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesCheck.put("Signature", SignUtils.getSHA256Signature(requireContext()));
             propertiesCheck.put("SignCheckPass", String.valueOf(SignUtils.isSignCheckPass(requireContext())));
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActive));
-            propertiesCheck.put("RootPermission", String.valueOf(ShellInit.ready()));
+            // propertiesCheck.put("RootPermission", String.valueOf(ShellInit.ready()));
             propertiesCheck.put("WhoAmI", getWhoAmI());
             propertiesCheck.put("LoggerStatus", IS_LOGGER_ALIVE + ", " + LOGGER_CHECKER_ERR_CODE);
         } catch (Exception ignored) {

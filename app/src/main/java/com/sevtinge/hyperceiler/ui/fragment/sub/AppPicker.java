@@ -176,8 +176,7 @@ public class AppPicker extends Fragment {
                 })
                 .show();
     }
-
-
+    
     private void initData() {
         new Thread(new Runnable() {
             @Override
@@ -214,15 +213,13 @@ public class AppPicker extends Fragment {
         }).start();
     }
 
-
-
     public List<AppData> getAppInfo() {
         return switch (modeSelection) {
             case LAUNCHER_MODE, CALLBACK_MODE, INPUT_MODE ->
                     PackagesUtils.getPackagesByCode(new PackagesUtils.IPackageCode() {
                         @Override
                         public List<Parcelable> getPackageCodeList(PackageManager pm) {
-                            
+
                             Intent intent = new Intent(Intent.ACTION_MAIN);
                             intent.addCategory(Intent.CATEGORY_LAUNCHER);
                             List<ResolveInfo> resolveInfoList = new ArrayList<>();
