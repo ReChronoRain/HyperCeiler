@@ -279,6 +279,13 @@
                 android:data="https://github.com/xzakota" />
         </Preference>
         <Preference
+            android:summary="GitHub@YifePlayte"
+            android:title="Yife Playte">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/YifePlayte" />
+        </Preference>
+        <Preference
             android:summary="GitHub@zcarroll4"
             android:title="Zach Carroll">
             <intent

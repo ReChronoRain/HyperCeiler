@@ -64,17 +64,6 @@
         </Preference>
 
         <Preference
-            android:icon="@drawable/ic_yifeplayte"
-            android:layout="@layout/preference_round_layout"
-            android:summary="\@YifePlayte | Hook"
-            android:title="Yife Playte">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/YifePlayte" />
-        </Preference>
-
-        
-        <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.base.about.AboutContributerFragment"
             android:key="prefs_key_about_contributer"
             android:title="@string/about_contributer" />
