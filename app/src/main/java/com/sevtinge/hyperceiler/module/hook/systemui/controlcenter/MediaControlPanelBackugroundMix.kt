@@ -182,19 +182,24 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     val canvas = Canvas(artworkBitmap)
                     artworkLayer.setBounds(0, 0, artworkLayer.intrinsicWidth, artworkLayer.intrinsicHeight)
                     artworkLayer.draw(canvas)
-                    val resizedBitmap = Bitmap.createScaledBitmap(artworkBitmap, 300, 300, true)
+                    val minDimen = Math.min(artworkBitmap.width, artworkBitmap.height)
+                    val left = (artworkBitmap.width - minDimen) / 2
+                    val top = (artworkBitmap.height - minDimen) / 2
+                    val rect = Rect(left, top, left + minDimen, top + minDimen)
+                    val croppedBitmap = Bitmap.createBitmap(minDimen, minDimen, Bitmap.Config.ARGB_8888)
+                    val canvasCropped = Canvas(croppedBitmap)
+                    canvasCropped.drawBitmap(artworkBitmap, rect, Rect(0, 0, minDimen, minDimen), null)
                     val radius = 45f
-                    val newBitmap = Bitmap.createBitmap(resizedBitmap.width, resizedBitmap.height, Bitmap.Config.ARGB_8888)
+                    val newBitmap = Bitmap.createBitmap(croppedBitmap.width, croppedBitmap.height, Bitmap.Config.ARGB_8888)
                     val canvas1 = Canvas(newBitmap)
                     val paint = Paint()
-                    val rect = Rect(0, 0, resizedBitmap.width, resizedBitmap.height)
-                    val rectF = RectF(rect)
+                    val rectF = RectF(0f, 0f, croppedBitmap.width.toFloat(), croppedBitmap.height.toFloat())
                     paint.isAntiAlias = true
                     canvas1.drawARGB(0, 0, 0, 0)
                     paint.color = Color.BLACK
                     canvas1.drawRoundRect(rectF, radius, radius, paint)
                     paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-                    canvas1.drawBitmap(resizedBitmap, rect, rect, paint)
+                    canvas1.drawBitmap(croppedBitmap, 0f, 0f, paint)
                     albumView?.setImageDrawable(BitmapDrawable(context.resources, newBitmap))
                     (appIcon?.parent as ViewGroup?)?.removeView(appIcon)
 
