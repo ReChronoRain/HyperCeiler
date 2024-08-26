@@ -44,10 +44,13 @@ import com.sevtinge.hyperceiler.utils.BitmapUtils;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import moralnorm.appcompat.app.AlertDialog;
@@ -123,10 +126,10 @@ public class AppPicker extends Fragment {
                 switch (modeSelection) {
                     case CALLBACK_MODE -> {
                         mAppSelectCallback.sendMsgToActivity(BitmapUtils.Bitmap2Bytes(appData.icon),
-                            appData.label,
-                            appData.packageName,
-                            appData.versionName + "(" + appData.versionCode + ")",
-                            appData.activityName);
+                                appData.label,
+                                appData.packageName,
+                                appData.versionName + "(" + appData.versionCode + ")",
+                                appData.activityName);
                         requireActivity().finish();
                     }
                     case LAUNCHER_MODE, APP_OPEN_MODE -> {
@@ -143,11 +146,11 @@ public class AppPicker extends Fragment {
                     }
                     case INPUT_MODE -> {
                         showEditDialog(appData.label, new EditDialogCallback() {
-                                @Override
-                                public void onInputReceived(String userInput) {
-                                    iEditCallback.editCallback(appData.label, appData.packageName, userInput);
+                                    @Override
+                                    public void onInputReceived(String userInput) {
+                                        iEditCallback.editCallback(appData.label, appData.packageName, userInput);
+                                    }
                                 }
-                            }
                         );
                     }
                 }
@@ -161,18 +164,19 @@ public class AppPicker extends Fragment {
         input.setText(defaultText);
 
         new AlertDialog.Builder(requireActivity())
-            .setTitle(R.string.edit)
-            .setView(view)
-            .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                String userInput = input.getText().toString();
-                callback.onInputReceived(userInput);
-                dialog.dismiss();
-            })
-            .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-                dialog.dismiss();
-            })
-            .show();
+                .setTitle(R.string.edit)
+                .setView(view)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    String userInput = input.getText().toString();
+                    callback.onInputReceived(userInput);
+                    dialog.dismiss();
+                })
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .show();
     }
+
 
     private void initData() {
         new Thread(new Runnable() {
@@ -182,9 +186,26 @@ public class AppPicker extends Fragment {
                     @Override
                     public void run() {
                         appDataList = getAppInfo();
+
+                        Collator collator = Collator.getInstance(Locale.getDefault());
+                        appDataList.sort((app1, app2) -> collator.compare(app1.label, app2.label));
+
+                        AppData tagApp = null;
+                        for (AppData app : appDataList) {
+                            if ("com.android.apps.tag".equals(app.packageName)) {
+                                tagApp = app;
+                                break;
+                            }
+                        }
+                        if (tagApp != null) {
+                            appDataList.remove(tagApp);
+                            appDataList.add(0, tagApp);
+                        }
+
                         mAppListAdapter = new AppDataAdapter(requireActivity(),
-                            R.layout.item_app_list, appDataList, key, modeSelection);
+                                R.layout.item_app_list, appDataList, key, modeSelection);
                         mAppListRv.setAdapter(mAppListAdapter);
+
                         mAmProgress.setVisibility(View.GONE);
                         mAppListRv.setVisibility(View.VISIBLE);
                     }
@@ -193,29 +214,42 @@ public class AppPicker extends Fragment {
         }).start();
     }
 
+
+
     public List<AppData> getAppInfo() {
         return switch (modeSelection) {
             case LAUNCHER_MODE, CALLBACK_MODE, INPUT_MODE ->
-                PackagesUtils.getPackagesByCode(new PackagesUtils.IPackageCode() {
-                    @Override
-                    public List<Parcelable> getPackageCodeList(PackageManager pm) {
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
-                        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-                        List<ResolveInfo> resolveInfoList = new ArrayList<>();
-                        List<ResolveInfo> resolveInfos = pm.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES);
-                        hashMap.clear();
-                        for (ResolveInfo resolveInfo : resolveInfos) {
-                            Integer added = hashMap.get(resolveInfo.activityInfo.applicationInfo.packageName);
-                            if (added == null || added != 1) {
-                                hashMap.put(resolveInfo.activityInfo.applicationInfo.packageName, 1);
-                            } else {
-                                continue;
+                    PackagesUtils.getPackagesByCode(new PackagesUtils.IPackageCode() {
+                        @Override
+                        public List<Parcelable> getPackageCodeList(PackageManager pm) {
+                            
+                            Intent intent = new Intent(Intent.ACTION_MAIN);
+                            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                            List<ResolveInfo> resolveInfoList = new ArrayList<>();
+                            List<ResolveInfo> resolveInfos = pm.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES);
+                            List<ResolveInfo> resolveInfosHaveNoLauncher = pm.queryIntentActivities(new Intent(Intent.ACTION_MAIN), PackageManager.GET_ACTIVITIES);
+
+                            hashMap.clear();
+                            for (ResolveInfo resolveInfo : resolveInfosHaveNoLauncher) {
+                                Integer added = hashMap.get(resolveInfo.activityInfo.applicationInfo.packageName);
+                                if (added == null || added != 1) {
+                                    hashMap.put(resolveInfo.activityInfo.applicationInfo.packageName, 1);
+                                } else {
+                                    continue;
+                                }
+                                resolveInfoList.add(resolveInfo);
                             }
-                            resolveInfoList.add(resolveInfo);
+
+                            Collator collator = Collator.getInstance(Locale.getDefault());
+                            resolveInfoList.sort((r1, r2) -> {
+                                CharSequence label1 = r1.loadLabel(pm);
+                                CharSequence label2 = r2.loadLabel(pm);
+                                return collator.compare(label1.toString(), label2.toString());
+                            });
+
+                            return new ArrayList<>(resolveInfoList);
                         }
-                        return new ArrayList<>(resolveInfoList);
-                    }
-                });
+                    });
             case APP_OPEN_MODE -> PackagesUtils.getOpenWithApps();
             default -> new ArrayList<>();
         };
