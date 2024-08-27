@@ -1,13 +1,13 @@
 [versions]
-agp = "8.5.1"
-hooktool = "v.0.9.6.5"
-kotlinAndroid = "2.0.10"
+agp = "8.5.2"
+hooktool = "v.1.0.1"
+kotlinAndroid = "2.0.20"
 lsparanoid = "0.6.0"
 #lspluginResopt = "1.6"
 
-annotation = "1.8.1"
+annotation = "1.8.2"
 core = "1.13.1"
-collection = "1.4.2"
+collection = "1.4.3"
 fragment = "1.8.2"
 recyclerview = "1.3.2"
 lifecycle-common = "2.8.4"
@@ -15,7 +15,7 @@ vectordrawable = "1.2.0"
 vectordrawable-animated = "1.2.0"
 customview = "1.2.0-alpha02"
 customview-poolingcontainer = "1.0.0"
-constraintlayout = "2.2.0-alpha13"
+constraintlayout = "2.2.0-alpha14"
 
 xposed-api = "82"
 
