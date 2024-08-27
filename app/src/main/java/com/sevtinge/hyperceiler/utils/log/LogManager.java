@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.utils.log;
 
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSerial;
+import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
 
 import android.util.Log;
 
@@ -27,7 +28,11 @@ import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -57,16 +62,47 @@ public class LogManager {
     }
 
     public static boolean isLoggerAlive() {
+        try {
+            String output = safeExecCommandWithRoot("ls /data/adb/lspd/log/");
+            String[] lines = output.split("\n");
+            List<String> logFiles = new ArrayList<>();
+            for (String line : lines) {
+                if (line.startsWith("modules_") && line.endsWith(".log")) {
+                    logFiles.add(line);
+                }
+            }
+
+            if (logFiles.size() == 1) {
+                String fileName = logFiles.get(0);
+                String filePath = "/data/adb/lspd/log/" + fileName;
+                String grepOutput = safeExecCommandWithRoot("grep -q 'LSPosed-Bridge' " + filePath + " && echo 'FOUND' || echo 'EMPTY'");
+
+                if (!grepOutput.trim().equals("FOUND")) {
+                    LOGGER_CHECKER_ERR_CODE = "EMPTY_XPOSED_LOG_FILE";
+                    return false;
+                }
+            } else if (logFiles.isEmpty()) {
+                LOGGER_CHECKER_ERR_CODE = "NO_XPOSED_LOG_FILE";
+                return false;
+            }
+
+            if (Objects.equals(safeExecCommandWithRoot("ls /data/adb/lspd/log/ | grep \"^modules_.*\\.log\""), "")) {
+                LOGGER_CHECKER_ERR_CODE = "NO_XPOSED_LOG_FILE";
+                return false;
+            }
+        } catch (Exception e) {
+            LOGGER_CHECKER_ERR_CODE = String.valueOf(e);
+        }
+
         String tag = "HyperCeilerLogManager";
         String message = "LOGGER_ALIVE_SYMBOL_" + getSerial();
         int timeout = 5;
         Log.d(tag, message);
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        ExecutorService executor = Executors.newCachedThreadPool();
         Future<Boolean> future = executor.submit(() -> {
-            try {
-                Process process = Runtime.getRuntime().exec("logcat -d " + tag + ":D *:S");
-                BufferedReader bufferedReader = new BufferedReader(
-                        new InputStreamReader(process.getInputStream()));
+            try (BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(Runtime.getRuntime().exec("logcat -d " + tag + ":D *:S").getInputStream()))) {
 
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
