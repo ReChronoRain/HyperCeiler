@@ -16,23 +16,16 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.base;
+package com.sevtinge.hyperceiler.module.app.SystemUI.Phone;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface HookExpand {
-    String pkg();
+import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.HookExpand;
 
-    boolean isPad();
-
-    int tarAndroid() default 0;
-
-    int maxAndroid() default 0;
-
-    boolean skip() default false;
+@HookExpand(pkg = "com.android.systemui", isPad = false, tarAndroid = 34, maxAndroid = 34)
+public class SystemUiU extends BaseModule {
+    @Override
+    public void handleLoadPackage() {
+        // initHook(Island.INSTANCE); // 灵动岛
+    }
 }

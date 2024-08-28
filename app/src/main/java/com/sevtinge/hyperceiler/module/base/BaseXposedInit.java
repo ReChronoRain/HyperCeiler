@@ -185,13 +185,15 @@ public abstract class BaseXposedInit {
                 }
                 String mPkg = hookExpand.pkg();
                 boolean isPad = hookExpand.isPad();
-                int android = hookExpand.tarAndroid();
+                int tAndroid = hookExpand.tarAndroid();
+                int mAndroid = hookExpand.maxAndroid();
                 // 等待改写...
                 // boolean skip = hookExpand.skip();
                 // if (skip) continue;
                 if (mPkgName.equals(mPkg)) {
                     // 限制安卓版本和设备
-                    if (!isMoreAndroidVersion(android)) continue;
+                    if (!isMoreAndroidVersion(tAndroid) && tAndroid != 0) continue;
+                    if (getAndroidVersion() > mAndroid && mAndroid != 0) continue;
                     if (isPad() && isPad) {
                         return invoke(lpparam, clzz);
                     } /*else if (isPad() && !isPad) {

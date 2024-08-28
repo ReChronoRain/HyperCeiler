@@ -28,6 +28,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.AllowAutoStart;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowDisableProtectedPackage;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouch;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouchForU;
+import com.sevtinge.hyperceiler.module.hook.systemframework.AntiQues;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AppLinkVerify;
 import com.sevtinge.hyperceiler.module.hook.systemframework.BackgroundBlur;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanOpenMenu;
@@ -35,8 +36,8 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ClipboardWhitelist;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DeleteOnPostNotification;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableCleaner;
-import com.sevtinge.hyperceiler.module.hook.systemframework.DisableGestureMonitor;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableFreeformBlackList;
+import com.sevtinge.hyperceiler.module.hook.systemframework.DisableGestureMonitor;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableLowApiCheckForU;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableMiuiLite;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePersistent;
@@ -57,7 +58,6 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.SpeedInstall;
 import com.sevtinge.hyperceiler.module.hook.systemframework.StickyFloatingWindows;
 import com.sevtinge.hyperceiler.module.hook.systemframework.SystemLockApp;
-import com.sevtinge.hyperceiler.module.hook.systemframework.AntiQues;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.module.hook.systemframework.UseOriginalAnimation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDefaultStream;
@@ -86,7 +86,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N5N8Band;
 import com.sevtinge.hyperceiler.module.hook.various.NoAccessDeviceLogsRequest;
 
-@HookExpand(pkg = "android", isPad = false, tarAndroid = 33)
+@HookExpand(pkg = "android", isPad = false, tarAndroid = 33, maxAndroid = 34)
 public class SystemFrameworkT extends BaseModule {
 
     @Override
