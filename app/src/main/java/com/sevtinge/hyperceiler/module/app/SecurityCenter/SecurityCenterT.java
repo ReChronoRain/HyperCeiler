@@ -72,6 +72,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.Disable
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockVideoSomeFunc;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VideoDolbyOpen;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.BypassAdbInstallVerify;
 
 @HookExpand(pkg = "com.miui.securitycenter", isPad = false, tarAndroid = 33)
 public class SecurityCenterT extends BaseModule {
@@ -124,6 +125,7 @@ public class SecurityCenterT extends BaseModule {
         initHook(NoLowBatteryWarning.INSTANCE, mPrefsMap.getBoolean("security_center_remove_low_battery_reminder"));
         initHook(new UnlockFbo(), mPrefsMap.getBoolean("security_center_unlock_fbo"));
         initHook(BypassSimLockMiAccountAuth.INSTANCE, mPrefsMap.getBoolean("security_center_bypass_simlock_miaccount_auth"));
+        initHook(new BypassAdbInstallVerify(), mPrefsMap.getBoolean("security_center_adb_install_verify"));
 
         // 小窗和气泡通知
         initHook(new RemoveConversationBubbleSettingsRestriction(), mPrefsMap.getBoolean("security_center_remove_conversation_bubble_settings_restriction"));

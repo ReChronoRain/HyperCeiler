@@ -73,7 +73,6 @@ public class LogManager {
                 }
             }
             if (lsposedFound) {
-                AndroidLogUtils.logI("jhvzsdchgsdkvjbs", "lsposedf");
                 String output = safeExecCommandWithRoot("ls /data/adb/lspd/log/");
                 String[] lines = output.split("\n");
                 List<String> logFiles = new ArrayList<>();

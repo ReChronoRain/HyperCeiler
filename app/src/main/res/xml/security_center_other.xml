@@ -109,6 +109,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_center_adb_install_verify"
+            android:title="@string/security_center_adb_install_verify" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_unlock_fbo"
             android:title="@string/security_center_unlock_fbo" />
 

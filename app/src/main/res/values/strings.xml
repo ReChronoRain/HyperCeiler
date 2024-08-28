@@ -1477,6 +1477,7 @@
     <string name="security_center_beauty_pc">Unlock Keep faces centered</string>
     <string name="security_center_disable_root_check">Disable root detection</string>
     <string name="security_center_install_intercept">Disable USB installation interception</string>
+    <string name="security_center_adb_install_verify">Disable network verify when open USB installation</string>
     <string name="security_center_remove_macro_black_list">Remove auto combo blacklist</string>
     <string name="security_center_disable_send_malicious_app_notification">Disable \"Malicious app found\" notifications</string>
     <string name="security_center_newbox_custom_enable">Enable custom</string>
