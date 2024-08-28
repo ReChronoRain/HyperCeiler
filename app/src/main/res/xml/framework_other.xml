@@ -103,6 +103,7 @@
             android:dependency="prefs_key_system_framework_guided_access"
             android:key="prefs_key_system_framework_guided_access_sc"
             android:title="@string/system_framework_guided_access_sc" />
+
         <DropDownPreference
             android:defaultValue="0"
             android:dependency="prefs_key_system_framework_guided_access"
@@ -110,6 +111,7 @@
             android:title="@string/system_framework_guided_access_screen"
             app:entries="@array/guided_access_screen_area"
             app:entryValues="@array/guided_access_screen_area_value" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="prefs_key_system_framework_guided_access"

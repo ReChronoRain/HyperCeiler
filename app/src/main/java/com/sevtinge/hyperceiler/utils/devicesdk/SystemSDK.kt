@@ -42,6 +42,7 @@ fun getAndroidVersion(): Int = Build.VERSION.SDK_INT
  * 获取小米设备 MIUI 版本
  * 将获取到的字符串转换为浮点，以提供判断
  * @return 一个 Float 值
+ * HyperOS 2.0 已弃用
  */
 fun getMiuiVersion(): Float = if (getProp("ro.miui.ui.version.name") == "V125") 12.5f else try { getProp("ro.miui.ui.version.code").toFloat() } catch (_: Exception) { -1f }
 
@@ -70,6 +71,7 @@ fun isMoreAndroidVersion(code: Int): Boolean = getAndroidVersion() >= code
  * 判断是否为指定某个 MIUI 版本
  * @param code 传入的 MIUI 版本 Float 数值
  * @return 一个 Boolean 值
+ * HyperOS 2.0 已弃用
  */
 fun isMiuiVersion(code: Float): Boolean = getMiuiVersion() == code
 
@@ -77,6 +79,7 @@ fun isMiuiVersion(code: Float): Boolean = getMiuiVersion() == code
  * 判断是否大于某个 MIUI 版本
  * @param code 传入的 MIUI 版本 Float 数值
  * @return 一个 Boolean 值
+ * HyperOS 2.0 已弃用
  */
 fun isMoreMiuiVersion(code: Float): Boolean = getMiuiVersion() >= code
 
