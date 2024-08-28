@@ -20,9 +20,11 @@ package com.sevtinge.hyperceiler.module.base;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
@@ -188,16 +190,15 @@ public abstract class BaseXposedInit {
                 // boolean skip = hookExpand.skip();
                 // if (skip) continue;
                 if (mPkgName.equals(mPkg)) {
-                    // 需要限制安卓版本和设备取消这些注释，并删除下面的invoke方法。
-                    // if (!isAndroidVersion(android)) continue;
-                    // if (isPad() && isPad) {
-                    //     return invoke(lpparam, clzz);
-                    // } else if (isPad() && !isPad) {
-                    //     continue;
-                    // } else {
-                    //     return invoke(lpparam, clzz);
-                    // }
-                    return invoke(lpparam, clzz);
+                    // 限制安卓版本和设备
+                    if (!isMoreAndroidVersion(android)) continue;
+                    if (isPad() && isPad) {
+                        return invoke(lpparam, clzz);
+                    } /*else if (isPad() && !isPad) {
+                        continue; // 等待改写
+                    }*/ else {
+                        return invoke(lpparam, clzz);
+                    }
                 }
             } else {
                 logW(TAG, "This class does not use the specified annotation: " + clzz.getName());
