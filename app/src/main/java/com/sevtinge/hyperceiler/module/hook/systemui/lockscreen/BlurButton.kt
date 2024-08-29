@@ -40,6 +40,9 @@ object BlurButton : BaseHook() {
     private val removeRight by lazy {
         mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera")
     }
+    private val radius by lazy {
+        mPrefsMap.getInt("system_ui_lock_screen_blur_button_radius", 40)
+    }
 
     override fun init() {
         // by StarVoyager
@@ -78,19 +81,19 @@ object BlurButton : BaseHook() {
 
     private fun setNewBackgroundBlur(imageView: ImageView): LayerDrawable {
         val blurDrawable = createBlurDrawable(
-            imageView, 40, 100, Color.argb(60, 255, 255, 255)
+            imageView, radius, 100, Color.argb(60, 255, 255, 255)
         )
         val layoutDrawable = LayerDrawable(arrayOf(blurDrawable))
-        layoutDrawable.setLayerInset(0, 40, 40, 40, 40)
+        layoutDrawable.setLayerInset(0, radius, radius, radius, radius)
         return layoutDrawable
     }
 
     private fun setOldBackgroundBlur(view: View): LayerDrawable {
         val blurDrawable = createBlurDrawable(
-            view, 40, 100, Color.argb(60, 255, 255, 255)
+            view, radius, 100, Color.argb(60, 255, 255, 255)
         )
         val layoutDrawable = LayerDrawable(arrayOf(blurDrawable))
-        layoutDrawable.setLayerInset(0, 40, 40, 40, 40)
+        layoutDrawable.setLayerInset(0, radius, radius, radius, radius)
         return layoutDrawable
     }
 
@@ -153,7 +156,7 @@ object BlurButton : BaseHook() {
         }
     }
 
-    /*private fun miuiBlur(param: XC_MethodHook.MethodHookParam) {
+    /*private fun hyperBlur(param: XC_MethodHook.MethodHookParam) {
 
     }*/
 }

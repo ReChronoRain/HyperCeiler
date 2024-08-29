@@ -42,8 +42,20 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_blur_button"
-            android:summary="@string/system_ui_lock_screen_default_theme"
+            android:summary="@string/system_ui_lock_screen_blur_button_desc"
             android:title="@string/system_ui_lock_screen_blur_button" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="40"
+            android:dependency="prefs_key_system_ui_lock_screen_blur_button"
+            android:key="prefs_key_system_ui_lock_screen_blur_button_radius"
+            android:title="@string/system_ui_lock_screen_blur_button_radius"
+            app:defaultValueText="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="60"
+            app:minValue="10"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -83,33 +95,33 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv"
             android:key="prefs_key_system_ui_show_charging_c_more"
-            android:title="@string/system_ui_lock_screen_show_charging_c_more"
-            android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv" />
+            android:title="@string/system_ui_lock_screen_show_charging_c_more" />
 
         <SwitchPreference
             android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv"
             android:key="prefs_key_system_ui_show_battery_temperature"
-            android:title="@string/system_ui_lock_screen_show_battery_temperature"
-            android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv" />
+            android:title="@string/system_ui_lock_screen_show_battery_temperature" />
 
         <SwitchPreference
             android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv"
             android:key="prefs_key_system_ui_lock_screen_show_spacing_value"
-            android:title="@string/system_ui_lock_screen_show_spacing"
-            android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv" />
+            android:title="@string/system_ui_lock_screen_show_spacing" />
 
         <SeekBarPreferenceEx
+            android:defaultValue="6"
             android:dependency="prefs_key_system_ui_lock_screen_show_spacing_value"
             android:key="prefs_key_system_ui_lock_screen_show_spacing"
             android:layout="@layout/preference_seekbar_no_padding"
-            android:defaultValue="6"
             app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s s"
             app:maxValue="10"
             app:minValue="2"
-            app:stepValue="1"
-            app:format="%s s"
-            app:displayDividerValue="2" />
+            app:stepValue="1" />
 
     </PreferenceCategory>
 
@@ -152,22 +164,22 @@
             android:title="@string/system_ui_lock_screen_linkage_anim" />
 
         <SeekBarPreference
-            android:dependency="prefs_key_system_ui_lock_screen_linkage_anim"
             android:defaultValue="300"
+            android:dependency="prefs_key_system_ui_lock_screen_linkage_anim"
             android:format="%d f"
             android:key="prefs_key_system_ui_lock_screen_linkage_anim_on"
-            android:min="100"
             android:max="1600"
+            android:min="100"
             android:title="@string/system_ui_lock_screen_linkage_anim_on"
             app:showSeekBarValue="true" />
 
         <SeekBarPreference
-            android:dependency="prefs_key_system_ui_lock_screen_linkage_anim"
             android:defaultValue="200"
+            android:dependency="prefs_key_system_ui_lock_screen_linkage_anim"
             android:format="%d f"
             android:key="prefs_key_system_ui_lock_screen_linkage_anim_off"
-            android:min="100"
             android:max="1600"
+            android:min="100"
             android:title="@string/system_ui_lock_screen_linkage_anim_off"
             app:showSeekBarValue="true" />
 

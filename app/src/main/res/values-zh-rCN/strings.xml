@@ -614,7 +614,9 @@
     <string name="system_ui_lock_screen_hide_smart_screen">隐藏负一屏</string>
     <string name="system_ui_lock_screen_current">当前电流</string>
     <string name="system_ui_lock_screen_show_second">时钟显示秒数</string>
-    <string name="system_ui_lock_screen_blur_button">相机和负一屏按钮背景模糊</string>
+    <string name="system_ui_lock_screen_blur_button">锁屏按钮背景模糊</string>
+    <string name="system_ui_lock_screen_blur_button_desc">启用后相机和负一屏按钮的背景带有模糊，可能存在功耗偏高的情况，仅支持默认主题</string>
+    <string name="system_ui_lock_screen_blur_button_radius">背景半径</string>
     <string name="system_ui_lock_screen_force_system_fonts">时钟强制使用系统字体</string>
     <string name="system_ui_lock_screen_double_lock">双击锁屏</string>
     <string name="system_ui_lock_screen_double_lock_desc">双击空白位置锁屏</string>
