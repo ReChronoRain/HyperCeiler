@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.incallui.AnswerInHeadUp;
 import com.sevtinge.hyperceiler.module.hook.incallui.HideCrbt;
 
-@HookExpand(pkg = "com.android.incallui", isPad = false, tarAndroid = 33)
+@HookExpand(pkg = "com.android.incallui", tarAndroid = 33)
 public class InCallUi extends BaseModule {
 
     @Override

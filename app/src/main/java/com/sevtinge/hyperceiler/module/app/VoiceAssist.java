@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.voiceassist.DisableChatWatermark;
 import com.sevtinge.hyperceiler.module.hook.voiceassist.UseThirdPartyBrowser;
 
-@HookExpand(pkg = "com.miui.voiceassist", isPad = false, tarAndroid = 33)
+@HookExpand(pkg = "com.miui.voiceassist", tarAndroid = 33)
 public class VoiceAssist extends BaseModule {
 
     @Override

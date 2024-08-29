@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
 public @interface HookExpand {
     String pkg();
 
-    boolean isPad();
+    int isPad() default 0; // 0 通用，1 仅手机，2 仅平板
 
     int tarAndroid() default 0;
 

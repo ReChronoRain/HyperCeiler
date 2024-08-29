@@ -26,7 +26,7 @@ import com.sevtinge.hyperceiler.module.hook.powerkeeper.DontKillApps;
 import com.sevtinge.hyperceiler.module.hook.powerkeeper.LockMaxFps;
 import com.sevtinge.hyperceiler.module.hook.powerkeeper.PreventBatteryWitelist;
 
-@HookExpand(pkg = "com.miui.powerkeeper", isPad = false, tarAndroid = 33)
+@HookExpand(pkg = "com.miui.powerkeeper", tarAndroid = 33)
 public class PowerKeeper extends BaseModule {
 
     @Override

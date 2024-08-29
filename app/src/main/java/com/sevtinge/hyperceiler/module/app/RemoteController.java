@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.remotecontroller.DisableAd;
 
-@HookExpand(pkg = "com.duokan.phone.remotecontroller", isPad = false, tarAndroid = 33)
+@HookExpand(pkg = "com.duokan.phone.remotecontroller", tarAndroid = 33)
 public class RemoteController extends BaseModule {
     @Override
     public void handleLoadPackage() {

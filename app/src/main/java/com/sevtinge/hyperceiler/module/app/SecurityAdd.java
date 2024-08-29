@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.securityadd.DisableGameBoosterAds;
 
-@HookExpand(pkg = "com.miui.securityadd", isPad = false, tarAndroid = 33)
+@HookExpand(pkg = "com.miui.securityadd", tarAndroid = 33)
 public class SecurityAdd extends BaseModule {
     @Override
     public void handleLoadPackage() {

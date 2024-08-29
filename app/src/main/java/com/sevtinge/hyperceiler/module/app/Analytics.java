@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.analytics.FuckMiuiUpload;
 
-@HookExpand(pkg = "com.miui.analytics", isPad = false, tarAndroid = 33)
+@HookExpand(pkg = "com.miui.analytics", tarAndroid = 33)
 public class Analytics extends BaseModule {
     @Override
     public void handleLoadPackage() {

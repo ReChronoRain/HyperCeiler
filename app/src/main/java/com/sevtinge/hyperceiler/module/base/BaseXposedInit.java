@@ -135,6 +135,7 @@ public abstract class BaseXposedInit {
         boolean hookDone = invokeHookInit(lpparam);
         if (hookDone) {
             mVariousSystemApps.init(lpparam);
+
             if ("android".equals(packageName)) {
                 XposedBridge.log("[HyperCeiler][I]: Log level is " + logLevelDesc());
                 try {
@@ -184,21 +185,18 @@ public abstract class BaseXposedInit {
                     continue;
                 }
                 String mPkg = hookExpand.pkg();
-                boolean isPad = hookExpand.isPad();
+                int isPad = hookExpand.isPad();
                 int tAndroid = hookExpand.tarAndroid();
                 int mAndroid = hookExpand.maxAndroid();
                 // 等待改写...
                 // boolean skip = hookExpand.skip();
                 // if (skip) continue;
+
                 if (mPkgName.equals(mPkg)) {
                     // 限制安卓版本和设备
                     if (!isMoreAndroidVersion(tAndroid) && tAndroid != 0) continue;
                     if (getAndroidVersion() > mAndroid && mAndroid != 0) continue;
-                    if (isPad() && isPad) {
-                        return invoke(lpparam, clzz);
-                    } /*else if (isPad() && !isPad) {
-                        continue; // 等待改写
-                    }*/ else {
+                    if ((isPad() && isPad == 2) || (!isPad() && isPad == 1) || isPad == 0) {
                         return invoke(lpparam, clzz);
                     }
                 }
