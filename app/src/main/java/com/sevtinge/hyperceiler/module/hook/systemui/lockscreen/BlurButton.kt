@@ -30,6 +30,11 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearAllBlur
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import de.robv.android.xposed.*
 
@@ -42,6 +47,9 @@ object BlurButton : BaseHook() {
     }
     private val radius by lazy {
         mPrefsMap.getInt("system_ui_lock_screen_blur_button_radius", 40)
+    }
+    private val hyperBlur by lazy {
+        mPrefsMap.getBoolean("system_ui_lock_screen_hyper_blur_button")
     }
 
     override fun init() {
@@ -57,7 +65,7 @@ object BlurButton : BaseHook() {
                     )
                 }.toList().createHooks {
                     after { param ->
-                        systemBlur(param)
+                        if (hyperBlur) hyperBlur(param) else systemBlur(param)
                     }
                 }
         } else {
@@ -81,7 +89,7 @@ object BlurButton : BaseHook() {
 
     private fun setNewBackgroundBlur(imageView: ImageView): LayerDrawable {
         val blurDrawable = createBlurDrawable(
-            imageView, radius, 100, Color.argb(60, 255, 255, 255)
+            imageView, 40, 100, Color.argb(60, 255, 255, 255)
         )
         val layoutDrawable = LayerDrawable(arrayOf(blurDrawable))
         layoutDrawable.setLayerInset(0, radius, radius, radius, radius)
@@ -90,7 +98,7 @@ object BlurButton : BaseHook() {
 
     private fun setOldBackgroundBlur(view: View): LayerDrawable {
         val blurDrawable = createBlurDrawable(
-            view, radius, 100, Color.argb(60, 255, 255, 255)
+            view, 40, 100, Color.argb(60, 255, 255, 255)
         )
         val layoutDrawable = LayerDrawable(arrayOf(blurDrawable))
         layoutDrawable.setLayerInset(0, radius, radius, radius, radius)
@@ -156,7 +164,63 @@ object BlurButton : BaseHook() {
         }
     }
 
-    /*private fun hyperBlur(param: XC_MethodHook.MethodHookParam) {
+    private fun hyperBlur(param: XC_MethodHook.MethodHookParam) {
+        val mLeftAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
+            param.thisObject,
+            "mLeftButton"
+        )!!
+        val mRightAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
+            param.thisObject,
+            "mRightButton"
+        )!!
+        // Your blur logic
+        val context = ObjectUtils.getObjectOrNull(param.thisObject, "mContext") as Context
+        val keyguardManager =
+            context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
-    }*/
+        if (keyguardManager.isKeyguardLocked) {
+            if (!removeLeft) {
+                addHyBlur(mLeftAffordanceView)
+            } else clearHyBlur(mLeftAffordanceView)
+            if (!removeRight) {
+                addHyBlur(mRightAffordanceView)
+            } else clearHyBlur(mRightAffordanceView)
+        } else {
+            clearHyBlur(mLeftAffordanceView)
+            clearHyBlur(mRightAffordanceView)
+        }
+    }
+
+    private fun addHyBlur(view: ImageView) {
+        val hyRadius = mapValueToRange(radius)
+
+        view.outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(view: View, outline: Outline) {
+                outline.setOval(
+                    (view.width / 2) - hyRadius,
+                    (view.height / 2) - hyRadius,
+                    (view.width / 2) + hyRadius,
+                    (view.height / 2) + hyRadius
+                )
+            }
+        }
+
+        // 启用裁剪
+        view.clipToOutline = true
+        view.apply {
+            clearMiBackgroundBlendColor()
+            setMiViewBlurMode(1)
+            setMiBackgroundBlurRadius(40)
+            addMiBackgroundBlendColor(Color.argb(255, 0, 0, 0), 103)
+        }
+    }
+
+    private fun clearHyBlur(view: ImageView) {
+        view.clearAllBlur()
+    }
+
+    private fun mapValueToRange(dynamicValue: Int): Int {
+        return 60 + ((dynamicValue - 10) * 60 / 50)
+    }
+
 }

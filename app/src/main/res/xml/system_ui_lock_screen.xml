@@ -41,24 +41,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_ui_lock_screen_blur_button"
-            android:summary="@string/system_ui_lock_screen_blur_button_desc"
-            android:title="@string/system_ui_lock_screen_blur_button" />
-
-        <SeekBarPreferenceEx
-            android:defaultValue="40"
-            android:dependency="prefs_key_system_ui_lock_screen_blur_button"
-            android:key="prefs_key_system_ui_lock_screen_blur_button_radius"
-            android:title="@string/system_ui_lock_screen_blur_button_radius"
-            app:defaultValueText="@string/array_default"
-            app:format="%s dp"
-            app:maxValue="60"
-            app:minValue="10"
-            app:showSeekBarValue="true"
-            app:stepValue="1" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_force_system_fonts"
             android:summary="@string/system_ui_lock_screen_default_theme"
             android:title="@string/system_ui_lock_screen_force_system_fonts" />
@@ -78,6 +60,31 @@
             android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_hide_status_bar"
             android:title="@string/system_ui_lock_screen_hide_status_bar" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_blur_button"
+            android:summary="@string/system_ui_lock_screen_blur_button_desc"
+            android:title="@string/system_ui_lock_screen_blur_button" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_lock_screen_blur_button"
+            android:key="prefs_key_system_ui_lock_screen_hyper_blur_button"
+            android:title="@string/use_hyper_blur" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="40"
+            android:dependency="prefs_key_system_ui_lock_screen_blur_button"
+            android:key="prefs_key_system_ui_lock_screen_blur_button_radius"
+            android:title="@string/system_ui_lock_screen_blur_button_radius"
+            app:defaultValueText="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="60"
+            app:minValue="10"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_lockscreen_information_title">

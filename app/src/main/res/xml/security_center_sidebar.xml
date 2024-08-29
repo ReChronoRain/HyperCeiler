@@ -68,7 +68,7 @@
             android:key="prefs_key_security_center_blur_model_super"
             android:dependency="prefs_key_se_enable"
             android:disableDependentsState="true"
-            android:title="@string/security_center_blur_model_super" />
+            android:title="@string/use_hyper_blur" />
 
         <SwitchPreference
             android:defaultValue="false"

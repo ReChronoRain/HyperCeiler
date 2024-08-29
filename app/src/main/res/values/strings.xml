@@ -233,6 +233,7 @@
     <string name="floating_window">Freeform</string>
     <string name="save_to_screen_title">Specification save location</string>
     <string name="only_new_version_can_do">Only newer versions supported</string>
+    <string name="use_hyper_blur">Use Advanced Textures</string>
     <string name="system_ui_statusbar_indicator_default_title">Default</string>
     <string name="system_ui_statusbar_indicator_expand_title">Expand</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Fix content width</string>
@@ -1519,7 +1520,6 @@
     <string name="security_center_unlock_smart_charge_title_summary">Completed functions:\n- Battery protection -> Charging auto-disconnect\n- More battery features -> Low battery fast charging</string>
     <string name="security_center_super_wireless_charge">Unlock Quick wireless charging</string>
     <string name="security_center_blur_model">Sidebar blur model</string>
-    <string name="security_center_blur_model_super">Advanced textures</string>
     <string name="security_center_invert_color">Icon inverted</string>
     <string name="security_center_invert_color_summary">Invert the selected icon colors on some backgrounds for better visibility.\nThis function may have abnormal color inversions. Please enable it as appropriate.</string>
     <string name="security_center_blurradius">Sidebar blur value</string>

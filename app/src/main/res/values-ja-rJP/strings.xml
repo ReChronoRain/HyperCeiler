@@ -1448,7 +1448,6 @@
     <string name="security_center_unlock_smart_charge_title_summary">アンロックされる機能:\n- バッテリー保護 -&gt; ナビ中の自動切断\n- その他のバッテリー機能 -&gt; 緊急省電力モード</string>
     <string name="security_center_super_wireless_charge">スーパーワイヤレス充電をアンロック</string>
     <string name="security_center_blur_model">サイドバーぼかしのモデル</string>
-    <string name="security_center_blur_model_super">高級テクスチャ</string>
     <string name="security_center_invert_color">アイコンを反転</string>
     <string name="security_center_invert_color_summary">一部の背景でアイコンの色を反転させ、見やすくします\n色の反転が異常になる場合があるため、適宜有効化してください</string>
     <string name="security_center_blurradius">サイドバーぼかしの値</string>

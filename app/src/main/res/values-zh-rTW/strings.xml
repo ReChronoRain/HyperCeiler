@@ -178,6 +178,7 @@
     <string name="floating_window">小窗</string>
     <string name="save_to_screen_title">規範儲存位置</string>
     <string name="only_new_version_can_do">僅支援較新的版本</string>
+    <string name="use_hyper_blur">使用高級材質</string>
     <string name="system_ui_statusbar_indicator_default_title">常規</string>
     <string name="system_ui_statusbar_indicator_expand_title">擴展</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">固定寬度</string>
@@ -1431,7 +1432,6 @@
     <string name="security_center_unlock_smart_charge_title_summary">已補全功能：\n- 電池保護-導航斷充保護\n- 更多電池功能-低電急充</string>
     <string name="security_center_super_wireless_charge">解鎖極速無線充電模式</string>
     <string name="security_center_blur_model">全域側邊欄背景設定</string>
-    <string name="security_center_blur_model_super">高級材質</string>
     <string name="security_center_invert_color">圖示反色</string>
     <string name="security_center_invert_color_summary">對某些背景下的圖示選中顏色進行反色，以達到更好的可視效果\n該功能可能會有反色異常的情況，請酌情開啟</string>
     <string name="security_center_blurradius">全域側邊欄背景模糊程度</string>
