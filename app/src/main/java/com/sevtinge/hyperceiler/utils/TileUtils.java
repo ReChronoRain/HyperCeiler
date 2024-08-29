@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.utils;
 
-import static com.sevtinge.hyperceiler.utils.Helpers.getModuleRes;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.annotation.SuppressLint;
@@ -34,6 +33,7 @@ import androidx.annotation.CallSuper;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
@@ -458,7 +458,7 @@ public abstract class TileUtils extends BaseHook {
                         if (tileName != null) {
                             if (tileName.equals(custom)) {
                                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                                Resources modRes = getModuleRes(mContext);
+                                Resources modRes = ResourcesTool.loadModuleRes(mContext);
                                 param.setResult(modRes.getString(customValue));
                             }
                         }

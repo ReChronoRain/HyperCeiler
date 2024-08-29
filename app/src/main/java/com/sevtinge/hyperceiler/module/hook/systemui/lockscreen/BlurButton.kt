@@ -31,7 +31,6 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
-import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearAllBlur
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
@@ -173,21 +172,12 @@ object BlurButton : BaseHook() {
             param.thisObject,
             "mRightButton"
         )!!
-        // Your blur logic
-        val context = ObjectUtils.getObjectOrNull(param.thisObject, "mContext") as Context
-        val keyguardManager =
-            context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
-        if (keyguardManager.isKeyguardLocked) {
-            if (!removeLeft) {
-                addHyBlur(mLeftAffordanceView)
-            } else clearHyBlur(mLeftAffordanceView)
-            if (!removeRight) {
-                addHyBlur(mRightAffordanceView)
-            } else clearHyBlur(mRightAffordanceView)
-        } else {
-            clearHyBlur(mLeftAffordanceView)
-            clearHyBlur(mRightAffordanceView)
+        if (!removeLeft) {
+            addHyBlur(mLeftAffordanceView)
+        }
+        if (!removeRight) {
+            addHyBlur(mRightAffordanceView)
         }
     }
 
@@ -213,10 +203,6 @@ object BlurButton : BaseHook() {
             setMiBackgroundBlurRadius(40)
             addMiBackgroundBlendColor(Color.argb(255, 0, 0, 0), 103)
         }
-    }
-
-    private fun clearHyBlur(view: ImageView) {
-        view.clearAllBlur()
     }
 
     private fun mapValueToRange(dynamicValue: Int): Int {
