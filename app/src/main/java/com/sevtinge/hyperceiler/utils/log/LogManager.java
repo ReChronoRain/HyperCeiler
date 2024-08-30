@@ -85,16 +85,13 @@ public class LogManager {
                 if (logFiles.size() == 1) {
                     String fileName = logFiles.get(0);
                     String filePath = "/data/adb/lspd/log/" + fileName;
-                    String firstLine = safeExecCommandWithRoot("head -n 1 " + filePath).trim();
-                    if (firstLine.equals("----part 1 start----")) {
-                        String grepOutput = safeExecCommandWithRoot("grep -q 'LSPosed-Bridge' " + filePath + " && echo 'FOUND' || echo 'EMPTY'");
-                        if (!grepOutput.trim().equals("FOUND")) {
+                    String grepOutput = safeExecCommandWithRoot("grep -q 'HyperCeiler' " + filePath + " && echo 'FOUND' || echo 'EMPTY'");
+                    if (grepOutput.trim().equals("EMPTY")) {
+                        grepOutput = safeExecCommandWithRoot("grep -q 'hyperceiler' " + filePath + " && echo 'FOUND' || echo 'EMPTY'");
+                        if (grepOutput.trim().equals("EMPTY")) {
                             LOGGER_CHECKER_ERR_CODE = "EMPTY_XPOSED_LOG_FILE";
                             return false;
                         }
-                    } else if (firstLine.equals("")) {
-                        LOGGER_CHECKER_ERR_CODE = "EMPTY_XPOSED_LOG_FILE";
-                        return false;
                     }
                 } else if (logFiles.isEmpty()) {
                     LOGGER_CHECKER_ERR_CODE = "NO_XPOSED_LOG_FILE";
