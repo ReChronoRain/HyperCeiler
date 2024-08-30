@@ -296,8 +296,8 @@ public class ResourcesTool {
                         if (value instanceof Float) value = ((Float) value).intValue();
                     }
                     param.setResult(value);
+                    break;
                 }
-                break;
             }
         }
     };
