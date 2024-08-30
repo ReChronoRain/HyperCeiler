@@ -38,7 +38,7 @@ import android.os.ParcelFileDescriptor;
 import android.util.Pair;
 import android.util.TypedValue;
 
-import com.sevtinge.hyperceiler.utils.ContextUtils.*;
+import com.sevtinge.hyperceiler.utils.ContextUtils.getContext;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.io.File;
@@ -277,7 +277,7 @@ public class ResourcesTool {
         @Override
         protected void before(MethodHookParam param) throws PackageManager.NameNotFoundException {
             if (resourcesArrayList.isEmpty()) {
-                loadModuleRes(getContext(0)); // 重新加载 res
+                resourcesArrayList.add(loadModuleRes(getContext(0))); // 重新加载 res
             }
             if (resMap.get((int) param.args[0])) {
                 return;
