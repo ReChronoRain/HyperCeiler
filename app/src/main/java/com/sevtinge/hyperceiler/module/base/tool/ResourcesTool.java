@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.module.base.tool;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.DENSITY;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.ID;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.OBJECT;
+import static com.sevtinge.hyperceiler.utils.ContextUtils.getContext;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW;
 
 import android.annotation.SuppressLint;
@@ -38,7 +39,6 @@ import android.os.ParcelFileDescriptor;
 import android.util.Pair;
 import android.util.TypedValue;
 
-import com.sevtinge.hyperceiler.utils.ContextUtils.getContext;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.io.File;
