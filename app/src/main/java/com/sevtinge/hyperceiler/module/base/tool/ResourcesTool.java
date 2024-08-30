@@ -21,12 +21,10 @@ package com.sevtinge.hyperceiler.module.base.tool;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.DENSITY;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.ID;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.OBJECT;
-import static com.sevtinge.hyperceiler.utils.ContextUtils.getContext;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -39,6 +37,7 @@ import android.os.ParcelFileDescriptor;
 import android.util.Pair;
 import android.util.TypedValue;
 
+import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.io.File;
@@ -275,9 +274,9 @@ public class ResourcesTool {
 
     private final HookTool.MethodHook hookResBefore = new HookTool.MethodHook() {
         @Override
-        protected void before(MethodHookParam param) throws PackageManager.NameNotFoundException {
+        protected void before(MethodHookParam param) {
             if (resourcesArrayList.isEmpty()) {
-                resourcesArrayList.add(loadModuleRes(getContext(0))); // 重新加载 res
+                resourcesArrayList.add(loadModuleRes(ContextUtils.getContext(ContextUtils.FLAG_ALL))); // 重新加载 res
             }
             if (resMap.get((int) param.args[0])) {
                 return;
