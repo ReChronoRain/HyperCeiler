@@ -233,7 +233,7 @@
     <string name="floating_window">Freeform</string>
     <string name="save_to_screen_title">Specification save location</string>
     <string name="only_new_version_can_do">Only newer versions supported</string>
-    <string name="use_hyper_blur">Use Advanced Textures</string>
+    <string name="use_hyper_blur">Use Advanced textures</string>
     <string name="system_ui_statusbar_indicator_default_title">Default</string>
     <string name="system_ui_statusbar_indicator_expand_title">Expand</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Fix content width</string>
@@ -606,9 +606,9 @@
     <string name="system_ui_lock_screen_hide_smart_screen">Hide smart screen</string>
     <string name="system_ui_lock_screen_current">Current</string>
     <string name="system_ui_lock_screen_show_second">Show clock seconds</string>
-    <string name="system_ui_lock_screen_blur_button">Lock screen button is blurry</string>
-    <string name="system_ui_lock_screen_blur_button_desc">After enabling, the background of the camera and negative screen button is blurred, which may cause high power consumption.\nOnly the default theme is supported.</string>
-    <string name="system_ui_lock_screen_blur_button_radius">Background Radius</string>
+    <string name="system_ui_lock_screen_blur_button">Blur Lock screen buttons</string>
+    <string name="system_ui_lock_screen_blur_button_desc">After enabling, the background of the camera and negative screen button on the Lock screen is blurred, which may cause high power consumption.\nSupport default theme only.</string>
+    <string name="system_ui_lock_screen_blur_button_radius">Background radius</string>
     <string name="system_ui_lock_screen_force_system_fonts">Force clock to use system fonts</string>
     <string name="system_ui_lock_screen_double_lock">Double-tap the Lock screen</string>
     <string name="system_ui_lock_screen_double_lock_desc">Double-tap an empty location to lock the screen</string>
@@ -619,7 +619,7 @@
     <string name="system_ui_lock_screen_allow_third_face">Allow system to verify third-party recognition</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Allows facial recognition and fingerprint to be used normally on the Lock screen displayed by third-party apps</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Disable show unlock by Bluetooth toast</string>
-    <string name="system_ui_lock_screen_linkage_anim">Override Linkage Wallpaper Anim</string>
+    <string name="system_ui_lock_screen_linkage_anim">Override linkage wallpaper anim</string>
     <string name="system_ui_lock_screen_linkage_anim_on">Screen on animation rate</string>
     <string name="system_ui_lock_screen_linkage_anim_off">Screen off animation rate</string>
     <string name="system_ui_navigation_title">Navigation</string>
