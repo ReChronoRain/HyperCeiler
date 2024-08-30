@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.base.settings.development;
 
+import static com.sevtinge.hyperceiler.utils.log.LogManager.fixLsposedLogService;
 import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
 
 import android.os.Handler;
@@ -47,6 +48,7 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
 
     Preference mCmdR;
     Preference mDeleteAllDexKitCache;
+    Preference mFixLsposedLog;
 
     public interface EditDialogCallback {
         void onInputReceived(String command);
@@ -61,8 +63,10 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
     public void initPrefs() {
         mCmdR = findPreference("prefs_key_development_cmd_r");
         mDeleteAllDexKitCache = findPreference("prefs_key_development_delete_all_dexkit_cache");
+        mFixLsposedLog = findPreference("prefs_key_development_fix_lsposed_log");
         mCmdR.setOnPreferenceClickListener(this);
         mDeleteAllDexKitCache.setOnPreferenceClickListener(this);
+        mFixLsposedLog.setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -81,6 +85,14 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
                     DexKit.deleteAllCache(getActivity());
                     Toast.makeText(getActivity(), R.string.delete_all_dexkit_cache_success, Toast.LENGTH_LONG).show();
                 });
+            }
+            case "prefs_key_development_fix_lsposed_log" -> {
+                String fixReturn = fixLsposedLogService();
+                if (fixReturn.equals("SUCCESS")) {
+                    Toast.makeText(getActivity(), R.string.success, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.failed) + ": " + fixReturn, Toast.LENGTH_LONG).show();
+                }
             }
         }
         return true;

@@ -140,4 +140,14 @@ public class LogManager {
         LOGGER_CHECKER_ERR_CODE = "WITHOUT_CODE";
         return false;
     }
+
+    public static String fixLsposedLogService() {
+        try {
+            safeExecCommandWithRoot("resetprop -n persist.log.tag.LSPosed V");
+            safeExecCommandWithRoot("resetprop -n persist.log.tag.LSPosed-Bridge V");
+            return "SUCCESS";
+        } catch (Exception e) {
+            return e.toString();
+        }
+    }
 }

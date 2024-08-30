@@ -78,12 +78,17 @@
     <string name="prefs_6">检查共享首选项</string>
     <string name="prefs_7">移除指定 Key</string>
 
+    <string name="success">成功</string>
+    <string name="failed">失败</string>
+
     <string name="development">开发者选项</string>
     <string name="development_ui">界面元素测试</string>
     <string name="development_debug_info">调试信息</string>
     <string name="development_prefs">共享首选项</string>
     <string name="development_cmd_r">使用 root 的模拟终端</string>
     <string name="development_delete_all_dexkit_cache">删除全部 DexKit 缓存</string>
+    <string name="development_close_log_alert_dialog">禁用 Logger Live 弹窗</string>
+    <string name="development_fix_lsposed_log">尝试修复 LSPosed Log 服务</string>
 
     <string name="settings_show_title">显示</string>
     <string name="settings_data_title">备份与恢复</string>

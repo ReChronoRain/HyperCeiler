@@ -46,4 +46,13 @@
         android:key="prefs_key_development_delete_all_dexkit_cache"
         android:title="@string/development_delete_all_dexkit_cache" />
 
+    <SwitchPreference
+        android:title="@string/development_close_log_alert_dialog"
+        android:key="prefs_key_development_close_log_alert_dialog"
+        android:defaultValue="false" />
+
+    <Preference
+        android:key="prefs_key_development_fix_lsposed_log"
+        android:title="@string/development_fix_lsposed_log" />
+
 </PreferenceScreen>
