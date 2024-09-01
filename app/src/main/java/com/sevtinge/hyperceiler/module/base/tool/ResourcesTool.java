@@ -21,23 +21,21 @@ package com.sevtinge.hyperceiler.module.base.tool;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.DENSITY;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.ID;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.OBJECT;
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW;
+import static com.sevtinge.hyperceiler.utils.api.ProjectApi.mAppModulePkg;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.loader.ResourcesLoader;
 import android.content.res.loader.ResourcesProvider;
-import android.os.Build;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.util.Pair;
 import android.util.TypedValue;
 
+import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.io.File;
@@ -53,17 +51,18 @@ import de.robv.android.xposed.XposedHelpers;
 /**
  * 重写资源钩子，希望本钩子能有更好的生命力。
  *
- * @author 焕晨HChen
+ * @rewrite 焕晨HChen
  */
 public class ResourcesTool {
     private static final String TAG = "ResourcesTool";
-    private static boolean hooksApplied = false;
-    private static boolean isInit = false;
-    private static String mModulePath;
-    private static Handler mHandler = null;
-    private static final ArrayList<Resources> resourcesArrayList = new ArrayList<>();
-    private static final ConcurrentHashMap<Integer, Boolean> resMap = new ConcurrentHashMap<>();
-    private static final ArrayList<XC_MethodHook.Unhook> unhooks = new ArrayList<>();
+    private boolean hooksApplied = false;
+    private boolean isInit = false;
+    private boolean useModuleRes = true;
+    private final String mModulePath;
+    private Handler mHandler = null;
+    private ResourcesLoader resourcesLoader = null;
+    private final ConcurrentHashMap<Integer, Boolean> resMap = new ConcurrentHashMap<>();
+    private final ArrayList<XC_MethodHook.Unhook> unhooks = new ArrayList<>();
 
     protected enum ReplacementType {
         ID,
@@ -75,9 +74,6 @@ public class ResourcesTool {
 
     public ResourcesTool(String modulePath) {
         mModulePath = modulePath;
-        resourcesArrayList.clear();
-        resMap.clear();
-        unhooks.clear();
         applyHooks();
         isInit = true;
     }
@@ -93,41 +89,10 @@ public class ResourcesTool {
         return 0x7e00f000 | (resourceName.hashCode() & 0x00ffffff);
     }
 
-    public static Resources loadModuleRes(Resources resources, boolean doOnMainLooper) {
-        if (resources == null) {
-            logW(TAG, "Context can't is null!");
-            return null;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            loadResAboveApi30(resources, doOnMainLooper);
-        } else {
-            loadResBelowApi30(resources);
-        }
-        if (!resourcesArrayList.contains(resources))
-            resourcesArrayList.add(resources);
-        return resources;
-    }
-
-    public static Resources loadModuleRes(Resources resources) {
-        return loadModuleRes(resources, false);
-    }
-
-    public static Resources loadModuleRes(Context context, boolean doOnMainLooper) {
-        return loadModuleRes(context.getResources(), doOnMainLooper);
-    }
-
-    public static Resources loadModuleRes(Context context) {
-        return loadModuleRes(context, false);
-    }
-
-    private static ResourcesLoader resourcesLoader;
-
     /**
      * 来自 QA 的方法
-     * <p>
-     * from QA
      */
-    private static boolean loadResAboveApi30(Resources resources, boolean doOnMainLooper) {
+    private boolean loadResAboveApi30(Context context) {
         if (resourcesLoader == null) {
             try (ParcelFileDescriptor pfd = ParcelFileDescriptor.open(new File(mModulePath),
                     ParcelFileDescriptor.MODE_READ_ONLY)) {
@@ -136,59 +101,69 @@ public class ResourcesTool {
                 loader.addProvider(provider);
                 resourcesLoader = loader;
             } catch (IOException e) {
-                XposedLogUtils.logE(TAG, "Failed to add resource! debug: above api 30.", e);
+                XposedLogUtils.logE(TAG, "Failed to add resource!: " + e);
                 return false;
             }
         }
-        if (doOnMainLooper)
-            if (Looper.myLooper() == Looper.getMainLooper()) {
-                return addLoaders(resources);
-            } else {
-                if (mHandler == null) {
-                    mHandler = new Handler(Looper.getMainLooper());
-                }
-                mHandler.post(() -> addLoaders(resources));
-                return true; // 此状态下保持返回 true，请观察日志是否有报错来判断是否成功。
-            }
-        else
-            return addLoaders(resources);
-    }
-
-    private static boolean addLoaders(Resources resources) {
-        try {
-            resources.addLoaders(resourcesLoader);
-        } catch (IllegalArgumentException e) {
-            String expected1 = "Cannot modify resource loaders of ResourcesImpl not registered with ResourcesManager";
-            if (expected1.equals(e.getMessage())) {
-                // fallback to below API 30
-                return loadResBelowApi30(resources);
-            } else {
-                XposedLogUtils.logE(TAG, "Failed to add loaders!", e);
-                return false;
-            }
-        }
+        // if (Looper.myLooper() == Looper.getMainLooper()) {
+        context.getResources().addLoaders(resourcesLoader);
+        // } else {
+        //     if (mHandler != null) {
+        //         mHandler.post(() -> context.getResources().addLoaders(resourcesLoader));
+        //     } else {
+        //         return false;
+        //     }
+        // }
         return true;
     }
 
     /**
-     * @noinspection JavaReflectionMemberAccess
+     * 获取添加后的 Res.
+     * 一般不需要，除非上面 loadModuleRes 加载后依然无效。
+     *
+     * @noinspection UnusedReturnValue
      */
-    @SuppressLint("DiscouragedPrivateApi")
-    private static boolean loadResBelowApi30(Resources resources) {
-        try {
-            AssetManager assets = resources.getAssets();
-            Method addAssetPath = AssetManager.class.getDeclaredMethod("addAssetPath", String.class);
-            addAssetPath.setAccessible(true);
-            Integer cookie = (Integer) addAssetPath.invoke(assets, mModulePath);
-            if (cookie == null || cookie == 0) {
-                XposedLogUtils.logW(TAG, "Method 'addAssetPath' result 0, maybe load res failed!");
-                return false;
-            }
-        } catch (Throwable e) {
-            XposedLogUtils.logE(TAG, "Failed to add resource! debug: below api 30.", e);
-            return false;
+    public Resources loadModuleRes(Context context) {
+        boolean load;
+        if (context == null) {
+            XposedLogUtils.logE(TAG, "context can't is null!!");
+            return null;
         }
-        return true;
+        load = loadResAboveApi30(context);
+        if (!load) {
+            XposedLogUtils.logW(TAG, "loadModuleRes return 0, It may have failed. Try the second method ...");
+            try {
+                Resources resources = getModuleRes(context);
+                useModuleRes = true;
+                return resources;
+            } catch (PackageManager.NameNotFoundException e) {
+                XposedLogUtils.logE(TAG, "Failed to load resource!Critical error!!Scope may crash!!\n" + e);
+            }
+        }
+        return context.getResources();
+    }
+
+    public void putHandler(Handler handler) {
+        mHandler = handler;
+    }
+
+    public static Context getModuleContext(Context context)
+            throws PackageManager.NameNotFoundException {
+        return getModuleContext(context, null);
+    }
+
+    public static Context getModuleContext(Context context, Configuration config)
+            throws PackageManager.NameNotFoundException {
+        Context mModuleContext;
+        mModuleContext = context.createPackageContext(mAppModulePkg, Context.CONTEXT_IGNORE_SECURITY).createDeviceProtectedStorageContext();
+        return config == null ? mModuleContext : mModuleContext.createConfigurationContext(config);
+    }
+
+    public static Resources getModuleRes(Context context)
+            throws PackageManager.NameNotFoundException {
+        Configuration config = context.getResources().getConfiguration();
+        Context moduleContext = getModuleContext(context);
+        return (config == null ? moduleContext.getResources() : moduleContext.createConfigurationContext(config).getResources());
     }
 
     private void applyHooks() {
@@ -199,8 +174,8 @@ public class ResourcesTool {
             String name = method.getName();
             switch (name) {
                 case "getInteger", "getLayout", "getBoolean", "getDimension",
-                     "getDimensionPixelOffset", "getDimensionPixelSize", "getText", "getFloat",
-                     "getIntArray", "getStringArray", "getTextArray", "getAnimation" -> {
+                        "getDimensionPixelOffset", "getDimensionPixelSize", "getText", "getFloat",
+                        "getIntArray", "getStringArray", "getTextArray", "getAnimation" -> {
                     if (method.getParameterTypes().length == 1
                             && method.getParameterTypes()[0].equals(int.class)) {
                         hookResMethod(method.getName(), int.class, hookResBefore);
@@ -275,26 +250,43 @@ public class ResourcesTool {
     private final HookTool.MethodHook hookResBefore = new HookTool.MethodHook() {
         @Override
         protected void before(MethodHookParam param) throws PackageManager.NameNotFoundException {
-            if (resourcesArrayList.isEmpty()) return;
-            if (resMap.get((int) param.args[0])) {
-                return;
-            }
-            for (Resources resources : resourcesArrayList) {
-                if (resources == null) return;
-                String method = param.method.getName();
-                Object value;
-                try {
-                    value = getResourceReplacement(resources, (Resources) param.thisObject, method, param.args);
-                } catch (Resources.NotFoundException e) {
-                    continue;
+            Context context;
+            context = OtherTool.findContext(ContextUtils.FLAG_ALL);
+            if (context == null) return;
+            String method = param.method.getName();
+            Object value;
+            value = getResourceReplacement(context, (Resources) param.thisObject, method, param.args);
+            if (value != null) {
+                if ("getDimensionPixelOffset".equals(method) || "getDimensionPixelSize".equals(method)) {
+                    if (value instanceof Float) value = ((Float) value).intValue();
                 }
-                if (value != null) {
-                    if ("getDimensionPixelOffset".equals(method) || "getDimensionPixelSize".equals(method)) {
-                        if (value instanceof Float) value = ((Float) value).intValue();
+                param.setResult(value);
+            } else {
+                if (useModuleRes) {
+                    try {
+                        if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
+                            return;
+                        }
+                        context.getResources().getResourceName((int) param.args[0]);
+                    } catch (Resources.NotFoundException e) {
+                        // find Res
+                        int modResId = (int) param.args[0];
+                        if (modResId == 0) return;
+                        resMap.put(modResId, true);
+                        Resources modRes = getModuleRes(context);
+                        if ("getDrawable".equals(method))
+                            value = XposedHelpers.callMethod(modRes, method, modResId, param.args[1]);
+                        else if ("getDrawableForDensity".equals(method) || "getFraction".equals(method))
+                            value = XposedHelpers.callMethod(modRes, method, modResId, param.args[1], param.args[2]);
+                        else
+                            value = XposedHelpers.callMethod(modRes, method, modResId);
                     }
+                    if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
+                        resMap.remove((int) param.args[0]);
+                    }
+                    if (value == null) return;
                     param.setResult(value);
                 }
-                break;
             }
         }
     };
@@ -335,8 +327,9 @@ public class ResourcesTool {
         }
     }
 
-    private Object getResourceReplacement(Resources resources, Resources res, String method, Object[] args) throws Resources.NotFoundException {
-        if (resources == null) return null;
+    private Object getResourceReplacement(Context context, Resources res, String method, Object[] args) {
+        if (context == null) return null;
+        // loadModuleRes(context);
         String pkgName = null;
         String resType = null;
         String resName = null;
@@ -348,45 +341,49 @@ public class ResourcesTool {
         }
         if (pkgName == null || resType == null || resName == null) return null;
 
-        String resFullName = pkgName + ":" + resType + "/" + resName;
-        String resAnyPkgName = "*:" + resType + "/" + resName;
+        try {
+            String resFullName = pkgName + ":" + resType + "/" + resName;
+            String resAnyPkgName = "*:" + resType + "/" + resName;
 
-        Object value;
-        Integer modResId;
-        Pair<ReplacementType, Object> replacement = null;
-        if (replacements.containsKey(resFullName)) {
-            replacement = replacements.get(resFullName);
-        } else if (replacements.containsKey(resAnyPkgName)) {
-            replacement = replacements.get(resAnyPkgName);
-        }
-        if (replacement != null) {
-            switch (replacement.first) {
-                case OBJECT -> {
-                    return replacement.second;
-                }
-                case DENSITY -> {
-                    return (Float) replacement.second * res.getDisplayMetrics().density;
-                }
-                case ID -> {
-                    modResId = (Integer) replacement.second;
-                    if (modResId == 0) return null;
-                    try {
-                        resources.getResourceName(modResId);
-                    } catch (Resources.NotFoundException n) {
-                        throw n;
+            Object value;
+            Integer modResId;
+            Pair<ReplacementType, Object> replacement = null;
+            if (replacements.containsKey(resFullName)) {
+                replacement = replacements.get(resFullName);
+                // replacements.remove(resFullName);
+            } else if (replacements.containsKey(resAnyPkgName)) {
+                replacement = replacements.get(resAnyPkgName);
+                // replacements.remove(resAnyPkgName);
+            }
+            if (replacement != null) {
+                switch (replacement.first) {
+                    case OBJECT -> {
+                        return replacement.second;
                     }
-                    if (method == null) return null;
-                    resMap.put(modResId, true);
-                    if ("getDrawable".equals(method))
-                        value = XposedHelpers.callMethod(resources, method, modResId, args[1]);
-                    else if ("getDrawableForDensity".equals(method) || "getFraction".equals(method))
-                        value = XposedHelpers.callMethod(resources, method, modResId, args[1], args[2]);
-                    else
-                        value = XposedHelpers.callMethod(resources, method, modResId);
-                    resMap.remove(modResId);
-                    return value;
+                    case DENSITY -> {
+                        return (Float) replacement.second * res.getDisplayMetrics().density;
+                    }
+                    case ID -> {
+                        modResId = (Integer) replacement.second;
+                        if (modResId == 0) return null;
+
+                        Resources modRes;
+                        if (useModuleRes) {
+                            modRes = getModuleRes(context);
+                        } else modRes = context.getResources();
+                        if (method == null) return null;
+                        if ("getDrawable".equals(method))
+                            value = XposedHelpers.callMethod(modRes, method, modResId, args[1]);
+                        else if ("getDrawableForDensity".equals(method) || "getFraction".equals(method))
+                            value = XposedHelpers.callMethod(modRes, method, modResId, args[1], args[2]);
+                        else
+                            value = XposedHelpers.callMethod(modRes, method, modResId);
+                        return value;
+                    }
                 }
             }
+        } catch (Throwable t) {
+            XposedLogUtils.logE("getResourceReplacement", t);
         }
         return null;
     }
