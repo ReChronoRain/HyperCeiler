@@ -45,7 +45,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Create Sign File
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           touch signing.properties
           echo storePassword=${{ secrets.KEY_STORE_PASSWORD }} >> signing.properties
@@ -55,7 +55,7 @@ jobs:
           echo ${{ secrets.SIGNING_KEY }} | base64 --decode > key.jks
 
       - name: Build with Gradle (Canary)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
           ./gradlew assembleCanary
