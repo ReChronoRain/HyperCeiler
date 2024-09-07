@@ -18,25 +18,20 @@
 */
 package com.sevtinge.hyperceiler.module.hook.tsmclient
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.res.XModuleResources
-import android.nfc.NfcAdapter
-import android.widget.Toast
+import android.annotation.*
+import android.content.*
+import android.nfc.*
+import android.widget.*
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.FieldFinder.`-Static`.fieldFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.R
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.BaseXposedInit.mModulePath
-import com.sevtinge.hyperceiler.utils.callMethod
-import de.robv.android.xposed.callbacks.XC_InitPackageResources
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import org.lsposed.hiddenapibypass.HiddenApiBypass
+import com.sevtinge.hyperceiler.*
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
+import kotlinx.coroutines.*
+import org.lsposed.hiddenapibypass.*
 
 object AutoNfc : BaseHook() {
     @SuppressLint("SuspiciousIndentation")

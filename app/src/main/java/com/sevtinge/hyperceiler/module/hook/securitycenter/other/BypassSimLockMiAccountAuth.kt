@@ -32,7 +32,7 @@ object BypassSimLockMiAccountAuth : BaseHook() {
                     declaredClass {
                         addUsingString("SimLockUtils", StringMatchType.Contains)
                     }
-                    addCall {
+                    addCaller {
                         addUsingString("SimLockStartFragment::simLockSetUpFlow::step =", StringMatchType.Contains)
                     }
                     paramCount = 1

@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.provider.Settings;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 
@@ -261,12 +260,8 @@ public class BluetoothListener extends BaseHook {
             String action = intent.getAction();
             if (action != null) {
                 switch (action) {
-                    case BluetoothDevice.ACTION_ACL_CONNECTED -> {
-                        on(context);
-                    }
-                    case BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
-                        over(context);
-                    }
+                    case BluetoothDevice.ACTION_ACL_CONNECTED -> on(context);
+                    case BluetoothDevice.ACTION_ACL_DISCONNECTED -> over(context);
                     case AudioManager.ACTION_HEADSET_PLUG -> {
                         init();
                         if (intent.hasExtra("state")) {

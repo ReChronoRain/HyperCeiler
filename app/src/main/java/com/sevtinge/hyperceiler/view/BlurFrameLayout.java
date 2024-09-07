@@ -26,6 +26,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
 
@@ -74,14 +76,14 @@ public class BlurFrameLayout {
     private void setOnAttachStateChangeListener(View view) {
         view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
-            public void onViewAttachedToWindow(View v) {
+            public void onViewAttachedToWindow(@NonNull View v) {
                 mViewRootImpl = XposedHelpers.callMethod(v, "getViewRootImpl");
                 mBlurDrawable = (Drawable) XposedHelpers.callMethod(mViewRootImpl, "createBackgroundBlurDrawable", new Object[0]);
                 setBackgroundDrawable(mContext, v, isBlurEnable, mBgColor, mBgAlpha, mBgCornerRadius, mBlurRadius);
             }
 
             @Override
-            public void onViewDetachedFromWindow(View v) {
+            public void onViewDetachedFromWindow(@NonNull View v) {
                 v.setBackground(null);
             }
         });

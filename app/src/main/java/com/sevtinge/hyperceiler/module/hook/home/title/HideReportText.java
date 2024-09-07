@@ -23,7 +23,6 @@ import android.content.Context;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HideReportText extends BaseHook {

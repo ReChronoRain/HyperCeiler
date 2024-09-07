@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.ui.fragment.base.settings.development;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.fixLsposedLogService;
 import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -30,16 +29,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
-import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
-import com.sevtinge.hyperceiler.utils.ToastHelper;
-import com.sevtinge.hyperceiler.utils.shell.ShellInit;
-
-import java.util.concurrent.ExecutorService;
 
 import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.preference.Preference;
@@ -72,20 +64,17 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
     @Override
     public boolean onPreferenceClick(@NonNull Preference preference) {
         switch (preference.getKey()) {
-            case "prefs_key_development_cmd_r" -> {
-                showInDialog(new DevelopmentKillFragment.EditDialogCallback() {
-                    @Override
-                    public void onInputReceived(String command) {
-                        showOutDialog(safeExecCommandWithRoot(command));
-                    }
-                });
-            }
-            case "prefs_key_development_delete_all_dexkit_cache" -> {
-                DialogHelper.showDialog(getActivity(), R.string.warn, R.string.delete_all_dexkit_cache_desc, (dialog, which) -> {
-                    DexKit.deleteAllCache(getActivity());
-                    Toast.makeText(getActivity(), R.string.delete_all_dexkit_cache_success, Toast.LENGTH_LONG).show();
-                });
-            }
+            case "prefs_key_development_cmd_r" -> showInDialog(new DevelopmentKillFragment.EditDialogCallback() {
+                @Override
+                public void onInputReceived(String command) {
+                    showOutDialog(safeExecCommandWithRoot(command));
+                }
+            });
+            case "prefs_key_development_delete_all_dexkit_cache" ->
+                    DialogHelper.showDialog(getActivity(), R.string.warn, R.string.delete_all_dexkit_cache_desc, (dialog, which) -> {
+                        DexKit.deleteAllCache(getActivity());
+                        Toast.makeText(getActivity(), R.string.delete_all_dexkit_cache_success, Toast.LENGTH_LONG).show();
+                    });
             case "prefs_key_development_fix_lsposed_log" -> {
                 String fixReturn = fixLsposedLogService();
                 if (fixReturn.equals("SUCCESS")) {

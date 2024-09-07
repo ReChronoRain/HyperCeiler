@@ -23,7 +23,6 @@ import android.graphics.*
 import android.graphics.drawable.*
 import android.view.*
 import android.widget.*
-import androidx.core.view.ViewCompat.*
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.*
 import de.robv.android.xposed.*
@@ -137,7 +136,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                             "isScreenCellsLocked"
                         ) as Boolean
                         if (isLocked && dragView != null) {
-                            animate(dragView!!).scaleX(1f).scaleY(1f).setDuration(200).start()
+                            dragView!!.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
                         }
                     }
                 }

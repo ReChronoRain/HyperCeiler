@@ -88,7 +88,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
         val orderedPublicA = DexKit.getDexKitBridgeList("PA") { _ ->
             publicA?.toElementList()
         }.toMethodList()
-        val differentItems = orderedPublicA.subtract(publicC)
+        val differentItems = orderedPublicA.subtract(publicC.toSet())
         var index = 0
 
         differentItems.forEach { method ->

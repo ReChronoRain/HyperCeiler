@@ -25,6 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 
 import moralnorm.appcompat.widget.Spinner;
@@ -78,7 +80,7 @@ public class SpinnerEx extends Spinner {
         }
 
         @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
             View view = super.getDropDownView(position, convertView, parent);
             view.setEnabled(isEnabled(position));
             return view;

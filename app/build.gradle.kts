@@ -158,10 +158,10 @@ android {
             versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
             buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
-            if (properties != null) {
-                signingConfig = signingConfigs["hasProperties"]
+            signingConfig = if (properties != null) {
+                signingConfigs["hasProperties"]
             } else {
-                signingConfig = signingConfigs["withoutProperties"]
+                signingConfigs["withoutProperties"]
             }
         }
         create("beta") {
@@ -170,10 +170,10 @@ android {
             versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
             buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
-            if (properties != null) {
-                signingConfig = signingConfigs["hasProperties"]
+            signingConfig = if (properties != null) {
+                signingConfigs["hasProperties"]
             } else {
-                signingConfig = signingConfigs["withoutProperties"]
+                signingConfigs["withoutProperties"]
             }
         }
         create("canary") {
@@ -182,10 +182,10 @@ android {
             versionNameSuffix = "_${gitHash}_r${gitCode}"
             buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
-            if (properties != null) {
-                signingConfig = signingConfigs["hasProperties"]
+            signingConfig = if (properties != null) {
+                signingConfigs["hasProperties"]
             } else {
-                signingConfig = signingConfigs["withoutProperties"]
+                signingConfigs["withoutProperties"]
             }
         }
         debug {
@@ -214,7 +214,6 @@ dependencies {
 
     implementation(libs.dexkit)
     implementation(libs.ezxhelper)
-    implementation(libs.accompanist.systemuicontroller)
     implementation(libs.hiddenapibypass)
     implementation(libs.gson)
     implementation(libs.commons.codec)

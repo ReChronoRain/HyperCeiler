@@ -83,7 +83,7 @@ public class ClipboardList extends BaseHook {
                 protected void before(MethodHookParam param) {
                     Context context = (Context) param.args[0];
                     Bundle call = context.getContentResolver().call(Uri.parse("content://com.miui.input.provider"),
-                        "getClipboardList", (String) null, new Bundle());
+                        "getClipboardList", null, new Bundle());
                     String string = call != null ? call.getString("savedClipboard") : "";
                     param.setResult(XposedHelpers.callStaticMethod(findClassIfExists("com.miui.inputmethod.InputMethodUtil", classLoader),
                         "getNoExpiredData", context, string, 0));

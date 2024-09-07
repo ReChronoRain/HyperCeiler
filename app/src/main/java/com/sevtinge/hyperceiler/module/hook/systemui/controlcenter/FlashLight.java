@@ -230,8 +230,7 @@ public class FlashLight extends TileUtils {
                 public void onAnimationUpdate(@NonNull ValueAnimator animation) {
                     XposedHelpers.setObjectField(param.thisObject, "mExternalChange", true);
                     if (mControl != null) {
-                        XposedHelpers.callMethod(mControl, "setValue",
-                            ((Integer) animation.getAnimatedValue()).intValue());
+                        XposedHelpers.callMethod(mControl, "setValue", animation.getAnimatedValue());
                     }
                     XposedHelpers.setObjectField(param.thisObject, "mExternalChange", false);
                 }

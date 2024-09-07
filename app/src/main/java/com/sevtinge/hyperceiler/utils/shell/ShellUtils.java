@@ -257,9 +257,9 @@ public class ShellUtils {
     }
 
     public static String safeExecCommandWithRoot(String cmd) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         ProcessBuilder pb = new ProcessBuilder("su");
-        Process p = null;
+        Process p;
         DataOutputStream dos = null;
         DataInputStream dis = null;
         try {
@@ -271,9 +271,9 @@ public class ShellUtils {
             dos.flush();
             dos.writeBytes("exit\n");
             dos.flush();
-            String line = null;
+            String line;
             while ((line = dis.readLine()) != null) {
-                result += line + "\n";
+                result.append(line).append("\n");
             }
             p.waitFor();
         } catch (Exception e) {
@@ -306,13 +306,13 @@ public class ShellUtils {
                 }
             }
         }
-        if (!result.isEmpty()) {
-            result = result.substring(0, result.length() - 1);
+        if (result.length() > 0) {
+            result = new StringBuilder(result.substring(0, result.length() - 1));
         }
-        if (!cmd.contains("nsenter") && result.contains("nsenter: exec ")) {
-            return result.replace("nsenter: exec ", "");
+        if (!cmd.contains("nsenter") && result.toString().contains("nsenter: exec ")) {
+            return result.toString().replace("nsenter: exec ", "");
         } else {
-            return result;
+            return result.toString();
         }
     }
 

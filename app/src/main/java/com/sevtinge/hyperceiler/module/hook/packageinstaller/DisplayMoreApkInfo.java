@@ -125,7 +125,7 @@ public class DisplayMoreApkInfo extends BaseHook {
                     String mAppVersionCode;
                     String mAppSdk;
                     if (mAppInfo != null) {
-                        mAppVersionName = (String) XposedHelpers.callMethod(apkInfo, "getInstalledVersionName") + " ➟ " + mPkgInfo.versionName;
+                        mAppVersionName = XposedHelpers.callMethod(apkInfo, "getInstalledVersionName") + " ➟ " + mPkgInfo.versionName;
                         mAppVersionCode = XposedHelpers.callMethod(apkInfo, "getInstalledVersionCode") + " ➟ " + mPkgInfo.getLongVersionCode();
                         mAppSdk = mAppInfo.minSdkVersion + "-" + mAppInfo.targetSdkVersion + " ➟ " + mPkgInfo.applicationInfo.minSdkVersion + "-" + mPkgInfo.applicationInfo.targetSdkVersion;
                     } else {

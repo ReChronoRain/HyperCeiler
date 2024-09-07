@@ -31,7 +31,7 @@ object UnlockDisney : BaseHook() {
         DexKit.getDexKitBridge("UnlockDisneyMickey") {
             it.findMethod {
                 matcher {
-                    addCall {
+                    addCaller {
                         addUsingStringsEquals("magic_recycler_matting_0", "magic_recycler_clear_icon")
                         // returnType = "java.util.List" // 你米 1.6.5.10.2 改成了 java.util.ArrayList，所以找不到
                         paramCount = 0

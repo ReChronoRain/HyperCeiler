@@ -156,20 +156,12 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
     public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
         ExecutorService executorService = ThreadPoolManager.getInstance();
         switch (preference.getKey()) {
-            case "prefs_key_system_framework_guided_access" -> {
-                initApp(executorService, () -> {
-                    KillApp.killApps("com.miui.home", "com.android.systemui");
-                });
-            }
-            case "prefs_key_system_framework_guided_access_sc" -> {
-                initApp(executorService, () -> KillApp.killApps("com.miui.securitycenter"));
-            }
-            case "prefs_key_system_framework_guided_access_screen_int" -> {
-                initApp(executorService, () -> KillApp.killApps("com.android.systemui"));
-            }
-            case "prefs_key_system_framework_guided_access_status" -> {
-                initApp(executorService, () -> KillApp.killApps("com.miui.home","com.android.systemui"));
-            }
+            case "prefs_key_system_framework_guided_access" -> initApp(executorService, () -> {
+                KillApp.killApps("com.miui.home", "com.android.systemui");
+            });
+            case "prefs_key_system_framework_guided_access_sc" -> initApp(executorService, () -> KillApp.killApps("com.miui.securitycenter"));
+            case "prefs_key_system_framework_guided_access_screen_int" -> initApp(executorService, () -> KillApp.killApps("com.android.systemui"));
+            case "prefs_key_system_framework_guided_access_status" -> initApp(executorService, () -> KillApp.killApps("com.miui.home","com.android.systemui"));
         }
         return true;
     }

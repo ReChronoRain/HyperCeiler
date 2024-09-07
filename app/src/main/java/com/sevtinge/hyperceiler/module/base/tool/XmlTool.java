@@ -72,9 +72,7 @@ public class XmlTool {
             for (Method method : xmlMethods) {
                 String name = method.getName();
                 switch (name) {
-                    case "nextText" -> {
-                        xmlHookMethod(method, hookNextText);
-                    }
+                    case "nextText" -> xmlHookMethod(method, hookNextText);
                     case "getAttributeValue" -> {
                         if (method.getParameterCount() == 1 &&
                                 method.getParameterTypes()[0].equals(int.class)) {
@@ -150,7 +148,7 @@ public class XmlTool {
             Integer mID = titleMap.get(pkgName + ":" + resType + "/" + resName);
             // String mid = null;
             if (mID != null) {
-                param.setResult(String.valueOf("@" + mID));
+                param.setResult("@" + mID);
                 // mid = getModTitle(res, "@" + mID);
             }
             // XposedLogUtils.logE(TAG, "pk: " + pkgName + " ty: " + resType + " na: " + resName + " sss: " + test + " m: " + mid);

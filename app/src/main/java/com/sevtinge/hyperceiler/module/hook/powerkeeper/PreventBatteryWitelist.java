@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.module.hook.powerkeeper;
 import androidx.annotation.NonNull;
 
 import com.github.kyuubiran.ezxhelper.HookFactory;
-import com.github.kyuubiran.ezxhelper.ObjectUtils;
 import com.github.kyuubiran.ezxhelper.interfaces.IMethodHookCallback;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
@@ -61,7 +60,7 @@ public class PreventBatteryWitelist extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        HookFactory.createMethodHook(method, new Consumer<HookFactory>() {
+        HookFactory.createMethodHook(method, new Consumer<>() {
             @Override
             public void accept(HookFactory hookFactory) {
                 hookFactory.before(new IMethodHookCallback() {

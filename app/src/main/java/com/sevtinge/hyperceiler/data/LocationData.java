@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.data;
 
+import androidx.annotation.NonNull;
+
 public class LocationData {
 
     private String Title; // 备注
@@ -108,6 +110,7 @@ public class LocationData {
         Remarks = remarks;
     }
 
+    @NonNull
     public String toString() {
         return Latitude + "," + Longitude + "," + Offset + "," + RegionCode + "," + BaseStationCode + "," + Remarks;
     }

@@ -47,9 +47,7 @@ public class BackgroundBlur extends BaseHook {
             Method[] methods = SystemProperties.getDeclaredMethods();
             for (Method method : methods) {
                 switch (method.getName()) {
-                    case "get", "getInt", "getBoolean" -> {
-                        hookProp(method);
-                    }
+                    case "get", "getInt", "getBoolean" -> hookProp(method);
                 }
             }
         }

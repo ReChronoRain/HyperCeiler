@@ -171,7 +171,7 @@ public class OtherTool {
             try {
                 Resources modRes = getModuleRes(context);
                 getTextView().setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFFFF")));
-                getTextView().setBackground(modRes.getDrawable(R.drawable.input_background));
+                getTextView().setBackground(modRes.getDrawable(R.drawable.input_background, context.getTheme()));
             } catch (Throwable err) {
                 logE("ShowVolumePct", err);
             }

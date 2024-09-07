@@ -79,7 +79,7 @@ public class LocationDataActivity extends AppCompatActivity implements View.OnCl
         mAdapter = new LocationAdapter(this, mLocationDataList);
         mLocationListView = findViewById(R.id.list_location);
         mLocationListView.setAdapter(mAdapter);
-        mCursor = mSQLiteHelper.a.rawQuery("select * from location order by id desc limit 2000", null);
+        mCursor = SQLiteHelper.a.rawQuery("select * from location order by id desc limit 2000", null);
         if (mCursor.moveToFirst()) {
             do {
                 LocationData locationData = new LocationData(String.valueOf(mCursor.getString(0)), mCursor.getDouble(1), mCursor.getDouble(2), mCursor.getInt(3), mCursor.getInt(4), mCursor.getInt(5), mCursor.getString(6), mCursor.getInt(7));
@@ -232,7 +232,7 @@ public class LocationDataActivity extends AppCompatActivity implements View.OnCl
         private LayoutInflater mInflater;
 
         public LocationAdapter(@NonNull Context context, List<LocationData> list) {
-            super(context, (int) R.layout.item_location, list);
+            super(context, R.layout.item_location, list);
             mList = list;
             mInflater = getLayoutInflater();
         }

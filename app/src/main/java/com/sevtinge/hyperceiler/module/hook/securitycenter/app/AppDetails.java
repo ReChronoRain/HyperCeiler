@@ -105,7 +105,7 @@ public class AppDetails extends BaseHook {
                                 } else {
                                     addPref[0].setAccessible(true);
                                 }
-                                addPref[0].invoke(frag, "apk_versioncode", modRes.getString(R.string.app_details_apk_version_code), String.valueOf(mLastPackageInfo.versionCode));
+                                addPref[0].invoke(frag, "apk_versioncode", modRes.getString(R.string.app_details_apk_version_code), String.valueOf(mLastPackageInfo.getLongVersionCode()));
                                 addPref[0].invoke(frag, "app_uid", modRes.getString(R.string.app_details_app_uid), String.valueOf(mLastPackageInfo.applicationInfo.uid));
                                 addPref[0].invoke(frag, "data_path", modRes.getString(R.string.app_details_data_path), mLastPackageInfo.applicationInfo.dataDir);
                                 addPref[0].invoke(frag, "apk_filename", modRes.getString(R.string.app_details_apk_file), mLastPackageInfo.applicationInfo.sourceDir);

@@ -182,7 +182,7 @@ public class Helpers {
 
         ActivityOptions activityOptions;
         try {
-            activityOptions = (ActivityOptions) ReflectUtils.callStaticObjectMethod(Class.forName("android.util.MiuiMultiWindowUtils"), ActivityOptions.class, "getActivityOptions", new Class[]{Context.class, String.class, Boolean.TYPE, Boolean.TYPE}, new Object[]{context, str, true, false});
+            activityOptions = ReflectUtils.callStaticObjectMethod(Class.forName("android.util.MiuiMultiWindowUtils"), ActivityOptions.class, "getActivityOptions", new Class[]{Context.class, String.class, Boolean.TYPE, Boolean.TYPE}, context, str, true, false);
         } catch (Exception e) {
             logD(TAG, "MiuiMultiWindowUtils getActivityOptions error", e);
             activityOptions = null;

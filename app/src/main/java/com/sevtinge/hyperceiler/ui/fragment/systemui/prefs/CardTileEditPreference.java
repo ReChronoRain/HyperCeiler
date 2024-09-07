@@ -170,8 +170,8 @@ public class CardTileEditPreference extends Preference {
 
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder source, @NonNull RecyclerView.ViewHolder target) {
-            int fromPosition = source.getAdapterPosition();
-            int toPosition = target.getAdapterPosition();
+            int fromPosition = source.getBindingAdapterPosition();
+            int toPosition = target.getBindingAdapterPosition();
             if (fromPosition < toPosition) {
                 //分别把中间所有的item的位置重新交换
                 for (int i = fromPosition; i < toPosition; i++) {

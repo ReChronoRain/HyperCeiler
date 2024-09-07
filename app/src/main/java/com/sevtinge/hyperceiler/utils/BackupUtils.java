@@ -97,6 +97,8 @@ public class BackupUtils {
         while (keys.hasNext()) {
             String key = keys.next();
             Object value = jsonObject.get(key);
+            // https://stackoverflow.com/a/78608931
+            //noinspection IfCanBeSwitch
             if (value instanceof String) {
                 if (((String) value).contains("[") && ((String) value).contains("]")) {
                     value = ((String) value).replace("[", "").replace("]", "").replace(" ", "");

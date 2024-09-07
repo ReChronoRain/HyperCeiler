@@ -123,9 +123,9 @@ object NoAutoTurnOff : BaseHook() {
         }
 
         runCatching {
-            findAndHookConstructor(nullField!!.javaClass, object : MethodHook() {
+            findAndHookConstructor(nullField.javaClass, object : MethodHook() {
                 override fun after(param: MethodHookParam) {
-                    XposedHelpers.setObjectField(param.thisObject, nullField!!.name, 999999999)
+                    XposedHelpers.setObjectField(param.thisObject, nullField.name, 999999999)
                     logI(TAG, lpparam.packageName, "nullField hook success, $nullField")
                 } })
         }

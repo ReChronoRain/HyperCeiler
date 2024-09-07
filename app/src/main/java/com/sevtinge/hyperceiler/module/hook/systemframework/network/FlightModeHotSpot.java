@@ -19,8 +19,6 @@
 
 package com.sevtinge.hyperceiler.module.hook.systemframework.network;
 
-import com.sevtinge.hyperceiler.module.base.tool.HookTool;
-
 import java.util.Arrays;
 import java.util.Objects;
 

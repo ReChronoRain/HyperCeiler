@@ -28,7 +28,6 @@ import android.util.AttributeSet;
 import android.view.Display;
 import android.view.Surface;
 import android.view.View;
-import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 
@@ -242,26 +241,16 @@ public class RotationButton extends BaseHook {
     }
 
     public int getScreenOrientation(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
+        Display display = context.getDisplay();
         int rotation = display.getRotation();
-        int orientation;
-
         // 获取屏幕方向
-        switch (rotation) {
-            case Surface.ROTATION_0:
-            case Surface.ROTATION_180:
-                orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT; // 1 竖屏
-                break;
-            case Surface.ROTATION_90:
-            case Surface.ROTATION_270:
-                orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE; // 0 横屏
-                break;
-            default:
-                orientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
-        }
-
-        return orientation;
+        return switch (rotation) {
+            case Surface.ROTATION_0, Surface.ROTATION_180 ->
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT; // 1 竖屏
+            case Surface.ROTATION_90, Surface.ROTATION_270 ->
+                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE; // 0 横屏
+            default -> ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+        };
     }
 
     private void setData(Context context, String value) {

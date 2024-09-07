@@ -110,7 +110,7 @@ public class ClockCenterHook extends BaseHook {
                     miuiPhoneStatusBarView.findViewById(batteryId);
 
                 ((ViewGroup) clock.getParent()).removeView(clock);
-                ((ViewGroup) phoneStatusBarLeftContainer).removeView(phoneStatusBarLeftContainer);
+                phoneStatusBarLeftContainer.removeView(phoneStatusBarLeftContainer);
 
                 ((ViewGroup) systemIconArea.getParent()).removeView(systemIconArea);
                 ((ViewGroup) statusIcons.getParent()).removeView(statusIcons);

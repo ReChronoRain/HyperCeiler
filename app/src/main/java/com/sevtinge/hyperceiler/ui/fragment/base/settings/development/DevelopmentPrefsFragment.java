@@ -72,6 +72,8 @@ public class DevelopmentPrefsFragment extends SettingsPreferenceFragment {
                         if (havePrefs(userInput)) {
                             Object prefs = getPrefs(userInput, false,
                                 getType("prefs_key_development_prefs_type"));
+                            // https://stackoverflow.com/a/78608931
+                            //noinspection IfCanBeSwitch
                             if (prefs == null) return;
                             if (prefs instanceof String) {
                                 showOutDialog((String) prefs);
