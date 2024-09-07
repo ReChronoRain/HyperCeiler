@@ -1,5 +1,6 @@
 //file:noinspection DependencyNotationArgument
 import com.android.build.gradle.internal.api.*
+import com.android.build.gradle.tasks.*
 import java.io.*
 import java.text.*
 import java.time.*
@@ -206,6 +207,10 @@ android {
 
     kotlin.jvmToolchain(21)
 
+    // https://stackoverflow.com/a/77745844
+    tasks.withType<PackageAndroidArtifact> {
+        doFirst { appMetadata.asFile.orNull?.writeText("") }
+    }
 }
 
 dependencies {
@@ -216,7 +221,6 @@ dependencies {
     implementation(libs.ezxhelper)
     implementation(libs.hiddenapibypass)
     implementation(libs.gson)
-    implementation(libs.commons.codec)
     implementation(libs.hooktool)
     implementation(libs.gson)
 

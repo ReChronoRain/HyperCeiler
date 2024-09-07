@@ -23,7 +23,6 @@ gson = "2.11.0"
 dexkit = "2.0.2"
 ezxhelper = "2.2.0"
 hiddenapibypass = "4.3"
-commons-codec = "1.17.1"
 
 [libraries]
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
@@ -46,7 +45,6 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 dexkit = { group = "org.luckypray", name = "dexkit", version.ref = "dexkit" }
 ezxhelper = { group = "com.github.kyuubiran", name = "EzXHelper", version.ref = "ezxhelper" }
 hiddenapibypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "hiddenapibypass" }
-commons-codec = { group = "commons-codec", name = "commons-codec", version.ref = "commons-codec" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
