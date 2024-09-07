@@ -81,8 +81,8 @@ android {
         applicationId = namespace
         minSdk = 33
         targetSdk = 35
-        versionCode = 149
-        versionName = "2.4.149"
+        versionCode = 150
+        versionName = "2.5.150"
 
         val buildTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
         buildConfigField("String", "BUILD_TIME", "\"$buildTime\"")
