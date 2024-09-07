@@ -29,6 +29,7 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
@@ -67,6 +68,20 @@ object BlurButton : BaseHook() {
                         if (hyperBlur) hyperBlur(param) else systemBlur(param)
                     }
                 }
+            if (isTransparencyLow(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0))) {
+                findAndHookMethod("com.android.keyguard.injector.KeyguardBottomAreaInjector", "updateLeftIcon",
+                    object : MethodHook() {
+                        override fun before(param: MethodHookParam) {
+                            XposedHelpers.setBooleanField(param.thisObject, "mBottomIconRectIsDeep", isColorDark(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0)))
+                        }
+                    })
+                findAndHookMethod("com.android.keyguard.injector.KeyguardBottomAreaInjector", "updateRightIcon",
+                    object : MethodHook() {
+                        override fun before(param: MethodHookParam) {
+                            XposedHelpers.setBooleanField(param.thisObject, "mBottomIconRectIsDeep", isColorDark(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0)))
+                        }
+                    })
+            }
         } else {
             loadClassOrNull(
                 "com.android.systemui.statusbar.phone.KeyguardBottomAreaView"
@@ -201,12 +216,27 @@ object BlurButton : BaseHook() {
             clearMiBackgroundBlendColor()
             setMiViewBlurMode(1)
             setMiBackgroundBlurRadius(40)
-            addMiBackgroundBlendColor(Color.argb(255, 0, 0, 0), 103)
+            addMiBackgroundBlendColor(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0), 101)
         }
     }
 
     private fun mapValueToRange(dynamicValue: Int): Int {
         return 60 + ((dynamicValue - 10) * 60 / 50)
+    }
+
+    private fun isTransparencyLow(color: Int): Boolean {
+        val alpha = (color shr 24) and 0xFF
+        return alpha > 92
+    }
+
+    private fun isColorDark(color: Int): Boolean {
+        val red = (color shr 16) and 0xFF
+        val green = (color shr 8) and 0xFF
+        val blue = color and 0xFF
+
+        val brightness = 0.299 * red + 0.587 * green + 0.114 * blue
+
+        return brightness < 128
     }
 
 }

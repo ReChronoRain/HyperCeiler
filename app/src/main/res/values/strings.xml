@@ -613,6 +613,7 @@
     <string name="system_ui_lock_screen_blur_button">Blur Lock screen buttons</string>
     <string name="system_ui_lock_screen_blur_button_desc">After enabling, the background of the camera and negative screen button on the Lock screen is blurred, which may cause high power consumption.\nSupport default theme only.</string>
     <string name="system_ui_lock_screen_blur_button_radius">Background radius</string>
+    <string name="system_ui_lock_screen_blur_button_bg_color">Background color</string>
     <string name="system_ui_lock_screen_force_system_fonts">Force clock to use system fonts</string>
     <string name="system_ui_lock_screen_double_lock">Double-tap the Lock screen</string>
     <string name="system_ui_lock_screen_double_lock_desc">Double-tap an empty location to lock the screen</string>
