@@ -84,7 +84,7 @@ jobs:
           echo "### Build Success" >> $GITHUB_STEP_SUMMARY
           echo "|Artifact|SHA256|" >> $GITHUB_STEP_SUMMARY
           echo "|:---:|:---|" >> $GITHUB_STEP_SUMMARY
-          APK_SHA256=($(sha256sum ${{ env.APK_FILE }}))
+          APK_SHA256=($(shasum -a 256 ${{ env.APK_FILE }}))
           if [ ${{ env.IS_DEBUG }} = true ]; then
             echo "|Debug|$APK_SHA256" >> $GITHUB_STEP_SUMMARY
           else
