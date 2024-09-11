@@ -276,9 +276,10 @@ public class ResourcesTool {
         @Override
         protected void before(MethodHookParam param) {
             if (resourcesArrayList.isEmpty()) {
-                resourcesArrayList.add(loadModuleRes(ContextUtils.getContext(ContextUtils.FLAG_ALL))); // 重新加载 res
+                Resources resources = loadModuleRes(ContextUtils.getContext(ContextUtils.FLAG_ALL));
+                resourcesArrayList.add(resources); // 重新加载 res
             }
-            if (resMap.get((int) param.args[0])) {
+            if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
                 return;
             }
             for (Resources resources : resourcesArrayList) {
