@@ -69,7 +69,7 @@ public class OtherTool {
 
     public static Resources getModuleRes(Context context)
             throws PackageManager.NameNotFoundException {
-        return ResourcesTool.getModuleRes(context);
+        return ResourcesTool.loadModuleRes(context);
     }
 
     public static Context findContext(@ContextUtils.Duration int flag) {
