@@ -459,7 +459,7 @@ public abstract class TileUtils extends BaseHook {
                         if (tileName != null) {
                             if (tileName.equals(custom)) {
                                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                                Resources modRes = ResourcesTool.loadModuleRes(context);
+                                Resources modRes = ResourcesTool.loadModuleRes(mContext);
                                 param.setResult(modRes.getString(customValue));
                             }
                         }
