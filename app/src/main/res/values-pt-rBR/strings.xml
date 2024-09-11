@@ -22,9 +22,9 @@
     <string name="xposed_description">Torne o HyperOS/MIUI ótimo novamente!</string>
     <string name="new_permission_wifi_state_desc">adicionar e excluir arquivos no armazenamento interno do dispositivo</string>
     <string name="new_permission_location_desc">ser usado para fornecer serviços como latitude e longitude</string>
-    <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciamento de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
+    <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciador de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
     <string name="new_cta_app_main_purpose">modificar apps do sistema</string>
-    <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler. Este app depende do LSPosed para ser executado. Você pode usar este app para sequestrar e modificar outros apps suportados para aprimorar o sistema. Durante o uso, para fornecer mais funções, podemos solicitar suas permissões Root/Su. Você pode gerenciá-lo a qualquer momento acessando seu gerenciador Root/Su.</string>
+    <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler! Este app depende do LSPosed para ser executado. Você pode usar este app para sequestrar e modificar outros apps suportados para aprimorar o sistema. Durante o uso, para fornecer mais funções, podemos solicitar suas permissões Root/Su. Você pode gerenciá-lo a qualquer momento acessando seu gerenciador Root/Su.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Português (Brasil)</string>
     <string name="translator">Igor</string>
@@ -45,6 +45,8 @@
     <string name="prefs_5">Selecionar tipo</string>
     <string name="prefs_6">Verifique as preferências de compartilhamento</string>
     <string name="prefs_7">Remover chave especificada</string>
+    <string name="success">Sucesso</string>
+    <string name="failed">Falhou</string>
     <string name="help">Ajuda</string>
     <string name="settings">Configurações</string>
     <string name="about">Sobre</string>
@@ -64,6 +66,8 @@
     <string name="development_prefs">Preferência de compartilhamento</string>
     <string name="development_cmd_r">CMD com root</string>
     <string name="development_delete_all_dexkit_cache">Excluir todo o cache do DexKit</string>
+    <string name="development_close_log_alert_dialog">Desativar diálogo de alerta ao vivo do logger</string>
+    <string name="development_fix_lsposed_log">Tentar corrigir o serviço de registro do LSPosed</string>
     <string name="about_privacy">Política de Privacidade</string>
     <string name="about_protocol">Acordo do Usuário</string>
     <string name="settings_show_title">Ícone</string>
@@ -134,7 +138,7 @@
     <string name="clearable_edittext_clear_description">Limpar</string>
     <string name="preference_on">Ativado</string>
     <string name="preference_off">Desativado</string>
-    <string name="preference_copied">%1$s copiado para a área de transferência</string>
+    <string name="preference_copied">\"%1$s\" copiado para a área de transferência.</string>
     <string name="preference_default_value_text">Padrão</string>
     <string name="preference_dialog_color_picker_default_title">Escolha a cor</string>
     <string name="preference_dialog_color_picker_presets">Cor predefinida</string>
@@ -183,6 +187,7 @@
     <string name="floating_window">Janelas flutuantes</string>
     <string name="save_to_screen_title">Especificar local para salvar</string>
     <string name="only_new_version_can_do">Apenas versões mais recentes são suportadas</string>
+    <string name="use_hyper_blur">Usar Texturas avançadas</string>
     <string name="system_ui_statusbar_indicator_default_title">Padrão</string>
     <string name="system_ui_statusbar_indicator_expand_title">Expandir</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Corrigir largura do conteúdo</string>
@@ -234,8 +239,8 @@
     <string name="array_global_actions_invert_colors">Inversão de cores</string>
     <string name="array_global_actions_switchkeyboard">Alternar teclado</string>
     <string name="array_global_actions_goback">Voltar</string>
-    <string name="array_global_actions_onehanded_left">Modo para uma só mão (Esquerda)</string>
-    <string name="array_global_actions_onehanded_right">Modo para uma só mão (Direita)</string>
+    <string name="array_global_actions_onehanded_left">Modo para uma mão (Esquerda)</string>
+    <string name="array_global_actions_onehanded_right">Modo para uma mão (Direita)</string>
     <string name="array_global_actions_scrolltotop">Role para cima</string>
     <string name="array_global_actions_expandsidebar">Exibir barra lateral</string>
     <string name="array_global_actions_floatingwindow">Janela flutuante</string>
@@ -500,6 +505,10 @@
     <string name="camera_settings_lab_options">Ativar Opções de laboratório</string>
     <string name="camera_settings_track_eyes">Desbloquear Foco de rastreamento ocular</string>
     <string name="camera_max_brightness">Forçar brilho máximo ao usar a câmera</string>
+    <string name="camera_black_leica">Marca d\'água Leica preta</string>
+    <string name="camera_black_leica_desc">Altere a cor da marca d\'água Leica para preto ao usá-la. Alguns dispositivos ainda não são compatíveis.</string>
+    <string name="camera_custom_theme_color">Personalizar cor do tema</string>
+    <string name="camera_custom_theme_color_picker">Escolher cor do tema</string>
     <!--Calendar-->
     <string name="calendar">Calendário</string>
     <string name="calendar_unlock_subscription">Desbloquear inscrições</string>
@@ -507,6 +516,7 @@
     <string name="fileexplorer">Arquivos</string>
     <string name="file_explorer_can_selectable">Arquivos pode ser selecionável</string>
     <string name="file_explorer_is_single_line">Arquivos é de linha única</string>
+    <string name="file_explorer_unlock_file_parse">Desbloquear análise de arquivos</string>
     <!--Phone-->
     <string name="incallui">Ui de chamadas</string>
     <string name="incallui_hide_crbt">Ocultar tom de toque colorido personalizado</string>
@@ -549,7 +559,10 @@
     <string name="system_ui_lock_screen_hide_smart_screen">Ocultar tela inteligente</string>
     <string name="system_ui_lock_screen_current">Corrente</string>
     <string name="system_ui_lock_screen_show_second">Exibir segundos do relógio</string>
-    <string name="system_ui_lock_screen_blur_button">Desfocar câmera e o botão de tela inteligente</string>
+    <string name="system_ui_lock_screen_blur_button">Desfocar botões da Tela de bloqueio</string>
+    <string name="system_ui_lock_screen_blur_button_desc">Após ativar, o fundo da câmera e do botão negativo da Tela de bloqueio ficam desfocados, o que pode causar alto consumo de energia.\nSuporta apenas o tema padrão.</string>
+    <string name="system_ui_lock_screen_blur_button_radius">Raio de fundo</string>
+    <string name="system_ui_lock_screen_blur_button_bg_color">Cor de fundo</string>
     <string name="system_ui_lock_screen_force_system_fonts">Forçar o relógio a usar fontes do sistema</string>
     <string name="system_ui_lock_screen_double_lock">Toque duas vezes na Tela de bloqueio</string>
     <string name="system_ui_lock_screen_double_lock_desc">Toque duas vezes em um local vazio para bloquear a tela</string>
@@ -560,6 +573,9 @@
     <string name="system_ui_lock_screen_allow_third_face">Ativar sistema para verificar o reconhecimento por terceiros</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Permite que o reconhecimento facial e de impressão digital seja usado normalmente na Tela de bloqueio exibida por apps de terceiros</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Desativar dica de desbloqueio via Bluetooth</string>
+    <string name="system_ui_lock_screen_linkage_anim">Substituir animação do plano de fundo da tela vinculada</string>
+    <string name="system_ui_lock_screen_linkage_anim_on">Velocidade da animação de tela ligada</string>
+    <string name="system_ui_lock_screen_linkage_anim_off">Velocidade da animação de tela desligada</string>
     <string name="system_ui_navigation_title">Navegação</string>
     <string name="system_ui_navigation_handle_title">Indicador de tela infinita</string>
     <string name="system_ui_hide_navigation_bar">Ocultar indicador de tela infinita</string>
@@ -730,6 +746,7 @@
     <string name="system_ui_statusbar_battery_disable">Ocultar unidades</string>
     <string name="system_ui_statusbar_battery_right_show">Exibir à direita</string>
     <string name="system_ui_statusbar_battery_electric_current">A corrente sempre exibe um valor positivo</string>
+    <string name="system_ui_statusbar_battery_power_abs">A potência sempre exibe um valor positivo</string>
     <string name="system_ui_statusbar_battery_line_show">Exibir em linha única</string>
     <string name="system_ui_statusbar_battery_opposite">Ordem reversa</string>
     <string name="system_ui_statusbar_battery_only_changing_show">Exibir apenas ao carregar</string>
@@ -815,7 +832,7 @@
     <string name="system_ui_control_center_compact_notice">Notificações compactas</string>
     <string name="system_ui_control_center_compact_notice_desc">Reduza o espaçamento vertical das notificações</string>
     <string name="system_ui_control_center_redirect_notice">Redirecionar configurações de notificação</string>
-    <string name="system_ui_control_center_redirect_notice_desc">Ao abrir o menu de configurações de notificações, navega-se para as configurações do canal de destino em vez de aplicar as configurações de notificação.</string>
+    <string name="system_ui_control_center_redirect_notice_desc">Quando você abre as configurações de notificação, ele navega para as configurações do canal de notificação correspondente, em vez das configurações de notificação do app.</string>
     <string name="system_ui_control_center_show_weather">Exibir clima</string>
     <string name="system_ui_control_center_show_weather_city">Exibir cidade</string>
     <string name="system_ui_control_center_disable_device_managed">Ocultar solicitações de monitoramento de rede</string>
@@ -1296,6 +1313,7 @@
     <string name="home_recent_none_blur_simple_anim">Sem blur (Animação simples)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">Desbloquear mais opções para configurações da Tela inicial</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">Os recursos desbloqueados podem não estar disponíveis e alguns recursos requerem suporte do sistema subjacente</string>
+    <string name="home_other_disable_prestart">Desativar pré-carregamento do app</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Editor da Galeria</string>
     <string name="mediaeditor_foundation">Fundação</string>
@@ -1349,6 +1367,7 @@
     <string name="personal_assistant_unlock_widget_count_limit">Desbloquear limite de contagem de widgets</string>
     <string name="personal_assistant_set_tv_notif_info_max_width">Definir foco da notificação de viagem na barra de status</string>
     <string name="personal_assistant_set_tv_notif_info_max_width_desc">Ajuste este valor adequadamente para resolver o problema de conteúdo de exibição omitido</string>
+    <string name="personal_assistant_disable_lite_version">Desativar versão lite</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Bateria e desempenho</string>
     <string name="powerkeeper_custom_refresh_rate">Apps personalizados com alta taxa de atualização</string>
@@ -1409,6 +1428,7 @@
     <string name="security_center_beauty_pc">Desbloquear Mantenha os rostos centralizados</string>
     <string name="security_center_disable_root_check">Desativar detecção de root</string>
     <string name="security_center_install_intercept">Desativar interceptação de instalação USB</string>
+    <string name="security_center_adb_install_verify">Desativar verificação de rede ao abrir a instalação USB</string>
     <string name="security_center_remove_macro_black_list">Remover lista negra de combinação automática</string>
     <string name="security_center_disable_send_malicious_app_notification">Desativar notificações de \"App malicioso encontrado\"</string>
     <string name="security_center_newbox_custom_enable">Ativar personalização</string>
@@ -1469,7 +1489,7 @@
     <string name="security_center_leave_open">Deixe o slide desdobrado</string>
     <string name="security_center_sidebar_show_suggest">Desativar mostrar sugestões de apps</string>
     <string name="security_center_unlock_new_vb">Desbloquear nova Caixa de ferramentas de vídeo</string>
-    <string name="security_center_game_performance_wild_mode">Desbloquear Modo desempenho</string>
+    <string name="security_center_game_performance_wild_mode">Desbloquear Wild Boost</string>
     <string name="security_center_unlock_fbo">Desbloquear FBO</string>
     <string name="security_center_sidebar_videobox_title">Caixa de ferramentas de vídeo</string>
     <string name="security_center_sidebar_gamebox_title">Caixa de jogos</string>
@@ -1483,6 +1503,9 @@
     <string name="security_center_aosp_app_manager_label">Gerenciar apps AOSP</string>
     <string name="security_center_aosp_app_manager">Adicionar entrada de gerenciar apps AOSP</string>
     <string name="security_center_power_consumption_ranking">Exibir classificação do consumo de energia</string>
+    <string name="security_center_hide_xopt_mode_tip">Ocultar dica de uso de permissões ocultas</string>
+    <string name="security_center_battery_unlock_low_temp_ext_endurance">Desbloquear Modo de resistência ao frio</string>
+    <string name="secutity_center_unlock_app_sandbox">Desbloquear Armazenamento independente</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Desativar detecções de risco</string>
@@ -1503,6 +1526,9 @@
     <string name="weather_card_display_type_title">Tipo de exibição do cartão</string>
     <string name="weather_card_display_type_title_2">Modo claro</string>
     <string name="weather_card_display_type_title_3">Modo escuro</string>
+    <!--Analytics-->
+    <string name="analytics">Analytics</string>
+    <string name="analytics_fuck_guard">Remover proteção</string>
     <!--AI Translate-->
     <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Forçar legendas IA habilitadas</string>
@@ -1528,6 +1554,7 @@
     <string name="market_package_monitor">Desativar monitor de pacote</string>
     <string name="market_package_monitor_desc">Proíba que o GetApps pare de monitorar a instalação e desinstalação de apps</string>
     <string name="market_disable_ads">Desativar anúncios</string>
+    <string name="market_bypass_risk_check">Ignorar verificação de risco</string>
     <!--Mi sound-->
     <string name="misound">Fones de ouvido</string>
     <string name="misound_bluetooth">Mudar status do fone de ouvido para o som original</string>
