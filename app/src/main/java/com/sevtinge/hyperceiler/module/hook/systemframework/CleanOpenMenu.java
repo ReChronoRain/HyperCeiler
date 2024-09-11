@@ -150,7 +150,7 @@ public class CleanOpenMenu extends BaseHook {
         }
         boolean removeOriginal = (selectedApps.contains(pkgName) || selectedApps.contains(pkgName + "|0")) && hideMimeType(mimeFlags0, mimeType);
         boolean removeDual = selectedApps.contains(pkgName + "|999") && hideMimeType(mimeFlags999, mimeType);
-        return new Pair<Boolean, Boolean>(removeOriginal, removeDual);
+        return new Pair<>(removeOriginal, removeDual);
     }
 
     private static String getContentType(Context context, Intent intent) {

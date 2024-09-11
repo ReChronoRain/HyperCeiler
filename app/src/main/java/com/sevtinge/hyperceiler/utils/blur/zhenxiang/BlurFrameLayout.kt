@@ -21,6 +21,6 @@ package com.sevtinge.hyperceiler.utils.blur.zhenxiang
 import android.content.*
 import android.widget.*
 
-class BlurFrameLayout constructor(context: Context) : FrameLayout(context) {
+class BlurFrameLayout(context: Context) : FrameLayout(context) {
     val blurController: SystemBlurController = SystemBlurController(this)
 }

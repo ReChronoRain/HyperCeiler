@@ -19,10 +19,8 @@
 
 package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 
-import android.app.*
 import android.os.*
 import android.view.*
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.ClassLoaderProvider.safeClassLoader
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
@@ -30,7 +28,6 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
-import com.sevtinge.hyperceiler.utils.*
 import de.robv.android.xposed.*
 
 /**

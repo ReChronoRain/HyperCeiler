@@ -122,15 +122,9 @@ public class ContextUtils {
                     context = android(clz);
                 }
             }
-            case 1 -> {
-                context = currentApp(clz);
-            }
-            case 2 -> {
-                context = android(clz);
-            }
-            default -> {
-                throw new Throwable("Unexpected flag");
-            }
+            case 1 -> context = currentApp(clz);
+            case 2 -> context = android(clz);
+            default -> throw new Throwable("Unexpected flag");
         }
         if (context == null) throw new Throwable("Context is null");
         return context;

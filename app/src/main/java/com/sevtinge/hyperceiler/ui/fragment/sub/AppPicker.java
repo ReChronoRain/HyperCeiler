@@ -47,7 +47,6 @@ import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -144,15 +143,13 @@ public class AppPicker extends Fragment {
                         }
                         PrefsUtils.mSharedPreferences.edit().putStringSet(key, selectedApps).apply();
                     }
-                    case INPUT_MODE -> {
-                        showEditDialog(appData.label, new EditDialogCallback() {
-                                    @Override
-                                    public void onInputReceived(String userInput) {
-                                        iEditCallback.editCallback(appData.label, appData.packageName, userInput);
-                                    }
+                    case INPUT_MODE -> showEditDialog(appData.label, new EditDialogCallback() {
+                                @Override
+                                public void onInputReceived(String userInput) {
+                                    iEditCallback.editCallback(appData.label, appData.packageName, userInput);
                                 }
-                        );
-                    }
+                            }
+                    );
                 }
             }
         });

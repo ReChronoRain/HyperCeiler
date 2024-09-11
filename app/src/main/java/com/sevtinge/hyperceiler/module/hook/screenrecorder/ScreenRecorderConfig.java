@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.screenrecorder;
 
-import com.github.kyuubiran.ezxhelper.ObjectUtils;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
@@ -58,8 +57,7 @@ public class ScreenRecorderConfig extends BaseHook {
                     field.setAccessible(true);
                     if (Modifier.isFinal(field.getModifiers())) {
                         Object value = field.get(null);
-                        if (value instanceof int[]) {
-                            int[] intArray = (int[]) value;
+                        if (value instanceof int[] intArray) {
                             if (Arrays.equals(intArray, new int[]{15, 24, 30, 48, 60, 90})) {
                                 field.set(null, new int[]{15, 24, 30, 48, 60, 90, 120, 144});
                                 break;
@@ -91,8 +89,7 @@ public class ScreenRecorderConfig extends BaseHook {
                     field.setAccessible(true);
                     if (Modifier.isFinal(field.getModifiers())) {
                         Object value = field.get(null);
-                        if (value instanceof int[]) {
-                            int[] intArray = (int[]) value;
+                        if (value instanceof int[] intArray) {
                             if (Arrays.equals(intArray, new int[]{200, 100, 50, 32, 24, 16, 8, 6, 4, 1})) {
                                 field.set(null, new int[]{1200, 800, 400, 200, 100, 50, 32, 24, 16, 8, 6, 4, 1});
                                 break;

@@ -35,6 +35,7 @@ import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
+import java.io.File;
 import java.util.Set;
 
 import moralnorm.appcompat.app.AppCompatActivity;
@@ -99,7 +100,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void registerFileObserver() {
         try {
-            FileObserver mFileObserver = new FileObserver(PrefsUtils.getSharedPrefsPath(), FileObserver.CLOSE_WRITE) {
+            FileObserver mFileObserver = new FileObserver(new File(PrefsUtils.getSharedPrefsPath()), FileObserver.CLOSE_WRITE) {
                 @Override
                 public void onEvent(int event, String path) {
                     Helpers.fixPermissionsAsync(getApplicationContext());

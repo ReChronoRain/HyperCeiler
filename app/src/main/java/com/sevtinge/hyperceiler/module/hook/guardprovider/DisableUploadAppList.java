@@ -129,7 +129,7 @@ public class DisableUploadAppList extends BaseHook {
                         String sign = null;
                         String appName = null;
 
-                        Object antiDefraudAppInfo = (Object) list.get(i2);
+                        Object antiDefraudAppInfo = list.get(i2);
 
                         Field[] fields = antiDefraudAppInfo.getClass().getDeclaredFields();
                         for (Field filed : fields) {

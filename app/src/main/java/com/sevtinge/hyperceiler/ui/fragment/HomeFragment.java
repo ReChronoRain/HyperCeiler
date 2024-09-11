@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;

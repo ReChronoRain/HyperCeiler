@@ -18,10 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.voiceassist;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.net.Uri;
-
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;

@@ -18,9 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter
 
-import com.sevtinge.hyperceiler.module.base.BaseHook
-
-import de.robv.android.xposed.callbacks.XC_InitPackageResources
+import com.sevtinge.hyperceiler.module.base.*
 
 object SidebarLineCustom : BaseHook() {
 

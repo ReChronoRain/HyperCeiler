@@ -319,12 +319,10 @@ public class UiLockApp extends BaseHook {
                 return;
             }
             switch (msg.what) {
-                case WILL_LOCK_APP -> {
-                    ToastHelper.makeText(context,
-                            context.getResources().getString(
-                                    R.string.system_framework_guided_access_will_lock),
-                            false);
-                }
+                case WILL_LOCK_APP -> ToastHelper.makeText(context,
+                        context.getResources().getString(
+                                R.string.system_framework_guided_access_will_lock),
+                        false);
                 case LOCK_APP -> {
                     int taskId = (int) msg.obj;
                     setLockApp(context, taskId);
@@ -333,12 +331,10 @@ public class UiLockApp extends BaseHook {
                                     R.string.system_framework_guided_access_lock),
                             false);
                 }
-                case WILL_UNLOCK_APP -> {
-                    ToastHelper.makeText(context,
-                            context.getResources().getString(
-                                    R.string.system_framework_guided_access_will_unlock),
-                            false);
-                }
+                case WILL_UNLOCK_APP -> ToastHelper.makeText(context,
+                        context.getResources().getString(
+                                R.string.system_framework_guided_access_will_unlock),
+                        false);
                 case UNLOCK_APP -> {
                     setLockApp(context, -1);
                     ToastHelper.makeText(context,
@@ -346,12 +342,10 @@ public class UiLockApp extends BaseHook {
                                     R.string.system_framework_guided_access_unlock),
                             false);
                 }
-                case UNKNOWN_ERROR -> {
-                    ToastHelper.makeText(context,
-                            context.getResources().getString(
-                                    R.string.system_framework_guided_access_e),
-                            false);
-                }
+                case UNKNOWN_ERROR -> ToastHelper.makeText(context,
+                        context.getResources().getString(
+                                R.string.system_framework_guided_access_e),
+                        false);
                 case RESTORE -> {
                     setLockApp(context, -1);
                     ToastHelper.makeText(context,

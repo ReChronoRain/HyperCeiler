@@ -88,15 +88,15 @@ public class BluetoothTileStyle {
                         XposedHelpers.callMethod(constraintSet, "connect", btTileId, 7, bigTileA.getId(), 7);
                         XposedHelpers.callMethod(constraintSet, "connect", btTileId, 3, bigTileB.getId(), 3);
                         XposedHelpers.callMethod(constraintSet, "connect", btTileId, 4, 0, 4);
-                        XposedHelpers.callMethod(constraintSet, "setMargin", btTileId, 6, (int) dp2px(10));
+                        XposedHelpers.callMethod(constraintSet, "setMargin", btTileId, 6, dp2px(10));
                         int labelResId = mView.getResources().getIdentifier("label_container", "id", "miui.systemui.plugin");
                         bigTileB.findViewById(labelResId).setVisibility(View.GONE);
                         btTileView.findViewById(labelResId).setVisibility(View.GONE);
                         int iconResId = mView.getResources().getIdentifier("status_icon", "id", "miui.systemui.plugin");
                         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) bigTileB.findViewById(iconResId).getLayoutParams();
-                        layoutParams.leftMargin = (int) dp2px(3);
+                        layoutParams.leftMargin = dp2px(3);
                         layoutParams = (LinearLayout.LayoutParams) btTileView.findViewById(iconResId).getLayoutParams();
-                        layoutParams.leftMargin = (int) dp2px(3);
+                        layoutParams.leftMargin = dp2px(3);
                     } else {
                         XposedHelpers.callMethod(constraintSet, "connect", bigTileB.getId(), 4, btTileId, 3);
                         XposedHelpers.callMethod(constraintSet, "connect", btTileId, 6, bigTileA.getId(), 6);
@@ -110,7 +110,7 @@ public class BluetoothTileStyle {
                 }
                 if (styleId == 3) {
                     ViewGroup.LayoutParams layoutParams = bigTileB.getLayoutParams();
-                    int verticalMargin = (int) dp2px(4);
+                    int verticalMargin = dp2px(4);
                     ((ViewGroup.MarginLayoutParams) layoutParams).topMargin = verticalMargin;
                     ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin = verticalMargin;
                 }

@@ -21,9 +21,6 @@ package com.sevtinge.hyperceiler.module.hook.getapps;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedHelpers;
-
 public class DisableAds extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {

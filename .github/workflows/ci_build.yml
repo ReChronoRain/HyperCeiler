@@ -26,7 +26,7 @@ on:
 
 jobs:
   build_app:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     name: Build App
     steps:
       - name: Checkout Git Repository
@@ -45,7 +45,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Create Sign File
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           touch signing.properties
           echo storePassword=${{ secrets.KEY_STORE_PASSWORD }} >> signing.properties
@@ -55,7 +55,7 @@ jobs:
           echo ${{ secrets.SIGNING_KEY }} | base64 --decode > key.jks
 
       - name: Build with Gradle (Canary)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
           ./gradlew assembleCanary
@@ -84,7 +84,7 @@ jobs:
           echo "### Build Success" >> $GITHUB_STEP_SUMMARY
           echo "|Artifact|SHA256|" >> $GITHUB_STEP_SUMMARY
           echo "|:---:|:---|" >> $GITHUB_STEP_SUMMARY
-          APK_SHA256=($(sha256sum ${{ env.APK_FILE }}))
+          APK_SHA256=($(shasum -a 256 ${{ env.APK_FILE }}))
           if [ ${{ env.IS_DEBUG }} = true ]; then
             echo "|Debug|$APK_SHA256" >> $GITHUB_STEP_SUMMARY
           else

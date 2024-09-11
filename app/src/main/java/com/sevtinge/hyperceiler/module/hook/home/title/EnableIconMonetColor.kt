@@ -18,12 +18,9 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.title
 
-import android.annotation.SuppressLint
-import android.content.res.Resources
-import android.graphics.*
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.BaseXposedInit
-import de.robv.android.xposed.callbacks.XC_InitPackageResources
+import android.annotation.*
+import android.content.res.*
+import com.sevtinge.hyperceiler.module.base.*
 
 object EnableIconMonetColor : BaseHook() {
 

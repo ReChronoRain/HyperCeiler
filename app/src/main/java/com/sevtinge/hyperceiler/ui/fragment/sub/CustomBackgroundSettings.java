@@ -20,6 +20,8 @@ package com.sevtinge.hyperceiler.ui.fragment.sub;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
@@ -119,7 +121,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object o) {
+    public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
         if (preference == mCustomEnabledPreference) {
             setCustomEnable((Boolean) o);
         } else if (preference == mColorPickerPreference) {

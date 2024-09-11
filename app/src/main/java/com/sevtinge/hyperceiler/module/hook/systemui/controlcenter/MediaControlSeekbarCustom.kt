@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
 import android.content.res.Resources.*
 import android.graphics.drawable.*
-import android.util.Log
 import android.widget.*
 import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull

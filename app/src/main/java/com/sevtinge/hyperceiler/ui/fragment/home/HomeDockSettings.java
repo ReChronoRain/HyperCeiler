@@ -22,6 +22,8 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
@@ -65,7 +67,7 @@ public class HomeDockSettings extends SettingsPreferenceFragment implements Pref
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object o) {
+    public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
         if (preference == mDockBackgroundBlurEnable) {
             setCanBeVisible(Integer.parseInt((String) o));
         }

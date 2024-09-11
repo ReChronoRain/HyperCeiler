@@ -29,9 +29,6 @@ import org.luckypray.dexkit.result.MethodData;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
-import java.util.Objects;
-
-import de.robv.android.xposed.XC_MethodHook;
 
 public class DisableUploadAppListNew extends BaseHook {
     @Override

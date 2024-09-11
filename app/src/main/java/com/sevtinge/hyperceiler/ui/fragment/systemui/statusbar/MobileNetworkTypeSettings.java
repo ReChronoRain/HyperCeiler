@@ -20,6 +20,8 @@ package com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
@@ -62,7 +64,7 @@ public class MobileNetworkTypeSettings extends SettingsPreferenceFragment
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object o) {
+    public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
         if (preference == mMobileMode) {
             setMobileMode(Integer.parseInt((String) o));
         }

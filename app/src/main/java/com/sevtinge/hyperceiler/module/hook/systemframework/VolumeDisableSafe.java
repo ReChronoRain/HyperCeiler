@@ -102,12 +102,8 @@ public class VolumeDisableSafe extends BaseTool {
             String action = intent.getAction();
             if (action != null) {
                 switch (action) {
-                    case BluetoothDevice.ACTION_ACL_CONNECTED -> {
-                        isHeadsetOn = true;
-                    }
-                    case BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
-                        isHeadsetOn = false;
-                    }
+                    case BluetoothDevice.ACTION_ACL_CONNECTED -> isHeadsetOn = true;
+                    case BluetoothDevice.ACTION_ACL_DISCONNECTED -> isHeadsetOn = false;
                     case AudioManager.ACTION_HEADSET_PLUG -> {
                         if (intent.hasExtra("state")) {
                             int state = intent.getIntExtra("state", 0);

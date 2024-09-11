@@ -287,7 +287,7 @@ public class HomeT extends BaseModule {
         initHook(BlurRadius.INSTANCE, mPrefsMap.getInt("home_other_blur_radius", 100) != 100);
         initHook(ShortcutItemCount.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_remove_restrictions"));
         initHook(ShowAllHideApp.INSTANCE, true); // 桌面快捷方式管理
-        initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
+        // initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
         initHook(new HideReportText(), mPrefsMap.getBoolean("home_title_hide_report_text"));
         initHook(new DisablePrestart(), mPrefsMap.getBoolean("home_other_disable_prestart"));
 

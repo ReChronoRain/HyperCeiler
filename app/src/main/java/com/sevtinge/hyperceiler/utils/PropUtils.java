@@ -108,9 +108,6 @@ public class PropUtils {
                 "get", new Class[]{String.class}, name);
     }
 
-    /**
-     * @noinspection unchecked
-     */
     private static <T> T invokeMethod(Class<?> cls, String str, Class<?>[] clsArr, Object... objArr) throws Throwable {
         return InvokeUtils.callStaticMethod(cls, str, clsArr, objArr);
     }

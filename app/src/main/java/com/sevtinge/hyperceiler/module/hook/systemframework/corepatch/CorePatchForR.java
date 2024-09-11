@@ -43,6 +43,7 @@ import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -208,11 +209,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                             }
                         } catch (Throwable ignored) {
                         }
-                        if (lastSigs != null) {
-                            signingDetailsArgs[0] = lastSigs;
-                        } else {
-                            signingDetailsArgs[0] = new Signature[]{new Signature(SIGNATURE)};
-                        }
+                        signingDetailsArgs[0] = Objects.requireNonNullElseGet(lastSigs, () -> new Signature[]{new Signature(SIGNATURE)});
                         Object newInstance = findConstructorExact.newInstance(signingDetailsArgs);
 
                         // 修复 java.lang.ClassCastException: Cannot cast android.content.pm.PackageParser$SigningDetails to android.util.apk.ApkSignatureVerifier$SigningDetailsWithDigests

@@ -172,7 +172,7 @@ public class DexKit {
     }
 
     public static void clearCache(@NonNull String path) {
-        FileUtils.delete(path, new FileVisitor<Path>() {
+        FileUtils.delete(path, new FileVisitor<>() {
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                 return FileVisitResult.CONTINUE;
@@ -327,20 +327,12 @@ public class DexKit {
             String type = data.type;
             try {
                 switch (type) {
-                    case TYPE_CLASS -> {
-                        getElement.add(getClass(data.clazz, classLoader));
-                    }
-                    case TYPE_METHOD -> {
-                        getElement.add(getClass(data.clazz, classLoader).getDeclaredMethod(data.method,
-                                stringToClassArray(data.param, classLoader)));
-                    }
-                    case TYPE_FIELD, TYPE_FILED -> {
-                        getElement.add(getClass(data.clazz, classLoader).getDeclaredField(data.field));
-                    }
-                    case TYPE_CONSTRUCTOR -> {
-                        getElement.add(getClass(data.clazz, classLoader).getConstructor(
-                                stringToClassArray(data.param, classLoader)));
-                    }
+                    case TYPE_CLASS -> getElement.add(getClass(data.clazz, classLoader));
+                    case TYPE_METHOD -> getElement.add(getClass(data.clazz, classLoader).getDeclaredMethod(data.method,
+                            stringToClassArray(data.param, classLoader)));
+                    case TYPE_FIELD, TYPE_FILED -> getElement.add(getClass(data.clazz, classLoader).getDeclaredField(data.field));
+                    case TYPE_CONSTRUCTOR -> getElement.add(getClass(data.clazz, classLoader).getConstructor(
+                            stringToClassArray(data.param, classLoader)));
                 }
             } catch (NoSuchFieldException | NoSuchMethodException e) {
                 throwRuntime(e.toString());

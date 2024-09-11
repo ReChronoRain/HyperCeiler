@@ -58,7 +58,7 @@ class LinkageAnimCustomer : BaseHook() {
             object : MethodHook() {
                 override fun before(param: MethodHookParam?) {
                     val fromKeyguard = param?.args?.get(2) as Boolean
-                    if (!fromKeyguard) return@before
+                    if (!fromKeyguard) return
 
                     val toAod = param.args[0] as Boolean
                     val hasNotification = param.args[1] as Boolean

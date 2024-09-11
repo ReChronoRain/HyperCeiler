@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.utils.devicesdk;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.view.WindowManager;
 
 import com.github.kyuubiran.ezxhelper.EzXHelper;
 
@@ -36,7 +35,7 @@ public class DisplayUtils {
 
     public static void getAndroidScreenProperty(Context context) {
         mDisplayMetrics = new DisplayMetrics();
-        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(mDisplayMetrics);
+        context.getDisplay().getMetrics(mDisplayMetrics);
         mWidthPixels = mDisplayMetrics.widthPixels;
         mHeightPixels = mDisplayMetrics.heightPixels;
         mDensity = mDisplayMetrics.density;

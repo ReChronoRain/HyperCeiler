@@ -84,10 +84,54 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
             return true;
         }
         switch (preference.getKey()) {
-            case "prefs_key_development_kill_find_process" -> {
-                showInDialog(new EditDialogCallback() {
-                    @Override
-                    public void onInputReceived(String userInput) {
+            case "prefs_key_development_kill_find_process" -> showInDialog(new EditDialogCallback() {
+                @Override
+                public void onInputReceived(String userInput) {
+                    String pkg = "";
+                    for (AppData appData1 : appData) {
+                        if (appData1.label.equalsIgnoreCase(userInput)) {
+                            pkg = appData1.packageName;
+                        }
+                    }
+                    if (!(pkg == null || pkg.isEmpty())) {
+                        showOutDialog(listToString("PID：       Process：\n",
+                            pidAndPkg(pkg)));
+                        return;
+                    }
+                    showOutDialog("包名错误或不存在，无法查找！\n" + "\"" + userInput + "\"");
+                }
+            });
+            case "prefs_key_development_kill_package" -> showInDialog(new EditDialogCallback() {
+                @Override
+                public void onInputReceived(String userInput) {
+                    if (!userInput.isEmpty()) {
+                        String pkg = "";
+                        for (AppData appData1 : appData) {
+                            if (appData1.packageName.equalsIgnoreCase(userInput)) {
+                                pkg = appData1.packageName;
+                            }
+                        }
+                        if (pkg.isEmpty()) {
+                            showOutDialog("包名错误或不存在，请查证后输入！\n" + "\"" + userInput + "\"");
+                            return;
+                        }
+                        if (!pidAndPkg(pkg).isEmpty()) {
+                            String result = listToString("成功 Kill：\n", pidAndPkg(pkg));
+                            if (killPackage(pkg)) {
+                                showOutDialog(result);
+                            } else {
+                                showOutDialog("Kill: " + pkg + " 失败！");
+                            }
+                        } else {
+                            showOutDialog("未找到当前包名有任何正在运行的进程！\n" + "\"" + userInput + "\"");
+                        }
+                    }
+                }
+            });
+            case "prefs_key_development_kill_app_name" -> showInDialog(new EditDialogCallback() {
+                @Override
+                public void onInputReceived(String userInput) {
+                    if (!userInput.isEmpty()) {
                         String pkg = "";
                         for (AppData appData1 : appData) {
                             if (appData1.label.equalsIgnoreCase(userInput)) {
@@ -95,29 +139,6 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                             }
                         }
                         if (!(pkg == null || pkg.isEmpty())) {
-                            showOutDialog(listToString("PID：       Process：\n",
-                                pidAndPkg(pkg)));
-                            return;
-                        }
-                        showOutDialog("包名错误或不存在，无法查找！\n" + "\"" + userInput + "\"");
-                    }
-                });
-            }
-            case "prefs_key_development_kill_package" -> {
-                showInDialog(new EditDialogCallback() {
-                    @Override
-                    public void onInputReceived(String userInput) {
-                        if (!userInput.isEmpty()) {
-                            String pkg = "";
-                            for (AppData appData1 : appData) {
-                                if (appData1.packageName.equalsIgnoreCase(userInput)) {
-                                    pkg = appData1.packageName;
-                                }
-                            }
-                            if (pkg.isEmpty()) {
-                                showOutDialog("包名错误或不存在，请查证后输入！\n" + "\"" + userInput + "\"");
-                                return;
-                            }
                             if (!pidAndPkg(pkg).isEmpty()) {
                                 String result = listToString("成功 Kill：\n", pidAndPkg(pkg));
                                 if (killPackage(pkg)) {
@@ -128,38 +149,11 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                             } else {
                                 showOutDialog("未找到当前包名有任何正在运行的进程！\n" + "\"" + userInput + "\"");
                             }
-                        }
+                        } else
+                            showOutDialog("包名错误或不存在，请查证后输入！\n" + "\"" + userInput + "\"");
                     }
-                });
-            }
-            case "prefs_key_development_kill_app_name" -> {
-                showInDialog(new EditDialogCallback() {
-                    @Override
-                    public void onInputReceived(String userInput) {
-                        if (!userInput.isEmpty()) {
-                            String pkg = "";
-                            for (AppData appData1 : appData) {
-                                if (appData1.label.equalsIgnoreCase(userInput)) {
-                                    pkg = appData1.packageName;
-                                }
-                            }
-                            if (!(pkg == null || pkg.isEmpty())) {
-                                if (!pidAndPkg(pkg).isEmpty()) {
-                                    String result = listToString("成功 Kill：\n", pidAndPkg(pkg));
-                                    if (killPackage(pkg)) {
-                                        showOutDialog(result);
-                                    } else {
-                                        showOutDialog("Kill: " + pkg + " 失败！");
-                                    }
-                                } else {
-                                    showOutDialog("未找到当前包名有任何正在运行的进程！\n" + "\"" + userInput + "\"");
-                                }
-                            } else
-                                showOutDialog("包名错误或不存在，请查证后输入！\n" + "\"" + userInput + "\"");
-                        }
-                    }
-                });
-            }
+                }
+            });
         }
         return true;
     }

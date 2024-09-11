@@ -51,7 +51,7 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
     private boolean isChina;
     private final static String TAG = "ModSearchAdapter";
     private onItemClickListener mItemClickListener;// item点击监听
-    private final CopyOnWriteArrayList<ModData> modsList = new CopyOnWriteArrayList<ModData>();
+    private final CopyOnWriteArrayList<ModData> modsList = new CopyOnWriteArrayList<>();
 
     public void setOnItemClickListener(onItemClickListener onItemClick) {
         mItemClickListener = onItemClick;
@@ -201,7 +201,7 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
     }
 
     private void sortList() {
-        modsList.sort(new Comparator<ModData>() {
+        modsList.sort(new Comparator<>() {
             public int compare(ModData app1, ModData app2) {
                 int breadcrumbs = app1.breadcrumbs.compareToIgnoreCase(app2.breadcrumbs);
                 if (breadcrumbs == 0)

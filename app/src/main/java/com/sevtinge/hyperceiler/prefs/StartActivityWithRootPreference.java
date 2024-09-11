@@ -25,6 +25,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.R;
 
 import java.io.DataOutputStream;
@@ -44,7 +46,7 @@ public class StartActivityWithRootPreference extends Preference {
     }
 
     @Override
-    public void onBindViewHolder(PreferenceViewHolder holder) {
+    public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
         holder.itemView.setOnClickListener(v -> {

@@ -57,7 +57,7 @@ public class FixAnimation extends BaseHook {
                 Intrinsics.checkNotNullParameter(param, "param");
                 setMAppToHomeAnim2Bak(XposedHelpers.getObjectField(param.thisObject, "mAppToHomeAnim2"));
                 if (getMAppToHomeAnim2Bak() != null) {
-                    XposedHelpers.setObjectField(param.thisObject, "mAppToHomeAnim2", (Object) null);
+                    XposedHelpers.setObjectField(param.thisObject, "mAppToHomeAnim2", null);
                 }
             }
 

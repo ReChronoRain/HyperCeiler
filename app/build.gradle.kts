@@ -1,5 +1,6 @@
 //file:noinspection DependencyNotationArgument
 import com.android.build.gradle.internal.api.*
+import com.android.build.gradle.tasks.*
 import java.io.*
 import java.text.*
 import java.time.*
@@ -80,8 +81,8 @@ android {
         applicationId = namespace
         minSdk = 33
         targetSdk = 35
-        versionCode = 149
-        versionName = "2.4.149"
+        versionCode = 150
+        versionName = "2.5.150"
 
         val buildTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
         buildConfigField("String", "BUILD_TIME", "\"$buildTime\"")
@@ -158,10 +159,10 @@ android {
             versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
             buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
-            if (properties != null) {
-                signingConfig = signingConfigs["hasProperties"]
+            signingConfig = if (properties != null) {
+                signingConfigs["hasProperties"]
             } else {
-                signingConfig = signingConfigs["withoutProperties"]
+                signingConfigs["withoutProperties"]
             }
         }
         create("beta") {
@@ -170,10 +171,10 @@ android {
             versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
             buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
-            if (properties != null) {
-                signingConfig = signingConfigs["hasProperties"]
+            signingConfig = if (properties != null) {
+                signingConfigs["hasProperties"]
             } else {
-                signingConfig = signingConfigs["withoutProperties"]
+                signingConfigs["withoutProperties"]
             }
         }
         create("canary") {
@@ -182,10 +183,10 @@ android {
             versionNameSuffix = "_${gitHash}_r${gitCode}"
             buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
-            if (properties != null) {
-                signingConfig = signingConfigs["hasProperties"]
+            signingConfig = if (properties != null) {
+                signingConfigs["hasProperties"]
             } else {
-                signingConfig = signingConfigs["withoutProperties"]
+                signingConfigs["withoutProperties"]
             }
         }
         debug {
@@ -206,6 +207,10 @@ android {
 
     kotlin.jvmToolchain(21)
 
+    // https://stackoverflow.com/a/77745844
+    tasks.withType<PackageAndroidArtifact> {
+        doFirst { appMetadata.asFile.orNull?.writeText("") }
+    }
 }
 
 dependencies {
@@ -214,10 +219,8 @@ dependencies {
 
     implementation(libs.dexkit)
     implementation(libs.ezxhelper)
-    implementation(libs.accompanist.systemuicontroller)
     implementation(libs.hiddenapibypass)
     implementation(libs.gson)
-    implementation(libs.commons.codec)
     implementation(libs.hooktool)
     implementation(libs.gson)
 

@@ -30,7 +30,7 @@ object AutoUpdateDialog : BaseHook() {
         DexKit.getDexKitBridge("AutoUpdateDialog1") {
             it.findMethod {
                 matcher {
-                    addCall {
+                    addCaller {
                         addUsingString("isShowAutoSetDialog", StringMatchType.Contains)
                     }
                     paramTypes("boolean", "boolean")
@@ -43,7 +43,7 @@ object AutoUpdateDialog : BaseHook() {
         DexKit.getDexKitBridge("AutoUpdateDialog2") {
             it.findMethod {
                 matcher {
-                    addCall {
+                    addCaller {
                         addUsingString("isShowMobileDownloadDialog", StringMatchType.Contains)
                     }
                     paramTypes("long", "int")

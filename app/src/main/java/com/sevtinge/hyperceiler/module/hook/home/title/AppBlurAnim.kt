@@ -26,7 +26,6 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.blur.*
-import com.sevtinge.hyperceiler.utils.log.*
 import de.robv.android.xposed.*
 import java.util.concurrent.*
 

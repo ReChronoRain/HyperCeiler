@@ -35,7 +35,6 @@ public class DisableUnlockByBleToast extends BaseHook {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
                         String resName = ((Context) param.args[0]).getResources().getResourceName((int) param.args[1]);
-                        logD(TAG, lpparam.packageName, resName);
                         if (Objects.equals(resName, "com.android.systemui:string/miui_keyguard_ble_unlock_succeed_msg"))
                             findAndHookMethod(Toast.class, "show", new MethodHook() {
                                 @Override
@@ -54,7 +53,6 @@ public class DisableUnlockByBleToast extends BaseHook {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
                         String resName = ((Context) param.args[0]).getResources().getResourceName((int) param.args[1]);
-                        logD(TAG, lpparam.packageName, resName);
                         if (Objects.equals(resName, "com.android.systemui:string/miui_keyguard_ble_unlock_succeed_msg"))
                             findAndHookMethod(Toast.class, "show", new MethodHook() {
                                 @Override

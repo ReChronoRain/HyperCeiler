@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.mishare
 
+import android.content.*
+import android.widget.*
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
@@ -27,7 +29,10 @@ import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEqu
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toField
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
+import com.sevtinge.hyperceiler.module.base.tool.*
+import com.sevtinge.hyperceiler.module.base.tool.HookTool.*
 import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.log.*
 import de.robv.android.xposed.*
 import java.lang.reflect.*
 
@@ -74,14 +79,29 @@ object NoAutoTurnOff : BaseHook() {
             it.findMethod {
                 matcher {
                     declaredClass {
-                        addUsingStringsEquals("null context", "cta_agree")
+                        addUsingStringsEquals("EnablingState processMessage(0x%X)", "MiShareService")
                     }
                     returnType = "boolean"
-                    paramTypes = listOf("android.content.Context", "java.lang.String")
-                    paramCount = 2
+                    paramTypes = listOf("android.os.Message")
                 }
             }.toElementList()
         }.toMethodList()
+    }
+
+    private val showToastMethod by lazy {
+        DexKit.getDexKitBridge("NoAutoTurnOff5") {
+            it.findMethod {
+                matcher {
+                    declaredClass {
+                        fieldCount(0)
+                        methodCount(2)
+                    }
+                    returnType = "void"
+                    modifiers = Modifier.STATIC
+                    paramTypes = listOf("android.content.Context", "java.lang.CharSequence", "int")
+                }
+            }.singleOrNull()?.getMethodInstance(safeClassLoader)
+        }.toMethod()
     }
 
     private val nullField by lazy {
@@ -123,9 +143,9 @@ object NoAutoTurnOff : BaseHook() {
         }
 
         runCatching {
-            findAndHookConstructor(nullField!!.javaClass, object : MethodHook() {
+            findAndHookConstructor(nullField.javaClass, object : MethodHook() {
                 override fun after(param: MethodHookParam) {
-                    XposedHelpers.setObjectField(param.thisObject, nullField!!.name, 999999999)
+                    XposedHelpers.setObjectField(param.thisObject, nullField.name, 999999999)
                     logI(TAG, lpparam.packageName, "nullField hook success, $nullField")
                 } })
         }
@@ -133,9 +153,18 @@ object NoAutoTurnOff : BaseHook() {
         // 干掉小米互传十分钟倒计时 Toast
         toastMethod.createHooks {
             before { param ->
-                if (param.args[1].equals("security_agree")) {
-                    param.result = false
-                }
+                findAndHookMethod(Context::class.java, "getString", Int::class.java, object : MethodHook() {
+                    override fun before(param: MethodHookParam) {
+                        val resName = (param.thisObject as Context).resources.getResourceName(param.args[0] as Int)
+                        if (resName == "com.miui.mishare.connectivity:string/toast_auto_close_in_minutes") param.result = "Modify by HyperCeiler"
+                    }
+                })
+                hookMethod(showToastMethod, object : MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun before(param: MethodHookParam) {
+                        if (param.args[1].toString() == "Modify by HyperCeiler") param.result = null
+                    }
+                })
             }
         }
     }

@@ -20,17 +20,11 @@ package com.sevtinge.hyperceiler.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.R;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -62,10 +56,13 @@ public class MainActivityContextHelper {
             strCrc = strCrc.toUpperCase();
             //String MD5Crc = MD5Util.GetMD5Code(strCrc);
             //Log.e("checkcrc", MD5Crc);
+            /*
             if (dexCrcStr.equals(strCrc)) {
-                //ActivityManagerUtil.getScreenManager().removeAllActivity();
+                ActivityManagerUtil.getScreenManager().removeAllActivity();
                 return true;
             } else return false;
+             */
+            return dexCrcStr.equals(strCrc);
         } catch (IOException e) {
             return false;
         }

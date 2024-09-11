@@ -52,7 +52,7 @@ public class DisableFreeformBlackList extends BaseHook {
         hookAllMethods(mMiuiMultiWindowAdapter, "setFreeformBlackList", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                List<String> blackList = new ArrayList<String>();
+                List<String> blackList = new ArrayList<>();
                 blackList.add("ab.cd.xyz");
                 param.args[0] = blackList;
             }

@@ -72,13 +72,7 @@ public class ColorUtilsStatic {
         R = R.length() == 1 ? "0" + R : R;
         G = G.length() == 1 ? "0" + G : G;
         B = B.length() == 1 ? "0" + B : B;
-        //
-        StringBuilder sb = new StringBuilder();
-        sb.append("#");
-        sb.append(A);
-        sb.append(R);
-        sb.append(G);
-        sb.append(B);
-        return sb.toString();
+
+        return "#" + A + R + G + B;
     }
 }

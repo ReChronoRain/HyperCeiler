@@ -32,7 +32,6 @@ import org.luckypray.dexkit.result.MethodDataList;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
-import java.util.Collections;
 import java.util.List;
 
 public class BaiduClipboard extends BaseHook {

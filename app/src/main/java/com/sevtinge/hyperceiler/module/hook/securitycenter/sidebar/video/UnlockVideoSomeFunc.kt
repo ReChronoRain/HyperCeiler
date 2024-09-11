@@ -80,7 +80,7 @@ object UnlockVideoSomeFunc : BaseHook() {
         val orderedA = DexKit.getDexKitBridgeList("findFrcA") { _ ->
             findFrc?.toElementList()
         }.toMethodList()
-        val differentItems = orderedA.subtract(orderedB)
+        val differentItems = orderedA.subtract(orderedB.toSet())
 
         if (memc) {
             differentItems.forEach { methods ->

@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.milink;
 
-import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getPackageVersionCode;
-
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
@@ -31,8 +29,6 @@ import org.luckypray.dexkit.result.MethodData;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
-
-import de.robv.android.xposed.XC_MethodHook;
 
 public class UnlockHMind extends BaseHook {
     @Override

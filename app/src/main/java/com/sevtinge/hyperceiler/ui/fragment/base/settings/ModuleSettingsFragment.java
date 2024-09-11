@@ -103,14 +103,12 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
                 mLogLevel.setValueIndex(4);
                 mLogLevel.setSummary(R.string.disable_detailed_log_more);
             }*/
-            default -> {
-                mLogLevel.setOnPreferenceChangeListener(
-                        (preference, o) -> {
-                            setLogLevel(Integer.parseInt((String) o));
-                            return true;
-                        }
-                );
-            }
+            default -> mLogLevel.setOnPreferenceChangeListener(
+                    (preference, o) -> {
+                        setLogLevel(Integer.parseInt((String) o));
+                        return true;
+                    }
+            );
         }
 
         if (mHideAppIcon != null) {
@@ -151,7 +149,7 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object o) {
+    public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
         if (preference == mIconModePreference) {
             setIconMode(Integer.parseInt((String) o));
         }
