@@ -119,7 +119,7 @@ public class SecurityCenterT extends BaseModule {
         // 其他
         initHook(new InstallIntercept(), mPrefsMap.getBoolean("security_center_install_intercept"));
         initHook(LockOneHundredPoints.INSTANCE, mPrefsMap.getBoolean("security_center_score"));
-        initHook(SkipCountDownLimit.INSTANCE, mPrefsMap.getBoolean("security_center_skip_count_down_limit"));
+        initHook(new SkipCountDownLimit(), mPrefsMap.getBoolean("security_center_skip_count_down_limit"));
         initHook(DisableRootCheck.INSTANCE, mPrefsMap.getBoolean("security_center_disable_root_check"));
         initHook(FuckRiskPkg.INSTANCE, mPrefsMap.getBoolean("security_center_disable_send_malicious_app_notification"));
         initHook(NoLowBatteryWarning.INSTANCE, mPrefsMap.getBoolean("security_center_remove_low_battery_reminder"));
