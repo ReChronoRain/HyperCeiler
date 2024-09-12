@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -16,9 +17,212 @@
   ~
   ~ Copyright (C) 2023-2024 HyperCeiler Contributions
   -->
-
 <resources>
+    <!--Introduction to Xposed Modules-->
+    <string name="xposed_description">HyperOS/MIUI 被我们镐蜂辣！</string>
+    <string name="new_permission_wifi_state_desc">轻柔地加减设备内存上的文件</string>
+    <string name="new_permission_location_desc">用于提供诸如拉格兰等服务</string>
+    <string name="new_cta_agree_desc">要镐蜂您的系统，我们会向您要面具（或者不要面具，但我们需要sudo 给我们权限）。要停止镐蜂您的系统，你可以随时把面具拿走，或者在应用管理里面很长很长的菜单改变红绿灯。</string>
+    <string name="new_cta_app_main_purpose">玩坏你的系统应用</string>
+    <string name="new_cta_app_all_purpose_title">嗨嗨嗨！欢迎使用憨批露™！这个框架那个框架什么的肯定安装好了吧？总之，憨批露会通过插入各种部位来帮助您镐蜂您的系统。要镐蜂您的系统，我们会向您要面具（或者不要面具，但我们需要sudo 给我们权限）。要停止镐蜂您的系统，你可以随时把面具拿走。</string>
+    <!--HyperCeiler Settings/About Page-->
     <string name="language">梗体中文</string>
-    <string name="translator">HyperCeiler 全体用户</string>
-    <string name="translator_url">https://github.com/ReChronoRain</string>
+    <string name="translator">某些不愿透露姓名的 HyperCeiler 全体用户</string>
+    <string name="translator_url">https://www.youtube.com/watch?v=dQw4w9WgXcQ</string>
+    <string name="home">家</string>
+    <string name="edit">“请”打字</string>
+    <string name="kill">杀杀杀</string>
+    <string name="kill_1">输入受害包名称</string>
+    <string name="kill_2">找找躲起来的进程</string>
+    <string name="kill_3">死亡笔记</string>
+    <string name="kill_4">金钟罩</string>
+    <string name="edit_out">我要结果</string>
+    <string name="edit_key">输入钥匙的值</string>
+    <string name="prefs_1">钥匙 404 Not found： </string>
+    <string name="prefs_2">成功销毁了钥匙： </string>
+    <string name="prefs_3">不能销毁钥匙，可能本来就404： </string>
+    <string name="success">中！😋😋😋</string>
+    <string name="failed">不中！🤗🤗🤗</string>
+    <string name="help">邦邦</string>
+    <string name="settings">五颜六色小开关</string>
+    <string name="about">没有人看的部分</string>
+    <string name="about_use">参　考　文　献</string>
+    <string name="about_use_desc">憨批露吃掉了以下项目的部分或全部内容，你还得谢谢开发这些项目的各位呢（排名不分先后）</string>
+    <string name="about_contributer">始　作　俑　者</string>
+    <string name="about_contributer_desc">把系统镐蜂的人就是他们哟（排名不分先后）</string>
+    <string name="about_donation">帮忙发电的人</string>
+    <string name="about_donation_desc">V我50，每天都是疯狂星期四</string>
+    <string name="hyperceiler_notice">拉下手机的窗帘来同时显示五颜六色小开关和烦人的通知</string>
+    <string name="hyperceiler_restart_quick">迅速重开</string>
+    <string name="location_add">加</string>
+    <string name="location_delete">减</string>
+    <string name="development">超级秘密选项</string>
+    <string name="development_ui">喂</string>
+    <string name="development_debug_info">调戏信息</string>
+    <string name="development_delete_all_dexkit_cache">减掉所有 DexKit 缓存</string>
+    <string name="development_close_log_alert_dialog">关掉记录器演唱会警告对话</string>
+    <string name="development_fix_lsposed_log">试试看修理 LSP 的日记服务</string>
+    <string name="about_privacy">霸王条款</string>
+    <string name="about_protocol">很长的没人看的部分</string>
+    <string name="settings_show_title">看看</string>
+    <string name="settings_bug_title">疑？无！</string>
+    <string name="settings_debug_title">调戏</string>
+    <string name="settings_icon_desc">憨批露应该在设置的哪里呢？</string>
+    <string name="settings_icon_disable">关掉</string>
+    <string name="settings_icon_top">车顶</string>
+    <string name="settings_icon_medium">车里</string>
+    <string name="settings_icon_down">车底</string>
+    <string name="settings_app_language">话</string>
+    <string name="settings_reboot">重开</string>
+    <string name="reset_title">确定要结束憨批露的这一生吗？</string>
+    <string name="reset_desc">人被杀，就会死。</string>
+    <string name="reset_okay">开始了憨批露新的一生</string>
+    <!--Pop-up window/miuix part-->
+    <string name="kill_failed">钱不够 我很难帮你办事</string>
+    <string name="pid_failed">还没开呢，重开什么？</string>
+    <string name="expand_button_title">高级关卡</string>
+    <string name="copy">抄抄你的😋</string>
+    <string name="preference_on">已打开</string>
+    <string name="preference_off">已关掉</string>
+    <string name="preference_dialog_color_picker_default_title">选择色色</string>
+    <string name="preference_dialog_color_picker_presets">预设色色</string>
+    <string name="preference_dialog_color_picker_custom">自己色色</string>
+    <string name="preference_dialog_color_picker_transparency">阿卡林</string>
+    <string name="preference_dialog_color_picker_select">确认选区</string>
+    <string name="abc_action_bar_home_description">回家</string>
+    <string name="abc_action_bar_up_description">回上一关</string>
+    <string name="actionbar_button_up_description">回去</string>
+    <string name="color_picker_view_page_text_hue">色色度</string>
+    <string name="color_picker_view_page_text_lightness">光光度</string>
+    <string name="color_picker_view_page_text_saturation">饱饱度</string>
+    <!--String reuse-->
+    <string name="feature">函数</string>
+    <!--Multi-list Array-->
+    <string name="array_global_actions_volume_up">快快变大~</string>
+    <string name="array_global_actions_onehanded_left">不方便模式(确信)</string>
+    <string name="miui_blur">憨批糊糊</string>
+    <string name="miui_android_blur">自己糊糊</string>
+    <string name="android_blur">原生糊糊</string>
+    <string name="mediaeditor_mickey">律师函</string>
+    <string name="tiles_gms">咕噜咕噜普雷服务</string>
+    <!--System Framework-->
+    <string name="system_framework_volume_title">体积</string>
+    <string name="system_framework_other_title">别人</string>
+    <string name="system_framework_display_title">看看</string>
+    <string name="system_framework_phone_title">网</string>
+    <string name="system_framework_bubble_title">冒泡通知</string>
+    <string name="system_framework_freeform_count">很多小窗</string>
+    <string name="system_framework_disable_freeform_blacklist">不让我用小窗，坏！</string>
+    <string name="system_framework_disable_freeform_blacklist_desc">就用就用！就用小窗！不管你让不让我用了！</string>
+    <string name="system_framework_freeform_sticky">记忆力惊人</string>
+    <string name="system_framework_freeform_bubble">冒泡小窗</string>
+    <string name="system_framework_freeform_foreground_pin">小窗不许偷懒</string>
+    <string name="system_framework_volume_separate_control">独立体积控制</string>
+    <string name="system_framework_volume_disable_safe">减掉高体积安全限制</string>
+    <string name="default_volume_safe_all">都要关掉</string>
+    <string name="default_volume_safe_headset">仅手套耳机大水时</string>
+    <string name="system_framework_volume_separate_slider">通知体积滚动条</string>
+    <string name="system_framework_volume_media_steps">媒体体积关卡</string>
+    <string name="system_ui_display_brightness_title">光光</string>
+    <string name="system_framework_allow_untrusted_touch">都可以摸摸</string>
+    <string name="system_framework_allow_uninstall">允许精简系统</string>
+    <string name="system_framework_allow_uninstall_desc">精简是个谎言！</string>
+    <!--Package Manager Service-->
+    <!--Browser-->
+    <!--Camera-->
+    <!--Calendar-->
+    <!--File Manager-->
+    <!--Phone-->
+    <!--Message-->
+    <!--Phone Service-->
+    <!--Download management program-->
+    <string name="downloads">下崽管理程序</string>
+    <string name="various_fuck_xlDownload">不许创建垃圾</string>
+    <string name="various_fuck_xlDownload_desc">防止下崽管理在手机内存根目录中产崽（.xlDownload文件夹）</string>
+    <!--System UI-->
+    <string name="system_ui_lockscreen_safe_title">安保</string>
+    <string name="system_ui_lock_screen_password_free_tip">不能既安全又不安全</string>
+    <string name="system_ui_lock_screen_default_theme">还是默认主题</string>
+    <string name="system_ui_lock_screen_force_system_fonts">所以时钟也用系统字体的话真的会很好看吗？</string>
+    <string name="system_ui_navigation_title">导航</string>
+    <string name="system_ui_hide_navigation_bar">不看导航</string>
+    <string name="system_ui_navigation_handle_custom_thickness">THICC</string>
+    <string name="system_ui_statusbar_iconmanage_wifi_title">Wi-Fe</string>
+    <string name="system_ui_statusbar_iconmanage_bluetooth_title">黄龙江一带</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_title">移不动网</string>
+    <string name="system_ui_statusbar_iconmanage_battery_title">电池</string>
+    <string name="system_ui_statusbar_iconmanage_call_title">打Call</string>
+    <string name="system_ui_status_bar_icon_hotspot">Wi-Fe 热点</string>
+    <string name="system_ui_status_bar_icon_bluetooth">黄龙江一带</string>
+    <string name="system_ui_status_bar_icon_bluetooth_battery">黄龙江电池</string>
+    <string name="system_ui_status_bar_battery_indicator_low_level">没电了</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text_1">长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长</string>
+    <string name="quick_settings_state_change_message_on_my">%1$s 已打开</string>
+    <string name="quick_settings_state_change_message_off_my">%1$s 已关掉</string>
+    <string name="system_ui_unlock_super_volume">解锁超大体积</string>
+    <string name="system_ui_control_center_card_tiles_customization_add">加了</string>
+    <string name="system_ui_control_center_card_tiles_customization_not_add">没加</string>
+    <!--Settings-->
+    <string name="system_settings_safe_wifi">看看 Wi-Fe 密码</string>
+    <string name="system_settings_allow_never_lock_screen">烧屏模式, 启动!</string>
+    <!--Themes-->
+    <string name="theme_manager_diable_ads">Adblocker</string>
+    <!--remotecontroller-->
+    <string name="remotecontroller">万能遥控不能控制宇宙</string>
+    <string name="remotecontroller_disable_ad">Adblocker</string>
+    <!--Updater-->
+    <string name="updater_enable_miui_version">骗过版本</string>
+    <string name="updater_fuck_vab">骗过上帝</string>
+    <!--Permissions-->
+    <!--Cast-->
+    <!--Always-on display-->
+    <!--Taplus-->
+    <!--Xiaomi Cloud Service-->
+    <!--Mi Mover-->
+    <!--Backup-->
+    <!--Mi Canvas-->
+    <!--Gallery-->
+    <!--MIUI security components-->
+    <!--System launcher-->
+    <!--Gallery Editor-->
+    <!--Mi Share-->
+    <!--Wallpaper-->
+    <!--Package installer-->
+    <!--NFC-->
+    <!--HTML Viewer-->
+    <!--App vault-->
+    <!--Battery and performance-->
+    <string name="powerkeeper_do_not_kill_apps_desc">可能会让你的功耗爆炸</string>
+    <!--Screen Recorder-->
+    <!--Screenshot-->
+    <!--System Service Plugin-->
+    <!--Security/Tablet security center-->
+    <string name="security_score_summary">在安全中作弊</string>
+    <string name="security_center_skip_waiting_time_direct_desc">我知道我在做什么！</string>
+    <string name="security_center_remove_low_battery_reminder_summary">我知道我没电了</string>
+    <string name="security_center_no_permission">不给钱还想办事？</string>
+    <!--MiTrustService-->
+    <string name="trustservice_disable_mrm_desc">塔会盯着你 直到永远</string>
+    <!--Smart cards-->
+    <!--Weather-->
+    <!--Analytics-->
+    <string name="analytics">让我看看</string>
+    <!--AI Translate-->
+    <!--Barrage-->
+    <!--Joyose-->
+    <string name="joyose">无形的大手</string>
+    <!--GetApps-->
+    <!--Mi sound-->
+    <!--Mi Settings-->
+    <!--MTB-->
+    <!--Sogou input method-->
+    <!--Scanner-->
+    <!--MI AI-->
+    <string name="voiceassist">人工智障</string>
+    <!--Other-->
+    <string name="disable_app_settings">好主意❌</string>
+    <string name="ic_qs_title_bluetooth">蓝色牙齿</string>
+    <string name="ic_qs_title_flashlight">烫点</string>
+    <!--Telecom-->
+    <!--Voice Trigger-->
 </resources>
