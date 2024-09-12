@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtils;
@@ -68,7 +69,7 @@ public class OtherTool {
 
     public static Resources getModuleRes(Context context)
             throws PackageManager.NameNotFoundException {
-        return ResourcesTool.getModuleRes(context);
+        return ResourcesTool.loadModuleRes(context);
     }
 
     public static Context findContext(@ContextUtils.Duration int flag) {
