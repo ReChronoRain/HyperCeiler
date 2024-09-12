@@ -91,7 +91,7 @@ public class SystemFrameworkT extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        initHook(new AntiQues());
+        initHook(new AntiQues(), mPrefsMap.getBoolean("system_settings_anti_ques"));
         // 小窗
         initHook(new AllowAutoStart(), mPrefsMap.getBoolean("system_framework_auto_start_apps_enable"));
         initHook(new FreeFormCount(), mPrefsMap.getBoolean("system_framework_freeform_count"));
