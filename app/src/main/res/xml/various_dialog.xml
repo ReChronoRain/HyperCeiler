@@ -62,7 +62,7 @@
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.CustomBackgroundSettings"
             android:key="prefs_key_various_dialog_bg_blur"
-            android:title="@string/custom_background_blur_enabled" />
+            android:title="@string/custom_background" />
     </PreferenceCategory>
 
 </PreferenceScreen>

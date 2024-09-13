@@ -1700,6 +1700,7 @@
     <string name="various_mipad_input_ingore_gesture_desc">Ignore the long press gesture on the stylus buttons</string>
     <string name="various_mipad_input_need_finger_num_title">Swap the number of fingers required for gestures</string>
     <string name="various_mipad_input_need_finger_num_desc">Change screenshot gesture, partial screenshot gesture, and horizontal split screen gesture to be triggered by four fingers, and switch apps gesture to be triggered by three fingers.</string>
+    <string name="custom_background">Custom background</string>
     <string name="custom_background_blur_enabled">Background blur</string>
     <string name="custom_background_blur_radius">Blur radius</string>
     <string name="custom_background_color">Background color</string>
