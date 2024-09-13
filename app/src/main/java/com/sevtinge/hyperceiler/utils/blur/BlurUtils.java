@@ -40,6 +40,8 @@ public class BlurUtils {
     private Object mViewRootImpl;
     private Drawable mBlurDrawable;
 
+    private boolean isEnable;
+
     private int mColor;
     private int mAlpha;
     private int mCornerRadius;
@@ -54,7 +56,7 @@ public class BlurUtils {
     public BlurUtils(View view, String key) {
         mContext = view.getContext();
         setKey(mContext, key);
-        setBlurView(view);
+        if (isEnable) setBlurView(view);
     }
 
     public void setBlurView(View view) {
@@ -96,12 +98,16 @@ public class BlurUtils {
     public void setKey(Context context, String key) {
         if (!TextUtils.isEmpty(key)) {
 
+            String mCustomBackgroundEnabledKey = key + "_custom_enable";
+
             String mBlurEnableKey = key + "_blur_enabled";
             String mBlurRadiusKey = key + "_blur_radius";
 
             String mColorKey = key + "_color";
             String mAlphaKey = key + "_color_alpha";
             String mCornerRadiusKey = key + "_corner_radius";
+
+            isEnable = XposedInit.mPrefsMap.getBoolean(mCustomBackgroundEnabledKey);
 
             isBlurEnable = XposedInit.mPrefsMap.getBoolean(mBlurEnableKey);
             mBlurRadius = XposedInit.mPrefsMap.getInt(mBlurRadiusKey, 60);
@@ -111,6 +117,8 @@ public class BlurUtils {
             mCornerRadius = DisplayUtils.dp2px(XposedInit.mPrefsMap.getInt(mCornerRadiusKey, 18));
 
         } else {
+            isEnable = false;
+            
             isBlurEnable = false;
             mBlurRadius = 60;
 

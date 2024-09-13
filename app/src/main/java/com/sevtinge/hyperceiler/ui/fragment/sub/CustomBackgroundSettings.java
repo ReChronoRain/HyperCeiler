@@ -51,7 +51,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
 
     @Override
     public int getContentResId() {
-        return R.xml.custom_background;
+        return R.xml.various_dialog_custom_background;
     }
 
     @Override
