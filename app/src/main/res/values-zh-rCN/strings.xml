@@ -1749,7 +1749,7 @@
     <string name="various_mipad_input_need_finger_num_title">交换手势所需的手指数量</string>
     <string name="various_mipad_input_need_finger_num_desc">将三指截屏、三指长按区域截屏、三指横向分屏手势更改为四指触发，切换应用手势更改为三指触发</string>
 
-    <string name="custom_background_blur_enabled">自定义窗口背景</string>
+    <string name="custom_background_blur_enabled">自定义弹窗背景</string>
     <string name="custom_background_blur_radius">模糊半径</string>
     <string name="custom_background_color">颜色</string>
     <string name="custom_background_color_alpha">背景颜色透明度</string>
@@ -1768,8 +1768,8 @@
     <string name="various_dialog_margin_horizontal_desc">弹窗距屏幕两侧的距离</string>
     <string name="various_dialog_margin_bottom">弹窗底部边距</string>
     <string name="various_dialog_margin_bottom_desc">弹窗距屏幕底部的距离</string>
-    <string name="various_dialog_window_blur">窗口后景模糊</string>
-    <string name="various_dialog_window_blur_radius">窗口后景模糊半径</string>
+    <string name="various_dialog_window_blur">弹窗后景模糊</string>
+    <string name="various_dialog_window_blur_radius">弹窗后景模糊半径</string>
 
     <string name="location_data_title">数据库</string>
     <string name="various_location_simulation_1_title">任务 1</string>

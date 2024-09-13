@@ -118,7 +118,7 @@ public class BlurUtils {
 
         } else {
             isEnable = false;
-            
+
             isBlurEnable = false;
             mBlurRadius = 60;
 
