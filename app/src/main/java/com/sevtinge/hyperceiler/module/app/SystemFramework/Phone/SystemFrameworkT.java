@@ -40,6 +40,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.DisableFreeformBlack
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableGestureMonitor;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableLowApiCheckForU;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableMiuiLite;
+import com.sevtinge.hyperceiler.module.hook.systemframework.DisableMiuiWatermark;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePersistent;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePinVerifyPer72h;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableVerifyCanBeDisabled;
@@ -91,6 +92,7 @@ public class SystemFrameworkT extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        initHook(new DisableMiuiWatermark(), mPrefsMap.getBoolean("system_framework_disable_miui_watermark"));
         initHook(new AntiQues(), mPrefsMap.getBoolean("system_settings_anti_ques"));
         // 小窗
         initHook(new AllowAutoStart(), mPrefsMap.getBoolean("system_framework_auto_start_apps_enable"));

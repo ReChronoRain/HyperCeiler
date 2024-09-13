@@ -484,6 +484,7 @@
     <string name="system_framework_allow_disable_protected_package">允许冻结受保护的应用</string>
     <string name="system_framework_other_disable_gesture_monitor">禁止监控手势</string>
     <string name="system_framework_other_disable_gesture_monitor_desc">可适当降低 CPU 负载，但会破坏部分屏幕操作类的快捷手势功能及手势输入相关功能</string>
+    <string name="system_framework_disable_miui_watermark">禁用全局水印</string>
 
     <!--核心破解-->
     <string name="system_framework_corepatch_title">包管理服务</string>
