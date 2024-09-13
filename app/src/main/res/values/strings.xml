@@ -234,6 +234,10 @@
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
     <string name="custom_enable">Custom enable</string>
+    <string name="customization">Customization</string>
+    <string name="model">Model</string>
+    <string name="device">Device</string>
+    <string name="manufacture">Manufacture</string>
     <string name="search">Search</string>
     <string name="floating_window">Freeform</string>
     <string name="save_to_screen_title">Specification save location</string>

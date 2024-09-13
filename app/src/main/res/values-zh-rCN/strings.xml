@@ -208,6 +208,10 @@
     <string name="enable">启用</string>
     <string name="disable">禁用</string>
     <string name="custom_enable">启用自定义</string>
+    <string name="customization">自定义</string>
+    <string name="model">认证型号</string>
+    <string name="device">设备代号</string>
+    <string name="manufacture">厂商</string>
     <string name="search">搜索</string>
     <string name="floating_window">小窗</string>
     <string name="save_to_screen_title">规范保存位置</string>

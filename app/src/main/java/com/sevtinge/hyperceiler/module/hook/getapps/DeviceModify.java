@@ -127,6 +127,11 @@ public class DeviceModify extends BaseHook {
             mDevice = "air";
             mModel = "23124RN87C";
             mManufacturer = "Redmi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 1) {
+            // customization
+            mDevice = mPrefsMap.getString("market_device_modify_device", "");
+            mModel = mPrefsMap.getString("market_device_modify_model", "");
+            mManufacturer = mPrefsMap.getString("market_device_modify_manufacture", "");
         }
         findAndHookConstructor("com.xiaomi.market.MarketApp", new MethodHook() {
             @Override
