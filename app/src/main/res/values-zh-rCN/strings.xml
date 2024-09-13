@@ -211,7 +211,7 @@
     <string name="customization">自定义</string>
     <string name="model">认证型号</string>
     <string name="device">设备代号</string>
-    <string name="manufacture">厂商</string>
+    <string name="manufacturer">厂商</string>
     <string name="search">搜索</string>
     <string name="floating_window">小窗</string>
     <string name="save_to_screen_title">规范保存位置</string>
@@ -578,6 +578,9 @@
     <!--日历-->
     <string name="calendar">日历</string>
     <string name="calendar_unlock_subscription">解锁订阅服务</string>
+    <!--小米社区-->
+    <string name="community">小米社区</string>
+    <string name="community_device_modify">机型伪装</string>
     <!--文件管理-->
     <string name="fileexplorer">文件管理</string>
     <string name="file_explorer_can_selectable">文件夹名称允许长按选择操作</string>

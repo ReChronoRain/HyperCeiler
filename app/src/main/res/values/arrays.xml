@@ -75,6 +75,7 @@
         <item>com.xiaomi.mtb</item> <!--mtb-->
         <item>com.xiaomi.scanner</item> <!--小爱视觉-->
         <item>com.xiaomi.trustservice</item> <!--trustservice-->
+        <item>com.xiaomi.vipaccount</item> <!--小米社区-->
         <item>com.iflytek.inputmethod.miui</item> <!--讯飞输入法小米版-->
         <item>com.sohu.inputmethod.sogou.xiaomi</item> <!--搜狗输入法小米版-->
         <item>com.miui.voicetrigger</item> <!--语音唤醒-->

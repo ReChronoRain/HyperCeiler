@@ -29,7 +29,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getDeviceToke
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getFingerPrint;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLanguage;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLocale;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getManufacture;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getManufacturer;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getMarketName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getModDevice;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getModelName;
@@ -97,7 +97,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesDevice.put("DeviceName", getDeviceName());
             propertiesDevice.put("Model", getModelName());
             propertiesDevice.put("Brand", getBrand());
-            propertiesDevice.put("Manufacture", getManufacture());
+            propertiesDevice.put("Manufacture", getManufacturer());
             propertiesDevice.put("Board", getBoard());
             propertiesDevice.put("Soc", getSoc());
             propertiesDevice.put("ModDevice", getModDevice());

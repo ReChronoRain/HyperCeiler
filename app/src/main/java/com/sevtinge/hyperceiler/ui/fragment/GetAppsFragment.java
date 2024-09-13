@@ -33,7 +33,7 @@ public class GetAppsFragment extends SettingsPreferenceFragment {
     DropDownPreference mDeviceModify;
     EditTextPreference mModel;
     EditTextPreference mDevice;
-    EditTextPreference mManufacture;
+    EditTextPreference mManufacturer;
 
     @Override
     public int getContentResId() {
@@ -53,27 +53,27 @@ public class GetAppsFragment extends SettingsPreferenceFragment {
         mDeviceModify = findPreference("prefs_key_market_device_modify_new");
         mDevice = findPreference("prefs_key_market_device_modify_device");
         mModel = findPreference("prefs_key_market_device_modify_model");
-        mManufacture = findPreference("prefs_key_market_device_modify_manufacture");
+        mManufacturer = findPreference("prefs_key_market_device_modify_manufacturer");
 
         if (Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_market_device_modify_new", "0")) == 1) {
             mDevice.setVisible(true);
             mModel.setVisible(true);
-            mManufacture.setVisible(true);
+            mManufacturer.setVisible(true);
         } else {
             mDevice.setVisible(false);
             mModel.setVisible(false);
-            mManufacture.setVisible(false);
+            mManufacturer.setVisible(false);
         }
 
         mDeviceModify.setOnPreferenceChangeListener((preference, o) -> {
             if (Integer.parseInt((String) o) == 1) {
                 mDevice.setVisible(true);
                 mModel.setVisible(true);
-                mManufacture.setVisible(true);
+                mManufacturer.setVisible(true);
             } else {
                 mDevice.setVisible(false);
                 mModel.setVisible(false);
-                mManufacture.setVisible(false);
+                mManufacturer.setVisible(false);
             }
             return true;
         });

@@ -451,6 +451,14 @@
 
     <SwitchPreference
         android:defaultValue="true"
+        android:icon="@drawable/ic_community"
+        android:key="prefs_key_community_state"
+        android:layout="@layout/preference_header"
+        android:summary="com.xiaomi.vipaccount"
+        android:title="@string/community" />
+
+    <SwitchPreference
+        android:defaultValue="true"
         android:icon="@drawable/ic_various_new"
         android:key="prefs_key_various_state"
         android:layout="@layout/preference_header"

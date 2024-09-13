@@ -237,7 +237,7 @@
     <string name="customization">Customization</string>
     <string name="model">Model</string>
     <string name="device">Device</string>
-    <string name="manufacture">Manufacture</string>
+    <string name="manufacturer">Manufacture</string>
     <string name="search">Search</string>
     <string name="floating_window">Freeform</string>
     <string name="save_to_screen_title">Specification save location</string>
@@ -569,6 +569,9 @@
     <!--Calendar-->
     <string name="calendar">Calendar</string>
     <string name="calendar_unlock_subscription">Unlock Subscription</string>
+    <!--Community-->
+    <string name="community">Xiaomi Community</string>
+    <string name="community_device_modify">Model guise</string>
     <!--File Manager-->
     <string name="fileexplorer">File Manager</string>
     <string name="file_explorer_can_selectable">File Manager can be selectable</string>

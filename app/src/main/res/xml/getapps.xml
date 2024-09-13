@@ -43,8 +43,8 @@
             android:key="prefs_key_market_device_modify_device" />
 
         <EditTextPreference
-            android:title="@string/manufacture"
-            android:key="prefs_key_market_device_modify_manufacture" />
+            android:title="@string/manufacturer"
+            android:key="prefs_key_market_device_modify_manufacturer" />
 
         <SwitchPreference
             android:defaultValue="false"

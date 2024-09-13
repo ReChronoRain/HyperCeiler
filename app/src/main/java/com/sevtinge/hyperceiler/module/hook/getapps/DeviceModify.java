@@ -131,7 +131,7 @@ public class DeviceModify extends BaseHook {
             // customization
             mDevice = mPrefsMap.getString("market_device_modify_device", "");
             mModel = mPrefsMap.getString("market_device_modify_model", "");
-            mManufacturer = mPrefsMap.getString("market_device_modify_manufacture", "");
+            mManufacturer = mPrefsMap.getString("market_device_modify_manufacturer", "");
         }
         findAndHookConstructor("com.xiaomi.market.MarketApp", new MethodHook() {
             @Override

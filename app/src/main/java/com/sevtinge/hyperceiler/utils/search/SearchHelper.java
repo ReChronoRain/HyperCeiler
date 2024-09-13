@@ -401,6 +401,9 @@ public class SearchHelper {
                 "com.sevtinge.hyperceiler.ui.fragment.various.AOSPSettings",
                 R.string.various);
 
+        parsePrefXml(context, R.xml.community,
+                "com.sevtinge.hyperceiler.ui.fragment.CommunityFragment");
+
         if (isPad()) {
             parsePrefXml(context, R.xml.various_mipad,
                     "com.sevtinge.hyperceiler.ui.fragment.VariousFragment",
