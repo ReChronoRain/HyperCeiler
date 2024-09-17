@@ -86,7 +86,10 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
 
         // appEdit.setText(appInfo.packageName);
         mSelecte.setChecked(shouldSelect(appInfo.packageName));
-        mSelecte.setVisibility(mMode == AppPicker.LAUNCHER_MODE || mMode == AppPicker.APP_OPEN_MODE ? View.VISIBLE : View.GONE);
+        mSelecte.setVisibility(mMode == AppPicker.LAUNCHER_MODE ||
+                mMode == AppPicker.APP_OPEN_MODE ||
+                mMode == AppPicker.PROCESS_TEXT_MODE ?
+                View.VISIBLE : View.GONE);
         // Log.e(TAG, "getView: " + appInfo.label, null);
         return view;
     }

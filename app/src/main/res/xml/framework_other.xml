@@ -226,6 +226,17 @@
             android:summary="@string/system_framework_clean_open_apps_desc"
             android:title="@string/system_framework_clean_open_apps" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_clean_process_text_menu"
+            android:title="@string/system_framework_clean_process_text_menu" />
+
+        <Preference
+            android:dependency="prefs_key_system_framework_clean_process_text_menu"
+            android:key="prefs_key_system_framework_clean_process_text_apps"
+            android:summary="@string/system_framework_clean_process_text_apps_desc"
+            android:title="@string/system_framework_clean_process_text_apps" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_framework_other_title">

@@ -48,6 +48,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
 
     Preference mCleanShareApps;
     Preference mCleanOpenApps;
+    Preference mCleanProcessTextApps;
     Preference mAutoStart;
     Preference mClipboardWhitelistApps;
     SwitchPreference mEntry;
@@ -75,6 +76,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
     public void initPrefs() {
         mCleanShareApps = findPreference("prefs_key_system_framework_clean_share_apps");
         mCleanOpenApps = findPreference("prefs_key_system_framework_clean_open_apps");
+        mCleanProcessTextApps = findPreference("prefs_key_system_framework_clean_process_text_apps");
         mAutoStart = findPreference("prefs_key_system_framework_auto_start_apps");
         mClipboardWhitelistApps = findPreference("prefs_key_system_framework_clipboard_whitelist_apps");
         mVerifyDisable = findPreference("prefs_key_system_framework_disable_verify_can_ve_disabled");
@@ -119,6 +121,14 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
         mCleanOpenApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
             intent.putExtra("mode", AppPicker.APP_OPEN_MODE);
+            intent.putExtra("key", preference.getKey());
+            startActivity(intent);
+            return true;
+        });
+
+        mCleanProcessTextApps.setOnPreferenceClickListener(preference -> {
+            Intent intent = new Intent(getActivity(), SubPickerActivity.class);
+            intent.putExtra("mode", AppPicker.PROCESS_TEXT_MODE);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
             return true;
