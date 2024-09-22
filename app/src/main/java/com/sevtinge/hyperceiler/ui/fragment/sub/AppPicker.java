@@ -76,6 +76,7 @@ public class AppPicker extends Fragment {
     public static final int LAUNCHER_MODE = 1;
     public static final int CALLBACK_MODE = 2;
     public static final int INPUT_MODE = 3;
+    public static final int PROCESS_TEXT_MODE = 4;
 
     public void setAppSelectCallback(IAppSelectCallback callback) {
         mAppSelectCallback = callback;
@@ -104,7 +105,7 @@ public class AppPicker extends Fragment {
         assert args != null;
         modeSelection = args.getInt("mode");
         switch (modeSelection) {
-            case APP_OPEN_MODE, LAUNCHER_MODE, INPUT_MODE -> key = args.getString("key");
+            case APP_OPEN_MODE, LAUNCHER_MODE, INPUT_MODE, PROCESS_TEXT_MODE -> key = args.getString("key");
             default -> {
             }
         }
@@ -131,7 +132,7 @@ public class AppPicker extends Fragment {
                                 appData.activityName);
                         requireActivity().finish();
                     }
-                    case LAUNCHER_MODE, APP_OPEN_MODE -> {
+                    case LAUNCHER_MODE, APP_OPEN_MODE, PROCESS_TEXT_MODE -> {
                         CheckBox checkBox = view.findViewById(android.R.id.checkbox);
                         selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<>()));
                         if (checkBox.isChecked()) {
@@ -245,6 +246,30 @@ public class AppPicker extends Fragment {
                         }
                     });
             case APP_OPEN_MODE -> PackagesUtils.getOpenWithApps();
+            case PROCESS_TEXT_MODE ->
+                    PackagesUtils.getPackagesByCode(new PackagesUtils.IPackageCode() {
+                        @Override
+                        public List<Parcelable> getPackageCodeList(PackageManager pm) {
+                            Intent intent = new Intent()
+                                    .setAction(Intent.ACTION_PROCESS_TEXT)
+                                    .setType("text/plain");
+                            intent.putExtra("HyperCeiler", true);
+                            List<ResolveInfo> resolveInfos =
+                                    pm.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES);
+                            List<ResolveInfo> resolveInfoList = new ArrayList<>();
+                            hashMap.clear();
+                            for (ResolveInfo resolveInfo : resolveInfos) {
+                                Integer added = hashMap.get(resolveInfo.activityInfo.applicationInfo.packageName);
+                                if (added == null || added != 1) {
+                                    hashMap.put(resolveInfo.activityInfo.applicationInfo.packageName, 1);
+                                } else {
+                                    continue;
+                                }
+                                resolveInfoList.add(resolveInfo);
+                            }
+                            return new ArrayList<>(resolveInfoList);
+                        }
+                    });
             default -> new ArrayList<>();
         };
     }
