@@ -458,6 +458,9 @@
     <string name="system_framework_clean_open_menu">清理打开方式菜单</string>
     <string name="system_framework_clean_open_apps">已选应用</string>
     <string name="system_framework_clean_open_apps_desc">选中的应用将不会出现在打开方式菜单内</string>
+    <string name="system_framework_clean_process_text_menu">清理文本上下文菜单</string>
+    <string name="system_framework_clean_process_text_apps">已选应用</string>
+    <string name="system_framework_clean_process_text_apps_desc">选中的应用将不会出现在文本上下文菜单内</string>
     <string name="system_other_flag_secure">允许截屏</string>
     <string name="system_other_flag_secure_desc">允许对任意应用进行截屏和录屏</string>
     <string name="system_other_delete_on_post_notification">移除上层显示通知</string>

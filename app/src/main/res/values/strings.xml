@@ -450,6 +450,9 @@
     <string name="system_framework_clean_open_menu">Clean up open with menu</string>
     <string name="system_framework_clean_open_apps">Selected apps</string>
     <string name="system_framework_clean_open_apps_desc">The selected app won\'t appear in the open with menu</string>
+    <string name="system_framework_clean_process_text_menu">Clean up text context menu</string>
+    <string name="system_framework_clean_process_text_apps">Selected apps</string>
+    <string name="system_framework_clean_process_text_apps_desc">The selected app won\'t appear in the text context menu</string>
     <string name="system_other_flag_secure">Allow screenshot</string>
     <string name="system_other_flag_secure_desc">Allows screenshots and screen recordings of any app</string>
     <string name="system_other_delete_on_post_notification">Remove the upper display notification</string>
