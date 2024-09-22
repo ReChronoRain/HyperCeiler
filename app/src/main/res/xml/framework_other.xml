@@ -201,6 +201,11 @@
             android:key="prefs_key_system_framework_allow_disable_protected_package"
             android:title="@string/system_framework_allow_disable_protected_package" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_bypass_unknown_sources_restrictions"
+            android:title="@string/system_framework_bypass_unknown_sources_restrictions" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_framework_shortcut_title">

@@ -481,6 +481,7 @@
     <string name="system_framework_allow_third_theme">Allow to use third-party themes</string>
     <string name="system_framework_allow_disable_protected_package">Allows to disable protected apps</string>
     <string name="system_framework_disable_miui_watermark">Disable global watermark</string>
+    <string name="system_framework_bypass_unknown_sources_restrictions">Bypass unknown sources restrictions</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Package Manager Service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade</string>
