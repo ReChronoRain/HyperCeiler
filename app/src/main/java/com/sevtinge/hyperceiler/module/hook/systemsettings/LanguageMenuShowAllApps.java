@@ -22,7 +22,10 @@ import android.content.Context;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
+import java.util.HashSet;
 import java.util.Objects;
+
+import de.robv.android.xposed.XposedHelpers;
 
 public class LanguageMenuShowAllApps extends BaseHook {
     @Override
@@ -39,6 +42,13 @@ public class LanguageMenuShowAllApps extends BaseHook {
             @Override
             protected void before(MethodHookParam param) {
                 param.setResult(true);
+            }
+        });
+
+        findAndHookMethod("com.android.settings.localepicker.LocalePickerWithRegion", "filterTheLanguagesNotSupportedInApp", boolean.class, HashSet.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                param.setResult(XposedHelpers.getObjectField(param.thisObject, "mLocaleList"));
             }
         });
     }
