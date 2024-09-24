@@ -167,6 +167,13 @@
                 android:data="https://github.com/xiaowine/FuckNFC" />
         </Preference>
         <Preference
+            android:summary="weixiansen574 | No License"
+            android:title="FuckUnknownSourcesRestrictions">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/weixiansen574/FuckUnknownSourcesRestrictions" />
+        </Preference>
+        <Preference
             android:summary="Android Open Source Project, Google Inc. | Apache-2.0"
             android:title="Gson">
             <intent
