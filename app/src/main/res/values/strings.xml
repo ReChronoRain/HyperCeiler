@@ -1446,6 +1446,7 @@
     <string name="powerkeeper_do_not_kill_apps_desc">May increase power consumption</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Prevent recovery of battery optimization whitelist</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Disable to get display control code</string>
+    <string name="powerkeeper_gms_doze_fix">Allow GMS to connect to network at any time</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">Screen Recorder</string>
     <string name="screen_recorder_force_support_playback_capture">Force enable AOSP screen recording support</string>

@@ -42,6 +42,11 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:title="@string/powerkeeper_gms_doze_fix"
+            android:key="prefs_key_powerkeeper_gms_doze_fix"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:title="@string/powerkeeper_prevent_recovery_of_battery_optimization_whitelist"
             android:key="prefs_key_powerkeeper_prevent_recovery_of_battery_optimization_whitelist"
             android:defaultValue="false" />

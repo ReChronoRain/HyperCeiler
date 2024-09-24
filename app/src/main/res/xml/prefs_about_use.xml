@@ -139,11 +139,11 @@
                 android:data="https://github.com/KyuubiRan/EzXHelper" />
         </Preference>
         <Preference
-            android:summary="焕晨HChen | GPL-3.0"
-            android:title="ForegroundPin">
+            android:summary="kooritea | No License"
+            android:title="fcmfix">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/HChenX/ForegroundPin" />
+                android:data="https://github.com/kooritea/fcmfix" />
         </Preference>
         <Preference
             android:summary="qqlittleice | GPL-3.0"
@@ -151,6 +151,13 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/qqlittleice/FixMiuiMediaControlPanel" />
+        </Preference>
+        <Preference
+            android:summary="焕晨HChen | GPL-3.0"
+            android:title="ForegroundPin">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/HChenX/ForegroundPin" />
         </Preference>
         <Preference
             android:summary="xiaowine | No License"
