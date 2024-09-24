@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.hchen.hooktool.utils.SystemSDK.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 
 import android.view.View;
 
@@ -41,7 +41,7 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
     @Override
     public View.OnClickListener addRestartListener() {
         return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-                isPad() ? getResources().getString(R.string.security_center_pad) : isMoreHyperOSVersion(1f) ? getResources().getString(R.string.security_center_hyperos) : getResources().getString(R.string.security_center),
+                isPad() ? getResources().getString(R.string.security_center_pad) : isHyperOSVersion(1f) ? getResources().getString(R.string.security_center_hyperos) : getResources().getString(R.string.security_center),
                 "com.miui.securitycenter"
         );
     }

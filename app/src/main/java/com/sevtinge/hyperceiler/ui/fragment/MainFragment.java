@@ -23,6 +23,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.sp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
 
@@ -150,22 +151,26 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
 
         mHelpCantSeeApps.setVisible(!getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false));
 
-        if (isMoreHyperOSVersion(1f)) {
-            mCamera.setFragment("com.sevtinge.hyperceiler.ui.fragment.CameraNewFragment");
-            mAod.setTitle(R.string.aod_hyperos);
-            mMiLink.setTitle(R.string.milink_hyperos);
-            mGuardProvider.setTitle(R.string.guard_provider_hyperos);
+        if (isHyperOSVersion(1f)) {
             mSecurityCenter.setTitle(R.string.security_center_hyperos);
         } else {
-            mCamera.setFragment("com.sevtinge.hyperceiler.ui.fragment.CameraFragment");
-            mAod.setTitle(R.string.aod);
-            mMiLink.setTitle(R.string.milink);
-            mGuardProvider.setTitle(R.string.guard_provider);
             if (isPad()) {
                 mSecurityCenter.setTitle(R.string.security_center_pad);
             } else {
                 mSecurityCenter.setTitle(R.string.security_center);
             }
+        }
+
+        if (isMoreHyperOSVersion(1f)) {
+            mCamera.setFragment("com.sevtinge.hyperceiler.ui.fragment.CameraNewFragment");
+            mAod.setTitle(R.string.aod_hyperos);
+            mMiLink.setTitle(R.string.milink_hyperos);
+            mGuardProvider.setTitle(R.string.guard_provider_hyperos);
+        } else {
+            mCamera.setFragment("com.sevtinge.hyperceiler.ui.fragment.CameraFragment");
+            mAod.setTitle(R.string.aod);
+            mMiLink.setTitle(R.string.milink);
+            mGuardProvider.setTitle(R.string.guard_provider);
         }
 
         mainActivityContextHelper = new MainActivityContextHelper(requireContext());
