@@ -100,6 +100,12 @@
             android:summary="@string/system_framework_disable_persistent_more"
             android:title="@string/system_framework_disable_persistent" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="prefs_key_system_framework_disable_verification_agent"
+            android:summary="@string/system_framework_disable_verification_agent_desc"
+            android:title="@string/system_framework_disable_verification_agent" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

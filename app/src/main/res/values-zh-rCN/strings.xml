@@ -514,6 +514,8 @@
     <string name="system_framework_disable_low_api_check_desc">允许安装 TargetSDK 低于 23 的应用</string>
     <string name="system_framework_disable_persistent">禁用持久性检查</string>
     <string name="system_framework_disable_persistent_more">允许安装声明为持久性的应用</string>
+    <string name="system_framework_disable_verification_agent">禁用安装包验证代理</string>
+    <string name="system_framework_disable_verification_agent_desc">如 Play 商店的保护机制</string>
     <!--浏览器-->
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>

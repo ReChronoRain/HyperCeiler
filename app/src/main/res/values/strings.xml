@@ -505,6 +505,8 @@
     <string name="system_framework_disable_low_api_check_desc">Apps with APIs lower than 23 are allowed</string>
     <string name="system_framework_disable_persistent">Disable persistent checks</string>
     <string name="system_framework_disable_persistent_more">Allows you to update persistent apps directly, such as updating the system interface directly.</string>
+    <string name="system_framework_disable_verification_agent">Disable Package Verification Agent</string>
+    <string name="system_framework_disable_verification_agent_desc">e.g. Google Play Protection</string>
     <!--Browser-->
     <string name="browser">Browser</string>
     <string name="browser_debug_mode">Unlock developer options</string>

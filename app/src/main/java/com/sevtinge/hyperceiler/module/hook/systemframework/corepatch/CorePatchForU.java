@@ -81,4 +81,9 @@ public class CorePatchForU extends CorePatchForT {
 
     }
 
+    @Override
+    Class<?> getIsVerificationEnabledClass(ClassLoader classLoader) {
+        return XposedHelpers.findClass("com.android.server.pm.VerifyingSession", classLoader);
+    }
+
 }

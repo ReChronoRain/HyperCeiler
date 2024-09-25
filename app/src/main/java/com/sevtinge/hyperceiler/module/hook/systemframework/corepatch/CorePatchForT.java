@@ -48,20 +48,22 @@ public class CorePatchForT extends CorePatchForS {
         hookAllMethods(signingDetails, "checkCapability", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
-                // Don't handle PERMISSION (grant SIGNATURE permissions to pkgs with this cert)
+                // Don't handle PERMISSION & AUTH
                 // Or applications will have all privileged permissions
                 // https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/java/android/content/pm/PackageParser.java;l=5947?q=CertCapabilities
+                // https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/services/core/java/com/android/server/accounts/AccountManagerService.java;l=5867
                 if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true)) {
-                    if ((Integer) param.args[1] != 4) {
+                    if ((Integer) param.args[1] != 4 && (Integer) param.args[1] != 16) {
                         param.setResult(true);
                     }
                 }
             }
         });
 
+        Class<?> ParsedPackage = getParsedPackage(loadPackageParam.classLoader);
         findAndHookMethod("com.android.server.pm.InstallPackageHelper", loadPackageParam.classLoader,
             "doesSignatureMatchForPermissions", String.class,
-            "com.android.server.pm.parsing.pkg.ParsedPackage", int.class, new XC_MethodHook() {
+            ParsedPackage, int.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false)) {
@@ -108,6 +110,15 @@ public class CorePatchForT extends CorePatchForS {
         if (utils != null) {
             deoptimizeMethod(utils, "canJoinSharedUserId");
         }
+    }
+
+    @Override
+    Class<?> getIsVerificationEnabledClass(ClassLoader classLoader) {
+        return XposedHelpers.findClass("com.android.server.pm.PackageManagerService", classLoader);
+    }
+
+    Class<?> getParsedPackage(ClassLoader classLoader) {
+        return XposedHelpers.findClassIfExists("com.android.server.pm.parsing.pkg.ParsedPackage", classLoader);
     }
 
     Class<?> getSigningDetails(ClassLoader classLoader) {

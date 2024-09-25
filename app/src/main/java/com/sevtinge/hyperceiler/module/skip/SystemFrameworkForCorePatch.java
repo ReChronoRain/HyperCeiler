@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.CorePatchF
 import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.CorePatchForS;
 import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.CorePatchForT;
 import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.CorePatchForU;
+import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.CorePatchForV;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -41,6 +42,8 @@ public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXpo
             // EzXHelper.setLogTag(TAG);
             // EzXHelper.setToastTag(TAG);
             switch (Build.VERSION.SDK_INT) {
+                case Build.VERSION_CODES.VANILLA_ICE_CREAM -> // 35
+                    new CorePatchForV().handleLoadPackage(lpparam);
                 case Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> // 34
                         new CorePatchForU().handleLoadPackage(lpparam);
                 case Build.VERSION_CODES.TIRAMISU -> // 33
