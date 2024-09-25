@@ -44,12 +44,24 @@ object ShowBatteryTemperatureNew : BaseHook() {
     }
 
     private fun newBatteryTemperature() {
+
+        try {
         loadClass("com.miui.powercenter.nightcharge.SmartChargeFragment").methodFinder().first {
             paramCount == 1 && returnType == String::class.java && isStatic
         }.createHook {
             after {
                 it.result = getBatteryTemperature(it.args[0] as Context).toString() + " ℃"
             }
+        }
+    
+        } catch (_: Exception) {
+ loadClass("com.miui.powercenter.nightcharge.ChargeProtectFragment").methodFinder().first {
+            paramCount == 1 && returnType == String::class.java && isStatic
+        }.createHook {
+            after {
+                it.result = getBatteryTemperature(it.args[0] as Context).toString() + " ℃"
+            }
+        }
         }
     }
 
