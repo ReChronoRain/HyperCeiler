@@ -66,6 +66,8 @@ object BatteryHealth : BaseHook() {
             health = param.args[0] as Int // 获取手机管家内部的健康度
         }
 
+        try {
+
         findAndHookMethod(
             "com.miui.powercenter.nightcharge.SmartChargeFragment",
             "onCreatePreferences",
@@ -77,6 +79,20 @@ object BatteryHealth : BaseHook() {
                 }
             }
         )
+
+        } catch (_: Exception) {
+                findAndHookMethod(
+            "com.miui.powercenter.nightcharge.ChargeProtectFragment",
+            "onCreatePreferences",
+            Bundle::class.java, String::class.java,
+            object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    gff = param.thisObject
+                        .callMethod("findPreference", "reference_battery_health")!!
+                }
+            }
+        )
+        }
 
         val nameClass = DexKit.getDexKitBridgeList("SecurityBatteryHealthClass") { _ ->
             cc?.toElementList()
