@@ -1437,6 +1437,7 @@
     <string name="mishare">小米互传</string>
     <string name="mishare_disable_mishare_auto_off">禁用自动关闭小米互传</string>
     <string name="mishare_unlock_turbo_mode">解锁极速传输模式</string>
+    <string name="mishare_hook_switch_mode_all">所有人</string>
     <!--壁纸-->
     <string name="miwallpaper">壁纸</string>
     <string name="miwallpaper_unlock_super_wallpaper">解锁超级壁纸</string>

@@ -1405,6 +1405,7 @@
     <string name="mishare">Xiaomi Share</string>
     <string name="mishare_disable_mishare_auto_off">Disable automatic closing of Xiaomi Share</string>
     <string name="mishare_unlock_turbo_mode">Unlock Turbo transfer</string>
+    <string name="mishare_hook_switch_mode_all">Everyone</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Wallpaper</string>
     <string name="miwallpaper_unlock_super_wallpaper">Unlock Super wallpaper</string>
