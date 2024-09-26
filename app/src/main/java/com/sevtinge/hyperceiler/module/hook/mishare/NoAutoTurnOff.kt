@@ -48,6 +48,16 @@ object NoAutoTurnOff : BaseHook() {
         }.toMethod()
     }
 
+    private val nullMethodNew by lazy {
+        DexKit.getDexKitBridge("NoAutoTurnOff1N") {
+            it.findMethod {
+                matcher {
+                    addUsingStringsEquals("UnionShare", "EnabledState")
+                }
+            }.single().getMethodInstance(safeClassLoader)
+        }.toMethod()
+    }
+
     private val null2Method by lazy {
         DexKit.getDexKitBridge("NoAutoTurnOff2") {
             it.findMethod {
@@ -88,6 +98,19 @@ object NoAutoTurnOff : BaseHook() {
         }.toMethodList()
     }
 
+    private val toastMethodNew by lazy {
+        DexKit.getDexKitBridgeList("NoAutoTurnOff4N") {
+            it.findMethod {
+                matcher {
+                    declaredClass {
+                        addUsingStringsEquals("MiShareStateMachine")
+                    }
+                    paramCount = 0
+                }
+            }.toElementList()
+        }.toMethodList()
+    }
+
     private val showToastMethod by lazy {
         DexKit.getDexKitBridge("NoAutoTurnOff5") {
             it.findMethod {
@@ -105,7 +128,7 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     private val nullField by lazy {
-        DexKit.getDexKitBridge("NoAutoTurnOff3") {
+        DexKit.getDexKitBridge("NoAutoTurnOff6") {
             it.findField {
                 matcher {
                     addReadMethod {
@@ -114,18 +137,54 @@ object NoAutoTurnOff : BaseHook() {
                         paramCount = 1
                         modifiers = Modifier.PRIVATE
                     }
-                    modifiers = Modifier.STATIC or Modifier.FINAL
+                    modifiers = Modifier.PRIVATE or Modifier.STATIC or Modifier.FINAL
                     type = "int"
                 }
             }.singleOrNull()?.getFieldInstance(safeClassLoader)
         }.toField()
     }
 
+    private val null2Field by lazy {
+        DexKit.getDexKitBridge("NoAutoTurnOff7") {
+            it.findField {
+                matcher {
+                    addReadMethod {
+                        addUsingStringsEquals("stopAdvertAllDelay")
+                        returnType = "void"
+                        paramCount = 0
+                        modifiers = Modifier.PRIVATE
+                    }
+                    modifiers = Modifier.PRIVATE or Modifier.FINAL
+                    type = "int"
+                }
+            }.singleOrNull()?.getFieldInstance(safeClassLoader)
+        }.toField()
+    }
+
+    private val null2FieldMethod by lazy {
+        DexKit.getDexKitBridge("NoAutoTurnOff8") {
+            it.findMethod {
+                matcher {
+                    addUsingStringsEquals("stopAdvertAllDelay")
+                    returnType = "void"
+                    paramCount = 0
+                    modifiers = Modifier.PRIVATE
+                }
+            }.single().getMethodInstance(safeClassLoader)
+        }.toMethod()
+    }
+
     override fun init() {
         // 禁用小米互传功能自动关闭部分
         runCatching {
-            setOf(nullMethod, null2Method).createHooks {
-                returnConstant(null)
+            try {
+                setOf(nullMethod, null2Method).createHooks {
+                    returnConstant(null)
+                }
+            } catch (_: Exception) {
+                setOf(nullMethodNew, null2Method).createHooks {
+                    returnConstant(null)
+                }
             }
         }
 
@@ -145,26 +204,69 @@ object NoAutoTurnOff : BaseHook() {
         runCatching {
             findAndHookConstructor(nullField.javaClass, object : MethodHook() {
                 override fun after(param: MethodHookParam) {
-                    XposedHelpers.setObjectField(param.thisObject, nullField.name, 999999999)
+                    XposedHelpers.setObjectField(param.thisObject, nullField.name, 2147483647)
                     logI(TAG, lpparam.packageName, "nullField hook success, $nullField")
                 } })
         }
 
+        try {
+            runCatching {
+                hookMethod(null2FieldMethod, object : MethodHook() {
+                    override fun before(param: MethodHookParam) {
+                        XposedHelpers.setObjectField(param.thisObject, null2Field.name, 2147483647)
+                    } })
+            }
+        } catch (_: Exception) {
+        }
+
         // 干掉小米互传十分钟倒计时 Toast
-        toastMethod.createHooks {
-            before { param ->
-                findAndHookMethod(Context::class.java, "getString", Int::class.java, object : MethodHook() {
-                    override fun before(param: MethodHookParam) {
-                        val resName = (param.thisObject as Context).resources.getResourceName(param.args[0] as Int)
-                        if (resName == "com.miui.mishare.connectivity:string/toast_auto_close_in_minutes") param.result = "Modify by HyperCeiler"
-                    }
-                })
-                hookMethod(showToastMethod, object : MethodHook() {
-                    @Throws(Throwable::class)
-                    override fun before(param: MethodHookParam) {
-                        if (param.args[1].toString() == "Modify by HyperCeiler") param.result = null
-                    }
-                })
+        if (toastMethod.isNotEmpty()) {
+            toastMethod.createHooks {
+                before { param ->
+                    findAndHookMethod(
+                        Context::class.java,
+                        "getString",
+                        Int::class.java,
+                        object : MethodHook() {
+                            override fun before(param: MethodHookParam) {
+                                val resName =
+                                    (param.thisObject as Context).resources.getResourceName(param.args[0] as Int)
+                                if (resName == "com.miui.mishare.connectivity:string/toast_auto_close_in_minutes") param.result =
+                                    "Modify by HyperCeiler"
+                            }
+                        })
+                    hookMethod(showToastMethod, object : MethodHook() {
+                        @Throws(Throwable::class)
+                        override fun before(param: MethodHookParam) {
+                            if (param.args[1].toString() == "Modify by HyperCeiler") param.result =
+                                null
+                        }
+                    })
+                }
+            }
+        } else {
+            toastMethodNew.createHooks {
+                before { param ->
+                    findAndHookMethod(
+                        Context::class.java,
+                        "getString",
+                        Int::class.java,
+                        object : MethodHook() {
+                            override fun before(param: MethodHookParam) {
+                                val resName =
+                                    (param.thisObject as Context).resources.getResourceName(param.args[0] as Int)
+                                if (resName == "com.miui.mishare.connectivity:string/toast_or_desc_advert_all_open") param.result =
+                                    "Modify by HyperCeiler"
+                            }
+                        })
+                    hookMethod(showToastMethod, object : MethodHook() {
+                        @Throws(Throwable::class)
+                        override fun before(param: MethodHookParam) {
+                            if (param.args[1].toString() == "Modify by HyperCeiler") param.result =
+                                null
+                        }
+                    })
+                }
             }
         }
     }
