@@ -63,6 +63,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.StickyFloatingWindow
 import com.sevtinge.hyperceiler.module.hook.systemframework.SystemLockApp;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.module.hook.systemframework.UseOriginalAnimation;
+import com.sevtinge.hyperceiler.module.hook.systemframework.UseAndroidPackageInstaller;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDefaultStream;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDisableSafe;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeFirstPress;
@@ -180,6 +181,7 @@ public class SystemFrameworkT extends BaseModule {
         initHook(DisableGestureMonitor.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_gesture_monitor"));
         initHook(new DisablePinVerifyPer72h(), mPrefsMap.getBoolean("system_framework_disable_72h_verify"));
         initHook(new DisableVerifyCanBeDisabled(), mPrefsMap.getBoolean("system_framework_disable_verify_can_ve_disabled"));
+        initHook(new UseAndroidPackageInstaller(), mPrefsMap.getBoolean("system_framework_use_android_package_installer"));
         initHook(new QuickScreenshot(), mPrefsMap.getBoolean("system_framework_quick_screenshot"));
         initHook(new LinkTurboToast(), mPrefsMap.getBoolean("system_framework_disable_link_turbo_toast"));
 

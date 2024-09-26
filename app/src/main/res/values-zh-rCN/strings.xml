@@ -516,6 +516,8 @@
     <string name="system_framework_disable_persistent_more">允许安装声明为持久性的应用</string>
     <string name="system_framework_disable_verification_agent">禁用安装包验证代理</string>
     <string name="system_framework_disable_verification_agent_desc">如 Play 商店的保护机制</string>
+    <string name="system_framework_use_android_package_installer">使用原生安装器</string>
+    <string name="system_framework_use_android_package_installer_desc">恢复被破坏的 PackageInstaller API</string>
     <!--浏览器-->
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>
