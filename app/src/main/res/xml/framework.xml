@@ -106,12 +106,6 @@
             android:summary="@string/system_framework_disable_verification_agent_desc"
             android:title="@string/system_framework_disable_verification_agent" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_framework_use_android_package_installer"
-            android:summary="@string/system_framework_use_android_package_installer_desc"
-            android:title="@string/system_framework_use_android_package_installer" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>

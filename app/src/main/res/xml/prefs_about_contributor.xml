@@ -48,6 +48,13 @@
                 android:data="https://github.com/heinu123" />
         </Preference>
         <Preference
+            android:summary="GitHub@frank-782"
+            android:title="frank-782">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/frank-782" />
+        </Preference>
+        <Preference
             android:summary="GitHub@GMerge01"
             android:title="GMerge">
             <intent
