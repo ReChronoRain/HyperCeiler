@@ -748,8 +748,8 @@
         <item>Redmi K70 Ultra</item>
         <item>Redmi K70 Pro</item>
         <item>Redmi K70E</item>
-        <item>Redmi K60 Ultra</item>
         <item>Redmi Turbo 3</item>
+        <item>Redmi Note 14 Pro+</item>
         <item>Redmi 13C / Redmi 13R</item>
         <item>@string/customization</item>
     </string-array>
@@ -770,8 +770,8 @@
         <item>310</item>
         <item>309</item>
         <item>351</item>
-        <item>307</item>
         <item>335</item>
+        <item>354</item>
         <item>402</item>
         <item>1</item>
     </string-array>
