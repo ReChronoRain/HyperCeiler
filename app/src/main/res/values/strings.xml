@@ -1811,6 +1811,7 @@
     <string name="help_support_version_desc_3">The current system version is fully adapted.</string>
     <string name="help_support_version_desc_4">The current system version is not (fully) adapted.</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be an official Xiaomi ROM, and some features may not work. Please contact your supplier for more details.</string>
+    <string name="headtip_warn_unsupport_sysver">The current device is running on a system version that is not (fully) adapted, and there may be an anomaly in the HyperCeiler functionality.</string>
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of Re.chronoRain, and may contain malicious code.</string>
     <string name="headtip_tip_long_press_to_copy">You can select text after long or double press, or copy it and send it back to the developer.</string>
     <string name="headtip_tip_fuck_coolapk">Today in history: Sevtinge delivered an important speech on July 14, 2022.</string>

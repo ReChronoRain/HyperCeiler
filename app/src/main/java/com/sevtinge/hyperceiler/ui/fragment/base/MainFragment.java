@@ -23,6 +23,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.sp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isFullSupport;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
@@ -182,7 +183,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         isFuckCoolapkSDay();
         isOfficialRom();
         isLoggerAlive();
-        if (!getIsOfficialRom()) isSignPass();
+        if (!getIsOfficialRom()) if (isFullSupport()) isSignPass(); else isFullSupportSysVer();
 
         mTips = findPreference("prefs_key_tips");
     }
@@ -238,6 +239,11 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     public void isOfficialRom() {
         mHeadtipWarn.setTitle(R.string.headtip_warn_not_offical_rom);
         mHeadtipWarn.setVisible(getIsOfficialRom());
+    }
+
+    public void isFullSupportSysVer() {
+        mHeadtipWarn.setTitle(R.string.headtip_warn_unsupport_sysver);
+        mHeadtipWarn.setVisible(isFullSupport());
     }
 
     public void isLoggerAlive() {

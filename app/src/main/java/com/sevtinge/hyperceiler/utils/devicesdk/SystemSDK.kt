@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.utils.devicesdk
 import android.os.*
 import com.sevtinge.hyperceiler.utils.PropUtils.*
 import com.sevtinge.hyperceiler.utils.shell.ShellUtils.*
+import java.util.*
 
 
 // 设备信息相关
@@ -98,3 +99,15 @@ fun isHyperOSVersion(code: Float): Boolean = getHyperOSVersion() == code
  */
 fun isMoreHyperOSVersion(code: Float): Boolean = getHyperOSVersion() >= code
 
+
+private val mSupportMiuiVersion: List<Float> = mutableListOf(13.0f, 14.0f, 816.0f, 818.0f)
+private val mSupportHyperOsVersion: List<Float> = mutableListOf(-1.0f, 1.0f)
+private val mSupportAndroidVersion: List<Int> = mutableListOf(33, 34)
+
+
+fun isFullSupport(): Boolean {
+    val isMiuiVersionSupport = mSupportMiuiVersion.contains(getMiuiVersion())
+    val isHyperOsVersionSupport = mSupportHyperOsVersion.contains(getHyperOSVersion())
+    val isAndroidVersionSupport = mSupportAndroidVersion.contains(getAndroidVersion())
+    return isMiuiVersionSupport && isHyperOsVersionSupport && isAndroidVersionSupport
+}

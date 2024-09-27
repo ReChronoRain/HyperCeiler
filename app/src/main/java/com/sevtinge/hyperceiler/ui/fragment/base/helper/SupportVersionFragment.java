@@ -19,15 +19,10 @@
 
 package com.sevtinge.hyperceiler.ui.fragment.base.helper;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isFullSupport;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-
-import java.util.Arrays;
-import java.util.List;
 
 import moralnorm.preference.Preference;
 
@@ -38,10 +33,6 @@ public class SupportVersionFragment extends SettingsPreferenceFragment {
     private final String mFSupportAndroidVersion = "13(T, 33) / 14(U, 34)";
     private final String mNSupportHyperOsVersion = "1.1(816)";
     private final String mNSupportAndroidVersion = "Android 15(V, 35)";
-
-    private final List<Float> mSupportMiuiVersion = Arrays.asList(13.0f, 14.0f, 816.0f, 818.0f);
-    private final List<Float> mSupportHyperOsVersion = Arrays.asList(-1.0f, 1.0f);
-    private final List<Integer> mSupportAndroidVersion = Arrays.asList(33, 34);
 
     Preference mHelpSupportVersion;
 
@@ -68,12 +59,5 @@ public class SupportVersionFragment extends SettingsPreferenceFragment {
                 "\n\n - HyperOS " + mNSupportHyperOsVersion +
                 "\n - Android " + mNSupportAndroidVersion +
                 "\n\n" + (isFullSupport() ? getString(R.string.help_support_version_desc_3) : getString(R.string.help_support_version_desc_4));
-    }
-
-    private boolean isFullSupport() {
-        boolean isMiuiVersionSupport = mSupportMiuiVersion.contains(getMiuiVersion());
-        boolean isHyperOsVersionSupport = mSupportHyperOsVersion.contains(getHyperOSVersion());
-        boolean isAndroidVersionSupport = mSupportAndroidVersion.contains(getAndroidVersion());
-        return isMiuiVersionSupport && isHyperOsVersionSupport && isAndroidVersionSupport;
     }
 }
