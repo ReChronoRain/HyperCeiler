@@ -131,6 +131,12 @@
         </Preference>
 
         <Preference
+            android:key="prefs_key_help"
+            android:title="@string/help"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.base.HelpFragment">
+        </Preference>
+
+        <Preference
             android:title="@string/about_protocol">
             <intent
                 android:action="android.intent.action.VIEW"

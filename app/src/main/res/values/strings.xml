@@ -1804,7 +1804,12 @@
     <string name="help_cant_see_apps_disable">Disabled or hidden apps:\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app features:\n\n - Those currently disabled or hidden\n - Those not found in your device\n - Those incompatible with the current version of the system or the app\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nThere are currently no hidden features!</string>
     <string name="help_cant_see_apps_switch">Hide this help in homepage</string>
-    <string name="help_cant_see_apps_switch_desc">You can still find this page in \"Settings > Set up the homepage entry\". Reboot app to apply.</string>
+    <string name="help_cant_see_apps_switch_desc">You can still find this page in \"About > Help\". Reboot app to apply.</string>
+    <string name="help_support_version_title">Current app version support system version list</string>
+    <string name="help_support_version_desc_1">The current app version is fully adapted to the following system versions:</string>
+    <string name="help_support_version_desc_2">The following system versions are adapted to the current application version:</string>
+    <string name="help_support_version_desc_3">The current system version is fully adapted.</string>
+    <string name="help_support_version_desc_4">The current system version is not (fully) adapted.</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be an official Xiaomi ROM, and some features may not work. Please contact your supplier for more details.</string>
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of Re.chronoRain, and may contain malicious code.</string>
     <string name="headtip_tip_long_press_to_copy">You can select text after long or double press, or copy it and send it back to the developer.</string>

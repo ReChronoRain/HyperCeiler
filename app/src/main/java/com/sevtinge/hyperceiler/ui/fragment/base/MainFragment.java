@@ -1,22 +1,22 @@
 /*
  * This file is part of HyperCeiler.
-
+ *
  * HyperCeiler is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License.
-
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
-
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+ *
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.fragment;
+package com.sevtinge.hyperceiler.ui.fragment.base;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.sp2px;
@@ -49,8 +49,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.prefs.TipsPreference;
 import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.ui.fragment.helper.HomepageEntrance;
+import com.sevtinge.hyperceiler.ui.fragment.base.helper.HomepageEntrance;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;

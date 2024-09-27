@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.base.settings;
 
-import static com.sevtinge.hyperceiler.ui.fragment.MainFragment.ANDROID_NS;
+import static com.sevtinge.hyperceiler.ui.fragment.base.MainFragment.ANDROID_NS;
 import static com.sevtinge.hyperceiler.utils.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 

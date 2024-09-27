@@ -46,7 +46,7 @@ import com.sevtinge.hyperceiler.data.ModData;
 import com.sevtinge.hyperceiler.data.adapter.ModSearchAdapter;
 import com.sevtinge.hyperceiler.data.adapter.NavigationPagerAdapter;
 import com.sevtinge.hyperceiler.ui.SubSettings;
-import com.sevtinge.hyperceiler.ui.fragment.MainFragment;
+import com.sevtinge.hyperceiler.ui.fragment.base.MainFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.AboutFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.settings.ModuleSettingsFragment;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
