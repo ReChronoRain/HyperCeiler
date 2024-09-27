@@ -24,7 +24,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_android"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_system_framework_state"
         android:layout="@layout/preference_header"
         android:summary="android"
@@ -32,7 +32,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_browser"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_browser_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.browser"
@@ -40,7 +40,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_calendar_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.calendar"
@@ -48,7 +48,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_camera"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_camera_2_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.camera"
@@ -56,7 +56,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_fileexplorer"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_file_explorer_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.fileexplorer"
@@ -64,7 +64,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_htmlviewer"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_html_viewer_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.htmlviewer"
@@ -72,7 +72,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_call"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_incallui_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.incallui"
@@ -80,7 +80,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_mms"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_mms_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.mms"
@@ -88,7 +88,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_default_icon"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_nfc_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.nfc"
@@ -96,7 +96,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_phone"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_phone_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.phone"
@@ -104,7 +104,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_downloads"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_downloads_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.providers.downloads"
@@ -113,7 +113,7 @@
     <SwitchPreference
         android:defaultValue="true"
         android:layout="@layout/preference_header"
-        android:icon="@drawable/ic_call"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_telecom_state"
         android:summary="com.android.server.telecom"
         android:title="@string/telecom" />
@@ -121,7 +121,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_system_settings"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_system_settings_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.settings"
@@ -129,7 +129,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_system_ui"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_system_ui_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.systemui"
@@ -137,7 +137,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_theme_manager"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_various_theme_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.thememanager"
@@ -145,7 +145,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_updater"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_updater_state"
         android:layout="@layout/preference_header"
         android:summary="com.android.updater"
@@ -153,7 +153,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_remotecontroller"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_remotecontroller_state"
         android:layout="@layout/preference_header"
         android:summary="com.duokan.phone.remotecontroller"
@@ -161,7 +161,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_lbe"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_lbe_state"
         android:layout="@layout/preference_header"
         android:summary="com.lbe.security.miui"
@@ -169,7 +169,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_milink"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_milink_state"
         android:layout="@layout/preference_header"
         android:summary="com.milink.service"
@@ -177,7 +177,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_default_icon"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_analytics_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.analytics"
@@ -185,7 +185,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_aod"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_aod_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.aod"
@@ -193,7 +193,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_backup"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_backup_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.backup"
@@ -201,7 +201,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_micloud_service"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_micloud_service_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.cloudservice"
@@ -209,7 +209,7 @@
     
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_contentextension"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_content_extension_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.contentextension"
@@ -217,7 +217,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_creation"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_creation_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.creation"
@@ -225,7 +225,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_gallery"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_gallery_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.gallery"
@@ -233,7 +233,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_guard_provider_new"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_guardprovider_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.guardprovider"
@@ -241,7 +241,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_home_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.home"
@@ -249,7 +249,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_huanji"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_huanji_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.huanji"
@@ -257,7 +257,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_gallery"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_mediaeditor_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.mediaeditor"
@@ -265,7 +265,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_mishare"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_mishare_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.mishare.connectivity"
@@ -273,7 +273,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_misound"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_misound_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.misound"
@@ -281,7 +281,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_miwallpaper"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_miwallpaper_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.miwallpaper"
@@ -289,7 +289,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_package_installer"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_package_installer_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.packageinstaller"
@@ -298,7 +298,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_personal_assistant"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_home_personal_assistant_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.personalassistant"
@@ -306,7 +306,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_powerkeeper"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_powerkeeper_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.powerkeeper"
@@ -314,7 +314,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_screenrecorder"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_screen_recorder_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.screenrecorder"
@@ -322,7 +322,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_screenshot"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_screenshot_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.screenshot"
@@ -330,7 +330,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_securityadd"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_securityadd_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.securityadd"
@@ -338,7 +338,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_security_center"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_security_center_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.securitycenter"
@@ -346,7 +346,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_tsmclient"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_tsmclient_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.tsmclient"
@@ -354,7 +354,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_voiceassist"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_voiceassist_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.voiceassist"
@@ -362,7 +362,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_voiceassist"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_voicetrigger_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.voicetrigger"
@@ -370,7 +370,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_weather"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_weather_state"
         android:layout="@layout/preference_header"
         android:summary="com.miui.weather2"
@@ -378,7 +378,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_aiasst"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_aiasst_state"
         android:layout="@layout/preference_header"
         android:summary="com.xiaomi.aiasst.vision"
@@ -386,7 +386,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_default_icon"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_barrage_state"
         android:layout="@layout/preference_header"
         android:summary="com.xiaomi.barrage"
@@ -394,7 +394,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_default_icon"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_joyose_state"
 
         android:layout="@layout/preference_header"
@@ -403,7 +403,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_market"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_market_state"
         android:layout="@layout/preference_header"
         android:summary="com.xiaomi.market"
@@ -411,7 +411,7 @@
 
     <!--<SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_miui_plus"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_mirror_state"
         android:layout="@layout/preference_header"
         android:summary="com.xiaomi.mirror"
@@ -419,7 +419,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_misettings"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_mi_settings_state"
         android:layout="@layout/preference_header"
         android:summary="com.xiaomi.misettings"
@@ -427,7 +427,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_mtb"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_mtb_state"
         android:layout="@layout/preference_header"
         android:summary="com.xiaomi.mtb"
@@ -435,7 +435,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_scanner"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_scanner_state"
         android:layout="@layout/preference_header"
         android:summary="com.xiaomi.scanner"
@@ -443,7 +443,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_default_icon"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_trustservice_state"
         android:layout="@layout/preference_header"
         android:summary="com.xiaomi.trustservice"
@@ -451,7 +451,7 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_community"
+        android:icon="@drawable/ic_default"
         android:key="prefs_key_community_state"
         android:layout="@layout/preference_header"
         android:summary="com.xiaomi.vipaccount"

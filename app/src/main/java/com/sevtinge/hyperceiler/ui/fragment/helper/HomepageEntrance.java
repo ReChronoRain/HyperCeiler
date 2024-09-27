@@ -3,8 +3,10 @@ package com.sevtinge.hyperceiler.ui.fragment.helper;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
 
@@ -95,6 +97,41 @@ public class HomepageEntrance extends SettingsPreferenceFragment implements Pref
             } else {
                 mSecurityCenter.setTitle(R.string.security_center);
             }
+        }
+
+        setPreferenceIcons();
+    }
+
+    private void setPreferenceIcons() {
+        Resources resources = getResources();
+        try (XmlResourceParser xml = resources.getXml(R.xml.prefs_set_homepage_entrance)) {
+            int event = xml.getEventType();
+            while (event != XmlPullParser.END_DOCUMENT) {
+                if (event == XmlPullParser.START_TAG && xml.getName().equals("SwitchPreference")) {
+                    String key = xml.getAttributeValue(ANDROID_NS, "key");
+                    String summary = xml.getAttributeValue(ANDROID_NS, "summary");
+                    if (key != null && summary != null) {
+                        Drawable icon = getPackageIcon(summary); // 替换为获取图标的方法
+                        SwitchPreference preferenceHeader = findPreference(key);
+                        if (preferenceHeader != null) {
+                            preferenceHeader.setIcon(icon);
+                        }
+                    }
+                }
+                event = xml.next();
+            }
+        } catch (XmlPullParserException | IOException e) {
+            AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
+        }
+    }
+
+
+    private Drawable getPackageIcon(String packageName) {
+        try {
+            return requireContext().getPackageManager().getApplicationIcon(packageName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

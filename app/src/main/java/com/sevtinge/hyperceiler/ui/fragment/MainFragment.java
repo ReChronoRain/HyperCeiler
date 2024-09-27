@@ -27,8 +27,10 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVers
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
 
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -173,6 +175,8 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
             mGuardProvider.setTitle(R.string.guard_provider);
         }
 
+        setPreferenceIcons();
+
         mainActivityContextHelper = new MainActivityContextHelper(requireContext());
 
         isBirthday();
@@ -182,6 +186,39 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         if (!getIsOfficialRom()) isSignPass();
 
         mTips = findPreference("prefs_key_tips");
+    }
+
+    private void setPreferenceIcons() {
+        Resources resources = getResources();
+        try (XmlResourceParser xml = resources.getXml(R.xml.prefs_main)) {
+            int event = xml.getEventType();
+            while (event != XmlPullParser.END_DOCUMENT) {
+                if (event == XmlPullParser.START_TAG && xml.getName().equals("com.sevtinge.hyperceiler.prefs.PreferenceHeader")) {
+                    String key = xml.getAttributeValue(ANDROID_NS, "key");
+                    String summary = xml.getAttributeValue(ANDROID_NS, "summary");
+                    if (key != null && summary != null) {
+                        Drawable icon = getPackageIcon(summary); // 替换为获取图标的方法
+                        PreferenceHeader preferenceHeader = findPreference(key);
+                        if (preferenceHeader != null) {
+                            preferenceHeader.setIcon(icon);
+                        }
+                    }
+                }
+                event = xml.next();
+            }
+        } catch (XmlPullParserException | IOException e) {
+            AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
+        }
+    }
+
+
+    private Drawable getPackageIcon(String packageName) {
+        try {
+            return requireContext().getPackageManager().getApplicationIcon(packageName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void isBirthday() {
