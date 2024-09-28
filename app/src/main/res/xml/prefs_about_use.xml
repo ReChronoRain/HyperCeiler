@@ -55,6 +55,13 @@
                 android:data="https://github.com/MinaMichita/AntiAntiDefraud" />
         </Preference>
         <Preference
+            android:summary="tehcneko | GPL-3.0"
+            android:title="AOSP Package Installer">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Xposed-Modules-Repo/io.github.tehcneko.hyperos.aospinstaller" />
+        </Preference>
+        <Preference
             android:summary="焕晨HChen | GPL-3.0"
             android:title="AutoSEffSwitch">
             <intent
@@ -305,6 +312,13 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/HChenX/PinningApp" />
+        </Preference>
+        <Preference
+            android:summary="cinit | Proprietary License"
+            android:title="QAuxiliary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/cinit/QAuxiliary" />
         </Preference>
         <Preference
             android:summary="gfbjngjibn | GPL-3.0"

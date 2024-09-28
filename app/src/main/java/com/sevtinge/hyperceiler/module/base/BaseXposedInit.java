@@ -126,8 +126,8 @@ public abstract class BaseXposedInit {
     }
 
     public void init(LoadPackageParam lpparam) {
-        if (isSafeModeOn) return;
         String packageName = lpparam.packageName;
+        if (isInSafeMode(packageName)) return;
         if (Objects.equals(packageName, "android"))
             logI(packageName, "androidVersion = " + getAndroidVersion() + ", miuiVersion = " + getMiuiVersion() + ", hyperosVersion = " + getHyperOSVersion());
         else
