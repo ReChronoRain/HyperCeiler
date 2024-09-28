@@ -25,5 +25,10 @@
         android:summary="@string/various_fuck_xlDownload_desc"
         android:key="prefs_key_various_fuck_xlDownload"
         android:defaultValue="false" />
+    <SwitchPreference
+        android:title="@string/downloads_ui_always_show_link"
+        android:summary="@string/downloads_ui_always_show_link_desc"
+        android:key="prefs_key_downloads_ui_always_show_link"
+        android:defaultValue="false" />
 
 </PreferenceScreen>
