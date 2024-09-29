@@ -621,6 +621,8 @@
     <string name="downloads">下载管理程序</string>
     <string name="various_fuck_xlDownload">阻止创建 .xlDownload 文件夹</string>
     <string name="various_fuck_xlDownload_desc">防止下载管理程序在内部存储的根目录上生成 .xlDownload 文件夹</string>
+    <string name="downloads_ui_always_show_link">总是显示完整下载链接</string>
+    <string name="downloads_ui_always_show_link_desc">同时修复部分下载任务无法复制的问题</string>
     <!--系统界面-->
     <string name="system_ui">系统界面</string>
     <string name="system_ui_lockscreen_title">锁屏</string>
