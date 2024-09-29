@@ -65,6 +65,7 @@ public class DisableFreeformBlackList extends BaseHook {
         /*findAndHookMethod(mTaskCls, "isResizeable", XC_MethodReplacement.returnConstant(true));*/
 
         mResHook.setResReplacement("android", "array", "freeform_black_list", R.array.miui_freeform_black_list);
+        mResHook.setResReplacement("android.miui", "array", "freeform_black_list", R.array.miui_freeform_black_list);
         mResHook.setResReplacement("com.miui.rom", "array", "freeform_black_list", R.array.miui_freeform_black_list);
     }
 }
