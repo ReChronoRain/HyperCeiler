@@ -607,6 +607,8 @@
     <string name="downloads">Downloads</string>
     <string name="various_fuck_xlDownload">Block creation of .xlDownload folder</string>
     <string name="various_fuck_xlDownload_desc">Prevent Downloads from creating the .xlDownload folder in the root of internal storage</string>
+    <!--Download UI-->
+    <string name="downloads_ui">Downloads UI</string>
     <string name="downloads_ui_always_show_link">Always show full download link</string>
     <string name="downloads_ui_always_show_link_desc">Also fix some download tasks cannot be copied</string>
     <!--System UI-->

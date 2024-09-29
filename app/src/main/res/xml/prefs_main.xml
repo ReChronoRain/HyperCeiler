@@ -125,6 +125,13 @@
             android:title="@string/downloads" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.DownloadsUIFragment"
+            android:icon="@drawable/ic_default"
+            android:key="prefs_key_downloads_ui"
+            android:summary="com.android.providers.downloads.ui"
+            android:title="@string/downloads_ui" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.TelecomFragment"
             android:icon="@drawable/ic_default"
             android:key="prefs_key_telecom"

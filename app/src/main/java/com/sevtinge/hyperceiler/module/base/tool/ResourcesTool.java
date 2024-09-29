@@ -356,10 +356,6 @@ public class ResourcesTool {
         String resFullName = pkgName + ":" + resType + "/" + resName;
         String resAnyPkgName = "*:" + resType + "/" + resName;
 
-        if (method.equals("getStringArray")) {
-            logW("ijkasjkaskjaskj111", resFullName);
-        }
-
         Object value;
         Integer modResId;
         Pair<ReplacementType, Object> replacement = null;

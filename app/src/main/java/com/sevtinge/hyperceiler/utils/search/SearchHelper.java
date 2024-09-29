@@ -273,6 +273,9 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.downloads,
                 "com.sevtinge.hyperceiler.ui.fragment.DownloadsFragment");
 
+        parsePrefXml(context, R.xml.downloads_ui,
+                "com.sevtinge.hyperceiler.ui.fragment.DownloadsUIFragment");
+
         parsePrefXml(context, R.xml.updater,
                 "com.sevtinge.hyperceiler.ui.fragment.UpdaterFragment");
 

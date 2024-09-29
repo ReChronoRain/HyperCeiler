@@ -34,7 +34,7 @@ public class DownloadsFragment extends SettingsPreferenceFragment {
     public View.OnClickListener addRestartListener() {
         return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
             getResources().getString(R.string.downloads),
-            "com.android.providers.downloads.ui"
+            "com.android.providers.downloads"
         );
     }
 }
