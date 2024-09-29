@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.base.tool;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.DENSITY;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.ID;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.OBJECT;
@@ -25,6 +26,7 @@ import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -276,7 +278,7 @@ public class ResourcesTool {
         @Override
         protected void before(MethodHookParam param) {
             if (resourcesArrayList.isEmpty()) {
-                Resources resources = loadModuleRes(ContextUtils.getContext(ContextUtils.FLAG_ALL));
+                Resources resources = loadModuleRes(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP));
                 resourcesArrayList.add(resources); // 重新加载 res
             }
             if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
@@ -353,6 +355,10 @@ public class ResourcesTool {
 
         String resFullName = pkgName + ":" + resType + "/" + resName;
         String resAnyPkgName = "*:" + resType + "/" + resName;
+
+        if (method.equals("getStringArray")) {
+            logW("ijkasjkaskjaskj111", resFullName);
+        }
 
         Object value;
         Integer modResId;
