@@ -1316,6 +1316,8 @@
     <string name="home_title_custom_anim_param_stiffness_title">刚度</string>
     <string name="home_title_hide_report_text">隐藏举报入口</string>
     <string name="home_title_hide_report_text_desc">隐藏部分应用在卸载对话框的 \"举报该应用\" 入口</string>
+    <string name="home_title_notif_color">通知角标颜色自定义</string>
+    <string name="home_title_notif_color_picker">选择颜色</string>
 
     <string name="home_recent">最近任务</string>
     <string name="home_recent_animation_speed">动画速度</string>

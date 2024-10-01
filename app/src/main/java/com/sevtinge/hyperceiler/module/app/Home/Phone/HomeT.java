@@ -123,6 +123,7 @@ import com.sevtinge.hyperceiler.module.hook.home.title.FakeNonDefaultIcon;
 import com.sevtinge.hyperceiler.module.hook.home.title.FixAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.title.HiddenAllTitle;
 import com.sevtinge.hyperceiler.module.hook.home.title.HideReportText;
+import com.sevtinge.hyperceiler.module.hook.home.title.IconMessageColorCustom;
 import com.sevtinge.hyperceiler.module.hook.home.title.IconTitleColor;
 import com.sevtinge.hyperceiler.module.hook.home.title.IconTitleCustomization;
 import com.sevtinge.hyperceiler.module.hook.home.title.LargeIconCornerRadius;
@@ -248,6 +249,7 @@ public class HomeT extends BaseModule {
         initHook(new TitleFontSize(), mPrefsMap.getInt("home_title_font_size", 12) != 12);
         initHook(IconTitleColor.INSTANCE, true);
         initHook(new UnlockHotseatIcon(), mPrefsMap.getBoolean("home_dock_unlock_hotseat"));
+        initHook(new IconMessageColorCustom(), mPrefsMap.getBoolean("home_title_notif_color"));
 
         // 小部件
         initHook(new AllWidgetAnimation(), mPrefsMap.getBoolean("home_widget_all_widget_animation"));

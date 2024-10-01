@@ -1280,6 +1280,8 @@
     <string name="home_title_custom_anim_param_stiffness_title">Stiffness</string>
     <string name="home_title_hide_report_text">Hide report text</string>
     <string name="home_title_hide_report_text_desc">Hide report text in uninstall dialog</string>
+    <string name="home_title_notif_color">Notification message background color custom</string>
+    <string name="home_title_notif_color_picker">Custom color</string>
 
     <string name="home_recent">Recents</string>
     <string name="home_recent_animation_speed">Animation speed</string>
