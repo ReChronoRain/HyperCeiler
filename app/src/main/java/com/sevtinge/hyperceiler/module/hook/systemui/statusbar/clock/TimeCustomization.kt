@@ -70,7 +70,9 @@ object TimeCustomization : BaseHook() {
                 var c: Context? = null
                 mClockClass.constructorFinder()
                     .filterByParamCount(3)
-                    .first().createHook {
+                    .filterByParamTypes {
+                        it[0] == Context::class.java
+                    }.first().createHook {
                         after {
                             try {
                                 c = it.args[0] as Context
@@ -137,7 +139,9 @@ object TimeCustomization : BaseHook() {
 
                 mClockClass.constructorFinder()
                     .filterByParamCount(3)
-                    .first().createHook {
+                    .filterByParamTypes {
+                        it[0] == Context::class.java
+                    }.first().createHook {
                         after {
                             try {
                                 c = it.args[0] as Context
@@ -190,7 +194,7 @@ object TimeCustomization : BaseHook() {
         val mMiuiStatusBarClockController =
             textV.getObjectField("mMiuiStatusBarClockController")
         val mCalendar =
-            if (isAndroidVersion(34)) {
+            if (isMoreAndroidVersion(34)) {
                 mMiuiStatusBarClockController?.getObjectField("mCalendar")
             } else {
                 mMiuiStatusBarClockController?.callMethod("getCalendar")

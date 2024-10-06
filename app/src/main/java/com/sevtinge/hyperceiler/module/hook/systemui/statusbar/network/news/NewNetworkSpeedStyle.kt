@@ -56,7 +56,7 @@ object NewNetworkSpeedStyle : BaseHook() {
                             } else {
                                 lp.width = viewWidth
                             }
-                            meter.setLayoutParams(lp)
+                            meter.layoutParams = lp
                         }
                         meter.postDelayed({
                             val number = meter.getObjectField("mNetworkSpeedNumberText") as TextView
