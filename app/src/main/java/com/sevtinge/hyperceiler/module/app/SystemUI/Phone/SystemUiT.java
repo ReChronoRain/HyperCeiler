@@ -141,12 +141,13 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.strongtoast.HideS
 
 import java.util.Objects;
 
-@HookExpand(pkg = "com.android.systemui", tarAndroid = 33, maxAndroid = 34)
+@HookExpand(pkg = "com.android.systemui", tarAndroid = 33, maxAndroid = 35)
 public class SystemUiT extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // PluginHelper
         initHook(new PluginHelper(), true);// 充电动画
+        // initHook(Island.INSTANCE, true); // 灵动岛
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         // initHook(DisableChargeAnimation.INSTANCE);
 

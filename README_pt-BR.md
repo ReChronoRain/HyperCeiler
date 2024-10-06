@@ -12,7 +12,7 @@
 
 ## Versões atualmente suportadas
 
-MIUI e HyperOS para Android 13-14
+MIUI e HyperOS para Android 13-15
 
 ## Instruções de pré-uso
 
@@ -22,7 +22,7 @@ Este módulo <b>não suporta</b> `ROM MIUI/Xiaomi HyperOS de terceiros com muita
 
 Antes de enviar feedback, preste atenção se já existe o mesmo feedback para evitar problemas aos desenvolvedores. Gastar a mesma energia lendo o mesmo feedback é uma perda de tempo.
 
-O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12. Se você quiser usá-lo, fique [nesta versão](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
+O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13. Se você quiser usá-lo, fique [nesta versão](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
 
 ## Apps suportados
 
@@ -102,7 +102,7 @@ Junte-se ao nosso grupo para relatar problemas ou obter as atualizações mais r
 
 Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler).
 
-Observação: Quando o progresso da tradução do novo idioma for maior ou igual a 90%, ele entrará no processo de mesclagem. Se o progresso da tradução do idioma adicionado for menor ou igual a 30% do texto original, ele será removido temporariamente até que o progresso da tradução seja maior ou igual a 90%.
+> Observação: Quando o progresso da tradução do novo idioma for maior ou igual a 90%, ele entrará no processo de mesclagem. Se o progresso da tradução do idioma adicionado for menor ou igual a 30% do texto original, ele será removido temporariamente até que o progresso da tradução seja maior ou igual a 90%.
 
 ## Obrigado!
 

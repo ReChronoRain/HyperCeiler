@@ -33,8 +33,8 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.AppLinkVerify;
 import com.sevtinge.hyperceiler.module.hook.systemframework.BackgroundBlur;
 import com.sevtinge.hyperceiler.module.hook.systemframework.BypassUnknownSourcesRestrictions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanOpenMenu;
-import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanProcessTextMenu;
+import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ClipboardWhitelist;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DeleteOnPostNotification;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableCleaner;
@@ -62,8 +62,8 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.SpeedInstall;
 import com.sevtinge.hyperceiler.module.hook.systemframework.StickyFloatingWindows;
 import com.sevtinge.hyperceiler.module.hook.systemframework.SystemLockApp;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ThermalBrightness;
-import com.sevtinge.hyperceiler.module.hook.systemframework.UseOriginalAnimation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.UseAndroidPackageInstaller;
+import com.sevtinge.hyperceiler.module.hook.systemframework.UseOriginalAnimation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDefaultStream;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDisableSafe;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeFirstPress;
@@ -90,7 +90,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N5N8Band;
 import com.sevtinge.hyperceiler.module.hook.various.NoAccessDeviceLogsRequest;
 
-@HookExpand(pkg = "android", tarAndroid = 33, maxAndroid = 34)
+@HookExpand(pkg = "android", tarAndroid = 33, maxAndroid = 35)
 public class SystemFrameworkT extends BaseModule {
 
     @Override

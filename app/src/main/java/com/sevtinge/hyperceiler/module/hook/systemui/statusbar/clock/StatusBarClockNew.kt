@@ -280,7 +280,7 @@ object StatusBarClockNew : BaseHook() {
         val mMiuiStatusBarClockController =
             textV.getObjectField("mMiuiStatusBarClockController")
         val mCalendar =
-            if (isAndroidVersion(34)) {
+            if (isMoreAndroidVersion(34)) {
                 mMiuiStatusBarClockController?.getObjectField("mCalendar")
             } else {
                 mMiuiStatusBarClockController?.callMethod("getCalendar")
