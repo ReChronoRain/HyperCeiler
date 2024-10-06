@@ -386,7 +386,7 @@
     <string name="system_framework_freeform_sticky">Remember state and position</string>
     <string name="system_framework_freeform_bubble">Bubble freeform</string>
     <string name="system_framework_freeform_recents_to_small_freeform">Turn all freeform into mini freeform</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">Turn all freeform into mini freeform in Recents.\nThis feature is experimental with high instability.</string>
+    <string name="system_framework_freeform_recents_to_small_freeform_desc">Turn all freeform into mini freeform in Recents. This feature is experimental with high instability.</string>
     <string name="system_framework_freeform_jump">Open with freeform when jump to another app</string>
     <string name="system_framework_freeform_foreground_pin">Welt windows force the front desk</string>
     <string name="system_framework_freeform_title_desc">In the following scenarios, when you need to jump to other apps, you will use the freeform to open.</string>
@@ -492,7 +492,7 @@
     <string name="system_framework_core_patch_auth_creak">Disable digest verify</string>
     <string name="system_framework_core_patch_auth_creak_desc">Allows install apps after modify file in apk (ignore invalid digest error)</string>
     <string name="system_framework_disable_integrity">Disable system integrity checks</string>
-    <string name="system_framework_disable_integrity_desc">Automatic recovery of tampered content is prohibited. When the \"Disable digest verify\" function is turned on, it will be enabled by default.\nOnly supports Android 13 and above.</string>
+    <string name="system_framework_disable_integrity_desc">Automatic recovery of tampered content is prohibited. When the Disable digest verify function is turned on, it will be enabled by default. Only supports Android 13 and above.</string>
     <string name="system_framework_core_patch_shared_user">Bypass shared user signature verify</string>
     <string name="system_framework_core_patch_shared_user_desc">Allow installation of apps that differ from their shared user signatures. This feature is somewhat dangerous and should only be enabled when needed.</string>
     <string name="system_framework_core_patch_digest_creak">Disable compare signatures</string>
@@ -880,7 +880,7 @@
     <string name="system_ui_control_center_notification_disable_transparent_desc">Disable setting notification background to be transparent</string>
     <string name="system_ui_control_center_notification_blur_model">Notification blur model</string>
     <string name="system_ui_control_center_notification_blur_fix">Notification optimization</string>
-    <string name="system_ui_control_center_notification_blur_fix_desc">Experimental feature. Only available for Android 13 and above models. After enabling, notification blur in some areas will be optimized.\nThere may be a problem of System UI crash on some models.</string>
+    <string name="system_ui_control_center_notification_blur_fix_desc">Experimental feature. Only available for Android 13 and above models. After enabling, notification blur in some areas will be optimized. There may be a problem of System UI crash on some models.</string>
     <string name="system_ui_control_center_blur_radius">Blur radius</string>
     <string name="system_ui_control_center_blur_radius_desc">Without dropdown notification</string>
     <string name="system_ui_control_center_corner_radius">Corner radius</string>
@@ -1262,7 +1262,7 @@
     <string name="home_title_title_new_install">Hide new app installation indicator</string>
     <string name="home_title_title_icontitlecustomization">Customize the app name</string>
     <string name="home_title_drawer_font_hidden">Hide all app names</string>
-    <string name="home_title_drawer_font_hidden_more">The app name in the drawer will also be hidden.\nIf you want to keep the app name in the drawer, please use Font size to adjust it.</string>
+    <string name="home_title_drawer_font_hidden_more">The app name in the drawer will also be hidden. If you want to keep the app name in the drawer, please use Font size to adjust it.</string>
     <string name="home_title_title_new_install_more">Don\'t display the indicator next to the app name when installing a new app</string>
     <string name="home_title_font_size">Font size</string>
     <string name="home_title_title_color">Title color</string>
@@ -1471,7 +1471,7 @@
     <string name="screenshot">Screenshot</string>
     <string name="screenshot_unlock_minimum_crop_limit">Remove the minimum crop image limit</string>
     <string name="screenshot_unlock_privacy_marking_title">Unlock privacy marking</string>
-    <string name="screenshot_unlock_privacy_marking_desc">A higher version of the \"Mi AI Engine\" app needs to be pre-installed for normal usage</string>
+    <string name="screenshot_unlock_privacy_marking_desc">A higher version of the Mi AI Engine app needs to be pre-installed for normal usage</string>
     <string name="screenshot_save_to_pictures_desc">Canonical screenshot save location to /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Custom screenshot model with shell</string>
     <string name="screenshot_device_customize_desc">Please enter the device code, and the colored device should be filled with a suffix, for example:\n- Xiaomi 13, fill in the content is fuxi\n- Xiaomi 14 pink version, fill in the content is houji_PK</string>
@@ -1810,7 +1810,7 @@
     <string name="help_cant_see_apps_disable">Disabled or hidden apps:\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app features:\n\n - Those currently disabled or hidden\n - Those not found in your device\n - Those incompatible with the current version of the system or the app\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nThere are currently no hidden features!</string>
     <string name="help_cant_see_apps_switch">Hide this help in homepage</string>
-    <string name="help_cant_see_apps_switch_desc">You can still find this page in \"About > Help\". Reboot app to apply.</string>
+    <string name="help_cant_see_apps_switch_desc">You can still find this page in About > Help. Reboot app to apply.</string>
     <string name="help_support_version_title">Current app version support system version list</string>
     <string name="help_support_version_desc_1">The current app version is fully adapted to the following system versions:</string>
     <string name="help_support_version_desc_2">The following system versions are adapted to the current app version:</string>
@@ -1821,13 +1821,13 @@
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of Re.chronoRain, and may contain malicious code.</string>
     <string name="headtip_tip_long_press_to_copy">You can select text after long or double press, or copy it and send it back to the developer.</string>
     <string name="headtip_tip_fuck_coolapk">Today in history: Sevtinge delivered an important speech on July 14, 2022.</string>
-    <string name="headtip_notice_dead_logger_errcode">The current device Log service is abnormal and HyperCeiler functions will be limited.\nPlease restore the Log service so that it can run normally.\nError code: %1$s</string>
-    <string name="headtip_notice_dead_logger">The current device Log service is abnormal and HyperCeiler functions will be limited. Please restore the Log service so that it can run normally.</string>
-    <string name="warn">Warning</string>
-    <string name="safe_mode_desc">%1$s has entered Safe mode due to multiple crashes, and HyperCeiler features has been temporarily disabled. \nClick OK to cancel or click Cancel to continue later.</string>
+    <string name="headtip_notice_dead_logger_errcode">The current device log service is abnormal and HyperCeiler functions will be limited. Please restore the log service so that it can run normally.\nError code: %1$s</string>
+    <string name="headtip_notice_dead_logger">The current device log service is abnormal and HyperCeiler functions will be limited. Please restore the log service so that it can run normally.</string>
+    <string name="warn">Attention</string>
+    <string name="safe_mode_desc">%1$s has entered Safe mode due to multiple crashes, and HyperCeiler features has been temporarily disabled.</string>
     <string name="safe_mode_history">View exception records</string>
     <string name="safe_mode_cancel">Disable Safe mode</string>
-    <string name="safe_mode_ok">Continue later</string>
+    <string name="safe_mode_ok">Cancel</string>
     <string name="safe_mode_later_title">Tip</string>
     <string name="safe_mode_later_desc">%1$s is still in Safe mode and HyperCeiler features has been disabled. Disable Safe mode?</string>
     <string name="safe_mode_recorder_title">Exception records</string>
