@@ -66,7 +66,7 @@
     <string name="development_prefs">Preferência de compartilhamento</string>
     <string name="development_cmd_r">CMD com root</string>
     <string name="development_delete_all_dexkit_cache">Excluir todo o cache do DexKit</string>
-    <string name="development_close_log_alert_dialog">Desativar diálogo de alerta ao vivo do logger</string>
+    <string name="development_close_log_alert_dialog">Desativar diálogo de alerta do logger</string>
     <string name="development_fix_lsposed_log">Tentar corrigir o serviço de registro do LSPosed</string>
     <string name="about_privacy">Política de Privacidade</string>
     <string name="about_protocol">Acordo do Usuário</string>
@@ -183,6 +183,10 @@
     <string name="enable">Ativar</string>
     <string name="disable">Desativar</string>
     <string name="custom_enable">Ativar personalização</string>
+    <string name="customization">Personalização</string>
+    <string name="model">Modelo</string>
+    <string name="device">Dispositivo</string>
+    <string name="manufacturer">Fabricante</string>
     <string name="search">Pesquisar</string>
     <string name="floating_window">Janelas flutuantes</string>
     <string name="save_to_screen_title">Especificar local para salvar</string>
@@ -394,6 +398,9 @@
     <string name="system_framework_clean_open_menu">Limpar menu Abrir com</string>
     <string name="system_framework_clean_open_apps">Apps selecionados</string>
     <string name="system_framework_clean_open_apps_desc">O app selecionado não aparecerá no menu Abrir com</string>
+    <string name="system_framework_clean_process_text_menu">Limpar menu de contexto de texto</string>
+    <string name="system_framework_clean_process_text_apps">Apps selecionados</string>
+    <string name="system_framework_clean_process_text_apps_desc">O app selecionado não aparecerá no menu de contexto de texto</string>
     <string name="system_other_flag_secure">Permitir captura de tela</string>
     <string name="system_other_flag_secure_desc">Permite capturas de tela e gravações de tela em qualquer app</string>
     <string name="system_other_delete_on_post_notification">Remover notificação da tela superior</string>
@@ -424,6 +431,8 @@
     <string name="system_framework_disable_link_turbo_toast">Ocultar dica da rede móvel usada para aceleração</string>
     <string name="system_framework_allow_third_theme">Permitir usar temas de terceiros</string>
     <string name="system_framework_allow_disable_protected_package">Permitir desativar apps protegidos</string>
+    <string name="system_framework_disable_miui_watermark">Desativar marca d\'água global</string>
+    <string name="system_framework_bypass_unknown_sources_restrictions">Ignorar restrições de fontes desconhecidas</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Serviço de Gerenciador de Pacotes</string>
     <string name="system_framework_core_patch_downgr">Permitir downgrade</string>
@@ -444,6 +453,10 @@
     <string name="system_framework_disable_low_api_check_desc">Apps com APIs inferiores a 23 são permitidos</string>
     <string name="system_framework_disable_persistent">Desativar verificações persistentes</string>
     <string name="system_framework_disable_persistent_more">Permite atualizar apps persistentes diretamente, como atualizar diretamente a interface do sistema.</string>
+    <string name="system_framework_disable_verification_agent">Desativar agente de verificação de pacotes</string>
+    <string name="system_framework_disable_verification_agent_desc">Ex.: Google Play Protect</string>
+    <string name="system_framework_use_android_package_installer">Usar Instalador de pacote Android</string>
+    <string name="system_framework_use_android_package_installer_desc">Restaure a API PackageInstaller quebrada</string>
     <!--Browser-->
     <string name="browser">Navegador</string>
     <string name="browser_debug_mode">Desbloquear opções do desenvolvedor</string>
@@ -512,6 +525,9 @@
     <!--Calendar-->
     <string name="calendar">Calendário</string>
     <string name="calendar_unlock_subscription">Desbloquear inscrições</string>
+    <!--Community-->
+    <string name="community">Xiaomi Community</string>
+    <string name="community_device_modify">Disfarçar modelo</string>
     <!--File Manager-->
     <string name="fileexplorer">Arquivos</string>
     <string name="file_explorer_can_selectable">Arquivos pode ser selecionável</string>
@@ -539,6 +555,10 @@
     <string name="downloads">Downloads</string>
     <string name="various_fuck_xlDownload">Bloquear a criação da pasta .xlDownload</string>
     <string name="various_fuck_xlDownload_desc">Impedir que Downloads gere a pasta .xlDownload na raiz do armazenamento interno</string>
+    <!--Download UI-->
+    <string name="downloads_ui">Downloads</string>
+    <string name="downloads_ui_always_show_link">Mostrar sempre o link de download completo</string>
+    <string name="downloads_ui_always_show_link_desc">Também corrigir algumas tarefas de download que não podem ser copiadas</string>
     <!--System UI-->
     <string name="system_ui">UI do Sistema</string>
     <string name="system_ui_lockscreen_title">Tela de bloqueio</string>
@@ -1206,6 +1226,8 @@
     <string name="home_title_custom_anim_param_stiffness_title">Rigidez</string>
     <string name="home_title_hide_report_text">Ocultar texto de relatório</string>
     <string name="home_title_hide_report_text_desc">Oculte o texto de relatório na caixa de diálogo de desinstalação</string>
+    <string name="home_title_notif_color">Cor de fundo da mensagem de notificação</string>
+    <string name="home_title_notif_color_picker">Cor customizada</string>
     <string name="home_recent">Recentes</string>
     <string name="home_recent_animation_speed">Velocidade da animação</string>
     <string name="home_recent_disable_wallpaper_dimming">Desativar escurecimento do plano de fundo</string>
@@ -1319,7 +1341,7 @@
     <string name="mediaeditor_foundation">Fundação</string>
     <string name="mediaeditor_ai_authoring">Autoria de IA</string>
     <string name="mediaeditor_unlock_disney_title">Desbloquear recursos de personalização da Disney</string>
-    <string name="mediaeditor_unlock_disney_desc">Os desbloqueios incluem os seguintes recursos:\n- Molduras personalizadas - Molduras personalizadas da Disney (em conflito com outras molduras personalizadas)\n- Fundo Bokeh - Mickey Mokeh\n- Adesivos - Adesivos da Disney</string>
+    <string name="mediaeditor_unlock_disney_desc">Os desbloqueios incluem os seguintes recursos:\n• Molduras personalizadas - Molduras personalizadas da Disney (em conflito com outras molduras personalizadas)\n• Fundo Bokeh - Mickey Mokeh\n• Adesivos - Adesivos da Disney</string>
     <string name="mediaeditor_unlock_spring_title">Desbloquear molduras do Ano Novo Chinês</string>
     <string name="mediaeditor_unlock_spring_desc">Para adicionar permanentemente uma moldura personalizada do Ano Novo Chinês, o pré-requisito é que você precise de uma moldura personalizada Leica ou de uma moldura personalizada Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Remover limite mínimo de corte de imagem</string>
@@ -1331,6 +1353,7 @@
     <string name="mishare">Xiaomi Share</string>
     <string name="mishare_disable_mishare_auto_off">Desativar fechamento automático do Xiaomi Share</string>
     <string name="mishare_unlock_turbo_mode">Desbloquear Transferência turbo</string>
+    <string name="mishare_hook_switch_mode_all">Todos</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Plano de fundo Mi</string>
     <string name="miwallpaper_unlock_super_wallpaper">Desbloquear Super plano de fundo</string>
@@ -1376,8 +1399,9 @@
     <string name="powerkeeper_do_not_kill_apps_desc">Pode aumentar o consumo de energia</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Impedir a recuperação da lista de permissões de otimização de bateria</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Desativar para obter código do controle de exibição</string>
+    <string name="powerkeeper_gms_doze_fix">Permitir que o GMS se conecte à rede a qualquer momento</string>
     <!--Screen Recorder-->
-    <string name="screenrecorder">Gravador de Tela</string>
+    <string name="screenrecorder">Gravador de tela</string>
     <string name="screen_recorder_force_support_playback_capture">Forçar ativação do suporte de gravação de tela AOSP</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Requer suporte a versão de gravação de tela</string>
     <string name="screen_recorder_config">Adicionar mais opções de taxa de quadros e taxa de bits</string>
@@ -1420,7 +1444,7 @@
     <string name="security_center_applock_pin_scramble">Bloqueio de apps com PIN embaralhado</string>
     <string name="security_center_power_saver">Remover restrições ao espelhar tela</string>
     <string name="security_center_privacy_thumbnail_blur">Desativar pré-visualização em imagens desfocadas</string>
-    <string name="security_center_power_saver_desc">Desative o modo Economia de bateria ao espelhar a tela via Xiaomi Smart Hub</string>
+    <string name="security_center_power_saver_desc">Desative a Economia de bateria ao espelhar a tela via Xiaomi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Altere aleatoriamente a sequência do PIN do Bloqueio de apps</string>
     <string name="security_center_beauty_light_auto">Desbloquear Luz de preenchimento dianteira</string>
     <string name="security_center_beauty_face">Desbloquear Embelezar para videochamadas</string>
@@ -1458,7 +1482,7 @@
     <string name="security_center_newbox_blur">Blur da barra lateral</string>
     <string name="security_center_remove_conversation_bubble_settings_restriction">Remover restrições do app de conversas em bolhas</string>
     <string name="security_center_remove_low_battery_reminder_title">Ocultar aviso sobre nível de bateria fraca</string>
-    <string name="security_center_remove_low_battery_reminder_summary">Quando a bateria estiver abaixo de 20%, a caixa de diálogo de aviso para ativar o modo Economia de bateria não aparecerá mais.</string>
+    <string name="security_center_remove_low_battery_reminder_summary">Quando a bateria estiver abaixo de 20%, a caixa de diálogo de aviso para ativar a Economia de bateria não aparecerá mais.</string>
     <string name="security_center_remove_open_app_confirmation_popup">Remover pop-up de app aberto</string>
     <string name="security_center_remove_open_app_confirmation_popup_summary">Remova o pop-up \"Permitir que XXX abra XXX\" do início da cadeia</string>
     <string name="security_center_no_permission">Permissões necessárias não concedidas</string>
@@ -1633,6 +1657,7 @@
     <string name="various_mipad_input_ingore_gesture_desc">Ignore o gesto de pressão longa nos botões da caneta</string>
     <string name="various_mipad_input_need_finger_num_title">Troque o número de dedos necessários para gestos</string>
     <string name="various_mipad_input_need_finger_num_desc">Altere o gesto de captura de tela, o gesto de captura de tela parcial e o gesto de tela dividida horizontal para serem acionados por quatro dedos, e mude o gesto de apps para ser acionado por três dedos.</string>
+    <string name="custom_background">Plano de fundo personalizado</string>
     <string name="custom_background_blur_enabled">Blur de fundo</string>
     <string name="custom_background_blur_radius">Raio do blur</string>
     <string name="custom_background_color">Cor de fundo</string>
@@ -1726,7 +1751,13 @@
     <string name="help_cant_see_apps_desc_no_hidden">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n • Aqueles atualmente desativados ou ocultos\n • Aqueles que não foram encontrados em seu dispositivo\n • Aqueles incompatíveis com a versão atual do sistema ou do app\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nAtualmente não há recursos ocultos!</string>
     <string name="help_cant_see_apps_switch">Ocultar esta ajuda na página inicial</string>
     <string name="help_cant_see_apps_switch_desc">Você ainda pode encontrar esta página em Configurações &gt; Configurar entrada da página inicial. Reinicie o app para aplicar.</string>
+    <string name="help_support_version_title">Lista de versões do sistema com suporte à versão atual do app</string>
+    <string name="help_support_version_desc_1">A versão atual do app está totalmente adaptada às seguintes versões do sistema:</string>
+    <string name="help_support_version_desc_2">As seguintes versões do sistema são adaptadas à versão atual do app:</string>
+    <string name="help_support_version_desc_3">A versão atual do sistema está totalmente adaptada.</string>
+    <string name="help_support_version_desc_4">A versão atual do sistema não está (totalmente) adaptada.</string>
     <string name="headtip_warn_not_offical_rom">A ROM que você está usando pode não ser oficial da Xiaomi, e alguns recursos podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
+    <string name="headtip_warn_unsupport_sysver">O dispositivo atual está executando uma versão do sistema que não está (totalmente) adaptada, o que pode resultar em anomalias na funcionalidade do HyperCeiler.</string>
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
     <string name="headtip_tip_long_press_to_copy">Você pode selecionar o texto após pressionar longamente ou tocar duas vezes, ou copiá-lo e devolvê-lo ao desenvolvedor.</string>
     <string name="headtip_tip_fuck_coolapk">Hoje na história: Sevtinge fez um discurso importante em 14 de julho de 2022.</string>
