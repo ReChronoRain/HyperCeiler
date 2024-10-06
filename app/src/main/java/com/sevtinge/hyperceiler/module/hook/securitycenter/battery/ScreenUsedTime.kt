@@ -33,6 +33,8 @@ object ScreenUsedTime : BaseHook() {
             it.findMethod {
                 matcher {
                     addUsingStringsEquals("ishtar", "nuwa", "fuxi")
+                    returnType = "boolean"
+                    paramCount = 0
                 }
             }.single().getMethodInstance(safeClassLoader)
         }.toMethod()

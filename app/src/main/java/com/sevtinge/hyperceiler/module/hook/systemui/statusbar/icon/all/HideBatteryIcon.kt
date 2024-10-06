@@ -25,6 +25,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 object HideBatteryIcon : BaseHook() {
     override fun init() {
@@ -32,15 +33,16 @@ object HideBatteryIcon : BaseHook() {
             loadClass("com.android.systemui.statusbar.views.MiuiBatteryMeterView")
         }
 
-        try {
+        if (isMoreAndroidVersion(35)) {
             mBatteryMeterViewClass.methodFinder()
-                .filterByName("updateResources")
-                .single()
-        } catch (t: Throwable) {
+                .filterByName("updateAll\$1")
+        } else if (isAndroidVersion(34)) {
             mBatteryMeterViewClass.methodFinder()
                 .filterByName("updateAll")
-                .single()
-        }.createHook {
+        } else {
+            mBatteryMeterViewClass.methodFinder()
+                .filterByName("updateResources")
+        }.single().createHook {
             after { param ->
                 if (param.thisObject != null) {
                     // 隐藏电池图标
@@ -74,6 +76,20 @@ object HideBatteryIcon : BaseHook() {
                 after { param ->
                     // 隐藏电池充电图标
                     if (param.thisObject != null) {
+                        if (isMoreAndroidVersion(35)) {
+                            // 隐藏电池百分号
+                            if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") ||
+                                mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark")
+                            ) {
+                                (param.thisObject?.getObjectFieldAs<TextView>("mBatteryPercentMarkView"))?.textSize = 0F
+                            }
+                            // 隐藏电池内的百分比
+                            if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent")) {
+                                (param.thisObject?.getObjectFieldAs<TextView>("mBatteryPercentView"))?.textSize = 0F
+                                (param.thisObject?.getObjectFieldAs<TextView>("mBatteryTextDigitView"))?.textSize = 0F
+                            }
+                        }
+
                         if (mPrefsMap.getBoolean("system_ui_status_bar_battery_charging")) {
                             (param.thisObject.getObjectFieldAs<ImageView>("mBatteryChargingInView")).visibility =
                                 View.GONE
