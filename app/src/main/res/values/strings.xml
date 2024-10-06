@@ -454,6 +454,7 @@
     <string name="system_framework_clean_process_text_apps_desc">The selected app won\'t appear in the text context menu</string>
     <string name="system_framework_auto_start_menu">Restriction chain exemptions</string>
     <string name="system_framework_auto_start_apps">Selected apps</string>
+    <string name="system_framework_auto_start_apps_desc">The selected application will not be restricted by the restriction chain and can start automatically</string>
     <string name="system_other_flag_secure">Allow screenshot</string>
     <string name="system_other_flag_secure_desc">Allows screenshots and screen recordings of any app</string>
     <string name="system_other_delete_on_post_notification">Remove the upper display notification</string>
@@ -1555,7 +1556,7 @@
     <string name="security_center_invert_color_summary">Invert the selected icon colors on some backgrounds for better visibility.\nThis function may have abnormal color inversions. Please enable it as appropriate.</string>
     <string name="security_center_blurradius">Sidebar blur value</string>
     <string name="security_center_color">Sidebar color</string>
-    <string name="security_center_other_title">Others</string>
+    <string name="security_center_other_title">Others</string>  
     <string name="security_center_sidebar_line_color">Sidebar line color custom</string>
     <string name="security_center_sidebar_line_color_default">Sidebar line color default</string>
     <string name="security_center_sidebar_line_color_dark">Sidebar line color dark</string>
