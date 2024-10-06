@@ -183,6 +183,10 @@
     <string name="enable">Kích hoạt</string>
     <string name="disable">Vô hiệu hóa</string>
     <string name="custom_enable">Bật tùy chỉnh</string>
+    <string name="customization">Tùy biến</string>
+    <string name="model">Dòng máy</string>
+    <string name="device">Thiết bị</string>
+    <string name="manufacturer">Nhà sản xuất</string>
     <string name="search">Tìm kiếm</string>
     <string name="floating_window">Cửa sổ nổi</string>
     <string name="save_to_screen_title">Lưu thông tin vị trí</string>
@@ -395,6 +399,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_clean_open_menu">Dọn dẹp mở với menu</string>
     <string name="system_framework_clean_open_apps">Ứng dụng đã lựa chọn</string>
     <string name="system_framework_clean_open_apps_desc">Ứng dụng đã chọn sẽ không xuất hiện trong menu mở</string>
+    <string name="system_framework_clean_process_text_menu">Xóa menu ngữ cảnh văn bản</string>
+    <string name="system_framework_clean_process_text_apps">Ứng dụng đã chọn</string>
+    <string name="system_framework_clean_process_text_apps_desc">Ứng dụng đã chọn sẽ không xuất hiện trong menu ngữ cảnh văn bản</string>
     <string name="system_other_flag_secure">Cho phép chụp ảnh màn hình</string>
     <string name="system_other_flag_secure_desc">Cho phép chụp ành màn hình và ghi hình bất kì ứng dụng nào</string>
     <string name="system_other_delete_on_post_notification">Xóa thông báo lớp phủ</string>
@@ -425,6 +432,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_disable_link_turbo_toast">Ẩn thông báo \"Sử dụng mạng di động để tăng tốc\"</string>
     <string name="system_framework_allow_third_theme">Cho phép sử dụng chủ đề của bên thứ ba</string>
     <string name="system_framework_allow_disable_protected_package">Cho phép tắt các ứng dụng được bảo vệ</string>
+    <string name="system_framework_disable_miui_watermark">Tắt hình mờ bản quốc tế</string>
+    <string name="system_framework_bypass_unknown_sources_restrictions">Bỏ qua các hạn chế nguồn không xác định</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Quản lý cài đặt gói</string>
     <string name="system_framework_core_patch_downgr">Cho phép hạ cấp</string>
@@ -446,6 +455,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_disable_low_api_check_desc">Cho phép cài đặt ứng dụng có API thấp hơn 23</string>
     <string name="system_framework_disable_persistent">Tắt kiểm tra liên tục</string>
     <string name="system_framework_disable_persistent_more">Cho phép bạn cập nhật trực tiếp các ứng dụng liên tục, chẳng hạn như cập nhật trực tiếp giao diện hệ thống</string>
+    <string name="system_framework_disable_verification_agent">Vô hiệu hóa tác nhân xác minh gói</string>
+    <string name="system_framework_disable_verification_agent_desc">ví dụ: Google Play Protect</string>
+    <string name="system_framework_use_android_package_installer">Sử dụng trình cài đặt gói Android</string>
+    <string name="system_framework_use_android_package_installer_desc">Khôi phục API PackageInstaller bị hỏng</string>
     <!--Browser-->
     <string name="browser">Trình duyệt</string>
     <string name="browser_debug_mode">Tùy chọn nhà phát triển</string>
@@ -514,6 +527,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Calendar-->
     <string name="calendar">Lịch</string>
     <string name="calendar_unlock_subscription">Mở khóa đăng ký</string>
+    <!--Community-->
+    <string name="community">Cộng đồng Xiaomi</string>
+    <string name="community_device_modify">Giả mạo dòng máy</string>
     <!--File Manager-->
     <string name="fileexplorer">Tập tin</string>
     <string name="file_explorer_can_selectable">Có thể lựa chọn Trình quản lý tập tin</string>
@@ -541,6 +557,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="downloads">Tải xuống</string>
     <string name="various_fuck_xlDownload">Chặn tạo thư mục .xlDownload</string>
     <string name="various_fuck_xlDownload_desc">Ngăn trình quản lý tải xuống tạo thư mục .xlDownload trên thư mục gốc của bộ nhớ</string>
+    <!--Download UI-->
+    <string name="downloads_ui">Giao diện tải xuống</string>
+    <string name="downloads_ui_always_show_link">Luôn hiện liên kết tải xuống đầy đủ</string>
+    <string name="downloads_ui_always_show_link_desc">Đồng thời cũng khắc phục vấn đề một số tác vụ tải xuống không thể sao chép</string>
     <!--System UI-->
     <string name="system_ui">Giao diện người dùng hệ thống</string>
     <string name="system_ui_lockscreen_title">Màn hình khóa</string>
@@ -1212,6 +1232,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_title_custom_anim_param_stiffness_title">Độ gấp</string>
     <string name="home_title_hide_report_text">Ẩn văn bản báo cáo</string>
     <string name="home_title_hide_report_text_desc">Ẩn văn bản báo cáo trong hộp thoại gỡ cài đặt</string>
+    <string name="home_title_notif_color">Tùy chỉnh màu nền thông báo tin nhắn</string>
+    <string name="home_title_notif_color_picker">Tùy chỉnh màu</string>
     <string name="home_recent">Gần đây</string>
     <string name="home_recent_animation_speed">Tốc độ của hoạt ảnh</string>
     <string name="home_recent_disable_wallpaper_dimming">Tắt làm mờ hình nền</string>
@@ -1337,6 +1359,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="mishare">Mi Share</string>
     <string name="mishare_disable_mishare_auto_off">Tắt tự động đóng Mi Share</string>
     <string name="mishare_unlock_turbo_mode">Mở khóa Gửi siêu nhanh</string>
+    <string name="mishare_hook_switch_mode_all">Mọi người</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Hình nền</string>
     <string name="miwallpaper_unlock_super_wallpaper">Mở khoá Siêu hình nền</string>
@@ -1382,6 +1405,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="powerkeeper_do_not_kill_apps_desc">Có thể tăng mức tiêu thụ điện năng</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Ngăn chặn khôi phục danh sách trắng của tối ưu hoá pin</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Tắt để lấy mã điều khiển hiển thị</string>
+    <string name="powerkeeper_gms_doze_fix">Cho phép GMS kết nối với mạng bất cứ lúc nào</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">Quay màn hình</string>
     <string name="screen_recorder_force_support_playback_capture">Cho phép AOSP hỗ trợ ghi hình</string>
@@ -1647,6 +1671,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="various_mipad_input_ingore_gesture_desc">Bỏ qua cử chỉ nhấn và giữ trên các nút bút Stylus</string>
     <string name="various_mipad_input_need_finger_num_title">Thay đổi số ngón cho cử chỉ</string>
     <string name="various_mipad_input_need_finger_num_desc">Thay đổi cử chỉ chụp màn hình, Cử chỉ chụp màn hình một phần, Cử chỉ chia đôi màn hình bằng 4 ngón, Cử chỉ chuyển ứng dụng bằng 3 ngón</string>
+    <string name="custom_background">Tùy chỉnh nền</string>
     <string name="custom_background_blur_enabled">Làm mờ nền</string>
     <string name="custom_background_blur_radius">Bán kính mờ</string>
     <string name="custom_background_color">Màu nền</string>
@@ -1740,7 +1765,13 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="help_cant_see_apps_desc_no_hidden">Để duy trì tính đơn giản và khả năng sử dụng của trang chủ, chúng tôi đã ẩn quyền truy cập vào các loại tính năng ứng dụng sau:\n\n - Các tính năng hiện đang bị tắt hoặc ẩn\n - Các tính năng không tìm thấy trên thiết bị của bạn\n - Các tính năng không tương thích với phiên bản hiện tại của hệ thống hoặc ứng dụng\n\nVui lòng khắc phục sự cố dựa trên thông tin trên, khởi động lại HyperCeiler và thử lại. Nếu bạn vẫn không tìm thấy các tính năng ứng dụng, thì có thể đó là lỗi. Vui lòng cung cấp phản hồi kịp thời và hiệu quả cho chúng tôi.\n\nHiện tại không có tính năng ẩn nào!</string>
     <string name="help_cant_see_apps_switch">Ẩn trợ giúp này trong trang chủ</string>
     <string name="help_cant_see_apps_switch_desc">Bạn vẫn có thể tìm thấy trang này trong \"Cài đặt - Thiết lập lối tắt trang chủ\". Khởi động lại ứng dụng để áp dụng.</string>
+    <string name="help_support_version_title">Danh sách phiên bản hệ thống hỗ trợ phiên bản ứng dụng hiện tại</string>
+    <string name="help_support_version_desc_1">Phiên bản ứng dụng hiện tại hoàn toàn tương thích với các phiên bản hệ thống sau:</string>
+    <string name="help_support_version_desc_2">Các phiên bản hệ thống sau đây được điều chỉnh cho phù hợp với phiên bản ứng dụng hiện tại:</string>
+    <string name="help_support_version_desc_3">Phiên bản hệ thống hiện tại đã được điều chỉnh đầy đủ.</string>
+    <string name="help_support_version_desc_4">Phiên bản hệ thống hiện tại chưa được điều chỉnh (hoàn toàn).</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
+    <string name="headtip_warn_unsupport_sysver">Thiết bị hiện tại đang chạy trên phiên bản hệ thống chưa được điều chỉnh (hoàn toàn), điều này có thể dẫn đến những bất thường trong chức năng của HyperCeiler.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="headtip_tip_long_press_to_copy">Bạn có thể chọn văn bản sau khi nhấn và nhấp đúp vào văn bản đó hoặc sao chép văn bản đó và gửi lại cho nhà phát triển.</string>
     <string name="headtip_tip_fuck_coolapk">Ngày hôm nay trong lịch sử:\nSevtinge đã có bài phát biểu quan trọng vào ngày 14 tháng 7 năm 2022.</string>
