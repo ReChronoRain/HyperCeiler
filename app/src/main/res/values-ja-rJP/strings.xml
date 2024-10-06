@@ -384,11 +384,12 @@
     <string name="system_framework_disable_app_link_verify_desc">アプリ設定で対応リンクを有効化しなくても、リンクを開いたときに対応しているアプリで直接開くようにします</string>
     <string name="system_framework_clean_share_menu">共有メニューを整理する</string>
     <string name="system_framework_clean_share_apps">選択中のアプリ</string>
-    <string name="system_framework_auto_start_apps">自動起動の制限を除外</string>
     <string name="system_framework_clean_share_apps_desc">選択したアプリは共有メニューに表示されません</string>
     <string name="system_framework_clean_open_menu">「アプリで開く」メニューを整理する</string>
     <string name="system_framework_clean_open_apps">選択中のアプリ</string>
     <string name="system_framework_clean_open_apps_desc">選択したアプリは「アプリで開く」メニューに表示されません</string>
+    <string name="system_framework_auto_start_menu">自動起動の制限を除外</string>
+    <string name="system_framework_auto_start_apps">選択中のアプリ</string>
     <string name="system_other_flag_secure">スクリーンショットを許可</string>
     <string name="system_other_flag_secure_desc">あらゆるアプリでのスクリーンショットや画面録画を許可します</string>
     <string name="system_other_delete_on_post_notification">オーバーレイアプリの通知を無効化</string>

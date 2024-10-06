@@ -445,7 +445,6 @@
     <string name="system_framework_disable_app_link_verify_desc">Revert to opening supported apps directly when opening links without enabling supported links in app settings</string>
     <string name="system_framework_clean_share_menu">Clean up share menu</string>
     <string name="system_framework_clean_share_apps">Selected apps</string>
-    <string name="system_framework_auto_start_apps">Restriction chain exemptions</string>
     <string name="system_framework_clean_share_apps_desc">The selected app won\'t appear in the share menu</string>
     <string name="system_framework_clean_open_menu">Clean up open with menu</string>
     <string name="system_framework_clean_open_apps">Selected apps</string>
@@ -453,6 +452,8 @@
     <string name="system_framework_clean_process_text_menu">Clean up text context menu</string>
     <string name="system_framework_clean_process_text_apps">Selected apps</string>
     <string name="system_framework_clean_process_text_apps_desc">The selected app won\'t appear in the text context menu</string>
+    <string name="system_framework_auto_start_menu">Restriction chain exemptions</string>
+    <string name="system_framework_auto_start_apps">Selected apps</string>
     <string name="system_other_flag_secure">Allow screenshot</string>
     <string name="system_other_flag_secure_desc">Allows screenshots and screen recordings of any app</string>
     <string name="system_other_delete_on_post_notification">Remove the upper display notification</string>
