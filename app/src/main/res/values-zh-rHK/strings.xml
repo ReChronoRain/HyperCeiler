@@ -439,11 +439,12 @@
     <string name="system_framework_disable_app_link_verify_desc">打開鏈接時恢復為直接打開支持嘅應用，無需喺應用設置中勾選支持嘅鏈接</string>
     <string name="system_framework_clean_share_menu">清理分享菜單</string>
     <string name="system_framework_clean_share_apps">已選應用</string>
-    <string name="system_framework_auto_start_apps">限制鏈豁免</string>
     <string name="system_framework_clean_share_apps_desc">選中嘅應用將唔會出現喺分享菜單內</string>
     <string name="system_framework_clean_open_menu">清理打開方式菜單</string>
     <string name="system_framework_clean_open_apps">已選應用</string>
     <string name="system_framework_clean_open_apps_desc">選中嘅應用將唔會出現喺打開方式菜單內</string>
+    <string name="system_framework_auto_start_menu">限制鏈豁免</string>
+    <string name="system_framework_auto_start_apps">已選應用</string>
     <string name="system_other_flag_secure">允許截屏</string>
     <string name="system_other_flag_secure_desc">允許對任意應用進行截屏同錄屏</string>
     <string name="system_other_delete_on_post_notification">移除上層顯示通知</string>

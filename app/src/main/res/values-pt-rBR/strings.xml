@@ -393,7 +393,6 @@
     <string name="system_framework_disable_app_link_verify_desc">Reverter para abrir apps suportados diretamente ao abrir links sem habilitar links suportados nas configurações do app</string>
     <string name="system_framework_clean_share_menu">Limpar menu de compartilhamento</string>
     <string name="system_framework_clean_share_apps">Apps selecionados</string>
-    <string name="system_framework_auto_start_apps">Exceções em cadeia de restrições</string>
     <string name="system_framework_clean_share_apps_desc">O app selecionado não aparecerá no menu de compartilhamento</string>
     <string name="system_framework_clean_open_menu">Limpar menu Abrir com</string>
     <string name="system_framework_clean_open_apps">Apps selecionados</string>
@@ -401,6 +400,8 @@
     <string name="system_framework_clean_process_text_menu">Limpar menu de contexto de texto</string>
     <string name="system_framework_clean_process_text_apps">Apps selecionados</string>
     <string name="system_framework_clean_process_text_apps_desc">O app selecionado não aparecerá no menu de contexto de texto</string>
+    <string name="system_framework_auto_start_menu">Exceções em cadeia de restrições</string>
+    <string name="system_framework_auto_start_apps">Apps selecionados</string>
     <string name="system_other_flag_secure">Permitir captura de tela</string>
     <string name="system_other_flag_secure_desc">Permite capturas de tela e gravações de tela em qualquer app</string>
     <string name="system_other_delete_on_post_notification">Remover notificação da tela superior</string>
