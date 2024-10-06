@@ -25,6 +25,7 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import de.robv.android.xposed.*
 
@@ -62,16 +63,24 @@ object BatteryStyle : BaseHook() {
     }
 
     override fun init() {
-       mBatteryMeterViewClass.methodFinder()
-           .filterByName("updateAll")
-           .single().createHook {
-               after { param ->
-                   hookStatusBattery(param)
-               }
+        if (isMoreAndroidVersion(35)) {
+            mBatteryMeterViewClass.methodFinder()
+                .filterByName("updateAll\$1")
+        } else {
+            mBatteryMeterViewClass.methodFinder()
+                .filterByName("updateAll")
+        }.single().createHook {
+            after { param ->
+                hookStatusBattery(param)
+            }
         }
     }
 
-    private fun changeLocation(batteryView: LinearLayout, mBatteryPercentView: TextView, mBatteryPercentMarkView: TextView) {
+    private fun changeLocation(
+        batteryView: LinearLayout,
+        mBatteryPercentView: TextView,
+        mBatteryPercentMarkView: TextView
+    ) {
         batteryView.removeView(mBatteryPercentView)
         batteryView.removeView(mBatteryPercentMarkView)
         batteryView.addView(mBatteryPercentMarkView, 0)
@@ -125,7 +134,7 @@ object BatteryStyle : BaseHook() {
 
     private fun hookStatusBattery(param: XC_MethodHook.MethodHookParam) {
         val batteryView = param.thisObject as LinearLayout
-        val mBatteryPercentView=
+        val mBatteryPercentView =
             XposedHelpers.getObjectField(param.thisObject, "mBatteryPercentView") as TextView
         val mBatteryPercentMarkView =
             XposedHelpers.getObjectField(param.thisObject, "mBatteryPercentMarkView") as TextView
@@ -153,7 +162,7 @@ object BatteryStyle : BaseHook() {
             }
 
             // 设置边距
-           setMargin(mBatteryPercentView, mBatteryPercentMarkView)
+            setMargin(mBatteryPercentView, mBatteryPercentMarkView)
         }
     }
 }
