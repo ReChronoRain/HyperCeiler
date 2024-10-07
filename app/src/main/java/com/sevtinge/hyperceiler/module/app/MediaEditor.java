@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.module.hook.mediaeditor.FilterManagerAll;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockCustomPhotoFrames;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockDisney;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockLeicaFilter;
-import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockMinimumCropLimit;
+import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockMinimumCropLimit2;
 
 import java.util.Objects;
 
@@ -35,7 +35,7 @@ public class MediaEditor extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // 基础
-        initHook(new UnlockMinimumCropLimit(), mPrefsMap.getBoolean("mediaeditor_unlock_minimum_crop_limit"));
+        initHook(UnlockMinimumCropLimit2.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_minimum_crop_limit"));
         initHook(FilterManagerAll.INSTANCE, mPrefsMap.getBoolean("mediaeditor_filter_manager"));
         initHook(UnlockLeicaFilter.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_leica_filter"));
         initHook(CustomWatermark.INSTANCE, !Objects.equals(mPrefsMap.getString("mediaeditor_custom_watermark", ""), ""));
