@@ -147,5 +147,11 @@
             android:summary="@string/security_center_bypass_simlock_miaccount_auth_desc"
             android:title="@string/security_center_bypass_simlock_miaccount_auth" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_remove_simlock_success_dialog"
+            android:summary="@string/security_center_remove_simlock_success_dialog_desc"
+            android:title="@string/security_center_remove_simlock_success_dialog" />
+
     </PreferenceCategory>
 </PreferenceScreen>

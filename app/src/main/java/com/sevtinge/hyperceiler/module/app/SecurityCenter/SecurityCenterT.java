@@ -63,6 +63,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.other.DisableRootChec
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.FuckRiskPkg;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.LockOneHundredPoints;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.NoLowBatteryWarning;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.other.RemoveSIMLockSuccessDialog;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.SkipCountDownLimit;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.AddSideBarExpandReceiver;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.BlurSecurity;
@@ -123,6 +124,7 @@ public class SecurityCenterT extends BaseModule {
         initHook(DisableRootCheck.INSTANCE, mPrefsMap.getBoolean("security_center_disable_root_check"));
         initHook(FuckRiskPkg.INSTANCE, mPrefsMap.getBoolean("security_center_disable_send_malicious_app_notification"));
         initHook(NoLowBatteryWarning.INSTANCE, mPrefsMap.getBoolean("security_center_remove_low_battery_reminder"));
+        initHook(RemoveSIMLockSuccessDialog.INSTANCE, mPrefsMap.getBoolean("security_center_remove_simlock_success_dialog"));
         initHook(new UnlockFbo(), mPrefsMap.getBoolean("security_center_unlock_fbo"));
         initHook(BypassSimLockMiAccountAuth.INSTANCE, mPrefsMap.getBoolean("security_center_bypass_simlock_miaccount_auth"));
         initHook(new BypassAdbInstallVerify(), mPrefsMap.getBoolean("security_center_adb_install_verify"));
