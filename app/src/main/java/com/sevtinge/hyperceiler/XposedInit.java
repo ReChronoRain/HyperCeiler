@@ -66,12 +66,18 @@ public class XposedInit extends BaseXposedInit implements IXposedHookZygoteInit,
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        EzXHelper.initHandleLoadPackage(lpparam);
+        EzXHelper.setLogTag(TAG);
+        EzXHelper.setToastTag(TAG);
+        // load CorePatch
+        new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
+
         if ("com.miui.contentcatcher".equals(lpparam.packageName) ||
                 "com.miui.catcherpatch".equals(lpparam.packageName)) {
             return;
         }
+        // load Module hook apps
         init(lpparam);
-        new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
         if (mPrefsMap.getBoolean("system_framework_network_flightmode_hotspot"))
             new FlightModeHotSpot().handleLoadPackage(lpparam);
     }

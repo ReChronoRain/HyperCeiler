@@ -112,11 +112,6 @@ public class CorePatchForT extends CorePatchForS {
         }
     }
 
-    @Override
-    Class<?> getIsVerificationEnabledClass(ClassLoader classLoader) {
-        return XposedHelpers.findClass("com.android.server.pm.PackageManagerService", classLoader);
-    }
-
     Class<?> getParsedPackage(ClassLoader classLoader) {
         return XposedHelpers.findClassIfExists("com.android.server.pm.parsing.pkg.ParsedPackage", classLoader);
     }
@@ -142,5 +137,10 @@ public class CorePatchForT extends CorePatchForS {
     @Override
     protected Object SigningDetails_mergeLineageWith(Object self, Object other) {
         return XposedHelpers.callMethod(self, "mergeLineageWith", other, 2 /*MERGE_RESTRICTED_CAPABILITY*/);
+    }
+
+    @Override
+    Class<?> getIsVerificationEnabledClass(ClassLoader classLoader) {
+        return XposedHelpers.findClass("com.android.server.pm.PackageManagerService", classLoader);
     }
 }
