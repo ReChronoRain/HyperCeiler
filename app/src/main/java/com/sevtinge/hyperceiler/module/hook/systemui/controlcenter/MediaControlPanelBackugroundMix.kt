@@ -66,10 +66,26 @@ class MediaControlPanelBackgroundMix : BaseHook() {
     override fun init() {
         // 部分代码来自 Hyper Helper (https://github.com/HowieHChen/XiaomiHelper/blob/master/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/systemui/CustomMusicControl.kt)
         val miuiMediaControlPanel = loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaControlPanel")
-        val notificationUtil = loadClassOrNull("com.android.systemui.statusbar.notification.NotificationUtil")
-        val playerTwoCircleView = loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.PlayerTwoCircleView")
-        val seekBarObserver = loadClassOrNull("com.android.systemui.media.controls.models.player.SeekBarObserver")
-        val mediaViewHolder = loadClassOrNull("com.android.systemui.media.controls.models.player.MediaViewHolder")
+        val notificationUtil = if (Build.VERSION.SDK_INT > 34) {
+            loadClassOrNull("com.miui.systemui.notification.MiuiBaseNotifUtil")
+        } else {
+            loadClassOrNull("com.android.systemui.statusbar.notification.NotificationUtil")
+        }
+        val mediaViewHolder = if (Build.VERSION.SDK_INT > 34) {
+            loadClassOrNull("com.android.systemui.media.controls.ui.view.MediaViewHolder")
+        } else {
+            loadClassOrNull("com.android.systemui.media.controls.models.player.MediaViewHolder")
+        }
+        val seekBarObserver = if (Build.VERSION.SDK_INT > 34) {
+            loadClassOrNull("com.android.systemui.media.controls.ui.binder.SeekBarObserver")
+        } else {
+            loadClassOrNull("com.android.systemui.media.controls.models.player.SeekBarObserver")
+        }
+        val playerTwoCircleView = if (Build.VERSION.SDK_INT > 34) {
+            loadClassOrNull("com.miui.systemui.notification.media.PlayerTwoCircleView")
+        } else {
+            loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.PlayerTwoCircleView")
+        }
         val statusBarStateControllerImpl = loadClassOrNull("com.android.systemui.statusbar.StatusBarStateControllerImpl")
         val miuiStubClass = loadClassOrNull("miui.stub.MiuiStub")
         val miuiStubInstance = XposedHelpers.getStaticObjectField(miuiStubClass, "INSTANCE")
@@ -117,35 +133,23 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                 }
             }*/
 
-            mediaViewHolder?.constructors?.first()?.createAfterHook {
-                val context = AndroidAppHelper.currentApplication().applicationContext
-                val action0 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action0")
-                val action1 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action1")
-                val action2 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action2")
-                val action3 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action3")
-                val action4 = it.thisObject.objectHelper().getObjectOrNullAs<ImageButton>("action4")
-
-                fun updateColorFilter() {
-                    val color = if (isDarkMode()) Color.WHITE else Color.BLACK
-                    action0?.setColorFilter(color)
-                    action1?.setColorFilter(color)
-                    action2?.setColorFilter(color)
-                    action3?.setColorFilter(color)
-                    action4?.setColorFilter(color)
+            /*mediaViewHolder?.constructors?.first()?.createAfterHook {
+                val seekBar = it.thisObject.objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
+                val backgroundDrawable = GradientDrawable().apply {
+                    color = ColorStateList(arrayOf(intArrayOf()), intArrayOf(Color.parseColor("#20ffffff")))
+                    cornerRadius = 9.dp.toFloat()
                 }
-
-                updateColorFilter()
-
-                val darkModeObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
-                    override fun onChange(selfChange: Boolean) {
-                        updateColorFilter()
-                    }
+                val onProgressDrawable = GradientDrawable().apply {
+                    color = ColorStateList(arrayOf(intArrayOf()), intArrayOf(Color.parseColor("#ffffffff")))
+                    cornerRadius = 9.dp.toFloat()
                 }
-
-                context.contentResolver.registerContentObserver(
-                    Settings.Secure.getUriFor("ui_night_mode"), false, darkModeObserver
-                )
-            }
+                val thumbDrawable = seekBar?.thumb as LayerDrawable
+                val layerDrawable = LayerDrawable(arrayOf(backgroundDrawable, ClipDrawable(onProgressDrawable, Gravity.START, ClipDrawable.HORIZONTAL)))
+                seekBar.apply {
+                    thumb = thumbDrawable
+                    progressDrawable = layerDrawable
+                }
+            }*/
 
             miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()
                 ?.createAfterHook {
@@ -158,6 +162,11 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     val mMediaViewHolder = it.thisObject.objectHelper()
                         .getObjectOrNullUntilSuperclass("mMediaViewHolder")
                         ?: return@createAfterHook
+                    val action0 = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action0")
+                    val action1 = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action1")
+                    val action2 = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action2")
+                    val action3 = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action3")
+                    val action4 = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action4")
                     val titleText =
                         mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("titleText")
                     val artistText =
@@ -210,6 +219,11 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     elapsedTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11f)
                     totalTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11f)
                     if (!isBackgroundBlurOpened) {
+                        action0?.setColorFilter(color)
+                        action1?.setColorFilter(color)
+                        action2?.setColorFilter(color)
+                        action3?.setColorFilter(color)
+                        action4?.setColorFilter(color)
                         titleText?.setTextColor(Color.WHITE)
                         seamlessIcon?.setColorFilter(Color.WHITE)
                         seekBar?.progressDrawable?.colorFilter = colorFilter(grey)
@@ -220,6 +234,11 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         totalTimeView?.setTextColor(grey)
                         titleText?.setTextColor(grey)
                         titleText?.setTextColor(color)
+                        action0?.setColorFilter(color)
+                        action1?.setColorFilter(color)
+                        action2?.setColorFilter(color)
+                        action3?.setColorFilter(color)
+                        action4?.setColorFilter(color)
                         seamlessIcon?.setColorFilter(color)
                         seekBar?.progressDrawable?.colorFilter = colorFilter(grey)
                         seekBar?.thumb?.colorFilter = colorFilter(if (mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2) Color.TRANSPARENT else grey)
@@ -358,10 +377,17 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         context
                     ) as Boolean
                     if (!isBackgroundBlurOpened) return@createBeforeHook
+                    (it.thisObject as ImageView).background = null
                     it.result = null
                 }
         } catch (t: Throwable) {
            logE(TAG, lpparam.packageName, t)
+        }
+        if (Build.VERSION.SDK_INT == 35) {
+            val graphicsA15 = loadClassOrNull("androidx.palette.graphics.Palette\$Builder\$1")
+            graphicsA15?.methodFinder()?.filterByName("onPostExecute")?.first()?.createBeforeHook {
+                it.result = null
+            }
         }
     }
 
