@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -177,7 +178,7 @@
     <string name="restart_app_desc">Are you sure you want to restart now %1$s?</string>
     <string name="tip">Tip</string>
     <string name="root">Some features aren\'t available without Root/Su permission</string>
-    <string name="hook_failed">The module isn\'t activated yet.\nPlease check if Xposed manager is enabled. If so, please restart or re-optimize the module.</string>
+    <string name="hook_failed">The module isn\'t activated yet. Please check if LSPosed is enabled. If so, please restart or re-optimize the module.</string>
     <string name="kill_failed">Failed to end process. Please check if HyperCeiler has been granted Root/Su permissions.</string>
     <string name="start_failed">Failed to start activity. Please check if HyperCeiler has been granted Root/Su permissions.</string>
     <string name="pid_failed">The target app isn\'t running and doesn\'t need to be restarted.</string>
@@ -454,7 +455,7 @@
     <string name="system_framework_clean_process_text_apps_desc">The selected app won\'t appear in the text context menu</string>
     <string name="system_framework_auto_start_menu">Restriction chain exemptions</string>
     <string name="system_framework_auto_start_apps">Selected apps</string>
-    <string name="system_framework_auto_start_apps_desc">The selected application will not be restricted by the restriction chain and can start automatically</string>
+    <string name="system_framework_auto_start_apps_desc">The selected app won\'t be restricted by the restriction chain and can start automatically</string>
     <string name="system_other_flag_secure">Allow screenshot</string>
     <string name="system_other_flag_secure_desc">Allows screenshots and screen recordings of any app</string>
     <string name="system_other_delete_on_post_notification">Remove the upper display notification</string>
@@ -1556,7 +1557,7 @@
     <string name="security_center_invert_color_summary">Invert the selected icon colors on some backgrounds for better visibility.\nThis function may have abnormal color inversions. Please enable it as appropriate.</string>
     <string name="security_center_blurradius">Sidebar blur value</string>
     <string name="security_center_color">Sidebar color</string>
-    <string name="security_center_other_title">Others</string>  
+    <string name="security_center_other_title">Others</string>
     <string name="security_center_sidebar_line_color">Sidebar line color custom</string>
     <string name="security_center_sidebar_line_color_default">Sidebar line color default</string>
     <string name="security_center_sidebar_line_color_dark">Sidebar line color dark</string>
@@ -1688,7 +1689,7 @@
     <string name="various_phrase_clipboardlist">Remove the clipboard and time limits for phrases</string>
     <string name="various_phrase_clipboardlist_more">After it\'s enabled, select the input method scope and restart it.</string>
     <string name="various_unlock_ime">Unlock IME</string>
-    <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the Xposed manager.</string>
+    <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the LSPosed.</string>
     <string name="various_collapse_miui_title">System title style</string>
     <string name="various_collapse_miui_title_desc">Adjust top bar title in system apps</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>
