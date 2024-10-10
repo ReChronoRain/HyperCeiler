@@ -403,6 +403,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_clean_process_text_apps_desc">Ứng dụng đã chọn sẽ không xuất hiện trong menu ngữ cảnh văn bản</string>
     <string name="system_framework_auto_start_menu">Loại bỏ chuỗi hạn chế</string>
     <string name="system_framework_auto_start_apps">Ứng dụng đã chọn</string>
+    <string name="system_framework_auto_start_apps_desc">Ứng dụng đã chọn sẽ không bị hạn chế bởi chuỗi hạn chế và có thể tự động khởi động</string>
     <string name="system_other_flag_secure">Cho phép chụp ảnh màn hình</string>
     <string name="system_other_flag_secure_desc">Cho phép chụp ành màn hình và ghi hình bất kì ứng dụng nào</string>
     <string name="system_other_delete_on_post_notification">Xóa thông báo lớp phủ</string>
