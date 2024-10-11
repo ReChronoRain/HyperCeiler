@@ -18,14 +18,14 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
-import android.content.res.Resources.*
 import android.graphics.drawable.*
 import android.widget.*
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.api.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 class MediaControlSeekbarCustom : BaseHook() {
 
@@ -33,18 +33,17 @@ class MediaControlSeekbarCustom : BaseHook() {
         mPrefsMap.getInt("system_ui_control_center_media_control_progress_thickness", 80)
     }
 
-    //from https://github.com/YuKongA/MediaControl-BlurBg
+    // from https://github.com/YuKongA/MediaControl-BlurBg
     override fun init() {
-        EzXHelper.initHandleLoadPackage(lpparam)
-        EzXHelper.setLogTag(TAG)
-        EzXHelper.setToastTag(TAG)
-
-        val seekBarObserver =
+        val seekBarObserver = if (isMoreAndroidVersion(35))
+            loadClassOrNull("com.android.systemui.media.controls.ui.binder.SeekBarObserver")
+        else
             loadClassOrNull("com.android.systemui.media.controls.models.player.SeekBarObserver")
 
         seekBarObserver?.constructors?.createHooks {
             after {
-                it.thisObject.objectHelper().setObject("seekBarEnabledMaxHeight", progressThickness.dp)
+                it.thisObject.objectHelper()
+                    .setObject("seekBarEnabledMaxHeight", progressThickness.dp)
                 it.args[0].objectHelper().getObjectOrNullAs<SeekBar>("seekBar")?.apply {
                     thumb = (thumb as Drawable).apply {
                         setMinimumWidth(progressThickness.dp)
@@ -55,8 +54,4 @@ class MediaControlSeekbarCustom : BaseHook() {
         }
 
     }
-
-    val Int.dp: Int get() = (this.toFloat().dp).toInt()
-
-    val Float.dp: Float get() = this / getSystem().displayMetrics.density
 }

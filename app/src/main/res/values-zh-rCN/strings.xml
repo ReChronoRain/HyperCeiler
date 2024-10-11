@@ -916,6 +916,7 @@
     <string name="system_ui_control_center_media_control_progress_wavy">波浪</string>
     <string name="system_ui_control_center_media_control_progress_sleek">圆滑</string>
     <string name="system_ui_control_center_media_control_progress_thickness">粗细</string>
+    <string name="system_ui_control_center_media_control_progress_corner_radius">进度条圆角半径</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">解除自定义动作应用限制</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">时间预览文本大小</string>
     <string name="system_ui_control_center_media_control_seekbar_color">进度条颜色</string>

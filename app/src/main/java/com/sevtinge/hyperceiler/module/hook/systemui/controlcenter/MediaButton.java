@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.systemui;
+package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
 import android.content.Context;
 import android.graphics.Bitmap;

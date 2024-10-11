@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.utils.api
 
 import android.app.admin.*
 import android.content.*
+import android.content.res.Resources.*
 import android.view.*
 import android.widget.*
 import com.github.kyuubiran.ezxhelper.*
@@ -224,3 +225,6 @@ fun isNewNetworkStyle(): Boolean {
         false
     }
 }
+
+val Int.dp: Int get() = (this.toFloat().dp).toInt()
+val Float.dp: Float get() = this / getSystem().displayMetrics.density

@@ -16,7 +16,9 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.systemui;
+package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
+
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -29,10 +31,13 @@ import de.robv.android.xposed.XposedHelpers;
 public class MediaSeekBarColor extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
+        Class SeekBarObserver = isMoreAndroidVersion(35) ?
+                findClassIfExists("com.android.systemui.media.controls.ui.binder.SeekBarObserver") :
+                findClassIfExists("com.android.systemui.media.controls.models.player.SeekBarObserver");
+
         int progressColor = mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_color", -1);
         int thumbColor = mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1);
-        findAndHookMethod("com.android.systemui.media.controls.models.player.SeekBarObserver",
-                "onChanged", Object.class,
+        findAndHookMethod(SeekBarObserver, "onChanged", Object.class,
                 new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
