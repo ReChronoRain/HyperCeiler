@@ -14,7 +14,7 @@
 
 MIUI and HyperOS for Android 13-15
 
-> Note: Android 13 has basically stopped maintenance, only provides temporary support, and no longer accepts feedback
+> Note: Android 13 has basically stopped maintenance, only provides temporary support, and no longer accepts feedback.
 
 ## Pre-use instructions
 
@@ -22,9 +22,11 @@ Please enable HyperCeiler in [LSPosed](https://github.com/LSPosed/LSPosed/releas
 
 This module <b>does not support</b> `third-party MIUI/Xiaomi HyperOS ROMs with a lot of modifications`, `system software with a lot of modifications`, and some `international MIUI/Xiaomi HyperOS ROMs`.
 
+Currently, HyperCeiler is adapted for Xiaomi HyperOS 1.0-1.1 mobile devices based on Android 14-15. The coverage isn't very comprehensive and requires ongoing testing and improvements.
+
 Before submitting feedback, please pay attention to whether there is already the same feedback to avoid causing trouble to developers. Spending the same energy reading the same feedback is a waste of time.
 
-HyperCeiler has stopped maintaining MIUI ROM for Android 11-13. If you want to use it, please stay at [this version](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130)
+HyperCeiler has stopped maintaining MIUI ROM for Android 11-13. If you want to use it, please stay at [this version](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
 
 ## Supported apps
 
@@ -66,7 +68,7 @@ HyperCeiler has stopped maintaining MIUI ROM for Android 11-13. If you want to u
 | Downloads                  | com.android.providers.downloads    |
 | Gallery                    | com.miui.gallery                   |
 | Mi Canvas                  | com.miui.creation                  |
-| Mi Share                   | com.miui.mishare.connectivity      |
+| Xiaomi Share               | com.miui.mishare.connectivity      |
 | Gallery Editor             | com.miui.mediaeditor               |
 | Xiaomi Cloud               | com.miui.cloudservice              |
 | Smart cards                | com.miui.tsmclient                 |
@@ -85,6 +87,12 @@ HyperCeiler has stopped maintaining MIUI ROM for Android 11-13. If you want to u
 | Backup                     | com.miui.backup                    |
 | Mi Mover                   | com.miui.huanji                    |
 | MiTrustService             | com.xiaomi.trustservice            |
+| HTML Viewer                | com.android.htmlviewer             |
+| Manage calls               | com.android.server.telecom         |
+| Mi Remote                  | com.duokan.phone.remotecontroller  |
+| Analytics                  | com.miui.analytics                 |
+| Xiaomi Community           | com.xiaomi.vipaccount              |
+| Voice Trigger              | com.miui.voicetrigger              |
 
 </details>
 
@@ -104,7 +112,7 @@ Join our group to report issues or get the latest updates.
 
 You can provide translations for the HyperCeiler project [here](https://crwd.in/cemiuiler).
 
-> Note: When the translation progress of the new language is greater than or equal to 90%, it will enter the merge process. If the translation progress of the added language is less than or equal to 30% of the source text, it will be temporarily removed until the translation progress is greater than or equal to 90%
+> Note: When the translation progress of the new language is greater than or equal to 90%, it will enter the merge process. If the translation progress of the added language is less than or equal to 30% of the source text, it will be temporarily removed until the translation progress is greater than or equal to 90%.
 
 ## Thanks!
 

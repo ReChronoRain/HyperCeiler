@@ -69,7 +69,7 @@ HyperCeiler 已停止维护 Android 11-13 的 MIUI ROM，如需使用请停留[�
 | 相册                    | com.miui.gallery                   |
 | 小米创作                  | com.miui.creation                  |
 | 小米互传                  | com.miui.mishare.connectivity      |
-| 小米相册 - 编辑             | com.miui.mediaeditor               |
+| 小米相册-编辑             | com.miui.mediaeditor               |
 | 小米云服务                 | com.miui.cloudservice              |
 | 小米智能卡                 | com.miui.tsmclient                 |
 | 讯飞输入法小米版              | com.iflytek.inputmethod.miui       |
@@ -87,6 +87,12 @@ HyperCeiler 已停止维护 Android 11-13 的 MIUI ROM，如需使用请停留[�
 | 备份                    | com.miui.backup                    |
 | 小米换机                  | com.miui.huanji                    |
 | MiTrustService        | com.xiaomi.trustservice            |
+| HTML 查看器                | com.android.htmlviewer             |
+| 通话管理               | com.android.server.telecom         |
+| 万能遥控                  | com.duokan.phone.remotecontroller  |
+| Analytics                  | com.miui.analytics                 |
+| 小米社区                 | com.xiaomi.vipaccount              |
+| 语音唤醒              | com.miui.voicetrigger              |
 
 </details>
 
