@@ -1583,6 +1583,8 @@
     <string name="security_center_game_speed_desc">When launching the game, it passes the opening screen animation at 3x speed, which is only supported by some games.</string>
     <string name="security_center_bypass_simlock_miaccount_auth">Bypass Xiaomi Account SIM security</string>
     <string name="security_center_bypass_simlock_miaccount_auth_desc">You can use this function even without logging into your Xiaomi Account.</string>
+    <string name="security_center_remove_simlock_success_dialog">Remove the dialog for successful SIM card security verification</string>
+    <string name="security_center_remove_simlock_success_dialog_desc">No more dialog after powering on the phone to indicate that the SIM card security protection has been successfully verified.</string>
     <string name="security_center_aosp_app_info_label">AOSP app info</string>
     <string name="security_center_aosp_app_info">Add AOSP app info entry</string>
     <string name="security_center_aosp_app_manager_label">AOSP app manager</string>

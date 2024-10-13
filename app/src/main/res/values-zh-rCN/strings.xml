@@ -1620,6 +1620,8 @@
     <string name="security_center_game_speed_desc">在启动游戏时倍速通过开屏动画，仅部分游戏支持</string>
     <string name="security_center_bypass_simlock_miaccount_auth">SIM 卡安全保护跳过登录验证</string>
     <string name="security_center_bypass_simlock_miaccount_auth_desc">开启 SIM 卡安全保护功能时无需登录小米账号</string>
+    <string name="security_center_remove_simlock_success_dialog">移除 SIM 卡安全保护验证成功的弹窗</string>
+    <string name="security_center_remove_simlock_success_dialog_desc">开机后不再弹窗提示 SIM 卡安全保护验证成功</string>
     <string name="security_center_aosp_app_info">添加 \"原生应用信息\" 入口</string>
     <string name="security_center_aosp_app_info_label">原生应用信息</string>
     <string name="security_center_aosp_app_manager">添加 \"原生应用管理\" 入口</string>

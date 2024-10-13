@@ -106,7 +106,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mNotifrowmenu = findPreference("prefs_key_system_ui_control_center_notifrowmenu");
         mProgressMode = findPreference("prefs_key_system_ui_control_center_media_control_progress_mode");
         mProgressModeThickness = findPreference("prefs_key_system_ui_control_center_media_control_progress_thickness");
-        mProgressModeCornerRadius = findPreference("prefs_key_system_ui_control_center_media_control_progress_thickness");
+        mProgressModeCornerRadius = findPreference("prefs_key_system_ui_control_center_media_control_progress_corner_radius");
         mSliderColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_thumb_color");
         mProgressBarColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_color");
         handler = new Handler();
@@ -218,6 +218,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
 
     private void setCanBeVisibleProgressMode(int mode) {
         mProgressModeThickness.setVisible(mode == 2);
+        mProgressModeCornerRadius.setVisible(mode == 2);
         mSliderColor.setVisible(mode != 2);
         mProgressBarColor.setVisible(mode != 2);
     }

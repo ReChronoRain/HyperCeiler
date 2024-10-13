@@ -98,7 +98,7 @@ public class SystemFrameworkT extends BaseModule {
         initHook(new DisableMiuiWatermark(), mPrefsMap.getBoolean("system_framework_disable_miui_watermark"));
         initHook(new AntiQues(), mPrefsMap.getBoolean("system_settings_anti_ques"));
         // 小窗
-        initHook(new AllowAutoStart(), mPrefsMap.getBoolean("system_framework_auto_start_apps_enable"));
+        initHook(new AllowAutoStart(), mPrefsMap.getBoolean("system_framework_auto_start_apps_menu"));
         initHook(new FreeFormCount(), mPrefsMap.getBoolean("system_framework_freeform_count"));
         initHook(new FreeformBubble(), mPrefsMap.getBoolean("system_framework_freeform_bubble"));
         initHook(new DisableFreeformBlackList(), mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
