@@ -1,7 +1,7 @@
 [versions]
 agp = "8.7.0"
 hooktool = "v.0.9.6.5"
-kotlinAndroid = "2.0.20"
+kotlinAndroid = "2.0.21"
 lsparanoid = "0.6.0"
 #lspluginResopt = "1.6"
 
