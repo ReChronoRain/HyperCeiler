@@ -19,6 +19,8 @@
 package com.sevtinge.hyperceiler.module.hook.securitycenter.app;
 
 import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes;
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getPackageVersionCode;
+import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -32,11 +34,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
+import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.MiuiDialog;
 
+import org.luckypray.dexkit.DexKitBridge;
+import org.luckypray.dexkit.query.FindMethod;
+import org.luckypray.dexkit.query.matchers.MethodMatcher;
+import org.luckypray.dexkit.result.MethodData;
+
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -50,9 +65,10 @@ public class AppDisable extends BaseHook {
 
     @Override
     public void init() {
-        findAndHookMethod("com.miui.appmanager.ApplicationsDetailsActivity",
-                "onCreateOptionsMenu", Menu.class,
-                new MethodHook() {
+        boolean isNewSecurityCenter = Helpers.getPackageVersionCode(lpparam) >= 40001000;
+        String clazzName = !isNewSecurityCenter ? "com.miui.appmanager.ApplicationsDetailsActivity" : "com.miui.appmanager.fragment.ApplicationsDetailsFragment";
+
+        findAndHookMethod("com.miui.appmanager.ApplicationsDetailsActivity", "onCreateOptionsMenu", Menu.class, new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) throws Throwable {
                         Activity act = (Activity) param.thisObject;
@@ -66,8 +82,18 @@ public class AppDisable extends BaseHook {
                         dis.setShowAsAction(1);
                         // XposedHelpers.setAdditionalInstanceField(param.thisObject, "mDisableButton", dis);
                         PackageManager pm = act.getPackageManager();
-                        Field piField = XposedHelpers.findFirstFieldByExactType(act.getClass(), PackageInfo.class);
-                        PackageInfo mPackageInfo = (PackageInfo) piField.get(act);
+                        PackageInfo mPackageInfo = null;
+                        if (isNewSecurityCenter) {
+                            Object fragment = XposedHelpers.getObjectField(act, XposedHelpers.findFirstFieldByExactType(param.thisObject.getClass(), findClassIfExists(clazzName)).getName()); //XposedHelpers.getObjectField(act, "a");
+                            if (fragment == null) {
+                                return;
+                            }
+                            Field piField = XposedHelpers.findFirstFieldByExactType(fragment.getClass(), PackageInfo.class);
+                            mPackageInfo = (PackageInfo) piField.get(fragment);
+                        } else {
+                            Field piField = XposedHelpers.findFirstFieldByExactType(act.getClass(), PackageInfo.class);
+                            mPackageInfo = (PackageInfo) piField.get(act);
+                        }
                         ApplicationInfo appInfo = pm.getApplicationInfo(mPackageInfo.packageName, PackageManager.GET_META_DATA);
                         boolean isSystem = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
                         boolean isUpdatedSystem = (appInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0;
@@ -86,9 +112,7 @@ public class AppDisable extends BaseHook {
                 }
         );
 
-        findAndHookMethod("com.miui.appmanager.ApplicationsDetailsActivity",
-                "onPrepareOptionsMenu", Menu.class,
-                new MethodHook() {
+        findAndHookMethod("com.miui.appmanager.ApplicationsDetailsActivity", "onPrepareOptionsMenu", Menu.class, new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
                         if (menuItem != null) menuItem.setVisible(false);
@@ -96,9 +120,7 @@ public class AppDisable extends BaseHook {
                 }
         );
 
-        findAndHookMethod("com.miui.appmanager.ApplicationsDetailsActivity",
-                "onResume",
-                new MethodHook() {
+        findAndHookMethod(clazzName, "onResume", new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
                         if (menuItem != null) menuItem.setVisible(false);
@@ -106,18 +128,37 @@ public class AppDisable extends BaseHook {
                 }
         );
 
-        findAndHookMethod("com.miui.appmanager.ApplicationsDetailsActivity",
-                "onOptionsItemSelected", MenuItem.class,
-                new MethodHook() {
+        Method method = (Method) DexKit.getDexKitBridge("MethodOnOptionsItemSelected", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("application/vnd.android.package-archive")
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+
+        hookMethod(method, new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) throws Throwable {
                         MenuItem item = (MenuItem) param.args[0];
                         if (item != null && item.getItemId() == 666) {
-                            Activity act = (Activity) param.thisObject;
-                            Resources modRes = getModuleRes(act);
-                            Field piField = XposedHelpers.findFirstFieldByExactType(act.getClass(), PackageInfo.class);
-
-                            PackageInfo mPackageInfo = (PackageInfo) piField.get(act);
+                            PackageInfo mPackageInfo = null;
+                            Activity act = null;
+                            Resources modRes = null;
+                            if (isNewSecurityCenter) {
+                                act = (Activity) XposedHelpers.callMethod(param.thisObject, "getActivity");
+                                modRes = getModuleRes(act);
+                                Object fragment = param.thisObject;
+                                Field piField = XposedHelpers.findFirstFieldByExactType(fragment.getClass(), PackageInfo.class);
+                                mPackageInfo = (PackageInfo) piField.get(fragment);
+                            } else {
+                                act = (Activity) param.thisObject;
+                                modRes = getModuleRes(act);
+                                Field piField = XposedHelpers.findFirstFieldByExactType(act.getClass(), PackageInfo.class);
+                                mPackageInfo = (PackageInfo) piField.get(act);
+                            }
                             if (mMiuiCoreApps.contains(mPackageInfo.packageName)) {
                                 Toast.makeText(act, modRes.getString(R.string.disable_app_settings), Toast.LENGTH_SHORT).show();
                                 return;
@@ -127,15 +168,17 @@ public class AppDisable extends BaseHook {
                             ApplicationInfo appInfo = pm.getApplicationInfo(mPackageInfo.packageName, PackageManager.GET_META_DATA);
                             boolean isSystem = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
                             int state = pm.getApplicationEnabledSetting(mPackageInfo.packageName);
-                            boolean isEnabledOrDefault = (state == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || state == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
-                            if (isEnabledOrDefault) {
+                            boolean isEnabled = (state == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || state == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
+                            if (isEnabled) {
                                 if (isSystem) {
                                     String title = modRes.getString(R.string.disable_app_title);
                                     String text = modRes.getString(R.string.disable_app_text);
+                                    Activity finalAct = act;
+                                    PackageInfo finalMPackageInfo = mPackageInfo;
                                     DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            setAppState(act, mPackageInfo.packageName, item, false);
+                                            setAppState(finalAct, finalMPackageInfo.packageName, item, false);
                                         }
                                     };
                                     Class<?> miuiDialog = findClassIfExists("miuix.appcompat.app.AlertDialog");
@@ -172,8 +215,8 @@ public class AppDisable extends BaseHook {
             pm.setApplicationEnabledSetting(pkgName, enable ? PackageManager.COMPONENT_ENABLED_STATE_DEFAULT :
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0);
             int state = pm.getApplicationEnabledSetting(pkgName);
-            boolean isEnabledOrDefault = (state == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || state == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
-            if ((enable && isEnabledOrDefault) || (!enable && !isEnabledOrDefault)) {
+            boolean isEnabled = (state == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || state == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
+            if ((enable && isEnabled) || (!enable && !isEnabled)) {
                 item.setTitle(act.getResources().getIdentifier(enable ? "app_manager_disable_text" : "app_manager_enable_text", "string", "com.miui.securitycenter"));
                 Toast.makeText(act, act.getResources().getIdentifier(enable ? "app_manager_enabled" : "app_manager_disabled", "string", "com.miui.securitycenter"), Toast.LENGTH_SHORT).show();
             } else {

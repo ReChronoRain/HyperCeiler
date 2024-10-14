@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.app.SecurityCenter;
 
-import android.os.Build;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.HookExpand;
@@ -87,10 +87,8 @@ public class SecurityCenterT extends BaseModule {
         initHook(new AppDisable(), mPrefsMap.getBoolean("security_center_app_disable"));
         initHook(new AppDetails(), mPrefsMap.getBoolean("security_center_app_details"));
         initHook(DisableReport.INSTANCE, mPrefsMap.getBoolean("security_center_disable_ban"));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            initHook(new OpenByDefaultSetting(), mPrefsMap.getBoolean("security_center_app_default_setting"));
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+        initHook(new OpenByDefaultSetting(), mPrefsMap.getBoolean("security_center_app_default_setting"));
+        if (isMoreAndroidVersion(34)) {
             initHook(new UnlockAppSandbox(), mPrefsMap.getBoolean("secutity_center_unlock_app_sandbox"));
         }
         initHook(AddAppInfoEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_info"));
