@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":miuix")
+
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -20,3 +23,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "HyperCeiler"
 include(":app", ":hidden-api")
+include(":app", ":miuistub")

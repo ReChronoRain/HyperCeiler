@@ -18,41 +18,100 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.app
 
-/*import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
-import android.content.pm.verify.domain.DomainVerificationManager
-import android.net.Uri
-import android.os.Build
-import android.view.View
-import androidx.annotation.RequiresApi
-import com.github.kyuubiran.ezxhelper.EzXHelper.appContext*/
 import android.annotation.*
 import android.app.*
 import android.content.*
 import android.content.pm.verify.domain.*
+import android.net.*
+import android.provider.Settings
 import android.view.*
 import android.widget.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
-import com.github.kyuubiran.ezxhelper.EzXHelper.initAppContext
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
-import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.sevtinge.hyperceiler.*
+import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
+import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+import de.robv.android.xposed.*
 import de.robv.android.xposed.XposedHelpers.*
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import miuix.preference.*
 
 
 @SuppressLint("DiscouragedApi")
-object OpenByDefaultSetting : BaseHook() {
-    private val domainVerificationManager: DomainVerificationManager by lazy {
+// from https://github.com/chsbuffer/MIUIQOL
+class OpenByDefaultSetting : BaseHook() {
+    private val domainVerificationManager: DomainVerificationManager by lazy(LazyThreadSafetyMode.NONE) {
         appContext.getSystemService(
             DomainVerificationManager::class.java
         )
     }
-    private val idAmDetailDefault by lazy {
+    private val moduleContext: Context by lazy(LazyThreadSafetyMode.NONE) {
+        appContext.createPackageContext(
+            BuildConfig.APPLICATION_ID, 0
+        )
+    }
+
+    private fun getOpenDefaultState(pkgName: String): String {
+        val isLinkHandlingAllowed = domainVerificationManager.getDomainVerificationUserState(
+            pkgName
+        )?.isLinkHandlingAllowed ?: false
+        val subTextId =
+            if (isLinkHandlingAllowed) R.string.app_link_open_always else R.string.app_link_open_never
+        return moduleContext.getString(subTextId)
+    }
+    private fun getOpenDefaultTitle(): String = moduleContext.getString(R.string.open_by_default)
+
+    private val appDetailsView by lazy(LazyThreadSafetyMode.NONE) {
+        // getClassData 很便宜，不需要前置
+        DexKit.getDexKitBridge().getClassData("com.miui.appmanager.fragment.ApplicationsDetailsFragment") ?:
+        DexKit.getDexKitBridge().getClassData("com.miui.appmanager.ApplicationsDetailsActivity")!!
+    }
+
+    /** LiveData 读取后更新 View 的方法 */
+    private val onLoadDataFinishMethod by lazy(LazyThreadSafetyMode.NONE) {
+        //
+        //  public void a(a.j.b.c<Boolean> cVar, Boolean bool) {                      // <- a
+        //      ……
+        //      if (this.k0) {
+        //          appDetailTextBannerView = this.p;
+        //          i2 = R.string.app_manager_default_open_summary;
+        //      } else {
+        //          appDetailTextBannerView = this.p;
+        //          i2 = R.string.app_manager_default_close_summary;
+        //      }
+        DexKit.getDexKitBridge("onLoadDataFinished") {
+            appDetailsView.findMethod {
+                matcher {
+                    addEqString("enter_way")
+                    returnType = "void"
+                    paramTypes = listOf("", "")
+                }
+                findFirst = true
+            }.single().getMethodInstance(classLoader)
+        }.toMethod()
+    }
+
+    companion object {
+        @JvmStatic
+        private fun OpenDefaultOnClick(activity: Activity) {
+            val pkgName = activity.intent.getStringExtra("package_name")!!
+            XposedLogUtils.logD("OpenByDefaultSetting open default: $pkgName")
+            val intent = Intent().apply {
+                action = Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS
+                addCategory(Intent.CATEGORY_DEFAULT)
+                data = Uri.parse("package:${pkgName}")
+                addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+            }
+            activity.startActivity(intent)
+        }
+    }
+
+    /*private val idAmDetailDefault by lazy {
         appContext.resources.getIdentifier("am_detail_default", "id", lpparam.packageName)
     }
     private val idAmDetailDefaultTitle by lazy {
@@ -66,160 +125,160 @@ object OpenByDefaultSetting : BaseHook() {
     }
     private val dimenAmMainPageMarginSe by lazy {
         appContext.resources.getIdentifier("am_main_page_margin_se", "dimen", lpparam.packageName)
-    }
+    }*/
 
     override fun init() {
-        val clazzApplicationsDetailsActivity =
-            loadClass("com.miui.appmanager.ApplicationsDetailsActivity")
-        clazzApplicationsDetailsActivity.methodFinder().filterByName("initView").first()
-            .createHook {
-                after { param ->
-                    val activity = param.thisObject as Activity
-                    initAppContext(activity, true)
-                    var cleanOpenByDefaultView: View? = activity.findViewById(idAmDetailDefault)
-                    if (cleanOpenByDefaultView == null) {
-                        val viewAmDetailDefaultTitle =
-                            activity.findViewById<View>(idAmDetailDefaultTitle)
-                        val linearLayout = viewAmDetailDefaultTitle.parent as LinearLayout
-                        cleanOpenByDefaultView =
-                            (findClass("com.miui.appmanager.widget.AppDetailBannerItemView").constructorFinder()
-                                .filterByParamCount(2).first()
-                                .newInstance(activity, null) as LinearLayout).apply {
-                                gravity = Gravity.CENTER_VERTICAL
-                                orientation = LinearLayout.HORIZONTAL
-                                setBackgroundResource(drawableAmCardBgSelector)
-                                isClickable = true
-                                minimumHeight = activity.resources.getDimensionPixelSize(
-                                    dimenAmDetailsItemHeight
-                                )
-                                val dimensionPixelSize =
-                                    activity.resources.getDimensionPixelSize(dimenAmMainPageMarginSe)
-                                setPadding(dimensionPixelSize, 0, dimensionPixelSize, 0)
-                            }
-                        cleanOpenByDefaultView.setOnClickListener {
-                            startActionAppOpenByDefaultSettings(activity)
+        val appDetailsView = appDetailsView.getInstance(classLoader)
+
+        if (appDetailsView.isAssignableFrom(Activity::class.java)) {
+            // v1, v2
+            XposedBridge.hookMethod(onLoadDataFinishMethod, object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    handleActivityOnLoadDataFinish(param.thisObject as Activity)
+                }
+            })
+        } else {
+            // v3
+            XposedBridge.hookMethod(onLoadDataFinishMethod, object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    handleFragmentOnLoadDataFinish(param.thisObject as PreferenceFragmentCompat)
+                }
+            })
+
+            injectClassLoader()
+            XposedHelpers.findAndHookMethod(appDetailsView,
+                "onPreferenceClick",
+                "androidx.preference.Preference",
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        val pref = param.args[0] as Preference
+                        if (pref.key == "app_default_pref") {
+                            val prefFrag = param.thisObject as PreferenceFragmentCompat
+                            OpenDefaultOnClick(prefFrag.requireActivity())
+                            param.result = true
                         }
-                        linearLayout.addView(cleanOpenByDefaultView)
                     }
-                    setAdditionalInstanceField(
-                        activity, "cleanOpenByDefaultView", cleanOpenByDefaultView
-                    )
-                    val pkgName = activity.intent.getStringExtra("package_name")!!
-                    val isLinkHandlingAllowed =
-                        domainVerificationManager.getDomainVerificationUserState(
-                            pkgName
-                        )?.isLinkHandlingAllowed ?: false
-                    invokeMethodBestMatch(
-                        cleanOpenByDefaultView, "setTitle", null, R.string.open_by_default
-                    )
-                    invokeMethodBestMatch(
-                        cleanOpenByDefaultView,
-                        "setSummary",
-                        null,
-                        if (isLinkHandlingAllowed) R.string.app_link_open_always else R.string.app_link_open_never
-                    )
-                }
-            }
-        clazzApplicationsDetailsActivity.methodFinder().filterByName("onClick").first().createHook {
-            before { param ->
-                val activity = param.thisObject as Activity
-                initAppContext(activity, true)
-                val clickedView = param.args[0]
-                val cleanOpenByDefaultView =
-                    getAdditionalInstanceField(activity, "cleanOpenByDefaultView")
-                if (clickedView == cleanOpenByDefaultView) {
-                    startActionAppOpenByDefaultSettings(activity)
-                    param.result = null
-                }
-            }
+                })
         }
     }
 
-    private fun startActionAppOpenByDefaultSettings(activity: Activity) {
-        val pkgName = activity.intent.getStringExtra("package_name")!!
-        val intent = Intent().apply {
-            action = android.provider.Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS
-            addCategory(Intent.CATEGORY_DEFAULT)
-            data = android.net.Uri.parse("package:${pkgName}")
-            addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-            addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+    // v1, v2
+    fun handleActivityOnLoadDataFinish(activity: Activity) {
+        var openDefaultView: View? = null
+        val default_id = appContext.resources.getIdentifier(
+            "am_detail_default", "id", appContext.packageName
+        )
+        if (default_id != 0) {
+            openDefaultView = activity.findViewById(default_id)
         }
-        invokeMethodBestMatch(activity, "startActivity", null, intent)
+        // v2
+        openDefaultView = openDefaultView ?: createOpenDefaultView(activity)
+        openDefaultView.setOnClickListener { OpenDefaultOnClick(activity) }
+
+        val pkgName = activity.intent.getStringExtra("package_name")!!
+        // 加载完毕数据后，修改“清除默认操作”按钮标题和描述为“默认打开”
+        setOpenDefaultViewText(openDefaultView, pkgName)
     }
-    /*
-    override fun init() {
-        val domainVerificationManager: DomainVerificationManager by lazy {
-            appContext.getSystemService(
-                DomainVerificationManager::class.java
+
+    // v2
+    private fun createOpenDefaultView(activity: Activity): View {
+        val appmanagerTextBannerViewClass = XposedHelpers.findClass(
+            "com.miui.appmanager.widget.AppDetailTextBannerView", classLoader
+        )
+
+        val anotherTextBannerId = appContext.resources.getIdentifier(
+            "am_global_perm", "id", appContext.packageName
+        )
+        val anotherTextBanner = activity.findViewById<LinearLayout>(anotherTextBannerId)
+
+        val attributeSet = null
+        val defaultView =
+            newInstance(appmanagerTextBannerViewClass, activity, attributeSet) as LinearLayout
+        copyLinearLayoutStyle(defaultView, anotherTextBanner)
+
+        val insertAfterViewId = appContext.resources.getIdentifier("am_full_screen", "id", appContext.packageName)
+        val insertAfterView = activity.findViewById<View>(insertAfterViewId)
+        val viewGroup = insertAfterView.parent as ViewGroup
+        viewGroup.addView(defaultView, viewGroup.indexOfChild(insertAfterView) + 1)
+
+        return defaultView
+    }
+
+    // v2
+    private fun copyLinearLayoutStyle(thiz: LinearLayout, that: LinearLayout) {
+        thiz.layoutParams = that.layoutParams
+        thiz.minimumHeight = that.minimumHeight
+        thiz.background = that.background
+
+        thiz.setPadding(
+            that.paddingLeft, that.paddingTop, that.paddingRight, that.paddingBottom
+        )
+        thiz.gravity = that.gravity
+        thiz.orientation = that.orientation
+    }
+
+    // v1, v2
+    private fun setOpenDefaultViewText(cleanDefaultView: View, pkgName: String) {
+        // set title
+        // 因为 AppDetailTextBannerView 没有 setTitle 方法，
+        // 所以先将分别作为 Title 和 Summary 的两个 TextView 的文本都设为 "Open by default"
+        // 之后再调用 setSummary 设置 Summary 的 TextView
+        cleanDefaultView::class.java.declaredFields.forEach {
+            val textView = getObjectField(cleanDefaultView, it.name)
+            if (textView !is TextView) return@forEach
+
+            callMethod(
+                textView, "setText", arrayOf(CharSequence::class.java), getOpenDefaultTitle()
             )
         }
 
-        val defaultViewId = intArrayOf(-1)
-        findAndHookMethod(
-            "com.miui.appmanager.ApplicationsDetailsActivity",
-            lpparam.classLoader,
-            "initView",
-            object : MethodHook() {
-                @SuppressLint("DiscouragedApi")
-                @Throws(Throwable::class)
-                override fun before(param: MethodHookParam) {
-                    if (defaultViewId[0] == -1) {
-                        val act = param.thisObject as Activity
-                        val pkgName =
-                            (param.thisObject as Activity).intent.getStringExtra("package_name")!!
-                        val isLinkHandlingAllowed =
-                            domainVerificationManager.getDomainVerificationUserState(
-                                pkgName
-                            )?.isLinkHandlingAllowed ?: false
-                        val subTextId =
-                            if (isLinkHandlingAllowed) R.string.app_link_open_always else R.string.app_link_open_never
+        // set summary
+        callMethod(
+            cleanDefaultView, "setSummary", getOpenDefaultState(pkgName)
+        )
+    }
 
-                        defaultViewId[0] = act.resources.getIdentifier(
-                            "am_detail_default",
-                            "id",
-                            "com.miui.securitycenter"
-                        )
-                        mResHook.setResReplacement(
-                            "com.miui.securitycenter",
-                            "string",
-                            "app_manager_default_open_title",
-                            R.string.open_by_default
-                        )
+    // v3
+    fun handleFragmentOnLoadDataFinish(prefFrag: PreferenceFragmentCompat) {
+        val activity = prefFrag.requireActivity()
+        val pkgName = activity.intent.getStringExtra("package_name")!!
+        val pref: TextPreference = prefFrag.findPreference("app_default_pref")!!
+        // 加载完毕数据后，修改“清除默认操作”按钮标题和描述为“默认打开”
+        pref.title = getOpenDefaultTitle()
+        pref.summary = getOpenDefaultState(pkgName)
+        XposedLogUtils.logD("handleFragment: $pkgName")
+    }
 
-                        mResHook.setResReplacement(
-                            "com.miui.securitycenter",
-                            "string",
-                            "app_manager_default_close_summary",
-                            subTextId
-                        )
-                        mResHook.setResReplacement(
-                            "com.miui.securitycenter",
-                            "string",
-                            "app_manager_default_open_summary",
-                            subTextId
-                        )
-                    }
+    // v3, 为了模块加载宿主 androidx 和 miuix
+    @SuppressLint("DiscouragedPrivateApi")
+    fun injectClassLoader() {
+        val self = this::class.java.classLoader!!
+        val loader = self.parent
+        val host = classLoader
+        val sBootClassLoader: ClassLoader = Context::class.java.classLoader!!
+
+        val fParent = ClassLoader::class.java.getDeclaredField("parent")
+        fParent.setAccessible(true)
+        fParent.set(self, object : ClassLoader(sBootClassLoader) {
+
+            override fun findClass(name: String?): Class<*> {
+                XposedLogUtils.logD("OpenByDefaultSetting findClass $name")
+                try {
+                    return sBootClassLoader.loadClass(name)
+                } catch (ignored: ClassNotFoundException) {
                 }
-            })
 
-        findAndHookMethod(
-            "com.miui.appmanager.ApplicationsDetailsActivity",
-            lpparam.classLoader,
-            "onClick",
-            View::class.java,
-            object : MethodHook() {
-                @Throws(Throwable::class)
-                override fun before(param: MethodHookParam) {
-                    val view = param.args[0] as View
-                    if (view.id == defaultViewId[0] && defaultViewId[0] != -1) {
-                        val act = param.thisObject as Activity
-                        val intent = Intent("android.settings.APP_OPEN_BY_DEFAULT_SETTINGS")
-                        val pkgName = act.intent.getStringExtra("package_name")
-                        intent.setData(Uri.parse("package:$pkgName"))
-                        act.startActivity(intent)
-                        param.setResult(null)
-                    }
+                try {
+                    return loader.loadClass(name)
+                } catch (ignored: ClassNotFoundException) {
                 }
-            })
-    }*/
+                try {
+                    return host.loadClass(name)
+                } catch (ignored: ClassNotFoundException) {
+                }
+
+                throw ClassNotFoundException(name);
+            }
+        })
+    }
 }

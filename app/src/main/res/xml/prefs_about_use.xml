@@ -188,6 +188,13 @@
                 android:data="https://github.com/google/gson" />
         </Preference>
         <Preference
+            android:summary="RikkaApps | MIT"
+            android:title="HiddenApiRefinePlugin">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/RikkaApps/HiddenApiRefinePlugin" />
+        </Preference>
+        <Preference
             android:summary="zerorooot | GPL-3.0"
             android:title="HideMiuiClipboardDialog">
             <intent

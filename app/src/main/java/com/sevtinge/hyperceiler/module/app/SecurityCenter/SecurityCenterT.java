@@ -88,7 +88,7 @@ public class SecurityCenterT extends BaseModule {
         initHook(new AppDetails(), mPrefsMap.getBoolean("security_center_app_details"));
         initHook(DisableReport.INSTANCE, mPrefsMap.getBoolean("security_center_disable_ban"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            initHook(OpenByDefaultSetting.INSTANCE, mPrefsMap.getBoolean("security_center_app_default_setting"));
+            initHook(new OpenByDefaultSetting(), mPrefsMap.getBoolean("security_center_app_default_setting"));
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             initHook(new UnlockAppSandbox(), mPrefsMap.getBoolean("secutity_center_unlock_app_sandbox"));
