@@ -1,8 +1,8 @@
 [versions]
-agp = "8.7.0"
+agp = "8.7.1"
 annotationProcessor = "4.4.0"
 hooktool = "v.0.9.6.5"
-kotlinAndroid = "2.0.20"
+kotlinAndroid = "2.0.21"
 lsparanoid = "0.6.0"
 #lspluginResopt = "1.6"
 
@@ -26,10 +26,10 @@ dexkit = "2.0.2"
 ezxhelper = "2.2.0"
 hiddenapibypass = "4.3"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-appcompat = "1.6.1"
-material = "1.10.0"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 [libraries]
 androidx-preference = { module = "androidx.preference:preference", version.ref = "preferenceVersion" }
