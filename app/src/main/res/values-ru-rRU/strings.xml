@@ -1461,7 +1461,7 @@
     <string name="disable_suggest">Отключить предложения</string>
     <string name="enable_suggest">Включить предложения</string>
     <string name="headtip_warn_not_offical_rom">Источник прошивки, который вы используете, может не быть официальным от Xiaomi, и некоторые функции могут не работать, пожалуйста, свяжитесь с автором источника для получения более подробной информации.</string>
-    <string name="headtip_warn_sign_verification_failed">Сбой проверки подписи и используемая вами версия не может быть из официальной версии Re.chronoRain, и может содержать вредоносный код.</string>
+    <string name="headtip_warn_sign_verification_failed">Сбой проверки подписи и используемая вами версия не может быть из официальной версии HyperCeiler, и может содержать вредоносный код.</string>
     <string name="tip_default">Совет: Вот подсказка по умолчанию. Если вы видите меня, это означает, что есть проблема с HyperCeiler, доложите об этом разработчику своевременно и развернуто.</string>
     <string name="system_framework_other_disable_gesture_monitor">Отключить мониторинг жестов</string>
     <string name="system_framework_other_disable_gesture_monitor_desc">Уменьшает нагрузку на процессор, но нарушает функции, связанные с вводом, такие как создание снимков экрана тремя пальцами.</string>

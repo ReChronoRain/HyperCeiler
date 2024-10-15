@@ -26,31 +26,11 @@
         <Preference
             android:icon="@drawable/ic_sevtinge"
             android:layout="@layout/preference_round_layout"
-            android:summary="\@Sevtinge | Main Design &amp; Architecture &amp; Hook"
+            android:summary="\@Sevtinge"
             android:title="绀漓 | Sevtinge">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/sevtinge" />
-        </Preference>
-
-        <Preference
-            android:icon="@drawable/ic_moralnorm"
-            android:layout="@layout/preference_round_layout"
-            android:summary="\@Fan095 | UI &amp; Hook"
-            android:title="Moral Norm">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/Fan095" />
-        </Preference>
-
-        <Preference
-            android:icon="@drawable/ic_hchenx"
-            android:layout="@layout/preference_round_layout"
-            android:summary="\@HChenX | Architecture &amp; Hook"
-            android:title="焕晨HChen">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/HChenX" />
         </Preference>
 
         <Preference
@@ -148,7 +128,7 @@
         android:enabled="false"
         android:key="prefs_key_tip"
         android:layout="@layout/preference_text"
-        android:summary="© 2023-2024 Re.chronoRain &amp; Sevtinge &amp; HyperCeiler Contributions." />
+        android:summary="© 2023-2024 Sevtinge &amp; HyperCeiler Contributions." />
 
     </PreferenceCategory>
 

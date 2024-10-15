@@ -27,7 +27,7 @@
     <string name="new_cta_app_all_purpose_title">歡迎使用 HyperCeiler，本應用依賴 Xposed 框架運行，您可以使用本應用劫持並修改其他受支持嘅應用以實現對系統嘅增強功能。喺使用過程中，為咗為您提供更多功能，我哋可能會向您申請 Root/Su 權限。您可隨時前往您嘅 Root/Su 管理器進行管理。</string>
     <!--HyperCeiler 设置/关于页-->
     <string name="language">繁體中文 (香港)</string>
-    <string name="translator">Re.chronoRain</string>
+    <string name="translator">HyperCeiler 官方</string>
     <string name="translator_url">https://github.com/ReChronoRain</string>
 
     <string name="home">主頁</string>
@@ -1842,7 +1842,7 @@
     <string name="tip_default">Tip: 呢度係默認 tip ~ 如果你能睇見我，就說明 HyperCeiler 出現咗問題，請及時且有效嘅反饋俾開發者。</string>
 
     <string name="headtip_warn_not_offical_rom">您正喺使用嘅 ROM 來源可能並唔係 Xiaomi 官方，部分功能可能會失效，詳情請咨詢您正喺使用 ROM 嘅提供者。</string>
-    <string name="headtip_warn_sign_verification_failed">簽名校驗失敗，您當前使用嘅版本可能並非來自於 Re.chronoRain 嘅官方版本，可能包含惡意代碼，請注意使用安全。</string>
+    <string name="headtip_warn_sign_verification_failed">簽名校驗失敗，您當前使用嘅版本可能並非來自於 HyperCeiler 官方嘅版本，可能包含惡意代碼，請注意使用安全。</string>
     <string name="headtip_tip_long_press_to_copy">您可以長按或雙擊後選擇文本進行操作，或者複製並反饋俾開發者。</string>
     <string name="happy_birthday_hyperceiler">今日係 HyperCeiler 嘅生日！\n感謝與您歲月相伴之恩，願來年再續前緣，共赴風雨，攜手並進！</string>
     <string name="headtip_tip_fuck_coolapk">歷史上的今日：\n2022 年 7 月 14 日，紺漓發表重要講話。</string>

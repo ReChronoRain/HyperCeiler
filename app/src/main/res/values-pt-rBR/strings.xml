@@ -1759,7 +1759,7 @@
     <string name="help_support_version_desc_4">A versão atual do sistema não está (totalmente) adaptada.</string>
     <string name="headtip_warn_not_offical_rom">A ROM que você está usando pode não ser oficial da Xiaomi, e alguns recursos podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
     <string name="headtip_warn_unsupport_sysver">O dispositivo atual está executando uma versão do sistema que não está (totalmente) adaptada, o que pode resultar em anomalias na funcionalidade do HyperCeiler.</string>
-    <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
+    <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de HyperCeiler, podendo conter código malicioso.</string>
     <string name="headtip_tip_long_press_to_copy">Você pode selecionar o texto após pressionar longamente ou tocar duas vezes, ou copiá-lo e devolvê-lo ao desenvolvedor.</string>
     <string name="headtip_tip_fuck_coolapk">Hoje na história: Sevtinge fez um discurso importante em 14 de julho de 2022.</string>
     <string name="headtip_notice_dead_logger_errcode">O serviço de log do dispositivo atual está anormal e os recursos do HyperCeiler serão limitados.\nPor favor, restaure o serviço de log para que ele possa funcionar normalmente.\nCódigo de erro: %1$s</string>

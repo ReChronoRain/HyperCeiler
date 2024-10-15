@@ -1684,7 +1684,7 @@
     <string name="help_cant_see_apps_switch">在主頁中隱藏此幫助</string>
     <string name="help_cant_see_apps_switch_desc">您仍然可以在「設定-設定主頁入口」中找到該頁面。重新啟動應用程式即可套用。</string>
     <string name="headtip_warn_not_offical_rom">您所使用的 ROM 來源可能不是屬於小米官方版本，部分功能可能無法使用，具體請聯絡您所使用的 ROM 開發者。</string>
-    <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 Re.chronoRain 的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
+    <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 HyperCeiler 官方的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
     <string name="headtip_tip_long_press_to_copy">您可以長按或雙擊後選擇文本，或複製它並將其回饋給開發人員。</string>
     <string name="warn">警告</string>
     <string name="safe_mode_desc">%1$s由於多次閃退已進入安全模式，且 HyperCeiler 功能已暫時停用。 \n按一下「確定」取消，按一下「取消」稍後處理。</string>

@@ -1597,7 +1597,7 @@
     <string name="help_cant_see_apps_switch">Nascondi questo aiuto nella home page</string>
     <string name="help_cant_see_apps_switch_desc">Puoi ancora trovare questa pagina in \"Impostazioni - Configura la voce della home page\". Riavvia l\'app per applicare.</string>
     <string name="headtip_warn_not_offical_rom">La fonte della ROM che stai utilizzando potrebbe non essere ufficiale di Xiaomi e alcune funzioni potrebbero non funzionare, contatta il provider che stai utilizzando per i dettagli.</string>
-    <string name="headtip_warn_sign_verification_failed">La verifica della firma non è riuscita e il la versione corrente che stai utilizzando potrebbe non provenire dalla versione ufficiale di Re.chronoRain e potrebbe contenere codice dannoso.</string>
+    <string name="headtip_warn_sign_verification_failed">La verifica della firma non è riuscita e il la versione corrente che stai utilizzando potrebbe non provenire dalla versione ufficiale di HyperCeiler e potrebbe contenere codice dannoso.</string>
     <string name="tip_default">Suggerimento: ecco il suggerimento predefinito. Se riesci a vedermi significa che c\'è un problema con HyperCeiler, segnalalo allo sviluppatore in modo tempestivo ed efficace.</string>
     <string name="preference_recommend_tip">Cerchi qualcos\'altro?</string>
     <string name="system_framework_other_disable_gesture_monitor">Disabilita il monitoraggio dei gesti</string>

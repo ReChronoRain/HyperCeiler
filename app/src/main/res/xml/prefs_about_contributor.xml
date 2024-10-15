@@ -146,6 +146,13 @@
                 android:data="https://www.coolapk.com/u/9021855" />
         </Preference>
         <Preference
+            android:summary="GitHub@Fan095"
+            android:title="Moral Norm">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Fan095" />
+        </Preference>
+        <Preference
             android:summary="GitHub@NextAlone"
             android:title="Next Alone">
             <intent
@@ -307,11 +314,25 @@
                 android:data="https://github.com/lightsummer233" />
         </Preference>
         <Preference
+            android:summary="GitHub@HChenX"
+            android:title="焕晨HChen">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/HChenX" />
+        </Preference>
+        <Preference
             android:summary="GitHub@klxiaoniu"
             android:title="快乐小牛">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/klxiaoniu" />
+        </Preference>
+        <Preference
+            android:summary="GitHub@lingqiqi5211"
+            android:title="铃柒柒">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/lingqiqi5211" />
         </Preference>
         <Preference
             android:summary="CoolApk@欧瓯烨"
