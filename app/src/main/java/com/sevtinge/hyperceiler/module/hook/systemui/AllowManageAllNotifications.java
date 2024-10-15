@@ -39,10 +39,10 @@ public class AllowManageAllNotifications extends BaseHook {
 
         try {
             // Android 14 中期开始变化为 getCloudDataString 方法
-            findAndHookMethod("com.miui.systemui.NotificationCloudData$Companion", "getCloudDataString", Context.class, String.class, String.class, new MethodHook() {
+            findAndHookMethod("com.miui.systemui.CloudDataManager$Companion", "getCloudDataString", Context.class, String.class, String.class, new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
-                    param.setResult(new ArrayList<String>());
+                    param.setResult((new ArrayList<String>()).toString());
                 }
             });
         } catch (Throwable t) {
