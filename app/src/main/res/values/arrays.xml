@@ -23,17 +23,17 @@
         <item>com.android.browser</item> <!--浏览器-->
         <item>com.android.calendar</item> <!--日历-->
         <item>com.android.camera</item> <!--相机-->
-        <item>com.android.externalstorage</item> <!--外部储存设备-->
+        <item>com.android.externalstorage</item> <!--外部存储设备-->
         <item>com.android.fileexplorer</item> <!--文件管理-->
         <item>com.android.htmlviewer</item> <!--HTML 查看器-->
         <item>com.android.incallui</item> <!--电话-->
         <item>com.android.mms</item> <!--短信-->
-        <item>com.android.nfc</item> <!--NFC-->
+        <item>com.android.nfc</item> <!--NFC 服务-->
         <item>com.android.phone</item> <!--电话服务-->
         <item>com.android.providers.downloads</item> <!--下载管理程序-->
         <item>com.android.providers.downloads.ui</item> <!--下载管理-->
-        <item>com.android.server.telecom</item>
-        <item>com.android.settings</item> <!--系统设置-->
+        <item>com.android.server.telecom</item> <!--通话管理-->
+        <item>com.android.settings</item> <!--设置-->
         <item>com.android.systemui</item> <!--系统界面-->
         <item>com.android.thememanager</item> <!--主题壁纸-->
         <item>com.android.updater</item> <!--系统更新-->
@@ -41,24 +41,24 @@
         <item>com.lbe.security.miui</item> <!--权限管理服务-->
         <item>com.milink.service</item> <!--投屏-->
         <item>com.miui.analytics</item> <!--Analytics-->
-        <item>com.miui.aod</item> <!--万象息屏-->
+        <item>com.miui.aod</item> <!--息屏与锁屏编辑-->
         <item>com.miui.backup</item> <!--备份-->
         <!--<item>com.miui.cleanmaster</item>--> <!--垃圾清理-->
-        <item>com.miui.cloudservice</item> <!--云服务-->
+        <item>com.miui.cloudservice</item> <!--小米云服务-->
         <item>com.miui.contentextension</item> <!--传送门-->
         <item>com.miui.creation</item> <!--小米创作-->
         <item>com.miui.gallery</item> <!--相册-->
-        <item>com.miui.guardprovider</item> <!--MIUI安全组件-->
+        <item>com.miui.guardprovider</item> <!--系统安全组件-->
         <item>com.miui.home</item> <!--系统桌面-->
-        <item>com.miui.huanji</item> <!--一键换机-->
-        <item>com.miui.mediaeditor</item> <!--小米相册编辑-->
+        <item>com.miui.huanji</item> <!--小米换机-->
+        <item>com.miui.mediaeditor</item> <!--小米相册-编辑-->
         <item>com.miui.mishare.connectivity</item> <!--小米互传-->
         <item>com.miui.misound</item> <!--音质音效-->
         <item>com.miui.miwallpaper</item> <!--壁纸-->
-        <item>com.miui.notes</item> <!--小米笔记-->
+        <item>com.miui.notes</item> <!--笔记-->
         <item>com.miui.packageinstaller</item> <!--应用包管理组件-->
         <item>com.miui.personalassistant</item> <!--智能助理-->
-        <item>com.miui.powerkeeper</item> <!--电量和性能-->
+        <item>com.miui.powerkeeper</item> <!--电量与性能-->
         <item>com.miui.screenrecorder</item> <!--屏幕录制-->
         <item>com.miui.screenshot</item> <!--截屏-->
         <item>com.miui.securityadd</item> <!--系统服务组件-->
@@ -72,9 +72,9 @@
         <item>com.xiaomi.market</item> <!--应用商店-->
         <!--<item>com.xiaomi.mirror</item>--> <!--MIUI+-->
         <item>com.xiaomi.misettings</item> <!--小米设置-->
-        <item>com.xiaomi.mtb</item> <!--mtb-->
+        <item>com.xiaomi.mtb</item> <!--鲁班 (MTB)-->
         <item>com.xiaomi.scanner</item> <!--小爱视觉-->
-        <item>com.xiaomi.trustservice</item> <!--trustservice-->
+        <item>com.xiaomi.trustservice</item> <!--MiTrustService-->
         <item>com.xiaomi.vipaccount</item> <!--小米社区-->
         <item>com.iflytek.inputmethod.miui</item> <!--讯飞输入法小米版-->
         <item>com.sohu.inputmethod.sogou.xiaomi</item> <!--搜狗输入法小米版-->
