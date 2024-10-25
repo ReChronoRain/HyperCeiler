@@ -38,6 +38,7 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.LanguageMenuShowAllAp
 import com.sevtinge.hyperceiler.module.hook.systemsettings.LinkTurbo;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.ModifySystemVersion;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.MoreNotificationSettings;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.MoreVpnTypes;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.NewNFCPage;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.NoveltyHaptic;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageOverlayPermission;
@@ -71,6 +72,7 @@ public class SystemSettingsT extends BaseModule {
                 || mPrefsMap.getBoolean("system_settings_usb_mode"));
         initHook(new ViewWifiPasswordHook(), mPrefsMap.getBoolean("system_settings_safe_wifi"));
         initHook(new VoipAssistantController(), mPrefsMap.getBoolean("system_settings_voip_assistant_controller"));
+        initHook(new MoreVpnTypes(), mPrefsMap.getBoolean("system_settings_more_vpn_types"));
         initHook(new AddMiuiPlusEntry(), mPrefsMap.getBoolean("mirror_unlock_miui_plus"));
         initHook(new EnableSpeedMode(), mPrefsMap.getBoolean("system_settings_develop_speed_mode"));
         initHook(new QuickManageOverlayPermission(), mPrefsMap.getBoolean("system_settings_permission_show_app_up"));

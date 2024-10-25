@@ -1032,7 +1032,7 @@
     <string name="system_settings_anti_ques">禁用设备名称敏感词校验</string>
     <string name="system_settings_anti_ques_desc">不得使用此功能进行违反当地及国家法律条文规定的行为</string>
 
-    <string name="system_settings_connection_sharing_title">网络连接与共享</string>
+    <string name="system_settings_connection_sharing_title">VPN、网络连接与共享</string>
     <string name="system_settings_linkturbo">解除网络加速应用限制</string>
     <string name="system_settings_safe_wifi">查看已保存的 WIFI 密码</string>
     <string name="system_settings_safe_wifi_desc">解锁管理已保存网络\n路径：设置-WLAN-高级设置-管理保存的网络</string>
@@ -1042,6 +1042,7 @@
     <string name="system_settings_lang_menu_shouw_all_app">允许管理所有应用的语言</string>
     <string name="system_settings_new_nfc_page">新版 NFC 页面</string>
     <string name="system_settings_new_nfc_page_desc">此功能会导致不支持的机型默认付款应用无法选中小米钱包</string>
+    <string name="system_settings_more_vpn_types">显示更多 VPN 类型</string>
 
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_area_screenshot">解锁区域截屏</string>

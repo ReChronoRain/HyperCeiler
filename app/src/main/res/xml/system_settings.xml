@@ -90,6 +90,11 @@
             android:summary="@string/system_settings_new_nfc_page_desc"
             android:title="@string/system_settings_new_nfc_page" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_more_vpn_types"
+            android:title="@string/system_settings_more_vpn_types" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_settings_lab_title">

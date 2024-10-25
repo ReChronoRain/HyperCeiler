@@ -1007,7 +1007,7 @@
     <string name="system_usb_use_MIDI">MIDI</string>
     <string name="system_usb_reverse_charge">Reverse charging</string>
     <string name="system_usb_tethering">USB tethering</string>
-    <string name="system_settings_connection_sharing_title">Connection &amp; sharing</string>
+    <string name="system_settings_connection_sharing_title">VPN &amp; Connection &amp; Sharing</string>
     <string name="system_settings_lang_menu_shouw_all_app">Show all apps in language manage menu</string>
     <string name="system_settings_new_nfc_page">New NFC page</string>
     <string name="system_settings_new_nfc_page_desc">After opening, the default payment app for unsupported models cannot select Xiaomi Wallet</string>
@@ -1040,6 +1040,7 @@
     <string name="system_settings_allow_never_lock_screen">Allow never lock screen</string>
     <string name="system_settings_anti_ques">Disable sensitive word check in device name</string>
     <string name="system_settings_anti_ques_desc">You may not use this feature in violation of local or national laws</string>
+    <string name="system_settings_more_vpn_types">More VPM types</string>
     <!--Themes-->
     <string name="theme_manager">Themes</string>
     <string name="theme_manager_version_code_modify">Adjust detection version</string>
