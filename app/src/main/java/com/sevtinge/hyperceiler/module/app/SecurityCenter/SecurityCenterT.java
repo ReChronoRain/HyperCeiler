@@ -64,6 +64,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.other.FuckRiskPkg;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.LockOneHundredPoints;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.NoLowBatteryWarning;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.RemoveSIMLockSuccessDialog;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.other.SimplifyMainFragment;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.SkipCountDownLimit;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.AddSideBarExpandReceiver;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.BlurSecurity;
@@ -116,6 +117,7 @@ public class SecurityCenterT extends BaseModule {
         initHook(BeautyPc.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_pc"));
 
         // 其他
+        initHook(SimplifyMainFragment.INSTANCE, mPrefsMap.getBoolean("security_center_simplify_home"));
         initHook(new InstallIntercept(), mPrefsMap.getBoolean("security_center_install_intercept"));
         initHook(LockOneHundredPoints.INSTANCE, mPrefsMap.getBoolean("security_center_score"));
         initHook(new SkipCountDownLimit(), mPrefsMap.getBoolean("security_center_skip_count_down_limit"));
