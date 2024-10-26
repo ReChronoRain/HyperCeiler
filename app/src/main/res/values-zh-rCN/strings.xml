@@ -1542,6 +1542,8 @@
     <string name="security_center_flash_light">手电筒亮度控制</string>
     <string name="security_center_flash_light_more">开启手电筒时劫持亮度条，拖动亮度条即可控制手电筒亮度</string>
     <string name="security_center_get_number">管理应用获取手机号并一键登录</string>
+    <string name="security_center_simplify_home">精简手机管家首页</string>
+    <string name="security_center_simplify_home_desc">移除以下卡片:\n - 功能推荐\n - 简中用户独享的 “大家都在用” </string>
     <string name="security_center_applock_pin_scramble">应用锁乱序 PIN</string>
     <string name="security_center_power_saver">禁止妙享省电</string>
     <string name="security_center_privacy_thumbnail_blur">禁止自启模糊预览图</string>

@@ -1385,6 +1385,8 @@
     <string name="security_center_flash_light">手電筒亮度控制</string>
     <string name="security_center_flash_light_more">啟用手電筒時透過拖動亮度條來控制手電筒亮度</string>
     <string name="security_center_get_number">管理應用程式取得手機號碼並一鍵登入</string>
+    <string name="security_center_simplify_home">精簡手機管家首頁</string>
+    <string name="security_center_simplify_home_desc">移除功能推薦卡片</string>
     <string name="security_center_applock_pin_scramble">應用程式鎖亂序 PIN</string>
     <string name="security_center_power_saver">妙享不省電</string>
     <string name="security_center_privacy_thumbnail_blur">停用自啟動最近任務卡片的模糊預覽圖</string>

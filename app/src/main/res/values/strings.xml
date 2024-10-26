@@ -1505,6 +1505,8 @@
     <string name="security_center_flash_light">Flashlight brightness control</string>
     <string name="security_center_flash_light_more">Allows you to control the flashlight brightness by dragging the brightness slider</string>
     <string name="security_center_get_number">Manage the app to obtain the mobile phone number and log in with one click</string>
+    <string name="security_center_simplify_home">Simplify the home of the Security Center</string>
+    <string name="security_center_simplify_home_desc">Remove function recommendation card</string>
     <string name="security_center_applock_pin_scramble">App lock with scrambled PIN</string>
     <string name="security_center_power_saver">Remove restrictions when screen mirroring</string>
     <string name="security_center_privacy_thumbnail_blur">Disable self-starting blurred preview images</string>
