@@ -17,5 +17,10 @@
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
 -dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo
 -dontwarn com.android.internal.view.menu.MenuBuilder
+-dontwarn javax.annotation.processing.AbstractProcessor
+-dontwarn javax.annotation.processing.SupportedAnnotationTypes
+-dontwarn javax.annotation.processing.SupportedOptions
+-dontwarn javax.annotation.processing.SupportedSourceVersion
+-dontwarn javax.annotation.processing.Processor
 -allowaccessmodification
 -overloadaggressively
