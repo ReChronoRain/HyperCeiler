@@ -32,7 +32,7 @@ import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisplayMoreApkInfoN
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.InstallRiskDisable;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.InstallSource;
 
-@HookBase(pkg = "com.miui.packageinstaller", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.miui.packageinstaller", skip = true, isPad = false, tarAndroid = 0)
 public class PackageInstaller extends BaseModule {
 
     public void handleLoadPackage() {

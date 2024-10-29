@@ -16,9 +16,8 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.app.SystemSettings.Phone;
+package com.sevtinge.hyperceiler.module.app.SystemSettings;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.hchen.database.HookBase;
@@ -58,8 +57,8 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockAi;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockMemc;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockSuperResolution;
 
-@HookBase(pkg = "com.android.settings", isPad = false, tarAndroid = 33)
-public class SystemSettingsT extends BaseModule {
+@HookBase(pkg = "com.android.settings", isPad = false, tarAndroid = 35)
+public class SystemSettingsV extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
@@ -101,9 +100,7 @@ public class SystemSettingsT extends BaseModule {
 
         initHook(new ModifySystemVersion(), mPrefsMap.getBoolean("updater_enable_miui_version") && mPrefsMap.getStringAsInt("updater_version_mode", 1) != 1);
 
-        if (!isAndroidVersion(30)) {
-            initHook(UnlockTaplusForSettings.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
-        }
+        initHook(UnlockTaplusForSettings.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
 
         initHook(new AddGoogleListHeader(), mPrefsMap.getBoolean("system_settings_unlock_google_header"));
 

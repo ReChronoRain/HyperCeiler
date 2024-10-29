@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.app.Home.Phone;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.home.AnimDurationRatio;
@@ -72,8 +70,6 @@ import com.sevtinge.hyperceiler.module.hook.home.layout.HotSeatsMarginTop;
 import com.sevtinge.hyperceiler.module.hook.home.layout.SearchBarMarginBottom;
 import com.sevtinge.hyperceiler.module.hook.home.layout.UnlockGrids;
 import com.sevtinge.hyperceiler.module.hook.home.layout.WorkspacePadding;
-import com.sevtinge.hyperceiler.module.hook.home.mipad.EnableHideGestureLine;
-import com.sevtinge.hyperceiler.module.hook.home.mipad.EnableMoreSetting;
 import com.sevtinge.hyperceiler.module.hook.home.navigation.BackGestureAreaHeight;
 import com.sevtinge.hyperceiler.module.hook.home.navigation.BackGestureAreaWidth;
 import com.sevtinge.hyperceiler.module.hook.home.navigation.HideNavigationBar;
@@ -89,7 +85,6 @@ import com.sevtinge.hyperceiler.module.hook.home.other.InfiniteScroll;
 import com.sevtinge.hyperceiler.module.hook.home.other.OverlapMode;
 import com.sevtinge.hyperceiler.module.hook.home.other.ShortcutItemCount;
 import com.sevtinge.hyperceiler.module.hook.home.other.ShowAllHideApp;
-import com.sevtinge.hyperceiler.module.hook.home.other.TasksShortcutMenu;
 import com.sevtinge.hyperceiler.module.hook.home.recent.AlwaysShowCleanUp;
 import com.sevtinge.hyperceiler.module.hook.home.recent.BackgroundBlur;
 import com.sevtinge.hyperceiler.module.hook.home.recent.BlurLevel;
@@ -100,7 +95,6 @@ import com.sevtinge.hyperceiler.module.hook.home.recent.FreeformCardBackgroundCo
 import com.sevtinge.hyperceiler.module.hook.home.recent.HideCleanUp;
 import com.sevtinge.hyperceiler.module.hook.home.recent.HideFreeform;
 import com.sevtinge.hyperceiler.module.hook.home.recent.HideStatusBarWhenEnterRecent;
-import com.sevtinge.hyperceiler.module.hook.home.recent.MemInfoShow;
 import com.sevtinge.hyperceiler.module.hook.home.recent.RealMemory;
 import com.sevtinge.hyperceiler.module.hook.home.recent.RecentResource;
 import com.sevtinge.hyperceiler.module.hook.home.recent.RecentText;
@@ -115,7 +109,6 @@ import com.sevtinge.hyperceiler.module.hook.home.title.AnimParamCustom;
 import com.sevtinge.hyperceiler.module.hook.home.title.AppBlurAnim;
 import com.sevtinge.hyperceiler.module.hook.home.title.BigIconCorner;
 import com.sevtinge.hyperceiler.module.hook.home.title.DisableHideFile;
-import com.sevtinge.hyperceiler.module.hook.home.title.DisableHideTheme;
 import com.sevtinge.hyperceiler.module.hook.home.title.DownloadAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.title.EnableIconMonetColor;
 import com.sevtinge.hyperceiler.module.hook.home.title.EnableIconMonoChrome;
@@ -137,7 +130,6 @@ import com.sevtinge.hyperceiler.module.hook.home.widget.AllowMoveAllWidgetToMinu
 import com.sevtinge.hyperceiler.module.hook.home.widget.AlwaysShowMiuiWidget;
 import com.sevtinge.hyperceiler.module.hook.home.widget.HideWidgetTitles;
 import com.sevtinge.hyperceiler.module.hook.home.widget.ResizableWidgets;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.SetGestureNeedFingerNum;
 
 import java.util.Objects;
 
@@ -225,7 +217,6 @@ public class HomeT extends BaseModule {
         initHook(RecentResource.INSTANCE, mPrefsMap.getInt("task_view_corners", 20) != 20 ||
                 mPrefsMap.getInt("task_view_header_height", 40) != 40);
         initHook(RealMemory.INSTANCE, mPrefsMap.getBoolean("home_recent_show_real_memory"));
-        initHook(MemInfoShow.INSTANCE, mPrefsMap.getBoolean("home_recent_show_memory_info") && isPad());
         initHook(AlwaysShowCleanUp.INSTANCE, mPrefsMap.getBoolean("always_show_clean_up"));
         initHook(new BackgroundBlur(), mPrefsMap.getBoolean("home_recent_blur"));
         initHook(new ShowLaunch(), mPrefsMap.getBoolean("home_recent_show_launch"));
@@ -233,7 +224,6 @@ public class HomeT extends BaseModule {
         // 图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
         initHook(new DownloadAnimation(), mPrefsMap.getBoolean("home_title_download_animation"));
-        initHook(DisableHideTheme.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_theme") && isPad());
         initHook(DisableHideFile.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_file"));
         initHook(DisableHideGoogle.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_google"));
         initHook(new FakeNonDefaultIcon(), mPrefsMap.getBoolean("fake_non_default_icon"));
@@ -275,12 +265,7 @@ public class HomeT extends BaseModule {
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);
         initHook(AlwaysShowStatusClock.INSTANCE, mPrefsMap.getBoolean("home_other_show_clock"));
         initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));
-        if (isPad()) {
-            initHook(new FreeformShortcutMenu(), mPrefsMap.getBoolean("home_other_freeform_shortcut_menu"));
-            initHook(new TasksShortcutMenu(), mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"));
-        } else {
-            initHook(new FreeformShortcutMenu(), (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu") || (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"))));
-        }
+        initHook(new FreeformShortcutMenu(), (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu") || (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"))));
         initHook(new UserPresentAnimation(), mPrefsMap.getBoolean("home_other_user_present_animation"));
         initHook(new PerfectIcon(), mPrefsMap.getBoolean("home_other_perfect_icon"));
         initHook(new EnableIconMonoChrome(), mPrefsMap.getBoolean("home_other_icon_mono_chrome"));
@@ -313,14 +298,6 @@ public class HomeT extends BaseModule {
         initHook(new StickyFloatingWindowsForHome(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
         initHook(AnimDurationRatio.INSTANCE, true);
         initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
-
-        // 小米/红米平板相关
-        if (isPad()) {
-            boolean mMoreSetting = mPrefsMap.getBoolean("home_other_mi_pad_enable_more_setting");
-            initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num"));
-            initHook(EnableMoreSetting.INSTANCE, mMoreSetting);
-            initHook(EnableHideGestureLine.INSTANCE, mMoreSetting);
-        }
 
         // reshook
         initHook(EnableIconMonetColor.INSTANCE, mPrefsMap.getBoolean("home_other_icon_monet_color"));

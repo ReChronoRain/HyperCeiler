@@ -26,6 +26,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVer
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
+import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logD;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
 
@@ -141,17 +142,19 @@ public abstract class BaseXposedInit {
             boolean isPad = helper.isPad;
             int android = helper.android;
             boolean skip = helper.skip;
-            if (skip) // just skip it
-                return;
-            if (!isAndroidVersion(android)) // exactly match Android version
-                return;
-            if (!isPad() && isPad) // device is not Pad and hook is only for Pad
-                return;
-            invoke(lpparam, clazz);
+            if (skip) {
+                invoke(lpparam, clazz);
+                break;
+            }
+            if (isAndroidVersion(android) && isPad == isPad()) {// exactly match Android version
+                invoke(lpparam, clazz);
+                break;
+            }
         }
     }
 
     private void invoke(LoadPackageParam lpparam, Class<?> clzz) {
+        logD("lknsdkojsdglknsdoknslkg", clzz.getName());
         Object newInstance;
         try {
             newInstance = clzz.newInstance();
