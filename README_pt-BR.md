@@ -14,11 +14,15 @@
 
 MIUI e HyperOS para Android 13-15
 
+> Observação: O Android 13 praticamente encerrou a manutenção, oferecendo apenas suporte temporário e não aceitando mais feedback.
+
 ## Instruções de pré-uso
 
 Por favor, ative o HyperCeiler no [LSPosed](https://github.com/LSPosed/LSPosed/releases), em seguida, ative o recurso correspondente no app HyperCeiler e reinicie o escopo (necessário root).
 
 Este módulo <b>não suporta</b> `ROM MIUI/Xiaomi HyperOS de terceiros com muitas modificações`, `software de sistema com muitas modificações` e algumas `ROM MIUI/Xiaomi HyperOS internacionais`.
+
+Atualmente, o HyperCeiler está adaptado para dispositivos móveis Xiaomi HyperOS 1.0-1.1 baseados em Android 14-15. A cobertura não é muito abrangente e requer testes e melhorias contínuas.
 
 Antes de enviar feedback, preste atenção se já existe o mesmo feedback para evitar problemas aos desenvolvedores. Gastar a mesma energia lendo o mesmo feedback é uma perda de tempo.
 
@@ -50,7 +54,7 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13. Se você q
 | Calendário                                     | com.android.calendar               |
 | Navegador                                      | com.android.browser                |
 | Rueban (MTB)                                   | com.xiaomi.mtb                     |
-| Gravador de Tela                               | com.miui.screenrecorder            |
+| Gravador de tela                               | com.miui.screenrecorder            |
 | Permissões                                     | com.lbe.security.miui              |
 | Configurações                                  | com.android.settings               |
 | Sogou Keyboard for MIUI                        | com.sohu.inputmethod.sogou.xiaomi  |
@@ -64,10 +68,10 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13. Se você q
 | Downloads                                      | com.android.providers.downloads    |
 | Galeria                                        | com.miui.gallery                   |
 | Mi Canvas                                      | com.miui.creation                  |
-| Compartilhamento Mi                            | com.miui.mishare.connectivity      |
+| Xiaomi Share                                   | com.miui.mishare.connectivity      |
 | Editor da Galeria                              | com.miui.mediaeditor               |
 | MiCloud                                        | com.miui.cloudservice              |
-| Smart Cards                                    | com.miui.tsmclient                 |
+| Smart cards                                    | com.miui.tsmclient                 |
 | iFlytek IME for MIUI                           | com.iflytek.inputmethod.miui       |
 | Instalador de pacotes                          | com.miui.packageinstaller          |
 | GetApps                                        | com.xiaomi.market                  |
@@ -83,6 +87,12 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13. Se você q
 | Backup                                         | com.miui.backup                    |
 | Mi Mover                                       | com.miui.huanji                    |
 | MiTrustService                                 | com.xiaomi.trustservice            |
+| Visualizador de HTML                           | com.android.htmlviewer             |
+| Gerenciamento de chamadas                      | com.android.server.telecom         |
+| Mi Remote                                      | com.duokan.phone.remotecontroller  |
+| Analytics                                      | com.miui.analytics                 |
+| Xiaomi Community                               | com.xiaomi.vipaccount              |
+| Acorde com voz                                 | com.miui.voicetrigger              |
 
 </details>
 

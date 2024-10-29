@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -61,7 +62,7 @@
     <string name="new_permission_location_desc">used to provide services such as latitude and longitude</string>
     <string name="new_cta_agree_desc">During usage, in order to provide you with more features, we may apply for Root/Su permission from you. You can go to Permission Management at any time to adjust the authorization status of all permissions, and please go to your Root/Su manager to grant Root/Su permissions.</string>
     <string name="new_cta_app_main_purpose">modify system apps</string>
-    <string name="new_cta_app_all_purpose_title">Welcome to HyperCeiler. This app relies on the Xposed framework to run. You can use this app to hijack and modify other supported apps to enhance the system. During usage, in order to provide you with more functions, we may apply for Root/Su permissions from you. You can manage it at any time by going to your Root/Su Manager.</string>
+    <string name="new_cta_app_all_purpose_title">Welcome to HyperCeiler! This app relies on the Xposed framework to run. You can use this app to hijack and modify other supported apps to enhance the system. During usage, in order to provide you with more functions, we may apply for Root/Su permissions from you. You can manage it at any time by going to your Root/Su Manager.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">English</string>
     <string name="translator">HyperCeiler Official</string>
@@ -177,7 +178,7 @@
     <string name="restart_app_desc">Are you sure you want to restart now %1$s?</string>
     <string name="tip">Tip</string>
     <string name="root">Some features aren\'t available without Root/Su permission</string>
-    <string name="hook_failed">The module isn\'t activated yet.\nPlease check if Xposed manager is enabled. If so, please restart or re-optimize the module.</string>
+    <string name="hook_failed">The module isn\'t activated yet. Please check if LSPosed is enabled. If so, please restart or re-optimize the module.</string>
     <string name="kill_failed">Failed to end process. Please check if HyperCeiler has been granted Root/Su permissions.</string>
     <string name="start_failed">Failed to start activity. Please check if HyperCeiler has been granted Root/Su permissions.</string>
     <string name="pid_failed">The target app isn\'t running and doesn\'t need to be restarted.</string>
@@ -454,7 +455,7 @@
     <string name="system_framework_clean_process_text_apps_desc">The selected app won\'t appear in the text context menu</string>
     <string name="system_framework_auto_start_menu">Restriction chain exemptions</string>
     <string name="system_framework_auto_start_apps">Selected apps</string>
-    <string name="system_framework_auto_start_apps_desc">The selected application will not be restricted by the restriction chain and can start automatically</string>
+    <string name="system_framework_auto_start_apps_desc">The selected app won\'t be restricted by the restriction chain and can start automatically</string>
     <string name="system_other_flag_secure">Allow screenshot</string>
     <string name="system_other_flag_secure_desc">Allows screenshots and screen recordings of any app</string>
     <string name="system_other_delete_on_post_notification">Remove the upper display notification</string>
@@ -647,7 +648,7 @@
     <string name="system_ui_lock_screen_allow_third_face">Allow system to verify third-party recognition</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Allows facial recognition and fingerprint to be used normally on the Lock screen displayed by third-party apps</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Disable show unlock by Bluetooth toast</string>
-    <string name="system_ui_lock_screen_linkage_anim">Override linkage wallpaper anim</string>
+    <string name="system_ui_lock_screen_linkage_anim">Replace Lock screen transition</string>
     <string name="system_ui_lock_screen_linkage_anim_on">Screen on animation rate</string>
     <string name="system_ui_lock_screen_linkage_anim_off">Screen off animation rate</string>
     <string name="system_ui_navigation_title">Navigation</string>
@@ -944,7 +945,7 @@
     <string name="system_ui_control_center_unlock_blur_supported">Remove notification blur restriction</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">There is no restriction on background blur for Advanced textures, only for third-party theme removal.</string>
     <string name="system_ui_control_center_remove_notif_num_limit">Remove notification count limit</string>
-    <string name="system_ui_control_center_remove_notif_num_limit_desc">Allow display 10 or 17 or more notifications</string>
+    <string name="system_ui_control_center_remove_notif_num_limit_desc">Allow display 10, 17 or more notifications.</string>
 
     <string name="system_ui_other_title">Others</string>
     <string name="system_ui_disable_volume">Native volume bar</string>
@@ -1040,7 +1041,7 @@
     <string name="system_settings_allow_never_lock_screen">Allow never lock screen</string>
     <string name="system_settings_anti_ques">Disable sensitive word check in device name</string>
     <string name="system_settings_anti_ques_desc">You may not use this feature in violation of local or national laws</string>
-    <string name="system_settings_more_vpn_types">More VPM types</string>
+    <string name="system_settings_more_vpn_types">More VPN types</string>
     <!--Themes-->
     <string name="theme_manager">Themes</string>
     <string name="theme_manager_version_code_modify">Adjust detection version</string>
@@ -1058,7 +1059,7 @@
     <string name="updater">Updater</string>
     <string name="updater_enable_miui_version">Enable Fake version for Updater</string>
     <string name="updater_fuck_vab">Remove OTA verification</string>
-    <string name="updater_fuck_vab_desc">Only VAB devices are supported. Please don\'t enable other non-VAB devices!\n- You can swipe into the complete internal test card swiping package without internal test permissions.\n- It\'s recommended to clear data after flashing across different version types.\n- Doesn\'t support any unofficial ROM usage.\n- This function is dangerous. Please evaluate whether to enable it after understanding the operation of Fastboot.</string>
+    <string name="updater_fuck_vab_desc">Only VAB devices are supported. Please don\'t enable other non-VAB devices!\n- You can swipe into the complete internal test card swiping package without internal test permissions.\n- It\'s recommended to clear data after flashing across different version types.\n- Doesn\'t support any unofficial ROM usage.\n- This feature is dangerous. Please evaluate whether to enable it after understanding the operation of Fastboot.</string>
     <string name="updater_version_mode">Disguise type</string>
     <string name="updater_big_version">Fake large version</string>
     <string name="updater_big_version_desc">Items that need to be filled in when disguising the Xiaomi HyperOS version, the default is V816.</string>
@@ -1398,7 +1399,7 @@
     <string name="home_recent_none_blur">None blur</string>
     <string name="home_recent_none_blur_simple_anim">None blur (Simple anim)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">Unlock more options for Home screen settings</string>
-    <string name="home_other_mi_pad_enable_more_setting_desc">The unlocked functions may not be available, and some features require support from the underlying system.</string>
+    <string name="home_other_mi_pad_enable_more_setting_desc">The unlocked features may not be available, and some features require support from the underlying system.</string>
     <string name="home_other_disable_prestart">Disable app preload</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Gallery Editor</string>
@@ -1505,7 +1506,7 @@
     <string name="security_center_flash_light">Flashlight brightness control</string>
     <string name="security_center_flash_light_more">Allows you to control the flashlight brightness by dragging the brightness slider</string>
     <string name="security_center_get_number">Manage the app to obtain the mobile phone number and log in with one click</string>
-    <string name="security_center_simplify_home">Simplify the home of the Security Center</string>
+    <string name="security_center_simplify_home">Simplify the Security home screen</string>
     <string name="security_center_simplify_home_desc">Remove function recommendation card</string>
     <string name="security_center_applock_pin_scramble">App lock with scrambled PIN</string>
     <string name="security_center_power_saver">Remove restrictions when screen mirroring</string>
@@ -1562,7 +1563,7 @@
     <string name="security_center_invert_color_summary">Invert the selected icon colors on some backgrounds for better visibility.\nThis function may have abnormal color inversions. Please enable it as appropriate.</string>
     <string name="security_center_blurradius">Sidebar blur value</string>
     <string name="security_center_color">Sidebar color</string>
-    <string name="security_center_other_title">Others</string>  
+    <string name="security_center_other_title">Others</string>
     <string name="security_center_sidebar_line_color">Sidebar line color custom</string>
     <string name="security_center_sidebar_line_color_default">Sidebar line color default</string>
     <string name="security_center_sidebar_line_color_dark">Sidebar line color dark</string>
@@ -1587,9 +1588,9 @@
     <string name="security_center_game_speed">Launch the game quickly</string>
     <string name="security_center_game_speed_desc">When launching the game, it passes the opening screen animation at 3x speed, which is only supported by some games.</string>
     <string name="security_center_bypass_simlock_miaccount_auth">Bypass Xiaomi Account SIM security</string>
-    <string name="security_center_bypass_simlock_miaccount_auth_desc">You can use this function even without logging into your Xiaomi Account.</string>
-    <string name="security_center_remove_simlock_success_dialog">Remove the dialog for successful SIM card security verification</string>
-    <string name="security_center_remove_simlock_success_dialog_desc">No more dialog after powering on the phone to indicate that the SIM card security protection has been successfully verified.</string>
+    <string name="security_center_bypass_simlock_miaccount_auth_desc">You can use this feature even without logging into your Xiaomi Account</string>
+    <string name="security_center_remove_simlock_success_dialog">Remove SIM security verification warning</string>
+    <string name="security_center_remove_simlock_success_dialog_desc">Remove the dialog after turning on the device to indicate that the SIM security verification has been successfully completed</string>
     <string name="security_center_aosp_app_info_label">AOSP app info</string>
     <string name="security_center_aosp_app_info">Add AOSP app info entry</string>
     <string name="security_center_aosp_app_manager_label">AOSP app manager</string>
@@ -1696,7 +1697,7 @@
     <string name="various_phrase_clipboardlist">Remove the clipboard and time limits for phrases</string>
     <string name="various_phrase_clipboardlist_more">After it\'s enabled, select the input method scope and restart it.</string>
     <string name="various_unlock_ime">Unlock IME</string>
-    <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the Xposed manager.</string>
+    <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the LSPosed.</string>
     <string name="various_collapse_miui_title">System title style</string>
     <string name="various_collapse_miui_title_desc">Adjust top bar title in system apps</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>
@@ -1813,7 +1814,7 @@
     <string name="enable_suggest">Enable suggest</string>
     <string name="set_homepage_entrance">Set up the homepage entry</string>
     <string name="help_cant_see_apps_guide">Can\'t find the app features?</string>
-    <string name="set_homepage_entrance_about">Note: Modifying this setting only hides the visibility of the feature on the homepage, and functions that have been turned on won\'t be turned off!\nHiding the feature on the homepage will take effect immediately, and the app will need to be restarted to reappear.</string>
+    <string name="set_homepage_entrance_about">Note: Modifying this setting only hides the visibility of the feature on the homepage, and features that have been turned on won\'t be turned off!\nHiding the feature on the homepage will take effect immediately, and the app will need to be restarted to reappear.</string>
     <string name="help_cant_see_apps_title">Can\'t find the app features on the homepage?</string>
     <string name="help_cant_see_apps_desc">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app features:\n\n - Those currently disabled or hidden\n - Those not found in your device\n - Those incompatible with the current version of the system or the app\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nCurrently hidden app features:\n\n</string>
     <string name="help_cant_see_apps_uninstall">Uninstalled apps:\n</string>
@@ -1828,11 +1829,11 @@
     <string name="help_support_version_desc_4">The current system version isn\'t (fully) adapted.</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be an official Xiaomi ROM, and some features may not work. Please contact your supplier for more details.</string>
     <string name="headtip_warn_unsupport_sysver">The current device is running on a system version that isn\'t (fully) adapted, which may result in anomalies in the HyperCeiler functionality.</string>
-    <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the version of HyperCeiler official, and may contain malicious code.</string>
+    <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of HyperCeiler, and may contain malicious code.</string>
     <string name="headtip_tip_long_press_to_copy">You can select text after long or double press, or copy it and send it back to the developer.</string>
     <string name="headtip_tip_fuck_coolapk">Today in history: Sevtinge delivered an important speech on July 14, 2022.</string>
-    <string name="headtip_notice_dead_logger_errcode">The current device log service is abnormal and HyperCeiler functions will be limited. Please restore the log service so that it can run normally.\nError code: %1$s</string>
-    <string name="headtip_notice_dead_logger">The current device log service is abnormal and HyperCeiler functions will be limited. Please restore the log service so that it can run normally.</string>
+    <string name="headtip_notice_dead_logger_errcode">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.\nError code: %1$s</string>
+    <string name="headtip_notice_dead_logger">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.</string>
     <string name="warn">Attention</string>
     <string name="safe_mode_desc">%1$s has entered Safe mode due to multiple crashes, and HyperCeiler features has been temporarily disabled.</string>
     <string name="safe_mode_history">View exception records</string>
