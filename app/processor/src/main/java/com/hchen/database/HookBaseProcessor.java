@@ -119,7 +119,7 @@ public class HookBaseProcessor extends AbstractProcessor {
         System.out.println(BLUE + "    \\|__|     \\|_______| \\|__|\\|__| \\|__|\\|__||\\___/ /     " + RESET);
         System.out.println(BLUE + "                                              \\|___|/      " + RESET);
         System.out.println(BLUE + "                                                            " + RESET);
-        System.out.println(BLUE + "                                               Code By HyperCeiler Contributors  " + RESET);
+        System.out.println(BLUE + "                                 Code By HyperCeiler Contributors  " + RESET);
     }
 
 }

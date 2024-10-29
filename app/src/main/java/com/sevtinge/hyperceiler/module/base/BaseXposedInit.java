@@ -154,6 +154,7 @@ public abstract class BaseXposedInit {
     }
 
     private void invoke(LoadPackageParam lpparam, Class<?> clzz) {
+        logD(lpparam.packageName, "Using the configuration file " + clzz.getName());
         Object newInstance;
         try {
             newInstance = clzz.newInstance();

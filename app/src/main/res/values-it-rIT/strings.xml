@@ -122,7 +122,6 @@
     <string name="abc_action_bar_home_description">Torna alla pagina principale</string>
     <string name="abc_action_bar_up_description">Torna alla pagina precedente</string>
     <string name="actionbar_button_up_description">Indietro</string>
-    <string name="appcompat_action_mode_select_all">Seleziona tutto</string>
     <string name="appcompat_cancel_description">Cancella</string>
     <string name="appcompat_confirm_description">Ok</string>
     <string name="appcompat_select_all_description">Seleziona tutto</string>
