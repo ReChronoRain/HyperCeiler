@@ -403,6 +403,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_clean_process_text_apps_desc">Ứng dụng đã chọn sẽ không xuất hiện trong menu ngữ cảnh văn bản</string>
     <string name="system_framework_auto_start_menu">Loại bỏ chuỗi hạn chế</string>
     <string name="system_framework_auto_start_apps">Ứng dụng đã chọn</string>
+    <string name="system_framework_auto_start_apps_desc">Ứng dụng đã chọn sẽ không bị hạn chế bởi chuỗi hạn chế và có thể tự động khởi động</string>
     <string name="system_other_flag_secure">Cho phép chụp ảnh màn hình</string>
     <string name="system_other_flag_secure_desc">Cho phép chụp ành màn hình và ghi hình bất kì ứng dụng nào</string>
     <string name="system_other_delete_on_post_notification">Xóa thông báo lớp phủ</string>
@@ -844,6 +845,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_media_control_progress_wavy">Sóng</string>
     <string name="system_ui_control_center_media_control_progress_sleek">Trơn</string>
     <string name="system_ui_control_center_media_control_progress_thickness">Độ dày</string>
+    <string name="system_ui_control_center_media_control_progress_corner_radius">Bán kính góc thanh tiến trình</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">Kích thước văn bản xem thời gian</string>
     <string name="system_ui_control_center_media_control_seekbar_color">Màu thanh tiến trình</string>
     <string name="system_ui_control_center_media_control_seekbar_thumb_color">Màu thanh trượt</string>
@@ -891,6 +893,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_card_tiles_customization_not_add">Chưa thêm</string>
     <string name="system_ui_control_center_unlock_blur_supported">Xóa hạn chế làm mờ thông báo</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">Không có hạn chế về độ mờ nền đối với các vật liệu cao cấp chính thức chỉ dành cho việc xóa chủ đề của bên thứ ba</string>
+    <string name="system_ui_control_center_remove_notif_num_limit">Xóa giới hạn số lượng thông báo</string>
+    <string name="system_ui_control_center_remove_notif_num_limit_desc">Cho phép hiển thị 10 tới 17 thông báo trở lên</string>
     <string name="system_ui_other_title">Khác</string>
     <string name="system_ui_disable_volume">Thanh âm lượng gốc</string>
     <string name="system_ui_disable_power">Menu tắt nguồn mặc định</string>
@@ -984,6 +988,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_allow_never_lock_screen">Cho phép không bao giờ khóa màn hình</string>
     <string name="system_settings_anti_ques">Từ cổ</string>
     <string name="system_settings_anti_ques_desc">Bạn có thể không sử dụng được tính năng này vì vi phạm luật pháp địa phương hoặc quốc gia</string>
+    <string name="system_settings_more_vpn_types">Thêm các loại VPM</string>
     <!--Themes-->
     <string name="theme_manager">Chủ đề</string>
     <string name="theme_manager_version_code_modify">Điều chỉnh phiên bản phát hiện</string>
@@ -1448,6 +1453,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_flash_light">Điều khiển độ sáng đèn pin</string>
     <string name="security_center_flash_light_more">Cho phép bạn điều khiển độ sáng của đèn pin bằng cách kéo thanh trượt độ sáng</string>
     <string name="security_center_get_number">Quản lý ứng dụng truy cập số điện thoại</string>
+    <string name="security_center_simplify_home">Đơn giản hóa trang chủ của Trung tâm bảo mật</string>
+    <string name="security_center_simplify_home_desc">Xóa thẻ đề xuất tính năng</string>
     <string name="security_center_applock_pin_scramble">Mã PIN khoá ứng dụng ngẫu nhiên</string>
     <string name="security_center_power_saver">Dịch vụ bảo mật không tiết kiệm pin</string>
     <string name="security_center_privacy_thumbnail_blur">Tắt hình ảnh xem trước bị mờ</string>
@@ -1536,6 +1543,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_game_speed_desc">Khi khởi chạy trò chơi, nó chuyển hoạt ảnh màn hình mở đầu với tốc độ gấp 3 lần, tốc độ này chỉ được hỗ trợ bởi một số trò chơi</string>
     <string name="security_center_bypass_simlock_miaccount_auth">Bảo mật thẻ SIM bỏ qua xác minh đăng nhập</string>
     <string name="security_center_bypass_simlock_miaccount_auth_desc">Không cần đăng nhập tài khoản Xiaomi khi bật bảo mật thẻ SIM</string>
+    <string name="security_center_remove_simlock_success_dialog">Xóa hộp thoại xác minh bảo mật thẻ SIM thành công</string>
+    <string name="security_center_remove_simlock_success_dialog_desc">Không còn hộp thoại nào nữa sau khi bật điện thoại để báo hiệu rằng bảo vệ bảo mật thẻ SIM đã được xác minh thành công.</string>
     <string name="security_center_aosp_app_info_label">Thông tin ứng dụng AOSP</string>
     <string name="security_center_aosp_app_info">Thêm mục nhập Thông tin ứng dụng AOSP</string>
     <string name="security_center_aosp_app_manager_label">Trình quản lý ứng dụng AOSP</string>
