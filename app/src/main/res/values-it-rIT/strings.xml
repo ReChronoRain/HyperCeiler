@@ -1,21 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ This file is part of HyperCeiler.
-  ~
-  ~ HyperCeiler is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU Affero General Public License as
-  ~ published by the Free Software Foundation, either version 3 of the
-  ~ License.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU Affero General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU Affero General Public License
-  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
-  ~
-  ~ Copyright (C) 2023-2024 HyperCeiler Contributions
-  -->
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Rendiamo HyperOS/MIUI ottimo di nuovo!</string>
@@ -27,7 +10,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Inglese</string>
     <string name="translator">Stefano Lo Casto</string>
-    <string name="translator_url">https://zh.crowdin.com/profile/stefano\.lcst1</string>
+    <string name="translator_url">https://zh.crowdin.com/profile/stefano.lcst1</string>
     <string name="home">Home</string>
     <string name="edit">Inserisci testo</string>
     <string name="kill">Strumento di chiusura forzata</string>
@@ -139,16 +122,16 @@
     <string name="abc_action_bar_home_description">Torna alla pagina principale</string>
     <string name="abc_action_bar_up_description">Torna alla pagina precedente</string>
     <string name="actionbar_button_up_description">Indietro</string>
-    <string name="miuix_appcompat_action_mode_select_all">Seleziona tutto</string>
-    <string name="miuix_appcompat_cancel_description">Cancella</string>
-    <string name="miuix_appcompat_confirm_description">Ok</string>
-    <string name="miuix_appcompat_select_all_description">Seleziona tutto</string>
-    <string name="miuix_appcompat_deselect_all_description">Deseleziona tutto</string>
-    <string name="miuix_appcompat_delete_description">Cancella</string>
-    <string name="miuix_appcompat_search_action_mode_cancel">Cancella</string>
-    <string name="miuix_appcompat_search_input_description">Cerca</string>
-    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Altro</string>
-    <string name="miuix_appcompat_action_mode_inverse">Inverso</string>
+    <string name="appcompat_action_mode_select_all">Seleziona tutto</string>
+    <string name="appcompat_cancel_description">Cancella</string>
+    <string name="appcompat_confirm_description">Ok</string>
+    <string name="appcompat_select_all_description">Seleziona tutto</string>
+    <string name="appcompat_deselect_all_description">Deseleziona tutto</string>
+    <string name="appcompat_delete_description">Cancella</string>
+    <string name="appcompat_search_action_mode_cancel">Cancella</string>
+    <string name="appcompat_search_input_description">Cerca</string>
+    <string name="appcompat_actionbar_immersion_button_more_description">Altro</string>
+    <string name="appcompat_action_mode_inverse">Inverso</string>
     <string name="color_picker_alpha_text_transparent">Opacità</string>
     <string name="color_picker_tab_grid">Griglia</string>
     <string name="color_picker_tab_slider">Slider</string>
@@ -682,6 +665,7 @@
     <string name="system_ui_statusbar_clock_layout_s">Orologio barra di stato</string>
     <string name="system_ui_statusbar_clock_layout_b">Orologio barra notifiche in grassetto</string>
     <string name="system_ui_statusbar_clock_layout_n">Mini Orologio Della Barra Delle Notifiche</string>
+    <string name="system_ui_statusbar_clock_layout_n_desc">Questo progetto contiene anche modifiche all\'orologio orizzontale della barra di notifica</string>
     <string name="system_ui_statusbar_clock_editor_s">Formato orologio barra di stato</string>
     <string name="system_ui_statusbar_clock_editor_n">Formato mini orologio barra delle notifiche</string>
     <string name="system_ui_statusbar_clock_style_f">Disposizione orologio barra di stato</string>
@@ -731,9 +715,9 @@
     <string name="quick_settings_state_change_message_on_my">%1$s è attivo</string>
     <string name="quick_settings_state_change_message_off_my">%1$s è spento</string>
     <string name="system_control_center_5g_tile">Commutatore di rete 5G</string>
-    <string name="tiles_5g">Rete 5G</string>
+    <string name="system_control_center_5g_toggle_label">Rete 5G</string>
     <string name="system_control_center_reduce_bright_colors_tile">Estremamente scuro</string>
-    <string name="tiles_taplus">Interruttori Taplus</string>
+    <string name="system_control_center_taplus_label">Interruttori Taplus</string>
     <string name="system_control_center_sunshine_mode">Modalità Sole</string>
     <string name="system_ui_control_auto_close">Le piastrelle magnetiche si chiudono automaticamente</string>
     <string name="system_ui_control_auto_close_more">Dopo l\'apertura, facendo clic sul tile della barra di stato verrà automaticamente ritratta la barra di stato</string>
@@ -804,6 +788,10 @@
     <string name="system_ui_controlcenter_enable_title">Personalizza il numero di righe e colonne</string>
     <string name="system_control_center_old_qs_grid_columns">Numero di colonne nel pannello compresso</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Numero di colonne in pannello compresso (Orizzontale)</string>
+    <string name="system_ui_control_center_more_card_tiles">Mostra tessere carte</string>
+    <string name="system_ui_control_center_more_card_tiles_less">Nessuno</string>
+    <string name="system_ui_control_center_more_card_tiles_more">Altro</string>
+    <string name="system_ui_control_center_more_card_tiles_most">La maggior parte</string>
     <string name="system_ui_control_center_unlock_blur_supported">Rimuovi la restrizione di sfocatura delle notifiche</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">Non esiste alcuna restrizione sulla sfocatura dello sfondo per i materiali premium ufficiali solo per la rimozione di temi di terze parti</string>
     <string name="system_ui_other_title">Altro</string>
@@ -1429,6 +1417,10 @@
     <string name="market_disable_new_icon_desc">Rendi il desktop più pulito</string>
     <string name="market_package_monitor">Disabilita il monitoraggio dei pacchetti</string>
     <string name="market_package_monitor_desc">Proibisci il monitoraggio di GetApps installazione e disinstallazione di app</string>
+    <!--MIUI+-->
+    <string name="mirror">MIUI+ Beta</string>
+    <string name="mirror_hyperos">Servizi di interconnettività dispositivo</string>
+    <string name="mirror_unlock_miui_plus">Sblocca MIUI+</string>
     <!--Mi sound-->
     <string name="misound">Auricolari</string>
     <string name="misound_increase_sampling_rate">Aumenta frequenza di campionamento</string>
@@ -1597,9 +1589,7 @@
     <string name="help_cant_see_apps_switch">Nascondi questo aiuto nella home page</string>
     <string name="help_cant_see_apps_switch_desc">Puoi ancora trovare questa pagina in \"Impostazioni - Configura la voce della home page\". Riavvia l\'app per applicare.</string>
     <string name="headtip_warn_not_offical_rom">La fonte della ROM che stai utilizzando potrebbe non essere ufficiale di Xiaomi e alcune funzioni potrebbero non funzionare, contatta il provider che stai utilizzando per i dettagli.</string>
-    <string name="headtip_warn_sign_verification_failed">La verifica della firma non è riuscita e il la versione corrente che stai utilizzando potrebbe non provenire dalla versione ufficiale di HyperCeiler e potrebbe contenere codice dannoso.</string>
+    <string name="headtip_warn_sign_verification_failed">La verifica della firma non è riuscita e il la versione corrente che stai utilizzando potrebbe non provenire dalla versione ufficiale di Re.chronoRain e potrebbe contenere codice dannoso.</string>
     <string name="tip_default">Suggerimento: ecco il suggerimento predefinito. Se riesci a vedermi significa che c\'è un problema con HyperCeiler, segnalalo allo sviluppatore in modo tempestivo ed efficace.</string>
     <string name="preference_recommend_tip">Cerchi qualcos\'altro?</string>
-    <string name="system_framework_other_disable_gesture_monitor">Disabilita il monitoraggio dei gesti</string>
-    <string name="system_framework_other_disable_gesture_monitor_desc">Riduce il carico della CPU, ma interrompe le funzioni relative all\'input come gli screenshot con tre dita</string>
 </resources>
