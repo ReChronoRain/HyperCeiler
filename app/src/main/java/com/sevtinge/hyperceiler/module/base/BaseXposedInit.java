@@ -24,7 +24,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
@@ -44,7 +44,7 @@ import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -64,7 +64,7 @@ public abstract class BaseXposedInit {
     // public static XmlTool mXmlTool;
     public final VariousThirdApps mVariousThirdApps = new VariousThirdApps();
     public final VariousSystemApps mVariousSystemApps = new VariousSystemApps();
-    private HashMap<String, DataBase.DataHelper> dataMap = null;
+    private MultiValueMap<String, DataBase.DataHelper> dataMap = null;
 
     @CallSuper
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
@@ -123,36 +123,32 @@ public abstract class BaseXposedInit {
         if (mPkgName == null) return;
         if (isInSafeMode(mPkgName)) return;
         if (isOtherRestrictions(mPkgName)) return;
-        DataBase.DataHelper helper = dataMap.get(mPkgName);
-        if (helper == null) {
+        List<DataBase.DataHelper> helperList = dataMap.get(mPkgName);
+        if (helperList.isEmpty()) {
             mVariousThirdApps.init(lpparam);
             return;
         }
-        Class<?> clazz;
-        ClassLoader classLoader = getClass().getClassLoader();
-        if (classLoader == null) return;
-        try {
-            clazz = classLoader.loadClass(helper.fullName);
-        } catch (ClassNotFoundException e) {
-            logE(TAG, e);
-            return;
+        for (DataBase.DataHelper helper : helperList) {
+            Class<?> clazz;
+            ClassLoader classLoader = getClass().getClassLoader();
+            if (classLoader == null) return;
+            try {
+                clazz = classLoader.loadClass(helper.fullName);
+            } catch (ClassNotFoundException e) {
+                logE(TAG, e);
+                return;
+            }
+            boolean isPad = helper.isPad;
+            int android = helper.android;
+            boolean skip = helper.skip;
+            if (skip) // just skip it
+                return;
+            if (!isAndroidVersion(android)) // exactly match Android version
+                return;
+            if (!isPad() && isPad) // device is not Pad and hook is only for Pad
+                return;
+            invoke(lpparam, clazz);
         }
-        boolean isPad = helper.isPad;
-        int android = helper.android;
-        // 等待改写...
-        // boolean skip = helper.skip;
-        // if (skip) continue;
-        // 需要限制安卓版本和设备取消这些注释，并删除下面的invoke方法。
-        // if (!isAndroidVersion(android)) continue;
-        // if (isPad() && isPad) {
-        //     return invoke(lpparam, clzz);
-        // } else if (isPad() && !isPad) {
-        //     continue;
-        // } else {
-        //     return invoke(lpparam, clzz);
-        // }
-        invoke(lpparam, clazz);
-        mVariousSystemApps.init(lpparam);
     }
 
     private void invoke(LoadPackageParam lpparam, Class<?> clzz) {
