@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler;
 
 import com.github.kyuubiran.ezxhelper.EzXHelper;
+import com.hchen.hooktool.HCInit;
 import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUninstall;
@@ -45,6 +46,7 @@ public class XposedInit extends BaseXposedInit implements IXposedHookZygoteInit,
         EzXHelper.initZygote(startupParam);
         EzXHelper.setLogTag(TAG);
         EzXHelper.setToastTag(TAG);
+        HCInit.initStartupParam(startupParam);
         if (mPrefsMap.getBoolean("system_framework_allow_uninstall"))
             new AllowUninstall().initZygote(startupParam);
         if (mPrefsMap.getBoolean("system_framework_screen_all_rotations")) ScreenRotation.initRes();

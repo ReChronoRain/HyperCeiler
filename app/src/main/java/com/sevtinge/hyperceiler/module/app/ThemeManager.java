@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.thememanager.AllowDownloadMore;
 import com.sevtinge.hyperceiler.module.hook.thememanager.AllowThirdTheme;
 import com.sevtinge.hyperceiler.module.hook.thememanager.DisableThemeAdNew;
@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.module.hook.thememanager.EnableFoldTheme;
 import com.sevtinge.hyperceiler.module.hook.thememanager.EnablePadTheme;
 import com.sevtinge.hyperceiler.module.hook.thememanager.VersionCodeModify;
 
-@HookExpand(pkg = "com.android.thememanager", tarAndroid = 33)
+@HookBase(pkg = "com.android.thememanager", isPad = false, tarAndroid = 33)
 public class ThemeManager extends BaseModule {
 
     @Override

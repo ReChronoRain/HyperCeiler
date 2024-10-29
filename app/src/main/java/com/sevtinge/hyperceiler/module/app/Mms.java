@@ -18,13 +18,13 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.mms.DisableAd;
 import com.sevtinge.hyperceiler.module.hook.mms.DisableRiskTip;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
-@HookExpand(pkg = "com.android.mms", tarAndroid = 33)
+@HookBase(pkg = "com.android.mms", isPad = false, tarAndroid = 33)
 public class Mms extends BaseModule {
     @Override
     public void handleLoadPackage() {

@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.CustomWatermark;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.FilterManagerAll;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockCustomPhotoFrames;
@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockMinimumCropLimit2;
 
 import java.util.Objects;
 
-@HookExpand(pkg = "com.miui.mediaeditor", tarAndroid = 33)
+@HookBase(pkg = "com.miui.mediaeditor", isPad = false, tarAndroid = 33)
 public class MediaEditor extends BaseModule {
 
     @Override

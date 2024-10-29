@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.powerkeeper.CustomRefreshRate;
 import com.sevtinge.hyperceiler.module.hook.powerkeeper.DisableGetDisplayCtrlCode;
 import com.sevtinge.hyperceiler.module.hook.powerkeeper.DontKillApps;
@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.module.hook.powerkeeper.GmsDozeFix;
 import com.sevtinge.hyperceiler.module.hook.powerkeeper.LockMaxFps;
 import com.sevtinge.hyperceiler.module.hook.powerkeeper.PreventBatteryWitelist;
 
-@HookExpand(pkg = "com.miui.powerkeeper", tarAndroid = 33)
+@HookBase(pkg = "com.miui.powerkeeper", isPad = false, tarAndroid = 33)
 public class PowerKeeper extends BaseModule {
 
     @Override
