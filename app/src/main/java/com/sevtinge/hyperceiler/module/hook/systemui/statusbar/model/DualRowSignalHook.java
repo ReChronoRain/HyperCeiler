@@ -219,7 +219,6 @@ public class DualRowSignalHook extends BaseHook {
                 if (subStrengthId == 6) subStrengthId = 0;
                 Object mobileIconState = XposedHelpers.getObjectField(param.thisObject, "mState");
                 int level1 = (int) XposedHelpers.getObjectField(mobileIconState, "strengthId");
-                logD("lknsdkojsdglknsdoknslkg", String.valueOf(level1));
                 level1 = level1 / 10;
                 if (level1 == 6) level1 = 0;
                 boolean mLight = (boolean) XposedHelpers.getObjectField(param.thisObject, "mLight");

@@ -154,7 +154,6 @@ public abstract class BaseXposedInit {
     }
 
     private void invoke(LoadPackageParam lpparam, Class<?> clzz) {
-        logD("lknsdkojsdglknsdoknslkg", clzz.getName());
         Object newInstance;
         try {
             newInstance = clzz.newInstance();
