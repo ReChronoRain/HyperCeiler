@@ -45,7 +45,7 @@ public class DeviceModify extends BaseHook {
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 106) {
             // 15p
             mDevice = "haotian"; // O2
-            mModel = "24101PNB7C";
+            mModel = "2410DPN6CC";
             mManufacturer = "Xiaomi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 105) {
             // 15
