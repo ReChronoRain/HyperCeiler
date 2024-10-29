@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.joyose.DisableCloudControl;
 import com.sevtinge.hyperceiler.module.hook.joyose.EnableGpuTuner;
 
-@HookBase(pkg = "com.xiaomi.joyose", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.xiaomi.joyose", skip = true, isPad = false, tarAndroid = 0)
 public class Joyose extends BaseModule {
 
     @Override

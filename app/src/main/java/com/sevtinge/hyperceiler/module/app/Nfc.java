@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.nfc.AllowInformationScreen;
 import com.sevtinge.hyperceiler.module.hook.nfc.DisableSound;
 
-@HookBase(pkg = "com.android.nfc", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.android.nfc", skip = true, isPad = false, tarAndroid = 0)
 public class Nfc extends BaseModule {
 
     @Override

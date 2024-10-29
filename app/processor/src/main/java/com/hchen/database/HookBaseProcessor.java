@@ -31,8 +31,6 @@ public class HookBaseProcessor extends AbstractProcessor {
             writer.write("""
                     package com.sevtinge.hyperceiler.module.base;
                                         
-                    import java.util.HashMap;
-                                        
                     public class DataBase {
                         public static class DataHelper {
                             public String fullName;
@@ -48,8 +46,8 @@ public class HookBaseProcessor extends AbstractProcessor {
                             }
                         }
                                         
-                        public static HashMap<String, DataHelper> get() {
-                            HashMap<String, DataHelper> dataMap = new HashMap<>();
+                        public static MultiValueMap<String, DataHelper> get() {
+                            MultiValueMap<String, DataHelper> dataMap = new MultiValueMap<>();
                     """);
             roundEnv.getElementsAnnotatedWith(HookBase.class).forEach(new Consumer<Element>() {
                 @Override

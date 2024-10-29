@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.backup.AllowBackupAllApps;
 import com.sevtinge.hyperceiler.module.hook.backup.UnlockBrokenScreenBackup;
 
-@HookBase(pkg = "com.miui.backup", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.miui.backup", skip = true, isPad = false, tarAndroid = 0)
 public class Backup extends BaseModule {
 
     @Override

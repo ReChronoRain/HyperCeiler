@@ -22,7 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
-@HookBase(pkg = "com.miui.notes", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.miui.notes", skip = true, isPad = false, tarAndroid = 0)
 public class Notes extends BaseModule {
 
     @Override

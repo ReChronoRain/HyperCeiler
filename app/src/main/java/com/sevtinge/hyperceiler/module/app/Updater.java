@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.module.hook.updater.VabUpdate;
 import com.sevtinge.hyperceiler.module.hook.updater.VersionCodeModify;
 import com.sevtinge.hyperceiler.module.hook.updater.VersionCodeNew;
 
-@HookBase(pkg = "com.android.updater", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.android.updater", skip = true, isPad = false, tarAndroid = 0)
 public class Updater extends BaseModule {
 
     @Override

@@ -22,7 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.tsmclient.AutoNfc;
 
-@HookBase(pkg = "com.miui.tsmclient", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.miui.tsmclient", skip = true, isPad = false, tarAndroid = 0)
 public class TsmClient extends BaseModule {
 
     @Override
