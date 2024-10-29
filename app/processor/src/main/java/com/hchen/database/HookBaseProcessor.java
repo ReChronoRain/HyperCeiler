@@ -111,6 +111,7 @@ public class HookBaseProcessor extends AbstractProcessor {
         final String PURPLE = "\033[0;35m"; // PURPLE
         final String CYAN = "\033[0;36m";   // CYAN
         final String WHITE = "\033[0;37m";  // WHITE
+        System.out.println(BLUE + "                                                            " + RESET);
         System.out.println(BLUE + " ________  ___  ___   ________   ________       ___    ___ " + RESET);
         System.out.println(BLUE + "|\\  _____\\|\\  \\|\\  \\ |\\   __  \\ |\\   __  \\     |\\  \\  /  /|" + RESET);
         System.out.println(BLUE + "\\ \\  \\__/ \\ \\  \\\\\\  \\\\ \\  \\|\\  \\\\ \\  \\|\\  \\    \\ \\  \\/  / /" + RESET);
@@ -120,7 +121,7 @@ public class HookBaseProcessor extends AbstractProcessor {
         System.out.println(BLUE + "    \\|__|     \\|_______| \\|__|\\|__| \\|__|\\|__||\\___/ /     " + RESET);
         System.out.println(BLUE + "                                              \\|___|/      " + RESET);
         System.out.println(BLUE + "                                                            " + RESET);
-        System.out.println(BLUE + "                                               Code By HChenX      " + RESET);
+        System.out.println(BLUE + "                                               Code By HyperCeiler Contributors  " + RESET);
     }
 
 }

@@ -18,9 +18,9 @@
  */
 package com.sevtinge.hyperceiler.module.app.SystemUI.Phone;
 
-import static com.sevtinge.hyperceiler.utils.api.OldFunApisKt.isNewNetworkStyle;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.utils.api.OldFunApisKt.isNewNetworkStyle;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
