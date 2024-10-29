@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.contentextension.DoublePress;
 import com.sevtinge.hyperceiler.module.hook.contentextension.HorizontalContentExtension;
 import com.sevtinge.hyperceiler.module.hook.contentextension.LinkOpenMode;
@@ -30,7 +30,7 @@ import com.sevtinge.hyperceiler.module.hook.contentextension.Taplus;
 import com.sevtinge.hyperceiler.module.hook.contentextension.UnlockTaplus;
 import com.sevtinge.hyperceiler.module.hook.contentextension.UseThirdPartyBrowser;
 
-@HookExpand(pkg = "com.miui.contentextension", tarAndroid = 33)
+@HookBase(pkg = "com.miui.contentextension", isPad = false, tarAndroid = 33)
 public class ContentExtension extends BaseModule {
 
     @Override

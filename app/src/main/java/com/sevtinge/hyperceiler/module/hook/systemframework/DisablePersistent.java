@@ -1,44 +1,38 @@
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
+import com.hchen.hooktool.BaseHC;
 import com.hchen.hooktool.callback.IAction;
-import com.hchen.hooktool.tool.ParamTool;
-import com.sevtinge.hyperceiler.module.base.BaseTool;
 
-public class DisablePersistent extends BaseTool {
+public class DisablePersistent extends BaseHC {
     private boolean isInstall = false;
 
     @Override
-    public void doHook() {
-        hcHook.findClass("pl", "com.android.server.pm.parsing.pkg.PackageImpl")
-                .getMethod("isPersistent")
-                .hook(new IAction() {
+    public void init() {
+        hook("com.android.server.pm.parsing.pkg.PackageImpl", "isPersistent",
+                new IAction() {
                     @Override
-                    public void after(ParamTool param) {
-                        // String pkg = param.getField("packageName");
-                        boolean isPersistent = param.getResult();
+                    public void after() throws Throwable {
+                        boolean isPersistent = getResult();
                         if (isPersistent) {
                             if (isInstall) {
-                                param.setResult(false);
+                                returnFalse();
                             }
                         }
-                        // logI(TAG, "pkg: " + pkg + " isPersistent: " + param.getResult());
                     }
-                })
-                .findClass("iph", "com.android.server.pm.InstallPackageHelper")
-                .getMethod("preparePackageLI", "com.android.server.pm.InstallRequest")
-                .hook(new IAction() {
+                });
+        
+        hook("com.android.server.pm.InstallPackageHelper",
+                "preparePackageLI", "com.android.server.pm.InstallRequest",
+                new IAction() {
                     @Override
-                    public void before(ParamTool param) {
+                    public void before() throws Throwable {
                         isInstall = true;
-                        // logI(TAG, "start install: " + param.first());
                     }
 
                     @Override
-                    public void after(ParamTool param) {
+                    public void after() throws Throwable {
                         isInstall = false;
-                        // logI(TAG, "end install: " + param.first());
                     }
-                })
-        ;
+                });
     }
 }

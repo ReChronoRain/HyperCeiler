@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.phone.DisableRemoveNetworkMode;
 import com.sevtinge.hyperceiler.module.hook.phone.DualNrSupport;
 import com.sevtinge.hyperceiler.module.hook.phone.DualSaSupport;
@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.module.hook.phone.N28BandPhone;
 import com.sevtinge.hyperceiler.module.hook.phone.N5N8BandPhone;
 import com.sevtinge.hyperceiler.module.hook.phone.ViceSlotVolteButton;
 
-@HookExpand(pkg = "com.android.phone", tarAndroid = 33)
+@HookBase(pkg = "com.android.phone", isPad = false, tarAndroid = 33)
 public class Phone extends BaseModule {
     @Override
     public void handleLoadPackage() {

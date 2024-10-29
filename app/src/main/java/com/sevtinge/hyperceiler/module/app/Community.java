@@ -19,11 +19,11 @@
 
 package com.sevtinge.hyperceiler.module.app;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.community.DeviceModify;
 
-@HookExpand(pkg = "com.xiaomi.vipaccount", tarAndroid = 33)
+@HookBase(pkg = "com.xiaomi.vipaccount", isPad = false, tarAndroid = 33)
 public class Community extends BaseModule {
 
     @Override

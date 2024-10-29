@@ -21,8 +21,8 @@ package com.sevtinge.hyperceiler.module.app.SystemSettings.Phone;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AddGoogleListHeader;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AddMiuiPlusEntry;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AllowManageAllNotifications;
@@ -58,7 +58,7 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockAi;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockMemc;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockSuperResolution;
 
-@HookExpand(pkg = "com.android.settings", tarAndroid = 33, maxAndroid = 35)
+@HookBase(pkg = "com.android.settings", isPad = false, tarAndroid = 33)
 public class SystemSettingsT extends BaseModule {
 
     @Override

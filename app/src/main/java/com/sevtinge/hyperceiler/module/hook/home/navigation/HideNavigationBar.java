@@ -23,59 +23,61 @@ import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.hchen.hooktool.BaseHC;
 import com.hchen.hooktool.callback.IAction;
-import com.hchen.hooktool.tool.ParamTool;
-import com.sevtinge.hyperceiler.module.base.BaseTool;
 
-public class HideNavigationBar extends BaseTool {
+public class HideNavigationBar extends BaseHC {
     @Override
-    public void doHook() {
-        hcHook.findClass("rc", "com.miui.home.recents.views.RecentsContainer")
-                .getMethod("showLandscapeOverviewGestureView", boolean.class)
-                .hook(new IAction() {
+    public void init() {
+        
+        hook("com.miui.home.recents.views.RecentsContainer", "showLandscapeOverviewGestureView", boolean.class,
+                new IAction() {
                     @Override
-                    public void before(ParamTool param) {
-                        param.first(false);
+                    public void before() throws Throwable {
+                        first(false);
                     }
                 });
-
-        hcHook.findClass("nsv", "com.miui.home.recents.NavStubView")
-                .getMethod("isMistakeTouch")
+        
+        chain("com.miui.home.recents.NavStubView",method("isMistakeTouch")
                 .hook(new IAction() {
                     @Override
-                    public void before(ParamTool param) {
-                        View navView = param.thisObject();
+                    public void before() throws Throwable {
+                        View navView = thisObject();
                         boolean setting = Settings.Global.getInt(navView.getContext().getContentResolver(), "show_mistake_touch_toast", 1) == 1;
-                        boolean misTouch = param.callMethod("isLandScapeActually");
-                        param.setResult(misTouch && setting);
+                        boolean misTouch = callThisMethod("isLandScapeActually");
+                        setResult(misTouch && setting);
                     }
                 })
-                .getMethod("onPointerEvent", MotionEvent.class)
+                
+                .method("onPointerEvent", MotionEvent.class)
                 .hook(new IAction() {
                     @Override
-                    public void before(ParamTool param) {
-                        boolean mIsInFsMode = param.getField("mIsInFsMode");
-                        MotionEvent motionEvent = param.first();
+                    public void before() throws Throwable {
+                        boolean mIsInFsMode = getThisField("mIsInFsMode");
+                        MotionEvent motionEvent = first();
                         if (!mIsInFsMode) {
                             if (motionEvent.getAction() == 0) {
-                                param.setField("mHideGestureLine", true);
+                                setThisField("mHideGestureLine", true);
                             }
                         }
                     }
                 })
-                .getMethod("updateScreenSize")
+                
+                .method("updateScreenSize")
                 .hook(new IAction() {
                     @Override
-                    public void before(ParamTool param) {
-                        param.setField("mHideGestureLine", false);
+                    public void before() throws Throwable {
+                        setThisField("mHideGestureLine", false);
                     }
                 })
-                .getMethod("onConfigurationChanged", Configuration.class)
+                
+                .method("onConfigurationChanged", Configuration.class)
                 .hook(new IAction() {
                     @Override
-                    public void before(ParamTool param) {
-                        param.setField("mHideGestureLine", false);
+                    public void before() throws Throwable {
+                        setThisField("mHideGestureLine", false);
                     }
-                });
+                })
+        );
     }
 }

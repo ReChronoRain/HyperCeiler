@@ -21,8 +21,8 @@ package com.sevtinge.hyperceiler.module.app.SystemFramework.Phone;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.GlobalActions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowAutoStart;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowDisableProtectedPackage;
@@ -90,7 +90,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N5N8Band;
 import com.sevtinge.hyperceiler.module.hook.various.NoAccessDeviceLogsRequest;
 
-@HookExpand(pkg = "android", tarAndroid = 33, maxAndroid = 35)
+@HookBase(pkg = "android", isPad = false, tarAndroid = 33)
 public class SystemFrameworkT extends BaseModule {
 
     @Override

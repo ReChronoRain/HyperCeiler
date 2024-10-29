@@ -18,12 +18,12 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.creation.UnlockCreation;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
-@HookExpand(pkg = "com.miui.creation", tarAndroid = 33)
+@HookBase(pkg = "com.miui.creation", isPad = false, tarAndroid = 33)
 public class Creation extends BaseModule {
 
     @Override

@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 rootProject.name = "HyperCeiler"
 include(":app", ":hidden-api")
 include(":app", ":miuistub")
+include(":app", ":app:processor")

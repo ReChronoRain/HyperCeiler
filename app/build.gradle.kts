@@ -1,4 +1,4 @@
-//file:noinspection DependencyNotationArgument
+// file:noinspection DependencyNotationArgument
 import com.android.build.gradle.internal.api.*
 import com.android.build.gradle.tasks.*
 import java.io.*
@@ -88,7 +88,7 @@ android {
         buildConfigField("String", "BUILD_TIME", "\"$buildTime\"")
 
         ndk {
-            //noinspection ChromeOsAbiSupport
+            // noinspection ChromeOsAbiSupport
             abiFilters += "arm64-v8a"
         }
     }
@@ -155,8 +155,13 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro", "proguard-log.pro")
-            versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+                "proguard-log.pro"
+            )
+            versionNameSuffix =
+                "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
             buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
             signingConfig = if (properties != null) {
@@ -167,8 +172,12 @@ android {
         }
         create("beta") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            versionNameSuffix =
+                "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
             buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
             signingConfig = if (properties != null) {
@@ -179,7 +188,10 @@ android {
         }
         create("canary") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             versionNameSuffix = "_${gitHash}_r${gitCode}"
             buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
@@ -201,11 +213,11 @@ android {
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
+            languageVersion = JavaLanguageVersion.of(22)
         }
     }
 
-    kotlin.jvmToolchain(21)
+    kotlin.jvmToolchain(22)
 
     // https://stackoverflow.com/a/77745844
     tasks.withType<PackageAndroidArtifact> {
@@ -246,5 +258,7 @@ dependencies {
     implementation(files(roots["springback"]))
     implementation(files(roots["external"]))
 
+    implementation(project(":app:processor"))
+    annotationProcessor(project(":app:processor"))
     implementation(files("libs/hyperceiler_expansion_packs-debug.aar"))
 }

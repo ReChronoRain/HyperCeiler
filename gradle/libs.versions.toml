@@ -1,9 +1,10 @@
 [versions]
 agp = "8.7.0"
 annotationProcessor = "4.4.0"
-hooktool = "v.0.9.6.5"
+hooktool = "v.0.9.9.6"
 kotlinAndroid = "2.0.20"
 lsparanoid = "0.6.0"
+autoService = "1.1.1"
 #lspluginResopt = "1.6"
 
 annotation = "1.8.2"
@@ -38,11 +39,12 @@ annotation-processor = { module = "dev.rikka.tools.refine:annotation-processor",
 core = { group = "androidx.core", name = "core", version.ref = "core" }
 collection = { group = "androidx.collection", name = "collection", version.ref = "collection" }
 fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
-hooktool = { module = "com.github.HChenX:HookTool", version.ref = "hooktool" }
+hooktool = { module = "io.github.hchenx:hooktool", version.ref = "hooktool" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 lifecycle-common = { group = "androidx.lifecycle", name = "lifecycle-common", version.ref = "lifecycle-common" }
 
 refine-annotation = { module = "dev.rikka.tools.refine:annotation", version.ref = "annotationProcessor" }
+auto-service = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 vectordrawable = { group = "androidx.vectordrawable", name = "vectordrawable", version.ref = "vectordrawable" }
 vectordrawable-animated = { group = "androidx.vectordrawable", name = "vectordrawable-animated", version.ref = "vectordrawable-animated" }
 customview = { group = "androidx.customview", name = "customview", version.ref = "customview" }

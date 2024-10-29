@@ -19,10 +19,10 @@
 package com.sevtinge.hyperceiler.module.app.SystemUI.Phone;
 
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 
-@HookExpand(pkg = "com.android.systemui", tarAndroid = 34, maxAndroid = 34)
+@HookBase(pkg = "com.android.systemui", isPad = false, tarAndroid = 34)
 public class SystemUiU extends BaseModule {
     @Override
     public void handleLoadPackage() {

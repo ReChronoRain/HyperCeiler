@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.navigation;
 
+import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW;
+
 import android.content.Context;
 import android.database.ContentObserver;
 import android.net.Uri;
@@ -28,50 +30,47 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.hchen.hooktool.BaseHC;
 import com.hchen.hooktool.callback.IAction;
-import com.hchen.hooktool.tool.ParamTool;
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.module.base.BaseTool;
 
-public class HideNavigationBar extends BaseTool {
+public class HideNavigationBar extends BaseHC {
     boolean run = false;
 
     @Override
-    public void doHook() {
-        hcHook.findClass("nbc", "com.android.systemui.navigationbar.NavigationBarController")
-                .getAnyMethod("createNavigationBar")
-                .hook(new IAction() {
-                    @Override
-                    public void after(ParamTool param) {
-                        if (param.size() >= 3) {
-                            Display display = param.first();
-                            int id = display.getDisplayId();
-                            param.callMethod("removeNavigationBar", id);
-                            Context mContext = param.getField("mContext");
-                            ContentObserver(mContext);
-                            try {
-                                int state = Settings.Global.getInt(mContext.getContentResolver(), "hide_gesture_line");
-                                if (state == 1) {
-                                    Settings.Global.putInt(mContext.getContentResolver(), "hide_gesture_line", 0);
-                                }
-                            } catch (Settings.SettingNotFoundException e) {
-                                logW(TAG, lpparam.packageName, "Don‘t Have hide_gesture_line");
-                            }
+    public void init() {
+        hookAll("com.android.systemui.navigationbar.NavigationBarController", "createNavigationBar", new IAction() {
+            @Override
+            public void after() throws Throwable {
+                if (size() >= 3) {
+                    Display display = first();
+                    int id = display.getDisplayId();
+                    callThisMethod("removeNavigationBar", id);
+                    Context mContext = getThisField("mContext");
+                    ContentObserver(mContext);
+                    try {
+                        int state = Settings.Global.getInt(mContext.getContentResolver(), "hide_gesture_line");
+                        if (state == 1) {
+                            Settings.Global.putInt(mContext.getContentResolver(), "hide_gesture_line", 0);
                         }
+                    } catch (Settings.SettingNotFoundException e) {
+                        logW(TAG, lpparam.packageName, "Don‘t Have hide_gesture_line");
                     }
-                })
-                .findClass("mdis", "com.android.systemui.statusbar.phone.MiuiDockIndicatorService")
-                .getMethod("onNavigationModeChanged", int.class)
-                .hook(new IAction() {
+                }
+            }
+        });
+
+        hook("com.android.systemui.statusbar.phone.MiuiDockIndicatorService", "onNavigationModeChanged", int.class,
+                new IAction() {
                     @Override
-                    public void before(ParamTool param) {
-                        param.setField("mNavMode", param.first());
-                        if (param.getField("mNavigationBarView") != null) {
-                            param.callMethod("setNavigationBarView", null);
+                    public void before() throws Throwable {
+                        setThisField("mNavMode", first());
+                        if (getThisField("mNavigationBarView") != null) {
+                            callThisMethod("setNavigationBarView");
                         } else {
-                            param.callMethod("checkAndApplyNavigationMode");
+                            callThisMethod("checkAndApplyNavigationMode");
                         }
-                        param.setResult(null);
+                        returnNull();
                     }
                 });
     }

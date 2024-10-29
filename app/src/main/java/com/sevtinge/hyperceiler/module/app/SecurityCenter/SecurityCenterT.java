@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.module.app.SecurityCenter;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
+import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.HookExpand;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.AppLockPinScramble;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.BypassAdbInstallVerify;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.DisableReport;
@@ -76,7 +76,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockV
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VideoDolbyOpen;
 
-@HookExpand(pkg = "com.miui.securitycenter", tarAndroid = 33, maxAndroid = 35)
+@HookBase(pkg = "com.miui.securitycenter", isPad = false, tarAndroid = 33)
 public class SecurityCenterT extends BaseModule {
 
     @Override

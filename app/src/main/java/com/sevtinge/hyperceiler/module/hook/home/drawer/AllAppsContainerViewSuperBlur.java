@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.hook.home.drawer;
 
+import static com.sevtinge.hyperceiler.module.base.tool.HookTool.mPrefsMap;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
 
 import android.graphics.Color;
@@ -26,24 +27,23 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.ViewSwitcher;
 
+import com.hchen.hooktool.BaseHC;
 import com.hchen.hooktool.callback.IAction;
-import com.hchen.hooktool.tool.ParamTool;
-import com.sevtinge.hyperceiler.module.base.BaseTool;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtils;
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt;
 
-public class AllAppsContainerViewSuperBlur extends BaseTool {
+public class AllAppsContainerViewSuperBlur extends BaseHC {
     private boolean isBlur;
     private View view;
+
     @Override
-    public void doHook() {
-        classTool.findClass("allApp", "com.miui.home.launcher.allapps.BaseAllAppsContainerView")
-                .getMethod("onFinishInflate")
-                .hook(new IAction() {
+    public void init() {
+        hook("com.miui.home.launcher.allapps.BaseAllAppsContainerView", "onFinishInflate",
+                new IAction() {
                     @Override
-                    public void after(ParamTool param) {
-                        ViewSwitcher mCategoryContainer = param.getField("mCategoryContainer");
+                    public void after() throws Throwable {
+                        ViewSwitcher mCategoryContainer = getThisField("mCategoryContainer");
                         RelativeLayout appsView = (RelativeLayout) mCategoryContainer.getParent();
                         FrameLayout frameLayout = new FrameLayout(mCategoryContainer.getContext());
                         view = new View(mCategoryContainer.getContext());
@@ -68,6 +68,7 @@ public class AllAppsContainerViewSuperBlur extends BaseTool {
                         isBlur = true;
                         appsView.addView(frameLayout, 0);
                     }
-                });
+                }
+        );
     }
 }
