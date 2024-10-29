@@ -155,6 +155,14 @@ public class HookTool extends XposedLogUtils {
         XposedBridge.hookMethod(method, callback);
     }
 
+    public static Object getObjectFieldSilently(Object obj, String fieldName) {
+        try {
+            return XposedHelpers.getObjectField(obj, fieldName);
+        } catch (Throwable t) {
+            return "ObjectFieldNotExist";
+        }
+    }
+
     public void safeHookMethod(Method method, MethodHook callback) {
         try {
             hookMethod(method, callback);

@@ -21,7 +21,9 @@ package com.sevtinge.hyperceiler.module.hook.systemui;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -31,9 +33,9 @@ public class VolumeTimerValuesHook extends BaseHook {
 
     @Override
     public void init() {
-        /*VolumeTimerValuesRes();*/
+        VolumeTimerValuesRes();
 
-        final boolean[] isHooked = {false};
+        /*final boolean[] isHooked = {false};
         findAndHookMethod("com.android.systemui.shared.plugins.PluginManagerImpl", lpparam.classLoader, "getClassLoader", ApplicationInfo.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
@@ -78,13 +80,30 @@ public class VolumeTimerValuesHook extends BaseHook {
                             param.setResult(seekWidth / 10 * seg + marginLeft - halfTimerWidth);
                         }
                     });
+                    findAndHookMethod("com.android.systemui.miui.volume.TimerItem", pluginLoader, "updateDrawables", int.class, new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) throws Throwable {
+                            int mCurrentSegment = XposedHelpers.getIntField(param.thisObject, "mCurrentSegment");
+                            param.setObjectExtra("originalValue", mCurrentSegment);
+                            if (mCurrentSegment < 3 || (mCurrentSegment == 3 && XposedHelpers.getIntField(param.thisObject, "mDeterminedSegment") == 3)) {
+                                XposedHelpers.setIntField(param.thisObject, "mCurrentSegment", 0);
+                                param.setResult(null);
+                            }
+                            param.setResult(null);
+                        }
+
+                        @Override
+                        protected void after(MethodHookParam param) throws Throwable {
+                            XposedHelpers.setIntField(param.thisObject, "mCurrentSegment", (int) param.getObjectExtra("originalValue"));
+                        }
+                    });
                 }
             }
-        });
+        });*/
 
     }
 
-    /*public static void VolumeTimerValuesRes() {
-        XposedInit.mResourcesHook.setResReplacement("miui.systemui.plugin", "array", "miui_volume_timer_segments", R.array.miui_volume_timer_segments);
-    }*/
+    public static void VolumeTimerValuesRes() {
+        BaseXposedInit.mResHook.setResReplacement("miui.systemui.plugin", "array", "miui_volume_timer_segments", R.array.miui_volume_timer_segments);
+    }
 }
