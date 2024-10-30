@@ -22,5 +22,6 @@
 -dontwarn javax.annotation.processing.SupportedOptions
 -dontwarn javax.annotation.processing.SupportedSourceVersion
 -dontwarn javax.annotation.processing.Processor
+-dontwarn miui.util.HapticFeedbackUtil
 -allowaccessmodification
 -overloadaggressively
