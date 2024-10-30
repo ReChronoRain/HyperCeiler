@@ -20,52 +20,52 @@
 
     <PreferenceCategory />
 
-    <moralnorm.preference.RadioButtonPreferenceCategory>
+    <RadioButtonPreferenceCategory>
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:key="prefs_key_no_action"
             android:persistent="false"
             android:title="@string/array_global_actions_none" />
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:key="prefs_key_open_notification_center"
             android:title="@string/array_global_actions_notif" />
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:key="prefs_key_screen_lock"
             android:title="@string/array_global_actions_lock" />
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:key="prefs_key_screen_sleep"
             android:title="@string/array_global_actions_sleep" />
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:key="prefs_key_screen_capture"
             android:title="@string/array_global_actions_screenshot" />
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:key="prefs_key_clear_memory"
             android:title="@string/array_global_actions_clear_memory" />
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:key="prefs_key_invert_colors"
             android:title="@string/array_global_actions_invert_colors" />
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:key="prefs_key_screen_recents"
             android:title="@string/array_global_actions_recents" />
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:key="prefs_key_volume_dialog"
             android:title="@string/array_global_actions_volume" />
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:key="prefs_key_open_powermenu"
             android:title="@string/array_global_actions_powermenu" />
 
-        <moralnorm.preference.RadioSetPreferenceCategory>
+        <RadioSetPreferenceCategory>
 
-            <moralnorm.preference.RadioButtonPreference
+            <RadioButtonPreference
                 android:key="prefs_key_open_app"
                 android:title="@string/array_global_actions_launch" />
 
@@ -74,11 +74,11 @@
                 android:key="prefs_key_open_app_selector"
                 android:title="@string/array_global_actions_launch_choose" />
 
-        </moralnorm.preference.RadioSetPreferenceCategory>
+        </RadioSetPreferenceCategory>
 
-        <!--<moralnorm.preference.RadioSetPreferenceCategory>
+        <!--<RadioSetPreferenceCategory>
 
-            <moralnorm.preference.RadioButtonPreference
+            <RadioButtonPreference
                 android:key="open_activity"
                 android:title="@string/array_global_actions_activity" />
 
@@ -86,11 +86,11 @@
                 android:title="@string/app_name"
                 android:dependency="open_activity"/>
 
-        </moralnorm.preference.RadioSetPreferenceCategory>
+        </RadioSetPreferenceCategory>
 
-        <moralnorm.preference.RadioSetPreferenceCategory>
+        <RadioSetPreferenceCategory>
 
-            <moralnorm.preference.RadioButtonPreference
+            <RadioButtonPreference
                 android:key="open_shortcut"
                 android:title="@string/array_global_actions_shortcut" />
 
@@ -98,48 +98,48 @@
                 android:title="@string/app_name"
                 android:dependency="open_shortcut"/>
 
-        </moralnorm.preference.RadioSetPreferenceCategory>
+        </RadioSetPreferenceCategory>
 
 
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:title="@string/array_global_actions_eqs"
             android:layout="@layout/preference_radiobutton_two_state"/>
 
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:title="@string/array_global_actions_menu"
             android:layout="@layout/preference_radiobutton_two_state"/>
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:title="@string/array_global_actions_recents"
             android:layout="@layout/preference_radiobutton_two_state"/>
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:title="@string/array_global_actions_volume"
             android:layout="@layout/preference_radiobutton_two_state"/>
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:title="@string/array_global_actions_volume_up"
             android:layout="@layout/preference_radiobutton_two_state"/>
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:title="@string/array_global_actions_volume_down"
             android:layout="@layout/preference_radiobutton_two_state"/>
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:title="@string/array_global_actions_toggle"
             android:layout="@layout/preference_radiobutton_two_state"/>
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:title="@string/array_global_actions_back"
             android:layout="@layout/preference_radiobutton_two_state"/>
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:title="@string/array_global_actions_back"
             android:layout="@layout/preference_radiobutton_two_state"/>-->
 
 
-    </moralnorm.preference.RadioButtonPreferenceCategory>
+    </RadioButtonPreferenceCategory>
 
 </PreferenceScreen>
