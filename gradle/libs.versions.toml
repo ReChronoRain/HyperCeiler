@@ -1,5 +1,5 @@
 [versions]
-agp = "8.7.0-alpha08"
+agp = "8.7.1"
 annotationProcessor = "4.4.0"
 hooktool = "0.9.9.8"
 kotlinAndroid = "2.0.21"
