@@ -35,7 +35,7 @@
             android:title="@string/home_recent_show_launch"
             android:defaultValue="false" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="95"
             android:dependency="prefs_key_home_recent_show_launch"
             android:key="prefs_key_home_recent_show_launch_size"
@@ -48,7 +48,7 @@
             app:displayDividerValue="100"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="100"
             android:dependency="prefs_key_home_recent_show_launch"
             android:key="prefs_key_home_recent_show_launch_alpha"

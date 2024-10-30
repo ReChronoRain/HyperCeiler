@@ -25,7 +25,7 @@
             android:key="prefs_key_home_large_icon_enable"
             android:title="@string/home_large_icon_corner_radius" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="32"
             android:dependency="prefs_key_home_large_icon_enable"
             android:key="prefs_key_home_large_icon_corner_radius"
@@ -118,7 +118,7 @@
             android:key="prefs_key_home_title_custom_anim_param"
             android:title="@string/home_title_custom_anim_param" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="100"
             android:key="prefs_key_home_title_animation_speed"
             android:title="@string/home_title_animation_speed"
@@ -128,7 +128,7 @@
             app:minValue="10"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="45"
             android:key="pref_key_home_title_icon_scale"
             android:title="@string/home_title_icon_scale"
@@ -150,7 +150,7 @@
             android:key="prefs_key_home_title_app_blur_enable"
             android:title="@string/home_title_app_blur_enable" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="100"
             android:dependency="prefs_key_home_title_app_blur_enable"
             android:key="prefs_key_home_title_app_blur_radius"
@@ -160,7 +160,7 @@
             app:maxValue="200"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="50"
             android:dependency="prefs_key_home_title_app_blur_enable"
             android:key="prefs_key_home_title_app_dim_alpha"
@@ -170,7 +170,7 @@
             app:maxValue="255"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="100"
             android:dependency="prefs_key_home_title_app_blur_enable"
             android:key="prefs_key_home_title_wallpaper_blur_radius"
@@ -180,7 +180,7 @@
             app:maxValue="200"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="50"
             android:dependency="prefs_key_home_title_app_blur_enable"
             android:key="prefs_key_home_title_wallpaper_dim_alpha"
@@ -190,7 +190,7 @@
             app:maxValue="255"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="100"
             android:key="prefs_key_home_title_minus_blur_radius"
             android:title="home_title_minus_blur_radius"
@@ -200,7 +200,7 @@
             app:showSeekBarValue="true"
             app:isPreferenceVisible="false"/>
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="50"
             android:key="prefs_key_home_title_minus_dim_alpha"
             android:title="home_title_minus_dim_alpha"
@@ -256,7 +256,7 @@
             android:key="prefs_key_home_title_title_color"
             android:title="@string/home_title_title_color" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="12"
             android:dependency="prefs_key_home_drawer_font_hidden"
             android:key="prefs_key_home_title_font_size"

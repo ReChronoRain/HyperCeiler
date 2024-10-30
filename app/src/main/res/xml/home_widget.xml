@@ -45,7 +45,7 @@
         android:title="@string/home_widget_allow_moved_to_minus_one_screen"
         android:defaultValue="false" />
 
-    <SeekBarPreferenceEx
+    <SeekBarPreferenceCompat
         android:key="prefs_key_home_widget_corner_radius"
         android:title="@string/home_widget_corner_radius"
         android:defaultValue="0"

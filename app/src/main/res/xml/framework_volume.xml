@@ -56,7 +56,7 @@
         android:summary="@string/system_framework_volume_media_steps_desc"
         android:title="@string/system_framework_volume_media_steps" />
 
-    <SeekBarPreferenceEx
+    <SeekBarPreferenceCompat
         android:defaultValue="15"
         android:dependency="prefs_key_system_framework_volume_media_steps_enable"
         android:key="prefs_key_system_framework_volume_media_steps"
@@ -68,7 +68,7 @@
         app:showSeekBarValue="true"
         app:stepValue="1" />
 
-    <SeekBarPreferenceEx
+    <SeekBarPreferenceCompat
         android:defaultValue="0"
         android:key="prefs_key_system_framework_volume_steps"
         android:title="@string/system_framework_volume_steps"

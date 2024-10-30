@@ -10,7 +10,7 @@
     <style name="Base.Theme.HyperCeiler" parent="Theme.AppCompat.DayNight">
         <item name="rebootIconColor">@color/black</item>
         <item name="preferenceTheme">@style/ThemeOverlay.Preference.Light</item>
-        <item name="seekBarPreferenceExStyle">@style/Preference.SeekBarPreferenceEx</item>
+        <item name="SeekBarPreferenceCompatStyle">@style/Preference.SeekBarPreferenceCompat</item>
     </style>
 
     <style name="Theme.HyperCeiler.Translucent" parent="Base.Theme.HyperCeiler">
@@ -28,7 +28,7 @@
         <item name="windowActionBarOverlay">false</item>
     </style>
 
-    <style name="Preference.SeekBarPreferenceEx" parent="@style/Preference" tools:ignore="PrivateResource">
+    <style name="Preference.SeekBarPreferenceCompat" parent="@style/Preference" tools:ignore="PrivateResource">
 
     </style>
 

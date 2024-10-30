@@ -74,7 +74,7 @@
             android:summary="@string/security_center_invert_color_summary"
             android:title="@string/security_center_invert_color" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="60"
             android:dependency="prefs_key_security_center_blur_model_super"
             android:key="prefs_key_security_center_blurradius"

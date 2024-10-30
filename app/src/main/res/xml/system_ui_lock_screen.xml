@@ -124,7 +124,7 @@
             android:key="prefs_key_system_ui_lock_screen_show_spacing_value"
             android:title="@string/system_ui_lock_screen_show_spacing" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="6"
             android:dependency="prefs_key_system_ui_lock_screen_show_spacing_value"
             android:key="prefs_key_system_ui_lock_screen_show_spacing"

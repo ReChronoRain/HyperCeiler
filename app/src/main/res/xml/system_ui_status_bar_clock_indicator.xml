@@ -35,7 +35,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_layout_title">
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_left_margin"
             android:title="@string/left_margin"
@@ -45,7 +45,7 @@
             app:minValue="0"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_right_margin"
             android:title="@string/right_margin"
@@ -55,7 +55,7 @@
             app:minValue="0"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_statusbar_clock_vertical_offset"
             android:title="@string/vertical_offset"
             android:defaultValue="12"
@@ -67,7 +67,7 @@
             app:negativeShift="12"
             app:displayDividerValue="2" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="30"
             android:key="prefs_key_system_ui_statusbar_clock_fixedcontent_width"
             android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
@@ -138,7 +138,7 @@
             app:entries="@array/system_ui_status_bar_clock_double_mode"
             app:entryValues="@array/system_ui_status_bar_clock_double_mode_value" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_statusbar_clock_size"
             android:dependency="prefs_key_system_ui_statusbar_clock_double"
             android:title="@string/system_ui_statusbar_clock_size"
@@ -149,7 +149,7 @@
             app:format="%d dp"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_statusbar_clock_double_size"
             android:title="@string/system_ui_statusbar_clock_double_size"
             android:defaultValue="0"
@@ -159,7 +159,7 @@
             app:format="%d dp"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="16"
             android:key="prefs_key_system_ui_statusbar_clock_double_spacing_margin"
             android:summary="@string/system_ui_statusbar_clock_double_spacing_desc"
@@ -196,7 +196,7 @@
             app:entries="@array/system_ui_status_bar_clock_double_mode"
             app:entryValues="@array/system_ui_status_bar_clock_double_mode_value" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_statusbar_clock_size_geek"
             android:title="@string/system_ui_statusbar_clock_size"
             android:defaultValue="0"
@@ -206,7 +206,7 @@
             app:format="%d dp"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="16"
             android:key="prefs_key_system_ui_statusbar_clock_size_geek_spacing_margin"
             android:summary="@string/system_ui_statusbar_clock_double_spacing_desc"

@@ -25,7 +25,7 @@
         app:entries="@array/dialog_gravity"
         app:entryValues="@array/dialog_gravity_value" />
 
-    <SeekBarPreferenceEx
+    <SeekBarPreferenceCompat
         android:key="prefs_key_various_dialog_margin_horizontal"
         android:title="@string/various_dialog_margin_horizontal"
         android:summary="@string/various_dialog_margin_horizontal_desc"
@@ -35,7 +35,7 @@
         app:format="%d dp"
         app:showSeekBarValue="true" />
 
-    <SeekBarPreferenceEx
+    <SeekBarPreferenceCompat
         android:key="prefs_key_various_dialog_margin_bottom"
         android:title="@string/various_dialog_margin_bottom"
         android:summary="@string/various_dialog_margin_bottom_desc"
@@ -50,7 +50,7 @@
             android:key="prefs_key_various_dialog_window_blur"
             android:title="@string/various_dialog_window_blur" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_various_dialog_window_blur_radius"
             android:dependency="prefs_key_various_dialog_window_blur"
             android:title="@string/various_dialog_window_blur_radius"

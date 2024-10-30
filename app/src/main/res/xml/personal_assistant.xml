@@ -44,7 +44,7 @@
             app:entries="@array/blur_switch_per"
             app:entryValues="@array/blur_switch_value" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:title="@string/personal_assistant_blurradius"
             android:key="prefs_key_personal_assistant_blurradius"
             android:defaultValue="80"

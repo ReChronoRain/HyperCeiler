@@ -40,7 +40,7 @@
             app:entries="@array/system_ui_status_bar_network_icon_style"
             app:entryValues="@array/system_ui_status_bar_network_icon_style_value" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="10"
             android:key="prefs_key_system_ui_statusbar_mobile_network_icon_size"
             android:title="@string/system_ui_statusbar_iconmanage_mobile_network_icon_size"
@@ -51,7 +51,7 @@
             app:minValue="6"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="8"
             android:key="prefs_key_system_ui_statusbar_mobile_network_icon_left_margin"
             android:title="@string/left_margin"
@@ -63,7 +63,7 @@
             app:negativeShift="8"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="8"
             android:key="prefs_key_system_ui_statusbar_mobile_network_icon_right_margin"
             android:title="@string/right_margin"
@@ -75,7 +75,7 @@
             app:negativeShift="8"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="8"
             android:key="prefs_key_system_ui_statusbar_mobile_network_icon_vertical_offset"
             android:title="@string/vertical_offset"

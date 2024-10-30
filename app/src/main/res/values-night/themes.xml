@@ -9,6 +9,6 @@
         <item name="android:forceDarkAllowed">false</item>
         <item name="rebootIconColor">@color/white</item>
         <item name="preferenceTheme">@style/ThemeOverlay.Preference.Dark</item>
-        <item name="seekBarPreferenceExStyle">@style/Preference.SeekBarPreferenceEx</item>
+        <item name="SeekBarPreferenceCompatStyle">@style/Preference.SeekBarPreferenceCompat</item>
     </style>
 </resources>

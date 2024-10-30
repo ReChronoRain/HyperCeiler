@@ -52,8 +52,8 @@
         app:showSeekBarValue="true"
         android:format="%d" />
 
-    <SeekBarPreferenceEx
-        android:title="SeekBarPreferenceEx"
+    <SeekBarPreferenceCompat
+        android:title="SeekBarPreferenceCompat"
         android:defaultValue="50"
         app:format="%s"
         app:defaultValueText="@string/array_default"

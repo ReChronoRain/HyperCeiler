@@ -168,7 +168,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
                 try {
                     Settings.Secure.putInt(requireActivity().getContentResolver(), "sysui_qqs_count", progress);
                 } catch (Throwable t) {
-                    AndroidLogUtils.logD("SeekBarPreferenceEx", "onProgressChanged -> system_control_center_old_qs_grid_columns", t);
+                    AndroidLogUtils.logD("SeekBarPreferenceCompat", "onProgressChanged -> system_control_center_old_qs_grid_columns", t);
                 }
             }
 

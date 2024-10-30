@@ -81,7 +81,7 @@
             android:key="prefs_key_home_dock_bg_custom"
             android:title="@string/home_dock_bg_custom" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="150"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:key="prefs_key_home_dock_bg_height"
@@ -93,7 +93,7 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="25"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:key="prefs_key_home_dock_bg_margin_horizontal"
@@ -105,7 +105,7 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <!--SeekBarPreferenceEx
+        <!--SeekBarPreferenceCompat
             android:key="prefs_key_home_dock_bg_margin_top"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:title="@string/top_margin"
@@ -117,7 +117,7 @@
             app:format="%d dp"
             app:showSeekBarValue="true" /-->
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="15"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:key="prefs_key_home_dock_bg_margin_bottom"
@@ -129,7 +129,7 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="30"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:key="prefs_key_home_dock_bg_radius"
@@ -140,7 +140,7 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <!--<SeekBarPreferenceEx
+        <!--<SeekBarPreferenceCompat
             android:defaultValue="200"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:key="prefs_key_custom_background_blur_degree"
@@ -157,7 +157,7 @@
             android:key="prefs_key_home_dock_bg_color"
             android:title="@string/home_dock_bg_color" />
 
-        <!--<SeekBarPreferenceEx
+        <!--<SeekBarPreferenceCompat
             android:key="prefs_key_home_dock_icon_margin_bottom"
             android:title="@string/home_dock_icon_margin_bottom"
             android:summary="@string/home_dock_icon_margin_bottom_desc"
@@ -167,7 +167,7 @@
             app:stepValue="1"
             android:dependency="prefs_key_home_dock_bg_custom_enable" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_home_dock_icon_bottom_margin"
             android:title="@string/home_dock_icon_bottom_margin"
             android:defaultValue="35"
@@ -175,7 +175,7 @@
             app:stepValue="1"
             android:dependency="prefs_key_home_dock_bg_custom_enable" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:key="prefs_key_home_dock_margin_bottom"
             android:title="@string/home_dock_margin_bottom"
             android:defaultValue="60"

@@ -76,7 +76,7 @@
             android:key="prefs_key_system_showpct_title"
             android:title="@string/system_showpct_title" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="54"
             android:key="prefs_key_system_ui_others_showpct_top"
             android:summary="@string/system_ui_others_showpct_top_desc"

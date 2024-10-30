@@ -26,7 +26,7 @@
             android:title="@string/bypass_udk_word_legal_check_caption"
             android:summary="@string/bypass_udk_word_legal_check_description"/>
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="70"
             android:dependency="prefs_key_bypass_voicetrigger_udk_legalcheck"
             android:key="prefs_key_voicetrigger_accuracy_percent"

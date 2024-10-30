@@ -28,7 +28,7 @@
             android:title="@string/system_ui_navigation_custom" />
 
         <!--navigation_bar_height-->
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:dependency="prefs_key_system_ui_navigation_custom"
             android:key="prefs_key_system_ui_navigation_custom_height"
             android:title="@string/system_ui_navigation_custom_height"
@@ -40,7 +40,7 @@
             app:stepValue="1" />
 
         <!--navigation_bar_height_landscape-->
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:dependency="prefs_key_system_ui_navigation_custom"
             android:key="prefs_key_system_ui_navigation_custom_height_land"
             android:title="@string/system_ui_navigation_custom_height_land"
@@ -52,7 +52,7 @@
             app:stepValue="1" />
 
         <!--navigation_bar_frame_height-->
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:dependency="prefs_key_system_ui_navigation_custom"
             android:key="prefs_key_system_ui_navigation_frame_custom_height"
             android:title="@string/system_ui_navigation_frame_custom_height"
@@ -64,7 +64,7 @@
             app:stepValue="1" />
 
         <!--navigation_bar_frame_height_landscape-->
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:dependency="prefs_key_system_ui_navigation_custom"
             android:key="prefs_key_system_ui_navigation_frame_custom_height_land"
             android:title="@string/system_ui_navigation_frame_custom_height_land"
@@ -92,7 +92,7 @@
             android:title="@string/system_ui_navigation_handle_custom" />
 
         <!--navigation_handle_radius-->
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="185"
             android:dependency="prefs_key_system_ui_navigation_handle_custom"
             android:key="prefs_key_system_ui_navigation_handle_custom_thickness"
@@ -106,7 +106,7 @@
             app:stepValue="5" />
 
         <!--navigation_handle_bottom-->
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="600"
             android:dependency="prefs_key_system_ui_navigation_handle_custom"
             android:enabled="false"
@@ -121,7 +121,7 @@
             app:stepValue="5" />
 
         <!--navigation_home_handle_width-->
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="145"
             android:dependency="prefs_key_system_ui_navigation_handle_custom"
             android:enabled="false"
@@ -133,7 +133,7 @@
             app:showSeekBarValue="true" />
 
         <!--navigation_home_handle_width land-->
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="254"
             android:dependency="prefs_key_system_ui_navigation_handle_custom"
             android:enabled="false"
