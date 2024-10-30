@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -54,12 +54,10 @@ import java.lang.reflect.Field;
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
 import fan.core.widget.NestedScrollView;
-import fan.internal.utils.LayoutUiModeHelper;
 import fan.preference.PreferenceFragment;
 import fan.springback.view.SpringBackLayout;
 
-public class AboutFragment extends SettingsPreferenceFragment
-        implements View.OnScrollChangeListener {
+public class AboutFragment extends SettingsPreferenceFragment implements View.OnScrollChangeListener {
 
     private int lIIlIll = 100 >>> 7;
     private final int lIIlIlI = 100 >>> 6;
@@ -83,7 +81,7 @@ public class AboutFragment extends SettingsPreferenceFragment
     private View mBgEffectView;
     private BgEffectPainter mBgEffectPainter;
     private float startTime = (float) System.nanoTime();
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
     private FrameLayout contentView;
     Runnable runnableBgEffect = new Runnable() {
         @Override
@@ -96,6 +94,7 @@ public class AboutFragment extends SettingsPreferenceFragment
         }
     };
 
+    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (container != null) {

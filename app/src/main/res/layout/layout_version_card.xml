@@ -3,31 +3,72 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/logo_area_height">
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/logo_view"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/logo_margin_top">
+        android:layout_centerHorizontal="true">
 
-        <ImageView
-            android:id="@+id/app_icon_logo_view"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:alpha="0.0"
-            android:scaleType="fitXY"
-            android:layout_gravity="center"/>
+        <LinearLayout
+            android:id="@+id/logo_view_linear_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/logo_margin_top"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/app_text_logo_view"
-            android:layout_width="@dimen/logo_width"
-            android:layout_height="@dimen/logo_height"
-            android:alpha="0.0"
-            android:scaleType="fitXY"
-            android:layout_marginTop="20dp"/>
+            <ImageView
+                android:id="@+id/app_icon_logo_view"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center"
+                android:alpha="0.0"
+                android:importantForAccessibility="no"
+                android:scaleType="fitXY" />
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/app_text_logo_view"
+                android:layout_width="@dimen/logo_width"
+                android:layout_height="@dimen/logo_height"
+                android:layout_marginTop="20dp"
+                android:alpha="0.0"
+                android:importantForAccessibility="no"
+                android:scaleType="fitXY" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/logo_view_linear_layout_shade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/logo_margin_top"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/app_text_logo_view_shade"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center"
+                android:alpha="0.0"
+                android:background="@drawable/ic_hyperceiler_logo"
+                android:backgroundTint="@color/logo_overlay_shade_color"
+                android:importantForAccessibility="no"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/app_icon_logo_view_shade"
+                android:layout_width="@dimen/logo_width"
+                android:layout_height="@dimen/logo_height"
+                android:layout_marginTop="20dp"
+                android:alpha="0.0"
+                android:background="@drawable/ic_text_logo"
+                android:backgroundTint="@color/logo_overlay_shade_color"
+                android:importantForAccessibility="no"
+                android:scaleType="fitXY" />
+
+        </LinearLayout>
+
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/version_layout"
@@ -49,11 +90,13 @@
             android:includeFontPadding="false"
             android:scrollbars="none"
             android:textAlignment="viewStart"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
+
     </LinearLayout>
 
     <fan.cardview.HyperCardView
         android:id="@+id/update_hint_text"
+        style="@style/UpdateCardView.Border"
         android:layout_width="248dp"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
@@ -61,8 +104,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="@dimen/update_btn_margin_bottom"
-        android:alpha="0.0"
-        style="@style/UpdateCardView.Border">
+        android:alpha="0.0">
 
         <TextView
             android:layout_width="wrap_content"
@@ -71,7 +113,9 @@
             android:fontFamily="@string/miuix_font_style_misans_demibold_font_family"
             android:scrollbars="none"
             android:text="@string/version_update"
-            android:textSize="17dp"
+            android:textSize="17sp"
             android:textStyle="bold" />
+
     </fan.cardview.HyperCardView>
+
 </RelativeLayout>

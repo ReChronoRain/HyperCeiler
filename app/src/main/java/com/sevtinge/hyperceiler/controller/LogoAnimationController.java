@@ -26,7 +26,8 @@ public class LogoAnimationController {
     public void iniData(Context context, boolean needUpdate) {
         mContext = context;
         actionBarPadding = context.getResources().getDimensionPixelSize(R.dimen.logo_area_height);
-        btnPadding = context.getResources().getDimensionPixelSize(R.dimen.update_btn_margin_bottom);startY = context.getResources().getDimensionPixelSize(R.dimen.screen_effect_actionbar_height);
+        btnPadding = context.getResources().getDimensionPixelSize(R.dimen.update_btn_margin_bottom);
+        startY = context.getResources().getDimensionPixelSize(R.dimen.screen_effect_actionbar_height);
         logoHeight = context.getResources().getDimensionPixelSize(R.dimen.logo_height);
         isNeedUpdate = needUpdate;
         if (needUpdate) {
@@ -42,7 +43,7 @@ public class LogoAnimationController {
         view.setAlpha(0.0f);
     }
 
-    public void startAnimation(int scrollY, View iconLogoView,View textIogoView,  HyperCardView updateTextView, View versionLayout, View bgEffectView) {
+    public void startAnimation(int scrollY, View iconLogoView, View textLogoView, View iconLogoViewShade, View textLogoViewShade, HyperCardView updateTextView, View versionLayout, View bgEffectView) {
         float scroll = Math.min(1.0f, Math.max(0.0f, Math.abs(scrollY) * 1.0f / actionBarPadding));
         float scale = 1.0f - scroll * 0.1f;
         if (scrollY == 0) {
@@ -50,9 +51,17 @@ public class LogoAnimationController {
             iconLogoView.setScaleX(1.0f);
             iconLogoView.setScaleY(1.0f);
 
-            textIogoView.setAlpha(1.0f);
-            textIogoView.setScaleX(1.0f);
-            textIogoView.setScaleY(1.0f);
+            textLogoView.setAlpha(1.0f);
+            textLogoView.setScaleX(1.0f);
+            textLogoView.setScaleY(1.0f);
+
+            iconLogoViewShade.setAlpha(1.0f);
+            iconLogoViewShade.setScaleX(1.0f);
+            iconLogoViewShade.setScaleY(1.0f);
+
+            textLogoViewShade.setAlpha(1.0f);
+            textLogoViewShade.setScaleX(1.0f);
+            textLogoViewShade.setScaleY(1.0f);
 
             versionLayout.setAlpha(1.0f);
             versionLayout.setScaleX(1.0f);
@@ -73,22 +82,34 @@ public class LogoAnimationController {
                 iconLogoView.setAlpha(1.0f - scroll2);
                 iconLogoView.setScaleX(scale2);
                 iconLogoView.setScaleY(scale2);
-                iconLogoView.setPivotX((float)(iconLogoView.getMeasuredWidth() / 2));
-                iconLogoView.setPivotY((float)(iconLogoView.getMeasuredHeight() / 2));
+                iconLogoView.setPivotX((float) (iconLogoView.getMeasuredWidth() / 2));
+                iconLogoView.setPivotY((float) (iconLogoView.getMeasuredHeight() / 2));
 
-                textIogoView.setAlpha(1.0f - scroll2);
-                textIogoView.setScaleX(scale2);
-                textIogoView.setScaleY(scale2);
-                textIogoView.setPivotX((float)(textIogoView.getMeasuredWidth() / 2));
-                textIogoView.setPivotY((float)(textIogoView.getMeasuredHeight() / 2));
+                textLogoView.setAlpha(1.0f - scroll2);
+                textLogoView.setScaleX(scale2);
+                textLogoView.setScaleY(scale2);
+                textLogoView.setPivotX((float) (textLogoView.getMeasuredWidth() / 2));
+                textLogoView.setPivotY((float) (textLogoView.getMeasuredHeight() / 2));
+
+                iconLogoViewShade.setAlpha(1.0f - scroll2);
+                iconLogoViewShade.setScaleX(scale2);
+                iconLogoViewShade.setScaleY(scale2);
+                iconLogoViewShade.setPivotX((float) (iconLogoViewShade.getMeasuredWidth() / 2));
+                iconLogoViewShade.setPivotY((float) (iconLogoViewShade.getMeasuredHeight() / 2));
+
+                textLogoViewShade.setAlpha(1.0f - scroll2);
+                textLogoViewShade.setScaleX(scale2);
+                textLogoViewShade.setScaleY(scale2);
+                textLogoViewShade.setPivotX((float) (textLogoViewShade.getMeasuredWidth() / 2));
+                textLogoViewShade.setPivotY((float) (textLogoViewShade.getMeasuredHeight() / 2));
             } else {
-                iconLogoView.setAlpha(1.0f);
-                iconLogoView.setScaleX(1.0f);
-                iconLogoView.setScaleY(1.0f);
+                iconLogoViewShade.setAlpha(1.0f);
+                iconLogoViewShade.setScaleX(1.0f);
+                iconLogoViewShade.setScaleY(1.0f);
 
-                textIogoView.setAlpha(1.0f);
-                textIogoView.setScaleX(1.0f);
-                textIogoView.setScaleY(1.0f);
+                textLogoViewShade.setAlpha(1.0f);
+                textLogoViewShade.setScaleX(1.0f);
+                textLogoViewShade.setScaleY(1.0f);
             }
             versionLayout.setAlpha(1.0f - actionBarPadding * 1.0f / logoPadding * scroll);
             versionLayout.setScaleX(scale);
