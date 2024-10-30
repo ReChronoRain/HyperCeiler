@@ -25,7 +25,7 @@
             android:key="prefs_key_system_ui_statusbar_clock_bold"
             android:title="@string/system_ui_statusbar_indicator_bold" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_mode"
             android:title="@string/system_ui_statusbar_clock_mode"
@@ -131,7 +131,7 @@
             android:key="prefs_key_system_ui_statusbar_clock_double"
             android:title="@string/system_ui_statusbar_clock_double" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_double_mode"
             android:title="@string/system_ui_statusbar_clock_double_mode_title"
@@ -189,7 +189,7 @@
                 android:data="https://zhuti.designer.xiaomi.com/docs/grammar/#时间日期" />
         </Preference>
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_double_mode_geek"
             android:title="@string/system_ui_statusbar_clock_double_mode_title"

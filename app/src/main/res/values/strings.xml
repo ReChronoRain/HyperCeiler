@@ -19,6 +19,11 @@
   -->
 <resources>
     <string name="app_name" translatable="false">HyperCeiler</string>
+
+    <string name="navigation_home_title" translatable="false">@string/home</string>
+    <string name="navigation_settings_title" translatable="false">@string/settings</string>
+    <string name="navigation_about_title" translatable="false">@string/about</string>
+
     <string name="empty_lable" translatable="false" />
     <string name="system_ui_status_bar_icon_nfc" translatable="false">NFC</string>
     <string name="system_ui_status_bar_icon_vpn" translatable="false">VPN</string>

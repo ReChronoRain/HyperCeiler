@@ -32,6 +32,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceViewHolder;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.SubSettings;
@@ -40,9 +42,7 @@ import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import moralnorm.animation.Folme;
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceViewHolder;
+import fan.animation.Folme;
 
 public class RecommendPreference extends Preference {
 

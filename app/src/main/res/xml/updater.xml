@@ -36,7 +36,7 @@
         android:key="prefs_key_updater_enable_miui_version"
         android:defaultValue="false" />
 
-    <DropDownPreference
+    <fan.preference.DropDownPreference
         android:key="prefs_key_updater_version_mode"
         android:title="@string/updater_version_mode"
         android:defaultValue="1"

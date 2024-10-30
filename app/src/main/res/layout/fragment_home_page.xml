@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fan.nestedheader.widget.NestedHeaderLayout
+        android:id="@+id/nested_header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:descendantFocusability="blocksDescendants"
+        app:headerClose="true"
+        app:headerView="@id/search_bar"
+        app:rangeOffset="1px"
+        app:scrollableView="@id/springview">
+
+        <include
+            android:id="@+id/search_bar"
+            layout="@layout/miuix_appcompat_search_stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <fan.springback.view.SpringBackLayout
+            android:id="@+id/springview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:scrollableView="@id/scrollview">
+
+            <fan.core.widget.NestedScrollView
+                android:id="@+id/scrollview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false">
+
+                <LinearLayout
+                    android:id="@+id/scroll_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include
+                        layout="@layout/miuix_appcompat_search_stub"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <FrameLayout
+                        android:id="@id/prefs_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_weight="1.0"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:smoothScrollbar="false" />
+                </LinearLayout>
+
+            </fan.core.widget.NestedScrollView>
+        </fan.springback.view.SpringBackLayout>
+
+    </fan.nestedheader.widget.NestedHeaderLayout>
+
+</FrameLayout>

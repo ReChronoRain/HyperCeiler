@@ -55,7 +55,7 @@ import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import moralnorm.preference.Preference;
+import androidx.preference.Preference;
 
 public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
 

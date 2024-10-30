@@ -21,10 +21,10 @@ package com.sevtinge.hyperceiler.ui.fragment.base.helper;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isFullSupport;
 
+import androidx.preference.Preference;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-
-import moralnorm.preference.Preference;
 
 public class SupportVersionFragment extends SettingsPreferenceFragment {
 

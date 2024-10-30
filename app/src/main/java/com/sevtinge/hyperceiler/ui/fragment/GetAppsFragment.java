@@ -25,8 +25,8 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.EditTextPreference;
+import fan.preference.DropDownPreference;
+import androidx.preference.EditTextPreference;
 
 public class GetAppsFragment extends SettingsPreferenceFragment {
 

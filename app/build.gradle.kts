@@ -28,11 +28,20 @@ val buildTypes = "release"
 val roots = mapOf(
     "animation" to "libs/animation-${buildTypes}.aar",
     "appcompat" to "libs/appcompat-${buildTypes}.aar",
+    "cardview" to "libs/cardview-${buildTypes}.aar",
     "core" to "libs/core-${buildTypes}.aar",
+    "flexible" to "libs/flexible-${buildTypes}.aar",
+    "folme" to "libs/folme-${buildTypes}.aar",
+    "graphics" to "libs/graphics-${buildTypes}.aar",
     "haptic" to "libs/haptic-${buildTypes}.aar",
+    "navigator" to "libs/navigator-${buildTypes}.aar",
+    "nestedheader" to "libs/nestedheader-${buildTypes}.aar",
     "preference" to "libs/preference-${buildTypes}.aar",
+    "recyclerview" to "libs/recyclerview-${buildTypes}.aar",
     "smooth" to "libs/smooth-${buildTypes}.aar",
     "springback" to "libs/springback-${buildTypes}.aar",
+    "theme" to "libs/theme-${buildTypes}.aar",
+    "viewpager" to "libs/viewpager-${buildTypes}.aar",
     "external" to "libs/external-${buildTypes}.aar"
 )
 
@@ -247,15 +256,26 @@ dependencies {
     implementation(libs.vectordrawable.animated)
     implementation(libs.customview)
     implementation(libs.customview.poolingcontainer)
-    implementation(libs.constraintlayout)
+    implementation(libs.constraintlayout) {
+        exclude("androidx.appcompat", "appcompat")
+    }
 
     implementation(files(roots["animation"]))
     implementation(files(roots["appcompat"]))
+    implementation(files(roots["cardview"]))
     implementation(files(roots["core"]))
+    implementation(files(roots["flexible"]))
+    implementation(files(roots["folme"]))
+    implementation(files(roots["graphics"]))
     implementation(files(roots["haptic"]))
+    implementation(files(roots["navigator"]))
+    implementation(files(roots["nestedheader"]))
     implementation(files(roots["preference"]))
+    implementation(files(roots["recyclerview"]))
     implementation(files(roots["smooth"]))
     implementation(files(roots["springback"]))
+    implementation(files(roots["theme"]))
+    implementation(files(roots["viewpager"]))
     implementation(files(roots["external"]))
 
     implementation(project(":app:processor"))

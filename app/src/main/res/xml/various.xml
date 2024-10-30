@@ -43,7 +43,7 @@
             android:title="@string/various_mipad_title"
             app:isPreferenceVisible="true" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_various_super_clipboard_e"
             android:summary="@string/various_super_clipboard_summary"
@@ -56,7 +56,7 @@
     <PreferenceCategory
         android:key="prefs_key_various_super_clipboard_key"
         android:title="@string/various_super_clipboard_title">
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_various_super_clipboard_gallery_int"
             android:summary="@string/various_super_clipboard_picture_desc"
@@ -64,7 +64,7 @@
             app:entries="@array/super_clipboard_switch"
             app:entryValues="@array/super_clipboard_switch_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_various_super_clipboard_screenshot_int"
             android:summary="@string/various_super_clipboard_picture_desc"
@@ -72,7 +72,7 @@
             app:entries="@array/super_clipboard_switch"
             app:entryValues="@array/super_clipboard_switch_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_various_super_clipboard_fileexplorer_int"
             android:summary="@string/various_super_clipboard_files_desc"
@@ -80,7 +80,7 @@
             app:entries="@array/super_clipboard_switch"
             app:entryValues="@array/super_clipboard_switch_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_various_super_clipboard_browser_int"
             android:summary="@string/various_super_clipboard_files_desc"
@@ -88,7 +88,7 @@
             app:entries="@array/super_clipboard_switch"
             app:entryValues="@array/super_clipboard_switch_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_various_super_clipboard_notes_int"
             android:summary="@string/various_super_clipboard_picture_share_desc"
@@ -96,7 +96,7 @@
             app:entries="@array/super_clipboard_switch"
             app:entryValues="@array/super_clipboard_switch_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_various_super_clipboard_creation_int"
             android:summary="@string/various_super_clipboard_picture_share_desc"
@@ -104,7 +104,7 @@
             app:entries="@array/super_clipboard_switch"
             app:entryValues="@array/super_clipboard_switch_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_various_super_clipboard_mms_int"
             android:title="@string/mms"
@@ -146,7 +146,7 @@
             android:key="prefs_key_various_disable_folder_cantuse"
             android:title="@string/various_disable_folder_cantuse" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_various_collapse_miui_title"
             android:summary="@string/various_collapse_miui_title_desc"

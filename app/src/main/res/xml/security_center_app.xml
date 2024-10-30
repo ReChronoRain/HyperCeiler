@@ -20,7 +20,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/security_center_app_title">
     <PreferenceCategory>
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_security_center_app_default_sort"
             android:summary="@string/security_app_sort_summary"

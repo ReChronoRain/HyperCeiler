@@ -145,20 +145,18 @@
             app:showSeekBarValue="true" />
 
         <!--navigation_bar_home_handle_dark_color-->
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:defaultValue="-1"
             android:dependency="prefs_key_system_ui_navigation_handle_custom"
             android:key="prefs_key_system_ui_navigation_handle_custom_color_dark"
-            android:title="@string/system_ui_navigation_handle_custom_color_dark"
-            app:showAlphaSlider="true" />
+            android:title="@string/system_ui_navigation_handle_custom_color_dark" />
 
         <!--navigation_bar_home_handle_light_color-->
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:defaultValue="-872415232"
             android:dependency="prefs_key_system_ui_navigation_handle_custom"
             android:key="prefs_key_system_ui_navigation_handle_custom_color"
-            android:title="@string/system_ui_navigation_handle_custom_color"
-            app:showAlphaSlider="true" />
+            android:title="@string/system_ui_navigation_handle_custom_color" />
 
         <!--navigation_handle_horizontal_margin 30-->
 

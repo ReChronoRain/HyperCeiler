@@ -49,7 +49,7 @@ import java.util.concurrent.Executors;
 
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import moralnorm.internal.utils.ReflectUtils;
+import fan.core.utils.ReflectUtils;
 
 public class Helpers {
 
@@ -180,7 +180,7 @@ public class Helpers {
 
     public static ActivityOptions makeFreeformActivityOptions(Context context, String str) {
 
-        ActivityOptions activityOptions;
+        /*ActivityOptions activityOptions;
         try {
             activityOptions = ReflectUtils.callStaticObjectMethod(Class.forName("android.util.MiuiMultiWindowUtils"), ActivityOptions.class, "getActivityOptions", new Class[]{Context.class, String.class, Boolean.TYPE, Boolean.TYPE}, context, str, true, false);
         } catch (Exception e) {
@@ -197,7 +197,8 @@ public class Helpers {
         ReflectUtils.callObjectMethod("android.app.ActivityOptions", "setLaunchWindowingMode", new Class[]{int.class}, 5);
         Rect rect = (Rect) ReflectUtils.callObjectMethod("android.util.MiuiMultiWindowUtils", "getFreeformRect", new Class[]{Context.class}, new Object[]{context});
         makeBasic.setLaunchBounds(rect);
-        return makeBasic;
+        return makeBasic;*/
+        return null;
     }
 
     public static void openAppInfo(Context context, String pkg, int user) {

@@ -67,7 +67,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory>
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="6"
             android:key="prefs_key_home_recent_blur_level"
             android:title="@string/home_recent_blur_level"

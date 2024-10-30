@@ -24,7 +24,7 @@ import android.graphics.*
 import com.github.kyuubiran.ezxhelper.*
 import com.sevtinge.hyperceiler.utils.PropUtils.*
 import com.sevtinge.hyperceiler.utils.shell.ShellUtils.*
-import moralnorm.internal.utils.*
+import fan.os.*
 import java.security.*
 import java.util.*
 
@@ -58,7 +58,7 @@ fun getCornerRadiusTop(): Int {
 }
 
 fun isTablet(): Boolean = Resources.getSystem().configuration.smallestScreenWidthDp >= 600
-fun isPadDevice(): Boolean = isTablet() || DeviceHelper.isFoldDevice()
+fun isPadDevice(): Boolean = isTablet() || DeviceHelper.isFoldable()
 fun isDarkMode(): Boolean =
     EzXHelper.appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 fun colorFilter(colorInt: Int) = BlendModeColorFilter(colorInt, BlendMode.SRC_IN)

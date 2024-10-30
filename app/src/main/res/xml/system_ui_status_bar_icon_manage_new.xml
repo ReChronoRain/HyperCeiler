@@ -20,63 +20,63 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/system_ui_statusbar_iconmanage_title">
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_internet_title">
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_wifi_network_indicator"
             android:title="@string/system_ui_status_bar_icon_wifi_network_indicator"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_wifi"
             android:title="@string/system_ui_status_bar_icon_wifi"
             app:entries="@array/status_bar_icon_mode_new"
             app:entryValues="@array/status_bar_icon_mode_new_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_wifi_standard"
             android:title="@string/system_ui_status_bar_icon_wifi_standard"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_hotspot"
             android:title="@string/system_ui_status_bar_icon_hotspot"
             app:entries="@array/status_bar_icon_mode_new"
             app:entryValues="@array/status_bar_icon_mode_new_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_new_hd"
             android:title="@string/system_ui_status_bar_icon_new_hd"
             app:entries="@array/status_bar_icon_mode_new"
             app:entryValues="@array/status_bar_icon_mode_new_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_small_hd"
             android:title="@string/system_ui_status_bar_icon_small_hd"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_big_hd"
             android:title="@string/system_ui_status_bar_icon_big_hd"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_mobile_network_signal_no_card"
             android:title="@string/system_ui_status_bar_icon_mobile_network_signal_no_card"
             app:entries="@array/status_bar_icon_mode_new"
             app:entryValues="@array/status_bar_icon_mode_new_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_airplane"
             android:title="@string/system_ui_status_bar_icon_airplane"
@@ -122,14 +122,14 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_bluetooth_title">
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_bluetooth"
             android:title="@string/system_ui_status_bar_icon_bluetooth"
             app:entries="@array/status_bar_icon_mode_new"
             app:entryValues="@array/status_bar_icon_mode_new_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_bluetooth_battery"
             android:title="@string/system_ui_status_bar_icon_bluetooth_battery"
@@ -140,14 +140,14 @@
 
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_privacy_title">
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_location"
             android:title="@string/system_ui_status_bar_icon_location"
             app:entries="@array/status_bar_icon_mode_new"
             app:entryValues="@array/status_bar_icon_mode_new_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_mic"
             android:title="@string/system_ui_status_bar_icon_mic"
@@ -158,7 +158,7 @@
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_status_title">
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_alarm_clock"
             android:title="@string/system_ui_status_bar_icon_alarm_clock"
@@ -175,7 +175,7 @@
             app:stepValue="1"
             app:format="@string/system_ui_status_bar_icon_alarm_clock_n_format" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_nfc"
             android:title="@string/system_ui_status_bar_icon_nfc"

@@ -27,12 +27,12 @@ import android.view.MenuItem;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 
-import moralnorm.appcompat.app.AppCompatActivity;
-import moralnorm.preference.Preference;
+import fan.appcompat.app.AppCompatActivity;
 
 public class SettingsProxy extends BaseSettingsProxy {
 

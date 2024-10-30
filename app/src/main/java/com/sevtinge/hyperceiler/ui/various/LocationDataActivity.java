@@ -47,8 +47,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import moralnorm.appcompat.app.AlertDialog;
-import moralnorm.appcompat.app.AppCompatActivity;
+import fan.appcompat.app.AlertDialog;
+import fan.appcompat.app.AppCompatActivity;
 
 public class LocationDataActivity extends AppCompatActivity implements View.OnClickListener {
 

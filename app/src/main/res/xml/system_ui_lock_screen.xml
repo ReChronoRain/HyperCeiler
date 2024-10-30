@@ -73,14 +73,13 @@
             android:key="prefs_key_system_ui_lock_screen_hyper_blur_button"
             android:title="@string/use_hyper_blur" />
 
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:dependency="prefs_key_system_ui_lock_screen_hyper_blur_button"
             android:title="@string/system_ui_lock_screen_blur_button_bg_color"
             android:key="prefs_key_system_ui_lock_screen_blur_button_bg_color"
-            android:defaultValue="-1"
-            app:showAlphaSlider="true" />
+            android:defaultValue="-1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:defaultValue="40"
             android:dependency="prefs_key_system_ui_lock_screen_blur_button"
             android:key="prefs_key_system_ui_lock_screen_blur_button_radius"

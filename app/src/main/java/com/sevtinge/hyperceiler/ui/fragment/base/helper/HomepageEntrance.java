@@ -28,6 +28,8 @@ import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
+import androidx.preference.Preference;
+import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
@@ -40,9 +42,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-
-import moralnorm.preference.Preference;
-import moralnorm.preference.SwitchPreference;
 
 public class HomepageEntrance extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";

@@ -32,7 +32,7 @@
             android:key="prefs_key_theme_manager_allow_download_more"
             android:defaultValue="false" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:key="prefs_key_theme_manager_new_version_code_modify"
             android:summary="@string/theme_manager_version_code_modify_desc"
             android:title="@string/theme_manager_version_code_modify"

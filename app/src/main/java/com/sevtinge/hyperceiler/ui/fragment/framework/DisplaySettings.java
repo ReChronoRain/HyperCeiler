@@ -22,14 +22,14 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.hyperceiler.R;
-import moralnorm.preference.SeekBarPreferenceEx;
+import fan.preference.SeekBarPreferenceCompat;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class DisplaySettings extends SettingsPreferenceFragment {
 
-    SeekBarPreferenceEx minBrightness;
-    SeekBarPreferenceEx maxBrightness;
+    SeekBarPreferenceCompat minBrightness;
+    SeekBarPreferenceCompat maxBrightness;
 
     @Override
     public int getContentResId() {

@@ -20,7 +20,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/system_framework_other_title">
     <PreferenceCategory android:title="@string/system_framework_screen_title">
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_framework_other_rotation_button_int"
             android:title="@string/system_framework_other_rotation_button"
@@ -104,7 +104,7 @@
             android:key="prefs_key_system_framework_guided_access_sc"
             android:title="@string/system_framework_guided_access_sc" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:dependency="prefs_key_system_framework_guided_access"
             android:key="prefs_key_system_framework_guided_access_screen_int"

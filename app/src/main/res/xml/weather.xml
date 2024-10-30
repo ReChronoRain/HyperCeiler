@@ -20,14 +20,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/weather">
     <PreferenceCategory>
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:key="prefs_key_weather_device_level"
             android:title="@string/weather_device_level_title"
             android:defaultValue="3"
             app:entries="@array/weather_device_level"
             app:entryValues="@array/weather_device_level_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:key="prefs_key_weather_card_display_type"
             android:title="@string/weather_card_display_type_title"
             android:defaultValue="0"

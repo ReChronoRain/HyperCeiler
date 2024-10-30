@@ -70,8 +70,7 @@
             android:dependency="prefs_key_home_drawer_blur_super"
             android:title="@string/home_dock_bg_color"
             android:key="prefs_key_home_drawer_blur_super_bg_color"
-            android:defaultValue="-1"
-            app:showAlphaSlider="true" />
+            android:defaultValue="-1" />
 
         <SwitchPreference
             android:defaultValue="false"

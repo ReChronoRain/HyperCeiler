@@ -26,9 +26,9 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.ColorPickerPreference;
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
+import fan.preference.ColorPickerPreference;
+import fan.preference.DropDownPreference;
+import androidx.preference.Preference;
 
 public class BatteryIndicatorSettings extends SettingsPreferenceFragment {
 

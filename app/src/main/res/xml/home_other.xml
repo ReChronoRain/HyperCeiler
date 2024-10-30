@@ -119,7 +119,7 @@
             android:key="prefs_key_home_other_portrait_reverse"
             android:title="@string/home_other_portrait_reverse" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_home_other_home_mode"
             android:title="@string/home_other_home_mode"

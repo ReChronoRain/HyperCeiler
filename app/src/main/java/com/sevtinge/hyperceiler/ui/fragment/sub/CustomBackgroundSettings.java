@@ -26,10 +26,10 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.ColorPickerPreference;
-import moralnorm.preference.Preference;
-import moralnorm.preference.SeekBarPreference;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.ColorPickerPreference;
+import androidx.preference.Preference;
+import androidx.preference.SeekBarPreference;
+import androidx.preference.SwitchPreference;
 
 public class CustomBackgroundSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 

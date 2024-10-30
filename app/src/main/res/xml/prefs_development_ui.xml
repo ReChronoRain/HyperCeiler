@@ -25,7 +25,7 @@
         android:key="prefs_key_development_ui_test_color_picker"
         android:title="ColorPickerPreferencer" />
 
-    <DropDownPreference
+    <fan.preference.DropDownPreference
         android:title="DropDownPreference"
         android:defaultValue="0"
         app:entries="@array/development_test"
@@ -64,12 +64,12 @@
         android:title="SwitchPreference"
         android:defaultValue="false" />
 
-    <moralnorm.preference.RadioSetPreferenceCategory>
+    <RadioSetPreferenceCategory>
 
-        <moralnorm.preference.RadioButtonPreference
+        <RadioButtonPreference
             android:persistent="false"
-            android:title="RadioButtonPreference"
-            android:layout="@layout/preference_radiobutton_two_state" />
+            android:title="RadioButtonPreference" />
 
-    </moralnorm.preference.RadioSetPreferenceCategory>
+    </RadioSetPreferenceCategory>
+
 </PreferenceScreen>

@@ -83,24 +83,22 @@
             android:key="prefs_key_home_other_use_edit_color"
             android:title="@string/home_other_use_edit_color" />
 
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:defaultValue="-1"
             android:dependency="prefs_key_home_other_use_edit_color"
             android:key="prefs_key_home_other_your_color_qwq"
-            android:title="@string/home_other_your_color"
-            app:showAlphaSlider="false" />
+            android:title="@string/home_other_your_color" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_home_title_notif_color"
             android:title="@string/home_title_notif_color" />
 
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:defaultValue="-1"
             android:dependency="prefs_key_home_title_notif_color"
             android:key="prefs_key_home_title_notif_color_picker"
-            android:title="@string/home_title_notif_color_picker"
-            app:showAlphaSlider="false" />
+            android:title="@string/home_title_notif_color_picker" />
 
     </PreferenceCategory>
 
@@ -252,12 +250,11 @@
             android:summary="@string/home_title_title_marquee_desc"
             android:title="@string/home_title_title_marquee" />
 
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:defaultValue="-1"
             android:dependency="prefs_key_home_drawer_font_hidden"
             android:key="prefs_key_home_title_title_color"
-            android:title="@string/home_title_title_color"
-            app:showAlphaSlider="false" />
+            android:title="@string/home_title_title_color" />
 
         <SeekBarPreferenceEx
             android:defaultValue="12"

@@ -22,7 +22,7 @@
     <PreferenceCategory
         android:title="@string/system_ui_charge_animation_title"
         android:key="prefs_key_system_ui_statusbar_charge_animation_title" >
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_charge_animation_style"
             android:summary="@string/system_ui_charge_animation_style_desc"
@@ -46,8 +46,7 @@
             android:defaultValue="-1"
             android:dependency="prefs_key_system_ui_monet_overlay_custom"
             android:key="prefs_key_system_ui_monet_overlay_custom_color"
-            android:title="@string/system_ui_monet_overlay_custom_color"
-            app:showAlphaSlider="false" />
+            android:title="@string/system_ui_monet_overlay_custom_color" />
 
     </PreferenceCategory>
 

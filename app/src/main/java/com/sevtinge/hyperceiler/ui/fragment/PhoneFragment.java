@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
-import moralnorm.preference.Preference;
+import androidx.preference.Preference;
 
 public class PhoneFragment extends SettingsPreferenceFragment {
     Preference mPhone;

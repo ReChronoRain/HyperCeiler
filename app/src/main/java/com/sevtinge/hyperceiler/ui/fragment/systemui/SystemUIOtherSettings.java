@@ -33,10 +33,10 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceCategory;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.DropDownPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.SwitchPreference;
 
 public class SystemUIOtherSettings extends SettingsPreferenceFragment {
 

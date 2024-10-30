@@ -24,7 +24,7 @@
             android:key="prefs_key_settings_hide_app_icon"
             android:title="@string/settings_hide_app_icon" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_settings_icon"
             android:summary="@string/settings_icon_desc"
@@ -32,7 +32,7 @@
             app:entries="@array/settings_icon"
             app:entryValues="@array/settings_icon_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:dependency="prefs_key_settings_icon"
             android:key="prefs_key_settings_icon_mode"
@@ -40,7 +40,7 @@
             app:entries="@array/settings_icon_mode"
             app:entryValues="@array/settings_icon_mode_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_settings_app_language"
             android:title="@string/settings_app_language"
@@ -77,7 +77,7 @@
             android:summary="@string/settings_safe_mode_desc"
             android:title="@string/settings_safe_mode" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="2"
             android:key="prefs_key_log_level"
             android:summary="@string/disable_detailed_log_desc"

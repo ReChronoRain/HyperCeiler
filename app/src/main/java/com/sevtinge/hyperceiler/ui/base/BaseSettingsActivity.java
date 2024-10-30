@@ -31,7 +31,7 @@ import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 import java.util.ArrayList;
 import java.util.List;
 
-import moralnorm.appcompat.app.AlertDialog;
+import fan.appcompat.app.AlertDialog;
 
 public abstract class BaseSettingsActivity extends BaseActivity {
 

@@ -29,16 +29,16 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.ColorPickerPreference;
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
-import moralnorm.preference.SeekBarPreferenceEx;
+import fan.preference.ColorPickerPreference;
+import fan.preference.DropDownPreference;
+import androidx.preference.Preference;
+import fan.preference.SeekBarPreferenceCompat;
 
 public class PersonalAssistantFragment extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 
     DropDownPreference mBlurBackground;
-    SeekBarPreferenceEx mBlurRadius;
+    SeekBarPreferenceCompat mBlurRadius;
     ColorPickerPreference mBlurColor;
     DropDownPreference mBlurBackgroundStyle;
 

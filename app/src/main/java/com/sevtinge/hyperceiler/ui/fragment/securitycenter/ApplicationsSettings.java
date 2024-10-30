@@ -24,7 +24,7 @@ import android.os.Build;
 
 import com.sevtinge.hyperceiler.R;
 
-import moralnorm.preference.SwitchPreference;
+import androidx.preference.SwitchPreference;
 
 public class ApplicationsSettings extends SecurityCenterBaseSettings {
 

@@ -50,7 +50,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory>
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:title="@string/content_extension_link_open_mode"
             android:summary="@string/content_extension_link_open_mode_desc"
             android:key="prefs_key_content_extension_link_open_mode"

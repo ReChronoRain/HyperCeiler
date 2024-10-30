@@ -26,8 +26,8 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import moralnorm.appcompat.app.AppCompatActivity;
-import moralnorm.view.SearchActionMode;
+import fan.appcompat.app.AppCompatActivity;
+import fan.view.SearchActionMode;
 
 public class SearchModeHelper {
 

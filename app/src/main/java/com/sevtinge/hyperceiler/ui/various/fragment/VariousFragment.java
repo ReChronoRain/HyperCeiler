@@ -23,13 +23,13 @@ import android.util.Log;
 
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.PreferenceCategory;
-import moralnorm.preference.PreferenceFragmentCompat;
-import moralnorm.preference.SeekBarPreference;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.PreferenceFragment;
+import fan.preference.DropDownPreference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.SeekBarPreference;
+import androidx.preference.SwitchPreference;
 
-public class VariousFragment extends PreferenceFragmentCompat {
+public class VariousFragment extends PreferenceFragment {
 
     public String TAG = "VariousFragment";
 

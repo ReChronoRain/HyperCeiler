@@ -67,7 +67,7 @@
             android:summary="@string/home_dock_bg_all_app_more"
             android:title="@string/home_dock_bg_all_app" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:key="prefs_key_home_dock_add_blur"
@@ -155,8 +155,7 @@
             android:defaultValue="0"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:key="prefs_key_home_dock_bg_color"
-            android:title="@string/home_dock_bg_color"
-            app:showAlphaSlider="true" />
+            android:title="@string/home_dock_bg_color" />
 
         <!--<SeekBarPreferenceEx
             android:key="prefs_key_home_dock_icon_margin_bottom"

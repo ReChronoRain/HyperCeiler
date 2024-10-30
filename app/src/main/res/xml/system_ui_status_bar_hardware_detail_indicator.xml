@@ -25,7 +25,7 @@
             android:key="prefs_key_system_ui_statusbar_battery_enable"
             android:title="@string/enable" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="1"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_show"
@@ -33,7 +33,7 @@
             app:entries="@array/system_ui_status_bar_battery_show"
             app:entryValues="@array/system_ui_status_bar_battery_show_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_disable"
@@ -105,7 +105,7 @@
             app:minValue="1"
             app:stepValue="1" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="1"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_align"
@@ -170,7 +170,7 @@
             android:key="prefs_key_system_ui_statusbar_temp_enable"
             android:title="@string/enable" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="1"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_show"
@@ -243,7 +243,7 @@
             app:minValue="1"
             app:stepValue="1" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="1"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_align"

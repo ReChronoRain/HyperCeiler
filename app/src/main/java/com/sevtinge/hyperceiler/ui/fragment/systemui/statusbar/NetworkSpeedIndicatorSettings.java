@@ -30,16 +30,16 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
-import moralnorm.preference.SeekBarPreferenceEx;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.DropDownPreference;
+import androidx.preference.Preference;
+import fan.preference.SeekBarPreferenceCompat;
+import androidx.preference.SwitchPreference;
 
 public class NetworkSpeedIndicatorSettings extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 
-    SeekBarPreferenceEx mNetworkSpeedWidth; // 固定宽度
-    SeekBarPreferenceEx mNetworkSpeedSpacing; // 网速间间距
+    SeekBarPreferenceCompat mNetworkSpeedWidth; // 固定宽度
+    SeekBarPreferenceCompat mNetworkSpeedSpacing; // 网速间间距
     SwitchPreference mNetworkSwapIcon;
     SwitchPreference mNetworkSpeedSeparator;
     SwitchPreference mNetworkAllHide;

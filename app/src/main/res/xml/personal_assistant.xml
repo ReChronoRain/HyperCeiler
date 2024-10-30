@@ -37,7 +37,7 @@
             android:title="@string/personal_assistant_fold_widget_enable"
             android:summary="@string/personal_assistant_fold_widget_enable_desc" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:title="@string/personal_assistant_blur_model"
             android:key="prefs_key_personal_assistant_value"
             android:defaultValue="0"
@@ -57,10 +57,9 @@
         <moralnorm.preference.ColorPickerPreference
             android:title="@string/personal_assistant_color"
             android:key="prefs_key_personal_assistant_color"
-            android:defaultValue="-1"
-            app:showAlphaSlider="true" />
+            android:defaultValue="-1" />
 
-        <SeekBarPreferenceEx
+        <SeekBarPreferenceCompat
             android:title="@string/personal_assistant_set_tv_notif_info_max_width"
             android:key="prefs_key_personal_assistant_set_tv_notif_info_max_width"
             android:defaultValue="60"

@@ -32,8 +32,8 @@ import com.sevtinge.hyperceiler.R;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceViewHolder;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceViewHolder;
 
 public class StartActivityWithRootPreference extends Preference {
 

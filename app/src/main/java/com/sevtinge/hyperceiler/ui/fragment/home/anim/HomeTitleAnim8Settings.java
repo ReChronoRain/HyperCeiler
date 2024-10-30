@@ -26,18 +26,18 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-import moralnorm.preference.SeekBarPreferenceEx;
+import fan.preference.SeekBarPreferenceCompat;
 
 public class HomeTitleAnim8Settings extends SettingsPreferenceFragment {
 
-    SeekBarPreferenceEx mDRCX;
-    SeekBarPreferenceEx mSRCX;
-    SeekBarPreferenceEx mDRCY;
-    SeekBarPreferenceEx mSRCY;
-    SeekBarPreferenceEx mDRW;
-    SeekBarPreferenceEx mSRW;
-    SeekBarPreferenceEx mDRR;
-    SeekBarPreferenceEx mSRR;
+    SeekBarPreferenceCompat mDRCX;
+    SeekBarPreferenceCompat mSRCX;
+    SeekBarPreferenceCompat mDRCY;
+    SeekBarPreferenceCompat mSRCY;
+    SeekBarPreferenceCompat mDRW;
+    SeekBarPreferenceCompat mSRW;
+    SeekBarPreferenceCompat mDRR;
+    SeekBarPreferenceCompat mSRR;
 
     @Override
     public int getContentResId() {

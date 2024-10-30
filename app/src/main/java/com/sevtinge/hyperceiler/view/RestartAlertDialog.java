@@ -32,7 +32,7 @@ import com.sevtinge.hyperceiler.utils.KillApp;
 import java.util.Arrays;
 import java.util.List;
 
-import moralnorm.appcompat.app.AlertDialog;
+import fan.appcompat.app.AlertDialog;
 
 public class RestartAlertDialog extends AlertDialog {
 

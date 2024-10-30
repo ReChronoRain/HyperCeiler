@@ -29,10 +29,10 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.ColorPickerPreference;
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.ColorPickerPreference;
+import fan.preference.DropDownPreference;
+import androidx.preference.Preference;
+import androidx.preference.SwitchPreference;
 
 public class HomeDockSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 

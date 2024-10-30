@@ -25,7 +25,7 @@ import android.widget.Button;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.customhook.CustomHookConfigActivity;
 
-import moralnorm.appcompat.app.AppCompatActivity;
+import fan.appcompat.app.AppCompatActivity;
 
 public class CustomHookActivity extends AppCompatActivity {
 

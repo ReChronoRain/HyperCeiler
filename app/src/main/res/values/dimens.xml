@@ -72,4 +72,6 @@
     <dimen name="card_tile_item_edit_mark_size">26dp</dimen>
 
     <dimen name="item_card_tile_icon_size">68dp</dimen>
+
+    <dimen name="about_logo_area_height">389dp</dimen>
 </resources>

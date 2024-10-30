@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.api.miuiStringToast.MiuiStringToast;
 
-import moralnorm.preference.Preference;
+import androidx.preference.Preference;
 
 public class StrongToastSettings extends SettingsPreferenceFragment {
     Preference mShortToast;

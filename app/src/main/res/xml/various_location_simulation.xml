@@ -24,7 +24,7 @@
             android:title="@string/location_simulation_package_name"
             android:key="prefs_key_location_simulation_package_name" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:key="prefs_key_location_simulation_location"
             android:title="@string/location_simulation_location"
             app:entries="@array/location"
@@ -44,7 +44,7 @@
             android:title="@string/location_simulation_package_name"
             android:key="prefs_key_location_simulation_package_name2" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:key="prefs_key_location_simulation_location2"
             android:title="@string/location_simulation_location"
             app:entries="@array/location"
@@ -64,7 +64,7 @@
             android:title="@string/location_simulation_package_name"
             android:key="prefs_key_location_simulation_package_name3" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:key="prefs_key_location_simulation_location3"
             android:title="@string/location_simulation_location"
             app:entries="@array/location"
@@ -80,7 +80,7 @@
 
     <PreferenceCategory android:title="@string/various_location_simulation_all_title">
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:title="@string/location_simulation_operator_fix"
             android:key="prefs_key_location_simulation_operator_fix"
             app:entries="@array/operator_fix"

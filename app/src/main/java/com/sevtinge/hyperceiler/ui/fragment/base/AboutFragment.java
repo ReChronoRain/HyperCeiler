@@ -25,7 +25,12 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,19 +38,38 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.preference.Preference;
+import androidx.preference.SwitchPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.expansionpacks.utils.ClickCountsUtils;
+import com.sevtinge.hyperceiler.view.BgEffectPainter;
 
-import moralnorm.preference.Preference;
-import moralnorm.preference.SwitchPreference;
+import fan.appcompat.app.ActionBar;
+import fan.appcompat.app.AppCompatActivity;
 
 public class AboutFragment extends SettingsPreferenceFragment {
 
     private int lIIlIll = 100 >>> 7;
     private final int lIIlIlI = 100 >>> 6;
+
+    private View mBgEffectView;
+    private BgEffectPainter mBgEffectPainter;
+    private float startTime = (float) System.nanoTime();
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private FrameLayout contentView;
+    Runnable runnableBgEffect = new Runnable() {
+        @Override
+        public void run() {
+            mBgEffectPainter.setAnimTime(((((float) System.nanoTime()) - startTime) / 1.0E9f) % 62.831852f);
+            mBgEffectPainter.setResolution(new float[]{mBgEffectView.getWidth(), mBgEffectView.getHeight()});
+            mBgEffectPainter.updateMaterials();
+            mBgEffectView.setRenderEffect(mBgEffectPainter.getRenderEffect());
+            mHandler.postDelayed(runnableBgEffect, 16L);
+        }
+    };
 
     @Override
     public int getContentResId() {
@@ -108,7 +132,7 @@ public class AboutFragment extends SettingsPreferenceFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(moralnorm.preference.R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(fan.preference.R.id.recycler_view);
         ViewCompat.setOnApplyWindowInsetsListener(recyclerView, new OnApplyWindowInsetsListener() {
             @NonNull
             @Override
@@ -120,5 +144,42 @@ public class AboutFragment extends SettingsPreferenceFragment {
                 return insets;
             }
         });
+
+        setShaderBackground();
+    }
+
+    private void setShaderBackground() {
+        setContentViewPadding();
+        if (mBgEffectView == null) {
+            mBgEffectView = LayoutInflater.from(getContext()).inflate(R.layout.layout_effect_bg, contentView, false);
+            contentView.addView(mBgEffectView, 0);
+            mBgEffectView = getActivity().findViewById(R.id.bgEffectView);
+        }
+        mBgEffectView.post(() -> {
+            if (getContext() != null) {
+                mBgEffectPainter = new BgEffectPainter(getContext().getApplicationContext());
+                mBgEffectPainter.showRuntimeShader(getContext().getApplicationContext(),
+                        mBgEffectView, getAppCompatActionBar());
+
+                mHandler.post(runnableBgEffect);
+            }
+        });
+    }
+
+    private void setContentViewPadding() {
+        if (contentView == null && getActivity() != null) {
+            contentView = getActivity().findViewById(android.R.id.content);
+            contentView.setOnApplyWindowInsetsListener((v, insets) -> {
+                v.setPadding(0, 0, 0, 0);
+                return insets;
+            });
+        }
+    }
+
+    public ActionBar getAppCompatActionBar() {
+        if (getActivity() instanceof AppCompatActivity) {
+            return ((AppCompatActivity) getActivity()).getAppCompatActionBar();
+        }
+        return null;
     }
 }

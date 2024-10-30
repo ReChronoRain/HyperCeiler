@@ -35,7 +35,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,18 +48,26 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.preference.Preference;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.data.ModData;
+import com.sevtinge.hyperceiler.data.adapter.ModSearchAdapter;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.prefs.TipsPreference;
 import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
+import com.sevtinge.hyperceiler.ui.SubSettings;
+import com.sevtinge.hyperceiler.ui.base.NavigationActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.helper.HomepageEntrance;
+import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.expansionpacks.utils.SignUtils;
+import com.sevtinge.hyperceiler.utils.search.SearchModeHelper;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -63,9 +76,18 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Objects;
 
-import moralnorm.preference.Preference;
+import fan.appcompat.app.AppCompatActivity;
+import fan.view.SearchActionMode;
 
 public class MainFragment extends SettingsPreferenceFragment implements HomepageEntrance.EntranceState {
+
+    String lastFilter;
+    View mSearchView;
+    TextView mSearchInputView;
+    RecyclerView mSearchResultView;
+    ModSearchAdapter mSearchAdapter;
+
+    View mContent;
 
     Preference mCamera;
     Preference mSecurityCenter;
@@ -94,6 +116,11 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
 
     @Override
+    public int getContentResId() {
+        return R.xml.prefs_main;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Message message = mHandler.obtainMessage(0x11);
@@ -101,8 +128,90 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     }
 
     @Override
-    public int getContentResId() {
-        return R.xml.prefs_main;
+    public View onInflateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mContent = inflater.inflate(R.layout.fragment_home_page, container, false);
+        ViewGroup prefsContainer = mContent.findViewById(R.id.prefs_container);
+        View rootView = super.onInflateView(inflater, container, savedInstanceState);
+        prefsContainer.addView(rootView);
+        return mContent;
+    }
+
+    @Override
+    public void onViewInflated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewInflated(view, savedInstanceState);
+        initSearchView(view);
+    }
+
+    private void initSearchView(View view) {
+        mSearchView = view.findViewById(R.id.search_view);
+        mSearchInputView = view.findViewById(android.R.id.input);
+        mSearchResultView = view.findViewById(R.id.search_result_view);
+        mSearchAdapter = new ModSearchAdapter();
+        mSearchInputView.setHint(getResources().getString(R.string.search));
+        mSearchResultView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        mSearchResultView.setAdapter(mSearchAdapter);
+
+        mSearchView.setOnClickListener(v -> startSearchMode());
+        mSearchAdapter.setOnItemClickListener((v, ad) -> onSearchItemClickListener(ad));
+
+        ViewCompat.setOnApplyWindowInsetsListener(mSearchResultView, new OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
+                        insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
+                v.setPadding(0, 0, 0, inset.bottom);
+                return insets;
+            }
+        });
+    }
+
+    private void onSearchItemClickListener(ModData ad) {
+        Bundle args = new Bundle();
+        args.putString(":settings:fragment_args_key", ad.key);
+        SettingLauncherHelper.onStartSettingsForArguments(
+                requireContext(),
+                SubSettings.class,
+                ad.fragment,
+                args,
+                ad.catTitleResId
+        );
+
+    }
+
+    private SearchActionMode startSearchMode() {
+        return SearchModeHelper.startSearchMode(
+                (AppCompatActivity) requireActivity(),
+                mSearchResultView,
+                mContent,
+                mSearchView,
+                mContent,
+                mSearchResultListener
+        );
+    }
+
+    TextWatcher mSearchResultListener = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            findMod(s.toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            // findMod(s.toString());
+        }
+    };
+
+    void findMod(String filter) {
+        lastFilter = filter;
+        mSearchResultView.setVisibility(filter.isEmpty() ? View.GONE : View.VISIBLE);
+        ModSearchAdapter adapter = (ModSearchAdapter) mSearchResultView.getAdapter();
+        if (adapter == null) return;
+        adapter.getFilter(requireActivity()).filter(filter);
     }
 
     @Override
@@ -281,7 +390,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(moralnorm.preference.R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(fan.preference.R.id.recycler_view);
         ViewCompat.setOnApplyWindowInsetsListener(recyclerView, new OnApplyWindowInsetsListener() {
             @NonNull
             @Override

@@ -33,8 +33,8 @@ import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 
-import moralnorm.appcompat.app.AlertDialog;
-import moralnorm.preference.Preference;
+import fan.appcompat.app.AlertDialog;
+import androidx.preference.Preference;
 
 public class DevelopmentFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceClickListener {
 

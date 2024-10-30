@@ -41,14 +41,14 @@
             android:title="@string/system_ui_status_bar_battery_indicator_limitvis"
             android:defaultValue="false" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:title="@string/system_ui_status_bar_battery_indicator_align"
             android:key="prefs_key_system_ui_status_bar_battery_indicator_align"
             app:entries="@array/battery_indicator_align"
             app:entryValues="@array/battery_indicator_align_value"
             android:defaultValue="0" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:title="@string/system_ui_status_bar_battery_indicator_color"
             android:key="prefs_key_system_ui_status_bar_battery_indicator_color"
             app:entries="@array/battery_indicator_color"

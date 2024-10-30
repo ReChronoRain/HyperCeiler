@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.robv.android.xposed.XposedHelpers;
-import moralnorm.os.Build;
+import fan.core.utils.RomUtils;
 
 public class HyperCeilerSettings extends BaseHook {
 
@@ -96,7 +96,7 @@ public class HyperCeilerSettings extends BaseHook {
                         headers.add(position - 1, header);
                     } else if (opt == 2 && id == themes) {
                         headers.add(position, header);
-                    } else if (opt == 3 && id == (Integer.parseInt(Build.getMiuiVersionCode()) < 14 ? special : timer)) {
+                    } else if (opt == 3 && id == (RomUtils.getMiuiVersion() < 14 ? special : timer)) {
                         headers.add(position, header);
                     }
                 }

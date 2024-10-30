@@ -82,7 +82,7 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="@dimen/preference_widget_minWidth" />
+        android:minWidth="@dimen/miuix_preference_widget_width" />
 
     <ImageView
         android:id="@+id/arrow_right"
@@ -90,6 +90,6 @@
         android:layout_gravity="center|end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_preference_arrow_right" />
+        android:src="@drawable/miuix_preference_icon_arrow_right" />
 
 </LinearLayout>

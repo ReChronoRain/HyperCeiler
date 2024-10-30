@@ -40,9 +40,9 @@ import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 
 import java.util.concurrent.ExecutorService;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.DropDownPreference;
+import androidx.preference.Preference;
+import androidx.preference.SwitchPreference;
 
 public class OtherSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 

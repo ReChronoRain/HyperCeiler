@@ -52,7 +52,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import moralnorm.appcompat.app.AlertDialog;
+import fan.appcompat.app.AlertDialog;
 
 public class AppPicker extends Fragment {
 

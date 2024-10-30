@@ -26,8 +26,10 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.SubSettings;
 import com.sevtinge.hyperceiler.ui.base.BaseActivity;
+import com.sevtinge.hyperceiler.ui.base.NaviBaseActivity;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 public abstract class SettingsPreferenceFragment extends BasePreferenceFragment {
@@ -48,6 +50,7 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setThemeRes(R.style.Theme_Navigator_ContentChild);
         if (savedInstanceState != null) {
             mPreferenceHighlighted = savedInstanceState.getBoolean(SAVE_HIGHLIGHTED_KEY);
         }
@@ -70,7 +73,7 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
             setPreferencesFromResource(mContentResId, s);
             initPrefs();
         }
-        ((BaseActivity) getActivity()).setRestartView(addRestartListener());
+        //((NaviBaseActivity) getActivity()).setRestartView(addRestartListener());
     }
 
 

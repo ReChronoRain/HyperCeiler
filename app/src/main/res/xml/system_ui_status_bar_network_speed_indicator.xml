@@ -47,7 +47,7 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_network_speed_font_style"
             android:title="@string/system_ui_statusbar_network_speed_font_style"
@@ -105,7 +105,7 @@
     <PreferenceCategory
         android:title="@string/system_ui_statusbar_indicator_expand_title"
         android:dependency="prefs_key_system_ui_statusbar_network_speed_all_status_enable" >
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_network_speed_style"
             android:title="@string/system_ui_statusbar_network_speed_style"
@@ -117,14 +117,14 @@
             android:key="prefs_key_system_ui_statusbar_network_speed_swap_places"
             android:title="@string/system_ui_statusbar_network_speed_swap_places" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="2"
             android:key="prefs_key_system_ui_statusbar_network_speed_icon"
             android:title="@string/system_ui_statusbar_network_speed_icon"
             app:entries="@array/system_ui_status_bar_network_icon"
             app:entryValues="@array/system_ui_status_bar_network_icon_value" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="1"
             android:key="prefs_key_system_ui_statusbar_network_speed_align"
             android:title="@string/horizontal_alignment"

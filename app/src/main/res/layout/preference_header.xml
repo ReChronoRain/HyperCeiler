@@ -31,7 +31,7 @@
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="@dimen/preference_icon_minWidth">
+        android:minWidth="@dimen/miuix_preference_icon_minWidth">
 
         <ImageView
             android:id="@android:id/icon"
@@ -42,9 +42,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:maxWidth="54dp"
-            android:paddingEnd="@dimen/preference_icon_padding_end"
-            android:layout_marginTop="@dimen/preference_item_padding_inner"
-            android:layout_marginBottom="@dimen/preference_item_padding_inner"
+            android:paddingEnd="@dimen/miuix_preference_icon_padding_end"
+            android:layout_marginTop="@dimen/miuix_preference_item_padding_inner"
+            android:layout_marginBottom="@dimen/miuix_preference_item_padding_inner"
             style="@style/Widget.PreferenceIcon"/>
     </LinearLayout>
 
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@android:id/title"
             android:layout_alignStart="@android:id/title"
-            android:layout_marginTop="@dimen/preference_summary_margin_top"
+            android:layout_marginTop="@dimen/miuix_preference_summary_margin_top"
             android:scrollbars="none"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.PreferenceList.Secondary" />
@@ -86,7 +86,7 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="@dimen/preference_widget_minWidth" />
+        android:minWidth="@dimen/miuix_preference_widget_width" />
 
     <ImageView
         android:id="@+id/arrow_right"
@@ -94,6 +94,6 @@
         android:layout_gravity="center|end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_preference_arrow_right" />
+        android:src="@drawable/miuix_preference_icon_arrow_right" />
 
 </LinearLayout>

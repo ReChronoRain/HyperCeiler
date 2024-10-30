@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-import moralnorm.preference.SwitchPreference;
+import androidx.preference.SwitchPreference;
 
 public class FreeFormSettings extends SettingsPreferenceFragment {
 

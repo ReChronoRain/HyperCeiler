@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-import moralnorm.preference.Preference;
+import androidx.preference.Preference;
 
 public class SecurityCenterFragment extends SettingsPreferenceFragment {
 

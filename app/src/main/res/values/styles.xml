@@ -25,4 +25,14 @@
         <item name="android:layout_marginTop">@dimen/divider_margin_top</item>
         <item name="android:layout_marginBottom">@dimen/divider_margin_bottom</item>
     </style>
+
+    <style name="ActionBar.ShowTitle" parent="@style/Widget.ActionBar">
+        <item name="android:displayOptions">showTitle</item>
+        <item name="tabIndicator">@null</item>
+    </style>
+
+    <style name="ActionBar.ShowTitleAndBack" parent="@style/Widget.ActionBar">
+        <item name="android:displayOptions">homeAsUp|showTitle</item>
+        <item name="android:homeAsUpIndicator">@drawable/miuix_appcompat_action_bar_back_light</item>
+    </style>
 </resources>

@@ -50,7 +50,7 @@
             android:key="prefs_key_mipad_input_disable_bluetooth_new"
             android:defaultValue="false" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:key="prefs_key_mipad_input_bluetooth_version"
             android:title="@string/various_mipad_input_bluetooth_version_title"
             android:summary="@string/various_mipad_input_bluetooth_version_desc"

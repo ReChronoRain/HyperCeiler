@@ -26,8 +26,8 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
+import fan.preference.DropDownPreference;
+import androidx.preference.Preference;
 
 public class DoubleLineNetworkSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 

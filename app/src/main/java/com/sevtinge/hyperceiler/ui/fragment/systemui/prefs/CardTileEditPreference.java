@@ -39,8 +39,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceViewHolder;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceViewHolder;
 
 public class CardTileEditPreference extends Preference {
 

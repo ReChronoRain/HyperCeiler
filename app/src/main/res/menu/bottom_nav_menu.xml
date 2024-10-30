@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group>
+        <item
+            android:enabled="true"
+            android:title="@string/navigation_home_title"
+            android:icon="@drawable/ic_navigation_home"
+            android:visible="true"
+            app:miuixNavigationId="1000" />
+        <item
+            android:enabled="true"
+            android:icon="@drawable/ic_navigation_settings"
+            android:title="@string/navigation_settings_title"
+            android:visible="true"
+            app:miuixNavigationId="1001" />
+
+        <item
+            android:icon="@drawable/ic_navigation_about"
+            android:enabled="true"
+            android:title="@string/navigation_about_title"
+            android:visible="true"
+            app:miuixNavigationId="1002" />
+    </group>
+</menu>

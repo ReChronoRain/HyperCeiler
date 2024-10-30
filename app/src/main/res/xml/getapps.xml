@@ -26,7 +26,7 @@
             android:key="prefs_key_market_disable_ads"
             android:title="@string/market_disable_ads" />
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_market_device_modify_new"
             android:summary="@string/market_device_modify_desc"

@@ -33,9 +33,9 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceCategory;
-import moralnorm.preference.SwitchPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.SwitchPreference;
 
 public class HomeTitleSettings extends SettingsPreferenceFragment {
 

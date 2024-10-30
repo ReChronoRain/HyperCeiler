@@ -101,7 +101,7 @@
                 android:data="https://zhuti.designer.xiaomi.com/docs/grammar/#时间日期" />
         </Preference>
 
-        <DropDownPreference
+        <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_style"
             android:title="@string/system_ui_statusbar_clock_style_f"

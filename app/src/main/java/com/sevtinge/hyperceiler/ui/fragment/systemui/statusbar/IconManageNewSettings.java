@@ -28,16 +28,16 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.SeekBarPreferenceEx;
-import moralnorm.preference.SwitchPreference;
+import fan.preference.DropDownPreference;
+import fan.preference.SeekBarPreferenceCompat;
+import androidx.preference.SwitchPreference;
 
 public class IconManageNewSettings extends SettingsPreferenceFragment {
 
     DropDownPreference mAlarmClockIcon;
-    SeekBarPreferenceEx mAlarmClockIconN;
-    SeekBarPreferenceEx mNotificationIconMaximum;
-    SeekBarPreferenceEx mNotificationIconColumns;
+    SeekBarPreferenceCompat mAlarmClockIconN;
+    SeekBarPreferenceCompat mNotificationIconMaximum;
+    SeekBarPreferenceCompat mNotificationIconColumns;
     SwitchPreference mBatteryNumber;
     SwitchPreference mBatteryPercentage;
 

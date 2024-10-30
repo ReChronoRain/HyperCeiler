@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.KillApp;
 
-import moralnorm.preference.SwitchPreference;
+import androidx.preference.SwitchPreference;
 
 public class NavigationSettings extends SettingsPreferenceFragment {
     SwitchPreference navigation;

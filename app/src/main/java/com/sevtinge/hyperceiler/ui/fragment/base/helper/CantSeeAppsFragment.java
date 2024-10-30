@@ -18,11 +18,11 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.base.helper;
 
+import androidx.preference.Preference;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-
-import moralnorm.preference.Preference;
 
 public class CantSeeAppsFragment extends SettingsPreferenceFragment {
 

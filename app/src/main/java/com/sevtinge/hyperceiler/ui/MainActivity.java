@@ -38,6 +38,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.callback.IResult;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.safe.CrashData;
+import com.sevtinge.hyperceiler.ui.base.HyperCeilerTabActivity;
 import com.sevtinge.hyperceiler.ui.base.NavigationActivity;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
@@ -53,9 +54,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import moralnorm.appcompat.app.AlertDialog;
+import fan.appcompat.app.AlertDialog;
 
-public class MainActivity extends NavigationActivity implements IResult {
+public class MainActivity extends HyperCeilerTabActivity implements IResult {
     private Handler handler;
     private Context context;
 
@@ -145,7 +146,7 @@ public class MainActivity extends NavigationActivity implements IResult {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         ShellInit.destroy();
         ThreadPoolManager.shutdown();
         PreferenceHeader.mUninstallApp.clear();

@@ -20,14 +20,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/system_framework_volume_title">
 
-    <DropDownPreference
+    <fan.preference.DropDownPreference
         android:defaultValue="0"
         android:key="prefs_key_system_framework_default_volume_stream"
         android:title="@string/system_framework_default_volume_stream"
         app:entries="@array/default_volume_stream"
         app:entryValues="@array/default_volume_streame_value" />
 
-    <DropDownPreference
+    <fan.preference.DropDownPreference
         android:defaultValue="0"
         android:key="prefs_key_system_framework_volume_disable_safe_new"
         android:title="@string/system_framework_volume_disable_safe"

@@ -40,8 +40,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 
-import moralnorm.preference.Preference;
-import moralnorm.preference.SwitchPreference;
+import androidx.preference.Preference;
+import androidx.preference.SwitchPreference;
 
 public class SafeModeFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
