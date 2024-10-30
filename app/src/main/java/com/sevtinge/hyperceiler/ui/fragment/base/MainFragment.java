@@ -99,32 +99,13 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     Preference mHeadtipBirthday;
     Preference mHeadtipHyperCeiler;
     Preference mHelpCantSeeApps;
-    TipsPreference mTips;
     MainActivityContextHelper mainActivityContextHelper;
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 0x11) {
-                mTips.updateTips();
-                removeMessages(0x11);
-                sendEmptyMessageDelayed(0x11, 6000);
-            }
-        }
-    };
     private final String TAG = "MainFragment";
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
 
     @Override
     public int getContentResId() {
         return R.xml.prefs_main;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Message message = mHandler.obtainMessage(0x11);
-        mHandler.sendMessageDelayed(message, 6000);
     }
 
     @Override
@@ -253,7 +234,6 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         mMiLink = findPreference("prefs_key_milink");
         mAod = findPreference("prefs_key_aod");
         mGuardProvider = findPreference("prefs_key_guardprovider");
-        mTips = findPreference("prefs_key_tips");
         mHeadtipWarn = findPreference("prefs_key_headtip_warn");
         mHeadtipNotice = findPreference("prefs_key_headtip_notice");
         mHeadtipBirthday = findPreference("prefs_key_headtip_hyperceiler_birthday");
@@ -294,7 +274,6 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         isLoggerAlive();
         if (!getIsOfficialRom()) if (isFullSupport()) isSignPass(); else isFullSupportSysVer();
 
-        mTips = findPreference("prefs_key_tips");
     }
 
     private void setPreferenceIcons() {
