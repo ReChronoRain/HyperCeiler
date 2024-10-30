@@ -48,6 +48,13 @@
                 android:data="https://github.com/heinu123" />
         </Preference>
         <Preference
+            android:summary="GitHub@Fan095"
+            android:title="Fan">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Fan095" />
+        </Preference>
+        <Preference
             android:summary="GitHub@frank-782"
             android:title="frank-782">
             <intent
@@ -144,13 +151,6 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://www.coolapk.com/u/9021855" />
-        </Preference>
-        <Preference
-            android:summary="GitHub@Fan095"
-            android:title="Moral Norm">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/Fan095" />
         </Preference>
         <Preference
             android:summary="GitHub@NextAlone"
