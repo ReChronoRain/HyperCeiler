@@ -5,6 +5,7 @@
 -keep class com.sevtinge.hyperceiler.utils.Helpers { boolean isModuleActive; }
 -keep class com.sevtinge.hyperceiler.utils.Helpers { int XposedVersion; }
 -keep class fan.**{ *; }
+-keep class androidx.preference.**{ *; }
 -keep class org.luckypray.dexkit.*
 -keep class * extends com.sevtinge.hyperceiler.ui.fragment.base.*
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook { <init>(); }
@@ -23,5 +24,6 @@
 -dontwarn javax.annotation.processing.SupportedSourceVersion
 -dontwarn javax.annotation.processing.Processor
 -dontwarn miui.util.HapticFeedbackUtil
+-dontwarn fan.core.utils.DeviceHelper
 -allowaccessmodification
 -overloadaggressively
