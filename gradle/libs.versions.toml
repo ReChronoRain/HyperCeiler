@@ -1,24 +1,22 @@
 [versions]
-agp = "8.7.0-alpha08"
-annotationProcessor = "4.4.0"
-hooktool = "0.9.9.8"
-kotlinAndroid = "2.0.21"
+agp = "8.7.2"
+kotlin-android = "2.0.21"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 #lspluginResopt = "1.6"
 
-annotation = "1.9.0"
-core = "1.13.1"
-collection = "1.4.4"
-fragment = "1.8.4"
-preferenceVersion = "1.2.1"
+annotation = "1.9.1"
+core = "1.15.0"
+collection = "1.4.5"
+fragment = "1.8.5"
+preference = "1.2.1"
 recyclerview = "1.3.2"
 lifecycle-common = "2.8.6"
 vectordrawable = "1.2.0"
 vectordrawable-animated = "1.2.0"
 customview = "1.2.0-alpha02"
 customview-poolingcontainer = "1.0.0"
-constraintlayout = "2.2.0-rc01"
+constraintlayout = "2.2.0"
 
 xposed-api = "82"
 
@@ -26,16 +24,15 @@ gson = "2.11.0"
 dexkit = "2.0.2"
 ezxhelper = "2.2.0"
 hiddenapibypass = "4.3"
-junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
-appcompat = "1.7.0"
-material = "1.12.0"
+annotation-processor = "4.4.0"
+hooktool = "0.9.9.8"
 
 [libraries]
-androidx-preference = { module = "androidx.preference:preference", version.ref = "preferenceVersion" }
+androidx-preference = { module = "androidx.preference:preference", version.ref = "preference" }
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
-annotation-processor = { module = "dev.rikka.tools.refine:annotation-processor", version.ref = "annotationProcessor" }
+rikkax-annotation-processor = { module = "dev.rikka.tools.refine:annotation-processor", version.ref = "annotation-processor" }
+rikkax-annotation = { module = "dev.rikka.tools.refine:annotation", version.ref = "annotation-processor" }
+
 core = { group = "androidx.core", name = "core", version.ref = "core" }
 collection = { group = "androidx.collection", name = "collection", version.ref = "collection" }
 fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
@@ -43,7 +40,6 @@ hooktool = { module = "io.github.hchenx:hooktool", version.ref = "hooktool" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 lifecycle-common = { group = "androidx.lifecycle", name = "lifecycle-common", version.ref = "lifecycle-common" }
 
-refine-annotation = { module = "dev.rikka.tools.refine:annotation", version.ref = "annotationProcessor" }
 auto-service = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 vectordrawable = { group = "androidx.vectordrawable", name = "vectordrawable", version.ref = "vectordrawable" }
 vectordrawable-animated = { group = "androidx.vectordrawable", name = "vectordrawable-animated", version.ref = "vectordrawable-animated" }
@@ -57,16 +53,11 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 dexkit = { group = "org.luckypray", name = "dexkit", version.ref = "dexkit" }
 ezxhelper = { group = "com.github.kyuubiran", name = "EzXHelper", version.ref = "ezxhelper" }
 hiddenapibypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "hiddenapibypass" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
-androidApplication = { id = "com.android.application", version.ref = "agp" }
-androidLibrary = { id = "com.android.library", version.ref = "agp" }
-kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroid"}
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
 lsparanoid = { id = "org.lsposed.lsparanoid", version.ref = "lsparanoid" }
 #lspluginResopt = { id = "org.lsposed.lsplugin.resopt", version.ref = "lspluginResopt" }
 
