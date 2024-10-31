@@ -1080,4 +1080,8 @@
         <item>@string/ic_qs_title_vowifi2</item>
     </string-array>
 
+    <array name="my_card_stroke_gradient_colors_light">
+        <item>@color/update_text_border2</item>
+        <item>@color/update_text_border1</item>
+    </array>
 </resources>

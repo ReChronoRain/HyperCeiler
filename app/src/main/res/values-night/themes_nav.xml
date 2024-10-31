@@ -85,9 +85,8 @@
 
     </style>
 
-    <style name="Theme.Navigator.ContentChild.Settings">
-        <item name="bgBlurOptions">actionBar|splitActionBar</item>
-        <item name="windowActionBarOverlay">true</item>
+    <style name="Theme.Navigator.ContentChild.About">
+
     </style>
 
     <style name="NaviFragmentTheme" parent="@style/Theme.AppCompat.DayNight.NavigationFragment"/>

@@ -33,4 +33,14 @@
     <color name="preference_recommend_item_link">#ff0097ff</color>
 
     <color name="card_tile_disabled_color_legacy">#3A3A3A</color>
+
+    <color name="logo_color1">#e6a1a1a1</color>
+    <color name="logo_color2">#4de6e6e6</color>
+    <color name="logo_color3">#1af500</color>
+
+    <color name="my_card_bg_color">#1fffffff</color>
+    <color name="my_card_shadow_color">#4d000000</color>
+
+    <color name="update_text_border1">#00ffffff</color>
+    <color name="update_text_border2">#30ffffff</color>
 </resources>

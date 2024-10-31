@@ -24,6 +24,10 @@
     <string name="navigation_settings_title" translatable="false">@string/settings</string>
     <string name="navigation_about_title" translatable="false">@string/about</string>
 
+    <string name="version_update">有新版本</string>
+
+    <string name="about_copy_right">© 2023-2024 Sevtinge &amp; HyperCeiler Contributions.</string>
+
     <string name="empty_lable" translatable="false" />
     <string name="system_ui_status_bar_icon_nfc" translatable="false">NFC</string>
     <string name="system_ui_status_bar_icon_vpn" translatable="false">VPN</string>

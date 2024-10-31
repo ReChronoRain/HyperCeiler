@@ -35,4 +35,14 @@
         <item name="android:displayOptions">homeAsUp|showTitle</item>
         <item name="android:homeAsUpIndicator">@drawable/miuix_appcompat_action_bar_back_light</item>
     </style>
+
+    <style name="UpdateCardView.Border" parent="@style/HyperCardView.Light">
+        <item name="android:shadowColor">@color/my_card_shadow_color</item>
+        <item name="android:shadowDx">@dimen/my_card_shadow_dx</item>
+        <item name="android:shadowDy">@dimen/my_card_shadow_dy</item>
+        <item name="android:shadowRadius">@dimen/my_card_shadow_radius</item>
+        <item name="cardBackgroundColor">@color/my_card_bg_color</item>
+        <item name="strokeGradientColors">@array/my_card_stroke_gradient_colors_light</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
 </resources>

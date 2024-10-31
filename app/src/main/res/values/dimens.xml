@@ -73,5 +73,22 @@
 
     <dimen name="item_card_tile_icon_size">68dp</dimen>
 
-    <dimen name="about_logo_area_height">389dp</dimen>
+    <dimen name="logo_width">280dp</dimen>
+    <dimen name="logo_height">40dp</dimen>
+    <dimen name="logo_bottom">250dp</dimen>
+    <dimen name="logo_area_height">389dp</dimen>
+    <dimen name="logo_margin_top">129dp</dimen>
+
+    <dimen name="update_btn_margin_bottom">60dp</dimen>
+
+    <dimen name="screen_effect_actionbar_height">480dp</dimen>
+
+    <dimen name="my_card_bottom">52dp</dimen>
+    <dimen name="my_card_shadow_dx">0dp</dimen>
+    <dimen name="my_card_shadow_dy">20dp</dimen>
+    <dimen name="my_card_shadow_radius">40dp</dimen>
+
+    <dimen name="about_copy_right_padding_edge">28dp</dimen>
+
+    <dimen name="preference_item_padding">16dp</dimen>
 </resources>

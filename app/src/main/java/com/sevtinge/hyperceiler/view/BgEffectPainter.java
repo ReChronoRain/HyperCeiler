@@ -172,7 +172,7 @@ public class BgEffectPainter {
     }
 
     private void calcAnimationBound(Context context, View view, ActionBar actionBar) {
-        float height = (actionBar != null ? actionBar.getHeight() + 0.0f : 0.0f) + context.getResources().getDimensionPixelSize(R.dimen.about_logo_area_height);
+        float height = (actionBar != null ? actionBar.getHeight() + 0.0f : 0.0f) + context.getResources().getDimensionPixelSize(R.dimen.logo_area_height);
         float height2 = height / ((ViewGroup) view.getParent()).getHeight();
         float width = ((ViewGroup) view.getParent()).getWidth();
         if (width <= height) {

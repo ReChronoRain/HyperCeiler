@@ -114,4 +114,9 @@
         when released. By default, this boolean is false. -->
         <attr name="updatesContinuously" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="AboutInfoItem">
+        <attr name="android:title" />
+        <attr name="android:value" />
+    </declare-styleable>
 </resources>

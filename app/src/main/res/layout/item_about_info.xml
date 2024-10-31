@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:background="@android:color/transparent"
+    android:clipChildren="false"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/miuix_preference_item_min_height"
+    android:paddingStart="@dimen/preference_item_padding"
+    android:paddingEnd="@dimen/preference_item_padding">
+
+    <RelativeLayout
+        style="@style/Widget.PreferenceItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1.0"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fadingEdge="horizontal"
+            android:hyphenationFrequency="full"
+            android:maxLines="2"
+            android:minWidth="60dp"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.PreferenceList"
+            android:textSize="17dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:ellipsize="marquee"
+        android:fadingEdge="horizontal"
+        android:gravity="end"
+        android:maxLines="1"
+        android:paddingTop="@dimen/miuix_preference_item_padding_top"
+        android:paddingBottom="@dimen/miuix_preference_item_padding_bottom"
+        android:textAppearance="@style/TextAppearance.PreferenceList.Secondary"
+        android:textSize="14dp" />
+
+    <ImageView
+        android:id="@+id/arrow_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:layout_marginStart="@dimen/miuix_preference_item_padding_inner"
+        android:gravity="center"
+        android:src="@drawable/miuix_preference_icon_arrow_right" />
+</LinearLayout>

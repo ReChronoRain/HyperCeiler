@@ -37,16 +37,19 @@
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="actionBarBackground">@color/miuix_design_default_color_surface_variant_light</item>
         <item name="actionbarSearchMaskColor">#20000000</item>
-        <item name="bgBlurOptions">splitActionBar</item>
+        <item name="bgBlurOptions">actionBar|splitActionBar</item>
         <item name="colorPrimary">@color/miuix_design_default_color_surface_variant_light</item>
         <item name="responsiveActionMenuViewStyle">@style/Widget.ResponsiveActionMenuView.Light</item>
+
     </style>
 
 
     <style name="Theme.Navigator.ContentChild" parent="Theme.AppCompat.DayNight.ContentChild">
+
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_light</item>
 
+        <item name="contentAutoFitSystemWindow">false</item>
         <item name="windowExtraPaddingHorizontalEnable">true</item>
         <item name="windowExtraPaddingApplyToContentEnable">false</item>
 
@@ -85,9 +88,8 @@
 
     </style>
 
-    <style name="Theme.Navigator.ContentChild.Settings">
-        <item name="bgBlurOptions">actionBar|splitActionBar</item>
-        <item name="windowActionBarOverlay">true</item>
+    <style name="Theme.Navigator.ContentChild.About">
+
     </style>
 
     <style name="NaviFragmentTheme" parent="@style/Theme.AppCompat.DayNight.NavigationFragment"/>

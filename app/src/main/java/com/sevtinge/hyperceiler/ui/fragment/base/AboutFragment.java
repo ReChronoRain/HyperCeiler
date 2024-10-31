@@ -22,11 +22,13 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.sp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,15 +47,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.expansionpacks.utils.ClickCountsUtils;
+import com.sevtinge.hyperceiler.utils.ActionBarUtils;
+import com.sevtinge.hyperceiler.utils.SettingsFeatures;
 import com.sevtinge.hyperceiler.view.BgEffectPainter;
+import com.sevtinge.hyperceiler.widget.VersionCard;
+
+import java.lang.reflect.Field;
 
 import fan.appcompat.app.ActionBar;
-import fan.appcompat.app.AppCompatActivity;
+import fan.appcompat.app.Fragment;
+import fan.core.widget.NestedScrollView;
+import fan.preference.PreferenceFragment;
+import fan.springback.view.SpringBackLayout;
 
-public class AboutFragment extends SettingsPreferenceFragment {
+public class AboutFragment extends SettingsPreferenceFragment
+        implements View.OnScrollChangeListener {
 
     private int lIIlIll = 100 >>> 7;
     private final int lIIlIlI = 100 >>> 6;
+
+    private int scrollValue = 0;
+    private boolean isFirst = true;
+
+    private View mRootView;
+    private View scrollLayout;
+    private NestedScrollView mScrollView;
+    private SpringBackLayout mSpringBackView;
+
+    private VersionCard mVersionCardView;
 
     private View mBgEffectView;
     private BgEffectPainter mBgEffectPainter;
@@ -72,8 +93,137 @@ public class AboutFragment extends SettingsPreferenceFragment {
     };
 
     @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (container != null) {
+            updateFragmentView(container);
+        }
+        if (mRootView == null) {
+            mRootView = inflater.inflate(R.layout.fragment_about_page, container, false);
+            ViewGroup prefsContainer = mRootView.findViewById(R.id.prefs_container);
+            View view = super.onCreateView(inflater, container, savedInstanceState);
+            setOverlayMode();
+            prefsContainer.addView(view);
+
+            RecyclerView listView = getListView();
+            View parent = (View) listView.getParent();
+            if (parent instanceof SpringBackLayout) {
+                parent.setEnabled(false);
+                listView.setPaddingRelative(listView.getPaddingStart(), 0, listView.getPaddingEnd(), 0);
+            }
+
+            scrollLayout = mRootView.findViewById(R.id.scroll_layout);
+            mVersionCardView = mRootView.findViewById(R.id.version_card_view);
+
+            mScrollView = mRootView.findViewById(R.id.scrollview);
+            mSpringBackView = mRootView.findViewById(R.id.springview);
+
+            registerCoordinateScrollView(scrollLayout);
+            mScrollView.setOnScrollChangeListener(this);
+            mSpringBackView.setOnScrollChangeListener(this);
+            setShaderBackground();
+        }
+        return mRootView;
+    }
+
+    private void initCardView() {
+        mVersionCardView.refreshUpdateStatus();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initCardView();
+        /*ActionBar appCompatActionBar = getAppCompatActionBar();
+        if (appCompatActionBar != null) {
+            appCompatActionBar.getExpandTitle().setTitle("");
+            appCompatActionBar.setExpandState(0);
+            appCompatActionBar.setResizable(false);
+            appCompatActionBar.getActionBarView().requestFocus();
+            if (isFirst && mVersionCardView != null) {
+                isFirst = false;
+                mVersionCardView.mAnimationController.setActionBarAlpha(getAppCompatActionBar().getTitleView(0));
+            }
+        }
+        adjustBackgroundForOverlay();*/
+    }
+
+    public void updateFragmentView(View view) {
+        ViewGroup actionBarOverlayLayout = ActionBarUtils.getActionBarOverlayLayout(view);
+        if (actionBarOverlayLayout != null) {
+            actionBarOverlayLayout.setBackgroundResource(android.R.color.transparent);
+        }
+    }
+
+    private void adjustBackgroundForOverlay() {
+        if (getActivity() != null) {
+            getActivity().findViewById(fan.appcompat.R.id.action_bar_overlay_layout);
+        }
+    }
+
+    @Override
     public int getContentResId() {
         return R.xml.prefs_about;
+    }
+
+    private void setOverlayMode() {
+        try {
+            Field declaredField = PreferenceFragment.class.getDeclaredField("mIsOverlayMode");
+            declaredField.setAccessible(true);
+            declaredField.set(this, Boolean.FALSE);
+        } catch (Exception e) {
+            Log.e("AboutFragment", "declaredField", e);
+        }
+    }
+
+    private void setShaderBackground() {
+        setContentViewPadding();
+        if (mBgEffectView == null) {
+            mBgEffectView = LayoutInflater.from(getContext()).inflate(R.layout.layout_effect_bg, (ViewGroup) contentView, false);
+            contentView.addView(mBgEffectView, 0);
+            mBgEffectView = contentView.findViewById(R.id.bgEffectView);
+        }
+        mBgEffectView.post(() -> {
+            if (getContext() != null) {
+                mBgEffectPainter = new BgEffectPainter(getContext().getApplicationContext());
+                mBgEffectPainter.showRuntimeShader(getContext().getApplicationContext(),
+                        mBgEffectView, getAppCompatActionBar());
+
+                mHandler.post(runnableBgEffect);
+            }
+        });
+    }
+
+    private void setContentViewPadding() {
+        if (contentView == null && getActivity() != null) {
+            contentView = mRootView.findViewById(R.id.fragment_container);
+            contentView.setOnApplyWindowInsetsListener((v, insets) -> {
+                v.setPadding(0, 0, 0, 0);
+                return insets;
+            });
+        }
+    }
+
+    public ActionBar getAppCompatActionBar() {
+        if (getParentFragment() instanceof Fragment) {
+            return ((Fragment) getParentFragment()).getActionBar();
+        }
+        return null;
+    }
+
+    @Override
+    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        if (mVersionCardView != null) {
+            mVersionCardView.stopLogoAnimation();
+            if (v.getId() == R.id.scrollview) {
+                scrollValue = scrollY;
+                mVersionCardView.setScrollValue(scrollY);
+                mVersionCardView.setAnimation(scrollY, mBgEffectView);
+            } else {
+                if (v.getId() == R.id.springview && scrollY >= 0) {
+                    mVersionCardView.setAnimation(scrollY + scrollValue, mBgEffectView);
+                }
+            }
+        }
     }
 
     @Override
@@ -126,60 +276,5 @@ public class AboutFragment extends SettingsPreferenceFragment {
         } catch (Exception e) {
             // 未安装手Q或安装的版本不支持
         }
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        RecyclerView recyclerView = view.findViewById(fan.preference.R.id.recycler_view);
-        ViewCompat.setOnApplyWindowInsetsListener(recyclerView, new OnApplyWindowInsetsListener() {
-            @NonNull
-            @Override
-            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
-                Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
-                        insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
-                // 22dp + 2dp + 12sp + 10dp + 18dp + 0.5dp + inset.bottom + 4dp(?)
-                v.setPadding(inset.left, 0, inset.right, inset.bottom + dp2px(requireContext(), 56.5F) + sp2px(requireContext(),12));
-                return insets;
-            }
-        });
-
-        setShaderBackground();
-    }
-
-    private void setShaderBackground() {
-        setContentViewPadding();
-        if (mBgEffectView == null) {
-            mBgEffectView = LayoutInflater.from(getContext()).inflate(R.layout.layout_effect_bg, contentView, false);
-            contentView.addView(mBgEffectView, 0);
-            mBgEffectView = getActivity().findViewById(R.id.bgEffectView);
-        }
-        mBgEffectView.post(() -> {
-            if (getContext() != null) {
-                mBgEffectPainter = new BgEffectPainter(getContext().getApplicationContext());
-                mBgEffectPainter.showRuntimeShader(getContext().getApplicationContext(),
-                        mBgEffectView, getAppCompatActionBar());
-
-                mHandler.post(runnableBgEffect);
-            }
-        });
-    }
-
-    private void setContentViewPadding() {
-        if (contentView == null && getActivity() != null) {
-            contentView = getActivity().findViewById(android.R.id.content);
-            contentView.setOnApplyWindowInsetsListener((v, insets) -> {
-                v.setPadding(0, 0, 0, 0);
-                return insets;
-            });
-        }
-    }
-
-    public ActionBar getAppCompatActionBar() {
-        if (getActivity() instanceof AppCompatActivity) {
-            return ((AppCompatActivity) getActivity()).getAppCompatActionBar();
-        }
-        return null;
     }
 }

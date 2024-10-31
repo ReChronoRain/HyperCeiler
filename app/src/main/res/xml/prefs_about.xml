@@ -16,11 +16,13 @@
   ~
   ~ Copyright (C) 2023-2024 HyperCeiler Contributions
   -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
         android:key="prefs_key_various_enable_super_function"
         android:layout="@layout/activity_about"
-        android:summary="@string/xposed_description" />
+        android:summary="@string/xposed_description"
+        app:isPreferenceVisible="false"/>
 
     <PreferenceCategory android:title="@string/about_developer_title">
         <Preference
@@ -37,6 +39,7 @@
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.base.about.AboutContributerFragment"
             android:key="prefs_key_about_contributer"
             android:title="@string/about_contributer" />
+
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_translator_title">
         <Preference
@@ -121,15 +124,4 @@
         </Preference>
 
     </PreferenceCategory>
-
-    <PreferenceCategory>
-
-    <Preference
-        android:enabled="false"
-        android:key="prefs_key_tip"
-        android:layout="@layout/preference_text"
-        android:summary="© 2023-2024 Sevtinge &amp; HyperCeiler Contributions." />
-
-    </PreferenceCategory>
-
 </PreferenceScreen>
