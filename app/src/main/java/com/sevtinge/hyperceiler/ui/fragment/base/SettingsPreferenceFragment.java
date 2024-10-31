@@ -50,7 +50,7 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeRes(R.style.Theme_Navigator_ContentChild_Home);
+        setThemeRes(R.style.Theme_Navigator_ContentChild);
         if (savedInstanceState != null) {
             mPreferenceHighlighted = savedInstanceState.getBoolean(SAVE_HIGHLIGHTED_KEY);
         }

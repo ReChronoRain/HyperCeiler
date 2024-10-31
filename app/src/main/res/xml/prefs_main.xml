@@ -451,12 +451,4 @@
             android:title="@string/various" />
     </PreferenceCategory>
 
-    <PreferenceCategory>
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.main.helper.CantSeeAppsFragment"
-            android:key="prefs_key_help_cant_see_app"
-            android:layout="@layout/preference_hyperlink"
-            android:title="@string/help_cant_see_apps_guide" />
-    </PreferenceCategory>
-
 </PreferenceScreen>

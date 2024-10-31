@@ -58,6 +58,7 @@ import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.SubSettings;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.main.helper.CantSeeAppsFragment;
 import com.sevtinge.hyperceiler.ui.fragment.main.helper.HomepageEntrance;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
@@ -74,6 +75,9 @@ import java.util.Calendar;
 import java.util.Objects;
 
 import fan.appcompat.app.AppCompatActivity;
+import fan.core.widget.NestedScrollView;
+import fan.nestedheader.widget.NestedHeaderLayout;
+import fan.springback.view.SpringBackLayout;
 import fan.view.SearchActionMode;
 
 public class MainFragment extends SettingsPreferenceFragment implements HomepageEntrance.EntranceState {
@@ -85,6 +89,10 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     ModSearchAdapter mSearchAdapter;
 
     View mRootView;
+    NestedHeaderLayout mNestedHeaderLayout;
+    NestedScrollView mScrollView;
+    SpringBackLayout mSpringBackView;
+    TextView mHelpCantSeeAppsView;
 
     Preference mCamera;
     Preference mSecurityCenter;
@@ -95,7 +103,6 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     Preference mHeadtipNotice;
     Preference mHeadtipBirthday;
     Preference mHeadtipHyperCeiler;
-    Preference mHelpCantSeeApps;
     MainActivityContextHelper mainActivityContextHelper;
     private final String TAG = "MainFragment";
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
@@ -111,13 +118,29 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         ViewGroup prefsContainer = mRootView.findViewById(R.id.prefs_container);
         View view = super.onInflateView(inflater, container, savedInstanceState);
         prefsContainer.addView(view);
+
+
+
+        mNestedHeaderLayout = mRootView.findViewById(R.id.nested_header);
+
+        registerCoordinateScrollView(mNestedHeaderLayout);
         return mRootView;
     }
 
     @Override
     public void onViewInflated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewInflated(view, savedInstanceState);
-        initSearchView(view);
+        //initSearchView(view);
+        mHelpCantSeeAppsView = view.findViewById(R.id.help_cant_see_app);
+        mHelpCantSeeAppsView.setVisibility(getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false) ? View.GONE : View.VISIBLE);
+        mHelpCantSeeAppsView.setOnClickListener(v -> {
+            SettingLauncherHelper.onStartSettings(
+                    getContext(),
+                    SubSettings.class,
+                    CantSeeAppsFragment.class,
+                    mHelpCantSeeAppsView.getText().toString()
+            );
+        });
     }
 
     private void initSearchView(View view) {
@@ -235,9 +258,6 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
         mHeadtipNotice = findPreference("prefs_key_headtip_notice");
         mHeadtipBirthday = findPreference("prefs_key_headtip_hyperceiler_birthday");
         mHeadtipHyperCeiler = findPreference("prefs_key_headtip_hyperceiler");
-        mHelpCantSeeApps = findPreference("prefs_key_help_cant_see_app");
-
-        mHelpCantSeeApps.setVisible(!getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false));
 
         if (isHyperOSVersion(1f)) {
             mSecurityCenter.setTitle(R.string.security_center_hyperos);
@@ -360,24 +380,6 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     public void isSignPass() {
         mHeadtipWarn.setTitle(R.string.headtip_warn_sign_verification_failed);
         mHeadtipWarn.setVisible(!SignUtils.isSignCheckPass(requireContext()));
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        RecyclerView recyclerView = view.findViewById(fan.preference.R.id.recycler_view);
-        ViewCompat.setOnApplyWindowInsetsListener(recyclerView, new OnApplyWindowInsetsListener() {
-            @NonNull
-            @Override
-            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
-                Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
-                        insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
-                // 22dp + 2dp + 12sp + 10dp + 18dp + 0.5dp + inset.bottom + 4dp(?)
-                v.setPadding(inset.left, 0, inset.right, inset.bottom + dp2px(requireContext(), 56.5F) + sp2px(requireContext(), 12));
-                return insets;
-            }
-        });
     }
 
     @Override

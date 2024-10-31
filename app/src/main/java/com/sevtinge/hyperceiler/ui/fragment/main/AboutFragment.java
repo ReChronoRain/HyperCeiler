@@ -90,7 +90,7 @@ public class AboutFragment extends SettingsPreferenceFragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (container != null) {
-            updateFragmentView(container);
+            //updateFragmentView(container);
         }
         if (mRootView == null) {
             mRootView = inflater.inflate(R.layout.fragment_about_page, container, false);

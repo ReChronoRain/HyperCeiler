@@ -15,12 +15,6 @@
         app:rangeOffset="1px"
         app:scrollableView="@id/springview">
 
-        <include
-            android:id="@+id/search_bar"
-            layout="@layout/miuix_appcompat_search_stub"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <fan.springback.view.SpringBackLayout
             android:id="@+id/springview"
             android:layout_width="match_parent"
@@ -36,28 +30,39 @@
                 <LinearLayout
                     android:id="@+id/scroll_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
-
-                    <include
-                        layout="@layout/miuix_appcompat_search_stub"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical" />
 
                     <FrameLayout
                         android:id="@id/prefs_container"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_weight="1.0"
+                        android:layout_height="match_parent"
                         android:clipChildren="false"
                         android:clipToPadding="false"
                         android:smoothScrollbar="false" />
+
+                    <TextView
+                        android:id="@+id/help_cant_see_app"
+                        style="@style/TextAppearance.PreferenceList.Secondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/about_copy_right_padding_edge"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="@dimen/about_copy_right_padding_edge"
+                        android:text="@string/help_cant_see_apps_guide"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/textview_blue"
+                        android:textSize="13dp" />
                 </LinearLayout>
 
             </fan.core.widget.NestedScrollView>
         </fan.springback.view.SpringBackLayout>
+
+        <include
+            android:id="@+id/search_bar"
+            layout="@layout/miuix_appcompat_search_stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </fan.nestedheader.widget.NestedHeaderLayout>
 
