@@ -19,6 +19,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory>
+
     <SwitchPreference
         android:icon="@drawable/ic_default"
         android:key="prefs_key_system_ui_safe_mode_enable"
@@ -53,5 +55,7 @@
         android:layout="@layout/preference_header"
         android:summary="com.hchen.demo"
         android:title="@string/demo" />
+
+    </PreferenceCategory>
     
 </PreferenceScreen>

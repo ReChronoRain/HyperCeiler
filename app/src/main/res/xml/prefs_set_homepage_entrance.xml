@@ -22,6 +22,8 @@
         android:key="prefs_key_set_homepage_entrance_about"
         android:summary="@string/set_homepage_entrance_about" />
 
+    <PreferenceCategory>
+
     <SwitchPreference
         android:defaultValue="true"
         android:icon="@drawable/ic_default"
@@ -469,5 +471,7 @@
         android:title="@string/help_cant_see_apps_guide"
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.main.helper.CantSeeAppsFragment"
         android:layout="@layout/preference_hyperlink"/>
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

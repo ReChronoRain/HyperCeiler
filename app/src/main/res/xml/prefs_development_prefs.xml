@@ -18,6 +18,9 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+
     <fan.preference.DropDownPreference
         android:defaultValue="0"
         android:key="prefs_key_development_prefs_type"
@@ -32,5 +35,7 @@
     <Preference
         android:key="prefs_key_development_prefs_clean"
         android:title="@string/prefs_7" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

@@ -18,6 +18,8 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory>
+
     <Preference
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.main.settings.development.DevelopmentDebugInfoFragment"
         android:key="prefs_key_development_debug_info"
@@ -54,5 +56,7 @@
     <Preference
         android:key="prefs_key_development_fix_lsposed_log"
         android:title="@string/development_fix_lsposed_log" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
