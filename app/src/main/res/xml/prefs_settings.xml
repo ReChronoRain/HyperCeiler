@@ -50,7 +50,7 @@
         <Preference
             android:key="prefs_key_set_homepage_entrance"
             android:title="@string/set_homepage_entrance"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.base.helper.HomepageEntrance" />
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.main.helper.HomepageEntrance" />
 
     </PreferenceCategory>
 
@@ -72,7 +72,7 @@
     <PreferenceCategory android:title="@string/settings_bug_title">
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.base.settings.SafeModeFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.main.settings.SafeModeFragment"
             android:key="prefs_key_safe_mode"
             android:summary="@string/settings_safe_mode_desc"
             android:title="@string/settings_safe_mode" />
@@ -86,7 +86,7 @@
             app:entryValues="@array/log_level_value" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.base.settings.development.DevelopmentFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.main.settings.development.DevelopmentFragment"
             android:key="prefs_key_development"
             android:title="@string/development" />
 

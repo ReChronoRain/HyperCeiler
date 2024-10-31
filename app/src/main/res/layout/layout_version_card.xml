@@ -3,14 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/logo_area_height">
 
-    <ImageView
+    <LinearLayout
         android:id="@+id/logo_view"
-        android:layout_width="@dimen/logo_width"
-        android:layout_height="@dimen/logo_height"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/logo_margin_top"
-        android:alpha="0.0"
-        android:scaleType="fitXY" />
+        android:layout_marginTop="@dimen/logo_margin_top">
+
+        <ImageView
+            android:id="@+id/app_icon_logo_view"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:alpha="0.0"
+            android:scaleType="fitXY"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:id="@+id/app_text_logo_view"
+            android:layout_width="@dimen/logo_width"
+            android:layout_height="@dimen/logo_height"
+            android:alpha="0.0"
+            android:scaleType="fitXY"
+            android:layout_marginTop="20dp"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/version_layout"

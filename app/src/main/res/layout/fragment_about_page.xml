@@ -49,7 +49,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:paddingBottom="156dp"
                         android:text="@string/about_copy_right"
                         android:textAlignment="center"
                         android:layout_marginStart="@dimen/about_copy_right_padding_edge"

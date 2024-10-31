@@ -26,19 +26,19 @@
             app:isPreferenceVisible="false" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.various.AlertDialogSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.various.AlertDialogSettings"
             android:key="prefs_key_various_dialog"
             android:title="@string/various_dialog_title"
             app:isPreferenceVisible="true" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.various.AOSPSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.various.AOSPSettings"
             android:key="prefs_key_various_open_aosp_something"
             android:summary="@string/various_open_aosp_something_desc"
             android:title="@string/various_open_aosp_something_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.various.MiPadSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.various.MiPadSettings"
             android:key="prefs_key_various_mipad"
             android:title="@string/various_mipad_title"
             app:isPreferenceVisible="true" />

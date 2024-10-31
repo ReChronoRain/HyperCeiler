@@ -44,7 +44,8 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
 
     ViewGroup mRootView;
     private View cardClickView;
-    private ImageView mIconImageView;
+    private ImageView mIconLogoView;
+    private ImageView mTextLogoView;
     private ViewGroup mVersionLayout;
     private HyperCardView mUpdateText;
 
@@ -85,7 +86,8 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
 
     private void initView() {
         mRootView = (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.layout_version_card, this, true);
-        mIconImageView = findViewById(R.id.logo_view);
+        mIconLogoView = findViewById(R.id.app_icon_logo_view);
+        mTextLogoView = findViewById(R.id.app_text_logo_view);
         TextView versionTextView = findViewById(R.id.version_text);
         versionName = BuildConfig.VERSION_NAME;
         if (!TextUtils.isEmpty(versionName)) {
@@ -101,7 +103,8 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
         checkUpdate();
         mAnimationController = new LogoAnimationController(getContext(), mNeedUpdate);
         if (!mNeedUpdate) {
-            mIconImageView.setAlpha(1.0f);
+            mIconLogoView.setAlpha(1.0f);
+            mTextLogoView.setAlpha(1.0f);
             mVersionLayout.setAlpha(1.0f);
             mHandler.sendEmptyMessageDelayed(0, 1500L);
         }
@@ -133,12 +136,14 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     public void performLogoAnimation(boolean z) {
         if (mNeedStartAnim && mNeedUpdate) {
             mNeedStartAnim = false;
-            mIconImageView.setPivotX(0.0f);
+            mIconLogoView.setPivotX(0.0f);
+            mTextLogoView.setPivotX(0.0f);
             AnimatorSet animatorSet = new AnimatorSet();
             if (scrollValue == 0) {
                 if (z) {
                     animatorSet.playTogether(
-                            ObjectAnimator.ofFloat(mIconImageView, "alpha", 0.0f, 1.0f),
+                            ObjectAnimator.ofFloat(mIconLogoView, "alpha", 0.0f, 1.0f),
+                            ObjectAnimator.ofFloat(mTextLogoView, "alpha", 0.0f, 1.0f),
                             ObjectAnimator.ofFloat(mVersionLayout, "alpha", 0.0f, 1.0f),
                             ObjectAnimator.ofFloat(mUpdateText, "alpha", 0.0f, 1.0f)
                     );
@@ -148,18 +153,23 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
             }
             animatorSet.setDuration(800L);
             animatorSet.setInterpolator(mDecelerateInterpolator);
-            Animator[] animatorItems = new Animator[3];
+            Animator[] animatorItems = new Animator[4];
             animatorItems[0] = ObjectAnimator.ofFloat(
-                    mIconImageView, "translationY",
+                    mIconLogoView, "translationY",
                     SettingsFeatures.isSplitTabletDevice() ? DisplayUtils.dp2px(getContext(), -27.0f) :
                             DisplayUtils.dp2px(getContext(), -30.0f)
             );
             animatorItems[1] = ObjectAnimator.ofFloat(
+                    mTextLogoView, "translationY",
+                    SettingsFeatures.isSplitTabletDevice() ? DisplayUtils.dp2px(getContext(), -27.0f) :
+                            DisplayUtils.dp2px(getContext(), -30.0f)
+            );
+            animatorItems[2] = ObjectAnimator.ofFloat(
                     mVersionLayout, "translationY",
                     SettingsFeatures.isSplitTabletDevice() ? DisplayUtils.dp2px(getContext(), -27.0f) :
                             DisplayUtils.dp2px(getContext(), -30.0f)
             );
-            animatorItems[2] = animatorSet;
+            animatorItems[3] = animatorSet;
             mAnimatorSet.playTogether(animatorItems);
             mAnimatorSet.setDuration(1000L);
             mAnimatorSet.setInterpolator(mInterpolater);
@@ -179,8 +189,10 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
                     getResources().getColor(R.color.logo_color3)
             };
             modeValue = ViewUtils.isNightMode(getContext()) ? 18 : 19;
-            enableTextBlur(mIconImageView, true, iArr, new int[]{modeValue, 100, 106});
-            mIconImageView.setBackgroundResource(R.drawable.ic_logo_new);
+            enableTextBlur(mIconLogoView, true, iArr, new int[]{modeValue, 100, 106});
+            enableTextBlur(mTextLogoView, true, iArr, new int[]{modeValue, 100, 106});
+            mIconLogoView.setBackgroundResource(R.drawable.ic_hyperceiler_logo);
+            mTextLogoView.setBackgroundResource(R.drawable.ic_logo_new);
             Log.d("VersionCard", "start logoBlur: ");
         }
     }
@@ -207,7 +219,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     }
 
     public void setAnimation(int scrollY, View bgEffectView) {
-        mAnimationController.startAnimation(scrollY, mIconImageView, mUpdateText, mVersionLayout, bgEffectView);
+        mAnimationController.startAnimation(scrollY, mIconLogoView, mTextLogoView, mUpdateText, mVersionLayout, bgEffectView);
     }
 
     @Override

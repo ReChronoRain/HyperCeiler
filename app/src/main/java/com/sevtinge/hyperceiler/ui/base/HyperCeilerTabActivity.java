@@ -8,7 +8,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.SubSettings;
-import com.sevtinge.hyperceiler.ui.fragment.base.ContentFragment;
+import com.sevtinge.hyperceiler.ui.fragment.main.ContentFragment;
 
 import fan.appcompat.app.Fragment;
 import fan.navigator.Navigator;

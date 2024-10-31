@@ -24,24 +24,24 @@
 
     <Preference
         android:title="@string/security_center_app_title"
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.securitycenter.ApplicationsSettings" />
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.ApplicationsSettings" />
 
     <Preference
         android:title="@string/security_center_battery_title"
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.securitycenter.BatterySettings" />
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.BatterySettings" />
 
     <Preference
         android:title="@string/security_center_privacy_title"
         android:key="prefs_key_security_center_privacy_safety"
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.securitycenter.PrivacySafetySettings" />
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.PrivacySafetySettings" />
 
     <Preference
         android:title="@string/security_center_newbox_title"
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.securitycenter.SidebarSettings" />
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.SidebarSettings" />
 
     <Preference
         android:title="@string/security_center_other_title"
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.securitycenter.OtherSettings" />
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.OtherSettings" />
 
 
 

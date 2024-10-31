@@ -26,11 +26,11 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.sevtinge.hyperceiler.ui.SubSettings;
 import com.sevtinge.hyperceiler.ui.fragment.framework.OtherSettings;
-import com.sevtinge.hyperceiler.ui.fragment.home.HomeDockSettings;
-import com.sevtinge.hyperceiler.ui.fragment.home.HomeFolderSettings;
-import com.sevtinge.hyperceiler.ui.fragment.home.HomeGestureSettings;
+import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeDockSettings;
+import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeFolderSettings;
+import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeGestureSettings;
 import com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings;
-import com.sevtinge.hyperceiler.ui.fragment.various.AlertDialogSettings;
+import com.sevtinge.hyperceiler.ui.fragment.app.various.AlertDialogSettings;
 
 import fan.preference.PreferenceFragment;
 
