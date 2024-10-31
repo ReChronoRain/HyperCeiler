@@ -54,7 +54,7 @@
             app:format="%d %%"
             app:stepValue="1" />
 
-        <moralnorm.preference.ColorPickerPreference
+        <ColorPickerPreference
             android:title="@string/personal_assistant_color"
             android:key="prefs_key_personal_assistant_color"
             android:defaultValue="-1" />
