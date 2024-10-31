@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.app.SecurityCenter;
+package com.sevtinge.hyperceiler.module.app.SecurityCenter.Pad;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
@@ -74,8 +74,8 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockV
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VideoDolbyOpen;
 
-@HookBase(pkg = "com.miui.securitycenter", isPad = false, tarAndroid = 34)
-public class SecurityCenterV extends BaseModule {
+@HookBase(pkg = "com.miui.securitycenter", isPad = true, tarAndroid = 33)
+public class SecurityCenterT extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
@@ -87,7 +87,6 @@ public class SecurityCenterV extends BaseModule {
         initHook(new AppDetails(), mPrefsMap.getBoolean("security_center_app_details"));
         initHook(DisableReport.INSTANCE, mPrefsMap.getBoolean("security_center_disable_ban"));
         initHook(new OpenByDefaultSetting(), mPrefsMap.getBoolean("security_center_app_default_setting"));
-        initHook(new UnlockAppSandbox(), mPrefsMap.getBoolean("secutity_center_unlock_app_sandbox"));
         initHook(AddAppInfoEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_info"));
         initHook(AddAppManagerEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_manager"));
 
