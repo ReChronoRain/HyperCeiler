@@ -89,7 +89,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
         mIconLogoView = findViewById(R.id.app_icon_logo_view);
         mTextLogoView = findViewById(R.id.app_text_logo_view);
         TextView versionTextView = findViewById(R.id.version_text);
-        versionName = BuildConfig.VERSION_NAME;
+        versionName = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE;
         if (!TextUtils.isEmpty(versionName)) {
             versionTextView.setText(versionName);
         }

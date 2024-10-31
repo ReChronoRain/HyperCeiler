@@ -1885,4 +1885,7 @@
     <string name="voicetrigger_accuracy_percent_caption">Set accuracy for Wake with voice detection</string>
     <string name="voicetrigger_accuracy_percent_description">Higher values are more difficult to detect. The default value is 70%, for the keyword XATX it\'s 0%. After setting, you need to restart the target app and re-enroll your activation word.</string>
 
+    <string name="about_device_info_device">Device</string>
+    <string name="about_device_info_android">Android Version</string>
+    <string name="about_device_info_os">OS Version</string>
 </resources>

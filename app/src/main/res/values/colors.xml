@@ -23,6 +23,8 @@
     <color name="textview_black">#FF000000</color>
     <color name="textview_white">#F1FFFFFF</color>
     <color name="textview_blue">#0D84FF</color>
+    <color name="textview_black_title">#000000</color>
+    <color name="textview_black_summary">#80000000</color>
 
     <color name="navigation_divider">#1A000000</color>
     <color name="navigation_icon_dark">#FF000000</color>

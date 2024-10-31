@@ -18,8 +18,10 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.main;
 
+import static com.sevtinge.hyperceiler.utils.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.sp2px;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
@@ -70,6 +72,11 @@ public class AboutFragment extends SettingsPreferenceFragment
     private SpringBackLayout mSpringBackView;
 
     private VersionCard mVersionCardView;
+
+    private Preference mDeviceName;
+    private Preference mDeviceInfoDevice;
+    private Preference mDeviceInfoAndroid;
+    private Preference mDeviceInfoOs;
 
     private View mBgEffectView;
     private BgEffectPainter mBgEffectPainter;
@@ -226,6 +233,14 @@ public class AboutFragment extends SettingsPreferenceFragment
         int lIIlllI = ClickCountsUtils.getClickCounts();
         Preference lIIllII = findPreference("prefs_key_various_enable_super_function");
         Preference mQQGroup = findPreference("prefs_key_about_join_qq_group");
+        mDeviceName = findPreference("prefs_key_about_device_name");
+        mDeviceInfoDevice = findPreference("prefs_key_about_device_info_device");
+        mDeviceInfoAndroid = findPreference("prefs_key_about_device_info_android");
+        mDeviceInfoOs = findPreference("prefs_key_about_device_info_os");
+        mDeviceName.setTitle(getProp("persist.sys.device_name"));
+        mDeviceInfoDevice.setTitle(getProp("ro.product.marketname"));
+        mDeviceInfoAndroid.setTitle(getProp("ro.build.version.release"));
+        mDeviceInfoOs.setTitle(getSystemVersionIncremental());
 
         if (lIIllII != null) {
             lIIllII.setTitle(BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE);

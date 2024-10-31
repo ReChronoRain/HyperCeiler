@@ -76,8 +76,8 @@
     <dimen name="logo_width">280dp</dimen>
     <dimen name="logo_height">40dp</dimen>
     <dimen name="logo_bottom">250dp</dimen>
-    <dimen name="logo_area_height">389dp</dimen>
-    <dimen name="logo_margin_top">60dp</dimen>
+    <dimen name="logo_area_height">416dp</dimen>
+    <dimen name="logo_margin_top">90dp</dimen>
 
     <dimen name="update_btn_margin_bottom">60dp</dimen>
 

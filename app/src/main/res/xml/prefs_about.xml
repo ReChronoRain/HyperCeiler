@@ -24,6 +24,39 @@
         android:summary="@string/xposed_description"
         app:isPreferenceVisible="false"/>
 
+    <PreferenceCategory>
+        <Preference
+            android:layout="@layout/preference_big_title"
+            android:key="prefs_key_about_device_name"
+            android:enabled="false"
+            android:title="HyperCeiler User's Device" />
+
+        <Preference
+            android:layout="@layout/preference_second_title"
+            android:key="prefs_key_about_device_info_device"
+            android:enabled="false"
+            android:title="HyperCeiler Device"
+            android:summary="@string/about_device_info_device"/>
+
+        <Preference
+            android:layout="@layout/preference_second_title"
+            android:key="prefs_key_about_device_info_android"
+            android:enabled="false"
+            android:title="15"
+            android:summary="@string/about_device_info_android"/>
+
+        <Preference
+            android:layout="@layout/preference_second_title"
+            android:key="prefs_key_about_device_info_os"
+            android:enabled="false"
+            android:title="OS2.0.1.0.UNBCNXM"
+            android:summary="@string/about_device_info_os" />
+
+        <Preference
+            android:layout="@layout/preference_padding"
+            android:enabled="false" />
+
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_developer_title">
         <Preference
             android:icon="@drawable/ic_sevtinge"
