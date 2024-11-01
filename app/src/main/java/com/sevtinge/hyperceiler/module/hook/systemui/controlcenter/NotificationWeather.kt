@@ -140,26 +140,10 @@ object NotificationWeather : BaseHook() {
                         (mWeatherView as WeatherView).layoutParams = mweatherviewLp
 
                     } else {
-
-                        val layoutParam =
-                            loadClass("androidx.constraintlayout.widget.ConstraintLayout\$LayoutParams").getConstructor(
-                                Int::class.java,
-                                Int::class.java
-                            ).newInstance(
-                                ViewGroup.LayoutParams.WRAP_CONTENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT
-                            ) as ViewGroup.MarginLayoutParams
-
-
-                        layoutParam.setObjectField(
-                            "bottomToTop",
-                            context.resources.getIdentifier("date_time", "id", context.packageName)
+                        val layoutParam = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
                         )
-                        layoutParam.setObjectField(
-                            "startToEnd",
-                            context.resources.getIdentifier("big_time", "id", context.packageName)
-                        )
-
 
                         layoutParam.marginStart = context.resources.getDimensionPixelSize(
                             context.resources.getIdentifier(
@@ -167,7 +151,8 @@ object NotificationWeather : BaseHook() {
                                 "dimen",
                                 context.packageName
                             )
-                        )
+                        ) + dp2px(5f)
+
                         mWeatherView = WeatherView(context, isDisplayCity).apply {
                             setTextAppearance(
                                 context.resources.getIdentifier(
@@ -178,7 +163,17 @@ object NotificationWeather : BaseHook() {
                             )
                             layoutParams = layoutParam
                         }
-                        viewGroup.addView(mWeatherView)
+
+                        val dateTime = viewGroup.findViewById<View>(
+                            context.resources.getIdentifier(
+                                "date_time",
+                                "id",
+                                context.packageName
+                            )
+                        )
+
+                        val dateTimeParent = dateTime.parent as ViewGroup
+                        dateTimeParent.addView(mWeatherView)
                     }
 
                     (mWeatherView as WeatherView).setOnClickListener {
