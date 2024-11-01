@@ -18,6 +18,8 @@
   ~ Copyright (C) 2023-2024 HyperCeiler Contributions
   -->
 <resources>
+    <string name="version_update">Có phiên bản mới</string>
+    <string name="about_copy_right">© 2023-2024 Người đóng góp Sevtinge &amp; HyperCeiler.</string>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Làm cho HyperOS/MIUI trở nên vĩ đại!</string>
     <string name="new_permission_wifi_state_desc">thêm và xóa tập tin trên bộ nhớ trong thiết bị</string>
@@ -1826,4 +1828,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="bypass_udk_word_legal_check_description">Cho phép đăng ký ASR mà không cần internet</string>
     <string name="voicetrigger_accuracy_percent_caption">Đặt độ chính xác ASR</string>
     <string name="voicetrigger_accuracy_percent_description">Giá trị lớn hơn có nghĩa là khó phát hiện hơn. Đối với \"XiaoAI\", giá trị mặc định của nó là 0%. Sau khi thiết lập xong cần nhập lại từ đánh thức</string>
+    <string name="about_device_info_device">Thiết bị</string>
+    <string name="about_device_info_android">Phiên bản Android</string>
+    <string name="about_device_info_os">Phiên bản hệ thống</string>
 </resources>
