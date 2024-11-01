@@ -16,12 +16,12 @@ public class DisableDeviceManaged extends BaseHook {
                 param.setResult(false);
             }
         });
-        findAndHookMethod("com.android.systemui.statusbar.policy.SecurityControllerImpl", "isDeviceManaged", new MethodHook(){
+        /*findAndHookMethod("com.android.systemui.statusbar.policy.SecurityControllerImpl", "isDeviceManaged", new MethodHook(){
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(false);
             }
-        });
+        });*/
         findAndHookMethod("com.android.systemui.statusbar.policy.SecurityControllerImpl", "hasCACertInCurrentUser", new MethodHook(){
             @Override
             protected void before(MethodHookParam param) throws Throwable {
