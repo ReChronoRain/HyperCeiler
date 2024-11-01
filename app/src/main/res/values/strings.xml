@@ -24,9 +24,9 @@
     <string name="navigation_settings_title" translatable="false">@string/settings</string>
     <string name="navigation_about_title" translatable="false">@string/about</string>
 
-    <string name="version_update">有新版本</string>
+    <string name="version_update">New version found</string>
 
-    <string name="about_copy_right">© 2023-2024 Sevtinge &amp; HyperCeiler Contributions.</string>
+    <string name="about_copy_right">© 2023-2024 Sevtinge &amp; HyperCeiler Contributors.</string>
 
     <string name="empty_lable" translatable="false" />
     <string name="system_ui_status_bar_icon_nfc" translatable="false">NFC</string>
@@ -1886,6 +1886,6 @@
     <string name="voicetrigger_accuracy_percent_description">Higher values are more difficult to detect. The default value is 70%, for the keyword XATX it\'s 0%. After setting, you need to restart the target app and re-enroll your activation word.</string>
 
     <string name="about_device_info_device">Device</string>
-    <string name="about_device_info_android">Android Version</string>
-    <string name="about_device_info_os">OS Version</string>
+    <string name="about_device_info_android">Android version</string>
+    <string name="about_device_info_os">OS version</string>
 </resources>
