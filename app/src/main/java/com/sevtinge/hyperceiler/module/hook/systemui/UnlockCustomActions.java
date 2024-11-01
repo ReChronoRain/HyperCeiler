@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 import java.util.ArrayList;
@@ -28,14 +30,14 @@ public class UnlockCustomActions extends BaseHook {
 
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookMethod("com.android.systemui.media.controls.pipeline.MediaDataManager$createActionsFromState$customActions$1",
+        findAndHookMethod(isMoreAndroidVersion(35) ? "com.android.systemui.media.controls.domain.pipeline.LegacyMediaDataManagerImpl$createActionsFromState$customActions$1" : "com.android.systemui.media.controls.pipeline.MediaDataManager$createActionsFromState$customActions$1",
                 "invoke", Object.class
                 , new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
                         Object INSTANCE = XposedHelpers.getStaticObjectField(
-                                findClassIfExists("com.android.systemui.statusbar.notification.NotificationSettingsManager$Holder"),
-                                "INSTANCE");
+                                findClassIfExists(isMoreAndroidVersion(35) ? "com.android.systemui.statusbar.notification.NotificationSettingsManager" : "com.android.systemui.statusbar.notification.NotificationSettingsManager$Holder"),
+                                isMoreAndroidVersion(35) ? "sINSTANCE" : "INSTANCE");
                         XposedHelpers.setObjectField(INSTANCE, "mHiddenCustomActionsList", new ArrayList<>());
                     }
 
