@@ -39,10 +39,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:paddingTop="6dp"
-    android:paddingStart="24dp"
-    android:paddingEnd="24dp"
-    android:paddingBottom="2dp">
+    android:background="@drawable/headtip_tip_background">
 
     <include layout="@layout/image_frame" />
 
@@ -58,7 +55,6 @@
             android:id="@android:id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/headtip_tip_background"
             android:textColor="@color/textview_blue"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -70,8 +66,7 @@
             android:clickable="true"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:longClickable="true"
-            />
+            android:longClickable="true" />
     </RelativeLayout>
 
     <!-- Preference should place its actual preference widget here. -->

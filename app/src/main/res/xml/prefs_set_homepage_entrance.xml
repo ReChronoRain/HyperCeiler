@@ -17,12 +17,8 @@
   ~ Copyright (C) 2023-2024 HyperCeiler Contributions
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <Preference
-        android:enabled="false"
-        android:key="prefs_key_set_homepage_entrance_about"
-        android:summary="@string/set_homepage_entrance_about" />
 
-    <PreferenceCategory>
+    <PreferenceCategory android:title="@string/set_homepage_entrance_about">
 
     <SwitchPreference
         android:defaultValue="true"
