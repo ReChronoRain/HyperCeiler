@@ -18,7 +18,10 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/set_homepage_entrance_about">
+    <Preference
+        android:summary="@string/set_homepage_entrance_about"/>
+
+    <PreferenceCategory>
 
     <SwitchPreference
         android:defaultValue="true"
@@ -462,12 +465,11 @@
         android:layout="@layout/preference_header"
         android:title="@string/various" />
 
-    <Preference
-        android:key="prefs_key_help_cant_see_app"
-        android:title="@string/help_cant_see_apps_guide"
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.main.helper.CantSeeAppsFragment"
-        android:layout="@layout/preference_hyperlink"/>
-
     </PreferenceCategory>
+
+    <TextButtonPreference
+        android:key="prefs_key_help_cant_see_app"
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.main.helper.CantSeeAppsFragment"
+        android:title="@string/help_cant_see_apps_guide" />
 
 </PreferenceScreen>

@@ -21,24 +21,24 @@
     <PreferenceCategory>
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.FreeFormSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.framework.FreeFormSettings"
             android:title="@string/floating_window" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.VolumeSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.framework.VolumeSettings"
             android:title="@string/system_framework_volume_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.DisplaySettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.framework.DisplaySettings"
             android:title="@string/system_framework_display_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.NetworkSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.framework.NetworkSettings"
             android:key="prefs_key_system_framework_network"
             android:title="@string/system_framework_phone_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.OtherSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.framework.OtherSettings"
             android:title="@string/system_framework_other_title" />
 
     </PreferenceCategory>

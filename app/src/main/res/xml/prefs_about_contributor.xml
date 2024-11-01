@@ -17,7 +17,11 @@
   ~ Copyright (C) 2023-2024 HyperCeiler Contributions
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/about_contributer_desc">
+
+    <Preference
+        android:summary="@string/about_contributer_desc"/>
+
+    <PreferenceCategory>
         <Preference
             android:summary="GitHub@CC0126"
             android:title="CC0126">
