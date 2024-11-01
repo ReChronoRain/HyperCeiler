@@ -320,7 +320,7 @@ public class SystemUiV extends BaseModule {
         initHook(new QSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
         initHook(new QQSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));
-        initHook(RedirectToNotificationChannelSetting.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_redirect_notice"));
+        // initHook(RedirectToNotificationChannelSetting.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_redirect_notice"));
         initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));
         initHook(NotificationImportanceHyperOSFix.INSTANCE, mPrefsMap.getBoolean("system_settings_more_notification_settings") && isMoreHyperOSVersion(1f));
         initHook(new NotificationRowMenu(), mPrefsMap.getBoolean("system_ui_control_center_notifrowmenu"));
