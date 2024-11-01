@@ -150,7 +150,6 @@ public class SystemUiV extends BaseModule {
         // PluginHelper
         initHook(new PluginHelper(), true);// 充电动画
         // initHook(Island.INSTANCE, true); // 灵动岛
-        initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         // initHook(DisableChargeAnimation.INSTANCE);
 
         // 小窗
@@ -246,12 +245,12 @@ public class SystemUiV extends BaseModule {
             initHook(TimeStyle.INSTANCE, isEnableTime);
             initHook(TimeCustomization.INSTANCE, mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0);
         }
-
-        // 硬件指示器
-        initHook(new DisplayHardwareDetail(), mPrefsMap.getBoolean("system_ui_statusbar_battery_enable") ||
-                mPrefsMap.getBoolean("system_ui_statusbar_temp_enable"));
-
-        // initHook(new DisplayHardwareDetailForHyper(), true);
+        //
+        // // 硬件指示器
+        // initHook(new DisplayHardwareDetail(), mPrefsMap.getBoolean("system_ui_statusbar_battery_enable") ||
+        //         mPrefsMap.getBoolean("system_ui_statusbar_temp_enable"));
+        //
+        // // initHook(new DisplayHardwareDetailForHyper(), true);
 
         // 灵动舞台
         initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_strong_toast_hide"));
@@ -293,14 +292,14 @@ public class SystemUiV extends BaseModule {
         initHook(new ExpandNotification(), !mPrefsMap.getStringSet("system_ui_control_center_expand_notification").isEmpty());
         initHook(new HideDelimiter(), mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) != 0);
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
-        initHook(new GmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));
-        initHook(new TaplusTile(), mPrefsMap.getBoolean("security_center_taplus"));
-        initHook(new ReduceBrightColorsTile(), mPrefsMap.getBoolean("security_center_reduce_bright_colors_tile"));
-        initHook(new FiveGTile(), mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) != 0);
-        initHook(new FlashLight(), mPrefsMap.getStringAsInt("security_flash_light_switch", 0) != 0);
-        initHook(new SunlightMode(), mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode", 0) != 0);
-        initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_row", 1) > 1 ||
-                mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
+        // initHook(new GmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));
+        // initHook(new TaplusTile(), mPrefsMap.getBoolean("security_center_taplus"));
+        // initHook(new ReduceBrightColorsTile(), mPrefsMap.getBoolean("security_center_reduce_bright_colors_tile"));
+        // initHook(new FiveGTile(), mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) != 0);
+        // initHook(new FlashLight(), mPrefsMap.getStringAsInt("security_flash_light_switch", 0) != 0);
+        // initHook(new SunlightMode(), mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode", 0) != 0);
+        // initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_row", 1) > 1 ||
+        //         mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
         initHook(new SwitchCCAndNotification(), mPrefsMap.getBoolean("system_ui_control_center_switch_cc_and_notification"));
         initHook(QSControlDetailBackgroundAlpha.INSTANCE, mPrefsMap.getInt("system_ui_control_center_control_detail_background_alpha", 255) != 255);
