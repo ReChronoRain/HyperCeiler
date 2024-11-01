@@ -128,7 +128,6 @@
             android:defaultValue="6"
             android:dependency="prefs_key_system_ui_lock_screen_show_spacing_value"
             android:key="prefs_key_system_ui_lock_screen_show_spacing"
-            android:layout="@layout/preference_seekbar_no_padding"
             app:defaultValueText="@string/array_default"
             app:displayDividerValue="2"
             app:format="%s s"

@@ -74,7 +74,6 @@
         <SeekBarPreferenceCompat
             android:key="pref_key_system_ui_auto_brightness_min"
             android:dependency="prefs_key_system_control_center_auto_brightness_min"
-            android:layout="@layout/preference_seekbar_no_padding"
             android:defaultValue="25"
             app:minValue="0"
             app:maxValue="98"
@@ -91,7 +90,6 @@
         <SeekBarPreferenceCompat
             android:key="pref_key_system_ui_auto_brightness_max"
             android:dependency="prefs_key_system_control_center_auto_brightness_max"
-            android:layout="@layout/preference_seekbar_no_padding"
             android:defaultValue="75"
             app:minValue="0"
             app:maxValue="100"
@@ -110,7 +108,6 @@
         <SeekBarPreferenceCompat
             android:key="pref_key_system_ui_display_toast_times"
             android:dependency="prefs_key_system_ui_display_toast_times_enable"
-            android:layout="@layout/preference_seekbar_no_padding"
             app:defaultValueText="@string/array_default"
             android:defaultValue="0"
             app:minValue="0"

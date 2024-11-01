@@ -29,7 +29,6 @@
             android:defaultValue="32"
             android:dependency="prefs_key_home_large_icon_enable"
             android:key="prefs_key_home_large_icon_corner_radius"
-            android:layout="@layout/preference_seekbar_no_padding"
             app:defaultValueText="@string/array_default"
             app:format="%d dp"
             app:maxValue="90"

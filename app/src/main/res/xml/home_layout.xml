@@ -62,7 +62,6 @@
             android:defaultValue="false" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_workspace_padding_top"
             android:defaultValue="30"
             app:defaultValueText="@string/array_default"
@@ -78,7 +77,6 @@
             android:defaultValue="false" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_workspace_padding_bottom"
             android:defaultValue="120"
             app:defaultValueText="@string/array_default"
@@ -94,7 +92,6 @@
             android:defaultValue="false" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_workspace_padding_horizontal"
             android:defaultValue="20"
             app:defaultValueText="@string/array_default"
@@ -111,7 +108,6 @@
             android:defaultValue="false" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_hotseats_height"
             android:defaultValue="80"
             app:defaultValueText="@string/array_default"
@@ -127,7 +123,6 @@
             android:defaultValue="false" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_hotseats_margin_top"
             android:defaultValue="20"
             app:defaultValueText="@string/array_default"
@@ -143,7 +138,6 @@
             android:defaultValue="false" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_hotseats_margin_bottom"
             android:defaultValue="70"
             app:defaultValueText="@string/array_default"
@@ -162,7 +156,6 @@
             android:defaultValue="false" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_searchbar_margin_bottom"
             android:defaultValue="30"
             app:defaultValueText="@string/array_default"

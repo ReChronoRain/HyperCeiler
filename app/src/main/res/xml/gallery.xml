@@ -90,7 +90,6 @@
             android:defaultValue="14"
             android:dependency="prefs_key_gallery_enable_un_privacy_watermark"
             android:key="prefs_key_gallery_enable_un_privacy_watermark_value"
-            android:layout="@layout/preference_seekbar_no_padding"
             app:defaultValueText="@string/array_default"
             app:format="%s"
             app:maxValue="50"
