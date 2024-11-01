@@ -20,6 +20,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/mms">
 
+    <PreferenceCategory>
+
     <SwitchPreference
         android:title="@string/mms_disable_ad"
         android:summary="@string/mms_disable_ad_desc"
@@ -37,5 +39,7 @@
         android:summary="@string/mms_disable_overseas_risk_tip_desc"
         android:key="prefs_key_mms_disable_overseas_risk_tip"
         android:defaultValue="false" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

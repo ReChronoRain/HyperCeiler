@@ -20,6 +20,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/home_title_custom_anim_param">
 
+    <PreferenceCategory>
+
     <SwitchPreference
         android:defaultValue="false"
         android:key="prefs_key_home_title_custom_anim_param_main"
@@ -80,5 +82,7 @@
         android:title="@string/home_title_custom_anim_param_8_title"
         android:dependency="prefs_key_home_title_custom_anim_param_main"
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.home.anim.HomeTitleAnim8Settings" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

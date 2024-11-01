@@ -19,6 +19,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/mishare">
+
+    <PreferenceCategory>
+
     <SwitchPreference
         android:title="@string/mishare_disable_mishare_auto_off"
         android:key="prefs_key_disable_mishare_auto_off"
@@ -28,5 +31,7 @@
         android:title="@string/mishare_unlock_turbo_mode"
         android:key="prefs_key_unlock_turbo_mode"
         android:defaultValue="false" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

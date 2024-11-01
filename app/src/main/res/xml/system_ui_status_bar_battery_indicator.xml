@@ -75,7 +75,7 @@
             android:key="prefs_key_system_ui_status_bar_battery_indicator_color_power_charging"
             android:title="@string/system_ui_status_bar_battery_indicator_color_power_charging" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_status_bar_battery_indicator_height"
             android:title="@string/system_ui_status_bar_battery_indicator_height"
             android:defaultValue="5"
@@ -83,7 +83,7 @@
             app:showSeekBarValue="true"
             android:format="%d px" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_status_bar_battery_indicator_padding"
             android:title="@string/system_ui_status_bar_battery_indicator_padding"
             android:defaultValue="0"
@@ -91,7 +91,7 @@
             app:showSeekBarValue="true"
             android:format="%d%%" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_status_bar_battery_indicator_alpha"
             android:title="@string/system_ui_status_bar_battery_indicator_alpha"
             android:defaultValue="0"
@@ -100,7 +100,7 @@
             app:showSeekBarValue="true"
             android:format="%d%%" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_status_bar_battery_indicator_glow"
             android:title="@string/system_ui_status_bar_battery_indicator_glow"
             android:defaultValue="0"
@@ -108,7 +108,7 @@
             app:showSeekBarValue="true"
             android:format="%d%%" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_status_bar_battery_indicator_low_level"
             android:title="@string/system_ui_status_bar_battery_indicator_low_level"
             android:defaultValue="20"

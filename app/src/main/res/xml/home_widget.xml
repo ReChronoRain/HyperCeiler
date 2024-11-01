@@ -19,6 +19,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/home_widget">
+
+    <PreferenceCategory>
+
     <SwitchPreference
         android:key="prefs_key_home_widget_all_widget_animation"
         android:title="@string/home_widget_all_widget_animation"
@@ -53,5 +56,7 @@
         app:defaultValueText="@string/array_default"
         app:format="%d dp"
         app:stepValue="1" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

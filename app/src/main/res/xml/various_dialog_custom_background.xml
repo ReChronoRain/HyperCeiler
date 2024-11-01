@@ -24,19 +24,18 @@
             android:persistent="false"
             android:title="@string/custom_enable" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory android:dependency="prefs_key_custom_background_enabled">
         <ColorPickerPreference
             android:defaultValue="-1"
             android:key="prefs_key_custom_background_color"
+            android:dependency="prefs_key_custom_background_enabled"
             android:persistent="false"
             android:title="@string/custom_background_color" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceCompat
             android:defaultValue="20"
             android:format="%d dp"
             android:key="prefs_key_custom_background_corner_radius"
+            android:dependency="prefs_key_custom_background_enabled"
             android:max="60"
             android:persistent="false"
             android:title="@string/custom_background_corner_radius"
@@ -44,10 +43,11 @@
 
         <SwitchPreference
             android:key="prefs_key_custom_background_blur_enabled"
+            android:dependency="prefs_key_custom_background_enabled"
             android:persistent="false"
             android:title="@string/custom_background_blur_enabled" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceCompat
             android:defaultValue="60"
             android:dependency="prefs_key_custom_background_blur_enabled"
             android:format="%d dp"

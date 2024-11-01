@@ -20,6 +20,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/updater">
 
+    <PreferenceCategory>
+
     <SwitchPreference
         android:title="@string/updater_fuck_vab"
         android:summary="@string/updater_fuck_vab_desc"
@@ -69,4 +71,7 @@
         android:summary="@string/updater_device_desc"
         android:key="prefs_key_updater_device"
         app:isPreferenceVisible="true" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

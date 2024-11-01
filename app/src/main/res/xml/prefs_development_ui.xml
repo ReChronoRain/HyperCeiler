@@ -59,7 +59,7 @@
             android:icon="@drawable/ic_hyperceiler_settings_v140"
             android:title="PreferenceHeader" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceCompat
             android:defaultValue="50"
             android:format="%d"
             android:title="SeekBarPreference"

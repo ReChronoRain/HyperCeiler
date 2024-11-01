@@ -19,6 +19,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/home_dock">
+
+    <PreferenceCategory>
+
     <SwitchPreference
         android:defaultValue="false"
         android:key="prefs_key_home_dock_unlock_hotseat"
@@ -54,6 +57,8 @@
         android:summary="@string/home_dock_slide_up_only_show_dock_desc"
         android:title="@string/home_dock_slide_up_only_show_dock"
         app:isPreferenceVisible="false" />
+
+    </PreferenceCategory>
 
     <PreferenceCategory>
         <SwitchPreference

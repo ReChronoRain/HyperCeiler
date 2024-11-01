@@ -175,20 +175,20 @@
             android:key="prefs_key_system_ui_lock_screen_linkage_anim"
             android:title="@string/system_ui_lock_screen_linkage_anim" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceCompat
             android:defaultValue="300"
             android:dependency="prefs_key_system_ui_lock_screen_linkage_anim"
-            android:format="%d f"
+            android:format="%s f"
             android:key="prefs_key_system_ui_lock_screen_linkage_anim_on"
             android:max="1600"
             android:min="100"
             android:title="@string/system_ui_lock_screen_linkage_anim_on"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceCompat
             android:defaultValue="200"
             android:dependency="prefs_key_system_ui_lock_screen_linkage_anim"
-            android:format="%d f"
+            android:format="%s f"
             android:key="prefs_key_system_ui_lock_screen_linkage_anim_off"
             android:max="1600"
             android:min="100"
