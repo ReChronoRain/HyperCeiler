@@ -54,7 +54,9 @@
 
         <Preference
             android:layout="@layout/preference_padding"
-            android:enabled="false" />
+            android:enabled="false"
+            android:key="prefs_key_about_device_info_padding"
+            android:title="kkjasglkjhasglknsfdglksfggh321dfgj654df6h54dr"/>
 
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_developer_title">

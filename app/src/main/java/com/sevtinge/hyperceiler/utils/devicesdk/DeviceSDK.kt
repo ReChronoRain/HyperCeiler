@@ -70,15 +70,16 @@ fun getDeviceToken(androidId : String): String {
 
     val originalText = "[$modelName]&&[$serial]&&[$androidId]&&[$cpuId]"
 
-    return hashString(originalText, "SHA-256")
+    return hashString(originalText, "SHA-1")
 }
 
 fun hashString(input: String, algorithm: String): String {
     val bytes = input.toByteArray()
     val digest = MessageDigest.getInstance(algorithm)
     val hashBytes = digest.digest(bytes)
-    return hashBytes.joinToString("") { "%02x".format(it) }
+    return hashBytes.joinToString("") { "%02x".format(it) }.uppercase(Locale.getDefault())
 }
+
 
 fun removeLeadingZeros(input: String): String {
     var result = input

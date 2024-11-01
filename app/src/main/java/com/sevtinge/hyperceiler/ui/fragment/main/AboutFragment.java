@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.main;
 
 import static com.sevtinge.hyperceiler.utils.PropUtils.getProp;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getDeviceToken;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.sp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
@@ -44,6 +45,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.expansionpacks.utils.ClickCountsUtils;
+import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.ActionBarUtils;
 import com.sevtinge.hyperceiler.view.BgEffectPainter;
@@ -77,6 +79,7 @@ public class AboutFragment extends SettingsPreferenceFragment
     private Preference mDeviceInfoDevice;
     private Preference mDeviceInfoAndroid;
     private Preference mDeviceInfoOs;
+    private Preference mDeviceInfoPadding;
 
     private View mBgEffectView;
     private BgEffectPainter mBgEffectPainter;
@@ -231,16 +234,19 @@ public class AboutFragment extends SettingsPreferenceFragment
     @Override
     public void initPrefs() {
         int lIIlllI = ClickCountsUtils.getClickCounts();
+        MainActivityContextHelper mainActivityContextHelper = new MainActivityContextHelper(requireContext());
         Preference lIIllII = findPreference("prefs_key_various_enable_super_function");
         Preference mQQGroup = findPreference("prefs_key_about_join_qq_group");
         mDeviceName = findPreference("prefs_key_about_device_name");
         mDeviceInfoDevice = findPreference("prefs_key_about_device_info_device");
         mDeviceInfoAndroid = findPreference("prefs_key_about_device_info_android");
         mDeviceInfoOs = findPreference("prefs_key_about_device_info_os");
+        mDeviceInfoPadding = findPreference("prefs_key_about_device_info_padding");
         mDeviceName.setTitle(getProp("persist.sys.device_name"));
         mDeviceInfoDevice.setTitle(getProp("ro.product.marketname"));
         mDeviceInfoAndroid.setTitle(getProp("ro.build.version.release"));
         mDeviceInfoOs.setTitle(getSystemVersionIncremental());
+        mDeviceInfoPadding.setTitle(getDeviceToken(mainActivityContextHelper.getAndroidId()));
 
         if (lIIllII != null) {
             lIIllII.setTitle(BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE);

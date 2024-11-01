@@ -21,6 +21,7 @@
     <color name="textview_black">#BEFFFFFF</color>
     <color name="textview_black_title">#FFFFFF</color>
     <color name="textview_black_summary">#80FFFFFF</color>
+    <color name="textview_black_watermark">#01FFFFFF</color>
 
     <color name="navigation_divider">#33FFFFFF</color>
     <color name="navigation_icon_light">#FF000000</color>
