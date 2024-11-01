@@ -20,8 +20,6 @@ package com.sevtinge.hyperceiler.ui.fragment.main;
 
 import static com.sevtinge.hyperceiler.utils.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getDeviceToken;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.sp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
@@ -56,6 +54,7 @@ import java.lang.reflect.Field;
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
 import fan.core.widget.NestedScrollView;
+import fan.internal.utils.LayoutUiModeHelper;
 import fan.preference.PreferenceFragment;
 import fan.springback.view.SpringBackLayout;
 
@@ -138,8 +137,8 @@ public class AboutFragment extends SettingsPreferenceFragment
     public void onResume() {
         super.onResume();
         initCardView();
-        /*ActionBar appCompatActionBar = getAppCompatActionBar();
-        if (appCompatActionBar != null) {
+        ActionBar appCompatActionBar = getAppCompatActionBar();
+        /*if (appCompatActionBar != null) {
             appCompatActionBar.getExpandTitle().setTitle("");
             appCompatActionBar.setExpandState(0);
             appCompatActionBar.setResizable(false);
@@ -292,5 +291,18 @@ public class AboutFragment extends SettingsPreferenceFragment
         } catch (Exception e) {
             // 未安装手Q或安装的版本不支持
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mHandler != null) mHandler.removeCallbacks(runnableBgEffect);
+        if (mRootView != null) unregisterCoordinateScrollView(mRootView);
+        mRootView = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

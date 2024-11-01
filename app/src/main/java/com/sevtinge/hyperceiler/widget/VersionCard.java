@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.os.UserHandle;
@@ -61,7 +63,6 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
             if (isAttachedToWindow()) {
                 checkUpdate();
                 if (mNeedUpdate) {
-                    mNeedStartAnim = true;
                     mAnimationController.iniData(getContext(), mNeedUpdate);
                     performLogoAnimation(false);
                     if (scrollValue != 0) {
@@ -112,15 +113,23 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     }
 
     public void checkUpdate() {
-        mNeedUpdate = false;
+        mNeedUpdate = !TextUtils.isEmpty(getUpdateInfo());
     }
 
     public void refreshUpdateStatus() {
-        mNeedUpdate = false;
-        mRootView.removeAllViews();
-        initView();
-        invalidate();
+        if ((!TextUtils.isEmpty(getUpdateInfo())) != mNeedUpdate) {
+            mNeedStartAnim = true;
+            mNeedUpdate = !TextUtils.isEmpty(getUpdateInfo());
+            mRootView.removeAllViews();
+            initView();
+            invalidate();
+        }
     }
+
+    public static String getUpdateInfo() {
+        return "";
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -192,8 +201,11 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
             enableTextBlur(mIconLogoView, true, iArr, new int[]{modeValue, 100, 106});
             enableTextBlur(mTextLogoView, true, iArr, new int[]{modeValue, 100, 106});
             mIconLogoView.setBackgroundResource(R.drawable.ic_hyperceiler_logo);
-            mTextLogoView.setBackgroundResource(R.drawable.ic_logo_new);
+            mTextLogoView.setBackgroundResource(R.drawable.ic_text_logo);
             Log.d("VersionCard", "start logoBlur: ");
+        } else {
+            mIconLogoView.setBackgroundResource(R.drawable.ic_hyperceiler_settings_v140);
+            mTextLogoView.setBackgroundResource(R.drawable.ic_text_logo_lite);
         }
     }
 
