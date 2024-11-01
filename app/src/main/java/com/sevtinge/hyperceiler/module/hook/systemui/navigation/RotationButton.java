@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.navigation;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.database.ContentObserver;
@@ -225,7 +227,7 @@ public class RotationButton extends BaseHook {
                     }
             );
         } catch (Throwable e) {
-            findAndHookMethod("com.android.systemui.shared.rotation.RotationButtonController$$ExternalSyntheticLambda1",
+            findAndHookMethod(isMoreAndroidVersion(35) ? "com.android.systemui.shared.rotation.RotationButtonController$$ExternalSyntheticLambda5" : "com.android.systemui.shared.rotation.RotationButtonController$$ExternalSyntheticLambda1",
                     "onClick", View.class,
                     new MethodHook() {
                         @Override
