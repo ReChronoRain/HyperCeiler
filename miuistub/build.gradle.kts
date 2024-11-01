@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.android.library)
 }
 
 android {
@@ -32,7 +32,7 @@ android {
 }
 
 dependencies {
-    annotationProcessor(libs.annotation.processor)
-    compileOnly(libs.refine.annotation)
+    annotationProcessor(libs.rikkax.annotation.processor)
+    compileOnly(libs.rikkax.annotation)
     compileOnly(libs.androidx.preference)
 }

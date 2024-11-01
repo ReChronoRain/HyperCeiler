@@ -56,6 +56,9 @@
     <color name="logo_color2">#4f4f4f</color>
     <color name="logo_color3">#1af200</color>
 
+    <color name="logo_overlay_shade_color">#55000000</color>
+    <color name="logo_overlay_color">#FF000000</color>
+
     <color name="my_card_bg_color">#99ffffff</color>
     <color name="my_card_shadow_color">#40000000</color>
 

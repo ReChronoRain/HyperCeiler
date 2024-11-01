@@ -18,7 +18,7 @@ import javax.lang.model.element.TypeElement;
 
 @AutoService(Processor.class)
 @SupportedAnnotationTypes("com.hchen.database.HookBase")
-@SupportedSourceVersion(SourceVersion.RELEASE_22)
+@SupportedSourceVersion(SourceVersion.RELEASE_21)
 public class HookBaseProcessor extends AbstractProcessor {
     int count = 0;
 

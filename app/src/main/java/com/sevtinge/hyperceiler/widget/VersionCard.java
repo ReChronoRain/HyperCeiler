@@ -4,12 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.res.ColorStateList;
+import android.graphics.BlendMode;
 import android.graphics.Canvas;
-import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
-import android.os.UserHandle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,9 +48,12 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     private boolean mNeedUpdate = true;
 
     ViewGroup mRootView;
-    private View cardClickView;
+    private LinearLayout mLogoView;
     private ImageView mIconLogoView;
     private ImageView mTextLogoView;
+    private LinearLayout mLogoViewShade;
+    private ImageView mIconLogoViewShade;
+    private ImageView mTextLogoViewShade;
     private ViewGroup mVersionLayout;
     private HyperCardView mUpdateText;
 
@@ -57,7 +63,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
 
     public LogoAnimationController mAnimationController;
 
-    private Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             if (isAttachedToWindow()) {
@@ -87,8 +93,12 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
 
     private void initView() {
         mRootView = (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.layout_version_card, this, true);
+        mLogoView = findViewById(R.id.logo_view_linear_layout);
         mIconLogoView = findViewById(R.id.app_icon_logo_view);
         mTextLogoView = findViewById(R.id.app_text_logo_view);
+        mLogoViewShade = findViewById(R.id.logo_view_linear_layout_shade);
+        mIconLogoViewShade = findViewById(R.id.app_icon_logo_view_shade);
+        mTextLogoViewShade = findViewById(R.id.app_text_logo_view_shade);
         TextView versionTextView = findViewById(R.id.version_text);
         versionName = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE;
         if (!TextUtils.isEmpty(versionName)) {
@@ -106,6 +116,8 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
         if (!mNeedUpdate) {
             mIconLogoView.setAlpha(1.0f);
             mTextLogoView.setAlpha(1.0f);
+            mIconLogoViewShade.setAlpha(1.0f);
+            mTextLogoViewShade.setAlpha(1.0f);
             mVersionLayout.setAlpha(1.0f);
             mHandler.sendEmptyMessageDelayed(0, 1500L);
         }
@@ -117,7 +129,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     }
 
     public void refreshUpdateStatus() {
-        if ((!TextUtils.isEmpty(getUpdateInfo())) != mNeedUpdate) {
+        if ((TextUtils.isEmpty(getUpdateInfo())) == mNeedUpdate) {
             mNeedStartAnim = true;
             mNeedUpdate = !TextUtils.isEmpty(getUpdateInfo());
             mRootView.removeAllViews();
@@ -147,12 +159,16 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
             mNeedStartAnim = false;
             mIconLogoView.setPivotX(0.0f);
             mTextLogoView.setPivotX(0.0f);
+            mIconLogoViewShade.setPivotX(0.0f);
+            mTextLogoViewShade.setPivotX(0.0f);
             AnimatorSet animatorSet = new AnimatorSet();
             if (scrollValue == 0) {
                 if (z) {
                     animatorSet.playTogether(
                             ObjectAnimator.ofFloat(mIconLogoView, "alpha", 0.0f, 1.0f),
                             ObjectAnimator.ofFloat(mTextLogoView, "alpha", 0.0f, 1.0f),
+                            ObjectAnimator.ofFloat(mIconLogoViewShade, "alpha", 0.0f, 1.0f),
+                            ObjectAnimator.ofFloat(mTextLogoViewShade, "alpha", 0.0f, 1.0f),
                             ObjectAnimator.ofFloat(mVersionLayout, "alpha", 0.0f, 1.0f),
                             ObjectAnimator.ofFloat(mUpdateText, "alpha", 0.0f, 1.0f)
                     );
@@ -162,7 +178,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
             }
             animatorSet.setDuration(800L);
             animatorSet.setInterpolator(mDecelerateInterpolator);
-            Animator[] animatorItems = new Animator[4];
+            Animator[] animatorItems = new Animator[6];
             animatorItems[0] = ObjectAnimator.ofFloat(
                     mIconLogoView, "translationY",
                     SettingsFeatures.isSplitTabletDevice() ? DisplayUtils.dp2px(getContext(), -27.0f) :
@@ -174,11 +190,21 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
                             DisplayUtils.dp2px(getContext(), -30.0f)
             );
             animatorItems[2] = ObjectAnimator.ofFloat(
+                    mIconLogoViewShade, "translationY",
+                    SettingsFeatures.isSplitTabletDevice() ? DisplayUtils.dp2px(getContext(), -27.0f) :
+                            DisplayUtils.dp2px(getContext(), -30.0f)
+            );
+            animatorItems[3] = ObjectAnimator.ofFloat(
+                    mTextLogoViewShade, "translationY",
+                    SettingsFeatures.isSplitTabletDevice() ? DisplayUtils.dp2px(getContext(), -27.0f) :
+                            DisplayUtils.dp2px(getContext(), -30.0f)
+            );
+            animatorItems[4] = ObjectAnimator.ofFloat(
                     mVersionLayout, "translationY",
                     SettingsFeatures.isSplitTabletDevice() ? DisplayUtils.dp2px(getContext(), -27.0f) :
                             DisplayUtils.dp2px(getContext(), -30.0f)
             );
-            animatorItems[3] = animatorSet;
+            animatorItems[5] = animatorSet;
             mAnimatorSet.playTogether(animatorItems);
             mAnimatorSet.setDuration(1000L);
             mAnimatorSet.setInterpolator(mInterpolater);
@@ -193,9 +219,9 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
         if (MiuiBlurUtils.isEnable() && MiuiBlurUtils.isEffectEnable(getContext())) {
             MiuiBlurUtils.setBackgroundBlur(mRootView, (int) ((getResources().getDisplayMetrics().density * 50.0f) + 0.5f));
             MiuiBlurUtils.setViewBlurMode(mRootView, 0);
-            int[] iArr = {getResources().getColor(R.color.logo_color1),
-                    getResources().getColor(R.color.logo_color2),
-                    getResources().getColor(R.color.logo_color3)
+            int[] iArr = {getResources().getColor(R.color.logo_color1, null),
+                    getResources().getColor(R.color.logo_color2, null),
+                    getResources().getColor(R.color.logo_color3, null)
             };
             modeValue = ViewUtils.isNightMode(getContext()) ? 18 : 19;
             enableTextBlur(mIconLogoView, true, iArr, new int[]{modeValue, 100, 106});
@@ -204,8 +230,15 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
             mTextLogoView.setBackgroundResource(R.drawable.ic_text_logo);
             Log.d("VersionCard", "start logoBlur: ");
         } else {
-            mIconLogoView.setBackgroundResource(R.drawable.ic_hyperceiler_settings_v140);
-            mTextLogoView.setBackgroundResource(R.drawable.ic_text_logo_lite);
+            mIconLogoView.setImageResource(R.drawable.ic_hyperceiler_logo);
+            mTextLogoView.setImageResource(R.drawable.ic_text_logo);
+            mIconLogoView.setColorFilter(getResources().getColor(R.color.logo_overlay_color, null));
+            mTextLogoView.setColorFilter(getResources().getColor(R.color.logo_overlay_color, null));
+            mLogoViewShade.setVisibility(View.VISIBLE);
+            Paint overlayPaint = new Paint();
+            overlayPaint.setBlendMode(BlendMode.OVERLAY);
+            overlayPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.OVERLAY));
+            mLogoView.setLayerType(LAYER_TYPE_HARDWARE, overlayPaint);
         }
     }
 
@@ -231,7 +264,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     }
 
     public void setAnimation(int scrollY, View bgEffectView) {
-        mAnimationController.startAnimation(scrollY, mIconLogoView, mTextLogoView, mUpdateText, mVersionLayout, bgEffectView);
+        mAnimationController.startAnimation(scrollY, mIconLogoView, mTextLogoView, mIconLogoViewShade, mTextLogoViewShade, mUpdateText, mVersionLayout, bgEffectView);
     }
 
     @Override
