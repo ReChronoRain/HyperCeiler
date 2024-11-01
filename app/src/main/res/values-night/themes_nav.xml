@@ -30,6 +30,13 @@
         <item name="preferenceCategoryStyle">@style/Preference.Category</item>
         <item name="preferenceItemPaddingEnd">@dimen/miuix_preference_item_padding_end</item>
         <item name="preferenceItemPaddingStart">@dimen/miuix_preference_item_padding_start</item>
+
+        <item name="textColorDialogListItem">@color/miuix_appcompat_dialog_list_text_dark</item>
+        <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>
+
+        <item name="dialogListItemBackground">@drawable/miuix_appcompat_list_item_bg_dialog_dark</item>
+        <item name="dialogMultiChoiceListItemBackground">@drawable/miuix_appcompat_list_item_bg_multichoice_dark</item>
+        <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_dark</item>
     </style>
 
     <style name="NavigatorContentFragmentTheme" parent="Theme.AppCompat.DayNight.Content">
@@ -37,9 +44,16 @@
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="actionBarBackground">@color/miuix_design_default_color_surface_variant_dark</item>
         <item name="actionbarSearchMaskColor">#20000000</item>
-        <item name="bgBlurOptions">splitActionBar</item>
+        <item name="bgBlurOptions">actionBar|splitActionBar</item>
         <item name="colorPrimary">@color/miuix_design_default_color_surface_variant_dark</item>
         <item name="responsiveActionMenuViewStyle">@style/Widget.ResponsiveActionMenuView.Light</item>
+
+        <item name="textColorDialogListItem">@color/miuix_appcompat_dialog_list_text_dark</item>
+        <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>
+
+        <item name="dialogListItemBackground">@drawable/miuix_appcompat_list_item_bg_dialog_dark</item>
+        <item name="dialogMultiChoiceListItemBackground">@drawable/miuix_appcompat_list_item_bg_multichoice_dark</item>
+        <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_dark</item>
     </style>
 
 
@@ -47,10 +61,18 @@
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_dark</item>
 
+        <item name="contentAutoFitSystemWindow">false</item>
         <item name="windowExtraPaddingHorizontalEnable">true</item>
         <item name="windowExtraPaddingApplyToContentEnable">false</item>
 
         <item name="preferenceTheme">@style/ThemeOverlay.Preference.Light.OS2</item>
+
+        <item name="textColorDialogListItem">@color/miuix_appcompat_dialog_list_text_dark</item>
+        <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>
+
+        <item name="dialogListItemBackground">@drawable/miuix_appcompat_list_item_bg_dialog_dark</item>
+        <item name="dialogMultiChoiceListItemBackground">@drawable/miuix_appcompat_list_item_bg_multichoice_dark</item>
+        <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_dark</item>
     </style>
 
     <style name="Theme.Navigator.ContentChild.Home">
