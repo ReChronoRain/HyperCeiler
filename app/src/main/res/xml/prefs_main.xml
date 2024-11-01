@@ -24,34 +24,42 @@
     </PreferenceCategory>
 
     <PreferenceCategory>
-
         <Preference
             android:enabled="false"
             android:key="prefs_key_headtip_hyperceiler_birthday"
             android:layout="@layout/headtip_hyperceiler_birthday"
             android:title="@string/happy_birthday_hyperceiler"
             app:isPreferenceVisible="false" />
+    </PreferenceCategory>
 
+    <PreferenceCategory>
         <Preference
             android:enabled="false"
             android:key="prefs_key_headtip_hyperceiler"
             android:layout="@layout/headtip_hyperceiler"
             android:title="This is HyperCeiler tip of headtip."
             app:isPreferenceVisible="false" />
+    </PreferenceCategory>
 
+    <PreferenceCategory>
         <Preference
             android:enabled="false"
             android:key="prefs_key_headtip_warn"
             android:layout="@layout/headtip_warn"
             android:title="This is warn of headtip."
             app:isPreferenceVisible="false" />
+    </PreferenceCategory>
 
+    <PreferenceCategory>
         <Preference
             android:enabled="false"
             android:key="prefs_key_headtip_notice"
             android:layout="@layout/headtip_notice"
             android:title="This is notice of headtip."
             app:isPreferenceVisible="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory>
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.SystemFrameworkFragment"

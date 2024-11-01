@@ -38,10 +38,7 @@
     android:clickable="false"
     android:clipChildren="false"
     android:gravity="center_vertical"
-    android:paddingStart="24dp"
-    android:paddingTop="6dp"
-    android:paddingEnd="24dp"
-    android:paddingBottom="2dp">
+    android:background="@drawable/headtip_hyperceiler_background">
 
     <include layout="@layout/image_frame" />
 
@@ -50,7 +47,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1.0"
-        android:background="@drawable/headtip_hyperceiler_background"
         android:gravity="center_vertical">
 
         <ImageView
