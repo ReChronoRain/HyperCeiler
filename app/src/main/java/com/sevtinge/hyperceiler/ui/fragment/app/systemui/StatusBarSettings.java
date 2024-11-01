@@ -67,11 +67,11 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
         mToastStatus.setVisible(isHyperOSVersion(1f));
 
         if (isMoreHyperOSVersion(1f)) {
-            mIconManager.setFragment("com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageNewSettings");
-            mClockStatus.setFragment("com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.NewClockIndicatorSettings");
+            mIconManager.setFragment("com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.IconManageNewSettings");
+            mClockStatus.setFragment("com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.NewClockIndicatorSettings");
         } else {
-            mIconManager.setFragment("com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageSettings");
-            mClockStatus.setFragment("com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.ClockIndicatorSettings");
+            mIconManager.setFragment("com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.IconManageSettings");
+            mClockStatus.setFragment("com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.ClockIndicatorSettings");
         }
 
         mStatusBarLayout.setVisible(!isMoreHyperOSVersion(1f));
