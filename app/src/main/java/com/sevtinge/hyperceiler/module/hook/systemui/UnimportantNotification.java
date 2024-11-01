@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class UnimportantNotification extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
         findAndHookMethod("com.android.systemui.statusbar.notification.collection.coordinator.FoldCoordinator$shadeExpansionListener$1",
-                "onPanelExpansionChanged", "com.android.systemui.shade.ShadeExpansionChangeEvent",
+                isMoreAndroidVersion(35) ? "onPanelExpansionChanged$1" : "onPanelExpansionChanged", "com.android.systemui.shade.ShadeExpansionChangeEvent",
                 new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
@@ -54,7 +56,7 @@ public class UnimportantNotification extends BaseHook {
                     }
             );
         }catch (Throwable ignore){
-            findAndHookMethod("com.android.systemui.statusbar.notification.NotificationUtil",
+            findAndHookMethod("com.android.systemui.statusbar.notification.utils.NotificationUtil",
                     "shouldIgnoreEntry",
                     "com.android.systemui.statusbar.notification.collection.NotificationEntry",
                     new MethodHook() {
