@@ -3,6 +3,8 @@ package com.sevtinge.hyperceiler.ui.fragment.main;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,6 +14,7 @@ import androidx.viewpager.widget.ViewPagerCompat;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.adapter.HomeFragmentPagerAdapter;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
@@ -30,6 +33,8 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
 
     protected ViewPager mViewPager;
     protected HomeFragmentPagerAdapter mViewPageFragmentAdapter;
+
+    MenuItem mQuickRestartMenuItem;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -148,6 +153,9 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
         } else {
             mViewPager.setCurrentItem(2);
         }
+        if (mQuickRestartMenuItem != null) {
+            mQuickRestartMenuItem.setVisible(page == 0);
+        }
     }
 
     protected PreferenceFragment createHomeFragment() {
@@ -160,5 +168,20 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
 
     protected PreferenceFragment createAboutFragment() {
         return new AboutFragment();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.navigation_immersion, menu);
+        mQuickRestartMenuItem = menu.findItem(R.id.quick_restart);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item == mQuickRestartMenuItem) {
+            DialogHelper.showRestartDialog(requireContext());
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
