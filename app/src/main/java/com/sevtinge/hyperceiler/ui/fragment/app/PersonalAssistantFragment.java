@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.app;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 
 import android.view.View;
 
@@ -41,6 +42,7 @@ public class PersonalAssistantFragment extends SettingsPreferenceFragment
     SeekBarPreferenceCompat mBlurRadius;
     ColorPickerPreference mBlurColor;
     DropDownPreference mBlurBackgroundStyle;
+    SeekBarPreferenceCompat mTvNotifWidth;
 
     @Override
     public int getContentResId() {
@@ -62,10 +64,12 @@ public class PersonalAssistantFragment extends SettingsPreferenceFragment
         mBlurBackgroundStyle = findPreference("prefs_key_personal_assistant_value");
         mBlurRadius = findPreference("prefs_key_personal_assistant_blurradius");
         mBlurColor = findPreference("prefs_key_personal_assistant_color");
+        mTvNotifWidth = findPreference("prefs_key_personal_assistant_set_tv_notif_info_max_width");
 
         mBlurBackground.setVisible(!isAndroidVersion(30)); // 负一屏背景设置
         mBlurRadius.setVisible(!isAndroidVersion(30));
         mBlurColor.setVisible(!isAndroidVersion(30));
+        mTvNotifWidth.setVisible(isHyperOSVersion(1f));
 
         setBlurMode(mBlurMode);
         mBlurBackgroundStyle.setOnPreferenceChangeListener(this);
