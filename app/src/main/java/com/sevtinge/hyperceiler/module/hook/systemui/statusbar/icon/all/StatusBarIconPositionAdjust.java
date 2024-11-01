@@ -58,7 +58,7 @@ public class StatusBarIconPositionAdjust extends BaseHook {
     @Override
     public void init() {
 
-        mStatusBarIconList = findClassIfExists("com.android.systemui.statusbar.phone.StatusBarIconList");
+        mStatusBarIconList = findClassIfExists("com.android.systemui.statusbar.phone.ui.StatusBarIconList");
         mSystemUIApplication = findClassIfExists("com.android.systemui.SystemUIApplication");
         mMiuiDripLeftStatusBarIconControllerImpl = findClassIfExists("com.android.systemui.statusbar.phone.MiuiDripLeftStatusBarIconControllerImpl");
 
