@@ -299,6 +299,13 @@
             android:title="@string/miwallpaper" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.NotesFragment"
+            android:icon="@drawable/ic_default"
+            android:key="prefs_key_notes"
+            android:summary="com.miui.notes"
+            android:title="@string/notes" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.MiuiPackageInstallerFragment"
             android:icon="@drawable/ic_default"
             android:key="prefs_key_package_installer"
