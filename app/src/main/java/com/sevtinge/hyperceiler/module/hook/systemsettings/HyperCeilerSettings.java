@@ -94,7 +94,7 @@ public class HyperCeilerSettings extends BaseHook {
                 for (Object head : headers) {
                     position++;
                     long id = XposedHelpers.getLongField(head, "id");
-                    if (opt == 1 && id == device) {
+                    if (opt == 1) {
                         if (isMoreHyperOSVersion(2f)) {
                             if (id == device) headers.add(position, header);
                         } else {
