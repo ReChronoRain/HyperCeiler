@@ -117,7 +117,6 @@ import com.sevtinge.hyperceiler.module.hook.home.title.FixAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.title.HiddenAllTitle;
 import com.sevtinge.hyperceiler.module.hook.home.title.HideReportText;
 import com.sevtinge.hyperceiler.module.hook.home.title.IconMessageColorCustom;
-import com.sevtinge.hyperceiler.module.hook.home.title.IconSize;
 import com.sevtinge.hyperceiler.module.hook.home.title.IconTitleColor;
 import com.sevtinge.hyperceiler.module.hook.home.title.IconTitleCustomization;
 import com.sevtinge.hyperceiler.module.hook.home.title.LargeIconCornerRadius;
@@ -139,8 +138,6 @@ public class HomeV extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-
-        initHook(new IconSize());
 
         // 手势
         initHook(new QuickBack(), mPrefsMap.getBoolean("home_navigation_quick_back"));
