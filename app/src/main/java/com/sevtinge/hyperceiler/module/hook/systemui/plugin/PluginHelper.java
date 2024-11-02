@@ -21,6 +21,8 @@ package com.sevtinge.hyperceiler.module.hook.systemui.plugin;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.pm.ApplicationInfo;
 import android.text.TextUtils;
 
@@ -36,6 +38,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSColor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.lang.ref.WeakReference;
 
 public class PluginHelper extends BaseHook {
 
@@ -43,9 +46,31 @@ public class PluginHelper extends BaseHook {
 
     private static ApplicationInfo appInfo = null;
 
+    private static WeakReference<Context> pluginCtxRef;
+
+    private void onPluginLoaded(PluginFactory factory) {
+        if (factory.mComponentName.equals(SystemUI.Plugin.CMP_CONTROL_CENTER)) {
+            YLog.info("Plugin for sysui control center loaded.");
+            loadHooker(new ControlCenter(factory));
+        }
+    }
+
     @Override
     public void init() {
-        if (!isAndroidVersion(34) || !isMoreHyperOSVersion(1f)) {
+        if (isAndroidVersion(35)) {
+            findAndHookMethod("com.android.systemui.shared.plugins.PluginInstance$Factory", "createPluginContext", new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) throws Throwable {
+                    ContextWrapper wrapper = (ContextWrapper) param.getResult();
+                    if (wrapper == null) {
+                        logW(TAG, "Get classloader miui.systemui.plugin error");
+                        return;
+                    }
+                    pluginCtxRef = new WeakReference<>(wrapper);
+                    setClassLoader(wrapper);
+                }
+            });
+        } else if (!isAndroidVersion(34) || !isMoreHyperOSVersion(1f)) {
             String pluginLoaderClass = isAndroidVersion(33)
                     ? "com.android.systemui.shared.plugins.PluginInstance$Factory"
                     : "com.android.systemui.shared.plugins.PluginManagerImpl";

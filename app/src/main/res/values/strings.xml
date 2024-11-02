@@ -1689,7 +1689,6 @@
     <string name="voiceassist_disable_watermark">Disable chat watermark</string>
     <!--Other-->
     <string name="various">Others</string>
-    <string name="notes">Notes</string>
     <string name="share_center">Xiaomi Smart Hub</string>
     <string name="new_task">New task</string>
     <string name="custom_hook">Custom</string>
@@ -1884,6 +1883,9 @@
     <string name="bypass_udk_word_legal_check_description">Allows the recording of words from the Wake with voice when offline</string>
     <string name="voicetrigger_accuracy_percent_caption">Set accuracy for Wake with voice detection</string>
     <string name="voicetrigger_accuracy_percent_description">Higher values are more difficult to detect. The default value is 70%, for the keyword XATX it\'s 0%. After setting, you need to restart the target app and re-enroll your activation word.</string>
+
+    <string name="notes">Notes</string>
+    <string name="notes_disable_ai_watermark">Disable AI watermark</string>
 
     <string name="about_device_info_device">Device</string>
     <string name="about_device_info_android">Android version</string>
