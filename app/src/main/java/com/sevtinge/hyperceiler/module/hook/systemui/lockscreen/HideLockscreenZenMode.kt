@@ -35,7 +35,7 @@ object HideLockscreenZenMode : BaseHook() {
         // hyperOS fix by hyper helper
         if (isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) {
             zenModeClass.methodFinder()
-                .filterByName("updateVisibility")
+                .filterByName(if (isMoreAndroidVersion(35)) "updateVisibility$1" else "updateVisibility")
                 .single().createHook {
                     before {
                         it.thisObject.setObjectField("manuallyDismissed", true)
