@@ -16,24 +16,25 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen;
+package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
-import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
-public class AllowThirdLockScreenUseFace extends BaseHook {
-    @Override
-    public void init() throws NoSuchMethodException {
-        findAndHookMethod("com.android.keyguard.KeyguardUpdateMonitor", "isUnlockWithFacePossible", int.class, new MethodHook(){
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(true);
+object AllowThirdLockScreenUseFace : BaseHook() {
+    override fun init() {
+        loadClassOrNull("com.android.keyguard.KeyguardUpdateMonitor")?.methodFinder()
+            ?.filterByName("isUnlockWithFacePossible")
+            ?.single()?.createHook {
+                returnConstant(true)
             }
-        });
-        findAndHookMethod("miui.stub.MiuiStub$3", "isUnlockWithFingerprintPossible", int.class, new MethodHook(){
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(true);
+        loadClassOrNull(if (isAndroidVersion(35)) "miui.stub.keyguard.KeyguardStub\$registerKeyguardUpdateMonitor\$1" else "miui.stub.MiuiStub\$3")?.methodFinder()
+            ?.filterByName("isUnlockWithFingerprintPossible")
+            ?.single()?.createHook {
+                returnConstant(true)
             }
-        });
     }
 }
