@@ -132,7 +132,7 @@ public class HomepageEntrance extends SettingsPreferenceFragment implements Pref
                     if (key != null && summary != null) {
                         Drawable icon = getPackageIcon(summary); // 替换为获取图标的方法
                         String name = getPackageName(summary);
-                        PreferenceHeader preferenceHeader = findPreference(key);
+                        SwitchPreference preferenceHeader = findPreference(key);
                         if (preferenceHeader != null) {
                             preferenceHeader.setIcon(icon);
                             if (!summary.equals("android")) preferenceHeader.setTitle(name);
