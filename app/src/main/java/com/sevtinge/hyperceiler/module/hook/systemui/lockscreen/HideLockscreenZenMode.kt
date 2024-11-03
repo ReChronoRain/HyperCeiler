@@ -19,12 +19,12 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
-import com.sevtinge.hyperceiler.utils.setObjectField
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 object HideLockscreenZenMode : BaseHook() {
     private val zenModeClass by lazy {
@@ -33,13 +33,18 @@ object HideLockscreenZenMode : BaseHook() {
 
     override fun init() {
         // hyperOS fix by hyper helper
-        if (isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) {
+        if (isMoreAndroidVersion(35)) {
             zenModeClass.methodFinder()
-                .filterByName(if (isMoreAndroidVersion(35)) "updateVisibility$1" else "updateVisibility")
-                .single().createHook {
-                    before {
-                        it.thisObject.setObjectField("manuallyDismissed", true)
-                    }
+                .filterByParamTypes {
+                    it[0] == Boolean::class.java
+                }.single().createBeforeHook {
+                    it.thisObject.setObjectField("manuallyDismissed", true)
+                }
+        } else if (isAndroidVersion(34)) {
+            zenModeClass.methodFinder()
+                .filterByName("updateVisibility")
+                .single().createBeforeHook {
+                    it.thisObject.setObjectField("manuallyDismissed", true)
                 }
         } else {
             zenModeClass.methodFinder()
