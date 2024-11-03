@@ -32,6 +32,7 @@ import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
@@ -117,10 +118,10 @@ public class HomepageEntrance extends SettingsPreferenceFragment implements Pref
             }
         }
 
-        setPreferenceIcons();
+        setPreference();
     }
 
-    private void setPreferenceIcons() {
+    private void setPreference() {
         Resources resources = getResources();
         try (XmlResourceParser xml = resources.getXml(R.xml.prefs_set_homepage_entrance)) {
             int event = xml.getEventType();
@@ -130,9 +131,11 @@ public class HomepageEntrance extends SettingsPreferenceFragment implements Pref
                     String summary = xml.getAttributeValue(ANDROID_NS, "summary");
                     if (key != null && summary != null) {
                         Drawable icon = getPackageIcon(summary); // 替换为获取图标的方法
-                        SwitchPreference preferenceHeader = findPreference(key);
+                        String name = getPackageName(summary);
+                        PreferenceHeader preferenceHeader = findPreference(key);
                         if (preferenceHeader != null) {
                             preferenceHeader.setIcon(icon);
+                            if (!summary.equals("android")) preferenceHeader.setTitle(name);
                         }
                     }
                 }
@@ -150,6 +153,15 @@ public class HomepageEntrance extends SettingsPreferenceFragment implements Pref
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private String getPackageName(String packageName) {
+        try {
+            return (String) requireContext().getPackageManager().getApplicationLabel(requireContext().getPackageManager().getApplicationInfo(packageName, 0));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null; // 如果包名找不到则返回 null
         }
     }
 
