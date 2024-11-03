@@ -113,6 +113,14 @@
 
     <SwitchPreference
         android:defaultValue="true"
+        android:icon="@drawable/ic_default"
+        android:key="prefs_key_downloads_ui"
+        android:layout="@layout/preference_header"
+        android:summary="com.android.providers.downloads.ui"
+        android:title="@string/downloads_ui" />
+
+    <SwitchPreference
+        android:defaultValue="true"
         android:layout="@layout/preference_header"
         android:icon="@drawable/ic_default"
         android:key="prefs_key_telecom_state"
@@ -207,7 +215,7 @@
         android:layout="@layout/preference_header"
         android:summary="com.miui.cloudservice"
         android:title="@string/micloud_service" />
-    
+
     <SwitchPreference
         android:defaultValue="true"
         android:icon="@drawable/ic_default"
