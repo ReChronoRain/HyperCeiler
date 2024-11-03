@@ -233,6 +233,13 @@
                 android:data="http://www.coolapk.com/u/5816741" />
         </Preference>
         <Preference
+            android:summary="GitHub@Voemp"
+            android:title="Voemp">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Voemp" />
+        </Preference>
+        <Preference
             android:summary="GitHub@hosizoraru"
             android:title="Voyager">
             <intent
