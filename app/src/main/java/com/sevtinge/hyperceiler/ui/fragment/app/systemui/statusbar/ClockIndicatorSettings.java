@@ -28,9 +28,10 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.preference.DropDownPreference;
+import fan.preference.SeekBarPreferenceCompat;
+
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
-import androidx.preference.SwitchPreferenceCompat;
 
 public class ClockIndicatorSettings extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
@@ -38,7 +39,7 @@ public class ClockIndicatorSettings extends SettingsPreferenceFragment
     DropDownPreference mClockModePreference;
     PreferenceCategory mDefault;
     PreferenceCategory mGeek;
-    SwitchPreferenceCompat mWidth;
+    SeekBarPreferenceCompat mWidth;
 
     @Override
     public int getContentResId() {
