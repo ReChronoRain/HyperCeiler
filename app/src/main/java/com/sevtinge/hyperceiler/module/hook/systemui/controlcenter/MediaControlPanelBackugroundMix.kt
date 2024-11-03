@@ -106,7 +106,31 @@ class MediaControlPanelBackgroundMix : BaseHook() {
         try {
             var lockScreenStatus: Boolean? = null
             var darkModeStatus: Boolean? = null
-            // 这里不能hook，一hook圆角就丢，我也不知道为什么，YukongA 那里就没问题，但是他既然已经跑起来了我就不动他了
+
+            // 导致拖动 SeekBar 改变歌曲标题/艺术家名字颜色的实际位置不在这里，目前暂时作为代替解决方案。
+            if(isMoreHyperOSVersion(2f)) {
+                seekBarObserver?.methodFinder()?.filterByName("onChanged")?.first()
+                    ?.createBeforeHook {
+                        val context = AndroidAppHelper.currentApplication().applicationContext
+                        val isBackgroundBlurOpened =
+                            XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
+                        val mMediaViewHolder =
+                            it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("holder")
+                                ?: return@createBeforeHook
+                        val titleText =
+                            mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("titleText")
+                        val artistText = mMediaViewHolder.objectHelper()
+                            .getObjectOrNullAs<TextView>("artistText")
+                        val grey = if (isDarkMode()) Color.LTGRAY else Color.DKGRAY
+                        val color = if (isDarkMode()) Color.WHITE else Color.BLACK
+
+                        if (isBackgroundBlurOpened) {
+                            artistText?.setTextColor(grey)
+                            titleText?.setTextColor(color)
+                        }
+                    }
+            }
+
             mediaViewHolder?.constructors?.first()?.createAfterHook {
                 val seekBar = it.thisObject.objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
                 val backgroundDrawable = GradientDrawable().apply {
@@ -216,7 +240,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         artistText?.setTextColor(grey)
                         elapsedTimeView?.setTextColor(grey)
                         totalTimeView?.setTextColor(grey)
-                        titleText?.setTextColor(grey)
+                        if (!isMoreHyperOSVersion(2f)) titleText?.setTextColor(grey)
                         action0?.setColorFilter(color)
                         action1?.setColorFilter(color)
                         action2?.setColorFilter(color)
@@ -233,11 +257,8 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                 ?.createBeforeHook {
                     val context = AndroidAppHelper.currentApplication().applicationContext
 
-                    val isBackgroundBlurOpened = XposedHelpers.callStaticMethod(
-                        notificationUtil,
-                        "isBackgroundBlurOpened",
-                        context
-                    ) as Boolean
+                    val isBackgroundBlurOpened =
+                        XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
                     if (!isBackgroundBlurOpened) return@createBeforeHook
 
                     val mPaint1 = it.thisObject.objectHelper().getObjectOrNullAs<Paint>("mPaint1")
@@ -271,8 +292,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                                 darkModeStatus = isDarkMode
                                 (it.thisObject as ImageView).apply {
                                     getNotificationElementBlendColors(
-                                        context,
-                                        isInLockScreen
+                                        context, isInLockScreen
                                     )?.let { iArr -> setMiBackgroundBlendColors(iArr, 1f) }
                                 }
                             }
@@ -282,23 +302,14 @@ class MediaControlPanelBackgroundMix : BaseHook() {
             playerTwoCircleView?.methodFinder()?.filterByName("setBackground")?.first()
                 ?.createBeforeHook {
                     val context = AndroidAppHelper.currentApplication().applicationContext
-                    val isBackgroundBlurOpened = XposedHelpers.callStaticMethod(
-                        notificationUtil,
-                        "isBackgroundBlurOpened",
-                        context
-                    ) as Boolean
+                    val isBackgroundBlurOpened =
+                        XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
                     if (!isBackgroundBlurOpened) return@createBeforeHook
                     (it.thisObject as ImageView).background = null
                     it.result = null
                 }
         } catch (t: Throwable) {
            logE(TAG, lpparam.packageName, t)
-        }
-        if (isMoreAndroidVersion(35)) {
-            val graphicsA15 = loadClassOrNull("androidx.palette.graphics.Palette\$Builder\$1")
-            graphicsA15?.methodFinder()?.filterByName("onPostExecute")?.first()?.createBeforeHook {
-                it.result = null
-            }
         }
     }
 

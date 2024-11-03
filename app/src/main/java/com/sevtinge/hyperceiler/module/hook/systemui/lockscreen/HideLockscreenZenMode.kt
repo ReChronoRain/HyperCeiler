@@ -35,9 +35,9 @@ object HideLockscreenZenMode : BaseHook() {
         // hyperOS fix by hyper helper
         if (isMoreAndroidVersion(35)) {
             zenModeClass.methodFinder()
-                .filterByParamTypes {
-                    it[0] == Boolean::class.java
-                }.single().createBeforeHook {
+                .filterByParamTypes(Boolean::class.java)
+                .filterFinal()
+                .first().createBeforeHook {
                     it.thisObject.setObjectField("manuallyDismissed", true)
                 }
         } else if (isAndroidVersion(34)) {
