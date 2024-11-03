@@ -126,7 +126,12 @@ public class CrashHook extends HookTool {
                                 String pkg = (String) param.args[2];
                                 if (pkg == null) return;
                                 if (ProjectApi.mAppModulePkg.equals(pkg)) {
-                                    param.setResult(1);
+                                    Object balAllowDefault = XposedHelpers.getStaticObjectField(
+                                            XposedHelpers.findClass("com.android.server.wm.BackgroundActivityStartController$BalVerdict",
+                                                    lpparam.classLoader),
+                                            "BAL_ALLOW_DEFAULT"
+                                    );
+                                    param.setResult(balAllowDefault);
                                 }
                             }
                         }
