@@ -23,17 +23,49 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
+
+import org.luckypray.dexkit.DexKitBridge;
+import org.luckypray.dexkit.query.FindMethod;
+import org.luckypray.dexkit.query.matchers.MethodMatcher;
+import org.luckypray.dexkit.result.MethodData;
+
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
 
 public class DisableRiskTip extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
+        Method method1 = (Method) DexKit.getDexKitBridge("Method1", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("fillSmartContactByB2c: old smart contact is not null")
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
+        Method method2 = (Method) DexKit.getDexKitBridge("Method2", new IDexKit() {
+            @Override
+            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("11", "460", "12", "")
+                                .returnType(void.class)
+                                .paramTypes("com.miui.smsextra.sdk.SmartContact", "")
+                        )).singleOrNull();
+                return methodData.getMethodInstance(lpparam.classLoader);
+            }
+        });
         findAndHookMethod("com.miui.smsextra.sdk.SmartContact", "isRiskyNumber", new MethodHook(){
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(false);
             }
         });
-        findAndHookMethod("g3.a", "c", "com.miui.smsextra.sdk.SmartContact", "com.miui.smsextra.sdk.SmartContact", new MethodHook(){
+        hookMethod(method1, new MethodHook(){
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 // logD("smsrisk g3.a "+getObjectField(param.args[0], "mRiskType"));
@@ -43,7 +75,7 @@ public class DisableRiskTip extends BaseHook {
                 // logD("smsrisk 2 g3.a "+getObjectField(param.args[0], "mRiskType"));
             }
         });
-        findAndHookMethod("n6.p", "a", "com.miui.smsextra.sdk.SmartContact", "n6.o", new MethodHook(){
+        hookMethod(method2, new MethodHook(){
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 // logD("smsrisk n6.p "+getObjectField(param.args[0], "mRiskType"));
