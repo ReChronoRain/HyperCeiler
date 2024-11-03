@@ -27,14 +27,32 @@ import android.util.*
 import android.view.*
 import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
+import java.lang.reflect.*
 
 object ShowBatteryTemperatureNew : BaseHook() {
+    private val smartChargeClazz by lazy {
+        DexKit.getDexKitBridge("SmartChargeClazz") {
+            it.findMethod {
+                searchPackages("com.miui.powercenter.nightcharge")
+                matcher {
+                    paramCount = 1
+                    modifiers = Modifier.STATIC
+
+                    addInvoke("Ljava/lang/Math;->abs(I)I")
+                }
+            }.single().getMethodInstance(safeClassLoader)
+        }.toMethod()
+    }
+
     override fun init() {
         try {
             newBatteryTemperature()
@@ -44,24 +62,10 @@ object ShowBatteryTemperatureNew : BaseHook() {
     }
 
     private fun newBatteryTemperature() {
-
-        try {
-        loadClass("com.miui.powercenter.nightcharge.SmartChargeFragment").methodFinder().first {
-            paramCount == 1 && returnType == String::class.java && isStatic
-        }.createHook {
+        smartChargeClazz.createHook {
             after {
                 it.result = getBatteryTemperature(it.args[0] as Context).toString() + " ℃"
             }
-        }
-    
-        } catch (_: Exception) {
- loadClass("com.miui.powercenter.nightcharge.ChargeProtectFragment").methodFinder().first {
-            paramCount == 1 && returnType == String::class.java && isStatic
-        }.createHook {
-            after {
-                it.result = getBatteryTemperature(it.args[0] as Context).toString() + " ℃"
-            }
-        }
         }
     }
 
