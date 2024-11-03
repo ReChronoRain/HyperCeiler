@@ -38,7 +38,7 @@ public class DisableChatWatermark extends BaseHook {
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .usingStrings("userId", "add watermark")
+                                .usingStrings(add watermark")
                         )).singleOrNull();
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
