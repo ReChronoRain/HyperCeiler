@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.misound;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import android.app.Application;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -299,7 +301,7 @@ public class BluetoothListener extends BaseHook {
 
         private void refresh(Context context, boolean dolby, boolean miui) {
             Intent intent = new Intent();
-            intent.setAction("miui.intent.action.ACTION_AUDIO_EFFECT_REFRESH");
+            intent.setAction(isMoreAndroidVersion(35) ? "miui.intent.action.ACTION_SYSTEM_UI_DOLBY_EFFECT_SWITCH" : "miui.intent.action.ACTION_AUDIO_EFFECT_REFRESH");
             intent.putExtra("dolby_active", dolby);
             intent.putExtra("misound_active", miui);
             context.sendBroadcast(intent);
