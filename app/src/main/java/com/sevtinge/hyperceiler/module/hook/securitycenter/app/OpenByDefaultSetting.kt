@@ -36,9 +36,6 @@ import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
 import de.robv.android.xposed.*
 import de.robv.android.xposed.XposedHelpers.*
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import miuix.preference.*
 
 
 @SuppressLint("DiscouragedApi")
@@ -141,7 +138,7 @@ class OpenByDefaultSetting : BaseHook() {
             // v3
             XposedBridge.hookMethod(onLoadDataFinishMethod, object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    handleFragmentOnLoadDataFinish(param.thisObject as PreferenceFragmentCompat)
+                    handleFragmentOnLoadDataFinish(param.thisObject)
                 }
             })
 
@@ -151,10 +148,10 @@ class OpenByDefaultSetting : BaseHook() {
                 "androidx.preference.Preference",
                 object : XC_MethodHook() {
                     override fun beforeHookedMethod(param: MethodHookParam) {
-                        val pref = param.args[0] as Preference
-                        if (pref.key == "app_default_pref") {
-                            val prefFrag = param.thisObject as PreferenceFragmentCompat
-                            OpenDefaultOnClick(prefFrag.requireActivity())
+                        val pref = param.args[0]
+                        if (callMethod(pref, "getKey") == "app_default_pref") {
+                            val prefFrag = callMethod(param.thisObject, "requireActivity") as Activity
+                            OpenDefaultOnClick(prefFrag)
                             param.result = true
                         }
                     }
@@ -239,14 +236,13 @@ class OpenByDefaultSetting : BaseHook() {
     }
 
     // v3
-    fun handleFragmentOnLoadDataFinish(prefFrag: PreferenceFragmentCompat) {
-        val activity = prefFrag.requireActivity()
+    fun handleFragmentOnLoadDataFinish(prefFrag: Any) {
+        val activity = callMethod(prefFrag, "requireActivity") as Activity
         val pkgName = activity.intent.getStringExtra("package_name")!!
-        val pref: TextPreference = prefFrag.findPreference("app_default_pref")!!
-        // 加载完毕数据后，修改“清除默认操作”按钮标题和描述为“默认打开”
-        pref.title = getOpenDefaultTitle()
-        pref.summary = getOpenDefaultState(pkgName)
-        XposedLogUtils.logD("handleFragment: $pkgName")
+        val pref = callMethod(prefFrag, "findPreference", "app_default_pref"
+        )
+        callMethod(pref, "setTitle", getOpenDefaultTitle())
+        callMethod(pref, "setSummary", getOpenDefaultState(pkgName))
     }
 
     // v3, 为了模块加载宿主 androidx 和 miuix
@@ -262,7 +258,7 @@ class OpenByDefaultSetting : BaseHook() {
         fParent.set(self, object : ClassLoader(sBootClassLoader) {
 
             override fun findClass(name: String?): Class<*> {
-                XposedLogUtils.logD("OpenByDefaultSetting findClass $name")
+                XposedLogUtils.logD(TAG, lpparam.packageName, "OpenByDefaultSetting findClass $name")
                 try {
                     return sBootClassLoader.loadClass(name)
                 } catch (ignored: ClassNotFoundException) {
