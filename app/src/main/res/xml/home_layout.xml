@@ -48,6 +48,26 @@
             android:key="prefs_key_home_layout_unlock_grids"
             android:defaultValue="false" />
 
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_home_layout_unlock_grids_cell_x"
+            android:defaultValue="0"
+            app:defaultValueText="@string/array_default"
+            app:minValue="4"
+            app:maxValue="8"
+            app:format="x: %d"
+            app:stepValue="1"
+            android:dependency="prefs_key_home_layout_unlock_grids" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_home_layout_unlock_grids_cell_y"
+            android:defaultValue="0"
+            app:defaultValueText="@string/array_default"
+            app:minValue="6"
+            app:maxValue="9"
+            app:format="y: %d"
+            app:stepValue="1"
+            android:dependency="prefs_key_home_layout_unlock_grids" />
+
         <SwitchPreference
             android:title="@string/home_layout_unlock_grids_no_words"
             android:summary="@string/home_layout_unlock_grids_no_words_desc"
