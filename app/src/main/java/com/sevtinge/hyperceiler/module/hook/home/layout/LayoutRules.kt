@@ -61,7 +61,7 @@ object LayoutRules : BaseHook() {
                         val cellWidth = (mMaxGridWidth - mWorkspaceCellSideDefault) / cellCountX
                         val cellHeight = mCellSize * mCellCountY / cellCountY
 
-                        rules.setIntField("mCellSize", min(cellWidth, cellHeight))
+                        rules.setIntField("mCellSize", max(cellWidth, cellHeight))
 
                         findAndHookMethod(GRID_CONFIG, "getCountCellX", returnConstant(cellCountX))
                         findAndHookMethod(GRID_CONFIG, "getCountCellY", returnConstant(cellCountY))
