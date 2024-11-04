@@ -51,6 +51,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     SwitchPreference mDisableBluetoothRestrict; // 禁用蓝牙临时关闭
     SwitchPreference mPctUseBlur;
     SwitchPreference mShowPct;
+    SwitchPreference mFuckSG;
 
     @Override
     public int getContentResId() {
@@ -78,6 +79,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mPower = findPreference("prefs_key_system_ui_disable_power");
         mPctUseBlur = findPreference("prefs_key_system_showpct_use_blur");
         mShowPct = findPreference("prefs_key_system_showpct_title");
+        mFuckSG = findPreference("prefs_key_system_ui_move_log_to_miui");
 
         mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && isMoreAndroidVersion(31));
@@ -87,6 +89,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mBottomBar.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
         mPctUseBlur.setVisible(isMoreHyperOSVersion(1f));
         mShowPct.setVisible(!isMoreHyperOSVersion(1f));
+        mFuckSG.setVisible(isMoreHyperOSVersion(2f));
 
         mVolume.setOnPreferenceChangeListener(
                 (preference, o) -> {

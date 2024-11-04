@@ -991,6 +991,7 @@
     <string name="system_ui_notification_title">Notification</string>
     <string name="system_ui_other_notification_fix">Disable notification whitelist</string>
     <string name="system_ui_plugin_enable_volume_blur">Enable volume bar blur</string>
+    <string name="system_ui_move_log_to_miui">Move statusbar_gestures.dat to MIUI dir</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Only for Android12+ MTK models. There may be high GPU load.</string>
     <!--Settings-->
     <string name="system_settings">Settings</string>
