@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
@@ -49,8 +51,10 @@ public class NotificationIconColumns extends BaseHook {
         } else {
             maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 3);
         }
-        if (isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) {
-            mHyperOsNew(maxIconsNum);
+        if (isHyperOSVersion(1f) && isAndroidVersion(34)) {
+            mHyperOs1(maxIconsNum);
+        } else if (isHyperOSVersion(2f) || isAndroidVersion(35)) {
+            mHyperOs2(maxIconsNum);
         } else if (isMoreAndroidVersion(34)) {
             mAndroidU(maxIconsNum, maxDotsNum);
         } else {
@@ -213,7 +217,7 @@ public class NotificationIconColumns extends BaseHook {
         );
     }
 
-    public void mHyperOsNew(int maxIconsNum) {
+    public void mHyperOs1(int maxIconsNum) {
         /*findAndHookMethod("com.android.systemui.statusbar.policy.NotificationIconObserver$2", "onChange", boolean.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
@@ -273,5 +277,67 @@ public class NotificationIconColumns extends BaseHook {
                 }
             }
         );
+    }
+
+    public void mHyperOs2(int maxIconsNum) {
+        /*findAndHookMethod("com.android.systemui.statusbar.policy.NotificationIconObserver$2", "onChange", boolean.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                param.args[0] = true;
+            }
+        });*/
+        hookAllConstructors("com.android.systemui.statusbar.policy.NotificationIconObserver",
+                new MethodHook() {
+                    @Override
+                    protected void after(MethodHookParam param) {
+                        mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                        mCurrentUserId = (int) XposedHelpers.getObjectField(param.thisObject, "mCurrentUserId");
+                        mShowNotificationIcons = getSettings(mContext, mCurrentUserId) == 1;
+                        listening(mContext);
+                    }
+                }
+        );
+
+        findAndHookMethod("com.android.systemui.statusbar.policy.NotificationIconObserver$1",
+                "onUserChanged", int.class, Context.class,
+                new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        mCurrentUserId = (int) param.args[0];
+                    }
+                }
+        );
+
+        findAndHookMethod("com.android.systemui.statusbar.phone.NotificationIconContainer",
+                "calculateIconXTranslations",
+                new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        XposedHelpers.setObjectField(param.thisObject, "mMaxIcons", maxIconsNum);
+                        XposedHelpers.setObjectField(param.thisObject, "mIsStaticLayout", true);
+                    }
+                }
+        );
+
+        findAndHookMethod("com.android.systemui.statusbar.phone.NotificationIconContainer",
+                "onMeasure", int.class, int.class,
+                new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        XposedHelpers.setObjectField(param.thisObject, "mMaxIcons", maxIconsNum);
+                        XposedHelpers.setObjectField(param.thisObject, "mIsStaticLayout", true);
+                    }
+                }
+        );
+
+        /*findAndHookMethod("com.android.systemui.statusbar.phone.NotificationIconContainer",
+            "calculateWidthFor", float.class,
+            new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    XposedHelpers.setObjectField(param.thisObject, "mMaxIconsOnLockscreen", maxIconsNum);
+                }
+            }
+        );*/
     }
 }
