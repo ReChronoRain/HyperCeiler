@@ -1848,5 +1848,6 @@
     <string name="headtip_tip_fuck_coolapk">歷史上的今日：\n2022 年 7 月 14 日，紺漓發表重要講話。</string>
     <string name="headtip_notice_dead_logger_errcode">當前設備 Log 服務異常，HyperCeiler 功能將被限制。\n請恢復 Log 服務，使其可以正常運行。\n錯誤代碼: %1$s</string>
     <string name="headtip_notice_dead_logger">當前設備 Log 服務異常，HyperCeiler 功能將被限制。請恢復 Log 服務，使其可以正常運行。</string>
+    <string name="system_ui_move_log_to_miui">將 statusbar_gestures.dat 移至 MIUI 目錄</string>
 
 </resources>

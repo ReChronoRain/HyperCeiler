@@ -1812,4 +1812,5 @@
     <string name="bypass_udk_word_legal_check_description">允許在無網狀態下錄入語音喚醒詞</string>
     <string name="voicetrigger_accuracy_percent_caption">設定喚醒詞檢測精準度</string>
     <string name="voicetrigger_accuracy_percent_description">數值越高越難以被偵測。預設值為 70%，對於「小愛同學」為 0%。設定完成後，您需要重新啟動目標應用程式並重新錄入您的喚醒詞。</string>
+    <string name="system_ui_move_log_to_miui">將 statusbar_gestures.dat 移至 MIUI 目錄</string>
 </resources>

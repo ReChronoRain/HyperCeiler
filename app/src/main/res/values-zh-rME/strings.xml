@@ -724,6 +724,7 @@
 你可以选择为HyperCeiler点一注香。</string>
     <string name="ic_qs_title_bluetooth">蓝色牙齿</string>
     <string name="ic_qs_title_flashlight">烫点</string>
+    <string name="system_ui_move_log_to_miui">垃圾就该待在垃圾桶里</string>
     <!--Telecom-->
     <!--Voice Trigger-->
 </resources>
