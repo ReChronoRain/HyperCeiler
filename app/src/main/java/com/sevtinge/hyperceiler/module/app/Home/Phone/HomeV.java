@@ -117,6 +117,7 @@ import com.sevtinge.hyperceiler.module.hook.home.title.FixAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.title.HiddenAllTitle;
 import com.sevtinge.hyperceiler.module.hook.home.title.HideReportText;
 import com.sevtinge.hyperceiler.module.hook.home.title.IconMessageColorCustom;
+import com.sevtinge.hyperceiler.module.hook.home.title.IconSize;
 import com.sevtinge.hyperceiler.module.hook.home.title.IconTitleColor;
 import com.sevtinge.hyperceiler.module.hook.home.title.IconTitleCustomization;
 import com.sevtinge.hyperceiler.module.hook.home.title.LargeIconCornerRadius;
@@ -229,6 +230,7 @@ public class HomeV extends BaseModule {
         initHook(new FakeNonDefaultIcon(), mPrefsMap.getBoolean("fake_non_default_icon"));
         initHook(new AnimParamCustom(), mPrefsMap.getBoolean("home_title_custom_anim_param_main"));
         // initHook(new IconScaleHook()/*, mPrefsMap.getInt("home_title_icon_scale", 100) != 100*/);
+        initHook(new IconSize(), mPrefsMap.getBoolean("home_title_icon_size_enable"));
 
         // 标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));
