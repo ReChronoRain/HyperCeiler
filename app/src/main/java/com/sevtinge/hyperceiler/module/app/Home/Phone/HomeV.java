@@ -67,6 +67,7 @@ import com.sevtinge.hyperceiler.module.hook.home.gesture.ShakeDevice;
 import com.sevtinge.hyperceiler.module.hook.home.layout.HotSeatsHeight;
 import com.sevtinge.hyperceiler.module.hook.home.layout.HotSeatsMarginBottom;
 import com.sevtinge.hyperceiler.module.hook.home.layout.HotSeatsMarginTop;
+import com.sevtinge.hyperceiler.module.hook.home.layout.LayoutRules;
 import com.sevtinge.hyperceiler.module.hook.home.layout.SearchBarMarginBottom;
 import com.sevtinge.hyperceiler.module.hook.home.layout.UnlockGrids;
 import com.sevtinge.hyperceiler.module.hook.home.layout.WorkspacePadding;
@@ -160,6 +161,7 @@ public class HomeV extends BaseModule {
         initHook(new BackGestureAreaWidth(), mPrefsMap.getInt("home_navigation_back_area_width", 100) != 100);
 
         // 布局
+        initHook(LayoutRules.INSTANCE, mPrefsMap.getBoolean("home_layout_unlock_grids"));
         initHook(new UnlockGrids(), mPrefsMap.getBoolean("home_layout_unlock_grids"));
         // initHook(new UnlockGridsNoWord(), mPrefsMap.getBoolean("home_layout_unlock_grids_no_word"));
         initHook(new WorkspacePadding(),
