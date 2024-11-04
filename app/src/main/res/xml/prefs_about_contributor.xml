@@ -23,6 +23,13 @@
 
     <PreferenceCategory>
         <Preference
+            android:summary="GitHub@Adlyq"
+            android:title="Adlyq">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Adlyq" />
+        </Preference>
+        <Preference
             android:summary="GitHub@CC0126"
             android:title="CC0126">
             <intent
