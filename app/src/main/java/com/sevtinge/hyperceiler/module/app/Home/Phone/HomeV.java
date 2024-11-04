@@ -161,7 +161,7 @@ public class HomeV extends BaseModule {
         initHook(new BackGestureAreaWidth(), mPrefsMap.getInt("home_navigation_back_area_width", 100) != 100);
 
         // 布局
-        initHook(LayoutRules.INSTANCE, mPrefsMap.getBoolean("home_layout_unlock_grids"));
+        initHook(LayoutRules.INSTANCE, mPrefsMap.getBoolean("home_layout_unlock_grids_new") || mPrefsMap.getBoolean("home_layout_unlock_grids"));
         initHook(new UnlockGrids(), mPrefsMap.getBoolean("home_layout_unlock_grids"));
         // initHook(new UnlockGridsNoWord(), mPrefsMap.getBoolean("home_layout_unlock_grids_no_word"));
         initHook(new WorkspacePadding(),

@@ -18,13 +18,21 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.app.home;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.view.View;
+
+import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class HomeLayoutSettings extends SettingsPreferenceFragment {
+
+    SwitchPreference mIconLayout;
+    SwitchPreference mIconLayoutNew;
 
     @Override
     public int getContentResId() {
@@ -37,5 +45,21 @@ public class HomeLayoutSettings extends SettingsPreferenceFragment {
             getResources().getString(R.string.mihome),
             "com.miui.home"
         );
+    }
+
+    @Override
+    public void initPrefs() {
+        mIconLayout = findPreference("prefs_key_home_layout_unlock_grids");
+        mIconLayoutNew = findPreference("prefs_key_home_layout_unlock_grids_new");
+        if (isPad()) {
+            mIconLayout.setVisible(false);
+            mIconLayoutNew.setVisible(false);
+        } else if (isMoreHyperOSVersion(2f)) {
+            mIconLayout.setVisible(false);
+            mIconLayoutNew.setVisible(true);
+        } else {
+            mIconLayout.setVisible(true);
+            mIconLayoutNew.setVisible(false);
+        }
     }
 }

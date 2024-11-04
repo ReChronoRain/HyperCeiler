@@ -1196,6 +1196,8 @@
     <string name="home_layout_show_clock_desc">The page where the clock widget is located always displays the time</string>
     <string name="home_layout_unlock_grids">Unlock layout</string>
     <string name="home_layout_unlock_grids_desc">Unlock Home screen icon layout size limit</string>
+    <string name="home_layout_unlock_grids_new_x">Columns</string>
+    <string name="home_layout_unlock_grids_new_y">Rows</string>
     <string name="home_layout_unlock_grids_no_words">Unlock layout (no word mode)</string>
     <string name="home_layout_unlock_grids_no_words_desc">Unlock Home screen icon layout size limit</string>
     <string name="home_layout_workspace_padding_bottom_desc">Home screen distance from screen bottom margin</string>
