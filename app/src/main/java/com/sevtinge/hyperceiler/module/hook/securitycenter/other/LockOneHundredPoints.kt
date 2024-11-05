@@ -30,17 +30,13 @@ import org.luckypray.dexkit.query.enums.*
 
 object LockOneHundredPoints : BaseHook() {
     private val score by lazy {
-        DexKit.getDexKitBridge("LockOneHundredPoints1") {
-            it.findMethod {
+        DexKit.getDexKitBridge().getClassData("com.miui.securityscan.scanner.ScoreManager")!!
+            .findMethod {
                 matcher {
-                    declaredClass {
-                        addUsingString("getMinusPredictScore", StringMatchType.Contains)
-                    }
-                    usingNumbers(41, 100, 0)
+                    addUsingString("getMinusPredictScore", StringMatchType.Contains)
                     returnType = "int"
                 }
             }.single().getMethodInstance(safeClassLoader)
-        }.toMethod()
     }
 
     private val scoreOld by lazy {
@@ -58,13 +54,13 @@ object LockOneHundredPoints : BaseHook() {
             .filterByName("onClick")
             .filterByParamTypes(View::class.java)
             .first().createHook {
-               returnConstant(null)
+                returnConstant(null)
             }
 
         try {
             logI(TAG, lpparam.packageName, "LockOneHundredPoints method is $score")
             score.createHook {
-                replace { 100 }
+                returnConstant(0)
             }
         } catch (e: Exception) {
             logE(TAG, lpparam.packageName, "LockOneHundredPoints hook Failed: ${e.message}")
