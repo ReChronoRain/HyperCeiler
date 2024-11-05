@@ -35,6 +35,7 @@ object LockOneHundredPoints : BaseHook() {
                 matcher {
                     declaredClass = "com.miui.securityscan.scanner.ScoreManager"
                     addUsingString("getMinusPredictScore", StringMatchType.Contains)
+                    returnType = "int"
                 }
             }.single().getMethodInstance(safeClassLoader)
         }.toMethod()
