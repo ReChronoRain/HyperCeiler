@@ -55,7 +55,7 @@ public class CrashActivity extends AppCompatActivity {
 
     private static HashMap<String, String> swappedMap = CrashData.swappedData();
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "StringFormatInvalid"})
     @Override
     public void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);

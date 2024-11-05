@@ -99,7 +99,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.navigation.HandleLineCustom
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.HideNavigationBar;
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.NavigationCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.RotationButton;
-import com.sevtinge.hyperceiler.module.hook.systemui.plugin.PluginHelper;
+import com.sevtinge.hyperceiler.module.hook.systemui.plugin.NewPluginHelper;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.BlurEnable;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.HideStatusBarBeforeScreenshot;
@@ -146,7 +146,7 @@ public class SystemUiV extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // PluginHelper
-        initHook(new PluginHelper(), true);// 充电动画
+        initHook(NewPluginHelper.INSTANCE);
         // initHook(Island.INSTANCE, true); // 灵动岛
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         // initHook(DisableChargeAnimation.INSTANCE);

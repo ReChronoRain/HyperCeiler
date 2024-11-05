@@ -28,10 +28,11 @@ import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
+import androidx.preference.Preference;
+import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
@@ -40,9 +41,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-
-import androidx.preference.Preference;
-import androidx.preference.SwitchPreference;
+import java.util.Objects;
 
 public class SafeModeFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
@@ -67,7 +66,7 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
         mSecurityCenter = findPreference("prefs_key_security_center_safe_mode_enable");
         mDemo = findPreference("prefs_key_demo_safe_mode_enable");
         mSecurityCenter.setTitle(isMoreHyperOSVersion(1f) ? R.string.security_center_hyperos : R.string.security_center);
-        mDemo.setVisible(BuildConfig.BUILD_TYPE == "debug");
+        mDemo.setVisible(Objects.equals(BuildConfig.BUILD_TYPE, "debug"));
         mSystemUi.setChecked(mPkgList.contains("systemui"));
         mSettings.setChecked(mPkgList.contains("settings"));
         mHome.setChecked(mPkgList.contains("home"));

@@ -122,7 +122,6 @@ public class PluginHelper extends BaseHook {
     }
 
     public void setClassLoader(ClassLoader classLoader) {
-        // CCGrid.loadCCGrid(classLoader);
         if (mPrefsMap.getBoolean("system_ui_volume_timer"))
             VolumeTimerValuesHook.initVolumeTimerValuesHook(classLoader);
         if (mPrefsMap.getBoolean("system_ui_control_center_hide_edit_botton"))
