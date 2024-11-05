@@ -30,7 +30,7 @@ import org.luckypray.dexkit.query.enums.*
 
 object LockOneHundredPoints : BaseHook() {
     private val score by lazy {
-        DexKit.getDexKitBridge("LockOneHundredPoints1") {
+        DexKit.getDexKitBridge("LockOneHundredPoints1N") {
             it.findMethod {
                 matcher {
                     declaredClass = "com.miui.securityscan.scanner.ScoreManager"
