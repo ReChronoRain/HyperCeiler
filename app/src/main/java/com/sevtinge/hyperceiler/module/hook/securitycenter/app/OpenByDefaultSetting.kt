@@ -127,7 +127,7 @@ class OpenByDefaultSetting : BaseHook() {
     override fun init() {
         val appDetailsView = appDetailsView.getInstance(classLoader)
 
-        if (appDetailsView.isAssignableFrom(Activity::class.java)) {
+        if (Activity::class.java.isAssignableFrom(appDetailsView)) {
             // v1, v2
             XposedBridge.hookMethod(onLoadDataFinishMethod, object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -142,7 +142,7 @@ class OpenByDefaultSetting : BaseHook() {
                 }
             })
 
-            injectClassLoader()
+            // injectClassLoader()
             XposedHelpers.findAndHookMethod(appDetailsView,
                 "onPreferenceClick",
                 "androidx.preference.Preference",

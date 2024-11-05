@@ -236,9 +236,9 @@ android {
 
 dependencies {
     compileOnly(project(":hidden-api"))
-    compileOnly(project(":miuistub"))
+    // compileOnly(project(":miuistub"))
     compileOnly(libs.xposed.api)
-    compileOnly(libs.androidx.preference)
+    // compileOnly(libs.androidx.preference)
 
     implementation(libs.dexkit)
     implementation(libs.ezxhelper)
