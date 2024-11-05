@@ -121,6 +121,11 @@ public class MainActivity extends HyperCeilerTabActivity implements IResult {
                         .setCancelable(false)
                         .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
                             ShellInit.getShell().run("setprop persist.hyperceiler.crash.report \"\"").sync();
+                            PrefsUtils.mSharedPreferences.edit().remove("prefs_key_system_ui_safe_mode_enable").apply();
+                            PrefsUtils.mSharedPreferences.edit().remove("prefs_key_home_safe_mode_enable").apply();
+                            PrefsUtils.mSharedPreferences.edit().remove("prefs_key_system_settings_safe_mode_enable").apply();
+                            PrefsUtils.mSharedPreferences.edit().remove("prefs_key_security_center_safe_mode_enable").apply();
+                            PrefsUtils.mSharedPreferences.edit().remove("prefs_key_demo_safe_mode_enable").apply();
                             dialog.dismiss();
                         })
                         .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> dialog.dismiss())
