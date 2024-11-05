@@ -19,11 +19,13 @@
 package com.sevtinge.hyperceiler.module.hook.mishare
 
 import android.content.*
+import android.util.*
 import android.widget.*
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.*
+import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
@@ -33,8 +35,13 @@ import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.module.base.tool.*
 import com.sevtinge.hyperceiler.module.base.tool.HookTool.*
 import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.log.*
 import de.robv.android.xposed.*
+import org.luckypray.dexkit.*
+import org.luckypray.dexkit.query.*
+import org.luckypray.dexkit.query.matchers.*
+import org.luckypray.dexkit.result.*
 import java.lang.reflect.*
 
 object NoAutoTurnOff : BaseHook() {
@@ -85,6 +92,16 @@ object NoAutoTurnOff : BaseHook() {
         }.toMethod()
     }
 
+    private val stopAdvertAllMethod by lazy {
+        DexKit.getDexKitBridge("NoAutoTurnOff9") {
+            it.findMethod {
+                matcher {
+                    usingStrings("stopAdvertAll timeout. try stop ")
+                }
+            }.single().getMethodInstance(safeClassLoader)
+        }.toMethod()
+    }
+
     private val toastMethod by lazy {
         DexKit.getDexKitBridgeList("NoAutoTurnOff4") {
             it.findMethod {
@@ -114,17 +131,19 @@ object NoAutoTurnOff : BaseHook() {
 
     private val showToastMethod by lazy {
         DexKit.getDexKitBridge("NoAutoTurnOff5") {
-            it.findMethod {
-                matcher {
-                    declaredClass {
-                        fieldCount(0)
-                        methodCount(2)
-                    }
-                    returnType = "void"
-                    modifiers = Modifier.STATIC
-                    paramTypes = listOf("android.content.Context", "java.lang.CharSequence", "int")
-                }
-            }.singleOrNull()?.getMethodInstance(safeClassLoader)
+            it.findMethod (
+                FindMethod.create()
+                    .matcher(
+                        MethodMatcher.create()
+                            .declaredClass {
+                                fieldCount(0)
+                                methodCount(2)
+                            }
+                            .returnType("void")
+                            .paramTypes(listOf("android.content.Context", "java.lang.CharSequence", "int"))
+                            .modifiers(Modifier.STATIC)
+                    )
+            ).singleOrNull()?.getMethodInstance(safeClassLoader)
         }.toMethod()
     }
 
@@ -176,48 +195,63 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     override fun init() {
+
         // 禁用小米互传功能自动关闭部分
-        runCatching {
+        if (isMoreHyperOSVersion(2f)) {
+            hookMethod(stopAdvertAllMethod, object : MethodHook() {
+                override fun before(param: MethodHookParam?) {
+                    param!!.result = null
+                }
+            })
+        } else {
+            runCatching {
+                try {
+                    setOf(nullMethod, null2Method).createHooks {
+                        returnConstant(null)
+                    }
+                } catch (_: Exception) {
+                    setOf(nullMethodNew, null2Method).createHooks {
+                        returnConstant(null)
+                    }
+                }
+            }
+
+            runCatching {
+                null3Method.createHook {
+                    after {
+                        val d = it.thisObject.getObjectField("d")
+                        XposedHelpers.callMethod(d, "removeCallbacks", it.thisObject)
+                        logI(
+                            TAG, this@NoAutoTurnOff.lpparam.packageName,
+                            "null3Method hook success, $d"
+                        )
+                    }
+                }
+            }
+
+            runCatching {
+                findAndHookConstructor(nullField.javaClass, object : MethodHook() {
+                    override fun after(param: MethodHookParam) {
+                        XposedHelpers.setObjectField(param.thisObject, nullField.name, 2147483647)
+                        logI(TAG, lpparam.packageName, "nullField hook success, $nullField")
+                    }
+                })
+            }
+
             try {
-                setOf(nullMethod, null2Method).createHooks {
-                    returnConstant(null)
+                runCatching {
+                    hookMethod(null2FieldMethod, object : MethodHook() {
+                        override fun before(param: MethodHookParam) {
+                            XposedHelpers.setObjectField(
+                                param.thisObject,
+                                null2Field.name,
+                                2147483647
+                            )
+                        }
+                    })
                 }
             } catch (_: Exception) {
-                setOf(nullMethodNew, null2Method).createHooks {
-                    returnConstant(null)
-                }
             }
-        }
-
-        runCatching {
-            null3Method.createHook {
-                after {
-                    val d = it.thisObject.getObjectField("d")
-                    XposedHelpers.callMethod(d, "removeCallbacks", it.thisObject)
-                    logI(
-                        TAG, this@NoAutoTurnOff.lpparam.packageName,
-                        "null3Method hook success, $d"
-                    )
-                }
-            }
-        }
-
-        runCatching {
-            findAndHookConstructor(nullField.javaClass, object : MethodHook() {
-                override fun after(param: MethodHookParam) {
-                    XposedHelpers.setObjectField(param.thisObject, nullField.name, 2147483647)
-                    logI(TAG, lpparam.packageName, "nullField hook success, $nullField")
-                } })
-        }
-
-        try {
-            runCatching {
-                hookMethod(null2FieldMethod, object : MethodHook() {
-                    override fun before(param: MethodHookParam) {
-                        XposedHelpers.setObjectField(param.thisObject, null2Field.name, 2147483647)
-                    } })
-            }
-        } catch (_: Exception) {
         }
 
         // 干掉小米互传十分钟倒计时 Toast
@@ -236,15 +270,15 @@ object NoAutoTurnOff : BaseHook() {
                                     "Modify by HyperCeiler"
                             }
                         })
-                    hookMethod(showToastMethod, object : MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun before(param: MethodHookParam) {
-                            if (param.args[1].toString() == "Modify by HyperCeiler") param.result =
-                                null
-                        }
-                    })
                 }
             }
+            hookMethod(showToastMethod, object : MethodHook() {
+                @Throws(Throwable::class)
+                override fun before(param: MethodHookParam) {
+                    if (param.args[1].toString() == "Modify by HyperCeiler") param.result =
+                        null
+                }
+            })
         } else {
             toastMethodNew.createHooks {
                 before { param ->
@@ -260,17 +294,16 @@ object NoAutoTurnOff : BaseHook() {
                                     "Modify by HyperCeiler"
                             }
                         })
-                    hookMethod(showToastMethod, object : MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun before(param: MethodHookParam) {
-                            if (param.args[1].toString() == "Modify by HyperCeiler") param.result =
-                                null
-                        }
-                    })
                 }
             }
+            hookMethod(showToastMethod, object : MethodHook() {
+                @Throws(Throwable::class)
+                override fun before(param: MethodHookParam) {
+                    if (param.args[1].toString() == "Modify by HyperCeiler") param.result =
+                        null
+                }
+            })
             mResHook.setResReplacement("com.miui.mishare.connectivity", "string", "switch_mode_all", R.string.mishare_hook_switch_mode_all)
         }
-
     }
 }
