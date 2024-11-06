@@ -26,7 +26,6 @@ import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationVolumeSeparateSlider;
-import com.sevtinge.hyperceiler.module.hook.systemui.ShowVolumePct;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.BluetoothTileStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGrid;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGridForHyperOS;
@@ -45,80 +44,28 @@ public class PluginHelper extends BaseHook {
 
     @Override
     public void init() {
-        if (!isAndroidVersion(34) || !isMoreHyperOSVersion(1f)) {
-            String pluginLoaderClass = isAndroidVersion(33)
-                    ? "com.android.systemui.shared.plugins.PluginInstance$Factory"
-                    : "com.android.systemui.shared.plugins.PluginManagerImpl";
-            hookAllMethods(pluginLoaderClass, "getClassLoader",
-                    new MethodHook() {
-                        private boolean isHooked = false;
+        String pluginLoaderClass = isAndroidVersion(33)
+                ? "com.android.systemui.shared.plugins.PluginInstance$Factory"
+                : "com.android.systemui.shared.plugins.PluginManagerImpl";
+        hookAllMethods(pluginLoaderClass, "getClassLoader", new MethodHook() {
+            private boolean isHooked = false;
 
-                        @Override
-                        protected void after(MethodHookParam param) {
-                            appInfo = (ApplicationInfo) param.args[0];
-                            if (appInfo != null) {
-                                if ("miui.systemui.plugin".equals(appInfo.packageName) && !isHooked) {
-                                    if (pluginLoader == null) {
-                                        pluginLoader = (ClassLoader) param.getResult();
-                                    }
-                                    isHooked = true;
-                                    setClassLoader(pluginLoader);
-                                    logW(TAG, "Get ClassLoader: " + pluginLoader);
-                                } else {
-                                    if (!isHooked)
-                                        logW(TAG, "Get classloader miui.systemui.plugin error");
-                                }
-                            } else {
-                                logE(TAG, "AppInfo is null");
-                            }
-                        }
-                    }
-            );
-        } else {
-            hookAllMethods("com.android.systemui.shared.plugins.PluginInstance$Factory",
-                    "create",
-                    new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) {
-                            appInfo = (ApplicationInfo) param.args[1];
-                        }
-                    }
-            );
+            @Override
+            protected void after(MethodHookParam param) {
+                appInfo = (ApplicationInfo) param.args[0];
 
-            findAndHookMethod("com.android.systemui.shared.plugins.PluginInstance$Factory$$ExternalSyntheticLambda0",
-                    "get",
-                    new MethodHook() {
-                        private boolean isHooked = false;
-
-                        @Override
-                        protected void after(MethodHookParam param) {
-                            Object pathClassLoader = param.getResult();
-                            if (pluginLoader == null) {
-                                pluginLoader = (ClassLoader) pathClassLoader;
-                            }
-                            if (!isHooked) {
-                                if (appInfo != null) {
-                                    if ("miui.systemui.plugin".equals(appInfo.packageName)) {
-                                        isHooked = true;
-                                        setClassLoader(pluginLoader);
-                                        logI(TAG, "Get ClassLoader: " + pluginLoader);
-                                    } else {
-                                        logW(TAG, "Get to the one that doesn't belong to the plugin ClassLoader！ " + pluginLoader);
-                                    }
-                                } else {
-                                    if (pluginLoader.toString().contains("MIUISystemUIPlugin") ||
-                                            pluginLoader.toString().contains("miui.systemui.plugin")) {
-                                        isHooked = true;
-                                        setClassLoader(pluginLoader);
-                                    } else {
-                                        logW(TAG, "Au get classloader miui.systemui.plugin error & appInfo is null");
-                                    }
-                                }
-                            }
-                        }
+                if (appInfo != null) {
+                    if ("miui.systemui.plugin".equals(appInfo.packageName) && !isHooked) {
+                        if (pluginLoader == null) pluginLoader = (ClassLoader) param.getResult();
+                        isHooked = true;
+                        setClassLoader(pluginLoader);
+                        logW(TAG, "Get ClassLoader: " + pluginLoader);
+                    } else {
+                        if (!isHooked) logW(TAG, "Get classloader miui.systemui.plugin error");
                     }
-            );
-        }
+                } else logE(TAG, "AppInfo is null");
+            }
+        });
     }
 
     public void setClassLoader(ClassLoader classLoader) {
@@ -141,7 +88,7 @@ public class PluginHelper extends BaseHook {
         if (isMoreHyperOSVersion(1f) && mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"))
             CCGridForHyperOS.initCCGridForHyperOS(classLoader);
         if (mPrefsMap.getBoolean("system_cc_volume_showpct_title"))
-            ShowVolumePct.init(classLoader);
+            NewShowVolumePct.initLoader(classLoader); // 声音百分比
         if (mPrefsMap.getBoolean("system_ui_unlock_super_volume"))
             SuperVolume.initSuperVolume(classLoader);
         if ((mPrefsMap.getInt("system_control_center_cc_rows", 4) > 4 ||
