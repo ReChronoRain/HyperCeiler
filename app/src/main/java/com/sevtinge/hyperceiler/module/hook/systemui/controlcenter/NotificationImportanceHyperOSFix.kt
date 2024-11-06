@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.ObjectUtils.getObjectOrNullAs
 import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.ObjectUtils.setObject
@@ -31,69 +31,42 @@ import de.robv.android.xposed.*
 
 object NotificationImportanceHyperOSFix : BaseHook() {
     override fun init() {
-        if (isMoreHyperOSVersion(2f)) {
+        if (isMoreAndroidVersion(35)) {
             loadClass("com.android.systemui.statusbar.notification.collection.coordinator.StackCoordinator\$attach\$1")
                 .methodFinder().filterByName("onAfterRenderList")
-                .first().createHook {
-                    before { param ->
-                        val mNotificationEntries = param.args[0] as List<*>
-                        if (mNotificationEntries.isNotEmpty()) {
-                            val list = ArrayList<Any>()
-                            mNotificationEntries.forEach {
-                                val representativeEntry = it?.let { it1 ->
-                                    invokeMethodBestMatch(
-                                        it1,
-                                        "getRepresentativeEntry"
-                                    )
-                                }!!
-                                val ranking =
-                                    XposedHelpers.getObjectField(representativeEntry, "mRanking");
-                                val importance =
-                                    XposedHelpers.callMethod(ranking, "getImportance") as Int
-                                /*val importance = invokeMethodBestMatch(
-                                representativeEntry,
-                                "getImportance"
-                            ) as Int*/
-                                if (importance > 1) list.add(it)
-                            }
-                            if (list.size != mNotificationEntries.size) {
-                                param.args[0] = list
-                                // setObject(param.thisObject, "mNotificationEntries", list)
-                            }
+                .first().createBeforeHook { param ->
+                    val mNotificationEntries = param.args[0] as List<*>
+                    if (mNotificationEntries.isNotEmpty()) {
+                        val list = ArrayList<Any>()
+                        mNotificationEntries.forEach {
+                            val representativeEntry = invokeMethodBestMatch(it!!, "getRepresentativeEntry")!!
+                            val ranking =
+                                XposedHelpers.getObjectField(representativeEntry, "mRanking")
+                            val importance =
+                                XposedHelpers.callMethod(ranking, "getImportance") as Int
+                            if (importance > 1) list.add(it)
                         }
+                        if (list.size != mNotificationEntries.size) param.args[0] = list
                     }
                 }
         } else {
             loadClass("com.android.systemui.statusbar.phone.NotificationIconAreaController")
                 .methodFinder().filterByName("updateStatusBarIcons")
-                .first().createHook {
-                    before { param ->
-                        val mNotificationEntries = getObjectOrNullAs<List<Any>>(
-                            param.thisObject,
-                            "mNotificationEntries"
-                        )!!
-                        if (mNotificationEntries.isNotEmpty()) {
-                            val list = ArrayList<Any>()
-                            mNotificationEntries.forEach {
-                                val representativeEntry = invokeMethodBestMatch(
-                                    it,
-                                    "getRepresentativeEntry"
-                                )!!
-                                val importance = invokeMethodBestMatch(
+                .first().createBeforeHook { param ->
+                    val mNotificationEntries =
+                        getObjectOrNullAs<List<Any>>(param.thisObject, "mNotificationEntries")!!
+                    if (mNotificationEntries.isNotEmpty()) {
+                        val list = ArrayList<Any>()
+                        mNotificationEntries.forEach {
+                            val representativeEntry =
+                                invokeMethodBestMatch(it, "getRepresentativeEntry")!!
+                            val importance =
+                                invokeMethodBestMatch(representativeEntry, "getImportance") as Int
 
-
-
-
-                                    representativeEntry,
-                                    "getImportance"
-                                ) as Int
-                                if (importance > 1) list.add(it)
-                            }
-                            if (list.size != mNotificationEntries.size) {
-                                setObject(param.thisObject, "mNotificationEntries", list)
-
-
-                            }
+                            if (importance > 1) list.add(it)
+                        }
+                        if (list.size != mNotificationEntries.size) {
+                            setObject(param.thisObject, "mNotificationEntries", list)
                         }
                     }
                 }
