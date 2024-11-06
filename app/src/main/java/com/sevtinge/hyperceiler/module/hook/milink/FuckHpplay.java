@@ -27,6 +27,8 @@ import java.io.FileNotFoundException;
 
 import de.robv.android.xposed.XC_MethodHook;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 public class FuckHpplay extends BaseHook {
     private static final String TARGET_PACKAGE = "com.milink.service";
     private static final String TARGET_PATH = new File(Environment.getExternalStorageDirectory(), "com.milink.service").getAbsolutePath();
@@ -45,5 +47,20 @@ public class FuckHpplay extends BaseHook {
                 }
             }
         });
+
+        if (!isMoreHyperOSVersion(2f)) return;
+
+        findAndHookMethod("com.xiaomi.aivsbluetoothsdk.utils.FileUtil", lpparam.classLoader,
+                "splicingFilePath",
+                String.class, String.class, String.class, String.class,
+                new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) {
+                        if (((String)param.args[0]).startsWith("com.milink.service")) {
+                            logI(TAG, FuckHpplay.this.lpparam.packageName, "reDirect");
+                            param.args[0] = "MIUI" + File.separator + param.args[0];
+                        }
+                    }
+                });
     }
 }
