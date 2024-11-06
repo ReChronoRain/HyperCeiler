@@ -202,6 +202,13 @@
                 android:data="https://github.com/zerorooot/HideMiuiClipboardDialog" />
         </Preference>
         <Preference
+            android:summary="焕晨HChen | GPL-3.0"
+            android:title="HookTool">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/HChenX/HookTool" />
+        </Preference>
+        <Preference
             android:summary="buffcow | Apache-2.0"
             android:title="HyperSmartCharge">
             <intent
