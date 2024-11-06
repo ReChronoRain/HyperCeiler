@@ -21,15 +21,19 @@ package com.sevtinge.hyperceiler.module.hook.home.layout;
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.module.hook.home.HomeBaseHook;
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
 
-public class WorkspacePadding extends BaseHook {
+public class WorkspacePadding extends HomeBaseHook {
 
     Context mContext;
     Class<?> mDeviceConfig;
 
     @Override
     public void init() {
+        if (isNewHome()) {
+            return;
+        }
 
         mDeviceConfig = findClassIfExists("com.miui.home.launcher.DeviceConfig");
 

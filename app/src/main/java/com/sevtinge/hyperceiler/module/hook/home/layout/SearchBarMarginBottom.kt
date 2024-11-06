@@ -16,16 +16,15 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.home
+package com.sevtinge.hyperceiler.module.hook.home.layout
 
-import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.module.hook.home.*
 
-class UnlockHotseatIcon : HomeBaseHook() {
+class SearchBarMarginBottom : HomeBaseHook() {
     override fun init() {
-        DEVICE_CONFIG.hookBeforeMethod(
-            if (isNewHome) "calHotseatMaxCount" else "getHotseatMaxCount"
-        ) {
-            it.result = 99
-        }
+        findAndHookMethod(
+            DEVICE_CONFIG, "getSearchBarMarginBottom",
+            setDimensionPixelSizeFormPrefs("home_layout_searchbar_margin_bottom")
+        )
     }
 }

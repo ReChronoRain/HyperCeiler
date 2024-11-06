@@ -33,6 +33,8 @@ public class HomeLayoutSettings extends SettingsPreferenceFragment {
 
     SwitchPreference mIconLayout;
     SwitchPreference mIconLayoutNew;
+    SwitchPreference mHotseatsMarginTopSwitchPref;
+    SwitchPreference mHotseatsMarginTopSeekPref;
 
     @Override
     public int getContentResId() {
@@ -51,12 +53,16 @@ public class HomeLayoutSettings extends SettingsPreferenceFragment {
     public void initPrefs() {
         mIconLayout = findPreference("prefs_key_home_layout_unlock_grids");
         mIconLayoutNew = findPreference("prefs_key_home_layout_unlock_grids_new");
+        mHotseatsMarginTopSwitchPref = findPreference("prefs_key_home_layout_hotseats_margin_top_enable");
+        mHotseatsMarginTopSeekPref = findPreference("prefs_key_home_layout_hotseats_margin_top");
         if (isPad()) {
             mIconLayout.setVisible(false);
             mIconLayoutNew.setVisible(false);
         } else if (isMoreHyperOSVersion(2f)) {
             mIconLayout.setVisible(false);
             mIconLayoutNew.setVisible(true);
+            mHotseatsMarginTopSwitchPref.setVisible(false);
+            mHotseatsMarginTopSeekPref.setVisible(false);
         } else {
             mIconLayout.setVisible(true);
             mIconLayoutNew.setVisible(false);

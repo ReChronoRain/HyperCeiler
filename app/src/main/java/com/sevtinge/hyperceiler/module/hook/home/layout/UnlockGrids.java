@@ -22,6 +22,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.module.hook.home.HomeBaseHook;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 
-public class UnlockGrids extends BaseHook {
+public class UnlockGrids extends HomeBaseHook {
 
     Class<?> mDeviceConfig;
 
@@ -62,6 +63,10 @@ public class UnlockGrids extends BaseHook {
         UnlockGridsRes();
 
          */
+
+        if (isNewHome()) {
+            return;
+        }
 
 
         hookAllMethodsSilently("com.miui.home.launcher.compat.LauncherCellCountCompatDevice", "shouldUseDeviceValue", MethodHook.returnConstant(false));
