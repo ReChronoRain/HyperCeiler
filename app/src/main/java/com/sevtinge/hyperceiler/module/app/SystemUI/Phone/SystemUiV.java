@@ -358,6 +358,6 @@ public class SystemUiV extends BaseModule {
 
         initHook(new AllowManageAllNotifications(), mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"));
 
-        initHook(new FuckStatusbarGestures(), mPrefsMap.getBoolean("prefs_key_system_ui_move_log_to_miui"));
+        initHook(new FuckStatusbarGestures(), mPrefsMap.getBoolean("system_ui_move_log_to_miui"));
     }
 }
