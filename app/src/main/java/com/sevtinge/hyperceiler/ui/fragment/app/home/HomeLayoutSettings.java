@@ -29,12 +29,14 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
+import fan.preference.SeekBarPreferenceCompat;
+
 public class HomeLayoutSettings extends SettingsPreferenceFragment {
 
     SwitchPreference mIconLayout;
     SwitchPreference mIconLayoutNew;
     SwitchPreference mHotseatsMarginTopSwitchPref;
-    SwitchPreference mHotseatsMarginTopSeekPref;
+    SeekBarPreferenceCompat mHotseatsMarginTopSeekPref;
 
     @Override
     public int getContentResId() {
