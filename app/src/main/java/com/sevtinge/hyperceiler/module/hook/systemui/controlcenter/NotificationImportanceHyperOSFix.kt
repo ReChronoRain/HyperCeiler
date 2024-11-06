@@ -25,35 +25,78 @@ import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.ObjectUtils.setObject
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
+import de.robv.android.xposed.*
+
 
 object NotificationImportanceHyperOSFix : BaseHook() {
     override fun init() {
-        loadClass("com.android.systemui.statusbar.phone.NotificationIconAreaController")
-            .methodFinder().filterByName("updateStatusBarIcons")
-            .first().createHook {
-                before { param ->
-                    val mNotificationEntries = getObjectOrNullAs<List<Any>>(
-                        param.thisObject,
-                        "mNotificationEntries"
-                    )!!
-                    if (mNotificationEntries.isNotEmpty()) {
-                        val list = ArrayList<Any>()
-                        mNotificationEntries.forEach {
-                            val representativeEntry = invokeMethodBestMatch(
-                                it,
-                                "getRepresentativeEntry"
-                            )!!
-                            val importance = invokeMethodBestMatch(
+        if (isMoreHyperOSVersion(2f)) {
+            loadClass("com.android.systemui.statusbar.notification.collection.coordinator.StackCoordinator\$attach\$1")
+                .methodFinder().filterByName("onAfterRenderList")
+                .first().createHook {
+                    before { param ->
+                        val mNotificationEntries = param.args[0] as List<*>
+                        if (mNotificationEntries.isNotEmpty()) {
+                            val list = ArrayList<Any>()
+                            mNotificationEntries.forEach {
+                                val representativeEntry = it?.let { it1 ->
+                                    invokeMethodBestMatch(
+                                        it1,
+                                        "getRepresentativeEntry"
+                                    )
+                                }!!
+                                val ranking =
+                                    XposedHelpers.getObjectField(representativeEntry, "mRanking");
+                                val importance =
+                                    XposedHelpers.callMethod(ranking, "getImportance") as Int
+                                /*val importance = invokeMethodBestMatch(
                                 representativeEntry,
                                 "getImportance"
-                            ) as Int
-                            if (importance > 1) list.add(it)
-                        }
-                        if (list.size != mNotificationEntries.size) {
-                            setObject(param.thisObject, "mNotificationEntries", list)
+                            ) as Int*/
+                                if (importance > 1) list.add(it)
+                            }
+                            if (list.size != mNotificationEntries.size) {
+                                param.args[0] = list
+                                // setObject(param.thisObject, "mNotificationEntries", list)
+                            }
                         }
                     }
                 }
-            }
+        } else {
+            loadClass("com.android.systemui.statusbar.phone.NotificationIconAreaController")
+                .methodFinder().filterByName("updateStatusBarIcons")
+                .first().createHook {
+                    before { param ->
+                        val mNotificationEntries = getObjectOrNullAs<List<Any>>(
+                            param.thisObject,
+                            "mNotificationEntries"
+                        )!!
+                        if (mNotificationEntries.isNotEmpty()) {
+                            val list = ArrayList<Any>()
+                            mNotificationEntries.forEach {
+                                val representativeEntry = invokeMethodBestMatch(
+                                    it,
+                                    "getRepresentativeEntry"
+                                )!!
+                                val importance = invokeMethodBestMatch(
+
+
+
+
+                                    representativeEntry,
+                                    "getImportance"
+                                ) as Int
+                                if (importance > 1) list.add(it)
+                            }
+                            if (list.size != mNotificationEntries.size) {
+                                setObject(param.thisObject, "mNotificationEntries", list)
+
+
+                            }
+                        }
+                    }
+                }
+        }
     }
 }
