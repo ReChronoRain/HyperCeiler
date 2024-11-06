@@ -1217,8 +1217,11 @@
 
     <string name="home_layout">布局</string>
     <string name="home_layout_home_title">主屏幕</string>
+    <string name="home_layout_indicator_title">指示器</string>
+    <string name="home_layout_indicator_margin_bottom_desc">指示器距离屏幕底部边距</string>
     <string name="home_layout_hotseats_title">底栏</string>
     <string name="home_layout_searchbar_title">搜索框</string>
+    <string name="home_layout_searchbar_width">宽度</string>
     <string name="home_layout_seek_points">页面指示器</string>
     <string name="home_layout_show_clock">显示时间</string>
     <string name="home_layout_show_clock_desc">时钟小部件所在页面始终显示时间</string>

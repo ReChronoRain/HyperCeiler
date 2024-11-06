@@ -67,8 +67,10 @@ import com.sevtinge.hyperceiler.module.hook.home.gesture.ShakeDevice;
 import com.sevtinge.hyperceiler.module.hook.home.layout.HotSeatsHeight;
 import com.sevtinge.hyperceiler.module.hook.home.layout.HotSeatsMarginBottom;
 import com.sevtinge.hyperceiler.module.hook.home.layout.HotSeatsMarginTop;
+import com.sevtinge.hyperceiler.module.hook.home.layout.IndicatorMarginBottom;
 import com.sevtinge.hyperceiler.module.hook.home.layout.LayoutRules;
 import com.sevtinge.hyperceiler.module.hook.home.layout.SearchBarMarginBottom;
+import com.sevtinge.hyperceiler.module.hook.home.layout.SearchBarMarginWidth;
 import com.sevtinge.hyperceiler.module.hook.home.layout.UnlockGrids;
 import com.sevtinge.hyperceiler.module.hook.home.layout.WorkspacePadding;
 import com.sevtinge.hyperceiler.module.hook.home.navigation.BackGestureAreaHeight;
@@ -161,7 +163,11 @@ public class HomeV extends BaseModule {
         initHook(new BackGestureAreaWidth(), mPrefsMap.getInt("home_navigation_back_area_width", 100) != 100);
 
         // 布局
-        initHook(LayoutRules.INSTANCE, mPrefsMap.getBoolean("home_layout_unlock_grids_new") || mPrefsMap.getBoolean("home_layout_unlock_grids"));
+        initHook(LayoutRules.INSTANCE, mPrefsMap.getBoolean("home_layout_unlock_grids_new") ||
+                mPrefsMap.getBoolean("home_layout_unlock_grids") ||
+                mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
+                mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable") ||
+                mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable"));
         initHook(new UnlockGrids(), mPrefsMap.getBoolean("home_layout_unlock_grids"));
         // initHook(new UnlockGridsNoWord(), mPrefsMap.getBoolean("home_layout_unlock_grids_no_word"));
         initHook(new WorkspacePadding(),
@@ -170,9 +176,11 @@ public class HomeV extends BaseModule {
                         mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable")
         );
 
+        initHook(new IndicatorMarginBottom(), mPrefsMap.getBoolean("home_layout_indicator_margin_bottom_enable"));
         initHook(new HotSeatsHeight(), mPrefsMap.getBoolean("home_layout_hotseats_height_enable"));
         initHook(new HotSeatsMarginTop(), mPrefsMap.getBoolean("home_layout_hotseats_margin_top_enable"));
         initHook(new HotSeatsMarginBottom(), mPrefsMap.getBoolean("home_layout_hotseats_margin_bottom_enable"));
+        initHook(new SearchBarMarginWidth(), mPrefsMap.getBoolean("home_layout_searchbar_width_enable"));
         initHook(new SearchBarMarginBottom(), (mPrefsMap.getInt("home_layout_searchbar_margin_bottom", 0) > 0) &&
                 mPrefsMap.getBoolean("home_layout_searchbar_margin_bottom_enable"));
 

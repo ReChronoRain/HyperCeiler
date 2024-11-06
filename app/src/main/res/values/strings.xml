@@ -1189,8 +1189,11 @@
     <string name="home_gesture_multi_choose_app_none">None</string>
     <string name="home_layout">Layout</string>
     <string name="home_layout_home_title">Home screen</string>
+    <string name="home_layout_indicator_title">Indicator</string>
+    <string name="home_layout_indicator_margin_bottom_desc">Indicator distance from screen bottom margin</string>
     <string name="home_layout_hotseats_title">Dock</string>
     <string name="home_layout_searchbar_title">Search bar</string>
+    <string name="home_layout_searchbar_width">Height</string>
     <string name="home_layout_seek_points">Page indicator</string>
     <string name="home_layout_show_clock">Display time</string>
     <string name="home_layout_show_clock_desc">The page where the clock widget is located always displays the time</string>
