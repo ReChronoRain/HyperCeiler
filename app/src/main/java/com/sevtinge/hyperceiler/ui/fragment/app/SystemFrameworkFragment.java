@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.app;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.view.View;
 
@@ -37,6 +38,7 @@ public class SystemFrameworkFragment extends SettingsPreferenceFragment {
     SwitchPreference mDisableIntegrity;
     SwitchPreference mDisableLowApiCheck;
     SwitchPreference mDisablePersistent;
+    SwitchPreference mIsolationViolation;
     Preference mNetwork;
 
     @Override
@@ -58,12 +60,14 @@ public class SystemFrameworkFragment extends SettingsPreferenceFragment {
         mDisableLowApiCheck = findPreference("prefs_key_system_framework_disable_low_api_check");
         mDisablePersistent = findPreference("prefs_key_system_framework_disable_persistent");
         mNetwork = findPreference("prefs_key_system_framework_network");
+        mIsolationViolation = findPreference("prefs_key_system_framework_core_patch_bypass_isolation_violation");
 
         mDisableIntegrity.setVisible(isMoreAndroidVersion(33) && !mCreak);
         mShareUser.setVisible(isMoreAndroidVersion(33)); // 暂时仅开放给 Android 13 及以上使用
         mNetwork.setVisible(TelephonyManager.getDefault().isFiveGCapable());
         mDisableLowApiCheck.setVisible(isMoreAndroidVersion(34));
         mDisablePersistent.setVisible(isMoreAndroidVersion(34));
+        mIsolationViolation.setVisible(isMoreHyperOSVersion(2f));
 
         mDisableCreak.setOnPreferenceChangeListener((preference, o) -> {
             if ((boolean) o) {
