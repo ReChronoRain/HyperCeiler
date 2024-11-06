@@ -33,17 +33,13 @@ object NewPluginHelper : BaseHook() {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 logD(TAG, lpparam.packageName, "Plugin for sysui volume loaded.")
 
-                if (mPrefsMap.getBoolean("system_ui_volume_timer"))
-                    VolumeTimerValuesHook.initVolumeTimerValuesHook(classLoader)
                 if (mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"))
-                    EnableVolumeBlur.initEnableVolumeBlur(classLoader)
+                    try {EnableVolumeBlur.initEnableVolumeBlur(classLoader)} catch (_: Exception) {}
                 if (mPrefsMap.getBoolean("system_cc_volume_showpct_title"))
-                    ShowVolumePct.init(classLoader) // 声音百分比
-                if (mPrefsMap.getBoolean("system_ui_unlock_super_volume"))
-                    SuperVolume.initSuperVolume(classLoader) // 解锁超大音量
+                    try {ShowVolumePct.init(classLoader)} catch (_: Exception) {} // 声音百分比
                 if (mPrefsMap.getBoolean("system_framework_volume_separate_control") &&
                     mPrefsMap.getBoolean("system_framework_volume_separate_slider"))
-                    NotificationVolumeSeparateSlider.initHideDeviceControlEntry(classLoader)
+                    try {NotificationVolumeSeparateSlider.initHideDeviceControlEntry(classLoader)} catch (_: Exception) {}
             }
 
             factory.componentNames("miui.systemui.miplay.MiPlayPluginImpl") -> {
@@ -51,7 +47,7 @@ object NewPluginHelper : BaseHook() {
                 logD(TAG, lpparam.packageName, "Plugin for sysui mipay loaded.")
 
                 if (mPrefsMap.getStringAsInt("system_ui_control_center_mi_play_entry", 0) != 0)
-                    HideMiPlayEntry.initHideMiPlayEntry(classLoader)
+                    try {HideMiPlayEntry.initHideMiPlayEntry(classLoader)} catch (_: Exception) {}
             }
 
             factory.componentNames("miui.systemui.quicksettings.LocalMiuiQSTilePlugin") -> {
@@ -59,7 +55,7 @@ object NewPluginHelper : BaseHook() {
                 logD(TAG, lpparam.packageName, "Plugin for sysui mipay loaded.")
 
                 if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"))
-                    CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角
+                    try {CCGridForHyperOS.initCCGridForHyperOS(classLoader)} catch (_: Exception) {} // 控制中心磁贴圆角
             }
 
             factory.componentNames("miui.systemui.controlcenter.MiuiControlCenter") -> {
@@ -70,43 +66,44 @@ object NewPluginHelper : BaseHook() {
                 if (mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") ||
                     mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color")
                ) {
-                    QSColor.pluginHook(classLoader)
+                    try {QSColor.pluginHook(classLoader)} catch (_: Exception) {}
                 }
                 if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
                     mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty()
                 ) {
-                    CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles)
+                    try {CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles)} catch (_: Exception) {}
                 }
                 if (mPrefsMap.getBoolean("system_ui_control_center_hide_edit_botton"))
-                    HideEditButton.initHideEditButton(classLoader)
+                    try {HideEditButton.initHideEditButton(classLoader)} catch (_: Exception) {}
                 if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"))
-                    CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角
+                    try {CCGridForHyperOS.initCCGridForHyperOS(classLoader)} catch (_: Exception) {} // 控制中心磁贴圆角
             }
 
             else -> {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
 
                 if (mPrefsMap.getStringAsInt("system_ui_control_center_mi_smart_hub_entry", 0) != 0)
-                    HideMiSmartHubEntry.initHideMiSmartHubEntry(classLoader)
+                    try {HideMiSmartHubEntry.initHideMiSmartHubEntry(classLoader)} catch (_: Exception) {}
                 if (mPrefsMap.getStringAsInt("system_ui_control_center_device_ctrl_entry", 0) != 0)
-                    HideDeviceControlEntry.initHideDeviceControlEntry(classLoader)
+                    try {HideDeviceControlEntry.initHideDeviceControlEntry(classLoader)} catch (_: Exception) {}
                 if (mPrefsMap.getStringAsInt("system_ui_control_center_cc_bluetooth_tile_style", 1) > 1)
-                    BluetoothTileStyle.initHideDeviceControlEntry(classLoader)
+                    try {BluetoothTileStyle.initHideDeviceControlEntry(classLoader)} catch (_: Exception) {}
                 if (mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3)
-                    ShowDeviceName.initShowDeviceName(classLoader)
+                    try {ShowDeviceName.initShowDeviceName(classLoader)} catch (_: Exception) {}
                 if (mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"))
-                    DisableDeviceManaged.initDisableDeviceManaged(classLoader)
+                    try {DisableDeviceManaged.initDisableDeviceManaged(classLoader)} catch (_: Exception) {}
 
                 // logD(TAG, lpparam.packageName, "Plugin is ${factory.mComponentName}")
                 // 仅备份当前可用注入 ClassLoader
-                // miui.systemui.miplay.MiPlayPluginImpl
-                // miui.systemui.notification.NotificationStatPluginImpl
                 // miui.systemui.volume.VolumeDialogPlugin
+                // miui.systemui.miplay.MiPlayPluginImpl
+                // miui.systemui.quicksettings.LocalMiuiQSTilePlugin
+                // miui.systemui.controlcenter.MiuiControlCenter
+                // ↓
+                // miui.systemui.notification.NotificationStatPluginImpl
                 // miui.systemui.globalactions.GlobalActionsPlugin
                 // miui.systemui.notification.FocusNotificationPluginImpl
                 // miui.systemui.notification.unimportant.UnimportantSdkPluginImpl
-                // miui.systemui.controlcenter.MiuiControlCenter
-                // miui.systemui.quicksettings.LocalMiuiQSTilePlugin
             }
         }
     }

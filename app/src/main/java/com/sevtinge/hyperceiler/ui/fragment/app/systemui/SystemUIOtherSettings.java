@@ -52,6 +52,8 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     SwitchPreference mPctUseBlur;
     SwitchPreference mShowPct;
     SwitchPreference mFuckSG;
+    SwitchPreference mTimer;
+    SwitchPreference mSuperVolume;
 
     @Override
     public int getContentResId() {
@@ -80,6 +82,8 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mPctUseBlur = findPreference("prefs_key_system_showpct_use_blur");
         mShowPct = findPreference("prefs_key_system_showpct_title");
         mFuckSG = findPreference("prefs_key_system_ui_move_log_to_miui");
+        mTimer = findPreference("prefs_key_system_ui_volume_timer");
+        mSuperVolume = findPreference("prefs_key_system_ui_unlock_super_volume");
 
         mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && isMoreAndroidVersion(31));
@@ -90,6 +94,8 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mPctUseBlur.setVisible(isMoreHyperOSVersion(1f));
         mShowPct.setVisible(!isMoreHyperOSVersion(1f));
         mFuckSG.setVisible(isMoreHyperOSVersion(2f));
+        mTimer.setVisible(!isMoreAndroidVersion(35));
+        mSuperVolume.setVisible(!isMoreAndroidVersion(35));
 
         mVolume.setOnPreferenceChangeListener(
                 (preference, o) -> {

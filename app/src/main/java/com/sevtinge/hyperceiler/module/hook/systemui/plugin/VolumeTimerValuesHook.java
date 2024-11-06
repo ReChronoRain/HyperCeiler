@@ -61,7 +61,7 @@ public class VolumeTimerValuesHook {
                 Object mTimerSeekbarWidth = getObjectFieldSilently(param.thisObject, "mTimerSeekbarWidth");
                 int seekbarWidthResId;
                 if ("ObjectFieldNotExist".equals(mTimerSeekbarWidth)) {
-                    seekbarWidthResId = mContext.getResources().getIdentifier("miui_volume_timer_seelbar_width", "dimen", "miui.systemui.plugin");
+                    seekbarWidthResId = mContext.getResources().getIdentifier("miui_volume_timer_seekbar_width", "dimen", "miui.systemui.plugin");
                 } else {
                     seekbarWidthResId = (int) mTimerSeekbarWidth;
                 }
