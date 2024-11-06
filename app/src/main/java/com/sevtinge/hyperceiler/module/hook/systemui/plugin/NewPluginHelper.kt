@@ -54,6 +54,14 @@ object NewPluginHelper : BaseHook() {
                     HideMiPlayEntry.initHideMiPlayEntry(classLoader)
             }
 
+            factory.componentNames("miui.systemui.quicksettings.LocalMiuiQSTilePlugin") -> {
+                val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
+                logD(TAG, lpparam.packageName, "Plugin for sysui mipay loaded.")
+
+                if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"))
+                    CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角
+            }
+
             factory.componentNames("miui.systemui.controlcenter.MiuiControlCenter") -> {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 val mCardStyleTiles = getTileList()
