@@ -18,61 +18,51 @@
  */
 package com.sevtinge.hyperceiler.module.hook.gallery;
 
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
+import static com.hchen.hooktool.tool.CoreTool.callStaticMethod;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.TextUtils;
 
-import com.hchen.hooktool.BaseHC;
-import com.hchen.hooktool.callback.IAction;
-import com.sevtinge.hyperceiler.module.base.tool.HookTool;
+import com.sevtinge.hyperceiler.module.base.BaseHook;
 
-public class UnPrivacyWatermark extends BaseHC {
+public class UnPrivacyWatermark extends BaseHook {
 
-    public int num = HookTool.mPrefsMap.getInt("gallery_enable_un_privacy_watermark_value", 14);
+    public int num = mPrefsMap.getInt("gallery_enable_un_privacy_watermark_value", 14);
 
 
     @Override
     public void init() {
-        if (existsClass("com.miui.gallery.editor.photo.app.PrivacyWatermarkActivity")) {
-            chain("com.miui.gallery.editor.photo.app.PrivacyWatermarkActivity", method("setWordMaxLength", int.class)
-                    .hook(new IAction() {
-                        @Override
-                        public void before() throws Throwable {
-                            first(num);
-                        }
-                    })
-                    .method("drawWatermark",
-                            Canvas.class, String.class, int.class, int.class, int.class)
-                    .hook(new IAction() {
-                        @Override
-                        public void before() throws Throwable {
-                            drawWatermark(first(), second(), third(), fourth(), fifth(), true);
-                            returnNull();
-                        }
-                    })
-            );
+        Class<?> oldPrivacyWatermarkActivity = findClassIfExists("com.miui.gallery.editor.photo.app.PrivacyWatermarkActivity");
+        if (oldPrivacyWatermarkActivity != null) {
+            findAndHookMethod("com.miui.gallery.editor.photo.app.PrivacyWatermarkActivity", "setWordMaxLength", int.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    param.setResult(num);
+                }
+            });
+            findAndHookMethod("com.miui.gallery.editor.photo.app.PrivacyWatermarkActivity", "drawWatermark", Canvas.class, String.class, int.class, int.class, int.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    drawWatermark((Canvas) param.args[0], (String) param.args[1], (int) param.args[2], (int) param.args[3], (int) param.args[4], true);
+                    param.setResult(null);
+                }
+            });
         } else {
-            hook("com.miui.gallery.privacywatermark.PrivacyWatermarkActivity",
-                    "setWordMaxLength", int.class, new IAction() {
-                        @Override
-                        public void before() throws Throwable {
-                            first(num);
-                        }
-                    });
-
-            hook("com.miui.gallery.privacywatermark.PrivacyWatermarkHelper",
-                    "drawWatermark", Canvas.class, String.class, int.class, int.class, int.class,
-                    new IAction() {
-                        @Override
-                        public void before() throws Throwable {
-                            drawWatermark(first(), second(),
-                                    third(), fourth(), fifth(), false);
-                            returnNull();
-                        }
-                    });
+            findAndHookMethod("com.miui.gallery.privacywatermark.PrivacyWatermarkActivity", "setWordMaxLength", int.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    param.setResult(num);
+                }
+            });
+            findAndHookMethod("com.miui.gallery.privacywatermark.PrivacyWatermarkActivity", "drawWatermark", Canvas.class, String.class, int.class, int.class, int.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    drawWatermark((Canvas) param.args[0], (String) param.args[1], (int) param.args[2], (int) param.args[3], (int) param.args[4], true);
+                    param.setResult(null);
+                }
+            });
         }
     }
 

@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.module.base;
 
 import com.github.kyuubiran.ezxhelper.EzXHelper;
-import com.hchen.hooktool.BaseHC;
 import com.hchen.hooktool.HCInit;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.XposedInit;
@@ -52,8 +51,10 @@ public abstract class BaseModule implements IXposedHook {
         EzXHelper.initHandleLoadPackage(lpparam);
         EzXHelper.setLogTag(TAG);
         EzXHelper.setToastTag(TAG);
-        HCInit.initBasicData(BuildConfig.APPLICATION_ID,
-                "HyperCeiler", LogManager.getLogLevel());
+        HCInit.initBasicData(new HCInit.BasicData()
+                .setModulePackageName(BuildConfig.APPLICATION_ID)
+                .setLogLevel(LogManager.getLogLevel())
+                .setTag("HyperCeiler"));
         HCInit.initLoadPackageParam(lpparam);
         // 把模块资源加载到目标应用
         try {
@@ -128,7 +129,6 @@ public abstract class BaseModule implements IXposedHook {
 
     private void onCreate(Object hook) {
         if (hook instanceof BaseHook baseHook) baseHook.onCreate(mLoadPackageParam);
-        else if (hook instanceof BaseHC baseHC) baseHC.onCreate();
         else throw new RuntimeException("Unknown hook!");
     }
 }

@@ -18,8 +18,9 @@
  */
 package com.sevtinge.hyperceiler.module.hook.home.drawer;
 
-import static com.sevtinge.hyperceiler.module.base.tool.HookTool.mPrefsMap;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
+
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 import android.graphics.Color;
 import android.view.View;
@@ -27,23 +28,22 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.ViewSwitcher;
 
-import com.hchen.hooktool.BaseHC;
-import com.hchen.hooktool.callback.IAction;
+import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtils;
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt;
 
-public class AllAppsContainerViewSuperBlur extends BaseHC {
+public class AllAppsContainerViewSuperBlur extends BaseHook {
     private boolean isBlur;
     private View view;
 
     @Override
     public void init() {
-        hook("com.miui.home.launcher.allapps.BaseAllAppsContainerView", "onFinishInflate",
-                new IAction() {
+        findAndHookMethod("com.miui.home.launcher.allapps.BaseAllAppsContainerView", "onFinishInflate",
+                new MethodHook() {
                     @Override
-                    public void after() throws Throwable {
-                        ViewSwitcher mCategoryContainer = getThisField("mCategoryContainer");
+                    protected void after(MethodHookParam param) throws Throwable {
+                        ViewSwitcher mCategoryContainer = (ViewSwitcher) getObjectField(param.thisObject, "mCategoryContainer");
                         RelativeLayout appsView = (RelativeLayout) mCategoryContainer.getParent();
                         FrameLayout frameLayout = new FrameLayout(mCategoryContainer.getContext());
                         view = new View(mCategoryContainer.getContext());

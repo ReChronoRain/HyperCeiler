@@ -27,72 +27,64 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 
-import com.hchen.hooktool.BaseHC;
-import com.hchen.hooktool.callback.IAction;
-import com.sevtinge.hyperceiler.module.base.tool.HookTool;
+import com.sevtinge.hyperceiler.module.base.BaseHook;
 
-public class VolumeDisableSafe extends BaseHC {
+public class VolumeDisableSafe extends BaseHook {
     private static boolean isHeadsetOn = false;
 
-    private static final int mode = HookTool.mPrefsMap.getStringAsInt("system_framework_volume_disable_safe_new", 0);
+    private static final int mode = mPrefsMap.getStringAsInt("system_framework_volume_disable_safe_new", 0);
 
     @Override
     public void init() {
         if (isMoreAndroidVersion(34)) {
-            hook("com.android.server.audio.SoundDoseHelperStubImpl", "updateSafeMediaVolumeIndex", int.class,
-                    new IAction() {
-                        @Override
-                        public void before() throws Throwable {
-                            if (mode == 1) {
-                                setResult(2147483646);
-                                return;
-                            }
-                            if (isHeadsetOn) setResult(2147483646);
-                        }
-                    });
+            findAndHookMethod("com.android.server.audio.SoundDoseHelperStubImpl", "updateSafeMediaVolumeIndex", int.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    if (mode == 1) {
+                        param.setResult(2147483646);
+                        return;
+                    }
+                    if (isHeadsetOn) param.setResult(2147483646);
+                }
+            });
 
-            chain("com.android.server.audio.SoundDoseHelper", method("safeMediaVolumeIndex", int.class)
-                    .hook(
-                            new IAction() {
-                                @Override
-                                public void before() throws Throwable {
-                                    if (mode == 1) {
-                                        setResult(2147483646);
-                                        return;
-                                    }
-                                    if (isHeadsetOn) setResult(2147483646);
-                                }
-                            })
+            findAndHookMethod("com.android.server.audio.SoundDoseHelper", "safeMediaVolumeIndex", int.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    if (mode == 1) {
+                        param.setResult(2147483646);
+                        return;
+                    }
+                    if (isHeadsetOn) param.setResult(2147483646);
+                }
+            });
 
-                    .anyConstructor()
-                    .hook(new IAction() {
-                        @Override
-                        public void after() throws Throwable {
-                            if (mode == 1) {
-                                return;
-                            }
-                            Context context = second();
-                            IntentFilter intentFilter = new IntentFilter();
-                            intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
-                            intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-                            intentFilter.addAction(AudioManager.ACTION_HEADSET_PLUG);
-                            context.registerReceiver(new Listener(), intentFilter);
-                        }
-                    })
+            hookAllConstructors("com.android.server.audio.SoundDoseHelper", new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) throws Throwable {
+                    if (mode == 1) {
+                        return;
+                    }
+                    Context context = (Context) param.args[1];
+                    IntentFilter intentFilter = new IntentFilter();
+                    intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+                    intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+                    intentFilter.addAction(AudioManager.ACTION_HEADSET_PLUG);
+                    context.registerReceiver(new Listener(), intentFilter);
+                }
+            });
 
-            );
         } else {
-            hook("com.android.server.audio.AudioService", "safeMediaVolumeIndex",
-                    new IAction() {
-                        @Override
-                        public void before() throws Throwable {
-                            if (mode == 1) {
-                                setResult(2147483646);
-                                return;
-                            }
-                            if (isHeadsetOn) setResult(2147483646);
-                        }
-                    });
+            findAndHookMethod("com.android.server.audio.AudioService", "safeMediaVolumeIndex", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    if (mode == 1) {
+                        param.setResult(2147483646);
+                        return;
+                    }
+                    if (isHeadsetOn) param.setResult(2147483646);
+                }
+            });
         }
     }
 

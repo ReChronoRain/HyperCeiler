@@ -1,38 +1,34 @@
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
-import com.hchen.hooktool.BaseHC;
-import com.hchen.hooktool.callback.IAction;
+import com.sevtinge.hyperceiler.module.base.BaseHook;
 
-public class DisablePersistent extends BaseHC {
+public class DisablePersistent extends BaseHook {
     private boolean isInstall = false;
 
     @Override
     public void init() {
-        hook("com.android.server.pm.parsing.pkg.PackageImpl", "isPersistent",
-                new IAction() {
+        findAndHookMethod("com.android.server.pm.parsing.pkg.PackageImpl", "isPersistent", new MethodHook() {
                     @Override
-                    public void after() throws Throwable {
-                        boolean isPersistent = getResult();
+                    protected void after(MethodHookParam param) throws Throwable {
+                        boolean isPersistent = (boolean) param.getResult();
                         if (isPersistent) {
                             if (isInstall) {
-                                returnFalse();
+                                param.setResult(false);
                             }
                         }
                     }
                 });
-        
-        hook("com.android.server.pm.InstallPackageHelper",
-                "preparePackageLI", "com.android.server.pm.InstallRequest",
-                new IAction() {
-                    @Override
-                    public void before() throws Throwable {
-                        isInstall = true;
-                    }
 
-                    @Override
-                    public void after() throws Throwable {
-                        isInstall = false;
-                    }
-                });
+        findAndHookMethod("com.android.server.pm.InstallPackageHelper", "preparePackageLI", "com.android.server.pm.InstallRequest", new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                isInstall = true;
+            }
+
+            @Override
+            protected void after(MethodHookParam param) throws Throwable {
+                isInstall = false;
+            }
+        });
     }
 }

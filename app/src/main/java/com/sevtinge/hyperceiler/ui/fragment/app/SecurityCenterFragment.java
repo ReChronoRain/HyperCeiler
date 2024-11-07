@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.app;
 
-import static com.hchen.hooktool.utils.SystemSDK.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 
 import android.view.View;

@@ -18,66 +18,65 @@
  */
 package com.sevtinge.hyperceiler.module.hook.home.navigation;
 
+import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.getBooleanField;
+import static de.robv.android.xposed.XposedHelpers.setBooleanField;
+
 import android.content.res.Configuration;
 import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.hchen.hooktool.BaseHC;
-import com.hchen.hooktool.callback.IAction;
+import com.sevtinge.hyperceiler.module.base.BaseHook;
 
-public class HideNavigationBar extends BaseHC {
+public class HideNavigationBar extends BaseHook {
     @Override
     public void init() {
         
-        hook("com.miui.home.recents.views.RecentsContainer", "showLandscapeOverviewGestureView", boolean.class,
-                new IAction() {
+        findAndHookMethod("com.miui.home.recents.views.RecentsContainer", "showLandscapeOverviewGestureView", boolean.class,
+                new MethodHook() {
                     @Override
-                    public void before() throws Throwable {
-                        first(false);
+                    protected void before(MethodHookParam param) throws Throwable {
+                        param.setResult(false);
                     }
                 });
-        
-        chain("com.miui.home.recents.NavStubView",method("isMistakeTouch")
-                .hook(new IAction() {
-                    @Override
-                    public void before() throws Throwable {
-                        View navView = thisObject();
-                        boolean setting = Settings.Global.getInt(navView.getContext().getContentResolver(), "show_mistake_touch_toast", 1) == 1;
-                        boolean misTouch = callThisMethod("isLandScapeActually");
-                        setResult(misTouch && setting);
+
+        findAndHookMethod("com.miui.home.recents.NavStubView", "isMistakeTouch", new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                View navView = (View) param.thisObject;
+                boolean setting = Settings.Global.getInt(navView.getContext().getContentResolver(), "show_mistake_touch_toast", 1) == 1;
+                boolean misTouch = (boolean) callMethod(param.thisObject, "isLandScapeActually");
+                param.setResult(misTouch && setting);
+            }
+        });
+
+        findAndHookMethod("com.miui.home.recents.NavStubView", "onPointerEvent", MotionEvent.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                boolean mIsInFsMode = getBooleanField(param.thisObject, "mIsInFsMode");
+                MotionEvent motionEvent = (MotionEvent) param.args[0];
+                if (!mIsInFsMode) {
+                    if (motionEvent.getAction() == 0) {
+                        setBooleanField(param.thisObject, "mHideGestureLine", true);
                     }
-                })
-                
-                .method("onPointerEvent", MotionEvent.class)
-                .hook(new IAction() {
-                    @Override
-                    public void before() throws Throwable {
-                        boolean mIsInFsMode = getThisField("mIsInFsMode");
-                        MotionEvent motionEvent = first();
-                        if (!mIsInFsMode) {
-                            if (motionEvent.getAction() == 0) {
-                                setThisField("mHideGestureLine", true);
-                            }
-                        }
-                    }
-                })
-                
-                .method("updateScreenSize")
-                .hook(new IAction() {
-                    @Override
-                    public void before() throws Throwable {
-                        setThisField("mHideGestureLine", false);
-                    }
-                })
-                
-                .method("onConfigurationChanged", Configuration.class)
-                .hook(new IAction() {
-                    @Override
-                    public void before() throws Throwable {
-                        setThisField("mHideGestureLine", false);
-                    }
-                })
-        );
+                }
+            }
+        });
+
+        findAndHookMethod("com.miui.home.recents.NavStubView", "updateScreenSize", new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                setBooleanField(param.thisObject, "mHideGestureLine", false);
+            }
+        });
+
+        findAndHookMethod("com.miui.home.recents.NavStubView", "onConfigurationChanged", Configuration.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                setBooleanField(param.thisObject, "mHideGestureLine", false);
+            }
+        });
+
     }
 }
