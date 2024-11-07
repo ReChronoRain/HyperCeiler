@@ -725,6 +725,8 @@
     <string name="ic_qs_title_bluetooth">蓝色牙齿</string>
     <string name="ic_qs_title_flashlight">烫点</string>
     <string name="system_ui_move_log_to_miui">垃圾就该待在垃圾桶里</string>
+    <string name="home_recent_hide_card">我的后台卡片呢</string>
+    <string name="home_recent_hide_card_desc">隐藏最近任务中所选应用的后台卡片</string>
     <!--Telecom-->
     <!--Voice Trigger-->
 </resources>

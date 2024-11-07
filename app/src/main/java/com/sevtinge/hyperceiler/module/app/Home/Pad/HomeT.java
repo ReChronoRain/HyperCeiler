@@ -99,6 +99,7 @@ import com.sevtinge.hyperceiler.module.hook.home.recent.DisableRecentViewWallpap
 import com.sevtinge.hyperceiler.module.hook.home.recent.FreeformCardBackgroundColor;
 import com.sevtinge.hyperceiler.module.hook.home.recent.HideCleanUp;
 import com.sevtinge.hyperceiler.module.hook.home.recent.HideFreeform;
+import com.sevtinge.hyperceiler.module.hook.home.recent.HideRecentCard;
 import com.sevtinge.hyperceiler.module.hook.home.recent.HideStatusBarWhenEnterRecent;
 import com.sevtinge.hyperceiler.module.hook.home.recent.MemInfoShow;
 import com.sevtinge.hyperceiler.module.hook.home.recent.RealMemory;
@@ -231,6 +232,7 @@ public class HomeT extends BaseModule {
         initHook(AlwaysShowCleanUp.INSTANCE, mPrefsMap.getBoolean("always_show_clean_up"));
         initHook(new BackgroundBlur(), mPrefsMap.getBoolean("home_recent_blur"));
         initHook(new ShowLaunch(), mPrefsMap.getBoolean("home_recent_show_launch"));
+        initHook(HideRecentCard.INSTANCE, !mPrefsMap.getStringSet("home_recent_hide_card").isEmpty());
 
         // 图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));

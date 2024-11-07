@@ -80,6 +80,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory>
+        <Preference
+            android:key="prefs_key_home_recent_hide_card"
+            android:title="@string/home_recent_hide_card"
+            android:summary="@string/home_recent_hide_card_desc" />
+
         <SwitchPreference
             android:key="prefs_key_home_recent_hide_status_bar_in_task_view"
             android:title="@string/home_recent_hide_status_bar_in_task_view"

@@ -1935,5 +1935,7 @@
     <string name="headtip_notice_dead_logger_errcode">当前设备 Log 服务异常，HyperCeiler 功能将被限制。\n请恢复 Log 服务，使其可以正常运行。\n错误代码: %1$s</string>
     <string name="headtip_notice_dead_logger">当前设备 Log 服务异常，HyperCeiler 功能将被限制。请恢复 Log 服务，使其可以正常运行。</string>
     <string name="system_ui_move_log_to_miui">将 statusbar_gestures.dat 移动到 MIUI 目录</string>
+    <string name="home_recent_hide_card">隐藏后台卡片</string>
+    <string name="home_recent_hide_card_desc">隐藏最近任务中所选应用的后台卡片</string>
 
 </resources>

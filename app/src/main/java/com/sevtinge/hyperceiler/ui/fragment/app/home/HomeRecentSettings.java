@@ -21,16 +21,21 @@ package com.sevtinge.hyperceiler.ui.fragment.app.home;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 
+import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 public class HomeRecentSettings extends SettingsPreferenceFragment {
 
+    Preference mHideRecentCard;
     SwitchPreference mDimming;
     SwitchPreference mShowMenInfo;
     SwitchPreference mHideCleanIcon;
@@ -51,10 +56,21 @@ public class HomeRecentSettings extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
+        mHideRecentCard = findPreference("prefs_key_home_recent_hide_card");
         mShowMenInfo = findPreference("prefs_key_home_recent_show_memory_info");
         mHideCleanIcon = findPreference("prefs_key_home_recent_hide_clean_up");
         mNotHideCleanIcon = findPreference("prefs_key_always_show_clean_up");
         mDimming = findPreference("prefs_key_home_recent_disable_wallpaper_dimming");
+
+        mHideRecentCard.setOnPreferenceClickListener(
+                preference -> {
+                    Intent intent = new Intent(getActivity(), SubPickerActivity.class);
+                    intent.putExtra("mode", AppPicker.LAUNCHER_MODE);
+                    intent.putExtra("key", preference.getKey());
+                    startActivity(intent);
+                    return true;
+                }
+        );
 
         mDimming.setVisible(!isMoreHyperOSVersion(1f));
         mShowMenInfo.setVisible(isPad());

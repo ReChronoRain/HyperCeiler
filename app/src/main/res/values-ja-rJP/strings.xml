@@ -1745,4 +1745,6 @@
     <string name="bypass_udk_word_legal_check_description">オフライン時でも、音声で起動に使う単語を録音できます</string>
     <string name="voicetrigger_accuracy_percent_caption">音声での起動を検出する精度を設定する</string>
     <string name="voicetrigger_accuracy_percent_description">値が高いほど検出が困難になります。キーワード「小愛同學」はデフォルトで0%です。 設定後、ターゲットアプリを再起動し、起動ワードを再度登録する必要があります。</string>
+    <string name="home_recent_hide_card">アプリカードを非表示にする</string>
+    <string name="home_recent_hide_card_desc">最近のタスクで選択したアプリのカードを非表示にする</string>
 </resources>
