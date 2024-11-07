@@ -72,9 +72,7 @@ public class UnlockIme extends BaseHook {
 
         // 获取常用语的ClassLoader
         boolean finalIsNonCustomize = isNonCustomize;
-        findAndHookMethod("android.inputmethodservice.InputMethodModuleManager",
-            "loadDex", ClassLoader.class, String.class,
-            new MethodHook() {
+        findAndHookMethod("android.inputmethodservice.InputMethodModuleManager", "loadDex", ClassLoader.class, String.class, new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) {
                     getSupportIme((ClassLoader) param.args[0]);

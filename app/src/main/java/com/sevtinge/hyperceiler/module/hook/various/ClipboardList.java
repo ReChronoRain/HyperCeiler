@@ -18,10 +18,17 @@
 */
 package com.sevtinge.hyperceiler.module.hook.various;
 
+import static com.hchen.hooktool.tool.CoreTool.getStaticField;
+import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.setStaticIntField;
+
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -42,6 +49,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -54,6 +62,8 @@ public class ClipboardList extends BaseHook {
 
     public static String filePath;
 
+    private boolean isNew = getPackageVersionCode(lpparam) > 10080;
+
     @Override
     public void init() {
         findAndHookMethod("android.inputmethodservice.InputMethodModuleManager",
@@ -62,8 +72,8 @@ public class ClipboardList extends BaseHook {
                 @Override
                 protected void after(MethodHookParam param) {
                     // logE(TAG, "get class: " + param.args[0]);
-                    filePath = "/data/user/0/" + lpparam.packageName + "/files/array_list.dat";
-                    lastFilePath = "/data/user/0/" + lpparam.packageName + "/files/last_list.dat";
+                    filePath = "/data/user/0/" + lpparam.packageName + "/files/clipboard_data.dat";
+                    lastFilePath = "/data/user/0/" + lpparam.packageName + "/files/last_clipboard_data_list.dat";
                     // logE(TAG, "run: " + param.args[0]);
                     getNoExpiredData((ClassLoader) param.args[0]);
                     getView((ClassLoader) param.args[0]);
@@ -93,8 +103,24 @@ public class ClipboardList extends BaseHook {
     }
 
     public void getNoExpiredData(ClassLoader classLoader) {
-        findAndHookMethod("com.miui.inputmethod.InputMethodUtil", classLoader,
-            "getNoExpiredData", Context.class, String.class, long.class, new MethodHook() {
+        // setStaticIntField(findClassIfExists("com.miui.inputmethod.MiuiClipboardManager"), "MAX_CLIP_DATA_ITEM_SIZE", Integer.MAX_VALUE);
+
+        findAndHookMethod("com.miui.inputmethod.InputMethodClipboardPhrasePopupView",
+                classLoader, "lambda$updateClipboardData$6",
+                "com.miui.inputmethod.ClipboardContentModel", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        findAndHookMethod("java.util.List", "size", new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) throws Throwable {
+                                param.setResult(0);
+                            }
+                        });
+                    }
+                });
+
+        findAndHookMethod(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
+            "getNoExpiredClipboardData", Context.class, String.class, long.class, new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
                     ArrayList mArray = new ArrayList<>();
@@ -191,6 +217,9 @@ public class ClipboardList extends BaseHook {
         );
     }
 
+    private String mText = null;
+    private int mMax = -1;
+
     public void getView(ClassLoader classLoader) {
         findAndHookMethod("com.miui.inputmethod.InputMethodClipboardAdapter",
             classLoader,
@@ -204,7 +233,20 @@ public class ClipboardList extends BaseHook {
             }
         );
 
-        hookAllMethods("com.miui.inputmethod.InputMethodUtil", classLoader,
+        /*hookAllMethods("com.miui.inputmethod.MiuiClipboardManager", classLoader,
+                "addClipDataToPhrase", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        Object clipboardContentModel = param.args[2];
+                        String content = (String) getObjectField(clipboardContentModel, "content");
+                        int type = (int) getObjectField(clipboardContentModel, "type");
+                        *//*addClipboard(content, type, param.args[0]);
+                        param.setResult(null);*//*
+                    }
+                }
+        );*/
+
+        hookAllMethods(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
             "setClipboardModelList", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) {
@@ -220,6 +262,46 @@ public class ClipboardList extends BaseHook {
                 }
             }
         );
+
+        hookAllMethods(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
+                "commitClipDataAndTrack", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        int type = (int) param.args[3];
+                        if (type == 3 || type == 2) {
+                            param.args[3] = 10;
+                        }
+                    }
+                }
+        );
+
+        findAndHookMethod(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
+                "processSingleItemOfClipData", ClipData.class, String.class, new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        ClipData clipData = (ClipData) param.args[0];
+                        ClipData.Item item = clipData.getItemAt(0);
+                        if (item.getText() != null && !TextUtils.isEmpty(item.getText().toString())) {
+                            mText = item.getText().toString();
+                        }
+                    }
+                });
+
+        findAndHookMethod(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
+                "buildClipDataItemModelBasedTextData", String.class, new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        if (mMax == -1)
+                            mMax = getStaticField("com.miui.inputmethod.MiuiClipboardManager", classLoader,
+                                    "MAX_CLIP_CONTENT_SIZE");
+                        if (mMax == -1) mMax = 5000;
+                        String string = (String) param.args[0];
+                        if (string.length() >= mMax) {
+                            if (mText != null) param.args[0] = mText;
+                        }
+                        mText = null;
+                    }
+                });
 
     }
 
