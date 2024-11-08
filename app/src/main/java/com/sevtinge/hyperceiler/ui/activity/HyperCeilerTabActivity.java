@@ -1,28 +1,9 @@
-/*
- * This file is part of HyperCeiler.
-
- * HyperCeiler is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License.
-
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
-
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
- * Copyright (C) 2023-2024 HyperCeiler Contributions
- */
 package com.sevtinge.hyperceiler.ui.activity;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.isModuleActive;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.utils.log.LogManager.LOGGER_CHECKER_ERR_CODE;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.isLoggerAlive;
 
 import android.content.Context;
@@ -31,15 +12,20 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.callback.IResult;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.safe.CrashData;
-import com.sevtinge.hyperceiler.ui.activity.base.HyperCeilerTabActivity;
+import com.sevtinge.hyperceiler.ui.activity.base.NaviBaseActivity;
+import com.sevtinge.hyperceiler.ui.fragment.main.ContentFragment;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.PropUtils;
@@ -54,8 +40,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fan.appcompat.app.AlertDialog;
+import fan.appcompat.app.Fragment;
+import fan.navigator.Navigator;
+import fan.navigator.NavigatorStrategy;
+import fan.navigator.navigatorinfo.NavigatorInfoProvider;
+import fan.navigator.navigatorinfo.UpdateFragmentNavInfo;
+import fan.preference.PreferenceFragment;
 
-public class MainActivity extends HyperCeilerTabActivity implements IResult {
+public class HyperCeilerTabActivity extends NaviBaseActivity
+        implements PreferenceFragment.OnPreferenceStartFragmentCallback, IResult {
 
     private Handler handler;
     private Context context;
@@ -63,7 +56,7 @@ public class MainActivity extends HyperCeilerTabActivity implements IResult {
     private ArrayList<String> appCrash = new ArrayList<>();
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         IS_LOGGER_ALIVE = isLoggerAlive();
         SharedPreferences mPrefs = PrefsUtils.mSharedPreferences;
         int count = Integer.parseInt(mPrefs.getString("prefs_key_settings_app_language", "-1"));
@@ -74,16 +67,10 @@ public class MainActivity extends HyperCeilerTabActivity implements IResult {
         context = this;
         int def = Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_log_level", "3"));
         super.onCreate(savedInstanceState);
-        new Thread(() -> SearchHelper.getAllMods(MainActivity.this, savedInstanceState != null)).start();
+        new Thread(() -> SearchHelper.getAllMods(context, savedInstanceState != null)).start();
         Helpers.checkXposedActivateState(this);
         if (!IS_LOGGER_ALIVE && isModuleActive && BuildConfig.BUILD_TYPE != "release" && !mPrefs.getBoolean("prefs_key_development_close_log_alert_dialog", false)) {
-            handler.post(() -> new AlertDialog.Builder(context)
-                    .setCancelable(false)
-                    .setTitle(getResources().getString(R.string.warn))
-                    .setMessage(getResources().getString(R.string.headtip_notice_dead_logger_errcode, LOGGER_CHECKER_ERR_CODE))
-                    .setHapticFeedbackEnabled(true)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show());
+            handler.post(() -> DialogHelper.showLogServiceWarnDialog(context));
         }
         ShellInit.init(this);
         PropUtils.setProp("persist.hyperceiler.log.level", ProjectApi.isCanary() ? (def != 3 && def != 4 ? 3 : def) : def);
@@ -114,24 +101,13 @@ public class MainActivity extends HyperCeilerTabActivity implements IResult {
                 msg = msg.replace("[", "");
                 msg = msg.replace("]", "");
                 msg = msg.replaceAll("^\\s+|\\s+$", "");
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle(R.string.safe_mode_later_title)
-                        .setMessage(msg)
-                        .setHapticFeedbackEnabled(true)
-                        .setCancelable(false)
-                        .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
-                            ShellInit.getShell().run("setprop persist.hyperceiler.crash.report \"\"").sync();
-                            PrefsUtils.mSharedPreferences.edit().remove("prefs_key_system_ui_safe_mode_enable").apply();
-                            PrefsUtils.mSharedPreferences.edit().remove("prefs_key_home_safe_mode_enable").apply();
-                            PrefsUtils.mSharedPreferences.edit().remove("prefs_key_system_settings_safe_mode_enable").apply();
-                            PrefsUtils.mSharedPreferences.edit().remove("prefs_key_security_center_safe_mode_enable").apply();
-                            PrefsUtils.mSharedPreferences.edit().remove("prefs_key_demo_safe_mode_enable").apply();
-                            dialog.dismiss();
-                        })
-                        .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> dialog.dismiss())
-                        .show();
+                DialogHelper.showSafeModeDialog(context, msg);
             }
         }, 600);
+    }
+
+    private boolean haveCrashReport() {
+        return !appCrash.isEmpty();
     }
 
     @Override
@@ -145,18 +121,87 @@ public class MainActivity extends HyperCeilerTabActivity implements IResult {
                 .show());
     }
 
-
-    private boolean haveCrashReport() {
-        return !appCrash.isEmpty();
+    @Override
+    public int getBottomTabMenu() {
+        return R.menu.bottom_nav_menu;
     }
 
     @Override
-    public void onDestroy() {
-        ShellInit.destroy();
-        ThreadPoolManager.shutdown();
-        PreferenceHeader.mUninstallApp.clear();
-        PreferenceHeader.mDisableOrHiddenApp.clear();
-        super.onDestroy();
+    public int getNavigationOptionMenu() {
+        return 0;
+    }
+
+    @Override
+    public Bundle getNavigatorInitArgs() {
+        NavigatorStrategy navigatorStrategy = new NavigatorStrategy();
+        navigatorStrategy.setCompactMode(Navigator.Mode.C);
+        navigatorStrategy.setRegularMode(Navigator.Mode.C);
+        navigatorStrategy.setLargeMode(Navigator.Mode.C);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("miuix:navigatorStrategy", navigatorStrategy);
+        return bundle;
+    }
+
+    @Override
+    public NavigatorInfoProvider getBottomTabMenuNavInfoProvider() {
+        return id -> {
+            Bundle bundle = new Bundle();
+            if (id == 1000) {
+                bundle.putInt("page", 0);
+            } else if (id == 1001) {
+                bundle.putInt("page", 1);
+            } else if (id == 1002) {
+                bundle.putInt("page", 2);
+            } else {
+                return null;
+            }
+            return new UpdateFragmentNavInfo(id, getDefaultContentFragment(), bundle);
+        };
+    }
+
+    @Override
+    public Class<? extends Fragment> getDefaultContentFragment() {
+        return ContentFragment.class;
+    }
+
+    @Override
+    public void onCreatePrimaryNavigation(Navigator navigator, Bundle bundle) {
+        UpdateFragmentNavInfo navInfoToHome = getUpdateFragmentNavInfo(0);
+        UpdateFragmentNavInfo navInfoToWidget = getUpdateFragmentNavInfo(1);
+        UpdateFragmentNavInfo navInfoToList = getUpdateFragmentNavInfo(2);
+        newLabel(getString(R.string.navigation_home_title), navInfoToHome);
+        newLabel(getString(R.string.navigation_settings_title), navInfoToWidget);
+        newLabel(getString(R.string.navigation_about_title), navInfoToList);
+        navigator.navigate(navInfoToHome);
+    }
+
+    @Override
+    public void onCreateOtherNavigation(Navigator navigator, Bundle bundle) {
+
+    }
+
+    private UpdateFragmentNavInfo getUpdateFragmentNavInfo(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("page", position);
+        return new UpdateFragmentNavInfo(position, getDefaultContentFragment(), bundle);
+    }
+
+    @Override
+    public boolean onPreferenceStartFragment(@NonNull PreferenceFragmentCompat caller, @NonNull Preference pref) {
+        mProxy.onStartSettingsForArguments(SubSettings.class, pref, false);
+        return true;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        requestCta();
+    }
+
+    private void requestCta() {
+        /*if (!CtaUtils.isCtaEnabled(this)) {
+            CtaUtils.showCtaDialog(this, REQUEST_CODE);
+        }*/
     }
 
     public void test() {
@@ -169,18 +214,6 @@ public class MainActivity extends HyperCeilerTabActivity implements IResult {
         boolean k = shellExec.append("for i in $(seq 1 500); do echo $i; done").sync().isResult();
         AndroidLogUtils.LogI(ITAG.TAG, "fork: " + k);
         AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString());*/
-    }
-
-    private void requestCta() {
-        /*if (!CtaUtils.isCtaEnabled(this)) {
-            CtaUtils.showCtaDialog(this, REQUEST_CODE);
-        }*/
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        requestCta();
     }
 
     @Override
@@ -218,4 +251,12 @@ public class MainActivity extends HyperCeilerTabActivity implements IResult {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        ShellInit.destroy();
+        ThreadPoolManager.shutdown();
+        PreferenceHeader.mUninstallApp.clear();
+        PreferenceHeader.mDisableOrHiddenApp.clear();
+        super.onDestroy();
+    }
 }

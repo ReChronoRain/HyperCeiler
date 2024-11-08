@@ -18,12 +18,15 @@
  */
 package com.sevtinge.hyperceiler.utils;
 
+import static com.sevtinge.hyperceiler.utils.log.LogManager.LOGGER_CHECKER_ERR_CODE;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.view.RestartAlertDialog;
@@ -107,6 +110,36 @@ public class DialogHelper {
                         "\n[" + context.getString(R.string.safe_mode_recorder_st) + "]: " + stackTrace)
                 .setHapticFeedbackEnabled(true)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+
+    public static void showLogServiceWarnDialog(Context context) {
+        new AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setTitle(R.string.warn)
+                .setMessage(context.getResources().getString(R.string.headtip_notice_dead_logger_errcode, LOGGER_CHECKER_ERR_CODE))
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
+
+    public static void showSafeModeDialog(Context context, String msg) {
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.safe_mode_later_title)
+                .setMessage(msg)
+                .setHapticFeedbackEnabled(true)
+                .setCancelable(false)
+                .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
+                    ShellInit.getShell().run("setprop persist.hyperceiler.crash.report \"\"").sync();
+                    PrefsUtils.mSharedPreferences.edit().remove("prefs_key_system_ui_safe_mode_enable").apply();
+                    PrefsUtils.mSharedPreferences.edit().remove("prefs_key_home_safe_mode_enable").apply();
+                    PrefsUtils.mSharedPreferences.edit().remove("prefs_key_system_settings_safe_mode_enable").apply();
+                    PrefsUtils.mSharedPreferences.edit().remove("prefs_key_security_center_safe_mode_enable").apply();
+                    PrefsUtils.mSharedPreferences.edit().remove("prefs_key_demo_safe_mode_enable").apply();
+                    dialog.dismiss();
+                })
+                .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> dialog.dismiss())
                 .show();
     }
 }

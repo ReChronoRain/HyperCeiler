@@ -18,6 +18,4 @@
 */
 package com.sevtinge.hyperceiler.ui.activity;
 
-import com.sevtinge.hyperceiler.ui.activity.base.SettingsActivity;
-
 public class SubSettings extends SettingsActivity {}

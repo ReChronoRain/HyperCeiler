@@ -31,7 +31,7 @@ import android.os.UserHandle;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.ui.activity.MainActivity;
+import com.sevtinge.hyperceiler.ui.activity.HyperCeilerTabActivity;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public class HyperCeilerSettings extends BaseHook {
 
                 Intent mIntent = new Intent();
                 mIntent.putExtra("isDisplayHomeAsUpEnabled", true);
-                mIntent.setClassName(ProjectApi.mAppModulePkg, MainActivity.class.getCanonicalName());
+                mIntent.setClassName(ProjectApi.mAppModulePkg, HyperCeilerTabActivity.class.getCanonicalName());
 
                 Object header = XposedHelpers.newInstance(mPreferenceHeader);
                 XposedHelpers.setLongField(header, "id", 666);
