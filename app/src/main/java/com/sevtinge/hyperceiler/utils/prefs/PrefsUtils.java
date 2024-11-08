@@ -18,12 +18,15 @@
  */
 package com.sevtinge.hyperceiler.utils.prefs;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import com.sevtinge.hyperceiler.XposedInit;
+import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
@@ -184,5 +187,27 @@ public class PrefsUtils {
             return (boolean) XposedInit.mPrefsMap.getObject(name, false);
         else
             return defValue;
+    }
+
+
+    public static void registerOnSharedPreferenceChangeListener(Context context) {
+        mSharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+            Log.i("prefs", "Changed: " + key);
+            Helpers.requestBackup(context);
+            Object val = sharedPreferences.getAll().get(key);
+            String path = "";
+            if (val instanceof String)
+                path = "string/";
+            else if (val instanceof Set<?>)
+                path = "stringset/";
+            else if (val instanceof Integer)
+                path = "integer/";
+            else if (val instanceof Boolean)
+                path = "boolean/";
+
+            ContentResolver resolver = context.getContentResolver();
+            resolver.notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/" + path + key), null);
+            if (!path.isEmpty()) resolver.notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/" + path + key), null);
+        });
     }
 }

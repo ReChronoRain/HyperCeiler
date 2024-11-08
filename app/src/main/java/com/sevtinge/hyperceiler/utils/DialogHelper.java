@@ -142,4 +142,14 @@ public class DialogHelper {
                 .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> dialog.dismiss())
                 .show();
     }
+
+    public static void showNoRootPermissionDialog(Context context) {
+        new AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setTitle(R.string.tip)
+                .setMessage(R.string.root)
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
 }

@@ -24,6 +24,7 @@ import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.backup.BackupManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -36,7 +37,9 @@ import android.graphics.Rect;
 import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.FileObserver;
 import android.os.UserHandle;
+import android.util.Log;
 import android.util.LruCache;
 import android.widget.TextView;
 
@@ -168,6 +171,24 @@ public class Helpers {
                 sharedPrefsFile.setWritable(true, false);
             }
         });
+    }
+
+    public static void registerFileObserver(Context context) {
+        try {
+            FileObserver mFileObserver = new FileObserver(new File(PrefsUtils.getSharedPrefsPath()), FileObserver.CLOSE_WRITE) {
+                @Override
+                public void onEvent(int event, String path) {
+                    Helpers.fixPermissionsAsync(context);
+                }
+            };
+            mFileObserver.startWatching();
+        } catch (Throwable t) {
+            Log.e("prefs", "Failed to start FileObserver!");
+        }
+    }
+
+    public static void requestBackup(Context context) {
+        new BackupManager(context).dataChanged();
     }
 
     private static String getCallerMethod() {

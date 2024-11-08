@@ -112,13 +112,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
     @Override
     public void error(String reason) {
-        handler.post(() -> new AlertDialog.Builder(context)
-                .setCancelable(false)
-                .setTitle(getResources().getString(R.string.tip))
-                .setMessage(getResources().getString(R.string.root))
-                .setHapticFeedbackEnabled(true)
-                .setPositiveButton(android.R.string.ok, null)
-                .show());
+        handler.post(() -> DialogHelper.showNoRootPermissionDialog(this));
     }
 
     @Override
