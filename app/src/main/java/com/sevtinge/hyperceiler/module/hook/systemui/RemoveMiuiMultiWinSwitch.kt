@@ -21,12 +21,17 @@ package com.sevtinge.hyperceiler.module.hook.systemui
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 // by ljlvink
 object RemoveMiuiMultiWinSwitch : BaseHook() {
     override fun init() {
-        loadClass("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration", lpparam.classLoader).methodFinder()
+        if (isMoreAndroidVersion(35)) {
+            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration", lpparam.classLoader)
+        } else {
+            loadClass("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration", lpparam.classLoader)
+        }.methodFinder()
             .filterByName("shouldHideCaption")
             .single().createHook {
                 returnConstant(true)
