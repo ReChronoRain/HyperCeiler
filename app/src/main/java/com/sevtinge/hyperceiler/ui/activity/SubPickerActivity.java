@@ -16,12 +16,12 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.ui;
+package com.sevtinge.hyperceiler.ui.activity;
 
 import android.content.Intent;
 
 import com.sevtinge.hyperceiler.callback.IAppSelectCallback;
-import com.sevtinge.hyperceiler.ui.base.SettingsActivity;
+import com.sevtinge.hyperceiler.ui.activity.base.SettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 
 public class SubPickerActivity extends SettingsActivity {

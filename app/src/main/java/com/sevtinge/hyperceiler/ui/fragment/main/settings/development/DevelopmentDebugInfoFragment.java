@@ -48,7 +48,7 @@ import static com.sevtinge.hyperceiler.utils.log.LogManager.LOGGER_CHECKER_ERR_C
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
+import com.sevtinge.hyperceiler.ui.activity.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 

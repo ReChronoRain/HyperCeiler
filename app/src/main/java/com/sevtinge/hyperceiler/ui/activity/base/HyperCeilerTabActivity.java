@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.ui.base;
+package com.sevtinge.hyperceiler.ui.activity.base;
 
 import android.os.Bundle;
 
@@ -7,7 +7,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.SubSettings;
+import com.sevtinge.hyperceiler.ui.activity.SubSettings;
 import com.sevtinge.hyperceiler.ui.fragment.main.ContentFragment;
 
 import fan.appcompat.app.Fragment;

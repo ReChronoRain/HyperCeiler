@@ -16,17 +16,15 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.ui.base;
+package com.sevtinge.hyperceiler.ui.activity.base;
 
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.sevtinge.hyperceiler.ui.SubSettings;
+import com.sevtinge.hyperceiler.ui.activity.SubSettings;
 import com.sevtinge.hyperceiler.ui.fragment.app.framework.OtherSettings;
 import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeDockSettings;
 import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeFolderSettings;

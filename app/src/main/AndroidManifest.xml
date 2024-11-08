@@ -78,7 +78,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
@@ -107,7 +107,7 @@
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:targetActivity=".ui.MainActivity"
+            android:targetActivity=".ui.activity.MainActivity"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -116,7 +116,7 @@
         </activity-alias>
 
         <activity
-            android:name=".ui.SubSettings"
+            android:name=".ui.activity.SubSettings"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
@@ -127,7 +127,7 @@
         </activity>
 
         <activity
-            android:name=".ui.SubPickerActivity"
+            android:name=".ui.activity.SubPickerActivity"
             android:screenOrientation="portrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 

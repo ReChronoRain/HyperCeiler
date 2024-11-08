@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.base;
+package com.sevtinge.hyperceiler.ui.activity.base;
 
 public abstract class NavigationActivity extends BaseActivity {
 }

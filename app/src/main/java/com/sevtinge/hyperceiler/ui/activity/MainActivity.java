@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui;
+package com.sevtinge.hyperceiler.ui.activity;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.isModuleActive;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
@@ -38,8 +38,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.callback.IResult;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.safe.CrashData;
-import com.sevtinge.hyperceiler.ui.base.HyperCeilerTabActivity;
-import com.sevtinge.hyperceiler.ui.base.NavigationActivity;
+import com.sevtinge.hyperceiler.ui.activity.base.HyperCeilerTabActivity;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
@@ -57,6 +56,7 @@ import java.util.Map;
 import fan.appcompat.app.AlertDialog;
 
 public class MainActivity extends HyperCeilerTabActivity implements IResult {
+
     private Handler handler;
     private Context context;
 

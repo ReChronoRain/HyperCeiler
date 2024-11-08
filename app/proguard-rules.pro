@@ -1,6 +1,6 @@
 -keep class com.sevtinge.hyperceiler.XposedInit
 -keep class com.sevtinge.hyperceiler.module.skip.SystemFrameworkForCorePatch
--keep class com.sevtinge.hyperceiler.ui.LauncherActivity
+-keep class com.sevtinge.hyperceiler.ui.activity.LauncherActivity
 -keep class com.sevtinge.hyperceiler.utils.blur.*
 -keep class com.sevtinge.hyperceiler.utils.Helpers { boolean isModuleActive; }
 -keep class com.sevtinge.hyperceiler.utils.Helpers { int XposedVersion; }

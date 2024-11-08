@@ -23,7 +23,7 @@ import android.widget.SeekBar;
 
 import com.sevtinge.hyperceiler.R;
 import fan.preference.SeekBarPreferenceCompat;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
+import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class DisplaySettings extends SettingsPreferenceFragment {

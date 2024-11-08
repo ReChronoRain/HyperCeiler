@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.ui.base;
+package com.sevtinge.hyperceiler.ui.activity.base;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +25,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -35,7 +34,6 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 
 import fan.appcompat.app.AppCompatActivity;
-import fan.core.utils.ResourcesCompat;
 
 public class SettingsProxy extends BaseSettingsProxy {
 

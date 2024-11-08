@@ -16,8 +16,8 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.ui;
+package com.sevtinge.hyperceiler.ui.activity;
 
-import fan.appcompat.app.AppCompatActivity;
+import com.sevtinge.hyperceiler.ui.activity.base.SettingsActivity;
 
-public class LauncherActivity extends AppCompatActivity {}
+public class SubSettings extends SettingsActivity {}

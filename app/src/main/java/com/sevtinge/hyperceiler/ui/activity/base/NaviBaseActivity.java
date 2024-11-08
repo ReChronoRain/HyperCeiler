@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.ui.base;
+package com.sevtinge.hyperceiler.ui.activity.base;
 
 import android.app.backup.BackupManager;
 import android.content.SharedPreferences;
@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
-import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
