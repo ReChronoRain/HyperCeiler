@@ -59,7 +59,7 @@ object BeautyLightAuto : BaseHook() {
         beautyAuto.forEach {
             if (!java.lang.String.valueOf(it).contains("<clinit>")) {
                 if (!java.lang.String.valueOf(it.name).contains(beauty.toString()) && it.name != beauty.name) {
-                    logI(TAG, this.lpparam.packageName, "beautyLightAuto method is $beautyAuto")
+                    logD(TAG, this.lpparam.packageName, "beautyLightAuto method is $beautyAuto")
                     XposedBridge.hookMethod(it, XC_MethodReplacement.returnConstant(true))
                 }
             }

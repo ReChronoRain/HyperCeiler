@@ -24,7 +24,6 @@ import com.sevtinge.hyperceiler.module.hook.GlobalActions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowAutoStart;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowDisableProtectedPackage;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouch;
-import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AntiQues;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AppLinkVerify;
 import com.sevtinge.hyperceiler.module.hook.systemframework.BackgroundBlur;
@@ -37,10 +36,8 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.DeleteOnPostNotifica
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableCleaner;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableFreeformBlackList;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableGestureMonitor;
-import com.sevtinge.hyperceiler.module.hook.systemframework.DisableLowApiCheckForU;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableMiuiLite;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableMiuiWatermark;
-import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePersistent;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePinVerifyPer72h;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableVerifyCanBeDisabled;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
@@ -75,11 +72,6 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.display.ToastTime;
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.UseAOSPScreenShot;
 import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.OpenAppInFreeForm;
 import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.UnForegroundPin;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.IgnoreStylusKeyGesture;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.NoMagicPointer;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.RemoveStylusBluetoothRestriction;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.RestoreEsc;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.SetGestureNeedFingerNum;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.DualNRSupport;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.DualSASupport;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N1Band;
@@ -87,7 +79,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N5N8Band;
 import com.sevtinge.hyperceiler.module.hook.various.NoAccessDeviceLogsRequest;
 
-@HookBase(pkg = "android", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "android", isPad = false, tarSdkVersion = 33)
 public class SystemFrameworkT extends BaseModule {
 
     @Override

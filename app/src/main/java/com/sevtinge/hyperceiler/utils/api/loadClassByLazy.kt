@@ -70,4 +70,8 @@ object LazyClass {
     val StrongToast by lazy {
         loadClassOrNull("com.android.systemui.toast.MIUIStrongToast")
     }
+
+    val NewStrongToast by lazy {
+        loadClassOrNull("com.miui.toast.MIUIStrongToast")
+    }
 }

@@ -23,7 +23,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.community.DeviceModify;
 
-@HookBase(pkg = "com.xiaomi.vipaccount", skip = true, isPad = false, tarAndroid = 0)
+@HookBase(pkg = "com.xiaomi.vipaccount", skip = true, isPad = false, tarSdkVersion = 0)
 public class Community extends BaseModule {
 
     @Override

@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.app.Home.Pad;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.home.AnimDurationRatio;
@@ -144,7 +142,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.SetGestureNeed
 
 import java.util.Objects;
 
-@HookBase(pkg = "com.miui.home", isPad = true, tarAndroid = 34)
+@HookBase(pkg = "com.miui.home", isPad = true, tarSdkVersion = 34)
 public class HomeU extends BaseModule {
 
     @Override

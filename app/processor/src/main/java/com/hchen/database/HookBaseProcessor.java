@@ -62,7 +62,7 @@ public class HookBaseProcessor extends AbstractProcessor {
                     }
                     HookBase hookBase = element.getAnnotation(HookBase.class);
                     String pkg = hookBase.pkg();
-                    int android = hookBase.tarAndroid();
+                    int android = hookBase.tarSdkVersion();
                     boolean isPad = hookBase.isPad();
                     boolean skip = hookBase.skip();
                     try {

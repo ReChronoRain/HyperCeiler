@@ -18,9 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.app.SystemFramework.Phone;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.GlobalActions;
@@ -78,11 +75,6 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.display.ToastTime;
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.UseAOSPScreenShot;
 import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.OpenAppInFreeForm;
 import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.UnForegroundPin;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.IgnoreStylusKeyGesture;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.NoMagicPointer;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.RemoveStylusBluetoothRestriction;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.RestoreEsc;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.SetGestureNeedFingerNum;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.DualNRSupport;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.DualSASupport;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N1Band;
@@ -90,7 +82,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N5N8Band;
 import com.sevtinge.hyperceiler.module.hook.various.NoAccessDeviceLogsRequest;
 
-@HookBase(pkg = "android", isPad = false, tarAndroid = 34)
+@HookBase(pkg = "android", isPad = false, tarSdkVersion = 34)
 public class SystemFrameworkU extends BaseModule {
 
     @Override

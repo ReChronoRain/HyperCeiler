@@ -42,7 +42,6 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDetails;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDisable;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppRestrict;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.OpenByDefaultSetting;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.app.UnlockAppSandbox;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.BatteryHealth;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.PowerConsumptionRanking;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.ScreenUsedTime;
@@ -74,7 +73,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockV
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VideoDolbyOpen;
 
-@HookBase(pkg = "com.miui.securitycenter", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.miui.securitycenter", isPad = false, tarSdkVersion = 33)
 public class SecurityCenterT extends BaseModule {
 
     @Override

@@ -15,6 +15,7 @@
 #-keep class com.sevtinge.hyperceiler.utils.XposedUtils { *; }
 -keep class com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.** { *; }
 
+-keepattributes SourceFile,LineNumberTable
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
 -dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo
 -dontwarn com.android.internal.view.menu.MenuBuilder

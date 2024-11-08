@@ -21,7 +21,6 @@ object UnlockMinimumCropLimit2 : BaseHook() {
                 }
             }.toElementList()
         }.toMethodList().forEach { method ->
-            logD(TAG, lpparam.packageName, "MinimumCropLimit2 name is $method") // debug 用
             method.createHook {
                 returnConstant(0)
             }

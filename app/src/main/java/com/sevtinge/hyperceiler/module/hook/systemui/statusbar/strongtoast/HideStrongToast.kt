@@ -18,18 +18,22 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.strongtoast
 
-import android.widget.FrameLayout
+import android.widget.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.api.LazyClass.NewStrongToast
 import com.sevtinge.hyperceiler.utils.api.LazyClass.StrongToast
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 
 object HideStrongToast : BaseHook() {
     override fun init() {
-        StrongToast!!.methodFinder()
-            .filterByName("onAttachedToWindow")
-            .single().createHook {
+        if (isMoreHyperOSVersion(2f)) {
+            NewStrongToast!!.methodFinder()
+        } else {
+            StrongToast!!.methodFinder()
+        }.filterByName("onAttachedToWindow").single().createHook {
             after {
                 val strongToastLayout = it.thisObject as FrameLayout
                 strongToastLayout.viewTreeObserver.addOnPreDrawListener {

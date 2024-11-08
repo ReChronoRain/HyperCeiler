@@ -110,7 +110,6 @@ import com.sevtinge.hyperceiler.module.hook.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.module.hook.home.recent.TaskViewVertical;
 import com.sevtinge.hyperceiler.module.hook.home.recent.UnlockPin;
 import com.sevtinge.hyperceiler.module.hook.home.title.AnimParamCustom;
-import com.sevtinge.hyperceiler.module.hook.home.title.AppBlurAnim;
 import com.sevtinge.hyperceiler.module.hook.home.title.BigIconCorner;
 import com.sevtinge.hyperceiler.module.hook.home.title.DisableHideFile;
 import com.sevtinge.hyperceiler.module.hook.home.title.DownloadAnimation;
@@ -138,7 +137,7 @@ import com.sevtinge.hyperceiler.module.hook.home.widget.ResizableWidgets;
 
 import java.util.Objects;
 
-@HookBase(pkg = "com.miui.home", isPad = false, tarAndroid = 35)
+@HookBase(pkg = "com.miui.home", isPad = false, tarSdkVersion = 35)
 public class HomeV extends BaseModule {
 
     @Override

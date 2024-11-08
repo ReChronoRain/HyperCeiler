@@ -142,7 +142,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.SetGestureNeed
 
 import java.util.Objects;
 
-@HookBase(pkg = "com.miui.home", isPad = true, tarAndroid = 35)
+@HookBase(pkg = "com.miui.home", isPad = true, tarSdkVersion = 35)
 public class HomeV extends BaseModule {
 
     @Override
