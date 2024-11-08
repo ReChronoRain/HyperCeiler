@@ -120,7 +120,7 @@ public class OpenAppInFreeForm extends BaseHook {
         final boolean openFwWhenShare = mPrefsMap.getBoolean("system_framework_freeform_app_share");
         if (openFwWhenShare) {
             if ("com.miui.screenshot".equals(callingPackage)) {
-                openInFw = false;
+                return false;
             }
             /*if (mPrefsMap.getStringSet("system_fw_forcein_actionsend_apps").contains(pkgName)) return false;*/
             if ("com.miui.packageinstaller".equals(pkgName) && intent.getComponent().getClassName().contains("com.miui.packageInstaller.NewPackageInstallerActivity")) {
