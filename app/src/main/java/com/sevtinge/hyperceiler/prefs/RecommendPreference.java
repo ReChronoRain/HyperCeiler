@@ -43,15 +43,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fan.animation.Folme;
+import fan.preference.FolmeAnimationController;
+import fan.preference.PreferenceExtraPadding;
+import fan.preference.PreferenceStyle;
 
-public class RecommendPreference extends Preference {
+public class RecommendPreference extends Preference
+        implements FolmeAnimationController, PreferenceExtraPadding, PreferenceStyle {
 
     private Context mContext;
     private int mTopMargin;
     private boolean mNeedClear;
     private String mRecommendTips;
     private TextView mRecommendTipsTv;
-    private List<RelativeLayout> mItemList;
+    private List<RelativeLayout> mItemList = new ArrayList<>();
     private LinearLayout mLinearLayout;
 
     public RecommendPreference(@NonNull Context context) {
@@ -67,11 +71,6 @@ public class RecommendPreference extends Preference {
 
     public RecommendPreference(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mItemList = new ArrayList<>();
-        init();
-    }
-
-    private void init() {
         setLayoutResource(R.layout.preference_recommend);
     }
 
@@ -149,5 +148,27 @@ public class RecommendPreference extends Preference {
     public void setRecommendTips(String tips) {
         mRecommendTips = tips;
         notifyChanged();
+    }
+
+    @Override
+    public boolean isEnabledCardStyle() {
+        return false;
+    }
+
+    @Override
+    public boolean isTouchAnimationEnable() {
+        return false;
+    }
+
+    @Override
+    public void onPreferenceExtraPadding(PreferenceViewHolder holder, int i) {
+        View view = holder.itemView;
+        float f = i;
+        view.setPadding(
+                (int) (view.getContext().getResources().getDimension(R.dimen.miuix_preference_checkable_item_mask_padding_start) + f),
+                view.getPaddingTop(),
+                (int) (view.getContext().getResources().getDimension(R.dimen.miuix_preference_checkable_item_bg_padding_end) + f),
+                view.getPaddingBottom()
+        );
     }
 }

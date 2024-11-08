@@ -30,7 +30,7 @@
             android:id="@+id/recommend_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/preference_recommend_item_margin_start"
+            android:layout_marginHorizontal="@dimen/preference_recommend_item_margin_horizontal"
             android:layout_marginTop="@dimen/preference_recommend_item_margin_vertical"
             android:layout_marginBottom="@dimen/preference_recommend_item_margin_vertical"
             android:fontFamily="sans-serif-medium"

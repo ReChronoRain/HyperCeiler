@@ -55,12 +55,12 @@
 
     <dimen name="preference_recommend_radius">13.089998dp</dimen>
     <dimen name="preference_recommend_region_margin">12dp</dimen>
-    <dimen name="preference_recommend_region_padding_bottom">15.639984dp</dimen>
+    <dimen name="preference_recommend_region_padding_bottom">4dp</dimen>
     <dimen name="preference_recommend_title_margin_top">22.549988dp</dimen>
     <dimen name="preference_recommend_title_margin_bottom">12.359985dp</dimen>
     <dimen name="preference_recommend_title_margin_horizontal">21.819977dp</dimen>
 
-    <dimen name="preference_recommend_item_margin_start">21.819977dp</dimen>
+    <dimen name="preference_recommend_item_margin_horizontal">16dp</dimen>
     <dimen name="preference_recommend_item_margin_vertical">10.179993dp</dimen>
 
 
@@ -91,4 +91,7 @@
     <dimen name="about_copy_right_padding_edge">28dp</dimen>
 
     <dimen name="preference_item_padding">16dp</dimen>
+
+    <dimen name="miuix_preference_checkable_item_bg_padding_end">@dimen/miuix_theme_padding_horizontal_common</dimen>
+    <dimen name="miuix_preference_checkable_item_mask_padding_start">@dimen/miuix_theme_padding_horizontal_common</dimen>
 </resources>

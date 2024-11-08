@@ -28,7 +28,9 @@ import com.sevtinge.hyperceiler.ui.fragment.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class NfcFragment extends SettingsPreferenceFragment {
+
     RecommendPreference mRecommend;
+
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.nfc;

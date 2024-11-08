@@ -30,7 +30,7 @@
     <color name="color_on_surface_variant">#FAABABAD</color>
     <color name="color_surface_variant">#DC2E2E30</color>
 
-    <color name="preference_recommend_region_color">#ff222224</color>
+    <color name="preference_recommend_region_color">@color/miuix_color_white_level8</color>
     <color name="preference_recommend_title_color">#ffffffff</color>
 
     <color name="preference_recommend_item_link">#ff0097ff</color>
