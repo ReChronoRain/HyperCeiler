@@ -1335,8 +1335,8 @@
     <string name="home_recent_show_launch">Show launcher as background</string>
     <string name="home_recent_show_launch_size">Launcher background size</string>
     <string name="home_recent_show_launch_alpha">Launcher background alpha</string>
-    <string name="home_recent_hide_card">Hide app cards in recents</string>
-    <string name="home_recent_hide_card_desc">Hide the card of the selected app in the recent</string>
+    <string name="home_recent_hide_card">Hide app cards in Recents</string>
+    <string name="home_recent_hide_card_desc">Hide the card of the selected app in Recents</string>
 
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Widget animation</string>
@@ -1504,7 +1504,7 @@
     <string name="screenshot_device_customize_desc">Please enter the device code, and the colored device should be filled with a suffix, for example:\n- Xiaomi 13, fill in the content is fuxi\n- Xiaomi 14 pink version, fill in the content is houji_PK</string>
     <!--System Service Plugin-->
     <string name="securityadd">System service plugin</string>
-    <string name="securityadd_disable_gb_ads">Disable Game Center Ads</string>
+    <string name="securityadd_disable_gb_ads">Disable Game center ads</string>
     <!--Security/Tablet security center-->
     <string name="security_center">Security</string>
     <string name="security_center_pad">Security</string>
