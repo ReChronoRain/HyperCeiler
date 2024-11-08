@@ -18,14 +18,10 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home
 
-import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.module.base.tool.HookTool.MethodHook.*
 
 class UnlockHotseatIcon : HomeBaseHook() {
     override fun init() {
-        DEVICE_CONFIG.hookBeforeMethod(
-            if (isNewHome) "calHotseatMaxCount" else "getHotseatMaxCount"
-        ) {
-            it.result = 99
-        }
+        findAndHookMethod(DEVICE_CONFIG, "getHotseatMaxCount", returnConstant(99))
     }
 }
