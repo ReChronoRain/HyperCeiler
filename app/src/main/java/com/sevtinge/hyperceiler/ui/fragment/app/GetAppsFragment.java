@@ -36,7 +36,7 @@ public class GetAppsFragment extends SettingsPreferenceFragment {
     EditTextPreference mManufacturer;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.getapps;
     }
 

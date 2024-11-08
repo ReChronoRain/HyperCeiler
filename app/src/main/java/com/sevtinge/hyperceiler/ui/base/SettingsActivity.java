@@ -19,6 +19,8 @@
 package com.sevtinge.hyperceiler.ui.base;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
@@ -44,19 +46,20 @@ public abstract class SettingsActivity extends BaseSettingsActivity implements P
 
     public void initCreate() {}
 
-    public void onStartSettingsForArguments(Preference preference, boolean isBundleEnable) {
-        mProxy.onStartSettingsForArguments(SubSettings.class, preference, isBundleEnable);
+    public void onStartSettingsForArguments(Preference preference, boolean isAddPreferenceKey) {
+        mProxy.onStartSettingsForArguments(SubSettings.class, preference, isAddPreferenceKey);
     }
 
     @Override
     public boolean onPreferenceStartFragment(@NonNull PreferenceFragmentCompat caller, @NonNull Preference pref) {
-        boolean isBundleEnable = caller instanceof OtherSettings ||
+        boolean isAddPreferenceKey = caller instanceof OtherSettings ||
                 caller instanceof HomeDockSettings ||
                 caller instanceof HomeFolderSettings ||
                 caller instanceof AlertDialogSettings ||
                 caller instanceof HomeGestureSettings ||
                 caller instanceof MultiActionSettings;
-        onStartSettingsForArguments(pref, isBundleEnable);
+
+        onStartSettingsForArguments(pref, isAddPreferenceKey);
         return true;
     }
 }

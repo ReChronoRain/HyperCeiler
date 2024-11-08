@@ -32,7 +32,7 @@ public class DisplaySettings extends SettingsPreferenceFragment {
     SeekBarPreferenceCompat maxBrightness;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.framework_display;
     }
 

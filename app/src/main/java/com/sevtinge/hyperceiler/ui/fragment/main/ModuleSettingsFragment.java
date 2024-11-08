@@ -50,7 +50,7 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
     DropDownPreference mLanguage;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.prefs_settings;
     }
 

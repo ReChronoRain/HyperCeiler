@@ -18,6 +18,10 @@
   -->
 <resources>
 
+    <declare-styleable name="Preference">
+        <attr name="inflatedXml" format="reference" />
+    </declare-styleable>
+
     <attr name="rebootIconColor" format="color" />
 
     <declare-styleable name="MagicBubbleSeekBar">

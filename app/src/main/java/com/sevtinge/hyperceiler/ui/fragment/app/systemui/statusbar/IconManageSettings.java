@@ -41,7 +41,7 @@ public class IconManageSettings extends SettingsPreferenceFragment {
     SwitchPreference mBatteryPercentage;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar_icon_manage;
     }
 

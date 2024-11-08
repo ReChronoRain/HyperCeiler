@@ -21,9 +21,11 @@ package com.sevtinge.hyperceiler.ui.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -33,6 +35,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 
 import fan.appcompat.app.AppCompatActivity;
+import fan.core.utils.ResourcesCompat;
 
 public class SettingsProxy extends BaseSettingsProxy {
 
@@ -122,12 +125,31 @@ public class SettingsProxy extends BaseSettingsProxy {
     }
 
     @Override
-    public void onStartSettingsForArguments(Class<?> cls, Preference preference, boolean isEnableBundle) {
+    public void onStartSettingsForArguments(Class<?> cls, Preference preference, boolean isAddPreferenceKey) {
         Bundle args = null;
-        if (isEnableBundle) {
+
+        if (isAddPreferenceKey) {
             args = new Bundle();
             args.putString("key", preference.getKey());
         }
+
+        Intent intent = preference.getIntent();
+        if (intent != null) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                String xmlPath = (String) bundle.get("inflatedXml");
+                if (!TextUtils.isEmpty(xmlPath)) {
+                    if (args == null) args = new Bundle();
+                    String[] split = xmlPath.split("\\/");
+
+                    String[] split2 = split[2].split("\\.");
+                    if (split.length == 3) {
+                        args.putInt(":settings:fragment_resId", mActivity.getResources().getIdentifier(split2[0], split[1], mActivity.getPackageName()));
+                    }
+                }
+            }
+        }
+
         String mFragmentName = preference.getFragment();
         String mTitle = preference.getTitle().toString();
         SettingLauncherHelper.onStartSettingsForArguments(mActivity, cls, mFragmentName, args, mTitle);

@@ -32,6 +32,7 @@ import android.widget.SeekBar;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
+import com.sevtinge.hyperceiler.ui.fragment.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
@@ -49,7 +50,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
     RecommendPreference mRecommend;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.system_settings;
     }
 
@@ -87,9 +88,10 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
         getPreferenceScreen().addPreference(mRecommend);
 
         args1.putString(":settings:fragment_args_key", "prefs_key_mi_settings_show_fps");
+        args1.putInt(":settings:fragment_resId", R.xml.mi_settings);
         mRecommend.addRecommendView(getString(R.string.mi_settings_show_fps),
                 null,
-                MiSettingsFragment.class,
+                DashboardFragment.class,
                 args1,
                 R.string.mi_settings
         );

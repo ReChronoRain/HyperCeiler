@@ -32,7 +32,7 @@ public class AlertDialogSettings extends SettingsPreferenceFragment {
     private SeekBarPreferenceCompat mDialogBottomMargin;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.various_dialog;
     }
 

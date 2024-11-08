@@ -32,7 +32,7 @@ public class HomeTitleAnimSettings extends SettingsPreferenceFragment {
     Preference mPage1;
     Preference mPage9;
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.home_title_anim;
     }
 

@@ -31,12 +31,13 @@ import fan.preference.DropDownPreference;
 import androidx.preference.SwitchPreference;
 
 public class VolumeSettings extends SettingsPreferenceFragment {
+
     DropDownPreference mDefaultVolumeStream;
     SwitchPreference mVolumeSeparateControl;
     SwitchPreference mVolumeSeparateSlider;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.framework_volume;
     }
 

@@ -25,16 +25,17 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
+import com.sevtinge.hyperceiler.ui.fragment.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import androidx.preference.SwitchPreference;
 
-public class FreeFormSettings extends SettingsPreferenceFragment {
+public class FreeFormSettings extends DashboardFragment {
 
     SwitchPreference mMoreFreeForm; // 多小窗
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.framework_freeform;
     }
 

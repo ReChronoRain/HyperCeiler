@@ -23,5 +23,5 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class AOSPSettings extends SettingsPreferenceFragment {
     @Override
-    public int getContentResId() { return R.xml.various_aosp; }
+    public int getPreferenceScreenResId() { return R.xml.various_aosp; }
 }

@@ -43,7 +43,7 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
     RecommendPreference mRecommend;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar;
     }
 

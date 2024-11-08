@@ -33,7 +33,7 @@ public class CardTileSettings extends SettingsPreferenceFragment {
     }
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.system_ui_control_center_card_tile;
     }
 

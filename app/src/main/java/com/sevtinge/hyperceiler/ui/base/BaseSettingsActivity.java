@@ -21,7 +21,10 @@ package com.sevtinge.hyperceiler.ui.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.hyperceiler.R;
@@ -176,5 +179,21 @@ public abstract class BaseSettingsActivity extends BaseActivity {
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (mFragment != null) {
+            mFragment.onCreateOptionsMenu(menu, getMenuInflater());
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (mFragment != null) {
+            mFragment.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

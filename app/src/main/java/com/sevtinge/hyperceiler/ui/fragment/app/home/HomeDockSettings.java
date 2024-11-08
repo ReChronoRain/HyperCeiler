@@ -42,7 +42,7 @@ public class HomeDockSettings extends SettingsPreferenceFragment implements Pref
     ColorPickerPreference mDockBackgroundColor;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.home_dock;
     }
 

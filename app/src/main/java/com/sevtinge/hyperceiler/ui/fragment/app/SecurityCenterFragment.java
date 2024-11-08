@@ -34,7 +34,7 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
     Preference mPrivacy;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.security_center;
     }
 

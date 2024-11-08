@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_downgr"
+            android:summary="@string/system_framework_core_patch_downgr_desc"
+            android:title="@string/system_framework_core_patch_downgr" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_auth_creak"
+            android:summary="@string/system_framework_core_patch_auth_creak_desc"
+            android:title="@string/system_framework_core_patch_auth_creak" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_disable_integrity"
+            android:summary="@string/system_framework_disable_integrity_desc"
+            android:title="@string/system_framework_disable_integrity" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_shared_user"
+            android:summary="@string/system_framework_core_patch_shared_user_desc"
+            android:title="@string/system_framework_core_patch_shared_user"
+            android:dependency="prefs_key_system_framework_core_patch_auth_creak"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_digest_creak"
+            android:summary="@string/system_framework_core_patch_digest_creak_desc"
+            android:title="@string/system_framework_core_patch_digest_creak" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_use_pre_signature"
+            android:summary="@string/system_framework_core_patch_use_pre_signature_desc"
+            android:title="@string/system_framework_core_patch_use_pre_signature" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_enhanced_mode"
+            android:summary="@string/system_framework_core_patch_enhanced_mode_desc"
+            android:title="@string/system_framework_core_patch_enhanced_mode" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disable_low_api_check"
+            android:summary="@string/system_framework_disable_low_api_check_desc"
+            android:title="@string/system_framework_disable_low_api_check" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disable_persistent"
+            android:summary="@string/system_framework_disable_persistent_more"
+            android:title="@string/system_framework_disable_persistent" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disable_verification_agent"
+            android:summary="@string/system_framework_disable_verification_agent_desc"
+            android:title="@string/system_framework_disable_verification_agent" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_bypass_isolation_violation"
+            android:summary="@string/system_framework_core_patch_bypass_isolation_violation_desc"
+            android:title="@string/system_framework_core_patch_bypass_isolation_violation" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

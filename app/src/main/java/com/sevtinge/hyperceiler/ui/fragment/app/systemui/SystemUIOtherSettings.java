@@ -56,7 +56,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     SwitchPreference mSuperVolume;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.system_ui_other;
     }
 

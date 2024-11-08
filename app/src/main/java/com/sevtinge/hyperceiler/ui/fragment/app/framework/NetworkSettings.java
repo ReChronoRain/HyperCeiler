@@ -31,7 +31,7 @@ public class NetworkSettings extends SettingsPreferenceFragment {
     RecommendPreference mRecommend;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.framework_phone;
     }
 

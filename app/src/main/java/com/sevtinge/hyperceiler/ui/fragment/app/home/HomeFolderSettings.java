@@ -46,7 +46,7 @@ public class HomeFolderSettings extends SettingsPreferenceFragment {
     SwitchPreference mSmallFolderIconBackgroundCustom3;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.home_folder;
     }
 

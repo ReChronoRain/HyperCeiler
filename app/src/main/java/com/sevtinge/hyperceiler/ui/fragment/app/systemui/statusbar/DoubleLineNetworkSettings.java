@@ -34,7 +34,7 @@ public class DoubleLineNetworkSettings extends SettingsPreferenceFragment implem
     DropDownPreference mIconTheme;
     DropDownPreference mIconStyle;
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar_doubleline_network;
     }
 

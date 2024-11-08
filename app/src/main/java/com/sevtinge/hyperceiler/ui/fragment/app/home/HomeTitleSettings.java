@@ -49,7 +49,7 @@ public class HomeTitleSettings extends SettingsPreferenceFragment {
     PreferenceCategory mAppBlur;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.home_title;
     }
 

@@ -108,7 +108,7 @@ public class MainFragment extends SettingsPreferenceFragment implements Homepage
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.prefs_main;
     }
 

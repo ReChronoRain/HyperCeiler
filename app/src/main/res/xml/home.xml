@@ -22,7 +22,11 @@
         <Preference
             android:key="prefs_key_home_gesture"
             android:title="@string/home_gesture"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.home.HomeGestureSettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.home.HomeGestureSettings">
+            <intent>
+                <extra android:name="inflatedXml" android:value="@xml/browser" />
+            </intent>
+        </Preference>
 
         <Preference
             android:key="prefs_key_home_layout"

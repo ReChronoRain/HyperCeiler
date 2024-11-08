@@ -43,7 +43,7 @@ public class HomeTitleAnim5Settings extends SettingsPreferenceFragment {
     SeekBarPreferenceCompat mSA;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.home_title_anim_5;
     }
 

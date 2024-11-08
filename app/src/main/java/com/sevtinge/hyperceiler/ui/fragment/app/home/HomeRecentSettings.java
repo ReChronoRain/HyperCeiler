@@ -42,7 +42,7 @@ public class HomeRecentSettings extends SettingsPreferenceFragment {
     SwitchPreference mNotHideCleanIcon;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.home_recent;
     }
 

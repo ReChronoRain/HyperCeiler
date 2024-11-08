@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.R;
 
 public class SidebarSettings extends SecurityCenterBaseSettings {
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.security_center_sidebar;
     }
 

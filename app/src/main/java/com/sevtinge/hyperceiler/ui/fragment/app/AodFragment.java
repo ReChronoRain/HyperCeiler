@@ -30,7 +30,7 @@ import androidx.preference.SwitchPreference;
 
 public class AodFragment extends SettingsPreferenceFragment {
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.aod;
     }
 
@@ -48,6 +48,5 @@ public class AodFragment extends SettingsPreferenceFragment {
         aod.setVisible(!isMoreHyperOSVersion(1f));
         SwitchPreference aodH = findPreference("prefs_key_aod_unlock_always_on_display_hyper");
         aodH.setVisible(isMoreHyperOSVersion(1f));
-
     }
 }

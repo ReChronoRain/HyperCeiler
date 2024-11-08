@@ -50,7 +50,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     private SeekBarPreference mBlurRadiusPreference;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.various_dialog_custom_background;
     }
 

@@ -5,6 +5,8 @@
     <style name="Base.Theme.HyperCeiler.DayNight" parent="Base.Theme.HyperCeiler">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+
+        <item name="endActionMenuEnabled">true</item>
     </style>
 
     <style name="Base.Theme.HyperCeiler" parent="Theme.AppCompat.DayNight">

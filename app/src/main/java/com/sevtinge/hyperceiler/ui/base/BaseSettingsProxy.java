@@ -59,5 +59,5 @@ public abstract class BaseSettingsProxy {
 
     public abstract Bundle getArguments(Intent intent);
 
-    public abstract void onStartSettingsForArguments(Class<?> cls, Preference preference, boolean isEnableBundle);
+    public abstract void onStartSettingsForArguments(Class<?> cls, Preference preference, boolean isAddPreferenceKey);
 }

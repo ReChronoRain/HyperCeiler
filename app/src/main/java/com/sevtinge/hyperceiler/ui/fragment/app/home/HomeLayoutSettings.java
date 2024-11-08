@@ -39,7 +39,7 @@ public class HomeLayoutSettings extends SettingsPreferenceFragment {
     SeekBarPreferenceCompat mHotseatsMarginTopSeekPref;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.home_layout;
     }
 

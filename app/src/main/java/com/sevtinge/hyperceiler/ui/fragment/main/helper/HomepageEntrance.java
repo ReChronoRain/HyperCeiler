@@ -57,7 +57,7 @@ public class HomepageEntrance extends SettingsPreferenceFragment implements Pref
     Preference mGuardProvider;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.prefs_set_homepage_entrance;
     }
 

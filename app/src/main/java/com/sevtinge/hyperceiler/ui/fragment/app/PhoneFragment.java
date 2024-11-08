@@ -31,7 +31,7 @@ public class PhoneFragment extends SettingsPreferenceFragment {
     Preference mPhone;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.phone;
     }
 

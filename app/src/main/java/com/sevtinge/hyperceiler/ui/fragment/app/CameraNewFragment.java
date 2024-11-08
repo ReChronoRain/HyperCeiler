@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 public class CameraNewFragment extends SettingsPreferenceFragment {
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.camera_new;
     }
 

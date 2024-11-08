@@ -26,7 +26,7 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class MiCloudServiceFragment extends SettingsPreferenceFragment {
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.micloud_service;
     }
 

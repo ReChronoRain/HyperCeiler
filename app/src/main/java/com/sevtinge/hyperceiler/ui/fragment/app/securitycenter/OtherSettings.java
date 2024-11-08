@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.R;
 public class OtherSettings extends SecurityCenterBaseSettings {
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.security_center_other;
     }
 

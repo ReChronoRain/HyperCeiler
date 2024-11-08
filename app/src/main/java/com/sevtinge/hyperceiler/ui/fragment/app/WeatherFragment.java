@@ -32,7 +32,7 @@ public class WeatherFragment extends SettingsPreferenceFragment {
 
     DropDownPreference mCardDisplayType;
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.weather;
     }
 

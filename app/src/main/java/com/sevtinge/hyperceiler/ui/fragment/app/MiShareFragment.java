@@ -31,7 +31,7 @@ public class MiShareFragment extends SettingsPreferenceFragment {
     SwitchPreference mMiShareNotAuto;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.mishare;
     }
 

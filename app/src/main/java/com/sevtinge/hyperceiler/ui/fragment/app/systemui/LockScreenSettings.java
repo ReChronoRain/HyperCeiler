@@ -39,7 +39,7 @@ public class LockScreenSettings extends SettingsPreferenceFragment {
     SwitchPreference mBlockEditor; // 禁用长按进入锁屏编辑
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.system_ui_lock_screen;
     }
 

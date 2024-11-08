@@ -54,7 +54,7 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
     SwitchPreference mDemo;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.prefs_settings_safe_mode;
     }
 

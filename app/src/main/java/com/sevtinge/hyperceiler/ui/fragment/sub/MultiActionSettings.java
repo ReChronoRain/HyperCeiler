@@ -54,7 +54,7 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
     Preference mAppSelector;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.home_multi_action;
     }
 

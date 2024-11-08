@@ -33,7 +33,7 @@ public class MiLinkFragment extends SettingsPreferenceFragment {
     SwitchPreference mUnlockHMind;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.milink;
     }
 

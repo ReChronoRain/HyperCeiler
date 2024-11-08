@@ -26,7 +26,7 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class BigClock extends SettingsPreferenceFragment {
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar_new_clock_indicator_2;
     }
 

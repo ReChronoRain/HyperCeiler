@@ -76,7 +76,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     Handler handler;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.system_ui_control_center;
     }
 

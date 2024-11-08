@@ -50,7 +50,7 @@ public class LocationSimulationActivity extends SettingsActivity {
         }
 
         @Override
-        public int getContentResId() {
+        public int getPreferenceScreenResId() {
             return R.xml.various_location_simulation;
         }
 

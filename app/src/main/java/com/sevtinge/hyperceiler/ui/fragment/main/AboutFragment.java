@@ -164,7 +164,7 @@ public class AboutFragment extends SettingsPreferenceFragment implements View.On
     }
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.prefs_about;
     }
 

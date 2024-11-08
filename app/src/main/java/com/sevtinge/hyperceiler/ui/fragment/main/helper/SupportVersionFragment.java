@@ -37,7 +37,7 @@ public class SupportVersionFragment extends SettingsPreferenceFragment {
     Preference mHelpSupportVersion;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.prefs_help_support_version;
     }
 

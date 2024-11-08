@@ -63,7 +63,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
     Handler handler;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.framework_other;
     }
 

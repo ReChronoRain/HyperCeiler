@@ -31,7 +31,7 @@ public class NavigationSettings extends SettingsPreferenceFragment {
     SwitchPreference navigation;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.system_ui_navigation;
     }
 

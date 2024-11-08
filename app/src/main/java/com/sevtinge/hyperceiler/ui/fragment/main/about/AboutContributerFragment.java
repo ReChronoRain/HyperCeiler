@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class AboutContributerFragment extends SettingsPreferenceFragment {
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.prefs_about_contributor;
     }
 }

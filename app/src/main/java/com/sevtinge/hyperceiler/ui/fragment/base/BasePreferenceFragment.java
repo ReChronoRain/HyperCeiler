@@ -21,33 +21,27 @@ package com.sevtinge.hyperceiler.ui.fragment.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.OnApplyWindowInsetsListener;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.utils.SettingsHelper;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.preference.PreferenceFragment;
 
 public class BasePreferenceFragment extends PreferenceFragment {
 
-    private PreferenceManager mPreferenceManager;
+    protected PreferenceManager mPreferenceManager;
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         mPreferenceManager = getPreferenceManager();
-        mPreferenceManager.setSharedPreferencesName(PrefsUtils.mPrefsName);
-        mPreferenceManager.setSharedPreferencesMode(Context.MODE_PRIVATE);
-        mPreferenceManager.setStorageDeviceProtected();
+        SettingsHelper.initSharedPreferences(mPreferenceManager, PrefsUtils.mPrefsName, Context.MODE_PRIVATE);
     }
 
     public void setTitle(int titleResId) {
@@ -74,22 +68,5 @@ public class BasePreferenceFragment extends PreferenceFragment {
 
     public void finish() {
         getActivity().finish();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        RecyclerView recyclerView = view.findViewById(fan.preference.R.id.recycler_view);
-        ViewCompat.setOnApplyWindowInsetsListener(recyclerView, new OnApplyWindowInsetsListener() {
-            @NonNull
-            @Override
-            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
-                Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
-                        insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
-                v.setPadding(inset.left, 0, inset.right, inset.bottom);
-                return insets;
-            }
-        });
     }
 }

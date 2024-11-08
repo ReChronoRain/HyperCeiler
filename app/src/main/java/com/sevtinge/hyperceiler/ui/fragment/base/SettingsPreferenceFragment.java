@@ -21,6 +21,9 @@ package com.sevtinge.hyperceiler.ui.fragment.base;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -28,16 +31,16 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.SubSettings;
-import com.sevtinge.hyperceiler.ui.base.BaseActivity;
-import com.sevtinge.hyperceiler.ui.base.NaviBaseActivity;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 public abstract class SettingsPreferenceFragment extends BasePreferenceFragment {
 
     public String mTitle;
-    public String mPreferenceKey;
-    public int mContentResId = 0;
     public int mTitleResId = 0;
+
+    public int mPreferenceResId = 0;
+
+    private String mPreferenceKey;
     private boolean mPreferenceHighlighted = false;
     private final String SAVE_HIGHLIGHTED_KEY = "android:preference_highlighted";
 
@@ -50,32 +53,49 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeRes(R.style.Theme_Navigator_ContentChild);
+        setThemeRes(R.style.AppTheme);
         if (savedInstanceState != null) {
             mPreferenceHighlighted = savedInstanceState.getBoolean(SAVE_HIGHLIGHTED_KEY);
         }
     }
 
+    public abstract int getPreferenceScreenResId();
+
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
-        super.onCreatePreferences(bundle, s);
         Bundle args = getArguments();
         if (args != null) {
             mTitle = args.getString(":fragment:show_title");
             mTitleResId = args.getInt(":fragment:show_title_resid");
             mPreferenceKey = args.getString(":settings:fragment_args_key");
-            mContentResId = args.getInt("contentResId");
+            mPreferenceResId = args.getInt(":settings:fragment_resId");
         }
         if (mTitleResId != 0) setTitle(mTitleResId);
         if (!TextUtils.isEmpty(mTitle)) setTitle(mTitle);
-        mContentResId = mContentResId != 0 ? mContentResId : getContentResId();
-        if (mContentResId > 0) {
-            setPreferencesFromResource(mContentResId, s);
+        super.onCreatePreferences(bundle, s);
+        if (getPreferenceScreenResId() != 0) {
+            setPreferencesFromResource(getPreferenceScreenResId(), s);
             initPrefs();
         }
-        //((NaviBaseActivity) getActivity()).setRestartView(addRestartListener());
     }
 
+    public void initPrefs() {}
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        //inflater.inflate(R.menu.navigation_immersion, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.quick_restart) {
+            if (addRestartListener() != null) {
+                addRestartListener();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -105,10 +125,4 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     public boolean hasKey(String key) {
         return getSharedPreferences().contains(key);
     }
-
-    public void initPrefs() {
-    }
-
-    public abstract int getContentResId();
-
 }

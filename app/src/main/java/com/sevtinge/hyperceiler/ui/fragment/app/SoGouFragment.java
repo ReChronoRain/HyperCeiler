@@ -31,7 +31,7 @@ public class SoGouFragment extends SettingsPreferenceFragment {
     };
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.sogou_xiaomi;
     }
 

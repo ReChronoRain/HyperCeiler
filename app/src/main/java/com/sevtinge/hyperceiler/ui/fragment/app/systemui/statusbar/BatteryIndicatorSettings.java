@@ -40,7 +40,7 @@ public class BatteryIndicatorSettings extends SettingsPreferenceFragment {
     Preference mBatteryIndicatorTest;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar_battery_indicator;
     }
 

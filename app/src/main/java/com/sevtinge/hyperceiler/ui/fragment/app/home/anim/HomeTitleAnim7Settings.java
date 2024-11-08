@@ -38,7 +38,7 @@ public class HomeTitleAnim7Settings extends SettingsPreferenceFragment {
     SeekBarPreferenceCompat mDRR;
     SeekBarPreferenceCompat mSRR;
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.home_title_anim_7;
     }
 

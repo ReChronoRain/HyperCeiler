@@ -31,7 +31,7 @@ public class ApplicationsSettings extends SecurityCenterBaseSettings {
     SwitchPreference mUnlockAppSandbox;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.security_center_app;
     }
 

@@ -38,7 +38,7 @@ public class UpdaterFragment extends SettingsPreferenceFragment
     EditTextPreference mBigVersion;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.updater;
     }
 

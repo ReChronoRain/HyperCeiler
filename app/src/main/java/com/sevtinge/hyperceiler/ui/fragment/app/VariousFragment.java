@@ -46,7 +46,7 @@ public class VariousFragment extends SettingsPreferenceFragment
     Handler handler;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.various;
     }
 

@@ -38,7 +38,7 @@ public class PrivacySafetySettings extends SecurityCenterBaseSettings {
     SwitchPreference mHideXOptModeTip;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.security_center_privacy_safety;
     }
 

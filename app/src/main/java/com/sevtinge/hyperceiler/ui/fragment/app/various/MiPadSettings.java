@@ -26,7 +26,7 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class MiPadSettings extends SettingsPreferenceFragment {
     @Override
-    public int getContentResId() { return R.xml.various_mipad; }
+    public int getPreferenceScreenResId() { return R.xml.various_mipad; }
 
     @Override
     public View.OnClickListener addRestartListener() {

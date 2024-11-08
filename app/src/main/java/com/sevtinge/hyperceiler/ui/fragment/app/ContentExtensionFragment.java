@@ -32,7 +32,7 @@ public class ContentExtensionFragment extends SettingsPreferenceFragment {
     SwitchPreference mUnlockTaplus;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.content_extension;
     }
 

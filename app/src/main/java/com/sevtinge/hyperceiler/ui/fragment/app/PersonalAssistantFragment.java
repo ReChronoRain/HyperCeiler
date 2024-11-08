@@ -45,7 +45,7 @@ public class PersonalAssistantFragment extends SettingsPreferenceFragment
     SeekBarPreferenceCompat mTvNotifWidth;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.personal_assistant;
     }
 

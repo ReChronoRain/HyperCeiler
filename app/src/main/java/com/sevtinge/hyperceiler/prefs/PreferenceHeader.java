@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.prefs;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;

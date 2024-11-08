@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 public class HomeDrawerSettings extends SettingsPreferenceFragment {
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.home_drawer;
     }
 

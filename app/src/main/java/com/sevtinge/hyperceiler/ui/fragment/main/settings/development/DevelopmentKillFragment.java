@@ -58,7 +58,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
     }
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.prefs_development_kill;
     }
 

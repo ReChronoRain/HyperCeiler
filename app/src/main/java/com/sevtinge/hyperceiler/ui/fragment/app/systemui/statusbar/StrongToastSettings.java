@@ -32,7 +32,7 @@ public class StrongToastSettings extends SettingsPreferenceFragment {
     Preference mLongToast;
 
     @Override
-    public int getContentResId() { return R.xml.system_ui_status_bar_strong_toast; }
+    public int getPreferenceScreenResId() { return R.xml.system_ui_status_bar_strong_toast; }
 
     @Override
     public void initPrefs() {

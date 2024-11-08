@@ -63,7 +63,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
     MainActivityContextHelper mainActivityContextHelper;
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.prefs_development_debug_info;
     }
 

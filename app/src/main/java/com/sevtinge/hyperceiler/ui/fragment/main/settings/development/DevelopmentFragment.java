@@ -47,7 +47,7 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
     }
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.prefs_development;
     }
 

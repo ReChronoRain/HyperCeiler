@@ -34,7 +34,7 @@ public class HomeOtherSettings extends SettingsPreferenceFragment{
 
 
     @Override
-    public int getContentResId() {
+    public int getPreferenceScreenResId() {
         return R.xml.home_other;
     }
 
