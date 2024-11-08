@@ -18,9 +18,7 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory>
-
         <Preference android:title="Preference" />
 
         <SwitchPreference
@@ -46,9 +44,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="PreferenceCategory">
-
         <RadioSetPreferenceCategory>
-
             <RadioButtonPreference
                 android:persistent="false"
                 android:title="RadioButtonPreference" />

@@ -70,7 +70,7 @@ import com.sevtinge.hyperceiler.module.hook.camera.UnlockVideosky;
 import com.sevtinge.hyperceiler.module.hook.camera.UnlockVlog;
 import com.sevtinge.hyperceiler.module.hook.camera.UnlockVlogPro;
 
-@HookBase(pkg = "com.android.camera", skip = true, isPad = false, tarAndroid = 0)
+@HookBase(pkg = "com.android.camera", skip = true, isPad = false, tarSdkVersion = 0)
 public class Camera extends BaseModule {
 
     @Override

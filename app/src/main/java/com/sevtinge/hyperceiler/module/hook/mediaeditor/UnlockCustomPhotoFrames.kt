@@ -92,20 +92,17 @@ object UnlockCustomPhotoFrames : BaseHook() {
         var index = 0
 
         differentItems.forEach { method ->
-            logD(TAG, lpparam.packageName, "PublicA name is $method") // debug 用
             val action = actions.getOrElse(index) { ::other }
             action(method)
             index = (index + 1) % actions.size
         }
 
         publicB.forEach { method ->
-            logD(TAG, lpparam.packageName, "PublicB name is $method") // debug 用
             other(method)
         }
 
         if (isOpenSpring && publicC.isNotEmpty()) {
             publicC.forEach { method ->
-                logD(TAG, lpparam.packageName, "Public Spring name is $method") // debug 用
                 other(method)  // 1.6.0.5.2 新增限时新春定制画框
             }
         }

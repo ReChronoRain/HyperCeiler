@@ -62,9 +62,6 @@ object UnlockDisney : BaseHook() {
     }
 
     override fun init() {
-        logD(TAG, lpparam.packageName, "disney Mickey name is $mickey")
-        logD(TAG, lpparam.packageName, "disney Bear name is $bear")
-
         when (isType) {
             1 -> {
                 isHook(mickey, true)

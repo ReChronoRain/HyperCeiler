@@ -143,7 +143,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.strongtoast.HideS
 
 import java.util.Objects;
 
-@HookBase(pkg = "com.android.systemui", isPad = false, tarAndroid = 33)
+@HookBase(pkg = "com.android.systemui", isPad = false, tarSdkVersion = 33)
 public class SystemUiT extends BaseModule {
     @Override
     public void handleLoadPackage() {
@@ -254,7 +254,7 @@ public class SystemUiT extends BaseModule {
         // initHook(new DisplayHardwareDetailForHyper(), true);
 
         // 灵动舞台
-        initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_strong_toast_hide"));
+        initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_hide_smart_strong_toast"));
 
         // 居右显示
         boolean isWiFiAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");

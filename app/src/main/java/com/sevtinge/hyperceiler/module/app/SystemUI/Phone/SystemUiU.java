@@ -123,7 +123,6 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBa
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBarSimIcon;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.t.UseNewHD;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.layout.StatusBarLayout;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileNetwork;
@@ -142,7 +141,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.strongtoast.HideS
 
 import java.util.Objects;
 
-@HookBase(pkg = "com.android.systemui", isPad = false, tarAndroid = 34)
+@HookBase(pkg = "com.android.systemui", isPad = false, tarSdkVersion = 34)
 public class SystemUiU extends BaseModule {
     @Override
     public void handleLoadPackage() {
@@ -185,7 +184,6 @@ public class SystemUiU extends BaseModule {
         initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0) > 0);
         initHook(StatusBarSimIcon.INSTANCE, isHideSim);
         initHook(HideVoWiFiIcon.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi") || mPrefsMap.getBoolean("system_ui_status_bar_icon_volte"));
-        initHook(UseNewHD.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_use_new_hd"));
         initHook(new StickyFloatingWindowsForSystemUI(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
 
         // 移动网络图标
@@ -253,7 +251,7 @@ public class SystemUiU extends BaseModule {
         // initHook(new DisplayHardwareDetailForHyper(), true);
 
         // 灵动舞台
-        initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_strong_toast_hide"));
+        initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_hide_smart_strong_toast"));
 
         // 居右显示
         boolean isWiFiAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");

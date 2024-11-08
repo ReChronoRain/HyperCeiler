@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.module.hook.powerkeeper.GmsDozeFix;
 import com.sevtinge.hyperceiler.module.hook.powerkeeper.LockMaxFps;
 import com.sevtinge.hyperceiler.module.hook.powerkeeper.PreventBatteryWitelist;
 
-@HookBase(pkg = "com.miui.powerkeeper", skip = true, isPad = false, tarAndroid = 0)
+@HookBase(pkg = "com.miui.powerkeeper", skip = true, isPad = false, tarSdkVersion = 0)
 public class PowerKeeper extends BaseModule {
 
     @Override

@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.mishare.NoAutoTurnOff;
 import com.sevtinge.hyperceiler.module.hook.mishare.UnlockTurboMode;
 
-@HookBase(pkg = "com.miui.mishare.connectivity", skip = true, isPad = false, tarAndroid = 0)
+@HookBase(pkg = "com.miui.mishare.connectivity", skip = true, isPad = false, tarSdkVersion = 0)
 public class MiShare extends BaseModule {
 
     @Override

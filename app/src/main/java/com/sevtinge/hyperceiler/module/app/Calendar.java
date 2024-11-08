@@ -22,7 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.calendar.UnlockSubscription;
 
-@HookBase(pkg = "com.android.calendar", skip = true, isPad = false, tarAndroid = 0)
+@HookBase(pkg = "com.android.calendar", skip = true, isPad = false, tarSdkVersion = 0)
 public class Calendar extends BaseModule {
 
     @Override

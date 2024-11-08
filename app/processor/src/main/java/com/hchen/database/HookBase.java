@@ -12,7 +12,7 @@ public @interface HookBase {
 
     boolean isPad();
 
-    int tarAndroid();
+    int tarSdkVersion();
 
     boolean skip() default false;
 }
