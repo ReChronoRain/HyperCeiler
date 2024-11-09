@@ -43,9 +43,9 @@
         <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_dark</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="actionBarBackground">@color/miuix_design_default_color_surface_variant_dark</item>
-        <item name="actionbarSearchMaskColor">#20000000</item>
+        <item name="actionbarSearchMaskColor">#cc000000</item>
         <item name="bgBlurOptions">actionBar|splitActionBar</item>
-        <item name="colorPrimary">@color/miuix_design_default_color_surface_variant_dark</item>
+        <item name="miuixColorPrimary">@color/miuix_design_default_color_surface_variant_dark</item>
         <item name="responsiveActionMenuViewStyle">@style/Widget.ResponsiveActionMenuView.Light</item>
 
         <item name="textColorDialogListItem">@color/miuix_appcompat_dialog_list_text_dark</item>
