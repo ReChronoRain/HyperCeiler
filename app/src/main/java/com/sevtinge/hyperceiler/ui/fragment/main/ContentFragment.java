@@ -159,7 +159,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
     }
 
     protected PreferenceFragment createHomeFragment() {
-        return new MainFragment();
+        return new HomePageFragment();
     }
 
     protected PreferenceFragment createSettingsFragment() {

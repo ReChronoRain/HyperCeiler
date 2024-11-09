@@ -26,22 +26,21 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import fan.appcompat.app.AppCompatActivity;
+import fan.appcompat.app.Fragment;
+import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.view.SearchActionMode;
 
 public class SearchModeHelper {
 
-    public static SearchActionMode startSearchMode(AppCompatActivity activity, RecyclerView resultView, View contentView, View anchorView, View animateView, TextWatcher watcher) {
+    public static SearchActionMode startSearchMode(Fragment fragment, RecyclerView resultView, View contentView,
+                                                   View anchorView, NestedHeaderLayout animateView, TextWatcher watcher) {
         contentView.setVisibility(View.GONE);
         resultView.setVisibility(View.VISIBLE);
-        SearchActionMode searchActionMode = (SearchActionMode) activity.startActionMode(new SearchActionMode.Callback() {
+        animateView.setInSearchMode(true);
+        SearchActionMode searchActionMode = (SearchActionMode) fragment.startActionMode(new SearchActionMode.Callback() {
             @Override
             public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-                SearchActionMode searchActionMode = (SearchActionMode) actionMode;
-                searchActionMode.setAnchorView(anchorView);
-                searchActionMode.setAnimateView(animateView);
-                searchActionMode.getSearchInput().addTextChangedListener(watcher);
-                return true;
+                return onCreateSearchMode(anchorView, animateView, watcher, actionMode);
             }
 
             @Override
@@ -56,14 +55,28 @@ public class SearchModeHelper {
 
             @Override
             public void onDestroyActionMode(ActionMode actionMode) {
-                SearchActionMode searchActionMode = (SearchActionMode) actionMode;
-                searchActionMode.getSearchInput().removeTextChangedListener(watcher);
-                exitSearchMode(searchActionMode);
+                onDestroySearchMode(watcher, actionMode);
                 updateView(contentView, resultView);
+                animateView.setInSearchMode(false);
             }
         });
         if (searchActionMode == null) throw new NullPointerException("null cannot be cast to non-null type moralnorm.appcompat.internal.view.SearchActionMode");
         return searchActionMode;
+    }
+
+    private static boolean onCreateSearchMode(View anchorView, View animateView, TextWatcher watcher,
+                                              ActionMode actionMode) {
+        SearchActionMode searchActionMode = (SearchActionMode) actionMode;
+        searchActionMode.setAnchorView(anchorView);
+        searchActionMode.setAnimateView(animateView);
+        searchActionMode.getSearchInput().addTextChangedListener(watcher);
+        return true;
+    }
+
+    private static void onDestroySearchMode(TextWatcher watcher, ActionMode actionMode) {
+        SearchActionMode searchActionMode = (SearchActionMode) actionMode;
+        searchActionMode.getSearchInput().removeTextChangedListener(watcher);
+        exitSearchMode(searchActionMode);
     }
 
     public static void exitSearchMode(SearchActionMode actionMode) {

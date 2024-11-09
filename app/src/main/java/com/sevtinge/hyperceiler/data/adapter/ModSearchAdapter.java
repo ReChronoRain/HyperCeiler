@@ -43,7 +43,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.ViewHolder> {
+import fan.recyclerview.card.CardGroupAdapter;
+
+public class ModSearchAdapter extends CardGroupAdapter {
 
     private Context mContext;
     private String filterString = "";
@@ -59,44 +61,18 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
-        mContext = viewGroup.getContext();
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_search_result, viewGroup, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_search_result, parent, false);
         // 创建一个VIewHolder
-        return new ViewHolder(view);
+        return new ModSearchViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         ModData ad = modsList.get(position);
-        Spannable spannable = new SpannableString(ad.title);
-        if (isChina) {
-            for (int i = 0; i < filterString.length(); i++) {
-                char ch = filterString.charAt(i);
-                String str = String.valueOf(ch);
-                int start = ad.title.toLowerCase().indexOf(str);
-                if (start >= 0) {
-                    spannable.setSpan(new ForegroundColorSpan(SearchHelper.MARK_COLOR_VIBRANT), start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-            }
-            viewHolder.mName.setText(spannable, TextView.BufferType.SPANNABLE);
-        } else {
-            int start = ad.title.toLowerCase().indexOf(filterString);
-            if (start >= 0) {
-                spannable.setSpan(new ForegroundColorSpan(SearchHelper.MARK_COLOR_VIBRANT), start, start + filterString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                viewHolder.mName.setText(spannable, TextView.BufferType.SPANNABLE);
-            } else {
-                viewHolder.mName.setText(ad.title);
-            }
-        }
-        viewHolder.mPackageName.setText(ad.breadcrumbs);
-        // 设置item点击监听事件
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mItemClickListener.onItemClick(view, ad);
-            }
-        });
+        ((ModSearchViewHolder) holder).bind(ad, isChina, filterString, v -> mItemClickListener.onItemClick(v, ad));
     }
 
     @Override
@@ -112,17 +88,53 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
         return mFilter;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemViewGroup(int i) {
+        return Integer.MIN_VALUE;
+    }
+
+    @Override
+    public void setHasStableIds() {
+        setHasStableIds(true);
+    }
+
+    public static class ModSearchViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView mIcon;
         private final TextView mName;
         private final TextView mPackageName;
 
-        public ViewHolder(View itemView) {
+        public ModSearchViewHolder(View itemView) {
             super(itemView);
             mIcon = itemView.findViewById(android.R.id.icon);
             mName = itemView.findViewById(android.R.id.title);
             mPackageName = itemView.findViewById(android.R.id.summary);
+        }
+
+        public void bind(ModData ad, boolean isChina, String filterString, View.OnClickListener onClickListener) {
+            Spannable spannable = new SpannableString(ad.title);
+            if (isChina) {
+                for (int i = 0; i < filterString.length(); i++) {
+                    char ch = filterString.charAt(i);
+                    String str = String.valueOf(ch);
+                    int start = ad.title.toLowerCase().indexOf(str);
+                    if (start >= 0) {
+                        spannable.setSpan(new ForegroundColorSpan(SearchHelper.MARK_COLOR_VIBRANT), start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+                }
+                mName.setText(spannable, TextView.BufferType.SPANNABLE);
+            } else {
+                int start = ad.title.toLowerCase().indexOf(filterString);
+                if (start >= 0) {
+                    spannable.setSpan(new ForegroundColorSpan(SearchHelper.MARK_COLOR_VIBRANT), start, start + filterString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    mName.setText(spannable, TextView.BufferType.SPANNABLE);
+                } else {
+                    mName.setText(ad.title);
+                }
+            }
+            mPackageName.setText(ad.breadcrumbs);
+            // 设置item点击监听事件
+            itemView.setOnClickListener(onClickListener);
         }
     }
 
@@ -195,12 +207,12 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
         }
     }
 
-    private boolean isChina(Context context) {
+    public boolean isChina(Context context) {
         Locale locale = context.getResources().getConfiguration().getLocales().get(0);
         return locale.getLanguage().contains(new Locale("zh").getLanguage());
     }
 
-    private void sortList() {
+    public void sortList() {
         modsList.sort(new Comparator<>() {
             public int compare(ModData app1, ModData app2) {
                 int breadcrumbs = app1.breadcrumbs.compareToIgnoreCase(app2.breadcrumbs);

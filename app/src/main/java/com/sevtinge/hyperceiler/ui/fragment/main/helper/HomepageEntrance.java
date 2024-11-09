@@ -34,6 +34,7 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.ToastHelper;
@@ -44,7 +45,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 
-public class HomepageEntrance extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class HomepageEntrance extends DashboardFragment implements Preference.OnPreferenceChangeListener {
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
 
     private boolean isInit = false;

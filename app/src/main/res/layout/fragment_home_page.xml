@@ -41,18 +41,14 @@
                         android:clipToPadding="false"
                         android:smoothScrollbar="false" />
 
-                    <TextView
-                        android:id="@+id/help_cant_see_app"
-                        style="@style/TextAppearance.PreferenceList.Secondary"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/search_result_view"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/about_copy_right_padding_edge"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="@dimen/about_copy_right_padding_edge"
-                        android:text="@string/help_cant_see_apps_guide"
-                        android:textAlignment="textStart"
-                        android:textColor="@color/textview_blue"
-                        android:textSize="13dp" />
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/windowBackground"
+                        android:clipToPadding="false"
+                        android:visibility="gone" />
+
                 </LinearLayout>
 
             </fan.core.widget.NestedScrollView>

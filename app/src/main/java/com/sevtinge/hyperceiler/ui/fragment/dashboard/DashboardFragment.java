@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,10 @@ import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import org.xmlpull.v1.XmlPullParser;
+
+import java.lang.reflect.Field;
+
+import fan.preference.PreferenceFragment;
 
 public class DashboardFragment extends SettingsPreferenceFragment {
 
@@ -72,6 +77,16 @@ public class DashboardFragment extends SettingsPreferenceFragment {
         } catch (Throwable t) {
             AndroidLogUtils.logE(TAG, "Failed to access XML resource!", t);
             return null;
+        }
+    }
+
+    protected void setOverlayMode() {
+        try {
+            Field declaredField = PreferenceFragment.class.getDeclaredField("mIsOverlayMode");
+            declaredField.setAccessible(true);
+            declaredField.set(this, Boolean.FALSE);
+        } catch (Exception e) {
+            Log.e("AboutFragment", "declaredField", e);
         }
     }
 }
