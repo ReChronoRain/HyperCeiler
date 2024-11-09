@@ -51,12 +51,12 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
     private Set<String> selectedApps;
     private ImageView appIcon;
     private TextView appName;
-
     private TextView appEdit;
     private CheckBox mSelecte;
     private final int resourceId;
     private final String mKey;
     private final int mMode;
+    private List<AppData> originalAppDataList;
 
     public AppDataAdapter(@NonNull Context context, int resource, List<AppData> appInfoList, String key, int mode) {
         super(context, resource, appInfoList);
@@ -64,6 +64,25 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
         this.resourceId = resource;
         mKey = key;
         mMode = mode;
+        this.originalAppDataList = new ArrayList<>(appInfoList);
+    }
+
+    /**
+     * Update list data for search function.
+     *
+     * @param data Filtered application list data.
+     */
+    public void updateData(List<AppData> data) {
+        clear();
+        addAll(data);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Reset the list data to the original data to clear the search results.
+     */
+    public void resetData() {
+        updateData(originalAppDataList);
     }
 
     @NonNull
