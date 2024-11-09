@@ -191,6 +191,10 @@ public class HomePageFragment extends DashboardFragment
     MainActivityContextHelper mainActivityContextHelper;
     private final String TAG = "MainFragment";
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
+    boolean mWarnTipVisible = false;
+    boolean mNoticeTipVisible = false;
+    boolean mBirthdayTipVisible = false;
+    boolean mHyperCeilerTipVisible = false;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -267,11 +271,12 @@ public class HomePageFragment extends DashboardFragment
 
         mainActivityContextHelper = new MainActivityContextHelper(requireContext());
 
-        isBirthday();
         isFuckCoolapkSDay();
-        isOfficialRom();
+        isBirthday();
         isLoggerAlive();
-        if (!getIsOfficialRom()) if (isFullSupport()) isSignPass(); else isFullSupportSysVer();
+        isFullSupportSysVer();
+        isOfficialRom();
+        isSignPass();
 
     }
 
@@ -320,34 +325,44 @@ public class HomePageFragment extends DashboardFragment
     }
 
     public void isBirthday() {
+        if (mBirthdayTipVisible) return;;
         Calendar calendar = Calendar.getInstance();
         int currentMonth = calendar.get(Calendar.MONTH);
         int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
         mHeadtipBirthday.setVisible(currentMonth == Calendar.MAY && currentDay == 1);
+        mBirthdayTipVisible = true;
     }
 
     public void isFuckCoolapkSDay() {
+        if (mHyperCeilerTipVisible) return;;
         Calendar calendar = Calendar.getInstance();
         int currentMonth = calendar.get(Calendar.MONTH);
         int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
         mHeadtipHyperCeiler.setVisible(currentMonth == Calendar.JULY && currentDay == 14);
         mHeadtipHyperCeiler.setTitle(R.string.headtip_tip_fuck_coolapk);
+        mHyperCeilerTipVisible = true;
     }
 
     public void isOfficialRom() {
+        if (mWarnTipVisible) return;
         mHeadtipWarn.setTitle(R.string.headtip_warn_not_offical_rom);
         mHeadtipWarn.setVisible(getIsOfficialRom());
+        mWarnTipVisible = true;
     }
 
     public void isFullSupportSysVer() {
+        if (mWarnTipVisible) return;
         mHeadtipWarn.setTitle(R.string.headtip_warn_unsupport_sysver);
-        mHeadtipWarn.setVisible(isFullSupport());
+        mHeadtipWarn.setVisible(!isFullSupport());
+        mWarnTipVisible = true;
     }
 
     public void isLoggerAlive() {
+        if (mNoticeTipVisible) return;
         if (!IS_LOGGER_ALIVE && BuildConfig.BUILD_TYPE != "release") {
             mHeadtipNotice.setTitle(R.string.headtip_notice_dead_logger);
             mHeadtipNotice.setVisible(true);
+            mNoticeTipVisible = true;
         }
     }
 
@@ -371,8 +386,10 @@ public class HomePageFragment extends DashboardFragment
 
 
     public void isSignPass() {
+        if (mWarnTipVisible) return;
         mHeadtipWarn.setTitle(R.string.headtip_warn_sign_verification_failed);
         mHeadtipWarn.setVisible(!SignUtils.isSignCheckPass(requireContext()));
+        mWarnTipVisible = true;
     }
 
     @Override
