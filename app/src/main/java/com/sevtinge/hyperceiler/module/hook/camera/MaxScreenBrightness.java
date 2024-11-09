@@ -47,7 +47,8 @@ public class MaxScreenBrightness extends BaseHook {
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .usingNumbers(0, 8208, -1.0f, 256, 204)
+                                .usingNumbers(0, -1.0f, 204)
+                                .paramTypes(int.class)
                         )
                 ).singleOrThrow(() -> new IllegalStateException("MaxScreenBrightness: Cannot found getHaloBrightness()"));
                 return methodData.getMethodInstance(lpparam.classLoader);
