@@ -62,8 +62,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class DexKit {
     public boolean isInit = false;
-    // 更新版本可触发全部缓存重建
-    private final String version = "2.2";
+    // 更新版本可触发全部缓存重建，建议使用整数
+    private final String version = "3";
     private static final String TYPE_METHOD = "METHOD";
     private static final String TYPE_CLASS = "CLASS";
     private static final String TYPE_FIELD = "FIELD";
