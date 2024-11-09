@@ -32,6 +32,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
 
@@ -61,6 +62,7 @@ public class AppPicker extends Fragment {
     private int modeSelection;
     private View mRootView;
     private ProgressBar mAmProgress;
+    private SearchView mSearchBar;
     private ListView mAppListRv;
     private AppDataAdapter mAppListAdapter;
     public Handler mHandler;
@@ -105,7 +107,8 @@ public class AppPicker extends Fragment {
         assert args != null;
         modeSelection = args.getInt("mode");
         switch (modeSelection) {
-            case APP_OPEN_MODE, LAUNCHER_MODE, INPUT_MODE, PROCESS_TEXT_MODE -> key = args.getString("key");
+            case APP_OPEN_MODE, LAUNCHER_MODE, INPUT_MODE, PROCESS_TEXT_MODE ->
+                    key = args.getString("key");
             default -> {
             }
         }
@@ -115,8 +118,30 @@ public class AppPicker extends Fragment {
 
     private void initView() {
         mAmProgress = mRootView.findViewById(R.id.am_progressBar);
+        mSearchBar = mRootView.findViewById(R.id.search_bar);
         mAppListRv = mRootView.findViewById(R.id.app_list_rv);
+        mSearchBar.setVisibility(View.GONE);
         mAppListRv.setVisibility(View.GONE);
+
+        mSearchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mAppListAdapter.resetData();
+                filterAppList(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAppListAdapter.resetData();
+                filterAppList(newText);
+                return true;
+            }
+        });
+        mSearchBar.setOnCloseListener(() -> {
+            mAppListAdapter.resetData();
+            return false;
+        });
 
         mAppListRv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -199,11 +224,25 @@ public class AppPicker extends Fragment {
                             appDataList.add(0, tagApp);
                         }
 
+                        selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<>()));
+                        List<AppData> selectedAppList = new ArrayList<>();
+                        for (String packageName : selectedApps) {
+                            for (AppData appData : appDataList) {
+                                if (packageName.equals(appData.packageName)) {
+                                    selectedAppList.add(appData);
+                                    appDataList.remove(appData);
+                                    break;
+                                }
+                            }
+                        }
+                        appDataList.addAll(0, selectedAppList);
+
                         mAppListAdapter = new AppDataAdapter(requireActivity(),
                                 R.layout.item_app_list, appDataList, key, modeSelection);
                         mAppListRv.setAdapter(mAppListAdapter);
 
                         mAmProgress.setVisibility(View.GONE);
+                        mSearchBar.setVisibility(View.VISIBLE);
                         mAppListRv.setVisibility(View.VISIBLE);
                     }
                 }, 120);
@@ -272,5 +311,15 @@ public class AppPicker extends Fragment {
                     });
             default -> new ArrayList<>();
         };
+    }
+
+    private void filterAppList(String keyword) {
+        List<AppData> filteredList = new ArrayList<>();
+        for (AppData appData : appDataList) {
+            if (appData.label.toLowerCase().contains(keyword.toLowerCase())) {
+                filteredList.add(appData);
+            }
+        }
+        mAppListAdapter.updateData(filteredList);
     }
 }

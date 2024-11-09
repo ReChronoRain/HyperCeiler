@@ -13,7 +13,7 @@ object HideRecentCard : BaseHook() {
                 override fun after(param: MethodHookParam) {
                     val pkgName = param.args[0]
                         ?.getObjectField("mMainTaskInfo")
-                        ?.getObjectField("topActivity")
+                        ?.getObjectField("realActivity")
                         ?.callMethod("getPackageName")
                     val selectedApps = mPrefsMap.getStringSet("home_recent_hide_card")
                     if (selectedApps.contains(pkgName)) {
