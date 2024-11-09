@@ -205,11 +205,6 @@ public abstract class BaseXposedInit {
     }
 
     private boolean isOtherRestrictions(String pkg) {
-        // switch (pkg) {
-        //     case "com.lbe.security.miui" -> {
-        //         return isMoreHyperOSVersion(1f);
-        //     }
-        // }
         return false;
     }
 

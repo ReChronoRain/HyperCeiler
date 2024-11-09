@@ -50,7 +50,7 @@ object NewShowVolumePct {
                 }
 
             mVolumeDisable(volumePanelViewControllerClazz)
-            onProgressChanged(volumePanelViewControllerListener)
+            mSupportSV(volumePanelViewControllerListener, classLoader)
         } else {
             val miuiVolumeDialogImplClazz by lazy {
                 loadClass("com.android.systemui.miui.volume.MiuiVolumeDialogImpl", classLoader)
@@ -68,9 +68,8 @@ object NewShowVolumePct {
                 }
 
             mVolumeDisable(miuiVolumeDialogImplClazz)
-            onProgressChanged(miuiVolumeDialogImplListener)
+            mSupportSV(miuiVolumeDialogImplListener, classLoader)
         }
-
     }
 
     private fun mVolumeDisable(clazz: Class<*>) {
@@ -80,8 +79,21 @@ object NewShowVolumePct {
             }
     }
 
+    private fun mSupportSV(clazz: Class<*>, classLoader: ClassLoader) {
+        try {
+            loadClass("miui.systemui.util.VolumeUtils", classLoader).methodFinder()
+                .filterByName("getSUPER_VOLUME_SUPPORTED")
+        } catch (t: Throwable) {
+            loadClass("miui.systemui.util.CommonUtils", classLoader).methodFinder()
+                .filterByName("voiceSupportSuperVolume")
+        }.first().createAfterHook {
+            val result = it.result as Boolean
+            onProgressChanged(clazz, result)
+        }
+    }
+
     @SuppressLint("SetTextI18n")
-    private fun onProgressChanged(clazz: Class<*>) {
+    private fun onProgressChanged(clazz: Class<*>, mSupportSV: Boolean) {
         clazz.methodFinder().filterByName("onProgressChanged")
             .first().createAfterHook {
                 var nowLevel = -233
@@ -121,7 +133,7 @@ object NewShowVolumePct {
                     currentLevel =
                         if (currentLevel == max) maxLevel else (currentLevel * i3 / max) + 1
                 }
-                if (((currentLevel * 100) / maxLevel) == 100 && HookTool.mPrefsMap.getBoolean("system_ui_unlock_super_volume"))
+                if (((currentLevel * 100) / maxLevel) == 100 && (HookTool.mPrefsMap.getBoolean("system_ui_unlock_super_volume") || mSupportSV))
                     getTextView().text = "200%"
                 else getTextView().text = ((currentLevel * 100) / maxLevel).toString() + "%"
             }

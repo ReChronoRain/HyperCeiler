@@ -19,17 +19,17 @@
 package com.sevtinge.hyperceiler.ui.fragment.app.systemui;
 
 import static com.sevtinge.hyperceiler.utils.api.OldFunApisKt.isDeviceEncrypted;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.os.Build;
 import android.view.View;
 
+import androidx.preference.SwitchPreference;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-
-import androidx.preference.SwitchPreference;
 
 public class LockScreenSettings extends SettingsPreferenceFragment {
     SwitchPreference mShowSec; // 时钟显示秒数
@@ -51,8 +51,8 @@ public class LockScreenSettings extends SettingsPreferenceFragment {
         mChangingCVTime = findPreference("prefs_key_system_ui_lock_screen_show_spacing_value");
         mBlockEditor = findPreference("prefs_key_system_ui_lock_screen_block_editor");
 
-        mShowSec.setVisible(!isHyperOSVersion(1f));
-        mForceSystemFonts.setVisible(!isHyperOSVersion(1f));
+        mShowSec.setVisible(!isMoreHyperOSVersion(1f));
+        mForceSystemFonts.setVisible(!isMoreHyperOSVersion(1f));
         mChangingCVTime.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU));
         mBlockEditor.setVisible(!isMoreAndroidVersion(Build.VERSION_CODES.VANILLA_ICE_CREAM));
 

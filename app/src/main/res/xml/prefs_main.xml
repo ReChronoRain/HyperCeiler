@@ -91,7 +91,7 @@
             <intent>
                 <extra
                     android:name="inflatedXml"
-                    android:value="@xml/barrage" />
+                    android:value="@xml/calendar" />
             </intent>
         </com.sevtinge.hyperceiler.prefs.PreferenceHeader>
 
@@ -568,13 +568,6 @@
             android:key="prefs_key_weather"
             android:summary="com.miui.weather2"
             android:title="@string/weather" />
-
-        <!--<com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.SoGouFragment"
-            android:icon="@drawable/ic_default"
-            android:key="prefs_key_sogou"
-            android:summary="com.sohu.inputmethod.sogou.xiaomi"
-            android:title="@string/sogou_xiaomi" />-->
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.DashboardFragment"

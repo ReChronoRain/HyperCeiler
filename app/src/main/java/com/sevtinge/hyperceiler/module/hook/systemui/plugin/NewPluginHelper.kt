@@ -57,6 +57,8 @@ object NewPluginHelper : BaseHook() {
                         EnableVolumeBlur.initEnableVolumeBlur(classLoader)
                     if (mPrefsMap.getBoolean("system_cc_volume_showpct_title"))
                         NewShowVolumePct.initLoader(classLoader) // 声音百分比
+                    if (mPrefsMap.getBoolean("system_ui_unlock_super_volume"))
+                        NewSuperVolume.initSuperVolume(classLoader) // 超大音量
                     if (mPrefsMap.getBoolean("system_framework_volume_separate_control") &&
                         mPrefsMap.getBoolean("system_framework_volume_separate_slider"))
                         NotificationVolumeSeparateSlider.initHideDeviceControlEntry(classLoader)

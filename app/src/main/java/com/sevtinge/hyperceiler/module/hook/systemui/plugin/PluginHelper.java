@@ -90,7 +90,7 @@ public class PluginHelper extends BaseHook {
         if (mPrefsMap.getBoolean("system_cc_volume_showpct_title"))
             NewShowVolumePct.initLoader(classLoader); // 声音百分比
         if (mPrefsMap.getBoolean("system_ui_unlock_super_volume"))
-            SuperVolume.initSuperVolume(classLoader);
+            NewSuperVolume.initSuperVolume(classLoader);
         if ((mPrefsMap.getInt("system_control_center_cc_rows", 4) > 4 ||
                 mPrefsMap.getInt("system_control_center_cc_columns", 4) > 4 ||
                 mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") ||

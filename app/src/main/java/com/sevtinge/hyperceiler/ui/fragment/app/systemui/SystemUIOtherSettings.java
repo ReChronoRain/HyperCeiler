@@ -28,15 +28,15 @@ import android.content.pm.PackageManager;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.DropDownPreference;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceCategory;
-import androidx.preference.SwitchPreference;
 
 public class SystemUIOtherSettings extends SettingsPreferenceFragment {
 
@@ -86,7 +86,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mSuperVolume = findPreference("prefs_key_system_ui_unlock_super_volume");
 
         mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
-        mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && isMoreAndroidVersion(31));
+        mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && !isMoreHyperOSVersion(1f));
         mMiuiMultiWinSwitch.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
         mMiuiMultiWinSwitchRemove.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34) && isPad());
         mDisableInfinitymodeGesture.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34) && isPad());

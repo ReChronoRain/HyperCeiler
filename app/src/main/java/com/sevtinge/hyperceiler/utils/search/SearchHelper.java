@@ -279,10 +279,8 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.updater,
                 "com.sevtinge.hyperceiler.ui.fragment.app.UpdaterFragment");
 
-        if (!isMoreHyperOSVersion(1f)) {
-            parsePrefXml(context, R.xml.lbe_security,
-                    "com.sevtinge.hyperceiler.ui.fragment.app.LbeFragment");
-        }
+        parsePrefXml(context, R.xml.lbe_security,
+                "com.sevtinge.hyperceiler.ui.fragment.app.LbeFragment");
 
         parsePrefXml(context, R.xml.milink,
                 "com.sevtinge.hyperceiler.ui.fragment.app.MiLinkFragment");
