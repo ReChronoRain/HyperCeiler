@@ -19,8 +19,8 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.miui.analytics"
-    app:myLocation="@string/analytics">
+    app:myLocation="@string/analytics"
+    app:quick_restart="com.miui.analytics">
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"

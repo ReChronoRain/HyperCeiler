@@ -18,11 +18,10 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.xiaomi.barrage"
-    app:myLocation="@string/barrage">
+    app:myLocation="@string/barrage"
+    app:quick_restart="com.xiaomi.barrage">
 
     <PreferenceCategory>
-
         <SwitchPreference
             android:title="@string/barrage_any_barrage"
             android:key="prefs_key_barrage_any_barrage"

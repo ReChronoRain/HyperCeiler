@@ -18,8 +18,8 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.xiaomi.mtb"
-    app:myLocation="@string/mtb">
+    app:myLocation="@string/mtb"
+    app:quick_restart="com.xiaomi.mtb">
     <SwitchPreference
         android:title="@string/mtb_auth"
         android:summary="@string/mtb_auth_desc"

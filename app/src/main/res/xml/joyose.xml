@@ -18,8 +18,8 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.xiaomi.joyose"
-    app:myLocation="@string/joyose">
+    app:myLocation="@string/joyose"
+    app:quick_restart="com.xiaomi.joyose">
     <PreferenceCategory android:title="@string/joyose_cloud_control_title">
         <SwitchPreference
             android:title="@string/joyose_disable_cloud_control"

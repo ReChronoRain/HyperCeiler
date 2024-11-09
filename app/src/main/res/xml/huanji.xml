@@ -18,11 +18,9 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.miui.huanji"
-    app:myLocation="@string/huanji">
-
+    app:myLocation="@string/huanji"
+    app:quick_restart="com.miui.huanji">
     <PreferenceCategory>
-
         <SwitchPreference
             android:title="@string/huanji_allow_all_apps"
             android:key="prefs_key_huanji_allow_all_apps"

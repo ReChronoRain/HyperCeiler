@@ -18,8 +18,8 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.android.settings"
-    app:myLocation="@string/system_settings">
+    app:myLocation="@string/system_settings"
+    app:quick_restart="com.android.settings">
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"

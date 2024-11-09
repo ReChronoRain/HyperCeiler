@@ -16,11 +16,11 @@
   ~
   ~ Copyright (C) 2023-2024 HyperCeiler Contributions
   -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.xiaomi.misettings"
-    app:myLocation="@string/mi_settings">
-
+    app:myLocation="@string/mi_settings"
+    app:quick_restart="com.xiaomi.misettings">
     <SwitchPreference
         android:title="@string/mi_settings_show_fps"
         android:summary="@string/mi_settings_show_fps_desc"

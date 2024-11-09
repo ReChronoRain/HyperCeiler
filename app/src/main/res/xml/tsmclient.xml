@@ -18,8 +18,8 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.miui.tsmclient"
-    app:myLocation="@string/tsmclient">
+    app:myLocation="@string/tsmclient"
+    app:quick_restart="com.miui.tsmclient">
     <SwitchPreference
         android:title="@string/tsmclient_auto_nfc"
         android:summary="@string/tsmclient_auto_nfc_desc"

@@ -18,8 +18,8 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.miui.powerkeeper"
-    app:myLocation="@string/powerkeeper">
+    app:myLocation="@string/powerkeeper"
+    app:quick_restart="com.miui.powerkeeper">
     <PreferenceCategory>
         <SwitchPreference
             android:title="@string/powerkeeper_custom_refresh_rate"

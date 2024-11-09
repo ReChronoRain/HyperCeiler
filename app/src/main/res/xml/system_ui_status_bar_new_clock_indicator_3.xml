@@ -18,19 +18,19 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.android.systemui"
-    app:myLocation="@string/system_ui_statusbar_clock_layout_n">
+    app:myLocation="@string/system_ui_statusbar_clock_layout_n"
+    app:quick_restart="com.android.systemui">
     <PreferenceCategory>
         <SeekBarPreferenceCompat
+            android:defaultValue="12"
             android:key="prefs_key_system_ui_statusbar_clock_size_3"
             android:title="@string/system_ui_statusbar_clock_size"
-            android:defaultValue="12"
             app:defaultValueText="@string/array_default"
+            app:format="%d dp"
             app:maxValue="32"
             app:minValue="9"
-            app:stepValue="1"
-            app:format="%d dp"
-            app:showSeekBarValue="true" />
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
     </PreferenceCategory>
 

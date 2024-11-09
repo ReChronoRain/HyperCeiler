@@ -1689,6 +1689,7 @@
     <string name="sogou_xiaomi_clipboard">Remove the limit on the number of clipboards</string>
     <!--Scanner-->
     <string name="scanner">Scanner</string>
+    <string name="scanner_hyper">AI Scanner</string>
     <string name="scanner_card">Unlock scan ID card</string>
     <string name="scanner_translation">Unlock translation</string>
     <string name="scanner_ocr">Unlock OCR</string>
@@ -1698,6 +1699,7 @@
     <string name="scanner_doc_ppt">Unlock scan files</string>
     <!--MI AI-->
     <string name="voiceassist">Mi AI</string>
+    <string name="voiceassist_hyper">Super AI</string>
     <string name="voiceassist_disable_watermark">Disable chat watermark</string>
     <!--Other-->
     <string name="various">Others</string>

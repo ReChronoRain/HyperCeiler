@@ -18,8 +18,8 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.miui.cloudservice"
-    app:myLocation="@string/micloud_service">
+    app:myLocation="@string/micloud_service"
+    app:quick_restart="com.miui.cloudservice">
     <SwitchPreference
         android:defaultValue="false"
         android:key="prefs_key_micloud_service_list"

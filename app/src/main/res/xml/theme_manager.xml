@@ -18,8 +18,8 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com."
-    app:myLocation="@string/theme_manager">
+    app:myLocation="@string/theme_manager"
+    app:quick_restart="com.android.thememanager">
     <PreferenceCategory>
         <SwitchPreference
             android:title="@string/theme_manager_diable_ads"

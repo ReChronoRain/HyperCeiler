@@ -18,10 +18,9 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.miui.packageinstaller"
-    app:myLocation="@string/package_installer">
+    app:myLocation="@string/package_installer"
+    app:quick_restart="com.miui.packageinstaller">
     <PreferenceCategory>
-
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_modify"
             android:title="@string/miui_package_installer_modify"

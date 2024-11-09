@@ -18,10 +18,9 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.android.nfc"
-    app:myLocation="@string/nfc">
+    app:myLocation="@string/nfc"
+    app:quick_restart="com.android.nfc">
     <PreferenceCategory>
-
         <SwitchPreference
             android:title="@string/nfc_disable_sound"
             android:key="prefs_key_nfc_disable_sound"

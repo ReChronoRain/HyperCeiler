@@ -18,11 +18,9 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.miui.mishare.connectivity"
-    app:myLocation="@string/mishare">
-
+    app:myLocation="@string/mishare"
+    app:quick_restart="com.miui.mishare.connectivity">
     <PreferenceCategory>
-
     <SwitchPreference
         android:title="@string/mishare_disable_mishare_auto_off"
         android:key="prefs_key_disable_mishare_auto_off"

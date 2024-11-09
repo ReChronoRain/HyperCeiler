@@ -16,12 +16,8 @@
   ~
   ~ Copyright (C) 2023-2024 HyperCeiler Contributions
   -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="system">
-
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory>
-
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.framework.FreeFormSettings"
             android:title="@string/floating_window" />

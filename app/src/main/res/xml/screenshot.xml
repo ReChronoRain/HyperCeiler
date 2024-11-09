@@ -18,10 +18,9 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.miui.screenshot"
-    app:myLocation="@string/screenshot">
+    app:myLocation="@string/screenshot"
+    app:quick_restart="com.miui.screenshot">
     <PreferenceCategory>
-
         <SwitchPreference
             android:title="@string/screenshot_unlock_minimum_crop_limit"
             android:key="prefs_key_screenshot_unlock_minimum_crop_limit"

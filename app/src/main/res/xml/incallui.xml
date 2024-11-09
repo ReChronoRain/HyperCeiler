@@ -18,10 +18,9 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.android.incallui"
-    app:myLocation="@string/incallui">
+    app:myLocation="@string/incallui"
+    app:quick_restart="com.android.incallui">
     <PreferenceCategory>
-
         <SwitchPreference
             android:title="@string/incallui_hide_crbt"
             android:key="prefs_key_incallui_hide_crbt"

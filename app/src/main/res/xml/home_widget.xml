@@ -18,45 +18,43 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.miui.home"
-    app:myLocation="@string/home_widget">
-
+    app:myLocation="@string/home_widget"
+    app:quick_restart="com.miui.home">
     <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_widget_all_widget_animation"
+            android:title="@string/home_widget_all_widget_animation" />
 
-    <SwitchPreference
-        android:key="prefs_key_home_widget_all_widget_animation"
-        android:title="@string/home_widget_all_widget_animation"
-        android:defaultValue="false" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_widget_show_miui_widget"
+            android:summary="@string/home_widget_show_miui_widget_desc"
+            android:title="@string/home_widget_show_miui_widget" />
 
-    <SwitchPreference
-        android:key="prefs_key_home_widget_show_miui_widget"
-        android:title="@string/home_widget_show_miui_widget"
-        android:summary="@string/home_widget_show_miui_widget_desc"
-        android:defaultValue="false" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_widget_hide_title"
+            android:title="@string/home_widget_hide_title" />
 
-    <SwitchPreference
-        android:key="prefs_key_home_widget_hide_title"
-        android:title="@string/home_widget_hide_title"
-        android:defaultValue="false" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_widget_resizable"
+            android:title="@string/home_widget_resizable" />
 
-    <SwitchPreference
-        android:key="prefs_key_home_widget_resizable"
-        android:title="@string/home_widget_resizable"
-        android:defaultValue="false" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_widget_allow_moved_to_minus_one_screen"
+            android:title="@string/home_widget_allow_moved_to_minus_one_screen" />
 
-    <SwitchPreference
-        android:key="prefs_key_home_widget_allow_moved_to_minus_one_screen"
-        android:title="@string/home_widget_allow_moved_to_minus_one_screen"
-        android:defaultValue="false" />
-
-    <SeekBarPreferenceCompat
-        android:key="prefs_key_home_widget_corner_radius"
-        android:title="@string/home_widget_corner_radius"
-        android:defaultValue="0"
-        app:maxValue="30"        
-        app:defaultValueText="@string/array_default"
-        app:format="%d dp"
-        app:stepValue="1" />
+        <SeekBarPreferenceCompat
+            android:defaultValue="0"
+            android:key="prefs_key_home_widget_corner_radius"
+            android:title="@string/home_widget_corner_radius"
+            app:defaultValueText="@string/array_default"
+            app:format="%d dp"
+            app:maxValue="30"
+            app:stepValue="1" />
 
     </PreferenceCategory>
 

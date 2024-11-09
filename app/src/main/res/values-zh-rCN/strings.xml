@@ -1719,6 +1719,7 @@
     <string name="sogou_xiaomi_clipboard">解除剪贴板数量限制</string>
     <!--小爱视觉-->
     <string name="scanner">小爱视觉</string>
+    <string name="scanner_hyper">AI 扫描</string>
     <string name="scanner_card">解锁扫名片</string>
     <string name="scanner_translation">解锁翻译</string>
     <string name="scanner_ocr">解锁识文字</string>
@@ -1728,6 +1729,7 @@
     <string name="scanner_doc_ppt">解锁扫文件</string>
     <!--小爱同学-->
     <string name="voiceassist">小爱同学</string>
+    <string name="voiceassist_hyper">超级小爱</string>
     <string name="voiceassist_disable_watermark">禁用对话界面水印</string>
     <!--通话管理-->
     <string name="telecom">通话管理</string>

@@ -16,7 +16,7 @@
   ~
   ~ Copyright (C) 2023-2024 HyperCeiler Contributions
   -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <string-array name="xposed_scope">
         <item>android</item> <!--系统框架-->
@@ -39,7 +39,7 @@
         <item>com.android.updater</item> <!--系统更新-->
         <item>com.duokan.phone.remotecontroller</item> <!--万能遥控-->
         <item>com.lbe.security.miui</item> <!--权限管理服务-->
-        <item>com.milink.service</item> <!--投屏-->
+        <item>com.milink.service</item> <!--互联互通服务-->
         <item>com.miui.analytics</item> <!--Analytics-->
         <item>com.miui.aod</item> <!--息屏与锁屏编辑-->
         <item>com.miui.backup</item> <!--备份-->
@@ -64,7 +64,7 @@
         <item>com.miui.securityadd</item> <!--系统服务组件-->
         <item>com.miui.securitycenter</item> <!--手机管家-->
         <item>com.miui.tsmclient</item> <!--小米智能卡-->
-        <item>com.miui.voiceassist</item> <!--小爱同学-->
+        <item>com.miui.voiceassist</item> <!--超级小爱-->
         <item>com.miui.weather2</item> <!--天气-->
         <item>com.xiaomi.aiasst.vision</item> <!--小爱翻译-->
         <item>com.xiaomi.barrage</item> <!--弹幕通知-->

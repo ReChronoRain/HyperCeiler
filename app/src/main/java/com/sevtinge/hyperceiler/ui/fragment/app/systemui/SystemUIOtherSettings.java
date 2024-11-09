@@ -25,7 +25,6 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
@@ -33,7 +32,6 @@ import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import fan.preference.DropDownPreference;
@@ -53,7 +51,6 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     SwitchPreference mShowPct;
     SwitchPreference mFuckSG;
     SwitchPreference mTimer;
-    SwitchPreference mSuperVolume;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -75,7 +72,6 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mShowPct = findPreference("prefs_key_system_showpct_title");
         mFuckSG = findPreference("prefs_key_system_ui_move_log_to_miui");
         mTimer = findPreference("prefs_key_system_ui_volume_timer");
-        mSuperVolume = findPreference("prefs_key_system_ui_unlock_super_volume");
 
         mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && !isMoreHyperOSVersion(1f));
@@ -87,7 +83,6 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
         mShowPct.setVisible(!isMoreHyperOSVersion(1f));
         mFuckSG.setVisible(isMoreHyperOSVersion(2f));
         mTimer.setVisible(!isMoreAndroidVersion(35));
-        mSuperVolume.setVisible(!isMoreAndroidVersion(35));
 
         mVolume.setOnPreferenceChangeListener(
                 (preference, o) -> {

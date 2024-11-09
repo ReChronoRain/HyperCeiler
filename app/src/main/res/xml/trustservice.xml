@@ -18,9 +18,8 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:quick_restart="com.xiaomi.trustservice"
-    app:myLocation="@string/trustservice">
-
+    app:myLocation="@string/trustservice"
+    app:quick_restart="com.xiaomi.trustservice">
     <SwitchPreference
         android:title="@string/trustservice_disable_mrm"
         android:summary="@string/trustservice_disable_mrm_desc"
