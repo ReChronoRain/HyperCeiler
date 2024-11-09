@@ -17,7 +17,9 @@
   ~ Copyright (C) 2023-2024 HyperCeiler Contributions
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:quick_restart="com.android.systemui"
+    app:myLocation="@string/system_ui_statusbar_clock_layout_n">
     <PreferenceCategory>
         <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_statusbar_clock_size_3"

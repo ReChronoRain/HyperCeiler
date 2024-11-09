@@ -18,6 +18,7 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:quick_restart="com.miui.home"
     app:myLocation="@string/home_dock">
 
     <PreferenceCategory>
