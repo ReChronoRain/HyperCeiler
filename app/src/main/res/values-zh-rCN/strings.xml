@@ -952,6 +952,7 @@
     <string name="system_ui_control_center_statusbar_blur">强制背景模糊</string>
     <string name="system_ui_control_center_rounded_rect_radius">圆角大小</string>
     <string name="system_ui_control_center_fix_tiles_list">补全磁贴列表</string>
+    <string name="system_ui_shade_header_gradient_blur">通知与控制中心头部渐变模糊</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">对调控制中心与通知抽屉</string>
     <string name="system_ui_control_center_hide_operator">运营商名称自定义</string>
     <string name="system_ui_control_center_hide_delimiter">隐藏分隔线</string>
