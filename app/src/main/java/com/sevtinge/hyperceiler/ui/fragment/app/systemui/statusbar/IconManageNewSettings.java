@@ -47,14 +47,6 @@ public class IconManageNewSettings extends SettingsPreferenceFragment {
     }
 
     @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-            getResources().getString(R.string.system_ui),
-            "com.android.systemui"
-        );
-    }
-
-    @Override
     public void initPrefs() {
         mAlarmClockIcon = findPreference("prefs_key_system_ui_status_bar_icon_alarm_clock");
         mAlarmClockIconN = findPreference("prefs_key_system_ui_status_bar_icon_alarm_clock_n");

@@ -18,7 +18,8 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:myLocation="@string/system_framework_phone_title">
+    app:myLocation="@string/system_framework_phone_title"
+    app:quick_restart="system">
     <PreferenceCategory android:title="@string/system_framework_phone_network_title">
 
         <SwitchPreference

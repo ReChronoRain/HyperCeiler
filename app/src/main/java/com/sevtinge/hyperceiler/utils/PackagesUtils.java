@@ -164,6 +164,24 @@ public class PackagesUtils {
     }
 
     /**
+     * 获取应用Label。
+     *
+     * @param context 上下文
+     * @param pkg     包名
+     * @return Label
+     */
+    public static String getAppLabel(Context context, String pkg) {
+        try {
+            if (context == null) return null;
+            PackageManager packageManager = context.getPackageManager();
+            ApplicationInfo info = packageManager.getApplicationInfo(pkg, 0);
+            return (String) info.loadLabel(packageManager);
+        } catch (PackageManager.NameNotFoundException e) {
+            return null;
+        }
+    }
+
+    /**
      * 获取系统打开方式
      */
     public static List<AppData> getOpenWithApps() {

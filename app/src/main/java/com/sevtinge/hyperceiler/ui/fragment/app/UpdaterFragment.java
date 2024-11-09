@@ -43,14 +43,6 @@ public class UpdaterFragment extends SettingsPreferenceFragment
     }
 
     @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.updater),
-            "com.android.updater"
-        );
-    }
-
-    @Override
     public void initPrefs() {
         int mMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_updater_version_mode", "1"));
         mUpdateMode = findPreference("prefs_key_updater_version_mode");

@@ -27,10 +27,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
 import androidx.preference.SwitchPreference;
 
-public class PrivacySafetySettings extends SecurityCenterBaseSettings {
+public class PrivacySafetySettings extends DashboardFragment {
 
     SwitchPreference mAiClipboard;
     SwitchPreference mBlurLocation;

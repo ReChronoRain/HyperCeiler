@@ -25,7 +25,7 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
 import androidx.preference.SwitchPreference;
 
@@ -36,11 +36,6 @@ public class FreeFormSettings extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.framework_freeform;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartSystemDialog();
     }
 
     @Override

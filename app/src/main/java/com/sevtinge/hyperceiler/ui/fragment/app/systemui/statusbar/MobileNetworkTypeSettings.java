@@ -45,14 +45,6 @@ public class MobileNetworkTypeSettings extends SettingsPreferenceFragment
     }
 
     @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.system_ui),
-            "com.android.systemui"
-        );
-    }
-
-    @Override
     public void initPrefs() {
         int mobileMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_system_ui_status_bar_icon_show_mobile_network_type", "0"));
         mMobileMode = findPreference("prefs_key_system_ui_status_bar_icon_show_mobile_network_type");

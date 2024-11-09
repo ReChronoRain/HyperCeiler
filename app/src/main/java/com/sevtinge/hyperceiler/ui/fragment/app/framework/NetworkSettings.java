@@ -26,18 +26,15 @@ import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.app.PhoneFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
-public class NetworkSettings extends SettingsPreferenceFragment {
+public class NetworkSettings extends DashboardFragment {
+
     RecommendPreference mRecommend;
 
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.framework_phone;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartSystemDialog();
     }
 
     @Override

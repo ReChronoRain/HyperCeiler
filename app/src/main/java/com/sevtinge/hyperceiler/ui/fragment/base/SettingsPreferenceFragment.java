@@ -21,9 +21,6 @@ package com.sevtinge.hyperceiler.ui.fragment.base;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -84,22 +81,6 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     }
 
     public void initPrefs() {}
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        //inflater.inflate(R.menu.navigation_immersion, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.quick_restart) {
-            if (addRestartListener() != null) {
-                addRestartListener();
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {

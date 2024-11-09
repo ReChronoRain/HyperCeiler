@@ -23,10 +23,12 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroid
 import android.os.Build;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
 import androidx.preference.SwitchPreference;
 
-public class ApplicationsSettings extends SecurityCenterBaseSettings {
+public class ApplicationsSettings extends DashboardFragment {
 
     SwitchPreference mUnlockAppSandbox;
 

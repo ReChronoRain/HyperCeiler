@@ -35,11 +35,11 @@ public class SoGouFragment extends SettingsPreferenceFragment {
         return R.xml.sogou_xiaomi;
     }
 
-    @Override
+    /*@Override
     public View.OnClickListener addRestartListener() {
         return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
             getResources().getString(R.string.sogou_xiaomi),
             all
         );
-    }
+    }*/
 }

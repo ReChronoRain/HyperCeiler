@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.activity.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 import com.sevtinge.hyperceiler.utils.KillApp;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
@@ -44,7 +45,7 @@ import fan.preference.DropDownPreference;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-public class OtherSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class OtherSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
 
     Preference mCleanShareApps;
     Preference mCleanOpenApps;
@@ -65,11 +66,6 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.framework_other;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartSystemDialog();
     }
 
     @Override

@@ -18,15 +18,13 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.app.framework;
 
-import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.hyperceiler.R;
 import fan.preference.SeekBarPreferenceCompat;
-import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
-public class DisplaySettings extends SettingsPreferenceFragment {
+public class DisplaySettings extends DashboardFragment {
 
     SeekBarPreferenceCompat minBrightness;
     SeekBarPreferenceCompat maxBrightness;
@@ -34,11 +32,6 @@ public class DisplaySettings extends SettingsPreferenceFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.framework_display;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartSystemDialog();
     }
 
     @Override

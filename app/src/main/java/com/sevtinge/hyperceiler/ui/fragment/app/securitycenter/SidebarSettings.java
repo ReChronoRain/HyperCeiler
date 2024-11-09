@@ -19,11 +19,12 @@
 package com.sevtinge.hyperceiler.ui.fragment.app.securitycenter;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
-public class SidebarSettings extends SecurityCenterBaseSettings {
+public class SidebarSettings extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.security_center_sidebar;
     }
-
 }

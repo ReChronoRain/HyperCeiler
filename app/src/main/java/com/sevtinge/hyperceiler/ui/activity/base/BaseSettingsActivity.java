@@ -63,38 +63,6 @@ public abstract class BaseSettingsActivity extends BaseActivity {
         }
     }
 
-    public void showRestartSystemDialog() {
-        showRestartDialog(true, "", new String[]{""});
-    }
-
-    public void showRestartDialog(String appLabel, String packageName) {
-        showRestartDialog(false, appLabel, new String[]{packageName});
-    }
-
-    public void showRestartDialog(String appLabel, String[] packageName) {
-        showRestartDialog(false, appLabel, packageName);
-    }
-
-    public void showRestartDialog(boolean isRestartSystem, String appLabel, String[] packageName) {
-        String isSystem = getResources().getString(R.string.restart_app_desc, appLabel);
-        String isOther = getResources().getString(R.string.restart_app_desc, " " + appLabel + " ");
-
-        isSystem = isSystem.replace("  ", " ");
-        isOther = isOther.replace("  ", " ");
-
-        isSystem = isSystem.replaceAll("^\\s+|\\s+$", "");
-        isOther = isOther.replaceAll("^\\s+|\\s+$", "");
-
-        new AlertDialog.Builder(this)
-            .setCancelable(false)
-            .setTitle(getResources().getString(R.string.soft_reboot) + " " + appLabel)
-            .setMessage(isRestartSystem ? isSystem : isOther)
-            .setHapticFeedbackEnabled(true)
-            .setPositiveButton(android.R.string.ok, (dialog, which) -> doRestart(packageName, isRestartSystem))
-            .setNegativeButton(android.R.string.cancel, null)
-            .show();
-    }
-
     public void setFragment(Fragment fragment) {
         mFragment = fragment;
         getSupportFragmentManager()
@@ -105,80 +73,6 @@ public abstract class BaseSettingsActivity extends BaseActivity {
 
     public Fragment getFragment() {
         return mFragment;
-    }
-
-    public void doRestart(String[] packageName, boolean isRestartSystem) {
-        boolean result = false;
-        boolean pid = true;
-        if (isRestartSystem) {
-            result = ShellInit.getShell().run("reboot").sync().isResult();
-        } else {
-            if (packageName != null) {
-                for (String packageGet : packageName) {
-                    if (packageGet == null) {
-                        continue;
-                    }
-                    // String test = "XX";
-                    // ShellUtils.CommandResult commandResult = ShellUtils.execCommand("{ [[ $(pgrep -f '" + packageGet +
-                    //     "' | grep -v $$) != \"\" ]] && { pkill -l 9 -f \"" + packageGet +
-                    //     "\"; }; } || { echo \"kill error\"; }", true, true);
-
-                    boolean getResult =
-                        ShellInit.getShell().add("pid=$(pgrep -f \"" + packageGet + "\" | grep -v $$)")
-                            .add("if [[ $pid == \"\" ]]; then")
-                            .add(" pids=\"\"")
-                            .add(" pid=$(ps -A -o PID,ARGS=CMD | grep \"" + packageGet + "\" | grep -v \"grep\")")
-                            .add("  for i in $pid; do")
-                            .add("   if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
-                            .add("    if [[ $pids == \"\" ]]; then")
-                            .add("      pids=$i")
-                            .add("    else")
-                            .add("      pids=\"$pids $i\"")
-                            .add("    fi")
-                            .add("   fi")
-                            .add("  done")
-                            .add("fi")
-                            .add("if [[ $pids != \"\" ]]; then")
-                            .add(" pid=$pids")
-                            .add("fi")
-                            .add("if [[ $pid != \"\" ]]; then")
-                            .add(" for i in $pid; do")
-                            .add("  kill -s 15 $i &>/dev/null")
-                            .add(" done")
-                            .add("else")
-                            .add(" echo \"No Find Pid!\"")
-                            .add("fi").over().sync().isResult();
-                    ArrayList<String> outPut = ShellInit.getShell().getOutPut();
-                    ArrayList<String> error = ShellInit.getShell().getError();
-
-                    if (getResult) {
-                        if (!outPut.isEmpty()) {
-                            if (outPut.get(0).equals("No Find Pid!")) {
-                                pid = false;
-                            } else {
-                                result = true;
-                            }
-                        } else result = true;
-                    } else
-                        AndroidLogUtils.logE("doRestart: ", "result: " + ShellInit.getShell().getResult() +
-                            " errorMsg: " + error + " package: " + packageGet);
-
-                }
-            } else {
-                AndroidLogUtils.logE("doRestart: ", "packageName is null");
-            }
-            // result = ShellUtils.getResultBoolean("pkill -l 9 -f " + packageName, true);
-        }
-        if (!result) {
-            new AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setTitle(R.string.tip)
-                .setMessage(isRestartSystem ? R.string.reboot_failed :
-                    pid ? R.string.kill_failed : R.string.pid_failed)
-                .setHapticFeedbackEnabled(true)
-                .setPositiveButton(android.R.string.ok, null)
-                .show();
-        }
     }
 
     @Override
@@ -195,5 +89,9 @@ public abstract class BaseSettingsActivity extends BaseActivity {
             mFragment.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showRestartDialog(String string, String s) {
+
     }
 }

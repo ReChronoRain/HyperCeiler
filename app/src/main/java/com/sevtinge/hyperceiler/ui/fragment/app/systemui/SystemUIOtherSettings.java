@@ -61,14 +61,6 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     }
 
     @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-                getResources().getString(R.string.system_ui),
-                "com.android.systemui"
-        );
-    }
-
-    @Override
     public void initPrefs() {
         mChargeAnimationStyle = findPreference("prefs_key_system_ui_charge_animation_style");
         mChargeAnimationTitle = findPreference("prefs_key_system_ui_statusbar_charge_animation_title");

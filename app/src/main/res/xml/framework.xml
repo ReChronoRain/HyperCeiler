@@ -22,7 +22,7 @@
 
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.framework.FreeFormSettings"
-            android:title="@string/floating_window"/>
+            android:title="@string/floating_window" />
 
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.framework.VolumeSettings"

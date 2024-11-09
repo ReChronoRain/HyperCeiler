@@ -37,14 +37,6 @@ public class WeatherFragment extends SettingsPreferenceFragment {
     }
 
     @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.weather),
-            "com.miui.weather2"
-        );
-    }
-
-    @Override
     public void initPrefs() {
         mCardDisplayType = findPreference("prefs_key_weather_card_display_type");
         mCardDisplayType.setVisible(isMoreHyperOSVersion(1f));

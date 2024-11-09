@@ -47,14 +47,6 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
     }
 
     @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.system_ui),
-            "com.android.systemui"
-        );
-    }
-
-    @Override
     public void initPrefs() {
         mIconManager = findPreference("prefs_key_icon_manager");
         mClockStatus = findPreference("prefs_key_clock_status");

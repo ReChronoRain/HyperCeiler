@@ -18,7 +18,8 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:myLocation="@string/system_ui_statusbar_device_title">
+    app:myLocation="@string/system_ui_statusbar_device_title"
+    app:quick_restart="com.android.systemui">
     <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_battery_title">
         <SwitchPreference
             android:defaultValue="false"

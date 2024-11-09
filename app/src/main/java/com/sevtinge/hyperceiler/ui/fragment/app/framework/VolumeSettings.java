@@ -26,11 +26,12 @@ import android.view.View;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
 import fan.preference.DropDownPreference;
 import androidx.preference.SwitchPreference;
 
-public class VolumeSettings extends SettingsPreferenceFragment {
+public class VolumeSettings extends DashboardFragment {
 
     DropDownPreference mDefaultVolumeStream;
     SwitchPreference mVolumeSeparateControl;
@@ -39,11 +40,6 @@ public class VolumeSettings extends SettingsPreferenceFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.framework_volume;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartSystemDialog();
     }
 
     @Override

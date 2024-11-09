@@ -77,10 +77,6 @@ public class DialogHelper {
                 .show();
     }
 
-    public static void showRestartDialog(Context context) {
-        new RestartAlertDialog(context).show();
-    }
-
     public static void showCrashReportDialog(Activity activity, View view) {
         new AlertDialog.Builder(activity)
                 .setCancelable(false)
@@ -150,6 +146,49 @@ public class DialogHelper {
                 .setMessage(R.string.root)
                 .setHapticFeedbackEnabled(true)
                 .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
+
+    public static void showRestartDialog(Context context) {
+        new RestartAlertDialog(context).show();
+    }
+
+    public static void showRestartDialog(Context context, String packageName) {
+        String appLabel = PackagesUtils.getAppLabel(context, packageName);
+        showRestartDialog(context, false, appLabel, new String[]{packageName});
+    }
+
+    public static void showRestartDialog(Context context, String appLabel, String packageName) {
+        showRestartDialog(context, false, appLabel, new String[]{packageName});
+    }
+
+    public static void showRestartDialog(Context context, String appLabel, String[] packageName) {
+        showRestartDialog(context, false, appLabel, packageName);
+    }
+
+    public static void showRestartSystemDialog(Context context) {
+        showRestartDialog(context, true, "", new String[]{""});
+    }
+
+    public static void showRestartDialog(Context context, boolean isRestartSystem, String appLabel, String[] packageName) {
+        String isSystem = context.getResources().getString(R.string.restart_app_desc, appLabel);
+        String isOther = context.getResources().getString(R.string.restart_app_desc, " " + appLabel + " ");
+
+        isSystem = isSystem.replace("  ", " ");
+        isOther = isOther.replace("  ", " ");
+
+        isSystem = isSystem.replaceAll("^\\s+|\\s+$", "");
+        isOther = isOther.replaceAll("^\\s+|\\s+$", "");
+
+        new AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setTitle(context.getResources().getString(R.string.soft_reboot) + " " + appLabel)
+                .setMessage(isRestartSystem ? isSystem : isOther)
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, (dialog, which) ->
+                        Helpers.doRestart(context, packageName, isRestartSystem)
+                )
+                .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
 }

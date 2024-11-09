@@ -42,12 +42,4 @@ public class ContentExtensionFragment extends SettingsPreferenceFragment {
 
         mUnlockTaplus.setVisible(!isAndroidVersion(30));
     }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.content_extension),
-            "com.miui.contentextension"
-        );
-    }
 }

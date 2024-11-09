@@ -19,8 +19,10 @@
 package com.sevtinge.hyperceiler.ui.fragment.app.securitycenter;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
-public class OtherSettings extends SecurityCenterBaseSettings {
+public class OtherSettings extends DashboardFragment {
 
     @Override
     public int getPreferenceScreenResId() {

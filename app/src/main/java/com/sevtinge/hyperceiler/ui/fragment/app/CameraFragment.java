@@ -31,11 +31,4 @@ public class CameraFragment extends SettingsPreferenceFragment {
         return R.xml.camera;
     }
 
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.camera),
-            "com.android.camera"
-        );
-    }
 }
