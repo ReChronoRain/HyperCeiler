@@ -33,6 +33,27 @@ object HideBatteryIcon : BaseHook() {
             loadClass("com.android.systemui.statusbar.views.MiuiBatteryMeterView")
         }
 
+        if(isMoreAndroidVersion(35)) {
+            mBatteryMeterViewClass.methodFinder()
+                .filterByName("onBatteryStyleChanged")
+                .first().createHook {
+                    after { param ->
+                        if (param.thisObject != null) {
+                            // 隐藏电池图标
+                            if (mPrefsMap.getBoolean("system_ui_status_bar_battery_icon")) {
+                                (param.thisObject.getObjectFieldAs<ImageView>("mBatteryIconView")).visibility =
+                                    View.GONE
+
+                                if (param.thisObject.getObjectField("mBatteryStyle") == 1) {
+                                    (param.thisObject.getObjectFieldAs<FrameLayout>("mBatteryDigitalView")).visibility =
+                                        View.GONE
+                                }
+                            }
+                        }
+                    }
+                }
+        }
+
         if (isMoreAndroidVersion(35)) {
             mBatteryMeterViewClass.methodFinder()
                 .filterByName("updateAll\$1")
@@ -74,7 +95,6 @@ object HideBatteryIcon : BaseHook() {
             .filterByName("updateChargeAndText")
             .single().createHook {
                 after { param ->
-                    // 隐藏电池充电图标
                     if (param.thisObject != null) {
                         if (isMoreAndroidVersion(35)) {
                             // 隐藏电池百分号
@@ -90,6 +110,7 @@ object HideBatteryIcon : BaseHook() {
                             }
                         }
 
+                        // 隐藏电池充电图标
                         if (mPrefsMap.getBoolean("system_ui_status_bar_battery_charging")) {
                             (param.thisObject.getObjectFieldAs<ImageView>("mBatteryChargingInView")).visibility =
                                 View.GONE
