@@ -1465,6 +1465,7 @@
     <string name="mediaeditor_unlock_leica_filter_title">解锁 Leica 滤镜</string>
     <string name="mediaeditor_unlock_leica_filter_desc">仅支持部分版本</string>
     <string name="mediaeditor_filter_manager">解锁大师滤镜</string>
+    <string name="mediaeditor_unlock_aigc">解锁 AIGC</string>
     <!--小米互传-->
     <string name="mishare">小米互传</string>
     <string name="mishare_disable_mishare_auto_off">禁用自动关闭小米互传</string>

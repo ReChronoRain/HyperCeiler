@@ -1435,6 +1435,7 @@
     <string name="mediaeditor_unlock_leica_filter_title">Unlock the Leica filter</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Only some versions are supported</string>
     <string name="mediaeditor_filter_manager">Unlock the filter manager</string>
+    <string name="mediaeditor_unlock_aigc">Unlock AIGC</string>
     <!--Mi Share-->
     <string name="mishare">Xiaomi Share</string>
     <string name="mishare_disable_mishare_auto_off">Disable automatic closing of Xiaomi Share</string>

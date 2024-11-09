@@ -28,6 +28,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_mediaeditor_unlock_aigc"
+            android:title="@string/mediaeditor_unlock_aigc" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_mediaeditor_unlock_leica_filter"
             android:summary="@string/mediaeditor_unlock_leica_filter_desc"
             android:title="@string/mediaeditor_unlock_leica_filter_title" />

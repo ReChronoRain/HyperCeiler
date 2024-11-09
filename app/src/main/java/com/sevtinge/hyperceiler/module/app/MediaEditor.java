@@ -22,6 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.CustomWatermark;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.FilterManagerAll;
+import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockAigc;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockCustomPhotoFrames;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockDisney;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockLeicaFilter;
@@ -42,6 +43,7 @@ public class MediaEditor extends BaseModule {
         // AI 创作
         initHook(UnlockCustomPhotoFrames.INSTANCE, mPrefsMap.getStringAsInt("mediaeditor_unlock_custom_photo_frames", 0) != 0);
         initHook(UnlockDisney.INSTANCE, mPrefsMap.getStringAsInt("mediaeditor_unlock_disney_some_func", 0) != 0);
+        initHook(new UnlockAigc(), mPrefsMap.getBoolean("mediaeditor_unlock_aigc"));
     }
 
 }
