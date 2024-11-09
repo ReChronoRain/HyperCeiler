@@ -24,14 +24,13 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
 
 import java.util.ArrayList;
 
-public class PreferenceHeader extends Preference {
+public class PreferenceHeader extends XmlPreference {
 
     public static ArrayList<String> mUninstallApp = new ArrayList<>();
     public static ArrayList<String> mDisableOrHiddenApp = new ArrayList<>();
@@ -45,6 +44,12 @@ public class PreferenceHeader extends Preference {
         super(context, attrs);
         init(context);
     }
+
+    public PreferenceHeader(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context);
+    }
+
 
     private void init(Context context) {
         setLayoutResource(R.layout.preference_header);

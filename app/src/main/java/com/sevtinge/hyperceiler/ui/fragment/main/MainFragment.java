@@ -57,6 +57,7 @@ import com.sevtinge.hyperceiler.data.adapter.ModSearchAdapter;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.ui.activity.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.activity.SubSettings;
+import com.sevtinge.hyperceiler.ui.fragment.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.fragment.main.helper.CantSeeAppsFragment;
 import com.sevtinge.hyperceiler.ui.fragment.main.helper.HomepageEntrance;
@@ -80,7 +81,7 @@ import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.springback.view.SpringBackLayout;
 import fan.view.SearchActionMode;
 
-public class MainFragment extends SettingsPreferenceFragment implements HomepageEntrance.EntranceState {
+public class MainFragment extends DashboardFragment implements HomepageEntrance.EntranceState {
 
     String lastFilter;
     View mSearchView;

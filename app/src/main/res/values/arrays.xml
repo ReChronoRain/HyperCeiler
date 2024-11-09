@@ -1088,4 +1088,32 @@
         <item>@color/update_text_border2</item>
         <item>@color/update_text_border1</item>
     </array>
+
+    <string-array name="actions">
+        <item>@string/array_global_actions_none</item>
+        <item>@string/array_global_actions_lock</item>
+        <item>@string/array_global_actions_sleep</item>
+        <item>@string/array_global_actions_screenshot</item>
+        <item>@string/array_global_actions_clear_memory</item>
+        <item>@string/array_global_actions_invert_colors</item>
+        <item>@string/array_global_actions_recents</item>
+        <item>@string/array_global_actions_volume</item>
+        <item>@string/array_global_actions_powermenu</item>
+        <item>@string/array_global_actions_notif</item>
+        <item>@string/array_global_actions_launch</item>
+    </string-array>
+
+    <string-array name="actions_value">
+        <item>no_action</item>
+        <item>screen_lock</item>
+        <item>screen_sleep</item>
+        <item>screen_capture</item>
+        <item>clear_memory</item>
+        <item>invert_colors</item>
+        <item>screen_recents</item>
+        <item>volume_dialog</item>
+        <item>open_powermenu</item>
+        <item>open_notification_center</item>
+        <item>open_app</item>
+    </string-array>
 </resources>

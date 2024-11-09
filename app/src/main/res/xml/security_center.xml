@@ -28,15 +28,9 @@
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.ApplicationsSettings"
             android:title="@string/security_center_app_title" />
 
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.DashboardFragment"
-            android:title="@string/security_center_battery_title">
-            <intent>
-                <extra
-                    android:name="inflatedXml"
-                    android:value="@xml/security_center_battery" />
-            </intent>
-        </Preference>
+        <com.sevtinge.hyperceiler.prefs.XmlPreference
+            android:title="@string/security_center_battery_title"
+            app:inflatedXml="@xml/security_center_battery"/>
 
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.PrivacySafetySettings"

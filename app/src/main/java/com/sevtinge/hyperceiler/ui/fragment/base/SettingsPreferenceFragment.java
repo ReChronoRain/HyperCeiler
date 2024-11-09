@@ -62,7 +62,7 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     public abstract int getPreferenceScreenResId();
 
     @Override
-    public void onCreatePreferences(Bundle bundle, String s) {
+    public void onCreatePreferencesBefore(Bundle bundle, String s) {
         Bundle args = getArguments();
         if (args != null) {
             mTitle = args.getString(":fragment:show_title");
@@ -72,7 +72,11 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
         }
         if (mTitleResId != 0) setTitle(mTitleResId);
         if (!TextUtils.isEmpty(mTitle)) setTitle(mTitle);
-        super.onCreatePreferences(bundle, s);
+        super.onCreatePreferencesBefore(bundle, s);
+    }
+
+    @Override
+    public void onCreatePreferencesAfter(Bundle bundle, String s) {
         if (getPreferenceScreenResId() != 0) {
             setPreferencesFromResource(getPreferenceScreenResId(), s);
             initPrefs();

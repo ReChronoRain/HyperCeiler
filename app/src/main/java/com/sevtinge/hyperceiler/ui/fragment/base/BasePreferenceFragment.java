@@ -40,8 +40,17 @@ public class BasePreferenceFragment extends PreferenceFragment {
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
+        onCreatePreferencesBefore(bundle, s);
         mPreferenceManager = getPreferenceManager();
         SettingsHelper.initSharedPreferences(mPreferenceManager, PrefsUtils.mPrefsName, Context.MODE_PRIVATE);
+        onCreatePreferencesAfter(bundle, s);
+    }
+
+    public void onCreatePreferencesBefore(Bundle bundle, String s) {
+
+    }
+    public void onCreatePreferencesAfter(Bundle bundle, String s) {
+
     }
 
     public void setTitle(int titleResId) {

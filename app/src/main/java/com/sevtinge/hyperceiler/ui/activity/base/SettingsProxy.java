@@ -31,6 +31,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.prefs.XmlPreference;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 
 import fan.appcompat.app.AppCompatActivity;
@@ -131,18 +132,23 @@ public class SettingsProxy extends BaseSettingsProxy {
             args.putString("key", preference.getKey());
         }
 
-        Intent intent = preference.getIntent();
-        if (intent != null) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                String xmlPath = (String) bundle.get("inflatedXml");
-                if (!TextUtils.isEmpty(xmlPath)) {
-                    if (args == null) args = new Bundle();
-                    String[] split = xmlPath.split("\\/");
+        if (preference instanceof XmlPreference xmlPreference) {
+            if (args == null) args = new Bundle();
+            args.putInt(":settings:fragment_resId", xmlPreference.getInflatedXml());
+        } else {
+            Intent intent = preference.getIntent();
+            if (intent != null) {
+                Bundle bundle = intent.getExtras();
+                if (bundle != null) {
+                    String xmlPath = (String) bundle.get("inflatedXml");
+                    if (!TextUtils.isEmpty(xmlPath)) {
+                        if (args == null) args = new Bundle();
+                        String[] split = xmlPath.split("\\/");
 
-                    String[] split2 = split[2].split("\\.");
-                    if (split.length == 3) {
-                        args.putInt(":settings:fragment_resId", mActivity.getResources().getIdentifier(split2[0], split[1], mActivity.getPackageName()));
+                        String[] split2 = split[2].split("\\.");
+                        if (split.length == 3) {
+                            args.putInt(":settings:fragment_resId", mActivity.getResources().getIdentifier(split2[0], split[1], mActivity.getPackageName()));
+                        }
                     }
                 }
             }
