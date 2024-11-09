@@ -21,12 +21,16 @@ package com.sevtinge.hyperceiler.module.hook.systemui
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 object DisableBottomBar : BaseHook() {
     override fun init() {
-        val clazzMiuiBaseWindowDecoration =
+        val clazzMiuiBaseWindowDecoration = if (isMoreAndroidVersion(35)) {
+            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiBottomDecoration", lpparam.classLoader)
+        } else {
             loadClass("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration", lpparam.classLoader)
+        }
 
         clazzMiuiBaseWindowDecoration.methodFinder().filterByName("createBottomCaption").first()
             .createHook {
