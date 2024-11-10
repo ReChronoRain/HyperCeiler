@@ -127,6 +127,11 @@ public class HomePageFragment extends DashboardFragment
     @Override
     public void onCreateSearchMode(ActionMode mode, Menu menu) {
         //mInSearchMode = true;
+        if (isAdded()) {
+            mNestedHeaderLayout.setInSearchMode(true);
+            mPrefsContainer.setVisibility(View.GONE);
+            mSearchResultView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -136,13 +141,7 @@ public class HomePageFragment extends DashboardFragment
 
     @Override
     public void onSearchModeAnimStart(boolean z) {
-        if (isAdded()) {
-            if (z) {
-                mNestedHeaderLayout.setInSearchMode(true);
-                mPrefsContainer.setVisibility(View.GONE);
-                mSearchResultView.setVisibility(View.VISIBLE);
-            }
-        }
+
     }
 
     @Override

@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:clipChildren="false"
         android:descendantFocusability="blocksDescendants"
-        app:headerClose="true"
+        app:headerClose="false"
         app:headerView="@id/search_bar"
         app:rangeOffset="1px"
         app:scrollableView="@id/springview">

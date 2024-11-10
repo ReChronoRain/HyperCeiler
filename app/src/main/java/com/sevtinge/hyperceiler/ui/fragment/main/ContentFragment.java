@@ -14,32 +14,55 @@ import androidx.viewpager.widget.ViewPagerCompat;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.adapter.HomeFragmentPagerAdapter;
+import com.sevtinge.hyperceiler.ui.adapter.DraggableViewPager;
+import com.sevtinge.hyperceiler.ui.adapter.DynamicFragmentPagerAdapter;
+import com.sevtinge.hyperceiler.ui.adapter.TabViewModel;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
 import fan.navigator.Navigator;
 import fan.navigator.NavigatorFragmentListener;
+import fan.navigator.navigatorinfo.UpdateFragmentNavInfo;
 import fan.preference.PreferenceFragment;
 import fan.viewpager.widget.ViewPager;
 
 public class ContentFragment extends Fragment implements NavigatorFragmentListener {
 
     private static final String TAG = "ContentFragment";
-    public static final String ARG_PAGE = "page";
-    public static final int ARG_PAGE_HOME = 0;
-    public static final int ARG_PAGE_WIDGET = 1;
-    public static final int ARG_PAGE_LIST = 2;
 
-    protected ViewPager mViewPager;
-    protected HomeFragmentPagerAdapter mViewPageFragmentAdapter;
+    public static final int ARG_PAGE_HOME = 0;
+    public static final int ARG_PAGE_Settings = 1;
+    public static final int ARG_PAGE_About = 2;
+
+    public static final String ARG_PAGE = "page";
+    public static final String CURRENT_TAB = "current_tab";
+    public static String mCurrTab = TabViewModel.TAB_HOME;
+
+    private boolean isInActionMode = false;
+
+    private ActionBar mActionBar;
+
+    protected DraggableViewPager mViewPager;
+    protected DynamicFragmentPagerAdapter mViewPagerAdapter;
 
     MenuItem mQuickRestartMenuItem;
+
+    private String mPage1Name;
+    private String mPage2Name;
+    private String mPage3Name;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setThemeRes(R.style.NavigatorContentFragmentTheme);
+        if (savedInstanceState != null) {
+            mCurrTab = savedInstanceState.getString(CURRENT_TAB);
+        }
+        mPage1Name = getString(R.string.navigation_home_title);
+        mPage2Name = getString(R.string.navigation_settings_title);
+        mPage3Name = getString(R.string.navigation_about_title);
     }
 
     @Override
@@ -50,11 +73,57 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
     @Override
     public void onViewInflated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewInflated(view, savedInstanceState);
-        mViewPager = view.findViewById(R.id.vp_fragments);
-        //mViewPager.setScroll(true);
         setCorrectNestedScrollMotionEventEnabled(true);
-
+        mViewPager = view.findViewById(R.id.vp_fragments);
         setupViewPager();
+    }
+
+    public void selectNavigationItem() {
+        if (isInActionMode) {
+            destroyActionMode();
+        }
+        Log.d(TAG, "selectNavigationItem: " + mCurrTab);
+        switch (mCurrTab) {
+            case TabViewModel.TAB_HOME -> navigateToHome(this);
+            case TabViewModel.TAB_SETTINGS -> navigateToSettings(this);
+            case TabViewModel.TAB_ABOUT -> navigateToAbout(this);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        selectNavigationItem();
+    }
+
+    private int getIndexByTab(String tag) {
+        int i = 1;
+        switch (tag) {
+            case TabViewModel.TAB_HOME -> i = 0;
+            case TabViewModel.TAB_SETTINGS -> i = 1;
+            case TabViewModel.TAB_ABOUT -> i = 2;
+        }
+        Log.d(TAG, "getIndexByTab: " + i);
+        return i;
+    }
+
+    public void handleFragmentChange(String oldTab, String newTab) {
+        Log.d(TAG, "handleFragmentChange: oldTab: " + oldTab + "newTab: " + newTab);
+        IFragmentChange oldFragment = (IFragmentChange) mViewPagerAdapter.getFragment(oldTab, false);
+        Log.d(TAG, "oldFragment: " + oldFragment);
+        if (oldFragment != null) oldFragment.onLeave();
+
+        IFragmentChange newFragment = (IFragmentChange) mViewPagerAdapter.getFragment(newTab, false);
+        Log.d(TAG, "newFragment: " + newFragment);
+        if (newFragment != null) {
+            newFragment.onEnter();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(CURRENT_TAB, mCurrTab);
     }
 
     @Override
@@ -63,89 +132,109 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
         if (mViewPager != null) {
             int page = args.getInt(ARG_PAGE, mViewPager.getCurrentItem());
             Log.d(TAG, "onUpdateArguments page:" + page);
-            mViewPager.setCurrentItem(page, !mViewPager.isDraggable() ? false : false);
+            mViewPager.setCurrentItem(page, mViewPager.isDraggable());
+        }
+    }
+
+    @Override
+    public void onNavigatorModeChanged(Navigator.Mode mode, Navigator.Mode mode2) {
+        if (getView() != null) {
+            Navigator.get(this);
+            mViewPager.setDraggable(true);
+            invalidateOptionsMenu();
         }
     }
 
     private void setupViewPager() {
-        ActionBar actionBar = getActionBar();
+        mActionBar = getActionBar();
         Navigator navigator = Navigator.get(this);
-
-        mViewPageFragmentAdapter = new HomeFragmentPagerAdapter(getChildFragmentManager());
-
-        int fragmentSize = getChildFragmentManager().getFragments().size();
-        if (fragmentSize > 0) {
-            for (int i = 0; i < fragmentSize; i++) {
-                Fragment fragment = (Fragment) getChildFragmentManager().getFragments().get(i);
-                if (mViewPageFragmentAdapter.indexNeedReverse) {
-                    mViewPageFragmentAdapter.addFragment(0, fragment);
-                } else {
-                    mViewPageFragmentAdapter.addFragment(fragment);
-                }
-            }
-        } else {
-            mViewPageFragmentAdapter.addFragment(0, createHomeFragment());
-            mViewPageFragmentAdapter.addFragment(1, createSettingsFragment());
-            mViewPageFragmentAdapter.addFragment(2, createAboutFragment());
-        }
-
-
-        mViewPager.setAdapter(mViewPageFragmentAdapter);
+        mViewPager.setDraggable(true);
+        invalidateOptionsMenu();
+        mViewPagerAdapter = new DynamicFragmentPagerAdapter(this, mCurrTab);
+        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setAdapter(mViewPagerAdapter);
         if (getArguments() != null && getArguments().containsKey(ARG_PAGE)) {
             int position = getArguments().getInt(ARG_PAGE);
             mViewPager.setCurrentItem(position);
-            if (navigator != null && navigator.getBottomTabMenu().size() > 0) {
-                navigator.getBottomTabMenu().getItem(position).setChecked(true);
-            }
-            setupHyperOsViewPager(position, actionBar);
-            switchTabState(position);
-        }
-        mViewPager.addOnPageChangeListener(new ViewPagerCompat.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.d(TAG, "onPageSelected:" + position);
-                navigator.selectTab(position);
-                if (actionBar != null) {
-                    switch (position) {
-                        case ARG_PAGE_HOME -> {
-                            actionBar.setTitle(getString(R.string.navigation_home_title));
-                        }
-
-                        case ARG_PAGE_WIDGET -> {
-                            actionBar.setTitle(getString(R.string.navigation_settings_title));
-                        }
-
-                        case ARG_PAGE_LIST -> {
-                            actionBar.setTitle(getString(R.string.navigation_about_title));
-                        }
-                    }
+            if (mActionBar != null) {
+                if (position == 0) {
+                    mActionBar.setTitle(mPage1Name);
+                } else if (position == 1) {
+                    mActionBar.setTitle(mPage2Name);
+                } else if (position == 2) {
+                    mActionBar.setTitle(mPage3Name);
                 }
-                switchTabState(position);
+            }
+        }
+        mViewPager.setOnPageChangeListener(new ViewPagerCompat.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onPageSelected(int i) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
 
             }
         });
+        selectNavigationItem();
     }
 
-    private void setupHyperOsViewPager(int position, ActionBar actionBar) {
-        if (actionBar != null) {
-            switch (position) {
-                case ARG_PAGE_HOME -> actionBar.setTitle(getString(R.string.navigation_home_title));
-                case ARG_PAGE_WIDGET -> actionBar.setTitle(getString(R.string.navigation_settings_title));
-                case ARG_PAGE_LIST -> actionBar.setTitle(getString(R.string.navigation_about_title));
+    private void destroyActionMode() {
+        if (mViewPagerAdapter != null) {
+            for (int i = 0; i < TabViewModel.getTabCount(); i++) {
+                /*Fragment fragment = mViewPagerAdapter.getFragment(TabViewModel.TABS[i], false);
+                if (fragment instanceof PreferenceFragment) {
+                    ((PreferenceFragment) fragment).destroyActionMode();
+                }*/
             }
         }
     }
 
-    private void switchTabState(int page) {
+
+    public void resetActionBar() {
+        if (mActionBar != null /*&& PadAdapterUtil.IS_PAD*/) {
+            mActionBar.setExpandState(0);
+            mActionBar.setResizable(false);
+        }
+    }
+
+    public void navigateToHome(ContentFragment contentFragment) {
+        Navigator.get(contentFragment).navigate(getUpdateFragmentNavInfoToHome());
+    }
+
+    public void navigateToSettings(ContentFragment contentFragment) {
+        Navigator.get(contentFragment).navigate(getUpdateFragmentNavInfoToSettings());
+    }
+
+    public void navigateToAbout(ContentFragment contentFragment) {
+        Navigator.get(contentFragment).navigate(getUpdateFragmentNavInfoToAbout());
+    }
+
+    private UpdateFragmentNavInfo getUpdateFragmentNavInfoToHome() {
+        Bundle args = new Bundle();
+        args.putInt(ARG_PAGE, ARG_PAGE_HOME);
+        return new UpdateFragmentNavInfo(1000, getClass(), args);
+    }
+
+    private UpdateFragmentNavInfo getUpdateFragmentNavInfoToSettings() {
+        Bundle args = new Bundle();
+        args.putInt(ARG_PAGE, ARG_PAGE_Settings);
+        return new UpdateFragmentNavInfo(1001, getClass(), args);
+    }
+
+    private UpdateFragmentNavInfo getUpdateFragmentNavInfoToAbout() {
+        Bundle args = new Bundle();
+        args.putInt(ARG_PAGE, ARG_PAGE_About);
+        return new UpdateFragmentNavInfo(1002, getClass(), args);
+    }
+
+    /*private void switchTabState(int page) {
         if (page == 0) {
             mViewPager.setCurrentItem(0);
         } else if (page == 1) {
@@ -156,19 +245,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
         if (mQuickRestartMenuItem != null) {
             mQuickRestartMenuItem.setVisible(page == 0);
         }
-    }
-
-    protected PreferenceFragment createHomeFragment() {
-        return new HomePageFragment();
-    }
-
-    protected PreferenceFragment createSettingsFragment() {
-        return new ModuleSettingsFragment();
-    }
-
-    protected PreferenceFragment createAboutFragment() {
-        return new AboutFragment();
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -183,5 +260,10 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
             DialogHelper.showRestartDialog(requireContext());
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public interface IFragmentChange {
+        void onEnter();
+        void onLeave();
     }
 }
