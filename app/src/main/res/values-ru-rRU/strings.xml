@@ -30,7 +30,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Русский</string>
     <string name="translator">Ichigo</string>
-    <string name="translator_url">https://t.me/medusa_scream</string>
+    <string name="translator_url">https://t.me/hyper_rus</string>
     <string name="home">Главная</string>
     <string name="edit">Введите текст</string>
     <string name="kill">Убить процесс</string>
