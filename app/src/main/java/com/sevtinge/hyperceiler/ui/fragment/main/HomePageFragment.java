@@ -271,12 +271,17 @@ public class HomePageFragment extends DashboardFragment
 
         mainActivityContextHelper = new MainActivityContextHelper(requireContext());
 
+        // 优先级由上往下递减，优先级低的会被覆盖执行
+        // HyperCeiler
         isFuckCoolapkSDay();
+        // Birthday
         isBirthday();
+        // Notice
         isLoggerAlive();
+        // Warn
+        isSignPass();
         isFullSupportSysVer();
         isOfficialRom();
-        isSignPass();
 
     }
 
