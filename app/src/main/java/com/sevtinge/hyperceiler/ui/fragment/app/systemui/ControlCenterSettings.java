@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.app.systemui;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
@@ -155,8 +156,8 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
             mThemeBlur.setVisible(false);
             mRoundedRectRadius.setVisible(false);
         }
-        mRedirectNotice.setVisible(!isMoreHyperOSVersion(2f));
-        mShadeHeaderBlur.setVisible(isMoreHyperOSVersion(2f));
+        mRedirectNotice.setVisible(!isMoreAndroidVersion(35));
+        mShadeHeaderBlur.setVisible(isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
         mProgressModeThickness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
         mProgressModeCornerRadius.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
