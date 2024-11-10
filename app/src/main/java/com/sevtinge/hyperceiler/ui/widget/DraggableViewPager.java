@@ -1,8 +1,7 @@
-package com.sevtinge.hyperceiler.ui.adapter;
+package com.sevtinge.hyperceiler.ui.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
@@ -43,10 +42,10 @@ public class DraggableViewPager extends ViewPager {
         mCanDrag = isDrag;
     }
 
-    @Override
+    /*@Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         try {
-            return mCanDrag ? super.onInterceptTouchEvent(ev) : false;
+            return mCanDrag && super.onInterceptTouchEvent(ev);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return false;
@@ -56,12 +55,12 @@ public class DraggableViewPager extends ViewPager {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         try {
-            return mCanDrag ? super.onInterceptTouchEvent(ev) : false;
+            return mCanDrag && super.onInterceptTouchEvent(ev);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return false;
         }
-    }
+    }*/
 
     public class ViewPagerScroller extends Scroller {
 

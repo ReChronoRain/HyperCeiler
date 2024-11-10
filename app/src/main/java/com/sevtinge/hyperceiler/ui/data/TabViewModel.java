@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.ui.adapter;
+package com.sevtinge.hyperceiler.ui.data;
 
 public class TabViewModel {
 

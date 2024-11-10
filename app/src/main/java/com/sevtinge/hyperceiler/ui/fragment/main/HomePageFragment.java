@@ -41,6 +41,7 @@ import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.ui.fragment.main.ContentFragment.IFragmentChange;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -55,7 +56,7 @@ import fan.springback.view.SpringBackLayout;
 
 public class HomePageFragment extends DashboardFragment
         implements HomepageEntrance.EntranceState,
-        ModSearchCallback.OnSearchListener {
+        ModSearchCallback.OnSearchListener, IFragmentChange {
 
     View mRootView;
     ViewGroup mPrefsContainer;
@@ -400,5 +401,15 @@ public class HomePageFragment extends DashboardFragment
             if (!last || state) return;
             preferenceHeader.setVisible(false);
         }
+    }
+
+    @Override
+    public void onEnter() {
+
+    }
+
+    @Override
+    public void onLeave() {
+
     }
 }

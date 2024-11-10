@@ -13,11 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPagerCompat;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.data.adapter.HomeFragmentPagerAdapter;
-import com.sevtinge.hyperceiler.ui.adapter.DraggableViewPager;
-import com.sevtinge.hyperceiler.ui.adapter.DynamicFragmentPagerAdapter;
-import com.sevtinge.hyperceiler.ui.adapter.TabViewModel;
-import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.widget.DraggableViewPager;
+import com.sevtinge.hyperceiler.ui.data.adapter.DynamicFragmentPagerAdapter;
+import com.sevtinge.hyperceiler.ui.data.TabViewModel;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import fan.appcompat.app.ActionBar;
@@ -25,8 +23,6 @@ import fan.appcompat.app.Fragment;
 import fan.navigator.Navigator;
 import fan.navigator.NavigatorFragmentListener;
 import fan.navigator.navigatorinfo.UpdateFragmentNavInfo;
-import fan.preference.PreferenceFragment;
-import fan.viewpager.widget.ViewPager;
 
 public class ContentFragment extends Fragment implements NavigatorFragmentListener {
 
@@ -167,19 +163,63 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
             }
         }
         mViewPager.setOnPageChangeListener(new ViewPagerCompat.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
+            String leftTab;
+            float offSet = 1.0f;
+            boolean isHandUp = false;
+            boolean isHandScroll = false;
+            boolean isPageChanged;
 
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (isHandScroll || (isHandUp && !isPageChanged)) {
+                    String tag = TabViewModel.getTabAt(position);
+                    leftTab = tag;
+                    if (tag.equals(mCurrTab)) {
+                        offSet = 1.0f - positionOffset;
+                    } else if (position == TabViewModel.getTabPosition(mCurrTab) - 1) {
+                        offSet = positionOffset;
+                    } else {
+                        offSet = 0.5f;
+                    }
+                    if (offSet < 0.5f) {
+                        offSet = 0.5f;
+                    }
+                }
             }
 
             @Override
-            public void onPageSelected(int i) {
+            public void onPageSelected(int position) {
+                String tabAt = TabViewModel.getTabAt(position);
+                navigator.selectTab(position);
+                if (mActionBar != null) {
+                    if (position == 0) {
+                        mActionBar.setTitle(mPage1Name);
+                    } else if (position == 1) {
+                        mActionBar.setTitle(mPage2Name);
+                    } else if (position == 2) {
+                        mActionBar.setTitle(mPage3Name);
+                    }
+                }
 
+                handleFragmentChange(mCurrTab, tabAt);
+                offSet = 1.0f;
+                mCurrTab = tabAt;
+                selectNavigationItem();
             }
 
             @Override
-            public void onPageScrollStateChanged(int i) {
-
+            public void onPageScrollStateChanged(int state) {
+                if (state == 1) {
+                    isPageChanged = false;
+                    isHandScroll = true;
+                    isHandUp = false;
+                } else if (state == 2) {
+                    isHandScroll = false;
+                    isHandUp = true;
+                } else {
+                    isHandScroll = false;
+                    isHandUp = false;
+                }
             }
         });
         selectNavigationItem();

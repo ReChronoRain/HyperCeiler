@@ -36,12 +36,13 @@ import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.ui.fragment.main.ContentFragment.IFragmentChange;
 
 import fan.appcompat.app.AppCompatActivity;
 import fan.preference.DropDownPreference;
 
 public class ModuleSettingsFragment extends SettingsPreferenceFragment
-        implements Preference.OnPreferenceChangeListener {
+        implements Preference.OnPreferenceChangeListener, IFragmentChange {
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
     SwitchPreference mHideAppIcon;
@@ -159,5 +160,15 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
 
     public void restoreSettings(Activity activity) {
         BackupUtils.restore(activity);
+    }
+
+    @Override
+    public void onEnter() {
+
+    }
+
+    @Override
+    public void onLeave() {
+
     }
 }

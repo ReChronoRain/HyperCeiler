@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.ui.adapter;
+package com.sevtinge.hyperceiler.ui.data.adapter;
 
 import android.util.ArrayMap;
 import android.util.Log;
@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.sevtinge.hyperceiler.ui.data.TabViewModel;
 import com.sevtinge.hyperceiler.ui.fragment.main.AboutFragment;
 import com.sevtinge.hyperceiler.ui.fragment.main.HomePageFragment;
 import com.sevtinge.hyperceiler.ui.fragment.main.ModuleSettingsFragment;
