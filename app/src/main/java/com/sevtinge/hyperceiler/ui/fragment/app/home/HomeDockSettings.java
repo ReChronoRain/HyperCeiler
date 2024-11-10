@@ -23,18 +23,18 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.preference.Preference;
+import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.preference.ColorPickerPreference;
 import fan.preference.DropDownPreference;
-import androidx.preference.Preference;
-import androidx.preference.SwitchPreference;
 
-public class HomeDockSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class HomeDockSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
 
     SwitchPreference mDisableRecentIcon;
     Preference mDockBackgroundBlur;

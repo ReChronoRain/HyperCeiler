@@ -25,9 +25,8 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
-public class NfcFragment extends SettingsPreferenceFragment {
+public class NfcFragment extends DashboardFragment {
 
     RecommendPreference mRecommend;
 

@@ -20,14 +20,14 @@ package com.sevtinge.hyperceiler.ui.fragment.app.systemui;
 
 import android.view.View;
 
-import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.KillApp;
-
 import androidx.preference.SwitchPreference;
 
-public class NavigationSettings extends SettingsPreferenceFragment {
+import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.utils.KillApp;
+
+public class NavigationSettings extends DashboardFragment {
     SwitchPreference navigation;
 
     @Override

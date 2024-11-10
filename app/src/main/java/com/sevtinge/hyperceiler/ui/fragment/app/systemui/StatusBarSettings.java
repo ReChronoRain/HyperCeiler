@@ -22,17 +22,15 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroid
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
-import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
-public class StatusBarSettings extends SettingsPreferenceFragment {
+public class StatusBarSettings extends DashboardFragment {
 
     Preference mClockStatus; // 时钟指示器
     Preference mDeviceStatus; // 硬件指示器

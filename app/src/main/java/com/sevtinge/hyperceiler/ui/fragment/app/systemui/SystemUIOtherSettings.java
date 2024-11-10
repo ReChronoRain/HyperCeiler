@@ -32,11 +32,11 @@ import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
 import fan.preference.DropDownPreference;
 
-public class SystemUIOtherSettings extends SettingsPreferenceFragment {
+public class SystemUIOtherSettings extends DashboardFragment {
 
     DropDownPreference mChargeAnimationStyle;
     PreferenceCategory mChargeAnimationTitle;

@@ -24,16 +24,16 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import android.content.Intent;
 import android.view.View;
 
-import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.activity.SubPickerActivity;
-import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
-
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-public class HomeRecentSettings extends SettingsPreferenceFragment {
+import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.activity.SubPickerActivity;
+import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
+
+public class HomeRecentSettings extends DashboardFragment {
 
     Preference mHideRecentCard;
     SwitchPreference mDimming;

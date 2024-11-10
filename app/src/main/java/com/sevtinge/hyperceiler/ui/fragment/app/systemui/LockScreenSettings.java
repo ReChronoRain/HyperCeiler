@@ -29,9 +29,9 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
-public class LockScreenSettings extends SettingsPreferenceFragment {
+public class LockScreenSettings extends DashboardFragment {
     SwitchPreference mShowSec; // 时钟显示秒数
     SwitchPreference mForceSystemFonts; // 时钟使用系统字体
     SwitchPreference mPasswordFree; // 开机免输入密码

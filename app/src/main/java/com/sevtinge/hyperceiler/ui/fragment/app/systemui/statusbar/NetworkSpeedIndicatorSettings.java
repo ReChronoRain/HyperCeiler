@@ -21,21 +21,18 @@ package com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
+import androidx.preference.Preference;
+import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.preference.DropDownPreference;
-import androidx.preference.Preference;
 import fan.preference.SeekBarPreferenceCompat;
-import androidx.preference.SwitchPreference;
 
-public class NetworkSpeedIndicatorSettings extends SettingsPreferenceFragment
+public class NetworkSpeedIndicatorSettings extends DashboardFragment
     implements Preference.OnPreferenceChangeListener {
 
     SeekBarPreferenceCompat mNetworkSpeedWidth; // 固定宽度

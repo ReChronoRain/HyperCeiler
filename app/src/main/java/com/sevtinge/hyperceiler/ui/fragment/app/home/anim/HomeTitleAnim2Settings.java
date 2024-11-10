@@ -24,11 +24,11 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
 import fan.preference.SeekBarPreferenceCompat;
 
-public class HomeTitleAnim2Settings extends SettingsPreferenceFragment {
+public class HomeTitleAnim2Settings extends DashboardFragment {
     SeekBarPreferenceCompat mDRCX;
     SeekBarPreferenceCompat mSRCX;
     SeekBarPreferenceCompat mDRCY;

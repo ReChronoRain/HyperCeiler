@@ -19,9 +19,9 @@
 package com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
-public class BatteryDetailIndicatorSettings extends SettingsPreferenceFragment {
+public class BatteryDetailIndicatorSettings extends DashboardFragment {
 
     @Override
     public int getPreferenceScreenResId() {

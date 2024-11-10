@@ -20,15 +20,12 @@ package com.sevtinge.hyperceiler.ui.fragment.app;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
-import android.view.View;
-
-import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-
 import androidx.preference.SwitchPreference;
 
-public class ContentExtensionFragment extends SettingsPreferenceFragment {
+import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
+
+public class ContentExtensionFragment extends DashboardFragment {
     SwitchPreference mUnlockTaplus;
 
     @Override

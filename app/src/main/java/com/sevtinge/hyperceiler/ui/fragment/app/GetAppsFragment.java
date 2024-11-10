@@ -20,15 +20,16 @@ package com.sevtinge.hyperceiler.ui.fragment.app;
 
 import android.view.View;
 
+import androidx.preference.EditTextPreference;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.preference.DropDownPreference;
-import androidx.preference.EditTextPreference;
 
-public class GetAppsFragment extends SettingsPreferenceFragment {
+public class GetAppsFragment extends DashboardFragment {
 
     DropDownPreference mDeviceModify;
     EditTextPreference mModel;

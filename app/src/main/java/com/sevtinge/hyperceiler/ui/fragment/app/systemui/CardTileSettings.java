@@ -23,9 +23,9 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
-public class CardTileSettings extends SettingsPreferenceFragment {
+public class CardTileSettings extends DashboardFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

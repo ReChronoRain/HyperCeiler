@@ -29,17 +29,17 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.SeekBar;
 
+import androidx.preference.SwitchPreference;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import fan.preference.SeekBarPreferenceCompat;
-import androidx.preference.SwitchPreference;
 
-public class SystemSettingsFragment extends SettingsPreferenceFragment {
+public class SystemSettingsFragment extends DashboardFragment {
     SwitchPreference mNewNfc; // 新版 NFC 界面
     SwitchPreference mAreaScreenshot; // 区域截屏
     SwitchPreference mHighMode; // 极致模式

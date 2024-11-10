@@ -28,12 +28,15 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.activity.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 import com.sevtinge.hyperceiler.utils.KillApp;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
@@ -43,12 +46,9 @@ import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.preference.ColorPickerPreference;
 import fan.preference.DropDownPreference;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceCategory;
 import fan.preference.SeekBarPreferenceCompat;
-import androidx.preference.SwitchPreference;
 
-public class ControlCenterSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class ControlCenterSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
 
     Preference mExpandNotification;
     PreferenceCategory mMusic;
@@ -69,6 +69,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     ColorPickerPreference mSliderColor;
     ColorPickerPreference mProgressBarColor;
     SwitchPreference mRedirectNotice;
+    SwitchPreference mShadeHeaderBlur;
 
     SwitchPreference mTaplus;
     SwitchPreference mNotifrowmenu;
@@ -111,6 +112,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mSliderColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_thumb_color");
         mProgressBarColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_color");
         mRedirectNotice = findPreference("prefs_key_system_ui_control_center_redirect_notice");
+        mShadeHeaderBlur = findPreference("prefs_key_system_ui_shade_header_gradient_blur");
         handler = new Handler();
 
         mExpandNotification.setOnPreferenceClickListener(
@@ -154,6 +156,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
             mRoundedRectRadius.setVisible(false);
         }
         mRedirectNotice.setVisible(!isMoreHyperOSVersion(2f));
+        mShadeHeaderBlur.setVisible(isMoreHyperOSVersion(2f));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
         mProgressModeThickness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
         mProgressModeCornerRadius.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);

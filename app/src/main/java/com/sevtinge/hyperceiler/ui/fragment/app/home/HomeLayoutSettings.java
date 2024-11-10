@@ -27,11 +27,11 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
 import fan.preference.SeekBarPreferenceCompat;
 
-public class HomeLayoutSettings extends SettingsPreferenceFragment {
+public class HomeLayoutSettings extends DashboardFragment {
 
     SwitchPreference mIconLayout;
     SwitchPreference mIconLayoutNew;

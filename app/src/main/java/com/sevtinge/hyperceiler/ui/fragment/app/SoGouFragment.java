@@ -18,13 +18,10 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.app;
 
-import android.view.View;
-
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
-public class SoGouFragment extends SettingsPreferenceFragment {
+public class SoGouFragment extends DashboardFragment {
     String[] all = new String[]{
         "com.sohu.inputmethod.sogou.xiaomi",
         "com.sohu.inputmethod.sogou"

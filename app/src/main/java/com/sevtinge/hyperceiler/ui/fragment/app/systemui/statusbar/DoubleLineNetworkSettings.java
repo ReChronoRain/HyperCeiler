@@ -18,18 +18,15 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
-
-import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-
-import fan.preference.DropDownPreference;
 import androidx.preference.Preference;
 
-public class DoubleLineNetworkSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
+import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
+
+import fan.preference.DropDownPreference;
+
+public class DoubleLineNetworkSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
 
     DropDownPreference mIconTheme;
     DropDownPreference mIconStyle;

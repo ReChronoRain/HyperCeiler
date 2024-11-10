@@ -133,35 +133,48 @@ class MediaControlPanelBackgroundMix : BaseHook() {
 
             mediaViewHolder?.constructors?.first()?.createAfterHook {
                 val seekBar = it.thisObject.objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
+
                 val backgroundDrawable = GradientDrawable().apply {
-                    color = ColorStateList(
-                        arrayOf(intArrayOf()),
-                        intArrayOf(Color.parseColor("#20ffffff"))
-                    )
+                    color = ColorStateList(arrayOf(intArrayOf()), intArrayOf(Color.parseColor("#20ffffff")))
                     cornerRadius = cornerRadiusBar.dp.toFloat()
                 }
-                val onProgressDrawable = GradientDrawable().apply {
-                    color = ColorStateList(
-                        arrayOf(intArrayOf()),
-                        intArrayOf(Color.parseColor("#ffffffff"))
-                    )
-                    cornerRadius = cornerRadiusBar.dp.toFloat()
-                }
+
                 val thumbDrawable = seekBar?.thumb as LayerDrawable
-                val layerDrawable = LayerDrawable(
-                    arrayOf(
-                        backgroundDrawable,
-                        ClipDrawable(onProgressDrawable, Gravity.START, ClipDrawable.HORIZONTAL)
+                val onProgressDrawable = GradientDrawable().apply {
+                    color = ColorStateList(arrayOf(intArrayOf()), intArrayOf(Color.parseColor("#ffffffff")))
+                    cornerRadius = cornerRadiusBar.dp.toFloat()
+                }
+
+                if (isMoreHyperOSVersion(2f)) {
+                    val layerDrawable = LayerDrawable(
+                        arrayOf(
+                            backgroundDrawable,
+                            ClipDrawable(onProgressDrawable, Gravity.START, ClipDrawable.HORIZONTAL)
+                        )
+                    ).apply {
+                        setLayerHeight(0, 9.dp)
+                        setLayerHeight(1, 9.dp)
+                    }
+                    seekBar.progressDrawable = layerDrawable
+                } else {
+                    val layerDrawable = LayerDrawable(
+                        arrayOf(
+                            backgroundDrawable,
+                            ClipDrawable(onProgressDrawable, Gravity.START, ClipDrawable.HORIZONTAL)
+                        )
                     )
-                )
-                seekBar.apply {
-                    thumb = thumbDrawable
-                    progressDrawable = layerDrawable
+
+                    seekBar.apply {
+                        thumb = thumbDrawable
+                        progressDrawable = layerDrawable
+                    }
                 }
             }
 
-            seekBarObserver?.constructors?.first()?.createAfterHook {
-                it.thisObject.objectHelper().setObject("seekBarEnabledMaxHeight", 9.dp)
+            if (!isMoreHyperOSVersion(2f)) {
+                seekBarObserver?.constructors?.first()?.createAfterHook {
+                    it.thisObject.objectHelper().setObject("seekBarEnabledMaxHeight", 9.dp)
+                }
             }
 
             miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()

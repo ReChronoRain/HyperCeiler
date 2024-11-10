@@ -21,16 +21,17 @@ package com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar;
 import android.content.Intent;
 import android.view.View;
 
+import androidx.preference.Preference;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.preference.ColorPickerPreference;
 import fan.preference.DropDownPreference;
-import androidx.preference.Preference;
 
-public class BatteryIndicatorSettings extends SettingsPreferenceFragment {
+public class BatteryIndicatorSettings extends DashboardFragment {
 
     DropDownPreference mBatteryIndicatorColor;
     ColorPickerPreference mBatteryIndicatorFullPower;

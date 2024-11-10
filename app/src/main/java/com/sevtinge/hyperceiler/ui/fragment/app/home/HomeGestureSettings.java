@@ -22,9 +22,9 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
-public class HomeGestureSettings extends SettingsPreferenceFragment {
+public class HomeGestureSettings extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.home_gesture;

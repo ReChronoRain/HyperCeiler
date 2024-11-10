@@ -23,16 +23,17 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 
 import android.view.View;
 
+import androidx.preference.SwitchPreference;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
-import androidx.preference.SwitchPreference;
 
-public class HomeFolderSettings extends SettingsPreferenceFragment {
+public class HomeFolderSettings extends DashboardFragment {
 
     DropDownPreference mFolderShade;
     SeekBarPreferenceCompat mFolderShadeLevel;

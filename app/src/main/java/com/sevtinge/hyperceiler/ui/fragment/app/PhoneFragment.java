@@ -20,14 +20,14 @@ package com.sevtinge.hyperceiler.ui.fragment.app;
 
 import android.view.View;
 
-import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.shell.ShellInit;
-
 import androidx.preference.Preference;
 
-public class PhoneFragment extends SettingsPreferenceFragment {
+import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.utils.shell.ShellInit;
+
+public class PhoneFragment extends DashboardFragment {
     Preference mPhone;
 
     @Override

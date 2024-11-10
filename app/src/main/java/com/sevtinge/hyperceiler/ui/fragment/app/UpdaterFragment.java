@@ -18,20 +18,17 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.app;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
-
-import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
-
-import fan.preference.DropDownPreference;
 import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 
-public class UpdaterFragment extends SettingsPreferenceFragment
+import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+
+import fan.preference.DropDownPreference;
+
+public class UpdaterFragment extends DashboardFragment
     implements Preference.OnPreferenceChangeListener {
 
     DropDownPreference mUpdateMode;
