@@ -20,16 +20,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/misound"
     app:quick_restart="com.miui.misound">
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_misound_bluetooth"
-        android:title="@string/misound_bluetooth" />
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_misound_bluetooth"
+            android:title="@string/misound_bluetooth" />
 
-    <EditTextPreference
-        android:dependency="prefs_key_misound_bluetooth"
-        android:key="prefs_key_misound_bluetooth_uuid"
-        android:title="@string/misound_bluetooth_uuid"
-        android:summary="@string/misound_bluetooth_uuid_more" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_misound_bluetooth"
+            android:key="prefs_key_misound_spatial"
+            android:title="@string/misound_spatial" />
+
+        <EditTextPreference
+            android:dependency="prefs_key_misound_bluetooth"
+            android:key="prefs_key_misound_bluetooth_uuid"
+            android:summary="@string/misound_bluetooth_uuid_more"
+            android:title="@string/misound_bluetooth_uuid" />
+
+    </PreferenceCategory>
 
     <SwitchPreference
         android:defaultValue="false"
