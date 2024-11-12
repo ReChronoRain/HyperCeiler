@@ -273,6 +273,7 @@ public class BluetoothListener extends BaseHook {
         private static boolean lastSpatial;
         private static boolean isInitialized = false;
         private static boolean isLeAudioConnected = false;
+        private static boolean isForceSpatialOn = mPrefsMap.getBoolean("misound_spatial");
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -350,7 +351,11 @@ public class BluetoothListener extends BaseHook {
             init(context);
             recoveryAudio(AudioEffect, miDolby, lastDolby);
             recoveryAudio(MiSound, miAudio, lastMiui);
-            setEnable(Spatializer, lastSpatial);
+            if (isForceSpatialOn) {
+                setEnable(Spatializer, true);
+            } else {
+                setEnable(Spatializer, lastSpatial);
+            }
             refresh(context, lastDolby, lastMiui, lastSpatial);
         }
 

@@ -1905,4 +1905,5 @@
     <string name="about_device_info_device">Device</string>
     <string name="about_device_info_android">Android version</string>
     <string name="about_device_info_os">OS version</string>
+    <string name="misound_spatial">Force immersive sound on after disconnecting headphones</string>
 </resources>
