@@ -118,7 +118,7 @@
     <string name="about_privacy">Privacy Policy</string>
     <string name="about_protocol">User Agreement</string>
     <string name="settings_show_title">Show</string>
-    <string name="settings_data_title">Backup and Restore</string>
+    <string name="settings_data_title">Backup and restore</string>
     <string name="settings_bug_title">Troubleshooting</string>
     <string name="settings_debug_title">Debug</string>
     <string name="settings_hide_app_icon">Icon in Home screen</string>
@@ -166,7 +166,7 @@
     <string name="disable_detailed_log_more">The Debug Canary version doesn\'t support adjusting the log level</string>
     <string name="settings_safe_mode">Safe mode</string>
     <string name="settings_safe_mode_desc">Disable the module features</string>
-    <string name="about_developer_title">Developers</string>
+    <string name="about_developer_title">Developer</string>
     <string name="about_translator_title">Translator</string>
     <string name="about_chat_title">Discussion</string>
     <string name="about_other_title">Others</string>
@@ -438,7 +438,7 @@
     <string name="phone_flightmode_hotspot_desc">Allow Wi-Fi portable hotspot to be turned on in Airplane mode</string>
     <string name="phone_additional_network_settings">Additional network settings</string>
 
-    <string name="system_framework_screen_title">Display &amp; Notifications</string>
+    <string name="system_framework_screen_title">Display &amp; notifications</string>
     <string name="system_framework_core_title">Core underneath</string>
     <string name="system_framework_hook_entry">Unlock navigation disconnection protection limit</string>
     <string name="system_framework_hook_entry_desc">Navigation disconnection protection allows it to be used in non-navigation scenarios</string>
@@ -498,7 +498,7 @@
     <string name="system_framework_disable_miui_watermark">Disable global watermark</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">Bypass unknown sources restrictions</string>
     <!--Package Manager Service-->
-    <string name="system_framework_corepatch_title">Package Manager Service</string>
+    <string name="system_framework_corepatch_title">Package manager service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade</string>
     <string name="system_framework_core_patch_downgr_desc">Allow downgrade apps</string>
     <string name="system_framework_core_patch_auth_creak">Disable digest verify</string>
@@ -1021,7 +1021,7 @@
     <string name="system_usb_use_MIDI">MIDI</string>
     <string name="system_usb_reverse_charge">Reverse charging</string>
     <string name="system_usb_tethering">USB tethering</string>
-    <string name="system_settings_connection_sharing_title">VPN &amp; Connection &amp; Sharing</string>
+    <string name="system_settings_connection_sharing_title">Connection &amp; sharing</string>
     <string name="system_settings_lang_menu_shouw_all_app">Show all apps in language manage menu</string>
     <string name="system_settings_new_nfc_page">New NFC page</string>
     <string name="system_settings_new_nfc_page_desc">After opening, the default payment app for unsupported models cannot select Xiaomi Wallet</string>
@@ -1072,7 +1072,7 @@
     <string name="updater">Updater</string>
     <string name="updater_enable_miui_version">Enable Fake version for Updater</string>
     <string name="updater_fuck_vab">Remove OTA verification</string>
-    <string name="updater_fuck_vab_desc">Only VAB devices are supported. Please don\'t enable other non-VAB devices!\n- You can swipe into the complete internal test card swiping package without internal test permissions.\n- It\'s recommended to clear data after flashing across different version types.\n- Doesn\'t support any unofficial ROM usage.\n- This feature is dangerous. Please evaluate whether to enable it after understanding the operation of Fastboot.</string>
+    <string name="updater_fuck_vab_desc">Only VAB devices are supported. Please don\'t enable other non-VAB devices!\n• You can swipe into the complete internal test card swiping package without internal test permissions.\n• It\'s recommended to clear data after flashing across different version types.\n• Doesn\'t support any unofficial ROM usage.\n• This feature is dangerous. Please evaluate whether to enable it after understanding the operation of Fastboot.</string>
     <string name="updater_version_mode">Disguise type</string>
     <string name="updater_big_version">Fake large version</string>
     <string name="updater_big_version_desc">Items that need to be filled in when disguising the Xiaomi HyperOS version, the default is V816.</string>
@@ -1117,7 +1117,7 @@
     <!--Xiaomi Cloud Service-->
     <string name="micloud_service">Xiaomi Cloud</string>
     <string name="micloud_service_list">Cloud data synchronization</string>
-    <string name="micloud_service_list_summary">The completion functions are as follows:\n- The device can be synchronized with Mi Creation.\n- The domestic and international versions of Mi Browser can be synchronized simultaneously.\n\nNote: The first synchronization of Mi Creation must be enabled from the settings of Mi Creation, otherwise it will prompt that the network is unavailable or the system is busy, please try again later.</string>
+    <string name="micloud_service_list_summary">The completion functions are as follows:\n• The device can be synchronized with Mi Creation.\n• The domestic and international versions of Mi Browser can be synchronized simultaneously.\n\nNote: The first synchronization of Mi Creation must be enabled from the settings of Mi Creation, otherwise it will prompt that the network is unavailable or the system is busy, please try again later.</string>
     <!--Mi Mover-->
     <string name="huanji">Mi Mover</string>
     <string name="huanji_allow_all_apps">Allow move all apps</string>
@@ -1215,7 +1215,7 @@
     <string name="home_layout_searchbar_margin_bottom_desc">Search bar distance from screen bottom margin</string>
     <string name="home_folder">Folder</string>
     <string name="home_small_folder_title">Small folder</string>
-    <string name="home_big_folder_title">Big Folder</string>
+    <string name="home_big_folder_title">Big folder</string>
     <string name="home_small_folder_icon_bg">Icon background</string>
     <string name="home_small_folder_icon_bg_custom">Background custom</string>
     <string name="home_small_folder_icon_bg_size">Background size</string>
@@ -1425,9 +1425,9 @@
     <!--Gallery Editor-->
     <string name="mediaeditor">Gallery Editor</string>
     <string name="mediaeditor_foundation">Foundation</string>
-    <string name="mediaeditor_ai_authoring">AI Authoring</string>
+    <string name="mediaeditor_ai_authoring">AI authoring</string>
     <string name="mediaeditor_unlock_disney_title">Unlock Disney customization features</string>
-    <string name="mediaeditor_unlock_disney_desc">Unlocks include the following features:\n- Custom frames - Disney custom frames (in conflict with other custom frames)\n- Bokeh background - Mickey Mokeh\n- Stickers - Disney stickers</string>
+    <string name="mediaeditor_unlock_disney_desc">Unlocks include the following features:\n• Custom frames - Disney custom frames (in conflict with other custom frames)\n• Bokeh background - Mickey Mokeh\n• Stickers - Disney stickers</string>
     <string name="mediaeditor_unlock_spring_title">Unlock Chinese New Year custom picture frames</string>
     <string name="mediaeditor_unlock_spring_desc">To permanently add a Chinese New Year custom picture frame, the prerequisite is that you need a Leica custom picture frame or a Redmi custom picture frame.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Remove the minimum crop image limit</string>
@@ -1503,10 +1503,10 @@
     <string name="screenshot_unlock_privacy_marking_desc">A higher version of the Mi AI Engine app needs to be pre-installed for normal usage</string>
     <string name="screenshot_save_to_pictures_desc">Canonical screenshot save location to /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Custom screenshot model with shell</string>
-    <string name="screenshot_device_customize_desc">Please enter the device code, and the colored device should be filled with a suffix, for example:\n- Xiaomi 13, fill in the content is fuxi\n- Xiaomi 14 pink version, fill in the content is houji_PK</string>
+    <string name="screenshot_device_customize_desc">Please enter the device code, and the colored device should be filled with a suffix, for example:\n• Xiaomi 13, fill in the content is fuxi\n• Xiaomi 14 pink version, fill in the content is houji_PK</string>
     <!--System Service Plugin-->
     <string name="securityadd">System service plugin</string>
-    <string name="securityadd_disable_gb_ads">Disable Game center ads</string>
+    <string name="securityadd_disable_gb_ads">Disable Game Center ads</string>
     <!--Security/Tablet security center-->
     <string name="security_center">Security</string>
     <string name="security_center_pad">Security</string>
@@ -1550,7 +1550,7 @@
     <string name="security_center_newbox_bg_padding_horizontal">Vertical margin</string>
     <string name="security">Security</string>
     <string name="security_app_title">Show additional app details</string>
-    <string name="security_app_summary">Add new fields to app into page:\n- App version number\n- User ID\n- Data directory\n- APK directory\n- Min SDK version\n- Target SDK version\n- Open with Play Store\n- Launch</string>
+    <string name="security_app_summary">Add new fields to app into page:\n• App version number\n• User ID\n• Data directory\n• APK directory\n• Min SDK version\n• Target SDK version\n• Open with Play Store\n• Launch</string>
     <string name="security_app_sort_title">App management list sorting</string>
     <string name="security_app_sort_summary">Modify the default sorting of the manage apps list</string>
     <string name="security_restrict_app_title">Full restrictions</string>
@@ -1578,7 +1578,7 @@
     <string name="security_center_unlock_side_hide_freeform">Unlock side-hide freeform</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Unlock side-hide in freeform mode for devices with limited support. This will also affect widget behavior when the device cuts to the background.</string>
     <string name="security_center_unlock_smart_charge_title">Complete charging and battery functions</string>
-    <string name="security_center_unlock_smart_charge_title_summary">Completed functions:\n- Battery protection -> Charging auto-disconnect\n- More battery features -> Low battery fast charging</string>
+    <string name="security_center_unlock_smart_charge_title_summary">Completed functions:\n• Battery protection -> Charging auto-disconnect\n• More battery features -> Low battery fast charging</string>
     <string name="security_center_super_wireless_charge">Unlock Quick wireless charging</string>
     <string name="security_center_blur_model">Sidebar blur model</string>
     <string name="security_center_invert_color">Icon inverted</string>
@@ -1655,7 +1655,7 @@
     <string name="barrage_custom_barrage_length">Custom barrage length</string>
     <!--Joyose-->
     <string name="joyose">Joyose</string>
-    <string name="joyose_cloud_control_title">Cloud Control</string>
+    <string name="joyose_cloud_control_title">Cloud control</string>
     <string name="joyose_disable_cloud_control">Disable Cloud control</string>
     <string name="joyose_game_title">Game Space</string>
     <string name="joyose_enable_gpu_tuner">Performance scheduling</string>
@@ -1839,10 +1839,10 @@
     <string name="help_cant_see_apps_guide">Can\'t find the app features?</string>
     <string name="set_homepage_entrance_about">Note: Modifying this setting only hides the visibility of the feature on the homepage, and features that have been turned on won\'t be turned off!\nHiding the feature on the homepage will take effect immediately, and the app will need to be restarted to reappear.</string>
     <string name="help_cant_see_apps_title">Can\'t find the app features on the homepage?</string>
-    <string name="help_cant_see_apps_desc">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app features:\n\n - Those currently disabled or hidden\n - Those not found in your device\n - Those incompatible with the current version of the system or the app\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nCurrently hidden app features:\n\n</string>
+    <string name="help_cant_see_apps_desc">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app features:\n\n • Those currently disabled or hidden\n • Those not found in your device\n • Those incompatible with the current version of the system or the app\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nCurrently hidden app features:\n\n</string>
     <string name="help_cant_see_apps_uninstall">Uninstalled apps:\n</string>
     <string name="help_cant_see_apps_disable">Disabled or hidden apps:\n</string>
-    <string name="help_cant_see_apps_desc_no_hidden">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app features:\n\n - Those currently disabled or hidden\n - Those not found in your device\n - Those incompatible with the current version of the system or the app\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nThere are currently no hidden features!</string>
+    <string name="help_cant_see_apps_desc_no_hidden">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app features:\n\n • Those currently disabled or hidden\n • Those not found in your device\n • Those incompatible with the current version of the system or the app\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nThere are currently no hidden features!</string>
     <string name="help_cant_see_apps_switch">Hide this help in homepage</string>
     <string name="help_cant_see_apps_switch_desc">You can still find this page in About > Help. Reboot app to apply.</string>
     <string name="help_support_version_title">Current app version support system version list</string>
