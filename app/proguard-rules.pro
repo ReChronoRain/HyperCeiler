@@ -14,6 +14,8 @@
 -keep class com.sevtinge.hyperceiler.module.base.BaseModule { *; }
 #-keep class com.sevtinge.hyperceiler.utils.XposedUtils { *; }
 -keep class com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.** { *; }
+-keep class cn.lyric.getter.api.data.* { *; }
+-keep class cn.lyric.getter.api.API { *; }
 
 -keepattributes SourceFile,LineNumberTable
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
