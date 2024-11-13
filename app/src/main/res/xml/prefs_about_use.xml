@@ -238,10 +238,10 @@
         </Preference>
         <Preference
             android:summary="xiaowine | Apache-2.0"
-            android:title="Lyric-Getter">
+            android:title="Lyric-Getter-Api">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/xiaowine/Lyric-Getter" />
+                android:data="https://github.com/xiaowine/Lyric-Getter-Api" />
         </Preference>
         <Preference
             android:summary="YifePlayte | GPL-3.0"
