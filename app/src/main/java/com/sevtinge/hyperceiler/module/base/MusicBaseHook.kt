@@ -15,6 +15,7 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.tool.*
+import com.sevtinge.hyperceiler.utils.api.ProjectApi.*
 import org.json.*
 
 abstract class MusicBaseHook : BaseHook() {
@@ -43,7 +44,7 @@ abstract class MusicBaseHook : BaseHook() {
         loadClass("android.app.Application").methodFinder().filterByName("onCreate").first()
             .createAfterHook {
                 registerLyricListener(context, API.API_VERSION, receiver)
-                logE(TAG, lpparam.packageName, "registerLyricListener")
+                if (isDebug()) logD(TAG, lpparam.packageName, "registerLyricListener")
             }
     }
 

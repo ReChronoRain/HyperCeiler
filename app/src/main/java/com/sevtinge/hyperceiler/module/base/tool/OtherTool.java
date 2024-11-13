@@ -35,7 +35,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtils;
@@ -185,7 +184,7 @@ public class OtherTool {
                     if (isDarkMode()) a = 120;
                     else a = 140;
                     MiBlurUtils.setContainerPassBlur(getTextView(), i, true);
-                    MiBlurUtils.setMiViewBlurMode(getTextView(), 3);
+                    MiBlurUtils.setMiViewBlurMode(getTextView(), 1);
                     MiBlurUtils.clearMiBackgroundBlendColor(getTextView());
                     MiBlurUtils.addMiBackgroundBlendColor(getTextView(), Color.argb(a, 0, 0, 0), 103);
                 } catch (Throwable e) {

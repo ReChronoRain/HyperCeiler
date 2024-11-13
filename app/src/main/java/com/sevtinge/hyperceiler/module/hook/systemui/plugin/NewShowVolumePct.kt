@@ -27,6 +27,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.tool.*
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
+import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import de.robv.android.xposed.*
 
@@ -108,21 +109,22 @@ object NewShowVolumePct {
                     pctTag = getTextView().tag as Int
                 }
                 if (pctTag != 3 || getTextView() == null) return@createAfterHook
-                val mColumn = XposedHelpers.getObjectField(it.thisObject, "mColumn")
-                val ss = XposedHelpers.getObjectField(mColumn, "ss")
+                val mColumn = it.thisObject.getObjectFieldOrNull("mColumn")
+                if (mColumn == null) return@createAfterHook
+                val ss = mColumn.getObjectFieldOrNull( "ss")
                 if (ss == null) return@createAfterHook
-                if (XposedHelpers.getIntField(mColumn, "stream") == 10) return@createAfterHook
+                if (mColumn.getIntField("stream") == 10) return@createAfterHook
 
                 if (arg2) {
                     currentLevel = it.args[1] as Int
                 } else {
-                    val anim = XposedHelpers.getObjectField(mColumn, "anim") as ObjectAnimator
+                    val anim = mColumn.getObjectFieldOrNullAs<ObjectAnimator>("anim")
                     if (anim == null || !anim.isRunning) return@createAfterHook
-                    currentLevel = XposedHelpers.getIntField(mColumn, "animTargetProgress")
+                    currentLevel = mColumn.getIntField("animTargetProgress")
                 }
                 nowLevel = currentLevel
                 getTextView().visibility = View.VISIBLE
-                val levelMin = XposedHelpers.getIntField(ss, "levelMin")
+                val levelMin = ss.getIntField("levelMin")
                 if (levelMin > 0 && currentLevel < levelMin * 1000) {
                     currentLevel = levelMin * 1000
                 }
