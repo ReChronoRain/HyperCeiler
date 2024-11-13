@@ -18,8 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
@@ -35,7 +34,6 @@ import fan.preference.SeekBarPreferenceCompat;
 public class NetworkSpeedIndicatorSettings extends DashboardFragment
     implements Preference.OnPreferenceChangeListener {
 
-    SeekBarPreferenceCompat mNetworkSpeedWidth; // 固定宽度
     SeekBarPreferenceCompat mNetworkSpeedSpacing; // 网速间间距
     SwitchPreference mNetworkSwapIcon;
     SwitchPreference mNetworkSpeedSeparator;
@@ -52,7 +50,6 @@ public class NetworkSpeedIndicatorSettings extends DashboardFragment
     @Override
     public void initPrefs() {
         int mNetworkMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_system_ui_statusbar_network_speed_style", "0"));
-        mNetworkSpeedWidth = findPreference("prefs_key_system_ui_statusbar_network_speed_fixedcontent_width");
         mNetworkStyle = findPreference("prefs_key_system_ui_statusbar_network_speed_style");
         mNetworkAlign = findPreference("prefs_key_system_ui_statusbar_network_speed_align");
         mNetworkIcon = findPreference("prefs_key_system_ui_statusbar_network_speed_icon");
@@ -60,8 +57,7 @@ public class NetworkSpeedIndicatorSettings extends DashboardFragment
         mNetworkSwapIcon = findPreference("prefs_key_system_ui_statusbar_network_speed_swap_places");
         mNetworkSpeedSeparator = findPreference("prefs_key_system_ui_status_bar_no_netspeed_separator");
         mNetworkSpeedSpacing = findPreference("prefs_key_system_ui_statusbar_network_speed_spacing_margin");
-        mNetworkSpeedWidth.setVisible(!isAndroidVersion(30));
-        mNetworkSpeedSeparator.setVisible(!isHyperOSVersion(1f));
+        mNetworkSpeedSeparator.setVisible(!isMoreHyperOSVersion(1f));
 
         setNetworkMode(mNetworkMode);
         mNetworkStyle.setOnPreferenceChangeListener(this);

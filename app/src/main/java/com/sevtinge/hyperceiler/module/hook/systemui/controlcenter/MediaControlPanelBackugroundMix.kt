@@ -145,36 +145,22 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     cornerRadius = cornerRadiusBar.dp.toFloat()
                 }
 
-                if (isMoreHyperOSVersion(2f)) {
-                    val layerDrawable = LayerDrawable(
+                val layerDrawable =
+                    LayerDrawable(
                         arrayOf(
                             backgroundDrawable,
                             ClipDrawable(onProgressDrawable, Gravity.START, ClipDrawable.HORIZONTAL)
                         )
-                    ).apply {
-                        setLayerHeight(0, 9.dp)
-                        setLayerHeight(1, 9.dp)
-                    }
-                    seekBar.progressDrawable = layerDrawable
-                } else {
-                    val layerDrawable = LayerDrawable(
-                        arrayOf(
-                            backgroundDrawable,
-                            ClipDrawable(onProgressDrawable, Gravity.START, ClipDrawable.HORIZONTAL)
-                        )
-                    )
+                )
 
-                    seekBar.apply {
-                        thumb = thumbDrawable
-                        progressDrawable = layerDrawable
-                    }
+                seekBar.apply {
+                    thumb = thumbDrawable
+                    progressDrawable = layerDrawable
                 }
             }
 
-            if (!isMoreHyperOSVersion(2f)) {
-                seekBarObserver?.constructors?.first()?.createAfterHook {
-                    it.thisObject.objectHelper().setObject("seekBarEnabledMaxHeight", 9.dp)
-                }
+            seekBarObserver?.constructors?.first()?.createAfterHook {
+                it.thisObject.objectHelper().setObject("seekBarEnabledMaxHeight", 9.dp)
             }
 
             miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()

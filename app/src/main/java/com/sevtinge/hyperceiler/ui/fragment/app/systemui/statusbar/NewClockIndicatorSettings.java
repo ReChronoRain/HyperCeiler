@@ -18,13 +18,25 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
+import androidx.preference.SwitchPreference;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
 public class NewClockIndicatorSettings extends DashboardFragment {
 
+    SwitchPreference mClockAnim;
+
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar_new_clock_indicator;
+    }
+
+    @Override
+    public void initPrefs() {
+        mClockAnim = findPreference("prefs_key_system_ui_disable_clock_anim");
+        mClockAnim.setVisible(!isMoreHyperOSVersion(2f));
     }
 }
