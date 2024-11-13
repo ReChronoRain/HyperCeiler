@@ -58,22 +58,30 @@ object MobileTypeSingleHook : BaseHook() {
     private val statusBarMobileClass by lazy {
         loadClass("com.android.systemui.statusbar.StatusBarMobileView")
     }
+    private val miuiMobileIconBinder by lazy {
+        loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.binder.MiuiMobileIconBinder")
+    }
+    private val mOperatorConfig by lazy {
+        loadClass("com.miui.interfaces.IOperatorCustomizedPolicy\$OperatorConfig")
+    }
 
     override fun init() {
-        // 兼容图标异常空位的问题，一些机器不需要这两个 hook
-        /*val afterUpdate: MethodHook = object : MethodHook() {
-            override fun after(param: MethodHookParam) {
-                val mMobileLeftContainer =
-                    XposedHelpers.getObjectField(param.thisObject, "mMobileLeftContainer")
-                XposedHelpers.callMethod(mMobileLeftContainer, "setVisibility", 8)
-            }
-        }
-        hookAllMethods(statusBarMobileClass, "applyMobileState", afterUpdate)*/
-
-        if (isMoreHyperOSVersion(1f)) {
+        if (isMoreAndroidVersion(35)) {
+            showMobileTypeSingleNew()
+        } else if (isHyperOSVersion(1f)) {
             getMobileViewForHyperOS()
         } else {
             getMobileViewForMIUI()
+        }
+    }
+
+    private fun showMobileTypeSingleNew() {
+        mOperatorConfig.constructors[0].createHook {
+            after {
+                // 启用系统的网络类型单独显示
+                // 先偷懒一会，看系统界面看累了
+                XposedHelpers.setObjectField(it.thisObject, "showMobileDataTypeSingle", true)
+            }
         }
     }
 
