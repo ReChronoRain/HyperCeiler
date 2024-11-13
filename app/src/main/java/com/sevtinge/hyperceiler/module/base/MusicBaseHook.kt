@@ -14,6 +14,7 @@ import cn.lyric.getter.api.tools.Tools.registerLyricListener
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.sevtinge.hyperceiler.module.base.tool.*
 import org.json.*
 
 abstract class MusicBaseHook : BaseHook() {
@@ -96,12 +97,11 @@ abstract class MusicBaseHook : BaseHook() {
 
 
     private fun createNotificationChannel() {
+        val modRes = OtherTool.getModuleRes(context)
         val notificationManager = context.getSystemService("notification") as NotificationManager
         val notificationChannel = NotificationChannel(
-            CHANNEL_ID, "焦点通知歌词", NotificationManager.IMPORTANCE_DEFAULT
+            CHANNEL_ID, modRes.getString(com.sevtinge.hyperceiler.R.string.system_ui_statusbar_music_notification), NotificationManager.IMPORTANCE_DEFAULT
         )
-        // 记得换下，下面出了点故障，先写死中文了
-        // modRes.getString(R.string.system_ui_statusbar_music_notification)
         notificationChannel.setSound(null, null)
         notificationManager.createNotificationChannel(notificationChannel)
     }
