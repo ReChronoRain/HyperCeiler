@@ -1,3 +1,21 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v
 
 import android.service.notification.*
@@ -18,6 +36,9 @@ import de.robv.android.xposed.*
 
 object FocusNotifLyric : MusicBaseHook() {
     private val focusTextViewList = mutableListOf<TextView>()
+    private val textViewWidth by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_music_width", 0)
+    }
     override fun init() {
         // 拦截构建通知的函数
         loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").methodFinder()
@@ -57,42 +78,39 @@ object FocusNotifLyric : MusicBaseHook() {
                 it.thisObject.setLongField("mLastAnimationTime", System.currentTimeMillis())
             }
 
-        // 拿到插件的 classloader
-        loadClass("com.android.systemui.shared.plugins.PluginInstance").methodFinder()
-            .filterByName("loadPlugin")
-            .first().createAfterHook { p0 ->
-                val mPlugin = XposedHelpers.getObjectField(p0.thisObject, "mPlugin")
-                val pluginClassLoader = mPlugin::class.java.classLoader
-                try {
-                    val cl =
-                        loadClass("miui.systemui.notification.FocusNotificationPluginImpl", pluginClassLoader)
-                    // 过滤 系统界面组件
-                    if (cl.isInstance(mPlugin)) {
-                        loadClass("miui.systemui.notification.NotificationSettingsManager", pluginClassLoader)
-                            .methodFinder().filterByName("canShowFocus")
-                            .first().createHook {
-                                // 允许全部应用发送焦点通知
-                                returnConstant(true)
-                            }
-                    }
+    }
 
-                } catch (e: Exception) {
-                    return@createAfterHook
-                }
-                // 启用debug日志
-                if (isDebug()) {
-                    setStaticObject(
-                        loadClass("miui.systemui.notification.NotificationUtil", pluginClassLoader),
-                        "DEBUG",
-                        true
-                    )
-                }
+    fun initLoader(classLoader: ClassLoader) {
+        try {
+            val cl =
+                loadClass("miui.systemui.notification.FocusNotificationPluginImpl", classLoader)
+            // 过滤 系统界面组件
+            if (cl.isInstance(classLoader)) {
+                loadClass("miui.systemui.notification.NotificationSettingsManager", classLoader)
+                    .methodFinder().filterByName("canShowFocus")
+                    .first().createHook {
+                        // 允许全部应用发送焦点通知
+                        // 副作用：其他应用也会显示歌词，后续尝试解决
+                        returnConstant(true)
+                    }
             }
+
+        } catch (e: Exception) {
+            return
+        }
+        // 启用debug日志
+        if (isDebug()) {
+            setStaticObject(
+                loadClass("miui.systemui.notification.NotificationUtil", classLoader),
+                "DEBUG",
+                true
+            )
+        }
     }
 
     private const val MARQUEE_DELAY = 1200L
     private var speed = -0.1f
-    private const val SPEED_INCREASE = 1.8f
+    private val SPEED_INCREASE = mPrefsMap.getInt("system_ui_statusbar_music_speed", 18) * 0.1f
 
     private val runnablePool = mutableMapOf<Int, Runnable>()
     override fun onUpdate(lyricData: LyricData) {
@@ -100,7 +118,7 @@ object FocusNotifLyric : MusicBaseHook() {
         focusTextViewList.forEach {
             it.text = lyric
             if (XposedHelpers.getAdditionalStaticField(it, "is_scrolling") == 1) {
-                val m0 = it.getObjectField("mMarquee")
+                val m0 = it.getObjectFieldOrNull("mMarquee")
                 if (m0 != null) {
                     // 设置速度并且调用停止函数,重置歌词位置
                     m0.setFloatField("mPixelsPerMs", 0f)
@@ -130,7 +148,7 @@ object FocusNotifLyric : MusicBaseHook() {
                 (textView.width - textView.compoundPaddingLeft - textView.compoundPaddingRight).toFloat()
             val lineWidth = textView.layout.getLineWidth(0)
             // 重设最大滚动宽度,只能滚动到文本结束
-            m.setFloatField("mMaxScroll", lineWidth - width)
+            m.setFloatField("mMaxScroll", lineWidth + textViewWidth - width)
             // 重设速度
             m.setFloatField("mPixelsPerMs", speed)
             // 移除回调,防止滚动结束之后重置滚动位置

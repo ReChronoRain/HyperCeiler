@@ -863,8 +863,12 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">Long text output</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Text</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">This is a long piece of text that will be output in scrolling form</string>
-    <string name="system_ui_statusbar_music_tip">Precautions before use:\n- After turning this function on and off, please check and restart the SystemUI and the corresponding music scope\n- Please turn on the \"Focus Notification Lyrics\" notification under the notification category of the corresponding music app\n- This function Need to be used with the \"Wine Domain-Lyrics Acquisition\" module</string>
+    <string name="system_ui_statusbar_music_tip">Notes before use:\n- After turning on this function, please check and restart the SystemUI and the corresponding music scope\n- This function needs to be used with the \"Wine Domain-Lyrics Acquisition\" module\n- Please ensure that the corresponding music scope Under the notification category of the App, there are notifications that enable \"Focus Notification Lyrics\" and the focus notification of the app.</string>
     <string name="system_ui_statusbar_music_notification">Focus Notification Lyrics</string>
+    <string name="system_ui_statusbar_music_cusiom_title">Display settings</string>
+    <string name="system_ui_statusbar_music_speed_title">Lyrics scroll rate</string>
+    <string name="system_ui_statusbar_music_width_title">Add whitespace at the end of lyrics</string>
+    <string name="system_ui_statusbar_music_width_desc">Make scrolling lyrics as complete as possible</string>
     <string name="system_ui_controlcenter_title">Control center</string>
     <string name="system_ui_controlcenter_card_title">Card</string>
     <string name="system_ui_controlcenter_media_card_title">Media notification card</string>

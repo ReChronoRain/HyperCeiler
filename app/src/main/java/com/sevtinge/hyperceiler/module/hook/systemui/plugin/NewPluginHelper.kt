@@ -26,6 +26,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.hook.systemui.*
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.*
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.*
 import com.sevtinge.hyperceiler.utils.api.*
 import java.lang.ref.*
 
@@ -108,6 +109,22 @@ object NewPluginHelper : BaseHook() {
                         HideEditButton.initHideEditButton(classLoader)
                     if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"))
                         CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角
+                }
+
+                factory.componentNames("miui.systemui.notification.FocusNotificationPluginImpl") -> {
+                    val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
+                    logD(TAG, lpparam.packageName, "Plugin for sysui FocusNotificationPluginImpl loaded.")
+
+                    if (mPrefsMap.getBoolean("system_ui_statusbar_music_switch"))
+                        FocusNotifLyric.initLoader(classLoader);
+                }
+
+                factory.componentNames("miui.systemui.notification.NotificationStatPluginImpl") -> {
+                    val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
+                    logD(TAG, lpparam.packageName, "Plugin for sysui NotificationStatPluginImpl loaded.")
+
+                    if (mPrefsMap.getBoolean("system_ui_statusbar_music_switch"))
+                        FocusNotifLyric.initLoader(classLoader);
                 }
 
                 else -> {
