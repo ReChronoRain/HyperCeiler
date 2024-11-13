@@ -14,7 +14,7 @@ updates:
         patterns:
           - "*"
     ignore:
-      - dependency-name: "com.github.HChenX:HookTool"
+      - dependency-name: "io.github.hchenx:hooktool"
       # HookTool should be updated manually
 
   - package-ecosystem: github-actions
