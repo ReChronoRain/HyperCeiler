@@ -18,14 +18,12 @@
  */
 package com.sevtinge.hyperceiler.utils;
 
-import static com.sevtinge.hyperceiler.utils.Helpers.getModuleRes;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Build;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Switch;
@@ -35,14 +33,12 @@ import androidx.annotation.CallSuper;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
-import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedHelpers;
 
 public abstract class TileUtils extends BaseHook {
-    private final String mQSFactoryClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
-        "com.android.systemui.qs.tileimpl.QSFactoryImpl";
+    private final String mQSFactoryClsName = "com.android.systemui.qs.tileimpl.MiuiQSFactory" ;
     private final boolean[] isListened = {false};
     private final String[] mTileProvider = new String[4];
     private Class<?> mResourceIcon;
@@ -68,7 +64,7 @@ public abstract class TileUtils extends BaseHook {
         SystemUiHook();
         customTileProvider();
         showStateMessage(myTile);
-        if (SystemSDKKt.isMoreAndroidVersion(34)) {
+        if (isMoreAndroidVersion(34)) {
             tileAllName14(mQSFactory);
         } else {
             tileAllName(mQSFactory);

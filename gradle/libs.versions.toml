@@ -26,6 +26,7 @@ ezxhelper = "2.2.0"
 hiddenapibypass = "4.3"
 annotation-processor = "4.4.0"
 hooktool = "v.1.0.6"
+lyricGetterApi = "6.0.0"
 
 [libraries]
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
@@ -52,6 +53,7 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 dexkit = { group = "org.luckypray", name = "dexkit", version.ref = "dexkit" }
 ezxhelper = { group = "com.github.kyuubiran", name = "EzXHelper", version.ref = "ezxhelper" }
 hiddenapibypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "hiddenapibypass" }
+lyric-getter-api = { module = "com.github.xiaowine:Lyric-Getter-Api", version.ref = "lyricGetterApi" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

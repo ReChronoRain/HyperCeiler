@@ -695,6 +695,7 @@
     <string name="system_ui_statusbar_clock_title">时钟指示器</string>
     <string name="system_ui_statusbar_device_title">硬件指示器</string>
     <string name="system_ui_statusbar_strong_toast_title">灵动舞台</string>
+    <string name="system_ui_statusbar_music_title">焦点歌词</string>
     <string name="system_ui_statusbar_layout_title">布局</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">兼容模式</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">对所有异形屏强制开启完整屏布局</string>
@@ -881,6 +882,9 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">长文本输出</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">测试</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">这是一条长文本，它将以滚动形式输出</string>
+
+    <string name="system_ui_statusbar_music_tip">使用前注意事项：\n- 开关此功能后，请勾选并重启系统界面及对应音乐作用域\n- 请在对应音乐 App 的通知类别下开启 \"焦点通知歌词\" 的通知\n- 此功能需要搭配 \"酒域-歌词获取\" 模块使用</string>
+    <string name="system_ui_statusbar_music_notification">焦点通知歌词</string>
 
     <string name="system_ui_controlcenter_title">通知与控制中心</string>
     <string name="system_ui_controlcenter_card_title">卡片</string>

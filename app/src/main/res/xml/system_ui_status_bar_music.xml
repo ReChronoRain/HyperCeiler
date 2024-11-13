@@ -1,0 +1,16 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_ui_statusbar_music_title"
+    app:quick_restart="com.android.systemui">
+    <Preference
+        android:layout="@layout/headtip_tip"
+        android:key="prefs_key_system_ui_statusbar_music_tip"
+        android:enabled="false"
+        android:title="@string/system_ui_statusbar_music_tip" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="prefs_key_system_ui_statusbar_music_switch"
+        android:title="@string/enable" />
+
+</PreferenceScreen>

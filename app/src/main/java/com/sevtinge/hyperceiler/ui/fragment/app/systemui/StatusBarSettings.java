@@ -35,6 +35,7 @@ public class StatusBarSettings extends DashboardFragment {
     Preference mClockStatus; // 时钟指示器
     Preference mDeviceStatus; // 硬件指示器
     Preference mToastStatus; // 灵动 Toast
+    Preference mMusic; // 焦点歌词
     Preference mIconManager;
     PreferenceCategory mStatusBarLayout; // 状态栏布局
     RecommendPreference mRecommend;
@@ -51,9 +52,11 @@ public class StatusBarSettings extends DashboardFragment {
 
         mDeviceStatus = findPreference("prefs_key_system_ui_status_bar_device");
         mToastStatus = findPreference("prefs_key_system_ui_status_bar_toast");
+        mMusic = findPreference("prefs_key_system_ui_status_bar_music");
         mStatusBarLayout = findPreference("pref_key_system_ui_statusbar_layout");
         mDeviceStatus.setVisible(!isMoreHyperOSVersion(1f) || !isMoreAndroidVersion(34));
         mToastStatus.setVisible(isMoreHyperOSVersion(1f));
+        mMusic.setVisible(isMoreHyperOSVersion(2f));
 
         if (isMoreHyperOSVersion(1f)) {
             mIconManager.setFragment("com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.IconManageNewSettings");

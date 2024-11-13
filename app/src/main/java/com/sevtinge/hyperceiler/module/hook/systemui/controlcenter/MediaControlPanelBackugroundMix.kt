@@ -58,6 +58,12 @@ class MediaControlPanelBackgroundMix : BaseHook() {
     private val overlay by lazy {
         mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_overlay", 20)
     }
+    private val progress by lazy {
+        mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2
+    }
+    private val progressThickness by lazy {
+        mPrefsMap.getInt("system_ui_control_center_media_control_progress_thickness", 80)
+    }
 
     override fun init() {
         // 部分代码来自 Hyper Helper (https://github.com/HowieHChen/XiaomiHelper/blob/master/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/systemui/CustomMusicControl.kt)
@@ -139,28 +145,34 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     cornerRadius = cornerRadiusBar.dp.toFloat()
                 }
 
-                val thumbDrawable = seekBar?.thumb as LayerDrawable
                 val onProgressDrawable = GradientDrawable().apply {
                     color = ColorStateList(arrayOf(intArrayOf()), intArrayOf(Color.parseColor("#ffffffff")))
                     cornerRadius = cornerRadiusBar.dp.toFloat()
                 }
 
-                val layerDrawable =
-                    LayerDrawable(
-                        arrayOf(
-                            backgroundDrawable,
-                            ClipDrawable(onProgressDrawable, Gravity.START, ClipDrawable.HORIZONTAL)
-                        )
-                )
-
-                seekBar.apply {
-                    thumb = thumbDrawable
-                    progressDrawable = layerDrawable
+                val layerDrawable = LayerDrawable(
+                    arrayOf(backgroundDrawable, ClipDrawable(onProgressDrawable, Gravity.START, ClipDrawable.HORIZONTAL))
+                ).apply {
+                    if (progress) {
+                        setLayerHeight(0, progressThickness.dp)
+                        setLayerHeight(1, progressThickness.dp)
+                    } else {
+                        setLayerHeight(0, 9.dp)
+                        setLayerHeight(1, 9.dp)
+                    }
                 }
+
+                seekBar?.progressDrawable = layerDrawable
             }
 
             seekBarObserver?.constructors?.first()?.createAfterHook {
-                it.thisObject.objectHelper().setObject("seekBarEnabledMaxHeight", 9.dp)
+                if (progress) {
+                    it.thisObject.objectHelper()
+                        .setObject("seekBarEnabledMaxHeight", progressThickness.dp)
+                } else {
+                    it.thisObject.objectHelper()
+                        .setObject("seekBarEnabledMaxHeight", 9.dp)
+                }
             }
 
             miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()

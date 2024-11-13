@@ -160,6 +160,13 @@
                 android:data="https://github.com/qqlittleice/FixMiuiMediaControlPanel" />
         </Preference>
         <Preference
+            android:summary="wuyou-123 | No License"
+            android:title="FocusNotifLyric">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/wuyou-123/FocusNotifLyric" />
+        </Preference>
+        <Preference
             android:summary="焕晨HChen | GPL-3.0"
             android:title="ForegroundPin">
             <intent
@@ -228,6 +235,13 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/LSPosed/LSParanoid" />
+        </Preference>
+        <Preference
+            android:summary="xiaowine | Apache-2.0"
+            android:title="Lyric-Getter">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/xiaowine/Lyric-Getter" />
         </Preference>
         <Preference
             android:summary="YifePlayte | GPL-3.0"

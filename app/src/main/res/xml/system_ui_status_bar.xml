@@ -43,6 +43,11 @@
         android:key="prefs_key_system_ui_status_bar_toast"
         android:title="@string/system_ui_statusbar_strong_toast_title" />
 
+    <Preference
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.FocusNotificationLyrics"
+        android:key="prefs_key_system_ui_status_bar_music"
+        android:title="@string/system_ui_statusbar_music_title" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

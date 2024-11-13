@@ -42,7 +42,8 @@ val roots = mapOf(
     "springback" to "libs/springback-${buildTypes}.aar",
     "theme" to "libs/theme-${buildTypes}.aar",
     "viewpager" to "libs/viewpager-${buildTypes}.aar",
-    "external" to "libs/external-${buildTypes}.aar"
+    "external" to "libs/external-${buildTypes}.aar",
+    "expansion_packs" to "libs/hyperceiler_expansion_packs-debug.aar"
 )
 
 val getGitCommitCount: () -> Int = {
@@ -236,7 +237,6 @@ android {
 
 dependencies {
     compileOnly(project(":hidden-api"))
-    // compileOnly(project(":miuistub"))
     compileOnly(libs.xposed.api)
     // compileOnly(libs.androidx.preference)
 
@@ -246,6 +246,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.hooktool)
     implementation(libs.gson)
+    implementation(libs.lyric.getter.api)
 
     implementation(libs.core)
     implementation(libs.collection)
@@ -277,8 +278,9 @@ dependencies {
     implementation(files(roots["theme"]))
     implementation(files(roots["viewpager"]))
     implementation(files(roots["external"]))
+    // project packs
+    implementation(files(roots["expansion_packs"]))
 
     implementation(project(":app:processor"))
     annotationProcessor(project(":app:processor"))
-    implementation(files("libs/hyperceiler_expansion_packs-debug.aar"))
 }

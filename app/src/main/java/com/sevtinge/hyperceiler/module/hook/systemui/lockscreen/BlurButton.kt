@@ -55,9 +55,7 @@ object BlurButton : BaseHook() {
     override fun init() {
         // by StarVoyager
         if (isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) {
-            loadClassOrNull(
-                "com.android.keyguard.injector.KeyguardBottomAreaInjector"
-            )!!.methodFinder()
+            loadClassOrNull("com.android.keyguard.injector.KeyguardBottomAreaInjector")!!.methodFinder()
                 .filter {
                     name in setOf(
                         "updateLeftIcon",
