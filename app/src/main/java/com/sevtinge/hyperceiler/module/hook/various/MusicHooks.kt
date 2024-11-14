@@ -20,10 +20,34 @@ package com.sevtinge.hyperceiler.module.hook.various
 
 import cn.lyric.getter.api.data.*
 import cn.lyric.getter.api.data.type.*
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
+import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 
 object MusicHooks : MusicBaseHook() {
     override fun init() {
+        if (lpparam.packageName == "com.salt.music") {
+            val clazz = loadClassOrNull("cn.lyric.getter.api.API")
+            clazz?.constructorFinder()?.first()?.createHook {
+                before { hookParam ->
+                    if ((hookParam.thisObject.objectHelper().getObjectOrNullAs<Int>("API_VERSION")
+                            ?: 0) >= 6
+                    ) {
+                        clazz.methodFinder().first { name == "sendLyric" }.createHook {
+                            before { hookParam ->
+                                val extra = (hookParam.args[1]).objectHelper()
+                                    .getObjectOrNullAs<HashMap<String, Any>>("extra")
+                                extra?.put("packageName", "com.salt.music")
+                            }
+                        }
+                    }
+                }
+            }
+            logI(TAG, lpparam.packageName, "LyricGetter API6 Fixed")
+        }
     }
 
     override fun onUpdate(lyricData: LyricData) {
