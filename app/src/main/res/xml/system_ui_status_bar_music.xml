@@ -53,7 +53,7 @@
             android:title="@string/system_ui_statusbar_music_width_title"
             app:defaultValueText="@string/array_default"
             app:format="%d dp"
-            app:maxValue="24"
+            app:maxValue="32"
             app:minValue="0"
             app:showSeekBarValue="true"
             app:stepValue="1" />

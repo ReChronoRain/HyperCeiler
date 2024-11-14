@@ -205,7 +205,14 @@ public abstract class BaseXposedInit {
     }
 
     private boolean isOtherRestrictions(String pkg) {
-        return false;
+        switch (pkg) {
+            case "com.google.android.webview" -> {
+                return true;
+            }
+            default -> {
+                return false;
+            }
+        }
     }
 
     public void ModuleActiveHook(LoadPackageParam lpparam) {

@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.module.base
 import android.annotation.*
 import android.app.*
 import android.app.AndroidAppHelper.*
-import android.app.Application
 import android.graphics.drawable.*
 import android.os.*
 import androidx.core.app.*
@@ -33,7 +32,6 @@ import cn.lyric.getter.api.tools.Tools.registerLyricListener
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.*
 import com.sevtinge.hyperceiler.module.base.tool.*
 import com.sevtinge.hyperceiler.utils.api.ProjectApi.*
 import org.json.*
@@ -120,7 +118,7 @@ abstract class MusicBaseHook : BaseHook() {
         val modRes = OtherTool.getModuleRes(context)
         val notificationManager = context.getSystemService("notification") as NotificationManager
         val notificationChannel = NotificationChannel(
-            CHANNEL_ID, modRes.getString(R.string.system_ui_statusbar_music_notification), NotificationManager.IMPORTANCE_DEFAULT
+            CHANNEL_ID, modRes.getString(com.sevtinge.hyperceiler.R.string.system_ui_statusbar_music_notification), NotificationManager.IMPORTANCE_DEFAULT
         )
         notificationChannel.setSound(null, null)
         notificationManager.createNotificationChannel(notificationChannel)

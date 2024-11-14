@@ -43,7 +43,6 @@ object UnlockSuperWirelessCharge : BaseHook() {
             it.findMethod {
                 matcher {
                     addUsingStringsEquals("key_is_connected_super_wls_tx")
-                    returnType = "boolean"
                 }
             }.single().getMethodInstance(EzXHelper.classLoader)
         }.toMethod()
@@ -53,9 +52,18 @@ object UnlockSuperWirelessCharge : BaseHook() {
         superWirelessCharge.createHook {
             returnConstant(true)
         }
-
-        superWirelessChargeTip.createHook {
-            returnConstant(true)
+        runCatching {
+            if (superWirelessChargeTip.returnType == Void::class.java) {
+                superWirelessChargeTip.createHook {
+                    before {
+                        it.args[0] = true
+                    }
+                }
+            } else {
+                superWirelessChargeTip.createHook {
+                    returnConstant(true)
+                }
+            }
         }
     }
 }
