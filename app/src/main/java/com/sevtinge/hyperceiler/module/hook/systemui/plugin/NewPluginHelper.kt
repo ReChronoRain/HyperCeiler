@@ -111,14 +111,6 @@ object NewPluginHelper : BaseHook() {
                         CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角
                 }
 
-                factory.componentNames("miui.systemui.notification.FocusNotificationPluginImpl") -> {
-                    val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
-                    logD(TAG, lpparam.packageName, "Plugin for sysui FocusNotificationPluginImpl loaded.")
-
-                    if (mPrefsMap.getBoolean("system_ui_statusbar_music_switch"))
-                        FocusNotifLyric.initLoader(classLoader);
-                }
-
                 factory.componentNames("miui.systemui.notification.NotificationStatPluginImpl") -> {
                     val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                     logD(TAG, lpparam.packageName, "Plugin for sysui NotificationStatPluginImpl loaded.")

@@ -23,7 +23,6 @@ import android.view.*
 import android.widget.*
 import cn.lyric.getter.api.data.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.ClassUtils.setStaticObject
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
@@ -31,7 +30,6 @@ import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constr
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.api.ProjectApi.*
 import de.robv.android.xposed.*
 
 object FocusNotifLyric : MusicBaseHook() {
@@ -82,29 +80,18 @@ object FocusNotifLyric : MusicBaseHook() {
 
     fun initLoader(classLoader: ClassLoader) {
         try {
-            val cl =
-                loadClass("miui.systemui.notification.FocusNotificationPluginImpl", classLoader)
-            // 过滤 系统界面组件
-            if (cl.isInstance(classLoader)) {
-                loadClass("miui.systemui.notification.NotificationSettingsManager", classLoader)
-                    .methodFinder().filterByName("canShowFocus")
-                    .first().createHook {
-                        // 允许全部应用发送焦点通知
-                        returnConstant(true)
-                    }
+            loadClass("miui.systemui.notification.NotificationSettingsManager", classLoader)
+                .methodFinder().filterByName("canShowFocus")
+                .first().createHook {
+                    // 允许全部应用发送焦点通知
+                    returnConstant(true)
             }
 
         } catch (e: Exception) {
             return
         }
         // 启用debug日志
-        if (isDebug()) {
-            setStaticObject(
-                loadClass("miui.systemui.notification.NotificationUtil", classLoader),
-                "DEBUG",
-                true
-            )
-        }
+        // setStaticObject(loadClass("miui.systemui.notification.NotificationUtil", classLoader), "DEBUG", true)
     }
 
     private const val MARQUEE_DELAY = 1200L
