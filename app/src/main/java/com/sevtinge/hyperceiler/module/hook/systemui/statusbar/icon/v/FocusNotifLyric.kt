@@ -44,10 +44,10 @@ object FocusNotifLyric : MusicBaseHook() {
         loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").methodFinder()
             .filterByName("requestPipelineRun").first().createBeforeHook {
                 val statusBarNotification =
-                    it.args[0].getObjectField("mSbn") as StatusBarNotification
-                    if (statusBarNotification.notification.channelId == CHANNEL_ID) {
-                        it.result = null
-                    }
+                    it.args[0].getObjectFieldOrNullAs<StatusBarNotification>("mSbn")
+                if (statusBarNotification!!.notification.channelId == CHANNEL_ID) {
+                    it.result = null
+                }
             }
 
         // 拦截初始化状态栏焦点通知文本布局
@@ -90,7 +90,6 @@ object FocusNotifLyric : MusicBaseHook() {
                     .methodFinder().filterByName("canShowFocus")
                     .first().createHook {
                         // 允许全部应用发送焦点通知
-                        // 副作用：其他应用也会显示歌词，后续尝试解决
                         returnConstant(true)
                     }
             }

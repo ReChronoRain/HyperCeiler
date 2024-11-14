@@ -6,16 +6,15 @@
 -keep class com.sevtinge.hyperceiler.utils.Helpers { int XposedVersion; }
 -keep class fan.**{ *; }
 -keep class androidx.preference.**{ *; }
--keep class org.luckypray.dexkit.*
+-keep class org.luckypray.dexkit.**{ *; }
+-keep class cn.lyric.getter.api.**{ *; }
+-keep class com.sevtinge.hyperceiler.module.base.**{ *; }
 -keep class * extends com.sevtinge.hyperceiler.ui.fragment.base.*
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook { <init>(); }
 -keep class com.sevtinge.hyperceiler.module.base.dexkit.**{ *; }
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseModule
 -keep class com.sevtinge.hyperceiler.module.base.BaseModule { *; }
-#-keep class com.sevtinge.hyperceiler.utils.XposedUtils { *; }
 -keep class com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.** { *; }
--keep class cn.lyric.getter.api.data.* { *; }
--keep class cn.lyric.getter.api.API { *; }
 
 -keepattributes SourceFile,LineNumberTable
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
