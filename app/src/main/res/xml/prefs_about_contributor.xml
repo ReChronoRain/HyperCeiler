@@ -317,6 +317,13 @@
                 android:data="https://github.com/YifePlayte" />
         </Preference>
         <Preference
+            android:summary="GitHub@Nep-Timeline"
+            android:title="YuSaki丶Kanade">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Nep-Timeline" />
+        </Preference>
+        <Preference
             android:summary="GitHub@zcarroll4"
             android:title="Zach Carroll">
             <intent
