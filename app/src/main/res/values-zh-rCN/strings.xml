@@ -1951,5 +1951,6 @@
     <string name="home_recent_hide_card">隐藏后台卡片</string>
     <string name="home_recent_hide_card_desc">隐藏最近任务中所选应用的后台卡片</string>
     <string name="misound_spatial">断开耳机强制打开沉浸声</string>
+    <string name="add_clipboard_clear">添加清空剪贴板按钮</string>
 
 </resources>

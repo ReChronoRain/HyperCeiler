@@ -21,12 +21,12 @@ package com.sevtinge.hyperceiler.module.app;
 import android.content.Context;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
-
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool;
 import com.sevtinge.hyperceiler.module.hook.clipboard.BaiduClipboard;
 import com.sevtinge.hyperceiler.module.hook.clipboard.SoGouClipboard;
+import com.sevtinge.hyperceiler.module.hook.various.ClearClipboard;
 import com.sevtinge.hyperceiler.module.hook.various.ClipboardList;
 import com.sevtinge.hyperceiler.module.hook.various.MusicHooks;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockIme;
@@ -53,6 +53,7 @@ public class VariousThirdApps extends BaseModule {
         initHook(new BaiduClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
                 ("com.baidu.input".equals(mPackageName) || "com.baidu.input_mi".equals(mPackageName)));
         initHook(new ClipboardList(), mPrefsMap.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
+        initHook(new ClearClipboard(), mPrefsMap.getBoolean("add_clipboard_clear") && isInputMethod(mPackageName));
 
         // 焦点歌词（音乐软件相关）
         initHook(MusicHooks.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch"));
