@@ -38,9 +38,6 @@ public class HomeFolderSettings extends DashboardFragment {
     DropDownPreference mFolderShade;
     SeekBarPreferenceCompat mFolderShadeLevel;
 
-    SeekBarPreferenceCompat mFolderColumns;
-    SwitchPreference mFolderWidth;
-    SwitchPreference mFolderSpace;
     SwitchPreference mUnlockFolderBlurSupport;
     SwitchPreference mSmallFolderIconBackgroundCustom1;
     SwitchPreference mSmallFolderIconBackgroundCustom2;
@@ -65,10 +62,6 @@ public class HomeFolderSettings extends DashboardFragment {
         mFolderShadeLevel = findPreference("prefs_key_home_folder_shade_level");
         mUnlockFolderBlurSupport = findPreference("prefs_key_home_folder_unlock_blur_supported");
 
-        mFolderColumns = findPreference("prefs_key_home_folder_columns");
-        mFolderWidth = findPreference("prefs_key_home_folder_width");
-        mFolderSpace = findPreference("prefs_key_home_folder_space");
-
         if (isPad()) {
             mSmallFolderIconBackgroundCustom1 = findPreference("prefs_key_home_big_folder_icon_bg_2x1");
             mSmallFolderIconBackgroundCustom2 = findPreference("prefs_key_home_big_folder_icon_bg_1x2");
@@ -80,36 +73,16 @@ public class HomeFolderSettings extends DashboardFragment {
         }
         mUnlockFolderBlurSupport.setVisible(isMoreHyperOSVersion(1f));
         setFolderShadeLevelEnable(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_home_folder_shade", "0")));
-        setFolderWidthEnable(PrefsUtils.mSharedPreferences.getInt(mFolderColumns.getKey(), 3));
-        setFolderSpaceEnable(PrefsUtils.mSharedPreferences.getInt(mFolderColumns.getKey(), 3));
 
         mFolderShade.setOnPreferenceChangeListener((preference, o) -> {
             setFolderShadeLevelEnable(Integer.parseInt((String) o));
             return true;
         });
-
-        mFolderColumns.setOnPreferenceChangeListener(((preference, o) -> {
-            setFolderWidthEnable((Integer) o);
-            setFolderSpaceEnable((Integer) o);
-            return true;
-        }));
     }
 
     private void setFolderShadeLevelEnable(int i) {
         boolean isEnable = i != 0;
         mFolderShadeLevel.setVisible(isEnable);
         mFolderShadeLevel.setEnabled(isEnable);
-    }
-
-    private void setFolderWidthEnable(int columns) {
-        boolean isEnable = columns > 1;
-        mFolderWidth.setVisible(isEnable);
-        mFolderWidth.setEnabled(isEnable);
-    }
-
-    private void setFolderSpaceEnable(int columns) {
-        boolean isEnable = columns > 3;
-        mFolderSpace.setVisible(isEnable);
-        mFolderSpace.setEnabled(isEnable);
     }
 }

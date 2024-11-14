@@ -1285,8 +1285,9 @@
     <string name="home_folder_shade_level_title">色彩强度</string>
     <string name="home_folder_cols_title">文件夹排列数量</string>
     <string name="home_folder_cols_format">%d 列</string>
-    <string name="home_folder_vertical_padding_title">文件夹水平间距</string>
-    <string name="home_folder_width_title">使用整个文件夹的宽度</string>
+    <string name="home_folder_horizontal_padding_desc">文件夹距离屏幕左右两边边距</string>
+    <string name="home_folder_vertical_spacing_desc">文件夹各行之间的间距</string>
+    <string name="home_folder_width_title">占满屏幕宽度</string>
     <string name="home_folder_space_title">减少边距</string>
     <string name="home_folder_blur_title">背景模糊</string>
     <string name="home_folder_recommend_apps_switch">隐藏 \"今日推荐\" 开关</string>

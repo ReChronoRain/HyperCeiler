@@ -1172,7 +1172,7 @@
     <string name="home_folder_shade_level_title">Intensidade da cor</string>
     <string name="home_folder_cols_title">Número de colunas nas pastas</string>
     <string name="home_folder_cols_format">%d colunas</string>
-    <string name="home_folder_vertical_padding_title">Espaçamento horizontal da pasta</string>
+    <string name="home_folder_vertical_spacing_desc">Espaçamento horizontal da pasta</string>
     <string name="home_folder_width_title">Usar largura total da pasta</string>
     <string name="home_folder_space_title">Reduzir margens</string>
     <string name="home_folder_blur_title">Blur de fundo</string>

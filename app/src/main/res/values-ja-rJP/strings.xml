@@ -1133,7 +1133,7 @@
     <string name="home_folder_shade_level_title">色彩強度</string>
     <string name="home_folder_cols_title">フォルダー配置の数</string>
     <string name="home_folder_cols_format">%d 件のリスト</string>
-    <string name="home_folder_vertical_padding_title">フォルダーの水平方向の間隔</string>
+    <string name="home_folder_vertical_spacing_desc">フォルダーの水平方向の間隔</string>
     <string name="home_folder_width_title">フォルダーの幅一杯にする</string>
     <string name="home_folder_space_title">余白を減らす</string>
     <string name="home_folder_blur_title">背景のぼかし</string>

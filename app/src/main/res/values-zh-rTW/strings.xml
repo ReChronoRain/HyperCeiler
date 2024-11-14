@@ -1175,7 +1175,7 @@
     <string name="home_folder_shade_level_title">色彩強度</string>
     <string name="home_folder_cols_title">資料夾欄位數量</string>
     <string name="home_folder_cols_format">%d 列</string>
-    <string name="home_folder_vertical_padding_title">資料夾水平間距</string>
+    <string name="home_folder_vertical_spacing_desc">資料夾水平間距</string>
     <string name="home_folder_width_title">利用整個資料夾視圖的寬度</string>
     <string name="home_folder_space_title">減少邊距</string>
     <string name="home_folder_blur_title">背景模糊</string>

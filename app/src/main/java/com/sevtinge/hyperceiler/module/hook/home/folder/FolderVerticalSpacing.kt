@@ -24,16 +24,16 @@ import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import de.robv.android.xposed.*
 
-object FolderVerticalPadding : BaseHook() {
+object FolderVerticalSpacing : BaseHook() {
     override fun init() {
 
-        val verticalPadding = mPrefsMap.getInt("home_folder_vertical_padding", 0)
-        if (verticalPadding <= 0) return
+        val verticalSpacing = mPrefsMap.getInt("home_folder_vertical_spacing", 0)
+        if (verticalSpacing <= 0) return
         "com.miui.home.launcher.Folder".findClass().hookAfterAllMethods(
             "bind"
         ) {
             val mContent = XposedHelpers.getObjectField(it.thisObject, "mContent") as GridView
-            mContent.verticalSpacing = dp2px(verticalPadding.toFloat())
+            mContent.verticalSpacing = dp2px(verticalSpacing.toFloat())
         }
 
     }
