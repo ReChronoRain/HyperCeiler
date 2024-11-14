@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.main.settings.development;
 
-import com.sevtinge.hyperceiler.expansionpacks.utils.SignUtils;
+import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.isModuleActive;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getBoard;

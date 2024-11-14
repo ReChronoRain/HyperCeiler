@@ -31,7 +31,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.callback.ModSearchCallback;
 import com.sevtinge.hyperceiler.data.ModData;
 import com.sevtinge.hyperceiler.data.adapter.ModSearchAdapter;
-import com.sevtinge.hyperceiler.expansionpacks.utils.SignUtils;
+import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.ui.activity.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.activity.SubSettings;

@@ -64,7 +64,7 @@ import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.expansionpacks.utils.SignUtils;
+import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.utils.search.SearchModeHelper;
 
 import org.xmlpull.v1.XmlPullParser;
