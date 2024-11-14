@@ -1177,7 +1177,7 @@
     <string name="home_folder_shade_level_title">Интенсивность цвета</string>
     <string name="home_folder_cols_title">Количество упорядоченных папок</string>
     <string name="home_folder_cols_format">Ряд: %d</string>
-    <string name="home_folder_vertical_padding_title">Расстояние между папками по горизонтали</string>
+    <string name="home_folder_vertical_spacing_desc">Расстояние между папками по горизонтали</string>
     <string name="home_folder_width_title">Использовать ширину всей папки</string>
     <string name="home_folder_space_title">Уменьшить поля</string>
     <string name="home_folder_blur_title">Размытие фона</string>

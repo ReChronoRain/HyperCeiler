@@ -56,7 +56,7 @@ import com.sevtinge.hyperceiler.module.hook.home.folder.FolderAutoClose;
 import com.sevtinge.hyperceiler.module.hook.home.folder.FolderBlur;
 import com.sevtinge.hyperceiler.module.hook.home.folder.FolderColumns;
 import com.sevtinge.hyperceiler.module.hook.home.folder.FolderShade;
-import com.sevtinge.hyperceiler.module.hook.home.folder.FolderVerticalPadding;
+import com.sevtinge.hyperceiler.module.hook.home.folder.FolderVerticalSpacing;
 import com.sevtinge.hyperceiler.module.hook.home.folder.SmallFolderIconBlur;
 import com.sevtinge.hyperceiler.module.hook.home.folder.UnlockBlurSupported;
 import com.sevtinge.hyperceiler.module.hook.home.gesture.CornerSlide;
@@ -186,7 +186,7 @@ public class HomeT extends BaseModule {
                 mPrefsMap.getBoolean("home_folder_width"));
         initHook(new FolderAnimation(), mPrefsMap.getBoolean("home_folder_animation"));
         initHook(new SmallFolderIconBlur(), mPrefsMap.getBoolean("home_small_folder_icon_bg"));
-        initHook(FolderVerticalPadding.INSTANCE, mPrefsMap.getInt("home_folder_vertical_padding", 0) != 0);
+        initHook(FolderVerticalSpacing.INSTANCE, mPrefsMap.getBoolean("home_folder_vertical_spacing_enable"));
 
         initHook(new BigFolderIcon(), false);
         initHook(new BigFolderIconBlur2x1(), mPrefsMap.getBoolean("home_big_folder_icon_bg_2x1"));

@@ -23,8 +23,7 @@ import com.sevtinge.hyperceiler.module.hook.home.*
 class HotSeatsMarginBottom : HomeBaseHook() {
     override fun init() {
         findAndHookMethod(
-            DEVICE_CONFIG,
-            "getHotSeatsMarginBottom",
+            DEVICE_CONFIG, "getHotSeatsMarginBottom",
             setDimensionPixelSizeFormPrefs("home_layout_hotseats_margin_bottom", 60)
         )
     }

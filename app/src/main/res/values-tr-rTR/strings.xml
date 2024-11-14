@@ -1097,7 +1097,7 @@
     <string name="home_folder_shade_level_title">Renk Yoğunluğu</string>
     <string name="home_folder_cols_title">Klasör Düzenlemelerinin Sayısı</string>
     <string name="home_folder_cols_format">%d Liste</string>
-    <string name="home_folder_vertical_padding_title">Klasör yatay aralığı</string>
+    <string name="home_folder_vertical_spacing_desc">Klasör yatay aralığı</string>
     <string name="home_folder_width_title">Tüm klasörün genişliğini kullanın</string>
     <string name="home_folder_space_title">Kenar boşluklarını azalt</string>
     <string name="home_folder_blur_title">Arka plan bulanıklığı</string>

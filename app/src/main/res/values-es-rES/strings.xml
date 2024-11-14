@@ -1010,7 +1010,7 @@
     <string name="home_folder_shade_level_title">Insensidad de color</string>
     <string name="home_folder_cols_title">Cantidad de aplicaciones en una columna de carpeta</string>
     <string name="home_folder_cols_format">%d Columnas</string>
-    <string name="home_folder_vertical_padding_title">Espacio horizontal de carpeta</string>
+    <string name="home_folder_vertical_spacing_desc">Espacio horizontal de carpeta</string>
     <string name="home_folder_width_title">Usar la anchura de toda la carpeta</string>
     <string name="home_folder_space_title">Reducir el margen</string>
     <string name="home_folder_blur_title">Desenfoque del fondo</string>

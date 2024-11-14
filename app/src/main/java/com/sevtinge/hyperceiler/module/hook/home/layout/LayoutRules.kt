@@ -128,9 +128,9 @@ object LayoutRules : HomeBaseHook() {
             val mWorkspaceCellSideDefault = rules.getIntField("mWorkspaceCellSideDefault")
             val mCellSize = rules.getIntField("mCellSize")
             val mCellCountY = rules.getIntField("mCellCountY")
-            val mWorkspaceTopPadding = rules.callMethod("getWorkspacePaddingTop") as Int
+            val mWorkspaceTopPadding = rules.callMethodAs<Int>("getWorkspacePaddingTop")
             val mWorkspaceCellPaddingBottom = rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
-                .callMethod("getValue") as Int
+                .callMethodAs<Int>("getValue")
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
                 DisplayUtils.dp2px(

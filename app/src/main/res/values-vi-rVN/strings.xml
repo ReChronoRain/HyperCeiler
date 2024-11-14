@@ -1183,7 +1183,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_folder_shade_level_title">Cường độ màu</string>
     <string name="home_folder_cols_title">Số lượng sắp xếp thư mục</string>
     <string name="home_folder_cols_format">%d Danh sách</string>
-    <string name="home_folder_vertical_padding_title">Khoảng cách ngang thư mục</string>
+    <string name="home_folder_vertical_spacing_desc">Khoảng cách ngang thư mục</string>
     <string name="home_folder_width_title">Sử dụng chiều rộng của toàn bộ thư mục</string>
     <string name="home_folder_space_title">Giảm lề</string>
     <string name="home_folder_blur_title">Làm mờ nền</string>
