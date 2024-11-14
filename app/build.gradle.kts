@@ -16,7 +16,7 @@ plugins {
 
 lsparanoid {
     seed = 227263
-    classFilter = { true }
+    classFilter = { !it.contains("BaseHook") }
     includeDependencies = true
     variantFilter = { variant ->
         variant.buildType != "debug"
