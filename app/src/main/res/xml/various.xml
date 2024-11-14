@@ -137,6 +137,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_add_clipboard_clear"
+            android:title="@string/add_clipboard_clear" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_various_unlock_ime"
             android:summary="@string/various_unlock_ime_desc"
             android:title="@string/various_unlock_ime" />

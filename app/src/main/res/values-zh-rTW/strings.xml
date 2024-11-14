@@ -1816,4 +1816,5 @@
     <string name="home_recent_hide_card">隱藏後台</string>
     <string name="home_recent_hide_card_desc">隱藏最近任務中所選應用程式的卡片</string>
     <string name="misound_spatial">斷開耳機強制開啟沉浸聲</string>
+    <string name="add_clipboard_clear">新增清空剪貼簿按鈕</string>
 </resources>

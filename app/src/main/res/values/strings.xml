@@ -1696,6 +1696,7 @@
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Sogou input method</string>
     <string name="sogou_xiaomi_clipboard">Remove the limit on the number of clipboards</string>
+    <string name="add_clipboard_clear">Add clear clipboard button</string>
     <!--Scanner-->
     <string name="scanner">Scanner</string>
     <string name="scanner_hyper">AI Scanner</string>

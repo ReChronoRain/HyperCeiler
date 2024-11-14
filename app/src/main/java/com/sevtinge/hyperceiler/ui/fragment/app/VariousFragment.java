@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.app;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.os.Handler;
 
@@ -41,6 +42,7 @@ public class VariousFragment extends SettingsPreferenceFragment
     DropDownPreference mSuperModePreference;
     PreferenceCategory mDefault;
     SwitchPreference mClipboard;
+    SwitchPreference mClipboardClear;
     Preference mMipad; // 平板相关功能
 
     Handler handler;
@@ -57,7 +59,9 @@ public class VariousFragment extends SettingsPreferenceFragment
         mDefault = findPreference("prefs_key_various_super_clipboard_key");
         mMipad = findPreference("prefs_key_various_mipad");
         mClipboard = findPreference("prefs_key_sogou_xiaomi_clipboard");
+        mClipboardClear = findPreference("prefs_key_add_clipboard_clear");
         mMipad.setVisible(isPad());
+        mClipboardClear.setVisible(isMoreHyperOSVersion(2f));
         handler = new Handler();
 
         mClipboard.setOnPreferenceChangeListener((preference, o) -> {
