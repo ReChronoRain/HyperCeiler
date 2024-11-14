@@ -126,7 +126,6 @@ import com.sevtinge.hyperceiler.module.hook.home.title.IconTitleCustomization;
 import com.sevtinge.hyperceiler.module.hook.home.title.LargeIconCornerRadius;
 import com.sevtinge.hyperceiler.module.hook.home.title.NewInstallIndicator;
 import com.sevtinge.hyperceiler.module.hook.home.title.PerfectIcon;
-import com.sevtinge.hyperceiler.module.hook.home.title.RecommendAppsSwitch;
 import com.sevtinge.hyperceiler.module.hook.home.title.TitleFontSize;
 import com.sevtinge.hyperceiler.module.hook.home.title.TitleMarquee;
 import com.sevtinge.hyperceiler.module.hook.home.widget.AllWidgetAnimation;
@@ -200,7 +199,7 @@ public class HomeV extends BaseModule {
         initHook(new BigFolderIconBlur(), mPrefsMap.getBoolean("home_big_folder_icon_bg"));
         initHook(new BigFolderItemMaxCount(), mPrefsMap.getBoolean("home_big_folder_item_max_count"));
         initHook(new UnlockBlurSupported(), mPrefsMap.getBoolean("home_folder_unlock_blur_supported"));
-        initHook(new RecommendAppsSwitch(), mPrefsMap.getBoolean("home_folder_recommend_apps_switch"));
+        // initHook(new RecommendAppsSwitch(), mPrefsMap.getBoolean("home_folder_recommend_apps_switch"));
 
         // 抽屉
         initHook(AppDrawer.INSTANCE, mPrefsMap.getBoolean("home_drawer_all") ||
