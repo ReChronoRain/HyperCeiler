@@ -61,7 +61,7 @@
             android:title="@string/home_layout_unlock_grids_new_x"
             app:format="%d"
             app:maxValue="8"
-            app:minValue="4"
+            app:minValue="3"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
@@ -72,7 +72,7 @@
             app:defaultValueText="@string/array_default"
             app:format="%d"
             app:maxValue="9"
-            app:minValue="6"
+            app:minValue="4"
             app:stepValue="1" />
 
         <SwitchPreference
