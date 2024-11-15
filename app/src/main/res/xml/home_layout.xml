@@ -225,6 +225,13 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_folder">
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_home_folder_title_pos"
+            android:title="@string/home_folder_title_pos"
+            app:entries="@array/home_folder_title_pos"
+            app:entryValues="@array/home_folder_title_pos_value" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_home_folder_width"

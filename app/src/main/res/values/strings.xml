@@ -1257,6 +1257,7 @@
     <string name="home_folder_cols_format">%d cols</string>
     <string name="home_folder_horizontal_padding_desc">Folder distance from screen side margin</string>
     <string name="home_folder_vertical_spacing_desc">The spacing between the rows of the folder</string>
+    <string name="home_folder_title_pos">Position of the title</string>
     <string name="home_folder_width_title">Fill the width of the screen</string>
     <string name="home_folder_space_title">Reduce margins</string>
     <string name="home_folder_blur_title">Background blur</string>

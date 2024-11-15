@@ -494,6 +494,16 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="home_folder_title_pos">
+        <item>@string/array_default</item>
+        <item>@string/array_align_center</item>
+    </string-array>
+
+    <string-array name="home_folder_title_pos_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
 
     <string-array name="app_sort">
         <item>@string/app_sort_running</item>

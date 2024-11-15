@@ -29,14 +29,16 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
-import fan.preference.SeekBarPreferenceCompat;
+import fan.preference.DropDownPreference;
 
 public class HomeLayoutSettings extends DashboardFragment {
 
     SwitchPreference mIconLayout;
     SwitchPreference mIconLayoutNew;
     SwitchPreference mHotseatsMarginTopSwitchPref;
-    SeekBarPreferenceCompat mHotseatsMarginTopSeekPref;
+
+    DropDownPreference mFolderTitlePosDropDownPref;
+    SwitchPreference mFolderHorPaddingSwitchPref;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -56,18 +58,23 @@ public class HomeLayoutSettings extends DashboardFragment {
         mIconLayout = findPreference("prefs_key_home_layout_unlock_grids");
         mIconLayoutNew = findPreference("prefs_key_home_layout_unlock_grids_new");
         mHotseatsMarginTopSwitchPref = findPreference("prefs_key_home_layout_hotseats_margin_top_enable");
-        mHotseatsMarginTopSeekPref = findPreference("prefs_key_home_layout_hotseats_margin_top");
+        mFolderTitlePosDropDownPref = findPreference("prefs_key_home_folder_title_pos");
+        mFolderHorPaddingSwitchPref = findPreference("prefs_key_home_folder_horizontal_padding_enable");
+
         if (isPad()) {
             mIconLayout.setVisible(false);
             mIconLayoutNew.setVisible(false);
         } else if (isMoreHyperOSVersion(2f)) {
             mIconLayout.setVisible(false);
             mIconLayoutNew.setVisible(true);
+            mHotseatsMarginTopSwitchPref.setEnabled(false);
             mHotseatsMarginTopSwitchPref.setVisible(false);
-            mHotseatsMarginTopSeekPref.setVisible(false);
         } else {
             mIconLayout.setVisible(true);
             mIconLayoutNew.setVisible(false);
+            mFolderTitlePosDropDownPref.setVisible(false);
+            mFolderHorPaddingSwitchPref.setEnabled(false);
+            mFolderHorPaddingSwitchPref.setVisible(false);
         }
     }
 }
