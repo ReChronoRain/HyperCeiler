@@ -132,12 +132,13 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_various_phrase_clipboardlist"
-            android:title="@string/various_phrase_clipboardlist"
-            android:summary="@string/various_phrase_clipboardlist_more" />
+            android:summary="@string/various_phrase_clipboardlist_more"
+            android:title="@string/various_phrase_clipboardlist" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_add_clipboard_clear"
+            android:summary="@string/various_phrase_clipboardlist_more"
             android:title="@string/add_clipboard_clear" />
 
         <SwitchPreference

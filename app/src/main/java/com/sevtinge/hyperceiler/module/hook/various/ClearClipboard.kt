@@ -1,23 +1,35 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.hook.various
 
-import android.graphics.drawable.Drawable
-import android.view.View
-import android.view.View.OnClickListener
-import android.widget.ImageView
-import android.widget.PopupWindow
-import android.widget.TextView
+import android.graphics.drawable.*
+import android.view.*
+import android.view.View.*
+import android.widget.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.callMethod
-import com.sevtinge.hyperceiler.utils.callStaticMethod
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
-import com.sevtinge.hyperceiler.utils.getObjectField
-import com.sevtinge.hyperceiler.utils.getObjectFieldAs
-import com.sevtinge.hyperceiler.utils.hookAfterMethod
-import de.robv.android.xposed.XposedHelpers
-import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool
+import com.github.kyuubiran.ezxhelper.finders.*
+import com.sevtinge.hyperceiler.*
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.tool.*
+import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
+import de.robv.android.xposed.*
 
 class ClearClipboard : BaseHook() {
     override fun init() {
@@ -26,11 +38,11 @@ class ClearClipboard : BaseHook() {
             .filterByName("loadDex")
             .filterByParamTypes(ClassLoader::class.java, String::class.java)
             .first().createAfterHook {
-                creatHook(it.args[0] as ClassLoader)
+                createHook(it.args[0] as ClassLoader)
             }
     }
 
-    fun creatHook(classLoader: ClassLoader) {
+    private fun createHook(classLoader: ClassLoader) {
         MethodFinder.fromClass("com.miui.inputmethod.InputMethodClipboardPhrasePopupView", classLoader)
             .filterByName("initPopupWindow")
             .first()
