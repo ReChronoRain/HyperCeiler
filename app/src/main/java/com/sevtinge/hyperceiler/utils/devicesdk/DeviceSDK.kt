@@ -24,8 +24,8 @@ import android.graphics.*
 import com.github.kyuubiran.ezxhelper.*
 import com.sevtinge.hyperceiler.utils.PropUtils.*
 import com.sevtinge.hyperceiler.utils.shell.ShellUtils.*
+import com.sevtinge.hyperceiler.expansion.utils.TokenUtils.getDeviceToken
 import fan.os.*
-import java.security.*
 import java.util.*
 
 
@@ -68,18 +68,8 @@ fun getDeviceToken(androidId : String): String {
     val cpuId = getCpuId()
     val serial = getSerial()
 
-    val originalText = "[$modelName]&&[$serial]&&[$androidId]&&[$cpuId]"
-
-    return hashString(originalText, "SHA-1")
+    return getDeviceToken(modelName, serial, androidId, cpuId)
 }
-
-fun hashString(input: String, algorithm: String): String {
-    val bytes = input.toByteArray()
-    val digest = MessageDigest.getInstance(algorithm)
-    val hashBytes = digest.digest(bytes)
-    return hashBytes.joinToString("") { "%02x".format(it) }.uppercase(Locale.getDefault())
-}
-
 
 fun removeLeadingZeros(input: String): String {
     var result = input

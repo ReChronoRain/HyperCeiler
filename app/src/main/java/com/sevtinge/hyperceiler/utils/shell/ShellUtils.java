@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.utils.shell;
 
+import static com.sevtinge.hyperceiler.expansion.utils.ShellSafeUtils.isSafeCommand;
+
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import java.io.BufferedReader;
@@ -257,6 +259,7 @@ public class ShellUtils {
     }
 
     public static String safeExecCommandWithRoot(String cmd) {
+        if (!isSafeCommand(cmd)) return "Cannot exec this command: Dangerous operation";
         StringBuilder result = new StringBuilder();
         ProcessBuilder pb = new ProcessBuilder("su");
         Process p;
