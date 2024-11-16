@@ -23,10 +23,22 @@ import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 abstract class HomeBaseHook : BaseHook() {
-    protected val isNewHome by lazy {
+    private val isNewHome by lazy {
         // 最低版本未知
         getPackageVersionCode(lpparam) >= 539309777
     }
+
+    override fun init() {
+        if (isNewHome) {
+            initForNewHome()
+        } else {
+            initForHomeLower9777()
+        }
+    }
+
+    open fun initForNewHome() {}
+
+    open fun initForHomeLower9777() {}
 
     @JvmOverloads
     protected fun setDimensionPixelSizeFormPrefs(key: String, defaultValue: Int = 0): MethodHook {

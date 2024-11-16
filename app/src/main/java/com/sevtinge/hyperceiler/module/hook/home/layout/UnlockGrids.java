@@ -35,7 +35,7 @@ public class UnlockGrids extends HomeBaseHook {
     Class<?> mDeviceConfig;
 
     @Override
-    public void init() {
+    public void initForHomeLower9777() {
 
         /*
         mDeviceConfig = findClassIfExists("com.miui.home.launcher.DeviceConfig");
@@ -63,11 +63,6 @@ public class UnlockGrids extends HomeBaseHook {
         UnlockGridsRes();
 
          */
-
-        if (isNewHome()) {
-            return;
-        }
-
 
         hookAllMethodsSilently("com.miui.home.launcher.compat.LauncherCellCountCompatDevice", "shouldUseDeviceValue", MethodHook.returnConstant(false));
         findAndHookMethod("com.miui.home.settings.MiuiHomeSettings", "onCreatePreferences", Bundle.class, String.class, new MethodHook() {

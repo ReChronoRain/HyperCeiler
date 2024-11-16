@@ -18,21 +18,43 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.title
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.Log
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.callMethod
-import com.sevtinge.hyperceiler.utils.findClass
-import com.sevtinge.hyperceiler.utils.getObjectField
-import com.sevtinge.hyperceiler.utils.hookAfterMethod
+import android.annotation.*
+import android.content.*
+import android.view.*
+import android.widget.*
+import com.github.kyuubiran.ezxhelper.*
+import com.sevtinge.hyperceiler.module.hook.home.*
+import com.sevtinge.hyperceiler.utils.*
 
-object IconTitleColor : BaseHook() {
+object IconTitleColor : HomeBaseHook() {
+    override fun initForNewHome() {
+        val color = mPrefsMap.getInt("home_title_title_color", -1)
+        if (color == -1) return
+
+        "com.miui.home.launcher.ShortcutIcon".hookBeforeMethod("getTextColor") { param ->
+            param.result = color
+        }
+
+        "com.miui.home.launcher.ShortcutIcon".hookAfterMethod("onFinishInflate") { param ->
+            (param.thisObject as TextView).setTextColor(color)
+        }
+
+        "com.miui.home.launcher.common.Utilities".hookAfterMethod(
+            "adaptTitleStyleToWallpaper",
+            Context::class.java,
+            TextView::class.java,
+            Int::class.javaPrimitiveType,
+            Int::class.javaPrimitiveType
+        ) {
+            val mTitle = it.args[1] as TextView
+            if (mTitle.id == mTitle.resources.getIdentifier("icon_title", "id", "com.miui.home")) {
+                mTitle.setTextColor(color)
+            }
+        }
+    }
+
     @SuppressLint("DiscouragedApi")
-    override fun init() {
+    override fun initForHomeLower9777() {
 
         val value = mPrefsMap.getInt("home_title_title_color", -1)
         val launcherClass = "com.miui.home.launcher.Launcher".findClass()

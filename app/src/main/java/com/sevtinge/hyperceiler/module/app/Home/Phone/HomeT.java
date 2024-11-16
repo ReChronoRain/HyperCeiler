@@ -55,7 +55,6 @@ import com.sevtinge.hyperceiler.module.hook.home.folder.FolderAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.folder.FolderAutoClose;
 import com.sevtinge.hyperceiler.module.hook.home.folder.FolderBlur;
 import com.sevtinge.hyperceiler.module.hook.home.folder.FolderColumns;
-import com.sevtinge.hyperceiler.module.hook.home.folder.FolderColumnsNew;
 import com.sevtinge.hyperceiler.module.hook.home.folder.FolderShade;
 import com.sevtinge.hyperceiler.module.hook.home.folder.FolderVerticalSpacing;
 import com.sevtinge.hyperceiler.module.hook.home.folder.SmallFolderIconBlur;
@@ -183,9 +182,7 @@ public class HomeT extends BaseModule {
         // 文件夹
         initHook(FolderAutoClose.INSTANCE, mPrefsMap.getBoolean("home_folder_auto_close"));
         initHook(new FolderShade(), mPrefsMap.getStringAsInt("home_folder_shade", 1) > 0);
-        initHook(FolderColumns.INSTANCE, mPrefsMap.getInt("home_folder_columns", 3) != 3 ||
-                mPrefsMap.getBoolean("home_folder_width"));
-        initHook(FolderColumnsNew.INSTANCE, mPrefsMap.getStringAsInt("home_folder_title_pos", 0) != 0 ||
+        initHook(FolderColumns.INSTANCE, mPrefsMap.getStringAsInt("home_folder_title_pos", 0) != 0 ||
                 mPrefsMap.getBoolean("home_folder_width") ||
                 mPrefsMap.getInt("home_folder_columns", 3) != 3);
         initHook(new FolderAnimation(), mPrefsMap.getBoolean("home_folder_animation"));
