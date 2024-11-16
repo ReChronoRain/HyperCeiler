@@ -48,6 +48,8 @@ object NewPluginHelper : BaseHook() {
 
     private fun onPluginLoaded(factory: PluginFactory) {
         val mCardStyleTiles = getTileList()
+        val mIsDefaultMode = mPrefsMap.getStringAsInt("system_ui_plugin_tiles_load_way", 0) == 0 || mPrefsMap.getStringAsInt("system_ui_plugin_tiles_load_way", 0) == 1
+        val mIsCompatibilityMode = mPrefsMap.getStringAsInt("system_ui_plugin_tiles_load_way", 0) == 0 || mPrefsMap.getStringAsInt("system_ui_plugin_tiles_load_way", 0) == 2
         try {
             when (factory.mComponentName) {
                 factory.componentNames("miui.systemui.volume.VolumeDialogPlugin") -> {
@@ -77,38 +79,40 @@ object NewPluginHelper : BaseHook() {
                     val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                     logD(TAG, lpparam.packageName, "Plugin for sysui qs tiles loaded.")
 
+                    if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
+                        mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty() &&
+                        mIsCompatibilityMode
+                    ) {
+                        CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles)
+                    }
+                    if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") && mIsDefaultMode)
+                        CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角         //A
                     if (mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") ||
                         mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color")
                     ) {
                         QSColor.pluginHook(classLoader)
                     }
-                    if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
-                        mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty()
-                    ) {
-                        CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles)
-                    }
-                    if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"))
-                        CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角
                 }
 
                 factory.componentNames("miui.systemui.controlcenter.MiuiControlCenter") -> {
                     val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                     logD(TAG, lpparam.packageName, "Plugin for sysui control center loaded.")
 
+                    if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
+                        mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty() &&
+                        mIsDefaultMode
+                    ) {
+                        CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles)            //A
+                    }
+                    if (mPrefsMap.getBoolean("system_ui_control_center_hide_edit_botton"))
+                        HideEditButton.initHideEditButton(classLoader)
+                    if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") && mIsCompatibilityMode)
+                        CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角
                     if (mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") ||
                         mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color")
                     ) {
                         QSColor.pluginHook(classLoader)
                     }
-                    if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
-                        mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty()
-                    ) {
-                        CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles)
-                    }
-                    if (mPrefsMap.getBoolean("system_ui_control_center_hide_edit_botton"))
-                        HideEditButton.initHideEditButton(classLoader)
-                    if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"))
-                        CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角
                 }
 
                 factory.componentNames("miui.systemui.notification.NotificationStatPluginImpl") -> {

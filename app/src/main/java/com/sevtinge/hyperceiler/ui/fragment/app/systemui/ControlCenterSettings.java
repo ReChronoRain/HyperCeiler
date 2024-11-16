@@ -71,6 +71,7 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
     ColorPickerPreference mProgressBarColor;
     SwitchPreference mRedirectNotice;
     SwitchPreference mShadeHeaderBlur;
+    DropDownPreference mPluginLoadMode;
 
     SwitchPreference mTaplus;
     SwitchPreference mNotifrowmenu;
@@ -114,6 +115,7 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
         mProgressBarColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_color");
         mRedirectNotice = findPreference("prefs_key_system_ui_control_center_redirect_notice");
         mShadeHeaderBlur = findPreference("prefs_key_system_ui_shade_header_gradient_blur");
+        mPluginLoadMode = findPreference("prefs_key_system_ui_plugin_tiles_load_way");
         handler = new Handler();
 
         mExpandNotification.setOnPreferenceClickListener(
@@ -133,6 +135,7 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
                 }
         );
 
+        mPluginLoadMode.setVisible(isMoreHyperOSVersion(2f));
         if (isMoreHyperOSVersion(1f)) {
             mNewCCGrid.setVisible(false);
             mCard.setVisible(false);

@@ -1099,6 +1099,18 @@
         <item>@color/update_text_border1</item>
     </array>
 
+    <string-array name="system_ui_plugin_tiles_load_way_arr">
+        <item>@string/system_ui_plugin_tiles_load_way_global</item>
+        <item>@string/system_ui_plugin_tiles_load_way_default</item>
+        <item>@string/system_ui_plugin_tiles_load_way_compatibility</item>
+    </string-array>
+
+    <string-array name="system_ui_plugin_tiles_load_way_arr_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="actions">
         <item>@string/array_global_actions_none</item>
         <item>@string/array_global_actions_lock</item>
