@@ -30,11 +30,7 @@ public class WorkspacePadding extends HomeBaseHook {
     Class<?> mDeviceConfig;
 
     @Override
-    public void init() {
-        if (isNewHome()) {
-            return;
-        }
-
+    public void initForHomeLower9777() {
         mDeviceConfig = findClassIfExists("com.miui.home.launcher.DeviceConfig");
 
         findAndHookMethod(mDeviceConfig, "Init", Context.class, boolean.class, new MethodHook() {

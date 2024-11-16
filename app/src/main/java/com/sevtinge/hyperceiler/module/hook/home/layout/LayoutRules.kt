@@ -41,11 +41,7 @@ object LayoutRules : HomeBaseHook() {
     private var currentCellWidth = 0
     private var currentCellHeight = 0
 
-    override fun init() {
-        if (!isNewHome) {
-            return
-        }
-
+    override fun initForNewHome() {
         isUnlockGridsHook = mPrefsMap.getBoolean("home_layout_unlock_grids_new") ||
                 mPrefsMap.getBoolean("home_layout_unlock_grids")
         isSetWSPaddingTopHook = mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable")
