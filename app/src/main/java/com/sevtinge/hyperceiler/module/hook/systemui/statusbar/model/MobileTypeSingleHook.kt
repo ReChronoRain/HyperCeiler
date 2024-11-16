@@ -21,67 +21,26 @@ package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model
 import android.graphics.*
 import android.view.*
 import android.widget.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.statusBarMobileClass
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.bold
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.fontSize
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.getLocation
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.leftMargin
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.rightMargin
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.verticalOffset
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import de.robv.android.xposed.*
 
 object MobileTypeSingleHook : BaseHook() {
-    // 初始化开关
-    private val getLocation by lazy {
-        // 显示在信号左侧
-        mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_left")
-    }
-    private val bold by lazy {
-        // 加粗
-        mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_bold")
-    }
-    private val fontSize by lazy {
-        // 字体大小
-        mPrefsMap.getInt("system_ui_statusbar_mobile_type_font_size", 27)
-    }
-    private val leftMargin by lazy {
-        // 左侧间距
-        mPrefsMap.getInt("system_ui_statusbar_mobile_type_left_margin", 0)
-    }
-    private val rightMargin by lazy {
-        // 右侧间距
-        mPrefsMap.getInt("system_ui_statusbar_mobile_type_right_margin", 0)
-    }
-    private val verticalOffset by lazy {
-        // 上下偏移量
-        mPrefsMap.getInt("system_ui_statusbar_mobile_type_vertical_offset", 8)
-    }
-    private val statusBarMobileClass by lazy {
-        loadClass("com.android.systemui.statusbar.StatusBarMobileView")
-    }
-    private val miuiMobileIconBinder by lazy {
-        loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.binder.MiuiMobileIconBinder")
-    }
-    private val mOperatorConfig by lazy {
-        loadClass("com.miui.interfaces.IOperatorCustomizedPolicy\$OperatorConfig")
-    }
-
     override fun init() {
-        if (isMoreAndroidVersion(35)) {
-            showMobileTypeSingleNew()
-        } else if (isHyperOSVersion(1f)) {
+        if (isHyperOSVersion(1f)) {
             getMobileViewForHyperOS()
         } else {
             getMobileViewForMIUI()
-        }
-    }
-
-    private fun showMobileTypeSingleNew() {
-        mOperatorConfig.constructors[0].createHook {
-            after {
-                // 启用系统的网络类型单独显示
-                // 先偷懒一会，看系统界面看累了
-                XposedHelpers.setObjectField(it.thisObject, "showMobileDataTypeSingle", true)
-            }
         }
     }
 

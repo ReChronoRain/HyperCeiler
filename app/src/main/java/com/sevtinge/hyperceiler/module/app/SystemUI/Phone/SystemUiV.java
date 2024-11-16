@@ -112,8 +112,8 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.layout.StatusBarL
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileNetwork;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobilePublicHook;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeSingleHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeTextCustom;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.os2.MobileTypeSingle2Hook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSec;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSpacing;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news.NewNetworkSpeed;
@@ -169,7 +169,7 @@ public class SystemUiV extends BaseModule {
         initHook(MobilePublicHook.INSTANCE, isEnableMobilePublic);
         initHook(new MobileNetwork(), isEnableMobileNetwork);
         initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
-        initHook(MobileTypeSingleHook.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
+        initHook(MobileTypeSingle2Hook.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
         initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
 
         // 电池相关

@@ -24,7 +24,8 @@ import android.view.View
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.statusBarMobileClass
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.getIntField
 import com.sevtinge.hyperceiler.utils.setObjectField
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
@@ -65,7 +66,7 @@ object MobilePublicHook : BaseHook() {
     private fun updateState() {
         hookAllMethods(statusBarMobileClass, "updateState", object : MethodHook() {
             override fun before(param: MethodHookParam) {
-                if (isMoreHyperOSVersion(1f)) {
+                if (isHyperOSVersion(1f)) {
                     hideSimCard(param)
                 }
             }
@@ -85,7 +86,7 @@ object MobilePublicHook : BaseHook() {
                 if (singleMobileType) {
                     showMobileTypeSingle(param) // 使网络类型单独显示
                 }
-                if (isMoreHyperOSVersion(1f)) {
+                if (isHyperOSVersion(1f)) {
                     hideSimCard(param)
                 }
             }

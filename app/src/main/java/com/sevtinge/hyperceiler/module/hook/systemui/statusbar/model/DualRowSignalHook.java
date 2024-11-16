@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model;
 
 import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -150,7 +150,7 @@ public class DualRowSignalHook extends BaseHook {
     }
 
     private void getMobileLevel() {
-        if (isMoreHyperOSVersion(1f)) {
+        if (isHyperOSVersion(1f)) {
             MethodHook stateUpdateHook = new MethodHook() {
                 @Override
                 protected void before(final MethodHookParam param) {
@@ -286,7 +286,7 @@ public class DualRowSignalHook extends BaseHook {
         View mMobile;
         View mSmallRoaming;
 
-        if (isMoreHyperOSVersion(1f)) {
+        if (isHyperOSVersion(1f)) {
             mobileView = (LinearLayout) param.getResult();
             mMobile = (View) XposedHelpers.getObjectField(param.getResult(), "mMobile");
             mSmallRoaming = (View) XposedHelpers.getObjectField(param.getResult(), "mSmallRoaming");
@@ -310,7 +310,7 @@ public class DualRowSignalHook extends BaseHook {
                 }
             };
 
-            if (isMoreHyperOSVersion(1f)) {
+            if (isHyperOSVersion(1f)) {
                 findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView", "fromContext", Context.class, String.class, styleHook);
             } else {
                 findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView", "init", styleHook);
