@@ -65,6 +65,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationW
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QQSGrid;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSColor;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSControlDetailBackgroundAlpha;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ReduceBrightColorsTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSGrid;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.RemoveNotifNumLimit;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ShadeHeaderGradientBlur;
