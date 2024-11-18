@@ -110,6 +110,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBa
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.FocusNotifLyric;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.HideFakeStatusBar;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.layout.StatusBarLayout;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileNetwork;
@@ -203,7 +204,10 @@ public class SystemUiV extends BaseModule {
         // // initHook(new DisplayHardwareDetailForHyper(), true);
 
         // 焦点歌词
-        initHook(FocusNotifLyric.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch"));
+        if (mPrefsMap.getBoolean("system_ui_statusbar_music_switch")) {
+            initHook(FocusNotifLyric.INSTANCE);
+            initHook(HideFakeStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_hide_clock"));
+        }
 
         // 灵动舞台
         initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_hide_smart_strong_toast"));

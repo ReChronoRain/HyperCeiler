@@ -22,11 +22,14 @@ package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.os2
 import android.graphics.*
 import android.view.*
 import android.widget.*
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.mOperatorConfig
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiMobileIconBinder
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.modernStatusBarViewClass
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.bold
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.fontSize
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.getLocation
@@ -38,8 +41,15 @@ import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import java.lang.reflect.*
 
 object MobileTypeSingle2Hook : BaseHook() {
+    private val DarkIconDispatcherClass: Class<*> by lazy {
+        loadClass("com.android.systemui.plugins.DarkIconDispatcher", lpparam.classLoader)
+    }
     var method: Method? = null
     var method2: Method? = null
+    private var mobileId = -1
+    private var get0: Float = 0.0f
+    private var get1: Int = 0
+    private var get2: Int = 0
     override fun init() {
         // by customiuizer
         mOperatorConfig.constructors[0].createHook {
@@ -104,6 +114,56 @@ object MobileTypeSingle2Hook : BaseHook() {
                         layout2.visibility = View.GONE
                         layout2.addView(getView2)
                     }
+                }
+            }
+
+        try {
+            method = DarkIconDispatcherClass.getMethod("isInAreas", MutableCollection::class.java, View::class.java)
+            try {
+                method2 = DarkIconDispatcherClass.getMethod("getTint", MutableCollection::class.java, View::class.java, Integer.TYPE)
+            } catch (unused: Throwable) {
+                logE(TAG, lpparam.packageName, "DarkIconDispatcher.isInArea not found")
+                if (method != null) {
+                    return
+                }
+                return
+            }
+        } catch (unused2: Throwable) {
+            method = null
+        }
+        if (method != null || method2 == null) {
+            return
+        }
+
+        modernStatusBarViewClass.methodFinder()
+            .filterByName("onDarkChanged")
+            .first().createAfterHook {
+                if ("mobile" == it.thisObject.getObjectFieldAs<String>("slot")) {
+                    get0 =  it.args[1] as Float
+                    get1 = it.args[3] as Int
+                    get2 = it.args[4] as Int
+                    val num = it.args[2] as Int
+                    val getBoolean = it.args[5] as Boolean
+                    val getView = it.thisObject as ViewGroup
+                    if (mobileId < 1) {
+                        mobileId = getView.resources.getIdentifier("mobile_type_single", "id", "com.android.systemui")
+                    }
+                    val textView: TextView = getView.findViewById(mobileId)
+                    if (getBoolean) {
+                        method2?.invoke(null, it.args[0], textView, num)
+                            ?.let { it1 -> textView.setTextColor(it1.hashCode()) }
+                        return@createAfterHook
+                    }
+                    val getBoolean2 = method?.invoke(null, it.args[0], textView)
+                        ?.let { it1 -> textView.setTextColor(it1.hashCode()) } as Boolean
+                    if (getBoolean2) {
+                        get0 = 0.0f
+                    }
+                    if (get0 > 0.0f) {
+                        get1 = get2
+                    }
+                    textView.setTextColor(get1)
+                    return@createAfterHook
                 }
             }
     }

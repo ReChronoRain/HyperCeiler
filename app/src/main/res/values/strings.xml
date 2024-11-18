@@ -868,6 +868,8 @@
     <string name="system_ui_statusbar_music_tip">Notes before using:\n• After turning on this feature, check and restart the System UI and the corresponding music scope.\n• This feature needs to be used with the \"Lyric Getter\" module.\n• Ensure that the \"Focus notification lyrics\" notification is enabled in the notification category of the corresponding music app and in the app\'s focus notifications settings.</string>
     <string name="system_ui_statusbar_music_notification">Focus notification lyrics</string>
     <string name="system_ui_statusbar_music_cusiom_title">Display settings</string>
+    <string name="system_ui_statusbar_music_hide_clock_title">Hide status bar clock</string>
+    <string name="system_ui_statusbar_music_hide_clock_desc">Hide the status bar clock when showing focused lyrics, and adjust the animation of the drop-down notification center</string>
     <string name="system_ui_statusbar_music_speed_title">Lyrics scroll rate</string>
     <string name="system_ui_statusbar_music_width_title">Add whitespace at the end of lyrics</string>
     <string name="system_ui_statusbar_music_width_desc">Make scrolling lyrics as complete as possible</string>

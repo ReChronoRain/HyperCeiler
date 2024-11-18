@@ -32,11 +32,14 @@ import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.*
 import de.robv.android.xposed.*
 
+// author git@wuyou-123
+// co-author git@lingqiqi5211
 object FocusNotifLyric : MusicBaseHook() {
     private val focusTextViewList = mutableListOf<TextView>()
     private val textViewWidth by lazy {
         mPrefsMap.getInt("system_ui_statusbar_music_width", 0)
     }
+
     override fun init() {
         // 拦截构建通知的函数
         loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").methodFinder()
@@ -85,7 +88,7 @@ object FocusNotifLyric : MusicBaseHook() {
                 .first().createHook {
                     // 允许全部应用发送焦点通知
                     returnConstant(true)
-            }
+                }
 
         } catch (e: Exception) {
             return
@@ -99,10 +102,14 @@ object FocusNotifLyric : MusicBaseHook() {
     private val SPEED_INCREASE = mPrefsMap.getInt("system_ui_statusbar_music_speed", 18) * 0.1f
 
     private val runnablePool = mutableMapOf<Int, Runnable>()
+    private var lastLyric = ""
     override fun onUpdate(lyricData: LyricData) {
         val lyric = lyricData.lyric
         focusTextViewList.forEach {
-            it.text = lyric
+            if (lastLyric == it.text) {
+                it.text = lyric
+                lastLyric = lyric
+            }
             if (XposedHelpers.getAdditionalStaticField(it, "is_scrolling") == 1) {
                 val m0 = it.getObjectFieldOrNull("mMarquee")
                 if (m0 != null) {
@@ -132,22 +139,22 @@ object FocusNotifLyric : MusicBaseHook() {
             }
             val width =
                 (textView.width - textView.compoundPaddingLeft - textView.compoundPaddingRight - textViewWidth).toFloat()
-            val lineWidth = textView.layout.getLineWidth(0)
-            // 重设最大滚动宽度,只能滚动到文本结束
-            m.setFloatField("mMaxScroll", lineWidth - width)
-            // 重设速度
-            m.setFloatField("mPixelsPerMs", speed)
-            // 移除回调,防止滚动结束之后重置滚动位置
-            m.setObjectField("mRestartCallback", Choreographer.FrameCallback {})
-            XposedHelpers.setAdditionalStaticField(textView, "is_scrolling", 1)
+            val lineWidth = textView.layout?.getLineWidth(0)
+            if (lineWidth != null) {
+                // 重设最大滚动宽度,只能滚动到文本结束
+                m.setFloatField("mMaxScroll", lineWidth - width)
+                // 重设速度
+                m.setFloatField("mPixelsPerMs", speed)
+                // 移除回调,防止滚动结束之后重置滚动位置
+                m.setObjectField("mRestartCallback", Choreographer.FrameCallback {})
+                XposedHelpers.setAdditionalStaticField(textView, "is_scrolling", 1)
+            }
         } catch (e: Throwable) {
             logE(TAG, lpparam.packageName, "error: $e")
         }
     }
 
     override fun onStop() {
-        focusTextViewList.forEach {
-            it.visibility = View.GONE
-        }
+        logD(lpparam.packageName, "==========================================")
     }
 }
