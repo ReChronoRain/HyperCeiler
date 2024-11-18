@@ -366,6 +366,7 @@
     <string name="control_center_5g_off">Off</string>
     <string name="control_center_5g_v1">Style one</string>
     <string name="control_center_5g_v2">Style two</string>
+    <string name="control_center_5g_v3">Build into mobile data tile</string>
     <string name="no_blur">No blur</string>
     <string name="miui_blur">HyperOS blur</string>
     <string name="miui_android_blur">AOSP blur (self-implemented by app)</string>

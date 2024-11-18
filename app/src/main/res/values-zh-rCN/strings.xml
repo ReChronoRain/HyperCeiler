@@ -362,6 +362,7 @@
     <string name="control_center_5g_off">关闭</string>
     <string name="control_center_5g_v1">样式一</string>
     <string name="control_center_5g_v2">样式二</string>
+    <string name="control_center_5g_v3">内置移动网络磁贴</string>
 
     <string name="no_blur">无模糊</string>
     <string name="miui_blur">高级材质</string>

@@ -133,65 +133,82 @@ public abstract class TileUtils extends BaseHook {
         } catch (NoSuchMethodException e) {
             logE(TAG, "com.android.systemui", "Don't Have getLongClickIntent: " + e);
         }
-        try {
-            myTile.getDeclaredMethod("handleLongClick", View.class);
-            findAndHookMethod(myTile, "handleLongClick", View.class, new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
-                    Intent intent = null;
-                    if (tileName != null) {
-                        if (tileName.equals(customName())) {
-                            intent = tileHandleLongClick(param, tileName);
-                        }
-                    } else if (needOverride()) {
+
+        Class<?> expandableClz = findClassIfExists("com.android.systemui.animation.Expandable");
+
+        MethodHook handleLongClickHook = new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
+                Intent intent = null;
+                if (tileName != null) {
+                    if (tileName.equals(customName())) {
                         intent = tileHandleLongClick(param, tileName);
                     }
-                    if (intent != null) {
-                        Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                        Object o = XposedHelpers.callStaticMethod(findClassIfExists("com.android.systemui.controlcenter.utils.ControlCenterUtils"), "getSettingsSplitIntent", context, intent);
-                        XposedHelpers.callMethod(XposedHelpers.getObjectField(param.thisObject, "mActivityStarter"), "postStartActivityDismissingKeyguard", o, 0, null);
-                        param.setResult(null);
-                    }
+                } else if (needOverride()) {
+                    intent = tileHandleLongClick(param, tileName);
                 }
-            });
-        } catch (NoSuchMethodException t) {
-            logE(TAG, "com.android.systemui", "Don't Have handleLongClick: " + t);
+                if (intent != null) {
+                    Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                    Object o = XposedHelpers.callStaticMethod(findClassIfExists("com.android.systemui.controlcenter.utils.ControlCenterUtils"), "getSettingsSplitIntent", context, intent);
+                    XposedHelpers.callMethod(XposedHelpers.getObjectField(param.thisObject, "mActivityStarter"), "postStartActivityDismissingKeyguard", o, 0, null);
+                    param.setResult(null);
+                }
+            }
+        };
+        try {
+            myTile.getDeclaredMethod("handleLongClick", View.class);
+            findAndHookMethod(myTile, "handleLongClick", View.class, handleLongClickHook);
+        } catch (NoSuchMethodException e) {
+            try {
+                myTile.getDeclaredMethod("handleLongClick", expandableClz);
+                findAndHookMethod(myTile, "handleLongClick", expandableClz, handleLongClickHook);
+            } catch (Exception ex) {
+                logE(TAG, "com.android.systemui", "Don't Have handleLongClick: " + ex);
+            }
         }
+
+        MethodHook handleClickHook = new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
+                if (tileName != null) {
+                    if (tileName.equals(customName())) {
+                        try {
+                            tileClick(param, tileName);
+                            param.setResult(null);
+                        } catch (Throwable e) {
+                            logE(TAG, "com.android.systemui", "handleClick have Throwable: " + e);
+                            param.setResult(null);
+                        }
+                    }
+                } else {
+                    if (needOverride())
+                        tileClick(param, tileName);
+                }
+            }
+
+            @Override
+            protected void after(MethodHookParam param) {
+                if (needAfter()) {
+                    String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
+                    tileClickAfter(param, tileName);
+                }
+            }
+        };
         try {
             getDeclaredMethod(myTile, "handleClick", View.class);
             // myTile.getDeclaredMethod("handleClick", View.class);
-            findAndHookMethod(myTile, "handleClick", View.class, new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
-                    if (tileName != null) {
-                        if (tileName.equals(customName())) {
-                            try {
-                                tileClick(param, tileName);
-                                param.setResult(null);
-                            } catch (Throwable e) {
-                                logE(TAG, "com.android.systemui", "handleClick have Throwable: " + e);
-                                param.setResult(null);
-                            }
-                        }
-                    } else {
-                        if (needOverride())
-                            tileClick(param, tileName);
-                    }
-                }
-
-                @Override
-                protected void after(MethodHookParam param) {
-                    if (needAfter()) {
-                        String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
-                        tileClickAfter(param, tileName);
-                    }
-                }
-            });
+            findAndHookMethod(myTile, "handleClick", View.class, handleClickHook);
         } catch (NoSuchMethodException e) {
-            logE(TAG, "com.android.systemui", "Don't Have handleClick: " + e);
+            try {
+                getDeclaredMethod(myTile, "handleClick", expandableClz);
+                findAndHookMethod(myTile, "handleClick", expandableClz, handleClickHook);
+            } catch (Exception ex) {
+                logE(TAG, "com.android.systemui", "Don't Have handleClick: " + ex);
+            }
         }
+
         hookAllMethods(myTile, "handleUpdateState", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
@@ -373,6 +390,13 @@ public abstract class TileUtils extends BaseHook {
                                         Object mHandler = XposedHelpers.getObjectField(tile, "mHandler");
                                         XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 12);
                                         XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 11);
+
+                                        if (isMoreAndroidVersion(35)) {
+                                            XposedHelpers.callMethod(tile, "handleInitialize");
+                                            XposedHelpers.callMethod(tile, "handleStale");
+                                            XposedHelpers.callMethod(tile, "setTileSpec", tileName);
+                                        }
+
                                         param.setResult(tile);
                                     }
                                 } catch (NoSuchFieldException e) {

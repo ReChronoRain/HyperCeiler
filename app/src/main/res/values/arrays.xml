@@ -327,6 +327,7 @@
         <item>@string/control_center_5g_off</item>
         <item>@string/control_center_5g_v1</item>
         <item>@string/control_center_5g_v2</item>
+        <item>@string/control_center_5g_v3</item>
     </string-array>
 
     <string-array name="usb_mode_choose">
@@ -357,6 +358,7 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="guided_access_screen_area_value">
