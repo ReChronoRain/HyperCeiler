@@ -18,14 +18,11 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.ArrayMap;
@@ -39,7 +36,7 @@ import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedHelpers;
 
 public class TaplusTile extends TileUtils {
-    String mNightModeTile = "com.android.systemui.qs.tiles.NightModeTile";
+    public final String mNightModeTile = "com.android.systemui.qs.tiles.NightModeTile";
 
     @Override
     public void init() {
@@ -53,7 +50,7 @@ public class TaplusTile extends TileUtils {
 
     @Override
     public String setTileProvider() {
-        return isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nightModeTileProvider" : "mNightModeTileProvider";
+        return "nightModeTileProvider";
     }
 
     @Override

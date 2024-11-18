@@ -48,8 +48,7 @@ import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedHelpers;
 
 public class FiveGTile extends TileUtils {
-    String mNfcTileClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tiles.MiuiNfcTile" :
-            "com.android.systemui.qs.tiles.NfcTile";
+    String mNfcTileClsName = "com.android.systemui.qs.tiles.MiuiNfcTile";
 
     boolean Style = mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) == 1;
 
@@ -252,7 +251,7 @@ public class FiveGTile extends TileUtils {
         // 切换5G状态
         manager.setUserFiveGEnabled(!manager.isUserFiveGEnabled());
 
-        logI(TAG, lpparam.packageName, "5G" + manager.isUserFiveGEnabled());
+        logD(TAG, lpparam.packageName, "5G" + manager.isUserFiveGEnabled());
         // 更新磁贴状态
         XposedHelpers.callMethod(param.thisObject, "refreshState");
     }

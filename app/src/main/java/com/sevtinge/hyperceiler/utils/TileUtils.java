@@ -157,15 +157,15 @@ public abstract class TileUtils extends BaseHook {
             }
         };
         try {
-            myTile.getDeclaredMethod("handleLongClick", View.class);
-            findAndHookMethod(myTile, "handleLongClick", View.class, handleLongClickHook);
-        } catch (NoSuchMethodException e) {
-            try {
+            if (expandableClz != null) {
                 myTile.getDeclaredMethod("handleLongClick", expandableClz);
                 findAndHookMethod(myTile, "handleLongClick", expandableClz, handleLongClickHook);
-            } catch (Exception ex) {
-                logE(TAG, "com.android.systemui", "Don't Have handleLongClick: " + ex);
+            } else {
+                myTile.getDeclaredMethod("handleLongClick", View.class);
+                findAndHookMethod(myTile, "handleLongClick", View.class, handleLongClickHook);
             }
+        } catch (NoSuchMethodException e) {
+            logE(TAG, "com.android.systemui", "Don't Have handleLongClick: " + e);
         }
 
         MethodHook handleClickHook = new MethodHook() {
@@ -197,16 +197,16 @@ public abstract class TileUtils extends BaseHook {
             }
         };
         try {
-            getDeclaredMethod(myTile, "handleClick", View.class);
-            // myTile.getDeclaredMethod("handleClick", View.class);
-            findAndHookMethod(myTile, "handleClick", View.class, handleClickHook);
-        } catch (NoSuchMethodException e) {
-            try {
+            if (expandableClz != null) {
                 getDeclaredMethod(myTile, "handleClick", expandableClz);
                 findAndHookMethod(myTile, "handleClick", expandableClz, handleClickHook);
-            } catch (Exception ex) {
-                logE(TAG, "com.android.systemui", "Don't Have handleClick: " + ex);
+            } else {
+                getDeclaredMethod(myTile, "handleClick", View.class);
+                // myTile.getDeclaredMethod("handleClick", View.class);
+                findAndHookMethod(myTile, "handleClick", View.class, handleClickHook);
             }
+        } catch (NoSuchMethodException e) {
+            logE(TAG, "com.android.systemui", "Don't Have handleClick: " + e);
         }
 
         hookAllMethods(myTile, "handleUpdateState", new MethodHook() {
@@ -390,12 +390,7 @@ public abstract class TileUtils extends BaseHook {
                                         Object mHandler = XposedHelpers.getObjectField(tile, "mHandler");
                                         XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 12);
                                         XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 11);
-
-                                        if (isMoreAndroidVersion(35)) {
-                                            XposedHelpers.callMethod(tile, "handleInitialize");
-                                            XposedHelpers.callMethod(tile, "handleStale");
-                                            XposedHelpers.callMethod(tile, "setTileSpec", tileName);
-                                        }
+                                        XposedHelpers.callMethod(tile, "setTileSpec", tileName);
 
                                         param.setResult(tile);
                                     }

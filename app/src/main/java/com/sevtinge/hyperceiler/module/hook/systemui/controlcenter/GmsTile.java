@@ -101,7 +101,7 @@ public class GmsTile extends TileUtils {
                 try {
                     packageManager.getPackageInfo(GmsAppsSystem, PackageManager.GET_ACTIVITIES);
                     packageManager.setApplicationEnabledSetting(GmsAppsSystem, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0);
-                    logI(TAG, "com.android.systemui", "To Enabled Gms App:" + GmsAppsSystem);
+                    logD(TAG, "com.android.systemui", "To Enabled Gms App:" + GmsAppsSystem);
                 } catch (PackageManager.NameNotFoundException e) {
                     logE(TAG, "com.android.systemui", "Don't have Gms app :" + GmsAppsSystem);
                 }
@@ -112,7 +112,7 @@ public class GmsTile extends TileUtils {
                 try {
                     packageManager.getPackageInfo(GmsAppsSystem, PackageManager.GET_ACTIVITIES);
                     packageManager.setApplicationEnabledSetting(GmsAppsSystem, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0);
-                    logI(TAG, "com.android.systemui", "To Disabled Gms App:" + GmsAppsSystem);
+                    logD(TAG, "com.android.systemui", "To Disabled Gms App:" + GmsAppsSystem);
                 } catch (PackageManager.NameNotFoundException e) {
                     logE(TAG, "com.android.systemui", "Don't have Gms app :" + GmsAppsSystem);
                 }
