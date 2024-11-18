@@ -16,44 +16,52 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.hook.home.title;
+package com.sevtinge.hyperceiler.module.hook.home.title
 
-import android.annotation.SuppressLint;
-import android.util.TypedValue;
-import android.widget.TextView;
+import android.util.*
+import android.widget.*
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
+import com.github.kyuubiran.ezxhelper.finders.*
+import com.sevtinge.hyperceiler.module.hook.home.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
-import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.module.hook.home.HomeBaseHook;
-import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
+class TitleFontSize : HomeBaseHook() {
 
-public class TitleFontSize extends HomeBaseHook {
-    @Override
-    public void initForNewHome() {
-        findAndHookMethod("com.miui.home.launcher.TextSizeConfig", "calTextSize",
-                new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        param.setResult(
-                                (float) DisplayUtils.sp2px(mPrefsMap.getInt("home_title_font_size", 12))
-                        );
-                    }
+    override fun initForNewHome() {
+        val appIconClass = Class.forName("com.miui.home.launcher.AppIcon", false, lpparam.classLoader)  // 抽屉
+
+        MethodFinder.fromClass("com.miui.home.launcher.ShortcutIcon").filterByName("updateTitleSize")
+            .filterByParamCount(0).first().createAfterHook {
+                val shortcutIcon = it.thisObject as TextView
+
+                if (appIconClass.isInstance(shortcutIcon)) {
+                    // shortcutIcon.setTextSize(0, 90f)
+                    // todo set chou ti size
+                } else {
+                    shortcutIcon.setTextSize(
+                        0, DisplayUtils.sp2px(
+                            mPrefsMap.getInt(
+                                "home_title_font_size", 12
+                            ).toFloat()
+                        ).toFloat()
+                    )
                 }
-        );
+            }
     }
 
-    @Override
-    public void initForHomeLower9777() {
-        hookAllMethods("com.miui.home.launcher.common.Utilities", "adaptTitleStyleToWallpaper",
-                new MethodHook() {
-                    @SuppressLint("DiscouragedApi")
-                    @Override
-                    protected void after(MethodHookParam param) {
-                        TextView mTitle = (TextView) param.args[1];
-                        if (mTitle != null && mTitle.getId() == mTitle.getResources().getIdentifier("icon_title", "id", "com.miui.home")) {
-                            mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPrefsMap.getInt("home_title_font_size", 12));
-                        }
-                    }
+    override fun initForHomeLower9777() {
+        MethodFinder.fromClass("com.miui.home.launcher.common.Utilities").filterByName("adaptTitleStyleToWallpaper")
+            .first().createAfterHook { param ->
+                val mTitle = param.args[1] as? TextView
+                if (mTitle != null && mTitle.id == mTitle.resources.getIdentifier(
+                        "icon_title", "id", "com.miui.home"
+                    )
+                ) {
+                    mTitle.setTextSize(
+                        TypedValue.COMPLEX_UNIT_SP, mPrefsMap.getInt("home_title_font_size", 12).toFloat()
+                    )
                 }
-        );
+            }
     }
 }
+
