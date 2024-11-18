@@ -383,6 +383,7 @@
     <string name="tiles_gms">Google Play Service</string>
     <string name="tiles_taplus">Taplus</string>
     <string name="tiles_5g">5G</string>
+    <string name="dashboard_5g">Use 5G</string>
     <string name="tiles_sunshine_mode">Sunlight mode</string>
     <!--System Framework-->
     <string name="system_framework">System Framework</string>

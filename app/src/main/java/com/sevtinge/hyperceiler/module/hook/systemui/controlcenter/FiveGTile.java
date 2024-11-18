@@ -224,7 +224,11 @@ public class FiveGTile extends TileUtils {
 
     @Override
     public int customRes() {
-        return R.string.tiles_5g;
+        if (mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) == 3) {
+            return R.string.dashboard_5g;
+        } else {
+            return R.string.tiles_5g;
+        }
     }
 
     @Override

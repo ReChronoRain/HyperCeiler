@@ -383,8 +383,9 @@
 
     <string name="tiles_gms">Google Play 服务</string>
     <string name="tiles_taplus">传送门</string>
-    <string name="tiles_5g">5G</string>
+    <string name="tiles_5g">5G 网络</string>
     <string name="tiles_sunshine_mode">阳光模式</string>
+    <string name="dashboard_5g">使用 5G 网络</string>
 
     <!--系统框架-->
     <string name="system_framework">系统框架</string>
