@@ -19,12 +19,16 @@
 
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
-import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 public class ShadeHeaderGradientBlur extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        mResHook.setResReplacement("com.android.systemui", "bool", "shade_header_gradient_blur", R.bool.shade_header_gradient_blur);
+        findAndHookMethod("com.miui.systemui.shade.header.ShadeHeaderClipController", "getUseGradientBlur", new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                param.setResult(true);
+            }
+        });
     }
 }

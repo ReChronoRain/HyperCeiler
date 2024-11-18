@@ -22,5 +22,4 @@
     <bool name="config_is_n5_supported">true</bool>
     <bool name="config_is_n8_supported">true</bool>
     <bool name="config_dual_nr_supported">true</bool>
-    <bool name="shade_header_gradient_blur">true</bool>
 </resources>
