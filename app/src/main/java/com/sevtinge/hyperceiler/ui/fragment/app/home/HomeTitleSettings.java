@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.ui.fragment.app.home;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -76,6 +77,7 @@ public class HomeTitleSettings extends DashboardFragment {
         mDisableHideTheme.setVisible(isPad());
         mAppBlur.setVisible(isHyperOSVersion(1f));
         mIconSize.setVisible(isHyperOSVersion(2f));
+        findPreference("prefs_key_home_drawer_title_font_size").setVisible(isMoreHyperOSVersion(2f));
 
         mIconTitleCustomization.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);

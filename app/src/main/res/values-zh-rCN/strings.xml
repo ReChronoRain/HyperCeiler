@@ -1338,7 +1338,8 @@
     <string name="home_title_title_icontitlecustomization">自定义应用标题</string>
     <string name="home_title_drawer_font_hidden_more">抽屉内应用标题也会被隐藏，如需保留抽屉内应用标题，请使用 \"文本大小\" 进行调整</string>
     <string name="home_title_title_new_install_more">安装新应用时不显示应用标题旁边的指示标</string>
-    <string name="home_title_font_size">文本大小</string>
+    <string name="home_title_font_size">文本大小 (桌面)</string>
+    <string name="home_drawer_title_font_size">文本大小 (抽屉)</string>
     <string name="home_title_title_color">文本颜色</string>
     <string name="home_title_animation_speed">动画速度</string>
     <string name="home_title_big_icon_corner">中等图标圆角跟随</string>

@@ -1305,7 +1305,8 @@
     <string name="home_title_drawer_font_hidden">Hide all app names</string>
     <string name="home_title_drawer_font_hidden_more">The app name in the drawer will also be hidden. If you want to keep the app name in the drawer, please use Font size to adjust it.</string>
     <string name="home_title_title_new_install_more">Don\'t display the indicator next to the app name when installing a new app</string>
-    <string name="home_title_font_size">Font size</string>
+    <string name="home_title_font_size">Font size (Desktop)</string>
+    <string name="home_drawer_title_font_size">Font size (Drawer)</string>
     <string name="home_title_title_color">Title color</string>
     <string name="home_title_animation_speed">Animation speed</string>
     <string name="home_title_big_icon_corner">Medium icon round corner follow</string>

@@ -23,30 +23,51 @@ import android.widget.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.*
 import com.sevtinge.hyperceiler.module.hook.home.*
+import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 class TitleFontSize : HomeBaseHook() {
 
     override fun initForNewHome() {
+        if (mPrefsMap.getInt("home_title_font_size", 12) == 12 &&
+            mPrefsMap.getInt("home_drawer_title_font_size", 12) == 12
+            ) return
+
         val appIconClass = Class.forName("com.miui.home.launcher.AppIcon", false, lpparam.classLoader)  // 抽屉
 
         MethodFinder.fromClass("com.miui.home.launcher.ShortcutIcon").filterByName("updateTitleSize")
             .filterByParamCount(0).first().createAfterHook {
                 val shortcutIcon = it.thisObject as TextView
 
-                if (appIconClass.isInstance(shortcutIcon)) {
-                    // shortcutIcon.setTextSize(0, 90f)
-                    // todo set chou ti size
-                } else {
-                    shortcutIcon.setTextSize(
-                        0, DisplayUtils.sp2px(
-                            mPrefsMap.getInt(
-                                "home_title_font_size", 12
-                            ).toFloat()
+
+                shortcutIcon.setTextSize(
+                    0, DisplayUtils.sp2px(
+                        mPrefsMap.getInt(
+                            if (appIconClass.isInstance(shortcutIcon)) { // 抽屉
+                                "home_drawer_title_font_size"
+                            } else { // 桌面
+                                "home_title_font_size"
+                            }, 12
                         ).toFloat()
-                    )
-                }
+                    ).toFloat()
+                )
+
             }
+
+        if (mPrefsMap.getInt("home_title_font_size", 12) == 12) return
+        // 文件夹标题
+        MethodFinder.fromClass("com.miui.home.launcher.TitleTextView").filterByName("updateSizeOnIconSizeChanged")
+            .first().replaceMethod {
+                (it.thisObject as TextView).setTextSize(
+                    0, DisplayUtils.sp2px(mPrefsMap.getInt("home_title_font_size", 12).toFloat()).toFloat()
+                )
+            }
+
+        ConstructorFinder.fromClass("com.miui.home.launcher.TitleTextView").first().createAfterHook {
+            (it.thisObject as TextView).setTextSize(
+                0, DisplayUtils.sp2px(mPrefsMap.getInt("home_title_font_size", 12).toFloat()).toFloat()
+            )
+        }
     }
 
     override fun initForHomeLower9777() {
