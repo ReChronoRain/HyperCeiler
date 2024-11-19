@@ -382,7 +382,7 @@
     <string name="mediaeditor_strawberry_bear">Strawberry Bear</string>
     <string name="tiles_gms">Google Play Service</string>
     <string name="tiles_taplus">Taplus</string>
-    <string name="tiles_5g">5G</string>
+    <string name="tiles_5g">5G network</string>
     <string name="dashboard_5g">Use 5G</string>
     <string name="tiles_sunshine_mode">Sunlight mode</string>
     <!--System Framework-->
@@ -869,7 +869,7 @@
     <string name="system_ui_statusbar_music_notification">Focus notification lyrics</string>
     <string name="system_ui_statusbar_music_cusiom_title">Display settings</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Hide status bar clock</string>
-    <string name="system_ui_statusbar_music_hide_clock_desc">Hide the status bar clock when showing focused lyrics, and adjust the animation of the drop-down notification center</string>
+    <string name="system_ui_statusbar_music_hide_clock_desc">Hide the status bar clock when showing focused lyrics, and adjust the animation of the dropdown Notification shade.</string>
     <string name="system_ui_statusbar_music_speed_title">Lyrics scroll rate</string>
     <string name="system_ui_statusbar_music_width_title">Add whitespace at the end of lyrics</string>
     <string name="system_ui_statusbar_music_width_desc">Make scrolling lyrics as complete as possible</string>
@@ -970,7 +970,7 @@
     <string name="system_ui_control_center_remove_notif_num_limit">Remove notification count limit</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Allow display 10, 17 or more notifications.</string>
     <string name="system_ui_plugin_tiles_load_way">Tiles hook loading mode</string>
-    <string name="system_ui_plugin_tiles_load_way_desc">Global mode may cause unnecessary lag; Please choose the loading mode based on actual availability.</string>
+    <string name="system_ui_plugin_tiles_load_way_desc">Global mode may cause unnecessary lag. Please choose the loading mode based on actual availability.</string>
     <string name="system_ui_plugin_tiles_load_way_global">Global</string>
     <string name="system_ui_plugin_tiles_load_way_default">Default</string>
     <string name="system_ui_plugin_tiles_load_way_compatibility">Compatibility</string>
