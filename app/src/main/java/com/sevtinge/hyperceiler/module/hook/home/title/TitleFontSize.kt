@@ -39,7 +39,6 @@ class TitleFontSize : HomeBaseHook() {
             .filterByParamCount(0).first().createAfterHook {
                 val shortcutIcon = it.thisObject as TextView
 
-
                 shortcutIcon.setTextSize(
                     0, DisplayUtils.sp2px(
                         mPrefsMap.getInt(
@@ -71,6 +70,8 @@ class TitleFontSize : HomeBaseHook() {
     }
 
     override fun initForHomeLower9777() {
+        if (mPrefsMap.getInt("home_title_font_size", 12) == 12) return
+
         MethodFinder.fromClass("com.miui.home.launcher.common.Utilities").filterByName("adaptTitleStyleToWallpaper")
             .first().createAfterHook { param ->
                 val mTitle = param.args[1] as? TextView
