@@ -1068,6 +1068,10 @@
     <string name="system_settings_new_nfc_page_desc">此功能会导致不支持的机型默认付款应用无法选中小米钱包</string>
     <string name="system_settings_more_vpn_types">显示更多 VPN 类型</string>
 
+    <string name="system_settings_xiaomihyperai">小米澎湃 AI</string>
+    <string name="system_settings_unlock_xiaomihyperai_entrance">解锁小米澎湃 AI 入口</string>
+    <string name="system_settings_unlock_xiaomihyperai_entrance_desc">开启后在设置中展示小米澎湃 AI 入口\n设备 AI 功能支持由小米决定</string>
+
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_area_screenshot">解锁区域截屏</string>
     <string name="system_settings_voip_assistant_controller">解锁网络通话助手</string>

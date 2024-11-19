@@ -1041,7 +1041,9 @@
     <string name="system_settings_lang_menu_shouw_all_app">Show all apps in language manage menu</string>
     <string name="system_settings_new_nfc_page">New NFC page</string>
     <string name="system_settings_new_nfc_page_desc">After opening, the default payment app for unsupported models cannot select Xiaomi Wallet</string>
-
+    <string name="system_settings_xiaomihyperai">Xiaomi HyperAI</string>
+    <string name="system_settings_unlock_xiaomihyperai_entrance">Unlock Xiaomi HyperAI Entrance</string>
+    <string name="system_settings_unlock_xiaomihyperai_entrance_desc">After opening, display the Xiaomi HyperAI Entrance in the settings.\nSupport for device AI functions is determined by Xiaomi Inc.</string>
     <string name="system_settings_lab_title">Featured functions</string>
     <string name="system_settings_area_screenshot">Unlock area screenshot</string>
     <string name="system_settings_voip_assistant_controller">VoIP assistant</string>
