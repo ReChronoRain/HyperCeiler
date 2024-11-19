@@ -889,7 +889,7 @@
     <string name="system_ui_control_center_qs_color">Icon color</string>
     <string name="system_ui_control_center_qs_open_color">Enable customization of the small tile</string>
     <string name="system_ui_control_center_qs_big_open_color">Enable customization of the large tile</string>
-    <string name="system_ui_control_auto_close_more">After opening, clicking on the status bar tile will automatically retract the status bar.</string>
+    <string name="system_ui_control_auto_close_more">By tapping the status bar block, the status bar will automatically retract.</string>
     <string name="system_control_center_qs_tile_label">Remove title</string>
     <string name="system_control_center_qs_rows">Rows</string>
     <string name="system_control_center_qs_rows_format">%d lines</string>
@@ -1040,10 +1040,10 @@
     <string name="system_settings_connection_sharing_title">Connection &amp; sharing</string>
     <string name="system_settings_lang_menu_shouw_all_app">Show all apps in language manage menu</string>
     <string name="system_settings_new_nfc_page">New NFC page</string>
-    <string name="system_settings_new_nfc_page_desc">After opening, the default payment app for unsupported models cannot select Xiaomi Wallet</string>
+    <string name="system_settings_new_nfc_page_desc">After turning it on, the default payment app for unsupported models cannot select Xiaomi Wallet.</string>
     <string name="system_settings_xiaomihyperai">Xiaomi HyperAI</string>
-    <string name="system_settings_unlock_xiaomihyperai_entrance">Unlock Xiaomi HyperAI Entrance</string>
-    <string name="system_settings_unlock_xiaomihyperai_entrance_desc">After opening, display the Xiaomi HyperAI Entrance in the settings.\nSupport for device AI functions is determined by Xiaomi Inc.</string>
+    <string name="system_settings_unlock_xiaomihyperai_entrance">Unlock Xiaomi HyperAI</string>
+    <string name="system_settings_unlock_xiaomihyperai_entrance_desc">After turning it on, the Xiaomi HyperAI option is displayed in the Settings. Support for the device\'s AI features is determined by Xiaomi.</string>
     <string name="system_settings_lab_title">Featured functions</string>
     <string name="system_settings_area_screenshot">Unlock area screenshot</string>
     <string name="system_settings_voip_assistant_controller">VoIP assistant</string>
@@ -1679,7 +1679,7 @@
     <string name="joyose_disable_cloud_control">Disable Cloud control</string>
     <string name="joyose_game_title">Game Space</string>
     <string name="joyose_enable_gpu_tuner">Performance scheduling</string>
-    <string name="joyose_enable_gpu_tuner_desc">After opening, add game GPU settings at the bottom of Game Space.</string>
+    <string name="joyose_enable_gpu_tuner_desc">After turning it on, add game GPU settings at the bottom of Game Space.</string>
     <!--GetApps-->
     <string name="market">GetApps</string>
     <string name="market_device_modify">Model guise</string>
@@ -1741,7 +1741,7 @@
     <string name="various_phrase_clipboardlist">Remove the clipboard and time limits for phrases</string>
     <string name="various_phrase_clipboardlist_more">After it\'s enabled, select the input method scope and restart it.</string>
     <string name="various_unlock_ime">Unlock IME</string>
-    <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the LSPosed.</string>
+    <string name="various_unlock_ime_desc">After turning it on, please check the corresponding input method scope in the LSPosed.</string>
     <string name="various_collapse_miui_title">System title style</string>
     <string name="various_collapse_miui_title_desc">Adjust top bar title in system apps</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>
