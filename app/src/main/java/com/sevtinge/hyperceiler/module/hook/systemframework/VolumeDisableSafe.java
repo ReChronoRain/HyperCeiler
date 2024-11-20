@@ -37,7 +37,11 @@ public class VolumeDisableSafe extends BaseHook {
     @Override
     public void init() {
         if (isMoreAndroidVersion(34)) {
-            findAndHookMethod("com.android.server.audio.SoundDoseHelperStubImpl", "updateSafeMediaVolumeIndex", int.class, new MethodHook() {
+            String SoundDoseHelperStub = isMoreAndroidVersion(35) ?
+                    "com.android.server.audio.SoundDoseHelperStub" :
+                    "com.android.server.audio.SoundDoseHelperStubImpl";
+
+            findAndHookMethod(SoundDoseHelperStub, "updateSafeMediaVolumeIndex", int.class, new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) throws Throwable {
                     if (mode == 1) {

@@ -157,7 +157,7 @@ public abstract class TileUtils extends BaseHook {
             }
         };
         try {
-            if (expandableClz != null) {
+            if (isMoreAndroidVersion(35)) {
                 myTile.getDeclaredMethod("handleLongClick", expandableClz);
                 findAndHookMethod(myTile, "handleLongClick", expandableClz, handleLongClickHook);
             } else {
@@ -197,7 +197,7 @@ public abstract class TileUtils extends BaseHook {
             }
         };
         try {
-            if (expandableClz != null) {
+            if (isMoreAndroidVersion(35)) {
                 getDeclaredMethod(myTile, "handleClick", expandableClz);
                 findAndHookMethod(myTile, "handleClick", expandableClz, handleClickHook);
             } else {
@@ -390,7 +390,9 @@ public abstract class TileUtils extends BaseHook {
                                         Object mHandler = XposedHelpers.getObjectField(tile, "mHandler");
                                         XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 12);
                                         XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 11);
-                                        XposedHelpers.callMethod(tile, "setTileSpec", tileName);
+                                        if (isMoreAndroidVersion(35)) {
+                                            XposedHelpers.callMethod(tile, "setTileSpec", tileName);
+                                        }
 
                                         param.setResult(tile);
                                     }
