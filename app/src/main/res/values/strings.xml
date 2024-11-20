@@ -1924,6 +1924,10 @@
     <string name="notes">Notes</string>
     <string name="notes_disable_ai_watermark">Disable AI watermark</string>
 
+    <string name="lpa">LPA</string>
+    <string name="lpa_custom_imei">Custom IMEI</string>
+    <string name="lpa_custom_imei_desc">Please make sure that you have filled in the IMEI correctly. An incorrect IMEI may cause the eSIM to be unavailable or abnormal, and we are not responsible for any consequences arising therefrom.</string>
+
     <string name="about_device_info_device">Device</string>
     <string name="about_device_info_android">Android version</string>
     <string name="about_device_info_os">OS version</string>

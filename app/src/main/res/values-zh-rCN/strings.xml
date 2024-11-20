@@ -1477,6 +1477,10 @@
     <string name="home_recent_simple_blur">简单模糊</string>
     <string name="home_recent_none_blur">无模糊</string>
     <string name="home_recent_none_blur_simple_anim">无模糊 (精简动画)</string>
+    <!--LPA-->
+    <string name="lpa">LPA</string>
+    <string name="lpa_custom_imei">自定义 IMEI</string>
+    <string name="lpa_custom_imei_desc">请确认正确填写了 IMEI ，错误的 IMEI 可能会造成 eSIM 不可用或异常，由此产生的后果概不负责</string>
     <!--小米相册-编辑-->
     <string name="mediaeditor">小米相册-编辑</string>
     <string name="mediaeditor_foundation">基础</string>

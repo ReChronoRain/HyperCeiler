@@ -244,6 +244,13 @@
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_lpa"
+            android:summary="com.miui.euicc"
+            android:title="@string/lpa"
+            app:inflatedXml="@xml/lpa"/>
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_gallery"
             android:summary="com.miui.gallery"
             android:title="@string/gallery"
