@@ -26,6 +26,6 @@
 -dontwarn javax.annotation.processing.SupportedSourceVersion
 -dontwarn javax.annotation.processing.Processor
 -dontwarn miui.util.HapticFeedbackUtil
--dontwarn fan.core.utils.DeviceHelper
+-dontwarn fan.device.DeviceUtils
 -allowaccessmodification
 -overloadaggressively
