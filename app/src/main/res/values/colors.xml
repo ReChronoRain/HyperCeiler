@@ -39,7 +39,7 @@
     <color name="light_mode_icon_transparent_color_single_tone">#5cffffff</color>
     <color name="dark_mode_icon_color_single_tone">#bf000000</color>
     <color name="dark_mode_icon_transparent_color_single_tone">#4c000000</color>
-    <color name="color_surface_variant">#DC9A9B9D</color>
+    <color name="color_surface_variant">#BC9A9B9D</color>
     <color name="color_on_surface_variant">#FAFCFCFC</color>
     <color name="ic_launcher_background">#FC5B8D</color>
 

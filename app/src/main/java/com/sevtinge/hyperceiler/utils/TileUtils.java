@@ -390,7 +390,9 @@ public abstract class TileUtils extends BaseHook {
                                         Object mHandler = XposedHelpers.getObjectField(tile, "mHandler");
                                         XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 12);
                                         XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 11);
-                                        XposedHelpers.callMethod(tile, "setTileSpec", tileName);
+                                        if (isMoreAndroidVersion(35)) {
+                                            XposedHelpers.callMethod(tile, "setTileSpec", tileName);
+                                        }
 
                                         param.setResult(tile);
                                     }

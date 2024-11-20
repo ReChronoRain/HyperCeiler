@@ -44,7 +44,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePersistent;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePinVerifyPer72h;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableVerifyCanBeDisabled;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
-import com.sevtinge.hyperceiler.module.hook.systemframework.FreeFormCount;
+import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.module.hook.systemframework.HookEntry;
 import com.sevtinge.hyperceiler.module.hook.systemframework.LinkTurboToast;

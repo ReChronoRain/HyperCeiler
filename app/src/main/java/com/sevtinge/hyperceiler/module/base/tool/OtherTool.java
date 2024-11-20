@@ -186,7 +186,7 @@ public class OtherTool {
                     MiBlurUtils.setContainerPassBlur(getTextView(), i, true);
                     MiBlurUtils.setMiViewBlurMode(getTextView(), 1);
                     MiBlurUtils.clearMiBackgroundBlendColor(getTextView());
-                    MiBlurUtils.addMiBackgroundBlendColor(getTextView(), Color.argb(a, 0, 0, 0), 103);
+                    MiBlurUtils.addMiBackgroundBlendColor(getTextView(), Color.argb(a, 0, 0, 0), 101);
                 } catch (Throwable e) {
                     logE("ShowVolumePct", e);
                 }
