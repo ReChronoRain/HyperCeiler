@@ -91,8 +91,10 @@ object NewFlashLight : TileUtils() {
             object : MethodHook() {
                 override fun after(param: MethodHookParam) {
                     val mContext =
-                        param.thisObject.getObjectField("mContext") as Context
-                    listening(mContext, param)
+                        param.thisObject.getObjectFieldOrNullAs<Context>("mContext")
+                    if (mContext != null) {
+                        listening(mContext, param)
+                    }
                 }
             }
         )
@@ -163,7 +165,7 @@ object NewFlashLight : TileUtils() {
 
     private fun sliderAnimator(i: Int, param: MethodHookParam) {
         val isUserSliding =
-            param.thisObject.getObjectField( "isUserSliding") as Boolean
+            param.thisObject.getObjectField("isUserSliding") as Boolean
         val toggleSliderBaseControllerImpl =
             param.thisObject.getObjectField("mToggleSlidersController")
         val toggleSliderBase =
