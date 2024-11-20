@@ -83,12 +83,12 @@ public class GmsTile extends TileUtils {
     }
 
     @Override
-    public Intent tileHandleLongClick(MethodHookParam param, String tileName) {
+    public void tileLongClickIntent(MethodHookParam param, String tileName) {
         // 长按跳转谷歌基础服务页面
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.googlebase.ui.GmsCoreSettings"));
-        return intent;
+        param.setResult(intent);
     }
 
     @Override
