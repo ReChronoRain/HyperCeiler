@@ -1128,7 +1128,8 @@
     <string name="home_title_title_marquee_desc">Çok uzun olan uygulama adları kaydırılmak yerine kesilir</string>
     <string name="home_title_title_icontitlecustomization">Uygulama adını özelleştir</string>
     <string name="home_title_drawer_font_hidden">Tüm uygulama adlarını gizle</string>
-    <string name="home_title_font_size">Yazı tipi boyutu</string>
+    <string name="home_title_font_size">Yazı tipi boyutu (Desktop)</string>
+    <string name="home_drawer_title_font_size">Yazı tipi boyutu (Drawer)</string>
     <string name="home_title_title_color">Başlık rengi</string>
     <string name="home_title_animation_speed">Animasyon hızı</string>
     <string name="home_title_big_icon_corner">Orta simge yuvarlak köşeyi takip etsin</string>
