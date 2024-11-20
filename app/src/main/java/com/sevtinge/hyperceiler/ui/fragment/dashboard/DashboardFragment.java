@@ -40,7 +40,7 @@ public class DashboardFragment extends SettingsPreferenceFragment {
     @Override
     public void onCreatePreferencesAfter(Bundle bundle, String s) {
         super.onCreatePreferencesAfter(bundle, s);
-        mQuickRestartPackageName = getQuickRestartPackageName(getContext(), getPreferenceScreenResId());
+        mQuickRestartPackageName = getQuickRestartPackageName(requireContext(), getPreferenceScreenResId());
     }
 
     @Override

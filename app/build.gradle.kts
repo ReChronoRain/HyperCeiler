@@ -28,6 +28,7 @@ val buildTypes = "release"
 val roots = mapOf(
     "animation" to "libs/animation-${buildTypes}.aar",
     "appcompat" to "libs/appcompat-${buildTypes}.aar",
+    "basewidget" to "libs/basewidget-${buildTypes}.aar",
     "cardview" to "libs/cardview-${buildTypes}.aar",
     "core" to "libs/core-${buildTypes}.aar",
     "flexible" to "libs/flexible-${buildTypes}.aar",
@@ -36,10 +37,13 @@ val roots = mapOf(
     "haptic" to "libs/haptic-${buildTypes}.aar",
     "navigator" to "libs/navigator-${buildTypes}.aar",
     "nestedheader" to "libs/nestedheader-${buildTypes}.aar",
+    "pickerwidget" to "libs/pickerwidget-${buildTypes}.aar",
+    "popupwidget" to "libs/popupwidget-${buildTypes}.aar",
     "preference" to "libs/preference-${buildTypes}.aar",
     "recyclerview" to "libs/recyclerview-${buildTypes}.aar",
     "smooth" to "libs/smooth-${buildTypes}.aar",
     "springback" to "libs/springback-${buildTypes}.aar",
+    "stretchablewidget" to "libs/stretchablewidget-${buildTypes}.aar",
     "theme" to "libs/theme-${buildTypes}.aar",
     "viewpager" to "libs/viewpager-${buildTypes}.aar",
     "external" to "libs/external-${buildTypes}.aar",
@@ -263,6 +267,7 @@ dependencies {
 
     implementation(files(roots["animation"]))
     implementation(files(roots["appcompat"]))
+    implementation(files(roots["basewidget"]))
     implementation(files(roots["cardview"]))
     implementation(files(roots["core"]))
     implementation(files(roots["flexible"]))
@@ -271,10 +276,13 @@ dependencies {
     implementation(files(roots["haptic"]))
     implementation(files(roots["navigator"]))
     implementation(files(roots["nestedheader"]))
+    implementation(files(roots["pickerwidget"]))
+    implementation(files(roots["popupwidget"]))
     implementation(files(roots["preference"]))
     implementation(files(roots["recyclerview"]))
     implementation(files(roots["smooth"]))
     implementation(files(roots["springback"]))
+    implementation(files(roots["stretchablewidget"]))
     implementation(files(roots["theme"]))
     implementation(files(roots["viewpager"]))
     implementation(files(roots["external"]))

@@ -108,6 +108,9 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     }
 
     public boolean hasKey(String key) {
-        return getSharedPreferences().contains(key);
+        if (getSharedPreferences() != null) {
+            return getSharedPreferences().contains(key);
+        }
+        return false;
     }
 }

@@ -32,14 +32,15 @@
             android:title="@string/custom_background_color" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="20"
-            android:format="%d dp"
             android:key="prefs_key_custom_background_corner_radius"
             android:dependency="prefs_key_custom_background_enabled"
-            android:max="60"
             android:persistent="false"
             android:title="@string/custom_background_corner_radius"
-            app:showSeekBarValue="true" />
+            app:defaultValue="20"
+            app:format="%d dp"
+            app:showSeekBarValue="true"
+            app:maxValue="60"
+            app:defaultValueTitle="@string/array_default"/>
 
         <SwitchPreference
             android:key="prefs_key_custom_background_blur_enabled"
@@ -48,14 +49,15 @@
             android:title="@string/custom_background_blur_enabled" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="60"
             android:dependency="prefs_key_custom_background_blur_enabled"
-            android:format="%d dp"
             android:key="prefs_key_custom_background_blur_radius"
-            android:max="100"
             android:persistent="false"
             android:title="@string/custom_background_blur_radius"
-            app:showSeekBarValue="true" />
+            app:defaultValue="60"
+            app:format="%d dp"
+            app:showSeekBarValue="true"
+            app:maxValue="100"
+            app:defaultValueTitle="@string/array_default"/>
 
     </PreferenceCategory>
 
