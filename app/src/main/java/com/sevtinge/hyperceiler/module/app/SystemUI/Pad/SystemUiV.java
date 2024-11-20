@@ -52,7 +52,6 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.DisableDevice
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ExpandNotification;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FiveGTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FixTilesList;
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FlashLight;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.GmsTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.HideDelimiter;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaButton;
@@ -76,6 +75,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ShadeHeaderGr
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SunlightMode;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SwitchCCAndNotification;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.TaplusTile;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.os2.NewFlashLight;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.AllowThirdLockScreenUseFace;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.BlurButton;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ChargingCVP;
@@ -260,7 +260,7 @@ public class SystemUiV extends BaseModule {
         initHook(new TaplusTile(), mPrefsMap.getBoolean("security_center_taplus"));
         initHook(new ReduceBrightColorsTile(), mPrefsMap.getBoolean("security_center_reduce_bright_colors_tile"));
         initHook(new FiveGTile(), mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) != 0);
-        initHook(new FlashLight(), mPrefsMap.getStringAsInt("security_flash_light_switch", 0) != 0);
+        initHook(NewFlashLight.INSTANCE, mPrefsMap.getStringAsInt("security_flash_light_switch", 0) != 0);
         initHook(new SunlightMode(), mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode", 0) != 0);
         initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_row", 1) > 1 ||
                 mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
