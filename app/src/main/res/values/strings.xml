@@ -525,6 +525,8 @@
     <string name="system_framework_use_android_package_installer_desc">Restore the broken PackageInstaller API</string>
     <string name="system_framework_core_patch_bypass_isolation_violation">Bypass isolation violation</string>
     <string name="system_framework_core_patch_bypass_isolation_violation_desc">Allow third-party apps to install system apps</string>
+    <string name="system_framework_core_patch_allow_update_system_app">Allow update system apps</string>
+    <string name="system_framework_core_patch_allow_update_system_app_desc">Allow installation of system apps when updating system apps is disabled</string>
     <!--Browser-->
     <string name="browser">Browser</string>
     <string name="browser_debug_mode">Unlock developer options</string>

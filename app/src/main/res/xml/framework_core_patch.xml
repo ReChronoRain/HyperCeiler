@@ -89,5 +89,11 @@
             android:summary="@string/system_framework_core_patch_bypass_isolation_violation_desc"
             android:title="@string/system_framework_core_patch_bypass_isolation_violation" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_allow_update_system_app"
+            android:summary="@string/system_framework_core_patch_allow_update_system_app_desc"
+            android:title="@string/system_framework_core_patch_allow_update_system_app" />
+
     </PreferenceCategory>
 </PreferenceScreen>

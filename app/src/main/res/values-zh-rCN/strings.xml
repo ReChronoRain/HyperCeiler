@@ -532,6 +532,8 @@
     <string name="system_framework_use_android_package_installer_desc">恢复被破坏的 PackageInstaller API</string>
     <string name="system_framework_core_patch_bypass_isolation_violation">禁用隔离应用检查</string>
     <string name="system_framework_core_patch_bypass_isolation_violation_desc">允许第三方应用安装系统应用</string>
+    <string name="system_framework_core_patch_allow_update_system_app">允许安装系统应用</string>
+    <string name="system_framework_core_patch_allow_update_system_app_desc">允许在被禁用更新系统应用时安装系统应用</string>
     <!--浏览器-->
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>
