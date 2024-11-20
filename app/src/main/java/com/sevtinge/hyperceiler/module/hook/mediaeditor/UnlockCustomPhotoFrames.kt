@@ -98,7 +98,11 @@ object UnlockCustomPhotoFrames : BaseHook() {
                 }
             }?.toElementList()
         }.toMethodList()
-        val actions = listOf<(Method) -> Unit>(::xiaomi, ::poco, ::redmi, ::other)
+        val actions = listOf<(Method) -> if (isNewMediaeditor) {
+            Unit>(::xiaomi, ::redmi, ::poco, ::other)
+        } else {
+            Unit>(::xiaomi, ::poco, ::redmi, ::other)
+        }
         val orderedPublicA = DexKit.getDexKitBridgeList("PA") { _ ->
             publicA?.toElementList()
         }.toMethodList()
