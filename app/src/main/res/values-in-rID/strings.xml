@@ -1134,7 +1134,8 @@
     <string name="home_title_drawer_font_hidden">Sembunyikan semua judul aplikasi</string>
     <string name="home_title_drawer_font_hidden_more">Judul aplikasi di laci juga akan disembunyikan.\nJika Anda ingin menyimpan judul aplikasi di laci, gunakan \"Ukuran Font\" untuk menyesuaikannya.</string>
     <string name="home_title_title_new_install_more">Jangan tampilkan indikator di sebelah judul aplikasi saat memasang aplikasi baru</string>
-    <string name="home_title_font_size">Ukuran huruf</string>
+    <string name="home_title_font_size">Ukuran huruf (Desktop)</string>
+    <string name="home_drawer_title_font_size">Ukuran huruf (Drawer)</string>
     <string name="home_title_title_color">Warna judul</string>
     <string name="home_title_animation_speed">Kecepatan animasi</string>
     <string name="home_title_big_icon_corner">Ikuti sudut bundar ikon sedang</string>

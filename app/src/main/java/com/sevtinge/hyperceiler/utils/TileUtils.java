@@ -250,12 +250,12 @@ public abstract class TileUtils extends BaseHook {
     //     return null;
     // }
 
-    /*需要Hook的磁贴Class*/
+    /*需要 Hook 的磁贴 Class*/
     public Class<?> customClass() {
         return null;
     }
 
-    /*需要Hook执行的Class方法*/
+    /*需要 Hook 执行的 Class 方法*/
     private void customTileProvider() {
         mTileProvider[0] = setTileProvider();
         mTileProvider[1] = "createTileInternal";
@@ -278,25 +278,25 @@ public abstract class TileUtils extends BaseHook {
     }
 
     /*在这里为你的自定义磁贴打上标题
-    需要传入资源Id*/
+    需要传入资源 Id*/
     public int customRes() {
         return -1;
     }
 
     /* 是否要覆写原有磁贴方法,
      * 当无自定义名称时默认覆写而不走判断名称的逻辑
-     * 可以覆写为指定boolean但不建议*/
+     * 可以覆写为指定 boolean 但不建议*/
     public boolean needOverride() {
         return "".equals(customName());
     }
 
-    /*是否需要在after时进行逻辑修改而不是before*/
+    /*是否需要在 after 时进行逻辑修改而不是 before*/
     public boolean needAfter() {
         return false;
     }
 
     /*
-     * 在第一次Hook时把新的快捷方式加载进快捷方式列表中。
+     * 在第一次 Hook 时把新的快捷方式加载进快捷方式列表中。
      * */
     private void SystemUiHook() {
         String custom = customName();
@@ -312,9 +312,9 @@ public abstract class TileUtils extends BaseHook {
                     protected void after(MethodHookParam param) {
                         if (!isListened[0]) {
                             isListened[0] = true;
-                            // 获取Context
+                            // 获取 Context
                             Context mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getApplicationContext");
-                            // 获取miui_quick_settings_tiles_stock字符串的值
+                            // 获取 miui_quick_settings_tiles_stock 字符串的值
                             @SuppressLint("DiscouragedApi") int stockTilesResId = mContext.getResources().getIdentifier("miui_quick_settings_tiles_stock", "string", lpparam.packageName);
                             String stockTiles = mContext.getString(stockTilesResId) + "," + custom; // 追加自定义的磁贴
                             // 将拼接后的字符串分别替换下面原有的字符串。
@@ -331,7 +331,7 @@ public abstract class TileUtils extends BaseHook {
     }
 
     /*
-     * 判断是否是自定义磁贴，如果是则在自定义磁贴前加上Key，用于定位磁贴。
+     * 判断是否是自定义磁贴，如果是则在自定义磁贴前加上 Key，用于定位磁贴。
      */
     private void tileAllName(Class<?> QSFactory) {
         if (!needOverride()) {
@@ -367,7 +367,7 @@ public abstract class TileUtils extends BaseHook {
         });
     }
 
-    /*安卓14磁贴逻辑被修改，此是解决方法*/
+    /*Android 14 磁贴逻辑被修改，此是解决方法*/
     private void tileAllName14(Class<?> QSFactory) {
         if (!needOverride()) {
             try {
@@ -390,7 +390,9 @@ public abstract class TileUtils extends BaseHook {
                                         Object mHandler = XposedHelpers.getObjectField(tile, "mHandler");
                                         XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 12);
                                         XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 11);
-                                        XposedHelpers.callMethod(tile, "setTileSpec", tileName);
+                                        if (isMoreAndroidVersion(35)) {
+                                            XposedHelpers.callMethod(tile, "setTileSpec", tileName);
+                                        }
 
                                         param.setResult(tile);
                                     }
@@ -500,7 +502,8 @@ public abstract class TileUtils extends BaseHook {
     }
 
     /*这是另一个长按动作代码
-     * 可能不是很严谨，仅在上面长按动作失效时使用*/
+     * 可能不是很严谨，仅在上面长按动作失效时使用
+     * 在 HyperOS2 已无此方法，请改用 tileLongClickIntent 方法*/
     public Intent tileHandleLongClick(MethodHookParam param, String tileName) {
         return null;
     }

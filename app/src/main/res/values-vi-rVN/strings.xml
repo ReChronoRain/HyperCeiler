@@ -1225,6 +1225,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_title_drawer_font_hidden_more">Tiêu đề ứng dụng trong ngăn kéo cũng sẽ bị ẩn, nếu không hãy điều chỉnh \"Kích thước chữ\" để sử dụng</string>
     <string name="home_title_title_new_install_more">Không hiển thị chấm thông báo trên biểu tượng ứng dụng khi cài đặt ứng dụng mới</string>
     <string name="home_title_font_size">Cỡ chữ</string>
+    <string name="home_drawer_title_font_size">Cỡ chữ (Drawer)</string>
     <string name="home_title_title_color">Màu sắc của tiêu đề</string>
     <string name="home_title_animation_speed">Tốc độ của hoạt ảnh</string>
     <string name="home_title_big_icon_corner">Bo tròn góc biểu tượng hình viên thuốc</string>

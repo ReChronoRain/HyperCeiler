@@ -1213,7 +1213,8 @@
     <string name="home_title_drawer_font_hidden">Ocultar todos os nomes dos apps</string>
     <string name="home_title_drawer_font_hidden_more">O nome do app na gaveta também ficará oculto. Se você quiser manter o nome do app na gaveta, use Tamanho da fonte para ajustá-lo.</string>
     <string name="home_title_title_new_install_more">Não exiba o indicador próximo ao nome do app ao instalar um novo app</string>
-    <string name="home_title_font_size">Tamanho da fonte</string>
+    <string name="home_title_font_size">Tamanho da fonte (Desktop)</string>
+    <string name="home_drawer_title_font_size">Tamanho da fonte (Drawer)</string>
     <string name="home_title_title_color">Cor do título</string>
     <string name="home_title_animation_speed">Velocidade da animação</string>
     <string name="home_title_big_icon_corner">Seguir canto redondo do ícone médio</string>

@@ -25,8 +25,10 @@ import android.util.*
 import android.view.*
 import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
@@ -34,6 +36,9 @@ import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.api.LazyClass.mNewClockClass
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
+import com.sevtinge.hyperceiler.utils.log.*
+import de.robv.android.xposed.*
+import java.lang.NullPointerException
 import java.lang.reflect.*
 import java.util.*
 
@@ -55,7 +60,7 @@ object StatusBarClockNew : BaseHook() {
         mPrefsMap.getInt("system_ui_statusbar_clock_size_1", 12)
     }
     private val clockSizeB by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_size_2", 54)
+        mPrefsMap.getInt("system_ui_statusbar_clock_size_2", 50)
     }
     private val clockSizeN by lazy {
         mPrefsMap.getInt("system_ui_statusbar_clock_size_3", 12)
@@ -118,8 +123,6 @@ object StatusBarClockNew : BaseHook() {
                     val miuiClockName = miuiClock.resources.getResourceEntryName(miuiClock.id)
                         ?: return@createAfterHook
 
-                    setMiuiClockStyle(miuiClockName, miuiClock)
-
                     val isSec =
                         miuiClockName in setOf("clock", "big_time", "date_time")
                     // miuiClockName 内部标签分类如下
@@ -132,41 +135,48 @@ object StatusBarClockNew : BaseHook() {
                         miuiClock.isSingleLine = false
 
                     if (isSec && isShowSec) {
-                        val d: Method = miuiClock.javaClass.getDeclaredMethod("updateTime")
-                        val r = Runnable {
-                            d.isAccessible = true
-                            d.invoke(miuiClock)
+                        val updateTimeMethod: Method = miuiClock.javaClass.getDeclaredMethod("updateTime")
+                        val runnable = Runnable {
+                            updateTimeMethod.isAccessible = true
+                            updateTimeMethod.invoke(miuiClock)
                         }
 
-                        class T : TimerTask() {
+                        val timerTask = object : TimerTask() {
                             override fun run() {
-                                Handler(miuiClock.context.mainLooper).post(r)
+                                Handler(miuiClock.context.mainLooper).post(runnable)
                             }
                         }
-                        Timer().schedule(
-                            T(), 1000 - System.currentTimeMillis() % 1000, 1000
-                        )
+
+                        Timer().schedule(timerTask, 1000 - System.currentTimeMillis() % 1000, 1000)
                     }
                 } catch (_: Exception) {
                 }
             }
+
+        if (isMoreHyperOSVersion(2f) && isBold) {
+            loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController\$notificationCallback\$1").methodFinder()
+                .filterByName("onExpansionChanged").first().createAfterHook {
+                    val notificationHeaderExpandController =
+                        it.thisObject.getObjectField("this\$0")
+                    notificationHeaderExpandController!!.callMethod("updateWeight", 0.3f)
+                }
+        } else if (isHyperOSVersion(1f)) {
+            try {
+                loadClassOrNull("com.android.systemui.statusbar.policy.FakeStatusBarClockController")!!
+                    .methodFinder().filterByName("initState")
+                    .first().createHook {
+                        replace { null }
+                    }
+            } catch (_: Throwable) {
+            }
+        }
 
         // 设置格式
         statusBarClass.methodFinder()
             .filterByName("updateTime")
             .single().createBeforeHook {
                 try {
-                    val textV = it.thisObject as TextView
-                    val context = textV.context
-                    val miuiClockName =
-                        textV.resources.getResourceEntryName(textV.id) ?: return@createBeforeHook
-                    if (miuiClockName in setOf("clock", "big_time", "date_time")) {
-                        setMiuiClockStyle(miuiClockName, textV)
-
-                        if ((isSync && miuiClockName == "big_time") || (getFormatN.isEmpty() && miuiClockName == "date_time")) return@createBeforeHook
-                        setMiuiClockFormat(context, miuiClockName, textV)
-                        it.result = null
-                    }
+                    applyMiuiClockStyleAndFormat(it)
                 } catch (_: Exception) {
                 }
             }
@@ -175,29 +185,38 @@ object StatusBarClockNew : BaseHook() {
             .filterByName("updateTime")
             .single().createBeforeHook {
                 try {
-                    val textV = it.thisObject as TextView
-                    val context = textV.context
-                    val miuiClockName =
-                        textV.resources.getResourceEntryName(textV.id) ?: return@createBeforeHook
-                    if (miuiClockName in setOf("clock", "big_time", "date_time")) {
-                        setMiuiClockStyle(miuiClockName, textV)
-
-                        if ((isSync && miuiClockName == "big_time") || (getFormatN.isEmpty() && miuiClockName == "date_time")) return@createBeforeHook
-                        setMiuiClockFormat(context, miuiClockName, textV)
-                        it.result = null
-                    }
+                    applyMiuiClockStyleAndFormat(it)
                 } catch (_: Exception) {
                 }
             }
     }
 
+    private fun applyMiuiClockStyleAndFormat(hook: XC_MethodHook.MethodHookParam) {
+        val textV = hook.thisObject as TextView
+        val context = textV.context
+        val miuiClockName = textV.resources.getResourceEntryName(textV.id) ?: return
+
+        if (miuiClockName in setOf("clock", "big_time", "date_time")) {
+            setMiuiClockStyle(miuiClockName, textV)
+
+            if (shouldSkipHook(isSync, miuiClockName, getFormatN)) return
+
+            setMiuiClockFormat(context, miuiClockName, textV)
+            hook.result = null
+        }
+    }
+
+    private fun shouldSkipHook(isSync: Boolean, miuiClockName: String, formatN: String): Boolean {
+        return (isSync && miuiClockName == "big_time") || (formatN.isEmpty() && miuiClockName == "date_time")
+    }
+
     private fun setMiuiClockStyle(name: String, text: TextView) {
         // 时钟加粗
-        if (clockBold && (name == "clock" || (name == "big_time" && isBold))) {
+        if (clockBold && (name == "clock" || (name == "big_time" && isBold && !isMoreHyperOSVersion(2f)))) {
             text.typeface = Typeface.DEFAULT_BOLD
         }
 
-        // 时钟大小
+        // 设置时钟大小
         setStatusBarClock(name, text)
 
         if (getClockStyle != 0 && name == "clock") {
@@ -213,17 +232,24 @@ object StatusBarClockNew : BaseHook() {
         }
 
         // 设置时钟边距
-        if (name == "clock") {
-            setClockMargin(text, sClockLeftMargin, sClockRightMargin, sClockVerticalOffset)
+        setClockMargin(name, text)
+    }
 
-            // 固定宽度
-            if (fixedWidth > 30) {
-                text.width = (text.resources.displayMetrics.density * fixedWidth).toInt()
+    private fun setClockMargin(name: String, text: TextView) {
+        when (name) {
+            "clock" -> {
+                setClockMargin(text, sClockLeftMargin, sClockRightMargin, sClockVerticalOffset)
+                // 固定宽度
+                if (fixedWidth > 30) {
+                    text.width = (text.resources.displayMetrics.density * fixedWidth).toInt()
+                }
             }
-        } else if (name == "big_time") {
-            setClockMargin(text, bClockLeftMargin, bClockRightMargin, bClockVerticalOffset)
-        } else {
-            setClockMargin(text, nClockLeftMargin, nClockRightMargin, nClockVerticalOffset)
+            "big_time" -> {
+                setClockMargin(text, bClockLeftMargin, bClockRightMargin, bClockVerticalOffset)
+            }
+            else -> {
+                setClockMargin(text, nClockLeftMargin, nClockRightMargin, nClockVerticalOffset)
+            }
         }
     }
 
@@ -233,7 +259,7 @@ object StatusBarClockNew : BaseHook() {
                 text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeS.toFloat())
             }
 
-            clockSizeB != 54 && name == "big_time" -> {
+            clockSizeB != 50 && name == "big_time" -> {
                 text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeB.toFloat())
             }
 
@@ -259,23 +285,7 @@ object StatusBarClockNew : BaseHook() {
     }
 
     private fun setMiuiClockFormat(context: Context?, name: String, textV: TextView) {
-        val textSb: StringBuilder
-        val formatSb: StringBuilder
-
-        // 因为输入对话框限制，所以里面部分内容会比较抽象
-        val sClockName = if (getFormatN.isEmpty()) {
-            when (getClockStyle) {
-                0 -> getFormatS.split("\n")[0]
-                1 -> "${getFormatS.split("\n")[0]}\nM/d E"
-                else -> "M/d E\n${getFormatS.split("\n")[0]}"
-            }
-        } else {
-            when (getClockStyle) {
-                0 -> getFormatS.split("\n")[0]
-                1 -> "${getFormatS.split("\n")[0]}\n${getFormatN.split("\n")[0]}"
-                else -> "${getFormatN.split("\n")[0]}\n${getFormatS.split("\n")[0]}"
-            }
-        }
+        if (context == null || textV == null) return
 
         val mMiuiStatusBarClockController =
             textV.getObjectField("mMiuiStatusBarClockController")
@@ -285,25 +295,46 @@ object StatusBarClockNew : BaseHook() {
             } else {
                 mMiuiStatusBarClockController?.callMethod("getCalendar")
             }
-        mCalendar?.callMethod("setTimeInMillis", System.currentTimeMillis())
-
-        when (name) {
+        if (mCalendar == null) return
+        val sClockName = buildFormatString(getFormatS, getFormatN, getClockStyle)
+        val (textSb, formatSb) = when (name) {
             "clock" -> {
-                textSb = StringBuilder()
-                formatSb = StringBuilder(sClockName)
+                val baseFormat = StringBuilder(sClockName)
+                Triple(StringBuilder(), baseFormat, null)
             }
-
             "big_time" -> {
-                textSb = StringBuilder()
-                formatSb = StringBuilder(getFormatS.split("\n")[0])
+                val baseFormat = StringBuilder(safeSplitFirst(getFormatS))
+                Triple(StringBuilder(), baseFormat, null)
             }
-
             else -> {
-                textSb = StringBuilder()
-                formatSb = StringBuilder(getFormatN.split("\n")[0])
+                val baseFormat = StringBuilder(safeSplitFirst(getFormatN))
+                Triple(StringBuilder(), baseFormat, null)
             }
         }
-        mCalendar?.callMethod("format", context, textSb, formatSb)
-        textV.text = textSb.toString()
+
+        mCalendar.let {
+            it.callMethod("setTimeInMillis", System.currentTimeMillis())
+            it.callMethod("format", context, textSb, formatSb)
+            textV.text = textSb.toString()
+        }
+    }
+
+    private fun safeSplitFirst(str: String?): String {
+        return str?.split("\n")?.firstOrNull() ?: ""
+    }
+
+    private fun buildFormatString(formatS: String?, formatN: String?, clockStyle: Int): String {
+        return when {
+            formatN.isNullOrEmpty() -> when (clockStyle) {
+                0 -> safeSplitFirst(formatS)
+                1 -> "${safeSplitFirst(formatS)}\nM/d E"
+                else -> "M/d E\n${safeSplitFirst(formatS)}"
+            }
+            else -> when (clockStyle) {
+                0 -> safeSplitFirst(formatS)
+                1 -> "${safeSplitFirst(formatS)}\n${safeSplitFirst(formatN)}"
+                else -> "${safeSplitFirst(formatN)}\n${safeSplitFirst(formatS)}"
+            }
+        }
     }
 }

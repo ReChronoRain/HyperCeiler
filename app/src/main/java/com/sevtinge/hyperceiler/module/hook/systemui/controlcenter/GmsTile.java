@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -83,7 +85,18 @@ public class GmsTile extends TileUtils {
     }
 
     @Override
+    public void tileLongClickIntent(MethodHookParam param, String tileName) {
+        if(!isMoreHyperOSVersion(2f)) return;
+        // 长按跳转谷歌基础服务页面
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.googlebase.ui.GmsCoreSettings"));
+        param.setResult(intent);
+    }
+
+    @Override
     public Intent tileHandleLongClick(MethodHookParam param, String tileName) {
+        if(isMoreHyperOSVersion(2f)) return null;
         // 长按跳转谷歌基础服务页面
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);

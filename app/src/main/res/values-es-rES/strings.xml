@@ -1042,7 +1042,8 @@
     <string name="home_title_drawer_font_hidden">Ocultar todos los nombres de aplicaciones</string>
     <string name="home_title_drawer_font_hidden_more">Los nombres de las aplicaciones en Cajón también se ocultarán.\nSi desea mantener los nombres en Cajón, utilice \"Tamaño del fuente\" para ajustarlo.</string>
     <string name="home_title_title_new_install_more">No se muestra el indicador al lado de las aplicaciones que apenas se instalaron</string>
-    <string name="home_title_font_size">Tamaño de fuente</string>
+    <string name="home_title_font_size">Tamaño de fuente (Desktop)</string>
+    <string name="home_drawer_title_font_size">Tamaño de fuente (Drawer)</string>
     <string name="home_title_title_color">Color de los nombres</string>
     <string name="home_title_animation_speed">Velocidad de animación</string>
     <string name="home_title_big_icon_corner">Sigue la esquina el icono medio</string>

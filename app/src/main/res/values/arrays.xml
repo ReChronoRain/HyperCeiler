@@ -47,6 +47,7 @@
         <item>com.miui.cloudservice</item> <!--小米云服务-->
         <item>com.miui.contentextension</item> <!--传送门-->
         <item>com.miui.creation</item> <!--小米创作-->
+        <item>com.miui.euicc</item> <!--LPA-->
         <item>com.miui.gallery</item> <!--相册-->
         <item>com.miui.guardprovider</item> <!--系统安全组件-->
         <item>com.miui.home</item> <!--系统桌面-->

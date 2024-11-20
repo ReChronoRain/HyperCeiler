@@ -1218,7 +1218,8 @@
     <string name="home_title_drawer_font_hidden">Скрыть все заголовки приложений</string>
     <string name="home_title_drawer_font_hidden_more">\"Название приложения в папке также будет скрыто. Если вы хотите сохранить название приложения в папке, используйте \"Размер шрифта\", чтобы настроить его\".</string>
     <string name="home_title_title_new_install_more">Не отображать индикатор рядом с названием приложения при установке нового приложения</string>
-    <string name="home_title_font_size">Размер шрифта</string>
+    <string name="home_title_font_size">Размер шрифта (Desktop)</string>
+    <string name="home_drawer_title_font_size">Размер шрифта (Drawer)</string>
     <string name="home_title_title_color">Цвет названия</string>
     <string name="home_title_animation_speed">Скорость анимации</string>
     <string name="home_title_big_icon_corner">Значок среднего размера с закругленным углом</string>

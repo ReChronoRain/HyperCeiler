@@ -1216,7 +1216,8 @@
     <string name="home_title_drawer_font_hidden">隱藏全部應用程式標題</string>
     <string name="home_title_drawer_font_hidden_more">抽屜內應用程式標題也會被隱藏，如需保留抽屜文字標題，請使用「文本大小」進行調整</string>
     <string name="home_title_title_new_install_more">安裝新應用程式時，不在應用程式標題旁邊展示指示器</string>
-    <string name="home_title_font_size">字體大小</string>
+    <string name="home_title_font_size">字體大小 (桌面)</string>
+    <string name="home_drawer_title_font_size">字體大小 (抽屜)</string>
     <string name="home_title_title_color">文本顏色</string>
     <string name="home_title_animation_speed">動畫速度</string>
     <string name="home_title_big_icon_corner">中等圖示圓角跟隨</string>

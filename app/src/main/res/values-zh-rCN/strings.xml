@@ -532,6 +532,8 @@
     <string name="system_framework_use_android_package_installer_desc">恢复被破坏的 PackageInstaller API</string>
     <string name="system_framework_core_patch_bypass_isolation_violation">禁用隔离应用检查</string>
     <string name="system_framework_core_patch_bypass_isolation_violation_desc">允许第三方应用安装系统应用</string>
+    <string name="system_framework_core_patch_allow_update_system_app">允许安装系统应用</string>
+    <string name="system_framework_core_patch_allow_update_system_app_desc">允许在被禁用更新系统应用时安装系统应用</string>
     <!--浏览器-->
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>
@@ -1344,7 +1346,8 @@
     <string name="home_title_title_icontitlecustomization">自定义应用标题</string>
     <string name="home_title_drawer_font_hidden_more">抽屉内应用标题也会被隐藏，如需保留抽屉内应用标题，请使用 \"文本大小\" 进行调整</string>
     <string name="home_title_title_new_install_more">安装新应用时不显示应用标题旁边的指示标</string>
-    <string name="home_title_font_size">文本大小</string>
+    <string name="home_title_font_size">文本大小 (桌面)</string>
+    <string name="home_drawer_title_font_size">文本大小 (抽屉)</string>
     <string name="home_title_title_color">文本颜色</string>
     <string name="home_title_animation_speed">动画速度</string>
     <string name="home_title_big_icon_corner">中等图标圆角跟随</string>
@@ -1476,6 +1479,10 @@
     <string name="home_recent_simple_blur">简单模糊</string>
     <string name="home_recent_none_blur">无模糊</string>
     <string name="home_recent_none_blur_simple_anim">无模糊 (精简动画)</string>
+    <!--LPA-->
+    <string name="lpa">LPA</string>
+    <string name="lpa_custom_imei">自定义 IMEI</string>
+    <string name="lpa_custom_imei_desc">请确认正确填写了 IMEI ，错误的 IMEI 可能会造成 eSIM 不可用或异常，由此产生的后果概不负责</string>
     <!--小米相册-编辑-->
     <string name="mediaeditor">小米相册-编辑</string>
     <string name="mediaeditor_foundation">基础</string>

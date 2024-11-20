@@ -44,7 +44,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePersistent;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePinVerifyPer72h;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableVerifyCanBeDisabled;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
-import com.sevtinge.hyperceiler.module.hook.systemframework.FreeFormCount;
+import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.module.hook.systemframework.HookEntry;
 import com.sevtinge.hyperceiler.module.hook.systemframework.LinkTurboToast;
@@ -67,6 +67,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeFirstPress;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeSeparateControl;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeSteps;
+import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.BypassIsolationViolation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.BypassSignCheckForT;
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.AllDarkMode;
@@ -149,6 +150,7 @@ public class SystemFrameworkV extends BaseModule {
         // 核心破解
         initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));
         initHook(new BypassIsolationViolation(), mPrefsMap.getBoolean("system_framework_core_patch_bypass_isolation_violation"));
+        initHook(new AllowUpdateSystemApp(), mPrefsMap.getBoolean("system_framework_core_patch_allow_update_system_app"));
 
         // 网络
         initHook(DualNRSupport.INSTANCE, mPrefsMap.getBoolean("phone_double_5g_nr"));

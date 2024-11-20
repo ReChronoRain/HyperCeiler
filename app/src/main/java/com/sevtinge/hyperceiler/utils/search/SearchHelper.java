@@ -282,6 +282,9 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.lbe_security,
                 "com.sevtinge.hyperceiler.ui.fragment.app.LbeFragment");
 
+        parsePrefXml(context, R.xml.lpa,
+                "com.sevtinge.hyperceiler.ui.fragment.app.LpaFragment");
+
         parsePrefXml(context, R.xml.milink,
                 "com.sevtinge.hyperceiler.ui.fragment.app.MiLinkFragment");
 

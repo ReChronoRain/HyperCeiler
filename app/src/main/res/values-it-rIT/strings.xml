@@ -1071,7 +1071,8 @@
     <string name="home_title_drawer_font_hidden">Nascondi tutti i titoli delle app</string>
     <string name="home_title_drawer_font_hidden_more">Anche il titolo dell\'app nel drawer verrà nascosto.\nSe desideri mantenere il titolo dell\'app nel drawer, utilizza \"Dimensione carattere \" per regolarlo.</string>
     <string name="home_title_title_new_install_more">Non visualizzare l\'indicatore accanto al titolo dell\'applicazione quando si installa una nuova applicazione</string>
-    <string name="home_title_font_size">Dimensione carattere</string>
+    <string name="home_title_font_size">Dimensione carattere (Desktop)</string>
+    <string name="home_drawer_title_font_size">Dimensione carattere (Drawer)</string>
     <string name="home_title_title_color">Colore titolo</string>
     <string name="home_title_animation_speed">Velocità animazione</string>
     <string name="home_title_big_icon_corner">Segui icona media angolo arrotondato</string>

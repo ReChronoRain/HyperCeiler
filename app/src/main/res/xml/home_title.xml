@@ -280,6 +280,17 @@
             app:minValue="0"
             app:stepValue="1" />
 
+        <SeekBarPreferenceCompat
+            android:defaultValue="12"
+            android:dependency="prefs_key_home_drawer_font_hidden"
+            android:key="prefs_key_home_drawer_title_font_size"
+            android:title="@string/home_drawer_title_font_size"
+            app:defaultValueText="@string/array_default"
+            app:format="%d sp"
+            app:maxValue="20"
+            app:minValue="0"
+            app:stepValue="1" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -23,7 +23,6 @@ import android.graphics.*
 import android.service.notification.*
 import android.view.*
 import android.widget.TextView
-import cn.lyric.getter.api.data.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
@@ -32,7 +31,6 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.MusicBaseHook.Companion.CHANNEL_ID
 import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.log.*
 import de.robv.android.xposed.*
 import kotlinx.coroutines.flow.*
 
@@ -44,13 +42,16 @@ object HideFakeStatusBar : BaseHook() {
     private var mFocusedNotLine: View? = null
     private var mClockSeat: View? = null
     private var mBigTime: TextView? = null
-    // ui上正在显示焦点通知(可能是其他应用的通知)
+    private val isBold by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_clock_big_bold")
+    }
+    // UI 上正在显示焦点通知(可能是其他应用的通知)
     private val isShowingFocused = MutableStateFlow(false)
 
-    // 有歌词的通知(但是歌词可能没有显示在ui上,比如在音乐app中)
+    // 有歌词的通知(但是歌词可能没有显示在 UI 上,比如在音乐 App 中)
     private val isLyric = MutableStateFlow(false)
 
-    // 正在显示焦点通知歌词(有歌词并且正在ui上显示)
+    // 正在显示焦点通知歌词(有歌词并且正在 UI 上显示)
     private var isShowingFocusedLyric: Boolean = false
 
     private fun updateLayout() {
@@ -136,7 +137,11 @@ object HideFakeStatusBar : BaseHook() {
                         notificationDateTime.translationX = 0f
                         notificationDateTime.translationY = 0f
                         // 设置时钟的宽度
-                        notificationHeaderExpandController.callMethod("updateWeight", 1.0f)
+                        if (isBold) {
+                            notificationHeaderExpandController.callMethod("updateWeight", 0.3f)
+                        } else {
+                            notificationHeaderExpandController.callMethod("updateWeight", 1.0f)
+                        }
                         // 设置通知图标位置
                         combinedHeaderController.getObjectField("notificationShortcut")?.callMethod("setTranslationY", 0f)
 
