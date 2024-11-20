@@ -203,7 +203,6 @@ public class SystemUiV extends BaseModule {
 
         // 时钟指示器
         initHook(StatusBarClockNew.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_clock_all_status_enable"));
-        initHook(new DisableAnim(), mPrefsMap.getBoolean("system_ui_disable_clock_anim"));
         initHook(new FixColor(), mPrefsMap.getBoolean("system_ui_statusbar_clock_fix_color"));
 
         // 硬件指示器

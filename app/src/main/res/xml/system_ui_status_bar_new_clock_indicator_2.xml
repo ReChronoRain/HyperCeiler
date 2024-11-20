@@ -22,7 +22,7 @@
     app:quick_restart="com.android.systemui">
     <PreferenceCategory>
         <SeekBarPreferenceCompat
-            android:defaultValue="54"
+            android:defaultValue="50"
             android:key="prefs_key_system_ui_statusbar_clock_size_2"
             android:title="@string/system_ui_statusbar_clock_size"
             app:defaultValueText="@string/array_default"
