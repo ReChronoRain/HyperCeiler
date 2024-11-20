@@ -38,12 +38,15 @@ import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 
+import fan.preference.SeekBarPreferenceCompat;
+
 public class HomeTitleSettings extends DashboardFragment {
 
     SwitchPreference mDisableMonoChrome;
     SwitchPreference mDisableMonetColor;
     SwitchPreference mDisableHideTheme;
     SwitchPreference mIconSize;
+    SeekBarPreferenceCompat mTitleFontSize;
     Preference mIconTitleCustomization;
     RecommendPreference mRecommend;
     PreferenceCategory mAppBlur;
@@ -67,6 +70,7 @@ public class HomeTitleSettings extends DashboardFragment {
         mDisableMonoChrome = findPreference("prefs_key_home_other_icon_mono_chrome");
         mAppBlur = findPreference("prefs_key_home_title_app_blur_hyper");
         mIconSize = findPreference("prefs_key_home_title_icon_size_enable");
+        mTitleFontSize = findPreference("prefs_key_home_drawer_title_font_size");
 
         mDisableMonoChrome.setVisible(isMoreAndroidVersion(33));
         mDisableMonoChrome.setOnPreferenceChangeListener((preference, o) -> true);
@@ -77,7 +81,7 @@ public class HomeTitleSettings extends DashboardFragment {
         mDisableHideTheme.setVisible(isPad());
         mAppBlur.setVisible(isHyperOSVersion(1f));
         mIconSize.setVisible(isHyperOSVersion(2f));
-        findPreference("prefs_key_home_drawer_title_font_size").setVisible(isMoreHyperOSVersion(2f));
+        mTitleFontSize.setVisible(isMoreHyperOSVersion(2f));
 
         mIconTitleCustomization.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
