@@ -1,35 +1,33 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
+ *
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
-
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
-
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
-
-package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.os2
+package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model
 
 import android.graphics.*
 import android.view.*
 import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.mOperatorConfig
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiMobileIconBinder
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.modernStatusBarViewClass
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.bold
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.fontSize
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.getLocation
@@ -39,6 +37,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.Mobi
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import java.lang.reflect.*
+import java.util.ArrayList
 
 object MobileTypeSingle2Hook : BaseHook() {
     private val DarkIconDispatcherClass: Class<*> by lazy {
@@ -131,13 +130,12 @@ object MobileTypeSingle2Hook : BaseHook() {
         } catch (unused2: Throwable) {
             method = null
         }
-        if (method != null || method2 == null) {
+        if (method == null || method2 == null) {
             return
         }
 
-        modernStatusBarViewClass.methodFinder()
-            .filterByName("onDarkChanged")
-            .first().createAfterHook {
+        findAndHookMethod("com.android.systemui.statusbar.pipeline.shared.ui.view.ModernStatusBarView", "onDarkChanged", ArrayList::class.java, Float::class.java, Integer.TYPE, Integer.TYPE, Integer.TYPE, Boolean::class.java, object : MethodHook() {
+            override fun after(it: MethodHookParam) {
                 if ("mobile" == it.thisObject.getObjectFieldAs<String>("slot")) {
                     get0 =  it.args[1] as Float
                     get1 = it.args[3] as Int
@@ -148,6 +146,44 @@ object MobileTypeSingle2Hook : BaseHook() {
                     if (mobileId < 1) {
                         mobileId = getView.resources.getIdentifier("mobile_type_single", "id", "com.android.systemui")
                     }
+                    val textView: TextView = getView.findViewById(mobileId)
+                    if (getBoolean) {
+                        method2?.invoke(null, it.args[0], textView, num)?.let { it1 ->
+                            textView.setTextColor(it1.hashCode())
+                        }
+                        return
+                    }
+                    val getBoolean2 = method?.invoke(null, it.args[0], textView)?.let { it1 ->
+                        textView.setTextColor(num)
+                    } as Boolean
+                    if (getBoolean2) {
+                        get0 = 0.0f
+                    }
+                    if (get0 > 0.0f) {
+                        get1 = get2
+                    }
+                    textView.setTextColor(get1)
+                    return
+                }
+            }
+        })
+
+        /*modernStatusBarViewClass.methodFinder()
+            .filterByName("onDarkChanged")
+            .first().createAfterHook {
+                XposedLogUtils.logD(TAG, lpparam.packageName, "hook onDarkChanged after")
+                if ("mobile" == it.thisObject.getObjectFieldAs<String>("slot")) {
+                    XposedLogUtils.logD(TAG, lpparam.packageName, "hook onDarkChanged y")
+                    get0 =  it.args[1] as Float
+                    get1 = it.args[3] as Int
+                    get2 = it.args[4] as Int
+                    val num = it.args[2] as Int
+                    val getBoolean = it.args[5] as Boolean
+                    val getView = it.thisObject as ViewGroup
+                    if (mobileId < 1) {
+                        mobileId = getView.resources.getIdentifier("mobile_type_single", "id", "com.android.systemui")
+                    }
+                    XposedLogUtils.logD(TAG, lpparam.packageName, "mobileId $mobileId")
                     val textView: TextView = getView.findViewById(mobileId)
                     if (getBoolean) {
                         method2?.invoke(null, it.args[0], textView, num)
@@ -162,9 +198,10 @@ object MobileTypeSingle2Hook : BaseHook() {
                     if (get0 > 0.0f) {
                         get1 = get2
                     }
+                    XposedLogUtils.logD(TAG, lpparam.packageName, "get1 $get1")
                     textView.setTextColor(get1)
                     return@createAfterHook
                 }
-            }
+            }*/
     }
 }

@@ -1,22 +1,22 @@
 /*
  * This file is part of HyperCeiler.
-
+ *
  * HyperCeiler is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License.
-
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
-
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+ *
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.os2
+package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
 import android.animation.ValueAnimator.*
 import android.content.*
@@ -27,10 +27,8 @@ import android.provider.Settings.*
 import android.util.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.*
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FlashLight.FlashBrightness.*
 import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.log.*
 import com.sevtinge.hyperceiler.utils.shell.*
 import de.robv.android.xposed.*
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
@@ -125,7 +123,7 @@ object NewFlashLight : TileUtils() {
                 System.getUriFor("flash_light_enabled"),
                 false, contentObserver
             )
-            this.isListening = true
+            isListening = true
         }
     }
 
