@@ -116,6 +116,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.FocusNotif
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.HideFakeStatusBar;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.layout.StatusBarLayout;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHook;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHookV;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileNetwork;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobilePublicHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeTextCustom;
@@ -174,7 +175,8 @@ public class SystemUiV extends BaseModule {
 
         initHook(MobilePublicHook.INSTANCE, isEnableMobilePublic);
         initHook(new MobileNetwork(), isEnableMobileNetwork);
-        initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
+        // initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
+        initHook(new DualRowSignalHookV(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
         initHook(MobileTypeSingle2Hook.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
         initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
 
