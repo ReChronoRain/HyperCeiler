@@ -240,8 +240,14 @@ class DualRowSignalHookV : BaseHook() {
 
                     iconGroups.forEach { (k, _) ->
                         val child = k.getObjectFieldAs<ViewGroup>("mGroup").getChildAt(viewIndex)
-                        if ("mobile" == child.getObjectFieldAs<String>("slot")) {
-                            child.callMethod("setSubId", ID_CHANGED_DATA_SIM)
+                        try {
+                            if ("mobile" == child.getObjectFieldAs<String>("slot")) {
+                                child.callMethod("setSubId", ID_CHANGED_DATA_SIM)
+                            }
+                        } catch (_: Error) {
+                            if ("mobile" == child.getObjectFieldAs<String>("mSlot")) {
+                                child.callMethod("setSubId", ID_CHANGED_DATA_SIM)
+                            }
                         }
                     }
                 }
