@@ -18,8 +18,10 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.app.systemui;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getWhoAmI;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -72,11 +74,16 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
     SwitchPreference mRedirectNotice;
     SwitchPreference mShadeHeaderBlur;
     DropDownPreference mPluginLoadMode;
+    DropDownPreference mSunshineMode;
+    DropDownPreference mSunshineModeHigh;
+    SeekBarPreferenceCompat mSunshineModeHighBrightness;
 
     SwitchPreference mTaplus;
     SwitchPreference mNotifrowmenu;
     RecommendPreference mRecommend;
     Handler handler;
+
+    int mMaxBrightness;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -116,7 +123,12 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
         mRedirectNotice = findPreference("prefs_key_system_ui_control_center_redirect_notice");
         mShadeHeaderBlur = findPreference("prefs_key_system_ui_shade_header_gradient_blur");
         mPluginLoadMode = findPreference("prefs_key_system_ui_plugin_tiles_load_way");
+        mSunshineMode = findPreference("prefs_key_system_control_center_sunshine_new_mode");
+        mSunshineModeHigh = findPreference("prefs_key_system_control_center_sunshine_new_mode_high");
+        mSunshineModeHighBrightness = findPreference("prefs_key_system_control_center_sunshine_mode_brightness");
         handler = new Handler();
+
+        mMaxBrightness = Integer.parseInt(safeExecCommandWithRoot("cat /sys/class/backlight/panel0-backlight/max_brightness"));
 
         mExpandNotification.setOnPreferenceClickListener(
                 preference -> {
@@ -134,6 +146,17 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
                     return true;
                 }
         );
+
+        if (getWhoAmI().equals("root") && mMaxBrightness > 2048) {
+            mSunshineModeHigh.setVisible(true);
+            mSunshineMode.setVisible(false);
+            mSunshineModeHigh.setOnPreferenceChangeListener(this);
+            mSunshineModeHighBrightness.setMaxValue(mMaxBrightness);
+        } else {
+            mSunshineMode.setVisible(true);
+            mSunshineModeHigh.setVisible(false);
+            mSunshineModeHighBrightness.setVisible(false);
+        }
 
         mPluginLoadMode.setVisible(isMoreHyperOSVersion(2f));
         if (isMoreHyperOSVersion(1f)) {
@@ -166,6 +189,7 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
         mProgressModeCornerRadius.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
         mSliderColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
         mProgressBarColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
+        mSunshineModeHighBrightness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_control_center_sunshine_new_mode_high", "0")) == 3);;
 
         mRoundedRect.setOnPreferenceChangeListener(this);
         mProgressMode.setOnPreferenceChangeListener(this);
@@ -218,6 +242,8 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
             setCanBeVisibleRoundedRect((Boolean) o);
         } else if (preference == mProgressMode) {
             setCanBeVisibleProgressMode(Integer.parseInt((String) o));
+        } else if (preference == mSunshineModeHigh) {
+            setCanBeVisibleSunshineBrightness(Integer.parseInt((String) o));
         }
         return true;
     }
@@ -231,5 +257,9 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
         mProgressModeCornerRadius.setVisible(mode == 2);
         mSliderColor.setVisible(mode != 2);
         mProgressBarColor.setVisible(mode != 2);
+    }
+
+    private void setCanBeVisibleSunshineBrightness(int mode) {
+        mSunshineModeHighBrightness.setVisible(mode == 3);
     }
 }
