@@ -42,6 +42,7 @@ public class DoubleLineNetworkSettings extends DashboardFragment implements Pref
 
         //setCanBeVisible(mBlurMode);
         mIconTheme.setOnPreferenceChangeListener(this);
+        mIconStyle.setVisible(mIconTheme.hashCode() == 2);
     }
 
     @Override
