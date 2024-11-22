@@ -16,7 +16,7 @@
   ~
   ~ Copyright (C) 2023-2024 HyperCeiler Contributions
   -->
-<fan.appcompat.widget.CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<fan.androidbase.widget.CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
     android:gravity="center_vertical"
     android:layout_width="match_parent"
