@@ -16,13 +16,14 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.systemframework
+package com.sevtinge.hyperceiler.module.hook.systemframework.freeform
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 class FreeFormCount : BaseHook() {
     override fun init() {
@@ -39,10 +40,12 @@ class FreeFormCount : BaseHook() {
         }
 
         // ShouldStopStartFreeform
-        clazzMiuiFreeFormStackDisplayStrategy.methodFinder()
-            .filterByName("shouldStopStartFreeform")
-            .single().createHook {
-                returnConstant(false)
-            }
+        if (isAndroidVersion(33)) {
+            clazzMiuiFreeFormStackDisplayStrategy.methodFinder()
+                .filterByName("shouldStopStartFreeform")
+                .single().createHook {
+                    returnConstant(false)
+                }
+        }
     }
 }

@@ -304,6 +304,26 @@
         <item>@string/control_center_sunshine_mode_two</item>
     </string-array>
 
+    <string-array name="control_center_sunshine_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="control_center_sunshine_mode_high">
+        <item>@string/control_center_sunshine_mode_default</item>
+        <item>@string/control_center_sunshine_mode_one</item>
+        <item>@string/control_center_sunshine_mode_two</item>
+        <item>@string/control_center_sunshine_mode_three</item>
+    </string-array>
+
+    <string-array name="control_center_sunshine_mode_high_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
     <string-array name="system_framework_other_rotation_button_mode">
         <item>@string/array_default</item>
         <item>@string/array_close</item>
@@ -760,6 +780,8 @@
         <item>Xiaomi Pad 7 Pro</item>
         <item>Xiaomi Pad 7</item>
         <item>Xiaomi Pad 6S Pro 12.4</item>
+        <item>Redmi K80 Pro</item>
+        <item>Redmi K80</item>
         <item>Redmi K70 Ultra</item>
         <item>Redmi K70 Pro</item>
         <item>Redmi K70E</item>
@@ -784,6 +806,8 @@
         <item>211</item>
         <item>210</item>
         <item>209</item>
+        <item>312</item>
+        <item>311</item>
         <item>310</item>
         <item>309</item>
         <item>351</item>

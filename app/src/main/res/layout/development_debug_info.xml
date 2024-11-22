@@ -37,11 +37,7 @@
     android:layout_gravity="center_vertical"
     android:clickable="false"
     android:clipChildren="false"
-    android:gravity="center_vertical"
-    android:paddingStart="@dimen/miuix_preference_item_padding_start"
-    android:paddingEnd="@dimen/miuix_preference_item_padding_end"
-    android:paddingTop="@dimen/miuix_preference_item_padding_start"
-    android:paddingBottom="@dimen/miuix_preference_item_padding_end">
+    android:gravity="center_vertical">
 
     <include layout="@layout/image_frame" />
 
@@ -53,6 +49,10 @@
         android:gravity="center_vertical">
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:paddingStart="@dimen/miuix_preference_item_padding_start"
+            android:paddingEnd="@dimen/miuix_preference_item_padding_end"
+            android:paddingTop="@dimen/miuix_preference_item_padding_start"
+            android:paddingBottom="@dimen/miuix_preference_item_padding_end"
             android:id="@android:id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

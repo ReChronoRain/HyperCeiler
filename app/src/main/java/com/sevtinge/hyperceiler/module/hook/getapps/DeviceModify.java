@@ -107,6 +107,16 @@ public class DeviceModify extends BaseHook {
             mDevice = "amethyst";
             mModel = "24090RA29C"; // O16U
             mManufacturer = "Redmi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 312) {
+            // k80p
+            mDevice = "miro";
+            mModel = "24117RK2CC";
+            mManufacturer = "Redmi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 311) {
+            // k80
+            mDevice = "zorn";
+            mModel = "24122RKC7C";
+            mManufacturer = "Redmi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 310) {
             // k70u
             mDevice = "rothko";

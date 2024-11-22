@@ -1,22 +1,22 @@
 /*
  * This file is part of HyperCeiler.
-
+ *
  * HyperCeiler is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License.
-
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
-
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+ *
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.os2
+package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
 import android.animation.ValueAnimator.*
 import android.content.*
@@ -27,14 +27,12 @@ import android.provider.Settings.*
 import android.util.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.*
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FlashLight.FlashBrightness.*
 import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.shell.*
 import de.robv.android.xposed.*
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import java.io.*
-import java.nio.file.*
-import java.nio.file.attribute.*
 
 
 object NewFlashLight : TileUtils() {
@@ -77,7 +75,7 @@ object NewFlashLight : TileUtils() {
             val flash = param.thisObject.getObjectField("flashlightController")
             val isEnabled = flash!!.callMethod("isEnabled") as Boolean
             if (enabled || isEnabled) {
-                setFlashLightEnabled(mContext, if (isFlashLightEnabled(mContext)) 0 else 1)
+                setFlashLightEnabled(mContext, 1) // 我不李姐
             } else {
                 setFlashLightEnabled(mContext, 0)
             }
@@ -109,6 +107,7 @@ object NewFlashLight : TileUtils() {
                         if (lastFlash != -1) lastFlash = -1
                         isHook = isFlashLightEnabled(mContext)
                         if (isHook) {
+                            if (ShellUtils.safeExecCommandWithRoot("settings get system flash_light_brightness") == "null") ShellUtils.safeExecCommandWithRoot("settings put system flash_light_brightness 0")
                             val b = getFlashBrightness(mContext)
                             if (b != null) {
                                 val mObject = restore(b)
@@ -124,7 +123,7 @@ object NewFlashLight : TileUtils() {
                 System.getUriFor("flash_light_enabled"),
                 false, contentObserver
             )
-            this.isListening = true
+            isListening = true
         }
     }
 
@@ -362,23 +361,24 @@ object NewFlashLight : TileUtils() {
     }
 
     private fun setPermission(paths: String) {
-        // 指定文件的路径
-        val filePath = Paths.get(paths)
-
         try {
-            // 获取当前文件的权限
-            val permissions = Files.getPosixFilePermissions(filePath)
+            val checkCommand = "test -e $paths && echo exists || echo not_found"
+            val result = ShellUtils.safeExecCommandWithRoot(checkCommand)
+            if (result.contains("not_found")) {
+                logE(TAG, lpparam.packageName, "SetPermission: Path $paths does not exist")
+                return
+            }
 
-            // 添加世界可读写权限
-            permissions.add(PosixFilePermission.OTHERS_READ)
-            permissions.add(PosixFilePermission.OTHERS_WRITE)
-            permissions.add(PosixFilePermission.GROUP_READ)
-            permissions.add(PosixFilePermission.GROUP_WRITE)
+            val chmodCommand = "chmod 777 $paths"
+            val chmodResult = ShellUtils.safeExecCommandWithRoot(chmodCommand)
 
-            // 设置新的权限
-            Files.setPosixFilePermissions(filePath, permissions)
-        } catch (e: IOException) {
-            logE(TAG, lpparam.packageName, "SetPermission: $e")
+            if (chmodResult.isEmpty()) {
+                logI(TAG, lpparam.packageName, "SetPermission: Successfully set permissions for $paths")
+            } else {
+                logE(TAG, lpparam.packageName, "SetPermission: Failed to set permissions for $paths. Error: $chmodResult")
+            }
+        } catch (e: Exception) {
+            logE(TAG, lpparam.packageName, "SetPermission: Exception while processing $paths. Error: $e")
         }
     }
 
@@ -386,10 +386,7 @@ object NewFlashLight : TileUtils() {
         try {
             return System.getInt(context.contentResolver, "flash_light_enabled") == 1
         } catch (e: SettingNotFoundException) {
-            logE(
-                TAG, lpparam.packageName,
-                "not found flash_light_enabled: $e"
-            )
+            logE(TAG, lpparam.packageName, "not found flash_light_enabled: $e")
             setFlashLightEnabled(context, 0)
             return false
         }

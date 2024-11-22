@@ -158,9 +158,9 @@
     <string name="rest_success">Recovery succeeded</string>
     <string name="rest_failed">Recovery failed</string>
     <string name="backup_ask">Do you want to write backups?</string>
-    <string name="backup_permission">Now you have to manually enable permissions for this option.</string>
+    <string name="backup_permission">Now, you\'ve to manually enable permissions for this option.</string>
     <string name="rest_ask">Do you want to recover your backup?</string>
-    <string name="rest_permission">Now you have to manually enable permissions for this option.</string>
+    <string name="rest_permission">Now, you\'ve to manually enable permissions for this option.</string>
     <string name="disable_detailed_log">Disable detailed log</string>
     <string name="disable_detailed_log_desc">Reboot to apply</string>
     <string name="disable_detailed_log_more">The Debug Canary version doesn\'t support adjusting the log level</string>
@@ -355,6 +355,7 @@
     <string name="control_center_sunshine_mode_default">Close</string>
     <string name="control_center_sunshine_mode_one">System default mode</string>
     <string name="control_center_sunshine_mode_two">Force maximum brightness</string>
+    <string name="control_center_sunshine_mode_three">Shell custom brightness</string>
     <string name="system_framework_other_rotation_button_3">Forced</string>
     <string name="guided_access_screen_area_full">Enable normally</string>
     <string name="guided_access_screen_area_left">Enable in left side</string>
@@ -886,12 +887,14 @@
     <string name="system_control_center_5g_tile">5G network switch</string>
     <string name="system_control_center_reduce_bright_colors_tile">Extra dim</string>
     <string name="system_control_center_sunshine_mode">Sunlight mode</string>
+    <string name="system_control_center_sunshine_mode_brightness">Sunshine mode brightness</string>
+    <string name="system_control_center_sunshine_mode_brightness_desc">Too high brightness may cause screen aging, screen burn-in and other irreversible consequences. It is recommended to choose the brightness and use it appropriately.</string>
     <string name="system_ui_control_auto_close">Close after tapping</string>
     <string name="system_ui_control_center_qs_bg_color">Background color</string>
     <string name="system_ui_control_center_qs_color">Icon color</string>
     <string name="system_ui_control_center_qs_open_color">Enable customization of the small tile</string>
     <string name="system_ui_control_center_qs_big_open_color">Enable customization of the large tile</string>
-    <string name="system_ui_control_auto_close_more">After opening, clicking on the status bar tile will automatically retract the status bar.</string>
+    <string name="system_ui_control_auto_close_more">By tapping the status bar block, the status bar will automatically retract.</string>
     <string name="system_control_center_qs_tile_label">Remove title</string>
     <string name="system_control_center_qs_rows">Rows</string>
     <string name="system_control_center_qs_rows_format">%d lines</string>
@@ -1042,10 +1045,10 @@
     <string name="system_settings_connection_sharing_title">Connection &amp; sharing</string>
     <string name="system_settings_lang_menu_shouw_all_app">Show all apps in language manage menu</string>
     <string name="system_settings_new_nfc_page">New NFC page</string>
-    <string name="system_settings_new_nfc_page_desc">After opening, the default payment app for unsupported models cannot select Xiaomi Wallet</string>
+    <string name="system_settings_new_nfc_page_desc">After turning it on, the default payment app for unsupported models cannot select Xiaomi Wallet.</string>
     <string name="system_settings_xiaomihyperai">Xiaomi HyperAI</string>
-    <string name="system_settings_unlock_xiaomihyperai_entrance">Unlock Xiaomi HyperAI Entrance</string>
-    <string name="system_settings_unlock_xiaomihyperai_entrance_desc">After opening, display the Xiaomi HyperAI Entrance in the settings.\nSupport for device AI functions is determined by Xiaomi Inc.</string>
+    <string name="system_settings_unlock_xiaomihyperai_entrance">Unlock Xiaomi HyperAI</string>
+    <string name="system_settings_unlock_xiaomihyperai_entrance_desc">After turning it on, the Xiaomi HyperAI option is displayed in the Settings. Support for the device\'s AI features is determined by Xiaomi.</string>
     <string name="system_settings_lab_title">Featured functions</string>
     <string name="system_settings_area_screenshot">Unlock area screenshot</string>
     <string name="system_settings_voip_assistant_controller">VoIP assistant</string>
@@ -1682,7 +1685,7 @@
     <string name="joyose_disable_cloud_control">Disable Cloud control</string>
     <string name="joyose_game_title">Game Space</string>
     <string name="joyose_enable_gpu_tuner">Performance scheduling</string>
-    <string name="joyose_enable_gpu_tuner_desc">After opening, add game GPU settings at the bottom of Game Space.</string>
+    <string name="joyose_enable_gpu_tuner_desc">After turning it on, add game GPU settings at the bottom of Game Space.</string>
     <!--GetApps-->
     <string name="market">GetApps</string>
     <string name="market_device_modify">Model guise</string>
@@ -1744,7 +1747,7 @@
     <string name="various_phrase_clipboardlist">Remove the clipboard and time limits for phrases</string>
     <string name="various_phrase_clipboardlist_more">After it\'s enabled, select the input method scope and restart it.</string>
     <string name="various_unlock_ime">Unlock IME</string>
-    <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the LSPosed.</string>
+    <string name="various_unlock_ime_desc">After turning it on, please check the corresponding input method scope in the LSPosed.</string>
     <string name="various_collapse_miui_title">System title style</string>
     <string name="various_collapse_miui_title_desc">Adjust top bar title in system apps</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>
@@ -1928,7 +1931,7 @@
 
     <string name="lpa">LPA</string>
     <string name="lpa_custom_imei">Custom IMEI</string>
-    <string name="lpa_custom_imei_desc">Please make sure that you have filled in the IMEI correctly. An incorrect IMEI may cause the eSIM to be unavailable or abnormal, and we are not responsible for any consequences arising therefrom.</string>
+    <string name="lpa_custom_imei_desc">Make sure you\'ve entered the IMEI correctly. An incorrect IMEI may cause the eSIM to be unavailable or abnormal. We\'re not responsible for any consequences arising therefrom.</string>
 
     <string name="about_device_info_device">Device</string>
     <string name="about_device_info_android">Android version</string>

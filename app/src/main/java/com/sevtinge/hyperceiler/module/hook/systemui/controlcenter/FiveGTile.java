@@ -24,6 +24,7 @@ import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.os.Build;
@@ -56,17 +57,20 @@ public class FiveGTile extends TileUtils {
     @Override
     public void init() {
         if (mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) == 3) {
+            final boolean[] isInitFinished = {false};
             findAndHookMethod(
-                    "com.android.systemui.SystemUIApplication", "onCreate",
+                    "com.android.systemui.statusbar.policy.MiuiFiveGServiceClient", "update5GIcon",
                     new MethodHook() {
                         @Override
                         protected void after(MethodHookParam param) {
-                            if (TelephonyManager.getDefault().isFiveGCapable()) {
+                            if (TelephonyManager.getDefault().isFiveGCapable() && !isInitFinished[0]) {
                                 initStyle3();
+                                isInitFinished[0] = true;
                             }
                         }
                     }
             );
+
             return;
         }
 
@@ -86,6 +90,11 @@ public class FiveGTile extends TileUtils {
                 new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
+                        if (EzXHelper.getAppContext().getResources().getConfiguration()
+                                .orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            return;
+                        }
+
                         View content = (View) param.getResult();
 
                         content.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
@@ -102,7 +111,7 @@ public class FiveGTile extends TileUtils {
                                     if (idName.endsWith("detail_container")) {
                                         int maxHeight = (int) XposedHelpers.callMethod(view, "getMaxHeight");
                                         XposedHelpers.callMethod(view, "setMaxHeight", maxHeight +
-                                                DisplayUtils.dp2px(40f)
+                                                DisplayUtils.dp2px(45f)
                                         );
                                         break;
                                     }
@@ -136,9 +145,9 @@ public class FiveGTile extends TileUtils {
                                 boolean userFiveGEnabled = manager.isUserFiveGEnabled();
                                 manager.setUserFiveGEnabled(!userFiveGEnabled);
                                 if (userFiveGEnabled) {
-                                    logI(TAG, lpparam.packageName, "from 5G to none 5G");
+                                    logD(TAG, lpparam.packageName, "from 5G to none 5G");
                                 } else {
-                                    logI(TAG, lpparam.packageName, "from none 5G to 5G");
+                                    logD(TAG, lpparam.packageName, "from none 5G to 5G");
                                 }
                                 param.setResult(null);
                             }

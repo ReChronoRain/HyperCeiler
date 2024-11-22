@@ -25,8 +25,10 @@ import android.util.*
 import android.view.*
 import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
@@ -34,7 +36,9 @@ import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.api.LazyClass.mNewClockClass
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
+import com.sevtinge.hyperceiler.utils.log.*
 import de.robv.android.xposed.*
+import java.lang.NullPointerException
 import java.lang.reflect.*
 import java.util.*
 
@@ -156,6 +160,15 @@ object StatusBarClockNew : BaseHook() {
                         it.thisObject.getObjectField("this\$0")
                     notificationHeaderExpandController!!.callMethod("updateWeight", 0.3f)
                 }
+        } else if (isHyperOSVersion(1f)) {
+            try {
+                loadClassOrNull("com.android.systemui.statusbar.policy.FakeStatusBarClockController")!!
+                    .methodFinder().filterByName("initState")
+                    .first().createHook {
+                        replace { null }
+                    }
+            } catch (_: Throwable) {
+            }
         }
 
         // 设置格式
