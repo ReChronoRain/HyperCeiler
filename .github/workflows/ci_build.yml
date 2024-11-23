@@ -99,7 +99,7 @@ jobs:
           compression-level: 9
 
   push_to_canary_channel:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && !contains(github.event.head_commit.message, '[skip post]') && !contains(github.event.head_commit.message, 's#')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && !contains(github.event.head_commit.message, '[skp]') && !contains(github.event.head_commit.message, 's#')
     runs-on: ubuntu-latest
     name: Push to Canary Channel
     needs: build_app

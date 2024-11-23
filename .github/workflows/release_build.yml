@@ -63,14 +63,14 @@ jobs:
           echo "|Canary|$canary" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload Canary APK
-        if: ${{ contains(github.event.head_commit.message, '[unupload]') == false && contains(github.event.head_commit.message, '[skip post]') == false  }}
+        if: ${{ contains(github.event.head_commit.message, '[unupload]') == false && contains(github.event.head_commit.message, '[skp]') == false  }}
         uses: actions/upload-artifact@v4
         with:
           name: HyperCeiler Canary
           path: ${{ env.APK_FILE_CANARY }}
 
       - name: Post to Canary Channel
-        if: ${{ github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
+        if: ${{ github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skp]') == false && contains(github.event.head_commit.message, 's#') == false }}
         shell: bash
         env:
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}

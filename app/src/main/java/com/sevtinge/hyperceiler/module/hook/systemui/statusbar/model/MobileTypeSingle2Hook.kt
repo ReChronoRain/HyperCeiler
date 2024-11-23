@@ -38,6 +38,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.Mobi
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.getLocation
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.hideIndicator
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.hideRoaming
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.isEnableDouble
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.leftMargin
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.rightMargin
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.showMobileType
@@ -87,7 +88,7 @@ object MobileTypeSingle2Hook : BaseHook() {
             }
         )
         // 隐藏 SIM 卡图标
-        if (card1 || card2) hideSimIcon()
+        if ((card1 || card2) && !isEnableDouble) hideSimIcon()
         if (!showMobileType) return
 
         miuiMobileIconBinder.methodFinder().filterByName("bind").single()
