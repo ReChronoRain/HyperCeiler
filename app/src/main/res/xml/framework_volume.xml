@@ -63,6 +63,7 @@
         android:defaultValue="15"
         android:dependency="prefs_key_system_framework_volume_media_steps_enable"
         android:key="prefs_key_system_framework_volume_media_steps"
+        android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
         app:defaultValueText="@string/array_default"
         app:format="%s"
         app:maxValue="29"

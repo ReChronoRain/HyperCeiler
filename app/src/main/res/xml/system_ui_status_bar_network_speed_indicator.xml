@@ -39,6 +39,7 @@
             android:defaultValue="13"
             android:dependency="prefs_key_system_ui_statusbar_network_speed_font_size_enable"
             android:key="prefs_key_system_ui_statusbar_network_speed_font_size"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueText="@string/array_default"
             app:displayDividerValue="2"
             app:format="%s dp"

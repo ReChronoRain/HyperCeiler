@@ -91,6 +91,7 @@
             android:defaultValue="14"
             android:dependency="prefs_key_gallery_enable_un_privacy_watermark"
             android:key="prefs_key_gallery_enable_un_privacy_watermark_value"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueText="@string/array_default"
             app:format="%s"
             app:maxValue="50"

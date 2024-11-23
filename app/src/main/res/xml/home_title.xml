@@ -30,6 +30,7 @@
             android:defaultValue="32"
             android:dependency="prefs_key_home_large_icon_enable"
             android:key="prefs_key_home_large_icon_corner_radius"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueText="@string/array_default"
             app:format="%d dp"
             app:maxValue="90"
@@ -42,6 +43,7 @@
             android:title="@string/home_title_icon_size" />
 
         <SeekBarPreferenceCompat
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:dependency="prefs_key_home_title_icon_size_enable"
             android:key="prefs_key_home_title_icon_size"
             app:format="%d"
