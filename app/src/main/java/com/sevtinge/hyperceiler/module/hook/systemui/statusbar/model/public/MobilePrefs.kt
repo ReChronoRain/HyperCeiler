@@ -47,4 +47,10 @@ object MobilePrefs {
         // 双排信号
         mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable")
     }
+    val card1 by lazy {
+        mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1")
+    }
+    val card2 by lazy {
+        mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2")
+    }
 }

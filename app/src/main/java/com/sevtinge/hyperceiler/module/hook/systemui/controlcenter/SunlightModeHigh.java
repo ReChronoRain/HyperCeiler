@@ -96,12 +96,19 @@ public class SunlightModeHigh extends TileUtils {
     public void setPath() {
         String fileOne = "/sys/class/mi_display/disp-DSI-0/brightness_clone";
         String fileTwo = "/sys/class/backlight/panel0-backlight/brightness";
-        File file = new File(fileOne);
-        if (file.exists()) {
-            path = fileOne;
+        if (mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode_write", 1) == 1) {
+            File file = new File(fileOne);
+            if (file.exists()) {
+                path = fileOne;
+            } else {
+                File file1 = new File(fileTwo);
+                if (file1.exists()) {
+                    path = fileTwo;
+                }
+            }
         } else {
-            File file1 = new File(fileTwo);
-            if (file1.exists()) {
+            File file2 = new File(fileTwo);
+            if (file2.exists()) {
                 path = fileTwo;
             }
         }

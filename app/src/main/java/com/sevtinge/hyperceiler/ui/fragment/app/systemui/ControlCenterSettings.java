@@ -76,6 +76,7 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
     DropDownPreference mPluginLoadMode;
     DropDownPreference mSunshineMode;
     DropDownPreference mSunshineModeHigh;
+    DropDownPreference mSunshineModeWrite;
     SeekBarPreferenceCompat mSunshineModeHighBrightness;
 
     SwitchPreference mTaplus;
@@ -125,6 +126,7 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
         mPluginLoadMode = findPreference("prefs_key_system_ui_plugin_tiles_load_way");
         mSunshineMode = findPreference("prefs_key_system_control_center_sunshine_new_mode");
         mSunshineModeHigh = findPreference("prefs_key_system_control_center_sunshine_new_mode_high");
+        mSunshineModeWrite = findPreference("prefs_key_system_control_center_sunshine_new_mode_write");
         mSunshineModeHighBrightness = findPreference("prefs_key_system_control_center_sunshine_mode_brightness");
         handler = new Handler();
 
@@ -262,6 +264,7 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
     }
 
     private void setCanBeVisibleSunshineBrightness(int mode) {
+        mSunshineModeWrite.setVisible(mode == 2 || mode == 3);
         mSunshineModeHighBrightness.setVisible(mode == 3);
     }
 }

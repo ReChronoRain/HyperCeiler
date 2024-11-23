@@ -13,6 +13,7 @@ import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHookV.MobileInfo.ID_CHANGED_DATA_SIM
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHookV.MobileInfo.ID_SUB_NO_DATA_SIM
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.showMobileType
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.utils.api.*
@@ -21,9 +22,6 @@ import de.robv.android.xposed.*
 
 
 class DualRowSignalHookV : BaseHook() {
-    private val mobileTypeSingle by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable")
-    }
     private val rightMargin by lazy {
         mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_right_margin", 8) - 8
     }
@@ -50,7 +48,22 @@ class DualRowSignalHookV : BaseHook() {
     private val mobileSignalViewMap = HashMap<Int, MutableList<View>>()
 
     override fun init() {
-        if (!mobileTypeSingle) {
+        hookAllConstructors(
+            "com.android.systemui.statusbar.pipeline.mobile.ui.viewmodel.MiuiCellularIconVM",
+            object : MethodHook() {
+                override fun after(param: MethodHookParam) {
+                    val cellularIcon = param.thisObject
+
+                    // 移动网络全隐藏
+                    // cellularIcon.setObjectField("isVisible", newReadonlyStateFlow(false))
+
+                    // 显示漫游
+                    cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(true))
+                }
+            }
+        )
+
+        if (!showMobileType) {
             mResHook.setDensityReplacement(
                 "com.android.systemui",
                 "dimen",
@@ -95,16 +108,12 @@ class DualRowSignalHookV : BaseHook() {
                         val modRes = getModuleRes(
                             param.thisObject.callMethodAs<Context>("getApplicationContext")
                         )
-                        for (slot in 1..2) {
-                            for (lvl in 0..5) {
-                                for (colorMode in arrayOf("", "dark", "tint")) {
+                        (1..2).forEach { slot ->
+                            (0..5).forEach { lvl ->
+                                arrayOf("", "dark", "tint").forEach { colorMode ->
                                     val isUseTint = colorMode == "tint"
                                     val isLight = colorMode.isNotEmpty()
-
-                                    val dualIconResName = getSignalIconResName(
-                                        slot, lvl, isUseTint, isLight
-                                    )
-
+                                    val dualIconResName = getSignalIconResName(slot, lvl, isUseTint, isLight)
                                     dualSignalResMap[dualIconResName] = modRes.getIdentifier(
                                         dualIconResName,
                                         "drawable",

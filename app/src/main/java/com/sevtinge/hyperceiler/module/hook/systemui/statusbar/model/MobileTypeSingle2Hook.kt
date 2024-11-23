@@ -20,14 +20,20 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model
 
 import android.graphics.*
+import android.telephony.*
 import android.view.*
 import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHookV.*
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHookV.Companion.STATUS_BAR_MOBILE_VIEW
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiMobileIconBinder
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.bold
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.card1
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.card2
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.fontSize
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.getLocation
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.hideIndicator
@@ -52,6 +58,8 @@ object MobileTypeSingle2Hook : BaseHook() {
     private var get0: Float = 0.0f
     private var get1: Int = 0
     private var get2: Int = 0
+    private val mobileSignalViewMap = HashMap<Int, MutableList<View>>()
+
     override fun init() {
         // by customiuizer
         hookAllConstructors(
@@ -78,8 +86,10 @@ object MobileTypeSingle2Hook : BaseHook() {
                 }
             }
         )
-
+        // 隐藏 SIM 卡图标
+        if (card1 || card2) hideSimIcon()
         if (!showMobileType) return
+
         miuiMobileIconBinder.methodFinder().filterByName("bind").single()
             .createHook {
                 after {
@@ -192,5 +202,33 @@ object MobileTypeSingle2Hook : BaseHook() {
             }
             param.thisObject.setObjectField(fieldName, newReadonlyStateFlow(value))
         }
+    }
+
+    private fun hideSimIcon() {
+        loadClass(STATUS_BAR_MOBILE_VIEW).methodFinder()
+            .filterByName("constructAndBind")
+            .single()
+            .createHook {
+                after { param ->
+                    val rootView = param.result as ViewGroup
+                    val mobileGroup = rootView.findViewByIdName("mobile_group") as LinearLayout
+                    val mobileGroupParent = mobileGroup.parent as ViewGroup
+                    val subId = rootView.getIntField("subId")
+                    val getSlotIndex = SubscriptionManager.getSlotIndex(subId)
+
+                    if (mobileSignalViewMap[subId] == null) {
+                        mobileSignalViewMap[subId] = mutableListOf()
+                    }
+                    mobileSignalViewMap[subId]?.add(mobileGroupParent)
+
+                    mobileSignalViewMap[subId]?.forEach {
+                        it.post {
+                            if ((card1 && getSlotIndex == 0) || (card2 && getSlotIndex == 1)) {
+                                it.visibility = View.GONE
+                            }
+                        }
+                    }
+                }
+            }
     }
 }

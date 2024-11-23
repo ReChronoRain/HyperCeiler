@@ -24,6 +24,8 @@ import android.view.View
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.card1
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.card2
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.getIntField
 import com.sevtinge.hyperceiler.utils.setObjectField
@@ -49,12 +51,6 @@ object MobilePublicHook : BaseHook() {
     }
     private val isHideRoaming by lazy {
         mPrefsMap.getBoolean("system_ui_status_bar_mobile_hide_roaming_icon")
-    }
-    private val card1 by lazy {
-        mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1")
-    }
-    private val card2 by lazy {
-        mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2")
     }
 
     override fun init() {
