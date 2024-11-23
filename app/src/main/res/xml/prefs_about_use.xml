@@ -216,6 +216,13 @@
                 android:data="https://github.com/HChenX/HookTool" />
         </Preference>
         <Preference
+            android:summary="YuKongA | GPL-3.0"
+            android:title="HyperOS XXL">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/YuKongA/Miui_XXL" />
+        </Preference>
+        <Preference
             android:summary="buffcow | Apache-2.0"
             android:title="HyperSmartCharge">
             <intent
@@ -251,7 +258,7 @@
                 android:data="https://github.com/YifePlayte/MaxFreeForm" />
         </Preference>
         <Preference
-            android:summary="YuKongA | No License"
+            android:summary="YuKongA | MIT"
             android:title="MediaControl-BlurBg">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -298,13 +305,6 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Wine-Network/Miui_XXL" />
-        </Preference>
-        <Preference
-            android:summary="YuKongA | GPL-3.0"
-            android:title="Miui XXL">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/YuKongA/Miui_XXL" />
         </Preference>
         <Preference
             android:summary="tehcneko | GPL-3.0"
