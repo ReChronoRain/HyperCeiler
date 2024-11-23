@@ -31,7 +31,7 @@
             android:persistent="false"
             android:title="@string/custom_background_color" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceCompat
             android:key="prefs_key_custom_background_corner_radius"
             android:dependency="prefs_key_custom_background_enabled"
             android:persistent="false"
@@ -48,7 +48,7 @@
             android:persistent="false"
             android:title="@string/custom_background_blur_enabled" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceCompat
             android:dependency="prefs_key_custom_background_blur_enabled"
             android:key="prefs_key_custom_background_blur_radius"
             android:persistent="false"

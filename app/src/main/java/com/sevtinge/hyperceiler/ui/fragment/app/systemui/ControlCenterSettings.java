@@ -83,7 +83,7 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
     RecommendPreference mRecommend;
     Handler handler;
 
-    int mMaxBrightness;
+    int mMaxBrightness = 0;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -128,7 +128,9 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
         mSunshineModeHighBrightness = findPreference("prefs_key_system_control_center_sunshine_mode_brightness");
         handler = new Handler();
 
-        mMaxBrightness = Integer.parseInt(safeExecCommandWithRoot("cat /sys/class/backlight/panel0-backlight/max_brightness"));
+        try {
+            mMaxBrightness = Integer.parseInt(safeExecCommandWithRoot("cat /sys/class/backlight/panel0-backlight/max_brightness"));
+        } catch (Exception ignore) {}
 
         mExpandNotification.setOnPreferenceClickListener(
                 preference -> {

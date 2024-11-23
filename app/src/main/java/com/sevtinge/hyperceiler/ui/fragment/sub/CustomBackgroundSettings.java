@@ -27,8 +27,9 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.preference.ColorPickerPreference;
+import fan.preference.SeekBarPreferenceCompat;
+
 import androidx.preference.Preference;
-import androidx.preference.SeekBarPreference;
 import androidx.preference.SwitchPreference;
 
 public class CustomBackgroundSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
@@ -44,10 +45,10 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     private SwitchPreference mCustomEnabledPreference;
 
     private ColorPickerPreference mColorPickerPreference;
-    private SeekBarPreference mCornerRadiusPreference;
+    private SeekBarPreferenceCompat mCornerRadiusPreference;
 
     private SwitchPreference mBlurEnabledPreference;
-    private SeekBarPreference mBlurRadiusPreference;
+    private SeekBarPreferenceCompat mBlurRadiusPreference;
 
     @Override
     public int getPreferenceScreenResId() {
