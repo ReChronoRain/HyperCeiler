@@ -24,7 +24,6 @@ import android.view.View
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.statusBarMobileClass
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.getIntField
 import com.sevtinge.hyperceiler.utils.setObjectField

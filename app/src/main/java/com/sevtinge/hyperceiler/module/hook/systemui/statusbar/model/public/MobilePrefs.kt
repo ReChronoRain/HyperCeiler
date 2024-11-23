@@ -28,4 +28,23 @@ object MobilePrefs {
         // 上下偏移量
         mPrefsMap.getInt("system_ui_statusbar_mobile_type_vertical_offset", 8)
     }
+    val showMobileType by lazy {
+        // 网络类型单独显示
+        mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable")
+    }
+    val mobileNetworkType by lazy {
+        mPrefsMap.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0)
+    }
+    val hideIndicator by lazy {
+        // 网络活动指示器
+        mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator")
+    }
+    val hideRoaming by lazy {
+        // 隐藏漫游图标
+        mPrefsMap.getBoolean("system_ui_status_bar_mobile_hide_roaming_icon")
+    }
+    val isEnableDouble by lazy {
+        // 双排信号
+        mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable")
+    }
 }

@@ -21,21 +21,28 @@ import de.robv.android.xposed.*
 
 
 class DualRowSignalHookV : BaseHook() {
-    private val mobileTypeSingle = mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable")
-
-    private val rightMargin =
+    private val mobileTypeSingle by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable")
+    }
+    private val rightMargin by lazy {
         mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_right_margin", 8) - 8
-    private val leftMargin =
+    }
+    private val leftMargin by lazy {
         mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_left_margin", 8) - 8
-    private val iconScale =
+    }
+    private val iconScale by lazy {
         mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_size", 10)
-    private val verticalOffset =
+    }
+    private val verticalOffset by lazy {
         mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_vertical_offset", 8)
+    }
 
-    private val selectedIconStyle =
+    private val selectedIconStyle by lazy {
         mPrefsMap.getString("system_ui_status_mobile_network_icon_style", "")
-    private val selectedIconTheme =
+    }
+    private val selectedIconTheme by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_iconmanage_mobile_network_icon_theme", 1)
+    }
 
     private val mobileInfo = MobileInfo
     private val dualSignalResMap = HashMap<String, Int>()
@@ -43,23 +50,6 @@ class DualRowSignalHookV : BaseHook() {
     private val mobileSignalViewMap = HashMap<Int, MutableList<View>>()
 
     override fun init() {
-        hookAllConstructors(
-            "com.android.systemui.statusbar.pipeline.mobile.ui.viewmodel.MiuiCellularIconVM",
-            object : MethodHook() {
-                override fun after(param: MethodHookParam) {
-                    val cellularIcon = param.thisObject
-
-                    // 移动网络全隐藏
-                    // cellularIcon.setObjectField("isVisible", newReadonlyStateFlow(false))
-
-                    // 显示漫游
-                    cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(true))
-                    // 隐藏小 hd
-                    cellularIcon.setObjectField("smallHdVisible", newReadonlyStateFlow(false))
-                }
-            }
-        )
-
         if (!mobileTypeSingle) {
             mResHook.setDensityReplacement(
                 "com.android.systemui",

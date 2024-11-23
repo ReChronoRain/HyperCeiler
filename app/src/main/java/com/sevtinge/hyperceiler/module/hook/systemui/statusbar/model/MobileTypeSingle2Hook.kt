@@ -26,15 +26,18 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.mOperatorConfig
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiMobileIconBinder
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.bold
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.fontSize
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.getLocation
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.hideIndicator
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.hideRoaming
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.leftMargin
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.rightMargin
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.showMobileType
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.verticalOffset
 import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import java.lang.reflect.*
 import java.util.ArrayList
@@ -51,14 +54,32 @@ object MobileTypeSingle2Hook : BaseHook() {
     private var get2: Int = 0
     override fun init() {
         // by customiuizer
-        mOperatorConfig.constructors[0].createHook {
-            after {
-                // 启用系统的网络类型单独显示
-                // 系统的单独显示只有一个大 5G
-                it.thisObject.setObjectField("showMobileDataTypeSingle", true)
-            }
-        }
+        hookAllConstructors(
+            "com.android.systemui.statusbar.pipeline.mobile.ui.viewmodel.MiuiCellularIconVM",
+            object : MethodHook() {
+                override fun after(param: MethodHookParam) {
+                    val cellularIcon = param.thisObject
 
+                    if (showMobileType) {
+                        cellularIcon.setObjectField("fiveGDrawableId", newReadonlyStateFlow(0))
+                        cellularIcon.setObjectField("mobileTypeSingleVisible", newReadonlyStateFlow(true))
+                    }
+                    if (hideIndicator) {
+                        cellularIcon.setObjectField("inOutVisible", newReadonlyStateFlow(false))
+                    }
+                    if (hideRoaming) {
+                        cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(false))
+                        cellularIcon.setObjectField("mobileRoamVisible", newReadonlyStateFlow(false))
+                    }
+                    // 隐藏 hd
+                    updateIconState(param, "smallHdVisible", "system_ui_status_bar_icon_small_hd")
+                    updateIconState(param, "volteVisibleCn", "system_ui_status_bar_icon_big_hd")
+                    updateIconState(param, "volteVisibleGlobal", "system_ui_status_bar_icon_big_hd")
+                }
+            }
+        )
+
+        if (!showMobileType) return
         miuiMobileIconBinder.methodFinder().filterByName("bind").single()
             .createHook {
                 after {
@@ -70,14 +91,6 @@ object MobileTypeSingle2Hook : BaseHook() {
                             getView.findViewById(
                                 getView.resources.getIdentifier("mobile_type_single", "id", "com.android.systemui")
                             )
-                        /*val leftInOut: View =
-                            getView.findViewById(
-                                getView.resources.getIdentifier("mobile_left_mobile_inout", "id", "com.android.systemui")
-                            )
-                        val rightInOut: View =
-                            getView.findViewById(
-                                getView.resources.getIdentifier("mobile_right_mobile_inout", "id", "com.android.systemui")
-                            )*/
                         val layout = textView.parent as LinearLayout
                         val getView2: ViewGroup =
                             getView.findViewById(
@@ -167,41 +180,17 @@ object MobileTypeSingle2Hook : BaseHook() {
                 }
             }
         })
+    }
 
-        /*modernStatusBarViewClass.methodFinder()
-            .filterByName("onDarkChanged")
-            .first().createAfterHook {
-                XposedLogUtils.logD(TAG, lpparam.packageName, "hook onDarkChanged after")
-                if ("mobile" == it.thisObject.getObjectFieldAs<String>("slot")) {
-                    XposedLogUtils.logD(TAG, lpparam.packageName, "hook onDarkChanged y")
-                    get0 =  it.args[1] as Float
-                    get1 = it.args[3] as Int
-                    get2 = it.args[4] as Int
-                    val num = it.args[2] as Int
-                    val getBoolean = it.args[5] as Boolean
-                    val getView = it.thisObject as ViewGroup
-                    if (mobileId < 1) {
-                        mobileId = getView.resources.getIdentifier("mobile_type_single", "id", "com.android.systemui")
-                    }
-                    XposedLogUtils.logD(TAG, lpparam.packageName, "mobileId $mobileId")
-                    val textView: TextView = getView.findViewById(mobileId)
-                    if (getBoolean) {
-                        method2?.invoke(null, it.args[0], textView, num)
-                            ?.let { it1 -> textView.setTextColor(it1.hashCode()) }
-                        return@createAfterHook
-                    }
-                    val getBoolean2 = method?.invoke(null, it.args[0], textView)
-                        ?.let { it1 -> textView.setTextColor(it1.hashCode()) } as Boolean
-                    if (getBoolean2) {
-                        get0 = 0.0f
-                    }
-                    if (get0 > 0.0f) {
-                        get1 = get2
-                    }
-                    XposedLogUtils.logD(TAG, lpparam.packageName, "get1 $get1")
-                    textView.setTextColor(get1)
-                    return@createAfterHook
-                }
-            }*/
+    private fun updateIconState(param: MethodHookParam, fieldName: String, key: String) {
+        val opt = mPrefsMap.getStringAsInt(key, 0)
+        if (opt != 0) {
+            val value = when (opt) {
+                1 -> true
+                2 -> false
+                else -> false
+            }
+            param.thisObject.setObjectField(fieldName, newReadonlyStateFlow(value))
+        }
     }
 }
