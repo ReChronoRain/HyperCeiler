@@ -13,6 +13,7 @@ import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHookV.MobileInfo.ID_CHANGED_DATA_SIM
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHookV.MobileInfo.ID_SUB_NO_DATA_SIM
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiCellularIconVM
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.showMobileType
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.StateFlowHelper.newReadonlyStateFlow
@@ -48,8 +49,7 @@ class DualRowSignalHookV : BaseHook() {
     private val mobileSignalViewMap = HashMap<Int, MutableList<View>>()
 
     override fun init() {
-        hookAllConstructors(
-            "com.android.systemui.statusbar.pipeline.mobile.ui.viewmodel.MiuiCellularIconVM",
+        hookAllConstructors(miuiCellularIconVM,
             object : MethodHook() {
                 override fun after(param: MethodHookParam) {
                     val cellularIcon = param.thisObject

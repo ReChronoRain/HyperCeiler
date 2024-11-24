@@ -28,9 +28,12 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHookV.*
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHookV.Companion.STATUS_BAR_MOBILE_VIEW
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.hdController
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.mOperatorConfig
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiCellularIconVM
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiMobileIconBinder
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiCarrier
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.bold
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.card1
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.card2
@@ -38,8 +41,8 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.Mobi
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.getLocation
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.hideIndicator
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.hideRoaming
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.isEnableDouble
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.leftMargin
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.mobileNetworkType
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.rightMargin
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.showMobileType
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.verticalOffset
@@ -63,34 +66,32 @@ object MobileTypeSingle2Hook : BaseHook() {
 
     override fun init() {
         // by customiuizer
-        hookAllConstructors(
-            "com.android.systemui.statusbar.pipeline.mobile.ui.viewmodel.MiuiCellularIconVM",
+        hookAllConstructors(miuiCellularIconVM,
             object : MethodHook() {
                 override fun after(param: MethodHookParam) {
                     val cellularIcon = param.thisObject
-
-                    if (showMobileType) {
-                        cellularIcon.setObjectField("fiveGDrawableId", newReadonlyStateFlow(0))
-                        cellularIcon.setObjectField("mobileTypeSingleVisible", newReadonlyStateFlow(true))
-                    }
                     if (hideIndicator) {
                         cellularIcon.setObjectField("inOutVisible", newReadonlyStateFlow(false))
                     }
                     if (hideRoaming) {
                         cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(false))
-                        cellularIcon.setObjectField("mobileRoamVisible", newReadonlyStateFlow(false))
+                        cellularIcon.setObjectField(
+                            "mobileRoamVisible",
+                            newReadonlyStateFlow(false)
+                        )
                     }
                     // 隐藏 hd
                     updateIconState(param, "smallHdVisible", "system_ui_status_bar_icon_small_hd")
                     updateIconState(param, "volteVisibleCn", "system_ui_status_bar_icon_big_hd")
                     updateIconState(param, "volteVisibleGlobal", "system_ui_status_bar_icon_big_hd")
+                    // 显示逻辑
+                    hookMobileView(cellularIcon)
+                    setMobileType(cellularIcon)
                 }
             }
         )
-        // 隐藏 SIM 卡图标
-        if ((card1 || card2) && !isEnableDouble) hideSimIcon()
         if (!showMobileType) return
-
+        if (mobileNetworkType == 4) showMobileTypeSingle()
         miuiMobileIconBinder.methodFinder().filterByName("bind").single()
             .createHook {
                 after {
@@ -198,21 +199,20 @@ object MobileTypeSingle2Hook : BaseHook() {
         if (opt != 0) {
             val value = when (opt) {
                 1 -> true
-                2 -> false
                 else -> false
             }
             param.thisObject.setObjectField(fieldName, newReadonlyStateFlow(value))
         }
     }
 
-    private fun hideSimIcon() {
+    private fun hookMobileView(cellularIcon: Any) {
         loadClass(STATUS_BAR_MOBILE_VIEW).methodFinder()
             .filterByName("constructAndBind")
-            .single()
-            .createHook {
+            .single().createHook {
                 after { param ->
                     val rootView = param.result as ViewGroup
-                    val mobileGroup = rootView.findViewByIdName("mobile_group") as LinearLayout
+                    val mobileGroup =
+                        rootView.findViewByIdName("mobile_group") as LinearLayout
                     val mobileGroupParent = mobileGroup.parent as ViewGroup
                     val subId = rootView.getIntField("subId")
                     val getSlotIndex = SubscriptionManager.getSlotIndex(subId)
@@ -222,6 +222,14 @@ object MobileTypeSingle2Hook : BaseHook() {
                     }
                     mobileSignalViewMap[subId]?.add(mobileGroupParent)
 
+                    if (showMobileType && (mobileNetworkType == 0 || mobileNetworkType == 2)) {
+                        cellularIcon.setObjectField("mobileTypeSingleVisible", newReadonlyStateFlow(true))
+                        showWifi(mobileGroupParent)
+                    } /*else if (!showMobileType && mobileNetworkType == 4) {
+                        smallMobileType(mobileGroupParent, subId)
+                    }*/
+
+                    // 隐藏 Sim 卡图标
                     mobileSignalViewMap[subId]?.forEach {
                         it.post {
                             if ((card1 && getSlotIndex == 0) || (card2 && getSlotIndex == 1)) {
@@ -231,5 +239,82 @@ object MobileTypeSingle2Hook : BaseHook() {
                     }
                 }
             }
+    }
+
+    private fun showMobileTypeSingle() {
+        mOperatorConfig.constructors[0].createHook {
+            after {
+                // 启用系统的网络类型单独显示
+                // 系统的单独显示只有一个大 5G
+                it.thisObject.setObjectField("showMobileDataTypeSingle", true)
+            }
+        }
+    }
+
+    private fun smallMobileType(mobileGroupParent: ViewGroup, subId: Int) {
+        val getSlotIndex = SubscriptionManager.getSlotIndex(subId)
+        miuiCarrier.methodFinder().filterByName("updateCarrierIfNeed")
+            .single().createHook {
+                after {
+                    val dataConnected = it.thisObject.getObjectFieldAs<BooleanArray>("mDataConnected")
+                    val get = it.args[0] as Int
+                    // 需要解决获取 dataConnected 的问题
+                    /*if (getSlotIndex == 0 && !dataConnected[0]) {
+                        setView(mobileGroupParent, "mobile_type", View.GONE)
+                    } else if (getSlotIndex == 0 && dataConnected[0]) {
+                        setView(mobileGroupParent, "mobile_type", View.VISIBLE)
+                    }
+
+                    if (getSlotIndex == 1 && !dataConnected[0]) {
+                        setView(mobileGroupParent, "mobile_type", View.GONE)
+                    } else if (getSlotIndex == 1 && dataConnected[0]) {
+                        setView(mobileGroupParent, "mobile_type", View.VISIBLE)
+                    }*/
+                }
+            }
+    }
+
+
+    private fun setView(its: View, name: String, visibility: Int) {
+        val mMobileType =
+            its.findViewByIdName(name) as View
+        mMobileType.visibility = visibility
+    }
+
+    private fun showWifi(mobileGroupParent: ViewGroup) {
+        hdController.methodFinder().filterByName("update")
+            .single().createHook {
+                after {
+                    val mWifiAvailable =
+                        it.thisObject.getObjectFieldAs<Boolean>("mWifiAvailable")
+
+                   if (mWifiAvailable) {
+                       setView(mobileGroupParent, "mobile_type_single", View.GONE)
+                   } else {
+                       setView(mobileGroupParent, "mobile_type_single", View.VISIBLE)
+                   }
+                }
+            }
+    }
+
+    private fun setMobileType(cellularIcon: Any) {
+        if (showMobileType) {
+            // 大 5G 显示逻辑
+            if (mobileNetworkType == 1) {
+                cellularIcon.setObjectField("mobileTypeSingleVisible", newReadonlyStateFlow(true))
+            }
+        } else {
+            // 小 5G 显示逻辑
+            when (mobileNetworkType) {
+                1 -> {
+                    cellularIcon.setObjectField("mobileTypeVisible", newReadonlyStateFlow(true))
+                }
+                3 -> {
+                    // 需要解决信号图标错位问题
+                    cellularIcon.setObjectField("mobileTypeVisible", newReadonlyStateFlow(false))
+                }
+                // 0 和 2 保持一致
+            }
+        }
     }
 }

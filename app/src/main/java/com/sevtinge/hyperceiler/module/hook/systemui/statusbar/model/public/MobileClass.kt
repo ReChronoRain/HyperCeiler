@@ -12,7 +12,13 @@ object MobileClass {
     val mOperatorConfig by lazy {
         loadClass("com.miui.interfaces.IOperatorCustomizedPolicy\$OperatorConfig")
     }
-    val modernStatusBarViewClass by lazy {
-        loadClass("com.android.systemui.statusbar.pipeline.shared.ui.view.ModernStatusBarView")
+    val miuiCellularIconVM by lazy {
+        loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.viewmodel.MiuiCellularIconVM")
+    }
+    val miuiCarrier by lazy {
+        loadClass("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl")
+    }
+    val hdController by lazy {
+        loadClass("com.android.systemui.statusbar.policy.HDController")
     }
 }
