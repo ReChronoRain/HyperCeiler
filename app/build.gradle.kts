@@ -29,6 +29,7 @@ val roots = mapOf(
     "animation" to "libs/animation-${buildTypes}.aar",
     "appcompat" to "libs/appcompat-${buildTypes}.aar",
     "basewidget" to "libs/basewidget-${buildTypes}.aar",
+    "bottomsheet" to "libs/bottomsheet-${buildTypes}.aar",
     "cardview" to "libs/cardview-${buildTypes}.aar",
     "core" to "libs/core-${buildTypes}.aar",
     "flexible" to "libs/flexible-${buildTypes}.aar",
@@ -261,6 +262,7 @@ dependencies {
     implementation(libs.vectordrawable.animated)
     implementation(libs.customview)
     implementation(libs.customview.poolingcontainer)
+    implementation(libs.coordinatorlayout)
     implementation(libs.constraintlayout) {
         exclude("androidx.appcompat", "appcompat")
     }
@@ -268,6 +270,7 @@ dependencies {
     implementation(files(roots["animation"]))
     implementation(files(roots["appcompat"]))
     implementation(files(roots["basewidget"]))
+    implementation(files(roots["bottomsheet"]))
     implementation(files(roots["cardview"]))
     implementation(files(roots["core"]))
     implementation(files(roots["flexible"]))
