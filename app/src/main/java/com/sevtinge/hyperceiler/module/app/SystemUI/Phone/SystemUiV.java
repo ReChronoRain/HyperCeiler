@@ -161,6 +161,7 @@ public class SystemUiV extends BaseModule {
         initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0) > 0);
         initHook(HideVoWiFiIcon.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi") || mPrefsMap.getBoolean("system_ui_status_bar_icon_volte"));
         initHook(new StickyFloatingWindowsForSystemUI(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
+        initHook(new StatusBarIconPositionAdjust(), mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network"));
 
         // 移动网络图标
         boolean isEnableMobilePublic = mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
