@@ -31,9 +31,9 @@ import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHookV.Companion.STATUS_BAR_MOBILE_VIEW
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.hdController
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.mOperatorConfig
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiCarrier
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiCellularIconVM
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiMobileIconBinder
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiCarrier
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.bold
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.card1
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.card2
@@ -58,7 +58,6 @@ object MobileTypeSingle2Hook : BaseHook() {
     }
     var method: Method? = null
     var method2: Method? = null
-    private var mobileId = -1
     private var get0: Float = 0.0f
     private var get1: Int = 0
     private var get2: Int = 0
@@ -70,7 +69,7 @@ object MobileTypeSingle2Hook : BaseHook() {
             object : MethodHook() {
                 override fun after(param: MethodHookParam) {
                     val cellularIcon = param.thisObject
-                    if (hideIndicator) {
+                    if (hideIndicator || (!showMobileType && mobileNetworkType == 3)) {
                         cellularIcon.setObjectField("inOutVisible", newReadonlyStateFlow(false))
                     }
                     if (hideRoaming) {
@@ -86,7 +85,6 @@ object MobileTypeSingle2Hook : BaseHook() {
                     updateIconState(param, "volteVisibleGlobal", "system_ui_status_bar_icon_big_hd")
                     // 显示逻辑
                     hookMobileView(cellularIcon)
-                    setMobileType(cellularIcon)
                 }
             }
         )
@@ -99,16 +97,11 @@ object MobileTypeSingle2Hook : BaseHook() {
                     val getView = it.args[0] as ViewGroup
                     if ("mobile" == getView.getObjectFieldAs<String>("slot")) {
                         // 大 5G 的 View
-                        val textView: TextView =
-                            getView.findViewById(
-                                getView.resources.getIdentifier("mobile_type_single", "id", "com.android.systemui")
-                            )
+                        val textView =
+                            getView.findViewByIdName("mobile_type_single") as TextView
                         val layout = textView.parent as LinearLayout
-                        val getView2: ViewGroup =
-                            getView.findViewById(
-                                getView.resources.getIdentifier("mobile_container_left", "id", "com.android.systemui")
-                            )
-
+                        val getView2 =
+                            getView.findViewByIdName("mobile_container_left") as ViewGroup
                         if (!getLocation) {
                             layout.removeView(textView)
                             layout.addView(textView)
@@ -168,10 +161,10 @@ object MobileTypeSingle2Hook : BaseHook() {
                     val num = it.args[2] as Int
                     val getBoolean = it.args[5] as Boolean
                     val getView = it.thisObject as ViewGroup
-                    if (mobileId < 1) {
-                        mobileId = getView.resources.getIdentifier("mobile_type_single", "id", "com.android.systemui")
+                    val textView: TextView = getView.findViewByIdName("mobile_type_single") as TextView
+                    if (mobileNetworkType == 0 || mobileNetworkType == 2) {
+                        showWifi(getView)
                     }
-                    val textView: TextView = getView.findViewById(mobileId)
                     if (getBoolean) {
                         method2?.invoke(null, it.args[0], textView, num)?.let { it1 ->
                             textView.setTextColor(it1.hashCode())
@@ -216,18 +209,33 @@ object MobileTypeSingle2Hook : BaseHook() {
                     val mobileGroupParent = mobileGroup.parent as ViewGroup
                     val subId = rootView.getIntField("subId")
                     val getSlotIndex = SubscriptionManager.getSlotIndex(subId)
+                    val getCard1 = mobileGroupParent.findViewByIdName("mobile_container_left") as View
+                    val getCard2 = mobileGroupParent.findViewByIdName("mobile_container_right") as View
 
                     if (mobileSignalViewMap[subId] == null) {
                         mobileSignalViewMap[subId] = mutableListOf()
                     }
                     mobileSignalViewMap[subId]?.add(mobileGroupParent)
 
-                    if (showMobileType && (mobileNetworkType == 0 || mobileNetworkType == 2)) {
+                    if (showMobileType && mobileNetworkType != 4) {
+                        // 大 5G 显示逻辑
                         cellularIcon.setObjectField("mobileTypeSingleVisible", newReadonlyStateFlow(true))
-                        showWifi(mobileGroupParent)
-                    } /*else if (!showMobileType && mobileNetworkType == 4) {
-                        smallMobileType(mobileGroupParent, subId)
-                    }*/
+                        if (mobileNetworkType == 0 || mobileNetworkType == 2) {
+                            showWifi(mobileGroupParent)
+                        }
+                    } else if (!showMobileType) {
+                        // 小 5G 显示逻辑
+                        if (mobileNetworkType == 1) {
+                            cellularIcon.setObjectField("mobileTypeVisible", newReadonlyStateFlow(true))
+                        } else if (mobileNetworkType == 3) {
+                            cellularIcon.setObjectField("mobileTypeVisible", newReadonlyStateFlow(false))
+                            // 调整隐藏后的布局
+                            getCard1.setPadding(20, 0, 0, 0)
+                            getCard2.setPadding(20, 0, 0, 0)
+                        } /*else if (mobileNetworkType == 4) {
+                            smallMobileType(mobileGroupParent, subId)
+                        }*/
+                    }
 
                     // 隐藏 Sim 卡图标
                     mobileSignalViewMap[subId]?.forEach {
@@ -261,14 +269,18 @@ object MobileTypeSingle2Hook : BaseHook() {
                     // 需要解决获取 dataConnected 的问题
                     /*if (getSlotIndex == 0 && !dataConnected[0]) {
                         setView(mobileGroupParent, "mobile_type", View.GONE)
-                    } else if (getSlotIndex == 0 && dataConnected[0]) {
+                        getCard1.setPadding(20,0,0,0)
+                    } else if (getSlotIndex == 0 && dataConnected) {
                         setView(mobileGroupParent, "mobile_type", View.VISIBLE)
+                        getCard1.setPadding(0,0,0,0)
                     }
 
-                    if (getSlotIndex == 1 && !dataConnected[0]) {
+                    if (getSlotIndex == 1 && !dataConnected) {
                         setView(mobileGroupParent, "mobile_type", View.GONE)
-                    } else if (getSlotIndex == 1 && dataConnected[0]) {
+                        getCard2.setPadding(20,0,0,0)
+                    } else if (getSlotIndex == 1 && dataConnected) {
                         setView(mobileGroupParent, "mobile_type", View.VISIBLE)
+                        getCard2.setPadding(0,0,0,0)
                     }*/
                 }
             }
@@ -295,26 +307,5 @@ object MobileTypeSingle2Hook : BaseHook() {
                    }
                 }
             }
-    }
-
-    private fun setMobileType(cellularIcon: Any) {
-        if (showMobileType) {
-            // 大 5G 显示逻辑
-            if (mobileNetworkType == 1) {
-                cellularIcon.setObjectField("mobileTypeSingleVisible", newReadonlyStateFlow(true))
-            }
-        } else {
-            // 小 5G 显示逻辑
-            when (mobileNetworkType) {
-                1 -> {
-                    cellularIcon.setObjectField("mobileTypeVisible", newReadonlyStateFlow(true))
-                }
-                3 -> {
-                    // 需要解决信号图标错位问题
-                    cellularIcon.setObjectField("mobileTypeVisible", newReadonlyStateFlow(false))
-                }
-                // 0 和 2 保持一致
-            }
-        }
     }
 }
