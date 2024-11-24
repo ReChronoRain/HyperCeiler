@@ -16,6 +16,7 @@ vectordrawable = "1.2.0"
 vectordrawable-animated = "1.2.0"
 customview = "1.2.0-alpha02"
 customview-poolingcontainer = "1.0.0"
+coordinatorlayout = "1.2.0"
 constraintlayout = "2.2.0"
 
 xposed-api = "82"
@@ -45,6 +46,7 @@ vectordrawable = { group = "androidx.vectordrawable", name = "vectordrawable", v
 vectordrawable-animated = { group = "androidx.vectordrawable", name = "vectordrawable-animated", version.ref = "vectordrawable-animated" }
 customview = { group = "androidx.customview", name = "customview", version.ref = "customview" }
 customview-poolingcontainer = { group = "androidx.customview", name = "customview-poolingcontainer", version.ref = "customview-poolingcontainer" }
+coordinatorlayout = { group = "androidx.coordinatorlayout", name = "coordinatorlayout", version.ref = "coordinatorlayout" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
 xposed-api = { group = "de.robv.android.xposed", name = "api", version.ref = "xposed-api" }
