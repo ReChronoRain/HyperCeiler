@@ -310,16 +310,6 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="control_center_sunshine_mode_write">
-        <item>@string/system_ui_plugin_tiles_load_way_default</item>
-        <item>@string/system_ui_plugin_tiles_load_way_compatibility</item>
-    </string-array>
-
-    <string-array name="control_center_sunshine_mode_write_value">
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
     <string-array name="control_center_sunshine_mode_high">
         <item>@string/control_center_sunshine_mode_default</item>
         <item>@string/control_center_sunshine_mode_one</item>

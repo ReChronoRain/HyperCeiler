@@ -94,19 +94,12 @@ public class SunlightModeHigh extends TileUtils {
     public void setPath() {
         String fileOne = "/sys/class/mi_display/disp-DSI-0/brightness_clone";
         String fileTwo = "/sys/class/backlight/panel0-backlight/brightness";
-        if (mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode_write", 1) == 1) {
-            File file = new File(fileOne);
-            if (file.exists()) {
-                path = fileOne;
-            } else {
-                File file1 = new File(fileTwo);
-                if (file1.exists()) {
-                    path = fileTwo;
-                }
-            }
+        File file = new File(fileOne);
+        if (file.exists()) {
+            path = fileOne;
         } else {
-            File file2 = new File(fileTwo);
-            if (file2.exists()) {
+            File file1 = new File(fileTwo);
+            if (file1.exists()) {
                 path = fileTwo;
             }
         }
@@ -168,7 +161,45 @@ public class SunlightModeHigh extends TileUtils {
     public void tileClick(MethodHookParam param, String tileName) {
         Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
         try {
-            if (!mMode) {
+            if (shell) {
+                /*if (!isCustomSunshineMode) {
+                    currentScreenBrightness = Integer.parseInt(safeExecCommandWithRoot("cat /sys/class/backlight/panel0-backlight/brightness"));
+                    safeExecCommandWithRoot("echo " + setScreenBrightness + " > /sys/class/backlight/panel0-backlight/brightness");
+                    isCustomSunshineMode = true;
+                } else {
+                    safeExecCommandWithRoot("echo " + currentScreenBrightness + " > /sys/class/backlight/panel0-backlight/brightness");
+                    isCustomSunshineMode = false;
+                }*/
+                if (lastSunlight == 0 || Integer.parseInt(readAndWrit(null, false)) != pathSunlight) {
+                    // imOpenCustomMode = true;
+                    if (getBrightnessMode(mContext) == 1) {
+                        setCustomBrightnessMode(mContext, 1);
+                    }
+                    setBroadcastReceiver(mContext, param);
+                    lastSunlight = Integer.parseInt(readAndWrit(null, false));
+                    readAndWrit("" + setScreenBrightness, true);
+                        /*Settings.System.putInt(mContext.getContentResolver(), screenBrightness, Integer.MAX_VALUE);
+                        if (maxSunlight == 0)
+                            maxSunlight = Settings.System.getInt(mContext.getContentResolver(), screenBrightness);
+                        sLog("tileClick: lastSunlight: " + lastSunlight + " pathSunlight: " + pathSunlight + " filter: " + filter);
+                        ShellUtils.CommandResult commandResult = ShellUtils.execCommand("sleep 0.8 && echo " + Integer.MAX_VALUE + " > " + path + " && cat " + path, true, true);
+                        try {
+                            pathSunlight = Integer.parseInt(commandResult.successMsg);
+                        } catch (NumberFormatException e) {
+                            logE("cant to int: " + pathSunlight);
+                        }*/
+                } else {
+                    // imOpenCustomMode = false;
+                    if (getCustomBrightnessMode(mContext) == 1) {
+                        setCustomBrightnessMode(mContext, 0);
+                    }
+                    // sLog("tileClick: comeback lastSunlight: " + lastSunlight + " pathSunlight: " + pathSunlight);
+                    unBroadcastReceiver(mContext, param);
+                    readAndWrit("" + lastSunlight, false);
+                    lastSunlight = 0; // 重置
+                }
+                refreshState(param.thisObject);
+            } else if (!mMode) {
                     /*系统阳光模式*/
                     int systemMode = Settings.System.getInt(mContext.getContentResolver(), sunlightMode);
                     if (systemMode == 1) {
@@ -234,18 +265,6 @@ public class SunlightModeHigh extends TileUtils {
                         lastSunlight = 0; // 重置
                     }
                 }
-                if (shell) {
-                    if (!isCustomSunshineMode) {
-                        currentScreenBrightness = Integer.parseInt(safeExecCommandWithRoot("cat /sys/class/backlight/panel0-backlight/brightness"));
-                        safeExecCommandWithRoot("echo " + setScreenBrightness + " > /sys/class/backlight/panel0-backlight/brightness");
-                        isCustomSunshineMode = true;
-                    } else {
-                        safeExecCommandWithRoot("echo " + currentScreenBrightness + " > /sys/class/backlight/panel0-backlight/brightness");
-                        isCustomSunshineMode = false;
-                    }
-                    refreshState(param.thisObject);
-                }
-                refreshState(param.thisObject);
             }
         } catch (Settings.SettingNotFoundException e) {
             refreshState(param.thisObject);
@@ -399,20 +418,28 @@ public class SunlightModeHigh extends TileUtils {
         }*/
         if (writ != null) {
             try {
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, false))) {
-                    writer.write(writ);
-                } // try-with-resources 会自动关闭 writer
+                if (shell) {
+                    safeExecCommandWithRoot("echo " + writ + " > /sys/class/backlight/panel0-backlight/brightness");
+                } else {
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, false))) {
+                        writer.write(writ);
+                    } // try-with-resources 会自动关闭 writer
+                }
             } catch (IOException e) {
                 AndroidLogUtils.logE("SunlightMode", "error to writer: " + path + " ", e);
             }
         }
         try {
-            try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-            } // try-with-resources 会自动关闭 reader
+            if (shell) {
+                builder.append(safeExecCommandWithRoot("cat /sys/class/backlight/panel0-backlight/brightness"));
+            } else {
+                try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        builder.append(line);
+                    }
+                } // try-with-resources 会自动关闭 reader
+            }
         } catch (IOException e) {
             AndroidLogUtils.logE("SunlightMode", "error to read: " + path + " ", e);
         }
