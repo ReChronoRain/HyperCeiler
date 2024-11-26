@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.module.base
 import android.annotation.*
 import android.app.*
 import android.app.AndroidAppHelper.*
+import android.content.*
 import android.graphics.drawable.*
 import android.os.*
 import androidx.core.app.*
@@ -68,22 +69,21 @@ abstract class MusicBaseHook : BaseHook() {
     abstract fun onUpdate(lyricData: LyricData)
     abstract fun onStop()
 
-    @SuppressLint("NotificationPermission")
+    @SuppressLint("NotificationPermission", "LaunchActivityFromNotification")
     fun sendNotification(text: String) {
         //  logE("sendNotification: " + context.packageName + ": " + text)
         createNotificationChannel()
         val launchIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         val bitmap = context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        val intent = Intent("$CHANNEL_ID.actions.switchClockStatus")
+        val pendingIntent =
+            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         builder.setContentTitle(text)
         builder.setSmallIcon(IconCompat.createWithBitmap(bitmap))
         builder.setTicker(text).setPriority(NotificationCompat.PRIORITY_LOW)
         builder.setOngoing(true) // 设置为常驻通知
-        builder.setContentIntent(
-            PendingIntent.getActivity(
-                context, 0, launchIntent, PendingIntent.FLAG_MUTABLE
-            )
-        )
+        builder.setContentIntent(pendingIntent)
         val jSONObject = JSONObject()
         val jSONObject3 = JSONObject()
         val jSONObject4 = JSONObject()

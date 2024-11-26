@@ -18,11 +18,17 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v
 
-import android.annotation.*
-import android.graphics.*
-import android.service.notification.*
-import android.view.*
+import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.graphics.Color
+import android.graphics.Rect
+import android.service.notification.StatusBarNotification
+import android.view.View
 import android.widget.TextView
+import cn.lyric.getter.api.data.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
@@ -37,11 +43,12 @@ import kotlinx.coroutines.flow.*
 @SuppressLint("StaticFieldLeak")
 // author git@wuyou-123
 // co-author git@lingqiqi5211
-object HideFakeStatusBar : BaseHook() {
+object HideFakeStatusBar : MusicBaseHook() {
     private var mStatusBarLeftContainer: View? = null
     private var mFocusedNotLine: View? = null
     private var mClockSeat: View? = null
     private var mBigTime: TextView? = null
+    private var showCLock = false
     private val isBold by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_clock_big_bold")
     }
@@ -55,7 +62,7 @@ object HideFakeStatusBar : BaseHook() {
     private var isShowingFocusedLyric: Boolean = false
 
     private fun updateLayout() {
-        if (isShowingFocused.value && isLyric.value) {
+        if (isShowingFocused.value && isLyric.value && !showCLock) {
             isShowingFocusedLyric = true
             // 如果在显示歌词,就隐藏时钟,占位布局和竖线
             mStatusBarLeftContainer?.visibility = View.INVISIBLE
@@ -72,7 +79,27 @@ object HideFakeStatusBar : BaseHook() {
 
     }
 
+    override fun onUpdate(lyricData: LyricData) {
+    }
+
+    override fun onStop() {
+    }
+
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun init() {
+        // 点击显示时间
+        loadClass("android.app.Application").methodFinder().first { name == "onCreate" }
+            .createAfterHook {
+                val mFilter = IntentFilter()
+                mFilter.addAction("$CHANNEL_ID.actions.switchClockStatus")
+                context.registerReceiver(object : BroadcastReceiver() {
+                    override fun onReceive(context: Context?, intent: Intent?) {
+                        showCLock = !showCLock
+                        updateLayout()
+                    }
+                }, mFilter)
+            }
+
         loadClass("com.android.systemui.statusbar.phone.MiuiPhoneStatusBarView").methodFinder()
             .filterByName("onFinishInflate").first().createAfterHook {
                 logI(lpparam.packageName, "onFinishInflate")

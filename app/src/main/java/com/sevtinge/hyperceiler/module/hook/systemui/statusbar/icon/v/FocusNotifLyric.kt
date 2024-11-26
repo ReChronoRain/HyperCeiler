@@ -97,7 +97,7 @@ object FocusNotifLyric : MusicBaseHook() {
         // setStaticObject(loadClass("miui.systemui.notification.NotificationUtil", classLoader), "DEBUG", true)
     }
 
-    private const val MARQUEE_DELAY = 1200L
+    private val MARQUEE_DELAY = mPrefsMap.getInt("system_ui_statusbar_music_scroll_delay", 12) * 100L
     private var speed = -0.1f
     private val SPEED_INCREASE = mPrefsMap.getInt("system_ui_statusbar_music_speed", 18) * 0.1f
 

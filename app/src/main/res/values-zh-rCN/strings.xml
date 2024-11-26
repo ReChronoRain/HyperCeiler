@@ -925,6 +925,7 @@
     <string name="system_ui_statusbar_music_hide_clock_title">隐藏状态栏时钟</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">显示焦点歌词时隐藏状态栏时钟，并调整下拉通知中心的动画</string>
     <string name="system_ui_statusbar_music_speed_title">歌词滚动速率</string>
+    <string name="system_ui_statusbar_music_scroll_delay_title">歌词滚动延迟</string>
     <string name="system_ui_statusbar_music_width_title">歌词末尾垫宽</string>
     <string name="system_ui_statusbar_music_width_desc">让滚动歌词尽可能滚动完整</string>
 

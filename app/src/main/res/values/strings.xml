@@ -905,6 +905,7 @@
     <string name="system_ui_statusbar_music_hide_clock_title">Hide status bar clock</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">Hide the status bar clock when showing focused lyrics, and adjust the animation of the dropdown Notification shade.</string>
     <string name="system_ui_statusbar_music_speed_title">Lyrics scroll rate</string>
+    <string name="system_ui_statusbar_music_scroll_delay_title">Lyrics scroll delay</string>
     <string name="system_ui_statusbar_music_width_title">Add whitespace at the end of lyrics</string>
     <string name="system_ui_statusbar_music_width_desc">Make scrolling lyrics as complete as possible</string>
     <string name="system_ui_controlcenter_title">Control center</string>

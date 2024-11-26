@@ -53,6 +53,18 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
+            android:defaultValue="12"
+            android:key="prefs_key_system_ui_statusbar_music_scroll_delay"
+            android:title="@string/system_ui_statusbar_music_scroll_delay_title"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="10"
+            app:format="%d f"
+            app:maxValue="24"
+            app:minValue="3"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_music_width"
             android:summary="@string/system_ui_statusbar_music_width_desc"
