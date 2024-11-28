@@ -56,10 +56,11 @@
     <string name="set_homepage_entrance_about">仅主页设置生效，已经开启的功能不会被关闭。\n关闭后实时生效，重新显示需重启应用。</string>
     <string name="help_cant_see_apps_guide">列表中没有您想要找的应用？</string>
     <string name="help_cant_see_apps_title">无法在首页找到应用功能入口</string>
-    <string name="help_cant_see_apps_desc">为了保持首页的简洁和易用性，我们对以下类型的应用功能入口进行了隐藏：\n\n - 当前应用被禁用或隐藏的\n - 设备上不存在当前应用的\n - 当前系统或应用版本不适合使用功能的\n\n请根据以上内容排查后，重启 HyperCeiler 再试。若仍旧找不到应用功能入口，那可能是一个错误，请及时且有效的向我们反馈。\n\n当前被隐藏的应用功能入口：\n\n</string>
+    <string name="help_cant_see_apps_desc">为了保持首页的简洁和易用性，我们对以下类型的应用功能入口进行了隐藏：\n\n - 当前应用被禁用或隐藏的\n - 设备上不存在当前应用的\n - 当前系统或应用版本不适合使用功能的\n - 未被选择为作用域的\n\n请根据以上内容排查后，重启 HyperCeiler 再试。若仍旧找不到应用功能入口，那可能是一个错误，请及时且有效的向我们反馈。\n\n当前被隐藏的应用功能入口：</string>
     <string name="help_cant_see_apps_uninstall">设备上不存在的应用：\n</string>
     <string name="help_cant_see_apps_disable">被禁用或隐藏的应用：\n</string>
-    <string name="help_cant_see_apps_desc_no_hidden">为了保持首页的简洁和易用性，我们对以下类型的应用功能入口进行了隐藏：\n\n - 当前应用被禁用或隐藏的\n - 设备上不存在当前应用的\n - 当前系统或应用版本不适合使用功能的\n\n请根据以上内容排查后，重启 HyperCeiler 再试。若仍旧找不到应用功能入口，那可能是一个错误，请及时且有效的向我们反馈。</string>
+    <string name="help_cant_see_apps_scope">未被选择为作用域的：\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">为了保持首页的简洁和易用性，我们对以下类型的应用功能入口进行了隐藏：\n\n - 当前应用被禁用或隐藏的\n - 设备上不存在当前应用的\n - 当前系统或应用版本不适合使用功能的\n - 未被选择为作用域的\n\n请根据以上内容排查后，重启 HyperCeiler 再试。若仍旧找不到应用功能入口，那可能是一个错误，请及时且有效的向我们反馈。</string>
     <string name="help_cant_see_apps_switch">在主页隐藏此帮助</string>
     <string name="help_cant_see_apps_switch_desc">您仍可以在 \"关于-帮助\" 找到此帮助，重启模块生效</string>
     <string name="help_support_version_title">当前应用版本适配系统情况</string>

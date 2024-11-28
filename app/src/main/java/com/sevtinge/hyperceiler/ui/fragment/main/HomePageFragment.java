@@ -294,9 +294,9 @@ public class HomePageFragment extends DashboardFragment
                     String key = xml.getAttributeValue(ANDROID_NS, "key");
                     String summary = xml.getAttributeValue(ANDROID_NS, "summary");
                     if (key != null && summary != null) {
-                        Drawable icon = getPackageIcon(summary); // 替换为获取图标的方法
-                        String name = getPackageName(summary);
                         PreferenceHeader preferenceHeader = findPreference(key);
+                        Drawable icon = getPackageIcon(summary);
+                        String name = getPackageName(summary);
                         if (preferenceHeader != null) {
                             preferenceHeader.setIcon(icon);
                             if (!summary.equals("android")) preferenceHeader.setTitle(name);
@@ -309,7 +309,6 @@ public class HomePageFragment extends DashboardFragment
             AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
         }
     }
-
 
     private Drawable getPackageIcon(String packageName) {
         try {

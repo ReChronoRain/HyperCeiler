@@ -50,7 +50,7 @@
     <string name="set_homepage_entrance_about">僅主頁入口可見性設置，已經開啟嘅功能唔會被關閉。\n關閉入口實時生效，重新顯示需重啟應用。</string>
     <string name="help_cant_see_apps_guide">列表中冇您想要搵嘅應用？</string>
     <string name="help_cant_see_apps_title">無法喺首頁搵到應用功能入口</string>
-    <string name="help_cant_see_apps_desc">為咗保持首頁嘅簡潔同易用性，我哋對以下類型嘅應用功能入口進行咗隱藏：\n\n - 當前應用被禁用或隱藏嘅\n - 設備上唔存在當前應用嘅\n - 當前系統或應用版本唔適合使用功能嘅\n\n請根據以上內容排查後，重啟 HyperCeiler 再試。若仍舊搵唔到應用功能入口，嗰可能係一個錯誤，請及時且有效咁向我哋反饋。\n\n當前被隱藏嘅應用功能入口：\n\n</string>
+    <string name="help_cant_see_apps_desc">為咗保持首頁嘅簡潔同易用性，我哋對以下類型嘅應用功能入口進行咗隱藏：\n\n - 當前應用被禁用或隱藏嘅\n - 設備上唔存在當前應用嘅\n - 當前系統或應用版本唔適合使用功能嘅\n\n請根據以上內容排查後，重啟 HyperCeiler 再試。若仍舊搵唔到應用功能入口，嗰可能係一個錯誤，請及時且有效咁向我哋反饋。\n\n當前被隱藏嘅應用功能入口：</string>
     <string name="help_cant_see_apps_uninstall">設備上唔存在嘅應用：\n</string>
     <string name="help_cant_see_apps_disable">被禁用或隱藏嘅應用：\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">為咗保持首頁嘅簡潔同易用性，我哋對以下類型嘅應用功能入口進行咗隱藏：\n\n - 當前應用被禁用或隱藏嘅\n - 設備上唔存在當前應用嘅\n - 當前系統或應用版本唔適合使用功能嘅\n\n請根據以上內容排查後，重啟 HyperCeiler 再試。若仍舊搵唔到應用功能入口，嗰可能係一個錯誤，請及時且有效咁向我哋反饋。</string>

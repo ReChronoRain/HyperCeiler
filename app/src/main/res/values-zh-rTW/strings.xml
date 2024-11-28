@@ -1756,7 +1756,7 @@
     <string name="help_cant_see_apps_guide">找不到應用程式功能？</string>
     <string name="set_homepage_entrance_about">注意：\n此設定只是主頁入口可見性設定，已開啟的功能不會關閉！\n關閉入口會即時生效，需要重新啟動應用程式才能重新出現。</string>
     <string name="help_cant_see_apps_title">在主頁找不到應用程式功能？</string>
-    <string name="help_cant_see_apps_desc">為了保持主頁的簡單性和可用性，我們隱藏了對以下類型的應用程式功能的存取：\n\n - 目前已停用或隱藏的應用程式\n - 在您的裝置中未找到的應用程式\n -與目前版本不相容的應用程式系統或應用程式版本\n\n請根據上述資訊排查問題，重新啟動 HyperCeiler，然後重試。如果您仍然找不到應用程式功能，則可能是錯誤。請提供我們及時有效的回饋。\n\n目前隱藏的應用功能：\n\n</string>
+    <string name="help_cant_see_apps_desc">為了保持主頁的簡單性和可用性，我們隱藏了對以下類型的應用程式功能的存取：\n\n - 目前已停用或隱藏的應用程式\n - 在您的裝置中未找到的應用程式\n -與目前版本不相容的應用程式系統或應用程式版本\n\n請根據上述資訊排查問題，重新啟動 HyperCeiler，然後重試。如果您仍然找不到應用程式功能，則可能是錯誤。請提供我們及時有效的回饋。\n\n目前隱藏的應用功能：</string>
     <string name="help_cant_see_apps_uninstall">已解除安裝的應用程式:\n</string>
     <string name="help_cant_see_apps_disable">停用或隱藏的應用程式:\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">為了保持主頁的簡單性和可用性，我們隱藏了對以下類型的應用程式功能的存取：\n\n - 目前已停用或隱藏的應用程式\n - 在您的裝置中未找到的應用程式\n -與目前版本不相容的應用程式系統或應用程式版本\n\n請根據上述資訊排查問題，重新啟動 HyperCeiler，然後重試。如果您仍然找不到應用程式功能，則可能是錯誤。請及時有效的回饋給我們。\n\n目前沒有隱藏入口！</string>

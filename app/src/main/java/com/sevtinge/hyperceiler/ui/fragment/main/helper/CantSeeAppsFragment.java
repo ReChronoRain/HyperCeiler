@@ -37,18 +37,13 @@ public class CantSeeAppsFragment extends SettingsPreferenceFragment {
     public void initPrefs() {
         setTitle(R.string.help);
         mHelpCantSeeApps = findPreference("prefs_key_textview_help_cant_see_apps");
+        String summary;
         if (mHelpCantSeeApps != null) {
-            if (!PreferenceHeader.mUninstallApp.isEmpty() && !PreferenceHeader.mDisableOrHiddenApp.isEmpty()) {
-                mHelpCantSeeApps.setSummary(getString(R.string.help_cant_see_apps_desc) + getString(R.string.help_cant_see_apps_uninstall) +
-                        String.join("\n", PreferenceHeader.mUninstallApp) + "\n" + getString(R.string.help_cant_see_apps_disable) +
-                        String.join("\n", PreferenceHeader.mDisableOrHiddenApp));
-            } else if (!PreferenceHeader.mUninstallApp.isEmpty()) {
-                mHelpCantSeeApps.setSummary(getString(R.string.help_cant_see_apps_desc) + getString(R.string.help_cant_see_apps_uninstall) +
-                        String.join("\n", PreferenceHeader.mUninstallApp));
-            } else if (!PreferenceHeader.mDisableOrHiddenApp.isEmpty()) {
-                mHelpCantSeeApps.setSummary(getString(R.string.help_cant_see_apps_desc) + getString(R.string.help_cant_see_apps_disable) +
-                        String.join("\n", PreferenceHeader.mDisableOrHiddenApp));
-            }
+            summary = getString(R.string.help_cant_see_apps_desc);
+            if (!PreferenceHeader.mUninstallApp.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_uninstall) + String.join("\n", PreferenceHeader.mUninstallApp);
+            if (!PreferenceHeader.mDisableOrHiddenApp.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_disable) + String.join("\n", PreferenceHeader.mDisableOrHiddenApp);
+            if (!PreferenceHeader.mNoScoped.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_scope) + String.join("\n", PreferenceHeader.mNoScoped);
+            if (!summary.equals(getString(R.string.help_cant_see_apps_desc))) mHelpCantSeeApps.setSummary(summary);
         }
     }
 }
