@@ -21,4 +21,16 @@ object MobileClass {
     val hdController by lazy {
         loadClass("com.android.systemui.statusbar.policy.HDController")
     }
+    val networkController by lazy {
+        loadClass("com.android.systemui.statusbar.connectivity.NetworkControllerImpl")
+    }
+    val mobileSignalController by lazy {
+        loadClass("com.android.systemui.statusbar.connectivity.MobileSignalController")
+    }
+    val shadeCarrierGroupController by lazy {
+        loadClass("com.android.systemui.shade.carrier.ShadeCarrierGroupController")
+    }
+    val modernStatusBarMobileView by lazy {
+        loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.view.ModernStatusBarMobileView")
+    }
 }

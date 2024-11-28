@@ -774,7 +774,7 @@
     <string name="system_ui_status_bar_icon_wifi_slave">辅助 WIFI 图标</string>
     <string name="system_ui_status_bar_icon_wifi_standard">WIFI 标准</string>
     <string name="system_ui_status_bar_icon_hotspot">WIFI 热点</string>
-    <string name="system_ui_status_bar_icon_wifi_network_indicator">网络活动指示器</string>
+    <string name="system_ui_status_bar_icon_wifi_network_indicator">WIFI 网络活动指示器</string>
     <string name="system_ui_status_bar_icon_bluetooth">蓝牙</string>
     <string name="system_ui_status_bar_icon_bluetooth_battery">蓝牙电量</string>
     <string name="system_ui_status_bar_icon_new_hd">新 HD 图标</string>
