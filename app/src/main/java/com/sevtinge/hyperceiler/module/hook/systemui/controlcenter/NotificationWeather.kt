@@ -34,148 +34,25 @@ import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import com.sevtinge.hyperceiler.view.*
 
-
+@SuppressLint("DiscouragedApi", "ServiceCast", "StaticFieldLeak")
 object NotificationWeather : BaseHook() {
-    @SuppressLint("DiscouragedApi", "ServiceCast")
+    private var mWeatherView: TextView? = null
+    private var mWeatherViewFolme: Any? = null
+    private var mConstraintLayout: ConstraintLayout? = null
+    private val isDisplayCity by lazy {
+        mPrefsMap.getBoolean("system_ui_control_center_show_weather_city")
+    }
+
     override fun init() {
-        var mWeatherView: TextView? = null
-        // var mConstraintLayout: ConstraintLayout? = null
-        val isDisplayCity = mPrefsMap.getBoolean("system_ui_control_center_show_weather_city")
+        if (isMoreHyperOSVersion(2f)) {
+            newNotificationWeather()
+        } else {
+            oldNotificationWeather()
+        }
 
-        // loadClass("com.android.systemui.qs.MiuiNotificationHeaderView").methodFinder()
-        //     .filterByName("onFinishInflate")
-        //     .single().createHook {
-        //         after { param ->
-        //             val viewGroup = param.thisObject as ViewGroup
-        //             val context = viewGroup.context
-        //
-        //             // MIUI编译时间大于 2022-03-12 00:00:00 且为内测版
-        //             if ((PropUtils.getProp(context, "ro.build.date.utc").toInt() >= 1647014400 &&
-        //                         !PropUtils.getProp(context, "ro.build.version.incremental")
-        //                             .endsWith("XM")) &&
-        //                 !isMoreHyperOSVersion(1f)
-        //             ) {
-        //                 // 获取原组件
-        //                 val bigTimeId =
-        //                     context.resources.getIdentifier("big_time", "id", context.packageName)
-        //                 val bigTime: TextView = viewGroup.findViewById(bigTimeId)
-        //
-        //                 val dateTimeId =
-        //                     context.resources.getIdentifier("date_time", "id", context.packageName)
-        //                 val dateTime: TextView = viewGroup.findViewById(dateTimeId)
-        //
-        //                 // 创建新布局
-        //                 val mConstraintLayoutLp = LinearLayout.LayoutParams(
-        //                     LinearLayout.LayoutParams.MATCH_PARENT,
-        //                     LinearLayout.LayoutParams.WRAP_CONTENT
-        //                 ).also {
-        //                     it.topMargin = context.resources.getDimensionPixelSize(
-        //                         context.resources.getIdentifier(
-        //                             "qs_control_header_tiles_margin_top",
-        //                             "dimen",
-        //                             context.packageName
-        //                         )
-        //                     )
-        //                 }
-        //
-        //                 mConstraintLayout =
-        //                     ConstraintLayout(context).also { it.layoutParams = mConstraintLayoutLp }
-        //
-        //                 (bigTime.parent as ViewGroup).addView(mConstraintLayout, 0)
-        //
-        //
-        //                 // 从原布局中删除组件
-        //                 (bigTime.parent as ViewGroup).removeView(bigTime)
-        //                 (dateTime.parent as ViewGroup).removeView(dateTime)
-        //
-        //
-        //                 // 添加组件至新布局
-        //                 mConstraintLayout!!.addView(bigTime)
-        //                 mConstraintLayout!!.addView(dateTime)
-        //
-        //                 // 组件属性
-        //                 val dateTimeLp = ConstraintLayout.LayoutParams(
-        //                     ConstraintLayout.LayoutParams.WRAP_CONTENT,
-        //                     ConstraintLayout.LayoutParams.WRAP_CONTENT
-        //                 ).also {
-        //                     it.startToEnd = bigTimeId
-        //                     it.bottomToBottom = 0
-        //                     it.marginStart = context.resources.getDimensionPixelSize(
-        //                         context.resources.getIdentifier(
-        //                             "notification_panel_time_date_space",
-        //                             "dimen",
-        //                             context.packageName
-        //                         )
-        //                     )
-        //                     it.bottomMargin = dp2px(5f)
-        //                 }
-        //                 dateTime.layoutParams = dateTimeLp
-        //
-        //
-        //                 // 创建天气组件
-        //                 mWeatherView = WeatherView(context, isDisplayCity).apply {
-        //                     setTextAppearance(
-        //                         context.resources.getIdentifier(
-        //                             "TextAppearance.QSControl.Date",
-        //                             "style",
-        //                             context.packageName
-        //                         )
-        //                     )
-        //
-        //                 }
-        //                 mConstraintLayout!!.addView(mWeatherView)
-        //
-        //                 val mweatherviewLp = ConstraintLayout.LayoutParams(
-        //                     ConstraintLayout.LayoutParams.WRAP_CONTENT,
-        //                     ConstraintLayout.LayoutParams.WRAP_CONTENT
-        //                 ).also {
-        //                     it.startToEnd = bigTimeId
-        //                     it.bottomToTop = dateTimeId
-        //                     it.marginStart = context.resources.getDimensionPixelSize(
-        //                         context.resources.getIdentifier(
-        //                             "notification_panel_time_date_space",
-        //                             "dimen",
-        //                             context.packageName
-        //                         )
-        //                     )
-        //                 }
-        //
-        //                 (mWeatherView as WeatherView).layoutParams = mweatherviewLp
-        //
-        //             }
-        //         }
-        //     }
-        //
-        // loadClass("com.android.systemui.qs.MiuiNotificationHeaderView").methodFinder()
-        //     .filterByName("updateLayout")
-        //     .single().createHook {
-        //         after {
-        //             val viewGroup = it.thisObject as ViewGroup
-        //             val context = viewGroup.context
-        //             val mOrientation = viewGroup.getObjectField("mOrientation") as Int
-        //             // MIUI编译时间大于 2022-03-12 00:00:00 且为内测版
-        //             if (PropUtils.getProp(context, "ro.build.date.utc").toInt() >= 1647014400 &&
-        //                 !PropUtils.getProp(context, "ro.build.version.incremental").endsWith(
-        //                     "DEV"
-        //                 ) &&
-        //                 !PropUtils.getProp(context, "ro.build.version.incremental").endsWith("XM")
-        //             ) {
-        //                 if (mOrientation == 1) {
-        //                     mConstraintLayout!!.visibility = View.VISIBLE
-        //                 } else {
-        //                     mConstraintLayout!!.visibility = View.GONE
-        //                 }
-        //             } else {
-        //                 if (mOrientation == 1) {
-        //                     mWeatherView!!.visibility = View.VISIBLE
-        //                 } else {
-        //                     mWeatherView!!.visibility = View.GONE
-        //                 }
-        //             }
-        //         }
-        //     }
+    }
 
-        var mWeatherViewFolme: Any? = null
+    private fun newNotificationWeather() {
         loadClass("com.android.systemui.controlcenter.shade.CombinedHeaderController").constructors
             .single().createHook {
                 after { param ->
@@ -260,9 +137,10 @@ object NotificationWeather : BaseHook() {
                         .first()
                         .createHook {
                             after {
-                                val dateTime = expandController.getObjectFieldAs<Any>("headerController")
-                                    .callMethodAs<Any>("get")
-                                    .getObjectFieldAs<View>("notificationDateTime")
+                                val dateTime =
+                                    expandController.getObjectFieldAs<Any>("headerController")
+                                        .callMethodAs<Any>("get")
+                                        .getObjectFieldAs<View>("notificationDateTime")
 
                                 mWeatherView?.translationX = dateTime.translationX
                                 mWeatherView?.translationY = dateTime.translationY
@@ -307,6 +185,133 @@ object NotificationWeather : BaseHook() {
                             param.args[3],
                             param.args[4],
                         )
+                    }
+                }
+            }
+    }
+
+    private fun oldNotificationWeather() {
+        loadClass("com.android.systemui.qs.MiuiNotificationHeaderView").methodFinder()
+            .filterByName("onFinishInflate")
+            .single().createHook {
+                after { param ->
+                    val viewGroup = param.thisObject as ViewGroup
+                    val context = viewGroup.context
+
+                    // MIUI编译时间大于 2022-03-12 00:00:00 且为内测版
+                    if (!isMoreHyperOSVersion(1f)) {
+                        // 获取原组件
+                        val bigTimeId =
+                            context.resources.getIdentifier(
+                                "big_time",
+                                "id",
+                                context.packageName
+                            )
+                        val bigTime: TextView = viewGroup.findViewById(bigTimeId)
+
+                        val dateTimeId =
+                            context.resources.getIdentifier(
+                                "date_time",
+                                "id",
+                                context.packageName
+                            )
+                        val dateTime: TextView = viewGroup.findViewById(dateTimeId)
+
+                        // 创建新布局
+                        val mConstraintLayoutLp = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        ).also {
+                            it.topMargin = context.resources.getDimensionPixelSize(
+                                context.resources.getIdentifier(
+                                    "qs_control_header_tiles_margin_top",
+                                    "dimen",
+                                    context.packageName
+                                )
+                            )
+                        }
+
+                        mConstraintLayout =
+                            ConstraintLayout(context).also {
+                                it.layoutParams = mConstraintLayoutLp
+                            }
+
+                        (bigTime.parent as ViewGroup).addView(mConstraintLayout, 0)
+
+
+                        // 从原布局中删除组件
+                        (bigTime.parent as ViewGroup).removeView(bigTime)
+                        (dateTime.parent as ViewGroup).removeView(dateTime)
+
+
+                        // 添加组件至新布局
+                        mConstraintLayout!!.addView(bigTime)
+                        mConstraintLayout!!.addView(dateTime)
+
+                        // 组件属性
+                        val dateTimeLp = ConstraintLayout.LayoutParams(
+                            ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                            ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        ).also {
+                            it.startToEnd = bigTimeId
+                            it.bottomToBottom = 0
+                            it.marginStart = context.resources.getDimensionPixelSize(
+                                context.resources.getIdentifier(
+                                    "notification_panel_time_date_space",
+                                    "dimen",
+                                    context.packageName
+                                )
+                            )
+                            it.bottomMargin = dp2px(5f)
+                        }
+                        dateTime.layoutParams = dateTimeLp
+
+
+                        // 创建天气组件
+                        mWeatherView = WeatherView(context, isDisplayCity).apply {
+                            setTextAppearance(
+                                context.resources.getIdentifier(
+                                    "TextAppearance.QSControl.Date",
+                                    "style",
+                                    context.packageName
+                                )
+                            )
+
+                        }
+                        mConstraintLayout!!.addView(mWeatherView)
+
+                        val mweatherviewLp = ConstraintLayout.LayoutParams(
+                            ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                            ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        ).also {
+                            it.startToEnd = bigTimeId
+                            it.bottomToTop = dateTimeId
+                            it.marginStart = context.resources.getDimensionPixelSize(
+                                context.resources.getIdentifier(
+                                    "notification_panel_time_date_space",
+                                    "dimen",
+                                    context.packageName
+                                )
+                            )
+                        }
+
+                        (mWeatherView as WeatherView).layoutParams = mweatherviewLp
+
+                    }
+                }
+            }
+
+        loadClass("com.android.systemui.qs.MiuiNotificationHeaderView").methodFinder()
+            .filterByName("updateLayout")
+            .single().createHook {
+                after {
+                    val viewGroup = it.thisObject as ViewGroup
+                    val mOrientation = viewGroup.getObjectField("mOrientation") as Int
+
+                    if (mOrientation == 1) {
+                        mWeatherView!!.visibility = View.VISIBLE
+                    } else {
+                        mWeatherView!!.visibility = View.GONE
                     }
                 }
             }

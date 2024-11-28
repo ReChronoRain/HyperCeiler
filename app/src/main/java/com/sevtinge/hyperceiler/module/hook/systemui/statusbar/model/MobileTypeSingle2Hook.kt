@@ -214,7 +214,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                         }
                     }
                     val paddingLeft = if (isNoDataConnected || (showMobileType && hideIndicator)) {
-                        25
+                        20
                     } else {
                         0
                     }
@@ -231,18 +231,18 @@ object MobileTypeSingle2Hook : BaseHook() {
                             val mobileType = view.findViewByIdName("mobile_type") as ImageView
                             mobileType.visibility = View.GONE
                         }
-                        containerLeft.setPadding(25, 0, 0, 0)
-                        containerRight.setPadding(25, 0, 0, 0)
+                        containerLeft.setPadding(20, 0, 0, 0)
+                        containerRight.setPadding(20, 0, 0, 0)
                     }
                 }
             }
         )
     }
 
-    private fun setViewVisibility(id: String, visibility: Int) {
+    private fun setViewVisibility(getId: String, visibility: Int) {
         mobileSignalViewMap.forEach { (_, v) ->
             v.forEach {
-                val mMobileType = it.findViewByIdName(id) as View
+                val mMobileType = it.findViewByIdName(getId) as View
                 mMobileType.visibility = visibility
             }
         }

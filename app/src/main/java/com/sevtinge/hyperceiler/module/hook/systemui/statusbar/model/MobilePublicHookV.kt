@@ -64,10 +64,7 @@ class MobilePublicHookV : BaseHook() {
                 }
                 if (hideRoaming) {
                     cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(false))
-                    cellularIcon.setObjectField(
-                        "mobileRoamVisible",
-                        newReadonlyStateFlow(false)
-                    )
+                    cellularIcon.setObjectField("mobileRoamVisible", newReadonlyStateFlow(false))
                 }
                 // 隐藏 hd
                 updateIconState(param, "smallHdVisible", "system_ui_status_bar_icon_small_hd")
