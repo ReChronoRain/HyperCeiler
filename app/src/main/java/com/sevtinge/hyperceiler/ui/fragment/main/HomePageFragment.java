@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.ui.fragment.main;
 
+import static com.sevtinge.hyperceiler.prefs.PreferenceHeader.notInSelectedScope;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
@@ -188,6 +189,7 @@ public class HomePageFragment extends DashboardFragment
     Preference mHeadtipNotice;
     Preference mHeadtipBirthday;
     Preference mHeadtipHyperCeiler;
+    Preference mHeadtipTip;
     MainActivityContextHelper mainActivityContextHelper;
     private final String TAG = "MainFragment";
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
@@ -195,6 +197,7 @@ public class HomePageFragment extends DashboardFragment
     boolean mNoticeTipVisible = false;
     boolean mBirthdayTipVisible = false;
     boolean mHyperCeilerTipVisible = false;
+    boolean mTipTipVisible;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -244,6 +247,7 @@ public class HomePageFragment extends DashboardFragment
         mHeadtipNotice = findPreference("prefs_key_headtip_notice");
         mHeadtipBirthday = findPreference("prefs_key_headtip_hyperceiler_birthday");
         mHeadtipHyperCeiler = findPreference("prefs_key_headtip_hyperceiler");
+        mHeadtipTip = findPreference("prefs_key_headtip_tip");
 
         if (isHyperOSVersion(1f)) {
             mSecurityCenter.setTitle(R.string.security_center_hyperos);
@@ -282,6 +286,8 @@ public class HomePageFragment extends DashboardFragment
         isSignPass();
         isFullSupportSysVer();
         isOfficialRom();
+        // Tip
+        isSupportAutoSafeMode();
 
     }
 
@@ -394,6 +400,13 @@ public class HomePageFragment extends DashboardFragment
         mHeadtipWarn.setTitle(R.string.headtip_warn_sign_verification_failed);
         mHeadtipWarn.setVisible(!SignUtils.isSignCheckPass(requireContext()));
         mWarnTipVisible = true;
+    }
+
+    public void isSupportAutoSafeMode() {
+        if (mTipTipVisible) return;
+        mHeadtipTip.setTitle(R.string.headtip_tip_auto_safe_mode);
+        mHeadtipTip.setVisible(notInSelectedScope.contains("android"));
+        mTipTipVisible = true;
     }
 
     @Override

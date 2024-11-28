@@ -56,6 +56,15 @@
     </PreferenceCategory>
 
     <PreferenceCategory>
+        <Preference
+            android:enabled="false"
+            android:key="prefs_key_headtip_tip"
+            android:layout="@layout/headtip_tip"
+            android:title="This is tip of headtip."
+            app:isPreferenceVisible="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory>
         <com.sevtinge.hyperceiler.prefs.TipsPreference android:key="prefs_key_tips" />
     </PreferenceCategory>
 

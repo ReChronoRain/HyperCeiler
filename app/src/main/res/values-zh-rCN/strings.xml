@@ -2000,6 +2000,7 @@
     <string name="headtip_warn_not_offical_rom">您正在使用的 ROM 来源可能并不是 Xiaomi 官方，部分功能可能会失效，详情请咨询您正在使用 ROM 的提供者。</string>
     <string name="headtip_warn_unsupport_sysver">当前设备运行的系统版本未 (完全) 适配，HyperCeiler 功能可能存在异常。</string>
     <string name="headtip_warn_sign_verification_failed">签名校验失败，您当前使用的版本可能并非来自于 HyperCeiler 官方的版本，可能包含恶意代码，请注意使用安全。</string>
+    <string name="headtip_tip_auto_safe_mode">主动安全模式可以在部分应用多次崩溃时及时取消 hook 以确保安全。该功能需要 hook 作用域 \"系统框架\" 来运行，我们十分建议您勾选作用域 \"系统框架\" 以激活和运行主动安全模式。</string>
     <string name="headtip_tip_long_press_to_copy">您可以长按或双击后选择文本进行操作，或者复制并反馈给开发者。</string>
     <string name="happy_birthday_hyperceiler">今天是 HyperCeiler 的生日！\n感谢与您岁月相伴之恩，愿来年再续前缘，共赴风雨，携手并进！</string>
     <string name="headtip_tip_fuck_coolapk">历史上的今天：2022 年 7 月 14 日，绀漓发表重要讲话。</string>
