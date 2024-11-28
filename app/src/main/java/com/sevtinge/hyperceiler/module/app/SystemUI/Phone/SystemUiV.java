@@ -114,13 +114,10 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBa
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.FocusNotifLyric;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.HideFakeStatusBar;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.layout.StatusBarLayout;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHookV;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileNetwork;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobilePublicHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeTextCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeSingle2Hook;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobilePublicHookV;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSec;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSpacing;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news.NewNetworkSpeed;
@@ -172,8 +169,8 @@ public class SystemUiV extends BaseModule {
                 mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator") ||
                 mPrefsMap.getStringAsInt("system_ui_status_bar_icon_small_hd", 0) != 0 ||
                 mPrefsMap.getStringAsInt("system_ui_status_bar_icon_big_hd", 0) != 0;
-        // initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
         initHook(new DualRowSignalHookV(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
+        initHook(new MobilePublicHookV(), true);
         initHook(MobileTypeSingle2Hook.INSTANCE, isEnableMobilePublic);
         initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
 

@@ -11,12 +11,15 @@ import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
 import com.github.kyuubiran.ezxhelper.misc.ViewUtils.getIdByName
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHookV.MobileInfo.ID_CHANGED_DATA_SIM
+import com.sevtinge.hyperceiler.module.hook.systemui.*
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHookV.MobileInfo.ID_SUB_NO_DATA_SIM
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiCellularIconVM
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiMobileIconBinder
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.mobileSignalController
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.modernStatusBarMobileView
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.networkController
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.showMobileType
 import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.StateFlowHelper.newReadonlyStateFlow
+import com.sevtinge.hyperceiler.utils.StateFlowHelper.setStateFlowValue
 import com.sevtinge.hyperceiler.utils.api.*
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import de.robv.android.xposed.*
@@ -46,23 +49,7 @@ class DualRowSignalHookV : BaseHook() {
     private val mobileInfo = MobileInfo
     private val dualSignalResMap = HashMap<String, Int>()
 
-    private val mobileSignalViewMap = HashMap<Int, MutableList<View>>()
-
     override fun init() {
-        hookAllConstructors(miuiCellularIconVM,
-            object : MethodHook() {
-                override fun after(param: MethodHookParam) {
-                    val cellularIcon = param.thisObject
-
-                    // 移动网络全隐藏
-                    // cellularIcon.setObjectField("isVisible", newReadonlyStateFlow(false))
-
-                    // 显示漫游
-                    cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(true))
-                }
-            }
-        )
-
         if (!showMobileType) {
             mResHook.setDensityReplacement(
                 "com.android.systemui",
@@ -113,7 +100,8 @@ class DualRowSignalHookV : BaseHook() {
                                 arrayOf("", "dark", "tint").forEach { colorMode ->
                                     val isUseTint = colorMode == "tint"
                                     val isLight = colorMode.isNotEmpty()
-                                    val dualIconResName = getSignalIconResName(slot, lvl, isUseTint, isLight)
+                                    val dualIconResName =
+                                        getSignalIconResName(slot, lvl, isUseTint, isLight)
                                     dualSignalResMap[dualIconResName] = modRes.getIdentifier(
                                         dualIconResName,
                                         "drawable",
@@ -128,48 +116,60 @@ class DualRowSignalHookV : BaseHook() {
     }
 
     private fun setDualRowStyle() {
-        loadClass(STATUS_BAR_MOBILE_VIEW).methodFinder()
+        modernStatusBarMobileView.methodFinder()
             .filterByName("constructAndBind")
             .single()
             .createHook {
                 after { param ->
                     val rootView = param.result as ViewGroup
 
+                    val subId = rootView.getIntField("subId")
                     val mobileGroup = rootView.findViewByIdName("mobile_group") as LinearLayout
                     mobileGroup.setPadding(
                         DisplayUtils.dp2px(leftMargin * 0.5f), 0,
                         DisplayUtils.dp2px(rightMargin * 0.5f), 0
                     )
-
-                    val mobileGroupParent = mobileGroup.parent as ViewGroup
-                    val subId = rootView.getIntField("subId")
-
                     val mobileSignal = mobileGroup.findViewByIdName("mobile_signal") as ImageView
-                    val mobileRoam = mobileGroup.findViewByIdName("mobile_small_roam") as ImageView
+                    val mobileSignal2 = ImageView(mobileSignal.context).apply {
+                        adjustViewBounds = true
+                        tag = "mobile_signal2"
+                    }
+                    val signalGroup = mobileSignal.parent as FrameLayout
+                    signalGroup.addView(
+                        mobileSignal2,
+                        ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                        )
+                    )
+                    val adjustSmallXX = { view: View ->
+                        view.layoutParams = view.layoutParams.also {
+                            it as FrameLayout.LayoutParams
+                            it.topMargin = -18
+                        }
+                    }
+                    val smallHD = mobileGroup.findViewByIdName("mobile_small_hd") as ImageView
+                    val smallRoam = mobileGroup.findViewByIdName("mobile_small_roam") as ImageView
+                    val satellite = mobileGroup.findViewByIdName("mobile_satellite") as ImageView
+                    adjustSmallXX(smallHD)
+                    adjustSmallXX(smallRoam)
+                    adjustSmallXX(satellite)
 
                     if (verticalOffset != 8) {
-                        (mobileSignal.parent as FrameLayout).translationY = DisplayUtils.dp2px(
+                        signalGroup.translationY = DisplayUtils.dp2px(
                             (verticalOffset - 8) * 0.5f
                         ).toFloat()
                     }
-
-                    val lp = mobileSignal.layoutParams as FrameLayout.LayoutParams
+                    val mobileSignalLp = mobileSignal.layoutParams as FrameLayout.LayoutParams
+                    mobileSignalLp.width = ViewGroup.LayoutParams.WRAP_CONTENT
                     if (iconScale != 10) {
-                        lp.width = ViewGroup.LayoutParams.WRAP_CONTENT
-                        lp.height = DisplayUtils.dp2px(iconScale * 2.0f)
-                        lp.gravity = Gravity.CENTER
-                        mobileSignal.layoutParams = lp
-                        mobileRoam.layoutParams = lp
+                        mobileSignalLp.height = DisplayUtils.dp2px(iconScale * 2.0f)
+                        mobileSignalLp.gravity = Gravity.CENTER
                     } else {
-                        lp.width = ViewGroup.LayoutParams.WRAP_CONTENT
-                        lp.height = ViewGroup.LayoutParams.MATCH_PARENT
-                        mobileSignal.layoutParams = lp
+                        mobileSignalLp.height = ViewGroup.LayoutParams.MATCH_PARENT
                     }
-
-                    if (mobileSignalViewMap[subId] == null) {
-                        mobileSignalViewMap[subId] = mutableListOf()
-                    }
-                    mobileSignalViewMap[subId]?.add(mobileGroupParent)
+                    mobileSignal.layoutParams = mobileSignalLp
+                    mobileSignal2.layoutParams = mobileSignalLp
 
                     XposedHelpers.setAdditionalInstanceField(mobileSignal, "subId", subId)
                 }
@@ -177,19 +177,21 @@ class DualRowSignalHookV : BaseHook() {
     }
 
     private fun listenMobileSignal() {
-        loadClass("com.android.systemui.statusbar.connectivity.MobileSignalController")
-            .methodFinder()
+        var hasStopUseOneSim = false
+        var reuseCache: Map<*, *>? = null
+
+        mobileSignalController.methodFinder()
             .filterByName("notifyListeners")
             .single()
             .createHook {
                 after { param ->
                     val signalController = param.thisObject
 
-                    val mCurrentState = signalController.getObjectFieldAs<Any>("mCurrentState")
-                    val dataSim = mCurrentState.getBooleanField("dataSim")
-                    val signalStrength = mCurrentState.getObjectField("signalStrength")
-                    val miuiLevel = signalStrength?.callMethodAs<Int?>("getMiuiLevel")
-                    val isChanged: Boolean
+                    val currentState = signalController.getObjectFieldAs<Any>("mCurrentState")
+                    val dataSim = currentState.getBooleanField("dataSim")
+                    val signalStrength = currentState.getObjectField("signalStrength")
+                    val level = signalStrength?.callMethodAs<Int?>("getMiuiLevel")
+                    var isChanged: Boolean
 
                     if (dataSim) {
                         val subscriptionInfo =
@@ -198,57 +200,61 @@ class DualRowSignalHookV : BaseHook() {
                             subscriptionInfo.callMethodAs<Int>("getSubscriptionId")
 
                         val isSubIdChanged = subscriptionId != mobileInfo.subId
-                        if (isSubIdChanged) {
-                            mobileSignalViewMap[subscriptionId]?.forEach {
-                                it.post {
-                                    it.visibility = View.VISIBLE
-                                }
-                            }
-                            mobileSignalViewMap[mobileInfo.subId]?.forEach {
-                                it.post {
-                                    it.visibility = View.GONE
-                                }
-                            }
-                        }
 
-                        isChanged = isSubIdChanged && miuiLevel != mobileInfo.dataSimLevel
+                        isChanged = isSubIdChanged || level != mobileInfo.dataSimLevel
                         mobileInfo.subId = subscriptionId
-                        mobileInfo.dataSimLevel = miuiLevel ?: 0
+                        mobileInfo.dataSimLevel = level ?: 0
                     } else {
-                        isChanged = miuiLevel != mobileInfo.noDataSimLevel
-                        mobileInfo.noDataSimLevel = miuiLevel ?: 0
+                        isChanged = level != mobileInfo.noDataSimLevel
+                        mobileInfo.noDataSimLevel = level ?: 0
+                    }
+
+                    if (hasStopUseOneSim) {
+                        isChanged = true
+                        mobileInfo.noDataSimLevel = 0
                     }
 
                     if (!isChanged || mobileInfo.subId == -1) {
                         return@after
                     }
 
-                    val sDependency = findClass("com.android.systemui.Dependency")
-                        .getStaticObjectFieldAs<Any>("sDependency")
-                    val iconController = sDependency.callMethodAs<Any>(
-                        "getDependencyInner",
-                        findClass("com.android.systemui.statusbar.phone.ui.StatusBarIconController")
-                    )
-
-                    val iconGroups = iconController.getObjectFieldAs<HashMap<*, *>>("mIconGroups")
-                    val statusBarIconList =
-                        iconController.getObjectFieldAs<Any>("mStatusBarIconList")
-                    val viewIndex = statusBarIconList.callMethodAs<Int>(
-                        "getViewIndex", mobileInfo.subId, "mobile"
-                    )
-
-                    iconGroups.forEach { (k, _) ->
-                        val child = k.getObjectFieldAs<ViewGroup>("mGroup").getChildAt(viewIndex)
-                        try {
-                            if ("mobile" == child.getObjectFieldAs<String>("slot")) {
-                                child.callMethod("setSubId", ID_CHANGED_DATA_SIM)
-                            }
-                        } catch (_: Error) {
-                            if ("mobile" == child.getObjectFieldAs<String>("mSlot")) {
-                                child.callMethod("setSubId", ID_CHANGED_DATA_SIM)
-                            }
+                    if (reuseCache == null) {
+                        val miuiIconManagerFactoryClz = findClassIfExists(
+                            "com.android.systemui.statusbar.phone.MiuiIconManagerFactory"
+                        ) ?: return@after
+                        if (Dependency.mDependencies?.contains(miuiIconManagerFactoryClz) == true) {
+                            reuseCache = Dependency.mMiuiLegacyDependency
+                                ?.getObjectField("mMiuiIconManagerFactory")
+                                ?.callMethod("get")
+                                ?.getObjectField("mMobileUiAdapter")
+                                ?.getObjectField("mobileIconsViewModel")
+                                ?.getObjectField("reuseCache") as Map<*, *>?
+                        } else {
+                            return@after
                         }
                     }
+
+                    reuseCache?.get(mobileInfo.subId)?.let {
+                        setStateFlowValue(
+                            it.callMethod("getThird")?.getObjectField("signalIconId"),
+                            -1
+                        )
+                    }
+                }
+            }
+
+        networkController.methodFinder()
+            .filterByName("setCurrentSubscriptionsLocked")
+            .single()
+            .createHook {
+                before { param ->
+                    val networkController = param.thisObject
+                    val subList = param.args[0] as List<*>
+
+                    val currentSubscriptions =
+                        networkController.getObjectFieldAs<List<*>>("mCurrentSubscriptions")
+
+                    hasStopUseOneSim = currentSubscriptions.size > subList.size
                 }
             }
     }
@@ -258,7 +264,7 @@ class DualRowSignalHookV : BaseHook() {
             val icon = param.args[0] as ImageView
 
             if (icon.id == getIdByName("mobile_signal")) {
-                val mobileGroup = icon.parent as FrameLayout
+                val signalGroup = icon.parent as FrameLayout
 
                 val isSetMethod = "access\$setImageResWithTintLight" == param.method.name
                 val subId = XposedHelpers.getAdditionalInstanceField(icon, "subId")
@@ -276,96 +282,45 @@ class DualRowSignalHookV : BaseHook() {
                         isLight = (param.args[2] as Boolean)
                     }
 
-                    XposedHelpers.setAdditionalInstanceField(icon, "isUseTint", isUseTint)
-                    XposedHelpers.setAdditionalInstanceField(icon, "isLight", isLight)
-
                     if (subId == null || subId != mobileInfo.subId) {
-                        if (isSetMethod) {
-                            mobileSignalViewMap[subId]?.forEach {
-                                it.post {
-                                    it.visibility = View.GONE
-                                }
-                            }
-                        }
-
-                        // param.result = null
-                        // return@IMethodHookCallback
+                        param.result = null
+                        return@IMethodHookCallback
                     }
 
                     val (mobileSignalIconId, mobileRoamIconId) = getDualSignalIconPairResId(
-                        mobileInfo, isUseTint, isLight
+                        isUseTint, isLight
                     )
                     if (mobileSignalIconId != null && mobileRoamIconId != null) {
                         icon.post {
-                            val mobileRoam =
-                                mobileGroup.findViewByIdName("mobile_small_roam") as ImageView
-
                             icon.setImageResource(mobileSignalIconId)
-                            mobileRoam.setImageResource(mobileRoamIconId)
+                            signalGroup.findViewWithTag<ImageView?>("mobile_signal2")?.let {
+                                it.setImageResource(mobileRoamIconId)
+                                it.imageTintList = icon.imageTintList
+                            }
                         }
                     }
-
-                    param.result = null
-                } else if (icon.id == getIdByName("mobile_small_roam")) {
-                    param.result = null
-                } else {
-                    // 指示器等
                 }
+
+                param.result = null
+            } else if (icon.tag == "mobile_signal2") {
+                param.result = null
+            } else {
+                // 指示器等
             }
         }
 
-        loadClass(MOBILE_ICON_BINDER).methodFinder()
+        miuiMobileIconBinder.methodFinder()
             .filterByName("access\$resetImageWithTintLight")
             .single()
             .createHook {
                 before(setImageCallback)
             }
 
-        loadClass(MOBILE_ICON_BINDER).methodFinder()
+        miuiMobileIconBinder.methodFinder()
             .filterByName("access\$setImageResWithTintLight")
             .single()
             .createHook {
                 before(setImageCallback)
-            }
-
-        loadClass(STATUS_BAR_MOBILE_VIEW).methodFinder()
-            .filterByName("setSubId")
-            .single()
-            .createHook {
-                before { param ->
-                    val subId = param.args[0] as Int
-                    if (subId == ID_CHANGED_DATA_SIM) {
-                        if (mobileInfo.subId != ID_SUB_NO_DATA_SIM) {
-                            val mobileGroup = param.thisObject as FrameLayout
-
-                            val mobileSignal = mobileGroup.findViewByIdName(
-                                "mobile_signal"
-                            ) as ImageView
-                            val mobileRoam = mobileGroup.findViewByIdName(
-                                "mobile_small_roam"
-                            ) as ImageView
-
-                            val isUseTint = XposedHelpers.getAdditionalInstanceField(
-                                mobileSignal, "isUseTint"
-                            ) as Boolean
-                            val isLight = XposedHelpers.getAdditionalInstanceField(
-                                mobileSignal, "isLight"
-                            ) as Boolean
-
-                            val (mobileSignalIconId, mobileRoamIconId) = getDualSignalIconPairResId(
-                                mobileInfo, isUseTint, isLight
-                            )
-                            if (mobileSignalIconId != null && mobileRoamIconId != null) {
-                                mobileSignal.post {
-                                    mobileSignal.setImageResource(mobileSignalIconId)
-                                    mobileRoam.setImageResource(mobileRoamIconId)
-                                }
-                            }
-                        }
-
-                        param.result = null
-                    }
-                }
             }
     }
 
@@ -400,7 +355,6 @@ class DualRowSignalHookV : BaseHook() {
     }
 
     private fun getDualSignalIconPairResId(
-        mobileInfo: MobileInfo,
         isUseTint: Boolean,
         isLight: Boolean
     ): Pair<Int?, Int?> {
@@ -410,17 +364,8 @@ class DualRowSignalHookV : BaseHook() {
         )
     }
 
-    companion object {
-        const val STATUS_BAR_MOBILE_VIEW =
-            "com.android.systemui.statusbar.pipeline.mobile.ui.view.ModernStatusBarMobileView"
-
-        const val MOBILE_ICON_BINDER =
-            "com.android.systemui.statusbar.pipeline.mobile.ui.binder.MiuiMobileIconBinder"
-    }
-
     data object MobileInfo {
         const val ID_SUB_NO_DATA_SIM = -1
-        const val ID_CHANGED_DATA_SIM = -2
 
         var subId = ID_SUB_NO_DATA_SIM
         var dataSimLevel = 0

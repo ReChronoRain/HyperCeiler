@@ -761,7 +761,7 @@
     <string name="system_ui_status_bar_icon_wifi_slave">Auxiliary Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Wi-Fi standard</string>
     <string name="system_ui_status_bar_icon_hotspot">Hotspot Wi-Fi</string>
-    <string name="system_ui_status_bar_icon_wifi_network_indicator">Network activity indicator</string>
+    <string name="system_ui_status_bar_icon_wifi_network_indicator">Wi-Fi activity indicator</string>
     <string name="system_ui_status_bar_icon_bluetooth">Bluetooth</string>
     <string name="system_ui_status_bar_icon_bluetooth_battery">Bluetooth battery</string>
     <string name="system_ui_status_bar_icon_new_hd">New HD icon</string>
