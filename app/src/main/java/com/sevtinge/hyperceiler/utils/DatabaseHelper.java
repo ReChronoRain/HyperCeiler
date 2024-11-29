@@ -25,16 +25,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    // private static final String DATABASE_NAME = "/data/adb/lspd/config/module_config.db";
-    private static final int DATABASE_VERSION = 3;
 
     public DatabaseHelper(Context context, String databaseName) {
-        super(context, databaseName, null, DATABASE_VERSION);
+        super(context, databaseName, null, getUserVersion(context, databaseName));
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // 这里只是示例，如果需要创建表，写入创建表的 SQL 语句
         db.execSQL("CREATE TABLE modules (id INTEGER PRIMARY KEY, module_pkg_name TEXT, mid INTEGER)");
     }
 
@@ -56,6 +53,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor customQuery(String tableName, String[] columns, String selection, String[] selectionArgs, String orderBy) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.query(tableName, columns, selection, selectionArgs, null, null, orderBy);
+    }
+
+    public static int getUserVersion(Context context, String databaseName) {
+        int userVersion = 0;
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+
+        try {
+            db = SQLiteDatabase.openDatabase(databaseName, null, SQLiteDatabase.OPEN_READONLY);
+            cursor = db.rawQuery("PRAGMA user_version;", null);
+            if (cursor != null && cursor.moveToFirst()) {
+                userVersion = cursor.getInt(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
+        }
+
+        return userVersion;
     }
 }
 
