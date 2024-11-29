@@ -7,18 +7,28 @@ import com.sevtinge.hyperceiler.utils.*
 @Suppress("MemberVisibilityCanBePrivate")
 object Dependency {
     private const val DEPENDENCY = "com.android.systemui.Dependency"
-    val sDependency by lazy {
-        findClass(DEPENDENCY, EzXHelper.classLoader).getStaticObjectField("sDependency")
-    }
-    val mMiuiLegacyDependency : Any?
+
+    @JvmStatic
+    @get:JvmName(name = "getDependency")
+    val sDependency: Any?
+        get() = findClass(DEPENDENCY, EzXHelper.classLoader).getStaticObjectField("sDependency")
+
+    @JvmStatic
+    @get:JvmName(name = "getMiuiLegacyDependency")
+    val mMiuiLegacyDependency: Any?
         get() = sDependency?.getObjectField("mMiuiLegacyDependency")
-    val mDependencies : Map<*, *>?
+
+    @JvmStatic
+    @get:JvmName(name = "getDependencies")
+    val mDependencies: Map<*, *>?
         get() = sDependency?.getObjectField("mDependencies") as Map<*, *>?
 
+    @JvmStatic
     fun getDependencyInner(depClz: Class<*>): Any? {
         return sDependency?.callMethod("getDependencyInner", depClz)
     }
 
+    @JvmStatic
     fun getDependencyInner(depClzName: String): Any? {
         return getDependencyInner(findClass(depClzName, EzXHelper.classLoader))
     }
