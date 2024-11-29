@@ -8,10 +8,15 @@ import com.sevtinge.hyperceiler.utils.*
 object Dependency {
     private const val DEPENDENCY = "com.android.systemui.Dependency"
 
+    private val dependencyClz by lazy {
+        findClass(DEPENDENCY, EzXHelper.classLoader)
+    }
+
+    /* ========================== only for HyperOS2 ========================== */
     @JvmStatic
     @get:JvmName(name = "getDependency")
     val sDependency: Any?
-        get() = findClass(DEPENDENCY, EzXHelper.classLoader).getStaticObjectField("sDependency")
+        get() = dependencyClz.getStaticObjectField("sDependency")
 
     @JvmStatic
     @get:JvmName(name = "getMiuiLegacyDependency")
@@ -31,5 +36,11 @@ object Dependency {
     @JvmStatic
     fun getDependencyInner(depClzName: String): Any? {
         return getDependencyInner(findClass(depClzName, EzXHelper.classLoader))
+    }
+
+    /* ========================== only for HyperOS1 ========================== */
+    @JvmStatic
+    fun get(depClz: Class<*>): Any? {
+        return dependencyClz.callStaticMethod("get", depClz)
     }
 }
