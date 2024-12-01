@@ -23,6 +23,7 @@
         <com.sevtinge.hyperceiler.prefs.XmlPreference
             android:key="prefs_key_home_gesture"
             android:title="@string/home_gesture"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.home.HomeGestureSettings"
             app:inflatedXml="@xml/home_gesture"/>
 
         <Preference
