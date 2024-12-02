@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.barrage.AnyBarrage;
 import com.sevtinge.hyperceiler.module.hook.barrage.CustomBarrageLength;
 
-@HookBase(pkg = "com.xiaomi.barrage", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.xiaomi.barrage", isPad = false)
 public class Barrage extends BaseModule {
     @Override
     public void handleLoadPackage() {

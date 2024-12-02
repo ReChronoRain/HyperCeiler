@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.module.app;
 import android.content.Context;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
+
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool;
@@ -35,7 +36,7 @@ import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-@HookBase(pkg = "VariousThirdApps", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "VariousThirdApps",  isPad = false)
 public class VariousThirdApps extends BaseModule {
     String mPackageName;
 

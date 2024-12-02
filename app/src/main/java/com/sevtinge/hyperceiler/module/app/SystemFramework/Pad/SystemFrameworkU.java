@@ -44,7 +44,6 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePersistent;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePinVerifyPer72h;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableVerifyCanBeDisabled;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
-import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.module.hook.systemframework.HookEntry;
 import com.sevtinge.hyperceiler.module.hook.systemframework.LinkTurboToast;
@@ -73,6 +72,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.display.DisplayCutou
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.ThemeProvider;
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.ToastTime;
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.UseAOSPScreenShot;
+import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.OpenAppInFreeForm;
 import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.UnForegroundPin;
 import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.IgnoreStylusKeyGesture;
@@ -87,7 +87,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N5N8Band;
 import com.sevtinge.hyperceiler.module.hook.various.NoAccessDeviceLogsRequest;
 
-@HookBase(pkg = "android", isPad = true, tarSdkVersion = 34)
+@HookBase(targetPackage = "android", isPad = true, targetSdk = 34)
 public class SystemFrameworkU extends BaseModule {
 
     @Override

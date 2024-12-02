@@ -25,7 +25,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
-import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
@@ -40,15 +39,14 @@ import java.util.Set;
 import de.robv.android.xposed.XposedBridge;
 
 public class PrefsUtils {
-
     public static SharedPreferences mSharedPreferences = null;
+    public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<>();
 
     public static String mPrefsPathCurrent = null;
     public static String mPrefsFileCurrent = null;
     public static String mPrefsName = "hyperceiler_prefs";
     public static String mPrefsPath = "/data/user_de/0/" + ProjectApi.mAppModulePkg + "/shared_prefs";
     public static String mPrefsFile = mPrefsPath + "/" + mPrefsName + ".xml";
-
 
     public static SharedPreferences getSharedPrefs(Context context, boolean multiProcess) {
         context = Helpers.getProtectedContext(context);
@@ -62,8 +60,7 @@ public class PrefsUtils {
     public static SharedPreferences getSharedPrefs(Context context) {
         return getSharedPrefs(context, false);
     }
-
-
+    
     public static String getSharedPrefsPath() {
         if (mPrefsPathCurrent == null) try {
             Field mFile = mSharedPreferences.getClass().getDeclaredField("mFile");
@@ -119,8 +116,8 @@ public class PrefsUtils {
             XposedBridge.log(t);
         }
 
-        if (XposedInit.mPrefsMap.containsKey(name))
-            return (String) XposedInit.mPrefsMap.getObject(name, defValue);
+        if (mPrefsMap.containsKey(name))
+            return (String) mPrefsMap.getObject(name, defValue);
         else return defValue;
     }
 
@@ -143,8 +140,8 @@ public class PrefsUtils {
         }
 
         LinkedHashSet<String> empty = new LinkedHashSet<>();
-        if (XposedInit.mPrefsMap.containsKey(name)) {
-            return (Set<String>) XposedInit.mPrefsMap.getObject(name, empty);
+        if (mPrefsMap.containsKey(name)) {
+            return (Set<String>) mPrefsMap.getObject(name, empty);
         } else {
             return empty;
         }
@@ -164,8 +161,8 @@ public class PrefsUtils {
             XposedBridge.log(t);
         }
 
-        if (XposedInit.mPrefsMap.containsKey(name))
-            return (int) XposedInit.mPrefsMap.getObject(name, defValue);
+        if (mPrefsMap.containsKey(name))
+            return (int) mPrefsMap.getObject(name, defValue);
         else return defValue;
     }
 
@@ -183,8 +180,8 @@ public class PrefsUtils {
             XposedBridge.log(t);
         }
 
-        if (XposedInit.mPrefsMap.containsKey(name))
-            return (boolean) XposedInit.mPrefsMap.getObject(name, false);
+        if (mPrefsMap.containsKey(name))
+            return (boolean) mPrefsMap.getObject(name, false);
         else
             return defValue;
     }

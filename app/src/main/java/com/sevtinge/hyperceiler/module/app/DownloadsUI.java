@@ -22,7 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.downloadsui.AlwaysShowDownloadLink;
 
-@HookBase(pkg = "com.android.providers.downloads.ui", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.android.providers.downloads.ui",  isPad = false)
 public class DownloadsUI extends BaseModule {
 
     @Override

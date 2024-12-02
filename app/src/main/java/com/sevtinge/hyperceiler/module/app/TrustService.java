@@ -22,7 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.trustservice.DisableMrm;
 
-@HookBase(pkg = "com.xiaomi.trustservice", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.xiaomi.trustservice",  isPad = false)
 public class TrustService extends BaseModule {
     @Override
     public void handleLoadPackage() {

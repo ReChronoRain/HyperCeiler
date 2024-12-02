@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.misound.BluetoothListener;
 import com.sevtinge.hyperceiler.module.hook.misound.IncreaseSamplingRate;
 
-@HookBase(pkg = "com.miui.misound", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.miui.misound",  isPad = false)
 public class MiSound extends BaseModule {
 
     @Override

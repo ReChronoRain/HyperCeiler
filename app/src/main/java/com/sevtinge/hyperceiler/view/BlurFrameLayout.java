@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.view;
 
+import static com.sevtinge.hyperceiler.utils.prefs.PrefsUtils.mPrefsMap;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -28,7 +30,6 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -64,11 +65,11 @@ public class BlurFrameLayout {
 
             String mBlurRadiusKey = key + "_blur_radius";
 
-            mBlurRadius = XposedInit.mPrefsMap.getInt(mBlurRadiusKey, 60);
+            mBlurRadius = mPrefsMap.getInt(mBlurRadiusKey, 60);
 
-            mBgColor = XposedInit.mPrefsMap.getInt(mBgColorKey, -1);
-            mBgAlpha = XposedInit.mPrefsMap.getInt(mBgAlphaKey, 60);
-            mBgCornerRadius = DisplayUtils.dp2px(XposedInit.mPrefsMap.getInt(mBgCornerRadiusKey, 90));
+            mBgColor = mPrefsMap.getInt(mBgColorKey, -1);
+            mBgAlpha = mPrefsMap.getInt(mBgAlphaKey, 60);
+            mBgCornerRadius = DisplayUtils.dp2px(mPrefsMap.getInt(mBgCornerRadiusKey, 90));
         }
         setOnAttachStateChangeListener(mBlurView);
     }

@@ -28,17 +28,22 @@ import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.util.HashMap;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-public abstract class BaseModule implements IXposedHook {
-
+public abstract class BaseModule {
     public LoadPackageParam mLoadPackageParam = null;
     public String TAG = getClass().getSimpleName();
-    public final PrefsMap<String, Object> mPrefsMap = XposedInit.mPrefsMap;
+    public final PrefsMap<String, Object> mPrefsMap = PrefsUtils.mPrefsMap;
     private static HashMap<String, String> swappedMap = CrashData.swappedData();
+
+    public abstract void handleLoadPackage();
+
+    public void initZygote() {
+    }
 
     public void init(LoadPackageParam lpparam) {
         if (swappedMap.isEmpty()) {
@@ -55,7 +60,7 @@ public abstract class BaseModule implements IXposedHook {
             if (!ProjectApi.mAppModulePkg.equals(lpparam.packageName)) {
                 ContextUtils.getWaitContext(context -> {
                     if (context != null) {
-                        BaseXposedInit.mResHook.loadModuleRes(context);
+                        XposedInit.mResHook.loadModuleRes(context);
                     }
                 }, "android".equals(lpparam.packageName));
             }
@@ -72,10 +77,6 @@ public abstract class BaseModule implements IXposedHook {
         if (dexKit.isInit) {
             dexKit.close();
         }
-    }
-
-    @Override
-    public void initZygote() {
     }
 
     /*public void initHook(BaseHook baseHook) {

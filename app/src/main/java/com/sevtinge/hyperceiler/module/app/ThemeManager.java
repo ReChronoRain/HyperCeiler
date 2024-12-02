@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.module.hook.thememanager.EnableFoldTheme;
 import com.sevtinge.hyperceiler.module.hook.thememanager.EnablePadTheme;
 import com.sevtinge.hyperceiler.module.hook.thememanager.VersionCodeModify;
 
-@HookBase(pkg = "com.android.thememanager", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.android.thememanager",  isPad = false)
 public class ThemeManager extends BaseModule {
 
     @Override

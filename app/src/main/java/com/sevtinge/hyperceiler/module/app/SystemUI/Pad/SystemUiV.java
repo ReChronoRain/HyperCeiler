@@ -59,6 +59,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlP
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlPanelTimeViewTextSize;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaSeekBarColor;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NewFlashLight;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationImportanceHyperOSFix;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationRowMenu;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeather;
@@ -76,7 +77,6 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SunlightMode;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SunlightModeHigh;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SwitchCCAndNotification;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.TaplusTile;
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NewFlashLight;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.AllowThirdLockScreenUseFace;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.BlurButton;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ChargingCVP;
@@ -113,24 +113,15 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.HideBatt
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.HideVoWiFiIcon;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.IconsFromSystemManager;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBarIcon;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.FocusNotifLyric;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.layout.StatusBarLayout;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHook;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileNetwork;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobilePublicHook;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeSingleHook;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeTextCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSec;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSpacing;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news.NewNetworkSpeed;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news.NewNetworkSpeedStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.strongtoast.HideStrongToast;
 
-import java.util.Objects;
-
-@HookBase(pkg = "com.android.systemui", isPad = true, tarSdkVersion = 35)
+@HookBase(targetPackage = "com.android.systemui", isPad = true, targetSdk = 35)
 public class SystemUiV extends BaseModule {
     @Override
     public void handleLoadPackage() {

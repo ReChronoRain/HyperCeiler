@@ -31,7 +31,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -74,8 +73,8 @@ public class FolderShade extends BaseHook {
                             bkg = null;
                         }
                         new Handler(context.getMainLooper()).post(() -> {
-                            XposedInit.mPrefsMap.put("prefs_key_home_folder_shade", String.valueOf(opt));
-                            XposedInit.mPrefsMap.put("prefs_key_home_folder_shade_level", level);
+                            mPrefsMap.put("prefs_key_home_folder_shade", String.valueOf(opt));
+                            mPrefsMap.put("prefs_key_home_folder_shade_level", level);
                             folder.setBackground(bkg);
                         });
                     } catch (Throwable t) {

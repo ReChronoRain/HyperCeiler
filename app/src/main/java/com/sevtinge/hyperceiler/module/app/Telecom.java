@@ -22,7 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.telecom.ScamReminderBypass;
 
-@HookBase(pkg = "com.android.server.telecom", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.android.server.telecom",  isPad = false)
 public class Telecom extends BaseModule {
     @Override
     public void handleLoadPackage() {

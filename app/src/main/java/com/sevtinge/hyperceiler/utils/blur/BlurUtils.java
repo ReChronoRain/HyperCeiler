@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.utils.blur;
 
+import static com.sevtinge.hyperceiler.module.base.tool.HookTool.mPrefsMap;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW;
 
 import android.content.Context;
@@ -29,7 +30,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.color.ColorUtilsStatic;
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
 
@@ -107,14 +107,14 @@ public class BlurUtils {
             String mAlphaKey = key + "_color_alpha";
             String mCornerRadiusKey = key + "_corner_radius";
 
-            isEnable = XposedInit.mPrefsMap.getBoolean(mCustomBackgroundEnabledKey);
+            isEnable = mPrefsMap.getBoolean(mCustomBackgroundEnabledKey);
 
-            isBlurEnable = XposedInit.mPrefsMap.getBoolean(mBlurEnableKey);
-            mBlurRadius = XposedInit.mPrefsMap.getInt(mBlurRadiusKey, 60);
+            isBlurEnable = mPrefsMap.getBoolean(mBlurEnableKey);
+            mBlurRadius = mPrefsMap.getInt(mBlurRadiusKey, 60);
 
-            mColor = XposedInit.mPrefsMap.getInt(mColorKey, 2113929215);
-            mAlpha = XposedInit.mPrefsMap.getInt(mAlphaKey, 60);
-            mCornerRadius = DisplayUtils.dp2px(XposedInit.mPrefsMap.getInt(mCornerRadiusKey, 18));
+            mColor = mPrefsMap.getInt(mColorKey, 2113929215);
+            mAlpha = mPrefsMap.getInt(mAlphaKey, 60);
+            mCornerRadius = DisplayUtils.dp2px(mPrefsMap.getInt(mCornerRadiusKey, 18));
 
         } else {
             isEnable = false;
@@ -230,10 +230,10 @@ public class BlurUtils {
             mBgAlphaKey = mKey + "_bg_alpha";
             mBgColorKey = mKey + "_bg_color";
 
-            mBlurRadius = XposedInit.mPrefsMap.getInt(mBlurRadiusKey,60);
-            mBgCornerRadius = DisplayUtils.dip2px(mContext, XposedInit.mPrefsMap.getInt(mBgCornerRadiusKey, 90));
-            mBgAlpha = XposedInit.mPrefsMap.getInt(mBgAlphaKey,60);
-            mBgColor = XposedInit.mPrefsMap.getInt(mBgColorKey,-1);
+            mBlurRadius = mPrefsMap.getInt(mBlurRadiusKey,60);
+            mBgCornerRadius = DisplayUtils.dip2px(mContext, mPrefsMap.getInt(mBgCornerRadiusKey, 90));
+            mBgAlpha = mPrefsMap.getInt(mBgAlphaKey,60);
+            mBgColor = mPrefsMap.getInt(mBgColorKey,-1);
         }
         setBlur(mView);
     }
