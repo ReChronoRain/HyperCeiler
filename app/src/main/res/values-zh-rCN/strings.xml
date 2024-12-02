@@ -1606,6 +1606,7 @@
     <!--系统服务组件-->
     <string name="securityadd">系统服务组件</string>
     <string name="securityadd_disable_gb_ads">禁用游戏中心广告</string>
+    <string name="securityadd_disable_gb_ads_desc">可能导致其他功能出现异常</string>
     <!--手机管家/平板管家-->
     <string name="security_center">手机管家</string>
     <string name="security_center_pad">平板管家</string>
