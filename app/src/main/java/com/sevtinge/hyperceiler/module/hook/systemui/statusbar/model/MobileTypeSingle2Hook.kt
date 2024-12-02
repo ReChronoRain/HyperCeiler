@@ -19,10 +19,12 @@
 
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model
 
+import android.annotation.*
 import android.graphics.*
 import android.telephony.*
 import android.view.*
 import android.widget.*
+import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
@@ -45,6 +47,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.Mobi
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.verticalOffset
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.StateFlowHelper.newReadonlyStateFlow
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import java.lang.reflect.*
 import java.util.function.*
@@ -59,7 +62,6 @@ object MobileTypeSingle2Hook : BaseHook() {
     private var get1: Int = 0
     private var get2: Int = 0
     private val simDataConnected = booleanArrayOf(false, false)
-    private val mobileSignalViewMap = HashMap<Int, MutableSet<View>>()
 
     override fun init() {
         if (mobileNetworkType != 0) {
@@ -118,11 +120,6 @@ object MobileTypeSingle2Hook : BaseHook() {
                         val textView: TextView =
                             getView.findViewByIdName("mobile_type_single") as TextView
 
-                        // 切换深色模式时请调用此逻辑，否则无法即时更新
-                        if ((!hideIndicator && (showMobileType || mobileNetworkType == 3)) || mobileNetworkType == 4) {
-                            setOnDataChangedListener()
-                        }
-
                         if (getBoolean) {
                             method2?.invoke(null, it.args[0], textView, num)?.let { it1 ->
                                 textView.setTextColor(it1.hashCode())
@@ -151,26 +148,19 @@ object MobileTypeSingle2Hook : BaseHook() {
             .filterByParamCount(5)
             .single().createHook {
                 after { param ->
-                    // logI(TAG, lpparam.packageName, "${param.args.contentToString()}")
                     val viewModel = param.args[4]
                     val rootView = param.result as ViewGroup
                     val subId = rootView.getIntField("subId")
 
                     val mobileGroup = rootView.findViewByIdName("mobile_group") as LinearLayout
-                    val mobileGroupParent = mobileGroup.parent as ViewGroup
                     val containerLeft =
                         mobileGroup.findViewByIdName("mobile_container_left") as ViewGroup
                     val containerRight =
                         mobileGroup.findViewByIdName("mobile_container_right") as ViewGroup
-                    val mobileType = containerLeft.findViewByIdName("mobile_type") as? ImageView?
-
-                    if (mobileSignalViewMap[subId] == null) {
-                        mobileSignalViewMap[subId] = mutableSetOf()
-                    }
-                    mobileSignalViewMap[subId]?.add(mobileGroupParent)
 
                     // 添加大 5G 并设置样式
                     if (showMobileType) {
+                        val mobileType = containerLeft.findViewByIdName("mobile_type") as? ImageView?
                         val textView =
                             mobileGroup.findViewByIdName("mobile_type_single") as TextView
                         if (!getLocation) {
@@ -199,7 +189,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                     // 调整初始样式
                     val dataConnected = simDataConnected[SubscriptionManager.getSlotIndex(subId)]
                     if (mobileNetworkType == 3 || mobileNetworkType == 4 || showMobileType) {
-                        val paddingLeft = if (dataConnected && !(showMobileType || hideIndicator)) {
+                        val paddingLeft = if (dataConnected && !(showMobileType && hideIndicator)) {
                             0
                         } else {
                             20
@@ -261,6 +251,7 @@ object MobileTypeSingle2Hook : BaseHook() {
         }
     }
 
+    @SuppressLint("NewApi")
     private fun setOnDataChangedListener() {
         val javaAdapter = Dependency.mMiuiLegacyDependency
             ?.getObjectField("mCentralSurfaces")
@@ -280,8 +271,9 @@ object MobileTypeSingle2Hook : BaseHook() {
             "alwaysCollectFlow",
             dataConnected,
             Consumer<BooleanArray> {
+                logD(TAG, lpparam.packageName, "MobileDataConnected -> ${it.contentToString()}")
+
                 val simCount = it.size
-                logI(TAG, lpparam.packageName, "${it.contentToString()}")
                 val isNoDataConnected = when (simCount) {
                     1 -> {
                         simDataConnected[0] = it[0]
@@ -300,42 +292,41 @@ object MobileTypeSingle2Hook : BaseHook() {
                         false
                     }
                 }
-                val subId = SubscriptionManager.getDefaultDataSubscriptionId()
-                mobileSignalViewMap[subId]?.forEach { view ->
-                    val containerLeft = view.findViewByIdName("mobile_container_left") as ViewGroup
-                    val containerRight =
-                        view.findViewByIdName("mobile_container_right") as ViewGroup
+                SubscriptionManagerProvider(EzXHelper.appContext).getActiveSubscriptionIdList(true)
+                    .forEach { subId ->
+                        getMobileViewBySubId(subId) { view ->
+                            val containerLeft =
+                                view.findViewByIdName("mobile_container_left") as ViewGroup
+                            val containerRight =
+                                view.findViewByIdName("mobile_container_right") as ViewGroup
 
-                    if (!showMobileType && mobileNetworkType == 4) {
-                        val mobileType = view.findViewByIdName("mobile_type") as ImageView
-                        mobileType.visibility = if (isNoDataConnected || showMobileType) {
-                            View.GONE
-                        } else {
-                            View.VISIBLE
+                            val b = (!showMobileType && mobileNetworkType == 4)
+                            if (subId == SubscriptionManager.getDefaultDataSubscriptionId()) {
+                                if (b) {
+                                    val mobileType = view.findViewByIdName("mobile_type") as ImageView
+                                    mobileType.visibility = if (isNoDataConnected || showMobileType) {
+                                        View.GONE
+                                    } else {
+                                        View.VISIBLE
+                                    }
+                                }
+                                val paddingLeft = if (isNoDataConnected || (showMobileType && hideIndicator)) {
+                                    20
+                                } else {
+                                    0
+                                }
+                                containerLeft.setPadding(paddingLeft, 0, 0, 0)
+                                containerRight.setPadding(paddingLeft, 0, 0, 0)
+                            } else if (!isEnableDouble) {
+                                if (b) {
+                                    val mobileType = view.findViewByIdName("mobile_type") as ImageView
+                                    mobileType.visibility = View.GONE
+                                }
+                                containerLeft.setPadding(20, 0, 0, 0)
+                                containerRight.setPadding(20, 0, 0, 0)
+                            }
                         }
                     }
-                    val paddingLeft = if (isNoDataConnected || (showMobileType && hideIndicator)) {
-                        20
-                    } else {
-                        0
-                    }
-                    containerLeft.setPadding(paddingLeft, 0, 0, 0)
-                    containerRight.setPadding(paddingLeft, 0, 0, 0)
-                }
-                if (mobileSignalViewMap.size == simCount && !isEnableDouble) {
-                    mobileSignalViewMap[(mobileSignalViewMap.keys - subId).single()]?.forEach { view ->
-                        val containerLeft =
-                            view.findViewByIdName("mobile_container_left") as ViewGroup
-                        val containerRight =
-                            view.findViewByIdName("mobile_container_right") as ViewGroup
-                        if (!showMobileType && mobileNetworkType == 4) {
-                            val mobileType = view.findViewByIdName("mobile_type") as ImageView
-                            mobileType.visibility = View.GONE
-                        }
-                        containerLeft.setPadding(20, 0, 0, 0)
-                        containerRight.setPadding(20, 0, 0, 0)
-                    }
-                }
             }
         )
     }
@@ -356,10 +347,37 @@ object MobileTypeSingle2Hook : BaseHook() {
     }
 
     private fun setViewVisibility(getId: String, visibility: Int) {
-        mobileSignalViewMap.forEach { (_, v) ->
-            v.forEach {
-                val mMobileType = it.findViewByIdName(getId) as View
-                mMobileType.visibility = visibility
+        SubscriptionManagerProvider(EzXHelper.appContext).getActiveSubscriptionIdList(true)
+            .forEach { subId ->
+                getMobileViewBySubId(subId) { view: View ->
+                    val mMobileType = view.findViewByIdName(getId) as View
+                    mMobileType.visibility = visibility
+                }
+            }
+    }
+
+    private fun getMobileViewBySubId(subId: Int, callback: (View) -> Unit) {
+        val statusBarIconController = Dependency.mMiuiLegacyDependency
+            ?.getObjectField("mStatusBarIconController")
+            ?.callMethod("get")
+
+        if (statusBarIconController == null) {
+            return
+        }
+
+        val iconGroups = statusBarIconController.getObjectFieldAs<Map<Any, *>>("mIconGroups")
+        val iconList = statusBarIconController.getObjectFieldAs<Any>("mStatusBarIconList")
+
+        val viewIndex = iconList.callMethodAs<Int>("getViewIndex", subId, "mobile")
+
+        iconGroups.forEach { (iconManager, _) ->
+            val child = iconManager.getObjectFieldAs<ViewGroup>("mGroup").getChildAt(viewIndex)
+
+            if (child is View &&
+                "ModernStatusBarMobileView" == child::class.java.simpleName &&
+                "mobile" == child.getObjectField("slot")
+            ) {
+                callback(child)
             }
         }
     }
