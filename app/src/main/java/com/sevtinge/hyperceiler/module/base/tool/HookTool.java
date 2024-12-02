@@ -34,7 +34,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookTool extends XposedLogUtils {
     public static final PrefsMap<String, Object> mPrefsMap = XposedInit.mPrefsMap;
-    private String TAG = getClass().getSimpleName();
+    private final String TAG = getClass().getSimpleName();
 
     public XC_LoadPackage.LoadPackageParam lpparam;
 

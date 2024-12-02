@@ -209,32 +209,22 @@ public class HomePageFragment extends DashboardFragment
         HomepageEntrance.setEntranceStateListen(this);
         Resources resources = getResources();
         ThreadPoolManager.getInstance().submit(() -> {
-            try (XmlResourceParser xml = resources.getXml(R.xml.prefs_set_homepage_entrance)) {
-                try {
-                    int event = xml.getEventType();
-                    while (event != XmlPullParser.END_DOCUMENT) {
-                        if (event == XmlPullParser.START_TAG) {
-                            if (xml.getName().equals("SwitchPreference")) {
-                                String key = xml.getAttributeValue(ANDROID_NS, "key");
-                                if (key != null) {
-                                    String checkKey = key.replace("_state", "");
-                                    boolean state = getSharedPreferences().getBoolean(key, true);
-                                    if (!state) {
-                                        PreferenceHeader preferenceHeader = findPreference(checkKey);
-                                        if (preferenceHeader != null) {
-                                            boolean visible = preferenceHeader.isVisible();
-                                            if (visible) {
-                                                preferenceHeader.setVisible(false);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        event = xml.next();
+            XmlResourceParser xml = null;
+            try {
+                xml = resources.getXml(R.xml.prefs_set_homepage_entrance);
+                int event = xml.getEventType();
+                while (event != XmlPullParser.END_DOCUMENT) {
+                    if (event == XmlPullParser.START_TAG && "SwitchPreference".equals(xml.getName())) {
+                        String key = xml.getAttributeValue(ANDROID_NS, "key");
+                        processSwitchPreference(key);
                     }
-                } catch (XmlPullParserException | IOException e) {
-                    AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
+                    event = xml.next();
+                }
+            } catch (XmlPullParserException | IOException e) {
+                AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
+            } finally {
+                if (xml != null) {
+                    xml.close(); // Ensure the parser is closed
                 }
             }
         });
@@ -291,28 +281,51 @@ public class HomePageFragment extends DashboardFragment
 
     }
 
+    private void processSwitchPreference(String key) {
+        if (key != null) {
+            String checkKey = key.replace("_state", "");
+            boolean state = getSharedPreferences().getBoolean(key, true);
+            if (!state) {
+                PreferenceHeader preferenceHeader = findPreference(checkKey);
+                if (preferenceHeader != null && preferenceHeader.isVisible()) {
+                    preferenceHeader.setVisible(false);
+                }
+            }
+        }
+    }
+
     private void setPreference() {
         Resources resources = getResources();
         try (XmlResourceParser xml = resources.getXml(R.xml.prefs_main)) {
             int event = xml.getEventType();
             while (event != XmlPullParser.END_DOCUMENT) {
-                if (event == XmlPullParser.START_TAG && xml.getName().equals("com.sevtinge.hyperceiler.prefs.PreferenceHeader")) {
+                if (event == XmlPullParser.START_TAG && isPreferenceHeaderTag(xml)) {
                     String key = xml.getAttributeValue(ANDROID_NS, "key");
                     String summary = xml.getAttributeValue(ANDROID_NS, "summary");
-                    if (key != null && summary != null) {
-                        PreferenceHeader preferenceHeader = findPreference(key);
-                        Drawable icon = getPackageIcon(summary);
-                        String name = getPackageName(summary);
-                        if (preferenceHeader != null) {
-                            preferenceHeader.setIcon(icon);
-                            if (!summary.equals("android")) preferenceHeader.setTitle(name);
-                        }
-                    }
+                    processPreferenceHeader(key, summary, xml);
                 }
                 event = xml.next();
             }
         } catch (XmlPullParserException | IOException e) {
             AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
+        }
+    }
+
+    private boolean isPreferenceHeaderTag(XmlResourceParser xml) {
+        return "com.sevtinge.hyperceiler.prefs.PreferenceHeader".equals(xml.getName());
+    }
+
+    private void processPreferenceHeader(String key, String summary, XmlResourceParser xml) {
+        if (key != null && summary != null) {
+            PreferenceHeader preferenceHeader = findPreference(key);
+            if (preferenceHeader != null) {
+                Drawable icon = getPackageIcon(summary);
+                String name = getPackageName(summary);
+                preferenceHeader.setIcon(icon);
+                if (!summary.equals("android")) {
+                    preferenceHeader.setTitle(name);
+                }
+            }
         }
     }
 
@@ -377,21 +390,24 @@ public class HomePageFragment extends DashboardFragment
     }
 
     public boolean getIsOfficialRom() {
-        return (
-                !getBaseOs().startsWith("V") &&
-                        !getBaseOs().startsWith("Xiaomi") &&
-                        !getBaseOs().startsWith("Redmi") &&
-                        !getBaseOs().startsWith("POCO") &&
-                        !getBaseOs().equals("null")
-        ) ||
-                !getRomAuthor().isEmpty() ||
-                Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") ||
-                (
-                        !SystemSDKKt.getHost().startsWith("pangu-build-component-system") &&
-                                !SystemSDKKt.getHost().startsWith("builder-system") &&
-                                !SystemSDKKt.getHost().startsWith("non-pangu-pod") &&
-                                !Objects.equals(SystemSDKKt.getHost(), "xiaomi.com")
-                );
+        String baseOs = getBaseOs();
+        String romAuthor = getRomAuthor();
+        String host = SystemSDKKt.getHost();
+
+        boolean isNotCustomBaseOs = !baseOs.startsWith("V") &&
+                !baseOs.startsWith("Xiaomi") &&
+                !baseOs.startsWith("Redmi") &&
+                !baseOs.startsWith("POCO") &&
+                !"null".equals(baseOs);
+
+        boolean hasRomAuthor = !romAuthor.isEmpty();
+
+        boolean isNotCustomHost = !host.startsWith("pangu-build-component-system") &&
+                !host.startsWith("builder-system") &&
+                !host.startsWith("non-pangu-pod") &&
+                !host.equals("xiaomi.com");
+
+        return isNotCustomBaseOs || hasRomAuthor || Objects.equals(host, "xiaomi.eu") || isNotCustomHost;
     }
 
 

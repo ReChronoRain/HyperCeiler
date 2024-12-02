@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.base;
 
-import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.hchen.hooktool.HCInit;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.XposedInit;
@@ -43,14 +42,15 @@ public abstract class BaseModule implements IXposedHook {
     private static HashMap<String, String> swappedMap = CrashData.swappedData();
 
     public void init(LoadPackageParam lpparam) {
-        if (swappedMap.isEmpty()) swappedMap = CrashData.swappedData();
+        if (swappedMap.isEmpty()) {
+            swappedMap = CrashData.swappedData();
+        }
+
         if (CrashData.toPkgList(lpparam.packageName)) {
             XposedLogUtils.logI(TAG, "Entry safe mode: " + lpparam.packageName);
             return;
         }
-        EzXHelper.initHandleLoadPackage(lpparam);
-        EzXHelper.setLogTag(TAG);
-        EzXHelper.setToastTag(TAG);
+
         HCInit.initBasicData(new HCInit.BasicData()
                 .setModulePackageName(BuildConfig.APPLICATION_ID)
                 .setLogLevel(LogManager.getLogLevel())
@@ -69,10 +69,13 @@ public abstract class BaseModule implements IXposedHook {
         } catch (Throwable e) {
             XposedLogUtils.logE(TAG, "get context failed!" + e);
         }
+
         mLoadPackageParam = lpparam;
+
         DexKit dexKit = new DexKit(lpparam, TAG);
         initZygote();
         handleLoadPackage();
+
         if (dexKit.isInit) {
             dexKit.close();
         }

@@ -43,6 +43,7 @@ import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -56,7 +57,6 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public abstract class BaseXposedInit {
-
     private static final String TAG = "BaseXposedInit";
     public static boolean isSafeModeOn = false;
     public static String mModulePath = null;
@@ -81,22 +81,20 @@ public abstract class BaseXposedInit {
             try {
                 mXSharedPreferences = new XSharedPreferences(ProjectApi.mAppModulePkg, PrefsUtils.mPrefsName);
                 mXSharedPreferences.makeWorldReadable();
+                Map<String, ?> allPrefs = mXSharedPreferences.getAll();
 
-                Map<String, ?> allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
-                if (allPrefs == null || allPrefs.isEmpty()) {
+                if (allPrefs != null && !allPrefs.isEmpty()) {
+                    mPrefsMap.putAll(allPrefs);
+                } else {
                     mXSharedPreferences = new XSharedPreferences(new File(PrefsUtils.mPrefsFile));
                     mXSharedPreferences.makeWorldReadable();
-                    allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
-                    if (allPrefs == null || allPrefs.isEmpty()) {
-                        logE(
-                                "[UID" + Process.myUid() + "]",
-                                "Cannot read module's SharedPreferences, some mods might not work!"
-                        );
-                    } else {
+                    allPrefs = mXSharedPreferences.getAll();
+
+                    if (allPrefs != null && !allPrefs.isEmpty()) {
                         mPrefsMap.putAll(allPrefs);
+                    } else {
+                        logE("[UID" + Process.myUid() + "]", "Cannot read SharedPreferences, some mods might not work!");
                     }
-                } else {
-                    mPrefsMap.putAll(allPrefs);
                 }
             } catch (Throwable t) {
                 logE("setXSharedPrefs", t);
@@ -116,39 +114,40 @@ public abstract class BaseXposedInit {
         if (dataMap == null) {
             dataMap = DataBase.get();
         }
+
         String mPkgName = lpparam.packageName;
+        if (mPkgName == null) return;
+
         if (ProjectApi.mAppModulePkg.equals(mPkgName)) {
             ModuleActiveHook(lpparam);
             return;
         }
-        if (mPkgName == null) return;
-        if (isInSafeMode(mPkgName)) return;
-        if (isOtherRestrictions(mPkgName)) return;
+
+        if (isInSafeMode(mPkgName) || isOtherRestrictions(mPkgName)) return;
+
         List<DataBase.DataHelper> helperList = dataMap.get(mPkgName);
         if (helperList.isEmpty()) {
             mVariousThirdApps.init(lpparam);
             return;
         }
+
         for (DataBase.DataHelper helper : helperList) {
-            Class<?> clazz;
             ClassLoader classLoader = getClass().getClassLoader();
             if (classLoader == null) return;
+
             try {
-                clazz = classLoader.loadClass(helper.fullName);
+                Class<?> clazz = classLoader.loadClass(helper.fullName);
+                boolean isPad = helper.isPad;
+                int android = helper.android;
+                boolean skip = helper.skip;
+
+                if (skip || (isAndroidVersion(android) && isPad == isPad())) {
+                    invoke(lpparam, clazz);
+                    break;
+                }
             } catch (ClassNotFoundException e) {
                 logE(TAG, e);
                 return;
-            }
-            boolean isPad = helper.isPad;
-            int android = helper.android;
-            boolean skip = helper.skip;
-            if (skip) {
-                invoke(lpparam, clazz);
-                break;
-            }
-            if (isAndroidVersion(android) && isPad == isPad()) {// exactly match Android version
-                invoke(lpparam, clazz);
-                break;
             }
         }
     }
@@ -157,7 +156,9 @@ public abstract class BaseXposedInit {
         logD(lpparam.packageName, "Using the configuration file " + clzz.getName());
         Object newInstance;
         try {
-            newInstance = clzz.newInstance();
+            Constructor<?> constructor = clzz.getDeclaredConstructor();
+            newInstance = constructor.newInstance();
+
             Method[] methods = clzz.getMethods();
             for (Method method : methods) {
                 if ("init".equals(method.getName())) {
@@ -165,8 +166,8 @@ public abstract class BaseXposedInit {
                     return;
                 }
             }
-        } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            throw new RuntimeException(e);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            throw new RuntimeException("Failed to create instance or invoke init method", e);
         }
     }
 
@@ -206,7 +207,7 @@ public abstract class BaseXposedInit {
 
     private boolean isOtherRestrictions(String pkg) {
         switch (pkg) {
-            case "com.google.android.webview" -> {
+            case "com.google.android.webview", "com.miui.contentcatcher", "com.miui.catcherpatch" -> {
                 return true;
             }
             default -> {
