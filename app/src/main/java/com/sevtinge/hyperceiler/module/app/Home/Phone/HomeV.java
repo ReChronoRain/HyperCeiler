@@ -162,7 +162,6 @@ public class HomeV extends BaseModule {
 
         // 布局
         initHook(LayoutRules.INSTANCE, mPrefsMap.getBoolean("home_layout_unlock_grids_new") ||
-                mPrefsMap.getBoolean("home_layout_unlock_grids") ||
                 mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
                 mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable") ||
                 mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable"));

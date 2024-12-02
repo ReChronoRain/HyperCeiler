@@ -161,17 +161,17 @@ public class SystemUiV extends BaseModule {
         initHook(new StatusBarIconPositionAdjust(), mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network"));
 
         // 移动网络图标
-        boolean isEnableMobilePublic = mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
+        boolean isEnabledDualRowSignal = mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable");
+        initHook(new DualRowSignalHookV(), isEnabledDualRowSignal);
+        initHook(new MobilePublicHookV(), isEnabledDualRowSignal ||
+                mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
                 mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2") ||
-                mPrefsMap.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0) != 0 ||
                 mPrefsMap.getBoolean("system_ui_status_bar_mobile_hide_roaming_icon") ||
-                mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable") ||
                 mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator") ||
                 mPrefsMap.getStringAsInt("system_ui_status_bar_icon_small_hd", 0) != 0 ||
-                mPrefsMap.getStringAsInt("system_ui_status_bar_icon_big_hd", 0) != 0;
-        initHook(new DualRowSignalHookV(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
-        initHook(new MobilePublicHookV(), true);
-        initHook(MobileTypeSingle2Hook.INSTANCE, isEnableMobilePublic);
+                mPrefsMap.getStringAsInt("system_ui_status_bar_icon_big_hd", 0) != 0);
+        initHook(MobileTypeSingle2Hook.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0) != 0 ||
+                mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
         initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
 
         // 电池相关
