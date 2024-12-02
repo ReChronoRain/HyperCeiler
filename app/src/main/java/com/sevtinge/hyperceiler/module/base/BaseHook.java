@@ -34,24 +34,30 @@ public abstract class BaseHook extends HookTool {
     // public static final XmlTool mXmlTool = BaseXposedInit.mXmlTool;
     public static final String ACTION_PREFIX = "com.sevtinge.hyperceiler.module.action.";
 
-    public boolean isLoad() {
-        return false;
-    }
-
     public abstract void init() throws NoSuchMethodException;
 
     public void onCreate(LoadPackageParam lpparam) {
         try {
             setLoadPackageParam(lpparam);
             init();
-            if (logLevel >= 3) {
-                logI(TAG, lpparam.packageName, "Hook Success.");
-            }
+            logHookSuccess(lpparam);
         } catch (Throwable t) {
-            StringWriter stringWriter = new StringWriter();
-            PrintWriter printWriter = new PrintWriter(stringWriter);
-            t.printStackTrace(printWriter);
-            if (logLevel >= 1) logE(TAG, lpparam.packageName, "Hook Failed: " + stringWriter);
+            logHookFailure(t, lpparam);
+        }
+    }
+
+    private void logHookSuccess(LoadPackageParam lpparam) {
+        if (logLevel >= 3) {
+            logI(TAG, lpparam.packageName, "Hook Success.");
+        }
+    }
+
+    private void logHookFailure(Throwable t, LoadPackageParam lpparam) {
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        t.printStackTrace(printWriter);
+        if (logLevel >= 1) {
+            logE(TAG, lpparam.packageName, "Hook Failed: " + stringWriter);
         }
     }
 

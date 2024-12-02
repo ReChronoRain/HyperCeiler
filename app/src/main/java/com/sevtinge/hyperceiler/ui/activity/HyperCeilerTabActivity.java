@@ -6,6 +6,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.isLoggerAlive;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -51,54 +52,80 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     private ArrayList<String> appCrash = new ArrayList<>();
 
     @Override
+    @SuppressLint("StringFormatInvalid")
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         IS_LOGGER_ALIVE = isLoggerAlive();
+
         SharedPreferences mPrefs = PrefsUtils.mSharedPreferences;
-        int count = Integer.parseInt(mPrefs.getString("prefs_key_settings_app_language", "-1"));
-        if (count != -1) {
-            LanguageHelper.setIndexLanguage(this, count, false);
+        String languageSetting = mPrefs.getString("prefs_key_settings_app_language", "-1");
+        if (!"-1".equals(languageSetting)) {
+            LanguageHelper.setIndexLanguage(this, Integer.parseInt(languageSetting), false);
         }
+
         handler = new Handler(this.getMainLooper());
         context = this;
-        int def = Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_log_level", "3"));
+
+        int logLevel = Integer.parseInt(mPrefs.getString("prefs_key_log_level", "3"));
         super.onCreate(savedInstanceState);
         new Thread(() -> SearchHelper.getAllMods(context, savedInstanceState != null)).start();
+
         Helpers.checkXposedActivateState(this);
+
         if (!IS_LOGGER_ALIVE && isModuleActive && BuildConfig.BUILD_TYPE != "release" && !mPrefs.getBoolean("prefs_key_development_close_log_alert_dialog", false)) {
             handler.post(() -> DialogHelper.showLogServiceWarnDialog(context));
         }
+
         ShellInit.init(this);
-        PropUtils.setProp("persist.hyperceiler.log.level", ProjectApi.isCanary() ? (def != 3 && def != 4 ? 3 : def) : def);
+        int effectiveLogLevel = ProjectApi.isCanary() ? (logLevel != 3 && logLevel != 4 ? 3 : logLevel) : logLevel;
+        PropUtils.setProp("persist.hyperceiler.log.level", effectiveLogLevel);
+
         appCrash = CrashData.toPkgList();
         handler.postDelayed(() -> {
             if (haveCrashReport()) {
-                Map<String, String> appNameMap = new HashMap<>();
-                appNameMap.put("com.android.systemui", getString(R.string.system_ui));
-                appNameMap.put("com.android.settings", getString(R.string.system_settings));
-                appNameMap.put("com.miui.home", getString(R.string.mihome));
-                appNameMap.put("com.hchen.demo", getString(R.string.demo));
-                if (isMoreHyperOSVersion(1f)) {
-                    appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_hyperos));
-                } else if (isPad()) {
-                    appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_pad));
-                } else {
-                    appNameMap.put("com.miui.securitycenter", getString(R.string.security_center));
-                }
-                ArrayList<String> appList = new ArrayList<>();
-                for (String element : appCrash) {
-                    if (appNameMap.containsKey(element)) appList.add(appNameMap.get(element) + " (" + element + ")");
-                }
-                String appName = appList.toString();
-                String msg = getString(R.string.safe_mode_later_desc, " " + appName + " ");
-                msg = msg.replace("  ", " ");
-                msg = msg.replace("， ", "，");
-                msg = msg.replace("、 ", "、");
-                msg = msg.replace("[", "");
-                msg = msg.replace("]", "");
-                msg = msg.replaceAll("^\\s+|\\s+$", "");
+                Map<String, String> appNameMap = createAppNameMap();
+                ArrayList<String> appList = getAppListWithCrashReports(appNameMap);
+                String appName = String.join(", ", appList);
+                String msg = getString(R.string.safe_mode_later_desc, appName);
+                msg = cleanUpMessage(msg);
                 DialogHelper.showSafeModeDialog(context, msg);
             }
         }, 600);
+    }
+
+    private Map<String, String> createAppNameMap() {
+        Map<String, String> appNameMap = new HashMap<>();
+        appNameMap.put("com.android.systemui", getString(R.string.system_ui));
+        appNameMap.put("com.android.settings", getString(R.string.system_settings));
+        appNameMap.put("com.miui.home", getString(R.string.mihome));
+        appNameMap.put("com.hchen.demo", getString(R.string.demo));
+        if (isMoreHyperOSVersion(1f)) {
+            appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_hyperos));
+        } else if (isPad()) {
+            appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_pad));
+        } else {
+            appNameMap.put("com.miui.securitycenter", getString(R.string.security_center));
+        }
+        return appNameMap;
+    }
+
+    private ArrayList<String> getAppListWithCrashReports(Map<String, String> appNameMap) {
+        ArrayList<String> appList = new ArrayList<>();
+        for (String pkg : appCrash) {
+            if (appNameMap.containsKey(pkg)) {
+                appList.add(appNameMap.get(pkg) + " (" + pkg + ")");
+            }
+        }
+        return appList;
+    }
+
+    private String cleanUpMessage(String msg) {
+        msg = msg.replace("  ", " ");
+        msg = msg.replace("， ", "，");
+        msg = msg.replace("、 ", "、");
+        msg = msg.replace("[", "");
+        msg = msg.replace("]", "");
+        msg = msg.trim();
+        return msg;
     }
 
     private boolean haveCrashReport() {

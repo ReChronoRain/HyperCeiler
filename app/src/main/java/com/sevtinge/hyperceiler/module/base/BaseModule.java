@@ -18,16 +18,14 @@
  */
 package com.sevtinge.hyperceiler.module.base;
 
-import com.github.kyuubiran.ezxhelper.EzXHelper;
+import com.hchen.hooktool.BaseHC;
 import com.hchen.hooktool.HCInit;
-import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.safe.CrashData;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.utils.log.LogManager;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
 
@@ -43,36 +41,34 @@ public abstract class BaseModule implements IXposedHook {
     private static HashMap<String, String> swappedMap = CrashData.swappedData();
 
     public void init(LoadPackageParam lpparam) {
-        if (swappedMap.isEmpty()) swappedMap = CrashData.swappedData();
+        if (swappedMap.isEmpty()) {
+            swappedMap = CrashData.swappedData();
+        }
+
         if (CrashData.toPkgList(lpparam.packageName)) {
             XposedLogUtils.logI(TAG, "Entry safe mode: " + lpparam.packageName);
             return;
         }
-        EzXHelper.initHandleLoadPackage(lpparam);
-        EzXHelper.setLogTag(TAG);
-        EzXHelper.setToastTag(TAG);
-        HCInit.initBasicData(new HCInit.BasicData()
-                .setModulePackageName(BuildConfig.APPLICATION_ID)
-                .setLogLevel(LogManager.getLogLevel())
-                .setTag("HyperCeiler"));
         HCInit.initLoadPackageParam(lpparam);
         // 把模块资源加载到目标应用
         try {
             if (!ProjectApi.mAppModulePkg.equals(lpparam.packageName)) {
-                ContextUtils.getWaitContext(
-                        context -> {
-                            if (context != null) {
-                                BaseXposedInit.mResHook.loadModuleRes(context);
-                            }
-                        }, "android".equals(lpparam.packageName));
+                ContextUtils.getWaitContext(context -> {
+                    if (context != null) {
+                        BaseXposedInit.mResHook.loadModuleRes(context);
+                    }
+                }, "android".equals(lpparam.packageName));
             }
         } catch (Throwable e) {
             XposedLogUtils.logE(TAG, "get context failed!" + e);
         }
+
         mLoadPackageParam = lpparam;
+
         DexKit dexKit = new DexKit(lpparam, TAG);
         initZygote();
         handleLoadPackage();
+
         if (dexKit.isInit) {
             dexKit.close();
         }
@@ -129,6 +125,7 @@ public abstract class BaseModule implements IXposedHook {
 
     private void onCreate(Object hook) {
         if (hook instanceof BaseHook baseHook) baseHook.onCreate(mLoadPackageParam);
+        else if (hook instanceof BaseHC baseHC) baseHC.onLoadPackage();
         else throw new RuntimeException("Unknown hook!");
     }
 }

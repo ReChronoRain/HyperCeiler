@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.utils;
 
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.logD;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 
 import android.annotation.SuppressLint;
@@ -33,7 +32,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
-import android.graphics.Rect;
 import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Environment;
@@ -57,7 +55,6 @@ import java.util.concurrent.Executors;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import fan.appcompat.app.AlertDialog;
-import fan.core.utils.ReflectUtils;
 
 public class Helpers {
 

@@ -32,38 +32,51 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.UnlockAlwaysOnDispla
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.FlightModeHotSpot;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.VolumeSeparateControlForSettings;
 import com.sevtinge.hyperceiler.module.skip.SystemFrameworkForCorePatch;
+import com.sevtinge.hyperceiler.utils.log.LogManager;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class XposedInit extends BaseXposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage {
-    private final String TAG = "HyperCeiler";
+    private static final String TAG = "HyperCeiler";
 
     @Override
-    public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
+    public void initZygote(StartupParam startupParam) throws Throwable {
         super.initZygote(startupParam);
         EzXHelper.initZygote(startupParam);
         EzXHelper.setLogTag(TAG);
         EzXHelper.setToastTag(TAG);
+        HCInit.initBasicData(new HCInit.BasicData()
+                .setModulePackageName(BuildConfig.APPLICATION_ID)
+                .setLogLevel(LogManager.getLogLevel())
+                .setTag("HyperCeiler")
+        );
         HCInit.initStartupParam(startupParam);
-        if (mPrefsMap.getBoolean("system_framework_allow_uninstall"))
-            new AllowUninstall().initZygote(startupParam);
+        loadZygoteHook(startupParam);
+    }
+
+    private static void loadZygoteHook(StartupParam startupParam) throws Throwable {
         if (mPrefsMap.getBoolean("system_framework_screen_all_rotations")) ScreenRotation.initRes();
         if (mPrefsMap.getBoolean("system_framework_clean_share_menu")) CleanShareMenu.initRes();
         if (mPrefsMap.getBoolean("system_framework_clean_open_menu")) CleanOpenMenu.initRes();
         if (mPrefsMap.getBoolean("system_framework_volume_separate_control"))
             VolumeSeparateControlForSettings.initRes();
-        if (mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"))
-            new AllowManageAllNotifications().initZygote(startupParam);
+
         if (startupParam != null) {
             new BackgroundBlurDrawable().initZygote(startupParam);
             new SystemFrameworkForCorePatch().initZygote(startupParam);
+
+            if (mPrefsMap.getBoolean("system_framework_allow_uninstall"))
+                new AllowUninstall().initZygote(startupParam);
+            if (mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"))
+                new AllowManageAllNotifications().initZygote(startupParam);
+            if (mPrefsMap.getBoolean("system_framework_background_blur_toast"))
+                new ToastBlur().initZygote(startupParam);
+            if (mPrefsMap.getBoolean("aod_unlock_always_on_display_hyper"))
+                new UnlockAlwaysOnDisplay().initZygote(startupParam);
         }
-        if (mPrefsMap.getBoolean("system_framework_background_blur_toast"))
-            new ToastBlur().initZygote(startupParam);
-        if (mPrefsMap.getBoolean("aod_unlock_always_on_display_hyper"))
-            new UnlockAlwaysOnDisplay().initZygote(startupParam);
+
     }
 
     @Override
@@ -74,10 +87,6 @@ public class XposedInit extends BaseXposedInit implements IXposedHookZygoteInit,
         // load CorePatch
         new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
 
-        if ("com.miui.contentcatcher".equals(lpparam.packageName) ||
-                "com.miui.catcherpatch".equals(lpparam.packageName)) {
-            return;
-        }
         // load Module hook apps
         init(lpparam);
         if (mPrefsMap.getBoolean("system_framework_network_flightmode_hotspot"))
