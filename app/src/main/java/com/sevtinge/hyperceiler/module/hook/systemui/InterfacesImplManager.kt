@@ -1,8 +1,8 @@
 package com.sevtinge.hyperceiler.module.hook.systemui
 
 import com.github.kyuubiran.ezxhelper.*
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeSingle2Hook.findClass
 import com.sevtinge.hyperceiler.utils.*
+import de.robv.android.xposed.XposedHelpers.*
 
 /**
  * only for HyperOS2
