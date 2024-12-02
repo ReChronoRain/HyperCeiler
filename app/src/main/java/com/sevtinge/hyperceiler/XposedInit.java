@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.UnlockAlwaysOnDispla
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.FlightModeHotSpot;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.VolumeSeparateControlForSettings;
 import com.sevtinge.hyperceiler.module.skip.SystemFrameworkForCorePatch;
+import com.sevtinge.hyperceiler.utils.log.LogManager;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -46,6 +47,11 @@ public class XposedInit extends BaseXposedInit implements IXposedHookZygoteInit,
         EzXHelper.initZygote(startupParam);
         EzXHelper.setLogTag(TAG);
         EzXHelper.setToastTag(TAG);
+        HCInit.initBasicData(new HCInit.BasicData()
+                .setModulePackageName(BuildConfig.APPLICATION_ID)
+                .setLogLevel(LogManager.getLogLevel())
+                .setTag("HyperCeiler")
+        );
         HCInit.initStartupParam(startupParam);
         loadZygoteHook(startupParam);
     }

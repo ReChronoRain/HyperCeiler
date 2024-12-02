@@ -23,6 +23,7 @@ import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
@@ -33,9 +34,9 @@ import java.lang.reflect.Method;
 @SuppressLint({"PrivateApi", "SoonBlockedPrivateApi", "DiscouragedPrivateApi"})
 public class ContextUtils {
     @IntDef(value = {
-        FLAG_ALL,
-        FLAG_CURRENT_APP,
-        FlAG_ONLY_ANDROID
+            FLAG_ALL,
+            FLAG_CURRENT_APP,
+            FlAG_ONLY_ANDROID
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface Duration {
@@ -102,15 +103,14 @@ public class ContextUtils {
                         break;
                     }
                 }
-                // context 可能为 null 请注意判断
-                iContext.hadContext(context);
             }
+            iContext.hadContext(context);
         });
         ThreadPoolManager.shutdown();
     }
 
     public interface IContext {
-        void hadContext(Context context);
+        void hadContext(@Nullable Context context);
     }
 
     private static Context invokeMethod(int flag) throws Throwable {
