@@ -904,6 +904,8 @@
     <string name="system_ui_statusbar_music_cusiom_title">Display settings</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Hide status bar clock</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">Hide the status bar clock when showing focused lyrics, and adjust the animation of the dropdown Notification shade.</string>
+    <string name="system_ui_statusbar_music_click_clock_title">Click to show clock</string>
+    <string name="system_ui_statusbar_music_click_clock_desc">Click the focus lyrics event to change the status bar clock to display, otherwise hide it. The switch needs to restart the corresponding music software to take effect.</string>
     <string name="system_ui_statusbar_music_speed_title">Lyrics scroll rate</string>
     <string name="system_ui_statusbar_music_scroll_delay_title">Lyrics scroll delay</string>
     <string name="system_ui_statusbar_music_width_title">Add whitespace at the end of lyrics</string>
