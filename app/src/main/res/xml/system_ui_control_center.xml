@@ -373,6 +373,12 @@
             app:entries="@array/control_center_5g_mode"
             app:entryValues="@array/status_bar_icon_mode_value" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_snow_leopard_mode"
+            android:title="@string/system_ui_control_center_snow_leopard_mode"
+            android:summary="@string/system_ui_control_center_snow_leopard_mode_desc" />
+
         <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_control_center_sunshine_new_mode"
