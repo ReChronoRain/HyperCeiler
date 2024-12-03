@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.misettings.CustomRefreshRate;
 import com.sevtinge.hyperceiler.module.hook.misettings.ShowMoreFpsList;
 
-@HookBase(pkg = "com.xiaomi.misettings", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.xiaomi.misettings",  isPad = false)
 public class MiSettings extends BaseModule {
 
     @Override

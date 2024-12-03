@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.aod.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.module.hook.aod.UnlockAodAon;
 
-@HookBase(pkg = "com.miui.aod", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.miui.aod", isPad = false)
 public class Aod extends BaseModule {
     @Override
     public void handleLoadPackage() {

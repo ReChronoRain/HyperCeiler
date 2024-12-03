@@ -23,13 +23,13 @@ import static com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver.PrefToUri
 import static com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver.PrefToUri.intPrefToUri;
 import static com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver.PrefToUri.stringPrefToUri;
 import static com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver.PrefToUri.stringSetPrefToUri;
+import static com.sevtinge.hyperceiler.utils.prefs.PrefsUtils.mPrefsMap;
 
 import android.content.Context;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 
-import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
 
 public class PrefsChangeObserver extends ContentObserver {
@@ -100,7 +100,7 @@ public class PrefsChangeObserver extends ContentObserver {
     }
 
     private void applyChange() {
-        XposedInit.mPrefsMap.put(name, switch (prefType) {
+        mPrefsMap.put(name, switch (prefType) {
             case String -> PrefsUtils.getSharedStringPrefs(context, name, (String) def);
             case StringSet -> PrefsUtils.getSharedStringSetPrefs(context, name);
             case Integer -> PrefsUtils.getSharedIntPrefs(context, name, (Integer) def);

@@ -30,7 +30,7 @@ import com.sevtinge.hyperceiler.module.hook.contentextension.Taplus;
 import com.sevtinge.hyperceiler.module.hook.contentextension.UnlockTaplus;
 import com.sevtinge.hyperceiler.module.hook.contentextension.UseThirdPartyBrowser;
 
-@HookBase(pkg = "com.miui.contentextension", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.miui.contentextension",  isPad = false)
 public class ContentExtension extends BaseModule {
 
     @Override

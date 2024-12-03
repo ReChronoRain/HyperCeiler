@@ -68,8 +68,7 @@ object NotificationWeatherNew : BaseHook() {
 
         val pluginLoaderClass =
             if (isAndroidVersion(34)) "com.android.systemui.shared.plugins.PluginInstance\$Factory\$\$ExternalSyntheticLambda0"
-            else if (isAndroidVersion(33)) "com.android.systemui.shared.plugins.PluginInstance\$Factory"
-            else "com.android.systemui.shared.plugins.PluginManagerImpl"
+            else "com.android.systemui.shared.plugins.PluginInstance\$Factory"
 
         var appInfo: ApplicationInfo?
 

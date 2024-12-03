@@ -23,6 +23,7 @@
     <SwitchPreference
         android:defaultValue="false"
         android:key="prefs_key_securityadd_disable_gb_ads"
-        android:title="@string/securityadd_disable_gb_ads" />
+        android:title="@string/securityadd_disable_gb_ads"
+        android:summary="@string/securityadd_disable_gb_ads_desc"/>
 
 </PreferenceScreen>

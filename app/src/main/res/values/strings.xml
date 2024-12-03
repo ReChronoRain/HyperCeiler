@@ -1567,6 +1567,7 @@
     <!--System Service Plugin-->
     <string name="securityadd">System service plugin</string>
     <string name="securityadd_disable_gb_ads">Disable Game Center ads</string>
+    <string name="securityadd_disable_gb_ads_desc">This may cause other functions to be abnormal</string>
     <!--Security/Tablet security center-->
     <string name="security_center">Security</string>
     <string name="security_center_pad">Security</string>

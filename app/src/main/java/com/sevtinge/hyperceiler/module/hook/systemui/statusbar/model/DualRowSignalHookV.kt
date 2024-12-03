@@ -196,8 +196,7 @@ class DualRowSignalHookV : BaseHook() {
                     if (dataSim) {
                         val subscriptionInfo =
                             signalController.getObjectFieldAs<Any>("mSubscriptionInfo")
-                        val subscriptionId =
-                            subscriptionInfo.callMethodAs<Int>("getSubscriptionId")
+                        val subscriptionId = subscriptionInfo.callMethodAs<Int>("getSubscriptionId")
 
                         val isSubIdChanged = subscriptionId != mobileInfo.subId
 

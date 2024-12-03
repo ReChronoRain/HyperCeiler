@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.module.base.BaseXposedInit.mPrefsMap;
+import static com.sevtinge.hyperceiler.utils.prefs.PrefsUtils.mPrefsMap;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

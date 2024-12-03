@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils;
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
@@ -67,9 +66,9 @@ public class DockCustom extends BaseHook {
                 FrameLayout mSearchBarContainer = (FrameLayout) XposedHelpers.callMethod(param.thisObject, "getSearchBarContainer");
                 FrameLayout mSearchEdgeLayout = (FrameLayout) mSearchBarContainer.getParent();
 
-                int mDockHeight = DisplayUtils.dp2px(XposedInit.mPrefsMap.getInt("home_dock_bg_height", 80));
-                int mDockMargin = DisplayUtils.dp2px(XposedInit.mPrefsMap.getInt("home_dock_bg_margin_horizontal", 30));
-                int mDockBottomMargin = DisplayUtils.dp2px(XposedInit.mPrefsMap.getInt("home_dock_bg_margin_bottom", 30));
+                int mDockHeight = DisplayUtils.dp2px(mPrefsMap.getInt("home_dock_bg_height", 80));
+                int mDockMargin = DisplayUtils.dp2px(mPrefsMap.getInt("home_dock_bg_margin_horizontal", 30));
+                int mDockBottomMargin = DisplayUtils.dp2px(mPrefsMap.getInt("home_dock_bg_margin_bottom", 30));
 
                 mDockView = new FrameLayout(mSearchBarContainer.getContext());
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mDockHeight);
@@ -140,7 +139,7 @@ public class DockCustom extends BaseHook {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 Context context = (Context) param.args[0];
-                param.setResult(DisplayUtils.dip2px(context, XposedInit.mPrefsMap.getInt("home_dock_margin_top",25)));
+                param.setResult(DisplayUtils.dip2px(context, mPrefsMap.getInt("home_dock_margin_top",25)));
             }
         });
 
@@ -148,7 +147,7 @@ public class DockCustom extends BaseHook {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 Context context = (Context) param.args[0];
-                param.setResult(DisplayUtils.dip2px(context, XposedInit.mPrefsMap.getInt("home_dock_icon_margin_bottom",90)));
+                param.setResult(DisplayUtils.dip2px(context, mPrefsMap.getInt("home_dock_icon_margin_bottom",90)));
             }
         });*/
     }

@@ -25,7 +25,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils;
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
@@ -60,10 +59,10 @@ public class DialogGravity extends BaseHook {
                 AndroidLogUtils.logI(TAG, method.getName());
             }
 
-            int mDialogGravity = XposedInit.mPrefsMap.getStringAsInt("various_dialog_gravity", 0);
+            int mDialogGravity = mPrefsMap.getStringAsInt("various_dialog_gravity", 0);
 
-            int mDialogHorizontalMargin = XposedInit.mPrefsMap.getInt("various_dialog_horizontal_margin", 0);
-            int mDialogBottomMargin = XposedInit.mPrefsMap.getInt("various_dialog_bottom_margin", 0);
+            int mDialogHorizontalMargin = mPrefsMap.getInt("various_dialog_horizontal_margin", 0);
+            int mDialogBottomMargin = mPrefsMap.getInt("various_dialog_bottom_margin", 0);
 
             if (oldMethodFound) {
 

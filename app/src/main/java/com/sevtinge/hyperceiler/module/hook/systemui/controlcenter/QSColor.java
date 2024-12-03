@@ -25,8 +25,8 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
@@ -77,7 +77,7 @@ public class QSColor extends BaseHook {
                     new XC_MethodHook() {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) {
-                            BaseXposedInit.mResHook.setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", color);
+                            XposedInit.mResHook.setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", color);
                         }
                     }
             );
@@ -112,7 +112,7 @@ public class QSColor extends BaseHook {
                     new XC_MethodHook() {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) {
-                            BaseXposedInit.mResHook.setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", bigColor);
+                            XposedInit.mResHook.setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", bigColor);
                         }
                     }
             );

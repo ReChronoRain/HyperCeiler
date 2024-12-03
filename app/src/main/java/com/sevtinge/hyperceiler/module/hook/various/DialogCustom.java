@@ -27,7 +27,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils;
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
@@ -86,9 +85,9 @@ public class DialogCustom extends BaseHook {
                 mAllMethodList.add(method);
             }
 
-            mDialogGravity = XposedInit.mPrefsMap.getStringAsInt("various_dialog_gravity", 0);
-            mDialogHorizontalMargin = XposedInit.mPrefsMap.getInt("various_dialog_margin_horizontal", 0);
-            mDialogBottomMargin = XposedInit.mPrefsMap.getInt("various_dialog_margin_bottom", 0);
+            mDialogGravity = mPrefsMap.getStringAsInt("various_dialog_gravity", 0);
+            mDialogHorizontalMargin = mPrefsMap.getInt("various_dialog_margin_horizontal", 0);
+            mDialogBottomMargin = mPrefsMap.getInt("various_dialog_margin_bottom", 0);
 
         }
 

@@ -20,12 +20,12 @@ package com.sevtinge.hyperceiler.utils.log;
 
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSerial;
+import static com.sevtinge.hyperceiler.utils.prefs.PrefsUtils.mPrefsMap;
 import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
 
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.BuildConfig;
-import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -44,7 +44,7 @@ public class LogManager {
     public static String LOGGER_CHECKER_ERR_CODE;
 
     public static int getLogLevel() {
-        int level = BaseXposedInit.mPrefsMap.getStringAsInt("log_level", 3);
+        int level = mPrefsMap.getStringAsInt("log_level", 3);
         return BuildConfig.BUILD_TYPE.equals("canary") ? (level != 3 && level != 4 ? 3 : level) : level;
     }
 

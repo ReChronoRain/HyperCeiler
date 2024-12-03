@@ -28,10 +28,18 @@ object LayoutRules : HomeBaseHook() {
     private const val PHONE_RULES = "com.miui.home.launcher.compat.PhoneDeviceRules"
     private const val HOME_SETTINGS = "com.miui.home.settings.MiuiHomeSettings"
 
-    private var isUnlockGridsHook = false
-    private var isSetWSPaddingTopHook = false
-    private var isSetWSPaddingBottomHook = false
-    private var isSetWSPaddingSideHook = false
+    private val isUnlockGridsHook by lazy {
+        mPrefsMap.getBoolean("home_layout_unlock_grids_new")
+    }
+    private val isSetWSPaddingTopHook by lazy {
+        mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable")
+    }
+    private val isSetWSPaddingBottomHook by lazy {
+        mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable")
+    }
+    private val isSetWSPaddingSideHook by lazy {
+        mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable")
+    }
 
     private var sCellCountX = 0
     private var sCellCountY = 0
@@ -42,14 +50,6 @@ object LayoutRules : HomeBaseHook() {
     private var currentCellHeight = 0
 
     override fun initForNewHome() {
-        isUnlockGridsHook = mPrefsMap.getBoolean("home_layout_unlock_grids_new") ||
-                mPrefsMap.getBoolean("home_layout_unlock_grids")
-        isSetWSPaddingTopHook = mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable")
-        isSetWSPaddingBottomHook =
-            mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable")
-        isSetWSPaddingSideHook =
-            mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable")
-
         if (isUnlockGridsHook) {
             sCellCountX = mPrefsMap.getInt("home_layout_unlock_grids_cell_x", 0)
             sCellCountY = mPrefsMap.getInt("home_layout_unlock_grids_cell_y", 0)
@@ -67,8 +67,7 @@ object LayoutRules : HomeBaseHook() {
 
                         mMiuiHomeConfig?.callMethod("removePreference", mScreenCellsConfig)
                         logI(
-                            TAG,
-                            lpparam.packageName,
+                            TAG, lpparam.packageName,
                             "Remove preference($mScreenCellsConfig) form MIUIHomeSettings"
                         )
                         param.result = null
@@ -125,8 +124,9 @@ object LayoutRules : HomeBaseHook() {
             val mCellSize = rules.getIntField("mCellSize")
             val mCellCountY = rules.getIntField("mCellCountY")
             val mWorkspaceTopPadding = rules.callMethodAs<Int>("getWorkspacePaddingTop")
-            val mWorkspaceCellPaddingBottom = rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
-                .callMethodAs<Int>("getValue")
+            val mWorkspaceCellPaddingBottom =
+                rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
+                    .callMethodAs<Int>("getValue")
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
                 DisplayUtils.dp2px(

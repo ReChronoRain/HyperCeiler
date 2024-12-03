@@ -90,7 +90,6 @@ import com.sevtinge.hyperceiler.module.hook.home.other.ShortcutItemCount;
 import com.sevtinge.hyperceiler.module.hook.home.other.ShowAllHideApp;
 import com.sevtinge.hyperceiler.module.hook.home.recent.AlwaysShowCleanUp;
 import com.sevtinge.hyperceiler.module.hook.home.recent.BackgroundBlur;
-import com.sevtinge.hyperceiler.module.hook.home.recent.BlurLevel;
 import com.sevtinge.hyperceiler.module.hook.home.recent.CardTextColor;
 import com.sevtinge.hyperceiler.module.hook.home.recent.CardTextSize;
 import com.sevtinge.hyperceiler.module.hook.home.recent.DisableRecentViewWallpaperDarken;
@@ -136,7 +135,7 @@ import com.sevtinge.hyperceiler.module.hook.home.widget.ResizableWidgets;
 
 import java.util.Objects;
 
-@HookBase(pkg = "com.miui.home", isPad = false, tarSdkVersion = 35)
+@HookBase(targetPackage = "com.miui.home", isPad = false, targetSdk = 35)
 public class HomeV extends BaseModule {
 
     @Override
@@ -163,7 +162,6 @@ public class HomeV extends BaseModule {
 
         // 布局
         initHook(LayoutRules.INSTANCE, mPrefsMap.getBoolean("home_layout_unlock_grids_new") ||
-                mPrefsMap.getBoolean("home_layout_unlock_grids") ||
                 mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
                 mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable") ||
                 mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable"));

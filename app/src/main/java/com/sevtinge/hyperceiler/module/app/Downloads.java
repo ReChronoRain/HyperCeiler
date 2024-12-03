@@ -22,7 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.downloads.FuckXlDownload;
 
-@HookBase(pkg = "com.android.providers.downloads", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.android.providers.downloads",  isPad = false)
 public class Downloads extends BaseModule {
 
     @Override
