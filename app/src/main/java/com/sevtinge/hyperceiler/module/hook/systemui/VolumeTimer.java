@@ -20,12 +20,12 @@
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
 
 public class VolumeTimer extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        BaseXposedInit.mResHook.setResReplacement("miui.systemui.plugin", "array", "miui_volume_timer_segments", R.array.miui_volume_timer_segments);
+        XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "array", "miui_volume_timer_segments", R.array.miui_volume_timer_segments);
     }
 }

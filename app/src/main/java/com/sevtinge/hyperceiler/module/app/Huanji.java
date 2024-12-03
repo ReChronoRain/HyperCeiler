@@ -22,7 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.huanji.AllowMoveAllApps;
 
-@HookBase(pkg = "com.miui.huanji", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.miui.huanji",  isPad = false)
 public class Huanji extends BaseModule {
 
     @Override

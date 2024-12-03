@@ -46,6 +46,21 @@ object NotificationWeather : BaseHook() {
         } else {
             oldNotificationWeather()
         }
+
+        loadClass("com.android.systemui.qs.MiuiNotificationHeaderView").methodFinder()
+            .filterByName("updateLayout")
+            .single().createHook {
+                after {
+                    val viewGroup = it.thisObject as ViewGroup
+                    val mOrientation = viewGroup.getObjectField("mOrientation") as Int
+
+                    mWeatherView?.visibility = if (mOrientation == 1) {
+                        View.VISIBLE
+                    } else {
+                        View.GONE
+                    }
+                }
+            }
     }
 
     private fun newNotificationWeather() {
@@ -161,21 +176,6 @@ object NotificationWeather : BaseHook() {
 
                     addWeatherViewAfterOf(dateTime)
                     setWeatherViewOnClinkListener(context)
-                }
-            }
-
-        loadClass("com.android.systemui.qs.MiuiNotificationHeaderView").methodFinder()
-            .filterByName("updateLayout")
-            .single().createHook {
-                after {
-                    val viewGroup = it.thisObject as ViewGroup
-                    val mOrientation = viewGroup.getObjectField("mOrientation") as Int
-
-                    mWeatherView?.visibility = if (mOrientation == 1) {
-                        View.VISIBLE
-                    } else {
-                        View.GONE
-                    }
                 }
             }
     }

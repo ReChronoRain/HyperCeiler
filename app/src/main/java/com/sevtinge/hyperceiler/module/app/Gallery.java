@@ -35,7 +35,7 @@ import com.sevtinge.hyperceiler.module.hook.gallery.UnPrivacyWatermark;
 import com.sevtinge.hyperceiler.module.hook.gallery.UnlockAIGallery;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
-@HookBase(pkg = "com.miui.gallery", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.miui.gallery",  isPad = false)
 public class Gallery extends BaseModule {
 
     @Override

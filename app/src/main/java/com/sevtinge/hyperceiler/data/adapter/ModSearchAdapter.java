@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import fan.internal.utils.AnimHelper;
 import fan.recyclerview.card.CardGroupAdapter;
 
 public class ModSearchAdapter extends CardGroupAdapter {

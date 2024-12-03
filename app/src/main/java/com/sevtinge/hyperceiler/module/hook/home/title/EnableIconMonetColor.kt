@@ -29,7 +29,7 @@ object EnableIconMonetColor : BaseHook() {
         val monet = "system_accent1_100"
         val monoColorId = Resources.getSystem().getIdentifier(monet, "color", "android")
         var monoColor = Resources.getSystem().getColor(monoColorId, null)
-        if (BaseXposedInit.mPrefsMap.getBoolean("home_other_use_edit_color")) {
+        if (mPrefsMap.getBoolean("home_other_use_edit_color")) {
             monoColor = mPrefsMap.getInt("home_other_your_color_qwq", -1)
         }
         mResHook.setObjectReplacement(

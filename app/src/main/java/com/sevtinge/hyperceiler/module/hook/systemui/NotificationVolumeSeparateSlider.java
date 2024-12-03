@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.systemui;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
+import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.tool.HookTool;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -36,10 +36,10 @@ public class NotificationVolumeSeparateSlider {
         notifVolumeOnResId = R.drawable.ic_miui_volume_notification;
         notifVolumeOffResId = R.drawable.ic_miui_volume_notification_mute;
 
-        BaseXposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_content_width_expanded", R.dimen.miui_volume_content_width_expanded);
-        BaseXposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_ringer_layout_width_expanded", R.dimen.miui_volume_ringer_layout_width_expanded);
-        BaseXposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_width_expanded", R.dimen.miui_volume_column_width_expanded);
-        BaseXposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_margin_horizontal_expanded", R.dimen.miui_volume_column_margin_horizontal_expanded);
+        XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_content_width_expanded", R.dimen.miui_volume_content_width_expanded);
+        XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_ringer_layout_width_expanded", R.dimen.miui_volume_ringer_layout_width_expanded);
+        XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_width_expanded", R.dimen.miui_volume_column_width_expanded);
+        XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_margin_horizontal_expanded", R.dimen.miui_volume_column_margin_horizontal_expanded);
 
         HookTool.hookAllMethods(mMiuiVolumeDialogImpl, "addColumn", new HookTool.MethodHook() {
             @Override

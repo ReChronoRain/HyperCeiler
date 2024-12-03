@@ -73,12 +73,17 @@ abstract class MusicBaseHook : BaseHook() {
     fun sendNotification(text: String) {
         //  logE("sendNotification: " + context.packageName + ": " + text)
         createNotificationChannel()
+        val isClickClock = mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
         val launchIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         val bitmap = context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         val intent = Intent("$CHANNEL_ID.actions.switchClockStatus")
-        val pendingIntent =
+        // 需要重启音乐软件生效
+        val pendingIntent = if (isClickClock) {
             PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        } else {
+            PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_MUTABLE)
+        }
         builder.setContentTitle(text)
         builder.setSmallIcon(IconCompat.createWithBitmap(bitmap))
         builder.setTicker(text).setPriority(NotificationCompat.PRIORITY_LOW)

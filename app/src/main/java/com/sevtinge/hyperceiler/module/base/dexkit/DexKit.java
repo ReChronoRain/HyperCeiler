@@ -67,8 +67,6 @@ public class DexKit {
     private static final String TYPE_METHOD = "METHOD";
     private static final String TYPE_CLASS = "CLASS";
     private static final String TYPE_FIELD = "FIELD";
-    // 不关我事 (逃 ε=ε=ε=┏(゜ロ゜;)┛
-    private static final String TYPE_FILED = "FILED";
     private static final String TYPE_CONSTRUCTOR = "CONSTRUCTOR";
     private final String TAG;
     private static String callTAG;
@@ -91,19 +89,21 @@ public class DexKit {
     }
 
     private void init() {
-        if (privateDexKitBridge == null) {
-            if (hostDir == null) {
-                if (loadPackageParam == null) {
-                    throw new RuntimeException(TAG != null ? TAG : "InitDexKit" + ": lpparam is null");
-                }
-                hostDir = loadPackageParam.appInfo.sourceDir;
-                dexPath = loadPackageParam.appInfo.dataDir + DEXKIT_PATH;
-            }
-            gson = new GsonBuilder().setPrettyPrinting().create();
-            System.loadLibrary("dexkit");
-            privateDexKitBridge = DexKitBridge.create(hostDir);
-            versionCheck();
+        if (privateDexKitBridge != null) {
+            return;
         }
+
+        if (loadPackageParam == null) {
+            throw new RuntimeException(TAG != null ? TAG : "InitDexKit" + ": lpparam is null");
+        }
+
+        hostDir = loadPackageParam.appInfo.sourceDir;
+        dexPath = loadPackageParam.appInfo.dataDir + DEXKIT_PATH;
+
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        System.loadLibrary("dexkit");
+        privateDexKitBridge = DexKitBridge.create(hostDir);
+        versionCheck();
         isInit = true;
     }
 
@@ -124,47 +124,56 @@ public class DexKit {
      * 检查当前软件版本是否发生变化。
      */
     private void versionCheck() {
-        String versionName = Helpers.getPackageVersionName(loadPackageParam),
-                versionCode = Integer.toString(Helpers.getPackageVersionCode(loadPackageParam));
-        // String dexFile = dir + callTAG;
+        String versionName = Helpers.getPackageVersionName(loadPackageParam);
+        String versionCode = Integer.toString(Helpers.getPackageVersionCode(loadPackageParam));
         String nameFile = getFile("versionName"),
                 codeFile = getFile("versionCode"),
                 dexkitVersion = getFile("cacheVersion");
 
-        if (!FileUtils.mkdirs(dexPath)) {
-            isMkdir = false;
+        boolean isMkdir = FileUtils.mkdirs(dexPath);
+        if (!isMkdir) {
             XposedLogUtils.logE(callTAG, "failed to create mkdirs: " + dexPath + " cant use dexkit cache!!");
-        } else {
-            isMkdir = true;
-            if (!FileUtils.touch(dexkitVersion))
-                XposedLogUtils.logE(callTAG, "failed to create file: " + dexkitVersion);
-            String deVer = FileUtils.read(dexkitVersion);
-            if (!version.equals(deVer)) {
-                FileUtils.write(nameFile, versionName);
-                FileUtils.write(codeFile, versionCode);
-                clearCache(dexPath);
-                clearCache(dexPath);
-                FileUtils.write(dexkitVersion, version);
-            }
-            if (!FileUtils.touch(nameFile))
-                XposedLogUtils.logE(callTAG, "failed to create file: " + nameFile);
-            if (!FileUtils.touch(codeFile))
-                XposedLogUtils.logE(callTAG, "failed to create file: " + codeFile);
-            String verName = FileUtils.read(nameFile),
-                    codeName = FileUtils.read(codeFile);
-            if (verName != null && codeName != null) {
-                if ("null".equals(versionName) && versionCode.equals("-1")) return;
-                if (verName.isEmpty() || codeName.isEmpty()) {
-                    FileUtils.write(nameFile, versionName);
-                    FileUtils.write(codeFile, versionCode);
-                } else if (!(verName.equals(versionName)) || (!codeName.equals(versionCode))) {
-                    // FileUtils.write(dexFile, new JSONArray().toString());
-                    FileUtils.write(nameFile, versionName);
-                    FileUtils.write(codeFile, versionCode);
-                    clearCache(dexPath);
-                }
-            }
+            return;
         }
+
+        boolean isDexkitVersionTouched = FileUtils.touch(dexkitVersion);
+        if (!isDexkitVersionTouched) {
+            XposedLogUtils.logE(callTAG, "failed to create file: " + dexkitVersion);
+            return;
+        }
+
+        String deVer = FileUtils.read(dexkitVersion);
+        if (!version.equals(deVer)) {
+            writeVersionFiles(nameFile, codeFile, versionName, versionCode);
+            clearCache(dexPath);
+            FileUtils.write(dexkitVersion, version);
+        }
+
+        boolean isNameFileTouched = FileUtils.touch(nameFile);
+        boolean isCodeFileTouched = FileUtils.touch(codeFile);
+        if (!isNameFileTouched || !isCodeFileTouched) {
+            XposedLogUtils.logE(callTAG, "failed to create file: " + (isNameFileTouched ? codeFile : nameFile));
+            return;
+        }
+
+        String verName = FileUtils.read(nameFile),
+                codeName = FileUtils.read(codeFile);
+        if (needToUpdateVersionFiles(verName, codeName, versionName, versionCode)) {
+            writeVersionFiles(nameFile, codeFile, versionName, versionCode);
+            clearCache(dexPath);
+        }
+    }
+
+    private void writeVersionFiles(String nameFile, String codeFile, String versionName, String versionCode) {
+        FileUtils.write(nameFile, versionName);
+        FileUtils.write(codeFile, versionCode);
+    }
+
+    private boolean needToUpdateVersionFiles(String verName, String codeName, String versionName, String versionCode) {
+        return "null".equals(versionName) && "-1".equals(versionCode) ||
+                (verName.isEmpty() || codeName.isEmpty()) ||
+                !verName.equals(versionName) ||
+                !codeName.equals(versionCode);
     }
 
     public static void clearCache() {
@@ -330,7 +339,7 @@ public class DexKit {
                     case TYPE_CLASS -> getElement.add(getClass(data.clazz, classLoader));
                     case TYPE_METHOD -> getElement.add(getClass(data.clazz, classLoader).getDeclaredMethod(data.method,
                             stringToClassArray(data.param, classLoader)));
-                    case TYPE_FIELD, TYPE_FILED -> getElement.add(getClass(data.clazz, classLoader).getDeclaredField(data.field));
+                    case TYPE_FIELD -> getElement.add(getClass(data.clazz, classLoader).getDeclaredField(data.field));
                     case TYPE_CONSTRUCTOR -> getElement.add(getClass(data.clazz, classLoader).getConstructor(
                             stringToClassArray(data.param, classLoader)));
                 }

@@ -27,9 +27,9 @@ import com.sevtinge.hyperceiler.utils.PropUtils;
  * 会导致 <java.lang.NoClassDefFoundError: Failed resolution of: Lcom/sevtinge/hyperceiler/XposedInit;> 等
  * 日记:
  * 2024/1/3
- * 我我的评价是不要限制这个。
+ * 我的评价是不要限制这个。
  * 2024/1/4
- * 我爱prop。
+ * 我爱 prop。
  * */
 public class AndroidLogUtils {
     private static final String Tag = "[HyperCeiler]: ";

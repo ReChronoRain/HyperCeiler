@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.base.tool;
 
-import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.DENSITY;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.ID;
 import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.OBJECT;
@@ -26,13 +25,11 @@ import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.loader.ResourcesLoader;
 import android.content.res.loader.ResourcesProvider;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.ParcelFileDescriptor;
@@ -100,11 +97,7 @@ public class ResourcesTool {
             logW(TAG, "Context can't is null!");
             return null;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            loadResAboveApi30(resources, doOnMainLooper);
-        } else {
-            loadResBelowApi30(resources);
-        }
+        loadResAboveApi30(resources, doOnMainLooper);
         if (!resourcesArrayList.contains(resources))
             resourcesArrayList.add(resources);
         return resources;

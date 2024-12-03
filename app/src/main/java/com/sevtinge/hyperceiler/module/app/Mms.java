@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.module.hook.mms.DisableAd;
 import com.sevtinge.hyperceiler.module.hook.mms.DisableRiskTip;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
-@HookBase(pkg = "com.android.mms", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.android.mms",  isPad = false)
 public class Mms extends BaseModule {
     @Override
     public void handleLoadPackage() {

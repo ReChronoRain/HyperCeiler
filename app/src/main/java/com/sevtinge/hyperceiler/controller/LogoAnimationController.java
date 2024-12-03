@@ -11,6 +11,11 @@ import fan.cardview.HyperCardView;
 
 public class LogoAnimationController {
 
+    private static final float MAX_SCROLL_FACTOR = 1.0f;
+    private static final float MIN_SCROLL_FACTOR = 0.0f;
+    private static final float SCALE_FACTOR = 0.1f;
+    private static final float ALPHA_FACTOR = 0.1f;
+
     private int startY = 0;
     private int logoHeight = 0;
     private int logoPadding = 0;
@@ -25,17 +30,26 @@ public class LogoAnimationController {
 
     public void iniData(Context context, boolean needUpdate) {
         mContext = context;
-        actionBarPadding = context.getResources().getDimensionPixelSize(R.dimen.logo_area_height);
-        btnPadding = context.getResources().getDimensionPixelSize(R.dimen.update_btn_margin_bottom);
-        startY = context.getResources().getDimensionPixelSize(R.dimen.screen_effect_actionbar_height);
-        logoHeight = context.getResources().getDimensionPixelSize(R.dimen.logo_height);
+        actionBarPadding = getDimensionPixelSize(R.dimen.logo_area_height);
+        btnPadding = getDimensionPixelSize(R.dimen.update_btn_margin_bottom);
+        startY = getDimensionPixelSize(R.dimen.screen_effect_actionbar_height);
+        logoHeight = getDimensionPixelSize(R.dimen.logo_height);
         isNeedUpdate = needUpdate;
+        logoPadding = calculateLogoPadding(context, needUpdate);
+    }
+
+    private int getDimensionPixelSize(int dimenResId) {
+        return mContext.getResources().getDimensionPixelSize(dimenResId);
+    }
+
+    private int calculateLogoPadding(Context context, boolean needUpdate) {
+        int basePadding = getDimensionPixelSize(R.dimen.logo_bottom) - btnPadding;
         if (needUpdate) {
-            logoPadding = context.getResources().getDimensionPixelSize(R.dimen.logo_bottom) - btnPadding;
+            return basePadding;
         } else if (SettingsFeatures.isSplitTabletDevice()) {
-            logoPadding = (context.getResources().getDimensionPixelSize(R.dimen.logo_bottom) - btnPadding) - DisplayUtils.dp2px(context, 27.0f);
+            return basePadding - DisplayUtils.dp2px(context, 27.0f);
         } else {
-            logoPadding = (context.getResources().getDimensionPixelSize(R.dimen.logo_bottom) - btnPadding) - DisplayUtils.dp2px(context, 30.0f);
+            return basePadding - DisplayUtils.dp2px(context, 30.0f);
         }
     }
 
@@ -44,112 +58,76 @@ public class LogoAnimationController {
     }
 
     public void startAnimation(int scrollY, View iconLogoView, View textLogoView, View iconLogoViewShade, View textLogoViewShade, HyperCardView updateTextView, View versionLayout, View bgEffectView) {
-        float scroll = Math.min(1.0f, Math.max(0.0f, Math.abs(scrollY) * 1.0f / actionBarPadding));
-        float scale = 1.0f - scroll * 0.1f;
-        if (scrollY == 0) {
-            iconLogoView.setAlpha(1.0f);
-            iconLogoView.setScaleX(1.0f);
-            iconLogoView.setScaleY(1.0f);
+        float scroll = calculateScrollFactor(scrollY, actionBarPadding);
+        float scale = 1.0f - scroll * SCALE_FACTOR;
 
-            textLogoView.setAlpha(1.0f);
-            textLogoView.setScaleX(1.0f);
-            textLogoView.setScaleY(1.0f);
+        resetViewsAlphaAndScale(iconLogoView, textLogoView, iconLogoViewShade, textLogoViewShade);
 
-            iconLogoViewShade.setAlpha(1.0f);
-            iconLogoViewShade.setScaleX(1.0f);
-            iconLogoViewShade.setScaleY(1.0f);
+        applyAnimation(scroll, iconLogoView, textLogoView, iconLogoViewShade, textLogoViewShade, updateTextView, versionLayout, bgEffectView, scale, scrollY);
+    }
 
-            textLogoViewShade.setAlpha(1.0f);
-            textLogoViewShade.setScaleX(1.0f);
-            textLogoViewShade.setScaleY(1.0f);
-
-            versionLayout.setAlpha(1.0f);
-            versionLayout.setScaleX(1.0f);
-            versionLayout.setScaleY(1.0f);
-            bgEffectView.setAlpha(1.0f);
-            if (isNeedUpdate) {
-                updateTextView.setAlpha(1.0f);
-                updateTextView.setScaleX(1.0f);
-                updateTextView.setScaleY(1.0f);
-                updateTextView.setClickable(true);
-            } else {
-                updateTextView.setClickable(false);
-            }
-        } else {
-            if (scrollY >= logoPadding) {
-                float scroll2 = Math.min(1.0f, Math.max(0.0f, Math.abs(scrollY - logoPadding) * 1.0f / this.logoHeight));
-                float scale2 = 1.0f - 0.1f * scroll2;
-                iconLogoView.setAlpha(1.0f - scroll2);
-                iconLogoView.setScaleX(scale2);
-                iconLogoView.setScaleY(scale2);
-                iconLogoView.setPivotX((float) (iconLogoView.getMeasuredWidth() / 2));
-                iconLogoView.setPivotY((float) (iconLogoView.getMeasuredHeight() / 2));
-
-                textLogoView.setAlpha(1.0f - scroll2);
-                textLogoView.setScaleX(scale2);
-                textLogoView.setScaleY(scale2);
-                textLogoView.setPivotX((float) (textLogoView.getMeasuredWidth() / 2));
-                textLogoView.setPivotY((float) (textLogoView.getMeasuredHeight() / 2));
-
-                iconLogoViewShade.setAlpha(1.0f - scroll2);
-                iconLogoViewShade.setScaleX(scale2);
-                iconLogoViewShade.setScaleY(scale2);
-                iconLogoViewShade.setPivotX((float) (iconLogoViewShade.getMeasuredWidth() / 2));
-                iconLogoViewShade.setPivotY((float) (iconLogoViewShade.getMeasuredHeight() / 2));
-
-                textLogoViewShade.setAlpha(1.0f - scroll2);
-                textLogoViewShade.setScaleX(scale2);
-                textLogoViewShade.setScaleY(scale2);
-                textLogoViewShade.setPivotX((float) (textLogoViewShade.getMeasuredWidth() / 2));
-                textLogoViewShade.setPivotY((float) (textLogoViewShade.getMeasuredHeight() / 2));
-            } else {
-                iconLogoViewShade.setAlpha(1.0f);
-                iconLogoViewShade.setScaleX(1.0f);
-                iconLogoViewShade.setScaleY(1.0f);
-
-                textLogoViewShade.setAlpha(1.0f);
-                textLogoViewShade.setScaleX(1.0f);
-                textLogoViewShade.setScaleY(1.0f);
-            }
-            versionLayout.setAlpha(1.0f - actionBarPadding * 1.0f / logoPadding * scroll);
-            versionLayout.setScaleX(scale);
-            versionLayout.setScaleY(scale);
-            versionLayout.setPivotX(((float) (versionLayout.getMeasuredWidth()) / 2));
-            versionLayout.setPivotY(((float) (versionLayout.getMeasuredHeight()) / 2));
-            bgEffectView.setAlpha(1.0f - scroll);
-            if (isNeedUpdate) {
-                updateTextView.setAlpha(1.0f - scroll * (actionBarPadding * 1.0f / btnPadding));
-                updateTextView.setScaleX(scale);
-                updateTextView.setScaleY(scale);
-                updateTextView.setClickable(updateTextView.getAlpha() > 0.0f);
-            } else {
-                updateTextView.setClickable(false);
-            }
+    private void resetViewsAlphaAndScale(View... views) {
+        for (View view : views) {
+            view.setAlpha(1.0f);
+            view.setScaleX(1.0f);
+            view.setScaleY(1.0f);
         }
+    }
+
+    private void applyAnimation(float scroll, View iconLogoView, View textLogoView, View iconLogoViewShade, View textLogoViewShade, HyperCardView updateTextView, View versionLayout, View bgEffectView, float scale, int scrollY) {
+        if (scrollY >= logoPadding) {
+            float scroll2 = calculateScrollFactor(scrollY - logoPadding, logoHeight);
+            float scale2 = 1.0f - SCALE_FACTOR * scroll2;
+            setViewAlphaAndScale(iconLogoView, 1.0f - scroll2, scale2);
+            setViewAlphaAndScale(textLogoView, 1.0f - scroll2, scale2);
+            setViewAlphaAndScale(iconLogoViewShade, 1.0f - scroll2, scale2);
+            setViewAlphaAndScale(textLogoViewShade, 1.0f - scroll2, scale2);
+        } else {
+            resetViewsAlphaAndScale(iconLogoViewShade, textLogoViewShade);
+        }
+
+        versionLayout.setAlpha(1.0f - scroll * (actionBarPadding / (float) logoPadding));
+        versionLayout.setScaleX(scale);
+        versionLayout.setScaleY(scale);
+        setPivotXY(versionLayout);
+
+        bgEffectView.setAlpha(1.0f - scroll);
+        updateTextView.setAlpha(isNeedUpdate ? 1.0f - scroll * (actionBarPadding / (float) btnPadding) : 0.0f);
+        updateTextView.setScaleX(scale);
+        updateTextView.setScaleY(scale);
+        updateTextView.setClickable(updateTextView.getAlpha() > 0.0f);
+    }
+
+    private void setViewAlphaAndScale(View view, float alpha, float scale) {
+        view.setAlpha(alpha);
+        view.setScaleX(scale);
+        view.setScaleY(scale);
+        setPivotXY(view);
+    }
+
+    private void setPivotXY(View view) {
+        view.setPivotX((float) (view.getMeasuredWidth() / 2));
+        view.setPivotY((float) (view.getMeasuredHeight() / 2));
+    }
+
+    private float calculateScrollFactor(int scrollY, int padding) {
+        return Math.min(MAX_SCROLL_FACTOR, Math.max(MIN_SCROLL_FACTOR, Math.abs(scrollY) / (float) padding));
     }
 
     public void startButtonAnimation(int scrollValue, HyperCardView updateTextView) {
-        float scroll = Math.min(1.0f, Math.max(0.0f, (Math.abs(scrollValue) * 1.0f) / actionBarPadding));
-        float scale = 1.0f - (0.1f * scroll);
+        float scroll = calculateScrollFactor(scrollValue, actionBarPadding);
+        float scale = 1.0f - SCALE_FACTOR * scroll;
+
         if (scrollValue == 0) {
-            if (isNeedUpdate) {
-                updateTextView.setAlpha(1.0f);
-                updateTextView.setScaleX(1.0f);
-                updateTextView.setScaleY(1.0f);
-                updateTextView.setClickable(true);
-            } else {
-                updateTextView.setClickable(false);
-            }
+            updateTextView.setAlpha(isNeedUpdate ? 1.0f : 0.0f);
+            updateTextView.setScaleX(1.0f);
+            updateTextView.setScaleY(1.0f);
+            updateTextView.setClickable(isNeedUpdate);
         } else {
-            if (isNeedUpdate) {
-                updateTextView.setAlpha(1.0f - (scroll * ((actionBarPadding * 1.0f) / btnPadding)));
-                updateTextView.setScaleX(scale);
-                updateTextView.setScaleY(scale);
-                updateTextView.setClickable(updateTextView.getAlpha() > 0.0f);
-            } else {
-                updateTextView.setClickable(false);
-            }
+            updateTextView.setAlpha(isNeedUpdate ? 1.0f - scroll * (actionBarPadding / (float) btnPadding) : 0.0f);
+            updateTextView.setScaleX(scale);
+            updateTextView.setScaleY(scale);
+            updateTextView.setClickable(updateTextView.getAlpha() > 0.0f);
         }
     }
-
 }

@@ -57,7 +57,7 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockAi;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockMemc;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockSuperResolution;
 
-@HookBase(pkg = "com.android.settings", isPad = false, tarSdkVersion = 33)
+@HookBase(targetPackage = "com.android.settings", isPad = false, targetSdk = 33)
 public class SystemSettingsT extends BaseModule {
 
     @Override

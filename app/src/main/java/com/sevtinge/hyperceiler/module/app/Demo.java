@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.module.hook.demo.ColorTest;
 import com.sevtinge.hyperceiler.module.hook.demo.CrashDemo;
 import com.sevtinge.hyperceiler.module.hook.demo.ToastTest;
 
-@HookBase(pkg = "com.hchen.demo", skip = true, isPad = false, tarSdkVersion = 0)
+@HookBase(targetPackage = "com.hchen.demo", isPad = false)
 public class Demo extends BaseModule {
 
     @Override

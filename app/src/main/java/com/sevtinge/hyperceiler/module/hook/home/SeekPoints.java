@@ -26,14 +26,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 import de.robv.android.xposed.XposedHelpers;
 
 public class SeekPoints extends BaseHook {
 
-    public int points = XposedInit.mPrefsMap.getStringAsInt("home_other_seek_points", 0);
+    public int points = mPrefsMap.getStringAsInt("home_other_seek_points", 0);
 
     @Override
     public void init() {

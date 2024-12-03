@@ -40,6 +40,13 @@
             android:summary="@string/system_ui_statusbar_music_hide_clock_desc"
             android:title="@string/system_ui_statusbar_music_hide_clock_title" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_music_hide_clock"
+            android:key="prefs_key_system_ui_statusbar_music_click_clock"
+            android:summary="@string/system_ui_statusbar_music_click_clock_desc"
+            android:title="@string/system_ui_statusbar_music_click_clock_title" />
+
         <SeekBarPreferenceCompat
             android:defaultValue="18"
             android:key="prefs_key_system_ui_statusbar_music_speed"

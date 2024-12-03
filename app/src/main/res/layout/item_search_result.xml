@@ -22,8 +22,7 @@
     android:orientation="horizontal"
     android:paddingHorizontal="25dp"
     android:paddingVertical="10dp"
-    android:descendantFocusability="blocksDescendants"
-    style="@style/Widget.ListView.Item.Immersion">
+    android:descendantFocusability="blocksDescendants">
 
     <ImageView
         android:id="@android:id/icon"
