@@ -63,7 +63,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class DexKit {
     public boolean isInit = false;
     // 更新版本可触发全部缓存重建，建议使用整数
-    private final String version = "3";
+    private static final String version = "4";
     private static final String TYPE_METHOD = "METHOD";
     private static final String TYPE_CLASS = "CLASS";
     private static final String TYPE_FIELD = "FIELD";
@@ -126,14 +126,15 @@ public class DexKit {
     private void versionCheck() {
         String versionName = Helpers.getPackageVersionName(loadPackageParam);
         String versionCode = Integer.toString(Helpers.getPackageVersionCode(loadPackageParam));
-        String nameFile = getFile("versionName"),
-                codeFile = getFile("versionCode"),
-                dexkitVersion = getFile("cacheVersion");
+        String nameFile = getFile("versionName");
+        String codeFile = getFile("versionCode");
+        String dexkitVersion = getFile("cacheVersion");
 
-        boolean isMkdir = FileUtils.mkdirs(dexPath);
-        if (!isMkdir) {
+        if (!FileUtils.mkdirs(dexPath)) {
+            isMkdir = false;
             XposedLogUtils.logE(callTAG, "failed to create mkdirs: " + dexPath + " cant use dexkit cache!!");
-            return;
+        } else {
+            isMkdir = true;
         }
 
         boolean isDexkitVersionTouched = FileUtils.touch(dexkitVersion);
@@ -156,8 +157,8 @@ public class DexKit {
             return;
         }
 
-        String verName = FileUtils.read(nameFile),
-                codeName = FileUtils.read(codeFile);
+        String verName = FileUtils.read(nameFile);
+        String codeName = FileUtils.read(codeFile);
         if (needToUpdateVersionFiles(verName, codeName, versionName, versionCode)) {
             writeVersionFiles(nameFile, codeFile, versionName, versionCode);
             clearCache(dexPath);
@@ -269,12 +270,11 @@ public class DexKit {
         callTAG = getCallName(Thread.currentThread().getStackTrace());
         DexKitBridge dexKitBridge = getDexKitBridge();
         String dexFile = getFile(callTAG);
-        if (noCache)
+
+        if (noCache || !isMkdir || !touchIfNeed(dexFile)) {
             return getElement(dexKitBridge, iDexKit, iDexKitList);
-        if (!isMkdir)
-            return getElement(dexKitBridge, iDexKit, iDexKitList);
-        if (!touchIfNeed(dexFile))
-            return getElement(dexKitBridge, iDexKit, iDexKitList);
+        }
+
         return run(tag, dexFile, dexKitBridge, dexKit.loadPackageParam.classLoader, iDexKit, iDexKitList);
     }
 
@@ -282,19 +282,20 @@ public class DexKit {
     private static List<AnnotatedElement> run(@NonNull String tag, String dexFile, DexKitBridge dexKitBridge,
                                               ClassLoader classLoader, IDexKit iDexKit, IDexKitList iDexKitList) {
         ArrayList<DexKitData> cacheData = getCacheMapOrReadFile(dexFile);
-        if (!haveCache(tag, cacheData))
+        if (!haveCache(tag, cacheData)) {
             return getElementAndWriteCache(tag, iDexKit, iDexKitList, dexKitBridge, cacheData, dexFile);
-        else
+        } else {
             return getFileCache(tag, classLoader, cacheData);
+        }
     }
 
     // 获取结果并写入缓存
     private static List<AnnotatedElement> getElementAndWriteCache(String tag, IDexKit iDexKit, IDexKitList iDexKitList,
-                                                                  DexKitBridge dexKitBridge, ArrayList<DexKitData> dadaList, String dexFile) {
+                                                                  DexKitBridge dexKitBridge, ArrayList<DexKitData> cacheDataList, String dexFile) {
         ArrayList<AnnotatedElement> elements = new ArrayList<>(getElement(dexKitBridge, iDexKit, iDexKitList));
-        dadaList.addAll(createJsonList(tag, elements));
-        FileUtils.write(dexFile, gson.toJson(dadaList));
-        cacheMap.put(dexFile, dadaList);
+        cacheDataList.addAll(createJsonList(tag, elements));
+        FileUtils.write(dexFile, gson.toJson(cacheDataList));
+        cacheMap.put(dexFile, cacheDataList);
         return elements;
     }
 
@@ -423,7 +424,7 @@ public class DexKit {
     private static Class<?> getClass(@Nullable String name, ClassLoader classLoader) {
         if (name == null) throwRuntime("str is null, cant get class!!");
         try {
-            Class<?> c = null;
+            Class<?> c;
             String old = name;
             name = name.replace("[", "");
             int i = old.length() - name.length();

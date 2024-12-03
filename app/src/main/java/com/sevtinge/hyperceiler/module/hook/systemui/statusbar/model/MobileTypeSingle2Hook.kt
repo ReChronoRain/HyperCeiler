@@ -47,6 +47,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.Mobi
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.verticalOffset
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.StateFlowHelper.newReadonlyStateFlow
+import com.sevtinge.hyperceiler.utils.api.ProjectApi.*
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import java.lang.reflect.*
@@ -78,6 +79,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                 MutableCollection::class.java,
                 View::class.java
             )
+
             try {
                 method2 = DarkIconDispatcherClass.getMethod(
                     "getTint",
@@ -271,7 +273,7 @@ object MobileTypeSingle2Hook : BaseHook() {
             "alwaysCollectFlow",
             dataConnected,
             Consumer<BooleanArray> {
-                logD(TAG, lpparam.packageName, "MobileDataConnected -> ${it.contentToString()}")
+                if (isDebug()) logD(TAG, lpparam.packageName, "MobileDataConnected -> ${it.contentToString()}")
 
                 val simCount = it.size
                 val isNoDataConnected = when (simCount) {
