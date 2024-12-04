@@ -1191,6 +1191,9 @@
     <!--笔记-->
     <string name="notes">笔记</string>
     <string name="notes_disable_ai_watermark">禁用水印</string>
+    <!--录音机-->
+    <string name="sound_recorder">录音机</string>
+    <string name="sound_recorder_disable_ai_watermark">禁用水印</string>
     <!--万象息屏-->
     <string name="aod">万象息屏</string>
     <string name="aod_hyperos">息屏与锁屏编辑</string>

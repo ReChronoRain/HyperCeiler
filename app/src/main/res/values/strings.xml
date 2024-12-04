@@ -1971,6 +1971,9 @@
     <string name="notes">Notes</string>
     <string name="notes_disable_ai_watermark">Disable AI watermark</string>
 
+    <string name="sound_recorder">Sound Recorder</string>
+    <string name="sound_recorder_disable_ai_watermark">Disable AI watermark</string>
+
     <string name="lpa">LPA</string>
     <string name="lpa_custom_imei">Custom IMEI</string>
     <string name="lpa_custom_imei_desc">Make sure you\'ve entered the IMEI correctly. An incorrect IMEI may cause the eSIM to be unavailable or abnormal. We\'re not responsible for any consequences arising therefrom.</string>

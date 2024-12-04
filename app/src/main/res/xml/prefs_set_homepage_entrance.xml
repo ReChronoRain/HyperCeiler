@@ -138,6 +138,14 @@
         <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_soundrecorder_state"
+            android:layout="@layout/preference_header"
+            android:summary="com.android.soundrecorder"
+            android:title="@string/sound_recorder" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_system_ui_state"
             android:layout="@layout/preference_header"
             android:summary="com.android.systemui"

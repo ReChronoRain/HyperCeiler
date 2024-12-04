@@ -34,6 +34,7 @@
         <item>com.android.providers.downloads.ui</item> <!--下载管理-->
         <item>com.android.server.telecom</item> <!--通话管理-->
         <item>com.android.settings</item> <!--设置-->
+        <item>com.android.soundrecorder</item> <!--录音机-->
         <item>com.android.systemui</item> <!--系统界面-->
         <item>com.android.thememanager</item> <!--主题壁纸-->
         <item>com.android.updater</item> <!--系统更新-->

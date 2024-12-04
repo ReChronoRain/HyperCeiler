@@ -169,6 +169,13 @@
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_soundrecorder"
+            android:summary="com.android.soundrecorder"
+            android:title="@string/sound_recorder"
+            app:inflatedXml="@xml/soundrecorder"/>
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_system_ui"
             android:summary="com.android.systemui"
             android:title="@string/system_ui"

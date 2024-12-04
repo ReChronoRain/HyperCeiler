@@ -314,6 +314,7 @@ public class SearchHelper {
         parsePrefXmlForSecurityCenter(context, com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.OtherSettings.class, R.xml.security_center_other);
 
         parsePrefXmlForDashboardFragment(context, R.xml.tsmclient);
+        parsePrefXmlForDashboardFragment(context, R.xml.soundrecorder);
         parsePrefXmlForDashboardFragment(context, R.xml.html_viewer);
         parsePrefXml(context, WeatherFragment.class, R.xml.weather);
         parsePrefXmlForDashboardFragment(context, R.xml.aiasst);
