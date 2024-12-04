@@ -639,6 +639,8 @@
     <!--小米社区-->
     <string name="community">小米社区</string>
     <string name="community_device_modify">机型伪装</string>
+    <string name="community_fuck_detection">禁止检测</string>
+    <string name="community_fuck_detection_desc">禁止在反馈时检测 HyperCeiler 并上传。请确保问题不是由自身引起，而是确实的系统问题，再进行反馈，以免带来不必要的麻烦</string>
     <!--文件管理-->
     <string name="fileexplorer">文件管理</string>
     <string name="file_explorer_can_selectable">文件夹名称允许长按选择操作</string>

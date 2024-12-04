@@ -25,6 +25,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_community_fuck_detection"
+            android:title="@string/community_fuck_detection"
+            android:summary="@string/community_fuck_detection_desc"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_community_device_modify"
             android:title="@string/community_device_modify" />
 

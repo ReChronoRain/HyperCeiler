@@ -631,6 +631,8 @@
     <!--Community-->
     <string name="community">Xiaomi Community</string>
     <string name="community_device_modify">Model guise</string>
+    <string name="community_fuck_detection">Fuck detection</string>
+    <string name="community_fuck_detection_desc">It is forbidden to detect HyperCeiler and upload it while giving feedback. Please make sure that the problem is not caused by yourself, but a real system problem, and then give feedback to avoid unnecessary trouble.</string>
     <!--File Manager-->
     <string name="fileexplorer">File Manager</string>
     <string name="file_explorer_can_selectable">File Manager can be selectable</string>
