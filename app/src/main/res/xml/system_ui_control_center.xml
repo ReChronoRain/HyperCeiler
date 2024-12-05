@@ -22,17 +22,6 @@
     app:quick_restart="com.android.systemui">
 
     <PreferenceCategory>
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_plugin_tiles_load_way"
-            android:summary="@string/system_ui_plugin_tiles_load_way_desc"
-            android:title="@string/system_ui_plugin_tiles_load_way"
-            app:entries="@array/system_ui_plugin_tiles_load_way_arr"
-            app:entryValues="@array/system_ui_plugin_tiles_load_way_arr_value" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory>
 
         <SwitchPreference
             android:defaultValue="false"

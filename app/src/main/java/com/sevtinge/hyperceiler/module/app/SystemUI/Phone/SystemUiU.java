@@ -101,6 +101,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.navigation.HandleLineCustom
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.HideNavigationBar;
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.NavigationCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.RotationButton;
+import com.sevtinge.hyperceiler.module.hook.systemui.plugin.FocusNotifLyricPluginHelper;
 import com.sevtinge.hyperceiler.module.hook.systemui.plugin.NewPluginHelper;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.BlurEnable;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DoubleTapToSleep;
@@ -147,7 +148,8 @@ public class SystemUiU extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // PluginHelper
-        initHook(NewPluginHelper.INSTANCE);
+        initHook(new NewPluginHelper());
+        initHook(FocusNotifLyricPluginHelper.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch"));
         // initHook(Island.INSTANCE, true); // 灵动岛
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         // initHook(DisableChargeAnimation.INSTANCE);

@@ -1073,12 +1073,6 @@
     <string name="system_ui_other_notification_fix">禁用通知白名单</string>
     <string name="system_ui_plugin_enable_volume_blur">音量条模糊</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">仅供 Android 12 及以上的 MTK 机型使用，可能存在 GPU 负载较高的情况</string>
-
-    <string name="system_ui_plugin_tiles_load_way">磁贴 hook 加载方式</string>
-    <string name="system_ui_plugin_tiles_load_way_desc">全局加载可能会导致不必要的卡顿；请根据实际可用性选择加载方式</string>
-    <string name="system_ui_plugin_tiles_load_way_global">全局</string>
-    <string name="system_ui_plugin_tiles_load_way_default">默认</string>
-    <string name="system_ui_plugin_tiles_load_way_compatibility">兼容</string>
     <!--设置-->
     <string name="system_settings">设置</string>
     <string name="system_settings_international_build">国际版本设置页面</string>
