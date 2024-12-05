@@ -21,9 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 import android.content.*
 import android.graphics.drawable.*
 import android.view.*
-import com.sevtinge.hyperceiler.module.base.tool.*
 import com.sevtinge.hyperceiler.module.base.tool.HookTool.*
-import com.sevtinge.hyperceiler.utils.log.*
 import com.sevtinge.hyperceiler.utils.prefs.*
 import de.robv.android.xposed.*
 
@@ -44,7 +42,19 @@ object CCGridForHyperOS {
         XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "updateIcon", "com.android.systemui.plugins.qs.QSTile\$State", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType, object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     orientation = (param.thisObject as View).context.resources.configuration.orientation
-                    if (configuration == orientation) return
+                    val stackTrace = Thread.currentThread().stackTrace 
+                    val targetMethods = setOf( 
+                    "miui.systemui.controlcenter.qs.tileview.QSTileItemView.updateState", 
+                    "miui.systemui.controlcenter.panel.main.recyclerview.MainPanelItemViewHolder.onSuperSaveModeChanged", 
+                    "miui.systemui.controlcenter.qs.tileview.QSTileItemView.updateCustomizeState", 
+                    "miui.systemui.controlcenter.qs.tileview.QSTileItemView.onModeChanged" 
+                    ) 
+
+                    val isMethodFound = stackTrace.any { element -> 
+                        "${element.className}.${element.methodName}" in targetMethods 
+                    } 
+
+                    if (configuration == orientation && isMethodFound) return
 
                     val pluginContext: Context = XposedHelpers.getObjectField(param.thisObject, "pluginContext") as Context
 
