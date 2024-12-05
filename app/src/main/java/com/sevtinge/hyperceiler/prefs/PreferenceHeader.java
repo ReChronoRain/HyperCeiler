@@ -24,10 +24,8 @@ import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWit
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -78,7 +76,8 @@ public class PreferenceHeader extends XmlPreference {
         }
         if (!scope.contains(getSummary()) && (getSummary() != null) && isScopeGet) {
             notInSelectedScope.add((String) getSummary());
-            mNoScoped.add(" - " + getTitle() + " (" + getSummary() + ")");
+            String string = " - " + getTitle() + " (" + getSummary() + ")";
+            if (!mDisableOrHiddenApp.contains(string) && !mUninstallApp.contains(string) && !mNoScoped.contains(string)) mNoScoped.add(" - " + getTitle() + " (" + getSummary() + ")");
             setVisible(false);
         }
     }
