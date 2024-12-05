@@ -230,6 +230,13 @@
                 android:data="https://github.com/buffcow/HyperSmartCharge" />
         </Preference>
         <Preference
+            android:summary="YunZiA | GPL-3.0"
+            android:title="HyperStar2.0">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/YunZiA/HyperStar2.0" />
+        </Preference>
+        <Preference
             android:summary="JetBrains | No License"
             android:title="Kotlin">
             <intent

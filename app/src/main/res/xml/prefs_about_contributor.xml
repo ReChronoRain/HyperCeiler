@@ -128,6 +128,20 @@
                 android:data="https://4pda.to/forum/index.php?showuser=10789718" />
         </Preference>
         <Preference
+            android:summary="GitHub@LiuBodong"
+            android:title="LiuBodong">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/LiuBodong" />
+        </Preference>
+        <Preference
+            android:summary="GitHub@Memory2314"
+            android:title="Memory">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Memory2314" />
+        </Preference>
+        <Preference
             android:summary="GitHub@NahidaBuer"
             android:title="Nahida">
             <intent
@@ -149,11 +163,11 @@
                 android:data="https://github.com/Henvy-Mango" />
         </Preference>
         <Preference
-            android:summary="GitHub@Memory2314"
-            android:title="Memory">
+            android:summary="GitHub@NextAlone"
+            android:title="Next Alone">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/Memory2314" />
+                android:data="https://github.com/NextAlone" />
         </Preference>
         <Preference
             android:summary="CoolApk@MonetCarlos"
@@ -161,13 +175,6 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://www.coolapk.com/u/9021855" />
-        </Preference>
-        <Preference
-            android:summary="GitHub@NextAlone"
-            android:title="Next Alone">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/NextAlone" />
         </Preference>
         <Preference
             android:summary="GitHub@nxibjzC"

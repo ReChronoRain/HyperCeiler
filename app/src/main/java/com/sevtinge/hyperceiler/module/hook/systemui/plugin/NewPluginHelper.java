@@ -26,18 +26,17 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGridForHype
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import de.robv.android.xposed.XposedHelpers;
 
 import com.sevtinge.hyperceiler.module.hook.systemui.*;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.*;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.*;
 
 public class NewPluginHelper extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
+        // from hyperstar2.0
         findAndHookConstructor("com.android.systemui.shared.plugins.PluginActionManager$PluginContextWrapper", Context.class, ClassLoader.class, new MethodHook(){
             @Override
             protected void after(MethodHookParam param) throws Throwable {
