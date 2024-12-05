@@ -120,6 +120,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        if (isInSafeMode(lpparam.packageName)) return;
         EzXHelper.initHandleLoadPackage(lpparam);
         EzXHelper.setLogTag(TAG);
         EzXHelper.setToastTag(TAG);
@@ -160,7 +161,6 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
     }
 
     private void init(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (isSafeModeOn) return;
         String packageName = lpparam.packageName;
         if (Objects.equals(packageName, "android"))
             logI(packageName, "androidVersion = " + getAndroidVersion() + ", miuiVersion = " + getMiuiVersion() + ", hyperosVersion = " + getHyperOSVersion());
@@ -180,7 +180,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
             return;
         }
 
-        if (isInSafeMode(mPkgName) || isOtherRestrictions(mPkgName)) return;
+        if (isOtherRestrictions(mPkgName)) return;
 
         HashMap<String, DataBase> dataMap = DataBase.get();
         if (dataMap.values().stream().noneMatch(dataBase -> dataBase.mTargetPackage.equals(mPkgName))) {
