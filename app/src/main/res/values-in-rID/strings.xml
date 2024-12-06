@@ -886,7 +886,7 @@
     <string name="system_settings_ai_image_unlock_memc">Buka kunci MEMC</string>
     <string name="system_settings_permission_title">Izin</string>
     <string name="system_settings_more_notification_settings">Tampilkan pengaturan notifikasi lainnya</string>
-    <string name="system_settings_more_notification_settings_summary">Anda perlu memulai ulang cakupan \"Antarmuka Sistem\" dan \"Pengaturan\" agar perubahan dapat diterapkan</string>
+    <string name="system_settings_restart_systemui_desc">Anda perlu memulai ulang cakupan \"Antarmuka Sistem\" dan \"Pengaturan\" agar perubahan dapat diterapkan</string>
     <string name="system_settings_permission_show_app_up">Izin tingkat atas tanpa mencari daftar aplikasi</string>
     <string name="system_settings_permission_show_app_up_desc">Kembalikan perilaku lama, langsung ke sakelar izin aplikasi terkait “ditampilkan di atas aplikasi lain”</string>
     <string name="system_settings_permission_unknown_origin_app">Instal izin aplikasi yang tidak dikenal tanpa mencari daftar aplikasi</string>

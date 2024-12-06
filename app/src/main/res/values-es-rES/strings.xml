@@ -819,7 +819,7 @@
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
     <string name="system_settings_permission_title">Permisos</string>
     <string name="system_settings_more_notification_settings">Mostrar importancia de las notificaciones</string>
-    <string name="system_settings_more_notification_settings_summary">Mostrar importancia de las notificaciones</string>
+    <string name="system_settings_restart_systemui_desc">Mostrar importancia de las notificaciones</string>
     <string name="system_settings_permission_show_app_up">Permisos de nivel superior sin buscar en la lista de aplicaciones</string>
     <string name="system_settings_permission_show_app_up_desc">Usar el comportamiento antiguo de saltar directamente al cambio de permisos de la aplicación correspondiente \"mostrada encima de otras aplicaciones\"</string>
     <string name="system_settings_permission_unknown_origin_app">Permisos de instalar aplicaciones desconocidas sin buscar en la lista de aplicaciones</string>

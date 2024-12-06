@@ -926,7 +926,7 @@
     <string name="system_settings_ai_image_unlock_memc">MEMC をアンロック</string>
     <string name="system_settings_permission_title">アクセス許可</string>
     <string name="system_settings_more_notification_settings">その他の通知設定を表示</string>
-    <string name="system_settings_more_notification_settings_summary">変更を有効にするには、システム UI と設定のスコープを再起動する必要があります</string>
+    <string name="system_settings_restart_systemui_desc">変更を有効にするには、システム UI と設定のスコープを再起動する必要があります</string>
     <string name="system_settings_permission_show_app_up">アプリ一覧を検索せずに「他のアプリの上に重ねて表示」権限を表示</string>
     <string name="system_settings_permission_show_app_up_desc">「他のアプリの上に重ねて表示」の権限スイッチに直接移動する、古い動作を復元します</string>
     <string name="system_settings_permission_unknown_origin_app">アプリ一覧を検索せずに「不明なアプリのインストール」権限を表示</string>

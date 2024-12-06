@@ -40,6 +40,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_control_center_unlock_old"
+            android:title="@string/system_ui_controlcenter_unlock_old_title"
+            android:summary="@string/system_settings_restart_systemui_desc"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_novelty_haptic"
             android:summary="@string/system_settings_novelty_haptic_desc"
             android:title="@string/system_settings_novelty_haptic_title" />

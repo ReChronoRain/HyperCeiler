@@ -80,7 +80,7 @@ public class SystemSettingsFragment extends DashboardFragment {
         mPad.setVisible(isPad());
 
         if (isMoreHyperOSVersion(1f)) {
-            mNotice.setSummary(R.string.system_settings_more_notification_settings_summary);
+            mNotice.setSummary(R.string.system_settings_restart_systemui_desc);
         }
 
         Bundle args1 = new Bundle();

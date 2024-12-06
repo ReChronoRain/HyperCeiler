@@ -1098,7 +1098,7 @@
     <string name="system_settings_ai_image_unlock_memc">Unlock MEMC</string>
     <string name="system_settings_permission_title">Permission</string>
     <string name="system_settings_more_notification_settings">Show more notification settings</string>
-    <string name="system_settings_more_notification_settings_summary">You need to restart the System UI and Settings scopes for the changes to take effect</string>
+    <string name="system_settings_restart_systemui_desc">You need to restart the System UI and Settings scopes for the changes to take effect</string>
     <string name="system_settings_permission_show_app_up">Upper-level permissions without searching the app list</string>
     <string name="system_settings_permission_show_app_up_desc">Restore the old behavior, jump directly to the corresponding app permission switch displayed at the top of other apps.</string>
     <string name="system_settings_permission_unknown_origin_app">Install unknown apps without searching the app list</string>

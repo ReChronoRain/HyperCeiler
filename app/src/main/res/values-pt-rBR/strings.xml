@@ -965,7 +965,7 @@
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
     <string name="system_settings_permission_title">Permissão</string>
     <string name="system_settings_more_notification_settings">Mostrar mais configurações de notificação</string>
-    <string name="system_settings_more_notification_settings_summary">Você precisa reiniciar os escopos UI do Sistema e Configurações para que as alterações tenham efeito</string>
+    <string name="system_settings_restart_systemui_desc">Você precisa reiniciar os escopos UI do Sistema e Configurações para que as alterações tenham efeito</string>
     <string name="system_settings_permission_show_app_up">Permissões de nível superior sem pesquisar na lista de apps</string>
     <string name="system_settings_permission_show_app_up_desc">Restaure o comportamento antigo e vá diretamente para o interruptor de permissão do app correspondente exibido na parte superior de outros apps.</string>
     <string name="system_settings_permission_unknown_origin_app">Instalar apps desconhecidos sem pesquisar na lista de apps</string>

@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.AddMiuiPlusEntry;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AntiQues;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AppsFreezerEnable;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.ControlCenterStyle;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.DisableInstallUnknownVerify;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.EnableFoldArea;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.EnablePadArea;
@@ -97,6 +98,8 @@ public class SystemSettingsU extends BaseModule {
 
         initHook(new EnablePadArea(), mPrefsMap.getBoolean("system_settings_enable_pad_area"));
         initHook(new EnableFoldArea(), mPrefsMap.getBoolean("system_settings_enable_fold_area"));
+
+        initHook(new ControlCenterStyle(), mPrefsMap.getBoolean("system_control_center_unlock_old"));
 
         initHook(new ModifySystemVersion(), mPrefsMap.getBoolean("updater_enable_miui_version") && mPrefsMap.getStringAsInt("updater_version_mode", 1) != 1);
 

@@ -1130,7 +1130,7 @@
 
     <string name="system_settings_permission_title">权限</string>
     <string name="system_settings_more_notification_settings">显示更多通知设置项</string>
-    <string name="system_settings_more_notification_settings_summary">需重启 \"系统界面\" 与 \"设置\" 共两个作用域方可生效</string>
+    <string name="system_settings_restart_systemui_desc">需重启 \"系统界面\" 与 \"设置\" 共两个作用域方可生效</string>
     <string name="system_settings_permission_show_app_up">显示在其他应用上层权限直达</string>
     <string name="system_settings_permission_show_app_up_desc">恢复旧版行为，直接跳转对应应用 \"显示在其他应用上层\" 的权限开关</string>
     <string name="system_settings_permission_unknown_origin_app">安装未知应用权限直达</string>

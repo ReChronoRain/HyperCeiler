@@ -969,7 +969,7 @@
     <string name="system_settings_ai_image_unlock_memc">MEMC</string>
     <string name="system_settings_permission_title">Разрешение</string>
     <string name="system_settings_more_notification_settings">Показать больше настроек уведомлений</string>
-    <string name="system_settings_more_notification_settings_summary">Вам необходимо перезапустить области \"Системный интерфейс\" и \"Настройки\", чтобы изменения вступили в силу</string>
+    <string name="system_settings_restart_systemui_desc">Вам необходимо перезапустить области \"Системный интерфейс\" и \"Настройки\", чтобы изменения вступили в силу</string>
     <string name="system_settings_permission_show_app_up">Разрешения верхнего уровня без поиска в списке приложений</string>
     <string name="system_settings_permission_show_app_up_desc">Верните старое действие, перейдите непосредственно к переключателю разрешений соответствующего приложения, \"Отображать поверх других приложений\"</string>
     <string name="system_settings_permission_unknown_origin_app">Установите неизвестные разрешения приложения без поиска в списке приложений</string>
