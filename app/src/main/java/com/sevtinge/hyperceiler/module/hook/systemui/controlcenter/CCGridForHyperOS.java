@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
+import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logD;
 import static com.sevtinge.hyperceiler.utils.prefs.PrefsUtils.mPrefsMap;
 
 import android.content.Context;
@@ -42,8 +43,6 @@ public class CCGridForHyperOS {
     private static Drawable restrictedD = null;
     private static Drawable disabledD = null;
     private static Drawable unavailableD = null;
-    private static int configuration = 0;
-    private static int orientation;
 
     public static void initCCGridForHyperOS(ClassLoader classLoader) {
         Class<?> clazz = XposedHelpers.findClass("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader);
@@ -60,7 +59,10 @@ public class CCGridForHyperOS {
                 new HookTool.MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        XposedHelpers.callMethod(param.thisObject, "updateResources");
+                        if ((boolean) param.args[1] && (boolean) param.args[2] || warningD == null || enabledD == null || restrictedD == null || disabledD == null || unavailableD == null) {
+                            getPluginResources((Context) XposedHelpers.getObjectField(param.thisObject, "pluginContext"));
+                            // XposedHelpers.callMethod(param.thisObject, "updateResources");       // 为什么能跑起来？
+                        }
                     }
                 }
         );
@@ -70,32 +72,7 @@ public class CCGridForHyperOS {
                 new HookTool.MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        orientation = ((View) param.thisObject).getContext().getResources().getConfiguration().orientation;
-
-                        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-                        Set<String> targetMethods = new HashSet<>(Arrays.asList(
-                                "miui.systemui.controlcenter.qs.tileview.QSTileItemView.updateState",
-                                "miui.systemui.controlcenter.panel.main.recyclerview.MainPanelItemViewHolder.onSuperSaveModeChanged",
-                                "miui.systemui.controlcenter.qs.tileview.QSTileItemView.updateCustomizeState",
-                                "miui.systemui.controlcenter.qs.tileview.QSTileItemView.onModeChanged"
-                        ));
-
-                        boolean isMethodFound = Arrays.stream(stackTrace)
-                                .anyMatch(element -> targetMethods.contains(element.getClassName() + "." + element.getMethodName()));
-
-                        if (configuration == orientation && isMethodFound) return;
-
-                        Context pluginContext = (Context) XposedHelpers.getObjectField(param.thisObject, "pluginContext");
-                        int warning = pluginContext.getResources().getIdentifier("qs_background_warning", "drawable", "miui.systemui.plugin");
-                        int enabled = pluginContext.getResources().getIdentifier("qs_background_enabled", "drawable", "miui.systemui.plugin");
-                        int restricted = pluginContext.getResources().getIdentifier("qs_background_restricted", "drawable", "miui.systemui.plugin");
-                        int disabled = pluginContext.getResources().getIdentifier("qs_background_disabled", "drawable", "miui.systemui.plugin");
-                        int unavailable = pluginContext.getResources().getIdentifier("qs_background_unavailable", "drawable", "miui.systemui.plugin");
-                        warningD = pluginContext.getTheme().getDrawable(warning);
-                        enabledD = pluginContext.getTheme().getDrawable(enabled);
-                        restrictedD = pluginContext.getTheme().getDrawable(restricted);
-                        disabledD = pluginContext.getTheme().getDrawable(disabled);
-                        unavailableD = pluginContext.getTheme().getDrawable(unavailable);
+                        if (warningD == null || enabledD == null || restrictedD == null || disabledD == null || unavailableD == null) getPluginResources((Context) XposedHelpers.getObjectField(param.thisObject, "pluginContext"));
                         if (warningD != null) {
                             GradientDrawable warningG = (GradientDrawable) warningD;
                             warningG.setCornerRadius(radius);
@@ -116,8 +93,6 @@ public class CCGridForHyperOS {
                             GradientDrawable unavailableG = (GradientDrawable) unavailableD;
                             unavailableG.setCornerRadius(radius);
                         }
-
-                        configuration = orientation;
                     }
                 }
         );
@@ -131,5 +106,18 @@ public class CCGridForHyperOS {
                     }
                 }
         );
+    }
+
+    private static void getPluginResources(Context pluginContext) {
+        int warning = pluginContext.getResources().getIdentifier("qs_background_warning", "drawable", "miui.systemui.plugin");
+        int enabled = pluginContext.getResources().getIdentifier("qs_background_enabled", "drawable", "miui.systemui.plugin");
+        int restricted = pluginContext.getResources().getIdentifier("qs_background_restricted", "drawable", "miui.systemui.plugin");
+        int disabled = pluginContext.getResources().getIdentifier("qs_background_disabled", "drawable", "miui.systemui.plugin");
+        int unavailable = pluginContext.getResources().getIdentifier("qs_background_unavailable", "drawable", "miui.systemui.plugin");
+        warningD = pluginContext.getTheme().getDrawable(warning);
+        enabledD = pluginContext.getTheme().getDrawable(enabled);
+        restrictedD = pluginContext.getTheme().getDrawable(restricted);
+        disabledD = pluginContext.getTheme().getDrawable(disabled);
+        unavailableD = pluginContext.getTheme().getDrawable(unavailable);
     }
 }
