@@ -21,23 +21,28 @@
     app:myLocation="@string/mms"
     app:quick_restart="com.android.mms">
     <PreferenceCategory>
-    <SwitchPreference
-        android:title="@string/mms_disable_ad"
-        android:summary="@string/mms_disable_ad_desc"
-        android:key="prefs_key_mms_disable_ad"
-        android:defaultValue="false" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_mms_disable_ad"
+            android:summary="@string/mms_disable_ad_desc"
+            android:title="@string/mms_disable_ad" />
 
-    <SwitchPreference
-        android:title="@string/mms_disable_fraud_risk_tip"
-        android:summary="@string/mms_disable_fraud_risk_tip_desc"
-        android:key="prefs_key_mms_disable_fraud_risk_tip"
-        android:defaultValue="false" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_mms_disable_fraud_risk_tip"
+            android:summary="@string/mms_disable_fraud_risk_tip_desc"
+            android:title="@string/mms_disable_fraud_risk_tip" />
 
-    <SwitchPreference
-        android:title="@string/mms_disable_overseas_risk_tip"
-        android:summary="@string/mms_disable_overseas_risk_tip_desc"
-        android:key="prefs_key_mms_disable_overseas_risk_tip"
-        android:defaultValue="false" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_mms_disable_overseas_risk_tip"
+            android:summary="@string/mms_disable_overseas_risk_tip_desc"
+            android:title="@string/mms_disable_overseas_risk_tip" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_mms_im_old_device"
+            android:title="@string/mms_im_old_device" />
 
     </PreferenceCategory>
 

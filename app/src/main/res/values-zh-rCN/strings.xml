@@ -658,6 +658,7 @@
     <string name="mms_disable_fraud_risk_tip_desc">禁止展示 \"疑似诈骗 注意风险\" 提示</string>
     <string name="mms_disable_overseas_risk_tip">禁用境外短信风险提示</string>
     <string name="mms_disable_overseas_risk_tip_desc">禁止展示 \"境外短信 注意风险\" 提示</string>
+    <string name="mms_im_old_device">禁止识别为新设备</string>
     <!--电话服务-->
     <string name="phone">电话服务</string>
     <string name="phone_smart_dual_sim">解锁智能双卡切换</string>
