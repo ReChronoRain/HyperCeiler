@@ -98,6 +98,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.navigation.NavigationCustom
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.RotationButton;
 import com.sevtinge.hyperceiler.module.hook.systemui.plugin.FocusNotifLyricPluginHelper;
 import com.sevtinge.hyperceiler.module.hook.systemui.plugin.NewPluginHelper;
+import com.sevtinge.hyperceiler.module.hook.systemui.plugin.NewPluginHelperKt;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.BlurEnable;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.HideStatusBarBeforeScreenshot;
@@ -133,8 +134,9 @@ public class SystemUiV extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // PluginHelper
-        initHook(new NewPluginHelper());
-        initHook(FocusNotifLyricPluginHelper.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch"));
+        initHook(NewPluginHelperKt.INSTANCE);
+        /*initHook(new NewPluginHelper());
+        initHook(FocusNotifLyricPluginHelper.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch"));*/
         // initHook(Island.INSTANCE, true); // 灵动岛
 
         // 小窗
