@@ -28,17 +28,17 @@ import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
 public class PrivacyThumbnailBlur extends BaseHook {
     @Override
     public void init() {
-        Method method = (Method) DexKit.findMember("ptb", new IDexKit() {
+        Method method = DexKit.findMember("ptb", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 return bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
@@ -46,7 +46,7 @@ public class PrivacyThumbnailBlur extends BaseHook {
                                 )
                                 .paramTypes(Context.class, String.class, boolean.class)
                         )
-                ).singleOrNull().getMethodInstance(lpparam.classLoader);
+                ).singleOrNull();
             }
         });
 

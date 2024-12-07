@@ -18,31 +18,31 @@
 */
 package com.sevtinge.hyperceiler.module.hook.screenrecorder
 
-import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import de.robv.android.xposed.*
+import java.lang.reflect.*
 
 object UnlockMoreVolumeFromNew : BaseHook() {
-    private val getClass by lazy {
+    private val getClass by lazy<Class<*>> {
         DexKit.findMember("UnlockMoreVolumeFromNewClass") {
             it.findClass {
                 matcher {
-                    addUsingStringsEquals("support_a2dp_inner_record")
+                    usingEqStrings("support_a2dp_inner_record")
                 }
-            }.single().getInstance(safeClassLoader)
-        }.toClass()
+            }.single()
+        }
     }
 
     override fun init() {
-        val fieldData = DexKit.getDexKitBridgeList("UnlockMoreVolumeFromNewField") { dexkit ->
+        val fieldData = DexKit.findMemberList<Field>("UnlockMoreVolumeFromNewField") { dexkit ->
             dexkit.findField {
                 matcher {
                     declaredClass(getClass)
                     type = "boolean"
                 }
-            }.toElementList()
-        }.toFieldList()
+            }
+        }
 
         findAndHookConstructor(getClass, object : MethodHook() {
             override fun after(param: MethodHookParam) {

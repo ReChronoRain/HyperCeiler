@@ -27,8 +27,8 @@ import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
@@ -37,9 +37,9 @@ import de.robv.android.xposed.XC_MethodHook;
 public class UnlockSubscription extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.findMember("CalendarApplication", new IDexKit() {
+        Method method = DexKit.findMember("CalendarApplication", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
@@ -47,7 +47,7 @@ public class UnlockSubscription extends BaseHook {
                                 .usingStrings("key_subscription_display", "key_import_todo", "key_chinese_almanac_pref", "key_weather_display", "key_ai_time_parse")
                                 .paramCount(0)
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         logD(TAG, lpparam.packageName, "method is "+method);

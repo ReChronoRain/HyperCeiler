@@ -31,8 +31,8 @@ import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
@@ -48,16 +48,16 @@ public class PreventBatteryWitelist extends BaseHook {
         //     }
         // });
 
-        Method method = (Method) DexKit.findMember("FucSwitch", new IDexKit() {
+        Method method = DexKit.findMember("FucSwitch", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
                                         .usingStrings("addPowerSaveWhitelistApps: "))
                                 .usingStrings("addPowerSaveWhitelistApps: ")
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         HookFactory.createMethodHook(method, new Consumer<>() {

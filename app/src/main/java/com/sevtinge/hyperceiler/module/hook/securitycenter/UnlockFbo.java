@@ -26,38 +26,38 @@ import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 public class UnlockFbo extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
 
-        Method method1 = (Method) DexKit.findMember("FboStateOpenInCloud", new IDexKit() {
+        Method method1 = DexKit.findMember("FboStateOpenInCloud", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("FBO_STATE_OPEN")
                                 .returnType(boolean.class)
                                 .paramCount(0)
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         hookMethod(method1, MethodHook.returnConstant(true));
 
-        Method method2 = (Method) DexKit.findMember("FboManager", new IDexKit() {
+        Method method2 = DexKit.findMember("FboManager", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("miui.fbo.FboManager")
                                 .returnType(boolean.class)
                                 .paramTypes(String.class)
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         hookMethod(method2, MethodHook.returnConstant(true));

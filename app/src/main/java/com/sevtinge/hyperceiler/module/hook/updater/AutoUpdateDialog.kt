@@ -18,14 +18,14 @@
 */
 package com.sevtinge.hyperceiler.module.hook.updater
 
-import com.github.kyuubiran.ezxhelper.*
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.utils.*
 import org.luckypray.dexkit.query.enums.*
+import java.lang.reflect.*
 
 object AutoUpdateDialog : BaseHook() {
-    private val find1 by lazy {
+    private val find1 by lazy<Method> {
         DexKit.findMember("AutoUpdateDialog1") {
             it.findMethod {
                 matcher {
@@ -34,11 +34,11 @@ object AutoUpdateDialog : BaseHook() {
                     }
                     paramTypes("boolean", "boolean")
                 }
-            }.single().getMethodInstance(EzXHelper.safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
-    private val find2 by lazy {
+    private val find2 by lazy<Method> {
         DexKit.findMember("AutoUpdateDialog2") {
             it.findMethod {
                 matcher {
@@ -47,8 +47,8 @@ object AutoUpdateDialog : BaseHook() {
                     }
                     paramTypes("long", "int")
                 }
-            }.single().getMethodInstance(EzXHelper.safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
     override fun init() {

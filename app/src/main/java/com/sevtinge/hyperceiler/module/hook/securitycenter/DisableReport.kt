@@ -21,17 +21,18 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import java.lang.reflect.*
 
 object DisableReport : BaseHook() {
     override fun init() {
-        DexKit.findMember("DisableReport") {
+        DexKit.findMember<Method>("DisableReport") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("android.intent.action.VIEW", "com.xiaomi.market")
+                    usingEqStrings("android.intent.action.VIEW", "com.xiaomi.market")
                     returnType = "boolean"
                 }
-            }.single().getMethodInstance(lpparam.classLoader)
-        }.toMethod().createHook {
+            }.single()
+        }.createHook {
             returnConstant(false)
         }
     }

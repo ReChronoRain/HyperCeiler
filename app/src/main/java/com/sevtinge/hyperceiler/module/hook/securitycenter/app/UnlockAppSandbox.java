@@ -28,59 +28,59 @@ import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 public class UnlockAppSandbox extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method1 = (Method) DexKit.findMember("IsSupportAppSandboxByDevice", new IDexKit() {
+        Method method1 = DexKit.findMember("IsSupportAppSandboxByDevice", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
                                         .usingStrings("PrivacyFeature"))
                                 .usingStrings("rothko")
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
-        Method method2 = (Method) DexKit.findMember("IsUseSandbox", new IDexKit() {
+        Method method2 = DexKit.findMember("IsUseSandbox", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
                                         .usingStrings("SandboxManager"))
                                 .usingStrings("android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE")
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
-        Method method3 = (Method) DexKit.findMember("IsSupportAppSandboxByProp", new IDexKit() {
+        Method method3 = DexKit.findMember("IsSupportAppSandboxByProp", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
                                         .usingStrings("PrivacyFeature"))
                                 .usingStrings("persist.sys.mi_isolated")
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
-        Method method4 = (Method) DexKit.findMember("GetCloudDataBoolean", new IDexKit() {
+        Method method4 = DexKit.findMember("GetCloudDataBoolean", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
                                         .usingStrings("content://com.android.settings.cloud.CloudSettings/cloud_all_data"))
                                 .usingStrings("getCloudDataBoolean")
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         hookMethod(method1, new MethodHook() {

@@ -21,17 +21,18 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import java.lang.reflect.*
 
 object DisableRootCheck : BaseHook() {
     override fun init() {
-        DexKit.findMember("DisableRootCheck") {
+        DexKit.findMember<Method>("DisableRootCheck") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("key_check_item_root")
+                    usingEqStrings("key_check_item_root")
                     returnType = "boolean"
                 }
-            }.single().getMethodInstance(lpparam.classLoader)
-        }.toMethod().createHook {
+            }.single()
+        }.createHook {
             returnConstant(false)
         }
     }

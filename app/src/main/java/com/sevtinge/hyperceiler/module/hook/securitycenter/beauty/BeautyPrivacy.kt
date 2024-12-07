@@ -18,42 +18,42 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.beauty
 
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import java.lang.reflect.*
 
 object BeautyPrivacy : BaseHook() {
-    private val R0 by lazy {
+    private val R0 by lazy<Method> {
         DexKit.findMember("BeautyPrivacy") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("persist.sys.privacy_camera")
+                    usingEqStrings("persist.sys.privacy_camera")
                 }
-            }.single().getMethodInstance(EzXHelper.safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
-    private val invokeMethod by lazy {
-        DexKit.getDexKitBridgeList("BeautyPrivacyList") {
+    private val invokeMethod by lazy<List<Method>> {
+        DexKit.findMemberList("BeautyPrivacyList") {
             it.findMethod {
                 matcher {
                     declaredClass {
-                        addUsingStringsEquals("persist.sys.privacy_camera")
+                        usingEqStrings("persist.sys.privacy_camera")
                     }
                     paramTypes = emptyList()
                     returnType = "boolean"
                     addInvoke {
                         declaredClass {
-                            addUsingStringsEquals("persist.sys.privacy_camera")
+                            usingEqStrings("persist.sys.privacy_camera")
                         }
                         returnType = R0.returnType.name
                         paramTypes = listOf(R0.parameterTypes[0].name)
                     }
                 }
-            }.toElementList()
-        }.toMethodList()
+            }
+        }
     }
 
     override fun init() {

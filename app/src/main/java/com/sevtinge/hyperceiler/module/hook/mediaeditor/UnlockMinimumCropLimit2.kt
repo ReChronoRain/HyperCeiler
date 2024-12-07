@@ -7,7 +7,7 @@ import java.lang.reflect.*
 
 object UnlockMinimumCropLimit2 : BaseHook() {
     override fun init() {
-        DexKit.getDexKitBridgeList("MinimumCropLimit2") { bridge ->
+        DexKit.findMemberList<Method>("MinimumCropLimit2") { bridge ->
             bridge.findMethod {
                 matcher {
                     returnType = "int"
@@ -18,8 +18,8 @@ object UnlockMinimumCropLimit2 : BaseHook() {
                     // 理论上适配 1.7 - 1.8+ 全版本
                     addInvoke("Ljava/lang/Math;->max(II)I")
                 }
-            }.toElementList()
-        }.toMethodList().forEach { method ->
+            }
+        }.forEach { method ->
             method.createHook {
                 returnConstant(0)
             }

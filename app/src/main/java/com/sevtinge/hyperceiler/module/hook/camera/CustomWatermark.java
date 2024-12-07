@@ -29,18 +29,19 @@ import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.AnnotationMatcher;
 import org.luckypray.dexkit.query.matchers.AnnotationsMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
+import org.luckypray.dexkit.result.BaseDataList;
+import org.luckypray.dexkit.result.MethodData;
 import org.luckypray.dexkit.result.MethodDataList;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.List;
 
 public class CustomWatermark extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        List<Method> methods = DexKit.getDexKitBridgeList("Watermark", new IDexKitList() {
+        List<Method> methods = DexKit.findMemberList("Watermark", new IDexKitList() {
             @Override
-            public List<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseDataList<MethodData> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodDataList methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .returnType(SparseArray.class)
@@ -52,9 +53,9 @@ public class CustomWatermark extends BaseHook {
                                 )
                         )
                 );
-                return DexKit.toElementList(methodData);
+                return methodData;
             }
-        }).toMethodList();
+        });
         for (Method method : methods) {
             // Method method = methodData.getMethodInstance(lpparam.classLoader);
             logD(TAG, lpparam.packageName, "Current hooking method is " + method);

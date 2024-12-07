@@ -28,16 +28,16 @@ import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 public class UnlockWidgetCountLimit extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.findMember("LimitResult", new IDexKit() {
+        Method method = DexKit.findMember("LimitResult", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
@@ -46,7 +46,7 @@ public class UnlockWidgetCountLimit extends BaseHook {
                                 .returnType(boolean.class)
                                 .paramCount(0)
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         hookMethod(method, new MethodHook() {

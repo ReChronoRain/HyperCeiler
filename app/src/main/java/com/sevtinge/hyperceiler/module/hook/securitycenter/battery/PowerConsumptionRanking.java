@@ -27,31 +27,31 @@ import org.luckypray.dexkit.query.FindClass;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
+import org.luckypray.dexkit.result.BaseDataList;
 import org.luckypray.dexkit.result.ClassDataList;
 import org.luckypray.dexkit.result.MethodDataList;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.List;
 
 public class PowerConsumptionRanking extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        List<Class<?>> clazzs = DexKit.getDexKitBridgeList("Matcher1Clazz", new IDexKitList() {
+        List<Class<?>> clazzs = DexKit.findMemberList("Matcher1Clazz", new IDexKitList() {
             @Override
-            public List<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseDataList dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassDataList clazzData = bridge.findClass(
                         FindClass.create()
                                 .matcher(ClassMatcher.create()
                                         .usingStrings("%d %s %d %s")
                                 )
                 );
-                return DexKit.toElementList(clazzData);
+                return clazzData;
             }
-        }).toClassList();
-        List<Method> methods = DexKit.getDexKitBridgeList("MiuiVersionCode", new IDexKitList() {
+        });
+        List<Method> methods = DexKit.findMemberList("MiuiVersionCode", new IDexKitList() {
             @Override
-            public List<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseDataList dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodDataList methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
@@ -60,9 +60,9 @@ public class PowerConsumptionRanking extends BaseHook {
                                 .returnType(boolean.class)
                         )
                 );
-                return DexKit.toElementList(methodData);
+                return methodData;
             }
-        }).toMethodList();
+        });
         
         /*ClassDataList data = bridge.findClass(
             FindClass.create()

@@ -26,8 +26,8 @@ import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
@@ -36,14 +36,14 @@ import de.robv.android.xposed.XC_MethodHook;
 public class EnableLabOptions extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.findMember("LabOptions", new IDexKit() {
+        Method method = DexKit.findMember("LabOptions", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("getBoolean", "SystemProperties", "Exception while getting system property: ")
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         hookMethod(method, new MethodHook() {

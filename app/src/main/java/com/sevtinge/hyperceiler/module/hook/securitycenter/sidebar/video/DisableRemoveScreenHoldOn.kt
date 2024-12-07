@@ -18,21 +18,21 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video
 
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import java.lang.reflect.*
 
 object DisableRemoveScreenHoldOn : BaseHook() {
-    private val screen by lazy {
+    private val screen by lazy<Method> {
         DexKit.findMember("DisableRemoveScreenHoldOn") {
             it.findMethod {
                 matcher {
                     addEqString("remove_screen_off_hold_on")
                     returnType = "boolean"
                 }
-            }.single().getMethodInstance(EzXHelper.safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
     override fun init() {

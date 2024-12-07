@@ -18,14 +18,14 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game
 
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import java.lang.reflect.*
 
 object UnlockGunService : BaseHook() {
     override fun init() {
-        DexKit.findMember("UnlockGunService") {
+        DexKit.findMember<Method>("UnlockGunService") {
             it.findMethod {
                 matcher {
                     declaredClass {
@@ -34,8 +34,8 @@ object UnlockGunService : BaseHook() {
                     returnType = "boolean"
                     paramTypes = listOf("java.lang.String")
                 }
-            }.single().getMethodInstance(EzXHelper.safeClassLoader)
-        }.toMethod().createHook {
+            }.single()
+        }.createHook {
             returnConstant(true)
         }
     }

@@ -27,26 +27,26 @@ import com.sevtinge.hyperceiler.module.base.dexkit.IDexKitList;
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
+import org.luckypray.dexkit.result.BaseDataList;
 import org.luckypray.dexkit.result.MethodDataList;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.List;
 
 public class UnlockSmartCharge extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        List<Method> methods = DexKit.getDexKitBridgeList("VendorSmartChg", new IDexKitList() {
+        List<Method> methods = DexKit.findMemberList("VendorSmartChg", new IDexKitList() {
             @Override
-            public List<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseDataList dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodDataList methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("persist.vendor.smartchg")
                         )
                 );
-                return DexKit.toElementList(methodData);
+                return methodData;
             }
-        }).toMethodList();
+        });
         for (Method method : methods) {
             hookMethod(method, returnConstant(true));
         }

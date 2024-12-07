@@ -19,16 +19,16 @@
 package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 
 import android.view.*
-import com.github.kyuubiran.ezxhelper.ClassLoaderProvider.safeClassLoader
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import org.luckypray.dexkit.query.enums.*
+import java.lang.reflect.*
 
 object LockOneHundredPoints : BaseHook() {
-    private val score by lazy {
+    private val score by lazy<Method> {
         DexKit.findMember("LockOneHundredPoints1N") {
             it.findMethod {
                 matcher {
@@ -36,18 +36,18 @@ object LockOneHundredPoints : BaseHook() {
                     addUsingString("getMinusPredictScore", StringMatchType.Contains)
                     returnType = "int"
                 }
-            }.single().getMethodInstance(safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
-    private val scoreOld by lazy {
+    private val scoreOld by lazy<Method> {
         DexKit.findMember("LockOneHundredPoints2") {
             it.findMethod {
                 matcher {
                     addUsingString("getMinusPredictScore", StringMatchType.Contains)
                 }
-            }.single().getMethodInstance(safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
     override fun init() {

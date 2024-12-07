@@ -30,8 +30,8 @@ import org.luckypray.dexkit.query.matchers.FieldMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.FieldData;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -41,9 +41,9 @@ import de.robv.android.xposed.XposedHelpers;
 public class CustomCameraColor extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.findMember("CameraColorGetter", new IDexKit() {
+        Method method = DexKit.findMember("CameraColorGetter", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .addCaller(MethodMatcher.create().declaredClass("com.android.camera.fragment.FragmentMasterFilter"))
@@ -55,18 +55,18 @@ public class CustomCameraColor extends BaseHook {
                                 .returnType(int.class)
                                 .paramCount(0)
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
-        Field field = (Field) DexKit.findMember("CameraColor", new IDexKit() {
+        Field field = DexKit.findMember("CameraColor", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()
                         .matcher(FieldMatcher.create()
                                 .declaredClass(method.getDeclaringClass())
                                 .type(int.class)
                         )).singleOrNull();
-                return fieldData.getFieldInstance(lpparam.classLoader);
+                return fieldData;
             }
         });
         XposedHelpers.setStaticIntField(field.getDeclaringClass(), field.getName(), mPrefsMap.getInt("camera_custom_theme_color_picker", -2024677));

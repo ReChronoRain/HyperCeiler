@@ -18,22 +18,22 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video
 
-import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import java.lang.reflect.*
 
 class VBVideoMode : BaseHook() {
     override fun init() {
         // 开放影院/自定义模式
-        DexKit.findMember("VBVideoMode") {
+        DexKit.findMember<Method>("VBVideoMode") {
             it.findMethod {
                 matcher {
                     usingStrings = listOf("TheatreModeUtils")
                     usingNumbers = listOf(32)
                 }
-            }.single().getMethodInstance(safeClassLoader)
-        }.toMethod().createHook {
+            }.single()
+        }.createHook {
             returnConstant(true)
         }
     }

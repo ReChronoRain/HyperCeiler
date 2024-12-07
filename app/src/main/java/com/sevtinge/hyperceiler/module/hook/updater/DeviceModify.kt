@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.updater
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.utils.*
+import java.lang.reflect.*
 
 
 object DeviceModify : BaseHook() {
@@ -48,13 +49,13 @@ object DeviceModify : BaseHook() {
                 e
             )
         }
-        DexKit.getDexKitBridgeList("DeviceModify") {
+        DexKit.findMemberList<Method>("DeviceModify") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("android.os.SystemProperties", "get", "get e")
+                    usingEqStrings("android.os.SystemProperties", "get", "get e")
                 }
-            }.toElementList()
-        }.toMethodList().forEach { method ->
+            }
+        }.forEach { method ->
             method.hookBeforeMethod {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName
             }

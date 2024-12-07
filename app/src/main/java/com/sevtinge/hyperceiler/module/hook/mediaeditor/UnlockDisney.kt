@@ -18,19 +18,18 @@
 */
 package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
-import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import java.lang.reflect.*
 
 object UnlockDisney : BaseHook() {
-    private val mickey by lazy {
+    private val mickey by lazy<Method> {
         DexKit.findMember("UnlockDisneyMickey") {
             it.findMethod {
                 matcher {
                     addCaller {
-                        addUsingStringsEquals("magic_recycler_matting_0", "magic_recycler_clear_icon")
+                        usingStrings("magic_recycler_matting_0", "magic_recycler_clear_icon")
                         // returnType = "java.util.List" // 你米 1.6.5.10.2 改成了 java.util.ArrayList，所以找不到
                         paramCount = 0
                     }
@@ -38,11 +37,11 @@ object UnlockDisney : BaseHook() {
                     returnType = "boolean"
                     paramCount = 0
                 }
-            }.single().getMethodInstance(safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
-    private val bear by lazy {
+    private val bear by lazy<Method> {
         DexKit.findMember("UnlockDisneyBear") {
             it.findMethod {
                 matcher {
@@ -51,8 +50,8 @@ object UnlockDisney : BaseHook() {
                     returnType = "boolean"
                     paramCount = 0
                 }
-            }.last().getMethodInstance(safeClassLoader)
-        }.toMethod()
+            }.last()
+        }
     }
 
     private val isType by lazy {

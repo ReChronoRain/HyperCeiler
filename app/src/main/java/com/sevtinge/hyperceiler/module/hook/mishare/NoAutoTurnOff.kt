@@ -21,10 +21,8 @@ package com.sevtinge.hyperceiler.module.hook.mishare
 import android.content.*
 import android.util.*
 import android.widget.*
-import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.sevtinge.hyperceiler.*
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
@@ -41,114 +39,112 @@ import org.luckypray.dexkit.result.*
 import java.lang.reflect.*
 
 object NoAutoTurnOff : BaseHook() {
-    private val nullMethod by lazy {
+    private val nullMethod by lazy<Method> {
         DexKit.findMember("NoAutoTurnOff1") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("MiShareService", "EnabledState")
+                    usingStrings("MiShareService", "EnabledState")
                     usingNumbers(600000L)
                 }
-            }.single().getMethodInstance(safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
-    private val nullMethodNew by lazy {
+    private val nullMethodNew by lazy<Method> {
         DexKit.findMember("NoAutoTurnOff1N") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("UnionShare", "EnabledState")
+                    usingStrings("UnionShare", "EnabledState")
                 }
-            }.single().getMethodInstance(safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
-    private val null2Method by lazy {
+    private val null2Method by lazy<Method> {
         DexKit.findMember("NoAutoTurnOff2") {
             it.findMethod {
                 matcher {
                     declaredClass {
-                        addUsingStringsEquals("mishare:advertise_lock")
+                        usingStrings("mishare:advertise_lock")
                     }
                     paramCount = 2
                     modifiers = Modifier.STATIC
                 }
-            }.single().getMethodInstance(safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
-    private val null3Method by lazy {
+    private val null3Method by lazy<Method> {
         DexKit.findMember("NoAutoTurnOff3") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("com.miui.mishare.action.GRANT_NFC_TOUCH_PERMISSION")
+                    usingStrings("com.miui.mishare.action.GRANT_NFC_TOUCH_PERMISSION")
                     usingNumbers(600000L)
                     modifiers = Modifier.PRIVATE
                 }
-            }.single().getMethodInstance(safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
-    private val stopAdvertAllMethod by lazy {
+    private val stopAdvertAllMethod by lazy<Method> {
         DexKit.findMember("NoAutoTurnOff9") {
             it.findMethod {
                 matcher {
                     usingStrings("stopAdvertAll timeout. try stop ")
                 }
-            }.single().getMethodInstance(safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
-    private val toastMethod by lazy {
-        DexKit.getDexKitBridgeList("NoAutoTurnOff4") {
+    private val toastMethod by lazy<List<Method>> {
+        DexKit.findMemberList("NoAutoTurnOff4") {
             it.findMethod {
                 matcher {
                     declaredClass {
-                        addUsingStringsEquals("EnablingState processMessage(0x%X)", "MiShareService")
+                        usingStrings("EnablingState processMessage(0x%X)", "MiShareService")
                     }
                     returnType = "boolean"
                     paramTypes = listOf("android.os.Message")
                 }
-            }.toElementList()
-        }.toMethodList()
+            }
+        }
     }
 
-    private val toastMethodNew by lazy {
-        DexKit.getDexKitBridgeList("NoAutoTurnOff4N") {
+    private val toastMethodNew by lazy<List<Method>> {
+        DexKit.findMemberList("NoAutoTurnOff4N") {
             it.findMethod {
                 matcher {
                     declaredClass {
-                        addUsingStringsEquals("MiShareStateMachine")
+                        usingStrings("MiShareStateMachine")
                     }
                     paramCount = 0
                 }
-            }.toElementList()
-        }.toMethodList()
+            }
+        }
     }
 
-    private val showToastMethod by lazy {
+    private val showToastMethod by lazy<Method> {
         DexKit.findMember("NoAutoTurnOff5") {
-            it.findMethod (
-                FindMethod.create()
-                    .matcher(
-                        MethodMatcher.create()
-                            .declaredClass {
-                                fieldCount(0)
-                                methodCount(2)
-                            }
-                            .returnType("void")
-                            .paramTypes(listOf("android.content.Context", "java.lang.CharSequence", "int"))
-                            .modifiers(Modifier.STATIC)
-                    )
-            ).singleOrNull()?.getMethodInstance(safeClassLoader)
-        }.toMethod()
+            it.findMethod {
+                matcher {
+                    declaredClass {
+                        fieldCount(0)
+                        methodCount(2)
+                    }
+                    returnType = "void"
+                    paramTypes = listOf("android.content.Context", "java.lang.CharSequence", "int")
+                    modifiers = Modifier.STATIC
+                }
+            }.singleOrNull()
+        }
     }
 
-    private val nullField by lazy {
+    private val nullField by lazy<Field> {
         DexKit.findMember("NoAutoTurnOff6") {
             it.findField {
                 matcher {
                     addReadMethod {
-                        addUsingStringsEquals("NfcShareTaskManager")
+                        usingStrings("NfcShareTaskManager")
                         returnType = "void"
                         paramCount = 1
                         modifiers = Modifier.PRIVATE
@@ -156,16 +152,16 @@ object NoAutoTurnOff : BaseHook() {
                     modifiers = Modifier.PRIVATE or Modifier.STATIC or Modifier.FINAL
                     type = "int"
                 }
-            }.singleOrNull()?.getFieldInstance(safeClassLoader)
-        }.toField()
+            }.singleOrNull()
+        }
     }
 
-    private val null2Field by lazy {
+    private val null2Field by lazy<Field> {
         DexKit.findMember("NoAutoTurnOff7") {
             it.findField {
                 matcher {
                     addReadMethod {
-                        addUsingStringsEquals("stopAdvertAllDelay")
+                        usingStrings("stopAdvertAllDelay")
                         returnType = "void"
                         paramCount = 0
                         modifiers = Modifier.PRIVATE
@@ -173,21 +169,21 @@ object NoAutoTurnOff : BaseHook() {
                     modifiers = Modifier.PRIVATE or Modifier.FINAL
                     type = "int"
                 }
-            }.singleOrNull()?.getFieldInstance(safeClassLoader)
-        }.toField()
+            }.singleOrNull()
+        }
     }
 
-    private val null2FieldMethod by lazy {
+    private val null2FieldMethod by lazy<Method> {
         DexKit.findMember("NoAutoTurnOff8") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("stopAdvertAllDelay")
+                    usingStrings("stopAdvertAllDelay")
                     returnType = "void"
                     paramCount = 0
                     modifiers = Modifier.PRIVATE
                 }
-            }.single().getMethodInstance(safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
     override fun init() {

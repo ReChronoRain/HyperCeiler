@@ -19,24 +19,24 @@
 package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
 import android.os.*
-import com.github.kyuubiran.ezxhelper.ClassLoaderProvider.safeClassLoader
 import com.github.kyuubiran.ezxhelper.ClassUtils.setStaticObject
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.utils.api.LazyClass.AndroidBuildCls
+import java.lang.reflect.*
 
 
 object FilterManagerAll : BaseHook() {
     private lateinit var device: String
-    private val methodResult by lazy {
+    private val methodResult by lazy<Method> {
         DexKit.findMember("FilterManagerAll") { dexkit ->
             dexkit.findMethod {
                 matcher {
-                    addUsingStringsEquals("wayne")
+                    addUsingString("wayne")
                 }
-            }.filter { it.isMethod }.map { it.getMethodInstance(safeClassLoader) }.toTypedArray().firstOrNull()
-        }.toMethod()
+            }.filter { it.isMethod }.toTypedArray().firstOrNull()
+        }
     }
 
     override fun init() {

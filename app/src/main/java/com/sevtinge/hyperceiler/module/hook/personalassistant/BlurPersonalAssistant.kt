@@ -24,6 +24,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.utils.api.*
+import java.lang.reflect.*
 import kotlin.math.*
 
 object BlurPersonalAssistant : BaseHook() {
@@ -37,13 +38,13 @@ object BlurPersonalAssistant : BaseHook() {
     override fun init() {
         var lastBlurRadius = -1
 
-        DexKit.getDexKitBridgeList("BlurPersonalAssistant") {
+        DexKit.findMemberList<Method>("BlurPersonalAssistant") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("ScrollStateManager")
+                    usingEqStrings("ScrollStateManager")
                 }
-            }.toElementList()
-        }.toMethodList().forEach { methodData ->
+            }
+        }.forEach { methodData ->
             methodData.createAfterHook {
                 val scrollX = it.args[0] as Float
                 val fieldNames = ('a'..'z').map { name -> name.toString() }

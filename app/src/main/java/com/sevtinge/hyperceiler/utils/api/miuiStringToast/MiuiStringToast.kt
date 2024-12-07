@@ -80,7 +80,7 @@ object MiuiStringToast {
                 .setParam(str)
                 .setStatusBarStrongToast("show_custom_strong_toast")
                 .onCreate()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && isMoreHyperOSVersion(1f)) {
+            if (isMoreHyperOSVersion(1f)) {
                 val service = context.getSystemService(Context.STATUS_BAR_SERVICE)
                 service.javaClass.getMethod(
                     "setStatus",
@@ -101,7 +101,7 @@ object MiuiStringToast {
         }
     }
 
-    fun colorToInt(color: String?): Int {
+    private fun colorToInt(color: String?): Int {
         val color1 = Color.parseColor(color)
         val color2 = Color.parseColor("#FFFFFF")
         val color3 = color1 xor color2
