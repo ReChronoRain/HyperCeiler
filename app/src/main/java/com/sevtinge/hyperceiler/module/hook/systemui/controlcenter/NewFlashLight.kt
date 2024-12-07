@@ -173,7 +173,11 @@ object NewFlashLight : TileUtils() {
             val mControlValueInitialized =
                 param.thisObject.getObjectField("mControlValueInitialized") as Boolean
             if (!mControlValueInitialized) {
-                toggleSliderBaseControllerImpl.callMethod("setValue", i)
+                try {
+                    toggleSliderBaseControllerImpl.callMethod("setValue", i, null)
+                } catch (_: Exception) {
+                    toggleSliderBaseControllerImpl.callMethod("setValue", i)
+                }
                 param.thisObject.setObjectField("mControlValueInitialized", true)
             }
             val ofInt = ofInt(
@@ -182,7 +186,11 @@ object NewFlashLight : TileUtils() {
             param.thisObject.setObjectField("mSliderAnimator", ofInt)
             ofInt.addUpdateListener { animation ->
                 param.thisObject.setObjectField("mExternalChange", true)
-                toggleSliderBaseControllerImpl.callMethod("setValue", animation.animatedValue)
+                try {
+                    toggleSliderBaseControllerImpl.callMethod("setValue", animation.animatedValue, null)
+                } catch (_: Exception) {
+                    toggleSliderBaseControllerImpl.callMethod("setValue", animation.animatedValue)
+                }
                 param.thisObject.setObjectField("mExternalChange", false)
             }
             ofInt.setDuration(3000)
