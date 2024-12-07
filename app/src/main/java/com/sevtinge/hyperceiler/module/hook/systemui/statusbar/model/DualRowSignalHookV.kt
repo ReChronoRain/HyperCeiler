@@ -357,11 +357,17 @@ class DualRowSignalHookV : BaseHook() {
                     before(setImageCallback)
                 }
         } catch (_: Exception) {
-            loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.binder.MiuiMobileIconBinder\$bind\$1\$1\$5\$1").methodFinder()
+            /*findAndHookMethod("com.android.systemui.statusbar.pipeline.mobile.ui.binder.MiuiMobileIconBinder\$bind\$1\$1\$5\$1", "invokeSuspend", Object::class.java, object : MethodHook(){
+                override fun after(param: MethodHookParam?) {
+                    setDualSignalIcon()
+                }
+            })*/
+
+           loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.binder.MiuiMobileIconBinder\$bind\$1\$1\$5\$1").methodFinder()
                 .filterByName("invokeSuspend")
                 .single()
                 .createHook {
-                    before(setImageCallback)
+                    after(setImageCallback)
                 }
         }
 
