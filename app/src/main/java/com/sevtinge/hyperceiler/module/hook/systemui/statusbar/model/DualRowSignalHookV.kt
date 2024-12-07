@@ -260,60 +260,110 @@ class DualRowSignalHookV : BaseHook() {
 
     private fun setDualSignalIcon() {
         val setImageCallback = IMethodHookCallback { param ->
-            val icon = param.args[0] as ImageView
+            val isSetMethod = "access\$setImageResWithTintLight" == param.method.name
+            if (isSetMethod) {
+                val icon = param.args[0] as ImageView
 
-            if (icon.id == getIdByName("mobile_signal")) {
-                val signalGroup = icon.parent as FrameLayout
+                if (icon.id == getIdByName("mobile_signal")) {
+                    val signalGroup = icon.parent as FrameLayout
 
-                val isSetMethod = "access\$setImageResWithTintLight" == param.method.name
-                val subId = XposedHelpers.getAdditionalInstanceField(icon, "subId")
+                    val subId = XposedHelpers.getAdditionalInstanceField(icon, "subId")
 
-                if (mobileInfo.subId != ID_SUB_NO_DATA_SIM) {
-                    val isUseTint: Boolean
-                    val isLight: Boolean
+                    if (mobileInfo.subId != ID_SUB_NO_DATA_SIM) {
+                        val isUseTint: Boolean
+                        val isLight: Boolean
 
-                    if (isSetMethod) {
                         val pair = param.args[2]
                         isUseTint = pair.callMethodAs("getFirst")
                         isLight = pair.callMethodAs("getSecond")
-                    } else {
-                        isUseTint = (param.args[1] as Boolean)
-                        isLight = (param.args[2] as Boolean)
-                    }
 
-                    if (subId == null || subId != mobileInfo.subId) {
-                        param.result = null
-                        return@IMethodHookCallback
-                    }
+                        if (subId == null || subId != mobileInfo.subId) {
+                            param.result = null
+                            return@IMethodHookCallback
+                        }
 
-                    val (mobileSignalIconId, mobileRoamIconId) = getDualSignalIconPairResId(
-                        isUseTint, isLight
-                    )
-                    if (mobileSignalIconId != null && mobileRoamIconId != null) {
-                        icon.post {
-                            icon.setImageResource(mobileSignalIconId)
-                            signalGroup.findViewWithTag<ImageView?>("mobile_signal2")?.let {
-                                it.setImageResource(mobileRoamIconId)
-                                it.imageTintList = icon.imageTintList
+                        val (mobileSignalIconId, mobileRoamIconId) = getDualSignalIconPairResId(
+                            isUseTint, isLight
+                        )
+                        if (mobileSignalIconId != null && mobileRoamIconId != null) {
+                            icon.post {
+                                icon.setImageResource(mobileSignalIconId)
+                                signalGroup.findViewWithTag<ImageView?>("mobile_signal2")?.let {
+                                    it.setImageResource(mobileRoamIconId)
+                                    it.imageTintList = icon.imageTintList
+                                }
                             }
                         }
                     }
-                }
 
-                param.result = null
-            } else if (icon.tag == "mobile_signal2") {
-                param.result = null
+                    param.result = null
+                } else if (icon.tag == "mobile_signal2") {
+                    param.result = null
+                } else {
+                    // 指示器等
+                }
             } else {
-                // 指示器等
+                for (icon in param.thisObject.getObjectField("\$tintViewList") as List<*>) {
+                    if (icon is ImageView) {
+
+                        if (icon.id == getIdByName("mobile_signal")) {
+
+                            val signalGroup = icon.parent as FrameLayout
+
+                            val subId = XposedHelpers.getAdditionalInstanceField(icon, "subId")
+                            val triple = param.thisObject.getObjectField("L\$0")
+
+                            if (mobileInfo.subId != ID_SUB_NO_DATA_SIM) {
+
+                                val isUseTint: Boolean = triple!!.callMethodAs("getFirst")
+                                val isLight: Boolean = triple!!.callMethodAs("getSecond")
+
+                                if (subId == null || subId != mobileInfo.subId) {
+                                    param.result = null
+                                    return@IMethodHookCallback
+                                }
+
+                                val (mobileSignalIconId, mobileRoamIconId) = getDualSignalIconPairResId(
+                                    isUseTint, isLight
+                                )
+                                if (mobileSignalIconId != null && mobileRoamIconId != null) {
+                                    icon.post {
+                                        icon.setImageResource(mobileSignalIconId)
+                                        signalGroup.findViewWithTag<ImageView?>("mobile_signal2")?.let {
+                                            it.setImageResource(mobileRoamIconId)
+                                            it.imageTintList = icon.imageTintList
+                                        }
+                                    }
+                                }
+                            }
+
+                            param.result = null
+                        } else if (icon.tag == "mobile_signal2") {
+                            param.result = null
+                        } else {
+                            // 指示器等
+                        }
+                    }
+
+                }
             }
         }
 
-        miuiMobileIconBinder.methodFinder()
-            .filterByName("access\$resetImageWithTintLight")
-            .single()
-            .createHook {
-                before(setImageCallback)
-            }
+        try {
+            miuiMobileIconBinder.methodFinder()
+                .filterByName("access\$resetImageWithTintLight")
+                .single()
+                .createHook {
+                    before(setImageCallback)
+                }
+        } catch (_: Exception) {
+            loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.binder.MiuiMobileIconBinder\$bind\$1\$1\$5\$1").methodFinder()
+                .filterByName("invokeSuspend")
+                .single()
+                .createHook {
+                    before(setImageCallback)
+                }
+        }
 
         miuiMobileIconBinder.methodFinder()
             .filterByName("access\$setImageResWithTintLight")
