@@ -18,14 +18,13 @@
 */
 package com.sevtinge.hyperceiler.module.hook.milink
 
-import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import java.lang.reflect.*
 
 object NewUnlockHMind : BaseHook() {
-    private val unlockHMind by lazy {
+    private val unlockHMind by lazy<Method> {
         // 解锁 Xiaomi HyperMind
         // 适配 15.x.x.x ~ 16.x.x.x
         // 这要是坏了，除非动了 cetus 字符串，否则不可能会炸
@@ -41,8 +40,8 @@ object NewUnlockHMind : BaseHook() {
                     returnType = "boolean"
                     modifiers = Modifier.FINAL
                 }
-            }.single().getMethodInstance(safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
     override fun init() {

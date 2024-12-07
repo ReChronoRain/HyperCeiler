@@ -21,18 +21,19 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.beauty
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import java.lang.reflect.*
 
 object BeautyLightAuto : BaseHook() {
-    private val beautyAuto by lazy {
-        DexKit.getDexKitBridgeList("superWirelessCharge") {
+    private val beautyAuto by lazy<List<Method>> {
+        DexKit.findMemberList("superWirelessCharge") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("taoyao")
+                    usingEqStrings("taoyao")
                     paramCount = 0
                     returnType = "boolean"
                 }
-            }.toElementList()
-        }.toMethodList()
+            }
+        }
     }
 
     override fun init() {

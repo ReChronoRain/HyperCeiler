@@ -28,8 +28,8 @@ import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -37,26 +37,26 @@ import de.robv.android.xposed.XposedHelpers;
 public class BypassAdbInstallVerify extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method1 = (Method) DexKit.findMember("AdbInstallNetworkVerify", new IDexKit() {
+        Method method1 = DexKit.findMember("AdbInstallNetworkVerify", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
                                         .usingStrings("https://srv.sec.miui.com/data/adb"))
                                 .usingStrings("connectivity")
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
-        Method method2 = (Method) DexKit.findMember("AdbInstallCaller", new IDexKit() {
+        Method method2 = DexKit.findMember("AdbInstallCaller", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("AdbInstallActivity", "start request for adb install!")
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         hookMethod(method1, new MethodHook(){

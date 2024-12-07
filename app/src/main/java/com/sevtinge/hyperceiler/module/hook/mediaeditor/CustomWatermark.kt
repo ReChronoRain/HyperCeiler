@@ -18,11 +18,11 @@
 */
 package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import org.luckypray.dexkit.query.enums.*
+import java.lang.reflect.*
 
 object CustomWatermark : BaseHook() {
     private val name by lazy {
@@ -30,7 +30,7 @@ object CustomWatermark : BaseHook() {
     }
 
     // by StarVoyager
-    private val search by lazy {
+    private val search by lazy<Method> {
         DexKit.findMember("CustomWatermark") {
             it.findMethod {
                 matcher {
@@ -39,8 +39,8 @@ object CustomWatermark : BaseHook() {
                     returnType = "java.lang.String"
                     paramCount = 2
                 }
-            }.single().getMethodInstance(EzXHelper.classLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
     override fun init() {

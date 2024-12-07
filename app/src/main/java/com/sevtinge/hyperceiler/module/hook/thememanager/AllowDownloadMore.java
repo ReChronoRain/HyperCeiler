@@ -31,39 +31,39 @@ import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.ClassData;
 import org.luckypray.dexkit.result.MethodData;
 import org.luckypray.dexkit.result.MethodDataList;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 public class AllowDownloadMore extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Class<?> clazz = (Class<?>) DexKit.findMember("DownloadCounter", new IDexKit() {
+        Class<?> clazz = DexKit.findMember("DownloadCounter", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassData clazzData = bridge.findClass(FindClass.create()
                         .matcher(ClassMatcher.create()
                                 .usingStrings("anonymous_use_resources")
                         )).singleOrNull();
-                return clazzData.getInstance(lpparam.classLoader);
+                return clazzData;
             }
         });
 
-        Method method1 = (Method) DexKit.findMember("DownloadList", new IDexKit() {
+        Method method1 = DexKit.findMember("DownloadList", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(clazz)
                                 .returnType(clazz)
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
 
-        Method method2 = (Method) DexKit.findMember("DownloadListSize", new IDexKit() {
+        Method method2 = DexKit.findMember("DownloadListSize", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData1 = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(clazz)
@@ -79,7 +79,7 @@ public class AllowDownloadMore extends BaseHook {
                 methodData2.remove(methodData1);
                 if (methodData2.size() == 1) {
                     for (MethodData method : methodData2) {
-                        return method.getMethodInstance(lpparam.classLoader);
+                        return method;
                     }
                 }
                 return null;

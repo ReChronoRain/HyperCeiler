@@ -31,8 +31,8 @@ import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -42,16 +42,16 @@ public class MaxScreenBrightness extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
 
-        Method method = (Method) DexKit.findMember("GetHaloBrightness", new IDexKit() {
+        Method method = DexKit.findMember("GetHaloBrightness", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingNumbers(0, -1.0f, 204)
                                 .paramTypes(int.class)
                         )
                 ).singleOrThrow(() -> new IllegalStateException("MaxScreenBrightness: Cannot found getHaloBrightness()"));
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         

@@ -372,93 +372,93 @@ public class SearchHelper {
         parsePrefXml(context, catPrefsFragment.getName(), xmlResId, internalId);
     }
 
-    private static void parsePrefXml(Context context, String catPrefsFragment, int xmlResId, int... internalId) {
-        Resources res = context.getResources();
-        try (XmlResourceParser xml = res.getXml(xmlResId)) {
-            int order = 0;
-            String location = null;
-            String locationHyper = null;
-            String locationPad = null;
-            int locationId = 0;
-            int locationHyperId = 0;
-            int locationPadId = 0;
-            boolean isPad = isPad();
-            StringBuilder internalName = null;
-            int eventType = xml.getEventType();
-            if (internalId.length != 0) {
-                for (int id : internalId) {
-                    String getString = res.getString(id);
-                    if (internalName == null) {
-                        internalName = new StringBuilder(getString);
-                    } else {
-                        internalName.append("/").append(getString);
-                    }
+private static void parsePrefXml(Context context, String catPrefsFragment, int xmlResId, int... internalId) {
+    Resources res = context.getResources();
+    try (XmlResourceParser xml = res.getXml(xmlResId)) {
+        int order = 0;
+        String location = null, locationHyper = null, locationPad = null;
+        int locationId = 0, locationHyperId = 0, locationPadId = 0;
+        boolean isPad = isPad();
+        StringBuilder internalName = null;
+        int eventType = xml.getEventType();
+
+        if (internalId.length != 0) {
+            internalName = new StringBuilder();
+            for (int id : internalId) {
+                if (internalName.length() > 0) {
+                    internalName.append("/");
                 }
+                internalName.append(res.getString(id));
             }
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG && !xml.getName().equals("PreferenceCategory")) {
-                    try {
-                        ModData modData = new ModData();
-                        modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
-                        boolean isPreferenceVisible = Boolean.parseBoolean(xml.getAttributeValue(APP_NS, "isPreferenceVisible"));
-                        if (locationHyper == null) {
-                            locationHyper = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocationHyper"));
-                            locationHyperId = getModId(xml.getAttributeValue(APP_NS, "myLocationHyper"));
-                        }
-                        if (locationPad == null) {
-                            locationPad = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocationPad"));
-                            locationPadId = getModId(xml.getAttributeValue(APP_NS, "myLocationPad"));
-                        }
-                        if (location == null) {
-                            location = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocation"));
-                            locationId = getModId(xml.getAttributeValue(APP_NS, "myLocation"));
-                        }
-                        if (!TextUtils.isEmpty(modData.title) && !isPreferenceVisible) {
-                            String internalHyper = internalName == null ? locationHyper : internalName + "/" + locationHyper;
-                            String internalPad = internalName == null ? locationPad : internalName + "/" + locationPad;
-                            String internalMiui = internalName == null ? location : internalName + "/" + location;
-                            if (locationHyper == null || location == null || (isPad && locationPad == null)) {
-                                if (location != null) {
-                                    modData.breadcrumbs = internalMiui;
-                                    modData.catTitleResId = locationId;
-                                } else if (locationHyper != null) {
+        }
+
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.START_TAG && !xml.getName().equals("PreferenceCategory")) {
+                try {
+                    ModData modData = new ModData();
+                    modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
+                    boolean isPreferenceVisible = Boolean.parseBoolean(xml.getAttributeValue(APP_NS, "isPreferenceVisible"));
+
+                    if (locationHyper == null) {
+                        locationHyper = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocationHyper"));
+                        locationHyperId = getModId(xml.getAttributeValue(APP_NS, "myLocationHyper"));
+                    }
+                    if (locationPad == null) {
+                        locationPad = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocationPad"));
+                        locationPadId = getModId(xml.getAttributeValue(APP_NS, "myLocationPad"));
+                    }
+                    if (location == null) {
+                        location = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocation"));
+                        locationId = getModId(xml.getAttributeValue(APP_NS, "myLocation"));
+                    }
+
+                    if (!TextUtils.isEmpty(modData.title) && !isPreferenceVisible) {
+                        String internalHyper = internalName == null ? locationHyper : internalName + "/" + locationHyper;
+                        String internalPad = internalName == null ? locationPad : internalName + "/" + locationPad;
+                        String internalMiui = internalName == null ? location : internalName + "/" + location;
+
+                        if (locationHyper == null || location == null || (isPad && locationPad == null)) {
+                            if (location != null) {
+                                modData.breadcrumbs = internalMiui;
+                                modData.catTitleResId = locationId;
+                            } else if (locationHyper != null) {
+                                modData.breadcrumbs = internalHyper;
+                                modData.catTitleResId = locationHyperId;
+                            } else if (locationPad != null) {
+                                modData.breadcrumbs = internalPad;
+                                modData.catTitleResId = locationPadId;
+                            }
+                        } else {
+                            if (!isPad) {
+                                if (isMoreHyperOSVersion(1f)) {
                                     modData.breadcrumbs = internalHyper;
                                     modData.catTitleResId = locationHyperId;
-                                } else if (locationPad != null) {
-                                    modData.breadcrumbs = internalPad;
-                                    modData.catTitleResId = locationPadId;
+                                } else {
+                                    modData.breadcrumbs = internalMiui;
+                                    modData.catTitleResId = locationId;
                                 }
                             } else {
-                                if (!isPad) {
-                                    if (isMoreHyperOSVersion(1f)) {
-                                        modData.breadcrumbs = internalHyper;
-                                        modData.catTitleResId = locationHyperId;
-                                    } else {
-                                        modData.breadcrumbs = internalMiui;
-                                        modData.catTitleResId = locationId;
-                                    }
-                                } else {
-                                    modData.breadcrumbs = internalPad;
-                                    modData.catTitleResId = locationPadId;
-                                }
+                                modData.breadcrumbs = internalPad;
+                                modData.catTitleResId = locationPadId;
                             }
-                            modData.key = xml.getAttributeValue(ANDROID_NS, "key");
-                            modData.order = order;
-
-                            modData.fragment = catPrefsFragment;
-                            allModsList.add(modData);
                         }
-                        order++;
-                    } catch (Throwable t) {
-                        AndroidLogUtils.logE(TAG, "Failed to get xml keyword object!", t);
+
+                        modData.key = xml.getAttributeValue(ANDROID_NS, "key");
+                        modData.order = order;
+                        modData.fragment = catPrefsFragment;
+                        allModsList.add(modData);
                     }
+                    order++;
+                } catch (Throwable t) {
+                    AndroidLogUtils.logE(TAG, "Failed to get xml keyword object!", t);
                 }
-                eventType = xml.next();
             }
-        } catch (Throwable t) {
-            AndroidLogUtils.logE(TAG, "Failed to access XML resource!", t);
+            eventType = xml.next();
         }
+    } catch (Throwable t) {
+        AndroidLogUtils.logE(TAG, "Failed to access XML resource!", t);
     }
+}
 
     private static int getModId(String title) {
         if (title == null) {

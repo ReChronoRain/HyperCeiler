@@ -29,8 +29,8 @@ import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -52,46 +52,46 @@ public class DeviceModify extends BaseHook {
         XposedHelpers.setStaticObjectField(Build.class, "MODEL", mModel);
         XposedHelpers.setStaticObjectField(Build.class, "MANUFACTURER", mManufacturer);
 
-        Method method1 = (Method) DexKit.getDexKitBridge("SystemPropertiesGetStringWithNull", new IDexKit() {
+        Method method1 = DexKit.findMember("SystemPropertiesGetStringWithNull", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass("com.xiaomi.vipbase.utils.SystemProperties")
                                 .paramCount(1)
                                 .returnType(String.class)
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
-        Method method2 = (Method) DexKit.findMember("GetDevice", new IDexKit() {
+        Method method2 = DexKit.findMember("GetDevice", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("ro.product.device")
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
-        Method method3 = (Method) DexKit.findMember("GetModel", new IDexKit() {
+        Method method3 = DexKit.findMember("GetModel", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("ro.product.model")
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
-        Method method4 = (Method) DexKit.findMember("GetManufacturer", new IDexKit() {
+        Method method4 = DexKit.findMember("GetManufacturer", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("ro.product.manufacturer")
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
 

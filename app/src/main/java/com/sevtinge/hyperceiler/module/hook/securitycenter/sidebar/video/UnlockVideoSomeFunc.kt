@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video
 
-import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
@@ -27,8 +26,8 @@ import org.luckypray.dexkit.query.enums.*
 import java.lang.reflect.*
 
 object UnlockVideoSomeFunc : BaseHook() {
-    private val findFrc by lazy {
-        DexKit.useDexkitIfNoCache(arrayOf("findFrcA", "findFrcB")) {
+    private val findFrc by lazy<List<Method>> {
+        DexKit.findMemberList("findFrcA") {
             it.findMethod {
                 matcher {
                     declaredClass {
@@ -40,7 +39,8 @@ object UnlockVideoSomeFunc : BaseHook() {
             }
         }
     }
-    private val findTat by lazy {
+
+    private val findTat by lazy<Method> {
         DexKit.findMember("findTat") {
             it.findMethod {
                 matcher {
@@ -49,8 +49,8 @@ object UnlockVideoSomeFunc : BaseHook() {
                     }
                     addUsingString("debug.config.media.video.ais.support", StringMatchType.Equals)
                 }
-            }.single().getMethodInstance(classLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
     private val memc by lazy {
@@ -67,17 +67,21 @@ object UnlockVideoSomeFunc : BaseHook() {
    }
 
     override fun init() {
-        val orderedB = DexKit.getDexKitBridgeList("findFrcB") { _ ->
-            findFrc?.toMethodDataList()?.filter { methodData ->
-                methodData.usingFields.any {
-                    it.field.typeName == "java.util.List"
+        val ordered = DexKit.findMemberList<Method>("findFrcB") {
+            it.findMethod {
+                matcher {
+                    findFrc.forEach { a ->
+                        name = a.name
+                    }
+                    usingFields {
+                        add {
+                            type = "java.util.List"
+                        }
+                    }
                 }
-            }?.toElementList()
-        }.toMethodList()
-        val orderedA = DexKit.getDexKitBridgeList("findFrcA") { _ ->
-            findFrc?.toElementList()
-        }.toMethodList()
-        val differentItems = orderedA.subtract(orderedB.toSet())
+            }
+        }
+        val differentItems = findFrc.subtract(ordered.toSet())
 
         if (memc) {
             differentItems.forEach { methods ->
@@ -87,7 +91,7 @@ object UnlockVideoSomeFunc : BaseHook() {
         }
 
         var counter = 0
-        orderedA.forEach { methods ->
+        findFrc.forEach { methods ->
             counter++
             if ((resolution || enhance) && counter == 1) {
                 logD(TAG, lpparam.packageName, "find Tat Method is $findTat")

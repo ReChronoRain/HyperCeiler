@@ -18,20 +18,20 @@
 */
 package com.sevtinge.hyperceiler.module.hook.mishare
 
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import java.lang.reflect.*
 
 object UnlockTurboMode : BaseHook() {
-    private val turboModeMethod by lazy {
+    private val turboModeMethod by lazy<Method> {
         DexKit.findMember("UnlockTurboMode") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("DeviceUtil", "xiaomi.hardware.p2p_160m")
+                    usingStrings("DeviceUtil", "xiaomi.hardware.p2p_160m")
                 }
-            }.single().getMethodInstance(EzXHelper.safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
     override fun init() {

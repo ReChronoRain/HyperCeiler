@@ -18,32 +18,32 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.battery
 
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import java.lang.reflect.*
 
 object UnlockSuperWirelessCharge : BaseHook() {
 
-    private val superWirelessCharge by lazy {
+    private val superWirelessCharge by lazy<Method> {
         DexKit.findMember("superWirelessCharge") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("persist.vendor.tx.speed.control")
+                    usingEqStrings("persist.vendor.tx.speed.control")
                     returnType = "boolean"
                 }
-            }.single().getMethodInstance(EzXHelper.classLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
-    private val superWirelessChargeTip by lazy {
+    private val superWirelessChargeTip by lazy<Method> {
         DexKit.findMember("superWirelessChargeTip") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("key_is_connected_super_wls_tx")
+                    usingEqStrings("key_is_connected_super_wls_tx")
                 }
-            }.single().getMethodInstance(EzXHelper.classLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
     override fun init() {

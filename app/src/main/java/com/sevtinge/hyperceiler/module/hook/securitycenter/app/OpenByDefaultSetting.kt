@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.utils.log.*
 import de.robv.android.xposed.*
 import de.robv.android.xposed.XposedHelpers.*
+import java.lang.reflect.*
 
 
 @SuppressLint("DiscouragedApi")
@@ -67,7 +68,7 @@ class OpenByDefaultSetting : BaseHook() {
     }
 
     /** LiveData 读取后更新 View 的方法 */
-    private val onLoadDataFinishMethod by lazy(LazyThreadSafetyMode.NONE) {
+    private val onLoadDataFinishMethod by lazy<Method>(LazyThreadSafetyMode.NONE) {
         //
         //  public void a(a.j.b.c<Boolean> cVar, Boolean bool) {                      // <- a
         //      ……
@@ -86,8 +87,8 @@ class OpenByDefaultSetting : BaseHook() {
                     paramTypes = listOf("", "")
                 }
                 findFirst = true
-            }.single().getMethodInstance(classLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
     companion object {

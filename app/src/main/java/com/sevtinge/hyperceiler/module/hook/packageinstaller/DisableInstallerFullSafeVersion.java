@@ -32,8 +32,8 @@ import org.luckypray.dexkit.query.matchers.FieldMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.FieldData;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -41,15 +41,15 @@ import java.lang.reflect.Modifier;
 public class DisableInstallerFullSafeVersion extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.findMember("IsFullSafeVersion", new IDexKit() {
+        Method method = DexKit.findMember("IsFullSafeVersion", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("installer_full_safe_version")
                                 .returnType(boolean.class)
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         hookMethod(method, new MethodHook() {
@@ -58,9 +58,9 @@ public class DisableInstallerFullSafeVersion extends BaseHook {
                 param.setResult(false);
             }
         });
-        Field field = (Field) DexKit.findMember("FullSecurityProtectVersion", new IDexKit() {
+        Field field = DexKit.findMember("FullSecurityProtectVersion", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()
                         .matcher(FieldMatcher.create()
                                 .declaredClass(ClassMatcher.create()
@@ -69,7 +69,7 @@ public class DisableInstallerFullSafeVersion extends BaseHook {
                                 .type(boolean.class)
                                 .modifiers(Modifier.FINAL)
                         )).singleOrNull();
-                return fieldData.getFieldInstance(lpparam.classLoader);
+                return fieldData;
             }
         });
         setStaticBooleanField(field.getDeclaringClass(), field.getName(), false);

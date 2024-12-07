@@ -28,12 +28,13 @@ import org.luckypray.dexkit.query.FindClass;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
+import org.luckypray.dexkit.result.BaseDataList;
 import org.luckypray.dexkit.result.ClassData;
 import org.luckypray.dexkit.result.MethodDataList;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Member;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author 焕晨HChen
@@ -42,14 +43,14 @@ public class BaiduClipboard extends BaseHC {
     @Override
     public void init() {
         if ("com.baidu.input".equals(lpparam.packageName)) {
-            Class<?> ClipboardConfig = (Class<?>) DexKit.findMember("NewGetMaxQueryCount", new IDexKit() {
+            Class<?> ClipboardConfig = DexKit.findMember("NewGetMaxQueryCount", new IDexKit() {
                 @Override
-                public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                     ClassData classData = bridge.findClass(FindClass.create()
                             .matcher(ClassMatcher.create()
                                     .usingStrings("begin to checkMaxQueryCount")
                             )).singleOrNull();
-                    return classData.getInstance(lpparam.classLoader);
+                    return classData;
                 }
             });
 
@@ -61,9 +62,9 @@ public class BaiduClipboard extends BaseHC {
                 });
             }
         } else if ("com.baidu.input_mi".equals(lpparam.packageName)) {
-            DexKit.getDexKitBridgeList("GetMaxQueryCountList", new IDexKitList() {
+            DexKit.findMemberList("GetMaxQueryCountList", new IDexKitList() {
                 @Override
-                public List<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                public BaseDataList<?> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                     MethodDataList methodDataList = bridge.findMethod(FindMethod.create()
                             .matcher(MethodMatcher.create()
                                     .declaredClass(ClassMatcher.create()
@@ -71,9 +72,9 @@ public class BaiduClipboard extends BaseHC {
                                     )
                                     .returnType(int.class))
                     );
-                    return DexKit.toElementList(methodDataList);
+                    return methodDataList;
                 }
-            }).toMethodList().forEach(method -> hook(method, returnResult(Integer.MAX_VALUE)));
+            }).forEach(method -> hook((Member) method, returnResult(Integer.MAX_VALUE)));
         }
     }
 }

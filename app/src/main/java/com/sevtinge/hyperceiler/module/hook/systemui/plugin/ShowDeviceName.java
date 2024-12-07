@@ -11,8 +11,8 @@ import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -22,14 +22,14 @@ public class ShowDeviceName {
     static String deviceName = getProp("persist.sys.device_name");
 
     public static void initShowDeviceName(ClassLoader classLoader) {
-        Method method = (Method) DexKit.findMember("OnCarrierTextChanged", new IDexKit() {
+        Method method = DexKit.findMember("OnCarrierTextChanged", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .name("onCarrierTextChanged")
                         )).singleOrNull();
-                return methodData.getMethodInstance(classLoader);
+                return methodData;
             }
         });
         hookMethod(method, new HookTool.MethodHook() {

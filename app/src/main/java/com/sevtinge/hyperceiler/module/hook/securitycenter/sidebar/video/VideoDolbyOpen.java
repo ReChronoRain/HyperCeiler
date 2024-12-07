@@ -28,8 +28,8 @@ import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 public class VideoDolbyOpen extends BaseHook {
@@ -59,16 +59,16 @@ public class VideoDolbyOpen extends BaseHook {
         // List<ClassData> list = Collections.singletonList(data);
 
         // 查找方法
-        Method method = (Method) DexKit.findMember("Dolby", new IDexKit() {
+        Method method = DexKit.findMember("Dolby", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .declaredClass(ClassMatcher.create()
                                         .usingStrings("checkMiGamePermission error"))
                                 .usingStrings("dolby")
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         HookFactory.createMethodHook(method, hookFactory -> hookFactory.before(

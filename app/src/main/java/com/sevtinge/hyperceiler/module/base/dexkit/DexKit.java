@@ -18,11 +18,16 @@
  */
 package com.sevtinge.hyperceiler.module.base.dexkit;
 
+import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
+
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.sevtinge.hyperceiler.R;
 import com.tencent.mmkv.MMKV;
 
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +53,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * @author 焕晨HChen
  */
 public class DexKit {
-    private static final int mVersion = 4;
+    private static final int mVersion = 5;
     public boolean isInit = false;
     private static final String MMKV_PATH = "/files/mmkv";
     private static XC_LoadPackage.LoadPackageParam mParam;
@@ -165,8 +170,7 @@ public class DexKit {
                 throw new RuntimeException(e);
             }
         } else {
-            MemberData data = mGson.fromJson(descriptor, new TypeToken<MemberData>() {
-            }.getType());
+            MemberData data = mGson.fromJson(descriptor, new TypeToken<MemberData>() {}.getType());
             ArrayList<T> instanceList = new ArrayList<>();
             try {
                 switch (data.type) {
@@ -210,12 +214,7 @@ public class DexKit {
         mGson = new GsonBuilder().setPrettyPrinting().create();
 
         // 启动 MMKV
-        MMKV.initialize(mmkvPath, new MMKV.LibLoader() {
-            @Override
-            public void loadLibrary(String libName) {
-                System.loadLibrary(libName);
-            }
-        });
+        MMKV.initialize(mmkvPath, libName -> System.loadLibrary(libName));
         mMMKV = MMKV.defaultMMKV();
         int version = mMMKV.getInt("version", 0);
         if (version != 0 && version != mVersion) {
@@ -260,6 +259,16 @@ public class DexKit {
         public MemberData(String type, ArrayList<String> serializeList) {
             this.type = type;
             this.serializeList = serializeList;
+        }
+    }
+
+    public static void deleteAllCache(Context context) {
+        String[] folderNames = context.getResources().getStringArray(R.array.xposed_scope);
+        for (String folderName : folderNames) {
+            String folderPath = "/data/data/" + folderName + MMKV_PATH;
+            if (safeExecCommandWithRoot("ls " + folderPath).contains("mmkv")) {
+                safeExecCommandWithRoot("rm -rf " + folderPath);
+            }
         }
     }
 }

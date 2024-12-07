@@ -30,8 +30,8 @@ import org.luckypray.dexkit.query.matchers.FieldMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.FieldData;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -43,17 +43,17 @@ public class SetCardLightDarkMode extends BaseHook {
 
     @Override
     public void init() {
-        Method method = (Method) DexKit.findMember("LightDarkMode", new IDexKit() {
+        Method method = DexKit.findMember("LightDarkMode", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(METHOD_MATCHER)).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
-        Field field = (Field) DexKit.findMember("LightDarkModeField", new IDexKit() {
+        Field field = DexKit.findMember("LightDarkModeField", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()
                         .matcher(FieldMatcher.create()
                                 .declaredClass(ClassMatcher.create()
@@ -62,7 +62,7 @@ public class SetCardLightDarkMode extends BaseHook {
                                 .addReadMethod(METHOD_MATCHER)
                                 .type(int.class)
                         )).singleOrNull();
-                return fieldData.getFieldInstance(lpparam.classLoader);
+                return fieldData;
             }
         });
         hookMethod(method, new MethodHook() {

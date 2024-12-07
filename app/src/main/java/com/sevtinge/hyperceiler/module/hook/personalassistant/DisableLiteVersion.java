@@ -32,8 +32,8 @@ import org.luckypray.dexkit.query.matchers.FieldMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.FieldData;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -44,21 +44,21 @@ import de.robv.android.xposed.XposedHelpers;
 public class DisableLiteVersion extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.findMember("GetDeviceLevel", new IDexKit() {
+        Method method = DexKit.findMember("GetDeviceLevel", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("getDeviceLevel # physical-memory: ")
                                 .returnType(int.class)
                                 .paramCount(0)
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
-        Field field = (Field) DexKit.findMember("CameraColor", new IDexKit() {
+        Field field = DexKit.findMember("CameraColor", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()
                         .matcher(FieldMatcher.create()
                                 .addReadMethod(MethodMatcher.create()
@@ -76,7 +76,7 @@ public class DisableLiteVersion extends BaseHook {
                                 .type(boolean.class)
                                 .modifiers(Modifier.PUBLIC)
                         )).singleOrNull();
-                return fieldData.getFieldInstance(lpparam.classLoader);
+                return fieldData;
             }
         });
         XposedHelpers.setStaticBooleanField(field.getDeclaringClass(), field.getName(), false);

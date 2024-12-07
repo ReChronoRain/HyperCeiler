@@ -18,40 +18,39 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.battery
 
-import com.github.kyuubiran.ezxhelper.*
-import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import java.lang.reflect.*
 
 object ScreenUsedTime : BaseHook() {
-    private val method1 by lazy {
+    private val method1 by lazy<Method> {
         DexKit.findMember("ScreenUsedTime1") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals("ishtar", "nuwa", "fuxi")
+                    usingEqStrings("ishtar", "nuwa", "fuxi")
                     returnType = "boolean"
                     paramCount = 0
                 }
-            }.single().getMethodInstance(safeClassLoader)
-        }.toMethod()
+            }.single()
+        }
     }
-    private val method2 by lazy {
-        DexKit.getDexKitBridgeList("ScreenUsedTime2") {
+    private val method2 by lazy<List<Method>> {
+        DexKit.findMemberList("ScreenUsedTime2") {
             it.findMethod {
                 matcher {
                     declaredClass {
-                        addUsingStringsEquals("not support screenPowerSplit", "PowerRankHelperHolder")
+                        usingEqStrings("not support screenPowerSplit", "PowerRankHelperHolder")
                     }
                     returnType = "boolean"
                     paramCount = 0
                 }
-            }.toElementList()
-        }.toMethodList()
+            }
+        }
     }
 
     override fun init() {
-        Log.i("methods2 :$method2")
+        logD(TAG, lpparam.packageName, "methods2 :$method2")
         method2.forEach {
             it.createHook {
                 returnConstant(

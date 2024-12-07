@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
-import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
@@ -27,30 +26,30 @@ import de.robv.android.xposed.*
 import java.lang.reflect.*
 
 object UnlockLeicaFilter : BaseHook() {
-    private val leicaOld by lazy {
-        DexKit.getDexKitBridgeList("UnlockLeicaFilterOld") { dexkit ->
+    private val leicaOld by lazy<List<Method>> {
+        DexKit.findMemberList("UnlockLeicaFilterOld") { dexkit ->
             dexkit.findMethod {
                 matcher {
-                    // 仅适配 1.5 及 1.6 的部分版本，新版已更换检测方式
+                    // 仅适配 1.5 及 1.6 的部分版本，新版更换检测方式
                     declaredClass {
-                        addUsingStringsEquals("unSupportDeviceList", "stringResUrl")
+                        usingStrings("unSupportDeviceList", "stringResUrl")
                     }
                     modifiers = Modifier.FINAL
                     returnType = "boolean"
                     paramCount = 0
                 }
-            }.toElementList()
-        }.toMethodList()
+            }
+        }
     }
-    private val leicaNew by lazy {
+    private val leicaNew by lazy<Method> {
         DexKit.findMember("UnlockLeicaFilterNew") { dexkit ->
             dexkit.findMethod {
                 matcher {
                     declaredClass = "com.miui.mediaeditor.photo.filter.repository.FilterRepository"
                     returnType = "java.io.Serializable"
                 }
-            }.single().getMethodInstance(classLoader)
-        }.toMethod()
+            }.single()
+        }
     }
 
     override fun init() {

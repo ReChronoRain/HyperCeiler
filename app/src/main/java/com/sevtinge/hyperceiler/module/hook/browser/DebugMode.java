@@ -28,8 +28,8 @@ import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -37,15 +37,15 @@ import de.robv.android.xposed.XC_MethodHook;
 public class DebugMode extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method1 = (Method) DexKit.findMember("EnvironmentFlag", new IDexKit() {
+        Method method1 = DexKit.findMember("EnvironmentFlag", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("environment_flag")
                                 .returnType(String.class)
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         hookMethod(method1, new MethodHook() {
@@ -55,15 +55,15 @@ public class DebugMode extends BaseHook {
             }
         });
 
-        Method method2 = (Method) DexKit.findMember("DebugMode1", new IDexKit() {
+        Method method2 = DexKit.findMember("DebugMode1", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("pref_key_debug_mode_new")
                                 .returnType(boolean.class)
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         hookMethod(method2, new MethodHook() {
@@ -73,15 +73,15 @@ public class DebugMode extends BaseHook {
             }
         });
 
-        Method method3 = (Method) DexKit.findMember("DebugMode2", new IDexKit() {
+        Method method3 = DexKit.findMember("DebugMode2", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("pref_key_debug_mode")
                                 .returnType(boolean.class)
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         hookMethod(method3, new MethodHook() {
@@ -91,15 +91,15 @@ public class DebugMode extends BaseHook {
             }
         });
 
-        Method method4 = (Method) DexKit.findMember("DebugMode3", new IDexKit() {
+        Method method4 = DexKit.findMember("DebugMode3", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("pref_key_debug_mode_" + getPackageVersionCode(lpparam))
                                 .returnType(boolean.class)
                         )).singleOrNull();
-                return methodData.getMethodInstance(lpparam.classLoader);
+                return methodData;
             }
         });
         hookMethod(method4, new MethodHook() {

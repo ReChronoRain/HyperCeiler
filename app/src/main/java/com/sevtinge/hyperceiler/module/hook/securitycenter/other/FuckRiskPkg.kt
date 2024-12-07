@@ -21,18 +21,19 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import java.lang.reflect.*
 
 object FuckRiskPkg : BaseHook() {
-    private val pkg by lazy {
-        DexKit.getDexKitBridgeList("FuckRiskPkg") {
+    private val pkg by lazy<List<Method>> {
+        DexKit.findMemberList("FuckRiskPkg") {
             it.findMethod {
                 matcher {
-                    addUsingStringsEquals(
+                    usingEqStrings(
                         "riskPkgList", "key_virus_pkg_list", "show_virus_notification"
                     )
                 }
-            }.toElementList()
-        }.toMethodList()
+            }
+        }
     }
 
     override fun init() {

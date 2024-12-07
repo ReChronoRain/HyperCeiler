@@ -26,29 +26,23 @@ import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 public class InstallIntercept extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
         long stime = System.currentTimeMillis();
-        Method method = (Method) DexKit.findMember("install", new IDexKit() {
+        Method method = DexKit.findMember("install", new IDexKit() {
             @Override
-            public AnnotatedElement dexkit(DexKitBridge bridge) {
+            public BaseData dexkit(DexKitBridge bridge) {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("permcenter_install_intercept_enabled")
                                 .returnType(boolean.class)
                         )).singleOrNull();
-                try {
-                    Method method = methodData.getMethodInstance(lpparam.classLoader);
-                    logE(TAG, "new: " + method);
-                    return method;
-                } catch (NoSuchMethodException e) {
-                    throw new RuntimeException(e);
-                }
+                return methodData;
             }
         });
 

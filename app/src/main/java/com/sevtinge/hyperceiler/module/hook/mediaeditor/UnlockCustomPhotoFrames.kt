@@ -39,8 +39,8 @@ object UnlockCustomPhotoFrames : BaseHook() {
     private val isRedmi by lazy { frames == 2 }
     private val isPOCO by lazy { frames == 3 }
 
-    private val publicA by lazy {
-        DexKit.useDexkitIfNoCache(arrayOf("PC", "PA")) { bridge ->
+    private val publicA by lazy<List<Method>> {
+        DexKit.findMemberList("PA") { bridge ->
             bridge.findMethod {
                 matcher {
                     // 真是妹想到啊，1.5 和 1.6 版本还以为不会套回去了
@@ -62,8 +62,8 @@ object UnlockCustomPhotoFrames : BaseHook() {
     }
 
     // 公共解锁特定机型定制画框使用限制
-    private val publicB by lazy {
-        DexKit.getDexKitBridgeList("PB") { dexkit ->
+    private val publicB by lazy<List<Method>> {
+        DexKit.findMemberList("PB") { dexkit ->
             dexkit.findMethod {
                 matcher {
                     if (isNewMediaeditor) {
@@ -78,33 +78,32 @@ object UnlockCustomPhotoFrames : BaseHook() {
                         modifiers = Modifier.STATIC or Modifier.FINAL
                     }
                 }
-            }.toElementList()
-        }.toMethodList()
+            }
+        }
     }
 
     override fun init() {
-        // 为了减少查询次数，这玩意写得好懵圈.png
-        // val publicC = DexKit.getDexKitBridge("PC", publicA?.toMethodDataList()?.filter { methodData ->
-        //     methodData.usingFields.any {
-        //         it.field.typeName == "boolean" // 1.6.3.5 通过此条件应该只会返回 b() 方法
-        //     }
-        // }, lpparam.classLoader).toMethodList().toSet()
-        val publicC = DexKit.getDexKitBridgeList("PC") { _ ->
-            publicA?.toMethodDataList()?.filter { methodData ->
-                methodData.usingFields.any {
-                    it.field.typeName == "boolean" // 1.6.3.5 通过此条件应该只会返回 b() 方法
+        val publicC = DexKit.findMemberList<Method>("PC") {
+            it.findMethod {
+                matcher {
+                    publicA.forEach { a ->
+                        name = a.name
+                    }
+                    usingFields {
+                        add {
+                            type = "boolean"
+                        }
+                    }
                 }
-            }?.toElementList()
-        }.toMethodList()
+            }
+        }
+
         val actions = if (isNewMediaeditor) {
             listOf<(Method) -> Unit>(::xiaomi, ::redmi, ::poco, ::other)
         } else {
             listOf<(Method) -> Unit>(::xiaomi, ::poco, ::redmi, ::other)
         }
-        val orderedPublicA = DexKit.getDexKitBridgeList("PA") { _ ->
-            publicA?.toElementList()
-        }.toMethodList()
-        val differentItems = orderedPublicA.subtract(publicC.toSet())
+        val differentItems = publicA.subtract(publicC.toSet())
         var index = 0
 
         differentItems.forEach { method ->
@@ -119,7 +118,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
 
         if (isOpenSpring && publicC.isNotEmpty()) {
             publicC.forEach { method ->
-                other(method)  
+                other(method)
                 // 1.6.0.5.2 新增限时新春定制画框
                 // 后续版本已移除，其实可以删掉的，但还是留着吧，兴许后面可能还有用
             }

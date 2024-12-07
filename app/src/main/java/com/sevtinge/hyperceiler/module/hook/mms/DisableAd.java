@@ -27,9 +27,9 @@ import com.sevtinge.hyperceiler.module.base.dexkit.IDexKitList;
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
+import org.luckypray.dexkit.result.BaseDataList;
 import org.luckypray.dexkit.result.MethodDataList;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
@@ -46,17 +46,17 @@ public class DisableAd extends BaseHook {
                 }
             });
 
-        List<Method> methods = DexKit.getDexKitBridgeList("HideButton", new IDexKitList() {
+        List<Method> methods = DexKit.findMemberList("HideButton", new IDexKitList() {
             @Override
-            public List<AnnotatedElement> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+            public BaseDataList dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodDataList methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .name("setHideButton")
                         )
                 );
-                return DexKit.toElementList(methodData);
+                return methodData;
             }
-        }).toMethodList();
+        });
         for (Method method2 : methods) {
                     if (!Modifier.isAbstract(method2.getModifiers())) {
                         hookMethod(method2, new MethodHook() {
