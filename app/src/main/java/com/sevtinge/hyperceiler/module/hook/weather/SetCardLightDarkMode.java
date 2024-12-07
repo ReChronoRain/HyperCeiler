@@ -43,7 +43,7 @@ public class SetCardLightDarkMode extends BaseHook {
 
     @Override
     public void init() {
-        Method method = (Method) DexKit.getDexKitBridge("LightDarkMode", new IDexKit() {
+        Method method = (Method) DexKit.findMember("LightDarkMode", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -51,7 +51,7 @@ public class SetCardLightDarkMode extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Field field = (Field) DexKit.getDexKitBridge("LightDarkModeField", new IDexKit() {
+        Field field = (Field) DexKit.findMember("LightDarkModeField", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()

@@ -40,7 +40,7 @@ import java.lang.reflect.Method;
 public class SkipCountDownLimit extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("SkipCountDownLimitFragment", new IDexKit() {
+        Method method = (Method) DexKit.findMember("SkipCountDownLimitFragment", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

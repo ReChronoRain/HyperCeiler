@@ -21,13 +21,12 @@ package com.sevtinge.hyperceiler.module.hook.updater
 import com.github.kyuubiran.ezxhelper.*
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.*
 import org.luckypray.dexkit.query.enums.*
 
 object AutoUpdateDialog : BaseHook() {
     private val find1 by lazy {
-        DexKit.getDexKitBridge("AutoUpdateDialog1") {
+        DexKit.findMember("AutoUpdateDialog1") {
             it.findMethod {
                 matcher {
                     addCaller {
@@ -40,7 +39,7 @@ object AutoUpdateDialog : BaseHook() {
     }
 
     private val find2 by lazy {
-        DexKit.getDexKitBridge("AutoUpdateDialog2") {
+        DexKit.findMember("AutoUpdateDialog2") {
             it.findMethod {
                 matcher {
                     addCaller {

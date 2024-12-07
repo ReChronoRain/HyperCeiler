@@ -28,10 +28,6 @@ import com.sevtinge.hyperceiler.*
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toField
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.module.base.tool.*
 import com.sevtinge.hyperceiler.module.base.tool.HookTool.*
 import com.sevtinge.hyperceiler.utils.*
@@ -46,7 +42,7 @@ import java.lang.reflect.*
 
 object NoAutoTurnOff : BaseHook() {
     private val nullMethod by lazy {
-        DexKit.getDexKitBridge("NoAutoTurnOff1") {
+        DexKit.findMember("NoAutoTurnOff1") {
             it.findMethod {
                 matcher {
                     addUsingStringsEquals("MiShareService", "EnabledState")
@@ -57,7 +53,7 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     private val nullMethodNew by lazy {
-        DexKit.getDexKitBridge("NoAutoTurnOff1N") {
+        DexKit.findMember("NoAutoTurnOff1N") {
             it.findMethod {
                 matcher {
                     addUsingStringsEquals("UnionShare", "EnabledState")
@@ -67,7 +63,7 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     private val null2Method by lazy {
-        DexKit.getDexKitBridge("NoAutoTurnOff2") {
+        DexKit.findMember("NoAutoTurnOff2") {
             it.findMethod {
                 matcher {
                     declaredClass {
@@ -81,7 +77,7 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     private val null3Method by lazy {
-        DexKit.getDexKitBridge("NoAutoTurnOff3") {
+        DexKit.findMember("NoAutoTurnOff3") {
             it.findMethod {
                 matcher {
                     addUsingStringsEquals("com.miui.mishare.action.GRANT_NFC_TOUCH_PERMISSION")
@@ -93,7 +89,7 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     private val stopAdvertAllMethod by lazy {
-        DexKit.getDexKitBridge("NoAutoTurnOff9") {
+        DexKit.findMember("NoAutoTurnOff9") {
             it.findMethod {
                 matcher {
                     usingStrings("stopAdvertAll timeout. try stop ")
@@ -130,7 +126,7 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     private val showToastMethod by lazy {
-        DexKit.getDexKitBridge("NoAutoTurnOff5") {
+        DexKit.findMember("NoAutoTurnOff5") {
             it.findMethod (
                 FindMethod.create()
                     .matcher(
@@ -148,7 +144,7 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     private val nullField by lazy {
-        DexKit.getDexKitBridge("NoAutoTurnOff6") {
+        DexKit.findMember("NoAutoTurnOff6") {
             it.findField {
                 matcher {
                     addReadMethod {
@@ -165,7 +161,7 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     private val null2Field by lazy {
-        DexKit.getDexKitBridge("NoAutoTurnOff7") {
+        DexKit.findMember("NoAutoTurnOff7") {
             it.findField {
                 matcher {
                     addReadMethod {
@@ -182,7 +178,7 @@ object NoAutoTurnOff : BaseHook() {
     }
 
     private val null2FieldMethod by lazy {
-        DexKit.getDexKitBridge("NoAutoTurnOff8") {
+        DexKit.findMember("NoAutoTurnOff8") {
             it.findMethod {
                 matcher {
                     addUsingStringsEquals("stopAdvertAllDelay")

@@ -22,7 +22,6 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import java.lang.reflect.*
 
 object NewUnlockHMind : BaseHook() {
@@ -31,7 +30,7 @@ object NewUnlockHMind : BaseHook() {
         // 适配 15.x.x.x ~ 16.x.x.x
         // 这要是坏了，除非动了 cetus 字符串，否则不可能会炸
         // 哦对了，我说怎么平板不配，原来 TMD 把横屏适配删了，米米你啥时候加回来 QAQ！
-        DexKit.getDexKitBridge("NewHMindManager") { dexkit ->
+        DexKit.findMember("NewHMindManager") { dexkit ->
             dexkit.findMethod {
                 matcher {
                     addCaller {

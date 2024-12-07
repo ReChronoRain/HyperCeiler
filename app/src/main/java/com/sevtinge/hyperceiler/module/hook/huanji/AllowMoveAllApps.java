@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
 public class AllowMoveAllApps extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("FilePathMatcher", new IDexKit() {
+        Method method = (Method) DexKit.findMember("FilePathMatcher", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

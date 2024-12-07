@@ -22,11 +22,10 @@ import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 object DisableRemoveScreenHoldOn : BaseHook() {
     private val screen by lazy {
-        DexKit.getDexKitBridge("DisableRemoveScreenHoldOn") {
+        DexKit.findMember("DisableRemoveScreenHoldOn") {
             it.findMethod {
                 matcher {
                     addEqString("remove_screen_off_hold_on")

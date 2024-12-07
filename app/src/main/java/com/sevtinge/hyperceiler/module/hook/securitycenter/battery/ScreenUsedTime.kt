@@ -23,13 +23,10 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 object ScreenUsedTime : BaseHook() {
     private val method1 by lazy {
-        DexKit.getDexKitBridge("ScreenUsedTime1") {
+        DexKit.findMember("ScreenUsedTime1") {
             it.findMethod {
                 matcher {
                     addUsingStringsEquals("ishtar", "nuwa", "fuxi")

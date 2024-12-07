@@ -48,7 +48,7 @@ import de.robv.android.xposed.XposedHelpers;
 public class BlackLeica extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Class<?> clazz2 = (Class<?>) DexKit.getDexKitBridge("TextColorMakerClazz", new IDexKit() {
+        Class<?> clazz2 = (Class<?>) DexKit.findMember("TextColorMakerClazz", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassData clazzData = bridge.findClass(FindClass.create()
@@ -58,7 +58,7 @@ public class BlackLeica extends BaseHook {
                 return clazzData.getInstance(lpparam.classLoader);
             }
         });
-        Method method1 = (Method) DexKit.getDexKitBridge("WaterMakerLeica", new IDexKit() {
+        Method method1 = (Method) DexKit.findMember("WaterMakerLeica", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -68,7 +68,7 @@ public class BlackLeica extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Class<?> clazz1 = (Class<?>) DexKit.getDexKitBridge("DescStringColorMakerClazz", new IDexKit() {
+        Class<?> clazz1 = (Class<?>) DexKit.findMember("DescStringColorMakerClazz", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassData clazzData = bridge.findClass(FindClass.create()
@@ -81,7 +81,7 @@ public class BlackLeica extends BaseHook {
             }
         });
         // Class<?> clazz1 = method1.getClass();
-        Method method2 = (Method) DexKit.getDexKitBridge("TextPainter", new IDexKit() {
+        Method method2 = (Method) DexKit.findMember("TextPainter", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -92,7 +92,7 @@ public class BlackLeica extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Method method3 = (Method) DexKit.getDexKitBridge("TextColorMaker", new IDexKit() {
+        Method method3 = (Method) DexKit.findMember("TextColorMaker", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -104,7 +104,7 @@ public class BlackLeica extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Field field1 = (Field) DexKit.getDexKitBridge("DescStringColor", new IDexKit() {
+        Field field1 = (Field) DexKit.findMember("DescStringColor", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()
@@ -115,7 +115,7 @@ public class BlackLeica extends BaseHook {
                 return fieldData.getFieldInstance(lpparam.classLoader);
             }
         });
-        Field field2 = (Field) DexKit.getDexKitBridge("LeicaPendantColor", new IDexKit() {
+        Field field2 = (Field) DexKit.findMember("LeicaPendantColor", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()

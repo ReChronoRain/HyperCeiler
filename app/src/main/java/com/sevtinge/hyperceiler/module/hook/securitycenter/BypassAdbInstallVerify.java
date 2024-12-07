@@ -37,7 +37,7 @@ import de.robv.android.xposed.XposedHelpers;
 public class BypassAdbInstallVerify extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method1 = (Method) DexKit.getDexKitBridge("AdbInstallNetworkVerify", new IDexKit() {
+        Method method1 = (Method) DexKit.findMember("AdbInstallNetworkVerify", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -49,7 +49,7 @@ public class BypassAdbInstallVerify extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Method method2 = (Method) DexKit.getDexKitBridge("AdbInstallCaller", new IDexKit() {
+        Method method2 = (Method) DexKit.findMember("AdbInstallCaller", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

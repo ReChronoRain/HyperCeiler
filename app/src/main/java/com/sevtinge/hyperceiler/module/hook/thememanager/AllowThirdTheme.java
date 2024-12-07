@@ -35,7 +35,7 @@ import miui.drm.DrmManager;
 public class AllowThirdTheme extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("CheckRightsIsLegal", new IDexKit() {
+        Method method = (Method) DexKit.findMember("CheckRightsIsLegal", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

@@ -246,6 +246,7 @@ dependencies {
     // compileOnly(libs.androidx.preference)
 
     implementation(libs.dexkit)
+    implementation(libs.mmkv)
     implementation(libs.ezxhelper)
     implementation(libs.hiddenapibypass)
     implementation(libs.gson)

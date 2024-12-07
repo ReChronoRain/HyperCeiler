@@ -25,12 +25,10 @@ import com.github.kyuubiran.ezxhelper.MemberExtensions.isFinal
 import com.github.kyuubiran.ezxhelper.MemberExtensions.isStatic
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 object CustomRefreshRate : BaseHook() {
     private val resultMethod by lazy {
-        DexKit.getDexKitBridge("CustomRefreshRate") {
+        DexKit.findMember("CustomRefreshRate") {
             it.findMethod {
                 matcher {
                     addUsingStringsEquals("btn_preferce_category")

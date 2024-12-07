@@ -25,14 +25,11 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import de.robv.android.xposed.*
 
 object VersionCodeNew : BaseHook() {
     private val mBigMethod by lazy {
-        DexKit.getDexKitBridge("VersionCodeNew1") {
+        DexKit.findMember("VersionCodeNew1") {
             it.findMethod {
                 matcher {
                     addUsingStringsEquals("ro.miui.ui.version.name")
@@ -50,7 +47,7 @@ object VersionCodeNew : BaseHook() {
         }.toMethodList()
     }
     private val mOSCode by lazy {
-        DexKit.getDexKitBridge("VersionCodeNew3") {
+        DexKit.findMember("VersionCodeNew3") {
             it.findMethod {
                 matcher {
                     addUsingStringsEquals("ro.mi.os.version.name", "OS")

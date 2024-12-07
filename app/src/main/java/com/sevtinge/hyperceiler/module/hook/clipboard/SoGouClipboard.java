@@ -37,7 +37,7 @@ public class SoGouClipboard extends BaseHook {
     @Override
     public void init() {
         long stime = System.currentTimeMillis();
-        Method method = (Method) DexKit.getDexKitBridge("sogou", new IDexKit() {
+        Method method = (Method) DexKit.findMember("sogou", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

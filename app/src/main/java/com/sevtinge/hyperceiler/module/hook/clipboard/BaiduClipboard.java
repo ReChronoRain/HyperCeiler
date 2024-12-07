@@ -42,7 +42,7 @@ public class BaiduClipboard extends BaseHC {
     @Override
     public void init() {
         if ("com.baidu.input".equals(lpparam.packageName)) {
-            Class<?> ClipboardConfig = (Class<?>) DexKit.getDexKitBridge("NewGetMaxQueryCount", new IDexKit() {
+            Class<?> ClipboardConfig = (Class<?>) DexKit.findMember("NewGetMaxQueryCount", new IDexKit() {
                 @Override
                 public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                     ClassData classData = bridge.findClass(FindClass.create()

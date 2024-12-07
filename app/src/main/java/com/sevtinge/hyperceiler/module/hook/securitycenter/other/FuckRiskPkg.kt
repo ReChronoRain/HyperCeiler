@@ -21,8 +21,6 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
 
 object FuckRiskPkg : BaseHook() {
     private val pkg by lazy {

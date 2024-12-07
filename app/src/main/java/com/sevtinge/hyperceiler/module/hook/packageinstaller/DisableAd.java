@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
 public class DisableAd extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method1 = (Method) DexKit.getDexKitBridge("AdsEnable", new IDexKit() {
+        Method method1 = (Method) DexKit.findMember("AdsEnable", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -51,7 +51,7 @@ public class DisableAd extends BaseHook {
             }
         });
 
-        Method method2 = (Method) DexKit.getDexKitBridge("AppStoreRecommend", new IDexKit() {
+        Method method2 = (Method) DexKit.findMember("AppStoreRecommend", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -69,7 +69,7 @@ public class DisableAd extends BaseHook {
             }
         });
 
-        Method method3 = (Method) DexKit.getDexKitBridge("VirusScanInstall", new IDexKit() {
+        Method method3 = (Method) DexKit.findMember("VirusScanInstall", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

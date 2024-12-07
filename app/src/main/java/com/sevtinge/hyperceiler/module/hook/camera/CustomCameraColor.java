@@ -41,7 +41,7 @@ import de.robv.android.xposed.XposedHelpers;
 public class CustomCameraColor extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("CameraColorGetter", new IDexKit() {
+        Method method = (Method) DexKit.findMember("CameraColorGetter", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -58,7 +58,7 @@ public class CustomCameraColor extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Field field = (Field) DexKit.getDexKitBridge("CameraColor", new IDexKit() {
+        Field field = (Field) DexKit.findMember("CameraColor", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()

@@ -21,12 +21,10 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 object DisableRootCheck : BaseHook() {
     override fun init() {
-        DexKit.getDexKitBridge("DisableRootCheck") {
+        DexKit.findMember("DisableRootCheck") {
             it.findMethod {
                 matcher {
                     addUsingStringsEquals("key_check_item_root")

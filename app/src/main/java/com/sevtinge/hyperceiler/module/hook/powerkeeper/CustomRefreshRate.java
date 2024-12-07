@@ -34,7 +34,7 @@ import java.lang.reflect.Method;
 public class CustomRefreshRate extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("FucSwitch", new IDexKit() {
+        Method method = (Method) DexKit.findMember("FucSwitch", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

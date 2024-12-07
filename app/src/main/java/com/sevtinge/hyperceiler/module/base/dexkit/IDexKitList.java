@@ -19,11 +19,11 @@
 package com.sevtinge.hyperceiler.module.base.dexkit;
 
 import org.luckypray.dexkit.DexKitBridge;
+import org.luckypray.dexkit.result.BaseDataList;
 
-import java.lang.reflect.AnnotatedElement;
-import java.util.List;
-
+/**
+ * @author 焕晨HChen
+ */
 public interface IDexKitList {
-    List<AnnotatedElement> dexkit(DexKitBridge bridge)
-            throws ReflectiveOperationException;
+    BaseDataList<?> dexkit(DexKitBridge bridge) throws ReflectiveOperationException;
 }

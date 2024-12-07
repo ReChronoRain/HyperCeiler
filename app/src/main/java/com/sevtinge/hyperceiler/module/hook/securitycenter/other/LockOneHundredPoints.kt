@@ -25,12 +25,11 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import org.luckypray.dexkit.query.enums.*
 
 object LockOneHundredPoints : BaseHook() {
     private val score by lazy {
-        DexKit.getDexKitBridge("LockOneHundredPoints1N") {
+        DexKit.findMember("LockOneHundredPoints1N") {
             it.findMethod {
                 matcher {
                     declaredClass = "com.miui.securityscan.scanner.ScoreManager"
@@ -42,7 +41,7 @@ object LockOneHundredPoints : BaseHook() {
     }
 
     private val scoreOld by lazy {
-        DexKit.getDexKitBridge("LockOneHundredPoints2") {
+        DexKit.findMember("LockOneHundredPoints2") {
             it.findMethod {
                 matcher {
                     addUsingString("getMinusPredictScore", StringMatchType.Contains)

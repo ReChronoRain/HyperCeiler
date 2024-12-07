@@ -22,13 +22,11 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import java.lang.reflect.*
 
 object UnlockDisney : BaseHook() {
     private val mickey by lazy {
-        DexKit.getDexKitBridge("UnlockDisneyMickey") {
+        DexKit.findMember("UnlockDisneyMickey") {
             it.findMethod {
                 matcher {
                     addCaller {
@@ -45,7 +43,7 @@ object UnlockDisney : BaseHook() {
     }
 
     private val bear by lazy {
-        DexKit.getDexKitBridge("UnlockDisneyBear") {
+        DexKit.findMember("UnlockDisneyBear") {
             it.findMethod {
                 matcher {
                     declaredClass = mickey.declaringClass.name

@@ -23,13 +23,10 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 object BeautyPrivacy : BaseHook() {
     private val R0 by lazy {
-        DexKit.getDexKitBridge("BeautyPrivacy") {
+        DexKit.findMember("BeautyPrivacy") {
             it.findMethod {
                 matcher {
                     addUsingStringsEquals("persist.sys.privacy_camera")

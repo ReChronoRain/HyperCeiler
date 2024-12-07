@@ -23,8 +23,6 @@ import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.*
 import de.robv.android.xposed.*
 import org.luckypray.dexkit.query.enums.*
@@ -32,7 +30,7 @@ import org.luckypray.dexkit.query.enums.*
 
 object BatteryHealth : BaseHook() {
     private val getSecurityBatteryHealth by lazy {
-        DexKit.getDexKitBridge("getSecurityBatteryHealth") {
+        DexKit.findMember("getSecurityBatteryHealth") {
             it.findMethod {
                 matcher {
                     addUsingString("battery_health_soh", StringMatchType.Equals)

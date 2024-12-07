@@ -30,7 +30,6 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
@@ -77,7 +76,7 @@ object BlurSecurity : BaseHook() {
     private val keepColorList = arrayOf("rv_information")
 
     private val lottieAnimation by lazy {
-        DexKit.getDexKitBridge("BlurSecurity1") {
+        DexKit.findMember("BlurSecurity1") {
             it.findMethod {
                 matcher {
                     addUsingString("game_turbo_box_mode_change")
@@ -255,7 +254,7 @@ object BlurSecurity : BaseHook() {
                 "seekbar_text_speed"
             )
 
-            val gameManagerMethod = DexKit.getDexKitBridge("BlurSecurity2") {
+            val gameManagerMethod = DexKit.findMember("BlurSecurity2") {
                 it.findMethod {
                     searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
                     matcher {

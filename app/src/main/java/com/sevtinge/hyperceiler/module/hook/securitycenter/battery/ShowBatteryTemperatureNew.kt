@@ -33,14 +33,13 @@ import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import java.lang.reflect.*
 
 object ShowBatteryTemperatureNew : BaseHook() {
     private val smartChargeClazz by lazy {
-        DexKit.getDexKitBridge("SmartChargeClazz") {
+        DexKit.findMember("SmartChargeClazz") {
             it.findMethod {
                 searchPackages("com.miui.powercenter.nightcharge")
                 matcher {

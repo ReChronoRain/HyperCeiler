@@ -19,8 +19,6 @@
 package com.sevtinge.hyperceiler.module.hook.securitycenter.app;
 
 import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes;
-import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getPackageVersionCode;
-import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -33,9 +31,6 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
@@ -128,7 +123,7 @@ public class AppDisable extends BaseHook {
                 }
         );
 
-        Method method = (Method) DexKit.getDexKitBridge("MethodOnOptionsItemSelected", new IDexKit() {
+        Method method = (Method) DexKit.findMember("MethodOnOptionsItemSelected", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

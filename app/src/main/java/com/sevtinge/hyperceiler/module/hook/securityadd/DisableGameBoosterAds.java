@@ -34,7 +34,7 @@ import java.lang.reflect.Method;
 public class DisableGameBoosterAds extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method1 = (Method) DexKit.getDexKitBridge("IsInternational", new IDexKit() {
+        Method method1 = (Method) DexKit.findMember("IsInternational", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -56,7 +56,7 @@ public class DisableGameBoosterAds extends BaseHook {
             }
         });
 
-        Method method2 = (Method) DexKit.getDexKitBridge("Xunyou", new IDexKit() {
+        Method method2 = (Method) DexKit.findMember("Xunyou", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

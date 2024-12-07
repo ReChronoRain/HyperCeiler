@@ -23,17 +23,15 @@ import android.app.*
 import android.content.*
 import android.content.pm.verify.domain.*
 import android.net.*
-import android.provider.Settings
+import android.provider.*
 import android.view.*
 import android.widget.*
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.sevtinge.hyperceiler.*
-import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.utils.log.*
 import de.robv.android.xposed.*
 import de.robv.android.xposed.XposedHelpers.*
 
@@ -64,8 +62,8 @@ class OpenByDefaultSetting : BaseHook() {
 
     private val appDetailsView by lazy(LazyThreadSafetyMode.NONE) {
         // getClassData 很便宜，不需要前置
-        DexKit.getDexKitBridge().getClassData("com.miui.appmanager.fragment.ApplicationsDetailsFragment") ?:
-        DexKit.getDexKitBridge().getClassData("com.miui.appmanager.ApplicationsDetailsActivity")!!
+        DexKit.initDexkitBridge().getClassData("com.miui.appmanager.fragment.ApplicationsDetailsFragment") ?:
+        DexKit.initDexkitBridge().getClassData("com.miui.appmanager.ApplicationsDetailsActivity")!!
     }
 
     /** LiveData 读取后更新 View 的方法 */
@@ -80,7 +78,7 @@ class OpenByDefaultSetting : BaseHook() {
         //          appDetailTextBannerView = this.p;
         //          i2 = R.string.app_manager_default_close_summary;
         //      }
-        DexKit.getDexKitBridge("onLoadDataFinished") {
+        DexKit.findMember("onLoadDataFinished") {
             appDetailsView.findMethod {
                 matcher {
                     addEqString("enter_way")

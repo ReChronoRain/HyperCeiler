@@ -36,7 +36,7 @@ import java.util.Arrays;
 public class PrivacyThumbnailBlur extends BaseHook {
     @Override
     public void init() {
-        Method method = (Method) DexKit.getDexKitBridge("ptb", new IDexKit() {
+        Method method = (Method) DexKit.findMember("ptb", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 return bridge.findMethod(FindMethod.create()

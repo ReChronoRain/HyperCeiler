@@ -23,12 +23,10 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toClass
 
 object ShowAllHideApp : BaseHook() {
     override fun init() {
-        val getClass = DexKit.getDexKitBridge("ShowAllHideApp") { bridge ->
+        val getClass = DexKit.findMember("ShowAllHideApp") { bridge ->
             bridge.findClass {
                 matcher {
                     addUsingStringsEquals("appInfo.packageName", "com.android.fileexplorer")

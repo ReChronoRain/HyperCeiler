@@ -22,9 +22,6 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.api.LazyClass.AndroidBuildCls
 import de.robv.android.xposed.*
 import java.lang.reflect.*
@@ -46,7 +43,7 @@ object UnlockLeicaFilter : BaseHook() {
         }.toMethodList()
     }
     private val leicaNew by lazy {
-        DexKit.getDexKitBridge("UnlockLeicaFilterNew") { dexkit ->
+        DexKit.findMember("UnlockLeicaFilterNew") { dexkit ->
             dexkit.findMethod {
                 matcher {
                     declaredClass = "com.miui.mediaeditor.photo.filter.repository.FilterRepository"

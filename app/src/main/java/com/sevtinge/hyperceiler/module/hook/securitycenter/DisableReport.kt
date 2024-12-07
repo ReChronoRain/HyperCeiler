@@ -21,12 +21,10 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 object DisableReport : BaseHook() {
     override fun init() {
-        DexKit.getDexKitBridge("DisableReport") {
+        DexKit.findMember("DisableReport") {
             it.findMethod {
                 matcher {
                     addUsingStringsEquals("android.intent.action.VIEW", "com.xiaomi.market")

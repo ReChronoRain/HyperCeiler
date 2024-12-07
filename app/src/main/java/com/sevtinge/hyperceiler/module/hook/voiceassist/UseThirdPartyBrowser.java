@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
 public class UseThirdPartyBrowser extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("StartActivityWithIntent", new IDexKit() {
+        Method method = (Method) DexKit.findMember("StartActivityWithIntent", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

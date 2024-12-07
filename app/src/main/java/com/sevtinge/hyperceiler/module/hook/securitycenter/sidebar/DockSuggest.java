@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
 public class DockSuggest extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("Freeform", new IDexKit() {
+        Method method = (Method) DexKit.findMember("Freeform", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

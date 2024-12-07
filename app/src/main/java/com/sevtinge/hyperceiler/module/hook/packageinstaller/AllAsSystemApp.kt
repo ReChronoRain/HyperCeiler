@@ -22,7 +22,6 @@ import android.content.pm.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
 
 object AllAsSystemApp : BaseHook() {
     private val systemMethod by lazy {

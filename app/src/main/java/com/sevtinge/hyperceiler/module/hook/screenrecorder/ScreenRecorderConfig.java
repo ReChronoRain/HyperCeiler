@@ -36,7 +36,7 @@ import java.util.Arrays;
 public class ScreenRecorderConfig extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method1 = (Method) DexKit.getDexKitBridge("Frame", new IDexKit() {
+        Method method1 = (Method) DexKit.findMember("Frame", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -68,7 +68,7 @@ public class ScreenRecorderConfig extends BaseHook {
             }
         });
 
-        Method method2 = (Method) DexKit.getDexKitBridge("BitRate", new IDexKit() {
+        Method method2 = (Method) DexKit.findMember("BitRate", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

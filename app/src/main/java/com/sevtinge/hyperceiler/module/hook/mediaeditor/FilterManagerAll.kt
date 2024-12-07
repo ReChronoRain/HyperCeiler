@@ -24,15 +24,13 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.setStaticObject
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import com.sevtinge.hyperceiler.utils.api.LazyClass.AndroidBuildCls
 
 
 object FilterManagerAll : BaseHook() {
     private lateinit var device: String
     private val methodResult by lazy {
-        DexKit.getDexKitBridge("FilterManagerAll") { dexkit ->
+        DexKit.findMember("FilterManagerAll") { dexkit ->
             dexkit.findMethod {
                 matcher {
                     addUsingStringsEquals("wayne")

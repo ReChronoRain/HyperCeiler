@@ -36,7 +36,7 @@ import de.robv.android.xposed.XC_MethodHook;
 public class UnlockLowTempExtEndurance extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("LowTempExtEnduranceSupport", new IDexKit() {
+        Method method = (Method) DexKit.findMember("LowTempExtEnduranceSupport", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

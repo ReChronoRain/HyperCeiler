@@ -24,12 +24,10 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toClass
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 class RemoveMacroBlackList : BaseHook() {
     override fun init() {
-        DexKit.getDexKitBridge("RemoveMacroBlackList1") {
+        DexKit.findMember("RemoveMacroBlackList1") {
             it.findMethod {
                 matcher {
                     addEqString("pref_gb_unsupport_macro_apps")
@@ -40,7 +38,7 @@ class RemoveMacroBlackList : BaseHook() {
             returnConstant(ArrayList<String>())
         }
 
-        DexKit.getDexKitBridge("RemoveMacroBlackList2") {
+        DexKit.findMember("RemoveMacroBlackList2") {
             it.findMethod {
                 matcher {
                     returnType = "boolean"
@@ -54,7 +52,7 @@ class RemoveMacroBlackList : BaseHook() {
             returnConstant(false)
         }
 
-        DexKit.getDexKitBridge("RemoveMacroBlackList3") {
+        DexKit.findMember("RemoveMacroBlackList3") {
             it.findClass {
                 matcher {
                     usingStrings =

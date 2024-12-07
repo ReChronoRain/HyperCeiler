@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
 public class EnableGpuTuner extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("GpuTunerSwitch", new IDexKit() {
+        Method method = (Method) DexKit.findMember("GpuTunerSwitch", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

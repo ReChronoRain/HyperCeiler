@@ -37,7 +37,7 @@ import de.robv.android.xposed.XC_MethodHook;
 public class DebugMode extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method1 = (Method) DexKit.getDexKitBridge("EnvironmentFlag", new IDexKit() {
+        Method method1 = (Method) DexKit.findMember("EnvironmentFlag", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -55,7 +55,7 @@ public class DebugMode extends BaseHook {
             }
         });
 
-        Method method2 = (Method) DexKit.getDexKitBridge("DebugMode1", new IDexKit() {
+        Method method2 = (Method) DexKit.findMember("DebugMode1", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -73,7 +73,7 @@ public class DebugMode extends BaseHook {
             }
         });
 
-        Method method3 = (Method) DexKit.getDexKitBridge("DebugMode2", new IDexKit() {
+        Method method3 = (Method) DexKit.findMember("DebugMode2", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -91,7 +91,7 @@ public class DebugMode extends BaseHook {
             }
         });
 
-        Method method4 = (Method) DexKit.getDexKitBridge("DebugMode3", new IDexKit() {
+        Method method4 = (Method) DexKit.findMember("DebugMode3", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

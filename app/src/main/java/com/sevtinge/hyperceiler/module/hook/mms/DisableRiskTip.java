@@ -37,7 +37,7 @@ import java.lang.reflect.Method;
 public class DisableRiskTip extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method1 = (Method) DexKit.getDexKitBridge("Method1", new IDexKit() {
+        Method method1 = (Method) DexKit.findMember("Method1", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -47,7 +47,7 @@ public class DisableRiskTip extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Method method2 = (Method) DexKit.getDexKitBridge("Method2", new IDexKit() {
+        Method method2 = (Method) DexKit.findMember("Method2", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

@@ -36,8 +36,8 @@ import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.FieldMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.ClassData;
-import org.luckypray.dexkit.result.FieldData;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
@@ -54,7 +54,7 @@ public class ScLockApp extends BaseHook {
 
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("StartRegionSampling", new IDexKit() {
+        Method method = (Method) DexKit.findMember("StartRegionSampling", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -67,7 +67,7 @@ public class ScLockApp extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Class<?> clazz = (Class<?>) DexKit.getDexKitBridge("StartRegionSamplingClazz", new IDexKit() {
+        Class<?> clazz = (Class<?>) DexKit.findMember("StartRegionSamplingClazz", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassData clazzData = bridge.findClass(FindClass.create()
@@ -80,7 +80,7 @@ public class ScLockApp extends BaseHook {
         Field field = null;
         if (method == null) {
             value = 1;
-            method = (Method) DexKit.getDexKitBridge("SidebarTouchListener", new IDexKit() {
+            method = (Method) DexKit.findMember("SidebarTouchListener", new IDexKit() {
                 @Override
                 public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                     MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -93,7 +93,7 @@ public class ScLockApp extends BaseHook {
                     return methodData.getMethodInstance(lpparam.classLoader);
                 }
             });
-            clazz = (Class<?>) DexKit.getDexKitBridge("OnTouchClazz", new IDexKit() {
+            clazz = (Class<?>) DexKit.findMember("OnTouchClazz", new IDexKit() {
                 @Override
                 public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                     ClassData clazzData = bridge.findClass(FindClass.create()
@@ -103,17 +103,17 @@ public class ScLockApp extends BaseHook {
                     return clazzData.getInstance(lpparam.classLoader);
                 }
             });
-            field = (Field) DexKit.getDexKitBridge("OnTouchField", new IDexKit() {
+
+       DexKit.findMember("OnTouchField", new IDexKit() {
                 @Override
-                public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    FieldData fieldData = bridge.findField(FindField.create()
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    return bridge.findField(FindField.create()
                             .matcher(FieldMatcher.create()
                                     .declaredClass(ClassMatcher.create()
                                             .usingStrings("onTouch: \taction = ")
                                     )
                                     .type(View.class)
                             )).singleOrNull();
-                    return fieldData.getFieldInstance(lpparam.classLoader);
                 }
             });
         }

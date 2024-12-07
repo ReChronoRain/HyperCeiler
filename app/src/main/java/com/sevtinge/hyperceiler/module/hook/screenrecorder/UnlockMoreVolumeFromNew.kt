@@ -21,14 +21,11 @@ package com.sevtinge.hyperceiler.module.hook.screenrecorder
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toClass
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
 import de.robv.android.xposed.*
 
 object UnlockMoreVolumeFromNew : BaseHook() {
     private val getClass by lazy {
-        DexKit.getDexKitBridge("UnlockMoreVolumeFromNewClass") {
+        DexKit.findMember("UnlockMoreVolumeFromNewClass") {
             it.findClass {
                 matcher {
                     addUsingStringsEquals("support_a2dp_inner_record")

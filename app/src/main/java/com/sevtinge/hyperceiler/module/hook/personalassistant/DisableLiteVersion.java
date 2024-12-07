@@ -44,7 +44,7 @@ import de.robv.android.xposed.XposedHelpers;
 public class DisableLiteVersion extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("GetDeviceLevel", new IDexKit() {
+        Method method = (Method) DexKit.findMember("GetDeviceLevel", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -56,7 +56,7 @@ public class DisableLiteVersion extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Field field = (Field) DexKit.getDexKitBridge("CameraColor", new IDexKit() {
+        Field field = (Field) DexKit.findMember("CameraColor", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()

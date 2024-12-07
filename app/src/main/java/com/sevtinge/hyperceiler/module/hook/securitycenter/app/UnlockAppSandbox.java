@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
 public class UnlockAppSandbox extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method1 = (Method) DexKit.getDexKitBridge("IsSupportAppSandboxByDevice", new IDexKit() {
+        Method method1 = (Method) DexKit.findMember("IsSupportAppSandboxByDevice", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -47,7 +47,7 @@ public class UnlockAppSandbox extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Method method2 = (Method) DexKit.getDexKitBridge("IsUseSandbox", new IDexKit() {
+        Method method2 = (Method) DexKit.findMember("IsUseSandbox", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -59,7 +59,7 @@ public class UnlockAppSandbox extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Method method3 = (Method) DexKit.getDexKitBridge("IsSupportAppSandboxByProp", new IDexKit() {
+        Method method3 = (Method) DexKit.findMember("IsSupportAppSandboxByProp", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -71,7 +71,7 @@ public class UnlockAppSandbox extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Method method4 = (Method) DexKit.getDexKitBridge("GetCloudDataBoolean", new IDexKit() {
+        Method method4 = (Method) DexKit.findMember("GetCloudDataBoolean", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

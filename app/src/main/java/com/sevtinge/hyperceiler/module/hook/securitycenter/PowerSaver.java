@@ -34,7 +34,7 @@ import java.lang.reflect.Method;
 public class PowerSaver extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("HangUpStatue", new IDexKit() {
+        Method method = (Method) DexKit.findMember("HangUpStatue", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

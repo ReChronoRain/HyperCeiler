@@ -34,7 +34,7 @@ import java.lang.reflect.Method;
 public class CustomImei extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("GetImei", new IDexKit() {
+        Method method = (Method) DexKit.findMember("GetImei", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

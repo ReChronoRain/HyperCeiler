@@ -16,14 +16,16 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.base.dexkit;
+package com.sevtinge.hyperceiler.callback;
 
-import org.luckypray.dexkit.DexKitBridge;
-import org.luckypray.dexkit.result.base.BaseData;
+import android.content.Context;
 
-/**
- * @author 焕晨HChen
- */
-public interface IDexKit {
-    BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException;
+import com.hchen.hooktool.tool.ParamTool;
+
+public interface IAttachBaseContext {
+    default void onAttachBaseContextCreateBefore(ParamTool param, Context context) {
+    }
+
+    default void onAttachBaseContextCreateAfter(ParamTool param, Context context) {
+    }
 }

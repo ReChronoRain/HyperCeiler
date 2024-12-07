@@ -19,8 +19,6 @@
 
 package com.sevtinge.hyperceiler.module.hook.community;
 
-import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getPackageVersionCode;
-
 import android.os.Build;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
@@ -42,14 +40,14 @@ public class DeviceModify extends BaseHook {
     String mDevice;
     String mModel;
     String mManufacturer;
-    
+
     @Override
     public void init() throws NoSuchMethodException {
 
         mDevice = mPrefsMap.getString("community_device_modify_device", "");
         mModel = mPrefsMap.getString("community_device_modify_model", "");
         mManufacturer = mPrefsMap.getString("community_device_modify_manufacturer", "");
-        
+
         XposedHelpers.setStaticObjectField(Build.class, "DEVICE", mDevice);
         XposedHelpers.setStaticObjectField(Build.class, "MODEL", mModel);
         XposedHelpers.setStaticObjectField(Build.class, "MANUFACTURER", mManufacturer);
@@ -66,7 +64,7 @@ public class DeviceModify extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Method method2 = (Method) DexKit.getDexKitBridge("GetDevice", new IDexKit() {
+        Method method2 = (Method) DexKit.findMember("GetDevice", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -76,7 +74,7 @@ public class DeviceModify extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Method method3 = (Method) DexKit.getDexKitBridge("GetModel", new IDexKit() {
+        Method method3 = (Method) DexKit.findMember("GetModel", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -86,7 +84,7 @@ public class DeviceModify extends BaseHook {
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });
-        Method method4 = (Method) DexKit.getDexKitBridge("GetManufacturer", new IDexKit() {
+        Method method4 = (Method) DexKit.findMember("GetManufacturer", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -97,7 +95,7 @@ public class DeviceModify extends BaseHook {
             }
         });
 
-        hookMethod(method1, new MethodHook(){
+        hookMethod(method1, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 if (param.args[0] == "ro.product.model") {
@@ -109,19 +107,19 @@ public class DeviceModify extends BaseHook {
                 }
             }
         });
-        hookMethod(method2, new MethodHook(){
+        hookMethod(method2, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(mDevice);
             }
         });
-        hookMethod(method3, new MethodHook(){
+        hookMethod(method3, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(mModel);
             }
         });
-        hookMethod(method4, new MethodHook(){
+        hookMethod(method4, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(mManufacturer);

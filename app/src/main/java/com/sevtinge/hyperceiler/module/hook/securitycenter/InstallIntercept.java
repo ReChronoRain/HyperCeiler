@@ -34,7 +34,7 @@ public class InstallIntercept extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
         long stime = System.currentTimeMillis();
-        Method method = (Method) DexKit.getDexKitBridge("install", new IDexKit() {
+        Method method = (Method) DexKit.findMember("install", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

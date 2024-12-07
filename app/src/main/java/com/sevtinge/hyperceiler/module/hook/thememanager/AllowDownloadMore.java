@@ -38,7 +38,7 @@ import java.lang.reflect.Method;
 public class AllowDownloadMore extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Class<?> clazz = (Class<?>) DexKit.getDexKitBridge("DownloadCounter", new IDexKit() {
+        Class<?> clazz = (Class<?>) DexKit.findMember("DownloadCounter", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassData clazzData = bridge.findClass(FindClass.create()
@@ -49,7 +49,7 @@ public class AllowDownloadMore extends BaseHook {
             }
         });
 
-        Method method1 = (Method) DexKit.getDexKitBridge("DownloadList", new IDexKit() {
+        Method method1 = (Method) DexKit.findMember("DownloadList", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -61,7 +61,7 @@ public class AllowDownloadMore extends BaseHook {
             }
         });
 
-        Method method2 = (Method) DexKit.getDexKitBridge("DownloadListSize", new IDexKit() {
+        Method method2 = (Method) DexKit.findMember("DownloadListSize", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData1 = bridge.findMethod(FindMethod.create()

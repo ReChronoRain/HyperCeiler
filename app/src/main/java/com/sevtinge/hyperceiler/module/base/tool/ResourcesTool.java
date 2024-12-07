@@ -271,7 +271,7 @@ public class ResourcesTool {
         @Override
         protected void before(MethodHookParam param) {
             if (resourcesArrayList.isEmpty()) {
-                Resources resources = loadModuleRes(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP));
+                Resources resources = loadModuleRes(ContextUtils.getContextNoError(ContextUtils.FLAG_CURRENT_APP));
                 resourcesArrayList.add(resources); // 重新加载 res
             }
             if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {

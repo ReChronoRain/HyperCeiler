@@ -22,11 +22,10 @@ import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 object UnlockGunService : BaseHook() {
     override fun init() {
-        DexKit.getDexKitBridge("UnlockGunService") {
+        DexKit.findMember("UnlockGunService") {
             it.findMethod {
                 matcher {
                     declaredClass {

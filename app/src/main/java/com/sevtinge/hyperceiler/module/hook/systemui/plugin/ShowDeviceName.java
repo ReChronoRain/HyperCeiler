@@ -22,7 +22,7 @@ public class ShowDeviceName {
     static String deviceName = getProp("persist.sys.device_name");
 
     public static void initShowDeviceName(ClassLoader classLoader) {
-        Method method = (Method) DexKit.getDexKitBridge("OnCarrierTextChanged", new IDexKit() {
+        Method method = (Method) DexKit.findMember("OnCarrierTextChanged", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

@@ -69,7 +69,6 @@ public abstract class BaseModule {
         }
 
         mLoadPackageParam = lpparam;
-
         DexKit dexKit = new DexKit(lpparam, TAG);
         initZygote();
         handleLoadPackage();

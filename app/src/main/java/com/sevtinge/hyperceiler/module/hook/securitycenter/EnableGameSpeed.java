@@ -39,7 +39,7 @@ public class EnableGameSpeed extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
 
-        Method method1 = (Method) DexKit.getDexKitBridge("PropVoidData", new IDexKit() {
+        Method method1 = (Method) DexKit.findMember("PropVoidData", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -58,7 +58,7 @@ public class EnableGameSpeed extends BaseHook {
             }
         });
 
-        Method method2 = (Method) DexKit.getDexKitBridge("PropBooleanData", new IDexKit() {
+        Method method2 = (Method) DexKit.findMember("PropBooleanData", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -77,7 +77,7 @@ public class EnableGameSpeed extends BaseHook {
             }
         });
 
-        Method method3 = (Method) DexKit.getDexKitBridge("IsSupport", new IDexKit() {
+        Method method3 = (Method) DexKit.findMember("IsSupport", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -95,7 +95,7 @@ public class EnableGameSpeed extends BaseHook {
             }
         });
 
-        Method method4 = (Method) DexKit.getDexKitBridge("OpenGameBooster", new IDexKit() {
+        Method method4 = (Method) DexKit.findMember("OpenGameBooster", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -113,7 +113,7 @@ public class EnableGameSpeed extends BaseHook {
             }
         });
 
-        Method method5 = (Method) DexKit.getDexKitBridge("Boot", new IDexKit() {
+        Method method5 = (Method) DexKit.findMember("Boot", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

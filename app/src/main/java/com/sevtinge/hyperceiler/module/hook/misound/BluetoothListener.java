@@ -64,7 +64,7 @@ public class BluetoothListener extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
         uuid = mPrefsMap.getString("misound_bluetooth_uuid", "");
-        Class<?> clazz1 = (Class<?>) DexKit.getDexKitBridge("CreateDolbyAudioEffectClazz", new IDexKit() {
+        Class<?> clazz1 = (Class<?>) DexKit.findMember("CreateDolbyAudioEffectClazz", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassData clazzData = bridge.findClass(FindClass.create()
@@ -86,7 +86,7 @@ public class BluetoothListener extends BaseHook {
                     }
             );
         }
-        Class<?> clazz2 = (Class<?>) DexKit.getDexKitBridge("MiSoundClazz", new IDexKit() {
+        Class<?> clazz2 = (Class<?>) DexKit.findMember("MiSoundClazz", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassData clazzData = bridge.findClass(FindClass.create()
@@ -98,7 +98,7 @@ public class BluetoothListener extends BaseHook {
         if (clazz2 == null) {
             logE(TAG, "MiSound not found");
         } else {
-            Field field = (Field) DexKit.getDexKitBridge("Field", new IDexKit() {
+            Field field = (Field) DexKit.findMember("Field", new IDexKit() {
                 @Override
                 public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                     FieldData fieldData = bridge.findField(FindField.create()
@@ -124,7 +124,7 @@ public class BluetoothListener extends BaseHook {
                 );
             }
         }
-        Method method1 = (Method) DexKit.getDexKitBridge("GetEnabledEffect", new IDexKit() {
+        Method method1 = (Method) DexKit.findMember("GetEnabledEffect", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -171,7 +171,7 @@ public class BluetoothListener extends BaseHook {
                             }
                         }
                 );
-                Method method2 = (Method) DexKit.getDexKitBridge("RefreshEffectSelectionEnabled", new IDexKit() {
+                Method method2 = (Method) DexKit.findMember("RefreshEffectSelectionEnabled", new IDexKit() {
                     @Override
                     public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                         MethodData methodData = bridge.findMethod(FindMethod.create()

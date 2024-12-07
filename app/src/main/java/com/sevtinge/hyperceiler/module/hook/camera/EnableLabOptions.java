@@ -36,7 +36,7 @@ import de.robv.android.xposed.XC_MethodHook;
 public class EnableLabOptions extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("LabOptions", new IDexKit() {
+        Method method = (Method) DexKit.findMember("LabOptions", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

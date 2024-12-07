@@ -22,12 +22,11 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 
 class VBVideoMode : BaseHook() {
     override fun init() {
         // 开放影院/自定义模式
-        DexKit.getDexKitBridge("VBVideoMode") {
+        DexKit.findMember("VBVideoMode") {
             it.findMethod {
                 matcher {
                     usingStrings = listOf("TheatreModeUtils")

@@ -35,13 +35,14 @@ import de.robv.android.xposed.XC_MethodHook;
 public class CloudList extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("DebugMode", new IDexKit() {
+        Method method = (Method) DexKit.findMember("DebugMode", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                                 .usingStrings("support_google_csp_sync")
                         )).singleOrNull();
+                methodData.toDexMethod().serialize();
                 return methodData.getMethodInstance(lpparam.classLoader);
             }
         });

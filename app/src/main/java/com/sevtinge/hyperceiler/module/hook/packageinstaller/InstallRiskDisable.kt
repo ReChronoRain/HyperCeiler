@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.module.hook.packageinstaller
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toElementList
 import org.luckypray.dexkit.query.enums.*
 
 object InstallRiskDisable : BaseHook() {

@@ -22,7 +22,6 @@ import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKitTool.toMethod
 import org.luckypray.dexkit.query.enums.*
 
 object CustomWatermark : BaseHook() {
@@ -32,7 +31,7 @@ object CustomWatermark : BaseHook() {
 
     // by StarVoyager
     private val search by lazy {
-        DexKit.getDexKitBridge("CustomWatermark") {
+        DexKit.findMember("CustomWatermark") {
             it.findMethod {
                 matcher {
                     addUsingString("K30 Pro Zoom E", StringMatchType.Equals)

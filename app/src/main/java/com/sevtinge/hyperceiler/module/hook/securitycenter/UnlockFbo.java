@@ -34,7 +34,7 @@ public class UnlockFbo extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
 
-        Method method1 = (Method) DexKit.getDexKitBridge("FboStateOpenInCloud", new IDexKit() {
+        Method method1 = (Method) DexKit.findMember("FboStateOpenInCloud", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -48,7 +48,7 @@ public class UnlockFbo extends BaseHook {
         });
         hookMethod(method1, MethodHook.returnConstant(true));
 
-        Method method2 = (Method) DexKit.getDexKitBridge("FboManager", new IDexKit() {
+        Method method2 = (Method) DexKit.findMember("FboManager", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

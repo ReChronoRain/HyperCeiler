@@ -59,7 +59,7 @@ public class VideoDolbyOpen extends BaseHook {
         // List<ClassData> list = Collections.singletonList(data);
 
         // 查找方法
-        Method method = (Method) DexKit.getDexKitBridge("Dolby", new IDexKit() {
+        Method method = (Method) DexKit.findMember("Dolby", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()

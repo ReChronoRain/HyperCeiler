@@ -41,7 +41,7 @@ import java.lang.reflect.Modifier;
 public class DisableInstallerFullSafeVersion extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("IsFullSafeVersion", new IDexKit() {
+        Method method = (Method) DexKit.findMember("IsFullSafeVersion", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -58,7 +58,7 @@ public class DisableInstallerFullSafeVersion extends BaseHook {
                 param.setResult(false);
             }
         });
-        Field field = (Field) DexKit.getDexKitBridge("FullSecurityProtectVersion", new IDexKit() {
+        Field field = (Field) DexKit.findMember("FullSecurityProtectVersion", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()

@@ -36,7 +36,7 @@ import java.lang.reflect.Method;
 public class FuckDetection extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = (Method) DexKit.getDexKitBridge("GetPackageVersionName", new IDexKit() {
+        Method method = (Method) DexKit.findMember("GetPackageVersionName", new IDexKit() {
             @Override
             public AnnotatedElement dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
