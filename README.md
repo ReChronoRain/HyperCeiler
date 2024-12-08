@@ -22,7 +22,7 @@ Android 13-15 的 MIUI 和 HyperOS
 
 本模块<b>不支持</b> `修改较多的第三方 MIUI/Xiaomi HyperOS ROM`、`修改较多的系统软件`，以及`部分国际 MIUI/Xiaomi HyperOS ROM`；
 
-目前 HyperCeiler 是基于 Android 14-15 的 Xiaomi HyperOS 1.0-1.1 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进
+目前 HyperCeiler 是基于 Android 14-15 的 Xiaomi HyperOS 1.0-2.0 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进
 
 提交反馈前请注意是否已有相同反馈，避免给开发者造成困扰。花相同精力看相同反馈是一件很浪费时间的事情
 
