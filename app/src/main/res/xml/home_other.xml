@@ -96,6 +96,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_home_other_opt_app_launch_delay"
+            android:title="@string/home_other_opt_app_launch_delay" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_user_present_animation"
             android:title="@string/home_other_user_present_animation" />
 
