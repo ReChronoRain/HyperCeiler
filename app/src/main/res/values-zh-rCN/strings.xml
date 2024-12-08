@@ -700,6 +700,7 @@
     <string name="system_ui_lock_screen_force_system_fonts">时钟强制使用系统字体</string>
     <string name="system_ui_lock_screen_double_lock">双击锁屏</string>
     <string name="system_ui_lock_screen_double_lock_desc">双击空白位置锁屏</string>
+    <string name="system_ui_lock_screen_unlock_notification_restrict">解除通知限制</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">隐藏勿扰模式通知</string>
     <string name="system_ui_lock_screen_unlock_tip_title">隐藏屏幕底部解锁提示</string>
     <string name="system_ui_lock_screen_hide_status_bar">锁屏时隐藏状态栏</string>
