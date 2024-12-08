@@ -89,6 +89,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.HideLockscreenZe
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.LinkageAnimCustomer;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.LockScreenDoubleTapToSleep;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.NoPassword;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.NotificationShowOnKeyguard;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.RemoveCamera;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.RemoveSmartScreen;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ScramblePIN;
@@ -294,6 +295,7 @@ public class SystemUiV extends BaseModule {
         initHook(NoPassword.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_password_free"));
         initHook(LockScreenDoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_double_lock"));
         initHook(ForceClockUseSystemFontsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_force_system_fonts"));
+        initHook(NotificationShowOnKeyguard.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_unlock_notification_restrict"));
         initHook(HideLockscreenZenMode.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_not_disturb_mode"));
         initHook(HideLockScreenHint.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_unlock_tip"));
         initHook(HideLockScreenStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_status_bar"));

@@ -588,6 +588,7 @@
     <string name="system_ui_lock_screen_force_system_fonts">時鐘強制使用系統字體</string>
     <string name="system_ui_lock_screen_double_lock">雙擊鎖定螢幕</string>
     <string name="system_ui_lock_screen_double_lock_desc">雙擊空白處鎖定螢幕</string>
+    <string name="system_ui_lock_screen_unlock_notification_restrict">解除通知限制</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">隱藏勿擾模式通知</string>
     <string name="system_ui_lock_screen_unlock_tip_title">隱藏螢幕底部解鎖提示</string>
     <string name="system_ui_lock_screen_hide_status_bar">鎖定螢幕時隱藏狀態欄</string>
