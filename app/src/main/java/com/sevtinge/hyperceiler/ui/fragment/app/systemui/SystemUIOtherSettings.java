@@ -51,6 +51,7 @@ public class SystemUIOtherSettings extends DashboardFragment {
     SwitchPreference mShowPct;
     SwitchPreference mFuckSG;
     SwitchPreference mTimer;
+    SwitchPreference mPluginThemeBlur;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -72,6 +73,7 @@ public class SystemUIOtherSettings extends DashboardFragment {
         mShowPct = findPreference("prefs_key_system_showpct_title");
         mFuckSG = findPreference("prefs_key_system_ui_move_log_to_miui");
         mTimer = findPreference("prefs_key_system_ui_volume_timer");
+        mPluginThemeBlur = findPreference("prefs_key_system_ui_other_default_plugin_theme");
 
         mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && !isMoreHyperOSVersion(1f));
@@ -83,6 +85,7 @@ public class SystemUIOtherSettings extends DashboardFragment {
         mShowPct.setVisible(!isMoreHyperOSVersion(1f));
         mFuckSG.setVisible(isMoreHyperOSVersion(2f));
         mTimer.setVisible(!isMoreAndroidVersion(35));
+        mPluginThemeBlur.setVisible(isMoreHyperOSVersion(1f));
 
         mVolume.setOnPreferenceChangeListener(
                 (preference, o) -> {

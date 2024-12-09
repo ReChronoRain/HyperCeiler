@@ -63,7 +63,7 @@ public class DexKit {
     private static final String TYPE_METHOD = "METHOD";
     private static final String TYPE_CLASS = "CLASS";
     private static final String TYPE_FIELD = "FIELD";
-    private static MMKV mMMKV = null;;
+    private static MMKV mMMKV = null;
     private static DexKit mThis;
     private static DexKitBridge mDexKitBridge;
     private final String TAG;

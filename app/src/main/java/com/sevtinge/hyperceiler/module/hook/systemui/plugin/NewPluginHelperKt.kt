@@ -26,6 +26,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.hook.systemui.*
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.*
+import com.sevtinge.hyperceiler.module.hook.systemui.other.*
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.*
 import com.sevtinge.hyperceiler.utils.api.*
 import java.lang.ref.*
@@ -65,6 +66,8 @@ object NewPluginHelperKt : BaseHook() {
                     if (mPrefsMap.getBoolean("system_framework_volume_separate_control") &&
                         mPrefsMap.getBoolean("system_framework_volume_separate_slider"))
                         NotificationVolumeSeparateSlider.initHideDeviceControlEntry(classLoader)
+                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
+                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
                 }
 
                 factory.componentNames("miui.systemui.miplay.MiPlayPluginImpl") -> {
@@ -92,6 +95,8 @@ object NewPluginHelperKt : BaseHook() {
                     ) {
                         QSColor.pluginHook(classLoader)
                     }
+                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
+                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
                 }
 
                 factory.componentNames("miui.systemui.controlcenter.MiuiControlCenter") -> {
@@ -113,6 +118,8 @@ object NewPluginHelperKt : BaseHook() {
                     ) {
                         QSColor.pluginHook(classLoader)
                     }
+                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
+                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
                 }
 
                 factory.componentNames("miui.systemui.notification.NotificationStatPluginImpl") -> {
@@ -121,6 +128,8 @@ object NewPluginHelperKt : BaseHook() {
 
                     if (mPrefsMap.getBoolean("system_ui_statusbar_music_switch"))
                         FocusNotifLyric.initLoader(classLoader);
+                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
+                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
                 }
 
                 else -> {
@@ -136,7 +145,6 @@ object NewPluginHelperKt : BaseHook() {
                         ShowDeviceName.initShowDeviceName(classLoader)
                     if (mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"))
                         DisableDeviceManaged.initDisableDeviceManaged(classLoader)
-
                     // logD(TAG, lpparam.packageName, "Plugin is ${factory.mComponentName}")
                     // 仅备份当前可用注入 ClassLoader
                     // miui.systemui.volume.VolumeDialogPlugin

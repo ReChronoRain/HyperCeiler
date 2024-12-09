@@ -1056,6 +1056,8 @@
     <string name="system_ui_qs_label">Quick switch tab</string>
     <string name="system_ui_notification_title">Notification</string>
     <string name="system_ui_other_notification_fix">Disable notification whitelist</string>
+    <string name="system_ui_other_default_plugin_theme">Remove advanced material blur restrictions</string>
+    <string name="system_ui_other_default_plugin_theme_desc">Unlock the advanced material blur that is disabled by default for third-party themes in SystemUI Plugin</string>
     <string name="system_ui_plugin_enable_volume_blur">Enable volume bar blur</string>
     <string name="system_ui_move_log_to_miui">Move statusbar_gestures.dat to MIUI dir</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Only for Android12+ MTK models. There may be high GPU load.</string>
