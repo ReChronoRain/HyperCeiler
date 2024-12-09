@@ -631,8 +631,8 @@
     <!--Community-->
     <string name="community">Xiaomi Community</string>
     <string name="community_device_modify">Model guise</string>
-    <string name="community_fuck_detection">Fuck detection</string>
-    <string name="community_fuck_detection_desc">It is forbidden to detect HyperCeiler and upload it while giving feedback. Please make sure that the problem is not caused by yourself, but a real system problem, and then give feedback to avoid unnecessary trouble.</string>
+    <string name="community_fuck_detection">Forbidden to detect</string>
+    <string name="community_fuck_detection_desc">It\'s forbidden to detect the HyperCeiler and upload it while giving feedback. Please ensure that the problem isn\'t caused by you, but a real system issue, before providing feedback to avoid unnecessary trouble.</string>
     <!--File Manager-->
     <string name="fileexplorer">File Manager</string>
     <string name="file_explorer_can_selectable">File Manager can be selectable</string>
@@ -924,7 +924,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s is off</string>
     <string name="system_control_center_5g_tile">5G network switch</string>
     <string name="system_ui_control_center_snow_leopard_mode">S-Leo mode</string>
-    <string name="system_ui_control_center_snow_leopard_mode_desc">Disables all audio output. Experimental features that may contain erratic content</string>
+    <string name="system_ui_control_center_snow_leopard_mode_desc">Experimental feature. Disables all audio output.</string>
     <string name="system_control_center_reduce_bright_colors_tile">Extra dim</string>
     <string name="system_control_center_sunshine_mode">Sunlight mode</string>
     <string name="system_control_center_sunshine_mode_brightness">Sunlight mode brightness</string>
@@ -1488,7 +1488,7 @@
     <string name="home_other_mi_pad_enable_more_setting_title">Unlock more options for Home screen settings</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">The unlocked features may not be available, and some features require support from the underlying system.</string>
     <string name="home_other_disable_prestart">Disable app preload</string>
-    <string name="home_other_opt_app_launch_delay">Optimized app launch delay</string>
+    <string name="home_other_opt_app_launch_delay">Optimize app launch delay</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Gallery Editor</string>
     <string name="mediaeditor_foundation">Foundation</string>
@@ -1923,7 +1923,7 @@
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be an official Xiaomi ROM, and some features may not work. Please contact your supplier for more details.</string>
     <string name="headtip_warn_unsupport_sysver">The current device is running on a system version that isn\'t (fully) adapted, which may result in anomalies in the HyperCeiler functionality.</string>
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of HyperCeiler, and may contain malicious code.</string>
-    <string name="headtip_tip_auto_safe_mode">Auto safe mode can unhook some apps in time when they crash multiple times to ensure safety. This feature requires the hook scope \"System Framework\" to run, and we strongly recommend that you check the scope \"System Framework\" to activate Auto safe mode.</string>
+    <string name="headtip_tip_auto_safe_mode">Auto safe mode can unhook some apps in time when they crash multiple times to ensure safety. This feature requires the System Framework hook scope to run. We strongly recommend checking the System Framework scope to turn on Auto safe mode.</string>
     <string name="headtip_tip_long_press_to_copy">You can select text after long or double press, or copy it and send it back to the developer.</string>
     <string name="headtip_tip_fuck_coolapk">Today in history: Sevtinge delivered an important speech on July 14, 2022.</string>
     <string name="headtip_notice_dead_logger_errcode">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.\nError code: %1$s</string>

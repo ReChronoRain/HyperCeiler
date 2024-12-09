@@ -22,7 +22,7 @@ Por favor, ative o HyperCeiler no [LSPosed](https://github.com/LSPosed/LSPosed/r
 
 Este módulo <b>não suporta</b> `ROM MIUI/Xiaomi HyperOS de terceiros com muitas modificações`, `software de sistema com muitas modificações` e algumas `ROM MIUI/Xiaomi HyperOS internacionais`.
 
-Atualmente, o HyperCeiler está adaptado para dispositivos móveis Xiaomi HyperOS 1.0-1.1 baseados em Android 14-15. A cobertura não é muito abrangente e requer testes e melhorias contínuas.
+Atualmente, o HyperCeiler está adaptado para dispositivos móveis Xiaomi HyperOS 1.0-2.0 baseados em Android 14-15. A cobertura não é muito abrangente e requer testes e melhorias contínuas.
 
 Antes de enviar feedback, preste atenção se já existe o mesmo feedback para evitar problemas aos desenvolvedores. Gastar a mesma energia lendo o mesmo feedback é uma perda de tempo.
 
@@ -93,6 +93,8 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13. Se você q
 | Analytics                                      | com.miui.analytics                 |
 | Xiaomi Community                               | com.xiaomi.vipaccount              |
 | Acorde com voz                                 | com.miui.voicetrigger              |
+| Gravador                                       | com.android.soundrecorder          |
+| LPA                                            | com.miui.euicc                     |
 
 </details>
 
