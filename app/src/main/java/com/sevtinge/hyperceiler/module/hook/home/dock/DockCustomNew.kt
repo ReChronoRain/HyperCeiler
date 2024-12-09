@@ -27,6 +27,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiMobileIconBinder
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
@@ -52,15 +53,15 @@ object DockCustomNew : BaseHook() {
     }
 
     private val showAnimationLambda by lazy {
-        DexKit.getDexKitBridge("ShowAnimationLambda") { bridge ->
+        DexKit.findMember("ShowAnimationLambda") { bridge ->
             bridge.findMethod(
                 FindMethod.create().matcher(
                     MethodMatcher.create()
                         .declaredClass("com.miui.home.launcher.compat.UserPresentAnimationCompatV12Phone")
                         .name("lambda\$showUserPresentAnimation", StringMatchType.StartsWith)
                 )
-            ).singleOrNull()?.getMethodInstance(lpparam.classLoader)
-        } as Method?
+            ).singleOrNull()
+        } as Method
     }
 
     private var mDockBlur: Any? = null
