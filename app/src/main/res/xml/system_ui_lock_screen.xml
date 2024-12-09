@@ -97,6 +97,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_unlock_notification_restrict"
+            android:summary="@string/system_ui_lock_screen_unlock_notification_restrict_desc"
             android:title="@string/system_ui_lock_screen_unlock_notification_restrict" />
 
         <SwitchPreference

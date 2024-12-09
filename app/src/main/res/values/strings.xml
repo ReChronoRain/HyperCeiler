@@ -693,6 +693,7 @@
     <string name="system_ui_lock_screen_double_lock">Double-tap the Lock screen</string>
     <string name="system_ui_lock_screen_double_lock_desc">Double-tap an empty location to lock the screen</string>
     <string name="system_ui_lock_screen_unlock_notification_restrict">Unlock notification restrict</string>
+    <string name="system_ui_lock_screen_unlock_notification_restrict_desc">Enable all notifications to be displayed on the lock screen</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">Hide DND mode notification</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Hide unlock request</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remove status bar from Lock screen</string>
