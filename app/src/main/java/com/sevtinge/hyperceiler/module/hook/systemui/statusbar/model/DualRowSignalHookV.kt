@@ -58,14 +58,13 @@ class DualRowSignalHookV : BaseHook() {
 
     private val setImageResWithTintLight by lazy {
         DexKit.findMember("SetImageResWithTintLight") { bridge ->
-            bridge.findMethod(
-                FindMethod.create().matcher(
-                    MethodMatcher.create()
-                        .declaredClass(miuiMobileIconBinder)
-                        .modifiers(Modifier.STATIC)
-                        .name("setImageResWithTintLight", StringMatchType.Contains)
-                )
-            ).singleOrNull()
+            bridge.findMethod {
+                matcher {
+                    declaredClass(miuiMobileIconBinder)
+                    modifiers = Modifier.STATIC
+                    name("setImageResWithTintLight", StringMatchType.Contains)
+                }
+            }.singleOrNull()
         } as Method
     }
 

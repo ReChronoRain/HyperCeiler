@@ -24,6 +24,8 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sevtinge.hyperceiler.R;
 import com.tencent.mmkv.MMKV;
 
@@ -47,18 +49,21 @@ import java.util.List;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 /**
+ * 使用 MMKV 工具缓存 Dexkit 结果的工具类。
+ * 缓存路径为 /data/data/<App Package Name>/files/mmkv
+ * 
  * @author 焕晨HChen
  * @co-author Ling Qiqi
  */
 public class DexKit {
-    private static final int mVersion = 6;
+    private static final int mVersion = 7;
     public boolean isInit = false;
     private static final String MMKV_PATH = "/files/mmkv";
     private static XC_LoadPackage.LoadPackageParam mParam;
     private static final String TYPE_METHOD = "METHOD";
     private static final String TYPE_CLASS = "CLASS";
     private static final String TYPE_FIELD = "FIELD";
-    private static MMKV mMMKV = null;
+    private static MMKV mMMKV = null;;
     private static DexKit mThis;
     private static DexKitBridge mDexKitBridge;
     private final String TAG;
@@ -90,9 +95,8 @@ public class DexKit {
 
     public static <T> T findMember(@NonNull String key, ClassLoader classLoader, IDexKit iDexKit) {
         DexKitBridge dexKitBridge = initDexkitBridge();
-        String type = mMMKV.getString(key + "_type", "");
-        int size = mMMKV.getInt(key + "_size", 0);
-        if (type.isEmpty() || size == 0) {
+        String json = mMMKV.getString(key, "");
+        if (json.isEmpty()) {
             try {
                 BaseData baseData = iDexKit.dexkit(dexKitBridge);
                 if (baseData instanceof FieldData fieldData) {
@@ -110,16 +114,21 @@ public class DexKit {
             }
         } else {
             try {
-                String serializedItem = mMMKV.getString(key + "_item_0", "");
-                switch (type) {
-                    case TYPE_METHOD -> {
-                        return (T) new DexMethod(serializedItem).getMethodInstance(classLoader);
-                    }
-                    case TYPE_FIELD -> {
-                        return (T) new DexField(serializedItem).getFieldInstance(classLoader);
-                    }
-                    case TYPE_CLASS -> {
-                        return (T) new DexClass(serializedItem).getInstance(classLoader);
+                JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
+                for (String jsonKey : jsonObject.keySet()) {
+                    JsonObject item = jsonObject.getAsJsonObject(jsonKey);
+                    String type = item.get("type").getAsString();
+                    String serializedItem = item.get("name").getAsString();
+                    switch (type) {
+                        case TYPE_METHOD -> {
+                            return (T) new DexMethod(serializedItem).getMethodInstance(classLoader);
+                        }
+                        case TYPE_FIELD -> {
+                            return (T) new DexField(serializedItem).getFieldInstance(classLoader);
+                        }
+                        case TYPE_CLASS -> {
+                            return (T) new DexClass(serializedItem).getInstance(classLoader);
+                        }
                     }
                 }
             } catch (NoSuchMethodException | NoSuchFieldException | ClassNotFoundException e) {
@@ -135,9 +144,8 @@ public class DexKit {
 
     public static <T> List<T> findMemberList(@NonNull String key, ClassLoader classLoader, IDexKitList iDexKitList) {
         DexKitBridge dexKitBridge = initDexkitBridge();
-        String type = mMMKV.getString(key + "_type", "");
-        int size = mMMKV.getInt(key + "_size", 0);
-        if (type.isEmpty() || size == 0) {
+        String json = mMMKV.getString(key, "");
+        if (json.isEmpty()) {
             try {
                 BaseDataList<?> baseDataList = iDexKitList.dexkit(dexKitBridge);
                 ArrayList<String> serializeList = new ArrayList<>();
@@ -170,9 +178,11 @@ public class DexKit {
         } else {
             ArrayList<T> instanceList = new ArrayList<>();
             try {
-                for (int i = 0; i < size; i++) {
-                    String serializedItem = mMMKV.getString(key + "_item_" + i, "");
-                    if (serializedItem.isEmpty()) continue;
+                JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
+                for (String jsonKey : jsonObject.keySet()) {
+                    JsonObject item = jsonObject.getAsJsonObject(jsonKey);
+                    String type = item.get("type").getAsString();
+                    String serializedItem = item.get("name").getAsString();
                     switch (type) {
                         case TYPE_METHOD -> instanceList.add((T) new DexMethod(serializedItem).getMethodInstance(classLoader));
                         case TYPE_FIELD -> instanceList.add((T) new DexField(serializedItem).getFieldInstance(classLoader));
@@ -188,11 +198,14 @@ public class DexKit {
     }
 
     private static void saveToMMKV(String key, String type, List<String> serializeList) {
-        mMMKV.putString(key + "_type", type);
-        mMMKV.putInt(key + "_size", serializeList.size());
+        JsonObject jsonObject = new JsonObject();
         for (int i = 0; i < serializeList.size(); i++) {
-            mMMKV.putString(key + "_item_" + i, serializeList.get(i));
+            JsonObject item = new JsonObject();
+            item.addProperty("type", type);
+            item.addProperty("name", serializeList.get(i));
+            jsonObject.add(String.valueOf(i), item);
         }
+        mMMKV.putString(key, jsonObject + "\n\n");
     }
 
     private void init() {
@@ -204,8 +217,8 @@ public class DexKit {
             throw new RuntimeException(TAG != null ? TAG : "InitDexKit" + ": lpparam is null");
         }
 
-        String hostDir = mParam.appInfo.sourceDir,
-                mmkvPath = mParam.appInfo.dataDir + MMKV_PATH;
+        String hostDir = mParam.appInfo.sourceDir;
+        String mmkvPath = mParam.appInfo.dataDir + MMKV_PATH;
 
         // 启动 MMKV
         MMKV.initialize(mmkvPath, System::loadLibrary);

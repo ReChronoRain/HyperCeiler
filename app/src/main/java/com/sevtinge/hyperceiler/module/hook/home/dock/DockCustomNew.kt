@@ -27,7 +27,6 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.miuiMobileIconBinder
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
@@ -38,9 +37,7 @@ import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setPassWindowBlurEnabled
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import de.robv.android.xposed.*
-import org.luckypray.dexkit.query.*
 import org.luckypray.dexkit.query.enums.*
-import org.luckypray.dexkit.query.matchers.*
 import java.lang.reflect.*
 import java.util.function.*
 
@@ -54,13 +51,14 @@ object DockCustomNew : BaseHook() {
 
     private val showAnimationLambda by lazy {
         DexKit.findMember("ShowAnimationLambda") { bridge ->
-            bridge.findMethod(
-                FindMethod.create().matcher(
-                    MethodMatcher.create()
-                        .declaredClass("com.miui.home.launcher.compat.UserPresentAnimationCompatV12Phone")
-                        .name("lambda\$showUserPresentAnimation", StringMatchType.StartsWith)
-                )
-            ).singleOrNull()
+            bridge.findMethod {
+                matcher {
+                    declaredClass {
+                         className = "com.miui.home.launcher.compat.UserPresentAnimationCompatV12Phone"
+                    }
+                    name("lambda\$showUserPresentAnimation", StringMatchType.StartsWith)
+                }
+            }.singleOrNull()
         } as Method
     }
 
