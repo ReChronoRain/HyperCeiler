@@ -86,6 +86,7 @@ import com.sevtinge.hyperceiler.module.hook.home.other.DisableHideGoogle;
 import com.sevtinge.hyperceiler.module.hook.home.other.FreeformShortcutMenu;
 import com.sevtinge.hyperceiler.module.hook.home.other.HomeMode;
 import com.sevtinge.hyperceiler.module.hook.home.other.InfiniteScroll;
+import com.sevtinge.hyperceiler.module.hook.home.other.OptAppLaunchDelay;
 import com.sevtinge.hyperceiler.module.hook.home.other.OverlapMode;
 import com.sevtinge.hyperceiler.module.hook.home.other.ShortcutItemCount;
 import com.sevtinge.hyperceiler.module.hook.home.other.ShowAllHideApp;
@@ -292,6 +293,7 @@ public class HomeV extends BaseModule {
         // initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
         initHook(new HideReportText(), mPrefsMap.getBoolean("home_title_hide_report_text"));
         initHook(new DisablePrestart(), mPrefsMap.getBoolean("home_other_disable_prestart"));
+        initHook(new OptAppLaunchDelay(), mPrefsMap.getBoolean("home_other_opt_app_launch_delay"));
 
         // 实验性功能
         initHook(BlurWhenShowShortcutMenu.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));

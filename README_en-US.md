@@ -22,7 +22,7 @@ Please enable HyperCeiler in [LSPosed](https://github.com/LSPosed/LSPosed/releas
 
 This module <b>does not support</b> `third-party MIUI/Xiaomi HyperOS ROMs with a lot of modifications`, `system software with a lot of modifications`, and some `international MIUI/Xiaomi HyperOS ROMs`.
 
-Currently, HyperCeiler is adapted for Xiaomi HyperOS 1.0-1.1 mobile devices based on Android 14-15. The coverage isn't very comprehensive and requires ongoing testing and improvements.
+Currently, HyperCeiler is adapted for Xiaomi HyperOS 1.0-2.0 mobile devices based on Android 14-15. The coverage isn't very comprehensive and requires ongoing testing and improvements.
 
 Before submitting feedback, please pay attention to whether there is already the same feedback to avoid causing trouble to developers. Spending the same energy reading the same feedback is a waste of time.
 
@@ -93,6 +93,8 @@ HyperCeiler has stopped maintaining MIUI ROM for Android 11-13. If you want to u
 | Analytics                  | com.miui.analytics                 |
 | Xiaomi Community           | com.xiaomi.vipaccount              |
 | Voice Trigger              | com.miui.voicetrigger              |
+| Sound Recorder             | com.android.soundrecorder          |
+| LPA                        | com.miui.euicc                     |
 
 </details>
 
