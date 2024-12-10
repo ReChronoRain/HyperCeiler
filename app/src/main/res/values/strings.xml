@@ -1016,11 +1016,6 @@
     <string name="system_ui_control_center_unlock_blur_supported_desc">There is no restriction on background blur for Advanced textures, only for third-party theme removal.</string>
     <string name="system_ui_control_center_remove_notif_num_limit">Remove notification count limit</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Allow display 10, 17 or more notifications.</string>
-    <string name="system_ui_plugin_tiles_load_way">Tiles hook loading mode</string>
-    <string name="system_ui_plugin_tiles_load_way_desc">Global mode may cause unnecessary lag. Please choose the loading mode based on actual availability.</string>
-    <string name="system_ui_plugin_tiles_load_way_global">Global</string>
-    <string name="system_ui_plugin_tiles_load_way_default">Default</string>
-    <string name="system_ui_plugin_tiles_load_way_compatibility">Compatibility</string>
 
     <string name="system_ui_other_title">Others</string>
     <string name="system_ui_disable_volume">Native volume bar</string>

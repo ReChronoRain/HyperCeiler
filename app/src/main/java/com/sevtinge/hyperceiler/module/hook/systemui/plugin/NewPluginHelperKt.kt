@@ -48,10 +48,9 @@ object NewPluginHelperKt : BaseHook() {
     }
 
     private fun onPluginLoaded(factory: PluginFactory) {
-        val mCardStyleTiles = getTileList()
-        val mIsDefaultMode = mPrefsMap.getStringAsInt("system_ui_plugin_tiles_load_way", 0) == 0 || mPrefsMap.getStringAsInt("system_ui_plugin_tiles_load_way", 0) == 1
-        val mIsCompatibilityMode = mPrefsMap.getStringAsInt("system_ui_plugin_tiles_load_way", 0) == 0 || mPrefsMap.getStringAsInt("system_ui_plugin_tiles_load_way", 0) == 2
         try {
+            onPluginLoadedAll(factory)
+
             when (factory.mComponentName) {
                 factory.componentNames("miui.systemui.volume.VolumeDialogPlugin") -> {
                     val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
@@ -66,8 +65,6 @@ object NewPluginHelperKt : BaseHook() {
                     if (mPrefsMap.getBoolean("system_framework_volume_separate_control") &&
                         mPrefsMap.getBoolean("system_framework_volume_separate_slider"))
                         NotificationVolumeSeparateSlider.initHideDeviceControlEntry(classLoader)
-                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
-                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
                 }
 
                 factory.componentNames("miui.systemui.miplay.MiPlayPluginImpl") -> {
@@ -78,48 +75,12 @@ object NewPluginHelperKt : BaseHook() {
                         HideMiPlayEntry.initHideMiPlayEntry(classLoader)
                 }
 
-                factory.componentNames("miui.systemui.quicksettings.LocalMiuiQSTilePlugin") -> {
-                    val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
-                    logD(TAG, lpparam.packageName, "Plugin for sysui qs tiles loaded.")
-
-                    if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
-                        mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty() &&
-                        mIsCompatibilityMode
-                    ) {
-                        CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles)
-                    }
-                    if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") && mIsDefaultMode)
-                        CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角         //A
-                    if (mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") ||
-                        mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color")
-                    ) {
-                        QSColor.pluginHook(classLoader)
-                    }
-                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
-                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
-                }
-
                 factory.componentNames("miui.systemui.controlcenter.MiuiControlCenter") -> {
                     val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                     logD(TAG, lpparam.packageName, "Plugin for sysui control center loaded.")
 
-                    if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
-                        mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty() &&
-                        mIsDefaultMode
-                    ) {
-                        CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles)            //A
-                    }
                     if (mPrefsMap.getBoolean("system_ui_control_center_hide_edit_botton"))
                         HideEditButton.initHideEditButton(classLoader)
-                    if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") && mIsCompatibilityMode)
-                        CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角
-                    if (mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") ||
-                        mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color")
-                    ) {
-                        QSColor.pluginHook(classLoader)
-                    }
-                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
-                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
                 }
 
                 factory.componentNames("miui.systemui.notification.NotificationStatPluginImpl") -> {
@@ -128,8 +89,6 @@ object NewPluginHelperKt : BaseHook() {
 
                     if (mPrefsMap.getBoolean("system_ui_statusbar_music_switch"))
                         FocusNotifLyric.initLoader(classLoader);
-                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
-                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
                 }
 
                 else -> {
@@ -159,6 +118,27 @@ object NewPluginHelperKt : BaseHook() {
                 }
             }
         } catch (_: Exception) {}
+    }
+
+    private fun onPluginLoadedAll(factory: PluginFactory) {
+        // 本列表将一次性加载所有插件，适用于需要载入多个 factory.mComponentName 的情况
+        val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
+        val mCardStyleTiles = getTileList()
+
+        if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
+            mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty()) {
+            CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles)            //A
+        }
+        if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"))
+            CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角
+        if (mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") ||
+            mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color")
+        ) {
+            QSColor.pluginHook(classLoader)
+        }
+
+        if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
+            DefaultPluginTheme.initDefaultPluginTheme(classLoader)
     }
 
     private fun getTileList(): List<String> {

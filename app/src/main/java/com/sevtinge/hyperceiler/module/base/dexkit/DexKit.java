@@ -119,13 +119,13 @@ public class DexKit {
             try {
                 BaseData baseData = iDexKit.dexkit(dexKitBridge);
                 if (baseData instanceof FieldData fieldData) {
-                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_FIELD, fieldData.toDexField().serialize())));
+                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_FIELD, fieldData.toDexField().serialize())) + "\n\n");
                     return (T) fieldData.getFieldInstance(classLoader);
                 } else if (baseData instanceof MethodData methodData) {
-                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_METHOD, methodData.toDexMethod().serialize())));
+                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_METHOD, methodData.toDexMethod().serialize())) + "\n\n");
                     return (T) methodData.getMethodInstance(classLoader);
                 } else if (baseData instanceof ClassData classData) {
-                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_CLASS, classData.toDexType().serialize())));
+                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_CLASS, classData.toDexType().serialize())) + "\n\n");
                     return (T) classData.getInstance(classLoader);
                 }
             } catch (ReflectiveOperationException e) {
@@ -170,21 +170,21 @@ public class DexKit {
                         serializeList.add(f.toDexField().serialize());
                         instanceList.add((T) f.getFieldInstance(classLoader));
                     }
-                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_FIELD, serializeList)));
+                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_FIELD, serializeList)) + "\n\n");
                     return instanceList;
                 } else if (baseDataList instanceof MethodDataList methodDataList) {
                     for (MethodData m : methodDataList) {
                         serializeList.add(m.toDexMethod().serialize());
                         instanceList.add((T) m.getMethodInstance(classLoader));
                     }
-                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_METHOD, serializeList)));
+                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_METHOD, serializeList)) + "\n\n");
                     return instanceList;
                 } else if (baseDataList instanceof ClassDataList classDataList) {
                     for (ClassData c : classDataList) {
                         serializeList.add(c.toDexType().serialize());
                         instanceList.add((T) c.getInstance(classLoader));
                     }
-                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_CLASS, serializeList)));
+                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_CLASS, serializeList)) + "\n\n");
                     return instanceList;
                 }
             } catch (ReflectiveOperationException e) {
@@ -253,7 +253,7 @@ public class DexKit {
     }
 
     private static final class MemberData {
-        public String type = "";
+        public String type;
         public String serialize = "";
 
         public ArrayList<String> serializeList = new ArrayList<>();
