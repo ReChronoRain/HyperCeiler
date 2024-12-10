@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment.main.settings.development;
 
 import static com.sevtinge.hyperceiler.utils.log.LogManager.fixLsposedLogService;
@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
@@ -34,7 +35,6 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import fan.appcompat.app.AlertDialog;
-import androidx.preference.Preference;
 
 public class DevelopmentFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceClickListener {
 
@@ -64,12 +64,13 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
     @Override
     public boolean onPreferenceClick(@NonNull Preference preference) {
         switch (preference.getKey()) {
-            case "prefs_key_development_cmd_r" -> showInDialog(new DevelopmentKillFragment.EditDialogCallback() {
-                @Override
-                public void onInputReceived(String command) {
-                    showOutDialog(safeExecCommandWithRoot(command));
-                }
-            });
+            case "prefs_key_development_cmd_r" ->
+                    showInDialog(new DevelopmentKillFragment.EditDialogCallback() {
+                        @Override
+                        public void onInputReceived(String command) {
+                            showOutDialog(safeExecCommandWithRoot(command));
+                        }
+                    });
             case "prefs_key_development_delete_all_dexkit_cache" ->
                     DialogHelper.showDialog(getActivity(), R.string.warn, R.string.delete_all_dexkit_cache_desc, (dialog, which) -> {
                         DexKit.deleteAllCache(getActivity());
