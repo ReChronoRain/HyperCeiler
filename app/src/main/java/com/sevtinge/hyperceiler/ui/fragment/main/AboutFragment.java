@@ -52,6 +52,7 @@ import com.sevtinge.hyperceiler.widget.VersionCard;
 import com.sevtinge.hyperceiler.ui.fragment.main.ContentFragment.IFragmentChange;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
@@ -233,10 +234,17 @@ public class AboutFragment extends DashboardFragment
         mDeviceInfoAndroid = findPreference("prefs_key_about_device_info_android");
         mDeviceInfoOs = findPreference("prefs_key_about_device_info_os");
         mDeviceInfoPadding = findPreference("prefs_key_about_device_info_padding");
-        mDeviceName.setTitle(getProp("persist.sys.device_name"));
-        mDeviceInfoDevice.setTitle(getProp("ro.product.marketname"));
-        mDeviceInfoAndroid.setTitle(getProp("ro.build.version.release"));
-        mDeviceInfoOs.setTitle(getSystemVersionIncremental());
+        String deviceName = getProp("persist.sys.device_name");
+        String marketName = getProp("ro.product.marketname");
+        String androidVersion = getProp("ro.build.version.release");
+        String osVersion = getSystemVersionIncremental();
+        if (Objects.equals(marketName, "")) marketName = android.os.Build.MODEL;
+        if (Objects.equals(deviceName, "")) deviceName = marketName;
+        if (Objects.equals(osVersion, "")) osVersion = androidVersion;
+        mDeviceName.setTitle(deviceName);
+        mDeviceInfoDevice.setTitle(marketName);
+        mDeviceInfoAndroid.setTitle(androidVersion);
+        mDeviceInfoOs.setTitle(osVersion);
         mDeviceInfoPadding.setTitle(getDeviceToken(mainActivityContextHelper.getAndroidId()));
 
         if (lIIllII != null) {
