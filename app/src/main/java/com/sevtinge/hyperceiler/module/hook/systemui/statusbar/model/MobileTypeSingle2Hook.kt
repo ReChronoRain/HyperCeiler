@@ -154,6 +154,11 @@ object MobileTypeSingle2Hook : BaseHook() {
                     val rootView = param.result as ViewGroup
                     val subId = rootView.getIntField("subId")
 
+                    val slotIndex = SubscriptionManager.getSlotIndex(subId)
+                    if (slotIndex == -1) {
+                        return@after
+                    }
+
                     val mobileGroup = rootView.findViewByIdName("mobile_group") as LinearLayout
                     val containerLeft =
                         mobileGroup.findViewByIdName("mobile_container_left") as ViewGroup
@@ -189,7 +194,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                     }
 
                     // 调整初始样式
-                    val dataConnected = simDataConnected[SubscriptionManager.getSlotIndex(subId)]
+                    val dataConnected = simDataConnected[slotIndex]
                     if (mobileNetworkType == 3 || mobileNetworkType == 4 || showMobileType) {
                         val paddingLeft = if (dataConnected && !(showMobileType && hideIndicator)) {
                             0

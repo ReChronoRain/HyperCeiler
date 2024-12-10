@@ -23,6 +23,7 @@ import android.content.res.*
 import android.view.*
 import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
@@ -37,17 +38,13 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.Mobi
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.networkController
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.showMobileType
 import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.StateFlowHelper.getStateFlowValue
 import com.sevtinge.hyperceiler.utils.StateFlowHelper.setStateFlowValue
 import com.sevtinge.hyperceiler.utils.api.*
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import de.robv.android.xposed.*
-import org.luckypray.dexkit.query.*
 import org.luckypray.dexkit.query.enums.*
-import org.luckypray.dexkit.query.matchers.*
 import java.lang.reflect.*
 import java.util.function.*
-import kotlin.reflect.*
 
 
 class DualRowSignalHookV : BaseHook() {
@@ -217,6 +214,8 @@ class DualRowSignalHookV : BaseHook() {
         var hasStopUseOneSim = false
         var reuseCache: Map<*, *>? = null
 
+        val miuiIconManagerFactory =
+            loadClassOrNull("com.android.systemui.statusbar.phone.MiuiIconManagerFactory")
         mobileSignalController.methodFinder()
             .filterByName("notifyListeners")
             .single()
@@ -255,10 +254,9 @@ class DualRowSignalHookV : BaseHook() {
                     }
 
                     if (reuseCache == null) {
-                        val miuiIconManagerFactoryClz = findClassIfExists(
-                            "com.android.systemui.statusbar.phone.MiuiIconManagerFactory"
-                        ) ?: return@after
-                        if (Dependency.mDependencies?.contains(miuiIconManagerFactoryClz) == true) {
+                        if (miuiIconManagerFactory != null &&
+                            Dependency.mDependencies?.contains(miuiIconManagerFactory) == true
+                        ) {
                             reuseCache = Dependency.mMiuiLegacyDependency
                                 ?.getObjectField("mMiuiIconManagerFactory")
                                 ?.callMethod("get")
@@ -295,122 +293,134 @@ class DualRowSignalHookV : BaseHook() {
             }
     }
 
+    /**
+     * 涉及到状态栏组件反色的方法
+     *
+     * 最初版本(版本未知):
+     *   -> access$setImageResWithTintLight
+     *   -> access$resetImageWithTintLight
+     *   -> access$setTintColor
+     *     14系列没有此方法导致移动网络类型单独显示不能正常反色
+     *
+     * K60U(OS2.0.0.31) / 2024-12-06:
+     *   -> setImageResWithTintLight
+     *   -> access$resetImageWithTintLight
+     *   -> setTintColor
+     *
+     * 13系列 / 2024-12-06:
+     *   -> access$setImageResWithTintLight
+     *   access$resetImageWithTintLight 和 access$setTintColor 改成了 lambda 内联
+     *
+     * 14系列 / 2024-12-07:
+     *   同上
+     */
     private fun setDualSignalIcon() {
         setImageResWithTintLight.createHook {
             before { param ->
                 val icon = param.args[0] as ImageView
-                val pair = param.args[2]
+                if (icon.id == getIdByName("mobile_signal")) {
+                    val pair = param.args[2]
 
-                setIconImageWithTintLightColor(
-                    icon, Triple(
-                        pair.callMethodAs("getFirst"),
-                        pair.callMethodAs("getSecond"),
-                        null
+                    setIconImageWithTintLightColor(
+                        icon, Triple(
+                            pair.callMethodAs("getFirst"),
+                            pair.callMethodAs("getSecond"),
+                            null
+                        )
                     )
-                )
+                    param.result = null
+                }
             }
         }
 
-        val constructor = loadClass("com.android.systemui.util.kotlin.JavaAdapter")
-            .getConstructor(loadClass("kotlinx.coroutines.CoroutineScope"))
-        // 待优化查找
-        loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.binder.MiuiMobileIconBinder\$bind$1$1")
-            .methodFinder()
-            .filterByName("invokeSuspend")
-            .single()
-            .createHook {
-                after { param ->
-                    val binder = param.thisObject
+        val resetImageWithTintLight = miuiMobileIconBinder.methodFinder()
+            .filterByName("access\$resetImageWithTintLight")
+            .singleOrNull()
+        if (resetImageWithTintLight != null) {
+            resetImageWithTintLight.createHook {
+                before { param ->
+                    val icon = param.args[0] as ImageView
+                    if (icon.id == getIdByName("mobile_signal")) {
+                        setIconImageWithTintLightColor(
+                            icon, Triple(
+                                param.args[1] as Boolean,
+                                param.args[2] as Boolean,
+                                null
+                            )
+                        )
+                        param.result = null
+                    }
+                }
+            }
+        } else {
+            val javaAdapterKt = loadClass("com.android.systemui.util.kotlin.JavaAdapterKt")
+            miuiMobileIconBinder.methodFinder()
+                .filterByName("bind")
+                .single()
+                .createHook {
+                    after { param ->
+                        val viewBinding = param.result
 
-                    val test = binder.getObjectFieldAs<Any>("L$0")
-                    val tintViewList = binder.getObjectFieldAs<List<*>>("\$tintViewList")
+                        val tintLightColorFlow = try {
+                            viewBinding.getObjectField("\$tintLightColorFlow")
+                        } catch (e: Exception) {
+                            logE(TAG, lpparam.packageName, e)
+                            null
+                        } ?: return@after
+                        val container = param.args[0] as View
+                        val mobileSignal = container.findViewByIdName("mobile_signal") as ImageView
 
-                    var valueClz: KClass<*>
-                    val tintLightColorFlow = try {
-                        valueClz = Triple::class
-                        binder.getObjectField("\$tintLightColorFlow")
-                    } catch (e: Throwable) {
-                        valueClz = Pair::class
-                        binder.getObjectField("\$tintLightFlow")
-                    } ?: return@after
-
-                    val newInstance = constructor.newInstance(test)
-                    if (valueClz == Triple::class) {
-                        newInstance.callMethod(
-                            "alwaysCollectFlow",
+                        javaAdapterKt.callStaticMethod(
+                            "collectFlow",
+                            container,
                             tintLightColorFlow,
                             Consumer<Any> {
-                                val triple = Triple<Boolean, Boolean, Int?>(
-                                    it.callMethodAs("getFirst"),
-                                    it.callMethodAs("getSecond"),
-                                    it.callMethodAs("getThird")
+                                setIconImageWithTintLightColor(
+                                    mobileSignal, Triple(
+                                        it.callMethodAs("getFirst"),
+                                        it.callMethodAs("getSecond"),
+                                        it.callMethodAs("getThird")
+                                    )
                                 )
-                                tintViewList.forEach { view ->
-                                    if (view is ImageView) {
-                                        setIconImageWithTintLightColor(view, triple)
-                                    }
-                                }
-                            }
-                        )
-                    } else { // valueClz == Pair::class
-                        // 因 $iconTint 在 $tintLightFlow 后发生更改，只能 collect $iconTint
-                        val colorFlow = binder.getObjectFieldAs<Any>("\$iconTint")
-                        newInstance.callMethod(
-                            "alwaysCollectFlow",
-                            colorFlow,
-                            Consumer<Int> {
-                                val tintLight = getStateFlowValue(tintLightColorFlow) as Any
-                                val triple = Triple<Boolean, Boolean, Int?>(
-                                    tintLight.callMethodAs("getFirst"),
-                                    tintLight.callMethodAs("getSecond"),
-                                    it
-                                )
-                                tintViewList.forEach { view ->
-                                    if (view is ImageView) {
-                                        setIconImageWithTintLightColor(view, triple)
-                                    }
-                                }
                             }
                         )
                     }
                 }
-            }
+        }
     }
 
     private fun setIconImageWithTintLightColor(
-        icon: ImageView,
+        mobileSignal: ImageView,
         tintLightColor: Triple<Boolean, Boolean, Int?>
     ) {
-        if (icon.id == getIdByName("mobile_signal")) {
-            val subId = XposedHelpers.getAdditionalInstanceField(icon, "subId")
-            if (subId == null || subId != mobileInfo.subId) {
-                return
-            }
+        val subId = XposedHelpers.getAdditionalInstanceField(mobileSignal, "subId")
+        if (subId == null || subId != mobileInfo.subId) {
+            return
+        }
 
-            val signalGroup = icon.parent as FrameLayout
-            val mobileSignal2 = signalGroup.findViewWithTag<ImageView?>("mobile_signal2")
-            val isUseTint = tintLightColor.first
-            val isLight = tintLightColor.second
-            val color = tintLightColor.third
+        val signalGroup = mobileSignal.parent as FrameLayout
+        val mobileSignal2 = signalGroup.findViewWithTag<ImageView?>("mobile_signal2")
+        val isUseTint = tintLightColor.first
+        val isLight = tintLightColor.second
+        val color = tintLightColor.third
 
-            val (mobileSignalIconId, mobileSignal2IconId) = getDualSignalIconPairResId(
-                isUseTint, isLight
-            )
-            if (mobileSignalIconId != null && mobileSignal2IconId != null) {
-                icon.post {
-                    icon.setImageResource(mobileSignalIconId)
+        val (mobileSignalIconId, mobileSignal2IconId) = getDualSignalIconPairResId(
+            isUseTint, isLight
+        )
+        if (mobileSignalIconId != null && mobileSignal2IconId != null) {
+            mobileSignal.post {
+                mobileSignal.setImageResource(mobileSignalIconId)
+                mobileSignal2?.setImageResource(mobileSignal2IconId)
+                mobileSignal2?.imageTintList = if (color != null) {
                     // 清除 tag 跳过原始图标设置
-                    icon.tag = null
-                    mobileSignal2?.setImageResource(mobileSignal2IconId)
-                    mobileSignal2?.imageTintList = if (color != null) {
-                        if (isUseTint) {
-                            ColorStateList.valueOf(color)
-                        } else {
-                            null
-                        }
+                    mobileSignal.tag = null
+                    if (isUseTint) {
+                        ColorStateList.valueOf(color)
                     } else {
-                        icon.imageTintList
+                        null
                     }
+                } else {
+                    mobileSignal.imageTintList
                 }
             }
         }
