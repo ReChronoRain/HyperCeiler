@@ -69,13 +69,15 @@ public abstract class BaseModule {
         }
 
         mLoadPackageParam = lpparam;
-        DexKit dexKit = new DexKit(lpparam, TAG);
-        initZygote();
-        handleLoadPackage();
-
-        if (dexKit.isInit) {
-            dexKit.close();
+        DexKit.ready(lpparam, TAG);
+        try {
+            initZygote();
+            handleLoadPackage();
+        } catch (Throwable e) {
+            DexKit.close();
+            throw new RuntimeException(e);
         }
+        DexKit.close();
     }
 
     /*public void initHook(BaseHook baseHook) {

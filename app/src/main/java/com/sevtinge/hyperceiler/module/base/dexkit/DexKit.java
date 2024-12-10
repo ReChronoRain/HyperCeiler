@@ -23,7 +23,11 @@ import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWit
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.sevtinge.hyperceiler.R;
 import com.tencent.mmkv.MMKV;
 
@@ -43,6 +47,8 @@ import org.luckypray.dexkit.wrap.DexMethod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -51,33 +57,51 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * @co-author Ling Qiqi
  */
 public class DexKit {
-    private static final int mVersion = 6;
-    public boolean isInit = false;
-    private static final String MMKV_PATH = "/files/mmkv";
+    private static String TAG = "DexKit";
+    private static boolean isInit = false;
+    private static final int mVersion = 1; // 新时节，新气象
+    private static final String MMKV_PATH = "/files/hyperceiler/mmkv";
     private static XC_LoadPackage.LoadPackageParam mParam;
     private static final String TYPE_METHOD = "METHOD";
     private static final String TYPE_CLASS = "CLASS";
     private static final String TYPE_FIELD = "FIELD";
     private static MMKV mMMKV = null;
-    private static DexKit mThis;
+    private static Gson mGson = null;
     private static DexKitBridge mDexKitBridge;
-    private final String TAG;
 
-    public DexKit(XC_LoadPackage.LoadPackageParam param, String tag) {
+    public static void ready(XC_LoadPackage.LoadPackageParam param, String tag) {
         mParam = param;
         TAG = tag;
-        mThis = this;
+        isInit = false;
     }
 
     @NotNull
     public static DexKitBridge initDexkitBridge() {
-        if (mDexKitBridge == null) {
-            if (mThis == null) {
-                throw new RuntimeException("InitDexKit is null!!");
-            } else {
-                mThis.init();
-            }
+        if (mDexKitBridge != null)
+            return mDexKitBridge;
+        if (isInit)
+            throw new RuntimeException(TAG + ": mDexKitBridge is null!");
+        if (mParam == null)
+            throw new RuntimeException(TAG + ": lpparam is null!");
+
+        String hostDir = mParam.appInfo.sourceDir,
+                mmkvPath = mParam.appInfo.dataDir + MMKV_PATH;
+        mGson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
+
+        // 启动 MMKV
+        MMKV.initialize(mmkvPath, System::loadLibrary);
+        mMMKV = MMKV.defaultMMKV();
+        int version = mMMKV.getInt("version", 0);
+        if (version != 0 && version != mVersion) {
+            mMMKV.clearAll();
         }
+        mMMKV.putInt("version", mVersion);
+
+        // 启动 DexKit
+        System.loadLibrary("dexkit");
+        mDexKitBridge = DexKitBridge.create(hostDir);
+        isInit = true;
+
         return mDexKitBridge;
     }
 
@@ -90,36 +114,36 @@ public class DexKit {
 
     public static <T> T findMember(@NonNull String key, ClassLoader classLoader, IDexKit iDexKit) {
         DexKitBridge dexKitBridge = initDexkitBridge();
-        String type = mMMKV.getString(key + "_type", "");
-        int size = mMMKV.getInt(key + "_size", 0);
-        if (type.isEmpty() || size == 0) {
+        String descriptor = mMMKV.getString(key, "");
+        if (descriptor.isEmpty()) {
             try {
                 BaseData baseData = iDexKit.dexkit(dexKitBridge);
                 if (baseData instanceof FieldData fieldData) {
-                    saveToMMKV(key, TYPE_FIELD, List.of(fieldData.toDexField().serialize()));
+                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_FIELD, fieldData.toDexField().serialize())));
                     return (T) fieldData.getFieldInstance(classLoader);
                 } else if (baseData instanceof MethodData methodData) {
-                    saveToMMKV(key, TYPE_METHOD, List.of(methodData.toDexMethod().serialize()));
+                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_METHOD, methodData.toDexMethod().serialize())));
                     return (T) methodData.getMethodInstance(classLoader);
                 } else if (baseData instanceof ClassData classData) {
-                    saveToMMKV(key, TYPE_CLASS, List.of(classData.toDexType().serialize()));
+                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_CLASS, classData.toDexType().serialize())));
                     return (T) classData.getInstance(classLoader);
                 }
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException(e);
             }
         } else {
+            MemberData data = mGson.fromJson(descriptor, new TypeToken<MemberData>() {
+            }.getType());
             try {
-                String serializedItem = mMMKV.getString(key + "_item_0", "");
-                switch (type) {
+                switch (data.type) {
                     case TYPE_METHOD -> {
-                        return (T) new DexMethod(serializedItem).getMethodInstance(classLoader);
+                        return (T) new DexMethod(data.serialize).getMethodInstance(classLoader);
                     }
                     case TYPE_FIELD -> {
-                        return (T) new DexField(serializedItem).getFieldInstance(classLoader);
+                        return (T) new DexField(data.serialize).getFieldInstance(classLoader);
                     }
                     case TYPE_CLASS -> {
-                        return (T) new DexClass(serializedItem).getInstance(classLoader);
+                        return (T) new DexClass(data.serialize).getInstance(classLoader);
                     }
                 }
             } catch (NoSuchMethodException | NoSuchFieldException | ClassNotFoundException e) {
@@ -135,9 +159,8 @@ public class DexKit {
 
     public static <T> List<T> findMemberList(@NonNull String key, ClassLoader classLoader, IDexKitList iDexKitList) {
         DexKitBridge dexKitBridge = initDexkitBridge();
-        String type = mMMKV.getString(key + "_type", "");
-        int size = mMMKV.getInt(key + "_size", 0);
-        if (type.isEmpty() || size == 0) {
+        String descriptor = mMMKV.getString(key, "");
+        if (descriptor.isEmpty()) {
             try {
                 BaseDataList<?> baseDataList = iDexKitList.dexkit(dexKitBridge);
                 ArrayList<String> serializeList = new ArrayList<>();
@@ -147,39 +170,51 @@ public class DexKit {
                         serializeList.add(f.toDexField().serialize());
                         instanceList.add((T) f.getFieldInstance(classLoader));
                     }
-                    saveToMMKV(key, TYPE_FIELD, serializeList);
+                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_FIELD, serializeList)));
                     return instanceList;
                 } else if (baseDataList instanceof MethodDataList methodDataList) {
                     for (MethodData m : methodDataList) {
                         serializeList.add(m.toDexMethod().serialize());
                         instanceList.add((T) m.getMethodInstance(classLoader));
                     }
-                    saveToMMKV(key, TYPE_METHOD, serializeList);
+                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_METHOD, serializeList)));
                     return instanceList;
                 } else if (baseDataList instanceof ClassDataList classDataList) {
                     for (ClassData c : classDataList) {
                         serializeList.add(c.toDexType().serialize());
                         instanceList.add((T) c.getInstance(classLoader));
                     }
-                    saveToMMKV(key, TYPE_CLASS, serializeList);
+                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_CLASS, serializeList)));
                     return instanceList;
                 }
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException(e);
             }
         } else {
+            MemberData data = mGson.fromJson(descriptor, new TypeToken<MemberData>() {
+            }.getType());
             ArrayList<T> instanceList = new ArrayList<>();
             try {
-                for (int i = 0; i < size; i++) {
-                    String serializedItem = mMMKV.getString(key + "_item_" + i, "");
-                    if (serializedItem.isEmpty()) continue;
-                    switch (type) {
-                        case TYPE_METHOD -> instanceList.add((T) new DexMethod(serializedItem).getMethodInstance(classLoader));
-                        case TYPE_FIELD -> instanceList.add((T) new DexField(serializedItem).getFieldInstance(classLoader));
-                        case TYPE_CLASS -> instanceList.add((T) new DexClass(serializedItem).getInstance(classLoader));
+                switch (data.type) {
+                    case TYPE_METHOD -> {
+                        for (String s : data.serializeList) {
+                            instanceList.add((T) new DexMethod(s).getMethodInstance(classLoader));
+                        }
+                        return instanceList;
+                    }
+                    case TYPE_FIELD -> {
+                        for (String s : data.serializeList) {
+                            instanceList.add((T) new DexField(s).getFieldInstance(classLoader));
+                        }
+                        return instanceList;
+                    }
+                    case TYPE_CLASS -> {
+                        for (String s : data.serializeList) {
+                            instanceList.add((T) new DexClass(s).getInstance(classLoader));
+                        }
+                        return instanceList;
                     }
                 }
-                return instanceList;
             } catch (NoSuchMethodException | NoSuchFieldException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -187,45 +222,23 @@ public class DexKit {
         return new ArrayList<>();
     }
 
-    private static void saveToMMKV(String key, String type, List<String> serializeList) {
-        mMMKV.putString(key + "_type", type);
-        mMMKV.putInt(key + "_size", serializeList.size());
-        for (int i = 0; i < serializeList.size(); i++) {
-            mMMKV.putString(key + "_item_" + i, serializeList.get(i));
-        }
-    }
-
-    private void init() {
-        if (mDexKitBridge != null) {
-            return;
-        }
-
-        if (mParam == null) {
-            throw new RuntimeException(TAG != null ? TAG : "InitDexKit" + ": lpparam is null");
-        }
-
-        String hostDir = mParam.appInfo.sourceDir,
-                mmkvPath = mParam.appInfo.dataDir + MMKV_PATH;
-
-        // 启动 MMKV
-        MMKV.initialize(mmkvPath, System::loadLibrary);
-        mMMKV = MMKV.defaultMMKV();
-        int version = mMMKV.getInt("version", 0);
-        if (version != 0 && version != mVersion) {
-            mMMKV.clearAll();
-        }
-        mMMKV.putInt("version", mVersion);
-
-        // 启动 DexKit
-        System.loadLibrary("dexkit");
-        mDexKitBridge = DexKitBridge.create(hostDir);
-        isInit = true;
+    public static void deleteAllCache(Context context) {
+        String[] folderNames = context.getResources().getStringArray(R.array.xposed_scope);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(() -> {
+            for (String folderName : folderNames) {
+                String folderPath = "/data/data/" + folderName + MMKV_PATH;
+                safeExecCommandWithRoot("rm -rf " + folderPath);
+            }
+        });
     }
 
     /**
      * 请勿手动调用。
      */
-    public void close() {
+    public static void close() {
+        if (!isInit) return;
+
         if (mDexKitBridge != null) {
             mDexKitBridge.close();
             mDexKitBridge = null;
@@ -235,17 +248,38 @@ public class DexKit {
             mMMKV = null;
         }
         mParam = null;
-        mThis = null;
+        mGson = null;
         isInit = false;
     }
 
-    public static void deleteAllCache(Context context) {
-        String[] folderNames = context.getResources().getStringArray(R.array.xposed_scope);
-        for (String folderName : folderNames) {
-            String folderPath = "/data/data/" + folderName + MMKV_PATH;
-            if (safeExecCommandWithRoot("ls " + folderPath).contains("mmkv")) {
-                safeExecCommandWithRoot("rm -rf " + folderPath);
-            }
+    private static final class MemberData {
+        public String type = "";
+        public String serialize = "";
+
+        public ArrayList<String> serializeList = new ArrayList<>();
+
+        public MemberData(String type, String serialize) {
+            this.type = type;
+            this.serialize = serialize;
+        }
+
+        public MemberData(String type, ArrayList<String> serializeList) {
+            this.type = type;
+            this.serializeList = serializeList;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "Type: " + type + ", Serialize: " + serialize + ", SerializeList: " + serializeList;
+        }
+
+        @Override
+        public boolean equals(@Nullable Object obj) {
+            return obj instanceof MemberData memberData
+                    && memberData.type.equals(type)
+                    && memberData.serialize.equals(serialize)
+                    && memberData.serializeList.equals(serializeList);
         }
     }
 }
