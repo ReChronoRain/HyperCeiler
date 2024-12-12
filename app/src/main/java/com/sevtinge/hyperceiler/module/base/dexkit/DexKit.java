@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.base.dexkit;
 
+import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
+import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
 import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
 
 import android.content.Context;
@@ -47,6 +49,7 @@ import org.luckypray.dexkit.wrap.DexMethod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -91,11 +94,20 @@ public class DexKit {
         // 启动 MMKV
         MMKV.initialize(mmkvPath, System::loadLibrary);
         mMMKV = MMKV.defaultMMKV();
+
+        // 检查阶段
         int version = mMMKV.getInt("version", 0);
         if (version != 0 && version != mVersion) {
             mMMKV.clearAll();
         }
         mMMKV.putInt("version", mVersion);
+
+        String pkgVersion = getPackageVersionName(mParam) + "(" + getPackageVersionCode(mParam) + ")";
+        String oldPkgVersion = mMMKV.getString("pkgVersion", "null");
+        if (!Objects.equals(pkgVersion, oldPkgVersion)) {
+            mMMKV.clearAll();
+        }
+        mMMKV.putString("pkgVersion", pkgVersion);
 
         // 启动 DexKit
         System.loadLibrary("dexkit");
