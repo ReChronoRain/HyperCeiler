@@ -175,7 +175,7 @@ object NewFlashLight : TileUtils() {
             if (!mControlValueInitialized) {
                 try {
                     toggleSliderBaseControllerImpl.callMethod("setValue", i, null)
-                } catch (_: Exception) {
+                } catch (_: Throwable) {
                     toggleSliderBaseControllerImpl.callMethod("setValue", i)
                 }
                 param.thisObject.setObjectField("mControlValueInitialized", true)
@@ -188,7 +188,7 @@ object NewFlashLight : TileUtils() {
                 param.thisObject.setObjectField("mExternalChange", true)
                 try {
                     toggleSliderBaseControllerImpl.callMethod("setValue", animation.animatedValue, null)
-                } catch (_: Exception) {
+                } catch (_: Throwable) {
                     toggleSliderBaseControllerImpl.callMethod("setValue", animation.animatedValue)
                 }
                 param.thisObject.setObjectField("mExternalChange", false)
