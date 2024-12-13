@@ -21,13 +21,15 @@
     app:myLocation="@string/guard_provider"
     app:myLocationHyper="@string/guard_provider_hyperos"
     app:quick_restart="com.miui.guardprovider">
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_guard_provider_disable_root_check"
-        android:title="@string/guard_provider_disable_root_check" />
-    <SwitchPreference
-        android:title="@string/guard_provider_disable_upload_applist"
-        android:key="prefs_key_disable_upload_applist"
-        android:defaultValue="false" />
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_guard_provider_disable_root_check"
+            android:title="@string/guard_provider_disable_root_check" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_disable_upload_applist"
+            android:title="@string/guard_provider_disable_upload_applist" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

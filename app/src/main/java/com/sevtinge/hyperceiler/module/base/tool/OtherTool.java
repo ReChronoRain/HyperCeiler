@@ -22,6 +22,7 @@ import static com.sevtinge.hyperceiler.module.base.tool.HookTool.mPrefsMap;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.isDarkMode;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -53,18 +54,9 @@ public class OtherTool {
     // 获取 Android 系统
     public static final int FlAG_ONLY_ANDROID = ContextUtils.FlAG_ONLY_ANDROID;
 
-    // public static TextView mPct = null;
-    public static WeakReference<TextView> mPct;
+    public static TextView mPct = null;
 
     // public  Context mModuleContext = null;
-
-    public static void setTextView(TextView textView) {
-        mPct = new WeakReference<>(textView);
-    }
-
-    public static TextView getTextView() {
-        return mPct != null ? mPct.get() : null;
-    }
 
     public static Resources getModuleRes(Context context)
             throws PackageManager.NameNotFoundException {
@@ -155,25 +147,25 @@ public class OtherTool {
         }
     }
 
-    public static void initPct(ViewGroup container, int source, Context context) {
-        Resources res = context.getResources();
-        if (getTextView() == null) {
-            setTextView(new TextView(container.getContext()));
-            getTextView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
-            getTextView().setGravity(Gravity.CENTER);
+    public static void initPct(ViewGroup container, int source) {
+        Resources res = container.getContext().getResources();
+        if (mPct == null) {
+            mPct = new TextView(container.getContext());
+            mPct.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
+            mPct.setGravity(Gravity.CENTER);
             float density = res.getDisplayMetrics().density;
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
             lp.topMargin = Math.round(mPrefsMap.getInt("system_ui_others_showpct_top", 54) * density);
             // lp.topMargin = Math.round(54 * density);
             lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
-            getTextView().setPadding(Math.round(20 * density), Math.round(10 * density), Math.round(18 * density), Math.round(12 * density));
-            getTextView().setLayoutParams(lp);
+            mPct.setPadding(Math.round(20 * density), Math.round(10 * density), Math.round(18 * density), Math.round(12 * density));
+            mPct.setLayoutParams(lp);
             try {
-                Resources modRes = getModuleRes(context);
-                getTextView().setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFFFF")));
-                getTextView().setBackground(modRes.getDrawable(R.drawable.input_background, context.getTheme()));
+                Resources modRes = getModuleRes(container.getContext());
+                mPct.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFFFF")));
+                mPct.setBackground(modRes.getDrawable(R.drawable.input_background, container.getContext().getTheme()));
             } catch (Throwable err) {
-                logE("ShowVolumePct", err);
+                logE("ShowPct", err);
             }
             if (mPrefsMap.getBoolean("system_showpct_use_blur")) {
                 try {
@@ -183,18 +175,18 @@ public class OtherTool {
                     int a;
                     if (isDarkMode()) a = 120;
                     else a = 140;
-                    MiBlurUtils.setContainerPassBlur(getTextView(), i, true);
-                    MiBlurUtils.setMiViewBlurMode(getTextView(), 1);
-                    MiBlurUtils.clearMiBackgroundBlendColor(getTextView());
-                    MiBlurUtils.addMiBackgroundBlendColor(getTextView(), Color.argb(a, 0, 0, 0), 101);
+                    MiBlurUtils.setContainerPassBlur(mPct, i, true);
+                    MiBlurUtils.setMiViewBlurMode(mPct, 1);
+                    MiBlurUtils.clearMiBackgroundBlendColor(mPct);
+                    MiBlurUtils.addMiBackgroundBlendColor(mPct, Color.argb(a, 0, 0, 0), 101);
                 } catch (Throwable e) {
-                    logE("ShowVolumePct", e);
+                    logE("ShowPct", e);
                 }
             }
-            container.addView(getTextView());
+            container.addView(mPct);
         }
-        getTextView().setTag(source);
-        getTextView().setVisibility(View.GONE);
+        mPct.setTag(source);
+        mPct.setVisibility(View.GONE);
     }
 
     public static void removePct(TextView mPctText) {

@@ -59,6 +59,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlP
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlPanelTimeViewTextSize;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaSeekBarColor;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NewBrightnessPct;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NewFlashLight;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationImportanceHyperOSFix;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationRowMenu;
@@ -97,8 +98,6 @@ import com.sevtinge.hyperceiler.module.hook.systemui.navigation.HandleLineCustom
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.HideNavigationBar;
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.NavigationCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.RotationButton;
-import com.sevtinge.hyperceiler.module.hook.systemui.plugin.FocusNotifLyricPluginHelper;
-import com.sevtinge.hyperceiler.module.hook.systemui.plugin.NewPluginHelper;
 import com.sevtinge.hyperceiler.module.hook.systemui.plugin.NewPluginHelperKt;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.BlurEnable;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DoubleTapToSleep;
@@ -285,6 +284,7 @@ public class SystemUiV extends BaseModule {
         initHook(DisableInfinitymodeGesture.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_infinitymode_gesture"));
         initHook(DisableBottomBar.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_bottombar"));
         initHook(UnlockClipboard.INSTANCE, mPrefsMap.getBoolean("system_ui_unlock_clipboard"));
+        initHook(NewBrightnessPct.INSTANCE, mPrefsMap.getBoolean("system_showpct_title"));
 
         // 锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));

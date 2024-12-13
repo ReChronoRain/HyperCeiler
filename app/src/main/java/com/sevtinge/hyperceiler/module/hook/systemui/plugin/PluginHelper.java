@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.plugin;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.pm.ApplicationInfo;
@@ -44,9 +43,7 @@ public class PluginHelper extends BaseHook {
 
     @Override
     public void init() {
-        String pluginLoaderClass = isAndroidVersion(33)
-                ? "com.android.systemui.shared.plugins.PluginInstance$Factory"
-                : "com.android.systemui.shared.plugins.PluginManagerImpl";
+        String pluginLoaderClass = "com.android.systemui.shared.plugins.PluginInstance$Factory";
         hookAllMethods(pluginLoaderClass, "getClassLoader", new MethodHook() {
             private boolean isHooked = false;
 

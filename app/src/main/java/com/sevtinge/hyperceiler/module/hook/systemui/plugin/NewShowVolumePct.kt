@@ -29,7 +29,6 @@ import com.sevtinge.hyperceiler.module.base.tool.*
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.devicesdk.*
-import de.robv.android.xposed.*
 
 object NewShowVolumePct {
     @JvmStatic
@@ -45,9 +44,9 @@ object NewShowVolumePct {
             volumePanelViewControllerClazz.methodFinder().filterByName("showVolumePanelH")
                 .first().createAfterHook {
                     val mVolumeView =
-                        XposedHelpers.getObjectField(it.thisObject, "mVolumeView") as View
+                        it.thisObject.getObjectField("mVolumeView") as View
                     val windowView = mVolumeView.parent as FrameLayout
-                    initPct(windowView, 3, windowView.context)
+                    initPct(windowView, 3)
                 }
 
             mVolumeDisable(volumePanelViewControllerClazz)
@@ -63,9 +62,9 @@ object NewShowVolumePct {
             miuiVolumeDialogImplClazz.methodFinder().filterByName("showVolumeDialogH")
                 .first().createAfterHook {
                     val mVolumeView =
-                        XposedHelpers.getObjectField(it.thisObject, "mDialogView") as View
+                        it.thisObject.getObjectField("mDialogView") as View
                     val windowView = mVolumeView.parent as FrameLayout
-                    initPct(windowView, 3, windowView.context)
+                    initPct(windowView, 3)
                 }
 
             mVolumeDisable(miuiVolumeDialogImplClazz)
@@ -76,7 +75,7 @@ object NewShowVolumePct {
     private fun mVolumeDisable(clazz: Class<*>) {
         clazz.methodFinder().filterByName("dismissH")
             .first().createAfterHook {
-                removePct(getTextView())
+                removePct(mPct)
             }
     }
 
@@ -105,10 +104,10 @@ object NewShowVolumePct {
 
                 if (nowLevel == arg1) return@createAfterHook
                 var pctTag = 0
-                if (getTextView() != null && getTextView().tag != null) {
-                    pctTag = getTextView().tag as Int
+                if (mPct != null && mPct.tag != null) {
+                    pctTag = mPct.tag as Int
                 }
-                if (pctTag != 3 || getTextView() == null) return@createAfterHook
+                if (pctTag != 3 || mPct == null) return@createAfterHook
                 val mColumn = it.thisObject.getObjectFieldOrNull("mColumn")
                 if (mColumn == null) return@createAfterHook
                 val ss = mColumn.getObjectFieldOrNull( "ss")
@@ -123,7 +122,7 @@ object NewShowVolumePct {
                     currentLevel = mColumn.getIntField("animTargetProgress")
                 }
                 nowLevel = currentLevel
-                getTextView().visibility = View.VISIBLE
+                mPct.visibility = View.VISIBLE
                 val levelMin = ss.getIntField("levelMin")
                 if (levelMin > 0 && currentLevel < levelMin * 1000) {
                     currentLevel = levelMin * 1000
@@ -136,8 +135,8 @@ object NewShowVolumePct {
                         if (currentLevel == max) maxLevel else (currentLevel * i3 / max) + 1
                 }
                 if (((currentLevel * 100) / maxLevel) == 100 && (HookTool.mPrefsMap.getBoolean("system_ui_unlock_super_volume") || mSupportSV))
-                    getTextView().text = "200%"
-                else getTextView().text = ((currentLevel * 100) / maxLevel).toString() + "%"
+                    mPct.text = "200%"
+                else mPct.text = ((currentLevel * 100) / maxLevel).toString() + "%"
             }
     }
 }

@@ -18,13 +18,12 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
-import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getTextView;
 import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.initPct;
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.mPct;
 import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.removePct;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -34,8 +33,6 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class BrightnessPct extends BaseHook {
-    public boolean isHooked = false;
-
     @Override
     @SuppressLint("SetTextI18n")
     public void init() throws NoSuchMethodException {
@@ -48,15 +45,15 @@ public class BrightnessPct extends BaseHook {
                         logE(TAG, lpparam.packageName, "mStatusBarWindow is null");
                         return;
                     }
-                    initPct(mStatusBarWindow, 1, mStatusBarWindow.getContext());
-                    getTextView().setVisibility(View.VISIBLE);
+                    initPct(mStatusBarWindow, 1);
+                    mPct.setVisibility(View.VISIBLE);
                 }
             });
 
             findAndHookMethod("com.android.systemui.statusbar.policy.BrightnessMirrorController", "hideMirror", new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
-                        removePct(getTextView());
+                        removePct(mPct);
                     }
                 }
             );
@@ -65,21 +62,20 @@ public class BrightnessPct extends BaseHook {
         hookAllMethods("com.android.systemui.controlcenter.policy.MiuiBrightnessController", "onStart", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
-                Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 Object windowView = getObject(param);
                 if (windowView == null) {
                     logE(TAG, lpparam.packageName, "mControlPanelContentView is null");
                     return;
                 }
-                initPct((ViewGroup) windowView, 2, mContext);
-                getTextView().setVisibility(View.VISIBLE);
+                initPct((ViewGroup) windowView, 2);
+                mPct.setVisibility(View.VISIBLE);
             }
         });
 
         hookAllMethods("com.android.systemui.controlcenter.policy.MiuiBrightnessController", "onStop", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) {
-                removePct(getTextView());
+                removePct(mPct);
             }
         });
 
@@ -88,14 +84,14 @@ public class BrightnessPct extends BaseHook {
             @Override
             protected void after(MethodHookParam param) {
                 int pctTag = 0;
-                if (getTextView() != null && getTextView().getTag() != null) {
-                    pctTag = (int) getTextView().getTag();
+                if (mPct != null && mPct.getTag() != null) {
+                    pctTag = (int) mPct.getTag();
                 }
-                if (pctTag == 0 || getTextView() == null) return;
+                if (pctTag == 0 || mPct == null) return;
                 int currentLevel = (int) param.args[3];
                 if (brightnessUtils != null) {
                     int maxLevel = (int) XposedHelpers.getStaticObjectField(brightnessUtils, "GAMMA_SPACE_MAX");
-                    getTextView().setText(((currentLevel * 100) / maxLevel) + "%");
+                    mPct.setText(((currentLevel * 100) / maxLevel) + "%");
                 }
             }
         });
