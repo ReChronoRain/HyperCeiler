@@ -61,6 +61,11 @@
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_center_disable_root_check_environment"
+            android:title="@string/security_center_disable_root_check_environment" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_simplify_home"
             android:summary="@string/security_center_simplify_home_desc"
             android:title="@string/security_center_simplify_home" />

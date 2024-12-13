@@ -1215,6 +1215,7 @@
     <string name="guard_provider">MIUI security components</string>
     <string name="guard_provider_hyperos">System security components</string>
     <string name="guard_provider_disable_upload_applist">Prevent automatic upload of installed app list</string>
+    <string name="guard_provider_disable_root_check">Disable environment check</string>
     <!--System launcher-->
     <string name="mihome">System launcher</string>
     <string name="home_gesture">Gesture and navigation</string>
@@ -1584,6 +1585,7 @@
     <string name="security_center_beauty_title">Front camera assistant</string>
     <string name="security_center_bubble_and_freeform_title">Bubble and freeform</string>
     <string name="security_center_newbox_title">Sidebar</string>
+    <string name="security_center_disable_root_check_environment">Disable environment check</string>
     <string name="security_center_dolby_open">Close the Dolby pop-up window</string>
     <string name="security_center_show_battery_temperature">Show battery temperature</string>
     <string name="security_center_show_battery_health">Show detailed battery health</string>

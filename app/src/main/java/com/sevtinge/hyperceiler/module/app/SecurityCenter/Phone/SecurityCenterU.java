@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.AppLockPinScramble;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.BypassAdbInstallVerify;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.DisableReport;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.DisableRootedCheck;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.GetBubbleAppString;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.HideXOptModeTip;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.InstallIntercept;
@@ -113,6 +114,7 @@ public class SecurityCenterU extends BaseModule {
         initHook(BeautyPc.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_pc"));
 
         // 其他
+        initHook(new DisableRootedCheck(), mPrefsMap.getBoolean("security_center_disable_root_check_environment"));
         initHook(SimplifyMainFragment.INSTANCE, mPrefsMap.getBoolean("security_center_simplify_home"));
         initHook(new InstallIntercept(), mPrefsMap.getBoolean("security_center_install_intercept"));
         initHook(LockOneHundredPoints.INSTANCE, mPrefsMap.getBoolean("security_center_score"));
