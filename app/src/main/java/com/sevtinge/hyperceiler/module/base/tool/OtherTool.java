@@ -173,7 +173,7 @@ public class OtherTool {
                 getTextView().setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFFFF")));
                 getTextView().setBackground(modRes.getDrawable(R.drawable.input_background, context.getTheme()));
             } catch (Throwable err) {
-                logE("ShowVolumePct", err);
+                logE("ShowPct", err);
             }
             if (mPrefsMap.getBoolean("system_showpct_use_blur")) {
                 try {
@@ -188,7 +188,7 @@ public class OtherTool {
                     MiBlurUtils.clearMiBackgroundBlendColor(getTextView());
                     MiBlurUtils.addMiBackgroundBlendColor(getTextView(), Color.argb(a, 0, 0, 0), 101);
                 } catch (Throwable e) {
-                    logE("ShowVolumePct", e);
+                    logE("ShowPct", e);
                 }
             }
             container.addView(getTextView());

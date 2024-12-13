@@ -51,59 +51,25 @@ object NewPluginHelperKt : BaseHook() {
         try {
             onPluginLoadedAll(factory)
 
-            when (factory.mComponentName) {
+            /*when (factory.mComponentName) {
                 factory.componentNames("miui.systemui.volume.VolumeDialogPlugin") -> {
                     val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                     logD(TAG, lpparam.packageName, "Plugin for sysui volume loaded.")
-
-                    if (mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"))
-                        EnableVolumeBlur.initEnableVolumeBlur(classLoader)
-                    if (mPrefsMap.getBoolean("system_cc_volume_showpct_title"))
-                        NewShowVolumePct.initLoader(classLoader) // 声音百分比
-                    if (mPrefsMap.getBoolean("system_ui_unlock_super_volume"))
-                        NewSuperVolume.initSuperVolume(classLoader) // 超大音量
-                    if (mPrefsMap.getBoolean("system_framework_volume_separate_control") &&
-                        mPrefsMap.getBoolean("system_framework_volume_separate_slider"))
-                        NotificationVolumeSeparateSlider.initHideDeviceControlEntry(classLoader)
                 }
 
                 factory.componentNames("miui.systemui.miplay.MiPlayPluginImpl") -> {
                     val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                     logD(TAG, lpparam.packageName, "Plugin for sysui mipay loaded.")
-
-                    if (mPrefsMap.getStringAsInt("system_ui_control_center_mi_play_entry", 0) != 0)
-                        HideMiPlayEntry.initHideMiPlayEntry(classLoader)
-                }
-
-                factory.componentNames("miui.systemui.controlcenter.MiuiControlCenter") -> {
-                    val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
-                    logD(TAG, lpparam.packageName, "Plugin for sysui control center loaded.")
-
-                    if (mPrefsMap.getBoolean("system_ui_control_center_hide_edit_botton"))
-                        HideEditButton.initHideEditButton(classLoader)
                 }
 
                 factory.componentNames("miui.systemui.notification.NotificationStatPluginImpl") -> {
                     val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                     logD(TAG, lpparam.packageName, "Plugin for sysui NotificationStatPluginImpl loaded.")
-
-                    if (mPrefsMap.getBoolean("system_ui_statusbar_music_switch"))
-                        FocusNotifLyric.initLoader(classLoader);
                 }
 
                 else -> {
                     val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
 
-                    if (mPrefsMap.getStringAsInt("system_ui_control_center_mi_smart_hub_entry", 0) != 0)
-                        HideMiSmartHubEntry.initHideMiSmartHubEntry(classLoader)
-                    if (mPrefsMap.getStringAsInt("system_ui_control_center_device_ctrl_entry", 0) != 0)
-                        HideDeviceControlEntry.initHideDeviceControlEntry(classLoader)
-                    if (mPrefsMap.getStringAsInt("system_ui_control_center_cc_bluetooth_tile_style", 1) > 1)
-                        BluetoothTileStyle.initHideDeviceControlEntry(classLoader)
-                    if (mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3)
-                        ShowDeviceName.initShowDeviceName(classLoader)
-                    if (mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"))
-                        DisableDeviceManaged.initDisableDeviceManaged(classLoader)
                     // logD(TAG, lpparam.packageName, "Plugin is ${factory.mComponentName}")
                     // 仅备份当前可用注入 ClassLoader
                     // miui.systemui.volume.VolumeDialogPlugin
@@ -116,7 +82,7 @@ object NewPluginHelperKt : BaseHook() {
                     // miui.systemui.notification.FocusNotificationPluginImpl
                     // miui.systemui.notification.unimportant.UnimportantSdkPluginImpl
                 }
-            }
+            }*/
         } catch (_: Exception) {}
     }
 
@@ -125,6 +91,8 @@ object NewPluginHelperKt : BaseHook() {
         val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
         val mCardStyleTiles = getTileList()
 
+        if (mPrefsMap.getBoolean("system_ui_control_center_hide_edit_botton"))
+            HideEditButton.initHideEditButton(classLoader)
         if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
             mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty()) {
             CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles)            //A
@@ -136,6 +104,35 @@ object NewPluginHelperKt : BaseHook() {
         ) {
             QSColor.pluginHook(classLoader)
         }
+
+        if (mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"))
+            EnableVolumeBlur.initEnableVolumeBlur(classLoader)
+        if (mPrefsMap.getBoolean("system_ui_unlock_super_volume"))
+            NewSuperVolume.initSuperVolume(classLoader) // 超大音量
+        if (mPrefsMap.getBoolean("system_framework_volume_separate_control") &&
+            mPrefsMap.getBoolean("system_framework_volume_separate_slider"))
+            NotificationVolumeSeparateSlider.initHideDeviceControlEntry(classLoader)
+        if (mPrefsMap.getBoolean("system_cc_volume_showpct_title"))
+            NewShowVolumePct.initLoader(classLoader) // 声音百分比
+        if (mPrefsMap.getBoolean("system_showpct_title"))
+            NewBrightnessPct.initLoaderHook(classLoader)
+
+        if (mPrefsMap.getStringAsInt("system_ui_control_center_mi_play_entry", 0) != 0)
+            HideMiPlayEntry.initHideMiPlayEntry(classLoader)
+
+        if (mPrefsMap.getBoolean("system_ui_statusbar_music_switch"))
+            FocusNotifLyric.initLoader(classLoader);
+
+        if (mPrefsMap.getStringAsInt("system_ui_control_center_mi_smart_hub_entry", 0) != 0)
+            HideMiSmartHubEntry.initHideMiSmartHubEntry(classLoader)
+        if (mPrefsMap.getStringAsInt("system_ui_control_center_device_ctrl_entry", 0) != 0)
+            HideDeviceControlEntry.initHideDeviceControlEntry(classLoader)
+        if (mPrefsMap.getStringAsInt("system_ui_control_center_cc_bluetooth_tile_style", 1) > 1)
+            BluetoothTileStyle.initHideDeviceControlEntry(classLoader)
+        if (mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3)
+            ShowDeviceName.initShowDeviceName(classLoader)
+        if (mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"))
+            DisableDeviceManaged.initDisableDeviceManaged(classLoader)
 
         if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
             DefaultPluginTheme.initDefaultPluginTheme(classLoader)

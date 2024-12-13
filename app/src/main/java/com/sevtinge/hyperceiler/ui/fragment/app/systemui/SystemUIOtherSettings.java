@@ -48,7 +48,6 @@ public class SystemUIOtherSettings extends DashboardFragment {
     SwitchPreference mPower;
     SwitchPreference mDisableBluetoothRestrict; // 禁用蓝牙临时关闭
     SwitchPreference mPctUseBlur;
-    SwitchPreference mShowPct;
     SwitchPreference mFuckSG;
     SwitchPreference mTimer;
     SwitchPreference mPluginThemeBlur;
@@ -70,7 +69,6 @@ public class SystemUIOtherSettings extends DashboardFragment {
         mVolume = findPreference("prefs_key_system_ui_disable_volume");
         mPower = findPreference("prefs_key_system_ui_disable_power");
         mPctUseBlur = findPreference("prefs_key_system_showpct_use_blur");
-        mShowPct = findPreference("prefs_key_system_showpct_title");
         mFuckSG = findPreference("prefs_key_system_ui_move_log_to_miui");
         mTimer = findPreference("prefs_key_system_ui_volume_timer");
         mPluginThemeBlur = findPreference("prefs_key_system_ui_other_default_plugin_theme");
@@ -82,7 +80,6 @@ public class SystemUIOtherSettings extends DashboardFragment {
         mDisableInfinitymodeGesture.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34) && isPad());
         mBottomBar.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
         mPctUseBlur.setVisible(isMoreHyperOSVersion(1f));
-        mShowPct.setVisible(!isMoreHyperOSVersion(1f));
         mFuckSG.setVisible(isMoreHyperOSVersion(2f));
         mTimer.setVisible(!isMoreAndroidVersion(35));
         mPluginThemeBlur.setVisible(isMoreHyperOSVersion(1f));
