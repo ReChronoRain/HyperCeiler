@@ -76,13 +76,13 @@ public class UnPrivacyWatermark extends BaseHook {
         }
         float min = Math.min(mWidth, mHeight) * 0.02037037f;
         float f2 = 7.0f * min;
-        Paint initialPaint = is ? callStaticMethod(
+        Paint initialPaint = (Paint) (is ? callStaticMethod(
                 "com.miui.gallery.editor.photo.app.privacy.PrivacyWatermarkHelper",
                 "getInitialPaint"
         ) : callStaticMethod(
                 "com.miui.gallery.privacywatermark.PrivacyWatermarkHelper",
                 "getInitialPaint"
-        );
+        ));
         Rect rect = new Rect();
         initialPaint.setTextSize(min);
         initialPaint.getTextBounds(text, 0, text.length(), rect);
