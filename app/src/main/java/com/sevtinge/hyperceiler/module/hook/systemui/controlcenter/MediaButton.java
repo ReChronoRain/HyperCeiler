@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
+import android.widget.ImageButton;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -40,6 +41,35 @@ public class MediaButton extends BaseHook {
 
     @Override
     public void init() throws NoSuchMethodException {
+
+        Class<?> DrawableUtils = findClassIfExists("com.miui.utils.DrawableUtils", lpparam.classLoader);
+        hookAllMethods("com.android.systemui.media.controls.ui.controller.MediaControlPanel",
+        "bindButtonCommon", new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                Object mediaAction = param.args[0];
+                String desc = (String) XposedHelpers.getObjectField(mediaAction, "contentDescription");
+                if ((typeCustom != 140) && 
+                    !desc.contains("Play") && !desc.contains("Pause") && 
+                    !desc.contains("Previous track") && !desc.contains("Next track")) {
+                    ImageButton button = (ImageButton) param.args[0];
+                    Drawable loadDrawable = (Drawable) XposedHelpers.getObjectField(mediaAction, "icon");
+                    Method method = DrawableUtils.getDeclaredMethod("drawable2Bitmap", Drawable.class);
+                    Bitmap bitmap = (Bitmap) method.invoke(null, loadDrawable);
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, typeCustom, typeCustom, true);
+                    XposedHelpers.setObjectField(mediaAction, "icon", new BitmapDrawable(button.getContext().getResources(), scaledBitmap));
+                } else if (type != 140) {
+                    ImageButton button = (ImageButton) param.args[0];
+                    Drawable loadDrawable = (Drawable) XposedHelpers.getObjectField(mediaAction, "icon");
+                    Method method = DrawableUtils.getDeclaredMethod("drawable2Bitmap", Drawable.class);
+                    Bitmap bitmap = (Bitmap) method.invoke(null, loadDrawable);
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, type, type, true);
+                    XposedHelpers.setObjectField(mediaAction, "icon", new BitmapDrawable(button.getContext().getResources(), scaledBitmap));
+                }
+            }
+        });
+
+        /* HyperOS 1.0
         findAndHookMethod("com.android.systemui.media.controls.pipeline.MediaDataManager",
                 "createActionsFromState", String.class, MediaController.class, UserHandle.class,
                 new MethodHook() {
@@ -91,6 +121,7 @@ public class MediaButton extends BaseHook {
                         }
                     }
                 }
-        );
+        ); 
+        */
     }
 }
