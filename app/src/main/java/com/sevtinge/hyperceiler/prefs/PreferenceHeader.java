@@ -25,6 +25,7 @@ import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWit
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.UserHandle;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -97,7 +98,10 @@ public class PreferenceHeader extends XmlPreference {
         return PackagesUtils.isHidden(context, (String) getSummary());
     }
 
+    @SuppressLint("Range")
     private void getScope() {
+        UserHandle currentUserHandle = android.os.Process.myUserHandle();
+        int userId = currentUserHandle.hashCode();
 
         safeExecCommandWithRoot("cp -r /data/adb/lspd/config /data/data/com.sevtinge.hyperceiler/cache/\n");
         safeExecCommandWithRoot("chmod -R 777 /data/data/com.sevtinge.hyperceiler/cache/config\n");
@@ -113,7 +117,9 @@ public class PreferenceHeader extends XmlPreference {
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") String mid = cursor.getString(cursor.getColumnIndex("mid"));
+                List<String> scopeMid = new ArrayList<String>();
+                List<String> scopeUid = new ArrayList<String>();
+                String mid = cursor.getString(cursor.getColumnIndex("mid"));
 
                 tableName = "scope";
                 columns = new String[]{"app_pkg_name"};
@@ -124,11 +130,29 @@ public class PreferenceHeader extends XmlPreference {
 
                 if (cursor != null && cursor.moveToFirst()) {
                     do {
-                        @SuppressLint("Range") String getScope = cursor.getString(cursor.getColumnIndex("app_pkg_name"));
+                        String getScope = cursor.getString(cursor.getColumnIndex("app_pkg_name"));
                         if (getScope.equals("system")) getScope = "android";
-                        scope.add(getScope);
+                        scopeMid.add(getScope);
                     } while (cursor.moveToNext());
                 }
+
+                tableName = "scope";
+                columns = new String[]{"app_pkg_name"};
+                selection = "user_id = ?";
+                selectionArgs = new String[]{String.valueOf(userId)};
+
+                cursor = dbHelper.customQuery(tableName, columns, selection, selectionArgs, null);
+
+                if (cursor != null && cursor.moveToFirst()) {
+                    do {
+                        String getScope = cursor.getString(cursor.getColumnIndex("app_pkg_name"));
+                        if (getScope.equals("system")) getScope = "android";
+                        scopeUid.add(getScope);
+                    } while (cursor.moveToNext());
+                }
+
+                scope = scopeMid;
+                scope.retainAll(scopeUid);
             } while (cursor.moveToNext());
         }
 
