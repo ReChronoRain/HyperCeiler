@@ -21,6 +21,8 @@ package com.sevtinge.hyperceiler.module.hook.various;
 import static com.hchen.hooktool.tool.CoreTool.getStaticField;
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
 
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
+
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
@@ -73,6 +75,7 @@ public class ClipboardList extends BaseHook {
                     lastFilePath = "/data/user/0/" + lpparam.packageName + "/files/last_clipboard_data_list.dat";
                     // logE(TAG, "run: " + param.args[0]);
                     getNoExpiredData((ClassLoader) param.args[0]);
+                    logD(TAG, "0002");
                     getView((ClassLoader) param.args[0]);
                     clearArray((ClassLoader) param.args[0]);
                 }
@@ -102,138 +105,160 @@ public class ClipboardList extends BaseHook {
     public void getNoExpiredData(ClassLoader classLoader) {
         // setStaticIntField(findClassIfExists("com.miui.inputmethod.MiuiClipboardManager"), "MAX_CLIP_DATA_ITEM_SIZE", Integer.MAX_VALUE);
 
-        findAndHookMethod("com.miui.inputmethod.InputMethodClipboardPhrasePopupView",
-                classLoader, "lambda$updateClipboardData$6",
-                "com.miui.inputmethod.ClipboardContentModel", new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        findAndHookMethod("java.util.List", "size", new MethodHook() {
-                            @Override
-                            protected void before(MethodHookParam param) throws Throwable {
-                                param.setResult(0);
-                            }
-                        });
-                    }
-                });
+        try {
+            findAndHookMethod("com.miui.inputmethod.InputMethodClipboardPhrasePopupView",
+                    classLoader, "lambda$updateClipboardData$6",
+                    "com.miui.inputmethod.ClipboardContentModel", new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) throws Throwable {
+                            findAndHookMethod("java.util.List", "size", new MethodHook() {
+                                @Override
+                                protected void before(MethodHookParam param) throws Throwable {
+                                    param.setResult(0);
+                                }
+                            });
+                        }
+                    });
+        } catch (Exception ignore) {}
 
-        findAndHookMethod(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
-            "getNoExpiredClipboardData", Context.class, String.class, long.class, new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    ArrayList mArray = new ArrayList<>();
-                    try {
-                        checkFile(filePath);
-                        checkFile(lastFilePath);
-                        /*获取原始list数据内容*/
-                        ArrayList<?> jsonToBean = jsonToBean((String) param.args[1], classLoader);
-                        // logE(TAG, "get: " + listToJson(jsonToBean));
-                        if (jsonToBean.isEmpty()) {
-                            /*防止在数据为空时误删数据库数据*/
-                            // resetFile();
-                            lastArray = new ArrayList<>();
-                            if (!isEmptyFile(filePath)) {
-                                mArray = jsonToLIst(filePath, classLoader);
-                                if (!mArray.isEmpty()) {
-                                    param.setResult(mArray);
-                                    return;
-                                }
-                            }
-                            param.setResult(new ArrayList<>());
-                            logD(TAG + ": get saved clipboard list size is 0.");
-                            return;
+        try {
+            findAndHookMethod("com.miui.inputmethod.InputMethodClipboardPhrasePopupView",
+                    classLoader, "clearClipBoardData", new MethodHook() {
+                        @Override
+                        protected void after(MethodHookParam param) throws Throwable {
+                            writeFile(lastFilePath, new JSONArray());
+                            writeFile(filePath, new JSONArray());
                         }
-                        if (!isEmptyFile(lastFilePath)) {
-                            lastArray = jsonToLIst(lastFilePath, classLoader);
-                        }
-                        /*文件不为空说明有数据*/
-                        if (!isEmptyFile(filePath)) {
-                            /*数据库数据*/
-                            mArray = jsonToLIst(filePath, classLoader);
-                            // logE(TAG, "mArray: " + listToJson(mArray));
-                            if (!lastArray.isEmpty()) {
-                                /*虽说不太可能为空但还是检查一下*/
-                                if (mArray.isEmpty()) {
-                                    logE(TAG, "mArray is empty it's bad");
-                                    param.setResult(new ArrayList<>());
-                                    return;
-                                }
-                                Object oneLast = getContent(lastArray, 0);
-                                /*防止在只复制一个元素时重复开关界面引发的未知问题*/
-                                if (jsonToBean.size() < 2) {
-                                    if (!getContent(jsonToBean, 0).equals(getContent(mArray, 0))) {
-                                        mArray = addOrHw(mArray, getContent(jsonToBean, 0), jsonToBean);
-                                    }
-                                    param.setResult(mArray);
-                                    return;
-                                }
-                                /*读取第一第二个数据判断操作*/
-                                Object oneArray = getContent(jsonToBean, 0);
-                                Object twoArray = getContent(jsonToBean, 1);
-                                if (!oneArray.equals(oneLast) && twoArray.equals(oneLast)) {
-                                    /*第一个不同第二个相同说明可能换位或新增*/
-                                    mArray = addOrHw(mArray, oneArray, jsonToBean);
-                                } else if (!oneArray.equals(oneLast) && !twoArray.equals(oneLast)) {
-                                    /*两个不同为新增*/
-                                    int have = -1;
-                                    for (int i = 0; i < jsonToBean.size(); i++) {
-                                        have++;
-                                        if (getContent(jsonToBean, i).equals(oneLast)) {
-                                            break;
+                    });
+        } catch (Exception ignore) {}
+
+        try {
+            findAndHookMethod(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
+                    "getNoExpiredClipboardData", Context.class, String.class, long.class, new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            ArrayList mArray = new ArrayList<>();
+                            try {
+                                checkFile(filePath);
+                                checkFile(lastFilePath);
+                                /*获取原始list数据内容*/
+                                ArrayList<?> jsonToBean = jsonToBean((String) param.args[1], classLoader);
+                                // logE(TAG, "get: " + listToJson(jsonToBean));
+                                if (jsonToBean.isEmpty()) {
+                                    /*防止在数据为空时误删数据库数据*/
+                                    // resetFile();
+                                    lastArray = new ArrayList<>();
+                                    if (!isEmptyFile(filePath)) {
+                                        mArray = jsonToLIst(filePath, classLoader);
+                                        if (!mArray.isEmpty()) {
+                                            param.setResult(mArray);
+                                            return;
                                         }
                                     }
-                                    for (int i = 0; i < have; i++) {
-                                        mArray.add(i, jsonToBean.get(i));
-                                    }
+                                    param.setResult(new ArrayList<>());
+                                    logD(TAG + ": get saved clipboard list size is 0.");
+                                    return;
                                 }
-                                /*else if (jsonToBean.hashCode() != lastArray.hashCode()) {
-                                 *//*很极端的情况，应该不会发生*//*
+                                if (!isEmptyFile(lastFilePath)) {
+                                    lastArray = jsonToLIst(lastFilePath, classLoader);
+                                }
+                                /*文件不为空说明有数据*/
+                                if (!isEmptyFile(filePath)) {
+                                    /*数据库数据*/
+                                    mArray = jsonToLIst(filePath, classLoader);
+                                    // logE(TAG, "mArray: " + listToJson(mArray));
+                                    if (!lastArray.isEmpty()) {
+                                        /*虽说不太可能为空但还是检查一下*/
+                                        if (mArray.isEmpty()) {
+                                            logE(TAG, "mArray is empty it's bad");
+                                            param.setResult(new ArrayList<>());
+                                            return;
+                                        }
+                                        Object oneLast = getContent(lastArray, 0);
+                                        /*防止在只复制一个元素时重复开关界面引发的未知问题*/
+                                        if (jsonToBean.size() < 2) {
+                                            if (!getContent(jsonToBean, 0).equals(getContent(mArray, 0))) {
+                                                mArray = addOrHw(mArray, getContent(jsonToBean, 0), jsonToBean);
+                                            }
+                                            param.setResult(mArray);
+                                            return;
+                                        }
+                                        /*读取第一第二个数据判断操作*/
+                                        Object oneArray = getContent(jsonToBean, 0);
+                                        Object twoArray = getContent(jsonToBean, 1);
+                                        if (!oneArray.equals(oneLast) && twoArray.equals(oneLast)) {
+                                            /*第一个不同第二个相同说明可能换位或新增*/
+                                            mArray = addOrHw(mArray, oneArray, jsonToBean);
+                                        } else if (!oneArray.equals(oneLast) && !twoArray.equals(oneLast)) {
+                                            /*两个不同为新增*/
+                                            int have = -1;
+                                            for (int i = 0; i < jsonToBean.size(); i++) {
+                                                have++;
+                                                if (getContent(jsonToBean, i).equals(oneLast)) {
+                                                    break;
+                                                }
+                                            }
+                                            for (int i = 0; i < have; i++) {
+                                                mArray.add(i, jsonToBean.get(i));
+                                            }
+                                        }
+                                        /*else if (jsonToBean.hashCode() != lastArray.hashCode()) {
+                                         *//*很极端的情况，应该不会发生*//*
                                     mArray.addAll(0, jsonToBean);
                                 }*/
-                                // logE(TAG, "last: " + listToJson(lastArray));
+                                        // logE(TAG, "last: " + listToJson(lastArray));
+                                    }
+                                    /*置旧*/
+                                    lastArray = jsonToBean;
+                                    writeFile(lastFilePath, listToJson(lastArray));
+                                    writeFile(filePath, listToJson(mArray));
+                                    // logE(TAG, "after: " + listToJson(lastArray) + " mArray: " + listToJson(mArray));
+                                    param.setResult(mArray);
+                                } else {
+                                    /*置旧*/
+                                    lastArray = jsonToBean;
+                                    writeFile(lastFilePath, listToJson(lastArray));
+                                    writeFile(filePath, listToJson(jsonToBean));
+                                    // logE(TAG, "before: " + listToJson(lastArray) + " mArray: " + listToJson(mArray));
+                                    param.setResult(jsonToBean);
+                                }
+                            } catch (Throwable throwable) {
+                                logE(TAG, "getContent is null: " + throwable);
+                                param.setResult(mArray);
                             }
-                            /*置旧*/
-                            lastArray = jsonToBean;
-                            writeFile(lastFilePath, listToJson(lastArray));
-                            writeFile(filePath, listToJson(mArray));
-                            // logE(TAG, "after: " + listToJson(lastArray) + " mArray: " + listToJson(mArray));
-                            param.setResult(mArray);
-                        } else {
-                            /*置旧*/
-                            lastArray = jsonToBean;
-                            writeFile(lastFilePath, listToJson(lastArray));
-                            writeFile(filePath, listToJson(jsonToBean));
-                            // logE(TAG, "before: " + listToJson(lastArray) + " mArray: " + listToJson(mArray));
-                            param.setResult(jsonToBean);
                         }
-                    } catch (Throwable throwable) {
-                        logE(TAG, "getContent is null: " + throwable);
-                        param.setResult(mArray);
                     }
-                }
-            }
-        );
+            );
+        } catch (Exception ignore) {}
     }
 
     private String mText = null;
     private int mMax = -1;
 
     public void getView(ClassLoader classLoader) {
-        findAndHookMethod("com.miui.inputmethod.InputMethodClipboardAdapter",
-            classLoader,
-            "getView", int.class, View.class, ViewGroup.class,
-            new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) {
-                    mClipboardList = (ArrayList<?>)
-                        XposedHelpers.getObjectField(param.thisObject, "mClipboardList");
+
+        /*findAndHookMethod("com.miui.inputmethod.InputMethodClipboardAdapter",
+                classLoader,
+                "getView", int.class, View.class, ViewGroup.class,
+                new MethodHook() {
+                    @Override
+                    protected void after(MethodHookParam param) {
+                        mClipboardList = (ArrayList<?>)
+                                XposedHelpers.getObjectField(param.thisObject, "mClipboardList");
+                    }
                 }
-            }
         );
 
-        /*hookAllMethods("com.miui.inputmethod.MiuiClipboardManager", classLoader,
-                "addClipDataToPhrase", new MethodHook() {
+
+        findAndHookMethod("com.miui.inputmethod.MiuiClipboardManager", classLoader, "addClipDataToPhrase", Context.class, boolean.class, "com.miui.inputmethod.ClipboardContentModel", new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
+                        Context context = (Context) param.args[0];
+                        Bundle call = context.getContentResolver().call(Uri.parse("content://com.miui.phrase.input.provider"), "getClipboardList", null, new Bundle());
+                        String listClipboard = (call == null ? "" : call.getString("savedClipboard"));
+                        logD(TAG, listClipboard);
+                        ArrayList mArray = new ArrayList<>();
+                        mArray = jsonToLIst(filePath, classLoader);
                         Object clipboardContentModel = param.args[2];
                         String content = (String) getObjectField(clipboardContentModel, "content");
                         int type = (int) getObjectField(clipboardContentModel, "type");
@@ -243,76 +268,86 @@ public class ClipboardList extends BaseHook {
                 }
         );*/
 
-        hookAllMethods(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
-            "setClipboardModelList", new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) {
-                    ArrayList<?> arrayList = (ArrayList<?>) param.args[1];
-                    if (arrayList.isEmpty()) {
-                        lastArray = new ArrayList<>();
-                        resetFile(lastFilePath);
-                    } else {
-                        lastArray = arrayList;
-                        writeFile(lastFilePath, listToJson(arrayList));
-                    }
-                    writeFile(filePath, listToJson(arrayList));
-                }
-            }
-        );
-
-        hookAllMethods(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
-                "commitClipDataAndTrack", new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        int type = (int) param.args[3];
-                        if (type == 3 || type == 2) {
-                            param.args[3] = 10;
+        try {
+            hookAllMethods(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
+                    "setClipboardModelList", new MethodHook() {
+                        @Override
+                        protected void after(MethodHookParam param) {
+                            ArrayList<?> arrayList = (ArrayList<?>) param.args[1];
+                            if (arrayList.isEmpty()) {
+                                lastArray = new ArrayList<>();
+                                resetFile(lastFilePath);
+                            } else {
+                                lastArray = arrayList;
+                                writeFile(lastFilePath, listToJson(arrayList));
+                            }
+                            writeFile(filePath, listToJson(arrayList));
                         }
                     }
-                }
-        );
+            );
+        } catch (Exception ignore) {}
 
-        findAndHookMethod(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
-                "processSingleItemOfClipData", ClipData.class, String.class, new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        ClipData clipData = (ClipData) param.args[0];
-                        ClipData.Item item = clipData.getItemAt(0);
-                        if (item.getText() != null && !TextUtils.isEmpty(item.getText().toString())) {
-                            mText = item.getText().toString();
+        try {
+            hookAllMethods(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
+                    "commitClipDataAndTrack", new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            int type = (int) param.args[3];
+                            if (type == 3 || type == 2) {
+                                param.args[3] = 10;
+                            }
                         }
                     }
-                });
+            );
+        } catch (Exception ignore) {}
 
-        findAndHookMethod(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
-                "buildClipDataItemModelBasedTextData", String.class, new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        if (mMax == -1)
-                            mMax = (int) getStaticField("com.miui.inputmethod.MiuiClipboardManager", classLoader,
-                                    "MAX_CLIP_CONTENT_SIZE");
-                        if (mMax == -1) mMax = 5000;
-                        String string = (String) param.args[0];
-                        if (string.length() >= mMax) {
-                            if (mText != null) param.args[0] = mText;
+        try {
+            findAndHookMethod(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
+                    "processSingleItemOfClipData", ClipData.class, String.class, new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) throws Throwable {
+                            ClipData clipData = (ClipData) param.args[0];
+                            ClipData.Item item = clipData.getItemAt(0);
+                            if (item.getText() != null && !TextUtils.isEmpty(item.getText().toString())) {
+                                mText = item.getText().toString();
+                            }
                         }
-                        mText = null;
-                    }
-                });
+                    });
+        } catch (Exception ignore) {}
+
+        try {
+            findAndHookMethod(!isNew ? "com.miui.inputmethod.MiuiClipboardManager" : "com.miui.inputmethod.InputMethodUtil", classLoader,
+                    "buildClipDataItemModelBasedTextData", String.class, new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) throws Throwable {
+                            if (mMax == -1)
+                                mMax = (int) getStaticField("com.miui.inputmethod.MiuiClipboardManager", classLoader,
+                                        "MAX_CLIP_CONTENT_SIZE");
+                            if (mMax == -1) mMax = 5000;
+                            String string = (String) param.args[0];
+                            if (string.length() >= mMax) {
+                                if (mText != null) param.args[0] = mText;
+                            }
+                            mText = null;
+                        }
+                    });
+        } catch (Exception ignore) {}
 
     }
 
     public void clearArray(ClassLoader classLoader) {
-        findAndHookMethod("com.miui.inputmethod.InputMethodClipboardPhrasePopupView$3", classLoader,
-            "onConfirm",
-            new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    /*点击清除全部按键，清理所有数据*/
-                    lastArray = new ArrayList<>();
-                }
-            }
-        );
+        try {
+            findAndHookMethod("com.miui.inputmethod.InputMethodClipboardPhrasePopupView$3", classLoader,
+                    "onConfirm",
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            /*点击清除全部按键，清理所有数据*/
+                            lastArray = new ArrayList<>();
+                        }
+                    }
+            );
+        } catch (Exception ignore) {}
     }
 
     /*添加或换位*/
