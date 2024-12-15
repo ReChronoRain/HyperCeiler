@@ -53,12 +53,12 @@ public class ApplicationHook extends BaseHC {
         hookMethod(Application.class, "attach", Context.class, new IHook() {
             @Override
             public void before() {
-                callBackBefore(this, getArgs(0));
+                callBackBefore(this, (Context) getArgs(0));
             }
 
             @Override
             public void after() {
-                callBackAfter(this, getArgs(0));
+                callBackAfter(this, (Context) getArgs(0));
             }
         });
     }

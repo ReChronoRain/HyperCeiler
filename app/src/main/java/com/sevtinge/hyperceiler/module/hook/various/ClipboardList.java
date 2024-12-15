@@ -20,8 +20,6 @@ package com.sevtinge.hyperceiler.module.hook.various;
 
 import static com.hchen.hooktool.tool.CoreTool.getStaticField;
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
-import static de.robv.android.xposed.XposedHelpers.setStaticIntField;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
@@ -49,7 +47,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -292,7 +289,7 @@ public class ClipboardList extends BaseHook {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
                         if (mMax == -1)
-                            mMax = getStaticField("com.miui.inputmethod.MiuiClipboardManager", classLoader,
+                            mMax = (int) getStaticField("com.miui.inputmethod.MiuiClipboardManager", classLoader,
                                     "MAX_CLIP_CONTENT_SIZE");
                         if (mMax == -1) mMax = 5000;
                         String string = (String) param.args[0];
