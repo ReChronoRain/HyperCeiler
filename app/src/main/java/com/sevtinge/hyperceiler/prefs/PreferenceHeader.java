@@ -103,10 +103,9 @@ public class PreferenceHeader extends XmlPreference {
         UserHandle currentUserHandle = android.os.Process.myUserHandle();
         int userId = currentUserHandle.hashCode();
 
-        safeExecCommandWithRoot("cp -r /data/adb/lspd/config /data/data/com.sevtinge.hyperceiler/cache/\n");
-        safeExecCommandWithRoot("chmod -R 777 /data/data/com.sevtinge.hyperceiler/cache/config\n");
+        safeExecCommandWithRoot("mkdir -p /data/local/tmp/HyperCeiler/cache/ && cp -r /data/adb/lspd/config /data/local/tmp/HyperCeiler/cache/ && chmod -R 777 /data/local/tmp/HyperCeiler/cache/config");
 
-        DatabaseHelper dbHelper = new DatabaseHelper(this.getContext(), "/data/data/com.sevtinge.hyperceiler/cache/config/modules_config.db");
+        DatabaseHelper dbHelper = new DatabaseHelper(this.getContext(), "/data/local/tmp/HyperCeiler/cache/config/modules_config.db");
 
         String tableName = "modules";
         String[] columns = {"mid"};
