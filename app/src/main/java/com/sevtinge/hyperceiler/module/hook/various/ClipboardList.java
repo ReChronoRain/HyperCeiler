@@ -75,7 +75,6 @@ public class ClipboardList extends BaseHook {
                     lastFilePath = "/data/user/0/" + lpparam.packageName + "/files/last_clipboard_data_list.dat";
                     // logE(TAG, "run: " + param.args[0]);
                     getNoExpiredData((ClassLoader) param.args[0]);
-                    logD(TAG, "0002");
                     getView((ClassLoader) param.args[0]);
                     clearArray((ClassLoader) param.args[0]);
                 }
