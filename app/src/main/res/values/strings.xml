@@ -693,7 +693,7 @@
     <string name="system_ui_lock_screen_double_lock">Double-tap the Lock screen</string>
     <string name="system_ui_lock_screen_double_lock_desc">Double-tap an empty location to lock the screen</string>
     <string name="system_ui_lock_screen_unlock_notification_restrict">Unlock notification restrict</string>
-    <string name="system_ui_lock_screen_unlock_notification_restrict_desc">Enable all notifications to be displayed on the lock screen</string>
+    <string name="system_ui_lock_screen_unlock_notification_restrict_desc">Allows all notifications to be displayed on the Lock screen</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">Hide DND mode notification</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Hide unlock request</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remove status bar from Lock screen</string>
@@ -1051,8 +1051,8 @@
     <string name="system_ui_qs_label">Quick switch tab</string>
     <string name="system_ui_notification_title">Notification</string>
     <string name="system_ui_other_notification_fix">Disable notification whitelist</string>
-    <string name="system_ui_other_default_plugin_theme">Remove advanced material blur restrictions</string>
-    <string name="system_ui_other_default_plugin_theme_desc">Unlock the advanced material blur that is disabled by default for third-party themes in SystemUI Plugin</string>
+    <string name="system_ui_other_default_plugin_theme">Remove blur restrictions from Advanced textures</string>
+    <string name="system_ui_other_default_plugin_theme_desc">Unlock the blur of Advanced textures, which is disabled by default for third-party themes in the System UI Plug-in.</string>
     <string name="system_ui_plugin_enable_volume_blur">Enable volume bar blur</string>
     <string name="system_ui_move_log_to_miui">Move statusbar_gestures.dat to MIUI dir</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Only for Android12+ MTK models. There may be high GPU load.</string>
