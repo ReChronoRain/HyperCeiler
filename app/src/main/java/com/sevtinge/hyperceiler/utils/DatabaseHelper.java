@@ -24,6 +24,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context, String databaseName) {
@@ -56,7 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public static int getUserVersion(Context context, String databaseName) {
-        int userVersion = 0;
+        int userVersion = 1;
         SQLiteDatabase db = null;
         Cursor cursor = null;
 
@@ -67,7 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 userVersion = cursor.getInt(0);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            XposedLogUtils.logD("DatabaseHelper", e.toString());
         } finally {
             if (cursor != null) {
                 cursor.close();
