@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.prefs;
 
 import static com.sevtinge.hyperceiler.BuildConfig.APPLICATION_ID;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getCurrentUserId;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getWhoAmI;
 import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
 
@@ -100,8 +101,7 @@ public class PreferenceHeader extends XmlPreference {
 
     @SuppressLint("Range")
     private void getScope() {
-        UserHandle currentUserHandle = android.os.Process.myUserHandle();
-        int userId = currentUserHandle.hashCode();
+        int userId = getCurrentUserId();
 
         safeExecCommandWithRoot("mkdir -p /data/local/tmp/HyperCeiler/cache/ && cp -r /data/adb/lspd/config /data/local/tmp/HyperCeiler/cache/ && chmod -R 777 /data/local/tmp/HyperCeiler/cache/config");
 

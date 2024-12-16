@@ -39,6 +39,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isInte
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBuildDate;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getCurrentUserId;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
@@ -131,6 +132,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             // propertiesCheck.put("RootPermission", String.valueOf(ShellInit.ready()));
             propertiesCheck.put("WhoAmI", getWhoAmI());
             propertiesCheck.put("LoggerStatus", IS_LOGGER_ALIVE + ", " + LOGGER_CHECKER_ERR_CODE);
+            propertiesCheck.put("CurrentUserId", String.valueOf(getCurrentUserId()));
         } catch (Exception ignored) {
         }
 
