@@ -107,7 +107,7 @@ object NewFlashLight : TileUtils() {
                         if (lastFlash != -1) lastFlash = -1
                         isHook = isFlashLightEnabled(mContext)
                         if (isHook) {
-                            if (ShellUtils.safeExecCommandWithRoot("settings get system flash_light_brightness") == "null") ShellUtils.safeExecCommandWithRoot("settings put system flash_light_brightness 0")
+                            if (ShellUtils.rootExecCmd("settings get system flash_light_brightness") == "null") ShellUtils.rootExecCmd("settings put system flash_light_brightness 0")
                             val b = getFlashBrightness(mContext)
                             if (b != null) {
                                 val mObject = restore(b)
@@ -371,14 +371,14 @@ object NewFlashLight : TileUtils() {
     private fun setPermission(paths: String) {
         try {
             val checkCommand = "test -e $paths && echo exists || echo not_found"
-            val result = ShellUtils.safeExecCommandWithRoot(checkCommand)
+            val result = ShellUtils.rootExecCmd(checkCommand)
             if (result.contains("not_found")) {
                 logE(TAG, lpparam.packageName, "SetPermission: Path $paths does not exist")
                 return
             }
 
             val chmodCommand = "chmod 777 $paths"
-            val chmodResult = ShellUtils.safeExecCommandWithRoot(chmodCommand)
+            val chmodResult = ShellUtils.rootExecCmd(chmodCommand)
 
             if (chmodResult.isEmpty()) {
                 logI(TAG, lpparam.packageName, "SetPermission: Successfully set permissions for $paths")

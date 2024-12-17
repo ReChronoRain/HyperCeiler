@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.ui.fragment.app.systemui;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getWhoAmI;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
+import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -127,7 +127,7 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
         handler = new Handler();
 
         try {
-            mMaxBrightness = Integer.parseInt(safeExecCommandWithRoot("cat /sys/class/backlight/panel0-backlight/max_brightness"));
+            mMaxBrightness = Integer.parseInt(rootExecCmd("cat /sys/class/backlight/panel0-backlight/max_brightness"));
         } catch (Exception ignore) {}
 
         mExpandNotification.setOnPreferenceClickListener(

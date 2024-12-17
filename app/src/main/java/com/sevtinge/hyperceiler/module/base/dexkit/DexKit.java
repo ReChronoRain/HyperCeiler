@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.module.base.dexkit;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
-import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
+import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
 
 import android.content.Context;
 
@@ -240,7 +240,7 @@ public class DexKit {
         executor.submit(() -> {
             for (String folderName : folderNames) {
                 String folderPath = "/data/data/" + folderName + MMKV_PATH;
-                safeExecCommandWithRoot("rm -rf " + folderPath);
+                rootExecCmd("rm -rf " + folderPath);
             }
         });
     }

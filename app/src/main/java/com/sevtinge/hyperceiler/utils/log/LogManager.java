@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.utils.log;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSerial;
 import static com.sevtinge.hyperceiler.utils.prefs.PrefsUtils.mPrefsMap;
-import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
+import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
 
 import android.util.Log;
 
@@ -61,7 +61,7 @@ public class LogManager {
 
     public static boolean isLoggerAlive() {
         try {
-            String modulesOutput = safeExecCommandWithRoot("ls /data/adb/modules/");
+            String modulesOutput = rootExecCmd("ls /data/adb/modules/");
             String[] moduleLines = modulesOutput.split("\n");
             boolean lsposedFound = false;
             for (String line : moduleLines) {
@@ -71,7 +71,7 @@ public class LogManager {
                 }
             }
             if (lsposedFound) {
-                String output = safeExecCommandWithRoot("ls /data/adb/lspd/log/");
+                String output = rootExecCmd("ls /data/adb/lspd/log/");
                 String[] lines = output.split("\n");
                 List<String> logFiles = new ArrayList<>();
                 for (String line : lines) {
@@ -83,9 +83,9 @@ public class LogManager {
                 if (logFiles.size() == 1) {
                     String fileName = logFiles.get(0);
                     String filePath = "/data/adb/lspd/log/" + fileName;
-                    String grepOutput = safeExecCommandWithRoot("grep -q 'HyperCeiler' " + filePath + " && echo 'FOUND' || echo 'EMPTY'");
+                    String grepOutput = rootExecCmd("grep -q 'HyperCeiler' " + filePath + " && echo 'FOUND' || echo 'EMPTY'");
                     if (grepOutput.trim().equals("EMPTY")) {
-                        grepOutput = safeExecCommandWithRoot("grep -q 'hyperceiler' " + filePath + " && echo 'FOUND' || echo 'EMPTY'");
+                        grepOutput = rootExecCmd("grep -q 'hyperceiler' " + filePath + " && echo 'FOUND' || echo 'EMPTY'");
                         if (grepOutput.trim().equals("EMPTY")) {
                             LOGGER_CHECKER_ERR_CODE = "EMPTY_XPOSED_LOG_FILE";
                             return false;
@@ -141,8 +141,8 @@ public class LogManager {
 
     public static String fixLsposedLogService() {
         try {
-            safeExecCommandWithRoot("resetprop -n persist.log.tag.LSPosed V");
-            safeExecCommandWithRoot("resetprop -n persist.log.tag.LSPosed-Bridge V");
+            rootExecCmd("resetprop -n persist.log.tag.LSPosed V");
+            rootExecCmd("resetprop -n persist.log.tag.LSPosed-Bridge V");
             return "SUCCESS";
         } catch (Exception e) {
             return e.toString();

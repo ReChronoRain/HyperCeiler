@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
+import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -65,16 +65,16 @@ public class SnowLeopardModeTile extends TileUtils {
 
     @Override
     public void tileCheck(MethodHookParam param, String tileName) {
-        param.setResult(!Objects.equals(safeExecCommandWithRoot("ls /dev/snd/pcm*"), ""));
+        param.setResult(!Objects.equals(rootExecCmd("ls /dev/snd/pcm*"), ""));
     }
 
     @Override
     public void tileClick(MethodHookParam param, String tileName) {
         if (isInSnowLeopardMode) {
-            safeExecCommandWithRoot("kill $(pidof android.hardware.audio.service_64) && chmod 660 /dev/snd/pcm*");
+            rootExecCmd("kill $(pidof android.hardware.audio.service_64) && chmod 660 /dev/snd/pcm*");
             isInSnowLeopardMode = false;
         } else {
-            safeExecCommandWithRoot("kill $(pidof android.hardware.audio.service_64) && chmod 000 /dev/snd/pcm*");
+            rootExecCmd("kill $(pidof android.hardware.audio.service_64) && chmod 000 /dev/snd/pcm*");
             isInSnowLeopardMode = true;
         }
         XposedHelpers.callMethod(param.thisObject, "refreshState");

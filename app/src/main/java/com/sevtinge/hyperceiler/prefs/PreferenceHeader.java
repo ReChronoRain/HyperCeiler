@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.prefs;
 import static com.sevtinge.hyperceiler.BuildConfig.APPLICATION_ID;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getCurrentUserId;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getWhoAmI;
-import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
+import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -107,7 +107,7 @@ public class PreferenceHeader extends XmlPreference {
         DatabaseHelper dbHelper = null;
 
         try {
-            safeExecCommandWithRoot("mkdir -p /data/local/tmp/HyperCeiler/cache/ && cp -r /data/adb/lspd/config /data/local/tmp/HyperCeiler/cache/ && chmod -R 777 /data/local/tmp/HyperCeiler/cache/config");
+            rootExecCmd("mkdir -p /data/local/tmp/HyperCeiler/cache/ && cp -r /data/adb/lspd/config /data/local/tmp/HyperCeiler/cache/ && chmod -R 777 /data/local/tmp/HyperCeiler/cache/config");
             dbHelper = new DatabaseHelper(this.getContext(), "/data/local/tmp/HyperCeiler/cache/config/modules_config.db");
         } catch (Exception ignore) {
             isScopeGetFailed = true;

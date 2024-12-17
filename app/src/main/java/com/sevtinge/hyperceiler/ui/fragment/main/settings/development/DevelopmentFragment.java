@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.main.settings.development;
 
 import static com.sevtinge.hyperceiler.utils.log.LogManager.fixLsposedLogService;
-import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
+import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +68,7 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
                     showInDialog(new DevelopmentKillFragment.EditDialogCallback() {
                         @Override
                         public void onInputReceived(String command) {
-                            showOutDialog(safeExecCommandWithRoot(command));
+                            showOutDialog(rootExecCmd(command));
                         }
                     });
             case "prefs_key_development_delete_all_dexkit_cache" ->

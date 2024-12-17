@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.safeExecCommandWithRoot;
+import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -163,11 +163,11 @@ public class SunlightModeHigh extends TileUtils {
         try {
             if (shell) {
                 /*if (!isCustomSunshineMode) {
-                    currentScreenBrightness = Integer.parseInt(safeExecCommandWithRoot("cat /sys/class/backlight/panel0-backlight/brightness"));
-                    safeExecCommandWithRoot("echo " + setScreenBrightness + " > /sys/class/backlight/panel0-backlight/brightness");
+                    currentScreenBrightness = Integer.parseInt(rootExecCmd("cat /sys/class/backlight/panel0-backlight/brightness"));
+                    rootExecCmd("echo " + setScreenBrightness + " > /sys/class/backlight/panel0-backlight/brightness");
                     isCustomSunshineMode = true;
                 } else {
-                    safeExecCommandWithRoot("echo " + currentScreenBrightness + " > /sys/class/backlight/panel0-backlight/brightness");
+                    rootExecCmd("echo " + currentScreenBrightness + " > /sys/class/backlight/panel0-backlight/brightness");
                     isCustomSunshineMode = false;
                 }*/
                 if (lastSunlight == 0 || Integer.parseInt(readAndWrit(null, false)) != pathSunlight) {
@@ -419,7 +419,7 @@ public class SunlightModeHigh extends TileUtils {
         if (writ != null) {
             try {
                 if (shell) {
-                    safeExecCommandWithRoot("echo " + writ + " > /sys/class/backlight/panel0-backlight/brightness");
+                    rootExecCmd("echo " + writ + " > /sys/class/backlight/panel0-backlight/brightness");
                 } else {
                     try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, false))) {
                         writer.write(writ);
@@ -431,7 +431,7 @@ public class SunlightModeHigh extends TileUtils {
         }
         try {
             if (shell) {
-                builder.append(safeExecCommandWithRoot("cat /sys/class/backlight/panel0-backlight/brightness"));
+                builder.append(rootExecCmd("cat /sys/class/backlight/panel0-backlight/brightness"));
             } else {
                 try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
                     String line;

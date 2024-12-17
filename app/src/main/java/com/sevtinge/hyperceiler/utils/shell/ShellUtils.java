@@ -258,7 +258,7 @@ public class ShellUtils {
         }
     }
 
-    public static String safeExecCommandWithRoot(String cmd) {
+    public static String rootExecCmd(String cmd) {
         if (!isSafeCommand(cmd)) return "Cannot exec this command: Dangerous operation";
         StringBuilder result = new StringBuilder();
         ProcessBuilder pb = new ProcessBuilder("su");

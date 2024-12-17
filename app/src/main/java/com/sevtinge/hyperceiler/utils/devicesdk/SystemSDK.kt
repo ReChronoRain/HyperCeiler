@@ -31,7 +31,7 @@ fun getHost(): String = Build.HOST
 fun getBuilder(): String = getProp("ro.build.user")
 fun getBaseOs(): String = if (getProp("ro.build.version.base_os") != "") getProp("ro.build.version.base_os") else "null"
 fun getRomAuthor(): String = getProp("ro.rom.author") + getProp("ro.romid")
-fun getWhoAmI(): String = safeExecCommandWithRoot("whoami")
+fun getWhoAmI(): String = rootExecCmd("whoami")
 fun getCurrentUserId(): Int = Process.myUserHandle().hashCode()
 
 /**

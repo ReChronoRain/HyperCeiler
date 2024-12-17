@@ -41,8 +41,8 @@ fun getBrand(): String = android.os.Build.BRAND
 fun getManufacturer(): String = android.os.Build.MANUFACTURER
 fun getModDevice(): String = getProp("ro.product.mod_device")
 fun getCharacteristics(): String = getProp("ro.build.characteristics")
-fun getSerial(): String = safeExecCommandWithRoot("getprop ro.serialno").replace("\n", "")
-fun getCpuId(): String = removeLeadingZeros(safeExecCommandWithRoot("getprop ro.boot.cpuid"))
+fun getSerial(): String = rootExecCmd("getprop ro.serialno").replace("\n", "")
+fun getCpuId(): String = removeLeadingZeros(rootExecCmd("getprop ro.boot.cpuid"))
 
 fun getDensityDpi(): Int =
     (EzXHelper.appContext.resources.displayMetrics.widthPixels / EzXHelper.appContext.resources.displayMetrics.density).toInt()
