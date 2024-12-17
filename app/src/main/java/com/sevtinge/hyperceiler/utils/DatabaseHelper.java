@@ -28,6 +28,9 @@ import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    /**
+     * 一定要使用try-catch块包围，因为永远不知道会出现什么奇奇怪怪的问题
+     */
     public DatabaseHelper(Context context, String databaseName) {
         super(context, databaseName, null, getUserVersion(context, databaseName));
     }
