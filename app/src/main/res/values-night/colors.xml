@@ -49,4 +49,26 @@
 
     <color name="update_text_border1">#00ffffff</color>
     <color name="update_text_border2">#30ffffff</color>
+
+    <color name="focus_notification_element_blend_headsUp_color_1">#777777</color>
+    <color name="focus_notification_element_blend_headsUp_color_2">#1a7300</color>
+    <color name="focus_notification_element_blend_headsUp_color_3">#00000000</color>
+    <color name="focus_notification_element_blend_keyguard_color_1">#777777</color>
+    <color name="focus_notification_element_blend_keyguard_color_2">#155900</color>
+    <color name="focus_notification_element_blend_keyguard_color_3">#00000000</color>
+    <color name="focus_notification_element_blend_shade_color_1">#737373</color>
+    <color name="focus_notification_element_blend_shade_color_2">#128f00</color>
+    <color name="focus_notification_element_blend_shade_color_3">#00000000</color>
+    <color name="media_notification_element_blend_keyguard_color_1">#777777</color>
+    <color name="media_notification_element_blend_keyguard_color_2">#155900</color>
+    <color name="media_notification_element_blend_keyguard_color_3">#00000000</color>
+    <color name="media_notification_element_blend_shade_color_1">#737373</color>
+    <color name="media_notification_element_blend_shade_color_2">#128f00</color>
+    <color name="media_notification_element_blend_shade_color_3">#00000000</color>
+    <color name="notification_element_blend_headsUp_color_1">#777777</color>
+    <color name="notification_element_blend_headsUp_color_2">#1a7300</color>
+    <color name="notification_element_blend_keyguard_color_1">#777777</color>
+    <color name="notification_element_blend_keyguard_color_2">#155900</color>
+    <color name="notification_element_blend_shade_color_1">#737373</color>
+    <color name="notification_element_blend_shade_color_2">#128f00</color>
 </resources>

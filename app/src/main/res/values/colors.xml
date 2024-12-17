@@ -64,4 +64,26 @@
 
     <color name="update_text_border1">#29ffffff</color>
     <color name="update_text_border2">#ccffffff</color>
+
+    <color name="focus_notification_element_blend_headsUp_color_1">#919191</color>
+    <color name="focus_notification_element_blend_headsUp_color_2">#ccfa00</color>
+    <color name="focus_notification_element_blend_headsUp_color_3">#00ffffff</color>
+    <color name="focus_notification_element_blend_keyguard_color_1">#919191</color>
+    <color name="focus_notification_element_blend_keyguard_color_2">#bdfa00</color>
+    <color name="focus_notification_element_blend_keyguard_color_3">#00ffffff</color>
+    <color name="focus_notification_element_blend_shade_color_1">#818181</color>
+    <color name="focus_notification_element_blend_shade_color_2">#b3ff00</color>
+    <color name="focus_notification_element_blend_shade_color_3">#00ffffff</color>
+    <color name="media_notification_element_blend_keyguard_color_1">#919191</color>
+    <color name="media_notification_element_blend_keyguard_color_2">#bdfa00</color>
+    <color name="media_notification_element_blend_keyguard_color_3">#00ffffff</color>
+    <color name="media_notification_element_blend_shade_color_1">#818181</color>
+    <color name="media_notification_element_blend_shade_color_2">#b3ff00</color>
+    <color name="media_notification_element_blend_shade_color_3">#00ffffff</color>
+    <color name="notification_element_blend_headsUp_color_1">#919191</color>
+    <color name="notification_element_blend_headsUp_color_2">#ccfa00</color>
+    <color name="notification_element_blend_keyguard_color_1">#919191</color>
+    <color name="notification_element_blend_keyguard_color_2">#bdfa00</color>
+    <color name="notification_element_blend_shade_color_1">#818181</color>
+    <color name="notification_element_blend_shade_color_2">#b3ff00</color>
 </resources>
