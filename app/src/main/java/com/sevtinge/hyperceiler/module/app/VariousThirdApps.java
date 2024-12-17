@@ -29,9 +29,14 @@ import com.sevtinge.hyperceiler.module.hook.clipboard.BaiduClipboard;
 import com.sevtinge.hyperceiler.module.hook.clipboard.SoGouClipboard;
 import com.sevtinge.hyperceiler.module.hook.various.ClearClipboard;
 import com.sevtinge.hyperceiler.module.hook.various.ClipboardList;
+import com.sevtinge.hyperceiler.module.hook.various.LoadInputMethodDex;
 import com.sevtinge.hyperceiler.module.hook.various.MusicHooks;
+import com.sevtinge.hyperceiler.module.hook.various.NewClipboardList;
+import com.sevtinge.hyperceiler.module.hook.various.NewUnPhraseLimit;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockIme;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+
+import org.luckypray.dexkit.DexKitBridge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +53,25 @@ public class VariousThirdApps extends BaseModule {
             mAppsUsingInputMethod = getAppsUsingInputMethod(OtherTool.findContext(OtherTool.FlAG_ONLY_ANDROID));
         }
         mPackageName = mLoadPackageParam.packageName;
+        if (mPrefsMap.getBoolean("various_phrase_clipboardlist")) {
+            if (mPackageName.equals("com.miui.phrase")) {
+                System.loadLibrary("dexkit");
+                DexKitBridge dexKitBridge = DexKitBridge.create(mLoadPackageParam.appInfo.sourceDir);
+                new NewUnPhraseLimit(dexKitBridge).onLoadPackage();
+                dexKitBridge.close();
+                return;
+            }
+            if (isInputMethod(mPackageName)) {
+                initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime"));
+                new LoadInputMethodDex(new NewClipboardList()).onLoadPackage();
+            }
+        }
         initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
         initHook(new SoGouClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
                 ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
         initHook(new BaiduClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
                 ("com.baidu.input".equals(mPackageName) || "com.baidu.input_mi".equals(mPackageName)));
-        initHook(new ClipboardList(), mPrefsMap.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
+        //initHook(new ClipboardList(), mPrefsMap.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
         initHook(new ClearClipboard(), mPrefsMap.getBoolean("add_clipboard_clear") && isInputMethod(mPackageName));
 
         // 焦点歌词（音乐软件相关）
