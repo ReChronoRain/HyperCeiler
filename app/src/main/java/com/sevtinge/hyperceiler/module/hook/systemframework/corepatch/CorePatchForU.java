@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemframework.corepatch;
 
+import android.os.Build;
 import android.util.Log;
 
 import java.lang.reflect.InvocationTargetException;
@@ -63,7 +64,7 @@ public class CorePatchForU extends CorePatchForT {
 
         findAndHookMethod("com.android.server.pm.InstallPackageHelper", loadPackageParam.classLoader,
                 "doesSignatureMatchForPermissions", String.class,
-                "com.android.server.pm.parsing.pkg.ParsedPackage", int.class, new XC_MethodHook() {
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM ? "com.android.internal.pm.parsing.pkg.ParsedPackage" : "com.android.server.pm.parsing.pkg.ParsedPackage"), int.class, new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) {
                         if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false)) {

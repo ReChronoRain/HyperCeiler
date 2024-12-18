@@ -20,6 +20,8 @@ package com.sevtinge.hyperceiler.module.hook.systemframework.corepatch;
 
 import static de.robv.android.xposed.XposedBridge.hookMethod;
 
+import android.os.Build;
+
 import java.lang.reflect.InvocationTargetException;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -36,7 +38,7 @@ public class CorePatchForS extends CorePatchForR {
             loadPackageParam.classLoader);
         if (pmService != null) {
             var doesSignatureMatchForPermissions = XposedHelpers.findMethodExactIfExists(pmService, "doesSignatureMatchForPermissions",
-                String.class, "com.android.server.pm.parsing.pkg.ParsedPackage", int.class);
+                String.class, (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM ? "com.android.internal.pm.parsing.pkg.ParsedPackage" : "com.android.server.pm.parsing.pkg.ParsedPackage"), int.class);
             if (doesSignatureMatchForPermissions != null) {
                 hookMethod(doesSignatureMatchForPermissions, new XC_MethodHook() {
                     @Override
