@@ -79,7 +79,7 @@ public class PreferenceHeader extends XmlPreference {
             mDisableOrHiddenApp.add(" - " + getTitle() + " (" + getSummary() + ")");
             setVisible(false);
         }
-        if (!scope.contains(getSummary()) && (getSummary() != null) && isScopeGet) {
+        if (!scope.contains(getSummary()) && (getSummary() != null) && isScopeGet && !isScopeGetFailed) {
             notInSelectedScope.add((String) getSummary());
             String string = " - " + getTitle() + " (" + getSummary() + ")";
             if (!mDisableOrHiddenApp.contains(string) && !mUninstallApp.contains(string) && !mNoScoped.contains(string)) mNoScoped.add(string);
