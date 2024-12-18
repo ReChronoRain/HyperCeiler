@@ -30,14 +30,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteException;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +115,7 @@ public class PreferenceHeader extends XmlPreference {
             db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
 
             if (isDatabaseLocked(db)) {
-                XposedLogUtils.logW("Database locked, skip get scope.");
+                AndroidLogUtils.logW("PreferenceHeader", "Database locked, skip get scope.");
                 isScopeGetFailed = true;
                 return;
             }
@@ -165,7 +164,7 @@ public class PreferenceHeader extends XmlPreference {
 
         } catch (Exception e) {
             isScopeGetFailed = true;
-            XposedLogUtils.logE("Database error: ", e);
+            AndroidLogUtils.logW("PreferenceHeader", "Database error: ", e);
         } finally {
             if (cursor != null) cursor.close();
             if (db != null) db.close();
