@@ -19,6 +19,8 @@
 package com.sevtinge.hyperceiler.prefs;
 
 import static com.sevtinge.hyperceiler.BuildConfig.APPLICATION_ID;
+import static com.sevtinge.hyperceiler.utils.SQLiteDatabaseHelper.isDatabaseLocked;
+import static com.sevtinge.hyperceiler.utils.SQLiteDatabaseHelper.queryList;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getCurrentUserId;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getWhoAmI;
 import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
@@ -27,8 +29,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabaseLockedException;
-import android.database.sqlite.SQLiteException;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -134,27 +134,8 @@ public class PreferenceHeader extends XmlPreference {
                 do {
                     String mid = cursor.getString(cursor.getColumnIndex("mid"));
 
-                    String scopeQuery = "SELECT app_pkg_name FROM scope WHERE mid = ?";
-                    Cursor scopeCursor = db.rawQuery(scopeQuery, new String[]{mid});
-                    if (scopeCursor != null && scopeCursor.moveToFirst()) {
-                        do {
-                            String getScope = scopeCursor.getString(scopeCursor.getColumnIndex("app_pkg_name"));
-                            if ("system".equals(getScope)) getScope = "android";
-                            scopeMid.add(getScope);
-                        } while (scopeCursor.moveToNext());
-                        scopeCursor.close();
-                    }
-
-                    String userScopeQuery = "SELECT app_pkg_name FROM scope WHERE user_id = ?";
-                    Cursor userScopeCursor = db.rawQuery(userScopeQuery, new String[]{String.valueOf(userId)});
-                    if (userScopeCursor != null && userScopeCursor.moveToFirst()) {
-                        do {
-                            String getScope = userScopeCursor.getString(userScopeCursor.getColumnIndex("app_pkg_name"));
-                            if ("system".equals(getScope)) getScope = "android";
-                            scopeUid.add(getScope);
-                        } while (userScopeCursor.moveToNext());
-                        userScopeCursor.close();
-                    }
+                    scopeMid = queryList(db, "app_pkg_name", "scope", "mid = ?", new String[]{mid}, true);
+                    scopeUid = queryList(db, "app_pkg_name", "scope", "user_id = ?", new String[]{String.valueOf(userId)}, true);
 
                     scope = new ArrayList<>(scopeMid);
                     scope.retainAll(scopeUid);
@@ -171,20 +152,6 @@ public class PreferenceHeader extends XmlPreference {
         }
 
         isScopeGet = true;
-    }
-
-    private boolean isDatabaseLocked(SQLiteDatabase db) {
-        try {
-            Cursor cursor = db.rawQuery("SELECT 1", null);
-            if (cursor != null) {
-                cursor.close();
-            }
-            return false;
-        } catch (SQLiteDatabaseLockedException e) {
-            return true;
-        } catch (SQLiteException e) {
-            return false;
-        }
     }
 
 }
