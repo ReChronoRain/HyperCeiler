@@ -54,6 +54,7 @@ public class OtherTool {
     // 获取 Android 系统
     public static final int FlAG_ONLY_ANDROID = ContextUtils.FlAG_ONLY_ANDROID;
 
+    @SuppressLint("StaticFieldLeak")
     public static TextView mPct = null;
 
     // public  Context mModuleContext = null;

@@ -24,12 +24,10 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.hook.systemui.*
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.*
 import com.sevtinge.hyperceiler.module.hook.systemui.other.*
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.*
 import com.sevtinge.hyperceiler.utils.api.PluginFactory
-import com.sevtinge.hyperceiler.utils.log.*
 import java.lang.ref.*
 
 object NewPluginHelperKt : BaseHook() {
@@ -70,43 +68,29 @@ object NewPluginHelperKt : BaseHook() {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 logD(TAG, lpparam.packageName, "Plugin for sysui volume loaded.")
 
-                try {
-                    if (mPrefsMap.getBoolean("miui.systemui.plugin_enable_volume_blur"))
-                        EnableVolumeBlur.initEnableVolumeBlur(classLoader)
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("EnableVolumeBlur", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
-                try {
-                    if (mPrefsMap.getBoolean("system_cc_volume_showpct_title"))
-                        NewShowVolumePct.initLoader(classLoader) // 声音百分比
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("NewShowVolumePct", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
-                try {
-                    if (mPrefsMap.getBoolean("system_ui_unlock_super_volume"))
-                        NewSuperVolume.initSuperVolume(classLoader) // 超大音量
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("NewSuperVolume", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
-                try {
-                    if (mPrefsMap.getBoolean("system_framework_volume_separate_control") &&
-                        mPrefsMap.getBoolean("system_framework_volume_separate_slider")
-                    )
-                        NotificationVolumeSeparateSlider.initHideDeviceControlEntry(classLoader)
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("NotificationVolumeSeparateSlider", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
-                try {
-                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
-                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("DefaultPluginTheme", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
+                val loaders = listOf(
+                    Triple(
+                        "NewShowVolumePct",
+                        mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"),
+                        NewShowVolumePct::initLoader
+                    ),
+                    Triple(
+                        "NewSuperVolume",
+                        mPrefsMap.getBoolean("system_ui_unlock_super_volume"),
+                        NewSuperVolume::initSuperVolume
+                    ),
+                    Triple(
+                        "EnableVolumeBlur",
+                        mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"),
+                        EnableVolumeBlur::initEnableVolumeBlur
+                    ),
+                    Triple(
+                        "DefaultPluginTheme",
+                        mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"),
+                        DefaultPluginTheme::initDefaultPluginTheme
+                    ),
+                )
+                loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
             }
 
             factory.componentNames("miui.systemui.quicksettings.LocalMiuiQSTilePlugin"),
@@ -114,92 +98,76 @@ object NewPluginHelperKt : BaseHook() {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 logD(TAG, lpparam.packageName, "Plugin for sysui qs tiles && control center loaded.")
 
-                try {
-                    if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
-                        mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty()
-                    ) {
-                        CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles)
-                    }
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("CustomCardTiles", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
-                try {
-                    if (mPrefsMap.getBoolean("system_ui_control_center_hide_edit_botton"))
-                        HideEditButton.initHideEditButton(classLoader)
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("HideEditButton", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
-                try {
-                    if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"))
-                        CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("CCGridForHyperOS", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
-                try {
-                    if (mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") ||
-                        mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color")
-                    ) {
-                        QSColor.pluginHook(classLoader)
-                    }
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("QSColor", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
-                try {
-                    if (mPrefsMap.getBoolean("system_showpct_title"))
-                        NewBrightnessPct.initLoaderHook(classLoader) // 亮度百分比
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("NewBrightnessPct", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
-                try {
-                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
-                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("DefaultPluginTheme", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
+                val loaders = listOf(
+                    Triple(
+                        "CustomCardTiles",
+                        mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
+                                mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty()
+                    ) { cl -> CustomCardTiles.initCustomCardTiles(cl, mCardStyleTiles) },
+                    Triple(
+                        "HideEditButton",
+                        mPrefsMap.getBoolean("system_ui_control_center_hide_edit_botton"),
+                        HideEditButton::initHideEditButton
+                    ),
+                    Triple(
+                        "CCGridForHyperOS",
+                        mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"),
+                        CCGridForHyperOS::initCCGridForHyperOS
+                    ),
+                    Triple(
+                        "QSColor",
+                        mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") ||
+                                mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color"),
+                        QSColor::pluginHook
+                    ),
+                    Triple(
+                        "NewBrightnessPct",
+                        mPrefsMap.getBoolean("system_showpct_title"),
+                        NewBrightnessPct::initLoaderHook
+                    ),
+                    Triple(
+                        "DisableDeviceManaged",
+                        mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"),
+                        DisableDeviceManagedNew::initDisableDeviceManaged
+                    ),
+                    Triple(
+                        "DefaultPluginTheme",
+                        mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"),
+                        DefaultPluginTheme::initDefaultPluginTheme
+                    ),
+                )
+                loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
             }
 
             factory.componentNames("miui.systemui.notification.NotificationStatPluginImpl") -> {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 logD(TAG, lpparam.packageName, "Plugin for sysui NotificationStatPluginImpl loaded.")
 
-                try {
-                    if (mPrefsMap.getBoolean("system_ui_statusbar_music_switch"))
-                        FocusNotifLyric.initLoader(classLoader)
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("FocusNotifLyric", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
-                try {
-                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
-                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("DefaultPluginTheme", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
+                val loaders = listOf(
+                    Triple(
+                        "FocusNotifLyric",
+                        mPrefsMap.getBoolean("system_ui_statusbar_music_switch"),
+                        FocusNotifLyric::initLoader
+                    ),
+                    Triple(
+                        "DefaultPluginTheme",
+                        mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"),
+                        DefaultPluginTheme::initDefaultPluginTheme
+                    ),
+                )
+                loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
             }
 
             else -> {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
-                try {
-                    if (mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3)
-                        ShowDeviceName.initShowDeviceName(classLoader)
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("ShowDeviceName", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
-                try {
-                    if (mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"))
-                        DisableDeviceManaged.initDisableDeviceManaged(classLoader)
-                } catch (e: Throwable) {
-                    XposedLogUtils.logE("DisableDeviceManaged", "miui.systemui.plugin", "Hook Failed: $e")
-                }
-
+                val loaders = listOf(
+                    Triple(
+                        "ShowDeviceName",
+                        mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3,
+                        ShowDeviceName::initShowDeviceName
+                    ),
+                )
+                loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
 
                 // logD(TAG, lpparam.packageName, "Plugin is ${factory.mComponentName}")
                 // 仅备份当前可用注入 ClassLoader
@@ -212,6 +180,22 @@ object NewPluginHelperKt : BaseHook() {
                 // miui.systemui.globalactions.GlobalActionsPlugin
                 // miui.systemui.notification.FocusNotificationPluginImpl
                 // miui.systemui.notification.unimportant.UnimportantSdkPluginImpl
+            }
+        }
+    }
+
+    private fun loadClassLoaders(
+        name: String,
+        classLoader: ClassLoader,
+        loaders: List<Triple<String, Boolean, (ClassLoader) -> Unit>>
+    ) {
+        loaders.forEach { (tag, prefKey, loader) ->
+            runCatching {
+                if (prefKey) {
+                    loader(classLoader)
+                }
+            }.onFailure {
+                logE(TAG, lpparam.packageName, "ClassLoader name is $name, Failed to load $tag, log is $it")
             }
         }
     }

@@ -99,7 +99,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
         }
     }
 
-    // https://github.com/YuKongA/MediaControl-BlurBg/commit/1362b32a59de2483d83221e859548d330701fab1
+    // https://github.com/YuKongA/MediaControl-BlurBg
     private fun removeBackground(
         notificationUtil: Class<*>?,
         miuiMediaControlPanel: Class<*>?,
@@ -114,7 +114,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
             var darkModeStatus: Boolean? = null
 
             // 导致拖动 SeekBar 改变歌曲标题/艺术家名字颜色的实际位置不在这里，目前暂时作为代替解决方案。
-            if(isMoreHyperOSVersion(2f)) {
+            if (isMoreHyperOSVersion(2f)) {
                 seekBarObserver?.methodFinder()?.filterByName("onChanged")?.first()
                     ?.createBeforeHook {
                         val context = AndroidAppHelper.currentApplication().applicationContext
@@ -175,8 +175,10 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                 }
             }
 
+            var mediaControlPanelInstance: Any? = null
             miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()
                 ?.createAfterHook {
+                    mediaControlPanelInstance = it.thisObject
                     val context =
                         it.thisObject.objectHelper().getObjectOrNullUntilSuperclassAs<Context>("mContext")
                             ?: return@createAfterHook
@@ -291,7 +293,9 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     val getState = XposedHelpers.callMethod(getLazyClass, "getState")
 
                     (it.thisObject as ImageView).apply {
-                        getNotificationElementBlendColors(context, getState == 1)?.let { iArr -> setMiBackgroundBlendColors(iArr, 1f) }
+                        getNotificationElementBlendColors(context, getState == 1, isDarkMode())?.let { iArr ->
+                            setMiBackgroundBlendColors(iArr, 1f)
+                        }
                     }
 
                     statusBarStateControllerImpl?.methodFinder()?.filterByName("getState")
@@ -302,9 +306,42 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                             if (lockScreenStatus == null || darkModeStatus == null || lockScreenStatus != isInLockScreen || darkModeStatus != isDarkMode) {                                lockScreenStatus = isInLockScreen
                                 darkModeStatus = isDarkMode
                                 (it.thisObject as ImageView).apply {
-                                    getNotificationElementBlendColors(
-                                        context, isInLockScreen
-                                    )?.let { iArr -> setMiBackgroundBlendColors(iArr, 1f) }
+                                    getNotificationElementBlendColors(context, getState == 1, isDarkMode())?.let { iArr ->
+                                        setMiBackgroundBlendColors(iArr, 1f)
+                                    }
+                                }
+
+                                if (mediaControlPanelInstance != null) {
+                                    val isBackgroundBlurOpened = XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
+                                    if (isBackgroundBlurOpened) {
+                                        val mMediaViewHolder = mediaControlPanelInstance!!.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder")
+                                        if (mMediaViewHolder != null) {
+                                            val action0 = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action0")
+                                            val action1 = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action1")
+                                            val action2 = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action2")
+                                            val action3 = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action3")
+                                            val action4 = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action4")
+                                            val titleText = mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("titleText")
+                                            val artistText = mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("artistText")
+                                            val seamlessIcon = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("seamlessIcon")
+                                            val seekBar = mMediaViewHolder.objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
+                                            val elapsedTimeView = mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("elapsedTimeView")
+                                            val totalTimeView = mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("totalTimeView")
+                                            val grey = if (isDarkMode()) Color.LTGRAY else Color.DKGRAY
+                                            val color = if (isDarkMode()) Color.WHITE else Color.BLACK
+                                            artistText?.setTextColor(grey)
+                                            elapsedTimeView?.setTextColor(grey)
+                                            totalTimeView?.setTextColor(grey)
+                                            action0?.setColorFilter(color)
+                                            action1?.setColorFilter(color)
+                                            action2?.setColorFilter(color)
+                                            action3?.setColorFilter(color)
+                                            action4?.setColorFilter(color)
+                                            titleText?.setTextColor(color)
+                                            seamlessIcon?.setColorFilter(color)
+                                            seekBar?.progressDrawable?.colorFilter = colorFilter(grey)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -496,9 +533,15 @@ class MediaControlPanelBackgroundMix : BaseHook() {
     }
 
     @SuppressLint("DiscouragedApi")
-    private fun getNotificationElementBlendColors(context: Context, isInLockScreen: Boolean): IntArray? {
-        val resources = context.resources
+    private fun getNotificationElementBlendColors(context: Context, isInLockScreen: Boolean, darkMode: Boolean): IntArray? {
+        var resources = context.resources
         val theme = context.theme
+        if (darkMode) {
+            val configuration = Configuration(resources.configuration)
+            configuration.uiMode = (configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK.inv()) or Configuration.UI_MODE_NIGHT_YES
+            val context = ContextThemeWrapper(context, theme).createConfigurationContext(configuration)
+            resources = context.resources
+        }
         var arrayInt: IntArray? = null
         try {
             if (isInLockScreen) {
@@ -510,6 +553,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
             }
             return arrayInt
         } catch (_: Exception) {
+            logD(TAG, "Notification element blend colors not found [1/3]!")
         }
 
         try {
@@ -528,6 +572,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
             }
             return arrayInt
         } catch (_: Exception) {
+            logD(TAG, "Notification element blend colors not found [2/3]!")
         }
 
         try {
@@ -536,11 +581,14 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                 arrayInt = resources.getIntArray(arrayId)
             } else {
                 val arrayId = resources.getIdentifier("notification_element_blend_colors", "array", "com.android.systemui")
-                arrayInt = resources.getIntArray(arrayId) }
+                arrayInt = resources.getIntArray(arrayId)
+            }
             return arrayInt
         } catch (_: Exception) {
+            logD(TAG, "Notification element colors not found [3/3]!")
         }
 
+        logE(TAG, "Notification element blend colors not found!")
         return arrayInt
     }
 

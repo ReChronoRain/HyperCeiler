@@ -104,7 +104,7 @@ public class PluginHelper extends BaseHook {
         if (mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3)
             ShowDeviceName.initShowDeviceName(classLoader);
         if (mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"))
-            DisableDeviceManaged.initDisableDeviceManaged(classLoader);
+            DisableDeviceManagedNew.initDisableDeviceManaged(classLoader);
     }
 
     private static List<String> getTileList() {

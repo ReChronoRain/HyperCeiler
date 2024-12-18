@@ -4,6 +4,7 @@ import android.content.*
 import de.robv.android.xposed.*
 import java.lang.ref.*
 
+
 // https://github.com/buffcow/Hyper5GSwitch/blob/master/app/src/main/kotlin/cn/buffcow/hyper5g/hooker/PluginLoader.kt
 internal class PluginFactory(obj: Any) {
     lateinit var pluginCtxRef: WeakReference<Context>

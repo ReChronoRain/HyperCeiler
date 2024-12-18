@@ -59,7 +59,6 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlP
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlPanelTimeViewTextSize;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaSeekBarColor;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NewBrightnessPct;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NewFlashLight;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationColor;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationImportanceHyperOSFix;
@@ -130,14 +129,12 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.strongtoast.HideS
 
 import java.util.Objects;
 
-@HookBase(targetPackage = "com.android.systemui", isPad = false, targetSdk = 35)
+@HookBase(targetPackage = "com.android.systemui", targetSdk = 35)
 public class SystemUiV extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // PluginHelper
         initHook(NewPluginHelperKt.INSTANCE);
-        /*initHook(new NewPluginHelper());
-        initHook(FocusNotifLyricPluginHelper.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch"));*/
         // initHook(Island.INSTANCE, true); // 灵动岛
 
         // 小窗
@@ -286,7 +283,6 @@ public class SystemUiV extends BaseModule {
         initHook(DisableInfinitymodeGesture.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_infinitymode_gesture"));
         initHook(DisableBottomBar.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_bottombar"));
         initHook(UnlockClipboard.INSTANCE, mPrefsMap.getBoolean("system_ui_unlock_clipboard"));
-        initHook(NewBrightnessPct.INSTANCE, mPrefsMap.getBoolean("system_showpct_title"));
 
         // 锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));

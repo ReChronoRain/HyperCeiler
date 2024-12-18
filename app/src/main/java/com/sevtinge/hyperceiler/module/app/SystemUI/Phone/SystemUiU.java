@@ -62,7 +62,6 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlP
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlPanelTimeViewTextSize;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaSeekBarColor;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NewBrightnessPct;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationImportanceHyperOSFix;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationRowMenu;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeather;
@@ -143,17 +142,14 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.strongtoast.HideS
 
 import java.util.Objects;
 
-@HookBase(targetPackage = "com.android.systemui", isPad = false, targetSdk = 34)
+@HookBase(targetPackage = "com.android.systemui", targetSdk = 34)
 public class SystemUiU extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // PluginHelper
         initHook(NewPluginHelperKt.INSTANCE);
-        /*initHook(new NewPluginHelper());
-        initHook(FocusNotifLyricPluginHelper.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch"));*/
         // initHook(Island.INSTANCE, true); // 灵动岛
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
-        // initHook(DisableChargeAnimation.INSTANCE);
 
         // 小窗
         initHook(new NotificationFreeform(), mPrefsMap.getBoolean("system_ui_notification_freeform"));
@@ -348,7 +344,6 @@ public class SystemUiU extends BaseModule {
         initHook(DisableBottomBar.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_bottombar"));
         initHook(UnlockClipboard.INSTANCE, mPrefsMap.getBoolean("system_ui_unlock_clipboard"));
         initHook(new VolumeTimerValuesHook(), mPrefsMap.getBoolean("system_ui_volume_timer"));
-        initHook(NewBrightnessPct.INSTANCE, mPrefsMap.getBoolean("system_showpct_title"));
 
         // 锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));

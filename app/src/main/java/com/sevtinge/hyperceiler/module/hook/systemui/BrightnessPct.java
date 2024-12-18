@@ -57,20 +57,20 @@ public class BrightnessPct extends BaseHook {
                     }
                 }
             );
-        }
 
-        hookAllMethods("com.android.systemui.controlcenter.policy.MiuiBrightnessController", "onStart", new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) {
-                Object windowView = getObject(param);
-                if (windowView == null) {
-                    logE(TAG, lpparam.packageName, "mControlPanelContentView is null");
-                    return;
+            hookAllMethods("com.android.systemui.controlcenter.policy.MiuiBrightnessController", "onStart", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    Object windowView = getObject(param);
+                    if (windowView == null) {
+                        logE(TAG, lpparam.packageName, "mControlPanelContentView is null");
+                        return;
+                    }
+                    initPct((ViewGroup) windowView, 2);
+                    mPct.setVisibility(View.VISIBLE);
                 }
-                initPct((ViewGroup) windowView, 2);
-                mPct.setVisibility(View.VISIBLE);
-            }
-        });
+            });
+        }
 
         hookAllMethods("com.android.systemui.controlcenter.policy.MiuiBrightnessController", "onStop", new MethodHook() {
             @Override
