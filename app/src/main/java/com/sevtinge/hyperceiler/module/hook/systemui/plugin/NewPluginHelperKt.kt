@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.*
 import com.sevtinge.hyperceiler.module.hook.systemui.other.*
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.*
 import com.sevtinge.hyperceiler.utils.api.PluginFactory
+import com.sevtinge.hyperceiler.utils.log.*
 import java.lang.ref.*
 
 object NewPluginHelperKt : BaseHook() {
@@ -69,18 +70,43 @@ object NewPluginHelperKt : BaseHook() {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 logD(TAG, lpparam.packageName, "Plugin for sysui volume loaded.")
 
-                if (mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"))
-                    EnableVolumeBlur.initEnableVolumeBlur(classLoader)
-                if (mPrefsMap.getBoolean("system_cc_volume_showpct_title"))
-                    NewShowVolumePct.initLoader(classLoader) // 声音百分比
-                if (mPrefsMap.getBoolean("system_ui_unlock_super_volume"))
-                    NewSuperVolume.initSuperVolume(classLoader) // 超大音量
-                if (mPrefsMap.getBoolean("system_framework_volume_separate_control") &&
-                    mPrefsMap.getBoolean("system_framework_volume_separate_slider")
-                )
-                    NotificationVolumeSeparateSlider.initHideDeviceControlEntry(classLoader)
-                if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
-                    DefaultPluginTheme.initDefaultPluginTheme(classLoader)
+                try {
+                    if (mPrefsMap.getBoolean("miui.systemui.plugin_enable_volume_blur"))
+                        EnableVolumeBlur.initEnableVolumeBlur(classLoader)
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("EnableVolumeBlur", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
+                try {
+                    if (mPrefsMap.getBoolean("system_cc_volume_showpct_title"))
+                        NewShowVolumePct.initLoader(classLoader) // 声音百分比
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("NewShowVolumePct", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
+                try {
+                    if (mPrefsMap.getBoolean("system_ui_unlock_super_volume"))
+                        NewSuperVolume.initSuperVolume(classLoader) // 超大音量
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("NewSuperVolume", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
+                try {
+                    if (mPrefsMap.getBoolean("system_framework_volume_separate_control") &&
+                        mPrefsMap.getBoolean("system_framework_volume_separate_slider")
+                    )
+                        NotificationVolumeSeparateSlider.initHideDeviceControlEntry(classLoader)
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("NotificationVolumeSeparateSlider", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
+                try {
+                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
+                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("DefaultPluginTheme", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
             }
 
             factory.componentNames("miui.systemui.quicksettings.LocalMiuiQSTilePlugin"),
@@ -88,43 +114,92 @@ object NewPluginHelperKt : BaseHook() {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 logD(TAG, lpparam.packageName, "Plugin for sysui qs tiles && control center loaded.")
 
-                if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
-                    mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty()
-                ) {
-                    CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles)
+                try {
+                    if (mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
+                        mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty()
+                    ) {
+                        CustomCardTiles.initCustomCardTiles(classLoader, mCardStyleTiles)
+                    }
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("CustomCardTiles", "miui.systemui.plugin", "Hook Failed: $e")
                 }
-                if (mPrefsMap.getBoolean("system_ui_control_center_hide_edit_botton"))
-                    HideEditButton.initHideEditButton(classLoader)
-                if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"))
-                    CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角
-                if (mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") ||
-                    mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color")
-                ) {
-                    QSColor.pluginHook(classLoader)
-                }
-                if (mPrefsMap.getBoolean("system_showpct_title"))
-                    NewBrightnessPct.initLoaderHook(classLoader) // 亮度百分比
 
-                if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
-                    DefaultPluginTheme.initDefaultPluginTheme(classLoader)
+                try {
+                    if (mPrefsMap.getBoolean("system_ui_control_center_hide_edit_botton"))
+                        HideEditButton.initHideEditButton(classLoader)
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("HideEditButton", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
+                try {
+                    if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"))
+                        CCGridForHyperOS.initCCGridForHyperOS(classLoader) // 控制中心磁贴圆角
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("CCGridForHyperOS", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
+                try {
+                    if (mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") ||
+                        mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color")
+                    ) {
+                        QSColor.pluginHook(classLoader)
+                    }
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("QSColor", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
+                try {
+                    if (mPrefsMap.getBoolean("system_showpct_title"))
+                        NewBrightnessPct.initLoaderHook(classLoader) // 亮度百分比
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("NewBrightnessPct", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
+                try {
+                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
+                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("DefaultPluginTheme", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
             }
 
             factory.componentNames("miui.systemui.notification.NotificationStatPluginImpl") -> {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 logD(TAG, lpparam.packageName, "Plugin for sysui NotificationStatPluginImpl loaded.")
 
-                if (mPrefsMap.getBoolean("system_ui_statusbar_music_switch"))
-                    FocusNotifLyric.initLoader(classLoader);
-                if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
-                    DefaultPluginTheme.initDefaultPluginTheme(classLoader)
+                try {
+                    if (mPrefsMap.getBoolean("system_ui_statusbar_music_switch"))
+                        FocusNotifLyric.initLoader(classLoader)
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("FocusNotifLyric", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
+                try {
+                    if (mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"))
+                        DefaultPluginTheme.initDefaultPluginTheme(classLoader)
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("DefaultPluginTheme", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
             }
 
             else -> {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
-                if (mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3)
-                    ShowDeviceName.initShowDeviceName(classLoader)
-                if (mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"))
-                    DisableDeviceManaged.initDisableDeviceManaged(classLoader)
+                try {
+                    if (mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3)
+                        ShowDeviceName.initShowDeviceName(classLoader)
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("ShowDeviceName", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
+                try {
+                    if (mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"))
+                        DisableDeviceManaged.initDisableDeviceManaged(classLoader)
+                } catch (e: Throwable) {
+                    XposedLogUtils.logE("DisableDeviceManaged", "miui.systemui.plugin", "Hook Failed: $e")
+                }
+
 
                 // logD(TAG, lpparam.packageName, "Plugin is ${factory.mComponentName}")
                 // 仅备份当前可用注入 ClassLoader
