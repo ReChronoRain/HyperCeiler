@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.ui.activity;
 
+import static com.sevtinge.hyperceiler.utils.GrayViewUtils.isNeedGrayView;
 import static com.sevtinge.hyperceiler.utils.Helpers.isModuleActive;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -10,8 +11,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -55,6 +60,14 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     @SuppressLint("StringFormatInvalid")
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         IS_LOGGER_ALIVE = isLoggerAlive();
+        if (isNeedGrayView) {
+            View decorView = getWindow().getDecorView();
+            Paint paint = new Paint();
+            ColorMatrix cm = new ColorMatrix();
+            cm.setSaturation(0);
+            paint.setColorFilter(new ColorMatrixColorFilter(cm));
+            decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
+        }
 
         SharedPreferences mPrefs = PrefsUtils.mSharedPreferences;
         String languageSetting = mPrefs.getString("prefs_key_settings_app_language", "-1");

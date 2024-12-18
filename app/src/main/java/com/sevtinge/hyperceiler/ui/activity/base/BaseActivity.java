@@ -18,7 +18,14 @@
 */
 package com.sevtinge.hyperceiler.ui.activity.base;
 
+import static com.sevtinge.hyperceiler.utils.GrayViewUtils.isNeedGrayView;
+
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.utils.Helpers;
@@ -34,6 +41,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mProxy = new SettingsProxy(this);
         super.onCreate(savedInstanceState);
+        if (isNeedGrayView) {
+            View decorView = getWindow().getDecorView();
+            Paint paint = new Paint();
+            ColorMatrix cm = new ColorMatrix();
+            cm.setSaturation(0);
+            paint.setColorFilter(new ColorMatrixColorFilter(cm));
+            decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
+        }
         registerObserver();
     }
 
