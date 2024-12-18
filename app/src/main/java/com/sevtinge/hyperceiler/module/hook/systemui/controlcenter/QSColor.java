@@ -72,15 +72,27 @@ public class QSColor extends BaseHook {
         String TAG = "QSColor";
         load();
         if (small) {
-            XposedHelpers.findAndHookConstructor("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader,
-                    Context.class, Context.class, AttributeSet.class,
-                    new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) {
-                            XposedInit.mResHook.setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", color);
+            try {
+                XposedHelpers.findAndHookConstructor("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader,
+                        Context.class, Context.class, AttributeSet.class,
+                        new XC_MethodHook() {
+                            @Override
+                            protected void afterHookedMethod(MethodHookParam param) {
+                                XposedInit.mResHook.setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", color);
+                            }
                         }
-                    }
-            );
+                );
+            } catch (Exception | Error ignore) {
+                XposedHelpers.findAndHookConstructor("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader,
+                        Context.class, Context.class, boolean.class,
+                        new XC_MethodHook() {
+                            @Override
+                            protected void afterHookedMethod(MethodHookParam param) {
+                                XposedInit.mResHook.setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", color);
+                            }
+                        }
+                );
+            }
 
             XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView",
                     classLoader, "updateIcon",
@@ -148,7 +160,7 @@ public class QSColor extends BaseHook {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) {
                             Object state = XposedHelpers.getObjectField(param.thisObject, "state");
-                            String spec = (String) XposedHelpers.getObjectField(state, "spec");
+                            // String spec = (String) XposedHelpers.getObjectField(state, "spec");                       // unused
                             int i = XposedHelpers.getIntField(state, "state");
                             LinearLayout linearLayout = (LinearLayout) param.thisObject;
                             if (i == 2) {
