@@ -102,8 +102,8 @@ fun isMoreHyperOSVersion(code: Float): Boolean = getHyperOSVersion() >= code
 
 
 private val mSupportMiuiVersion: List<Float> = mutableListOf(13.0f, 14.0f, 816.0f, 818.0f)
-private val mSupportHyperOsVersion: List<Float> = mutableListOf(-1.0f, 1.0f)
-private val mSupportAndroidVersion: List<Int> = mutableListOf(33, 34)
+private val mSupportHyperOsVersion: List<Float> = mutableListOf(-1.0f, 1.0f, 2.0f)
+private val mSupportAndroidVersion: List<Int> = mutableListOf(33, 34, 35)
 
 
 fun isFullSupport(): Boolean {

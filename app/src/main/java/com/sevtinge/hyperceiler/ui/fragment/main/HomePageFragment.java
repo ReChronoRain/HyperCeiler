@@ -382,7 +382,7 @@ public class HomePageFragment extends DashboardFragment
 
     public void isLoggerAlive() {
         if (mNoticeTipVisible) return;
-        if (!IS_LOGGER_ALIVE && BuildConfig.BUILD_TYPE != "release") {
+        if (!IS_LOGGER_ALIVE && !Objects.equals(BuildConfig.BUILD_TYPE, "release")) {
             mHeadtipNotice.setTitle(R.string.headtip_notice_dead_logger);
             mHeadtipNotice.setVisible(true);
             mNoticeTipVisible = true;

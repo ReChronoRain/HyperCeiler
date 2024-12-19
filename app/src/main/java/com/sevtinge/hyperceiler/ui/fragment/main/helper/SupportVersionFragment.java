@@ -28,11 +28,11 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class SupportVersionFragment extends SettingsPreferenceFragment {
 
-    private final String mFSupportMiuiVersion = "13.0(130) / 13.1(130) / 13.2(130) / 14.0(140)";
-    private final String mFSupportHyperOsVersion = "OS1.0";
-    private final String mFSupportAndroidVersion = "13(T, 33) / 14(U, 34)";
-    private final String mNSupportHyperOsVersion = "OS1.1 / OS2.0";
-    private final String mNSupportAndroidVersion = "15(V, 35)";
+    private static final String mFSupportMiuiVersion = "13.0(130) / 13.1(130) / 13.2(130) / 14.0(140)";
+    private static final String mFSupportHyperOsVersion = "OS1.0 / OS2.0";
+    private static final String mFSupportAndroidVersion = "13(T, 33) / 14(U, 34) / 15(V, 35)";
+    private static final String mNSupportHyperOsVersion = "OS1.1";
+    private static final String mNSupportAndroidVersion = "16(B, 35)"; // 暂定名
 
     Preference mHelpSupportVersion;
 
