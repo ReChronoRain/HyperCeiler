@@ -1987,4 +1987,5 @@
     <string name="about_device_info_android">Android version</string>
     <string name="about_device_info_os">OS version</string>
     <string name="misound_spatial">Force Immersive sound on after disconnecting headphones</string>
+    <string name="market_disable_start_push_dialog">Disable start push dialog</string>
 </resources>
