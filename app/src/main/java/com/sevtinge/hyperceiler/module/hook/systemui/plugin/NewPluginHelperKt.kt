@@ -71,7 +71,7 @@ object NewPluginHelperKt : BaseHook() {
                 val loaders = listOf(
                     Triple(
                         "NewShowVolumePct",
-                        mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"),
+                        mPrefsMap.getBoolean("system_cc_volume_showpct_title"),
                         NewShowVolumePct::initLoader
                     ),
                     Triple(
@@ -195,7 +195,7 @@ object NewPluginHelperKt : BaseHook() {
                     loader(classLoader)
                 }
             }.onFailure {
-                logE(TAG, lpparam.packageName, "ClassLoader name is $name, Failed to load $tag, log is $it")
+                logE(TAG, lpparam.packageName, "[$tag] $name is fail loaded, log: $it")
             }
         }
     }

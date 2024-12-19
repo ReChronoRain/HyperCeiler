@@ -80,15 +80,22 @@ object NewShowVolumePct {
     }
 
     private fun mSupportSV(clazz: Class<*>, classLoader: ClassLoader) {
-        try {
+        runCatching {
             loadClass("miui.systemui.util.VolumeUtils", classLoader).methodFinder()
                 .filterByName("getSUPER_VOLUME_SUPPORTED")
-        } catch (t: Throwable) {
+                .first().createAfterHook {
+                    val result = it.result as Boolean
+                    onProgressChanged(clazz, result)
+                }
+        }.recoverCatching {
             loadClass("miui.systemui.util.CommonUtils", classLoader).methodFinder()
                 .filterByName("voiceSupportSuperVolume")
-        }.first().createAfterHook {
-            val result = it.result as Boolean
-            onProgressChanged(clazz, result)
+                .first().createAfterHook {
+                    val result = it.result as Boolean
+                    onProgressChanged(clazz, result)
+                }
+        }.onFailure {
+            onProgressChanged(clazz, false)
         }
     }
 
@@ -102,41 +109,41 @@ object NewShowVolumePct {
                 val arg1 = it.args[1] as Int
                 val arg2 = it.args[2] as Boolean
 
-                if (nowLevel == arg1) return@createAfterHook
-                var pctTag = 0
-                if (mPct != null && mPct.tag != null) {
-                    pctTag = mPct.tag as Int
-                }
-                if (pctTag != 3 || mPct == null) return@createAfterHook
-                val mColumn = it.thisObject.getObjectFieldOrNull("mColumn")
-                if (mColumn == null) return@createAfterHook
-                val ss = mColumn.getObjectFieldOrNull( "ss")
-                if (ss == null) return@createAfterHook
+                if (nowLevel == arg1 || mPct.tag != 3 || mPct == null) return@createAfterHook
+
+                val mColumn = it.thisObject.getObjectFieldOrNull("mColumn") ?: return@createAfterHook
+                val ss = mColumn.getObjectFieldOrNull("ss") ?: return@createAfterHook
+
                 if (mColumn.getIntField("stream") == 10) return@createAfterHook
 
-                if (arg2) {
-                    currentLevel = it.args[1] as Int
+                currentLevel = if (arg2) {
+                    arg1
                 } else {
                     val anim = mColumn.getObjectFieldOrNullAs<ObjectAnimator>("anim")
                     if (anim == null || !anim.isRunning) return@createAfterHook
-                    currentLevel = mColumn.getIntField("animTargetProgress")
+                    mColumn.getIntField("animTargetProgress")
                 }
+
                 nowLevel = currentLevel
                 mPct.visibility = View.VISIBLE
+
                 val levelMin = ss.getIntField("levelMin")
                 if (levelMin > 0 && currentLevel < levelMin * 1000) {
                     currentLevel = levelMin * 1000
                 }
+
                 val max = seekBar.max
                 val maxLevel = max / 1000
                 if (currentLevel != 0) {
                     val i3 = maxLevel - 1
-                    currentLevel =
-                        if (currentLevel == max) maxLevel else (currentLevel * i3 / max) + 1
+                    currentLevel = if (currentLevel == max) maxLevel else (currentLevel * i3 / max) + 1
                 }
-                if (((currentLevel * 100) / maxLevel) == 100 && (HookTool.mPrefsMap.getBoolean("system_ui_unlock_super_volume") || mSupportSV))
-                    mPct.text = "200%"
-                else mPct.text = ((currentLevel * 100) / maxLevel).toString() + "%"
+
+                mPct.text = if (((currentLevel * 100) / maxLevel) == 100 && (HookTool.mPrefsMap.getBoolean("system_ui_unlock_super_volume") || mSupportSV)) {
+                    "200%"
+                } else {
+                    ((currentLevel * 100) / maxLevel).toString() + "%"
+                }
             }
     }
 }
