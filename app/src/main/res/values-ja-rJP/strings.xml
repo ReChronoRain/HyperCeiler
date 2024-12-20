@@ -1749,4 +1749,5 @@
     <string name="home_recent_hide_card">アプリカードを非表示にする</string>
     <string name="home_recent_hide_card_desc">最近のタスクで選択したアプリのカードを非表示にする</string>
     <string name="misound_spatial">ヘッドフォンを取り外した後、イマーシブ サウンドを強制的にオンにする</string>
+    <string name="market_disable_start_push_dialog">開始プッシュダイアログを無効にする</string>
 </resources>
