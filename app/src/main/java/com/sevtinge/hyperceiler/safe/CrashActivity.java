@@ -18,14 +18,11 @@
 */
 package com.sevtinge.hyperceiler.safe;
 
-import static com.sevtinge.hyperceiler.utils.GrayViewUtils.isNeedGrayView;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -62,14 +59,6 @@ public class CrashActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
-        if (isNeedGrayView) {
-            View decorView = getWindow().getDecorView();
-            Paint paint = new Paint();
-            ColorMatrix cm = new ColorMatrix();
-            cm.setSaturation(0);
-            paint.setColorFilter(new ColorMatrixColorFilter(cm));
-            decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
-        }
         ShellInit.init();
         if (swappedMap.isEmpty()) swappedMap = CrashData.swappedData();
         setContentView(R.layout.activity_crash_dialog);

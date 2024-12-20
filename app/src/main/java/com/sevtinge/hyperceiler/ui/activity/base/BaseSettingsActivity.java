@@ -18,17 +18,11 @@
  */
 package com.sevtinge.hyperceiler.ui.activity.base;
 
-import static com.sevtinge.hyperceiler.utils.GrayViewUtils.isNeedGrayView;
-
 import android.content.Intent;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -51,14 +45,6 @@ public abstract class BaseSettingsActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (isNeedGrayView) {
-            View decorView = getWindow().getDecorView();
-            Paint paint = new Paint();
-            ColorMatrix cm = new ColorMatrix();
-            cm.setSaturation(0);
-            paint.setColorFilter(new ColorMatrixColorFilter(cm));
-            decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
-        }
         Intent intent = getIntent();
         initialFragmentName = mProxy.getInitialFragmentName(intent);
         if (TextUtils.isEmpty(initialFragmentName)) {

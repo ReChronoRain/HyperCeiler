@@ -18,13 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.activity;
 
-import static com.sevtinge.hyperceiler.utils.GrayViewUtils.isNeedGrayView;
-
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
@@ -45,14 +39,7 @@ public abstract class SettingsActivity extends BaseSettingsActivity implements P
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (isNeedGrayView) {
-            View decorView = getWindow().getDecorView();
-            Paint paint = new Paint();
-            ColorMatrix cm = new ColorMatrix();
-            cm.setSaturation(0);
-            paint.setColorFilter(new ColorMatrixColorFilter(cm));
-            decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
-        }
+        initCreate();
     }
 
     public void initCreate() {}
