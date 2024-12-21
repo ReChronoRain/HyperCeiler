@@ -1549,6 +1549,7 @@
     <!--小米互传-->
     <string name="mishare">小米互传</string>
     <string name="mishare_disable_mishare_auto_off">禁用自动关闭小米互传</string>
+    <string name="mishare_disable_auto_on_location">禁用分享文件时自动开启定位服务</string>
     <string name="mishare_unlock_turbo_mode">解锁极速传输模式</string>
     <string name="mishare_hook_switch_mode_all">所有人</string>
     <!--壁纸-->

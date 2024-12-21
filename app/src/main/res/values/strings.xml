@@ -1508,6 +1508,7 @@
     <!--Mi Share-->
     <string name="mishare">Xiaomi Share</string>
     <string name="mishare_disable_mishare_auto_off">Disable automatic closing of Xiaomi Share</string>
+    <string name="mishare_disable_auto_on_location">Automatically enable location services when sharing files is disabled</string>
     <string name="mishare_unlock_turbo_mode">Unlock Turbo transfer</string>
     <string name="mishare_hook_switch_mode_all">Everyone</string>
     <!--Wallpaper-->

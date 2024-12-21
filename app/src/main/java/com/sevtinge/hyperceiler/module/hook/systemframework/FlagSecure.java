@@ -67,19 +67,10 @@ public class FlagSecure extends BaseHook {
             try {
                 Class<?> windowsState = XposedHelpers.findClass("com.android.server.wm.WindowState", lpparam.classLoader);
                 Class<?> windowsManagerServiceImpl = XposedHelpers.findClassIfExists("com.android.server.wm.WindowManagerServiceImpl", lpparam.classLoader);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    XposedHelpers.findAndHookMethod(
-                        windowsState,
-                        "isSecureLocked",
-                        XC_MethodReplacement.returnConstant(false));
-                } else {
-                    XposedHelpers.findAndHookMethod(
-                        "com.android.server.wm.WindowManagerService",
-                        lpparam.classLoader,
-                        "isSecureLocked",
-                        windowsState,
-                        XC_MethodReplacement.returnConstant(false));
-                }
+                XposedHelpers.findAndHookMethod(
+                    windowsState,
+                    "isSecureLocked",
+                    XC_MethodReplacement.returnConstant(false));
                 hookAllMethods(windowsManagerServiceImpl, "notAllowCaptureDisplay", new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {

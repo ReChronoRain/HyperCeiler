@@ -21,14 +21,16 @@ package com.sevtinge.hyperceiler.module.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.mishare.NoAutoTurnOff;
+import com.sevtinge.hyperceiler.module.hook.mishare.NoAutoTurnOnLocation;
 import com.sevtinge.hyperceiler.module.hook.mishare.UnlockTurboMode;
 
-@HookBase(targetPackage = "com.miui.mishare.connectivity",  isPad = false)
+@HookBase(targetPackage = "com.miui.mishare.connectivity")
 public class MiShare extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
         initHook(NoAutoTurnOff.INSTANCE, mPrefsMap.getBoolean("disable_mishare_auto_off")); // 禁用 10 分钟自动关闭
+        initHook(NoAutoTurnOnLocation.INSTANCE, mPrefsMap.getBoolean("disable_mishare_auto_on_location")); // 禁用分享时自动开启位置信息
         initHook(UnlockTurboMode.INSTANCE, mPrefsMap.getBoolean("unlock_turbo_mode")); // 解锁极速传输模式
     }
 }
