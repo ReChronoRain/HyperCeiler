@@ -93,21 +93,27 @@ public class DexKit {
 
         // 启动 MMKV
         MMKV.initialize(mmkvPath, System::loadLibrary);
-        mMMKV = MMKV.defaultMMKV();
+        mMMKV = MMKV.mmkvWithID("dexkit_cache", MMKV.MULTI_PROCESS_MODE);
 
         // 检查阶段
-        int version = mMMKV.getInt("version", 0);
-        if (version != 0 && version != mVersion) {
-            mMMKV.clearAll();
-        }
-        mMMKV.putInt("version", mVersion);
+        if (mMMKV.containsKey("version")) {
+            int version = mMMKV.getInt("version", 0);
+            if (version != mVersion) {
+                mMMKV.clear();
+                mMMKV.putInt("version", mVersion);
+            }
+        } else
+            mMMKV.putInt("version", mVersion);
 
         String pkgVersion = getPackageVersionName(mParam) + "(" + getPackageVersionCode(mParam) + ")";
-        String oldPkgVersion = mMMKV.getString("pkgVersion", "null");
-        if (!Objects.equals(pkgVersion, oldPkgVersion)) {
-            mMMKV.clearAll();
-        }
-        mMMKV.putString("pkgVersion", pkgVersion);
+        if (mMMKV.containsKey("pkgVersion")) {
+            String oldPkgVersion = mMMKV.getString("pkgVersion", "null");
+            if (!Objects.equals(pkgVersion, oldPkgVersion)) {
+                mMMKV.clearAll();
+                mMMKV.putString("pkgVersion", pkgVersion);
+            }
+        } else
+            mMMKV.putString("pkgVersion", pkgVersion);
 
         // 启动 DexKit
         System.loadLibrary("dexkit");
