@@ -959,7 +959,7 @@
     <string name="system_ui_control_center_corner_radius_desc">The default theme doesn\'t need to be adjusted</string>
     <string name="system_ui_control_center_blur_background_alpha">Blur background value</string>
     <string name="system_ui_control_center_default_background_alpha">Default background value</string>
-    <string name="system_ui_control_center_media_control_panel_background_mix">Optimize the color mixing effect of the media control panel</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">Optimize color mixing effect of the media control panel</string>
     <string name="system_ui_control_center_media_control_progress">Progress bar</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Remove custom action restrictions for media notification cards</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Wavy</string>
@@ -1508,7 +1508,7 @@
     <!--Mi Share-->
     <string name="mishare">Xiaomi Share</string>
     <string name="mishare_disable_mishare_auto_off">Disable automatic closing of Xiaomi Share</string>
-    <string name="mishare_disable_auto_on_location">Automatically enable location services when sharing files is disabled</string>
+    <string name="mishare_disable_auto_on_location">Enable location services when file sharing is off</string>
     <string name="mishare_unlock_turbo_mode">Unlock Turbo transfer</string>
     <string name="mishare_hook_switch_mode_all">Everyone</string>
     <!--Wallpaper-->
