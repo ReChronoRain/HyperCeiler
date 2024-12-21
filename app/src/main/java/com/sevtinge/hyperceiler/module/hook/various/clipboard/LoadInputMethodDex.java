@@ -17,7 +17,7 @@
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
 
-package com.sevtinge.hyperceiler.module.hook.various;
+package com.sevtinge.hyperceiler.module.hook.various.clipboard;
 
 import com.hchen.hooktool.BaseHC;
 import com.hchen.hooktool.hook.IHook;

@@ -21,8 +21,14 @@ package com.sevtinge.hyperceiler.module.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.various.CollapseMiuiTitle;
-import com.sevtinge.hyperceiler.module.hook.various.DialogCustom;
+import com.sevtinge.hyperceiler.module.hook.various.clipboard.LoadInputMethodDex;
+import com.sevtinge.hyperceiler.module.hook.various.clipboard.NewClipboardList;
+import com.sevtinge.hyperceiler.module.hook.various.clipboard.NewUnPhraseLimit;
+import com.sevtinge.hyperceiler.module.hook.various.clipboard.NewUnlockIme;
+import com.sevtinge.hyperceiler.module.hook.various.dialog.DialogCustom;
 import com.sevtinge.hyperceiler.module.hook.various.MiuiAppNoOverScroll;
+
+import org.luckypray.dexkit.DexKitBridge;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -38,6 +44,15 @@ public class VariousSystemApps extends BaseModule {
         mPackageName = mLoadPackageParam.packageName;
         isMiuiApps = mPackageName.startsWith("com.miui") || mPackageName.startsWith("com.xiaomi") || miuiDialogCustomApps.contains(mPackageName);
 
+        if (mPrefsMap.getBoolean("various_phrase_clipboardlist")) {
+            if (mPackageName.equals("com.miui.phrase")) {
+                System.loadLibrary("dexkit");
+                DexKitBridge dexKitBridge = DexKitBridge.create(mLoadPackageParam.appInfo.sourceDir);
+                new NewUnPhraseLimit(dexKitBridge).onLoadPackage();
+                dexKitBridge.close();
+                return;
+            }
+        }
         initHook(new MiuiAppNoOverScroll(), isMiuiOverScrollApps());
         initHook(new DialogCustom(), isMiuiDialogCustom());
 

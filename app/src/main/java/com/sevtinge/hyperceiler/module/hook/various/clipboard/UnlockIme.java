@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.various;
+package com.sevtinge.hyperceiler.module.hook.various.clipboard;
 
 import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getProp;
 

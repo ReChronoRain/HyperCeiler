@@ -27,13 +27,11 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool;
 import com.sevtinge.hyperceiler.module.hook.clipboard.BaiduClipboard;
 import com.sevtinge.hyperceiler.module.hook.clipboard.SoGouClipboard;
-import com.sevtinge.hyperceiler.module.hook.various.ClearClipboard;
-import com.sevtinge.hyperceiler.module.hook.various.ClipboardList;
-import com.sevtinge.hyperceiler.module.hook.various.LoadInputMethodDex;
+import com.sevtinge.hyperceiler.module.hook.various.clipboard.ClearClipboard;
+import com.sevtinge.hyperceiler.module.hook.various.clipboard.LoadInputMethodDex;
 import com.sevtinge.hyperceiler.module.hook.various.MusicHooks;
-import com.sevtinge.hyperceiler.module.hook.various.NewClipboardList;
-import com.sevtinge.hyperceiler.module.hook.various.NewUnPhraseLimit;
-import com.sevtinge.hyperceiler.module.hook.various.UnlockIme;
+import com.sevtinge.hyperceiler.module.hook.various.clipboard.NewClipboardList;
+import com.sevtinge.hyperceiler.module.hook.various.clipboard.UnlockIme;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -54,19 +52,12 @@ public class VariousThirdApps extends BaseModule {
         }
         mPackageName = mLoadPackageParam.packageName;
         if (mPrefsMap.getBoolean("various_phrase_clipboardlist")) {
-            if (mPackageName.equals("com.miui.phrase")) {
-                System.loadLibrary("dexkit");
-                DexKitBridge dexKitBridge = DexKitBridge.create(mLoadPackageParam.appInfo.sourceDir);
-                new NewUnPhraseLimit(dexKitBridge).onLoadPackage();
-                dexKitBridge.close();
-                return;
-            }
             if (isInputMethod(mPackageName)) {
-                initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime"));
+                initHook(new UnlockIme());
                 new LoadInputMethodDex(new NewClipboardList()).onLoadPackage();
             }
         }
-        initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
+        initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName) && !mPrefsMap.getBoolean("various_phrase_clipboardlist"));
         initHook(new SoGouClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
                 ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
         initHook(new BaiduClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&

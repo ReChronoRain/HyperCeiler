@@ -17,7 +17,7 @@
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
 
-package com.sevtinge.hyperceiler.module.hook.various;
+package com.sevtinge.hyperceiler.module.hook.various.clipboard;
 
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logD;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
@@ -36,18 +36,11 @@ import com.google.gson.reflect.TypeToken;
 import com.hchen.hooktool.BaseHC;
 import com.hchen.hooktool.hook.IHook;
 import com.hchen.hooktool.tool.ParamTool;
-import com.hchen.hooktool.tool.CoreTool;
 import com.sevtinge.hyperceiler.utils.ContentModel;
 import com.sevtinge.hyperceiler.utils.FileHelper;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * 解除常用语剪贴板时间限制，条数限制和字数限制。
