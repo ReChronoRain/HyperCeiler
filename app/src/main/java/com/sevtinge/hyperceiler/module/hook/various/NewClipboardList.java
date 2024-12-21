@@ -19,6 +19,7 @@
 
 package com.sevtinge.hyperceiler.module.hook.various;
 
+import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logD;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW;
@@ -36,6 +37,8 @@ import com.hchen.hooktool.BaseHC;
 import com.hchen.hooktool.hook.IHook;
 import com.hchen.hooktool.tool.ParamTool;
 import com.hchen.hooktool.tool.CoreTool;
+import com.sevtinge.hyperceiler.utils.ContentModel;
+import com.sevtinge.hyperceiler.utils.FileHelper;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -188,8 +191,10 @@ public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInp
                                             "MAX_CLIP_CONTENT_SIZE");
                                 if (mMax == -1) mMax = 5000;
                                 String string = (String) getArgs(0);
-                                if (string.length() == mMax) {
-                                    if (mText != null) setArgs(0, mText);
+                                if (string != null && !string.isEmpty()) {
+                                    if (string.length() == mMax) {
+                                        if (mText != null && !mText.isEmpty()) setArgs(0, mText);
+                                    }
                                 }
                                 mText = null;
                             }
@@ -256,118 +261,4 @@ public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInp
         ).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public class ContentModel {
-        public static ClassLoader classLoader;
-        public String content;
-        public long time;
-        public int type;
-        public String determineContent;
-        public String deviceId;
-        public String deviceName;
-        public String deviceType;
-        public boolean isAcrossDevices;
-        public boolean isShow = true;
-        public boolean isTemp;
-
-        public ContentModel(String content, int type, long time) {
-            this.content = content;
-            this.type = type;
-            this.time = time;
-        }
-
-        public static Object createContentModel(String content, int type, long time) {
-            return CoreTool.newInstance("com.miui.inputmethod.ClipboardContentModel", classLoader,
-                    content, type, time);
-        }
-
-        public static boolean putContent(Object data, String content) {
-            return CoreTool.setField(data, "content", content);
-        }
-
-        public static boolean putType(Object data, int type) {
-            return CoreTool.setField(data, "type", type);
-        }
-
-        public static boolean putTime(Object data, long time) {
-            return CoreTool.setField(data, "time", time);
-        }
-
-        public static String getContent(Object data) {
-            return (String) CoreTool.getField(data, "content");
-        }
-
-        public static int getType(Object data) {
-            return (int) CoreTool.getField(data, "type");
-        }
-
-        public static long getTime(Object data) {
-            return (long) CoreTool.getField(data, "time");
-        }
-    }
-
-    public class FileHelper {
-        public static String TAG = "FileHelper";
-
-        public static boolean exists(String path) {
-            File file = new File(path);
-            File parent = file.getParentFile();
-            if (parent == null) {
-                logE(TAG, "path: " + path + " parent is null");
-                return false;
-            }
-            if (!parent.exists()) {
-                if (parent.mkdirs()) {
-                    logI(TAG, "success to mkdirs: " + parent);
-                } else {
-                    logE(TAG, "failed to mkdirs: " + parent);
-                    return false;
-                }
-            }
-            if (file.exists()) {
-                return true;
-            } else {
-                try {
-                    if (file.createNewFile()) {
-                        return true;
-                    }
-                } catch (IOException e) {
-                    logE(TAG, e);
-                }
-            }
-            return false;
-        }
-
-        public static void write(String path, String str) {
-            if (str == null) {
-                logE(TAG, "str is null?? are you sure? path: " + path);
-                return;
-            }
-            try (BufferedWriter writer = new BufferedWriter(
-                    new FileWriter(path, false))) {
-                writer.write(str);
-            } catch (IOException e) {
-                logE(TAG, e);
-            }
-        }
-
-        public static String read(String path) {
-            try (BufferedReader reader = new BufferedReader(
-                    new FileReader(path))) {
-                StringBuilder builder = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-                return builder.toString();
-            } catch (IOException e) {
-                logE(TAG, e);
-                return "";
-            }
-        }
-
-        public static boolean empty(String path) {
-            String result = read(path);
-            return result.isEmpty() || result.equals("[]");
-        }
-    }
 }

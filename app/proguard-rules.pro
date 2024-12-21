@@ -15,6 +15,8 @@
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseModule
 -keep class com.sevtinge.hyperceiler.module.base.BaseModule { *; }
 -keep class com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.** { *; }
+-keep class com.sevtinge.hyperceiler.utils.ContentModel {*;}
+-keep class com.sevtinge.hyperceiler.utils.FileHelper {*;}
 
 -keepattributes SourceFile,LineNumberTable
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
