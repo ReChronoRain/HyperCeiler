@@ -30,11 +30,13 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class FlightModeHotSpot implements IXposedHookLoadPackage {
 
+    XC_MethodHook.Unhook clHook;
+
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if (lpparam.packageName.equals("android")) {
             try {
-                XposedHelpers.findAndHookMethod("com.android.server.SystemServiceManager", lpparam.classLoader,
+                clHook = XposedHelpers.findAndHookMethod("com.android.server.SystemServiceManager", lpparam.classLoader,
                         "loadClassFromLoader", String.class, ClassLoader.class, new XC_MethodHook() {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -51,6 +53,7 @@ public class FlightModeHotSpot implements IXposedHookLoadPackage {
                                                         param.setResult(false);
                                                     }
                                                 });
+                                        clHook.unhook();
                                     }
                                 } catch (Throwable t) {
                                     XposedBridge.log("[FlightModeHotSpot]:Hook MiuiWifiApManager Failed, the reason is=" + Objects.requireNonNull(t.getCause()) +
