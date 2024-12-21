@@ -27,12 +27,14 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class AntiQues extends BaseHook {
+    XC_MethodHook.Unhook clHook;
+
     @Override
     public void init() throws NoSuchMethodException {
-        XposedHelpers.findAndHookMethod("com.android.server.SystemServiceManager", lpparam.classLoader,
+        clHook = XposedHelpers.findAndHookMethod("com.android.server.SystemServiceManager", lpparam.classLoader,
                 "loadClassFromLoader", String.class, ClassLoader.class, new XC_MethodHook() {
                     @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    protected void beforeHookedMethod(MethodHookParam param) {
                         try {
                             String clzName = (String) param.args[0];
                             ClassLoader cl = (ClassLoader) param.args[1];
@@ -40,12 +42,13 @@ public class AntiQues extends BaseHook {
                                 XposedHelpers.findAndHookMethod("com.android.server.wifi.Utils", cl, "checkDeviceNameIsIllegalSync", Context.class, int.class, String.class,
                                         new XC_MethodHook() {
                                             @Override
-                                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                            protected void beforeHookedMethod(MethodHookParam param) {
                                                 param.setResult(false);
                                             }
                                         });
+                                clHook.unhook();
                             }
-                        } catch (Throwable t) {
+                        } catch (Throwable ignored) {
                         }
                     }
                 });
