@@ -171,15 +171,16 @@ public class OtherTool {
             if (mPrefsMap.getBoolean("system_showpct_use_blur")) {
                 try {
                     int i;
-                    if (isDarkMode()) i = 180;
-                    else i = 200;
+                    if (isDarkMode()) i = 220;
+                    else i = 320;
                     int a;
-                    if (isDarkMode()) a = 120;
-                    else a = 140;
+                    if (isDarkMode()) a = 140;
+                    else a = 160;
                     MiBlurUtils.setContainerPassBlur(mPct, i, true);
-                    MiBlurUtils.setMiViewBlurMode(mPct, 1);
+                    MiBlurUtils.setMiViewBlurMode(mPct, 3);
                     MiBlurUtils.clearMiBackgroundBlendColor(mPct);
-                    MiBlurUtils.addMiBackgroundBlendColor(mPct, Color.argb(a, 0, 0, 0), 101);
+                    MiBlurUtils.addMiBackgroundBlendColor(mPct, Color.argb(a, 0, 0, 0), 103);
+                    MiBlurUtils.setMiBackgroundBlurMode(mPct, 0); // 我不理解
                 } catch (Throwable e) {
                     logE("ShowPct", e);
                 }
