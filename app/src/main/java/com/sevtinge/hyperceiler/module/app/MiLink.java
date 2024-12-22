@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.module.hook.milink.FuckHpplay;
 import com.sevtinge.hyperceiler.module.hook.milink.NewUnlockHMind;
 import com.sevtinge.hyperceiler.module.hook.milink.UnlockMiShare;
 
-@HookBase(targetPackage = "com.milink.service",  isPad = false)
+@HookBase(targetPackage = "com.milink.service")
 public class MiLink extends BaseModule {
 
     @Override

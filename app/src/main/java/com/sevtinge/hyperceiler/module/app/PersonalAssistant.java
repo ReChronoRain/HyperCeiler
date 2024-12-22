@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.module.hook.personalassistant.EnableFoldWidget;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.SetTravelNotificationStatusBarInfoMaxWidth;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.UnlockWidgetCountLimit;
 
-@HookBase(targetPackage = "com.miui.personalassistant",  isPad = false)
+@HookBase(targetPackage = "com.miui.personalassistant")
 public class PersonalAssistant extends BaseModule {
 
     @Override

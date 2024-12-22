@@ -197,7 +197,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
                     return;
                 if (!(dataBase.mTargetOSVersion == -1F) && !(isHyperOSVersion(dataBase.mTargetOSVersion) || isMiuiVersion(dataBase.mTargetOSVersion)))
                     return;
-                if (dataBase.isPad != isPad())
+                if ((dataBase.isPad == 1 && !isPad()) || (dataBase.isPad == 2 && isPad()))
                     return;
 
                 try {

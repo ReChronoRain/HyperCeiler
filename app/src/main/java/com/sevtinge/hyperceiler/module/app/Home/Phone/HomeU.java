@@ -140,7 +140,7 @@ import com.sevtinge.hyperceiler.module.hook.home.widget.ResizableWidgets;
 
 import java.util.Objects;
 
-@HookBase(targetPackage = "com.miui.home", isPad = false, targetSdk = 34)
+@HookBase(targetPackage = "com.miui.home", isPad = 2, targetSdk = 34)
 public class HomeU extends BaseModule {
 
     @Override

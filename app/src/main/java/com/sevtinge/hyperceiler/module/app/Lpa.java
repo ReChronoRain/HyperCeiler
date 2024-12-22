@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.module.hook.lpa.CustomImei;
 
 import java.util.Objects;
 
-@HookBase(targetPackage = "com.miui.euicc",  isPad = false)
+@HookBase(targetPackage = "com.miui.euicc")
 public class Lpa extends BaseModule {
 
     @Override

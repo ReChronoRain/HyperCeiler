@@ -23,7 +23,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.voicetrigger.BypassUDKWordLegalCheck;
 
-@HookBase(targetPackage = "com.miui.voicetrigger",  isPad = false)
+@HookBase(targetPackage = "com.miui.voicetrigger")
 public class VoiceTrigger extends BaseModule {
 
     @Override

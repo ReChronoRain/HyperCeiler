@@ -39,6 +39,7 @@ import android.widget.TextView;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtils;
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -177,10 +178,9 @@ public class OtherTool {
                     if (isDarkMode()) a = 140;
                     else a = 160;
                     MiBlurUtils.setContainerPassBlur(mPct, i, true);
-                    MiBlurUtils.setMiViewBlurMode(mPct, 3);
+                    MiBlurUtils.setMiViewBlurMode(mPct, 1); // 设置为 3 的话，整个 View 都会带模糊，咱不理解，摆烂
                     MiBlurUtils.clearMiBackgroundBlendColor(mPct);
                     MiBlurUtils.addMiBackgroundBlendColor(mPct, Color.argb(a, 0, 0, 0), 103);
-                    MiBlurUtils.setMiBackgroundBlurMode(mPct, 0); // 我不理解
                 } catch (Throwable e) {
                     logE("ShowPct", e);
                 }

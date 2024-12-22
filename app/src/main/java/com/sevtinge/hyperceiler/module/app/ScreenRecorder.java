@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.module.hook.screenrecorder.SaveToMovies;
 import com.sevtinge.hyperceiler.module.hook.screenrecorder.ScreenRecorderConfig;
 import com.sevtinge.hyperceiler.module.hook.screenrecorder.UnlockMoreVolumeFromNew;
 
-@HookBase(targetPackage = "com.miui.screenrecorder",  isPad = false)
+@HookBase(targetPackage = "com.miui.screenrecorder")
 public class ScreenRecorder extends BaseModule {
 
     @Override

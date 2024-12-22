@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.module.hook.mms.DisableRiskTip;
 import com.sevtinge.hyperceiler.module.hook.mms.ImOldDevice;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
-@HookBase(targetPackage = "com.android.mms",  isPad = false)
+@HookBase(targetPackage = "com.android.mms")
 public class Mms extends BaseModule {
     @Override
     public void handleLoadPackage() {

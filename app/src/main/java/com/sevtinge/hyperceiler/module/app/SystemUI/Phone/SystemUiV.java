@@ -129,7 +129,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.strongtoast.HideS
 
 import java.util.Objects;
 
-@HookBase(targetPackage = "com.android.systemui", targetSdk = 35)
+@HookBase(targetPackage = "com.android.systemui", isPad = 2, targetSdk = 35)
 public class SystemUiV extends BaseModule {
     @Override
     public void handleLoadPackage() {

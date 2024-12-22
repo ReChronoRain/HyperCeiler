@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.community.DeviceModify;
 import com.sevtinge.hyperceiler.module.hook.community.FuckDetection;
 
-@HookBase(targetPackage = "com.xiaomi.vipaccount", isPad = false)
+@HookBase(targetPackage = "com.xiaomi.vipaccount")
 public class Community extends BaseModule {
 
     @Override

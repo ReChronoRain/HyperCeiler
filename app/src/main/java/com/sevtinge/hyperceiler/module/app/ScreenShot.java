@@ -28,7 +28,7 @@ import com.sevtinge.hyperceiler.module.hook.screenshot.UnlockMinimumCropLimit;
 import com.sevtinge.hyperceiler.module.hook.screenshot.UnlockPrivacyMarking;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
-@HookBase(targetPackage = "com.miui.screenshot",  isPad = false)
+@HookBase(targetPackage = "com.miui.screenshot")
 public class ScreenShot extends BaseModule {
 
     @Override

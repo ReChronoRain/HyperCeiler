@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.module.hook.fileexplorer.SelectName;
 import com.sevtinge.hyperceiler.module.hook.fileexplorer.UnlockFileParse;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
-@HookBase(targetPackage = "com.android.fileexplorer",  isPad = false)
+@HookBase(targetPackage = "com.android.fileexplorer")
 public class FileExplorer extends BaseModule {
 
     @Override

@@ -22,7 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.calendar.UnlockSubscription;
 
-@HookBase(targetPackage = "com.android.calendar", isPad = false)
+@HookBase(targetPackage = "com.android.calendar")
 public class Calendar extends BaseModule {
 
     @Override

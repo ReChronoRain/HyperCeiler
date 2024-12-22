@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.notes.DisableAiWatermark;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
-@HookBase(targetPackage = "com.miui.notes",  isPad = false)
+@HookBase(targetPackage = "com.miui.notes")
 public class Notes extends BaseModule {
 
     @Override

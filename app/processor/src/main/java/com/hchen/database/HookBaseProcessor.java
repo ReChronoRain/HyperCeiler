@@ -81,9 +81,9 @@ public class HookBaseProcessor extends AbstractProcessor {
                         public String mTargetPackage;
                         public int mTargetSdk;
                         public float mTargetOSVersion;
-                        public boolean isPad;
+                        public int isPad;
                     
-                        public DataBase(String targetPackage, int targetSdk, float targetOSVersion, boolean isPad){
+                        public DataBase(String targetPackage, int targetSdk, float targetOSVersion, int isPad){
                             this.mTargetPackage = targetPackage;
                             this.mTargetSdk = targetSdk;
                             this.mTargetOSVersion = targetOSVersion;
@@ -108,7 +108,7 @@ public class HookBaseProcessor extends AbstractProcessor {
                     String targetPackage = hookBase.targetPackage();
                     int targetSdk = hookBase.targetSdk();
                     float targetOSVersion = hookBase.targetOSVersion();
-                    boolean isPad = hookBase.isPad();
+                    int isPad = hookBase.isPad();
                     try {
                         writer.write("        ");
                         writer.write("dataMap.put(\"" + fullClassName + "\", new DataBase(\"" + targetPackage + "\", "

@@ -30,7 +30,7 @@ import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockMinimumCropLimit2;
 
 import java.util.Objects;
 
-@HookBase(targetPackage = "com.miui.mediaeditor",  isPad = false)
+@HookBase(targetPackage = "com.miui.mediaeditor")
 public class MediaEditor extends BaseModule {
 
     @Override

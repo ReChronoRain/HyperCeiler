@@ -22,7 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.htmlviewer.DisableUpdateCloudAllData;
 
-@HookBase(targetPackage = "com.android.htmlviewer",  isPad = false)
+@HookBase(targetPackage = "com.android.htmlviewer")
 public class HtmlViewer extends BaseModule {
     @Override
     public void handleLoadPackage() {

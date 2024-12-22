@@ -74,7 +74,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockV
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VideoDolbyOpen;
 
-@HookBase(targetPackage = "com.miui.securitycenter", isPad = true, targetSdk = 33)
+@HookBase(targetPackage = "com.miui.securitycenter", isPad = 1, targetSdk = 33)
 public class SecurityCenterT extends BaseModule {
 
     @Override

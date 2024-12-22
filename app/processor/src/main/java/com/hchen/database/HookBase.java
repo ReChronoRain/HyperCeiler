@@ -46,6 +46,7 @@ public @interface HookBase {
 
     /*
      * 是否是 pad 专属
+     * 0 通用，1 Pad，2 手机
      * */
-    boolean isPad() default false;
+    int isPad() default 0;
 }

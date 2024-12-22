@@ -123,7 +123,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news.NewN
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news.NewNetworkSpeedStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.strongtoast.HideStrongToast;
 
-@HookBase(targetPackage = "com.android.systemui", isPad = true, targetSdk = 35)
+@HookBase(targetPackage = "com.android.systemui", isPad = 1, targetSdk = 35)
 public class SystemUiV extends BaseModule {
     @Override
     public void handleLoadPackage() {

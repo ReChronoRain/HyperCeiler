@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.weather.SetCardLightDarkMode;
 import com.sevtinge.hyperceiler.module.hook.weather.SetDeviceLevel;
 
-@HookBase(targetPackage = "com.miui.weather2",  isPad = false)
+@HookBase(targetPackage = "com.miui.weather2")
 public class Weather extends BaseModule {
 
     @Override

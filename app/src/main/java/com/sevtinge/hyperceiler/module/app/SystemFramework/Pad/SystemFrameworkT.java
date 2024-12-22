@@ -84,7 +84,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N5N8Band;
 import com.sevtinge.hyperceiler.module.hook.various.NoAccessDeviceLogsRequest;
 
-@HookBase(targetPackage = "android", isPad = true, targetSdk = 33)
+@HookBase(targetPackage = "android", isPad = 1, targetSdk = 33)
 public class SystemFrameworkT extends BaseModule {
 
     @Override

@@ -39,7 +39,7 @@ import org.luckypray.dexkit.DexKitBridge;
 import java.util.ArrayList;
 import java.util.List;
 
-@HookBase(targetPackage = "VariousThirdApps",  isPad = false)
+@HookBase(targetPackage = "VariousThirdApps")
 public class VariousThirdApps extends BaseModule {
     String mPackageName;
 

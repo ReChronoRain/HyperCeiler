@@ -23,7 +23,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.analytics.FuckMiuiUpload;
 
-@HookBase(targetPackage = "com.miui.analytics", isPad = false)
+@HookBase(targetPackage = "com.miui.analytics")
 public class Analytics extends BaseModule {
     @Override
     public void handleLoadPackage() {

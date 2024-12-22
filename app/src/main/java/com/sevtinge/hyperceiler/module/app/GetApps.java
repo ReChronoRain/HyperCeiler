@@ -26,7 +26,7 @@ import com.sevtinge.hyperceiler.module.hook.getapps.DisableAds;
 import com.sevtinge.hyperceiler.module.hook.getapps.DisablePackageMonitor;
 import com.sevtinge.hyperceiler.module.hook.getapps.DisableStartPushDialog;
 
-@HookBase(targetPackage = "com.xiaomi.market", isPad = false)
+@HookBase(targetPackage = "com.xiaomi.market")
 public class GetApps extends BaseModule {
 
     @Override

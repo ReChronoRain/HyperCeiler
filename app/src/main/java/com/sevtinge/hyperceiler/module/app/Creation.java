@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.creation.UnlockCreation;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
-@HookBase(targetPackage = "com.miui.creation", isPad = false)
+@HookBase(targetPackage = "com.miui.creation")
 public class Creation extends BaseModule {
 
     @Override

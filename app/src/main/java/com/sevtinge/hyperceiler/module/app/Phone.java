@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.module.hook.phone.N28BandPhone;
 import com.sevtinge.hyperceiler.module.hook.phone.N5N8BandPhone;
 import com.sevtinge.hyperceiler.module.hook.phone.ViceSlotVolteButton;
 
-@HookBase(targetPackage = "com.android.phone",  isPad = false)
+@HookBase(targetPackage = "com.android.phone")
 public class Phone extends BaseModule {
     @Override
     public void handleLoadPackage() {

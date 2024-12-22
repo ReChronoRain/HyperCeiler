@@ -23,7 +23,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.soundrecorder.DisableAiWatermark;
 
-@HookBase(targetPackage = "com.android.soundrecorder",  isPad = false)
+@HookBase(targetPackage = "com.android.soundrecorder")
 public class SoundRecorder extends BaseModule {
 
     @Override
