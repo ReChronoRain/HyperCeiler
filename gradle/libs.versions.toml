@@ -22,7 +22,7 @@ constraintlayout = "2.2.0"
 xposed-api = "82"
 
 gson = "2.11.0"
-dexkit = "2.0.2"
+dexkit = "2.0.3"
 ezxhelper = "2.2.0"
 hiddenapibypass = "4.3"
 annotation-processor = "4.4.0"
