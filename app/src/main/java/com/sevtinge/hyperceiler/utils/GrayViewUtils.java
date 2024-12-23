@@ -20,5 +20,5 @@
 package com.sevtinge.hyperceiler.utils;
 
 public class GrayViewUtils {
-    public final static boolean isNeedGrayView = true;
+    public final static boolean isNeedGrayView = false;
 }
