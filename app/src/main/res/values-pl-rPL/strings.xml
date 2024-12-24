@@ -27,11 +27,70 @@
     <string name="new_cta_agree_desc">Podczas użytkowania, w celu zapewnienia Ci większej liczby funkcji, możemy poprosić o uprawnienia Root. Możesz w dowolnym momencie przejść do menedżera uprawnień, aby dostosować status autoryzacji wszystkich uprawnień, a także prosimy o przejście do swojego menedżera Root, aby przyznać uprawnienia Root.</string>
     <string name="new_cta_app_main_purpose">modyfikacja aplikacji systemowych</string>
     <string name="new_cta_app_all_purpose_title">Witaj w HyperCeiler! Ta aplikacja opiera się na frameworku Xposed do działania. Możesz używać tej aplikacji do modyfikowania innych obsługiwanych aplikacji w celu ulepszenia systemu. Podczas użytkowania, aby zapewnić Ci więcej funkcji, możemy poprosić o uprawnienia Root. Możesz nimi zarządzać w dowolnym momencie, przechodząc do swojego menedżera Root.</string>
+    <!--HyperCeiler Tips-->
+    <string name="warn">Uwaga</string>
+    <string name="safe_mode_desc">%1$s wszedł w tryb awaryjny z powodu wielu awarii, a funkcje HyperCeiler zostały tymczasowo wyłączone.</string>
+    <string name="safe_mode_history">Wyświetl zapisy wyjątków</string>
+    <string name="safe_mode_cancel">Wyłącz tryb awaryjny</string>
+    <string name="safe_mode_ok">Anuluj</string>
+    <string name="safe_mode_later_title">Rada</string>
+    <string name="safe_mode_later_desc">%1$s nadal znajduje się w trybie awaryjnym, a funkcje HyperCeiler zostały wyłączone. Wyłączyć tryb awaryjny?</string>
+    <string name="safe_mode_recorder_title">Zapisy wyjątków</string>
+    <string name="safe_mode_recorder_file">Archiwum</string>
+    <string name="safe_mode_recorder_class">Klasa</string>
+    <string name="safe_mode_recorder_method">Metoda</string>
+    <string name="safe_mode_recorder_line">Wiersz</string>
+    <string name="safe_mode_recorder_msg">Komunikat wyjątku</string>
+    <string name="safe_mode_recorder_st">Śledzenie błędów</string>
+    <string name="tip_default">Rada: Oto domyślna rada. Jeśli to widzisz, oznacza to, że wystąpił problem z HyperCeilerem. Prosimy o terminowe i skuteczne zgłoszenie tego deweloperowi.</string>
+    <string name="headtip_warn_not_offical_rom">Źródło ROM-u, którego używasz, może nie być oficjalnym ROM-em Xiaomi, a niektóre funkcje mogą nie działać. Skontaktuj się ze swoim dostawcą, aby uzyskać więcej informacji.</string>
+    <string name="headtip_warn_unsupport_sysver">Obecne urządzenie działa na wersji systemu, która nie jest (w pełni) dostosowana, co może powodować nieprawidłowości w funkcjonalności HyperCeiler.</string>
+    <string name="headtip_warn_sign_verification_failed">Weryfikacja podpisu się nie powiodła. Używana wersja HyperCeiler może nie być oficjalną wersją i może zawierać złośliwy kod.</string>
+    <string name="headtip_tip_auto_safe_mode">Automatyczny tryb awaryjny może tymczasowo odłączyć niektóre aplikacje, które wielokrotnie ulegają awarii, aby zapewnić bezpieczeństwo. Funkcja ta wymaga zakresu \"System Framework\" do działania, dlatego zdecydowanie zalecamy, aby sprawdzić zaznaczenie tego zakresu i aktywacje automatycznynego trybu awaryjnynego.</string>
+    <string name="headtip_tip_long_press_to_copy">Możesz wybrać tekst po długim lub podwójnym naciśnięciu lub skopiować go i odesłać do programisty.</string>
+    <string name="happy_birthday_hyperceiler">Dzisiaj są urodziny HyperCeilera!\nDziękujemy za wsparcie w ciągu ostatniego roku i zacznijmy współpracować w tym roku!</string>
+    <string name="headtip_tip_fuck_coolapk">Dzisiaj w historii: Sevtinge wygłosił ważne przemówienie 14 lipca 2022 r.</string>
+    <string name="headtip_notice_dead_logger_errcode">Obecna usługa dziennika urządzenia działa nieprawidłowo, co ograniczy funkcje HyperCeiler. Przywróć usługę dziennika, aby mogła działać poprawnie.\nKod błędu: %1$s</string>
+    <string name="headtip_notice_dead_logger">Obecna usługa dziennika urządzenia działa nieprawidłowo, co ograniczy funkcje HyperCeiler. Przywróć usługę dziennika, aby mogła działać poprawnie.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Polski</string>
     <string name="translator">xAzvest</string>
     <string name="translator_url">https://crowdin.com/profile/xazvest</string>
     <string name="home">Strona główna</string>
+    <string name="help">Pomoc</string>
+    <string name="settings">Ustawienia</string>
+    <string name="about">O aplikacji</string>
+    <string name="about_use">Repozytoria</string>
+    <string name="about_use_desc">HyperCeiler korzysta z niektórych lub wszystkich z następujących projektów. Dziękujemy twórcom tych projektów za ich wsparcie (kolejność przypadkowa).</string>
+    <string name="about_contributer">Współtwórcy</string>
+    <string name="about_contributer_desc">Podziękowania dla poniższych współtwórców za ich pomoc w rozwoju HyperCeiler (kolejność przypadkowa).</string>
+    <string name="about_donation">Sponsor</string>
+    <string name="about_donation_desc">Możesz nas wspierać poprzez darowizny</string>
+    <string name="about_device_info_device">Urządzenie</string>
+    <string name="about_device_info_android">Wersja Androida</string>
+    <string name="about_device_info_os">Wersja systemu</string>
+    <string name="hyperceiler_notice">Pociągnij w dół pasek stanu, aby wyświetlić skróty i powiadomienia systemowe</string>
+    <string name="hyperceiler_restart_quick">Szybki restart aplikacji</string>
+    <string name="delete_all_dexkit_cache_desc">Czy na pewno chcesz wyczyścić pamięć podręczną DexKit?</string>
+    <string name="delete_all_dexkit_cache_success">Pomyślnie wyczyszczono pamięć podręczną DexKit</string>
+    <string name="set_homepage_entrance">Ustaw wpis strony głównej</string>
+    <string name="set_homepage_entrance_about">Uwaga: Zmiana tego ustawienia jedynie ukrywa widoczność funkcji na stronie głównej, a funkcje, które zostały włączone, nie zostaną wyłączone!\nUkrycie funkcji na stronie głównej wejdzie w życie natychmiast, a aplikacja będzie musiała zostać ponownie uruchomiona, aby ponownie się pojawiła.</string>
+    <string name="help_cant_see_apps_guide">Nie możesz znaleźć funkcji aplikacji?</string>
+    <string name="help_cant_see_apps_title">Nie możesz znaleźć funkcji aplikacji na stronie głównej?</string>
+    <string name="help_cant_see_apps_desc">Aby zachować prostotę i funkcjonalność strony głównej, ukryliśmy dostęp do następujących typów funkcji aplikacji:\n\n • Funkcje aktualnie wyłączone lub ukryte\n • Funkcje niedostępne na Twoim urządzeniu\n • Funkcje niekompatybilne z obecną wersją systemu lub aplikacji\n • Funkcje niedostępne w określonym zakresie\n\nSpróbuj rozwiązać problem na podstawie powyższych informacji, zrestartuj HyperCeiler i spróbuj ponownie. Jeśli nadal nie możesz znaleźć funkcji aplikacji, może to być błąd. Prosimy o terminową i dokładną informację zwrotną.\n\nAktualnie ukryte funkcje:</string>
+    <string name="help_cant_see_apps_uninstall">Odinstalowane aplikacje:\n</string>
+    <string name="help_cant_see_apps_disable">Wyłączone lub ukryte aplikacje:\n</string>
+    <string name="help_cant_see_apps_scope">Nie wybrano jako zakres:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">Aby zachować prostotę i funkcjonalność strony głównej, ukryliśmy dostęp do następujących typów funkcji aplikacji:\n\n • Funkcje aktualnie wyłączone lub ukryte\n • Funkcje niedostępne na Twoim urządzeniu\n • Funkcje niekompatybilne z obecną wersją systemu lub aplikacji\n • Funkcje niedostępne w określonym zakresie\n\nSpróbuj rozwiązać problem na podstawie powyższych informacji, zrestartuj HyperCeiler i spróbuj ponownie. Jeśli nadal nie możesz znaleźć funkcji aplikacji, może to być błąd. Prosimy o terminową i dokładną informację zwrotną.\n\nAktualnie brak ukrytych funkcji!</string>
+    <string name="help_cant_see_apps_switch">Ukryj tę pomoc na stronie głównej</string>
+    <string name="help_cant_see_apps_switch_desc">Nadal możesz znaleźć tę stronę w sekcji O aplikacji &gt; Pomoc. Uruchom ponownie aplikację, aby zastosować zmiany.</string>
+    <string name="help_support_version_title">Lista wersji systemu obsługiwanych przez bieżącą wersję aplikacji</string>
+    <string name="help_support_version_desc_1">Obecna wersja aplikacji jest w pełni dostosowana do następujących wersji systemu:</string>
+    <string name="help_support_version_desc_2">Następujące wersje systemu są dostosowane do obecnej wersji aplikacji:</string>
+    <string name="help_support_version_desc_3">Obecna wersja systemu jest w pełni dostosowana.</string>
+    <string name="help_support_version_desc_4">Obecna wersja systemu nie jest (w pełni) dostosowana.</string>
+    <string name="location_add">Dodaj</string>
+    <string name="location_delete">Usuń</string>
     <string name="edit">Wpisz tekst</string>
     <string name="kill">Zabij proces</string>
     <string name="kill_1">Wprowadź nazwę pakietu/aplikacji</string>
@@ -49,19 +108,6 @@
     <string name="prefs_7">Usuń określony klucz</string>
     <string name="success">Sukces</string>
     <string name="failed">Niepowodzenie</string>
-    <string name="help">Pomoc</string>
-    <string name="settings">Ustawienia</string>
-    <string name="about">O aplikacji</string>
-    <string name="about_use">Repozytoria</string>
-    <string name="about_use_desc">HyperCeiler korzysta z niektórych lub wszystkich z następujących projektów. Dziękujemy twórcom tych projektów za ich wsparcie (kolejność przypadkowa).</string>
-    <string name="about_contributer">Współtwórcy</string>
-    <string name="about_contributer_desc">Podziękowania dla poniższych współtwórców za ich pomoc w rozwoju HyperCeiler (kolejność przypadkowa).</string>
-    <string name="about_donation">Sponsor</string>
-    <string name="about_donation_desc">Możesz nas wspierać poprzez darowizny</string>
-    <string name="hyperceiler_notice">Pociągnij w dół pasek stanu, aby wyświetlić skróty i powiadomienia systemowe</string>
-    <string name="hyperceiler_restart_quick">Szybki restart aplikacji</string>
-    <string name="location_add">Dodaj</string>
-    <string name="location_delete">Usuń</string>
     <string name="development">Opcje programisty</string>
     <string name="development_ui">Interfejs</string>
     <string name="development_debug_info">Debugowanie</string>
@@ -70,8 +116,6 @@
     <string name="development_delete_all_dexkit_cache">Usuń pamięć podręczną DexKit</string>
     <string name="development_close_log_alert_dialog">Wyłącz okno ostrzeżeń na żywo w dzienniku</string>
     <string name="development_fix_lsposed_log">Spróbuj naprawić usługę dziennika LSPosed</string>
-    <string name="about_privacy">Polityka prywatności</string>
-    <string name="about_protocol">Umowa użytkownika</string>
     <string name="settings_show_title">Pokaż</string>
     <string name="settings_data_title">Kopia zapasowa</string>
     <string name="settings_bug_title">Rozwiązywanie problemów</string>
@@ -121,8 +165,8 @@
     <string name="about_offical">Oficjalna strona</string>
     <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">Pomóż nam przetłumaczyć HyperCeilera na Twój język</string>
-    <string name="delete_all_dexkit_cache_desc">Czy na pewno chcesz wyczyścić pamięć podręczną DexKit?</string>
-    <string name="delete_all_dexkit_cache_success">Pomyślnie wyczyszczono pamięć podręczną DexKit</string>
+    <string name="about_privacy">Polityka prywatności</string>
+    <string name="about_protocol">Umowa użytkownika</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Zrestartuj </string>
     <string name="restart_app_desc">Czy na pewno chcesz teraz zrestartować %1$s?</string>
@@ -147,6 +191,7 @@
     <string name="preference_dialog_color_picker_custom">Własny kolor</string>
     <string name="preference_dialog_color_picker_transparency">Przezroczystość</string>
     <string name="preference_dialog_color_picker_select">Potwierdź wybór</string>
+    <string name="preference_recommend_tip">Potrzebujesz innych ustawień?</string>
     <string name="abc_action_bar_home_description">Przejdź do strony głównej</string>
     <string name="abc_action_bar_up_description">Przejdź wyżej</string>
     <string name="actionbar_button_up_description">Powrót</string>
@@ -221,7 +266,7 @@
     <string name="device">Urządzenie</string>
     <string name="manufacturer">Producent</string>
     <string name="search">Szukaj</string>
-    <string name="floating_window">Dowolny układ</string>
+    <string name="floating_window">Tryb dowolny</string>
     <string name="save_to_screen_title">Lokalizacja zapisu</string>
     <string name="only_new_version_can_do">Obsługiwane są tylko nowsze wersje</string>
     <string name="use_hyper_blur">Użyj zaawansowanych tekstur</string>
@@ -997,6 +1042,10 @@
     <string name="system_ui_plugin_enable_volume_blur">Włącz rozmycie paska głośności</string>
     <string name="system_ui_move_log_to_miui">Przenieś statusbar_gestures.dat do rejestru MIUI</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Tylko dla modeli Android 12+ z procesorem MTK. Może wystąpić wysokie obciążenie GPU.</string>
+    <!--Telecom-->
+    <string name="telecom">Zarządzaj połączeniami</string>
+    <string name="scam_reminder_bypass_caption">Zezwalaj na przekierowanie połączeń za pomocą kodu MMI</string>
+    <string name="scam_reminder_bypass_description">Umożliwia bezpośrednie wybieranie kodów MMI, takich jak **21*8#, w celu aktywacji przekierowania połączeń.</string>
     <!--Settings-->
     <string name="system_settings">Ustawienia</string>
     <string name="system_settings_linkturbo">Usuń ograniczenia dla aplikacji przyspieszających sieć</string>
@@ -1100,6 +1149,9 @@
     <string name="milink_unlock_hmind">Odblokuj Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">Wymuszone wsparcie dla strumieniowania aparatu</string>
     <string name="milink_fuck_hpplay">Blokuj tworzenie folderów hpplay</string>
+    <!--Sound Recorder-->
+    <string name="sound_recorder">Dyktafon</string>
+    <string name="sound_recorder_disable_ai_watermark">Wyłącz znak wodny SI</string>
     <!--Always-on display-->
     <string name="aod">Ekran zawsze włączony</string>
     <string name="aod_hyperos">Ekran zawsze włączony i edytor Ekranu blokady</string>
@@ -1131,6 +1183,10 @@
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Usuń ograniczenia w korzystaniu z telefonu</string>
+    <!--LPA-->
+    <string name="lpa">LPA</string>
+    <string name="lpa_custom_imei">Niestandardowy IMEI</string>
+    <string name="lpa_custom_imei_desc">Upewnij się, że poprawnie wprowadzono numer IMEI. Nieprawidłowy numer IMEI może spowodować, że eSIM będzie niedostępne lub będzie działało nieprawidłowo. Nie ponosimy odpowiedzialności za żadne konsekwencje wynikające z tego.</string>
     <!--Gallery-->
     <string name="gallery">Galeria</string>
     <string name="gallery_enable_hdr_enhanced">Odblokuj wyświetlanie HDR</string>
@@ -1449,6 +1505,9 @@
     <!--Wallpaper-->
     <string name="miwallpaper">Tapeta</string>
     <string name="miwallpaper_unlock_super_wallpaper">Odblokuj Supertapety</string>
+    <!--Notes-->
+    <string name="notes">Notatki</string>
+    <string name="notes_disable_ai_watermark">Wyłącz znak wodny SI</string>
     <!--Package installer-->
     <string name="package_installer">Instalator pakietów</string>
     <string name="miui_package_installer_modify">Wyczyść stronę</string>
@@ -1677,12 +1736,14 @@
     <string name="market_package_monitor_desc">Zabroń GetApps monitorowania instalacji i odinstalowania aplikacji</string>
     <string name="market_disable_ads">Wyłącz reklamy</string>
     <string name="market_bypass_risk_check">Omiń kontrolę ryzyka</string>
+    <string name="market_disable_start_push_dialog">Wyłącz okno dialogowe startu</string>
     <!--Mi sound-->
     <string name="misound">Słuchawki</string>
     <string name="misound_bluetooth">Zmień status słuchawek na oryginalny dźwięk</string>
     <string name="misound_bluetooth_uuid">Identyfikator UUID efektu dźwiękowego</string>
     <string name="misound_bluetooth_uuid_more">Jeśli efekt dźwiękowy nie ma żadnego efektu, możesz spróbować go zmodyfikować samodzielnie.</string>
     <string name="misound_increase_sampling_rate">Zwiększ częstotliwość próbkowania</string>
+    <string name="misound_spatial">Wymuś dźwięk przestrzenny po odłączeniu słuchawek</string>
     <!--Mi Settings-->
     <string name="mi_settings">Ustawienia Mi</string>
     <string name="mi_input_settings">Ustawienia wprowadzania</string>
@@ -1710,6 +1771,12 @@
     <string name="voiceassist">Mi SI</string>
     <string name="voiceassist_hyper">Super SI</string>
     <string name="voiceassist_disable_watermark">Wyłącz znak wodny czatu</string>
+    <!--Voice Trigger-->
+    <string name="voicetrigger">Aktywacja głosowa</string>
+    <string name="bypass_udk_word_legal_check_caption">Zezwalaj na nagrywanie wybudzenia głosem bez internetu</string>
+    <string name="bypass_udk_word_legal_check_description">Umożliwia nagrywanie słów z funkcji wybudzenia głosem w trybie offline</string>
+    <string name="voicetrigger_accuracy_percent_caption">Ustaw dokładność wybudzenia z wykrywaniem głosu</string>
+    <string name="voicetrigger_accuracy_percent_description">Wyższe wartości są trudniejsze do wykrycia. Wartość domyślna to 70%, dla słowa kluczowego XATX to 0%. Po ustawieniu musisz zrestartować aplikację docelową i ponownie zapisać słowo aktywacji.</string>
     <!--Other-->
     <string name="various">Pozostałe</string>
     <string name="share_center">Inteligentne Centrum Xiaomi</string>
@@ -1831,57 +1898,6 @@
     <string name="operator_fix_none">Brak naprawy</string>
     <string name="operator_fix_1">Metoda 1</string>
     <string name="operator_fix_2">Metoda 2 (zalecana)</string>
-    <string name="custom_hook_new">Dodaj hak</string>
-    <string name="custom_hook_mode">Tryb wyboru</string>
-    <string name="open_source">Projekty otwartego źródła</string>
-    <string name="close_source">Projekty zamkniętego źródła</string>
-    <string name="exit">Wyjdź</string>
-    <string name="ignore">Ignoruj</string>
-    <string name="log_level">Poziom dziennika</string>
-    <string name="log_level_none">Wyłączone</string>
-    <string name="disable_suggest">Wyłącz sugestie</string>
-    <string name="enable_suggest">Włącz sugestie</string>
-    <string name="set_homepage_entrance">Ustaw wpis strony głównej</string>
-    <string name="help_cant_see_apps_guide">Nie możesz znaleźć funkcji aplikacji?</string>
-    <string name="set_homepage_entrance_about">Uwaga: Zmiana tego ustawienia jedynie ukrywa widoczność funkcji na stronie głównej, a funkcje, które zostały włączone, nie zostaną wyłączone!\nUkrycie funkcji na stronie głównej wejdzie w życie natychmiast, a aplikacja będzie musiała zostać ponownie uruchomiona, aby ponownie się pojawiła.</string>
-    <string name="help_cant_see_apps_title">Nie możesz znaleźć funkcji aplikacji na stronie głównej?</string>
-    <string name="help_cant_see_apps_desc">Aby zachować prostotę i funkcjonalność strony głównej, ukryliśmy dostęp do następujących typów funkcji aplikacji:\n\n • Funkcje aktualnie wyłączone lub ukryte\n • Funkcje niedostępne na Twoim urządzeniu\n • Funkcje niekompatybilne z obecną wersją systemu lub aplikacji\n • Funkcje niedostępne w określonym zakresie\n\nSpróbuj rozwiązać problem na podstawie powyższych informacji, zrestartuj HyperCeiler i spróbuj ponownie. Jeśli nadal nie możesz znaleźć funkcji aplikacji, może to być błąd. Prosimy o terminową i dokładną informację zwrotną.\n\nAktualnie ukryte funkcje:</string>
-    <string name="help_cant_see_apps_uninstall">Odinstalowane aplikacje:\n</string>
-    <string name="help_cant_see_apps_disable">Wyłączone lub ukryte aplikacje:\n</string>
-    <string name="help_cant_see_apps_scope">Nie wybrano jako zakres:\n</string>
-    <string name="help_cant_see_apps_desc_no_hidden">Aby zachować prostotę i funkcjonalność strony głównej, ukryliśmy dostęp do następujących typów funkcji aplikacji:\n\n • Funkcje aktualnie wyłączone lub ukryte\n • Funkcje niedostępne na Twoim urządzeniu\n • Funkcje niekompatybilne z obecną wersją systemu lub aplikacji\n • Funkcje niedostępne w określonym zakresie\n\nSpróbuj rozwiązać problem na podstawie powyższych informacji, zrestartuj HyperCeiler i spróbuj ponownie. Jeśli nadal nie możesz znaleźć funkcji aplikacji, może to być błąd. Prosimy o terminową i dokładną informację zwrotną.\n\nAktualnie brak ukrytych funkcji!</string>
-    <string name="help_cant_see_apps_switch">Ukryj tę pomoc na stronie głównej</string>
-    <string name="help_cant_see_apps_switch_desc">Nadal możesz znaleźć tę stronę w sekcji O aplikacji &gt; Pomoc. Uruchom ponownie aplikację, aby zastosować zmiany.</string>
-    <string name="help_support_version_title">Lista wersji systemu obsługiwanych przez bieżącą wersję aplikacji</string>
-    <string name="help_support_version_desc_1">Obecna wersja aplikacji jest w pełni dostosowana do następujących wersji systemu:</string>
-    <string name="help_support_version_desc_2">Następujące wersje systemu są dostosowane do obecnej wersji aplikacji:</string>
-    <string name="help_support_version_desc_3">Obecna wersja systemu jest w pełni dostosowana.</string>
-    <string name="help_support_version_desc_4">Obecna wersja systemu nie jest (w pełni) dostosowana.</string>
-    <string name="headtip_warn_not_offical_rom">Źródło ROM-u, którego używasz, może nie być oficjalnym ROM-em Xiaomi, a niektóre funkcje mogą nie działać. Skontaktuj się ze swoim dostawcą, aby uzyskać więcej informacji.</string>
-    <string name="headtip_warn_unsupport_sysver">Obecne urządzenie działa na wersji systemu, która nie jest (w pełni) dostosowana, co może powodować nieprawidłowości w funkcjonalności HyperCeiler.</string>
-    <string name="headtip_warn_sign_verification_failed">Weryfikacja podpisu się nie powiodła. Używana wersja HyperCeiler może nie być oficjalną wersją i może zawierać złośliwy kod.</string>
-    <string name="headtip_tip_auto_safe_mode">Automatyczny tryb awaryjny może tymczasowo odłączyć niektóre aplikacje, które wielokrotnie ulegają awarii, aby zapewnić bezpieczeństwo. Funkcja ta wymaga zakresu \"System Framework\" do działania, dlatego zdecydowanie zalecamy, aby sprawdzić zaznaczenie tego zakresu i aktywacje automatycznynego trybu awaryjnynego.</string>
-    <string name="headtip_tip_long_press_to_copy">Możesz wybrać tekst po długim lub podwójnym naciśnięciu lub skopiować go i odesłać do programisty.</string>
-    <string name="headtip_tip_fuck_coolapk">Dzisiaj w historii: Sevtinge wygłosił ważne przemówienie 14 lipca 2022 r.</string>
-    <string name="headtip_notice_dead_logger_errcode">Obecna usługa dziennika urządzenia działa nieprawidłowo, co ograniczy funkcje HyperCeiler. Przywróć usługę dziennika, aby mogła działać poprawnie.\nKod błędu: %1$s</string>
-    <string name="headtip_notice_dead_logger">Obecna usługa dziennika urządzenia działa nieprawidłowo, co ograniczy funkcje HyperCeiler. Przywróć usługę dziennika, aby mogła działać poprawnie.</string>
-    <string name="warn">Uwaga</string>
-    <string name="safe_mode_desc">%1$s wszedł w tryb awaryjny z powodu wielu awarii, a funkcje HyperCeiler zostały tymczasowo wyłączone.</string>
-    <string name="safe_mode_history">Wyświetl zapisy wyjątków</string>
-    <string name="safe_mode_cancel">Wyłącz tryb awaryjny</string>
-    <string name="safe_mode_ok">Anuluj</string>
-    <string name="safe_mode_later_title">Rada</string>
-    <string name="safe_mode_later_desc">%1$s nadal znajduje się w trybie awaryjnym, a funkcje HyperCeiler zostały wyłączone. Wyłączyć tryb awaryjny?</string>
-    <string name="safe_mode_recorder_title">Zapisy wyjątków</string>
-    <string name="safe_mode_recorder_file">Archiwum</string>
-    <string name="safe_mode_recorder_class">Klasa</string>
-    <string name="safe_mode_recorder_method">Metoda</string>
-    <string name="safe_mode_recorder_line">Wiersz</string>
-    <string name="safe_mode_recorder_msg">Komunikat wyjątku</string>
-    <string name="safe_mode_recorder_st">Śledzenie błędów</string>
-    <string name="tip_default">Rada: Oto domyślna rada. Jeśli to widzisz, oznacza to, że wystąpił problem z HyperCeilerem. Prosimy o terminowe i skuteczne zgłoszenie tego deweloperowi.</string>
-    <string name="preference_recommend_tip">Potrzebujesz innych ustawień?</string>
-    <string name="happy_birthday_hyperceiler">Dzisiaj są urodziny HyperCeilera!\nDziękujemy za wsparcie w ciągu ostatniego roku i zacznijmy współpracować w tym roku!</string>
     <string name="ic_qs_title_wifi">Wi-Fi</string>
     <string name="ic_qs_title_cellular">Sieć mobilna</string>
     <string name="ic_qs_title_bluetooth">Bluetooth</string>
@@ -1894,26 +1910,14 @@
     <string name="ic_qs_title_autobrightness">Automatyczna jasność</string>
     <string name="ic_qs_title_vowifi1">Karta SIM VoWiFi 1</string>
     <string name="ic_qs_title_vowifi2">Karta SIM VoWiFi 2</string>
-    <!--Telecom-->
-    <string name="telecom">Zarządzaj połączeniami</string>
-    <string name="scam_reminder_bypass_caption">Zezwalaj na przekierowanie połączeń za pomocą kodu MMI</string>
-    <string name="scam_reminder_bypass_description">Umożliwia bezpośrednie wybieranie kodów MMI, takich jak **21*8#, w celu aktywacji przekierowania połączeń.</string>
-    <!--Voice Trigger-->
-    <string name="voicetrigger">Aktywacja głosowa</string>
-    <string name="bypass_udk_word_legal_check_caption">Zezwalaj na nagrywanie wybudzenia głosem bez internetu</string>
-    <string name="bypass_udk_word_legal_check_description">Umożliwia nagrywanie słów z funkcji wybudzenia głosem w trybie offline</string>
-    <string name="voicetrigger_accuracy_percent_caption">Ustaw dokładność wybudzenia z wykrywaniem głosu</string>
-    <string name="voicetrigger_accuracy_percent_description">Wyższe wartości są trudniejsze do wykrycia. Wartość domyślna to 70%, dla słowa kluczowego XATX to 0%. Po ustawieniu musisz zrestartować aplikację docelową i ponownie zapisać słowo aktywacji.</string>
-    <string name="notes">Notatki</string>
-    <string name="notes_disable_ai_watermark">Wyłącz znak wodny SI</string>
-    <string name="sound_recorder">Dyktafon</string>
-    <string name="sound_recorder_disable_ai_watermark">Wyłącz znak wodny SI</string>
-    <string name="lpa">LPA</string>
-    <string name="lpa_custom_imei">Niestandardowy IMEI</string>
-    <string name="lpa_custom_imei_desc">Upewnij się, że poprawnie wprowadzono numer IMEI. Nieprawidłowy numer IMEI może spowodować, że eSIM będzie niedostępne lub będzie działało nieprawidłowo. Nie ponosimy odpowiedzialności za żadne konsekwencje wynikające z tego.</string>
-    <string name="about_device_info_device">Urządzenie</string>
-    <string name="about_device_info_android">Wersja Androida</string>
-    <string name="about_device_info_os">Wersja systemu</string>
-    <string name="misound_spatial">Wymuś dźwięk przestrzenny po odłączeniu słuchawek</string>
-    <string name="market_disable_start_push_dialog">Wyłącz okno dialogowe startu</string>
+    <string name="custom_hook_new">Dodaj hak</string>
+    <string name="custom_hook_mode">Tryb wyboru</string>
+    <string name="open_source">Projekty otwartego źródła</string>
+    <string name="close_source">Projekty zamkniętego źródła</string>
+    <string name="exit">Wyjdź</string>
+    <string name="ignore">Ignoruj</string>
+    <string name="log_level">Poziom dziennika</string>
+    <string name="log_level_none">Wyłączone</string>
+    <string name="disable_suggest">Wyłącz sugestie</string>
+    <string name="enable_suggest">Włącz sugestie</string>
 </resources>

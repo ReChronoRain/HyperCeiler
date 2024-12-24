@@ -27,11 +27,70 @@
     <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciador de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
     <string name="new_cta_app_main_purpose">modificar apps do sistema</string>
     <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler! Este app depende do LSPosed para ser executado. Você pode usar este app para sequestrar e modificar outros apps suportados para aprimorar o sistema. Durante o uso, para fornecer mais funções, podemos solicitar suas permissões Root/Su. Você pode gerenciá-lo a qualquer momento acessando seu gerenciador Root/Su.</string>
+    <!--HyperCeiler Tips-->
+    <string name="warn">Atenção!</string>
+    <string name="safe_mode_desc">%1$s entrou no Modo seguro devido a várias falhas e os recursos do HyperCeiler foi temporariamente desativado.</string>
+    <string name="safe_mode_history">Ver registros de exceção</string>
+    <string name="safe_mode_cancel">Desativar Modo seguro</string>
+    <string name="safe_mode_ok">Cancelar</string>
+    <string name="safe_mode_later_title">Dica</string>
+    <string name="safe_mode_later_desc">%1$s ainda está no Modo seguro e os recursos do HyperCeiler estão desativados. Desativar Modo seguro?</string>
+    <string name="safe_mode_recorder_title">Registros de exceção</string>
+    <string name="safe_mode_recorder_file">Arquivo</string>
+    <string name="safe_mode_recorder_class">Classe</string>
+    <string name="safe_mode_recorder_method">Método</string>
+    <string name="safe_mode_recorder_line">Linha</string>
+    <string name="safe_mode_recorder_msg">Mensagem de exceção</string>
+    <string name="safe_mode_recorder_st">Rastreamento de erros</string>
+    <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
+    <string name="headtip_warn_not_offical_rom">A ROM que você está usando pode não ser oficial da Xiaomi, e alguns recursos podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
+    <string name="headtip_warn_unsupport_sysver">O dispositivo atual está executando uma versão do sistema que não está (totalmente) adaptada, o que pode resultar em anomalias na funcionalidade do HyperCeiler.</string>
+    <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial do HyperCeiler, podendo conter código malicioso.</string>
+    <string name="headtip_tip_auto_safe_mode">O Modo seguro automático pode desconectar alguns apps a tempo quando eles travam várias vezes para garantir a segurança. Este recurso requer que o escopo Framework do Sistema seja executado. É altamente recomendável verificar o escopo Framework do Sistema para ativar o Modo seguro automático.</string>
+    <string name="headtip_tip_long_press_to_copy">Você pode selecionar o texto após pressionar longamente ou tocar duas vezes, ou copiá-lo e devolvê-lo ao desenvolvedor.</string>
+    <string name="happy_birthday_hyperceiler">Hoje é o aniversário do HyperCeiler!\nObrigado pelo seu apoio durante o ano passado e vamos continuar trabalhando juntos este ano!</string>
+    <string name="headtip_tip_fuck_coolapk">Hoje na história: Sevtinge fez um discurso importante em 14 de julho de 2022.</string>
+    <string name="headtip_notice_dead_logger_errcode">O serviço de log do dispositivo atual está anormal e os recursos do HyperCeiler serão limitados. Por favor, restaure o serviço de log para que ele possa funcionar normalmente.\nCódigo de erro: %1$s</string>
+    <string name="headtip_notice_dead_logger">O serviço de log do dispositivo atual está anormal e os recursos do HyperCeiler serão limitados. Por favor, restaure o serviço de log para que ele possa funcionar normalmente.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Português (Brasil)</string>
     <string name="translator">Igor</string>
     <string name="translator_url">https://github.com/igormiguell</string>
     <string name="home">Início</string>
+    <string name="help">Ajuda</string>
+    <string name="settings">Configurações</string>
+    <string name="about">Sobre</string>
+    <string name="about_use">Referências</string>
+    <string name="about_use_desc">O HyperCeiler usa alguns ou todos os projetos a seguir, graças ao apoio dos desenvolvedores desses projetos (em nenhuma ordem em particular).</string>
+    <string name="about_contributer">Colaboradores</string>
+    <string name="about_contributer_desc">Obrigado aos seguintes colaboradores pela sua ajuda no desenvolvimento do HyperCeiler (em nenhuma ordem em particular)</string>
+    <string name="about_donation">Patrocinadores</string>
+    <string name="about_donation_desc">Você pode nos apoiar doando aqui</string>
+    <string name="about_device_info_device">Dispositivo</string>
+    <string name="about_device_info_android">Versão do Android</string>
+    <string name="about_device_info_os">Versão do OS</string>
+    <string name="hyperceiler_notice">Puxe para baixo a barra de status para exibir as opções de atalho e notificações do sistema</string>
+    <string name="hyperceiler_restart_quick">Reiniciar apps rapidamente</string>
+    <string name="delete_all_dexkit_cache_desc">Tem certeza que deseja limpar todo o cache do DexKit?</string>
+    <string name="delete_all_dexkit_cache_success">Cache do DexKit limpo com sucesso</string>
+    <string name="set_homepage_entrance">Configurar entrada da página inicial</string>
+    <string name="set_homepage_entrance_about">Observação: Ao modificar esta configuração ela oculta apenas a visibilidade do recurso na página inicial e os recursos que foram ativados não serão desativados!\nOcultar o recurso na página inicial terá efeito imediato e o app precisara ser reiniciado para reaparecer.</string>
+    <string name="help_cant_see_apps_guide">Não consegue encontrar os recursos do app?</string>
+    <string name="help_cant_see_apps_title">Não consegue encontrar os recursos do app na página inicial?</string>
+    <string name="help_cant_see_apps_desc">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n • Aqueles atualmente desativados ou ocultos\n • Aqueles que não foram encontrados em seu dispositivo\n • Aqueles incompatíveis com a versão atual do sistema ou do app\n • Não selecionado como escopo\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nRecursos do app atualmente ocultos:</string>
+    <string name="help_cant_see_apps_uninstall">Apps desinstalados:\n</string>
+    <string name="help_cant_see_apps_disable">Apps desativados ou ocultos:\n</string>
+    <string name="help_cant_see_apps_scope">Não selecionado como escopo:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n • Aqueles atualmente desativados ou ocultos\n • Aqueles que não foram encontrados em seu dispositivo\n • Aqueles incompatíveis com a versão atual do sistema ou do app\n • Não selecionado como escopo\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nAtualmente não há recursos ocultos!</string>
+    <string name="help_cant_see_apps_switch">Ocultar esta ajuda na página inicial</string>
+    <string name="help_cant_see_apps_switch_desc">Você ainda pode encontrar esta página em Sobre &gt; Ajuda. Reinicie o app para aplicar</string>
+    <string name="help_support_version_title">Lista de versões do sistema com suporte à versão atual do app</string>
+    <string name="help_support_version_desc_1">A versão atual do app está totalmente adaptada às seguintes versões do sistema:</string>
+    <string name="help_support_version_desc_2">As seguintes versões do sistema são adaptadas à versão atual do app:</string>
+    <string name="help_support_version_desc_3">A versão atual do sistema está totalmente adaptada.</string>
+    <string name="help_support_version_desc_4">A versão atual do sistema não está (totalmente) adaptada.</string>
+    <string name="location_add">Adicionar</string>
+    <string name="location_delete">Excluir</string>
     <string name="edit">Por favor, insira o texto</string>
     <string name="kill">Ferramenta kill</string>
     <string name="kill_1">Insira o nome do pacote/software</string>
@@ -45,23 +104,10 @@
     <string name="prefs_3">Falha ao remover a chave. Ela pode não existir: </string>
     <string name="prefs_4">Por favor, verifique o tipo de valor de retorno que requer a obtenção da chave!</string>
     <string name="prefs_5">Selecionar tipo</string>
-    <string name="prefs_6">Verifique as preferências de compartilhamento</string>
+    <string name="prefs_6">Verificar preferência de compartilhamento</string>
     <string name="prefs_7">Remover chave especificada</string>
     <string name="success">Sucesso</string>
     <string name="failed">Falhou</string>
-    <string name="help">Ajuda</string>
-    <string name="settings">Configurações</string>
-    <string name="about">Sobre</string>
-    <string name="about_use">Referências</string>
-    <string name="about_use_desc">O HyperCeiler usa alguns ou todos os projetos a seguir, graças ao apoio dos desenvolvedores desses projetos (em nenhuma ordem em particular)</string>
-    <string name="about_contributer">Colaboradores</string>
-    <string name="about_contributer_desc">Obrigado aos seguintes colaboradores pela sua ajuda no desenvolvimento do HyperCeiler (em nenhuma ordem em particular)</string>
-    <string name="about_donation">Patrocinadores</string>
-    <string name="about_donation_desc">Você pode nos apoiar doando aqui</string>
-    <string name="hyperceiler_notice">Puxe para baixo a barra de status para exibir as opções de atalho e notificações do sistema</string>
-    <string name="hyperceiler_restart_quick">Reiniciar apps rapidamente</string>
-    <string name="location_add">Adicionar</string>
-    <string name="location_delete">Excluir</string>
     <string name="development">Opções do desenvolvedor</string>
     <string name="development_ui">Interface do usuário </string>
     <string name="development_debug_info">Informações de depuração</string>
@@ -70,8 +116,6 @@
     <string name="development_delete_all_dexkit_cache">Excluir todo o cache do DexKit</string>
     <string name="development_close_log_alert_dialog">Desativar diálogo de alerta do logger</string>
     <string name="development_fix_lsposed_log">Tentar corrigir o serviço de registro do LSPosed</string>
-    <string name="about_privacy">Política de Privacidade</string>
-    <string name="about_protocol">Acordo do Usuário</string>
     <string name="settings_show_title">Ícone</string>
     <string name="settings_data_title">Backup e restauração</string>
     <string name="settings_bug_title">Solução de problemas</string>
@@ -91,7 +135,7 @@
     <string name="settings_back">Fazer backup das configurações do módulo</string>
     <string name="settings_rest">Restaurar configurações do módulo</string>
     <string name="settings_reset">Redefinir configurações do módulo</string>
-    <string name="reset_title">Tem certeza que deseja redefinir?</string>
+    <string name="reset_title">Você tem certeza que deseja redefinir?</string>
     <string name="reset_desc">Após redefinir as configurações do módulo, todos os seus dados serão excluídos!</string>
     <string name="reset_okay">A configuração do módulo foi redefinida</string>
     <string name="backup_success">Backup concluído</string>
@@ -103,7 +147,7 @@
     <string name="backup_permission">Agora você precisa ativar manualmente as permissões para esta opção.</string>
     <string name="rest_ask">Deseja recuperar seu backup?</string>
     <string name="rest_permission">Agora você precisa ativar manualmente as permissões para esta opção.</string>
-    <string name="disable_detailed_log">Desativar registro detalhado</string>
+    <string name="disable_detailed_log">Desativar log detalhado</string>
     <string name="disable_detailed_log_desc">Reinicie para aplicar</string>
     <string name="disable_detailed_log_more">A versão Debug Canary não suporta o ajuste do nível de log</string>
     <string name="settings_safe_mode">Modo seguro</string>
@@ -121,11 +165,11 @@
     <string name="about_offical">Site oficial</string>
     <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">Ajude-nos a traduzir o HyperCeiler para o seu idioma</string>
-    <string name="delete_all_dexkit_cache_desc">Tem certeza que deseja limpar todo o cache do DexKit?</string>
-    <string name="delete_all_dexkit_cache_success">Cache do DexKit limpo com sucesso</string>
+    <string name="about_privacy">Política de Privacidade</string>
+    <string name="about_protocol">Acordo do Usuário</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Reiniciar </string>
-    <string name="restart_app_desc">Você tem certeza que deseja reiniciar agora %1$s?</string>
+    <string name="restart_app_desc">Você tem certeza que deseja reiniciar %1$s agora?</string>
     <string name="tip">Dica</string>
     <string name="root">Alguns recursos não estão disponíveis sem permissão Root/Su</string>
     <string name="hook_failed">O módulo ainda não está ativado. Por favor, verifique se o LSPosed está ativado. Nesse caso, por favor, reinicie ou re-otimize o módulo.</string>
@@ -147,6 +191,7 @@
     <string name="preference_dialog_color_picker_custom">Cor customizada</string>
     <string name="preference_dialog_color_picker_transparency">Transparência</string>
     <string name="preference_dialog_color_picker_select">Confirmar seleção</string>
+    <string name="preference_recommend_tip">Precisa de outras configurações?</string>
     <string name="abc_action_bar_home_description">Voltar a página inicial</string>
     <string name="abc_action_bar_up_description">Voltar ao nível anterior</string>
     <string name="actionbar_button_up_description">Voltar</string>
@@ -368,12 +413,12 @@
     <string name="system_framework_bubble_title">Conversas em bolhas</string>
     <string name="system_framework_freeform_count">Múltiplas janelas flutuantes</string>
     <string name="system_framework_disable_freeform_blacklist">Permitir janela flutuante pequena</string>
-    <string name="system_framework_disable_freeform_blacklist_desc">Ignore a lista negra do sistema e as restrições do software para o modo Janela flutuante</string>
+    <string name="system_framework_disable_freeform_blacklist_desc">Ignore a lista negra do sistema e as restrições do software para o modo janela flutuante</string>
     <string name="system_framework_freeform_sticky">Lembrar estado e posição</string>
     <string name="system_framework_freeform_bubble">Bolha de janelas flutuantes</string>
-    <string name="system_framework_freeform_recents_to_small_freeform">Transformar as Janelas flutuantes em mini Janelas flutuantes</string>
+    <string name="system_framework_freeform_recents_to_small_freeform">Transformar as janelas flutuantes em mini janelas flutuantes</string>
     <string name="system_framework_freeform_recents_to_small_freeform_desc">Transforme todas as janelas flutuantes em mini janelas flutuantes nos Recentes. Este recurso é experimental com alta instabilidade.</string>
-    <string name="system_framework_freeform_jump">Abrir com Janela flutuante ao pular para outro app</string>
+    <string name="system_framework_freeform_jump">Abrir com janela flutuante ao pular para outro app</string>
     <string name="system_framework_freeform_foreground_pin">Janelas básicas forçam a recepção</string>
     <string name="system_framework_freeform_title_desc">Nos cenários a seguir, quando você precisar pular para outros apps, você usará a janela flutuante para abrir.</string>
     <string name="system_framework_freeform_content_extension_desc">Suporta apenas links</string>
@@ -416,8 +461,8 @@
     <string name="system_framework_screen_title">Tela e notificações</string>
     <string name="system_framework_core_title">Núcleo por baixo</string>
     <string name="system_framework_hook_entry">Desbloquear limite de carga inteligente</string>
-    <string name="system_framework_hook_entry_desc">A proteção de desconexão de navegação permite que seja usada em cenários que não sejam de navegação</string>
-    <string name="system_framework_shortcut_title">Compartilhar atalhos</string>
+    <string name="system_framework_hook_entry_desc">O limite de carga inteligente permite que seja usada em cenários que não sejam de navegação</string>
+    <string name="system_framework_shortcut_title">Atalhos de compartilhamento</string>
     <string name="system_framework_screen_all_rotations">Rotação da tela</string>
     <string name="system_framework_allow_untrusted_touch">Permitir toque não confiável</string>
     <string name="system_framework_allow_uninstall">Permitir desinstalar alguns apps pré-instalados</string>
@@ -556,7 +601,7 @@
     <string name="camera_settings_heic">Desbloquear HEIF</string>
     <string name="camera_settings_track_focus">Desbloquear Rastreamento de foco</string>
     <string name="camera_settings_predictive">Desbloquear Rastrear movimento</string>
-    <string name="camera_settings_nevus">Desbloquear Remoção de toupeiras</string>
+    <string name="camera_settings_nevus">Desbloquear Remoção de verrugas</string>
     <string name="camera_settings_men_makeup">Desbloquear Ajustar efeitos de maquiagem para homens</string>
     <string name="camera_settings_lab_options">Ativar Opções de laboratório</string>
     <string name="camera_settings_track_eyes">Desbloquear Foco de rastreamento ocular</string>
@@ -567,7 +612,7 @@
     <string name="camera_custom_theme_color_picker">Escolher cor do tema</string>
     <!--Calendar-->
     <string name="calendar">Calendário</string>
-    <string name="calendar_unlock_subscription">Desbloquear inscrições</string>
+    <string name="calendar_unlock_subscription">Desbloquear Assinatura</string>
     <!--Community-->
     <string name="community">Xiaomi Community</string>
     <string name="community_device_modify">Disfarçar modelo</string>
@@ -596,7 +641,7 @@
     <string name="phone_smart_dual_sim">Desbloquear SIM duplo inteligente</string>
     <string name="phone_disable_remove_network_mode">Desativar remoção do modo de rede</string>
     <string name="phone_vice_slot_volte">Desbloquear Vice slot VoLTE</string>
-    <string name="phone_vice_slot_volte_desc">Usar dados móveis durante chamadas VoLTE no SIM secundário</string>
+    <string name="phone_vice_slot_volte_desc">Use os dados móveis durante chamadas VoLTE no SIM secundário</string>
     <!--Download management program-->
     <string name="downloads">Downloads</string>
     <string name="various_fuck_xlDownload">Bloquear a criação da pasta .xlDownload</string>
@@ -906,7 +951,7 @@
     <string name="system_ui_control_center_media_control_progress_sleek">Suave</string>
     <string name="system_ui_control_center_media_control_progress_thickness">Rígido</string>
     <string name="system_ui_control_center_media_control_progress_corner_radius">Raio do canto da barra de progresso</string>
-    <string name="system_ui_control_center_media_control_time_view_text_size">Tamanho do texto da visualização da hora</string>
+    <string name="system_ui_control_center_media_control_time_view_text_size">Tamanho do texto de visualização da hora</string>
     <string name="system_ui_control_center_media_control_seekbar_color">Cor da barra de progresso</string>
     <string name="system_ui_control_center_media_control_seekbar_thumb_color">Cor do slider</string>
     <string name="system_ui_control_center_media_control_media_button_custom">Personalizar tamanho do botão de ação</string>
@@ -949,7 +994,7 @@
     <string name="system_control_center_old_qs_grid_columns">Número de colunas no painel recolhido</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Número de colunas no painel recolhido (Paisagem)</string>
     <string name="system_ui_control_center_card_tiles_customization">Personalizar blocos de cartões</string>
-    <string name="system_ui_control_center_card_tiles_customization_desc">Pressione e segure e arraste os cartões que você adicionou para ajustar a ordem</string>
+    <string name="system_ui_control_center_card_tiles_customization_desc">Pressione e arraste os cartões que você adicionou para ajustar a ordem</string>
     <string name="system_ui_control_center_card_tiles_customization_add">Adicionado</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">Não adicionado</string>
     <string name="system_ui_control_center_unlock_blur_supported">Remover restrição do blur de notificação</string>
@@ -997,6 +1042,10 @@
     <string name="system_ui_plugin_enable_volume_blur">Ativar blur na barra de volume</string>
     <string name="system_ui_move_log_to_miui">Mover statusbar_gestures.dat para o diretório MIUI</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Somente para modelos Android12+ MTK. Pode haver alta carga na GPU.</string>
+    <!--Telecom-->
+    <string name="telecom">Gerenciamento de chamadas</string>
+    <string name="scam_reminder_bypass_caption">Permitir encaminhamento de chamadas através do código MMI</string>
+    <string name="scam_reminder_bypass_description">Permite a discagem direta de códigos MMI, como **21*8#, para ativar o encaminhamento de chamadas.</string>
     <!--Settings-->
     <string name="system_settings">Configurações</string>
     <string name="system_settings_linkturbo">Remover restrições em apps de aceleração de rede</string>
@@ -1036,7 +1085,7 @@
     <string name="system_settings_ai_image_unlock_sr">Desbloquear Super resolução</string>
     <string name="system_settings_ai_image_unlock_ai">Desbloquear Aprimoramento de imagens IA e o Aprimoramento HDR por IA</string>
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
-    <string name="system_settings_permission_title">Permissão</string>
+    <string name="system_settings_permission_title">Permissões</string>
     <string name="system_settings_more_notification_settings">Mostrar mais configurações de notificação</string>
     <string name="system_settings_restart_systemui_desc">Você precisa reiniciar os escopos UI do Sistema e Configurações para que as alterações tenham efeito</string>
     <string name="system_settings_permission_show_app_up">Permissões de nível superior sem pesquisar na lista de apps</string>
@@ -1100,6 +1149,9 @@
     <string name="milink_unlock_hmind">Desbloquear Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">Suporte forçado para streaming de câmera</string>
     <string name="milink_fuck_hpplay">Bloquear a criação de pastas hpplay</string>
+    <!--Sound Recorder-->
+    <string name="sound_recorder">Gravador</string>
+    <string name="sound_recorder_disable_ai_watermark">Desativar marca d\'água IA</string>
     <!--Always-on display-->
     <string name="aod">Tela sempre ativa</string>
     <string name="aod_hyperos">Tela ambiente e editor da Tela de bloqueio</string>
@@ -1131,6 +1183,10 @@
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Remover restrições sobre o uso de telefones móveis</string>
+    <!--LPA-->
+    <string name="lpa">LPA</string>
+    <string name="lpa_custom_imei">IMEI personalizado</string>
+    <string name="lpa_custom_imei_desc">Certifique-se de inserir o IMEI corretamente. Um IMEI incorreto pode fazer com que o eSIM fique indisponível ou anormal. Não somos responsáveis ​​por quaisquer consequências daí decorrentes.</string>
     <!--Gallery-->
     <string name="gallery">Galeria</string>
     <string name="gallery_enable_hdr_enhanced">Desbloquear alta faixa dinâmica da tela</string>
@@ -1210,9 +1266,9 @@
     <string name="home_layout_unlock_grids_new_y">Linhas</string>
     <string name="home_layout_unlock_grids_no_words">Desbloquear layout (sem modo de palavra)</string>
     <string name="home_layout_unlock_grids_no_words_desc">Desbloqueie o limite de tamanho de layout do ícone da Tela inicial</string>
-    <string name="home_layout_workspace_padding_bottom_desc">Distância da tela inicial da margem inferior da tela</string>
-    <string name="home_layout_workspace_padding_top_desc">Distância da tela inicial da margem superior da tela</string>
-    <string name="home_layout_workspace_padding_horizontal_desc">Distância da tela inicial da margem lateral da tela</string>
+    <string name="home_layout_workspace_padding_bottom_desc">Distância da Tela inicial da margem inferior da tela</string>
+    <string name="home_layout_workspace_padding_top_desc">Distância da Tela inicial da margem superior da tela</string>
+    <string name="home_layout_workspace_padding_horizontal_desc">Distância da Tela inicial da margem lateral da tela</string>
     <string name="home_layout_hotseats_height">Altura</string>
     <string name="home_layout_hotseats_margin_top_desc">Distância da dock da margem do indicador de página</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Distância da dock da margem inferior da tela</string>
@@ -1268,9 +1324,9 @@
     <string name="home_folder_anim_4">Velocidade de encerramento 2</string>
     <string name="home_drawer">Gaveta de apps</string>
     <string name="home_drawer_all">Remover aba Todos os apps</string>
-    <string name="home_drawer_all_desc">Remover a aba Todos os apps para agrupar apps na gaveta</string>
+    <string name="home_drawer_all_desc">Remova a aba Todos os apps para agrupar apps na gaveta</string>
     <string name="home_drawer_editor">Ocultar botão Editar</string>
-    <string name="home_drawer_editor_desc">Remover o botão Editar da guia de apps na gaveta</string>
+    <string name="home_drawer_editor_desc">Remova o botão Editar da guia de apps na gaveta</string>
     <string name="home_drawer_blur">Ativar blur de exibição de contêiner de todos os apps</string>
     <string name="home_drawer_blur_super">Texturas avançadas difuso na gaveta</string>
     <string name="home_drawer_blur_desc">Por favor, defina a transparência do fundo da Gaveta de apps para 100% para usar este recurso.</string>
@@ -1287,7 +1343,7 @@
     <string name="home_title_wallpaper_dim_alpha">Transparência da máscara do plano de fundo</string>
     <string name="home_title_fix_small_window">Corrigir animação de janelas pequenas</string>
     <string name="home_title_fix_small_window_desc">Recurso experimental. Força o uso de animação para evitar oscilações ao arrastar o app para uma pequena janela. Não use se você não se importa.</string>
-    <string name="home_title_title_title">Título</string>
+    <string name="home_title_title_title">Nome</string>
     <string name="home_title_title_marquee">Rolagem de texto</string>
     <string name="home_title_title_marquee_desc">Nomes de apps muito longos serão rolados em vez de agrupados</string>
     <string name="home_title_title_new_install">Ocultar novo indicador de instalação do app</string>
@@ -1297,7 +1353,7 @@
     <string name="home_title_title_new_install_more">Não exiba o indicador próximo ao nome do app ao instalar um novo app</string>
     <string name="home_title_font_size">Tamanho da fonte (Tela inicial)</string>
     <string name="home_drawer_title_font_size">Tamanho da fonte (Gaveta)</string>
-    <string name="home_title_title_color">Cor do título</string>
+    <string name="home_title_title_color">Cor do nome</string>
     <string name="home_title_animation_speed">Velocidade da animação</string>
     <string name="home_title_big_icon_corner">Seguir canto redondo do ícone médio</string>
     <string name="home_title_download_animation">Baixar animação</string>
@@ -1326,8 +1382,8 @@
     <string name="home_recent_remove_icon">Remover ícone do app</string>
     <string name="home_recent_modify_animation">Modificar animação ao remover apps nos Recentes</string>
     <string name="home_recent_text">Texto exibido quando não há tarefas recentes</string>
-    <string name="home_recent_app_name_distance_task_view_card">Distância do nome e ícone do app nos recentes</string>
-    <string name="home_recent_task_view_card_rounded_corners">Cantos arredondados do cartão nos recentes</string>
+    <string name="home_recent_app_name_distance_task_view_card">Distância do nome e ícone do app nos Recentes</string>
+    <string name="home_recent_task_view_card_rounded_corners">Cantos arredondados do cartão nos Recentes</string>
     <string name="home_recent_horizontal_task_view_card_size1">Tamanho da miniatura para Horizontalmente-Vertical</string>
     <string name="home_recent_horizontal_task_view_card_size2">Tamanho da miniatura para Horizontalmente-Horizontal</string>
     <string name="home_recent_vertical_task_view_card_size">Tamanho da miniatura para Verticalmente</string>
@@ -1414,7 +1470,7 @@
     <string name="system_framework_guided_access_more">Acesso guiado semelhante ao iOS que fixa o app atual na tela.\nPara usar, pressione e segure a barra de status superior e, se quiser sair, pressione e segure a barra de status superior novamente.\nNa primeira vez que você usá-lo, você precisa reiniciar o dispositivo.</string>
     <string name="home_other_shortcut_remove_restrictions">Remover restrições de atalhos</string>
     <string name="home_other_shortcut_background_blur_custom">Valor do blur do menu de atalho</string>
-    <string name="home_other_high_models">Reconhecimento obrigatório como modelo high-end</string>
+    <string name="home_other_high_models">Disfarçar modelo como high-end</string>
     <string name="home_recent_blur_level">Nível do blur</string>
     <string name="home_recent_complete_blur_plus">Blur plus completo</string>
     <string name="home_recent_complete_blur">Blur completo</string>
@@ -1449,6 +1505,9 @@
     <!--Wallpaper-->
     <string name="miwallpaper">Plano de fundo Mi</string>
     <string name="miwallpaper_unlock_super_wallpaper">Desbloquear Super plano de fundo</string>
+    <!--Notes-->
+    <string name="notes">Notas</string>
+    <string name="notes_disable_ai_watermark">Desativar marca d\'água IA</string>
     <!--Package installer-->
     <string name="package_installer">Instalador de pacotes</string>
     <string name="miui_package_installer_modify">Limpar página</string>
@@ -1489,7 +1548,7 @@
     <string name="powerkeeper_lock_max_fps">Bloquear FPS máximo</string>
     <string name="powerkeeper_do_not_kill_apps">Tente não encerrar os apps</string>
     <string name="powerkeeper_do_not_kill_apps_desc">Pode aumentar o consumo de energia</string>
-    <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Impedir a recuperação da lista de permissões de otimização de bateria</string>
+    <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Impedir a recuperação da lista de permissões de bateria</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Desativar para obter código do controle de exibição</string>
     <string name="powerkeeper_gms_doze_fix">Permitir que o GMS se conecte à rede a qualquer momento</string>
     <!--Screen Recorder-->
@@ -1653,7 +1712,7 @@
     <string name="analytics_fuck_guard">Remover proteção</string>
     <!--AI Translate-->
     <string name="aiasst">Mi AI Translate</string>
-    <string name="aiasst_ai_captions">Forçar legendas IA habilitadas</string>
+    <string name="aiasst_ai_captions">Forçar legendas IA ativadas</string>
     <string name="aiasst_all_captions">Desbloquear legendas online em vários idiomas</string>
     <string name="aiasst_disable_watermark">Desativar marca d\'água</string>
     <!--Barrage-->
@@ -1677,12 +1736,14 @@
     <string name="market_package_monitor_desc">Proíba que o GetApps pare de monitorar a instalação e desinstalação de apps</string>
     <string name="market_disable_ads">Desativar anúncios</string>
     <string name="market_bypass_risk_check">Ignorar verificação de risco</string>
+    <string name="market_disable_start_push_dialog">Desativar diálogo de início push</string>
     <!--Mi sound-->
     <string name="misound">Fones de ouvido</string>
     <string name="misound_bluetooth">Mudar status do fone de ouvido para o som original</string>
     <string name="misound_bluetooth_uuid">Identificador UUID de efeito sonoro</string>
     <string name="misound_bluetooth_uuid_more">Se o efeito sonoro não tiver efeito, você pode tentar modificá-lo você mesmo.</string>
     <string name="misound_increase_sampling_rate">Aumentar taxa de amostragem</string>
+    <string name="misound_spatial">Forçar Som imersivo após desconectar o fone de ouvido</string>
     <!--Mi Settings-->
     <string name="mi_settings">Configurações Mi</string>
     <string name="mi_input_settings">Configurações de entrada</string>
@@ -1702,7 +1763,7 @@
     <string name="scanner_card">Desbloquear Escanear cartão ID</string>
     <string name="scanner_translation">Desbloquear Tradução</string>
     <string name="scanner_ocr">Desbloquear OCR</string>
-    <string name="scanner_document">Desbloquear Escanear documento</string>
+    <string name="scanner_document">Desbloquear Escanear documentos</string>
     <string name="scanner_excel">Desbloquear Escanear tabela</string>
     <string name="scanner_ppt">Desbloquear Escanear PPT</string>
     <string name="scanner_doc_ppt">Desbloquear Escanear arquivos</string>
@@ -1710,6 +1771,12 @@
     <string name="voiceassist">Mi AI</string>
     <string name="voiceassist_hyper">Super Mi AI</string>
     <string name="voiceassist_disable_watermark">Desativar marca d\'água no chat</string>
+    <!--Voice Trigger-->
+    <string name="voicetrigger">Acorde com voz</string>
+    <string name="bypass_udk_word_legal_check_caption">Permitir gravação do Acorde com voz sem internet</string>
+    <string name="bypass_udk_word_legal_check_description">Permite a gravação de palavras do Acorde com voz quando estiver offline</string>
+    <string name="voicetrigger_accuracy_percent_caption">Definir precisão da detecção do Acorde com voz</string>
+    <string name="voicetrigger_accuracy_percent_description">Valores maiores são mais difíceis de detectar. O valor padrão é 70%, para a palavra-chave XATX é 0%. Após a configuração, você precisa reiniciar o app de destino e registrar novamente sua palavra de ativação.</string>
     <!--Other-->
     <string name="various">Outros</string>
     <string name="share_center">Xiaomi Smart Hub</string>
@@ -1724,7 +1791,7 @@
     <string name="various_nobrightness">Rejeitar brilho forçado</string>
     <string name="various_no_overscroll">Desativar rejeição fora dos limites</string>
     <string name="various_disable_access_device_logs">Ignorar diálogo de solicitação aos logs do dispositivo</string>
-    <string name="various_phrase_clipboardlist">Remover o número de frases da área de transferência</string>
+    <string name="various_phrase_clipboardlist">Remover número de frases da área de transferência</string>
     <string name="various_phrase_clipboardlist_more">Após ativado, selecione o escopo do método de entrada e reinicie-o.</string>
     <string name="various_unlock_ime">Desbloquear IME</string>
     <string name="various_unlock_ime_desc">Após ativar, verifique o escopo do método de entrada correspondente no LSPosed.</string>
@@ -1831,57 +1898,6 @@
     <string name="operator_fix_none">Não reparar</string>
     <string name="operator_fix_1">Método 1</string>
     <string name="operator_fix_2">Método 2 (recomendado)</string>
-    <string name="custom_hook_new">Adicionar gancho</string>
-    <string name="custom_hook_mode">Selecionar modo</string>
-    <string name="open_source">Projetos de código aberto</string>
-    <string name="close_source">Projetos de código fechado</string>
-    <string name="exit">Sair</string>
-    <string name="ignore">Ignorar</string>
-    <string name="log_level">Nível de registro</string>
-    <string name="log_level_none">Desativado</string>
-    <string name="disable_suggest">Desativar sugestão</string>
-    <string name="enable_suggest">Ativar sugestão</string>
-    <string name="set_homepage_entrance">Configurar entrada da página inicial</string>
-    <string name="help_cant_see_apps_guide">Não consegue encontrar os recursos do app?</string>
-    <string name="set_homepage_entrance_about">Observação: Ao modificar esta configuração ela oculta apenas a visibilidade do recurso na página inicial e os recursos que foram ativados não serão desativados!\nOcultar o recurso na página inicial terá efeito imediato e o app precisara ser reiniciado para reaparecer.</string>
-    <string name="help_cant_see_apps_title">Não consegue encontrar os recursos do app na página inicial?</string>
-    <string name="help_cant_see_apps_desc">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n • Aqueles atualmente desativados ou ocultos\n • Aqueles que não foram encontrados em seu dispositivo\n • Aqueles incompatíveis com a versão atual do sistema ou do app\n • Não selecionado como escopo\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nRecursos do app atualmente ocultos:</string>
-    <string name="help_cant_see_apps_uninstall">Apps desinstalados:\n</string>
-    <string name="help_cant_see_apps_disable">Apps desativados ou ocultos:\n</string>
-    <string name="help_cant_see_apps_scope">Não selecionado como escopo:\n</string>
-    <string name="help_cant_see_apps_desc_no_hidden">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n • Aqueles atualmente desativados ou ocultos\n • Aqueles que não foram encontrados em seu dispositivo\n • Aqueles incompatíveis com a versão atual do sistema ou do app\n • Não selecionado como escopo\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nAtualmente não há recursos ocultos!</string>
-    <string name="help_cant_see_apps_switch">Ocultar esta ajuda na página inicial</string>
-    <string name="help_cant_see_apps_switch_desc">Você ainda pode encontrar esta página em Sobre &gt; Ajuda. Reinicie o app para aplicar</string>
-    <string name="help_support_version_title">Lista de versões do sistema com suporte à versão atual do app</string>
-    <string name="help_support_version_desc_1">A versão atual do app está totalmente adaptada às seguintes versões do sistema:</string>
-    <string name="help_support_version_desc_2">As seguintes versões do sistema são adaptadas à versão atual do app:</string>
-    <string name="help_support_version_desc_3">A versão atual do sistema está totalmente adaptada.</string>
-    <string name="help_support_version_desc_4">A versão atual do sistema não está (totalmente) adaptada.</string>
-    <string name="headtip_warn_not_offical_rom">A ROM que você está usando pode não ser oficial da Xiaomi, e alguns recursos podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
-    <string name="headtip_warn_unsupport_sysver">O dispositivo atual está executando uma versão do sistema que não está (totalmente) adaptada, o que pode resultar em anomalias na funcionalidade do HyperCeiler.</string>
-    <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial do HyperCeiler, podendo conter código malicioso.</string>
-    <string name="headtip_tip_auto_safe_mode">O Modo seguro automático pode desconectar alguns apps a tempo quando eles travam várias vezes para garantir a segurança. Este recurso requer que o escopo Framework do Sistema seja executado. É altamente recomendável verificar o escopo Framework do Sistema para ativar o Modo seguro automático.</string>
-    <string name="headtip_tip_long_press_to_copy">Você pode selecionar o texto após pressionar longamente ou tocar duas vezes, ou copiá-lo e devolvê-lo ao desenvolvedor.</string>
-    <string name="headtip_tip_fuck_coolapk">Hoje na história: Sevtinge fez um discurso importante em 14 de julho de 2022.</string>
-    <string name="headtip_notice_dead_logger_errcode">O serviço de log do dispositivo atual está anormal e os recursos do HyperCeiler serão limitados. Por favor, restaure o serviço de log para que ele possa funcionar normalmente.\nCódigo de erro: %1$s</string>
-    <string name="headtip_notice_dead_logger">O serviço de log do dispositivo atual está anormal e os recursos do HyperCeiler serão limitados. Por favor, restaure o serviço de log para que ele possa funcionar normalmente.</string>
-    <string name="warn">Atenção!</string>
-    <string name="safe_mode_desc">%1$s entrou no Modo seguro devido a várias falhas e os recursos do HyperCeiler foi temporariamente desativado.</string>
-    <string name="safe_mode_history">Ver registros de exceção</string>
-    <string name="safe_mode_cancel">Desativar Modo seguro</string>
-    <string name="safe_mode_ok">Cancelar</string>
-    <string name="safe_mode_later_title">Dica</string>
-    <string name="safe_mode_later_desc">%1$s ainda está no Modo seguro e os recursos do HyperCeiler estão desativados. Desativar Modo seguro?</string>
-    <string name="safe_mode_recorder_title">Registros de exceção</string>
-    <string name="safe_mode_recorder_file">Arquivo</string>
-    <string name="safe_mode_recorder_class">Classe</string>
-    <string name="safe_mode_recorder_method">Método</string>
-    <string name="safe_mode_recorder_line">Linha</string>
-    <string name="safe_mode_recorder_msg">Mensagem de exceção</string>
-    <string name="safe_mode_recorder_st">Rastreamento de erros</string>
-    <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
-    <string name="preference_recommend_tip">Precisa de outras configurações?</string>
-    <string name="happy_birthday_hyperceiler">Hoje é o aniversário do HyperCeiler!\nObrigado pelo seu apoio durante o ano passado e vamos continuar trabalhando juntos este ano!</string>
     <string name="ic_qs_title_wifi">Wi-Fi</string>
     <string name="ic_qs_title_cellular">Rede móvel</string>
     <string name="ic_qs_title_bluetooth">Bluetooth</string>
@@ -1894,26 +1910,14 @@
     <string name="ic_qs_title_autobrightness">Brilho automático</string>
     <string name="ic_qs_title_vowifi1">VoWiFi SIM 1</string>
     <string name="ic_qs_title_vowifi2">VoWiFi SIM 2</string>
-    <!--Telecom-->
-    <string name="telecom">Gerenciamento de chamadas</string>
-    <string name="scam_reminder_bypass_caption">Permitir encaminhamento de chamadas através do código MMI</string>
-    <string name="scam_reminder_bypass_description">Permite a discagem direta de códigos MMI, como **21*8#, para ativar o encaminhamento de chamadas.</string>
-    <!--Voice Trigger-->
-    <string name="voicetrigger">Acorde com voz</string>
-    <string name="bypass_udk_word_legal_check_caption">Permitir gravação do Acorde com voz sem internet</string>
-    <string name="bypass_udk_word_legal_check_description">Permite a gravação de palavras do Acorde com voz quando estiver offline</string>
-    <string name="voicetrigger_accuracy_percent_caption">Definir precisão da detecção do Acorde com voz</string>
-    <string name="voicetrigger_accuracy_percent_description">Valores maiores são mais difíceis de detectar. O valor padrão é 70%, para a palavra-chave XATX é 0%. Após a configuração, você precisa reiniciar o app de destino e registrar novamente sua palavra de ativação.</string>
-    <string name="notes">Notas</string>
-    <string name="notes_disable_ai_watermark">Desativar marca d\'água IA</string>
-    <string name="sound_recorder">Gravador</string>
-    <string name="sound_recorder_disable_ai_watermark">Desativar marca d\'água IA</string>
-    <string name="lpa">LPA</string>
-    <string name="lpa_custom_imei">IMEI personalizado</string>
-    <string name="lpa_custom_imei_desc">Certifique-se de inserir o IMEI corretamente. Um IMEI incorreto pode fazer com que o eSIM fique indisponível ou anormal. Não somos responsáveis ​​por quaisquer consequências daí decorrentes.</string>
-    <string name="about_device_info_device">Dispositivo</string>
-    <string name="about_device_info_android">Versão do Android</string>
-    <string name="about_device_info_os">Versão do OS</string>
-    <string name="misound_spatial">Forçar Som imersivo após desconectar o fone de ouvido</string>
-    <string name="market_disable_start_push_dialog">Desativar diálogo de início push</string>
+    <string name="custom_hook_new">Adicionar gancho</string>
+    <string name="custom_hook_mode">Selecionar modo</string>
+    <string name="open_source">Projetos de código aberto</string>
+    <string name="close_source">Projetos de código fechado</string>
+    <string name="exit">Sair</string>
+    <string name="ignore">Ignorar</string>
+    <string name="log_level">Nível de log</string>
+    <string name="log_level_none">Desativado</string>
+    <string name="disable_suggest">Desativar sugestão</string>
+    <string name="enable_suggest">Ativar sugestão</string>
 </resources>

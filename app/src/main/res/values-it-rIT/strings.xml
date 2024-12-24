@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2024 HyperCeiler Contributions
+  -->
 <resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Rendiamo HyperOS/MIUI ottimo di nuovo!</string>
@@ -7,11 +25,38 @@
     <string name="new_cta_agree_desc">Durante l\'uso, in modo da poterti fornire più funzionalità, potremmo chiederti i permessi di Root/SU. Puoi andare su Gestione permessi in qualsiasi momento per gestire tutte le autorizzazioni, e per favore controlla il tuo manager Root/SU per i permessi di Root/SU.</string>
     <string name="new_cta_app_main_purpose">modifica applicazioni di sistema</string>
     <string name="new_cta_app_all_purpose_title">Benvenuto in HyperCeiler. Questa applicazione si basa sul framework Xposed per funzionare. Puoi utilizzare questa applicazione per modificare altre applicazioni supportate per migliorare il sistema. Durante l\'uso, al fine di fornire ulteriori funzioni, possiamo richiederti permessi Root/Su. Puoi gestirlo in qualsiasi momento andando al tuo gestore di Root/Su.</string>
+    <!--HyperCeiler Tips-->
+    <string name="tip_default">Suggerimento: ecco il suggerimento predefinito. Se riesci a vedermi significa che c\'è un problema con HyperCeiler, segnalalo allo sviluppatore in modo tempestivo ed efficace.</string>
+    <string name="headtip_warn_not_offical_rom">La fonte della ROM che stai utilizzando potrebbe non essere ufficiale di Xiaomi e alcune funzioni potrebbero non funzionare, contatta il provider che stai utilizzando per i dettagli.</string>
+    <string name="headtip_warn_sign_verification_failed">La verifica della firma non è riuscita e il la versione corrente che stai utilizzando potrebbe non provenire dalla versione ufficiale di Re.chronoRain e potrebbe contenere codice dannoso.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Inglese</string>
     <string name="translator">Stefano Lo Casto</string>
     <string name="translator_url">https://zh.crowdin.com/profile/stefano.lcst1</string>
     <string name="home">Home</string>
+    <string name="help">Aiuto</string>
+    <string name="settings">Impostazioni</string>
+    <string name="about">Info</string>
+    <string name="about_use">Citazione</string>
+    <string name="about_use_desc">HyperCeiler utilizza alcuni o tutti i seguenti progetti, grazie agli sviluppatori di questi progetti per il loro sostegno (in nessun ordine specifico)</string>
+    <string name="about_contributer">Collaboratore</string>
+    <string name="about_contributer_desc">Grazie ai seguenti contributori per il loro aiuto nello sviluppo di HyperCeiler (in nessun ordine specifico)</string>
+    <string name="about_donation">Sponsor</string>
+    <string name="about_donation_desc">Puoi sostenerci donando qui</string>
+    <string name="hyperceiler_notice">Scorri verso il basso la barra di stato per visualizzare le scorciatoie e le notifiche di sistema</string>
+    <string name="hyperceiler_restart_quick">Riavvia rapidamente le app</string>
+    <string name="set_homepage_entrance">Imposta la voce della home page</string>
+    <string name="set_homepage_entrance_about">Nota:\nQuesta impostazione è solo l\'impostazione della visibilità della voce della home page e le funzioni che sono state attivate non verranno disattivate!\nLa chiusura del portale avrà effetto in tempo reale e l\'applicazione dovrà essere riavviata per riapparire.</string>
+    <string name="help_cant_see_apps_guide">Non riesci a trovare le funzionalità dell\'app?</string>
+    <string name="help_cant_see_apps_title">Non riesci a trovare le funzionalità dell\'app nella home page?</string>
+    <string name="help_cant_see_apps_desc">Per mantenere la semplicità e l\'usabilità della home page, abbiamo nascosto l\'accesso ai seguenti tipi di funzionalità dell\'app:\n\n - Quelle attualmente disabilitate o nascoste\n - Quelle app che non sono state trovate nel tuo dispositivo\n - Quelle incompatibili con il sistema attuale o la versione dell\'app\n\nRisolvi il problema in base alle informazioni di cui sopra, riavvia HyperCeiler e riprova. Se ancora non riesci a trovare la funzionalità dell\'app, potrebbe trattarsi di un bug. Forniscici un feedback tempestivo ed efficace.\n\nFunzionalità delle app attualmente nascoste:</string>
+    <string name="help_cant_see_apps_uninstall">App disinstallate:\n</string>
+    <string name="help_cant_see_apps_disable">App disattivate o nascoste:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">Per mantenere la semplicità e l\'usabilità della home page, hanno accesso nascosto ai seguenti tipi di funzionalità dell\'app:\n\n - Quelle attualmente disabilitate o nascoste\n - Quelle app che non sono state trovate nel tuo dispositivo\n - Quelle incompatibili con l\'attuale sistema o versione dell\'app\n\nRisolvi il problema in base a le informazioni di cui sopra, riavviare HyperCeiler e riprovare. Se ancora non riesci a trovare la funzionalità dell\'app, potrebbe trattarsi di un bug. Ti preghiamo di fornirci un feedback tempestivo ed efficace.\n\nAl momento non esiste un\'entrata nascosta!</string>
+    <string name="help_cant_see_apps_switch">Nascondi questo aiuto nella home page</string>
+    <string name="help_cant_see_apps_switch_desc">Puoi ancora trovare questa pagina in \"Impostazioni - Configura la voce della home page\". Riavvia l\'app per applicare.</string>
+    <string name="location_add">Aggiungi</string>
+    <string name="location_delete">Cancella</string>
     <string name="edit">Inserisci testo</string>
     <string name="kill">Strumento di chiusura forzata</string>
     <string name="kill_1">Inserisci nome pacchetto/software</string>
@@ -27,25 +72,11 @@
     <string name="prefs_5">Seleziona tipo</string>
     <string name="prefs_6">Controlla le preferenze di condivisione</string>
     <string name="prefs_7">Rimuovi la chiave specificata</string>
-    <string name="help">Aiuto</string>
-    <string name="settings">Impostazioni</string>
-    <string name="about">Info</string>
-    <string name="about_use">Citazione</string>
-    <string name="about_use_desc">HyperCeiler utilizza alcuni o tutti i seguenti progetti, grazie agli sviluppatori di questi progetti per il loro sostegno (in nessun ordine specifico)</string>
-    <string name="about_contributer">Collaboratore</string>
-    <string name="about_contributer_desc">Grazie ai seguenti contributori per il loro aiuto nello sviluppo di HyperCeiler (in nessun ordine specifico)</string>
-    <string name="about_donation">Sponsor</string>
-    <string name="about_donation_desc">Puoi sostenerci donando qui</string>
-    <string name="hyperceiler_notice">Scorri verso il basso la barra di stato per visualizzare le scorciatoie e le notifiche di sistema</string>
-    <string name="hyperceiler_restart_quick">Riavvia rapidamente le app</string>
-    <string name="location_add">Aggiungi</string>
-    <string name="location_delete">Cancella</string>
+    <string name="success">Successo</string>
     <string name="development">Opzioni sviluppatore</string>
     <string name="development_ui">Interfaccia</string>
     <string name="development_debug_info">Informazioni di debug</string>
     <string name="development_prefs">Preferenze di condivisione</string>
-    <string name="about_privacy">Informativa sulla privacy</string>
-    <string name="about_protocol">Accordo Utente</string>
     <string name="settings_show_title">Mostra</string>
     <string name="settings_data_title">Backup e Ripristino</string>
     <string name="settings_bug_title">Risoluzione dei problemi</string>
@@ -95,6 +126,8 @@
     <string name="about_offical">Sito web ufficiale</string>
     <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">Aiutaci a tradurre HyperCeiler nella tua lingua</string>
+    <string name="about_privacy">Informativa sulla privacy</string>
+    <string name="about_protocol">Accordo Utente</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Riavvia </string>
     <string name="restart_app_desc">Sei sicuro di voler riavviare ora %1$s?</string>
@@ -119,9 +152,20 @@
     <string name="preference_dialog_color_picker_custom">Colore personalizzato</string>
     <string name="preference_dialog_color_picker_transparency">Trasparenza</string>
     <string name="preference_dialog_color_picker_select">Conferma selezione</string>
+    <string name="preference_recommend_tip">Cerchi qualcos\'altro?</string>
     <string name="abc_action_bar_home_description">Torna alla pagina principale</string>
     <string name="abc_action_bar_up_description">Torna alla pagina precedente</string>
     <string name="actionbar_button_up_description">Indietro</string>
+    <string name="miuix_appcompat_action_mode_select_all">Seleziona tutto</string>
+    <string name="miuix_appcompat_cancel_description">Cancella</string>
+    <string name="miuix_appcompat_confirm_description">Ok</string>
+    <string name="miuix_appcompat_select_all_description">Seleziona tutto</string>
+    <string name="miuix_appcompat_deselect_all_description">Deseleziona tutto</string>
+    <string name="miuix_appcompat_delete_description">Cancella</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">Cancella</string>
+    <string name="miuix_appcompat_search_input_description">Cerca</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Altro</string>
+    <string name="miuix_appcompat_action_mode_inverse">Inverso</string>
     <string name="color_picker_alpha_text_transparent">Opacità</string>
     <string name="color_picker_tab_grid">Griglia</string>
     <string name="color_picker_tab_slider">Slider</string>
@@ -183,7 +227,6 @@
     <string name="array_global_actions_eqs">Espandi il pannello delle impostazioni rapide</string>
     <string name="array_global_actions_lock">Schermata di blocco</string>
     <string name="array_global_actions_sleep">Chiudi lo schermo</string>
-    <string name="array_global_actions_screenshot">Screenshot</string>
     <string name="array_global_actions_menu">Apri Menu</string>
     <string name="array_global_actions_recents">Apri app recenti</string>
     <string name="array_global_actions_volume">Apri la finestra del volume</string>
@@ -273,6 +316,7 @@
     <string name="system_ui_statusbar_clock_style_3">Mostra su due linee\n\nMini orologio nella barra delle notifiche in alto\nOrologio barra di stato in basso</string>
     <string name="mediaeditor_mickey">Mickey Mouse</string>
     <string name="mediaeditor_strawberry_bear">Strawberry Bear</string>
+    <string name="tiles_taplus">Interruttori Taplus</string>
     <!--System Framework-->
     <string name="system_framework">Framework di sistema</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -357,6 +401,8 @@
     <string name="system_framework_other_thermal_brightness_more">Riduzione automatica della luminosità non causata dal controllo della temperatura</string>
     <string name="system_framework_other_disable_cleaner">Disabilita la chiusura di app in background</string>
     <string name="system_framework_other_disable_cleaner_desc">Funzioni sperimentali, può causare un uso anormale della memoria in esecuzione</string>
+    <string name="system_framework_other_disable_gesture_monitor">Disabilita il monitoraggio dei gesti</string>
+    <string name="system_framework_other_disable_gesture_monitor_desc">Riduce il carico della CPU, ma interrompe le funzioni relative all\'input come gli screenshot con tre dita</string>
     <string name="system_framework_disable_72h_verify">Disabilita la verifica della schermata di blocco ogni 72 ore</string>
     <string name="system_framework_disable_verify_can_ve_disabled">Disabilita per verificare può essere disabilitato</string>
     <string name="system_framework_allow_all_dark_mode">Consenti a tutte le app di utilizzare la modalità scura</string>
@@ -446,6 +492,7 @@
     <!--Calendar-->
     <string name="calendar">Calendario</string>
     <string name="calendar_unlock_subscription">Sblocca Iscrizione</string>
+    <!--Community-->
     <!--File Manager-->
     <string name="fileexplorer">Gestore File</string>
     <string name="file_explorer_can_selectable">Gestore File può essere selezionato</string>
@@ -468,6 +515,7 @@
     <string name="downloads">Scarica il programma di gestione</string>
     <string name="various_fuck_xlDownload">Blocca la creazione della cartella .xlDownload</string>
     <string name="various_fuck_xlDownload_desc">Impedisci al gestore download di generare la cartella .xlDownload nella root della memoria interna</string>
+    <!--Download UI-->
     <!--System UI-->
     <string name="system_ui">UI sistema</string>
     <string name="system_ui_lockscreen_title">Schermata di blocco</string>
@@ -807,6 +855,7 @@
     <string name="system_ui_other_notification_fix">Disabilita whitelist notifiche</string>
     <string name="system_ui_plugin_enable_volume_blur">Abilita sfocatura barra volume</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Solo per i modelli Android12+ MTK, lì potrebbe essere elevato il carico della GPU</string>
+    <!--Telecom-->
     <!--Settings-->
     <string name="system_settings">Impostazioni</string>
     <string name="system_settings_linkturbo">Rimuovi restrizioni sulle applicazioni di accelerazione di rete</string>
@@ -867,6 +916,7 @@
     <string name="theme_manager_diable_ads_desc">Sostituisci \"indovina cosa ti piace\" annunci con schede vuote e rimuovi completamente il resto degli annunci</string>
     <string name="theme_manager_enable_pad_theme">Abilita tema Pad</string>
     <string name="theme_manager_enable_fold_theme">Abilita tema Fold</string>
+    <!--remotecontroller-->
     <!--Updater-->
     <string name="updater">Aggiornamento</string>
     <string name="updater_enable_miui_version">Abilita versione falsa per Updater</string>
@@ -895,6 +945,7 @@
     <string name="milink_unlock_hmind">Sblocca Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">Supporto forzato per lo streaming della fotocamera</string>
     <string name="milink_fuck_hpplay">Blocca la creazione di cartelle hpplay</string>
+    <!--Sound Recorder-->
     <!--Always-on display-->
     <string name="aod">Display sempre attivo</string>
     <string name="aod_hyperos">Display sempre attivo e editor schermata di blocco</string>
@@ -925,6 +976,7 @@
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Rimuovi restrizioni su l\'uso di telefoni cellulari</string>
+    <!--LPA-->
     <!--Gallery-->
     <string name="gallery">Galleria</string>
     <string name="gallery_enable_hdr_enhanced">Sblocca display ad alta gamma dinamica</string>
@@ -1205,6 +1257,8 @@
     <!--Wallpaper-->
     <string name="miwallpaper">Sfondo</string>
     <string name="miwallpaper_unlock_super_wallpaper">Sblocca Super sfondo</string>
+    <!--Notes-->
+    <string name="notes">Note</string>
     <!--Package installer-->
     <string name="package_installer">Installazione pacchetto</string>
     <string name="miui_package_installer_modify">Purifica la pagina</string>
@@ -1223,6 +1277,7 @@
     <string name="nfc">Servizio NFC</string>
     <string name="nfc_disable_sound">Disabilita suono di notifica NFC</string>
     <string name="nfc_allow_information_screen">Consenti riconoscimento quando lo schermo è spento</string>
+    <!--HTML Viewer-->
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Ripiega peso</string>
@@ -1257,6 +1312,7 @@
     <string name="screenshot_save_to_pictures_desc">Posizione di salvataggio dello screenshot canonico in /Immagini/Screenshot</string>
     <string name="screenshot_device_customize_title">Modello di screenshot personalizzato con shell</string>
     <string name="screenshot_device_customize_desc">Inserisci il codice del dispositivo e il dispositivo colorato deve essere riempito con un suffisso, ad esempio:\n- Xiaomi 13, inserisci il contenuto è fuxi \n- Versione rosa Xiaomi 14, compilare il contenuto è houji_PK</string>
+    <!--System Service Plugin-->
     <!--Security/Tablet security center-->
     <string name="security_center">Sicurezza</string>
     <string name="security_center_pad">Centro sicurezza tablet</string>
@@ -1378,6 +1434,7 @@
     <string name="weather_card_display_type_title">Tipo di visualizzazione scheda</string>
     <string name="weather_card_display_type_title_2">Modalità chiara</string>
     <string name="weather_card_display_type_title_3">Modalità scura</string>
+    <!--Analytics-->
     <!--AI Translate-->
     <string name="aiasst">Traduzione AI</string>
     <string name="aiasst_ai_captions">Forza didascalie AI abilitate</string>
@@ -1428,9 +1485,9 @@
     <!--MI AI-->
     <string name="voiceassist">Mi AI</string>
     <string name="voiceassist_disable_watermark">Disabilita filigrana chat</string>
+    <!--Voice Trigger-->
     <!--Other-->
     <string name="various">Altro</string>
-    <string name="notes">Note</string>
     <string name="share_center">Mi Smart Hub</string>
     <string name="new_task">Nuova attività</string>
     <string name="custom_hook">Personalizzata</string>
@@ -1558,18 +1615,4 @@
     <string name="log_level_none">Disabilita registro</string>
     <string name="disable_suggest">Disabilita suggerimento</string>
     <string name="enable_suggest">Abilita suggerimento</string>
-    <string name="set_homepage_entrance">Imposta la voce della home page</string>
-    <string name="help_cant_see_apps_guide">Non riesci a trovare le funzionalità dell\'app?</string>
-    <string name="set_homepage_entrance_about">Nota:\nQuesta impostazione è solo l\'impostazione della visibilità della voce della home page e le funzioni che sono state attivate non verranno disattivate!\nLa chiusura del portale avrà effetto in tempo reale e l\'applicazione dovrà essere riavviata per riapparire.</string>
-    <string name="help_cant_see_apps_title">Non riesci a trovare le funzionalità dell\'app nella home page?</string>
-    <string name="help_cant_see_apps_desc">Per mantenere la semplicità e l\'usabilità della home page, abbiamo nascosto l\'accesso ai seguenti tipi di funzionalità dell\'app:\n\n - Quelle attualmente disabilitate o nascoste\n - Quelle app che non sono state trovate nel tuo dispositivo\n - Quelle incompatibili con il sistema attuale o la versione dell\'app\n\nRisolvi il problema in base alle informazioni di cui sopra, riavvia HyperCeiler e riprova. Se ancora non riesci a trovare la funzionalità dell\'app, potrebbe trattarsi di un bug. Forniscici un feedback tempestivo ed efficace.\n\nFunzionalità delle app attualmente nascoste:</string>
-    <string name="help_cant_see_apps_uninstall">App disinstallate:\n</string>
-    <string name="help_cant_see_apps_disable">App disattivate o nascoste:\n</string>
-    <string name="help_cant_see_apps_desc_no_hidden">Per mantenere la semplicità e l\'usabilità della home page, hanno accesso nascosto ai seguenti tipi di funzionalità dell\'app:\n\n - Quelle attualmente disabilitate o nascoste\n - Quelle app che non sono state trovate nel tuo dispositivo\n - Quelle incompatibili con l\'attuale sistema o versione dell\'app\n\nRisolvi il problema in base a le informazioni di cui sopra, riavviare HyperCeiler e riprovare. Se ancora non riesci a trovare la funzionalità dell\'app, potrebbe trattarsi di un bug. Ti preghiamo di fornirci un feedback tempestivo ed efficace.\n\nAl momento non esiste un\'entrata nascosta!</string>
-    <string name="help_cant_see_apps_switch">Nascondi questo aiuto nella home page</string>
-    <string name="help_cant_see_apps_switch_desc">Puoi ancora trovare questa pagina in \"Impostazioni - Configura la voce della home page\". Riavvia l\'app per applicare.</string>
-    <string name="headtip_warn_not_offical_rom">La fonte della ROM che stai utilizzando potrebbe non essere ufficiale di Xiaomi e alcune funzioni potrebbero non funzionare, contatta il provider che stai utilizzando per i dettagli.</string>
-    <string name="headtip_warn_sign_verification_failed">La verifica della firma non è riuscita e il la versione corrente che stai utilizzando potrebbe non provenire dalla versione ufficiale di Re.chronoRain e potrebbe contenere codice dannoso.</string>
-    <string name="tip_default">Suggerimento: ecco il suggerimento predefinito. Se riesci a vedermi significa che c\'è un problema con HyperCeiler, segnalalo allo sviluppatore in modo tempestivo ed efficace.</string>
-    <string name="preference_recommend_tip">Cerchi qualcos\'altro?</string>
 </resources>

@@ -192,7 +192,9 @@
         <item>@string/settings_app_zh_tw</item>
         <item>@string/settings_app_zh_hk</item>
         <item>@string/settings_app_ja_jp</item>
+        <item>@string/settings_app_pl_pl</item>
         <item>@string/settings_app_ru_ru</item>
+        <item>@string/settings_app_ar_eg</item>
         <item>@string/settings_app_es_es</item>
         <item>@string/settings_app_pt_br</item>
         <item>@string/settings_app_in_id</item>

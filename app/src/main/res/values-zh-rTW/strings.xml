@@ -27,11 +27,70 @@
     <string name="new_cta_agree_desc">在使用過程中，為了提供您更多功能，我們可能會向您申請 Root/Su 權限。您可以隨時到權限管理調整所有權限的授權狀態，並請到您的 Root/Su 管理員管理 Root/Su 權限。</string>
     <string name="new_cta_app_main_purpose">修改系統應用程式</string>
     <string name="new_cta_app_all_purpose_title">歡迎使用 HyperCeiler，這個應用程式執行在 Xposed 框架上，您可以使用這個應用程式來劫持和修改其他支援的應用程式，以實現系統的增強功能。在使用過程中，為了提供您更多功能，我們可能會向您申請 Root/Su 權限。您可以到您的 Root/Su 管理員管理 Root/Su 權限。</string>
+    <!--HyperCeiler Tips-->
+    <string name="warn">警告</string>
+    <string name="safe_mode_desc">%1$s由於多次閃退已進入安全模式，且 HyperCeiler 功能已暫時停用。 \n按一下「確定」取消，按一下「取消」稍後處理。</string>
+    <string name="safe_mode_history">查看異常記錄</string>
+    <string name="safe_mode_cancel">停用安全模式</string>
+    <string name="safe_mode_ok">稍後再處理</string>
+    <string name="safe_mode_later_title">提示</string>
+    <string name="safe_mode_later_desc">%1$s仍處於安全模式且 HyperCeiler 功能已停用。停用安全模式？</string>
+    <string name="safe_mode_recorder_title">異常記錄</string>
+    <string name="safe_mode_recorder_file">檔案</string>
+    <string name="safe_mode_recorder_class">類別</string>
+    <string name="safe_mode_recorder_method">方法</string>
+    <string name="safe_mode_recorder_line">行</string>
+    <string name="safe_mode_recorder_msg">異常訊息</string>
+    <string name="safe_mode_recorder_st">堆疊追蹤</string>
+    <string name="tip_default">提示：這是預設提示。如果你能看到我，則表示 HyperCeiler 有問題，請及時有效地向開發者報告。</string>
+    <string name="headtip_warn_not_offical_rom">您所使用的 ROM 來源可能不是屬於小米官方版本，部分功能可能無法使用，具體請聯絡您所使用的 ROM 開發者。</string>
+    <string name="headtip_warn_unsupport_sysver">目前裝置運行的系統版本未（完全）適配，這可能會導致 HyperCeiler 功能出現異常。</string>
+    <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 HyperCeiler 官方的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
+    <string name="headtip_tip_auto_safe_mode">自動安全模式可以在某些應用程式多次閃退時及時脫鉤，以確保安全。此功能需要鉤子作用域「系統框架」才能運行，我們強烈建議您檢查勾選「系統框架」作用域以啟動自動安全模式。</string>
+    <string name="headtip_tip_long_press_to_copy">您可以長按或雙擊後選擇文本，或複製它並將其回饋給開發人員。</string>
+    <string name="happy_birthday_hyperceiler">今天是 HyperCeiler 的生日！ \n感謝您過去一年來的支持，今年讓我們繼續共同努力！</string>
+    <string name="headtip_tip_fuck_coolapk">歷史上的今天：二〇二二年（民國一一一年）七月十四日，Sevtinge 發表了重要談話。</string>
+    <string name="headtip_notice_dead_logger_errcode">目前裝置日誌服務異常，HyperCeiler 功能將受到限制。請恢復日誌服務以便其正常運作。\n錯誤碼： %1$s</string>
+    <string name="headtip_notice_dead_logger">目前裝置日誌服務異常，HyperCeiler 功能將受到限制。請恢復日誌服務，使其能夠正常運作。</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">繁體中文 (台灣)</string>
     <string name="translator">聖小熊</string>
     <string name="translator_url">https://github.com/a406010503</string>
     <string name="home">首頁</string>
+    <string name="help">幫助</string>
+    <string name="settings">設定</string>
+    <string name="about">關於</string>
+    <string name="about_use">項目引用</string>
+    <string name="about_use_desc">HyperCeiler 使用了以下開源項目的部分或全部內容，感謝這些項目的開發者提供的大力支持（排名順序不分先後）</string>
+    <string name="about_contributer">貢獻者</string>
+    <string name="about_contributer_desc">感謝以下貢獻者為 HyperCeiler 的開發提供了不同程度的幫助（排名順序不分先後）</string>
+    <string name="about_donation">贊助</string>
+    <string name="about_donation_desc">您可以在此處贊助以支持我們</string>
+    <string name="about_device_info_device">裝置</string>
+    <string name="about_device_info_android">Android 版本</string>
+    <string name="about_device_info_os">OS版本</string>
+    <string name="hyperceiler_notice">下拉狀態欄，同時顯示快捷開關和系統通知</string>
+    <string name="hyperceiler_restart_quick">快速重啟作用域</string>
+    <string name="delete_all_dexkit_cache_desc">您確定要清除所有 DexKit 快取嗎？</string>
+    <string name="delete_all_dexkit_cache_success">成功清除所有 DexKit 緩存</string>
+    <string name="set_homepage_entrance">設定首頁入口</string>
+    <string name="set_homepage_entrance_about">注意：\n此設定只是主頁入口可見性設定，已開啟的功能不會關閉！\n關閉入口會即時生效，需要重新啟動應用程式才能重新出現。</string>
+    <string name="help_cant_see_apps_guide">找不到應用程式功能？</string>
+    <string name="help_cant_see_apps_title">在主頁找不到應用程式功能？</string>
+    <string name="help_cant_see_apps_desc">為了保持主頁的簡單性和可用性，我們隱藏了對以下類型的應用程式功能的存取：\n\n - 目前已停用或隱藏的應用程式\n - 在您的裝置中未找到的應用程式\n -與目前版本不相容的應用程式系統或應用程式版本\n\n請根據上述資訊排查問題，重新啟動 HyperCeiler，然後重試。如果您仍然找不到應用程式功能，則可能是錯誤。請提供我們及時有效的回饋。\n\n目前隱藏的應用功能：</string>
+    <string name="help_cant_see_apps_uninstall">已解除安裝的應用程式:\n</string>
+    <string name="help_cant_see_apps_disable">停用或隱藏的應用程式:\n</string>
+    <string name="help_cant_see_apps_scope">未選擇範圍:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">為了保持主頁的簡單性和可用性，我們隱藏了對以下類型的應用程式功能的存取：\n\n - 目前已停用或隱藏的應用程式\n - 在您的裝置中未找到的應用程式\n -與目前版本不相容的應用程式系統或應用程式版本\n\n請根據上述資訊排查問題，重新啟動 HyperCeiler，然後重試。如果您仍然找不到應用程式功能，則可能是錯誤。請及時有效的回饋給我們。\n\n目前沒有隱藏入口！</string>
+    <string name="help_cant_see_apps_switch">在主頁中隱藏此幫助</string>
+    <string name="help_cant_see_apps_switch_desc">您仍然可以在「設定-設定主頁入口」中找到該頁面。重新啟動應用程式即可套用。</string>
+    <string name="help_support_version_title">目前應用程式版本支援系統版本列表</string>
+    <string name="help_support_version_desc_1">目前 App 版本已全面適配以下系統版本：</string>
+    <string name="help_support_version_desc_2">適配目前應用程式版本的系統版本如下：</string>
+    <string name="help_support_version_desc_3">目前系統版本已全面適配。</string>
+    <string name="help_support_version_desc_4">目前的系統版本尚未（完全）適配。</string>
+    <string name="location_add">增加</string>
+    <string name="location_delete">刪除</string>
     <string name="edit">請輸入文字</string>
     <string name="kill">Kill 工具</string>
     <string name="kill_1">輸入包名/軟體名</string>
@@ -49,19 +108,6 @@
     <string name="prefs_7">移除指定 Key</string>
     <string name="success">完成</string>
     <string name="failed">错误</string>
-    <string name="help">幫助</string>
-    <string name="settings">設定</string>
-    <string name="about">關於</string>
-    <string name="about_use">項目引用</string>
-    <string name="about_use_desc">HyperCeiler 使用了以下開源項目的部分或全部內容，感謝這些項目的開發者提供的大力支持（排名順序不分先後）</string>
-    <string name="about_contributer">貢獻者</string>
-    <string name="about_contributer_desc">感謝以下貢獻者為 HyperCeiler 的開發提供了不同程度的幫助（排名順序不分先後）</string>
-    <string name="about_donation">贊助</string>
-    <string name="about_donation_desc">您可以在此處贊助以支持我們</string>
-    <string name="hyperceiler_notice">下拉狀態欄，同時顯示快捷開關和系統通知</string>
-    <string name="hyperceiler_restart_quick">快速重啟作用域</string>
-    <string name="location_add">增加</string>
-    <string name="location_delete">刪除</string>
     <string name="development">開發者選項</string>
     <string name="development_ui">介面元素測試</string>
     <string name="development_debug_info">除錯資訊</string>
@@ -70,8 +116,6 @@
     <string name="development_delete_all_dexkit_cache">刪除所有 DexKit 快取</string>
     <string name="development_close_log_alert_dialog">停用記錄器即時警告對話框</string>
     <string name="development_fix_lsposed_log">嘗試修復 LSPosed 日誌服務</string>
-    <string name="about_privacy">隱私政策</string>
-    <string name="about_protocol">用戶協議</string>
     <string name="settings_show_title">顯示</string>
     <string name="settings_data_title">備份與還原</string>
     <string name="settings_bug_title">疑難排解</string>
@@ -121,8 +165,8 @@
     <string name="about_offical">官網</string>
     <string name="about_crwd">Crowdin 翻譯</string>
     <string name="about_crwd_desc">協助我們將這個應用程式翻譯為您的語言</string>
-    <string name="delete_all_dexkit_cache_desc">您確定要清除所有 DexKit 快取嗎？</string>
-    <string name="delete_all_dexkit_cache_success">成功清除所有 DexKit 緩存</string>
+    <string name="about_privacy">隱私政策</string>
+    <string name="about_protocol">用戶協議</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">重啟 </string>
     <string name="restart_app_desc">確定要立即重啟%1$s嗎？</string>
@@ -147,6 +191,7 @@
     <string name="preference_dialog_color_picker_custom">自訂顏色</string>
     <string name="preference_dialog_color_picker_transparency">透明度</string>
     <string name="preference_dialog_color_picker_select">確認選擇</string>
+    <string name="preference_recommend_tip">在找什麼嗎？</string>
     <string name="abc_action_bar_home_description">轉到首頁</string>
     <string name="abc_action_bar_up_description">轉到上一層級</string>
     <string name="actionbar_button_up_description">返回</string>
@@ -997,6 +1042,10 @@
     <string name="system_ui_plugin_enable_volume_blur">音量條模糊</string>
     <string name="system_ui_move_log_to_miui">將 statusbar_gestures.dat 移至 MIUI 目錄</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">僅供 Android 12 及以上 MTK 裝置使用，可能存在 GPU 負載較高的情形</string>
+    <!--Telecom-->
+    <string name="telecom">通話管理</string>
+    <string name="scam_reminder_bypass_caption">允許直接撥號呼叫 MMI 碼</string>
+    <string name="scam_reminder_bypass_description">允許直接撥打 MMI 碼（如 **21*8#）以啟用呼叫轉移</string>
     <!--Settings-->
     <string name="system_settings">設定</string>
     <string name="system_settings_linkturbo">解除網路加速應用程式限制</string>
@@ -1100,6 +1149,9 @@
     <string name="milink_unlock_hmind">解鎖 Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">強制支援裝置流轉</string>
     <string name="milink_fuck_hpplay">阻止建立 hpplay 資料夾</string>
+    <!--Sound Recorder-->
+    <string name="sound_recorder">錄音機</string>
+    <string name="sound_recorder_disable_ai_watermark">停用 AI 浮水印</string>
     <!--Always-on display-->
     <string name="aod">萬象待機</string>
     <string name="aod_hyperos">待機與鎖定螢幕編輯</string>
@@ -1131,6 +1183,10 @@
     <!--Mi Canvas-->
     <string name="creation">小米創作</string>
     <string name="creation_unlock">移除限制手機使用規則</string>
+    <!--LPA-->
+    <string name="lpa">LPA</string>
+    <string name="lpa_custom_imei">自訂 IMEI</string>
+    <string name="lpa_custom_imei_desc">確保您輸入的 IMEI 正確。 IMEI 不正確可能會導致 eSIM 不可用或異常。由此產生的任何後果我們不承擔任何責任。</string>
     <!--Gallery-->
     <string name="gallery">相簿</string>
     <string name="gallery_enable_hdr_enhanced">解鎖超動態顯示</string>
@@ -1449,6 +1505,9 @@
     <!--Wallpaper-->
     <string name="miwallpaper">桌布</string>
     <string name="miwallpaper_unlock_super_wallpaper">解鎖超級桌布</string>
+    <!--Notes-->
+    <string name="notes">筆記</string>
+    <string name="notes_disable_ai_watermark">停用 AI 浮水印</string>
     <!--Package installer-->
     <string name="package_installer">應用程式檔案管理元件</string>
     <string name="miui_package_installer_modify">淨化頁面</string>
@@ -1677,12 +1736,14 @@
     <string name="market_package_monitor_desc">禁止應用程式商店監控應用程式安裝和解除安裝</string>
     <string name="market_disable_ads">停用廣告</string>
     <string name="market_bypass_risk_check">繞過風險檢查</string>
+    <string name="market_disable_start_push_dialog">禁用啟動推送對話框</string>
     <!--Mi sound-->
     <string name="misound">音質音效</string>
     <string name="misound_bluetooth">耳機狀態自動切換原聲</string>
     <string name="misound_bluetooth_uuid">音效 UUID 識別符</string>
     <string name="misound_bluetooth_uuid_more">杜比等音效標識符，無效果時再填寫，自己想辦法取得</string>
     <string name="misound_increase_sampling_rate">提高音頻採樣率</string>
+    <string name="misound_spatial">斷開耳機強制開啟沉浸聲</string>
     <!--Mi Settings-->
     <string name="mi_settings">小米設定</string>
     <string name="mi_input_settings">輸入設定</string>
@@ -1710,6 +1771,12 @@
     <string name="voiceassist">小愛同學</string>
     <string name="voiceassist_hyper">超級小愛</string>
     <string name="voiceassist_disable_watermark">停用聊天浮水印</string>
+    <!--Voice Trigger-->
+    <string name="voicetrigger">語音觸發器：</string>
+    <string name="bypass_udk_word_legal_check_caption">允許無網錄入喚醒詞</string>
+    <string name="bypass_udk_word_legal_check_description">允許在無網狀態下錄入語音喚醒詞</string>
+    <string name="voicetrigger_accuracy_percent_caption">設定喚醒詞檢測精準度</string>
+    <string name="voicetrigger_accuracy_percent_description">數值越高越難以被偵測。預設值為 70%，對於「小愛同學」為 0%。設定完成後，您需要重新啟動目標應用程式並重新錄入您的喚醒詞。</string>
     <!--Other-->
     <string name="various">其他</string>
     <string name="share_center">小米妙享中心</string>
@@ -1786,7 +1853,7 @@
     <string name="location_simulation_location">位置</string>
     <string name="location_simulation_location_custom">選擇位置</string>
     <string name="location_simulation_network">網路</string>
-    <string name="location_simulation_operator_fix">運營商偽裝修復</string>
+    <string name="location_simulation_operator_fix">電信業者偽裝修復</string>
     <string name="location_simulation_mac">Mac 位址</string>
     <string name="location_simulation_wifi">Wi-Fi</string>
     <string name="location_simulation_router_mac">路由器 Mac 位址</string>
@@ -1831,57 +1898,6 @@
     <string name="operator_fix_none">不修復</string>
     <string name="operator_fix_1">方法一</string>
     <string name="operator_fix_2">方法二（推薦）</string>
-    <string name="custom_hook_new">增加 Hook</string>
-    <string name="custom_hook_mode">選擇模式</string>
-    <string name="open_source">開源項目</string>
-    <string name="close_source">閉源項目</string>
-    <string name="exit">退出</string>
-    <string name="ignore">忽略</string>
-    <string name="log_level">日誌輸出等級</string>
-    <string name="log_level_none">停用日誌輸出</string>
-    <string name="disable_suggest">停用推薦</string>
-    <string name="enable_suggest">啟用推薦</string>
-    <string name="set_homepage_entrance">設定首頁入口</string>
-    <string name="help_cant_see_apps_guide">找不到應用程式功能？</string>
-    <string name="set_homepage_entrance_about">注意：\n此設定只是主頁入口可見性設定，已開啟的功能不會關閉！\n關閉入口會即時生效，需要重新啟動應用程式才能重新出現。</string>
-    <string name="help_cant_see_apps_title">在主頁找不到應用程式功能？</string>
-    <string name="help_cant_see_apps_desc">為了保持主頁的簡單性和可用性，我們隱藏了對以下類型的應用程式功能的存取：\n\n - 目前已停用或隱藏的應用程式\n - 在您的裝置中未找到的應用程式\n -與目前版本不相容的應用程式系統或應用程式版本\n\n請根據上述資訊排查問題，重新啟動 HyperCeiler，然後重試。如果您仍然找不到應用程式功能，則可能是錯誤。請提供我們及時有效的回饋。\n\n目前隱藏的應用功能：</string>
-    <string name="help_cant_see_apps_uninstall">已解除安裝的應用程式:\n</string>
-    <string name="help_cant_see_apps_disable">停用或隱藏的應用程式:\n</string>
-    <string name="help_cant_see_apps_scope">未選擇範圍:\n</string>
-    <string name="help_cant_see_apps_desc_no_hidden">為了保持主頁的簡單性和可用性，我們隱藏了對以下類型的應用程式功能的存取：\n\n - 目前已停用或隱藏的應用程式\n - 在您的裝置中未找到的應用程式\n -與目前版本不相容的應用程式系統或應用程式版本\n\n請根據上述資訊排查問題，重新啟動 HyperCeiler，然後重試。如果您仍然找不到應用程式功能，則可能是錯誤。請及時有效的回饋給我們。\n\n目前沒有隱藏入口！</string>
-    <string name="help_cant_see_apps_switch">在主頁中隱藏此幫助</string>
-    <string name="help_cant_see_apps_switch_desc">您仍然可以在「設定-設定主頁入口」中找到該頁面。重新啟動應用程式即可套用。</string>
-    <string name="help_support_version_title">目前應用程式版本支援系統版本列表</string>
-    <string name="help_support_version_desc_1">目前 App 版本已全面適配以下系統版本：</string>
-    <string name="help_support_version_desc_2">適配目前應用程式版本的系統版本如下：</string>
-    <string name="help_support_version_desc_3">目前系統版本已全面適配。</string>
-    <string name="help_support_version_desc_4">目前的系統版本尚未（完全）適配。</string>
-    <string name="headtip_warn_not_offical_rom">您所使用的 ROM 來源可能不是屬於小米官方版本，部分功能可能無法使用，具體請聯絡您所使用的 ROM 開發者。</string>
-    <string name="headtip_warn_unsupport_sysver">目前裝置運行的系統版本未（完全）適配，這可能會導致 HyperCeiler 功能出現異常。</string>
-    <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 HyperCeiler 官方的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
-    <string name="headtip_tip_auto_safe_mode">自動安全模式可以在某些應用程式多次閃退時及時脫鉤，以確保安全。此功能需要鉤子作用域「系統框架」才能運行，我們強烈建議您檢查勾選「系統框架」作用域以啟動自動安全模式。</string>
-    <string name="headtip_tip_long_press_to_copy">您可以長按或雙擊後選擇文本，或複製它並將其回饋給開發人員。</string>
-    <string name="headtip_tip_fuck_coolapk">歷史上的今天：二〇二二年（民國一一一年）七月十四日，Sevtinge 發表了重要談話。</string>
-    <string name="headtip_notice_dead_logger_errcode">目前裝置日誌服務異常，HyperCeiler 功能將受到限制。請恢復日誌服務以便其正常運作。\n錯誤碼： %1$s</string>
-    <string name="headtip_notice_dead_logger">目前裝置日誌服務異常，HyperCeiler 功能將受到限制。請恢復日誌服務，使其能夠正常運作。</string>
-    <string name="warn">警告</string>
-    <string name="safe_mode_desc">%1$s由於多次閃退已進入安全模式，且 HyperCeiler 功能已暫時停用。 \n按一下「確定」取消，按一下「取消」稍後處理。</string>
-    <string name="safe_mode_history">查看異常記錄</string>
-    <string name="safe_mode_cancel">停用安全模式</string>
-    <string name="safe_mode_ok">稍後再處理</string>
-    <string name="safe_mode_later_title">提示</string>
-    <string name="safe_mode_later_desc">%1$s仍處於安全模式且 HyperCeiler 功能已停用。停用安全模式？</string>
-    <string name="safe_mode_recorder_title">異常記錄</string>
-    <string name="safe_mode_recorder_file">檔案</string>
-    <string name="safe_mode_recorder_class">類別</string>
-    <string name="safe_mode_recorder_method">方法</string>
-    <string name="safe_mode_recorder_line">行</string>
-    <string name="safe_mode_recorder_msg">異常訊息</string>
-    <string name="safe_mode_recorder_st">堆疊追蹤</string>
-    <string name="tip_default">提示：這是預設提示。如果你能看到我，則表示 HyperCeiler 有問題，請及時有效地向開發者報告。</string>
-    <string name="preference_recommend_tip">在找什麼嗎？</string>
-    <string name="happy_birthday_hyperceiler">今天是 HyperCeiler 的生日！ \n感謝您過去一年來的支持，今年讓我們繼續共同努力！</string>
     <string name="ic_qs_title_wifi">Wi-Fi</string>
     <string name="ic_qs_title_cellular">行動網路</string>
     <string name="ic_qs_title_bluetooth">藍牙</string>
@@ -1894,26 +1910,14 @@
     <string name="ic_qs_title_autobrightness">自動亮度</string>
     <string name="ic_qs_title_vowifi1">VoWiFi SIM1</string>
     <string name="ic_qs_title_vowifi2">VoWiFi SIM2</string>
-    <!--Telecom-->
-    <string name="telecom">通話管理</string>
-    <string name="scam_reminder_bypass_caption">允許直接撥號呼叫 MMI 碼</string>
-    <string name="scam_reminder_bypass_description">允許直接撥打 MMI 碼（如 **21*8#）以啟用呼叫轉移</string>
-    <!--Voice Trigger-->
-    <string name="voicetrigger">語音觸發器：</string>
-    <string name="bypass_udk_word_legal_check_caption">允許無網錄入喚醒詞</string>
-    <string name="bypass_udk_word_legal_check_description">允許在無網狀態下錄入語音喚醒詞</string>
-    <string name="voicetrigger_accuracy_percent_caption">設定喚醒詞檢測精準度</string>
-    <string name="voicetrigger_accuracy_percent_description">數值越高越難以被偵測。預設值為 70%，對於「小愛同學」為 0%。設定完成後，您需要重新啟動目標應用程式並重新錄入您的喚醒詞。</string>
-    <string name="notes">筆記</string>
-    <string name="notes_disable_ai_watermark">停用 AI 浮水印</string>
-    <string name="sound_recorder">錄音機</string>
-    <string name="sound_recorder_disable_ai_watermark">停用 AI 浮水印</string>
-    <string name="lpa">LPA</string>
-    <string name="lpa_custom_imei">自訂 IMEI</string>
-    <string name="lpa_custom_imei_desc">確保您輸入的 IMEI 正確。 IMEI 不正確可能會導致 eSIM 不可用或異常。由此產生的任何後果我們不承擔任何責任。</string>
-    <string name="about_device_info_device">裝置</string>
-    <string name="about_device_info_android">Android 版本</string>
-    <string name="about_device_info_os">OS版本</string>
-    <string name="misound_spatial">斷開耳機強制開啟沉浸聲</string>
-    <string name="market_disable_start_push_dialog">禁用啟動推送對話框</string>
+    <string name="custom_hook_new">增加 Hook</string>
+    <string name="custom_hook_mode">選擇模式</string>
+    <string name="open_source">開源項目</string>
+    <string name="close_source">閉源項目</string>
+    <string name="exit">退出</string>
+    <string name="ignore">忽略</string>
+    <string name="log_level">日誌輸出等級</string>
+    <string name="log_level_none">停用日誌輸出</string>
+    <string name="disable_suggest">停用推薦</string>
+    <string name="enable_suggest">啟用推薦</string>
 </resources>

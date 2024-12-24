@@ -26,12 +26,71 @@
     <string name="new_permission_location_desc">используется для предоставления таких услуг, как широта и долгота</string>
     <string name="new_cta_agree_desc">Во время использования, чтобы предоставить вам больше функций, мы можем запросить у вас разрешение Root/Su. Вы можете в любое время перейти к управлению разрешениями, чтобы настроить статус авторизации всех разрешений, а также обратиться к своему менеджеру Root/Su за разрешениями Root/Su.</string>
     <string name="new_cta_app_main_purpose">изменить системные приложения</string>
-    <string name="new_cta_app_all_purpose_title">Добро пожаловать в HyperCeiler, это приложение работает на платформе Xposed. Вы можете использовать это приложение для перехвата и изменения других поддерживаемых приложений для достижения улучшений MIUI. Во время использования, чтобы предоставить вам больше функций, мы можем запросить у вас разрешение Root/Su. Вы можете обратиться к своему менеджеру Root/Su за разрешениями Root/Su.</string>
+    <string name="new_cta_app_all_purpose_title">Добро пожаловать в HyperCeiler! Это приложение использует для работы фреймворк Xposed. Вы можете использовать это приложение для взлома и изменения других поддерживаемых приложений с целью улучшения системы. Во время использования, чтобы предоставить вам больше функций, мы можем запросить у вас разрешения Root/Su. Вы можете управлять этим в любое время, перейдя в свой менеджер Root/Su.</string>
+    <!--HyperCeiler Tips-->
+    <string name="warn">Предупреждение</string>
+    <string name="safe_mode_desc">Перешел в безопасный режим из-за нескольких сбоев, а функциональность HyperCeiler временно отключена. Нажмите \"ОК\", чтобы отменить, нажмите \"Отмена\", чтобы продолжить обработку позже.</string>
+    <string name="safe_mode_history">Просмотр записей исключений</string>
+    <string name="safe_mode_cancel">Отключить безопасный режим</string>
+    <string name="safe_mode_ok">Разберёмся с этим позже</string>
+    <string name="safe_mode_later_title">Совет</string>
+    <string name="safe_mode_later_desc">Все еще находится в безопасном режиме, а функциональность HyperCeiler отключена. Отключить безопасный режим?</string>
+    <string name="safe_mode_recorder_title">Записи исключений</string>
+    <string name="safe_mode_recorder_file">Файл</string>
+    <string name="safe_mode_recorder_class">Класс</string>
+    <string name="safe_mode_recorder_method">Метод</string>
+    <string name="safe_mode_recorder_line">Линия</string>
+    <string name="safe_mode_recorder_msg">Сообщение об исключении</string>
+    <string name="safe_mode_recorder_st">Трассировка стека</string>
+    <string name="tip_default">Совет: Вот совет по умолчанию. Если вы можете видеть меня, это означает, что есть проблема с гиперселером, пожалуйста, сообщите об этом разработчику своевременно и эффективно.</string>
+    <string name="headtip_warn_not_offical_rom">Источник используемого вами ПЗУ может быть неофициальным от Xiaomi, и некоторые функции могут не работать, пожалуйста, свяжитесь с поставщиком, которого вы используете, для получения подробной информации.</string>
+    <string name="headtip_warn_unsupport_sysver">Текущее устройство работает на версии системы, которая не (полностью) адаптирована, что может привести к аномалиям в функциональности HyperCeiler.</string>
+    <string name="headtip_warn_sign_verification_failed">Проверка подписи не удалась, и текущая версия, которую вы используете, может отличаться от официальной версии Re.chronoRain и может содержать вредоносный код.</string>
+    <string name="headtip_tip_auto_safe_mode">Автоматический безопасный режим может отключать некоторые приложения во время их многократного сбоя для обеспечения безопасности. Для этой функции требуется область действия System Framework hook для запуска. Мы настоятельно рекомендуем проверить область действия System Framework, чтобы включить автоматический безопасный режим.</string>
+    <string name="headtip_tip_long_press_to_copy">Вы можете выбрать текст после длительного или двойного нажатия или скопировать его и отправить обратно разработчику.</string>
+    <string name="happy_birthday_hyperceiler">Сегодня день рождения HyperCeiler! Спасибо за вашу поддержку в прошлом году, давайте продолжим работать вместе в этом году!</string>
+    <string name="headtip_tip_fuck_coolapk">Сегодняшний день в истории: Севтинге выступил с важной речью 14 июля 2022 года.</string>
+    <string name="headtip_notice_dead_logger_errcode">Текущая служба журнала устройства работает ненормально, и функции HyperCeiler будут ограничены. Пожалуйста, восстановите службу журнала, чтобы она могла работать нормально. Код ошибки: %1$s</string>
+    <string name="headtip_notice_dead_logger">Текущая служба журнала устройства работает ненормально, и функции HyperCeiler будут ограничены. Пожалуйста, восстановите службу журнала, чтобы она могла работать нормально.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Русский</string>
     <string name="translator">Ichigo</string>
     <string name="translator_url">https://t.me/hyper_rus</string>
     <string name="home">Главная</string>
+    <string name="help">Помощь</string>
+    <string name="settings">Настройки</string>
+    <string name="about">О приложении</string>
+    <string name="about_use">Цитирование</string>
+    <string name="about_use_desc">HyperCeiler использует некоторые или все из данных проектов с открытым исходным кодом, спасибо разработчикам этих проектов за их поддержку (в произвольном порядке)</string>
+    <string name="about_contributer">Участники</string>
+    <string name="about_contributer_desc">Спасибо данным участникам за их помощь в разработке HyperCeiler (в произвольном порядке)</string>
+    <string name="about_donation">Спонсоры</string>
+    <string name="about_donation_desc">Вы можете поддержать нас, сделав пожертвование</string>
+    <string name="about_device_info_device">Устройство</string>
+    <string name="about_device_info_android">Версия Android</string>
+    <string name="about_device_info_os">Версия ОС</string>
+    <string name="hyperceiler_notice">Потяните вниз строку состояния для отображения ярлыков и системных уведомлений</string>
+    <string name="hyperceiler_restart_quick">Быстрый перезапуск приложения</string>
+    <string name="delete_all_dexkit_cache_desc">Вы уверены, что хотите очистить весь кэш DexKit?</string>
+    <string name="delete_all_dexkit_cache_success">Успешно очищен весь кэш DexKit</string>
+    <string name="set_homepage_entrance">Настройте запись на главной странице</string>
+    <string name="set_homepage_entrance_about">Примечание: Этот параметр предназначен только для настройки видимости записей на главной странице, и включенные функции не будут отключены! Закрытие портала вступит в силу в реальном времени, и для повторного появления приложения необходимо будет перезапустить.</string>
+    <string name="help_cant_see_apps_guide">Не можете найти функции приложения?</string>
+    <string name="help_cant_see_apps_title">Не можете найти функции приложения дома?</string>
+    <string name="help_cant_see_apps_desc">Чтобы сохранить простоту и удобство использования главной страницы, мы скрыли доступ к следующим типам функций приложения: - Те приложения, которые в настоящее время отключены или скрыты - Те приложения, которые не найдены на вашем устройстве - Те приложения, которые несовместимы с текущей версией системы или приложения. Устраните неполадки на основе приведенной выше информации, перезапустите HyperCeiler и повторите попытку. Если вы по-прежнему не можете найти функции приложения, возможно, это ошибка. Пожалуйста, предоставьте нам своевременную и эффективную обратную связь. На данный момент скрытые функции приложения: </string>
+    <string name="help_cant_see_apps_uninstall">Удаленные приложения: </string>
+    <string name="help_cant_see_apps_disable">Отключенные или скрытые приложения: </string>
+    <string name="help_cant_see_apps_scope">Не выбран в качестве охвата:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">Чтобы сохранить простоту и удобство использования главной страницы, мы скрыли доступ к следующим типам функций приложения: - Те приложения, которые в настоящее время отключены или скрыты - Те приложения, которые не найдены на вашем устройстве - Те приложения, которые несовместимы с текущей версией системы или приложения. Устраните неполадки на основе приведенной выше информации, перезапустите HyperCeiler и повторите попытку. Если вы по-прежнему не можете найти функции приложения, возможно, это ошибка. Пожалуйста, предоставьте нам своевременную и эффективную обратную связь. На данный момент скрытого входа нет!</string>
+    <string name="help_cant_see_apps_switch">Скрыть эту справку на главной странице</string>
+    <string name="help_cant_see_apps_switch_desc">Вы по-прежнему можете найти эту страницу в разделе \"Настройки - Настройка записи на главной странице\". Перезагрузите приложение, чтобы применить.</string>
+    <string name="help_support_version_title">Текущая версия приложения список версий системы поддержки</string>
+    <string name="help_support_version_desc_1">Текущая версия приложения полностью адаптирована к следующим версиям системы:</string>
+    <string name="help_support_version_desc_2">Следующие версии системы адаптированы к текущей версии приложения:</string>
+    <string name="help_support_version_desc_3">Текущая версия системы полностью адаптирована.</string>
+    <string name="help_support_version_desc_4">Текущая версия системы не (полностью) адаптирована адаптировано.</string>
+    <string name="location_add">Добавить</string>
+    <string name="location_delete">Удалить</string>
     <string name="edit">Введите текст</string>
     <string name="kill">Убить процесс</string>
     <string name="kill_1">Введите имя пакета/программы</string>
@@ -42,26 +101,13 @@
     <string name="edit_key">Введите значение для ключа</string>
     <string name="prefs_1">Этот ключ не существует:</string>
     <string name="prefs_2">Ключ успешно удален:</string>
-    <string name="prefs_3">Удалить ключ не удалось, возможно, он не существует:</string>
+    <string name="prefs_3">Удаление ключа не удалось, возможно, он не существует: </string>
     <string name="prefs_4">Пожалуйста, проверьте тип возвращаемого значения, для которого требуется получение ключа!</string>
     <string name="prefs_5">Выберите тип</string>
     <string name="prefs_6">Проверка настроек совместного доступа</string>
     <string name="prefs_7">Удалите указанный ключ</string>
     <string name="success">Успешно</string>
     <string name="failed">Не удалось</string>
-    <string name="help">Помощь</string>
-    <string name="settings">Настройки</string>
-    <string name="about">О приложении</string>
-    <string name="about_use">Цитирование</string>
-    <string name="about_use_desc">HyperCeiler использует некоторые или все из данных проектов с открытым исходным кодом, спасибо разработчикам этих проектов за их поддержку (в произвольном порядке)</string>
-    <string name="about_contributer">Участники</string>
-    <string name="about_contributer_desc">Спасибо данным участникам за их помощь в разработке HyperCeiler (в произвольном порядке)</string>
-    <string name="about_donation">Спонсоры</string>
-    <string name="about_donation_desc">Вы можете поддержать нас, сделав пожертвование</string>
-    <string name="hyperceiler_notice">Потяните вниз строку состояния для отображения ярлыков и системных уведомлений</string>
-    <string name="hyperceiler_restart_quick">Быстрый перезапуск приложения</string>
-    <string name="location_add">Добавить</string>
-    <string name="location_delete">Удалить</string>
     <string name="development">Параметры разработчика</string>
     <string name="development_ui">UI</string>
     <string name="development_debug_info">Отладка</string>
@@ -70,8 +116,6 @@
     <string name="development_delete_all_dexkit_cache">Удалить весь кэш DexKit</string>
     <string name="development_close_log_alert_dialog">Отключить диалоговое окно оповещения о журнале</string>
     <string name="development_fix_lsposed_log">Попробовать исправить службу журнала LSPosed</string>
-    <string name="about_privacy">Политика конфиденциальности</string>
-    <string name="about_protocol">Пользовательское соглашение</string>
     <string name="settings_show_title">Показывать</string>
     <string name="settings_data_title">Резервное копирование и восстановление</string>
     <string name="settings_bug_title">Диагностика</string>
@@ -121,18 +165,18 @@
     <string name="about_offical">Официальный сайт</string>
     <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">Помогите нам перевести HyperCeiler на ваш язык</string>
-    <string name="delete_all_dexkit_cache_desc">Вы уверены, что хотите очистить весь кэш DexKit?</string>
-    <string name="delete_all_dexkit_cache_success">Успешно очищен весь кэш DexKit</string>
+    <string name="about_privacy">Политика конфиденциальности</string>
+    <string name="about_protocol">Пользовательское соглашение</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Перезагрузка </string>
     <string name="restart_app_desc">Вы уверены, что хотите перезапустить %1$s сейчас?</string>
     <string name="tip">Совет</string>
     <string name="root">Некоторые функции недоступны без разрешения Root/Su</string>
-    <string name="hook_failed">Модуль не активирован</string>
-    <string name="kill_failed">Не удалось завершить процесс. Проверьте, предоставлены ли HyperCeiler права Root/Su?</string>
-    <string name="start_failed">Не удалось начать действие. Проверьте, предоставлены ли HyperCeiler права Root/Su?</string>
+    <string name="hook_failed">Модуль еще не активирован. Проверьте, включен ли lsposed. Если да, перезапустите или повторно оптимизируйте модуль</string>
+    <string name="kill_failed">Не удалось завершить процесс. Проверьте, предоставлены ли HyperCeiler права Root/Su</string>
+    <string name="start_failed">Не удалось начать действие. Проверьте, предоставлены ли hyperceiler права Root/Su</string>
     <string name="pid_failed">Целевое приложение не запущено и его не нужно перезапускать.</string>
-    <string name="reboot_failed">Не удалось перезагрузить компьютер. Проверьте, есть ли у HyperCeiler разрешение Root/Su?</string>
+    <string name="reboot_failed">Перезагрузка не удалась. Проверьте, предоставлено ли HyperCeiler разрешение Root/Su.</string>
     <string name="expand_button_title">Высокий уровень</string>
     <string name="not_set">Не задано</string>
     <string name="copy">Копировать</string>
@@ -147,6 +191,7 @@
     <string name="preference_dialog_color_picker_custom">Пользовательский цвет</string>
     <string name="preference_dialog_color_picker_transparency">Прозрачность</string>
     <string name="preference_dialog_color_picker_select">Подтверждение выбора</string>
+    <string name="preference_recommend_tip">Ищете что-то еще?</string>
     <string name="abc_action_bar_home_description">Вернуться на главную</string>
     <string name="abc_action_bar_up_description">Назад к предыдущей странице</string>
     <string name="actionbar_button_up_description">Назад</string>
@@ -166,6 +211,37 @@
     <string name="color_picker_view_page_text_hue">Оттенок</string>
     <string name="color_picker_view_page_text_lightness">Освещенность</string>
     <string name="color_picker_view_page_text_saturation">Насыщенность</string>
+    <string name="bottomsheet_action_collapse">Свернуть нижнюю панель</string>
+    <string name="bottomsheet_action_expand">Развернуть нижнюю панель</string>
+    <string name="bottomsheet_action_expand_halfway">Развернуть наполовину</string>
+    <string name="bottomsheet_drag_handle_clicked">Двойное нажатие на область вызова</string>
+    <string name="bottomsheet_drag_handle_content_description">Область вызова</string>
+    <string name="miuix_alphabet_indexer_name">Индексная панель</string>
+    <string name="miuix_appcompat_action_mode_cancel">Отмена</string>
+    <string name="miuix_appcompat_clearable_edittext_clear_description">Очистка</string>
+    <string name="miuix_appcompat_color_picker_alpha_text_transparent">Прозрачность</string>
+    <string name="miuix_appcompat_color_picker_tab_dynamic">Monet</string>
+    <string name="miuix_appcompat_color_picker_tab_grid">Сетка</string>
+    <string name="miuix_appcompat_color_picker_tab_slider">Ползунок</string>
+    <string name="miuix_appcompat_color_picker_view_page_text_hue">Оттенок</string>
+    <string name="miuix_appcompat_color_picker_view_page_text_lightness">Яркость</string>
+    <string name="miuix_appcompat_color_picker_view_page_text_saturation">Насыщенность</string>
+    <string name="miuix_appcompat_edit">Изменить</string>
+    <string name="miuix_indexer_collect">Коллекции</string>
+    <string name="miuix_indexer_selected">Выбрано: %s</string>
+    <string name="miuix_navigator_category_group_collapse">Свернуть</string>
+    <string name="miuix_navigator_category_group_expand">Развернуть</string>
+    <string name="miuix_navigator_content_switch_description">Показать боковую панель</string>
+    <string name="miuix_navigator_multiple_choice">Выбрать</string>
+    <string name="miuix_navigator_navigator_switch_description">Скрыть боковую панель</string>
+    <string name="miuix_sbl_tracking_progress_labe_pull_to_refresh">Потянуть вниз для обновления</string>
+    <string name="miuix_sbl_tracking_progress_labe_refreshed">Успешно обновлено</string>
+    <string name="miuix_sbl_tracking_progress_labe_refreshing">Обновление…</string>
+    <string name="miuix_sbl_tracking_progress_labe_release_to_refresh">Отпустите для обновления</string>
+    <string name="miuix_sbl_tracking_progress_labe_up_nodata">На этом пока все</string>
+    <string name="miuix_sbl_tracking_progress_labe_up_none">На этом пока все</string>
+    <string name="miuix_sbl_tracking_progress_labe_up_refresh">Секунду…</string>
+    <string name="miuix_sbl_tracking_progress_labe_up_refresh_fail">Не удалось загрузить элементы</string>
     <!--String reuse-->
     <string name="top_margin">Верхняя граница</string>
     <string name="bottom_margin">Нижняя граница</string>
@@ -296,6 +372,7 @@
     <string name="control_center_sunshine_mode_default">Закрыть</string>
     <string name="control_center_sunshine_mode_one">Системный режим по умолчанию</string>
     <string name="control_center_sunshine_mode_two">Принудительная максимальная яркость</string>
+    <string name="control_center_sunshine_mode_three">Настройка яркости оболочки</string>
     <string name="system_framework_other_rotation_button_3">Принудительно</string>
     <string name="guided_access_screen_area_full">Обычное включение</string>
     <string name="guided_access_screen_area_left">Включить левую сторону</string>
@@ -307,6 +384,7 @@
     <string name="control_center_5g_off">Выкл.</string>
     <string name="control_center_5g_v1">Стиль 5G V1</string>
     <string name="control_center_5g_v2">Стиль 5G V2</string>
+    <string name="control_center_5g_v3">Встроить в плитку передачи мобильных данных</string>
     <string name="no_blur">Нет размытия</string>
     <string name="miui_blur">Размытие HyperOS</string>
     <string name="miui_android_blur">Размытие AOSP (реализуется приложением самостоятельно)</string>
@@ -317,12 +395,14 @@
     <string name="system_ui_statusbar_network_speed_style_4">Двурядное отображение скорости сети</string>
     <string name="system_ui_statusbar_clock_style_1">Часы в одну строку в строке состояния</string>
     <string name="system_ui_statusbar_clock_style_2">Часы в строке состояния Мини-часы в панели уведомлений</string>
-    <string name="system_ui_statusbar_clock_style_3">Мини-часы панели уведомлений Часы в строке состояния</string>
+    <string name="system_ui_statusbar_clock_style_3">Отображение в две строки\n\nМини-часы в панели уведомлений сверху\nЧасы в строке состояния снизу</string>
     <string name="mediaeditor_mickey">Микки Маус</string>
     <string name="mediaeditor_strawberry_bear">Клубничный мишка</string>
     <string name="tiles_gms">Сервис Google Play</string>
+    <string name="tiles_snow_leopard_mode">Режим S-Leo</string>
     <string name="tiles_taplus">Переключатели Taplus</string>
     <string name="tiles_5g">Сеть 5G</string>
+    <string name="dashboard_5g">Использовать 5G</string>
     <string name="tiles_sunshine_mode">Солнечный режим</string>
     <!--System Framework-->
     <string name="system_framework">Системный фреймворк</string>
@@ -432,7 +512,7 @@
     <string name="system_framework_allow_manage_all_notifications">Разрешить управление всеми уведомлениями</string>
     <string name="system_framework_quick_screenshot">Быстрый скриншот</string>
     <string name="system_framework_quick_screenshot_desc">Отключить задержку скриншота</string>
-    <string name="system_framework_disable_link_turbo_toast">Скрыть всплывающее уведомление LinkTurbo</string>
+    <string name="system_framework_disable_link_turbo_toast">Скрыть подсказку о мобильной сети, используемой для ускорения.</string>
     <string name="system_framework_allow_third_theme">Разрешает использовать сторонние темы</string>
     <string name="system_framework_allow_disable_protected_package">Позволяет отключать защищенные приложения</string>
     <string name="system_framework_disable_miui_watermark">Отключить глобальный водяной знак</string>
@@ -461,6 +541,10 @@
     <string name="system_framework_disable_verification_agent_desc">например, Защита Google Play</string>
     <string name="system_framework_use_android_package_installer">Использовать установщик пакетов Android</string>
     <string name="system_framework_use_android_package_installer_desc">Восстановить сломанный API PackageInstaller</string>
+    <string name="system_framework_core_patch_bypass_isolation_violation">Нарушение изоляции байпасса</string>
+    <string name="system_framework_core_patch_bypass_isolation_violation_desc">Разрешить сторонним приложениям устанавливать системные приложения</string>
+    <string name="system_framework_core_patch_allow_update_system_app">Разрешить обновление системных приложений</string>
+    <string name="system_framework_core_patch_allow_update_system_app_desc">Разрешить установку системных приложений, если обновление системных приложений отключено</string>
     <!--Browser-->
     <string name="browser">Браузер</string>
     <string name="browser_debug_mode">Параметры разработчика</string>
@@ -532,6 +616,8 @@
     <!--Community-->
     <string name="community">Сообщество Xiaomi</string>
     <string name="community_device_modify">Образ модели</string>
+    <string name="community_fuck_detection">Запрещено обнаруживать</string>
+    <string name="community_fuck_detection_desc">Запрещено обнаружить HyperCeiler и загрузить его при отправке отзывов. Пожалуйста, убедитесь, что проблема не вызвана вами, но перед тем, как давать обратную связь, чтобы избежать ненужных проблем.</string>
     <!--File Manager-->
     <string name="fileexplorer">Проводник</string>
     <string name="file_explorer_can_selectable">Название папки, при долгом нажатии, позволяет выбрать действие</string>
@@ -549,6 +635,7 @@
     <string name="mms_disable_fraud_risk_tip_desc">Отключить подсказку \"Возможно мошенничество\"</string>
     <string name="mms_disable_overseas_risk_tip">Отключить подсказку о риске за рубежом</string>
     <string name="mms_disable_overseas_risk_tip_desc">Отключить подсказку \"Возможно мошенничество за рубежом\"</string>
+    <string name="mms_im_old_device">Запрет на идентификацию в качестве нового устройства</string>
     <!--Phone Service-->
     <string name="phone">Телефонный сервис</string>
     <string name="phone_smart_dual_sim">Умная двойная SIM</string>
@@ -590,7 +677,9 @@
     <string name="system_ui_lock_screen_force_system_fonts">Заставить часы использовать системные шрифты</string>
     <string name="system_ui_lock_screen_double_lock">Блокировка экрана двойным нажатием</string>
     <string name="system_ui_lock_screen_double_lock_desc">Дважды коснитесь пустого места, чтобы заблокировать экран</string>
-    <string name="system_ui_lock_screen_not_disturb_mode_title">Скрыть уведомление о режиме дзен</string>
+    <string name="system_ui_lock_screen_unlock_notification_restrict">Разблокировать ограничение на уведомления</string>
+    <string name="system_ui_lock_screen_unlock_notification_restrict_desc">Позволяет отображать все уведомления на экране блокировки</string>
+    <string name="system_ui_lock_screen_not_disturb_mode_title">Скрыть уведомление о режиме \"Не беспокоить\"</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Скрыть подсказку о разблокировке в нижней части экрана блокировки</string>
     <string name="system_ui_lock_screen_hide_status_bar">Удаляет строку состояния с экрана блокировки</string>
     <string name="system_ui_lock_screen_block_editor_title">Отключить долгое нажатие, чтобы получить доступ к экрану блокировки</string>
@@ -624,6 +713,7 @@
     <string name="system_ui_statusbar_clock_title">Управление индикатором часов</string>
     <string name="system_ui_statusbar_device_title">Индикаторы оборудования</string>
     <string name="system_ui_statusbar_strong_toast_title">Умное всплывающее уведомление</string>
+    <string name="system_ui_statusbar_music_title">Фокус текста</string>
     <string name="system_ui_statusbar_layout_title">Отображение</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">Режим совместимости</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">Принудительно включить полный экран для всех специальных экранов</string>
@@ -795,11 +885,22 @@
     <string name="system_ui_status_bar_strong_toast_layout">Отображение</string>
     <string name="system_ui_status_bar_strong_toast_text">Информация</string>
     <string name="system_ui_status_bar_strong_toast_test">Отладка</string>
-    <string name="system_ui_status_bar_strong_toast_hide">Скрыть умнон всплывающее уведомление</string>
+    <string name="system_ui_status_bar_strong_toast_hide">Скрыть умное всплывающее уведомление</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">Вывод короткого текста</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">Вывод длинного текста</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Текст</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Это длинный фрагмент текста, который будет выводиться в виде прокрутки</string>
+    <string name="system_ui_statusbar_music_tip">Примечания перед использованием:\n• После включения этой функции проверьте и перезапустите системный пользовательский интерфейс и соответствующую музыкальную область.\n• Эту функцию необходимо использовать с модулем \"Lyric Getter\".\n• Убедитесь, что уведомление \"Сфокусировать уведомления на тексте\" включено в категории уведомлений соответствующего музыкального приложения и в настройках уведомлений фокуса приложения.</string>
+    <string name="system_ui_statusbar_music_notification">Сфокусировать уведомления на тексте</string>
+    <string name="system_ui_statusbar_music_cusiom_title">Настройки экрана</string>
+    <string name="system_ui_statusbar_music_hide_clock_title">Скрыть часы в строке состояния</string>
+    <string name="system_ui_statusbar_music_hide_clock_desc">Скройте часы в строке состояния при отображении выделенного текста и настройте анимацию раскрывающейся панели уведомлений</string>
+    <string name="system_ui_statusbar_music_click_clock_title">Нажмите, чтобы показать часы</string>
+    <string name="system_ui_statusbar_music_click_clock_desc">Нажмите на текстовое событие, чтобы изменить отображение часов в строке состояния, в противном случае скройте их. Для вступления переключателя в силу необходимо перезапустить соответствующее музыкальное программное обеспечение.</string>
+    <string name="system_ui_statusbar_music_speed_title">Скорость прокрутки текста</string>
+    <string name="system_ui_statusbar_music_scroll_delay_title">Скорость прокрутки текста</string>
+    <string name="system_ui_statusbar_music_width_title">Добавить пробел в конце текста</string>
+    <string name="system_ui_statusbar_music_width_desc">Сделайте прокручиваемый текст максимально полным</string>
     <string name="system_ui_controlcenter_title">Центр управления</string>
     <string name="system_ui_controlcenter_card_title">Карта</string>
     <string name="system_ui_controlcenter_media_card_title">Карточка мультимедийного уведомления</string>
@@ -809,8 +910,12 @@
     <string name="quick_settings_state_change_message_on_my">%1$s вкл.</string>
     <string name="quick_settings_state_change_message_off_my">%1$s выкл.</string>
     <string name="system_control_center_5g_tile">Сетевой коммутатор 5G</string>
+    <string name="system_ui_control_center_snow_leopard_mode">Режим S-Leo</string>
+    <string name="system_ui_control_center_snow_leopard_mode_desc">Экспериментальная функция. Отключает все аудиовыводы.</string>
     <string name="system_control_center_reduce_bright_colors_tile">Очень темный</string>
     <string name="system_control_center_sunshine_mode">Солнечный режим</string>
+    <string name="system_control_center_sunshine_mode_brightness">Яркость в режиме солнечного света</string>
+    <string name="system_control_center_sunshine_mode_brightness_desc">Очень высокая яркость может привести к старению экрана, выгоранию экрана и другим необратимым последствиям. Рекомендуется выбирать яркость и использовать ее соответствующим образом.</string>
     <string name="system_ui_control_auto_close">Магнитные плитки автоматически убираются</string>
     <string name="system_ui_control_center_qs_bg_color">Цвет фона</string>
     <string name="system_ui_control_center_qs_color">Цвет иконки</string>
@@ -870,6 +975,7 @@
     <string name="system_ui_control_center_statusbar_blur">Принудительное размытие фона</string>
     <string name="system_ui_control_center_rounded_rect_radius">Округленный радиус</string>
     <string name="system_ui_control_center_fix_tiles_list">Отключить скрытие очень темных плиток</string>
+    <string name="system_ui_shade_header_gradient_blur">Теневое размытие в заголовке</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Сменить центр управления и панель уведомлений</string>
     <string name="system_ui_control_center_hide_operator">Настройка имени оператора</string>
     <string name="system_ui_control_center_hide_delimiter">Скрывать только разделители</string>
@@ -895,6 +1001,8 @@
     <string name="system_ui_control_center_unlock_blur_supported_desc">Ограничений на размытие фона для официальных премиум-материалов нет, только при удалении сторонних тем</string>
     <string name="system_ui_control_center_remove_notif_num_limit">Удалить ограничение на количество уведомлений</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Разрешить отображение 10, 17 или более уведомлений.</string>
+    <string name="system_ui_control_center_opt_notification_element_background_color">Оптимизация смешивания цветов фона подсветки уведомлений</string>
+    <string name="system_ui_control_center_opt_notification_element_background_color_desc">Вернуться к обычному стилю смешивания цветов уведомлений</string>
     <string name="system_ui_other_title">Прочее</string>
     <string name="system_ui_disable_volume">Встроенная панель громкости</string>
     <string name="system_ui_disable_power">Меню выключения от AOSP</string>
@@ -907,8 +1015,8 @@
     <string name="system_ui_charge_animation_style_desc">Выберите стиль анимации зарядки на экране блокировки</string>
     <string name="system_ui_another_title">Прочее</string>
     <string name="system_ui_disable_bluetooth_restrict">Предотвратить временное отключение Bluetooth</string>
-    <string name="system_ui_disable_miui_multi_win_switch">Скрыть кнопку \"Комфортное окно\"</string>
-    <string name="system_ui_disable_miui_multi_win_switch_desc">Скрыть удобную кнопку окна в центре верхней части горизонтального экрана HyperOS для планшета</string>
+    <string name="system_ui_disable_miui_multi_win_switch">Скрыть кнопку управления окнами</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">Скрыть кнопку с тремя точками</string>
     <string name="system_ui_remove_miui_multi_win_switch">Отключить кнопку мульти окон</string>
     <string name="system_ui_disable_infinitymode_gesture">Отключить жесты бесконечного масштабирования</string>
     <string name="system_ui_disable_infinitymode_gesture_sum">Только для планшета</string>
@@ -929,8 +1037,15 @@
     <string name="system_ui_qs_label">Вкладка быстрого переключения</string>
     <string name="system_ui_notification_title">Уведомление</string>
     <string name="system_ui_other_notification_fix">Отключить белый список уведомлений</string>
+    <string name="system_ui_other_default_plugin_theme">Убрать ограничения размытия из расширенных текстур</string>
+    <string name="system_ui_other_default_plugin_theme_desc">Разблокировать размытие расширенных текстур, которое по умолчанию отключено для сторонних тем в плагине SystemUI.</string>
     <string name="system_ui_plugin_enable_volume_blur">Включить размытие полосы громкости</string>
+    <string name="system_ui_move_log_to_miui">Переместить statusbar_gestures.dat в каталог MIUI</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Только для моделей MTK с Android 12+, возможна высокая загрузка графического процессора</string>
+    <!--Telecom-->
+    <string name="telecom">Телефонные звонки</string>
+    <string name="scam_reminder_bypass_caption">Разрешить переадресацию всех вызовов по MMI-коду напрямую</string>
+    <string name="scam_reminder_bypass_description">Разрешите использовать любой MMI-код, например **21*8#, чтобы напрямую включить переадресацию вызовов</string>
     <!--Settings-->
     <string name="system_settings">Настройки</string>
     <string name="system_settings_linkturbo">Снять ограничения на приложения для ускорения работы сети</string>
@@ -960,6 +1075,9 @@
     <string name="system_settings_lang_menu_shouw_all_app">Показать все приложения в меню управления языком</string>
     <string name="system_settings_new_nfc_page">Новая страница NFC</string>
     <string name="system_settings_new_nfc_page_desc">После открытия платежное приложение по умолчанию для неподдерживаемых моделей не может выбрать кошелек Xiaomi</string>
+    <string name="system_settings_xiaomihyperai">Xiaomi HyperAI</string>
+    <string name="system_settings_unlock_xiaomihyperai_entrance">Разблокировать Xiaomi HyperAI</string>
+    <string name="system_settings_unlock_xiaomihyperai_entrance_desc">После включения? в настройках отображается опция Xiaomi HyperAI. Поддержка функций AI устройства определяется Xiaomi.</string>
     <string name="system_settings_lab_title">Избранные функции</string>
     <string name="system_settings_area_screenshot">Скриншот области разблокировки</string>
     <string name="system_settings_voip_assistant_controller">Помощник по VoIP</string>
@@ -1031,6 +1149,9 @@
     <string name="milink_unlock_hmind">Разблокировать Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">Принудительная поддержка вещания камеры</string>
     <string name="milink_fuck_hpplay">Блокировка создания папок hpplay</string>
+    <!--Sound Recorder-->
+    <string name="sound_recorder">Запись звука</string>
+    <string name="sound_recorder_disable_ai_watermark">Отключить водяной знак AI</string>
     <!--Always-on display-->
     <string name="aod">Дисплей всегда включен (AOD)</string>
     <string name="aod_hyperos">AOD</string>
@@ -1062,6 +1183,10 @@
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Убрать ограничения на использование мобильных телефонов</string>
+    <!--LPA-->
+    <string name="lpa">LPA</string>
+    <string name="lpa_custom_imei">Пользовательский IMEI</string>
+    <string name="lpa_custom_imei_desc">Убедитесь, что вы правильно ввели IMEI. Неправильный IMEI может привести к недоступности или ненормальной работе eSIM. Мы не несем ответственности за любые последствия, возникающие в результате этого.</string>
     <!--Gallery-->
     <string name="gallery">Галерея</string>
     <string name="gallery_enable_hdr_enhanced">HDR</string>
@@ -1087,6 +1212,7 @@
     <string name="guard_provider">Безопасность MIUI</string>
     <string name="guard_provider_hyperos">Компоненты безопасности системы</string>
     <string name="guard_provider_disable_upload_applist">Запретить автозагрузку списка установленных приложений</string>
+    <string name="guard_provider_disable_root_check">Отключить проверку окружения</string>
     <!--System launcher-->
     <string name="mihome">Системный раб.стол</string>
     <string name="home_gesture">Жесты</string>
@@ -1126,13 +1252,18 @@
     <string name="home_gesture_multi_choose_app_none">Нет</string>
     <string name="home_layout">Макеты</string>
     <string name="home_layout_home_title">Раб.стол</string>
+    <string name="home_layout_indicator_title">Индикатор</string>
+    <string name="home_layout_indicator_margin_bottom_desc">Расстояние индикатора от нижнего края экрана</string>
     <string name="home_layout_hotseats_title">Док</string>
     <string name="home_layout_searchbar_title">Панель поиска</string>
+    <string name="home_layout_searchbar_width">Высота</string>
     <string name="home_layout_seek_points">Индикатор страниц</string>
     <string name="home_layout_show_clock">Не прятать часы</string>
     <string name="home_layout_show_clock_desc">Отключает скрытие часов в строке состояния на экранах с виджетом часов</string>
     <string name="home_layout_unlock_grids">Разблокировать сетку</string>
     <string name="home_layout_unlock_grids_desc">Разблокировать ограничение сетки на рабочем столе</string>
+    <string name="home_layout_unlock_grids_new_x">Столбцы</string>
+    <string name="home_layout_unlock_grids_new_y">Строки</string>
     <string name="home_layout_unlock_grids_no_words">Разблокировать сетку (без текста)</string>
     <string name="home_layout_unlock_grids_no_words_desc">Разблокировать ограничение сетки на рабочем столе</string>
     <string name="home_layout_workspace_padding_bottom_desc">Расстояние раб.стола от нижнего края экрана</string>
@@ -1177,7 +1308,9 @@
     <string name="home_folder_shade_level_title">Интенсивность цвета</string>
     <string name="home_folder_cols_title">Количество упорядоченных папок</string>
     <string name="home_folder_cols_format">Ряд: %d</string>
+    <string name="home_folder_horizontal_padding_desc">Расстояние папки от края экрана</string>
     <string name="home_folder_vertical_spacing_desc">Расстояние между папками по горизонтали</string>
+    <string name="home_folder_title_pos">Позиция заголовка</string>
     <string name="home_folder_width_title">Использовать ширину всей папки</string>
     <string name="home_folder_space_title">Уменьшить поля</string>
     <string name="home_folder_blur_title">Размытие фона</string>
@@ -1237,6 +1370,7 @@
     <string name="home_title_hide_report_text_desc">Скрыть текст отчета в диалоговом окне удаления</string>
     <string name="home_title_notif_color">Цвет фона уведомлений пользовательский</string>
     <string name="home_title_notif_color_picker">Пользовательский цвет</string>
+    <string name="home_title_icon_size">Размер иконки</string>
     <string name="home_recent">Недавние</string>
     <string name="home_recent_animation_speed">Скорость анимации</string>
     <string name="home_recent_disable_wallpaper_dimming">Отключить затемнение обоев</string>
@@ -1264,6 +1398,8 @@
     <string name="home_recent_show_launch">Показать панель запуска в качестве фона</string>
     <string name="home_recent_show_launch_size">Размер фона панели запуска</string>
     <string name="home_recent_show_launch_alpha">Фоновая версия альфа-версии программы запуска</string>
+    <string name="home_recent_hide_card">Скрыть карточки приложений в недавних</string>
+    <string name="home_recent_hide_card_desc">Скрыть карточку выбранного приложения в недавних</string>
     <string name="home_widget">Виджет</string>
     <string name="home_widget_all_widget_animation">Анимация виджета</string>
     <string name="home_widget_show_miui_widget">Отобразить виджеты MIUI</string>
@@ -1345,6 +1481,7 @@
     <string name="home_other_mi_pad_enable_more_setting_title">Разблокируйте дополнительные параметры настроек рабочего стола</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">Разблокированные функции могут быть недоступны, а некоторые функции требуют базовой поддержки системы</string>
     <string name="home_other_disable_prestart">Отключить предварительную загрузку приложения</string>
+    <string name="home_other_opt_app_launch_delay">Оптимизация задержки запуска приложения</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Редактор галереи</string>
     <string name="mediaeditor_foundation">Foundation</string>
@@ -1358,6 +1495,7 @@
     <string name="mediaeditor_unlock_leica_filter_title">Разблокировать фильтр Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Поддерживаются только некоторые версии</string>
     <string name="mediaeditor_filter_manager">Менеджер фильтров</string>
+    <string name="mediaeditor_unlock_aigc">Разблокировать AIGC</string>
     <!--Mi Share-->
     <string name="mishare">Mi Share</string>
     <string name="mishare_disable_mishare_auto_off">Отключить автозакрытие Mi Share</string>
@@ -1366,6 +1504,9 @@
     <!--Wallpaper-->
     <string name="miwallpaper">Обои</string>
     <string name="miwallpaper_unlock_super_wallpaper">Супер-обои</string>
+    <!--Notes-->
+    <string name="notes">Заметки</string>
+    <string name="notes_disable_ai_watermark">Отключить водяной знак</string>
     <!--Package installer-->
     <string name="package_installer">Установщик приложений</string>
     <string name="miui_package_installer_modify">Очистить страницу</string>
@@ -1429,6 +1570,7 @@
     <!--System Service Plugin-->
     <string name="securityadd">Плагин системной службы</string>
     <string name="securityadd_disable_gb_ads">Отключить рекламу в \"Центр игр\"</string>
+    <string name="securityadd_disable_gb_ads_desc">Это может привести к нарушению других функций</string>
     <!--Security/Tablet security center-->
     <string name="security_center">Безопасность</string>
     <string name="security_center_pad">Центр безопасности</string>
@@ -1439,6 +1581,7 @@
     <string name="security_center_beauty_title">Помощник фронтальной камеры</string>
     <string name="security_center_bubble_and_freeform_title">Плавающее окно и всплывающие уведомления</string>
     <string name="security_center_newbox_title">Боковая панель</string>
+    <string name="security_center_disable_root_check_environment">Отключить проверку окружения</string>
     <string name="security_center_dolby_open">Закройте всплывающее окно Dolby</string>
     <string name="security_center_show_battery_temperature">Показывать температуру батареи</string>
     <string name="security_center_show_battery_health">Показать подробную информацию о состоянии батареи</string>
@@ -1592,12 +1735,14 @@
     <string name="market_package_monitor_desc">Запретить \"GetApps\" отслеживать установку и удаление приложений</string>
     <string name="market_disable_ads">Отключить рекламу</string>
     <string name="market_bypass_risk_check">Обойти проверку рисков</string>
+    <string name="market_disable_start_push_dialog">Отключить диалог запуска push-уведомлений</string>
     <!--Mi sound-->
     <string name="misound">Наушники</string>
     <string name="misound_bluetooth">Гарнитура автоматически переключается на исходный звук</string>
     <string name="misound_bluetooth_uuid">Идентификатор UUID звукового эффекта</string>
     <string name="misound_bluetooth_uuid_more">Идентификаторы звука Dolby и других звуков. Заполните их, если эффекта нет, и найдите способ получить его самостоятельно</string>
     <string name="misound_increase_sampling_rate">Увеличить частоту выборки</string>
+    <string name="misound_spatial">Принудительное включение объемного звука после отключения наушников</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi Настройки</string>
     <string name="mi_input_settings">Настройки ввода</string>
@@ -1610,8 +1755,10 @@
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Метод ввода Sogou</string>
     <string name="sogou_xiaomi_clipboard">Снимите ограничение на количество буфера обмена</string>
+    <string name="add_clipboard_clear">Добавить кнопку очистки буфера обмена</string>
     <!--Scanner-->
     <string name="scanner">Сканер</string>
+    <string name="scanner_hyper">AI Сканер</string>
     <string name="scanner_card">Сканировать ID-карты</string>
     <string name="scanner_translation">Переводчик</string>
     <string name="scanner_ocr">Распознавание текста</string>
@@ -1621,10 +1768,16 @@
     <string name="scanner_doc_ppt">Сканировать файлы</string>
     <!--MI AI-->
     <string name="voiceassist">Mi AI</string>
+    <string name="voiceassist_hyper">Супер AI</string>
     <string name="voiceassist_disable_watermark">Отключить водяной знак чата</string>
+    <!--Voice Trigger-->
+    <string name="voicetrigger">Голосовой триггер</string>
+    <string name="bypass_udk_word_legal_check_caption">Разрешить пробуждение при записи голосом без интернета</string>
+    <string name="bypass_udk_word_legal_check_description">Позволяет записывать слова голосом при пробуждении в автономном режиме</string>
+    <string name="voicetrigger_accuracy_percent_caption">Установить точность для пробуждения с распознаванием голоса</string>
+    <string name="voicetrigger_accuracy_percent_description">Более высокие значения сложнее обнаружить. Значение по умолчанию - 70%, для ключевого слова XATX - 0%. После настройки вам необходимо перезапустить целевое приложение и повторно зарегистрировать слово активации.</string>
     <!--Other-->
     <string name="various">Прочее</string>
-    <string name="notes">Заметки</string>
     <string name="share_center">Умный хаб</string>
     <string name="new_task">Новая задача</string>
     <string name="custom_hook">Своё</string>
@@ -1744,55 +1897,6 @@
     <string name="operator_fix_none">Не восстанавливать</string>
     <string name="operator_fix_1">Метод 1</string>
     <string name="operator_fix_2">Метод 2 (рекомендовано)</string>
-    <string name="custom_hook_new">Добавить Hook</string>
-    <string name="custom_hook_mode">Выбор режима</string>
-    <string name="open_source">Проекты с открытым кодом</string>
-    <string name="close_source">Проекты с закрытым кодом</string>
-    <string name="exit">Выход</string>
-    <string name="ignore">Игнорировать</string>
-    <string name="log_level">Уровень логирования</string>
-    <string name="log_level_none">Отключить журнал</string>
-    <string name="disable_suggest">Отключить предложение</string>
-    <string name="enable_suggest">Включить предложение</string>
-    <string name="set_homepage_entrance">Настройте запись на главной странице</string>
-    <string name="help_cant_see_apps_guide">Не можете найти функции приложения?</string>
-    <string name="set_homepage_entrance_about">Примечание: Этот параметр предназначен только для настройки видимости записей на главной странице, и включенные функции не будут отключены! Закрытие портала вступит в силу в реальном времени, и для повторного появления приложения необходимо будет перезапустить.</string>
-    <string name="help_cant_see_apps_title">Не можете найти функции приложения дома?</string>
-    <string name="help_cant_see_apps_desc">Чтобы сохранить простоту и удобство использования главной страницы, мы скрыли доступ к следующим типам функций приложения: - Те приложения, которые в настоящее время отключены или скрыты - Те приложения, которые не найдены на вашем устройстве - Те приложения, которые несовместимы с текущей версией системы или приложения. Устраните неполадки на основе приведенной выше информации, перезапустите HyperCeiler и повторите попытку. Если вы по-прежнему не можете найти функции приложения, возможно, это ошибка. Пожалуйста, предоставьте нам своевременную и эффективную обратную связь. На данный момент скрытые функции приложения: </string>
-    <string name="help_cant_see_apps_uninstall">Удаленные приложения: </string>
-    <string name="help_cant_see_apps_disable">Отключенные или скрытые приложения: </string>
-    <string name="help_cant_see_apps_desc_no_hidden">Чтобы сохранить простоту и удобство использования главной страницы, мы скрыли доступ к следующим типам функций приложения: - Те приложения, которые в настоящее время отключены или скрыты - Те приложения, которые не найдены на вашем устройстве - Те приложения, которые несовместимы с текущей версией системы или приложения. Устраните неполадки на основе приведенной выше информации, перезапустите HyperCeiler и повторите попытку. Если вы по-прежнему не можете найти функции приложения, возможно, это ошибка. Пожалуйста, предоставьте нам своевременную и эффективную обратную связь. На данный момент скрытого входа нет!</string>
-    <string name="help_cant_see_apps_switch">Скрыть эту справку на главной странице</string>
-    <string name="help_cant_see_apps_switch_desc">Вы по-прежнему можете найти эту страницу в разделе \"Настройки - Настройка записи на главной странице\". Перезагрузите приложение, чтобы применить.</string>
-    <string name="help_support_version_title">Текущая версия приложения список версий системы поддержки</string>
-    <string name="help_support_version_desc_1">Текущая версия приложения полностью адаптирована к следующим версиям системы:</string>
-    <string name="help_support_version_desc_2">Следующие версии системы адаптированы к текущей версии приложения:</string>
-    <string name="help_support_version_desc_3">Текущая версия системы полностью адаптирована.</string>
-    <string name="help_support_version_desc_4">Текущая версия системы не (полностью) адаптирована адаптировано.</string>
-    <string name="headtip_warn_not_offical_rom">Источник используемого вами ПЗУ может быть неофициальным от Xiaomi, и некоторые функции могут не работать, пожалуйста, свяжитесь с поставщиком, которого вы используете, для получения подробной информации.</string>
-    <string name="headtip_warn_unsupport_sysver">Текущее устройство работает на версии системы, которая не (полностью) адаптирована, что может привести к аномалиям в функциональности HyperCeiler.</string>
-    <string name="headtip_warn_sign_verification_failed">Проверка подписи не удалась, и текущая версия, которую вы используете, может отличаться от официальной версии Re.chronoRain и может содержать вредоносный код.</string>
-    <string name="headtip_tip_long_press_to_copy">Вы можете выбрать текст после длительного или двойного нажатия или скопировать его и отправить обратно разработчику.</string>
-    <string name="headtip_tip_fuck_coolapk">Сегодняшний день в истории: Севтинге выступил с важной речью 14 июля 2022 года.</string>
-    <string name="headtip_notice_dead_logger_errcode">Текущая служба журнала устройства работает ненормально, и функции HyperCeiler будут ограничены. Пожалуйста, восстановите службу журнала, чтобы она могла работать нормально. Код ошибки: %1$s</string>
-    <string name="headtip_notice_dead_logger">Текущая служба журнала устройства работает ненормально, и функции HyperCeiler будут ограничены. Пожалуйста, восстановите службу журнала, чтобы она могла работать нормально.</string>
-    <string name="warn">Предупреждение</string>
-    <string name="safe_mode_desc">Перешел в безопасный режим из-за нескольких сбоев, а функциональность HyperCeiler временно отключена. Нажмите \"ОК\", чтобы отменить, нажмите \"Отмена\", чтобы продолжить обработку позже.</string>
-    <string name="safe_mode_history">Просмотр записей исключений</string>
-    <string name="safe_mode_cancel">Отключить безопасный режим</string>
-    <string name="safe_mode_ok">Разберёмся с этим позже</string>
-    <string name="safe_mode_later_title">Совет</string>
-    <string name="safe_mode_later_desc">Все еще находится в безопасном режиме, а функциональность HyperCeiler отключена. Отключить безопасный режим?</string>
-    <string name="safe_mode_recorder_title">Записи исключений</string>
-    <string name="safe_mode_recorder_file">Файл</string>
-    <string name="safe_mode_recorder_class">Класс</string>
-    <string name="safe_mode_recorder_method">Метод</string>
-    <string name="safe_mode_recorder_line">Линия</string>
-    <string name="safe_mode_recorder_msg">Сообщение об исключении</string>
-    <string name="safe_mode_recorder_st">Трассировка стека</string>
-    <string name="tip_default">Совет: Вот совет по умолчанию. Если вы можете видеть меня, это означает, что есть проблема с гиперселером, пожалуйста, сообщите об этом разработчику своевременно и эффективно.</string>
-    <string name="preference_recommend_tip">Ищете что-то еще?</string>
-    <string name="happy_birthday_hyperceiler">Сегодня день рождения HyperCeiler! Спасибо за вашу поддержку в прошлом году, давайте продолжим работать вместе в этом году!</string>
     <string name="ic_qs_title_wifi">Wi-Fi</string>
     <string name="ic_qs_title_cellular">Мобильный интернет</string>
     <string name="ic_qs_title_bluetooth">Bluetooth</string>
@@ -1805,17 +1909,14 @@
     <string name="ic_qs_title_autobrightness">Автояркость</string>
     <string name="ic_qs_title_vowifi1">VoWiFi SIM1</string>
     <string name="ic_qs_title_vowifi2">VoWiFi SIM2</string>
-    <!--Telecom-->
-    <string name="telecom">Телефонные звонки</string>
-    <string name="scam_reminder_bypass_caption">Разрешить переадресацию всех вызовов по MMI-коду напрямую</string>
-    <string name="scam_reminder_bypass_description">Разрешите использовать любой MMI-код, например **21*8#, чтобы напрямую включить переадресацию вызовов</string>
-    <!--Voice Trigger-->
-    <string name="voicetrigger">Голосовой триггер</string>
-    <string name="bypass_udk_word_legal_check_caption">Разрешить пробуждение при записи голосом без интернета</string>
-    <string name="bypass_udk_word_legal_check_description">Позволяет записывать слова голосом при пробуждении в автономном режиме</string>
-    <string name="voicetrigger_accuracy_percent_caption">Установить точность для пробуждения с распознаванием голоса</string>
-    <string name="voicetrigger_accuracy_percent_description">Более высокие значения сложнее обнаружить. Значение по умолчанию - 70%, для ключевого слова XATX - 0%. После настройки вам необходимо перезапустить целевое приложение и повторно зарегистрировать слово активации.</string>
-    <string name="about_device_info_device">Устройство</string>
-    <string name="about_device_info_android">Версия Android</string>
-    <string name="about_device_info_os">Версия ОС</string>
+    <string name="custom_hook_new">Добавить Hook</string>
+    <string name="custom_hook_mode">Выбор режима</string>
+    <string name="open_source">Проекты с открытым кодом</string>
+    <string name="close_source">Проекты с закрытым кодом</string>
+    <string name="exit">Выход</string>
+    <string name="ignore">Игнорировать</string>
+    <string name="log_level">Уровень логирования</string>
+    <string name="log_level_none">Отключить журнал</string>
+    <string name="disable_suggest">Отключить предложение</string>
+    <string name="enable_suggest">Включить предложение</string>
 </resources>
