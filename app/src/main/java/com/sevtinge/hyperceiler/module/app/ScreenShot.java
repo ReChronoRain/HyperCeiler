@@ -24,7 +24,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.screenshot.DeviceShellCustomize;
 import com.sevtinge.hyperceiler.module.hook.screenshot.SaveToPictures;
-import com.sevtinge.hyperceiler.module.hook.screenshot.UnlockMinimumCropLimit;
+import com.sevtinge.hyperceiler.module.hook.screenshot.UnlockMinimumCropLimit2;
 import com.sevtinge.hyperceiler.module.hook.screenshot.UnlockPrivacyMarking;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
@@ -33,7 +33,7 @@ public class ScreenShot extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        initHook(new UnlockMinimumCropLimit(), mPrefsMap.getBoolean("screenshot_unlock_minimum_crop_limit"));
+        initHook(UnlockMinimumCropLimit2.INSTANCE, mPrefsMap.getBoolean("screenshot_unlock_minimum_crop_limit"));
         initHook(SaveToPictures.INSTANCE, mPrefsMap.getBoolean("screenshot_save_to_pictures"));
         initHook(DeviceShellCustomize.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("screenshot_device_customize", "")));
         initHook(UnlockPrivacyMarking.INSTANCE, mPrefsMap.getBoolean("screenshot_unlock_privacy_marking"));
