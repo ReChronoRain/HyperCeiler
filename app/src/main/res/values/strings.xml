@@ -61,6 +61,22 @@
 
     <string name="miui_quick_settings_tiles_stock" translatable="false">reduce_brightness,vowifi1,vowifi2,cell,wifi,bt,airplane,autobrightness,mute,screenshot,flashlight,rotation,screenlock,dtmdtm,scanner,papermode,night,quietmode,batterysaver,uwb_shp,aitranslate,aisubtitles,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,gps,edit,hearingassisttile,controls,wallet,inversion,saver,dark,onehanded,color_correction,user,dnd,settings</string>
     <string name="miui_quick_settings_tiles_stock_pad" translatable="false">reduce_brightness,vowifi1,vowifi2,cell,wifi,rotation,airplane,mute,screenshot,bt,autobrightness,screenlock,dtmdtm,night,papermode,quietmode,batterysaver,gps,flashlight,scanner,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,edit,controls,workmode,wallet,inversion,saver,dark,onehanded,color_correction,user,dnd,settings</string>
+
+    <string name="settings_app_en" translatable="false">English</string>
+    <string name="settings_app_zh_cn" translatable="false">简体中文</string>
+    <string name="settings_app_zh_tw" translatable="false">繁體中文 (台灣)</string>
+    <string name="settings_app_zh_hk" translatable="false">繁體中文 (香港)</string>
+    <string name="settings_app_ja_jp" translatable="false">日本語</string>
+    <string name="settings_app_pl_pl" translatable="false">Polski</string>
+    <string name="settings_app_ru_ru" translatable="false">Русский</string>
+    <string name="settings_app_ar_sa" translatable="false">الإنجليزية</string>
+    <string name="settings_app_es_es" translatable="false">Español</string>
+    <string name="settings_app_pt_br" translatable="false">Português (Brasil)</string>
+    <string name="settings_app_in_id" translatable="false">Bahasa Indonesia</string>
+    <string name="settings_app_tr_tr" translatable="false">Türkçe</string>
+    <string name="settings_app_vi_vn" translatable="false">Tiếng Việt</string>
+    <string name="settings_app_it_it" translatable="false">Italiano</string>
+    <string name="settings_app_zh_me" translatable="false">梗体中文</string>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Make HyperOS/MIUI Great Again!</string>
 
@@ -72,11 +88,71 @@
     <string name="new_cta_agree_desc">During usage, in order to provide you with more features, we may apply for Root/Su permission from you. You can go to Permission Management at any time to adjust the authorization status of all permissions, and please go to your Root/Su manager to grant Root/Su permissions.</string>
     <string name="new_cta_app_main_purpose">modify system apps</string>
     <string name="new_cta_app_all_purpose_title">Welcome to HyperCeiler! This app relies on the Xposed framework to run. You can use this app to hijack and modify other supported apps to enhance the system. During usage, in order to provide you with more functions, we may apply for Root/Su permissions from you. You can manage it at any time by going to your Root/Su Manager.</string>
+    <!--HyperCeiler Tips-->
+    <string name="warn">Attention</string>
+    <string name="safe_mode_desc">%1$s has entered Safe mode due to multiple crashes, and HyperCeiler features has been temporarily disabled.</string>
+    <string name="safe_mode_history">View exception records</string>
+    <string name="safe_mode_cancel">Disable Safe mode</string>
+    <string name="safe_mode_ok">Cancel</string>
+    <string name="safe_mode_later_title">Tip</string>
+    <string name="safe_mode_later_desc">%1$s is still in Safe mode and HyperCeiler features has been disabled. Disable Safe mode?</string>
+    <string name="safe_mode_recorder_title">Exception records</string>
+    <string name="safe_mode_recorder_file">File</string>
+    <string name="safe_mode_recorder_class">Class</string>
+    <string name="safe_mode_recorder_method">Method</string>
+    <string name="safe_mode_recorder_line">Line</string>
+    <string name="safe_mode_recorder_msg">Exception message</string>
+    <string name="safe_mode_recorder_st">Stack trace</string>
+    <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler. Please report it to the developer in a timely and effective manner.</string>
+    <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be an official Xiaomi ROM, and some features may not work. Please contact your supplier for more details.</string>
+    <string name="headtip_warn_unsupport_sysver">The current device is running on a system version that isn\'t (fully) adapted, which may result in anomalies in the HyperCeiler functionality.</string>
+    <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of HyperCeiler, and may contain malicious code.</string>
+    <string name="headtip_tip_auto_safe_mode">Auto safe mode can unhook some apps in time when they crash multiple times to ensure safety. This feature requires the System Framework hook scope to run. We strongly recommend checking the System Framework scope to turn on Auto safe mode.</string>
+    <string name="headtip_tip_long_press_to_copy">You can select text after long or double press, or copy it and send it back to the developer.</string>
+    <string name="happy_birthday_hyperceiler">Today is HyperCeiler\'s birthday!\nThank you for your support over the past year, and let\'s continue to work together this year!</string>
+    <string name="headtip_tip_fuck_coolapk">Today in history: Sevtinge delivered an important speech on July 14, 2022.</string>
+    <string name="headtip_notice_dead_logger_errcode">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.\nError code: %1$s</string>
+    <string name="headtip_notice_dead_logger">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">English</string>
     <string name="translator">HyperCeiler Official</string>
     <string name="translator_url">https://github.com/ReChronoRain</string>
     <string name="home">Home</string>
+    <string name="help">Help</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="about_use">References</string>
+    <string name="about_use_desc">HyperCeiler uses some or all of the following projects, thanks to the developers of these projects for their support (in no particular order)</string>
+    <string name="about_contributer">Contributors</string>
+    <string name="about_contributer_desc">Thanks to the following contributors for their help in the development of HyperCeiler (in no particular order)</string>
+    <string name="about_donation">Sponsor</string>
+    <string name="about_donation_desc">You can support us by donating here</string>
+    <string name="about_device_info_device">Device</string>
+    <string name="about_device_info_android">Android version</string>
+    <string name="about_device_info_os">OS version</string>
+    <string name="hyperceiler_notice">Pull down the status bar to display shortcut switches and system notifications</string>
+    <string name="hyperceiler_restart_quick">Quickly restart apps</string>
+    <string name="debug_info" translatable="false">Cannot get debug info.</string>
+    <string name="delete_all_dexkit_cache_desc">Are you sure you want to clear all the DexKit cache?</string>
+    <string name="delete_all_dexkit_cache_success">Successfully cleared all the DexKit cache</string>
+    <string name="set_homepage_entrance">Set up the homepage entry</string>
+    <string name="set_homepage_entrance_about">Note: Modifying this setting only hides the visibility of the feature on the homepage, and features that have been turned on won\'t be turned off!\nHiding the feature on the homepage will take effect immediately, and the app will need to be restarted to reappear.</string>
+    <string name="help_cant_see_apps_guide">Can\'t find the app features?</string>
+    <string name="help_cant_see_apps_title">Can\'t find the app features on the homepage?</string>
+    <string name="help_cant_see_apps_desc">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app features:\n\n • Those currently disabled or hidden\n • Those not found in your device\n • Those incompatible with the current version of the system or the app\n • Not selected as scoped\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nCurrently hidden app features:</string>
+    <string name="help_cant_see_apps_uninstall">Uninstalled apps:\n</string>
+    <string name="help_cant_see_apps_disable">Disabled or hidden apps:\n</string>
+    <string name="help_cant_see_apps_scope">Not selected as scoped:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app features:\n\n • Those currently disabled or hidden\n • Those not found in your device\n • Those incompatible with the current version of the system or the app\n • Not selected as scoped\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nThere are currently no hidden features!</string>
+    <string name="help_cant_see_apps_switch">Hide this help in homepage</string>
+    <string name="help_cant_see_apps_switch_desc">You can still find this page in About > Help. Reboot app to apply.</string>
+    <string name="help_support_version_title">Current app version support system version list</string>
+    <string name="help_support_version_desc_1">The current app version is fully adapted to the following system versions:</string>
+    <string name="help_support_version_desc_2">The following system versions are adapted to the current app version:</string>
+    <string name="help_support_version_desc_3">The current system version is fully adapted.</string>
+    <string name="help_support_version_desc_4">The current system version isn\'t (fully) adapted.</string>
+    <string name="location_add">Add</string>
+    <string name="location_delete">Delete</string>
     <string name="edit">Please enter text</string>
     <string name="kill">Kill tool</string>
     <string name="kill_1">Enter package/software name</string>
@@ -94,19 +170,6 @@
     <string name="prefs_7">Remove specified key</string>
     <string name="success">Success</string>
     <string name="failed">Failed</string>
-    <string name="help">Help</string>
-    <string name="settings">Settings</string>
-    <string name="about">About</string>
-    <string name="about_use">References</string>
-    <string name="about_use_desc">HyperCeiler uses some or all of the following projects, thanks to the developers of these projects for their support (in no particular order)</string>
-    <string name="about_contributer">Contributors</string>
-    <string name="about_contributer_desc">Thanks to the following contributors for their help in the development of HyperCeiler (in no particular order)</string>
-    <string name="about_donation">Sponsor</string>
-    <string name="about_donation_desc">You can support us by donating here</string>
-    <string name="hyperceiler_notice">Pull down the status bar to display shortcut switches and system notifications</string>
-    <string name="hyperceiler_restart_quick">Quickly restart apps</string>
-    <string name="location_add">Add</string>
-    <string name="location_delete">Delete</string>
     <string name="development">Developer options</string>
     <string name="development_ui">UI</string>
     <string name="development_debug_info">Debug info</string>
@@ -115,8 +178,6 @@
     <string name="development_delete_all_dexkit_cache">Delete all DexKit cache</string>
     <string name="development_close_log_alert_dialog">Disable logger live alert dialog</string>
     <string name="development_fix_lsposed_log">Try to fix LSPosed log service</string>
-    <string name="about_privacy">Privacy Policy</string>
-    <string name="about_protocol">User Agreement</string>
     <string name="settings_show_title">Show</string>
     <string name="settings_data_title">Backup and restore</string>
     <string name="settings_bug_title">Troubleshooting</string>
@@ -129,19 +190,6 @@
     <string name="settings_icon_medium">Middle</string>
     <string name="settings_icon_down">Bottom</string>
     <string name="settings_icon_mode">Icon style</string>
-    <string name="settings_app_en" translatable="false">English</string>
-    <string name="settings_app_zh_cn" translatable="false">简体中文</string>
-    <string name="settings_app_zh_tw" translatable="false">繁體中文 (台灣)</string>
-    <string name="settings_app_zh_hk" translatable="false">繁體中文 (香港)</string>
-    <string name="settings_app_ja_jp" translatable="false">日本語</string>
-    <string name="settings_app_ru_ru" translatable="false">Русский</string>
-    <string name="settings_app_es_es" translatable="false">Español</string>
-    <string name="settings_app_pt_br" translatable="false">Português (Brasil)</string>
-    <string name="settings_app_in_id" translatable="false">Bahasa Indonesia</string>
-    <string name="settings_app_tr_tr" translatable="false">Türkçe</string>
-    <string name="settings_app_vi_vn" translatable="false">Tiếng Việt</string>
-    <string name="settings_app_it_it" translatable="false">Italiano</string>
-    <string name="settings_app_zh_me" translatable="false">梗体中文</string>
     <string name="settings_app_language">Language</string>
     <string name="settings_icon_miui_14">Rounded rectangle style</string>
     <string name="settings_icon_miui_13">Background cutout style</string>
@@ -179,9 +227,8 @@
     <string name="about_offical">Official website</string>
     <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">Help us translate HyperCeiler into you language</string>
-    <string name="debug_info" translatable="false">Cannot get debug info.</string>
-    <string name="delete_all_dexkit_cache_desc">Are you sure you want to clear all the DexKit cache?</string>
-    <string name="delete_all_dexkit_cache_success">Successfully cleared all the DexKit cache</string>
+    <string name="about_privacy">Privacy Policy</string>
+    <string name="about_protocol">User Agreement</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Reboot </string>
     <string name="restart_app_desc">Are you sure you want to restart now %1$s?</string>
@@ -206,6 +253,7 @@
     <string name="preference_dialog_color_picker_custom">Custom color</string>
     <string name="preference_dialog_color_picker_transparency">Transparency</string>
     <string name="preference_dialog_color_picker_select">Confirm selection</string>
+    <string name="preference_recommend_tip">Need other settings?</string>
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_up_description">Navigate up</string>
     <string name="actionbar_button_up_description">Back</string>
@@ -1058,6 +1106,10 @@
     <string name="system_ui_plugin_enable_volume_blur">Enable volume bar blur</string>
     <string name="system_ui_move_log_to_miui">Move statusbar_gestures.dat to MIUI dir</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Only for Android12+ MTK models. There may be high GPU load.</string>
+    <!--Telecom-->
+    <string name="telecom">Manage calls</string>
+    <string name="scam_reminder_bypass_caption">Allow call forwarding via MMI code</string>
+    <string name="scam_reminder_bypass_description">Allows direct dialing of MMI codes, such as **21*8#, to activate call forwarding.</string>
     <!--Settings-->
     <string name="system_settings">Settings</string>
     <string name="system_settings_linkturbo">Remove restrictions on network acceleration apps</string>
@@ -1161,6 +1213,9 @@
     <string name="milink_unlock_hmind">Unlock Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">Forced support for camera streaming</string>
     <string name="milink_fuck_hpplay">Block creation of hpplay folders</string>
+    <!--Sound Recorder-->
+    <string name="sound_recorder">Sound Recorder</string>
+    <string name="sound_recorder_disable_ai_watermark">Disable AI watermark</string>
     <!--Always-on display-->
     <string name="aod">Always-on display</string>
     <string name="aod_hyperos">Always-on display and Lock screen editor</string>
@@ -1192,6 +1247,10 @@
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Remove restrictions on the use of mobile phones</string>
+    <!--LPA-->
+    <string name="lpa">LPA</string>
+    <string name="lpa_custom_imei">Custom IMEI</string>
+    <string name="lpa_custom_imei_desc">Make sure you\'ve entered the IMEI correctly. An incorrect IMEI may cause the eSIM to be unavailable or abnormal. We\'re not responsible for any consequences arising therefrom.</string>
     <!--Gallery-->
     <string name="gallery">Gallery</string>
     <string name="gallery_enable_hdr_enhanced">Unlock display high dynamic range</string>
@@ -1514,6 +1573,9 @@
     <!--Wallpaper-->
     <string name="miwallpaper">Wallpaper</string>
     <string name="miwallpaper_unlock_super_wallpaper">Unlock Super wallpaper</string>
+    <!--Notes-->
+    <string name="notes">Notes</string>
+    <string name="notes_disable_ai_watermark">Disable AI watermark</string>
     <!--Package installer-->
     <string name="package_installer">Package installer</string>
     <string name="miui_package_installer_modify">Clean page</string>
@@ -1742,12 +1804,14 @@
     <string name="market_package_monitor_desc">Prohibit GetApps from monitoring app installation and uninstallation</string>
     <string name="market_disable_ads">Disable ads</string>
     <string name="market_bypass_risk_check">Bypass risk check</string>
+    <string name="market_disable_start_push_dialog">Disable start push dialog</string>
     <!--Mi sound-->
     <string name="misound">Earphones</string>
     <string name="misound_bluetooth">Change headphone status to the original sound</string>
     <string name="misound_bluetooth_uuid">Sound effect UUID identifier</string>
     <string name="misound_bluetooth_uuid_more">If the sound effect has no effect, you can try modifying it yourself.</string>
     <string name="misound_increase_sampling_rate">Increase sampling rate</string>
+    <string name="misound_spatial">Force Immersive sound on after disconnecting headphones</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi Settings</string>
     <string name="mi_input_settings">Input settings</string>
@@ -1775,6 +1839,12 @@
     <string name="voiceassist">Mi AI</string>
     <string name="voiceassist_hyper">Super AI</string>
     <string name="voiceassist_disable_watermark">Disable chat watermark</string>
+    <!--Voice Trigger-->
+    <string name="voicetrigger">Voice Trigger</string>
+    <string name="bypass_udk_word_legal_check_caption">Allow recording of the Wake with voice without internet</string>
+    <string name="bypass_udk_word_legal_check_description">Allows the recording of words from the Wake with voice when offline</string>
+    <string name="voicetrigger_accuracy_percent_caption">Set accuracy for Wake with voice detection</string>
+    <string name="voicetrigger_accuracy_percent_description">Higher values are more difficult to detect. The default value is 70%, for the keyword XATX it\'s 0%. After setting, you need to restart the target app and re-enroll your activation word.</string>
     <!--Other-->
     <string name="various">Others</string>
     <string name="share_center">Xiaomi Smart Hub</string>
@@ -1898,57 +1968,6 @@
     <string name="operator_fix_none">Not repair</string>
     <string name="operator_fix_1">Method 1</string>
     <string name="operator_fix_2">Method 2 (recommended)</string>
-    <string name="custom_hook_new">Add hook</string>
-    <string name="custom_hook_mode">Select mode</string>
-    <string name="open_source">Open Source Projects</string>
-    <string name="close_source">Close Source Projects</string>
-    <string name="exit">Exit</string>
-    <string name="ignore">Ignore</string>
-    <string name="log_level">Log level</string>
-    <string name="log_level_none">Disabled</string>
-    <string name="disable_suggest">Disable suggest</string>
-    <string name="enable_suggest">Enable suggest</string>
-    <string name="set_homepage_entrance">Set up the homepage entry</string>
-    <string name="help_cant_see_apps_guide">Can\'t find the app features?</string>
-    <string name="set_homepage_entrance_about">Note: Modifying this setting only hides the visibility of the feature on the homepage, and features that have been turned on won\'t be turned off!\nHiding the feature on the homepage will take effect immediately, and the app will need to be restarted to reappear.</string>
-    <string name="help_cant_see_apps_title">Can\'t find the app features on the homepage?</string>
-    <string name="help_cant_see_apps_desc">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app features:\n\n • Those currently disabled or hidden\n • Those not found in your device\n • Those incompatible with the current version of the system or the app\n • Not selected as scoped\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nCurrently hidden app features:</string>
-    <string name="help_cant_see_apps_uninstall">Uninstalled apps:\n</string>
-    <string name="help_cant_see_apps_disable">Disabled or hidden apps:\n</string>
-    <string name="help_cant_see_apps_scope">Not selected as scoped:\n</string>
-    <string name="help_cant_see_apps_desc_no_hidden">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app features:\n\n • Those currently disabled or hidden\n • Those not found in your device\n • Those incompatible with the current version of the system or the app\n • Not selected as scoped\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nThere are currently no hidden features!</string>
-    <string name="help_cant_see_apps_switch">Hide this help in homepage</string>
-    <string name="help_cant_see_apps_switch_desc">You can still find this page in About > Help. Reboot app to apply.</string>
-    <string name="help_support_version_title">Current app version support system version list</string>
-    <string name="help_support_version_desc_1">The current app version is fully adapted to the following system versions:</string>
-    <string name="help_support_version_desc_2">The following system versions are adapted to the current app version:</string>
-    <string name="help_support_version_desc_3">The current system version is fully adapted.</string>
-    <string name="help_support_version_desc_4">The current system version isn\'t (fully) adapted.</string>
-    <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be an official Xiaomi ROM, and some features may not work. Please contact your supplier for more details.</string>
-    <string name="headtip_warn_unsupport_sysver">The current device is running on a system version that isn\'t (fully) adapted, which may result in anomalies in the HyperCeiler functionality.</string>
-    <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of HyperCeiler, and may contain malicious code.</string>
-    <string name="headtip_tip_auto_safe_mode">Auto safe mode can unhook some apps in time when they crash multiple times to ensure safety. This feature requires the System Framework hook scope to run. We strongly recommend checking the System Framework scope to turn on Auto safe mode.</string>
-    <string name="headtip_tip_long_press_to_copy">You can select text after long or double press, or copy it and send it back to the developer.</string>
-    <string name="headtip_tip_fuck_coolapk">Today in history: Sevtinge delivered an important speech on July 14, 2022.</string>
-    <string name="headtip_notice_dead_logger_errcode">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.\nError code: %1$s</string>
-    <string name="headtip_notice_dead_logger">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.</string>
-    <string name="warn">Attention</string>
-    <string name="safe_mode_desc">%1$s has entered Safe mode due to multiple crashes, and HyperCeiler features has been temporarily disabled.</string>
-    <string name="safe_mode_history">View exception records</string>
-    <string name="safe_mode_cancel">Disable Safe mode</string>
-    <string name="safe_mode_ok">Cancel</string>
-    <string name="safe_mode_later_title">Tip</string>
-    <string name="safe_mode_later_desc">%1$s is still in Safe mode and HyperCeiler features has been disabled. Disable Safe mode?</string>
-    <string name="safe_mode_recorder_title">Exception records</string>
-    <string name="safe_mode_recorder_file">File</string>
-    <string name="safe_mode_recorder_class">Class</string>
-    <string name="safe_mode_recorder_method">Method</string>
-    <string name="safe_mode_recorder_line">Line</string>
-    <string name="safe_mode_recorder_msg">Exception message</string>
-    <string name="safe_mode_recorder_st">Stack trace</string>
-    <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler. Please report it to the developer in a timely and effective manner.</string>
-    <string name="preference_recommend_tip">Need other settings?</string>
-    <string name="happy_birthday_hyperceiler">Today is HyperCeiler\'s birthday!\nThank you for your support over the past year, and let\'s continue to work together this year!</string>
     <string name="ic_qs_title_wifi">Wi-Fi</string>
     <string name="ic_qs_title_cellular">Cellular</string>
     <string name="ic_qs_title_bluetooth">Bluetooth</string>
@@ -1961,32 +1980,14 @@
     <string name="ic_qs_title_autobrightness">Auto brightness</string>
     <string name="ic_qs_title_vowifi1">VoWiFi SIM 1</string>
     <string name="ic_qs_title_vowifi2">VoWiFi SIM 2</string>
-
-    <!--Telecom-->
-    <string name="telecom">Manage calls</string>
-    <string name="scam_reminder_bypass_caption">Allow call forwarding via MMI code</string>
-    <string name="scam_reminder_bypass_description">Allows direct dialing of MMI codes, such as **21*8#, to activate call forwarding.</string>
-
-    <!--Voice Trigger-->
-    <string name="voicetrigger">Voice Trigger</string>
-    <string name="bypass_udk_word_legal_check_caption">Allow recording of the Wake with voice without internet</string>
-    <string name="bypass_udk_word_legal_check_description">Allows the recording of words from the Wake with voice when offline</string>
-    <string name="voicetrigger_accuracy_percent_caption">Set accuracy for Wake with voice detection</string>
-    <string name="voicetrigger_accuracy_percent_description">Higher values are more difficult to detect. The default value is 70%, for the keyword XATX it\'s 0%. After setting, you need to restart the target app and re-enroll your activation word.</string>
-
-    <string name="notes">Notes</string>
-    <string name="notes_disable_ai_watermark">Disable AI watermark</string>
-
-    <string name="sound_recorder">Sound Recorder</string>
-    <string name="sound_recorder_disable_ai_watermark">Disable AI watermark</string>
-
-    <string name="lpa">LPA</string>
-    <string name="lpa_custom_imei">Custom IMEI</string>
-    <string name="lpa_custom_imei_desc">Make sure you\'ve entered the IMEI correctly. An incorrect IMEI may cause the eSIM to be unavailable or abnormal. We\'re not responsible for any consequences arising therefrom.</string>
-
-    <string name="about_device_info_device">Device</string>
-    <string name="about_device_info_android">Android version</string>
-    <string name="about_device_info_os">OS version</string>
-    <string name="misound_spatial">Force Immersive sound on after disconnecting headphones</string>
-    <string name="market_disable_start_push_dialog">Disable start push dialog</string>
+    <string name="custom_hook_new">Add hook</string>
+    <string name="custom_hook_mode">Select mode</string>
+    <string name="open_source">Open Source Projects</string>
+    <string name="close_source">Close Source Projects</string>
+    <string name="exit">Exit</string>
+    <string name="ignore">Ignore</string>
+    <string name="log_level">Log level</string>
+    <string name="log_level_none">Disabled</string>
+    <string name="disable_suggest">Disable suggest</string>
+    <string name="enable_suggest">Enable suggest</string>
 </resources>

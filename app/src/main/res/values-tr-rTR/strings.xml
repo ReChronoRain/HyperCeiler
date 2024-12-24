@@ -24,11 +24,28 @@
     <string name="new_permission_location_desc">enlem ve boylam gibi hizmetleri sağlamak için kullanılır</string>
     <string name="new_cta_agree_desc">Kullanım sırasında, size daha fazla özellik sunabilmek için sizden Root/Su izni talep edebiliriz. Tüm izinlerin yetki durumunu ayarlamak için istediğiniz zaman İzin Yönetimi\'ne gidebilirsiniz ve Root/Su izinlerini vermek için lütfen Root/Su yöneticinize gidin.</string>
     <string name="new_cta_app_main_purpose">sistem uygulamalarını değiştir</string>
+    <string name="new_cta_app_all_purpose_title">HyperCeiler\'a hoş geldiniz! Bu uygulama çalışmak için Xposed çerçevesine dayanır. Bu uygulamayı, sistemi geliştirmek için desteklenen diğer uygulamaları değiştirmek için kullanabilirsiniz. Kullanım sırasında, size daha fazla işlev sağlamak için sizden Root izinleri talep edebiliriz. İstediğiniz zaman Root Yöneticinize giderek bunu yönetebilirsiniz.</string>
+    <!--HyperCeiler Tips-->
     <!--HyperCeiler Settings/About Page-->
     <string name="language">İngilizce</string>
     <string name="translator">can1gulle</string>
     <string name="translator_url">https://github.com/ReChronoRain</string>
     <string name="home">Anasayfa</string>
+    <string name="help">Yardım</string>
+    <string name="settings">Ayarlar</string>
+    <string name="about">Hakkında</string>
+    <string name="about_use">Referanslar</string>
+    <string name="about_use_desc">HyperCeiler, destekleri için bu projelerin geliştiricilerine teşekkürler (belirli bir sıra olmadan) aşağıdaki açık kaynak projelerinin bir kısmını veya tamamını kullanır</string>
+    <string name="about_contributer">Katkıda Bulunan</string>
+    <string name="about_contributer_desc">HyperCeiler\'in geliştirilmesindeki yardımları için aşağıdaki katkıda bulunanlara teşekkürler (belirli bir sıra olmadan)</string>
+    <string name="about_donation">Katkıda Bulunanlar</string>
+    <string name="about_donation_desc">Buradan bağış yaparak bize destek olabilirsiniz</string>
+    <string name="hyperceiler_notice">Kısayol anahtarlarını ve sistem bildirimlerini görüntülemek için durum çubuğunu aşağı çekin</string>
+    <string name="hyperceiler_restart_quick">Hedef uygulamayı hızla yeniden başlatın</string>
+    <string name="delete_all_dexkit_cache_desc">Tüm DexKit önbelleğini silmek istediğinize emin misiniz?</string>
+    <string name="delete_all_dexkit_cache_success">Tüm DexKit önbelleği silindi</string>
+    <string name="location_add">Ekle</string>
+    <string name="location_delete">Sil</string>
     <string name="edit">Lütfen metin girin</string>
     <string name="kill">Sonlandırma aracı</string>
     <string name="kill_1">Paket/Yazılım ismi girin</string>
@@ -46,19 +63,6 @@
     <string name="prefs_7">Belirli anahtarı kaldır</string>
     <string name="success">Başarılı</string>
     <string name="failed">Başarısız</string>
-    <string name="help">Yardım</string>
-    <string name="settings">Ayarlar</string>
-    <string name="about">Hakkında</string>
-    <string name="about_use">Referanslar</string>
-    <string name="about_use_desc">HyperCeiler, destekleri için bu projelerin geliştiricilerine teşekkürler (belirli bir sıra olmadan) aşağıdaki açık kaynak projelerinin bir kısmını veya tamamını kullanır</string>
-    <string name="about_contributer">Katkıda Bulunan</string>
-    <string name="about_contributer_desc">HyperCeiler\'in geliştirilmesindeki yardımları için aşağıdaki katkıda bulunanlara teşekkürler (belirli bir sıra olmadan)</string>
-    <string name="about_donation">Katkıda Bulunanlar</string>
-    <string name="about_donation_desc">Buradan bağış yaparak bize destek olabilirsiniz</string>
-    <string name="hyperceiler_notice">Kısayol anahtarlarını ve sistem bildirimlerini görüntülemek için durum çubuğunu aşağı çekin</string>
-    <string name="hyperceiler_restart_quick">Hedef uygulamayı hızla yeniden başlatın</string>
-    <string name="location_add">Ekle</string>
-    <string name="location_delete">Sil</string>
     <string name="development">Geliştirici seçenekleri</string>
     <string name="development_ui">Arayüz</string>
     <string name="development_debug_info">Hata ayıklama bilgisi</string>
@@ -66,8 +70,6 @@
     <string name="development_cmd_r">Root ile CMD</string>
     <string name="development_delete_all_dexkit_cache">Tüm DexKit önbelleğini sil</string>
     <string name="development_fix_lsposed_log">LSPosed günlük servisini düzeltmeyi dene</string>
-    <string name="about_privacy">Gizlilik Politikası</string>
-    <string name="about_protocol">Kullanıcı Sözleşmesi</string>
     <string name="settings_show_title">Göster</string>
     <string name="settings_data_title">Yedekle ve geri yükle.</string>
     <string name="settings_bug_title">Sorun gider.</string>
@@ -117,8 +119,8 @@
     <string name="about_offical">Resmi site</string>
     <string name="about_crwd">Crowdin.</string>
     <string name="about_crwd_desc">HyperCeiler uygulamasını dilinize çevirmemize yardım edin</string>
-    <string name="delete_all_dexkit_cache_desc">Tüm DexKit önbelleğini silmek istediğinize emin misiniz?</string>
-    <string name="delete_all_dexkit_cache_success">Tüm DexKit önbelleği silindi</string>
+    <string name="about_privacy">Gizlilik Politikası</string>
+    <string name="about_protocol">Kullanıcı Sözleşmesi</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Hızlı yeniden başlat</string>
     <string name="restart_app_desc">Şimdi yeniden başlatmak istediğinize emin misiniz %1$s?</string>
@@ -396,6 +398,8 @@
     <string name="system_framework_clean_open_apps">Seçilen uygulamalar</string>
     <string name="system_framework_clean_open_apps_desc">Seçili uygulama açık menüde görünmüyor</string>
     <string name="system_framework_clean_process_text_apps">Seçilen uygulamalar</string>
+    <string name="system_framework_auto_start_apps">Seçilmiş uygulamalar</string>
+    <string name="system_framework_auto_start_apps_desc">Seçilen uygulama kısıtlama zinciri tarafından kısıtlanmayacak ve otomatik olarak başlayabilecektir</string>
     <string name="system_other_flag_secure">Ekran görüntüsüne izin ver</string>
     <string name="system_other_flag_secure_desc">Herhangi bir uygulamanın ekran görüntülerine ve ekran kayıtlarına izin verir</string>
     <string name="system_other_delete_on_post_notification">Üst ekran bildirimini kaldırma</string>
@@ -427,6 +431,7 @@
     <string name="system_framework_allow_third_theme">Üçüncü taraf temaların kullanılmasına izin ver</string>
     <string name="system_framework_allow_disable_protected_package">Korumalı uygulamaları devre dışı bırakmaya izin verir</string>
     <string name="system_framework_disable_miui_watermark">Genel filigranı deaktif et.</string>
+    <string name="system_framework_bypass_unknown_sources_restrictions">Bilinmeyen kaynak kısıtlamalarını atlayın</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Paket Yöneticisi Hizmeti</string>
     <string name="system_framework_core_patch_downgr">Düşürmeye izin ver</string>
@@ -677,6 +682,7 @@
     <string name="system_ui_status_bar_icon_pad">Pad</string>
     <string name="system_ui_status_bar_icon_pc">PC</string>
     <string name="system_ui_status_bar_icon_phone">Telefon</string>
+    <string name="system_ui_status_bar_icon_soundbox">Ses kutusu</string>
     <string name="system_ui_status_bar_icon_tv">TV</string>
     <string name="system_ui_status_bar_icon_wireless_headset">Kablosuz Kulaklık</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Maksimum bildirim noktası sayısı</string>
@@ -790,12 +796,14 @@
     <string name="system_ui_control_center_notification_disable_transparent_desc">Bildirim arka planının şeffaf olarak ayarlanmasını devre dışı bırak</string>
     <string name="system_ui_control_center_notification_blur_model">Bildirim Bulanıklığı Modeli</string>
     <string name="system_ui_control_center_notification_blur_fix">Bildirim optimizasyonu</string>
+    <string name="system_ui_control_center_notification_blur_fix_desc">Deneysel özellik. Yalnızca Android 13 ve üzeri modeller için kullanılabilir. Etkinleştirdikten sonra, bazı alanlardaki bildirim bulanıklığı optimize edilecektir. Bazı modellerde Sistem Arayüzü çökmesi sorunu olabilir.</string>
     <string name="system_ui_control_center_blur_radius">Bulanıklık Yarıçapı</string>
     <string name="system_ui_control_center_blur_radius_desc">Aşağı açılır bildirim olmadan</string>
     <string name="system_ui_control_center_corner_radius">Köşe Yarıçapı</string>
     <string name="system_ui_control_center_blur_background_alpha">Arka Plan değerini bulanıklaştır</string>
     <string name="system_ui_control_center_default_background_alpha">Varsayılan Arka Plan değeri</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Medya kontrol panelinin renk karıştırma etkisini optimize edin</string>
+    <string name="system_ui_control_center_media_control_progress">İlerleme çubuğu</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Dalgalı</string>
     <string name="system_ui_control_center_media_control_progress_sleek">Gösterişli</string>
     <string name="system_ui_control_center_media_control_progress_thickness">Kaba</string>
@@ -812,8 +820,10 @@
     <string name="system_ui_control_center_show_weather">Hava durumunu göster</string>
     <string name="system_ui_control_center_show_weather_city">Şehri göster</string>
     <string name="system_ui_control_center_disable_device_managed">Ağ izleme isteklerini gizle</string>
+    <string name="system_ui_control_center_hide_edit_botton">Düzenleme butonunu gizle</string>
     <string name="system_ui_control_center_mute_visible_notice">Ekran açıkken sessiz</string>
     <string name="system_ui_control_center_unimportant_notification">Geçmiş bildirimlerine çökmek yasaktır</string>
+    <string name="system_ui_control_center_expand_notification">Bildirimleri genişlet</string>
     <string name="system_ui_control_center_rounded_rect">Yuvarlatılmış dikdörtgen döşeme</string>
     <string name="system_ui_control_center_statusbar_blur">Arka plan bulanıklığını zorla</string>
     <string name="system_ui_control_center_fix_tiles_list">Aşırı koyu döşemeleri gizlemeyi devre dışı bırak</string>
@@ -874,6 +884,7 @@
     <string name="system_ui_other_notification_fix">Bildirim beyaz listesini devre dışı bırak</string>
     <string name="system_ui_plugin_enable_volume_blur">Ses çubuğu bulanıklığını etkinleştir</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Sadece Android12+ MTK modelleri için. Yüksek GPU yükü olabilir.</string>
+    <!--Telecom-->
     <!--Settings-->
     <string name="system_settings">Ayarlar</string>
     <string name="system_settings_linkturbo">Ağ hızlandırma uygulamalarındaki kısıtlamaları kaldırın</string>
@@ -929,6 +940,7 @@
     <string name="system_settings_allow_never_lock_screen">Ekranı asla kilitleme</string>
     <string name="system_settings_anti_ques">Cihaz adında hassas kelime denetimini devre dışı bırak</string>
     <string name="system_settings_anti_ques_desc">Bu özelliği yerel veya ulusal yasaları ihlal edecek şekilde kullanamazsınız</string>
+    <string name="system_settings_more_vpn_types">Daha fazla VPN tipi</string>
     <!--Themes-->
     <string name="theme_manager">Temalar</string>
     <string name="theme_manager_version_code_modify">Algılama sürümünü ayarlayın</string>
@@ -963,6 +975,7 @@
     <string name="milink_unlock_hmind">Xiaomi HyperMind kilidini aç</string>
     <string name="milink_allow_camera_devices">Kamera akışı desteğini zorla</string>
     <string name="milink_fuck_hpplay">Hpplay klasörlerinin oluşturulmasını engelleme</string>
+    <!--Sound Recorder-->
     <!--Always-on display-->
     <string name="aod">Her zaman açık ekran</string>
     <string name="aod_unlock_aon">Aod Aon\'un kilidini aç</string>
@@ -988,6 +1001,7 @@
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Cep telefonu kullanımı üzerindeki kısıtlamaları kaldırın</string>
+    <!--LPA-->
     <!--Gallery-->
     <string name="gallery">Galeri</string>
     <string name="gallery_enable_hdr_enhanced">Ekran yüksek dinamik aralığının kilidini aç</string>
@@ -1264,6 +1278,8 @@
     <!--Wallpaper-->
     <string name="miwallpaper">Duvar Kağıdı</string>
     <string name="miwallpaper_unlock_super_wallpaper">Süper duvar kağıdının kilidini aç</string>
+    <!--Notes-->
+    <string name="notes">Notlar</string>
     <!--Package installer-->
     <string name="package_installer">Paket Yükleyicisi</string>
     <string name="miui_package_installer_modify">Sayfayı temizle</string>
@@ -1465,9 +1481,9 @@
     <!--MI AI-->
     <string name="voiceassist">Mi AI</string>
     <string name="voiceassist_disable_watermark">Sohbet filigranını devre dışı bırak</string>
+    <!--Voice Trigger-->
     <!--Other-->
     <string name="various">Diğer</string>
-    <string name="notes">Notlar</string>
     <string name="share_center">Xiaomi Smart Hub</string>
     <string name="new_task">Yeni görev</string>
     <string name="custom_hook">Özelleştir</string>
@@ -1557,6 +1573,4 @@
     <string name="operator_fix_2">Yöntem 2 (önerilir)</string>
     <string name="custom_hook_new">Kanca ekle</string>
     <string name="custom_hook_mode">Modu seç</string>
-    <!--Telecom-->
-    <!--Voice Trigger-->
 </resources>

@@ -25,11 +25,43 @@
     <string name="new_cta_agree_desc">Selama penggunaan, untuk memberi Anda lebih banyak fitur, kami mungkin meminta izin Root/Su dari Anda. Anda dapat membuka Manajemen Izin kapan saja untuk menyesuaikan status otorisasi semua izin, dan silakan buka manajer Root/Su Anda untuk meng-izinkan.</string>
     <string name="new_cta_app_main_purpose">midifikasi sistem aplikasi</string>
     <string name="new_cta_app_all_purpose_title">Selamat datang di HyperCeiler. Aplikasi ini mengandalkan framework Xpose untuk dijalankan. Anda dapat menggunakan aplikasi ini untuk merombak dan memodifikasi aplikasi lain yang didukung untuk menyempurnakan sistem. Selama penggunaan, untuk memberi Anda lebih banyak fungsi, kami mungkin meminta izin Root/Su dari Anda. Anda dapat mengelolanya kapan saja dengan membuka Root/Su Manager Anda.</string>
+    <!--HyperCeiler Tips-->
+    <string name="safe_mode_history">Lihat catatan pengecualian</string>
+    <string name="safe_mode_recorder_title">Catatan pengecualian</string>
+    <string name="safe_mode_recorder_file">Mengajukan</string>
+    <string name="safe_mode_recorder_class">Kelas</string>
+    <string name="safe_mode_recorder_method">metode</string>
+    <string name="safe_mode_recorder_line">Garis</string>
+    <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan kepada pengembang secara tepat waktu dan sopan.</string>
+    <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
+    <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi HyperCeiler, dan mungkin berisi kode berbahaya.</string>
+    <string name="happy_birthday_hyperceiler">Hari ini adalah hari ulang tahun HyperCeiler!\nTerima kasih atas dukungan Anda selama setahun terakhir, dan mari terus bekerja sama tahun ini!</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Bahasa Indonesia</string>
     <string name="translator">Local Lion</string>
     <string name="translator_url">https://t.me/lokallion</string>
     <string name="home">Rumah</string>
+    <string name="help">Bantuan</string>
+    <string name="settings">Pengaturan</string>
+    <string name="about">Tentang</string>
+    <string name="about_use">Kutipan</string>
+    <string name="about_use_desc">HyperCeiler menggunakan beberapa atau semua proyek berikut, terima kasih kepada pengembang proyek ini atas dukungan mereka (tanpa urutan tertentu)</string>
+    <string name="about_contributer">Kontributor</string>
+    <string name="about_contributer_desc">Terima kasih kepada kontributor berikut atas bantuannya dalam pengembangan HyperCeiler (tanpa urutan tertentu)</string>
+    <string name="about_donation">Sponsor</string>
+    <string name="about_donation_desc">Anda bisa mendukung kami dengan donasi di sini</string>
+    <string name="hyperceiler_notice">Tarik bilah status ke bawah untuk menampilkan sakelar pintasan dan pemberitahuan sistem</string>
+    <string name="hyperceiler_restart_quick">Mulai ulang aplikasi dengan cepat</string>
+    <string name="set_homepage_entrance">Siapkan entri beranda</string>
+    <string name="help_cant_see_apps_guide">Tidak dapat menemukan fungsi aplikasi?</string>
+    <string name="help_cant_see_apps_title">Tidak dapat menemukan fungsi aplikasi di beranda?</string>
+    <string name="help_cant_see_apps_desc">Untuk menjaga kesederhanaan dan kegunaan beranda, kami memiliki akses tersembunyi ke jenis fungsi aplikasi berikut:\n\n - Aplikasi yang saat ini dinonaktifkan atau disembunyikan\n - Aplikasi yang tidak ditemukan di perangkat Anda\n - Aplikasi yang tidak kompatibel dengan aplikasi saat ini versi sistem atau aplikasi\n\nHarap pecahkan masalah berdasarkan informasi di atas, mulai ulang HyperCeiler, dan coba lagi. Jika Anda masih tidak dapat menemukan fungsionalitas aplikasi, mungkin ada bug. Harap berikan masukan yang tepat waktu dan efektif kepada kami.\n\nFungsi aplikasi yang saat ini tersembunyi:</string>
+    <string name="help_cant_see_apps_uninstall">Aplikasi yang diuninstall:\n</string>
+    <string name="help_cant_see_apps_disable">Dinonaktifkan atau aplikasi tersembunyi:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">Untuk menjaga kesederhanaan dan kegunaan beranda, kami memiliki akses tersembunyi ke jenis fungsi aplikasi berikut:\n\n - Aplikasi yang saat ini dinonaktifkan atau disembunyikan\n - Aplikasi yang tidak ditemukan di perangkat Anda\n - Aplikasi yang tidak kompatibel dengan aplikasi saat ini versi sistem atau aplikasi\n\nHarap pecahkan masalah berdasarkan informasi di atas, mulai ulang HyperCeiler, dan coba lagi. Jika Anda masih tidak dapat menemukan fungsionalitas aplikasi, mungkin ada bug. Harap berikan masukan yang tepat waktu dan efektif kepada kami.\n\nSaat ini tidak ada pintu masuk tersembunyi!</string>
+    <string name="help_cant_see_apps_switch">Sembunyikan bantuan ini di beranda</string>
+    <string name="location_add">Menambahkan</string>
+    <string name="location_delete">Menghapus</string>
     <string name="edit">Silakan masukkan teks</string>
     <string name="kill">Alat pembunuh</string>
     <string name="kill_1">Masukkan nama paket/perangkat lunak</string>
@@ -45,25 +77,10 @@
     <string name="prefs_5">Pilih tipe</string>
     <string name="prefs_6">Periksa preferensi berbagi</string>
     <string name="prefs_7">Hapus Kunci yang ditentukan</string>
-    <string name="help">Bantuan</string>
-    <string name="settings">Pengaturan</string>
-    <string name="about">Tentang</string>
-    <string name="about_use">Kutipan</string>
-    <string name="about_use_desc">HyperCeiler menggunakan beberapa atau semua proyek berikut, terima kasih kepada pengembang proyek ini atas dukungan mereka (tanpa urutan tertentu)</string>
-    <string name="about_contributer">Kontributor</string>
-    <string name="about_contributer_desc">Terima kasih kepada kontributor berikut atas bantuannya dalam pengembangan HyperCeiler (tanpa urutan tertentu)</string>
-    <string name="about_donation">Sponsor</string>
-    <string name="about_donation_desc">Anda bisa mendukung kami dengan donasi di sini</string>
-    <string name="hyperceiler_notice">Tarik bilah status ke bawah untuk menampilkan sakelar pintasan dan pemberitahuan sistem</string>
-    <string name="hyperceiler_restart_quick">Mulai ulang aplikasi dengan cepat</string>
-    <string name="location_add">Menambahkan</string>
-    <string name="location_delete">Menghapus</string>
     <string name="development">Opsi Pengembang</string>
     <string name="development_ui">Antarmuka Pengguna</string>
     <string name="development_debug_info">Informasi debug</string>
     <string name="development_prefs">Bagikan preferensi</string>
-    <string name="about_privacy">Kebijakan Privasi</string>
-    <string name="about_protocol">Perjanjian Pengguna</string>
     <string name="settings_show_title">Menunjukkan</string>
     <string name="settings_data_title">Cadangkan dan Pulihkan</string>
     <string name="settings_bug_title">Penyelesaian masalah</string>
@@ -96,7 +113,7 @@
     <string name="rest_ask">Apakah Anda ingin memulihkan cadangan Anda?</string>
     <string name="rest_permission">Sekarang Anda harus mengaktifkan izin secara manual untuk opsi ini.</string>
     <string name="disable_detailed_log">Matikan log terperinci</string>
-    <string name="disable_detailed_log_desc">Reboot untuk menerapkan</string>
+    <string name="disable_detailed_log_desc">Mulai ulang untuk menerapkan</string>
     <string name="disable_detailed_log_more">Versi Debug Canary tidak mendukung penyesuaian level log</string>
     <string name="settings_safe_mode">Mode aman</string>
     <string name="settings_safe_mode_desc">Menghentikan fungsi modul</string>
@@ -110,9 +127,11 @@
     <string name="about_tg_channel">Channel Telegram</string>
     <string name="about_github">Kode sumber</string>
     <string name="about_github_desc">Proyek ini adalah sumber terbuka berdasarkan lisensi AGPL-3.0</string>
-    <string name="about_offical">Official website</string>
+    <string name="about_offical">Website resmi</string>
     <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">Bantu kami menerjemahkan HyperCeiler ke dalam bahasa Anda</string>
+    <string name="about_privacy">Kebijakan Privasi</string>
+    <string name="about_protocol">Perjanjian Pengguna</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Reboot </string>
     <string name="restart_app_desc">Apakah Anda yakin untuk memulai ulang sekarang %1$s?</string>
@@ -848,6 +867,7 @@
     <string name="system_ui_other_notification_fix">Nonaktifkan daftar putih notifikasi</string>
     <string name="system_ui_plugin_enable_volume_blur">Aktifkan kekaburan bilah volume</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Hanya untuk model Android12+ MTK, mungkin terdapat beban GPU yang tinggi</string>
+    <!--Telecom-->
     <!--Settings-->
     <string name="system_settings">Pengaturan</string>
     <string name="system_settings_linkturbo">Hapus batasan pada aplikasi akselerasi jaringan</string>
@@ -919,7 +939,7 @@
     <string name="remotecontroller">Mi Remot</string>
     <string name="remotecontroller_disable_ad">Matikan Iklan</string>
     <!--Updater-->
-    <string name="updater">Pembaru</string>
+    <string name="updater">Pembaruan</string>
     <string name="updater_enable_miui_version">Aktifkan versi Palsu untuk Updater</string>
     <string name="updater_fuck_vab">Hapus verifikasi OTA</string>
     <string name="updater_fuck_vab_desc">Hanya perangkat VAB yang didukung, jangan aktifkan perangkat non-VAB lainnya!\n- Anda dapat menggesek ke paket gesek kartu pengujian internal lengkap tanpa izin pengujian internal\n- Disarankan untuk menghapus data setelah mem-flash berbagai jenis versi\n- n- Tidak mendukung penggunaan ROM tidak resmi apa pun\n- Fungsi ini berbahaya, harap evaluasi apakah akan mengaktifkannya setelah memahami pengoperasian Fastboot</string>
@@ -947,6 +967,7 @@
     <string name="milink_unlock_hmind">Buka kunci Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">Dukungan paksa untuk streaming kamera</string>
     <string name="milink_fuck_hpplay">Blokir pembuatan folder hpplay</string>
+    <!--Sound Recorder-->
     <!--Always-on display-->
     <string name="aod">Tampilan selalu aktif</string>
     <string name="aod_hyperos">Tampilan Selalu Aktif dan Editor Layar Kunci</string>
@@ -972,12 +993,13 @@
     <string name="huanji">Mi Mover</string>
     <string name="huanji_allow_all_apps">Izinkan pindahkan semua aplikasi</string>
     <!--Backup-->
-    <string name="backup">Cadangan</string>
+    <string name="backup">Pencadangan</string>
     <string name="backup_allow_all_apps">Izinkan cadangan semua aplikasi</string>
     <string name="backup_unlock_broken_screen_backup">Buka kunci Cadangan dengan layar rusak</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Kanvas</string>
     <string name="creation_unlock">Hapus pembatasan penggunaan ponsel</string>
+    <!--LPA-->
     <!--Gallery-->
     <string name="gallery">Galeri</string>
     <string name="gallery_enable_hdr_enhanced">Buka kunci tampilan rentang dinamis tinggi</string>
@@ -1265,6 +1287,8 @@
     <!--Wallpaper-->
     <string name="miwallpaper">kertas dinding</string>
     <string name="miwallpaper_unlock_super_wallpaper">Buka kunci wallpaper Super</string>
+    <!--Notes-->
+    <string name="notes">Catatan</string>
     <!--Package installer-->
     <string name="package_installer">Pemasang paket</string>
     <string name="miui_package_installer_modify">Bersihkan halaman</string>
@@ -1444,7 +1468,7 @@
     <string name="aiasst_ai_captions">Teks AI yang diaktifkan secara paksa</string>
     <string name="aiasst_disable_watermark">Nonaktifkan tanda air</string>
     <!--Barrage-->
-    <string name="barrage">Rentetan</string>
+    <string name="barrage">Notifikasi layar bulir</string>
     <string name="barrage_any_barrage">Izinkan semua aplikasi menggunakan rentetan</string>
     <string name="barrage_custom_barrage_length">Panjang rentetan khusus</string>
     <!--Joyose-->
@@ -1463,7 +1487,7 @@
     <string name="market_package_monitor">Nonaktifkan monitor paket</string>
     <string name="market_package_monitor_desc">Larang GetApps memantau pemasangan dan pencopotan aplikasi</string>
     <!--Mi sound-->
-    <string name="misound">earphone</string>
+    <string name="misound">Earphone</string>
     <string name="misound_increase_sampling_rate">Meningkatkan tingkat pengambilan sampel</string>
     <!--Mi Settings-->
     <string name="mi_settings">Pengaturan Mi</string>
@@ -1489,9 +1513,9 @@
     <!--MI AI-->
     <string name="voiceassist">Mi AI</string>
     <string name="voiceassist_disable_watermark">Nonaktifkan tanda air obrolan</string>
+    <!--Voice Trigger-->
     <!--Other-->
     <string name="various">Lainnya</string>
-    <string name="notes">Catatan</string>
     <string name="share_center">Mi Hub Cerdas</string>
     <string name="new_task">Tugas Baru</string>
     <string name="custom_hook">Kebiasaan</string>
@@ -1608,6 +1632,9 @@
     <string name="operator_fix_none">Bukan perbaikan</string>
     <string name="operator_fix_1">Metode 1</string>
     <string name="operator_fix_2">Metode 2 (disarankan)</string>
+    <string name="ic_qs_title_cellular">Seluler</string>
+    <string name="ic_qs_title_flashlight">Senter</string>
+    <string name="ic_qs_title_settings">Pengaturan</string>
     <string name="custom_hook_new">Tambahkan kait</string>
     <string name="custom_hook_mode">Pilih modus</string>
     <string name="open_source">Proyek Sumber Terbuka</string>
@@ -1618,27 +1645,4 @@
     <string name="log_level_none">Nonaktifkan catatan</string>
     <string name="disable_suggest">Nonaktifkan Saran</string>
     <string name="enable_suggest">Aktifkan Saran</string>
-    <string name="set_homepage_entrance">Siapkan entri beranda</string>
-    <string name="help_cant_see_apps_guide">Tidak dapat menemukan fungsi aplikasi?</string>
-    <string name="help_cant_see_apps_title">Tidak dapat menemukan fungsi aplikasi di beranda?</string>
-    <string name="help_cant_see_apps_desc">Untuk menjaga kesederhanaan dan kegunaan beranda, kami memiliki akses tersembunyi ke jenis fungsi aplikasi berikut:\n\n - Aplikasi yang saat ini dinonaktifkan atau disembunyikan\n - Aplikasi yang tidak ditemukan di perangkat Anda\n - Aplikasi yang tidak kompatibel dengan aplikasi saat ini versi sistem atau aplikasi\n\nHarap pecahkan masalah berdasarkan informasi di atas, mulai ulang HyperCeiler, dan coba lagi. Jika Anda masih tidak dapat menemukan fungsionalitas aplikasi, mungkin ada bug. Harap berikan masukan yang tepat waktu dan efektif kepada kami.\n\nFungsi aplikasi yang saat ini tersembunyi:</string>
-    <string name="help_cant_see_apps_uninstall">Aplikasi yang diuninstall:\n</string>
-    <string name="help_cant_see_apps_disable">Dinonaktifkan atau aplikasi tersembunyi:\n</string>
-    <string name="help_cant_see_apps_desc_no_hidden">Untuk menjaga kesederhanaan dan kegunaan beranda, kami memiliki akses tersembunyi ke jenis fungsi aplikasi berikut:\n\n - Aplikasi yang saat ini dinonaktifkan atau disembunyikan\n - Aplikasi yang tidak ditemukan di perangkat Anda\n - Aplikasi yang tidak kompatibel dengan aplikasi saat ini versi sistem atau aplikasi\n\nHarap pecahkan masalah berdasarkan informasi di atas, mulai ulang HyperCeiler, dan coba lagi. Jika Anda masih tidak dapat menemukan fungsionalitas aplikasi, mungkin ada bug. Harap berikan masukan yang tepat waktu dan efektif kepada kami.\n\nSaat ini tidak ada pintu masuk tersembunyi!</string>
-    <string name="help_cant_see_apps_switch">Sembunyikan bantuan ini di beranda</string>
-    <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
-    <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi HyperCeiler, dan mungkin berisi kode berbahaya.</string>
-    <string name="safe_mode_history">Lihat catatan pengecualian</string>
-    <string name="safe_mode_recorder_title">Catatan pengecualian</string>
-    <string name="safe_mode_recorder_file">Mengajukan</string>
-    <string name="safe_mode_recorder_class">Kelas</string>
-    <string name="safe_mode_recorder_method">metode</string>
-    <string name="safe_mode_recorder_line">Garis</string>
-    <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan kepada pengembang secara tepat waktu dan sopan.</string>
-    <string name="happy_birthday_hyperceiler">Hari ini adalah hari ulang tahun HyperCeiler!\nTerima kasih atas dukungan Anda selama setahun terakhir, dan mari terus bekerja sama tahun ini!</string>
-    <string name="ic_qs_title_cellular">Seluler</string>
-    <string name="ic_qs_title_flashlight">Senter</string>
-    <string name="ic_qs_title_settings">Pengaturan</string>
-    <!--Telecom-->
-    <!--Voice Trigger-->
 </resources>
