@@ -104,12 +104,17 @@ object NewShowVolumePct {
         clazz.methodFinder().filterByName("onProgressChanged")
             .first().createAfterHook {
                 var nowLevel = -233
+                var mTag = 0
                 var currentLevel: Int
                 val seekBar = it.args[0] as SeekBar
                 val arg1 = it.args[1] as Int
                 val arg2 = it.args[2] as Boolean
 
-                if (nowLevel == arg1 || mPct.tag != 3 || mPct == null) return@createAfterHook
+                if (mPct != null && mPct.tag != null) {
+                    mTag = mPct.tag as Int
+                }
+
+                if (nowLevel == arg1 || mTag != 3 || mPct == null) return@createAfterHook
 
                 val mColumn = it.thisObject.getObjectFieldOrNull("mColumn") ?: return@createAfterHook
                 val ss = mColumn.getObjectFieldOrNull("ss") ?: return@createAfterHook

@@ -66,7 +66,7 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
 
         setIconMode(mIconMode);
         mIconModePreference.setOnPreferenceChangeListener(this);
-        String language = LanguageHelper.getLanguage(getContext());
+        String language = LanguageHelper.getLanguage(requireContext());
         int value = LanguageHelper.resultIndex(LanguageHelper.appLanguages, language);
         mLanguage.setValueIndex(value);
         mLanguage.setOnPreferenceChangeListener(

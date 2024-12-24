@@ -36,6 +36,7 @@ import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.ObjectUtils.setObject
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import de.robv.android.xposed.*
 import java.io.*
@@ -55,34 +56,24 @@ object ChargingCVP : BaseHook() {
 
     @SuppressLint("SetTextI18n")
     override fun init() {
-        // 去除单行限制，Android13 以上扩展一个刷新频率
-        if (getAndroidVersion() >= 33) {
-            val clazzDependency = loadClass("com.android.systemui.Dependency")
-            val clazzKeyguardIndicationController =
-                loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
+        // 去除单行限制
+        val clazzDependency = loadClass("com.android.systemui.Dependency")
+        val clazzKeyguardIndicationController =
+            loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
 
-            loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.createHooks {
-                after { param ->
-                    (param.thisObject as TextView).let {
-                        it.isSingleLine = false
-                        it.textSize = 8.2f
-                    }
-                    if (showSpacingValue) {
-                        // 是否更改刷新频率
-                        setShowSpacing(clazzDependency, clazzKeyguardIndicationController, param)
-                    }
+        loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.createHooks {
+            after { param ->
+                (param.thisObject as TextView).let {
+                    it.isSingleLine = false
+                    it.textSize = 8.2f
                 }
-            }
-        } else {
-            loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")!!.constructors.createHooks {
-                after { param ->
-                    (param.thisObject as TextView).let {
-                        it.isSingleLine = false
-                        it.textSize = 8.2f
-                    }
+                if (showSpacingValue) {
+                    // 是否更改刷新频率
+                    setShowSpacing(clazzDependency, clazzKeyguardIndicationController, param)
                 }
             }
         }
+
 
         // 修改底部文本信息
         loadFirstClass(
@@ -133,9 +124,15 @@ object ChargingCVP : BaseHook() {
                     getObjectOrNull(sDependency, "mProviders") as ArrayMap<*, *>
                 val mMiuiChargeControllerProvider =
                     mProviders[clazzMiuiChargeController]!!
-                val instanceMiuiChargeController = invokeMethodBestMatch(
-                    mMiuiChargeControllerProvider, "createDependency"
-                )!!
+                val instanceMiuiChargeController = if (isMoreHyperOSVersion(2f)) {
+                    mMiuiChargeControllerProvider
+                        .getObjectFieldOrNull("f$0")!!
+                        .callMethod("get")!!
+                } else {
+                    invokeMethodBestMatch(
+                        mMiuiChargeControllerProvider, "createDependency"
+                    )!!
+                }
 
                 override fun run() {
                     if (isMoreHyperOSVersion(1f)) {
@@ -161,12 +158,15 @@ object ChargingCVP : BaseHook() {
                 }
 
                 fun doUpdateForHyperOS() {
-                    val mBatteryStatus = getObjectOrNull(
-                        instanceMiuiChargeController, "mBatteryStatus"
-                    )!!
+                    val mBatteryStatus =
+                        getObjectOrNull(instanceMiuiChargeController, "mBatteryStatus")!!
                     val level = getObjectOrNull(mBatteryStatus, "level")
-                    val isPluggedIn =
+                    val plugged = getObjectOrNull(mBatteryStatus, "plugged") as Int
+                    val isPluggedIn = if (isMoreHyperOSVersion(2f)) {
+                        mBatteryStatus.callMethod("isPluggedIn", plugged)
+                    } else {
                         invokeMethodBestMatch(mBatteryStatus, "isPluggedIn")
+                    }
                     val mContext =
                         getObjectOrNull(instanceMiuiChargeController, "mContext")
                     val clazzChargeUtils =

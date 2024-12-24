@@ -36,11 +36,10 @@ import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.api.LazyClass.mNewClockClass
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
-import com.sevtinge.hyperceiler.utils.log.*
 import de.robv.android.xposed.*
-import java.lang.NullPointerException
 import java.lang.reflect.*
 import java.util.*
+import kotlin.Pair
 
 object StatusBarClockNew : BaseHook() {
     private val statusBarClass by lazy {
@@ -300,15 +299,15 @@ object StatusBarClockNew : BaseHook() {
         val (textSb, formatSb) = when (name) {
             "clock" -> {
                 val baseFormat = StringBuilder(sClockName)
-                Triple(StringBuilder(), baseFormat, null)
+                Pair(StringBuilder(), baseFormat)
             }
             "big_time" -> {
                 val baseFormat = StringBuilder(safeSplitFirst(getFormatS))
-                Triple(StringBuilder(), baseFormat, null)
+                Pair(StringBuilder(), baseFormat)
             }
             else -> {
                 val baseFormat = StringBuilder(safeSplitFirst(getFormatN))
-                Triple(StringBuilder(), baseFormat, null)
+                Pair(StringBuilder(), baseFormat)
             }
         }
 
