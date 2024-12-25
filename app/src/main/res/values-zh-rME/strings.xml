@@ -19,7 +19,7 @@
   -->
 <resources>
     <string name="version_update">发现新版本</string>
-    <string name="about_copy_right">©️ 2023-2024 Sevtinge &amp; Hyperheiler 贡献者。</string>
+    <string name="about_copy_right">© 2023-2024 Sevtinge &amp; HyperCeiler 贡献者。</string>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">让 CNMiOS 再次伟大！</string>
     <string name="new_permission_wifi_state_desc">轻柔地加减设备内存上的文件</string>
@@ -28,15 +28,15 @@
     <string name="new_cta_app_main_purpose">玩坏你的系统应用</string>
     <string name="new_cta_app_all_purpose_title">嗨嗨嗨！欢迎使用憨批露™！这个框架那个框架什么的肯定安装好了吧？总之，憨批露会通过插入各种部位来帮助您镐蜂您的系统。要镐蜂您的系统，我们会向您要面具（或者不要面具，但我们需要sudo 给我们权限）。要停止镐蜂您的系统，你可以随时把面具拿走。</string>
     <!--HyperCeiler Tips-->
-    <string name="tip_default">绀漓手持锟斤拷，口中直呼屯烫烫，请与Sevtinge和它的动物朋友们联系并友好交流解决这个问题。</string>
-    <string name="happy_birthday_hyperceiler">今日无事可做。\n
-你可以选择为HyperCeiler点一注香。</string>
+    <string name="tip_default">绀漓手持锟斤拷，口中直呼烫烫烫，如果你能看到这条 Tip，说明 HyperCeiler 又被玩坏了！请与绀漓联系并友好交流解决这个问题。</string>
+    <string name="happy_birthday_hyperceiler">今日无事可做？\n
+你可以选择为 HyperCeiler 点一支蜡烛并祝 HyperCeiler 生日快乐！</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">梗体中文</string>
     <string name="translator">某些不愿透露姓名的 HyperCeiler 全体用户</string>
     <string name="translator_url">https://www.youtube.com/watch?v=dQw4w9WgXcQ</string>
     <string name="home">家</string>
-    <string name="help">邦邦</string>
+    <string name="help">帮帮我！</string>
     <string name="settings">五颜六色小开关</string>
     <string name="about">没有人看的部分</string>
     <string name="about_use">参　考　文　献</string>
@@ -47,8 +47,8 @@
     <string name="about_donation_desc">V我50，每天都是疯狂星期四</string>
     <string name="hyperceiler_notice">拉下手机的窗帘来同时显示五颜六色小开关和烦人的通知</string>
     <string name="hyperceiler_restart_quick">迅速重开</string>
-    <string name="delete_all_dexkit_cache_desc">要清除所有的 DexKit 缓存吗？</string>
-    <string name="delete_all_dexkit_cache_success">成功清除所有的 DexKit 缓存</string>
+    <string name="delete_all_dexkit_cache_desc">要吃掉所有的 DexKit 缓存吗？</string>
+    <string name="delete_all_dexkit_cache_success">成功吃掉所有的 DexKit 缓存</string>
     <string name="location_add">加</string>
     <string name="location_delete">减</string>
     <string name="edit">“请”打字</string>
