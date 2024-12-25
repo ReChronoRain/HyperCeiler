@@ -27,7 +27,7 @@ import java.util.Locale;
 
 public class LanguageHelper {
     public static final String[] appLanguages = {
-            "en", "zh_CN", "zh_TW", "zh_HK", "ja_JP", "pl-rPL", "ru_RU", "ar-rSA", "es_ES", "pt_BR", "in_ID", "tr_TR", "vi_VN", "it_IT", "zh_ME"
+            "en", "zh_CN", "zh_TW", "zh_HK", "ja_JP", "pl_PL", "ru_RU", "ar_SA", "es_ES", "pt_BR", "in_ID", "tr_TR", "vi_VN", "it_IT", "zh_ME"
     };
 
     public static void setLanguage(Context context, String language) {
@@ -145,7 +145,7 @@ public class LanguageHelper {
                 return index;
             }
         }
-        return index;
+        return -1;
     }
 
     public static boolean isUpperCase(String string) {
