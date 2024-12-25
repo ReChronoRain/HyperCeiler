@@ -944,6 +944,7 @@
     <string name="system_ui_control_center_corner_radius_desc">لا حاجة لتعديل السمة الافتراضية</string>
     <string name="system_ui_control_center_blur_background_alpha">قيمة خلفية التشويش</string>
     <string name="system_ui_control_center_default_background_alpha">قيمة الخلفية الافتراضية</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">تحسين تأثير مزج الألوان في لوحة التحكم بالوسائط</string>
     <string name="system_ui_control_center_media_control_progress">شريط التقدم</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">إزالة قيود الإجراءات المخصصة لبطاقات إشعار الوسائط</string>
     <string name="system_ui_control_center_media_control_progress_wavy">موجي</string>
@@ -1498,6 +1499,7 @@
     <!--Mi Share-->
     <string name="mishare">مشاركة شاومي</string>
     <string name="mishare_disable_mishare_auto_off">إيقاف إغلاق مشاركة شاومي التلقائي</string>
+    <string name="mishare_disable_auto_on_location">تمكين خَدمات الموقع عند إيقاف مشاركة الملفات</string>
     <string name="mishare_unlock_turbo_mode">فتح وضع النقل السريع</string>
     <string name="mishare_hook_switch_mode_all">الجميع</string>
     <!--Wallpaper-->
@@ -1734,6 +1736,7 @@
     <string name="market_package_monitor_desc">منع GetApps من مراقبة تثبيت وإلغاء تثبيت التطبيقات</string>
     <string name="market_disable_ads">تعطيل الإعلانات</string>
     <string name="market_bypass_risk_check">تخطي فحص المخاطر</string>
+    <string name="market_disable_start_push_dialog">تعطيل مربع حوار بدأ الدفع</string>
     <!--Mi sound-->
     <string name="misound">السماعات</string>
     <string name="misound_bluetooth">تغيير حالة سماعة الرأس إلى الصوت الأصلي</string>
