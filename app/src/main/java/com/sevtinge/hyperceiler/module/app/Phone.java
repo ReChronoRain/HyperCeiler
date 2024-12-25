@@ -27,12 +27,14 @@ import com.sevtinge.hyperceiler.module.hook.phone.ModemFeature;
 import com.sevtinge.hyperceiler.module.hook.phone.N1BandPhone;
 import com.sevtinge.hyperceiler.module.hook.phone.N28BandPhone;
 import com.sevtinge.hyperceiler.module.hook.phone.N5N8BandPhone;
+import com.sevtinge.hyperceiler.module.hook.phone.UnlockVoiceLink;
 import com.sevtinge.hyperceiler.module.hook.phone.ViceSlotVolteButton;
 
 @HookBase(targetPackage = "com.android.phone")
 public class Phone extends BaseModule {
     @Override
     public void handleLoadPackage() {
+        initHook(new UnlockVoiceLink(), mPrefsMap.getBoolean("phone_unlock_voice_link"));
         initHook(ModemFeature.INSTANCE, mPrefsMap.getBoolean("phone_smart_dual_sim"));
         initHook(ViceSlotVolteButton.INSTANCE, mPrefsMap.getBoolean("phone_vice_slot_volte"));
         initHook(new DisableRemoveNetworkMode(), mPrefsMap.getBoolean("phone_disable_remove_network_mode"));

@@ -50,6 +50,12 @@
             android:summary="@string/phone_vice_slot_volte_desc"
             android:title="@string/phone_vice_slot_volte" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_phone_unlock_voice_link"
+            android:title="@string/phone_unlock_voice_link"
+            android:summary="@string/phone_unlock_voice_link_desc" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

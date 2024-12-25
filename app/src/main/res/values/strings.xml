@@ -705,6 +705,8 @@
     <string name="phone_disable_remove_network_mode">Disable remove network mode</string>
     <string name="phone_vice_slot_volte">Unlock Vice slot VoLTE</string>
     <string name="phone_vice_slot_volte_desc">Use mobile data during VoLTE calls on the secondary SIM</string>
+    <string name="phone_unlock_voice_link">Unlock Voice link</string>
+    <string name="phone_unlock_voice_link_desc">Unlock Voice link for some SIMs which support WiFi-Calling</string>
     <!--Download management program-->
     <string name="downloads">Downloads</string>
     <string name="various_fuck_xlDownload">Block creation of .xlDownload folder</string>
