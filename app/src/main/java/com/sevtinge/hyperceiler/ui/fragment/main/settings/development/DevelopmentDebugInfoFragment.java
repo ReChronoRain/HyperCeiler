@@ -85,8 +85,11 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
         try {
             propertiesModule.put("VersionName", BuildConfig.VERSION_NAME);
             propertiesModule.put("VersionCode", String.valueOf(BuildConfig.VERSION_CODE));
-            propertiesModule.put("BuildTime", "(UTC+0:00) " + BuildConfig.BUILD_TIME);
+            propertiesModule.put("BuildTime", "CST " + BuildConfig.BUILD_TIME);
             propertiesModule.put("BuildType", BuildConfig.BUILD_TYPE);
+            propertiesModule.put("BuildOsName", BuildConfig.BUILD_OS_NAME);
+            propertiesModule.put("BuildUserName", BuildConfig.BUILD_USER_NAME);
+            propertiesModule.put("BuildJavaVersion", BuildConfig.BUILD_JAVA_VERSION);
             propertiesModule.put("GitHash", BuildConfig.GIT_HASH);
             propertiesModule.put("GitCode", BuildConfig.GIT_CODE);
             propertiesModule.put("Debug", String.valueOf(BuildConfig.DEBUG));

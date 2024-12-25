@@ -99,8 +99,21 @@ android {
         versionCode = 154
         versionName = "2.5.154"
 
-        val buildTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        sdf.timeZone = TimeZone.getTimeZone("Asia/Shanghai")
+        val buildTime = sdf.format(Date())
+        val osName = System.getProperty("os.name")
+        // val osArch = System.getProperty("os.arch")
+        val userName = System.getProperty("user.name")
+        val javaVersion = System.getProperty("java.version")
+        // val javaVendor = System.getProperty("java.vendor") + " (" + System.getProperty("java.vendor.url") + ")"
+
         buildConfigField("String", "BUILD_TIME", "\"$buildTime\"")
+        buildConfigField("String", "BUILD_OS_NAME", "\"$osName\"")
+        // buildConfigField("String", "BUILD_OS_ARCH", "\"$osArch\"")
+        buildConfigField("String", "BUILD_USER_NAME", "\"$userName\"")
+        buildConfigField("String", "BUILD_JAVA_VERSION", "\"$javaVersion\"")
+        // buildConfigField("String", "BUILD_JAVA_VENDOR", "\"$javaVendor\"")
 
         ndk {
             // noinspection ChromeOsAbiSupport
