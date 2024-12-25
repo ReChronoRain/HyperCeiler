@@ -54,7 +54,7 @@ import fan.preference.SeekBarPreferenceCompat;
 public class ControlCenterSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
 
     Preference mExpandNotification;
-    PreferenceCategory mMusic;
+    Preference mMusic;
     PreferenceCategory mCard;
     SwitchPreference mNotice;
     SwitchPreference mNoticex;
@@ -66,11 +66,6 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
     SwitchPreference mRoundedRect;
     SeekBarPreferenceCompat mRoundedRectRadius;
     SwitchPreference mThemeBlur;
-    DropDownPreference mProgressMode;
-    SeekBarPreferenceCompat mProgressModeThickness;
-    SeekBarPreferenceCompat mProgressModeCornerRadius;
-    ColorPickerPreference mSliderColor;
-    ColorPickerPreference mProgressBarColor;
     SwitchPreference mRedirectNotice;
     SwitchPreference mShadeHeaderBlur;
     DropDownPreference mSunshineMode;
@@ -115,11 +110,6 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
         mTaplus = findPreference("prefs_key_security_center_taplus");
         mThemeBlur = findPreference("prefs_key_system_ui_control_center_unlock_blur_supported");
         mNotifrowmenu = findPreference("prefs_key_system_ui_control_center_notifrowmenu");
-        mProgressMode = findPreference("prefs_key_system_ui_control_center_media_control_progress_mode");
-        mProgressModeThickness = findPreference("prefs_key_system_ui_control_center_media_control_progress_thickness");
-        mProgressModeCornerRadius = findPreference("prefs_key_system_ui_control_center_media_control_progress_corner_radius");
-        mSliderColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_thumb_color");
-        mProgressBarColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_color");
         mRedirectNotice = findPreference("prefs_key_system_ui_control_center_redirect_notice");
         mShadeHeaderBlur = findPreference("prefs_key_system_ui_shade_header_gradient_blur");
         mSunshineMode = findPreference("prefs_key_system_control_center_sunshine_new_mode");
@@ -187,14 +177,9 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
         mSpotlightNotifColorMix.setVisible(isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35));
         mShadeHeaderBlur.setVisible(isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
-        mProgressModeThickness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
-        mProgressModeCornerRadius.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
-        mSliderColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
-        mProgressBarColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
         mSunshineModeHighBrightness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_control_center_sunshine_new_mode_high", "0")) == 3);;
 
         mRoundedRect.setOnPreferenceChangeListener(this);
-        mProgressMode.setOnPreferenceChangeListener(this);
 
         ((SeekBarPreferenceCompat) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -242,8 +227,6 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
     public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
         if (preference == mRoundedRect) {
             setCanBeVisibleRoundedRect((Boolean) o);
-        } else if (preference == mProgressMode) {
-            setCanBeVisibleProgressMode(Integer.parseInt((String) o));
         } else if (preference == mSunshineModeHigh) {
             setCanBeVisibleSunshineBrightness(Integer.parseInt((String) o));
         }
@@ -252,13 +235,6 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
 
     private void setCanBeVisibleRoundedRect(boolean mode) {
         mRoundedRectRadius.setVisible(mode && isMoreHyperOSVersion(1f));
-    }
-
-    private void setCanBeVisibleProgressMode(int mode) {
-        mProgressModeThickness.setVisible(mode == 2);
-        mProgressModeCornerRadius.setVisible(mode == 2);
-        mSliderColor.setVisible(mode != 2);
-        mProgressBarColor.setVisible(mode != 2);
     }
 
     private void setCanBeVisibleSunshineBrightness(int mode) {

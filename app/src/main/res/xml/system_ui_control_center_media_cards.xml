@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2024 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:quick_restart="com.android.systemui">
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix"
+            android:title="@string/system_ui_control_center_media_control_panel_background_mix" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="20"
+            android:dependency="prefs_key_system_ui_control_center_remove_media_control_panel_background"
+            android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix_overlay"
+            android:title="@string/system_ui_control_center_media_control_panel_background_mix_overlay"
+            app:defaultValueText="@string/array_default"
+            app:format="%d"
+            app:maxValue="255"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_control_center_media_control_panel_background_mix"
+            android:disableDependentsState="true"
+            android:key="prefs_key_system_ui_control_center_remove_media_control_panel_background"
+            android:title="@string/system_ui_control_center_remove_media_control_panel_background" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="40"
+            android:dependency="prefs_key_system_ui_control_center_media_control_panel_background_mix"
+            android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix_blur_radius"
+            android:title="@string/system_ui_control_center_media_control_panel_background_mix_blur_radius"
+            app:defaultValueText="@string/array_default"
+            app:format="%d f"
+            app:maxValue="150"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_control_center_media_control_media_button_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_media_control_unlock_custom_actions"
+            android:title="@string/system_ui_control_center_media_control_unlock_custom_actions" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="140"
+            android:key="prefs_key_system_ui_control_center_media_control_media_button"
+            android:title="@string/system_ui_control_center_media_control_media_button"
+            app:defaultValueText="@string/array_default"
+            app:format="%d dp"
+            app:maxValue="200"
+            app:minValue="50"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="140"
+            android:key="prefs_key_system_ui_control_center_media_control_media_button_custom"
+            android:title="@string/system_ui_control_center_media_control_media_button_custom"
+            app:defaultValueText="@string/array_default"
+            app:format="%d dp"
+            app:maxValue="200"
+            app:minValue="50"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="13"
+            android:key="prefs_key_system_ui_control_center_media_control_time_view_text_size"
+            android:title="@string/system_ui_control_center_media_control_time_view_text_size"
+            app:defaultValueText="@string/array_default"
+            app:format="%d f"
+            app:maxValue="20"
+            app:minValue="5"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_control_center_media_control_media_seekbar_title">
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_control_center_media_control_progress_mode"
+            android:title="@string/system_ui_control_center_media_control_progress"
+            app:entries="@array/system_ui_control_center_media_control_progress_mode"
+            app:entryValues="@array/system_ui_control_center_media_control_progress_mode_value" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="36"
+            android:key="prefs_key_system_ui_control_center_media_control_progress_corner_radius"
+            android:title="@string/system_ui_control_center_media_control_progress_corner_radius"
+            app:defaultValueText="@string/array_default"
+            app:format="%d dp"
+            app:maxValue="90"
+            app:minValue="12"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="80"
+            android:key="prefs_key_system_ui_control_center_media_control_progress_thickness"
+            android:title="@string/system_ui_control_center_media_control_progress_thickness"
+            app:defaultValueText="@string/array_default"
+            app:format="%d dp"
+            app:maxValue="260"
+            app:minValue="20"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <ColorPickerPreference
+            android:defaultValue="-1"
+            android:key="prefs_key_system_ui_control_center_media_control_seekbar_color"
+            android:title="@string/system_ui_control_center_media_control_seekbar_color" />
+
+        <ColorPickerPreference
+            android:defaultValue="-1"
+            android:key="prefs_key_system_ui_control_center_media_control_seekbar_thumb_color"
+            android:title="@string/system_ui_control_center_media_control_seekbar_thumb_color" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

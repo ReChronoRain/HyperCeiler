@@ -52,17 +52,8 @@ class MediaControlPanelBackgroundMix : BaseHook() {
     private val radius by lazy {
         mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_blur_radius", 40)
     }
-    private val cornerRadiusBar by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_progress_corner_radius", 36)
-    }
     private val overlay by lazy {
         mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_overlay", 20)
-    }
-    private val progress by lazy {
-        mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2
-    }
-    private val progressThickness by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_progress_thickness", 80)
     }
 
     override fun init() {
@@ -72,11 +63,6 @@ class MediaControlPanelBackgroundMix : BaseHook() {
             loadClassOrNull("com.miui.systemui.notification.MiuiBaseNotifUtil")
         } else {
             loadClassOrNull("com.android.systemui.statusbar.notification.NotificationUtil")
-        }
-        val mediaViewHolder = if (isMoreAndroidVersion(35)) {
-            loadClassOrNull("com.android.systemui.media.controls.ui.view.MediaViewHolder")
-        } else {
-            loadClassOrNull("com.android.systemui.media.controls.models.player.MediaViewHolder")
         }
         val seekBarObserver = if (isMoreAndroidVersion(35)) {
             loadClassOrNull("com.android.systemui.media.controls.ui.binder.SeekBarObserver")
@@ -93,7 +79,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
         val miuiStubInstance = XposedHelpers.getStaticObjectField(miuiStubClass, "INSTANCE")
 
         if (mPrefsMap.getBoolean("system_ui_control_center_remove_media_control_panel_background")) {
-            removeBackground(notificationUtil, miuiMediaControlPanel, playerTwoCircleView, seekBarObserver, statusBarStateControllerImpl, mediaViewHolder, miuiStubInstance)
+            removeBackground(notificationUtil, miuiMediaControlPanel, playerTwoCircleView, seekBarObserver, statusBarStateControllerImpl, miuiStubInstance)
         } else {
             setBlurBackground(miuiMediaControlPanel, playerTwoCircleView)
         }
@@ -106,7 +92,6 @@ class MediaControlPanelBackgroundMix : BaseHook() {
         playerTwoCircleView: Class<*>?,
         seekBarObserver: Class<*>?,
         statusBarStateControllerImpl: Class<*>?,
-        mediaViewHolder: Class<*>?,
         miuiStubInstance: Any
     ) {
         try {
@@ -135,44 +120,6 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                             titleText?.setTextColor(color)
                         }
                     }
-            }
-
-            mediaViewHolder?.constructors?.first()?.createAfterHook {
-                val seekBar = it.thisObject.objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
-
-                val backgroundDrawable = GradientDrawable().apply {
-                    color = ColorStateList(arrayOf(intArrayOf()), intArrayOf(Color.parseColor("#20ffffff")))
-                    cornerRadius = cornerRadiusBar.dp.toFloat()
-                }
-
-                val onProgressDrawable = GradientDrawable().apply {
-                    color = ColorStateList(arrayOf(intArrayOf()), intArrayOf(Color.parseColor("#ffffffff")))
-                    cornerRadius = cornerRadiusBar.dp.toFloat()
-                }
-
-                val layerDrawable = LayerDrawable(
-                    arrayOf(backgroundDrawable, ClipDrawable(onProgressDrawable, Gravity.START, ClipDrawable.HORIZONTAL))
-                ).apply {
-                    if (progress) {
-                        setLayerHeight(0, progressThickness.dp)
-                        setLayerHeight(1, progressThickness.dp)
-                    } else {
-                        setLayerHeight(0, 9.dp)
-                        setLayerHeight(1, 9.dp)
-                    }
-                }
-
-                seekBar?.progressDrawable = layerDrawable
-            }
-
-            seekBarObserver?.constructors?.first()?.createAfterHook {
-                if (progress) {
-                    it.thisObject.objectHelper()
-                        .setObject("seekBarEnabledMaxHeight", progressThickness.dp)
-                } else {
-                    it.thisObject.objectHelper()
-                        .setObject("seekBarEnabledMaxHeight", 9.dp)
-                }
             }
 
             var mediaControlPanelInstance: Any? = null

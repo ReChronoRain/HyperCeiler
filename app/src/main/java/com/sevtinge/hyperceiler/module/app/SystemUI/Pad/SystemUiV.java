@@ -57,6 +57,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.HideDelimiter
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaButton;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlPanelBackgroundMix;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlPanelTimeViewTextSize;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaSeekBar;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaSeekBarColor;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NewFlashLight;
@@ -145,12 +146,6 @@ public class SystemUiV extends BaseModule {
         initHook(new StatusBarIcon(), true);
         initHook(new IconsFromSystemManager(), true);
         initHook(new UnlockCustomActions(), mPrefsMap.getBoolean("system_ui_control_center_media_control_unlock_custom_actions"));
-        initHook(new MediaButton(), mPrefsMap.getInt("system_ui_control_center_media_control_media_button", 140) != 140
-                || mPrefsMap.getInt("system_ui_control_center_media_control_media_button_custom", 140) != 140);
-        initHook(new MediaSeekBarColor(), mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_color", -1) != -1
-                || mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1) != -1);
-        initHook(new SquigglyProgress(), mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 1);
-        initHook(new MediaControlPanelTimeViewTextSize(), mPrefsMap.getInt("system_ui_control_center_media_control_time_view_text_size", 13) != 13);
         initHook(new BluetoothIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0) != 0 && !isMoreHyperOSVersion(1f));
         initHook(new WifiStandard(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
         initHook(new SelectiveHideIconForAlarmClock(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
@@ -230,7 +225,6 @@ public class SystemUiV extends BaseModule {
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
         initHook(new SwitchCCAndNotification(), mPrefsMap.getBoolean("system_ui_control_center_switch_cc_and_notification"));
         initHook(QSControlDetailBackgroundAlpha.INSTANCE, mPrefsMap.getInt("system_ui_control_center_control_detail_background_alpha", 255) != 255);
-        initHook(new MediaControlPanelBackgroundMix(), mPrefsMap.getBoolean("system_ui_control_center_media_control_panel_background_mix"));
         initHook(NotificationWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeatherOld.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeatherNew.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
@@ -256,6 +250,17 @@ public class SystemUiV extends BaseModule {
         initHook(new DisableDeviceManaged(), mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"));
         initHook(new RemoveNotifNumLimit(), mPrefsMap.getBoolean("system_ui_control_center_remove_notif_num_limit"));
         initHook(new NotificationColor(), mPrefsMap.getBoolean("system_ui_control_center_opt_notification_element_background_color"));
+
+        // Media Card
+        initHook(new MediaControlPanelBackgroundMix(), mPrefsMap.getBoolean("system_ui_control_center_media_control_panel_background_mix"));
+        initHook(new MediaButton(), mPrefsMap.getInt("system_ui_control_center_media_control_media_button", 140) != 140
+                || mPrefsMap.getInt("system_ui_control_center_media_control_media_button_custom", 140) != 140);
+        initHook(new MediaSeekBarColor(), mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_color", -1) != -1
+                || mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1) != -1);
+        initHook(new SquigglyProgress(), mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 1);
+        initHook(new MediaControlPanelTimeViewTextSize(), mPrefsMap.getInt("system_ui_control_center_media_control_time_view_text_size", 13) != 13);
+        initHook(MediaSeekBar.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_remove_media_control_panel_background") ||
+                mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2);
 
         // Actions
         initHook(new StatusBarActions(), true);

@@ -1,0 +1,76 @@
+package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
+
+import android.content.res.*
+import android.graphics.*
+import android.graphics.drawable.*
+import android.view.*
+import android.widget.*
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
+import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.api.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
+
+object MediaSeekBar : BaseHook() {
+    private val mediaViewHolder = if (isMoreAndroidVersion(35)) {
+        loadClassOrNull("com.android.systemui.media.controls.ui.view.MediaViewHolder")
+    } else {
+        loadClassOrNull("com.android.systemui.media.controls.models.player.MediaViewHolder")
+    }
+    private val seekBarObserver = if (isMoreAndroidVersion(35)) {
+        loadClassOrNull("com.android.systemui.media.controls.ui.binder.SeekBarObserver")
+    } else {
+        loadClassOrNull("com.android.systemui.media.controls.models.player.SeekBarObserver")
+    }
+
+    private val progress by lazy {
+        mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2
+    }
+    private val progressThickness by lazy {
+        mPrefsMap.getInt("system_ui_control_center_media_control_progress_thickness", 80)
+    }
+    private val cornerRadiusBar by lazy {
+        mPrefsMap.getInt("system_ui_control_center_media_control_progress_corner_radius", 36)
+    }
+
+    override fun init() {
+        mediaViewHolder?.constructors?.first()?.createAfterHook {
+            val seekBar = it.thisObject.objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
+
+            val backgroundDrawable = GradientDrawable().apply {
+                color = ColorStateList(arrayOf(intArrayOf()), intArrayOf(Color.parseColor("#20ffffff")))
+                cornerRadius = cornerRadiusBar.dp.toFloat()
+            }
+
+            val onProgressDrawable = GradientDrawable().apply {
+                color = ColorStateList(arrayOf(intArrayOf()), intArrayOf(Color.parseColor("#ffffffff")))
+                cornerRadius = cornerRadiusBar.dp.toFloat()
+            }
+
+            val layerDrawable = LayerDrawable(
+                arrayOf(backgroundDrawable, ClipDrawable(onProgressDrawable, Gravity.START, ClipDrawable.HORIZONTAL))
+            ).apply {
+                if (progress) {
+                    setLayerHeight(0, progressThickness.dp)
+                    setLayerHeight(1, progressThickness.dp)
+                } else {
+                    setLayerHeight(0, 9.dp)
+                    setLayerHeight(1, 9.dp)
+                }
+            }
+
+            seekBar?.progressDrawable = layerDrawable
+        }
+
+        seekBarObserver?.constructors?.first()?.createAfterHook {
+            if (progress) {
+                it.thisObject.objectHelper()
+                    .setObject("seekBarEnabledMaxHeight", progressThickness.dp)
+            } else {
+                it.thisObject.objectHelper()
+                    .setObject("seekBarEnabledMaxHeight", 9.dp)
+            }
+        }
+    }
+}
