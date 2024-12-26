@@ -28,8 +28,6 @@ public class MediaCardSettings extends DashboardFragment implements Preference.O
 
     @Override
     public void initPrefs() {
-        boolean mRemoveMediaCardBackground = PrefsUtils.mSharedPreferences.getBoolean("prefs_key_system_ui_control_center_remove_media_control_panel_background", false);
-
         mRemoveMediaCardBackFix = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix");
         mRemoveMediaCardBack = findPreference("prefs_key_system_ui_control_center_remove_media_control_panel_background");
         mProgressMode = findPreference("prefs_key_system_ui_control_center_media_control_progress_mode");
@@ -41,29 +39,13 @@ public class MediaCardSettings extends DashboardFragment implements Preference.O
         mProgressModeThickness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
         mProgressModeCornerRadius.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
 
-        if (mRemoveMediaCardBackground) {
-            mSliderColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
-            mProgressBarColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
-        } else {
-            mSliderColor.setVisible(true);
-            mProgressBarColor.setVisible(true);
-        }
+        mSliderColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
+        mProgressBarColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
+
 
         mRemoveMediaCardBackFix.setOnPreferenceChangeListener((preference, o) -> {
             if (!(boolean) o) {
                 mRemoveMediaCardBack.setChecked(false);
-                mSliderColor.setVisible(true);
-                mProgressBarColor.setVisible(true);
-            }
-            return true;
-        });
-        mRemoveMediaCardBack.setOnPreferenceChangeListener((preference, o) -> {
-            if ((boolean) o) {
-                mSliderColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
-                mProgressBarColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
-            } else {
-                mSliderColor.setVisible(true);
-                mProgressBarColor.setVisible(true);
             }
             return true;
         });
@@ -80,16 +62,9 @@ public class MediaCardSettings extends DashboardFragment implements Preference.O
     }
 
     private void setCanBeVisibleProgressMode(int mode) {
-        boolean mRemoveMediaCardBackground = PrefsUtils.mSharedPreferences.getBoolean("prefs_key_system_ui_control_center_remove_media_control_panel_background", false);
-
         mProgressModeThickness.setVisible(mode == 2);
         mProgressModeCornerRadius.setVisible(mode == 2);
-        if (mRemoveMediaCardBackground) {
-            mSliderColor.setVisible(mode != 2);
-            mProgressBarColor.setVisible(mode != 2);
-        } else {
-            mSliderColor.setVisible(true);
-            mProgressBarColor.setVisible(true);
-        }
+        mSliderColor.setVisible(mode != 2);
+        mProgressBarColor.setVisible(mode != 2);
     }
 }
