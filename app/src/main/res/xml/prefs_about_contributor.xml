@@ -226,6 +226,13 @@
                 android:data="https://github.com/FurryRbl" />
         </Preference>
         <Preference
+            android:summary="GitHub@SmartJQ"
+            android:title="SmartJQ">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/SmartJQ" />
+        </Preference>
+        <Preference
             android:summary="GitHub@yxsra"
             android:title="SUMUS">
             <intent
