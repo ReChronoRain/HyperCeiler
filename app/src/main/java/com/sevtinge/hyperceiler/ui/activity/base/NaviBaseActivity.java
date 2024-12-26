@@ -60,8 +60,8 @@ public class NaviBaseActivity extends NavigatorActivity {
     public Bundle getNavigatorInitArgs() {
         NavigatorStrategy navigatorStrategy = new NavigatorStrategy();
         navigatorStrategy.setCompactMode(Navigator.Mode.C);
-        navigatorStrategy.setRegularMode(Navigator.Mode.C);
-        navigatorStrategy.setLargeMode(Navigator.Mode.C);
+        navigatorStrategy.setRegularMode(Navigator.Mode.NC);
+        navigatorStrategy.setLargeMode(Navigator.Mode.NC);
         Bundle bundle = new Bundle();
         bundle.putParcelable("miuix:navigatorStrategy", navigatorStrategy);
         return bundle;
@@ -94,9 +94,9 @@ public class NaviBaseActivity extends NavigatorActivity {
         UpdateFragmentNavInfo navInfoToHome = getUpdateFragmentNavInfo(0, 1000);
         UpdateFragmentNavInfo navInfoToSettings = getUpdateFragmentNavInfo(1, 1001);
         UpdateFragmentNavInfo navInfoToAbout = getUpdateFragmentNavInfo(2, 1002);
-        newLabel(getString(R.string.navigation_home_title), navInfoToHome);
-        newLabel(getString(R.string.navigation_settings_title), navInfoToSettings);
-        newLabel(getString(R.string.navigation_about_title), navInfoToAbout);
+        newLabel(getString(R.string.navigation_home_title), R.drawable.ic_navigation_home, navInfoToHome);
+        newLabel(getString(R.string.navigation_settings_title), R.drawable.ic_navigation_settings, navInfoToSettings);
+        newLabel(getString(R.string.navigation_about_title), R.drawable.ic_navigation_about, navInfoToAbout);
         navigator.navigate(navInfoToHome);
     }
 

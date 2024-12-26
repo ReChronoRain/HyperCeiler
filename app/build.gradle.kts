@@ -44,6 +44,7 @@ val roots = mapOf(
     "recyclerview" to "libs/recyclerview-${buildTypes}.aar",
     "smooth" to "libs/smooth-${buildTypes}.aar",
     "springback" to "libs/springback-${buildTypes}.aar",
+    "slidingwidget" to "libs/slidingwidget-${buildTypes}.aar",
     "stretchablewidget" to "libs/stretchablewidget-${buildTypes}.aar",
     "theme" to "libs/theme-${buildTypes}.aar",
     "viewpager" to "libs/viewpager-${buildTypes}.aar",
@@ -299,6 +300,7 @@ dependencies {
     implementation(files(roots["recyclerview"]))
     implementation(files(roots["smooth"]))
     implementation(files(roots["springback"]))
+    implementation(files(roots["slidingwidget"]))
     implementation(files(roots["stretchablewidget"]))
     implementation(files(roots["theme"]))
     implementation(files(roots["viewpager"]))
