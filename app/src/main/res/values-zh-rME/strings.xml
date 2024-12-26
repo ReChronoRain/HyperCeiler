@@ -19,7 +19,6 @@
   -->
 <resources>
     <string name="version_update">发现新版本</string>
-    <string name="about_copy_right">© 2023-2024 Sevtinge &amp; HyperCeiler 贡献者。</string>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">让 CNMiOS 再次伟大！</string>
     <string name="new_permission_wifi_state_desc">轻柔地加减设备内存上的文件</string>
