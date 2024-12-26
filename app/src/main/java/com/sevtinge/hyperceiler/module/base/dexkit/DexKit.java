@@ -247,6 +247,8 @@ public class DexKit {
             for (String folderName : folderNames) {
                 String folderPath = "/data/data/" + folderName + MMKV_PATH;
                 rootExecCmd("rm -rf " + folderPath);
+                folderPath = "/data/user_de/0/" + folderName + MMKV_PATH;
+                rootExecCmd("rm -rf " + folderPath);
             }
         });
     }
