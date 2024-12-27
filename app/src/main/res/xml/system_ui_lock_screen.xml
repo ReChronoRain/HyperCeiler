@@ -80,11 +80,11 @@
             android:defaultValue="-1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="40"
+            app:defaultValue="40"
             android:dependency="prefs_key_system_ui_lock_screen_blur_button"
             android:key="prefs_key_system_ui_lock_screen_blur_button_radius"
             android:title="@string/system_ui_lock_screen_blur_button_radius"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
             app:maxValue="60"
             app:minValue="10"
@@ -131,12 +131,12 @@
             android:title="@string/system_ui_lock_screen_show_spacing" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="6"
+            app:defaultValue="6"
             android:dependency="prefs_key_system_ui_lock_screen_show_spacing_value"
             android:key="prefs_key_system_ui_lock_screen_show_spacing"
             android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="2"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="2"
             app:format="%s s"
             app:maxValue="10"
             app:minValue="2"
@@ -183,7 +183,7 @@
             android:title="@string/system_ui_lock_screen_linkage_anim" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="300"
+            app:defaultValue="300"
             android:dependency="prefs_key_system_ui_lock_screen_linkage_anim"
             android:format="%d f"
             android:key="prefs_key_system_ui_lock_screen_linkage_anim_on"
@@ -193,7 +193,7 @@
             app:showSeekBarValue="true" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="200"
+            app:defaultValue="200"
             android:dependency="prefs_key_system_ui_lock_screen_linkage_anim"
             android:format="%d f"
             android:key="prefs_key_system_ui_lock_screen_linkage_anim_off"

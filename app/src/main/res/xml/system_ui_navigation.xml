@@ -33,7 +33,7 @@
             android:dependency="prefs_key_system_ui_navigation_custom"
             android:key="prefs_key_system_ui_navigation_custom_height"
             android:title="@string/system_ui_navigation_custom_height"
-            app:displayDividerValue="10"
+            app:showDividerValue="10"
             app:format="%s dp"
             app:maxValue="1000"
             app:minValue="1"
@@ -45,7 +45,7 @@
             android:dependency="prefs_key_system_ui_navigation_custom"
             android:key="prefs_key_system_ui_navigation_custom_height_land"
             android:title="@string/system_ui_navigation_custom_height_land"
-            app:displayDividerValue="10"
+            app:showDividerValue="10"
             app:format="%s dp"
             app:maxValue="1000"
             app:minValue="1"
@@ -57,7 +57,7 @@
             android:dependency="prefs_key_system_ui_navigation_custom"
             android:key="prefs_key_system_ui_navigation_frame_custom_height"
             android:title="@string/system_ui_navigation_frame_custom_height"
-            app:displayDividerValue="10"
+            app:showDividerValue="10"
             app:format="%s dp"
             app:maxValue="1000"
             app:minValue="1"
@@ -69,7 +69,7 @@
             android:dependency="prefs_key_system_ui_navigation_custom"
             android:key="prefs_key_system_ui_navigation_frame_custom_height_land"
             android:title="@string/system_ui_navigation_frame_custom_height_land"
-            app:displayDividerValue="10"
+            app:showDividerValue="10"
             app:format="%s dp"
             app:maxValue="1000"
             app:minValue="1"
@@ -94,12 +94,12 @@
 
         <!--navigation_handle_radius-->
         <SeekBarPreferenceCompat
-            android:defaultValue="185"
+            app:defaultValue="185"
             android:dependency="prefs_key_system_ui_navigation_handle_custom"
             android:key="prefs_key_system_ui_navigation_handle_custom_thickness"
             android:title="@string/system_ui_navigation_handle_custom_thickness"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="100"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="100"
             app:format="%s dp"
             app:maxValue="500"
             app:minValue="0"
@@ -108,13 +108,13 @@
 
         <!--navigation_handle_bottom-->
         <SeekBarPreferenceCompat
-            android:defaultValue="600"
+            app:defaultValue="600"
             android:dependency="prefs_key_system_ui_navigation_handle_custom"
             android:enabled="false"
             android:key="prefs_key_system_ui_navigation_handle_custom_height"
             android:title="@string/system_ui_navigation_handle_custom_height"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="10"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="10"
             app:format="%s dp"
             app:maxValue="1000"
             app:minValue="0"
@@ -123,7 +123,7 @@
 
         <!--navigation_home_handle_width-->
         <SeekBarPreferenceCompat
-            android:defaultValue="145"
+            app:defaultValue="145"
             android:dependency="prefs_key_system_ui_navigation_handle_custom"
             android:enabled="false"
             android:key="prefs_key_system_ui_navigation_handle_custom_width"
@@ -135,7 +135,7 @@
 
         <!--navigation_home_handle_width land-->
         <SeekBarPreferenceCompat
-            android:defaultValue="254"
+            app:defaultValue="254"
             android:dependency="prefs_key_system_ui_navigation_handle_custom"
             android:enabled="false"
             android:key="prefs_key_system_ui_navigation_handle_custom_width_land"

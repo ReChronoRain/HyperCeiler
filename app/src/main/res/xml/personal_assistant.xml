@@ -50,7 +50,7 @@
             android:defaultValue="80"
             app:minValue="30"
             app:maxValue="99"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d %%"
             app:stepValue="1" />
 
@@ -65,7 +65,7 @@
             android:defaultValue="60"
             app:minValue="30"
             app:maxValue="180"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d f"
             app:stepValue="1" />
 

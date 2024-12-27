@@ -22,22 +22,22 @@
     app:quick_restart="com.miui.home">
     <PreferenceCategory android:title="@string/home_title_custom_anim_param_RECT_CENTERX_title">
         <SeekBarPreferenceCompat
-            android:defaultValue="900"
+            app:defaultValue="900"
             android:key="prefs_key_home_title_custom_anim_param_damping_RECT_CENTERX_3"
             android:title="@string/home_title_custom_anim_param_damping_title"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="1000"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="1000"
             app:format="%s f"
             app:maxValue="2999"
             app:minValue="1"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="270"
+            app:defaultValue="270"
             android:key="prefs_key_home_title_custom_anim_param_stiffness_RECT_CENTERX_3"
             android:title="@string/home_title_custom_anim_param_stiffness_title"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="1000"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="1000"
             app:format="%s f"
             app:maxValue="2999"
             app:minValue="1"
@@ -48,22 +48,22 @@
     <PreferenceCategory android:title="@string/home_title_custom_anim_param_RECT_CENTERY_title">
 
         <SeekBarPreferenceCompat
-            android:defaultValue="900"
+            app:defaultValue="900"
             android:key="prefs_key_home_title_custom_anim_param_damping_RECT_CENTERY_3"
             android:title="@string/home_title_custom_anim_param_damping_title"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="1000"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="1000"
             app:format="%s f"
             app:maxValue="2999"
             app:minValue="1"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="270"
+            app:defaultValue="270"
             android:key="prefs_key_home_title_custom_anim_param_stiffness_RECT_CENTERY_3"
             android:title="@string/home_title_custom_anim_param_stiffness_title"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="1000"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="1000"
             app:format="%s f"
             app:maxValue="2999"
             app:minValue="1"
@@ -74,22 +74,22 @@
     <PreferenceCategory android:title="@string/home_title_custom_anim_param_RECT_WIDTH_title">
 
         <SeekBarPreferenceCompat
-            android:defaultValue="990"
+            app:defaultValue="990"
             android:key="prefs_key_home_title_custom_anim_param_damping_RECT_WIDTH_3"
             android:title="@string/home_title_custom_anim_param_damping_title"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="1000"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="1000"
             app:format="%s f"
             app:maxValue="2999"
             app:minValue="1"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="360"
+            app:defaultValue="360"
             android:key="prefs_key_home_title_custom_anim_param_stiffness_RECT_WIDTH_3"
             android:title="@string/home_title_custom_anim_param_stiffness_title"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="1000"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="1000"
             app:format="%s f"
             app:maxValue="2999"
             app:minValue="1"
@@ -100,22 +100,22 @@
     <PreferenceCategory android:title="@string/home_title_custom_anim_param_RECT_RATIO_title">
 
         <SeekBarPreferenceCompat
-            android:defaultValue="990"
+            app:defaultValue="990"
             android:key="prefs_key_home_title_custom_anim_param_damping_RECT_RATIO_3"
             android:title="@string/home_title_custom_anim_param_damping_title"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="1000"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="1000"
             app:format="%s f"
             app:maxValue="2999"
             app:minValue="1"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="360"
+            app:defaultValue="360"
             android:key="prefs_key_home_title_custom_anim_param_stiffness_RECT_RATIO_3"
             android:title="@string/home_title_custom_anim_param_stiffness_title"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="1000"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="1000"
             app:format="%s f"
             app:maxValue="2999"
             app:minValue="1"

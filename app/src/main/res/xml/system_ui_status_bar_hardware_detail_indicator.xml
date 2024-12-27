@@ -85,22 +85,22 @@
             android:title="@string/system_ui_statusbar_indicator_bold" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="13"
+            app:defaultValue="13"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_size"
             android:title="@string/system_ui_statusbar_battery_size"
-            app:displayDividerValue="2"
+            app:showDividerValue="2"
             app:format="%s dp"
             app:maxValue="40"
             app:minValue="8"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="2"
+            app:defaultValue="2"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_update_spacing"
             android:title="@string/system_ui_statusbar_battery_update_spacing"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d s"
             app:maxValue="10"
             app:minValue="1"
@@ -115,48 +115,48 @@
             app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="10"
+            app:defaultValue="10"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_fixedcontent_width"
             android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
             android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
             app:maxValue="120"
             app:minValue="10"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="4"
+            app:defaultValue="4"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_left_margin"
             android:title="@string/left_margin"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="2"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="2"
             app:format="%s dp"
             app:maxValue="10"
             app:minValue="0"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="4"
+            app:defaultValue="4"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_right_margin"
             android:title="@string/right_margin"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="2"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="2"
             app:format="%s dp"
             app:maxValue="10"
             app:minValue="0"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="8"
+            app:defaultValue="8"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_vertical_offset"
             android:title="@string/vertical_offset"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="2"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="2"
             app:format="%s dp"
             app:maxValue="16"
             app:minValue="0"
@@ -223,22 +223,22 @@
             android:title="@string/system_ui_statusbar_indicator_bold" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="13"
+            app:defaultValue="13"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_size"
             android:title="@string/system_ui_statusbar_battery_size"
-            app:displayDividerValue="2"
+            app:showDividerValue="2"
             app:format="%s dp"
             app:maxValue="40"
             app:minValue="8"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="2"
+            app:defaultValue="2"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_update_spacing"
             android:title="@string/system_ui_statusbar_battery_update_spacing"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d s"
             app:maxValue="10"
             app:minValue="1"
@@ -253,48 +253,48 @@
             app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="10"
+            app:defaultValue="10"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_fixedcontent_width"
             android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
             android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
             app:maxValue="120"
             app:minValue="10"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="4"
+            app:defaultValue="4"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_left_margin"
             android:title="@string/left_margin"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="2"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="2"
             app:format="%s dp"
             app:maxValue="10"
             app:minValue="0"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="4"
+            app:defaultValue="4"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_right_margin"
             android:title="@string/right_margin"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="2"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="2"
             app:format="%s dp"
             app:maxValue="10"
             app:minValue="0"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="8"
+            app:defaultValue="8"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_vertical_offset"
             android:title="@string/vertical_offset"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="2"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="2"
             app:format="%s dp"
             app:maxValue="16"
             app:minValue="0"

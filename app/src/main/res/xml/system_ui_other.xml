@@ -78,11 +78,11 @@
             android:title="@string/system_showpct_title" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="54"
+            app:defaultValue="54"
             android:key="prefs_key_system_ui_others_showpct_top"
             android:summary="@string/system_ui_others_showpct_top_desc"
             android:title="@string/system_ui_others_showpct_top"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="1024"
             app:showSeekBarValue="true"

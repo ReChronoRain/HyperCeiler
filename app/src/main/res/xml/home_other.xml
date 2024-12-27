@@ -39,11 +39,11 @@
             android:title="@string/home_other_shortcut_background_blur" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="200"
+            app:defaultValue="200"
             android:dependency="prefs_key_home_other_shortcut_background_blur"
             android:key="prefs_key_home_other_shortcut_background_blur_custom"
             android:title="@string/home_other_shortcut_background_blur_custom"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s"
             app:maxValue="255"
             app:minValue="80"
@@ -60,10 +60,10 @@
             android:title="@string/home_other_shortcut_remove_restrictions" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="100"
+            app:defaultValue="100"
             android:key="prefs_key_home_other_blur_radius"
             android:title="@string/home_other_blur_radius"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s / 100 f"
             app:maxValue="500"
             app:minValue="0"

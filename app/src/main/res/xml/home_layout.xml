@@ -55,7 +55,7 @@
             android:title="@string/home_layout_unlock_grids" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="0"
+            app:defaultValue="0"
             android:dependency="prefs_key_home_layout_unlock_grids_new"
             android:key="prefs_key_home_layout_unlock_grids_cell_x"
             android:title="@string/home_layout_unlock_grids_new_x"
@@ -65,11 +65,11 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="0"
+            app:defaultValue="0"
             android:dependency="prefs_key_home_layout_unlock_grids_new"
             android:key="prefs_key_home_layout_unlock_grids_cell_y"
             android:title="@string/home_layout_unlock_grids_new_y"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d"
             app:maxValue="9"
             app:minValue="4"
@@ -93,7 +93,7 @@
             android:defaultValue="30"
             android:dependency="prefs_key_home_layout_workspace_padding_top_enable"
             android:key="prefs_key_home_layout_workspace_padding_top"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="150"
             app:stepValue="1" />
@@ -109,7 +109,7 @@
             android:defaultValue="120"
             android:dependency="prefs_key_home_layout_workspace_padding_bottom_enable"
             android:key="prefs_key_home_layout_workspace_padding_bottom"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="240"
             app:stepValue="1" />
@@ -125,7 +125,7 @@
             android:defaultValue="20"
             android:dependency="prefs_key_home_layout_workspace_padding_horizontal_enable"
             android:key="prefs_key_home_layout_workspace_padding_horizontal"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="100"
             app:stepValue="1" />
@@ -143,7 +143,7 @@
             android:defaultValue="70"
             android:dependency="prefs_key_home_layout_indicator_margin_bottom_enable"
             android:key="prefs_key_home_layout_indicator_margin_bottom"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="150"
             app:stepValue="1" />
@@ -156,11 +156,11 @@
             android:title="@string/home_layout_hotseats_height" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="80"
+            app:defaultValue="80"
             android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:dependency="prefs_key_home_layout_hotseats_height_enable"
             android:key="prefs_key_home_layout_hotseats_height"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="150"
             app:showSeekBarValue="true" />
@@ -176,7 +176,7 @@
             android:defaultValue="20"
             android:dependency="prefs_key_home_layout_hotseats_margin_top_enable"
             android:key="prefs_key_home_layout_hotseats_margin_top"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="150"
             app:stepValue="1" />
@@ -192,7 +192,7 @@
             android:defaultValue="70"
             android:dependency="prefs_key_home_layout_hotseats_margin_bottom_enable"
             android:key="prefs_key_home_layout_hotseats_margin_bottom"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="150"
             app:stepValue="1" />
@@ -210,7 +210,7 @@
             android:defaultValue="30"
             android:dependency="prefs_key_home_layout_searchbar_width_enable"
             android:key="prefs_key_home_layout_searchbar_width"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="400"
             app:stepValue="1" />
@@ -226,7 +226,7 @@
             android:defaultValue="30"
             android:dependency="prefs_key_home_layout_searchbar_margin_bottom_enable"
             android:key="prefs_key_home_layout_searchbar_margin_bottom"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="150"
             app:stepValue="1" />
@@ -258,17 +258,17 @@
             android:defaultValue="0"
             android:dependency="prefs_key_home_folder_horizontal_padding_enable"
             android:key="prefs_key_home_folder_horizontal_padding"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="50"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="3"
+            app:defaultValue="3"
             android:key="prefs_key_home_folder_columns"
             android:title="@string/home_folder_cols_title"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="@string/home_folder_cols_format"
             app:maxValue="6"
             app:minValue="3"
@@ -286,7 +286,7 @@
             android:defaultValue="0"
             android:dependency="prefs_key_home_folder_vertical_spacing_enable"
             android:key="prefs_key_home_folder_vertical_spacing"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="100"
             app:showSeekBarValue="true"

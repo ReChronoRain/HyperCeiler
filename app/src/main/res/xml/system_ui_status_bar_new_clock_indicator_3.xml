@@ -22,10 +22,10 @@
     app:quick_restart="com.android.systemui">
     <PreferenceCategory>
         <SeekBarPreferenceCompat
-            android:defaultValue="12"
+            app:defaultValue="12"
             android:key="prefs_key_system_ui_statusbar_clock_size_3"
             android:title="@string/system_ui_statusbar_clock_size"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="32"
             app:minValue="9"
@@ -36,31 +36,31 @@
 
     <PreferenceCategory>
         <SeekBarPreferenceCompat
-            android:defaultValue="0"
+            app:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_left_margin_3"
             android:title="@string/left_margin"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
             app:maxValue="72"
             app:minValue="0"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="0"
+            app:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_right_margin_3"
             android:title="@string/right_margin"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
             app:maxValue="72"
             app:minValue="0"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="12"
+            app:defaultValue="12"
             android:key="prefs_key_system_ui_statusbar_clock_vertical_offset_3"
             android:title="@string/vertical_offset"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="2"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="2"
             app:format="%s dp"
             app:maxValue="24"
             app:minValue="0"

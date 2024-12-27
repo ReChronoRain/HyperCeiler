@@ -56,16 +56,16 @@
             android:title="PreferenceHeader" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="50"
+            app:defaultValue="50"
             android:format="%d"
             android:title="SeekBarPreference"
             app:maxValue="100"
             app:showSeekBarValue="true" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="50"
+            app:defaultValue="50"
             android:title="SeekBarPreferenceCompat"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s"
             app:maxValue="100"
             app:minValue="0" />

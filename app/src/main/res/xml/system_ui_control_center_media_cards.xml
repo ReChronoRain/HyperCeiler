@@ -26,11 +26,11 @@
             android:title="@string/system_ui_control_center_media_control_panel_background_mix" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="20"
+            app:defaultValue="20"
             android:dependency="prefs_key_system_ui_control_center_remove_media_control_panel_background"
             android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix_overlay"
             android:title="@string/system_ui_control_center_media_control_panel_background_mix_overlay"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d"
             app:maxValue="255"
             app:minValue="0"
@@ -45,11 +45,11 @@
             android:title="@string/system_ui_control_center_remove_media_control_panel_background" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="40"
+            app:defaultValue="40"
             android:dependency="prefs_key_system_ui_control_center_media_control_panel_background_mix"
             android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix_blur_radius"
             android:title="@string/system_ui_control_center_media_control_panel_background_mix_blur_radius"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d f"
             app:maxValue="150"
             app:minValue="0"
@@ -65,10 +65,10 @@
             android:title="@string/system_ui_control_center_media_control_unlock_custom_actions" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="140"
+            app:defaultValue="140"
             android:key="prefs_key_system_ui_control_center_media_control_media_button"
             android:title="@string/system_ui_control_center_media_control_media_button"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="200"
             app:minValue="50"
@@ -76,10 +76,10 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="140"
+            app:defaultValue="140"
             android:key="prefs_key_system_ui_control_center_media_control_media_button_custom"
             android:title="@string/system_ui_control_center_media_control_media_button_custom"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="200"
             app:minValue="50"
@@ -87,10 +87,10 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="13"
+            app:defaultValue="13"
             android:key="prefs_key_system_ui_control_center_media_control_time_view_text_size"
             android:title="@string/system_ui_control_center_media_control_time_view_text_size"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d f"
             app:maxValue="20"
             app:minValue="5"
@@ -108,10 +108,10 @@
             app:entryValues="@array/system_ui_control_center_media_control_progress_mode_value" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="36"
+            app:defaultValue="36"
             android:key="prefs_key_system_ui_control_center_media_control_progress_corner_radius"
             android:title="@string/system_ui_control_center_media_control_progress_corner_radius"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="90"
             app:minValue="12"
@@ -119,10 +119,10 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="80"
+            app:defaultValue="80"
             android:key="prefs_key_system_ui_control_center_media_control_progress_thickness"
             android:title="@string/system_ui_control_center_media_control_progress_thickness"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="260"
             app:minValue="20"

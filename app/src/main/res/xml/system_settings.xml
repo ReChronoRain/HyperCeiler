@@ -199,11 +199,11 @@
             android:title="@string/system_settings_develop_speed_mode" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="100"
+            app:defaultValue="100"
             android:key="prefs_key_system_settings_window_animation_scale"
             android:title="@string/system_settings_window_animation_scale"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="100"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="100"
             app:format="%s f"
             app:maxValue="500"
             app:minValue="0"
@@ -211,11 +211,11 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="100"
+            app:defaultValue="100"
             android:key="prefs_key_system_settings_transition_animation_scale"
             android:title="@string/system_settings_transition_animation_scale"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="100"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="100"
             app:format="%s f"
             app:maxValue="500"
             app:minValue="0"
@@ -223,11 +223,11 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="100"
+            app:defaultValue="100"
             android:key="prefs_key_system_settings_animator_duration_scale"
             android:title="@string/system_settings_animator_duration_scale"
-            app:defaultValueText="@string/array_default"
-            app:displayDividerValue="100"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="100"
             app:format="%s f"
             app:maxValue="500"
             app:minValue="0"

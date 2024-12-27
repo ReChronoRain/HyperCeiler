@@ -46,22 +46,22 @@
             android:title="@string/home_drawer_blur_super" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="30"
+            app:defaultValue="30"
             android:dependency="prefs_key_home_drawer_blur_super"
             android:key="prefs_key_home_drawer_blur_super_radius"
             android:title="@string/custom_background_corner_radius"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="60"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="200"
+            app:defaultValue="200"
             android:dependency="prefs_key_home_drawer_blur_super"
             android:key="prefs_key_drawer_background_blur_degree"
             android:title="@string/custom_background_blur_degree"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d bl"
             app:maxValue="500"
             app:showSeekBarValue="true"

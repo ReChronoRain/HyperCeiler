@@ -112,7 +112,7 @@
             android:key="pref_key_system_ui_display_toast_times"
             android:dependency="prefs_key_system_ui_display_toast_times_enable"
             android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             android:defaultValue="0"
             app:minValue="0"
             app:maxValue="19"

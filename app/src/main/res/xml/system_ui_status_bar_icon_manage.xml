@@ -183,10 +183,10 @@
             app:entryValues="@array/status_bar_icon_alarm_clock_value" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="0"
+            app:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_alarm_clock_n"
             android:title="@string/system_ui_status_bar_icon_alarm_clock_n"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="@string/system_ui_status_bar_icon_alarm_clock_n_format"
             app:maxValue="48"
             app:minValue="0"
@@ -241,11 +241,11 @@
             android:title="@string/system_ui_status_bar_notification_dots_maximum" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="3"
+            app:defaultValue="3"
             android:dependency="prefs_key_system_ui_status_bar_notification_dots_maximum_enable"
             android:key="prefs_key_system_ui_status_bar_notification_dots_maximum"
             android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:dialogTitle="@string/system_ui_status_bar_notification_dots_maximum"
             app:format="%s"
             app:maxValue="5"
@@ -257,11 +257,11 @@
             android:title="@string/system_ui_status_bar_notification_icon_maximum" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="3"
+            app:defaultValue="3"
             android:dependency="prefs_key_system_ui_status_bar_notification_icon_maximum_enable"
             android:key="prefs_key_system_ui_status_bar_notification_icon_maximum"
             android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:dialogTitle="@string/system_ui_status_bar_notification_icon_maximum"
             app:format="%s"
             app:maxValue="15"

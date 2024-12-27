@@ -32,7 +32,7 @@
             android:title="@string/barrage_custom_barrage_length"
             android:defaultValue="36"
             app:format="%s"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:maxValue="108"
             app:minValue="12" />
 

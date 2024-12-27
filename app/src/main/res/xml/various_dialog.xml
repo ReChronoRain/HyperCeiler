@@ -33,7 +33,7 @@
         android:title="@string/various_dialog_margin_horizontal"
         android:summary="@string/various_dialog_margin_horizontal_desc"
         android:defaultValue="0"
-        app:defaultValueText="@string/array_default"
+        app:defaultValueTitle="@string/array_default"
         app:maxValue="100"
         app:format="%d dp"
         app:showSeekBarValue="true" />

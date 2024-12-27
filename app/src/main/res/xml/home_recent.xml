@@ -37,29 +37,29 @@
             android:defaultValue="false" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="95"
+            app:defaultValue="95"
             android:dependency="prefs_key_home_recent_show_launch"
             android:key="prefs_key_home_recent_show_launch_size"
             android:title="@string/home_recent_show_launch_size"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s f"
             app:maxValue="100"
             app:minValue="20"
             app:stepValue="1"
-            app:displayDividerValue="100"
+            app:showDividerValue="100"
             app:showSeekBarValue="true" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="100"
+            app:defaultValue="100"
             android:dependency="prefs_key_home_recent_show_launch"
             android:key="prefs_key_home_recent_show_launch_alpha"
             android:title="@string/home_recent_show_launch_alpha"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s f"
             app:maxValue="100"
             app:minValue="0"
             app:stepValue="1"
-            app:displayDividerValue="100"
+            app:showDividerValue="100"
             app:showSeekBarValue="true" />
 
         <SwitchPreference
@@ -135,7 +135,7 @@
             android:key="prefs_key_task_view_corners"
             android:title="@string/home_recent_task_view_card_rounded_corners"
             android:defaultValue="20"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:maxValue="180"
             app:stepValue="1"
             app:format="%d dp" />
@@ -144,7 +144,7 @@
             android:key="prefs_key_task_view_header_height"
             android:title="@string/home_recent_app_name_distance_task_view_card"
             android:defaultValue="40"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:maxValue="150"
             app:stepValue="1"
             app:format="%d dp" />
@@ -153,7 +153,7 @@
             android:key="prefs_key_home_recent_animation_speed"
             android:title="@string/home_recent_animation_speed"
             android:defaultValue="100"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:maxValue="500"
             app:minValue="10"
             app:stepValue="1"
@@ -163,7 +163,7 @@
             android:key="prefs_key_task_view_horizontal1"
             android:title="@string/home_recent_horizontal_task_view_card_size1"
             android:defaultValue="100"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:maxValue="150"
             app:minValue="50"
             app:stepValue="1"
@@ -173,18 +173,18 @@
             android:key="prefs_key_task_view_horizontal2"
             android:title="@string/home_recent_horizontal_task_view_card_size2"
             android:defaultValue="100"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:maxValue="150"
             app:minValue="50"
             app:format="%d / 100 f"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="100"
+            app:defaultValue="100"
             android:key="prefs_key_home_recent_vertical_task_view_card_size"
             android:title="@string/home_recent_vertical_task_view_card_size"
             app:format="%d / 100 f"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:maxValue="150"
             app:minValue="50"
             app:stepValue="1" />
@@ -193,7 +193,7 @@
             android:key="prefs_key_home_recent_text_size"
             android:title="@string/home_recent_text_size"
             android:defaultValue="14"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:maxValue="30"
             app:minValue="0"
             app:format="%d f"

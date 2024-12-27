@@ -304,6 +304,9 @@
     <string name="miuix_sbl_tracking_progress_labe_up_none">That\'s all for now</string>
     <string name="miuix_sbl_tracking_progress_labe_up_refresh">Just a sec…</string>
     <string name="miuix_sbl_tracking_progress_labe_up_refresh_fail">Couldn\'t load items</string>
+    <string name="miuix_appcompat_color_picker_custom_color">Custom color</string>
+    <string name="miuix_appcompat_color_erro_entry">An invalid value. Please check it and re-enter.</string>
+    <string name="miuix_preference_textentry_erro_entry">An invalid value. Please check it and re-enter.</string>
     <!--String reuse-->
     <string name="top_margin">Top margin</string>
     <string name="bottom_margin">Bottom margin</string>

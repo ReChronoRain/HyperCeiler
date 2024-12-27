@@ -120,12 +120,12 @@
             android:title="@string/system_ui_control_center_notification_blur_fix" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="56"
+            app:defaultValue="56"
             android:dependency="prefs_key_n_enable"
             android:key="prefs_key_system_ui_control_center_blur_radius"
             android:summary="@string/system_ui_control_center_blur_radius_desc"
             android:title="@string/system_ui_control_center_blur_radius"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d %%"
             app:maxValue="99"
             app:minValue="20"
@@ -133,23 +133,23 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="48"
+            app:defaultValue="48"
             android:dependency="prefs_key_n_enable"
             android:key="prefs_key_system_ui_control_center_corner_radius"
             android:summary="@string/system_ui_control_center_corner_radius_desc"
             android:title="@string/system_ui_control_center_corner_radius"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="100"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="100"
+            app:defaultValue="100"
             android:dependency="prefs_key_n_enable"
             android:key="prefs_key_system_ui_control_center_blur_background_alpha"
             android:title="@string/system_ui_control_center_blur_background_alpha"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s"
             app:maxValue="255"
             app:minValue="85"
@@ -157,11 +157,11 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="200"
+            app:defaultValue="200"
             android:dependency="prefs_key_n_enable"
             android:key="prefs_key_system_ui_control_center_default_background_alpha"
             android:title="@string/system_ui_control_center_default_background_alpha"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s"
             app:maxValue="255"
             app:minValue="85"
@@ -174,20 +174,20 @@
         android:key="prefs_key_system_ui_controlcenter_card"
         android:title="@string/system_ui_controlcenter_card_title">
         <SeekBarPreferenceCompat
-            android:defaultValue="0"
+            app:defaultValue="0"
             android:key="prefs_key_system_control_center_qs_detail_bg"
             android:title="@string/system_control_center_qs_detail_bg"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s"
             app:maxValue="255"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="255"
+            app:defaultValue="255"
             android:key="prefs_key_system_ui_control_center_control_detail_background_alpha"
             android:title="@string/system_ui_control_center_control_detail_background_alpha"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%s"
             app:maxValue="255"
             app:minValue="85"
@@ -345,10 +345,10 @@
             android:title="@string/system_ui_control_center_rounded_rect" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="72"
+            app:defaultValue="72"
             android:key="prefs_key_system_ui_control_center_rounded_rect_radius"
             android:title="@string/system_ui_control_center_rounded_rect_radius"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d f"
             app:isPreferenceVisible="false"
             app:maxValue="99"
@@ -396,10 +396,10 @@
             app:entryValues="@array/control_center_cc_bluetooth_tile_style_value" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="4"
+            app:defaultValue="4"
             android:key="prefs_key_system_control_center_cc_rows"
             android:title="@string/system_control_center_qs_rows"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="@string/system_control_center_qs_rows_format"
             app:maxValue="6"
             app:minValue="3"
@@ -407,10 +407,10 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="4"
+            app:defaultValue="4"
             android:key="prefs_key_system_control_center_cc_columns"
             android:title="@string/system_control_center_qs_columns"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="@string/system_control_center_qs_columns_format"
             app:maxValue="6"
             app:minValue="4"
@@ -426,11 +426,11 @@
             android:title="@string/system_ui_controlcenter_enable_title" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="3"
+            app:defaultValue="3"
             android:dependency="prefs_key_system_control_center_old_enable"
             android:key="prefs_key_system_control_center_old_qs_rows"
             android:title="@string/system_control_center_qs_rows"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="@string/system_control_center_qs_rows_format"
             app:maxValue="5"
             app:minValue="2"
@@ -438,11 +438,11 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="2"
+            app:defaultValue="2"
             android:dependency="prefs_key_system_control_center_old_enable"
             android:key="prefs_key_system_control_center_old_qs_rows_horizontal"
             android:title="@string/system_control_center_qs_rows_horizontal"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="@string/system_control_center_qs_rows_format"
             app:maxValue="3"
             app:minValue="1"
@@ -450,11 +450,11 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="4"
+            app:defaultValue="4"
             android:dependency="prefs_key_system_control_center_old_enable"
             android:key="prefs_key_system_control_center_old_qs_columns"
             android:title="@string/system_control_center_qs_columns"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="@string/system_control_center_qs_columns_format"
             app:maxValue="7"
             app:minValue="3"
@@ -462,11 +462,11 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="5"
+            app:defaultValue="5"
             android:dependency="prefs_key_system_control_center_old_enable"
             android:key="prefs_key_system_control_center_old_qs_columns_horizontal"
             android:title="@string/system_control_center_qs_columns_horizontal"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="@string/system_control_center_qs_columns_format"
             app:maxValue="8"
             app:minValue="4"
@@ -474,11 +474,11 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="5"
+            app:defaultValue="5"
             android:dependency="prefs_key_system_control_center_old_enable"
             android:key="prefs_key_system_control_center_old_qs_grid_columns"
             android:title="@string/system_control_center_old_qs_grid_columns"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="@string/system_control_center_qs_columns_format"
             app:maxValue="7"
             app:minValue="3"
@@ -486,11 +486,11 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="6"
+            app:defaultValue="6"
             android:dependency="prefs_key_system_control_center_old_enable"
             android:key="prefs_key_system_control_center_old_qs_grid_columns_horizontal"
             android:title="@string/system_control_center_old_qs_grid_columns_horizontal"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="@string/system_control_center_qs_columns_format"
             app:maxValue="8"
             app:minValue="4"

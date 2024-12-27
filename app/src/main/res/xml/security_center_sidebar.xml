@@ -76,11 +76,11 @@
             android:title="@string/security_center_invert_color" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="60"
+            app:defaultValue="60"
             android:dependency="prefs_key_security_center_blur_model_super"
             android:key="prefs_key_security_center_blurradius"
             android:title="@string/security_center_blurradius"
-            app:defaultValueText="@string/array_default"
+            app:defaultValueTitle="@string/array_default"
             app:format="%d %%"
             app:maxValue="99"
             app:minValue="30"
