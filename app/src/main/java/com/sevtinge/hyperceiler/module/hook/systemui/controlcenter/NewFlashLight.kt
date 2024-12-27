@@ -405,7 +405,11 @@ object NewFlashLight : TileUtils() {
     }
 
     private fun getFlashBrightness(context: Context): String {
-        return System.getString(context.contentResolver, "flash_light_brightness")
+        return try {
+            System.getString(context.contentResolver, "flash_light_brightness")
+        } catch (_: Throwable) {
+            null
+        }.toString()
     }
 
     private fun setFlashBrightness(context: Context, set: String) {

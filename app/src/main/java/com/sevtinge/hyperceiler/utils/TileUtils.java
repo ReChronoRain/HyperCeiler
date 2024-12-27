@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.utils;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.annotation.SuppressLint;
@@ -38,7 +39,7 @@ import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedHelpers;
 
 public abstract class TileUtils extends BaseHook {
-    private final String mQSFactoryClsName = "com.android.systemui.qs.tileimpl.MiuiQSFactory" ;
+    private static final String mQSFactoryClsName = "com.android.systemui.qs.tileimpl.MiuiQSFactory";
     private final boolean[] isListened = {false};
     private final String[] mTileProvider = new String[4];
     private Class<?> mResourceIcon;
@@ -318,9 +319,15 @@ public abstract class TileUtils extends BaseHook {
                             @SuppressLint("DiscouragedApi") int stockTilesResId = mContext.getResources().getIdentifier("miui_quick_settings_tiles_stock", "string", lpparam.packageName);
                             String stockTiles = mContext.getString(stockTilesResId) + "," + custom; // 追加自定义的磁贴
                             // 将拼接后的字符串分别替换下面原有的字符串。
-                            mResHook.setObjectReplacement(lpparam.packageName, "string", "miui_quick_settings_tiles_stock", stockTiles);
-                            mResHook.setObjectReplacement("miui.systemui.plugin", "string", "miui_quick_settings_tiles_stock", stockTiles);
-                            mResHook.setObjectReplacement("miui.systemui.plugin", "string", "quick_settings_tiles_stock", stockTiles);
+                            if (isPad()) {
+                                mResHook.setObjectReplacement(lpparam.packageName, "string", "miui_quick_settings_tiles_stock_pad", stockTiles);
+                                mResHook.setObjectReplacement("miui.systemui.plugin", "string", "miui_quick_settings_tiles_stock_pad", stockTiles);
+                                mResHook.setObjectReplacement("miui.systemui.plugin", "string", "quick_settings_tiles_stock", stockTiles);
+                            } else {
+                                mResHook.setObjectReplacement(lpparam.packageName, "string", "miui_quick_settings_tiles_stock", stockTiles);
+                                mResHook.setObjectReplacement("miui.systemui.plugin", "string", "miui_quick_settings_tiles_stock", stockTiles);
+                                mResHook.setObjectReplacement("miui.systemui.plugin", "string", "quick_settings_tiles_stock", stockTiles);
+                            }
                         }
                     }
                 });
