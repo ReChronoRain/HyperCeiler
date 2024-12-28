@@ -14,8 +14,7 @@
             android:id="@+id/springview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:scrollableView="@id/scrollview"
-            android:paddingBottom="58dp">
+            app:scrollableView="@id/scrollview">
 
             <fan.core.widget.NestedScrollView
                 android:id="@+id/scrollview"
