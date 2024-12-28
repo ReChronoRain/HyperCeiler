@@ -18,12 +18,11 @@
   -->
 <fan.androidbase.widget.CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
-    android:gravity="center_vertical"
+    style="@style/Widget.AlertDialogListItem.MultiChoice"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:singleLine="true"
-    android:textDirection="locale"
-    android:paddingStart="@dimen/miuix_appcompat_dialog_list_item_padding_start"
-    android:paddingEnd="@dimen/miuix_appcompat_dialog_list_item_padding_end"
+    android:gravity="center_vertical"
     android:minHeight="@dimen/miuix_appcompat_dialog_list_preferred_item_height"
-    style="@style/Widget.AlertDialogListItem.MultiChoice" />
+    android:paddingHorizontal="@dimen/miuix_appcompat_dialog_list_item_padding_start"
+    android:singleLine="true"
+    android:textDirection="locale" />

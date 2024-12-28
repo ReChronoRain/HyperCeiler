@@ -19,8 +19,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:importantForAccessibility="no">
+    android:background="@android:color/transparent">
 
     <LinearLayout
         android:id="@+id/line_layout"
@@ -41,5 +40,7 @@
             android:text="@string/preference_recommend_tip"
             android:textColor="@color/preference_recommend_title_color"
             android:textSize="@dimen/miuix_appcompat_normal_text_size" />
+
     </LinearLayout>
+
 </LinearLayout>

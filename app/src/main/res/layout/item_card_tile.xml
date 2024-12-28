@@ -23,24 +23,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/card_tile_background"
         android:layout_gravity="bottom"
-        android:layout_marginEnd="13dp">
+        android:layout_marginEnd="13dp"
+        android:background="@drawable/card_tile_background"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@android:id/icon"
             android:layout_width="@dimen/item_card_tile_icon_size"
-            android:layout_height="@dimen/item_card_tile_icon_size" />
+            android:layout_height="@dimen/item_card_tile_icon_size"
+            android:importantForAccessibility="no" />
 
         <TextView
             android:id="@android:id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:textColor="@color/white"
             android:textSize="@dimen/preference_checkbox_title_text_size"
-            android:textStyle="bold"
-            android:layout_gravity="center_vertical"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -48,8 +49,8 @@
         android:id="@+id/tile_mark"
         android:layout_width="@dimen/card_tile_item_edit_mark_size"
         android:layout_height="@dimen/card_tile_item_edit_mark_size"
-        android:layout_margin="@dimen/card_tile_item_edit_margin"
         android:layout_gravity="end"
-        android:button="@drawable/ic_card_tile_mark"/>
+        android:layout_margin="@dimen/card_tile_item_edit_margin"
+        android:button="@drawable/ic_card_tile_mark" />
 
 </FrameLayout>

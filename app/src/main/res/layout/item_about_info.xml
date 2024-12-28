@@ -7,12 +7,11 @@
     android:clipChildren="false"
     android:gravity="center_vertical"
     android:minHeight="@dimen/miuix_preference_item_min_height"
-    android:paddingStart="@dimen/preference_item_padding"
-    android:paddingEnd="@dimen/preference_item_padding">
+    android:paddingHorizontal="@dimen/preference_item_padding">
 
     <RelativeLayout
         style="@style/Widget.PreferenceItem"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1.0"
@@ -29,7 +28,8 @@
             android:minWidth="60dp"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.PreferenceList"
-            android:textSize="17dp" />
+            android:textSize="17sp" />
+
     </RelativeLayout>
 
     <TextView
@@ -41,10 +41,9 @@
         android:fadingEdge="horizontal"
         android:gravity="end"
         android:maxLines="1"
-        android:paddingTop="@dimen/miuix_preference_item_padding_top"
-        android:paddingBottom="@dimen/miuix_preference_item_padding_bottom"
+        android:paddingVertical="@dimen/miuix_preference_item_padding_top"
         android:textAppearance="@style/TextAppearance.PreferenceList.Secondary"
-        android:textSize="14dp" />
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/arrow_right"
@@ -53,5 +52,7 @@
         android:layout_gravity="center|end"
         android:layout_marginStart="@dimen/miuix_preference_item_padding_inner"
         android:gravity="center"
+        android:importantForAccessibility="no"
         android:src="@drawable/miuix_preference_icon_arrow_right" />
+
 </LinearLayout>

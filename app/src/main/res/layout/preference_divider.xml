@@ -24,7 +24,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_gravity="center"
         android:background="#27000000"
-        android:layout_gravity="center" />
+        android:importantForAccessibility="no" />
 
 </FrameLayout>

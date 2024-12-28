@@ -96,6 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|end"
         android:gravity="center"
+        android:importantForAccessibility="no"
         android:src="@drawable/miuix_preference_icon_arrow_right" />
 
 </LinearLayout>

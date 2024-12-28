@@ -101,8 +101,7 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="28dp"
+        android:layout_marginHorizontal="28dp"
         android:layout_marginBottom="@dimen/update_btn_margin_bottom"
         android:alpha="0.0">
 

@@ -16,5 +16,7 @@
             android:id="@+id/vp_fragments"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </fan.springback.view.SpringBackLayout>
+
 </FrameLayout>
