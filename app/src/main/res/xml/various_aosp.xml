@@ -26,11 +26,9 @@
                 android:targetPackage="com.android.settings" />
         </Preference>
 
-        <Preference android:title="@string/various_open_aosp_battery_title">
-            <intent
-                android:targetClass="com.android.settings.Settings$HighPowerApplicationsActivity"
-                android:targetPackage="com.android.settings" />
-        </Preference>
+        <Preference
+            android:key="prefs_key_various_open_aosp_battery"
+            android:title="@string/various_open_aosp_battery_title" />
 
         <Preference android:title="@string/various_open_aosp_running_services">
             <intent
@@ -55,7 +53,7 @@
                 android:targetClass="com.android.settings.LanguageSettings"
                 android:targetPackage="com.android.settings" />
         </Preference>
-        
+
         <Preference android:title="@string/various_open_aosp_default_apps_title">
             <intent
                 android:targetClass="com.android.permissioncontroller.role.ui.DefaultAppListActivity"
