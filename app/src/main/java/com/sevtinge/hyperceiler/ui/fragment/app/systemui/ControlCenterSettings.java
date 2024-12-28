@@ -60,6 +60,10 @@ public class ControlCenterSettings extends DashboardFragment {
     SwitchPreference mShadeHeaderBlur;
     SwitchPreference mNotifrowmenu;
     RecommendPreference mRecommend;
+    SwitchPreference mBrightness;
+    DropDownPreference mBrightnessValue;
+    SwitchPreference mVolume;
+    DropDownPreference mVolumeValue;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -91,6 +95,10 @@ public class ControlCenterSettings extends DashboardFragment {
         mRedirectNotice = findPreference("prefs_key_system_ui_control_center_redirect_notice");
         mSpotlightNotifColorMix = findPreference("prefs_key_system_ui_control_center_opt_notification_element_background_color");
         mShadeHeaderBlur = findPreference("prefs_key_system_ui_shade_header_gradient_blur");
+        mBrightness = findPreference("prefs_key_system_ui_control_center_qs_brightness_top_value_show");
+        mBrightnessValue = findPreference("prefs_key_system_ui_control_center_qs_brightness_top_value_show_value");
+        mVolume = findPreference("prefs_key_system_ui_control_center_qs_volume_top_value_show");
+        mVolumeValue = findPreference("prefs_key_system_ui_control_center_qs_volume_top_value_show_value");
 
         mExpandNotification.setOnPreferenceClickListener(
                 preference -> {
@@ -106,7 +114,6 @@ public class ControlCenterSettings extends DashboardFragment {
             mNewCCGrid.setVisible(false);
             mCard.setVisible(false);
             mNewCCGridColumns.setVisible(false);
-
             mNotice.setVisible(false);
             mBluetoothSytle.setVisible(false);
             mNotifrowmenu.setVisible(false);
@@ -122,11 +129,27 @@ public class ControlCenterSettings extends DashboardFragment {
             mMusic.setVisible(false);
             mThemeBlur.setVisible(false);
         }
-        mOldCCGrid.setVisible(!isMoreHyperOSVersion(2f));
-        mSwitchCCAN.setVisible(!isMoreHyperOSVersion(2f));
+
+        if (isMoreHyperOSVersion(2f)) {
+            mOldCCGrid.setVisible(false);
+            mSwitchCCAN.setVisible(false);
+            mSpotlightNotifColorMix.setVisible(isMoreAndroidVersion(35));
+            mShadeHeaderBlur.setVisible(isMoreAndroidVersion(35));
+            mBrightness.setVisible(true);
+            mBrightnessValue.setVisible(true);
+            mVolume.setVisible(true);
+            mVolumeValue.setVisible(true);
+        } else {
+            mOldCCGrid.setVisible(true);
+            mSwitchCCAN.setVisible(true);
+            mSpotlightNotifColorMix.setVisible(false);
+            mShadeHeaderBlur.setVisible(false);
+            mBrightness.setVisible(false);
+            mBrightnessValue.setVisible(false);
+            mVolume.setVisible(false);
+            mVolumeValue.setVisible(false);
+        }
         mRedirectNotice.setVisible(!isMoreAndroidVersion(35));
-        mSpotlightNotifColorMix.setVisible(isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35));
-        mShadeHeaderBlur.setVisible(isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35));
 
         ((SeekBarPreferenceCompat) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
