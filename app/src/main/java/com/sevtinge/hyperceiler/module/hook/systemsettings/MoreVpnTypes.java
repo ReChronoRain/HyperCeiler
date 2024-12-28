@@ -19,10 +19,6 @@
 
 package com.sevtinge.hyperceiler.module.hook.systemsettings;
 
-import static de.robv.android.xposed.XposedHelpers.setIntField;
-
-import android.widget.Spinner;
-
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 public class MoreVpnTypes extends BaseHook {
