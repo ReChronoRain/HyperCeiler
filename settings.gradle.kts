@@ -4,11 +4,10 @@ pluginManagement {
     repositories {
         maven("https://jitpack.io")
         maven("https://api.xposed.info")
-        maven { url = uri("https://mirrors.tuna.tsinghua.edu.cn/maven/") }
-        maven{ url = uri("https://maven.aliyun.com/repository/google") }
-        //maven{ url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
-        maven{ url = uri("https://maven.aliyun.com/repository/public") }
-        maven{ url = uri("https://maven.aliyun.com/repository/jcenter") }
+        maven("https://mirrors.tuna.tsinghua.edu.cn/maven/")
+        maven("https://maven.aliyun.com/repository/google")
+        // maven("https://maven.aliyun.com/repository/gradle-plugin")
+        maven("https://maven.aliyun.com/repository/public")
         gradlePluginPortal()
         google()
         mavenCentral()
@@ -16,15 +15,13 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
     repositories {
         maven("https://jitpack.io")
         maven("https://api.xposed.info")
-        maven { url = uri("https://mirrors.tuna.tsinghua.edu.cn/maven/") }
-        maven{ url = uri("https://maven.aliyun.com/repository/google") }
-        //maven{ url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
-        maven{ url = uri("https://maven.aliyun.com/repository/public") }
-        maven{ url = uri("https://maven.aliyun.com/repository/jcenter") }
+        maven("https://mirrors.tuna.tsinghua.edu.cn/maven/")
+        maven("https://maven.aliyun.com/repository/google")
+        maven("https://maven.aliyun.com/repository/public")
         google()
         mavenCentral()
     }
