@@ -94,4 +94,6 @@
 
     <dimen name="miuix_preference_checkable_item_bg_padding_end">@dimen/miuix_theme_padding_horizontal_common</dimen>
     <dimen name="miuix_preference_checkable_item_mask_padding_start">@dimen/miuix_theme_padding_horizontal_common</dimen>
+
+    <dimen name="search_bar_margin_horizontal">0dp</dimen>
 </resources>

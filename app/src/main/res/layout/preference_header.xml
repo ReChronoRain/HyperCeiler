@@ -17,45 +17,46 @@
   ~ Copyright (C) 2023-2024 HyperCeiler Contributions
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:clipChildren="false"
-    android:gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:minHeight="?android:attr/listPreferredItemHeight"
-    android:background="?attr/preferenceItemBackground">
+    android:background="?attr/preferenceItemBackground"
+    android:clipChildren="false"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeight">
 
     <LinearLayout
         android:id="@+id/icon_frame"
-        android:gravity="center"
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="@dimen/miuix_preference_icon_minWidth">
+        android:gravity="center"
+        android:minWidth="@dimen/miuix_preference_icon_minWidth"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@android:id/icon"
-            android:gravity="center"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
+            style="@style/Widget.PreferenceIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="@dimen/miuix_preference_item_padding_inner"
+            android:layout_marginBottom="@dimen/miuix_preference_item_padding_inner"
+            android:adjustViewBounds="true"
+            android:gravity="center"
+            android:importantForAccessibility="no"
             android:maxWidth="44dp"
             android:paddingStart="1dp"
             android:paddingEnd="5dp"
-            android:layout_marginTop="@dimen/miuix_preference_item_padding_inner"
-            android:layout_marginBottom="@dimen/miuix_preference_item_padding_inner"
-            style="@style/Widget.PreferenceIcon"/>
+            android:scaleType="fitCenter" />
     </LinearLayout>
 
     <RelativeLayout
-        android:gravity="center_vertical"
-        android:layout_width="wrap_content"
+        style="@style/Widget.PreferenceItem"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1.0"
-        style="@style/Widget.PreferenceItem">
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@android:id/title"
@@ -82,19 +83,19 @@
     <!-- Preference should place its actual preference widget here. -->
     <LinearLayout
         android:id="@android:id/widget_frame"
-        android:gravity="center"
-        android:clipChildren="false"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="@dimen/miuix_preference_widget_width" />
+        android:clipChildren="false"
+        android:gravity="center"
+        android:minWidth="@dimen/miuix_preference_widget_width"
+        android:orientation="vertical" />
 
     <ImageView
         android:id="@+id/arrow_right"
-        android:gravity="center"
-        android:layout_gravity="center|end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:gravity="center"
         android:src="@drawable/miuix_preference_icon_arrow_right" />
 
 </LinearLayout>
