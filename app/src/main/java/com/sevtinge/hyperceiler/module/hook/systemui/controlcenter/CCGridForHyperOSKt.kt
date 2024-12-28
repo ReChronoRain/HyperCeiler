@@ -18,76 +18,45 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
-import android.content.*
-import android.graphics.drawable.*
-import android.view.*
-import com.sevtinge.hyperceiler.module.base.tool.HookTool.*
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import com.sevtinge.hyperceiler.utils.prefs.*
 import de.robv.android.xposed.*
 
+// from YunZiA
 object CCGridForHyperOSKt {
     private val radius by lazy {
         PrefsUtils.mPrefsMap.getInt("system_ui_control_center_rounded_rect_radius", 72).toFloat() }
 
     @JvmStatic
     fun initCCGridForHyperOS(classLoader: ClassLoader?) {
-        var warningD: Drawable? = null
-        var enabledD: Drawable? = null
-        var restrictedD: Drawable? = null
-        var disabledD: Drawable? = null
-        var unavailableD: Drawable? = null
-        var configuration = 0
-        var orientation: Int
-
-        XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "updateIcon", "com.android.systemui.plugins.qs.QSTile\$State", Boolean::class.javaPrimitiveType, Boolean::class.javaPrimitiveType, object : MethodHook() {
-            override fun before(param: MethodHookParam) {
-                orientation = (param.thisObject as View).context.resources.configuration.orientation
-                val stackTrace = Thread.currentThread().stackTrace
-                val targetMethods = setOf(
-                    "miui.systemui.controlcenter.qs.tileview.QSTileItemView.updateState",
-                    "miui.systemui.controlcenter.panel.main.recyclerview.MainPanelItemViewHolder.onSuperSaveModeChanged",
-                    "miui.systemui.controlcenter.qs.tileview.QSTileItemView.updateCustomizeState",
-                    "miui.systemui.controlcenter.qs.tileview.QSTileItemView.onModeChanged"
-                )
-
-                val isMethodFound = stackTrace.any { element ->
-                    "${element.className}.${element.methodName}" in targetMethods
-                }
-
-                if (configuration == orientation && isMethodFound) return
-
-                val pluginContext: Context = XposedHelpers.getObjectField(param.thisObject, "pluginContext") as Context
-
-                val warning: Int = pluginContext.resources.getIdentifier("qs_background_warning", "drawable", "miui.systemui.plugin")
-                val enabled: Int = pluginContext.resources.getIdentifier("qs_background_enabled", "drawable", "miui.systemui.plugin")
-                val restricted: Int = pluginContext.resources.getIdentifier("qs_background_restricted", "drawable", "miui.systemui.plugin")
-                val disabled: Int = pluginContext.resources.getIdentifier("qs_background_disabled", "drawable", "miui.systemui.plugin")
-                val unavailable: Int = pluginContext.resources.getIdentifier("qs_background_unavailable", "drawable", "miui.systemui.plugin")
-                warningD = pluginContext.theme.getDrawable(warning)
-                enabledD = pluginContext.theme.getDrawable(enabled)
-                restrictedD = pluginContext.theme.getDrawable(restricted)
-                disabledD = pluginContext.theme.getDrawable(disabled)
-                unavailableD = pluginContext.theme.getDrawable(unavailable)
-
-                if (warningD is GradientDrawable) {
-                    (warningD as GradientDrawable).cornerRadius = radius
-                }
-                if (enabledD is GradientDrawable) {
-                    (enabledD as GradientDrawable).cornerRadius = radius
-                }
-                if (restrictedD is GradientDrawable) {
-                    (restrictedD as GradientDrawable).cornerRadius = radius
-                }
-                if (disabledD is GradientDrawable) {
-                    (disabledD as GradientDrawable).cornerRadius = radius
-                }
-                if (unavailableD is GradientDrawable) {
-                    (unavailableD as GradientDrawable).cornerRadius = radius
-                }
-
-                configuration = orientation
+        XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "getActiveBackgroundDrawable", "com.android.systemui.plugins.qs.QSTile\$State", object : XC_MethodHook(){
+            override fun afterHookedMethod(param: MethodHookParam?) {
+                super.afterHookedMethod(param)
+                val drawable = param?.result as Drawable
+                if (drawable is GradientDrawable) drawable.cornerRadius = radius
+                param.result = drawable
             }
-        }
-        )
+        })
+        XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "getDisabledBackgroundDrawable", "com.android.systemui.plugins.qs.QSTile\$State", object : XC_MethodHook(){
+            override fun afterHookedMethod(param: MethodHookParam?) {
+                super.afterHookedMethod(param)
+                val drawable = param?.result as Drawable
+                if (drawable is GradientDrawable) drawable.cornerRadius = radius
+                param.result = drawable
+            }
+        })
+        XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "getBackgroundDrawable", "com.android.systemui.plugins.qs.QSTile\$State", object : XC_MethodHook(){
+            override fun afterHookedMethod(param: MethodHookParam?) {
+                super.afterHookedMethod(param)
+                val state = param?.args?.get(0)
+                val i = XposedHelpers.getIntField(state, "state")
+                if (i == 0) {
+                    val drawable = param?.result as Drawable
+                    if (drawable is GradientDrawable) drawable.cornerRadius = radius
+                    param.result = drawable
+                }
+            }
+        })
     }
 }

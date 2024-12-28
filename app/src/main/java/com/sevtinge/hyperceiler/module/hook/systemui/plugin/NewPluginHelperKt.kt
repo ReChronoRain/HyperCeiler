@@ -69,11 +69,6 @@ object NewPluginHelperKt : BaseHook() {
                 logD(TAG, lpparam.packageName, "Plugin for sysui volume loaded.")
 
                 val loaders = listOf(
-                    /*Triple(
-                        "QSVolumeOrBrightnessValue",
-                        true,
-                        QSVolumeOrBrightnessValue::initQSVolumeOrBrightnessValue
-                    ),*/
                     Triple(
                         "NewShowVolumePct",
                         mPrefsMap.getBoolean("system_cc_volume_showpct_title"),
@@ -154,11 +149,6 @@ object NewPluginHelperKt : BaseHook() {
                 logD(TAG, lpparam.packageName, "Plugin for sysui NotificationStatPluginImpl loaded.")
 
                 val loaders = listOf(
-                    /*Triple(
-                        "QSVolumeOrBrightnessValue",
-                        true,
-                        QSVolumeOrBrightnessValue::initQSVolumeOrBrightnessValue
-                    ),*/
                     Triple(
                         "FocusNotifLyric",
                         mPrefsMap.getBoolean("system_ui_statusbar_music_switch"),
@@ -176,11 +166,6 @@ object NewPluginHelperKt : BaseHook() {
             else -> {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 val loaders = listOf(
-                    /*Triple(
-                        "QSVolumeOrBrightnessValue",
-                        true,
-                        QSVolumeOrBrightnessValue::initQSVolumeOrBrightnessValue
-                    ),*/
                     Triple(
                         "ShowDeviceName",
                         mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3,
