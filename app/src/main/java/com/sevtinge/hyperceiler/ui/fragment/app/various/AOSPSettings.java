@@ -18,14 +18,16 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.app.various;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.preference.Preference;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 public class AOSPSettings extends SettingsPreferenceFragment {
-    private Preference mBattery;
+    Preference mBattery;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -38,11 +40,13 @@ public class AOSPSettings extends SettingsPreferenceFragment {
 
         if (mBattery != null) {
             mBattery.setOnPreferenceClickListener(preference -> {
-                Intent intent = new Intent();
-                String className = isMoreAndroidVersion(35) ?
-                    "com.android.settings.Settings$AppBatteryUsageActivity" :
-                    "com.android.settings.Settings$HighPowerApplicationsActivity";
-                intent.setClassName("com.android.settings", className);
+                Intent intent = new Intent("android.intent.action.MAIN");
+                intent.addCategory("android.intent.category.DEFAULT");
+                intent.setComponent(new ComponentName("com.android.settings", "com.android.settings.SubSettings"));
+                intent.putExtra(":settings:show_fragment", "com.android.settings.applications.manageapplications.ManageApplications");
+                Bundle bundle = new Bundle();
+                bundle.putString("classname", "com.android.settings.Settings$HighPowerApplicationsActivity");
+                intent.putExtra(":settings:show_fragment_args", bundle);
                 startActivity(intent);
                 return true;
             });

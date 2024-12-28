@@ -904,8 +904,8 @@
     <string name="system_ui_controlcenter_title">Centro de controle</string>
     <string name="system_ui_controlcenter_card_title">Cartão</string>
     <string name="system_ui_controlcenter_media_card_title">Cartão de notificação de mídia</string>
-    <string name="system_ui_controlcenter_magnet_title">Magnético</string>
-    <string name="system_ui_control_center_notification_blur_title">Notificação</string>
+    <string name="system_ui_control_center_magnet_tile_settings">Magnético</string>
+    <string name="system_ui_control_center_notification_title">Notificação</string>
     <string name="system_control_center_qs_detail_bg">Transparência do fundo do cartão</string>
     <string name="quick_settings_state_change_message_on_my">%1$s está ativado</string>
     <string name="quick_settings_state_change_message_off_my">%1$s está desativado</string>

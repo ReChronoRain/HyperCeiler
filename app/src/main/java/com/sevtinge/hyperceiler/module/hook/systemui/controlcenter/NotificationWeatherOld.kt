@@ -31,6 +31,7 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.setObjectField
 import com.sevtinge.hyperceiler.view.WeatherView
 
+// 控制中心添加天气信息
 object NotificationWeatherOld : BaseHook() {
 
     @SuppressLint("DiscouragedApi")

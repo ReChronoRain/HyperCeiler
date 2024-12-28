@@ -18,19 +18,15 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.app.systemui;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getWhoAmI;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.SeekBar;
 
-import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
@@ -41,44 +37,29 @@ import com.sevtinge.hyperceiler.ui.activity.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
-import com.sevtinge.hyperceiler.utils.KillApp;
-import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
-import com.sevtinge.hyperceiler.utils.devicesdk.TelephonyManager;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-import fan.preference.ColorPickerPreference;
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
 
-public class ControlCenterSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
+public class ControlCenterSettings extends DashboardFragment {
 
     Preference mExpandNotification;
     Preference mMusic;
     PreferenceCategory mCard;
+    PreferenceCategory mOldCCGrid;
     SwitchPreference mNotice;
     SwitchPreference mNoticex;
+    SwitchPreference mSwitchCCAN;
+    SwitchPreference mSpotlightNotifColorMix;
     SeekBarPreferenceCompat mNewCCGrid;
     SeekBarPreferenceCompat mNewCCGridColumns;
-    SwitchPreference mNewCCGridLabel;
-    DropDownPreference mFiveG;
     DropDownPreference mBluetoothSytle;
-    SwitchPreference mRoundedRect;
-    SeekBarPreferenceCompat mRoundedRectRadius;
     SwitchPreference mThemeBlur;
     SwitchPreference mRedirectNotice;
     SwitchPreference mShadeHeaderBlur;
-    DropDownPreference mSunshineMode;
-    DropDownPreference mSunshineModeHigh;
-    SeekBarPreferenceCompat mSunshineModeHighBrightness;
-    SwitchPreference mSpotlightNotifColorMix;
-
-    SwitchPreference mTaplus;
     SwitchPreference mNotifrowmenu;
     RecommendPreference mRecommend;
-    Handler handler;
-
-    int mMaxBrightness = 0;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -97,30 +78,19 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
     public void initPrefs() {
         mMusic = findPreference("prefs_key_system_ui_control_center_media_control_media_custom");
         mCard = findPreference("prefs_key_system_ui_controlcenter_card");
+        mOldCCGrid = findPreference("prefs_key_system_ui_controlcenter_old");
         mExpandNotification = findPreference("prefs_key_system_ui_control_center_expand_notification");
         mNewCCGrid = findPreference("prefs_key_system_control_center_cc_rows");
         mNewCCGridColumns = findPreference("prefs_key_system_control_center_cc_columns");
-        mNewCCGridLabel = findPreference("prefs_key_system_control_center_qs_tile_label");
         mNotice = findPreference("prefs_key_n_enable");
         mNoticex = findPreference("prefs_key_n_enable_fix");
+        mSwitchCCAN = findPreference("prefs_key_system_ui_control_center_switch_cc_and_notification");
         mBluetoothSytle = findPreference("prefs_key_system_ui_control_center_cc_bluetooth_tile_style");
-        mFiveG = findPreference("prefs_key_system_control_center_5g_new_tile");
-        mRoundedRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
-        mRoundedRectRadius = findPreference("prefs_key_system_ui_control_center_rounded_rect_radius");
-        mTaplus = findPreference("prefs_key_security_center_taplus");
         mThemeBlur = findPreference("prefs_key_system_ui_control_center_unlock_blur_supported");
         mNotifrowmenu = findPreference("prefs_key_system_ui_control_center_notifrowmenu");
         mRedirectNotice = findPreference("prefs_key_system_ui_control_center_redirect_notice");
-        mShadeHeaderBlur = findPreference("prefs_key_system_ui_shade_header_gradient_blur");
-        mSunshineMode = findPreference("prefs_key_system_control_center_sunshine_new_mode");
-        mSunshineModeHigh = findPreference("prefs_key_system_control_center_sunshine_new_mode_high");
-        mSunshineModeHighBrightness = findPreference("prefs_key_system_control_center_sunshine_mode_brightness");
         mSpotlightNotifColorMix = findPreference("prefs_key_system_ui_control_center_opt_notification_element_background_color");
-        handler = new Handler();
-
-        try {
-            mMaxBrightness = Integer.parseInt(rootExecCmd("cat /sys/class/backlight/panel0-backlight/max_brightness"));
-        } catch (Exception ignore) {}
+        mShadeHeaderBlur = findPreference("prefs_key_system_ui_shade_header_gradient_blur");
 
         mExpandNotification.setOnPreferenceClickListener(
                 preference -> {
@@ -132,54 +102,31 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
                 }
         );
 
-        mTaplus.setOnPreferenceChangeListener(
-                (preference, o) -> {
-                    killTaplus();
-                    return true;
-                }
-        );
-
-        if (getWhoAmI().equals("root") && mMaxBrightness > 2048) {
-            mSunshineModeHigh.setVisible(true);
-            mSunshineMode.setVisible(false);
-            mSunshineModeHigh.setOnPreferenceChangeListener(this);
-            mSunshineModeHighBrightness.setMaxValue(mMaxBrightness);
-        } else {
-            mSunshineMode.setVisible(true);
-            mSunshineModeHigh.setVisible(false);
-            mSunshineModeHighBrightness.setVisible(false);
-        }
-
         if (isMoreHyperOSVersion(1f)) {
             mNewCCGrid.setVisible(false);
             mCard.setVisible(false);
             mNewCCGridColumns.setVisible(false);
-            mNewCCGridLabel.setVisible(false);
+
             mNotice.setVisible(false);
             mBluetoothSytle.setVisible(false);
             mNotifrowmenu.setVisible(false);
             mMusic.setVisible(true);
             mThemeBlur.setVisible(true);
-            mRoundedRectRadius.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false));
         } else {
             mNewCCGrid.setVisible(true);
             mCard.setVisible(true);
             mNewCCGridColumns.setVisible(true);
-            mNewCCGridLabel.setVisible(true);
             mNotice.setVisible(true);
             mBluetoothSytle.setVisible(true);
             mNotifrowmenu.setVisible(true);
             mMusic.setVisible(false);
             mThemeBlur.setVisible(false);
-            mRoundedRectRadius.setVisible(false);
         }
+        mOldCCGrid.setVisible(!isMoreHyperOSVersion(2f));
+        mSwitchCCAN.setVisible(!isMoreHyperOSVersion(2f));
         mRedirectNotice.setVisible(!isMoreAndroidVersion(35));
         mSpotlightNotifColorMix.setVisible(isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35));
         mShadeHeaderBlur.setVisible(isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35));
-        mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
-        mSunshineModeHighBrightness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_control_center_sunshine_new_mode_high", "0")) == 3);;
-
-        mRoundedRect.setOnPreferenceChangeListener(this);
 
         ((SeekBarPreferenceCompat) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -216,28 +163,5 @@ public class ControlCenterSettings extends DashboardFragment implements Preferen
                 R.string.system_ui_statusbar_title
         );
 
-    }
-
-    public void killTaplus() {
-        ThreadPoolManager.getInstance().submit(() -> handler.post(() ->
-                KillApp.killApps("com.miui.contentextension")));
-    }
-
-    @Override
-    public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
-        if (preference == mRoundedRect) {
-            setCanBeVisibleRoundedRect((Boolean) o);
-        } else if (preference == mSunshineModeHigh) {
-            setCanBeVisibleSunshineBrightness(Integer.parseInt((String) o));
-        }
-        return true;
-    }
-
-    private void setCanBeVisibleRoundedRect(boolean mode) {
-        mRoundedRectRadius.setVisible(mode && isMoreHyperOSVersion(1f));
-    }
-
-    private void setCanBeVisibleSunshineBrightness(int mode) {
-        mSunshineModeHighBrightness.setVisible(mode == 3);
     }
 }

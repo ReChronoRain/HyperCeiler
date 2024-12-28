@@ -19,23 +19,22 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
 import android.annotation.SuppressLint
-import android.content.pm.ApplicationInfo
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.api.invokeMethod
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.utils.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.view.WeatherData
 
 
 @SuppressLint("StaticFieldLeak")
+// 控制中心添加天气信息
 object NotificationWeatherNew : BaseHook() {
     lateinit var weather: WeatherData
-    var clockId: Int = -2
+    private var clockId: Int = -2
 
     @SuppressLint("DiscouragedApi", "ClickableViewAccessibility")
     override fun init() {
@@ -44,7 +43,7 @@ object NotificationWeatherNew : BaseHook() {
 
         mControlCenterDateViewClass.methodFinder().findSuper()
             .filterByName("onDetachedFromWindow")
-            .single().createHook {
+            .first().createHook {
                 before {
                     if ((it.thisObject as TextView).id == clockId && this@NotificationWeatherNew::weather.isInitialized) {
                         weather.onDetachedFromWindow()
@@ -53,7 +52,7 @@ object NotificationWeatherNew : BaseHook() {
             }
         mControlCenterDateViewClass.methodFinder().findSuper()
             .filterByName("setText")
-            .single().createHook {
+            .first().createHook {
                 before {
                     val time = it.args[0]?.toString()
                     val view = it.thisObject as TextView
@@ -65,61 +64,9 @@ object NotificationWeatherNew : BaseHook() {
                     }
                 }
             }
-
-        val pluginLoaderClass =
-            if (isAndroidVersion(34)) "com.android.systemui.shared.plugins.PluginInstance\$Factory\$\$ExternalSyntheticLambda0"
-            else "com.android.systemui.shared.plugins.PluginInstance\$Factory"
-
-        var appInfo: ApplicationInfo?
-
-        if (isAndroidVersion(34) && !isMoreHyperOSVersion(1f)) {
-            hookAllMethods("com.android.systemui.shared.plugins.PluginInstance\$Factory",
-                "create", object : MethodHook() {
-                    override fun before(param: MethodHookParam) {
-                        appInfo = param.args[1] as ApplicationInfo?
-
-                        loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder().first {
-                            name == "get"
-                        }.createHook {
-                            after { getClassLoader ->
-                                val classLoader = getClassLoader.result as ClassLoader
-                                if (appInfo != null) {
-                                    if ("miui.systemui.plugin" == appInfo!!.packageName) {
-                                        mainPanelHeader(classLoader)
-                                        logW(TAG, "com.android.systemui", "im get ClassLoader: $classLoader")
-                                    } else {
-                                        logW(TAG, "com.android.systemui", "Au get classloader miui.systemui.plugin error: $classLoader")
-                                    }
-                                } else {
-                                    if (
-                                        classLoader.toString().contains("MIUISystemUIPlugin") ||
-                                        classLoader.toString().contains("miui.systemui.plugin")
-                                    ) {
-                                        mainPanelHeader(classLoader)
-                                    } else {
-                                        logW(TAG, "com.android.systemui", "Au get classloader miui.systemui.plugin error & appInfo is null")
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            )
-        } else {
-            loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder()
-                .filterByName("getClassLoader")
-                .first().createHook {
-                    after { getClassLoader ->
-                        appInfo = getClassLoader.args[0] as ApplicationInfo
-                        if (appInfo!!.packageName == "miui.systemui.plugin") {
-                            val classLoader = getClassLoader.result as ClassLoader
-                            mainPanelHeader(classLoader)
-                        }
-                    }
-                }
-        }
     }
 
+    @JvmStatic
     fun mainPanelHeader(pluginClassLoader: ClassLoader) {
         if (isMoreHyperOSVersion(1f)) return
         val isDisplayCity = mPrefsMap.getBoolean("system_ui_control_center_show_weather_city")

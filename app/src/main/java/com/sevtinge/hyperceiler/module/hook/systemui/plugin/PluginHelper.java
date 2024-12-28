@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.BluetoothTile
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGrid;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGridForHyperOS;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CustomCardTiles;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeatherNew;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSColor;
 
 import java.util.ArrayList;
@@ -74,6 +75,8 @@ public class PluginHelper extends BaseHook {
             EnableVolumeBlur.initEnableVolumeBlur(classLoader);
         if (mPrefsMap.getStringAsInt("system_ui_control_center_mi_smart_hub_entry", 0) != 0)
             HideMiSmartHubEntry.initHideMiSmartHubEntry(classLoader);
+        if (mPrefsMap.getBoolean("system_ui_control_center_show_weather"))
+            NotificationWeatherNew.mainPanelHeader(classLoader);
         if (mPrefsMap.getStringAsInt("system_ui_control_center_mi_play_entry", 0) != 0)
             HideMiPlayEntry.initHideMiPlayEntry(classLoader);
         if (mPrefsMap.getStringAsInt("system_ui_control_center_device_ctrl_entry", 0) != 0)

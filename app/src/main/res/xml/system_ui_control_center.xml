@@ -44,7 +44,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_ui_control_center_notification_blur_title">
+    <PreferenceCategory android:title="@string/system_ui_control_center_notification_title">
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.MediaCardSettings"
             android:key="prefs_key_system_ui_control_center_media_control_media_custom"
@@ -218,152 +218,11 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_ui_controlcenter_magnet_title">
-
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.CardTileSettings"
-            android:key="prefs_key_card_tile"
-            android:title="@string/system_ui_control_center_card_tiles_customization" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_gms_open"
-            android:title="@string/security_center_gms_open" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_taplus"
-            android:title="@string/security_center_taplus" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_center_fix_tiles_list"
-            android:title="@string/system_ui_control_center_fix_tiles_list" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_reduce_bright_colors_tile"
-            android:title="@string/security_center_reduce_bright_colors_tile" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_control_center_5g_new_tile"
-            android:title="@string/system_control_center_5g_tile"
-            app:entries="@array/control_center_5g_mode"
-            app:entryValues="@array/status_bar_icon_mode_value" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_center_snow_leopard_mode"
-            android:title="@string/system_ui_control_center_snow_leopard_mode"
-            android:summary="@string/system_ui_control_center_snow_leopard_mode_desc" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_control_center_sunshine_new_mode"
-            android:title="@string/system_control_center_sunshine_mode"
-            app:entries="@array/control_center_sunshine_mode"
-            app:entryValues="@array/control_center_sunshine_mode_value"
-            app:isPreferenceVisible="false" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_control_center_sunshine_new_mode_high"
-            android:title="@string/system_control_center_sunshine_mode"
-            app:entries="@array/control_center_sunshine_mode_high"
-            app:entryValues="@array/control_center_sunshine_mode_high_value"
-            app:isPreferenceVisible="false"/>
-
-        <SeekBarPreferenceCompat
-            android:key="prefs_key_system_control_center_sunshine_mode_brightness"
-            android:summary="@string/system_control_center_sunshine_mode_brightness_desc"
-            android:title="@string/system_control_center_sunshine_mode_brightness"
-            app:format="%d"
-            app:maxValue="4095"
-            app:minValue="2048"
-            app:showSeekBarValue="true"
-            app:stepValue="1"
-            app:isPreferenceVisible="false"/>
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_security_flash_light_switch"
-            android:summary="@string/security_center_flash_light_more"
-            android:title="@string/security_center_flash_light"
-            app:entries="@array/security_center_flash_light"
-            app:entryValues="@array/security_center_flash_light_value" />
-
-        <!--<SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_flash_light"
-            android:summary="@string/security_center_flash_light_more"
-            android:title="@string/security_center_flash_light" />-->
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_center_qs_open_color"
-            android:title="@string/system_ui_control_center_qs_open_color" />
-
-        <ColorPickerPreference
-            android:defaultValue="-1"
-            android:dependency="prefs_key_system_ui_control_center_qs_open_color"
-            android:key="prefs_key_system_ui_control_center_qs_bg_color"
-            android:title="@string/system_ui_control_center_qs_bg_color" />
-
-        <ColorPickerPreference
-            android:defaultValue="-1"
-            android:dependency="prefs_key_system_ui_control_center_qs_open_color"
-            android:key="prefs_key_system_ui_control_center_qs_color"
-            android:title="@string/system_ui_control_center_qs_color" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_center_qs_big_open_color"
-            android:title="@string/system_ui_control_center_qs_big_open_color" />
-
-        <ColorPickerPreference
-            android:defaultValue="-1"
-            android:dependency="prefs_key_system_ui_control_center_qs_big_open_color"
-            android:key="prefs_key_system_ui_control_center_qs_big_bg_color"
-            android:title="@string/system_ui_control_center_qs_bg_color" />
-
-        <ColorPickerPreference
-            android:defaultValue="-1"
-            android:dependency="prefs_key_system_ui_control_center_qs_big_open_color"
-            android:key="prefs_key_system_ui_control_center_qs_big_color"
-            android:title="@string/system_ui_control_center_qs_color" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_auto_close"
-            android:summary="@string/system_ui_control_auto_close_more"
-            android:title="@string/system_ui_control_auto_close" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_center_rounded_rect"
-            android:title="@string/system_ui_control_center_rounded_rect" />
-
-        <SeekBarPreferenceCompat
-            app:defaultValue="72"
-            android:key="prefs_key_system_ui_control_center_rounded_rect_radius"
-            android:title="@string/system_ui_control_center_rounded_rect_radius"
-            app:defaultValueTitle="@string/array_default"
-            app:format="%d f"
-            app:isPreferenceVisible="false"
-            app:maxValue="99"
-            app:minValue="1"
-            app:showSeekBarValue="true"
-            app:stepValue="1" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_control_center_qs_tile_label"
-            android:title="@string/system_control_center_qs_tile_label" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/system_ui_controlcenter_new_title">
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.TileSettings"
+            android:key="prefs_key_system_ui_control_center_tile_settings"
+            android:title="@string/system_ui_control_center_magnet_tile_settings" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -419,7 +278,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_ui_controlcenter_old_title">
+    <PreferenceCategory
+        android:key="prefs_key_system_ui_controlcenter_old"
+        android:title="@string/system_ui_controlcenter_old_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_control_center_old_enable"
