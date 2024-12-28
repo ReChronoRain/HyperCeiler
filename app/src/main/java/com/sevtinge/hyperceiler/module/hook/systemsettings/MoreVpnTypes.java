@@ -19,7 +19,14 @@
 
 package com.sevtinge.hyperceiler.module.hook.systemsettings;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
+import static de.robv.android.xposed.XposedHelpers.setStaticObjectField;
+
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+
+import java.util.List;
 
 public class MoreVpnTypes extends BaseHook {
     @Override
@@ -30,5 +37,10 @@ public class MoreVpnTypes extends BaseHook {
                 param.setResult(true);
             }
         });
+        if (isMoreAndroidVersion(35)) {
+            setStaticObjectField(findClassIfExists("com.android.settings.vpn2.MiuiVpnEditFragment"), "VPN_TYPES", List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
+            setStaticObjectField(findClassIfExists("com.android.settings.vpn2.ConfigDialog"), "VPN_TYPES", List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
+            mResHook.setResReplacement("com.android.settings", "array", "vpn_types", R.array.hook_system_settings_vpn_types);
+        }
     }
 }
