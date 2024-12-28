@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/TextAppearance.PreferenceList.Secondary"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/about_copy_right_padding_edge"
+    android:layout_marginTop="10dp"
+    android:text="@string/about_copy_right"
+    android:textAlignment="center"
+    android:textSize="13sp" />

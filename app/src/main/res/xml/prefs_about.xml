@@ -18,48 +18,52 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <SwitchPreference
         android:key="prefs_key_various_enable_super_function"
         android:layout="@layout/activity_about"
         android:summary="@string/xposed_description"
-        app:isPreferenceVisible="false"/>
+        app:isPreferenceVisible="false" />
 
     <PreferenceCategory>
+
         <Preference
-            android:layout="@layout/preference_big_title"
-            android:key="prefs_key_about_device_name"
             android:enabled="false"
+            android:key="prefs_key_about_device_name"
+            android:layout="@layout/preference_big_title"
             android:title="HyperCeiler User's Device" />
 
         <Preference
-            android:layout="@layout/preference_second_title"
+            android:enabled="false"
             android:key="prefs_key_about_device_info_device"
-            android:enabled="false"
-            android:title="HyperCeiler Device"
-            android:summary="@string/about_device_info_device"/>
+            android:layout="@layout/preference_second_title"
+            android:summary="@string/about_device_info_device"
+            android:title="HyperCeiler Device" />
 
         <Preference
-            android:layout="@layout/preference_second_title"
+            android:enabled="false"
             android:key="prefs_key_about_device_info_android"
-            android:enabled="false"
-            android:title="15"
-            android:summary="@string/about_device_info_android"/>
-
-        <Preference
             android:layout="@layout/preference_second_title"
-            android:key="prefs_key_about_device_info_os"
-            android:enabled="false"
-            android:title="OS2.0.1.0.UNBCNXM"
-            android:summary="@string/about_device_info_os" />
+            android:summary="@string/about_device_info_android"
+            android:title="15" />
 
         <Preference
-            android:layout="@layout/preference_padding"
+            android:enabled="false"
+            android:key="prefs_key_about_device_info_os"
+            android:layout="@layout/preference_second_title"
+            android:summary="@string/about_device_info_os"
+            android:title="OS2.0.1.0.UNBCNXM" />
+
+        <Preference
             android:enabled="false"
             android:key="prefs_key_about_device_info_padding"
-            android:title="kkjasglkjhasglknsfdglksfggh321dfgj654df6h54dr"/>
+            android:layout="@layout/preference_padding"
+            android:title="68D8CAA79216300F9DEE19A24CB6301ABF1687DF" />
 
     </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/about_developer_title">
+
         <Preference
             android:icon="@drawable/ic_sevtinge"
             android:layout="@layout/preference_round_layout"
@@ -76,16 +80,21 @@
             android:title="@string/about_contributer" />
 
     </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/about_translator_title">
+
         <Preference
-            android:title="@string/translator"
-            android:summary="@string/language">
+            android:summary="@string/language"
+            android:title="@string/translator">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/translator_url" />
         </Preference>
+
     </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/about_chat_title">
+
         <Preference
             android:key="prefs_key_about_join_qq_group"
             android:title="@string/about_qq_group" />
@@ -101,8 +110,11 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://t.me/cemiuiler_release" />
         </Preference>
+
     </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/about_other_title">
+
         <Preference
             android:summary="@string/about_github_desc"
             android:title="@string/about_github">
@@ -139,24 +151,24 @@
         </Preference>
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.main.HelpFragment"
             android:key="prefs_key_help"
-            android:title="@string/help"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.main.HelpFragment">
-        </Preference>
+            android:title="@string/help" />
 
-        <Preference
-            android:title="@string/about_protocol">
+        <Preference android:title="@string/about_protocol">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://hyperceiler.sevtinge.cc/Protocol" />
         </Preference>
 
-        <Preference
-            android:title="@string/about_privacy">
+        <Preference android:title="@string/about_privacy">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://hyperceiler.sevtinge.cc/Privacy" />
         </Preference>
 
     </PreferenceCategory>
+
+    <PreferenceCategory android:layout="@layout/preference_copyright" />
+
 </PreferenceScreen>

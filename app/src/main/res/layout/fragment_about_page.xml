@@ -44,18 +44,6 @@
                         android:clipToPadding="false"
                         android:smoothScrollbar="false" />
 
-                    <TextView
-                        android:id="@+id/copy_right"
-                        style="@style/TextAppearance.PreferenceList.Secondary"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/about_copy_right_padding_edge"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="@dimen/about_copy_right_padding_edge"
-                        android:text="@string/about_copy_right"
-                        android:textAlignment="center"
-                        android:textSize="13sp" />
-
                 </LinearLayout>
 
             </fan.core.widget.NestedScrollView>
