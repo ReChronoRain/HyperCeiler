@@ -41,8 +41,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:maxWidth="54dp"
-            android:paddingEnd="@dimen/miuix_preference_icon_padding_end"
+            android:maxWidth="44dp"
+            android:paddingStart="1dp"
+            android:paddingEnd="5dp"
             android:layout_marginTop="@dimen/miuix_preference_item_padding_inner"
             android:layout_marginBottom="@dimen/miuix_preference_item_padding_inner"
             style="@style/Widget.PreferenceIcon"/>
