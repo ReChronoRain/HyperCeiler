@@ -3,19 +3,13 @@ agp = "8.7.3"
 kotlin-android = "2.1.0"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
-#lspluginResopt = "1.6"
 
 annotation = "1.9.1"
 core = "1.15.0"
 collection = "1.4.5"
 fragment = "1.8.5"
-preference = "1.2.1"
 recyclerview = "1.3.2"
 lifecycle-common = "2.8.7"
-vectordrawable = "1.2.0"
-vectordrawable-animated = "1.2.0"
-customview = "1.2.0-alpha02"
-customview-poolingcontainer = "1.0.0"
 coordinatorlayout = "1.2.0"
 constraintlayout = "2.2.0"
 
@@ -25,16 +19,12 @@ gson = "2.11.0"
 dexkit = "2.0.3"
 ezxhelper = "2.2.0"
 hiddenapibypass = "4.3"
-annotation-processor = "4.4.0"
 hooktool = "v.1.1.4"
 lyricGetterApi = "6.0.0"
 mmkv = "2.0.1"
 
 [libraries]
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
-rikkax-annotation-processor = { module = "dev.rikka.tools.refine:annotation-processor", version.ref = "annotation-processor" }
-rikkax-annotation = { module = "dev.rikka.tools.refine:annotation", version.ref = "annotation-processor" }
-
 core = { group = "androidx.core", name = "core", version.ref = "core" }
 collection = { group = "androidx.collection", name = "collection", version.ref = "collection" }
 fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
@@ -43,10 +33,6 @@ recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version
 lifecycle-common = { group = "androidx.lifecycle", name = "lifecycle-common", version.ref = "lifecycle-common" }
 
 auto-service = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
-vectordrawable = { group = "androidx.vectordrawable", name = "vectordrawable", version.ref = "vectordrawable" }
-vectordrawable-animated = { group = "androidx.vectordrawable", name = "vectordrawable-animated", version.ref = "vectordrawable-animated" }
-customview = { group = "androidx.customview", name = "customview", version.ref = "customview" }
-customview-poolingcontainer = { group = "androidx.customview", name = "customview-poolingcontainer", version.ref = "customview-poolingcontainer" }
 coordinatorlayout = { group = "androidx.coordinatorlayout", name = "coordinatorlayout", version.ref = "coordinatorlayout" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
@@ -64,7 +50,6 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
 lsparanoid = { id = "org.lsposed.lsparanoid", version.ref = "lsparanoid" }
-#lspluginResopt = { id = "org.lsposed.lsplugin.resopt", version.ref = "lspluginResopt" }
 
 [bundles]
 

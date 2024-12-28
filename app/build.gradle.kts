@@ -11,7 +11,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.lsparanoid)
-    // alias(libs.plugins.lspluginResopt)
 }
 
 lsparanoid {
@@ -257,7 +256,6 @@ android {
 dependencies {
     compileOnly(project(":hidden-api"))
     compileOnly(libs.xposed.api)
-    // compileOnly(libs.androidx.preference)
 
     implementation(libs.dexkit)
     implementation(libs.mmkv)
@@ -265,7 +263,6 @@ dependencies {
     implementation(libs.hiddenapibypass)
     implementation(libs.gson)
     implementation(libs.hooktool)
-    implementation(libs.gson)
     implementation(libs.lyric.getter.api)
 
     implementation(libs.core)
@@ -273,10 +270,6 @@ dependencies {
     implementation(libs.recyclerview)
     implementation(libs.fragment)
     implementation(libs.lifecycle.common)
-    implementation(libs.vectordrawable)
-    implementation(libs.vectordrawable.animated)
-    implementation(libs.customview)
-    implementation(libs.customview.poolingcontainer)
     implementation(libs.coordinatorlayout)
     implementation(libs.constraintlayout) {
         exclude("androidx.appcompat", "appcompat")
