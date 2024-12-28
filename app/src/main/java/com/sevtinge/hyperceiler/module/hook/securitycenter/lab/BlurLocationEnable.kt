@@ -41,7 +41,7 @@ object BlurLocationEnable : BaseHook() {
                                 val featMap = fm as MutableMap<String, Int>
                                 featMap["mi_lab_blur_location_enable"] = 0
                                 // featMap.put("mi_lab_blur_location_enable", 0);
-                            } catch (ignore: Throwable) {
+                            } catch (_: Throwable) {
                             }
                         }
                     }

@@ -76,7 +76,7 @@ object NotificationWeatherNew : BaseHook() {
             hookAllMethods("com.android.systemui.shared.plugins.PluginInstance\$Factory",
                 "create", object : MethodHook() {
                     override fun before(param: MethodHookParam) {
-                        appInfo = param.args[1] as ApplicationInfo
+                        appInfo = param.args[1] as ApplicationInfo?
 
                         loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder().first {
                             name == "get"

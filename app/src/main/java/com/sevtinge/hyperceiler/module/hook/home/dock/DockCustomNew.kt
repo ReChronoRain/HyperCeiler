@@ -37,7 +37,6 @@ import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setPassWindowBlurEnabled
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import de.robv.android.xposed.*
-import org.luckypray.dexkit.query.enums.*
 import java.lang.reflect.*
 import java.util.function.*
 
@@ -62,7 +61,7 @@ object DockCustomNew : BaseHook() {
                     }
                 }
             }.singleOrNull()
-        } as Method
+        } as Method?
     }
 
     private var mDockBlur: Any? = null
