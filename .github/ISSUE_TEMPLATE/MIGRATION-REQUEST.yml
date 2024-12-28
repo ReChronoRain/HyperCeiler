@@ -1,5 +1,5 @@
-name: "🔌 移植"
-description: 新功能需求
+name: "🔌 Port | 移植"
+description: New feature requirements | 新功能需求
 title: "🔌 [移植] <标题>"
 labels: [
   "enhancement"
@@ -8,24 +8,30 @@ body:
   - type: input
     id: repo
     attributes:
-      label: "仓库地址"
-      description: "提供开源仓库地址以便我们参考如何移植"
+      label: "Warehouse address | 仓库地址"
+      description: |
+        Provide the address of the open source warehouse so that we can refer to how to transplant it.
+        提供开源仓库地址以便我们参考如何移植
       placeholder: "https://github.com/"
     validations:
       required: false
   - type: textarea
     id: requirement
     attributes:
-      label: "移植内容"
-      description: "简单说明需要移植的功能"
+      label: "Port content | 移植内容"
+      description: |
+        Please briefly describe the
+        简单说明需要移植的功能
       placeholder: 移植...软件的...功能
     validations:
       required: true
   - type: textarea
     id: feature_desc
     attributes:
-      label: "相关描述&截图"
-      description: 如果可能，请提供相关功能描述及图片
+      label: "Function description & screenshots | 功能描述 & 截图"
+      description: |
+        If possible, please provide relevant function descriptions and pictures
+        如果可能，请提供相关功能描述及图片
       placeholder: "![图片描述](图片链接)"
     validations:
       required: false

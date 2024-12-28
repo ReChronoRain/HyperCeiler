@@ -1,49 +1,65 @@
 name: "🐛 Bug"
-description: 问题报告.
+description: Problem report. | 问题报告.
 title: "🐛 [BUG] <问题标题>"
 labels: [
   "bug"
 ]
 body:
-
   - type: checkboxes
     id: check
     attributes:
-      label: 须知
+      label: Notice 须知
       description: |
-        请确认已经遵守所有必选项，否则不排除将直接关闭 Issue
-        提交 Issue 前请确认当前为[cemiuiler_canary频道](https://t.me/cemiuiler_canary)发布的最新版ci
+        Please make sure you have complied with all required options, otherwise the issue will be closed without any reason.
+        Before submitting an Issue, please confirm that it is the latest version of ci released by [cemiuiler_canary channel](https://t.me/cemiuiler_canary)
+        Or the latest debug version of the main branch under Github Actions of this project
+        
+        请确认已经遵守所有必选项，否则将被无理由直接关闭 Issue
+        提交 Issue 前请确认当前为[cemiuiler_canary频道](https://t.me/cemiuiler_canary)发布的最新版 ci
+        或者本项目 Github Actions 下 main 分支最新构建的 debug 版本
       options:
-        - label: 我确认最新版依然存在此问题.
+        - label: |
+            I confirm that this problem still exists in the latest version. 
+            我确认最新版依然存在此问题.
           required: true
 
-        - label: 我已排查已安装的所有模块的可能性，确认由本模块造成.
+        - label: |
+            I have checked all installed modules for the possibility and confirmed that this module is the cause. 
+            我已排查已安装的所有模块的可能性，确认由本模块造成.
           required: true
 
-        - label: 我已经搜索过Issue Tracker，且并未查询到提交相同问题的 Issue.
+        - label: |
+            I've searched the Issue Tracker and can't find an Issue that submitted the same issue. 
+            我已经搜索过 Issue Tracker，且并未查询到提交相同问题的 Issue.
           required: true
 
   - type: textarea
     id: description
     attributes:
-      label: "问题描述"
-      description: 请输入简洁且明确的问题描述。
+      label: "Problem description | 问题描述"
+      description: |
+        Please enter a concise and clear description of the problem.   
+        请输入简洁且明确的问题描述。
       placeholder: ...的...功能出现...异常
     validations:
       required: true
   - type: textarea
     id: log
     attributes:
-      label: "模块日志"
-      description: LSPosed管理器 - 日志 或 软件崩溃日志
+      label: "Module logs | 模块日志"
+      description: |
+        LSPosed Manager - Log or Software Crash Log
+        LSPosed 管理器 - 日志 或 软件崩溃日志
       placeholder: ...
     validations:
       required: true
   - type: textarea
     id: repord
     attributes:
-      label: "复现步骤"
-      description: 输入简明的问题复现步骤。
+      label: "Reproduction steps | 复现步骤"
+      description: |
+        Enter concise steps to reproduce the problem.
+        输入简明的问题复现步骤。
       value: |
         1. 前往 '...'
         2. 点击 '....'
@@ -56,8 +72,10 @@ body:
   - type: textarea
     id: screenshot
     attributes:
-      label: "问题截图"
-      description: 添加问题截图以便我们快速定位.
+      label: "Screenshot of problem | 问题截图"
+      description: |
+        Upload a screenshot of the problem so we can quickly locate it.
+        上传问题截图以便我们快速定位.
       value: |
         ![图片注释](图片链接)
     validations:
@@ -65,8 +83,10 @@ body:
   - type: textarea
     id: device
     attributes:
-      label: "HyperCeiler 设备信息"
-      description: 请务必上传 HyperCeiler 设置-开发者选项-调试信息 的截图，以便诊断问题.
+      label: "HyperCeiler device information | HyperCeiler 设备信息"
+      description: |
+        Please be sure to upload a screenshot of HyperCeiler Settings-Developer Options-Debug Information to diagnose the issue.
+        请务必上传 HyperCeiler 设置-开发者选项-调试信息 的截图，以便诊断问题.
       value: |
         ![图片注释](图片链接)
     validations:
