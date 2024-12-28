@@ -281,7 +281,9 @@
     <string name="miuix_alphabet_indexer_name">Index bar</string>
     <string name="miuix_appcompat_action_mode_cancel">Cancel</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">Clear</string>
+    <string name="miuix_appcompat_color_erro_entry">Invalid value. Please check it and re-enter.</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">Transparency</string>
+    <string name="miuix_appcompat_color_picker_custom_color">Custom color</string>
     <string name="miuix_appcompat_color_picker_tab_dynamic">Monet</string>
     <string name="miuix_appcompat_color_picker_tab_grid">Grid</string>
     <string name="miuix_appcompat_color_picker_tab_slider">Slider</string>
@@ -296,6 +298,7 @@
     <string name="miuix_navigator_content_switch_description">Show sidebar</string>
     <string name="miuix_navigator_multiple_choice">Select</string>
     <string name="miuix_navigator_navigator_switch_description">Hide sidebar</string>
+    <string name="miuix_preference_textentry_erro_entry">Invalid value. Please check it and re-enter.</string>
     <string name="miuix_sbl_tracking_progress_labe_pull_to_refresh">Pull down to refresh</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshed">Refreshed successfully</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshing">Refreshing…</string>
@@ -304,9 +307,6 @@
     <string name="miuix_sbl_tracking_progress_labe_up_none">That\'s all for now</string>
     <string name="miuix_sbl_tracking_progress_labe_up_refresh">Just a sec…</string>
     <string name="miuix_sbl_tracking_progress_labe_up_refresh_fail">Couldn\'t load items</string>
-    <string name="miuix_appcompat_color_picker_custom_color">Custom color</string>
-    <string name="miuix_appcompat_color_erro_entry">An invalid value. Please check it and re-enter.</string>
-    <string name="miuix_preference_textentry_erro_entry">An invalid value. Please check it and re-enter.</string>
     <!--String reuse-->
     <string name="top_margin">Top margin</string>
     <string name="bottom_margin">Bottom margin</string>
@@ -709,7 +709,7 @@
     <string name="phone_vice_slot_volte">Unlock Vice slot VoLTE</string>
     <string name="phone_vice_slot_volte_desc">Use mobile data during VoLTE calls on the secondary SIM</string>
     <string name="phone_unlock_voice_link">Unlock Voice link</string>
-    <string name="phone_unlock_voice_link_desc">Unlock Voice link for some SIMs which support WiFi-Calling</string>
+    <string name="phone_unlock_voice_link_desc">Unlock Voice link for some SIMs which support Wi‑Fi calling</string>
     <!--Download management program-->
     <string name="downloads">Downloads</string>
     <string name="various_fuck_xlDownload">Block creation of .xlDownload folder</string>
@@ -1530,7 +1530,7 @@
     <string name="home_other_blur_radius">Blur radius</string>
     <string name="home_large_icon_corner_radius">Large icons with rounded corners</string>
     <string name="home_other_app_icon_hide">Manage Home screen shortcuts</string>
-    <string name="home_other_toast_slide_again">Disable \"Swipe again\" toast</string>
+    <string name="home_other_toast_slide_again">Disable \"Slide again\" toast</string>
     <string name="system_framework_guided_access_status">Hide status bar when app is locking</string>
     <string name="system_framework_guided_access_status_more">The exit way will change to long press the power button and the status bar will hide until you exit the lock mod</string>
     <string name="system_framework_guided_access_sc">It\'s forbidden to call out the sidebar when pinned</string>
