@@ -39,10 +39,11 @@ import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.ui.fragment.main.ContentFragment.IFragmentChange;
 
 import fan.appcompat.app.AppCompatActivity;
+import fan.navigator.NavigatorFragmentListener;
 import fan.preference.DropDownPreference;
 
 public class ModuleSettingsFragment extends SettingsPreferenceFragment
-        implements Preference.OnPreferenceChangeListener, IFragmentChange {
+        implements Preference.OnPreferenceChangeListener, NavigatorFragmentListener, IFragmentChange {
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
     SwitchPreference mHideAppIcon;

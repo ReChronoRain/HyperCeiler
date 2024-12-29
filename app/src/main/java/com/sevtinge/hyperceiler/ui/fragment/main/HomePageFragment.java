@@ -52,12 +52,16 @@ import java.util.Calendar;
 import java.util.Objects;
 
 import fan.appcompat.app.Fragment;
+import fan.navigator.Navigator;
+import fan.navigator.NavigatorFragmentListener;
+import fan.navigator.navigatorinfo.DetailFragmentNavInfo;
+import fan.navigator.navigatorinfo.UpdateDetailFragmentNavInfo;
 import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.springback.view.SpringBackLayout;
 
 public class HomePageFragment extends DashboardFragment
-        implements HomepageEntrance.EntranceState,
-        ModSearchCallback.OnSearchListener, IFragmentChange {
+        implements HomepageEntrance.EntranceState, ModSearchCallback.OnSearchListener,
+        NavigatorFragmentListener, IFragmentChange {
 
     View mRootView;
     ViewGroup mPrefsContainer;

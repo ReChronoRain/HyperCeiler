@@ -21,6 +21,10 @@ package com.sevtinge.hyperceiler.utils;
 import android.content.Context;
 import android.os.Bundle;
 
+import fan.appcompat.app.Fragment;
+import fan.navigator.Navigator;
+import fan.navigator.navigatorinfo.UpdateDetailFragmentNavInfo;
+
 public class SettingLauncherHelper {
 
     public static void onStartSettingsForArguments(Context context, Class<?> cls, String fragment, String title) {
@@ -64,12 +68,12 @@ public class SettingLauncherHelper {
 
     public static void onStartSettings(Context context, Class<?> cls, String fragment, Bundle extras, Bundle args, int titleResId, String title) {
         new SettingLauncher(context)
-            .setClass(cls)
-            .setDestination(fragment)
-            .setTitleText(title)
-            .setTitleRes(titleResId)
-            .setExtras(extras)
-            .setArguments(args)
-            .launch();
+                .setClass(cls)
+                .setDestination(fragment)
+                .setTitleText(title)
+                .setTitleRes(titleResId)
+                .setExtras(extras)
+                .setArguments(args)
+                .launch();
     }
 }

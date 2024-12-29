@@ -16,6 +16,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -27,9 +28,12 @@ import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.callback.IResult;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
+import com.sevtinge.hyperceiler.prefs.XmlPreference;
 import com.sevtinge.hyperceiler.safe.CrashData;
 import com.sevtinge.hyperceiler.ui.activity.base.NaviBaseActivity;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.main.ContentFragment;
+import com.sevtinge.hyperceiler.ui.fragment.main.DetailFragment;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.Helpers;
@@ -46,6 +50,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fan.appcompat.app.AlertDialog;
+import fan.appcompat.app.Fragment;
+import fan.navigator.Navigator;
+import fan.navigator.NavigatorFragmentListener;
+import fan.navigator.navigatorinfo.UpdateDetailFragmentNavInfo;
+import fan.os.Build;
 import fan.preference.PreferenceFragment;
 
 public class HyperCeilerTabActivity extends NaviBaseActivity
@@ -152,7 +161,40 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
     @Override
     public boolean onPreferenceStartFragment(@NonNull PreferenceFragmentCompat caller, @NonNull Preference pref) {
-        mProxy.onStartSettingsForArguments(SubSettings.class, pref, false);
+        if (caller instanceof NavigatorFragmentListener &&
+                Navigator.get(caller).getNavigationMode() == Navigator.Mode.NLC &&
+                Build.IS_TABLET) {
+            Bundle args = new Bundle();
+            Bundle savedInstanceState = new Bundle();
+            if (pref instanceof XmlPreference xmlPreference) {
+                args.putInt(":settings:fragment_resId", xmlPreference.getInflatedXml());
+                savedInstanceState.putInt(":settings:fragment_resId", xmlPreference.getInflatedXml());
+            } else {
+                Intent intent = pref.getIntent();
+                if (intent != null) {
+                    Bundle bundle = intent.getExtras();
+                    if (bundle != null) {
+                        String xmlPath = (String) bundle.get("inflatedXml");
+                        if (!TextUtils.isEmpty(xmlPath)) {
+                            if (args == null) args = new Bundle();
+                            String[] split = xmlPath.split("\\/");
+
+                            String[] split2 = split[2].split("\\.");
+                            if (split.length == 3) {
+                                args.putInt(":settings:fragment_resId", getResources().getIdentifier(split2[0], split[1], getPackageName()));
+                                savedInstanceState.putInt(":settings:fragment_resId", getResources().getIdentifier(split2[0], split[1], getPackageName()));
+                            }
+                        }
+                    }
+                }
+            }
+
+            String mFragmentName = pref.getFragment();
+            savedInstanceState.putString("FragmentName", mFragmentName);
+            Navigator.get(caller).navigate(new UpdateDetailFragmentNavInfo(-1, DetailFragment.class, savedInstanceState));
+        } else {
+            mProxy.onStartSettingsForArguments(SubSettings.class, pref, false);
+        }
         return true;
     }
 

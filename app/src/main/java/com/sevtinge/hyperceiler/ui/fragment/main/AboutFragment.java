@@ -57,11 +57,12 @@ import java.util.Objects;
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
 import fan.core.widget.NestedScrollView;
+import fan.navigator.NavigatorFragmentListener;
 import fan.preference.PreferenceFragment;
 import fan.springback.view.SpringBackLayout;
 
 public class AboutFragment extends DashboardFragment
-        implements View.OnScrollChangeListener, IFragmentChange {
+        implements View.OnScrollChangeListener, NavigatorFragmentListener, IFragmentChange {
 
     private int lIIlIll = 100 >>> 7;
     private final int lIIlIlI = 100 >>> 6;

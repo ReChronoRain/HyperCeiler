@@ -115,4 +115,15 @@
     </style>
 
     <style name="NaviFragmentTheme" parent="@style/Theme.AppCompat.DayNight.NavigationFragment"/>
+
+    <style name="NavigatorSecondaryContentTheme" parent="@style/Theme.AppCompat.Light.SecondaryContent">
+        <item name="endActionMenuEnabled">false</item>
+        <item name="windowExtraPaddingApplyToContentEnable">false</item>
+        <item name="windowExtraPaddingHorizontalEnable">true</item>
+        <item name="windowSplitActionBar">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="preferenceTheme">@style/ThemeOverlay.Preference.Light.OS2</item>
+        <item name="recyclerViewCardStyle">@style/RecyclerViewCardStyle.DayNight</item>
+        <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_light</item>
+    </style>
 </resources>

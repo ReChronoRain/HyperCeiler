@@ -22,7 +22,9 @@ import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
 import fan.navigator.Navigator;
 import fan.navigator.NavigatorFragmentListener;
+import fan.navigator.navigatorinfo.DetailFragmentNavInfo;
 import fan.navigator.navigatorinfo.UpdateFragmentNavInfo;
+import fan.os.Build;
 
 public class ContentFragment extends Fragment implements NavigatorFragmentListener {
 
@@ -72,6 +74,9 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
         setCorrectNestedScrollMotionEventEnabled(true);
         mViewPager = view.findViewById(R.id.vp_fragments);
         setupViewPager();
+        if (Build.IS_TABLET && Navigator.get(this).getNavigationMode() == Navigator.Mode.NLC) {
+            Navigator.get(this).navigate(new DetailFragmentNavInfo(-1, DetailFragment.class, new Bundle()));
+        }
     }
 
     public void selectNavigationItem() {
