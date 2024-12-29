@@ -105,14 +105,17 @@ public class QSColor extends BaseHook {
                     }
             );
 
+            // from YunZiA
             XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader,
                     "getActiveBackgroundDrawable", "com.android.systemui.plugins.qs.QSTile$State",
                     new XC_MethodHook() {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) {
-                            GradientDrawable drawable = (GradientDrawable) param.getResult();
-                            drawable.setColor(bgColor);
-                            param.setResult(drawable);
+                            Drawable drawable = (Drawable) param.getResult();
+                            if (drawable instanceof GradientDrawable) {
+                                ((GradientDrawable) drawable).setColor(bgColor);
+                                param.setResult(drawable);
+                            }
                         }
                     }
             );
