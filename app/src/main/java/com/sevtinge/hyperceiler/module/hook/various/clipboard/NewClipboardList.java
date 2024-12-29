@@ -19,11 +19,6 @@
 
 package com.sevtinge.hyperceiler.module.hook.various.clipboard;
 
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logD;
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW;
-
 import android.content.ClipData;
 import android.content.Context;
 import android.net.Uri;
@@ -38,9 +33,15 @@ import com.hchen.hooktool.hook.IHook;
 import com.hchen.hooktool.tool.ParamTool;
 import com.sevtinge.hyperceiler.utils.ContentModel;
 import com.sevtinge.hyperceiler.utils.FileHelper;
+import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedHelpers;
 
 /**
  * 解除常用语剪贴板时间限制，条数限制和字数限制。
@@ -60,11 +61,11 @@ public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInp
     public void load(ClassLoader classLoader) {
         mGson = new GsonBuilder().setPrettyPrinting().create();
         mDataPath = lpparam.appInfo.dataDir + "/files/clipboard_data.dat";
-        logI(TAG, "class loader: " + classLoader);
+        XposedLogUtils.logI(TAG, "class loader: " + classLoader);
 
         FileHelper.TAG = TAG;
         if (!FileHelper.exists(mDataPath)) {
-            logE(TAG, "file create failed!");
+            XposedLogUtils.logE(TAG, "file create failed!");
             return;
         }
 
@@ -193,6 +194,23 @@ public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInp
                             }
                         })
         );
+        XposedHelpers.findAndHookMethod("com.miui.inputmethod.MiuiClipboardManager", classLoader, "buildClipboardModelDataType", "com.miui.inputmethod.ClipboardContentModel", new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                final boolean[] isSkip = {false};
+                XposedHelpers.findAndHookConstructor(JSONArray.class, String.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        String json = (String) param.args[0];
+                        if (TextUtils.isEmpty(json) || json == null) {
+                            isSkip[0] = true;
+                            XposedLogUtils.logW(TAG, lpparam.packageName, "Got null string, skip run. String = " + param.args[0]);
+                        }
+                    }
+                });
+                if (isSkip[0]) param.setResult(null);
+            }
+        });
 
     }
 
@@ -222,7 +240,7 @@ public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInp
         }
         ArrayList<ContentModel> readData = toContentModelList(FileHelper.read(mDataPath));
         if (readData.isEmpty()) {
-            logW(TAG, "can't read any data!");
+            XposedLogUtils.logW(TAG, "can't read any data!");
         } else {
             if (readData.stream().anyMatch(contentModel -> contentModel.content.equals(add))) {
                 readData.removeIf(contentModel -> contentModel.content.equals(add));

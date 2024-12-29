@@ -67,8 +67,8 @@ public class ClipboardList extends BaseHook {
                 @Override
                 protected void after(MethodHookParam param) {
                     // logE(TAG, "get class: " + param.args[0]);
-                    filePath = "/data/user/0/" + lpparam.packageName + "/files/clipboard_data.dat";
-                    lastFilePath = "/data/user/0/" + lpparam.packageName + "/files/last_clipboard_data_list.dat";
+                    filePath = lpparam.appInfo.dataDir + "/files/clipboard_data.dat";
+                    lastFilePath = lpparam.appInfo.dataDir + "/files/last_clipboard_data_list.dat";
                     // logE(TAG, "run: " + param.args[0]);
                     getNoExpiredData((ClassLoader) param.args[0]);
                     getView((ClassLoader) param.args[0]);
