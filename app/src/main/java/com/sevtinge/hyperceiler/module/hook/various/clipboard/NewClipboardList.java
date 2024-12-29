@@ -53,6 +53,7 @@ public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInp
     private Gson mGson;
     private static String mDataPath;
     private boolean isNewMode = false;
+    private String content = null;
 
     private boolean isHooked;
 
@@ -127,7 +128,7 @@ public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInp
                             @Override
                             public void before() {
                                 Object clipboardContentModel = getArgs(2);
-                                String content = ContentModel.getContent(clipboardContentModel);
+                                content = ContentModel.getContent(clipboardContentModel);
                                 int type = ContentModel.getType(clipboardContentModel);
                                 // long time = ContentModel.getTime(clipboardContentModel);
                                 addClipboard(content, type, (Context) getArgs(0));
@@ -197,18 +198,23 @@ public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInp
         XposedHelpers.findAndHookMethod("com.miui.inputmethod.MiuiClipboardManager", classLoader, "buildClipboardModelDataType", "com.miui.inputmethod.ClipboardContentModel", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                final boolean[] isSkip = {false};
+                String json = (String) XposedHelpers.callMethod(param.args[0], "getContent");
+                if (TextUtils.isEmpty(json) || json == null) {
+                    param.setResult(null);
+                    XposedLogUtils.logW(TAG, lpparam.packageName, "Got null string, skip run. String = " + json);
+                }
                 XposedHelpers.findAndHookConstructor(JSONArray.class, String.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         String json = (String) param.args[0];
                         if (TextUtils.isEmpty(json) || json == null) {
-                            isSkip[0] = true;
-                            XposedLogUtils.logW(TAG, lpparam.packageName, "Got null string, skip run. String = " + param.args[0]);
+                            if (!TextUtils.isEmpty(content) && content != null) {
+                                param.args[0] = content;
+                                XposedLogUtils.logW(TAG, lpparam.packageName, "Got null string, overwrite param. String = " + param.args[0]);
+                            }
                         }
                     }
                 });
-                if (isSkip[0]) param.setResult(null);
             }
         });
 
