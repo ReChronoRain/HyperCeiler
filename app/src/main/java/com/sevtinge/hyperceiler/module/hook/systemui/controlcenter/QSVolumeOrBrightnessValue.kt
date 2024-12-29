@@ -32,10 +32,10 @@ import java.lang.reflect.*
 // from https://github.com/YunZiA/HyperStar2.0/blob/master/app/src/main/java/com/yunzia/hyperstar/hook/app/plugin/QSVolumeOrBrightnessValue.kt
 object QSVolumeOrBrightnessValue {
 
-    private val volumeShow = mPrefsMap.getBoolean("system_ui_control_center_qs_brightness_top_value_show")
-    val volumeShowStyle = mPrefsMap.getStringAsInt("system_ui_control_center_qs_brightness_top_value_show_value", 0)
-    private val brightnessShow = mPrefsMap.getBoolean("system_ui_control_center_qs_volume_top_value_show")
-    val brightnessShowStyle = mPrefsMap.getStringAsInt("system_ui_control_center_qs_volume_top_value_show_value", 0)
+    private val brightnessShow = mPrefsMap.getBoolean("system_ui_control_center_qs_brightness_top_value_show")
+    val brightnessShowStyle = mPrefsMap.getStringAsInt("system_ui_control_center_qs_brightness_top_value_show_value", 0)
+    private val volumeShow = mPrefsMap.getBoolean("system_ui_control_center_qs_volume_top_value_show")
+    val volumeShowStyle = mPrefsMap.getStringAsInt("system_ui_control_center_qs_volume_top_value_show_value", 0)
 
     fun initQSVolumeOrBrightnessValue(classLoader: ClassLoader) {
         if (volumeShow){
