@@ -60,7 +60,7 @@ public class NaviBaseActivity extends NavigatorActivity {
     public Bundle getNavigatorInitArgs() {
         NavigatorStrategy navigatorStrategy = new NavigatorStrategy();
         navigatorStrategy.setCompactMode(Navigator.Mode.C);
-        navigatorStrategy.setRegularMode(Navigator.Mode.C);
+        navigatorStrategy.setRegularMode(Navigator.Mode.NLC);
         navigatorStrategy.setLargeMode(Navigator.Mode.NLC);
         Bundle bundle = new Bundle();
         bundle.putParcelable("miuix:navigatorStrategy", navigatorStrategy);
