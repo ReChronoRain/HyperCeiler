@@ -38,9 +38,23 @@ import java.util.HashMap;
  */
 public class QuickBack extends BaseHC {
     private static final HashMap<String, Integer> mResMap = new HashMap<>();
+    private static int[] values = null;
 
     @Override
     protected void init() {
+        try {
+            Class<?> mReadyStateClass = findClass("com.miui.home.recents.GestureBackArrowView$ReadyState").get();
+            Enum<?> READY_STATE_BACK = (Enum<?>) getStaticField(mReadyStateClass, "READY_STATE_BACK");
+            Enum<?> READY_STATE_RECENT = (Enum<?>) getStaticField(mReadyStateClass, "READY_STATE_RECENT");
+            Enum<?> READY_STATE_NONE = (Enum<?>) getStaticField(mReadyStateClass, "READY_STATE_NONE");
+            values = new int[((Object[]) callStaticMethod(mReadyStateClass, "values")).length];
+            values[READY_STATE_BACK.ordinal()] = 1;
+            values[READY_STATE_RECENT.ordinal()] = 2;
+            values[READY_STATE_NONE.ordinal()] = 3;
+        } catch (Throwable e) {
+            logE(TAG, e);
+        }
+
         hookMethod("com.miui.home.recents.GestureStubView",
                 "isDisableQuickSwitch",
                 returnResult(false)
@@ -60,8 +74,16 @@ public class QuickBack extends BaseHC {
                             Object getCurrentState = callMethod(mGestureBackArrowView, "getCurrentState");
 
                             int ordinal = (int) callMethod(getCurrentState, "ordinal");
-                            int[] mState = (int[]) getStaticField("com.miui.home.recents.GestureStubView$4", "$SwitchMap$com$miui$home$recents$GestureBackArrowView$ReadyState");
-                            ordinal = mState[ordinal];
+                            if (values == null) {
+                                Class<?> mGestureStubView$X = existsClass("com.miui.home.recents.GestureStubView$4") ?
+                                        findClass("com.miui.home.recents.GestureStubView$4").get()
+                                        : findClass("com.miui.home.recents.GestureStubView$5").get();
+                                int[] mState = (int[]) getStaticField(mGestureStubView$X, "$SwitchMap$com$miui$home$recents$GestureBackArrowView$ReadyState");
+                                ordinal = mState[ordinal];
+
+                            } else
+                                ordinal = values[ordinal];
+
                             if (ordinal == 2) {
                                 callMethod(mGestureStubView, "onBackCancelled");
                                 logI(TAG, "call onBackCancelled");
@@ -84,69 +106,65 @@ public class QuickBack extends BaseHC {
                         Object createLoadPlan = callMethod(taskLoader, "createLoadPlan", context);
                         callMethod(taskLoader, "preloadTasks", createLoadPlan, -1);
                         Object taskStack = callMethod(createLoadPlan, "getTaskStack");
-                        ActivityOptions activityOptions = null;
+
                         if (taskStack == null || (int) callMethod(taskStack, "getTaskCount") == 0 ||
                                 (runningTask = (ActivityManager.RunningTaskInfo) callMethod(recentsModel, "getRunningTask")) == null) {
-                            setResult(null);
+                            setResult(null); // 后台无其他任务
                             return;
                         }
+
                         ArrayList<?> stackTasks = (ArrayList<?>) callMethod(taskStack, "getStackTasks");
-                        int size = stackTasks.size();
                         Object task = null;
-                        int i2 = 0;
-                        while (true) {
-                            if (i2 >= size - 1) {
+                        for (int i = 0; i < stackTasks.size() - 1; i++) {
+                            Object t = stackTasks.get(i);
+                            if ((int) getField(getField(t, "key"), "id") == runningTask.id) {
+                                task = stackTasks.get(i + 1);
                                 break;
-                            } else if ((int) getField(getField(stackTasks.get(i2), "key"), "id") == runningTask.id) {
-                                task = stackTasks.get(i2 + 1);
-                                break;
-                            } else {
-                                i2++;
                             }
                         }
-                        if (task == null && size >= 1 && "com.miui.home".equals(runningTask.baseActivity.getPackageName())) {
+                        if (task == null && !stackTasks.isEmpty() && "com.miui.home".equals(runningTask.baseActivity.getPackageName())) {
                             task = stackTasks.get(0);
                         }
+
                         if (task != null && getField(task, "icon") == null) {
-                            setField(task, "icon", callMethod(taskLoader, "getAndUpdateActivityIcon",
-                                    getField(task, "key"),
-                                    getField(task, "taskDescription"),
-                                    context.getResources(), true
-                            ));
+                            setField(task, "icon",
+                                    callMethod(taskLoader, "getAndUpdateActivityIcon",
+                                            getField(task, "key"),
+                                            getField(task, "taskDescription"),
+                                            context.getResources(),
+                                            true
+                                    )
+                            );
                         }
                         if (!(boolean) getArgs(1) || task == null) {
                             setResult(task);
                             return;
                         }
-                        int i = (int) getArgs(2);
-                        if (i == 0) {
+
+                        ActivityOptions activityOptions = null;
+                        int mGestureStubPos = (int) getArgs(2);
+                        if (mGestureStubPos == 0) {
                             activityOptions = ActivityOptions.makeCustomAnimation(context,
                                     getAnimId(context, "recents_quick_switch_left_enter"),
                                     getAnimId(context, "recents_quick_switch_left_exit"));
-                        } else if (i == 1) {
+                        } else if (mGestureStubPos == 1) {
                             activityOptions = ActivityOptions.makeCustomAnimation(context,
                                     getAnimId(context, "recents_quick_switch_right_enter"),
                                     getAnimId(context, "recents_quick_switch_right_exit"));
                         }
                         Object iActivityManager = callStaticMethod("android.app.ActivityManagerNative", "getDefault");
                         if (iActivityManager != null) {
-                            try {
-                                if ((int) getField(getField(task, "key"), "windowingMode") == 3) {
-                                    if (activityOptions == null) {
-                                        activityOptions = ActivityOptions.makeBasic();
-                                    }
-                                    activityOptions.getClass().getMethod("setLaunchWindowingMode", Integer.class).invoke(activityOptions, 4);
+                            if ((int) getField(getField(task, "key"), "windowingMode") == 3) {
+                                if (activityOptions == null) {
+                                    activityOptions = ActivityOptions.makeBasic();
                                 }
-                                callMethod(iActivityManager, "startActivityFromRecents",
-                                        getField(getField(task, "key"), "id"),
-                                        activityOptions == null ? null : activityOptions.toBundle());
-                                setResult(task);
-                                return;
-                            } catch (Exception e) {
-                                logE(TAG, "Error: " + e);
-                                setResult(task);
-                                return;
+                                callMethod(activityOptions, "setLaunchWindowingMode", 4);
                             }
+                            callMethod(iActivityManager, "startActivityFromRecents",
+                                    getField(getField(task, "key"), "id"),
+                                    activityOptions == null ? null : activityOptions.toBundle());
+                            setResult(task);
+                            return;
                         }
                         setResult(task);
                     }
