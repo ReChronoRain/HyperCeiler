@@ -443,6 +443,7 @@ private static void parsePrefXml(Context context, String catPrefsFragment, int x
                             }
                         }
 
+                        modData.xml = xmlResId;
                         modData.key = xml.getAttributeValue(ANDROID_NS, "key");
                         modData.order = order;
                         modData.fragment = catPrefsFragment;

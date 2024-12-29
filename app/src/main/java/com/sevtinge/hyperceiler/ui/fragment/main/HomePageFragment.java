@@ -175,6 +175,7 @@ public class HomePageFragment extends DashboardFragment
     private void onSearchItemClickListener(ModData ad) {
         Bundle args = new Bundle();
         args.putString(":settings:fragment_args_key", ad.key);
+        args.putInt(":settings:fragment_resId", ad.xml);
         SettingLauncherHelper.onStartSettingsForArguments(
                 requireContext(),
                 SubSettings.class,

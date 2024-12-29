@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPagerCompat;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.widget.DraggableViewPager;
@@ -25,6 +24,7 @@ import fan.navigator.NavigatorFragmentListener;
 import fan.navigator.navigatorinfo.DetailFragmentNavInfo;
 import fan.navigator.navigatorinfo.UpdateFragmentNavInfo;
 import fan.os.Build;
+import fan.viewpager.widget.ViewPager;
 
 public class ContentFragment extends Fragment implements NavigatorFragmentListener {
 
@@ -167,7 +167,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
                 }
             }
         }
-        mViewPager.setOnPageChangeListener(new ViewPagerCompat.OnPageChangeListener() {
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             String leftTab;
             float offSet = 1.0f;
             boolean isHandUp = false;

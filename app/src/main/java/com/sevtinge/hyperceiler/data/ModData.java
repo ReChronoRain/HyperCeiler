@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.data;
 public class ModData {
     public String title;
     public String breadcrumbs;
+    public int xml;
     public String key;
     public ModCat cat;
     public String sub;
