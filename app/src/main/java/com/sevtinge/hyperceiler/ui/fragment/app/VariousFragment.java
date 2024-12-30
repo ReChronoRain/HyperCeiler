@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.KillApp;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
@@ -36,7 +37,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
-public class VariousFragment extends SettingsPreferenceFragment
+public class VariousFragment extends DashboardFragment
     implements Preference.OnPreferenceChangeListener {
 
     DropDownPreference mSuperModePreference;

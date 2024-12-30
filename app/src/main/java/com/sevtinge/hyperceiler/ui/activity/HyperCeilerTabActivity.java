@@ -161,8 +161,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
     @Override
     public boolean onPreferenceStartFragment(@NonNull PreferenceFragmentCompat caller, @NonNull Preference pref) {
-        if (caller instanceof NavigatorFragmentListener &&
-                Navigator.get(caller).getNavigationMode() == Navigator.Mode.NLC &&
+        if (Navigator.get(caller).getNavigationMode() == Navigator.Mode.NLC &&
                 Build.IS_TABLET) {
             Bundle args = new Bundle();
             Bundle savedInstanceState = new Bundle();
@@ -191,6 +190,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
             String mFragmentName = pref.getFragment();
             savedInstanceState.putString("FragmentName", mFragmentName);
+            savedInstanceState.putString("FragmentTitle", pref.getTitle().toString());
             Navigator.get(caller).navigate(new UpdateDetailFragmentNavInfo(-1, DetailFragment.class, savedInstanceState));
         } else {
             mProxy.onStartSettingsForArguments(SubSettings.class, pref, false);

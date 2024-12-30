@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.dashboard;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -15,6 +17,7 @@ import androidx.annotation.XmlRes;
 import androidx.preference.PreferenceScreen;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.data.ModData;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
@@ -88,5 +91,29 @@ public class DashboardFragment extends SettingsPreferenceFragment {
         } catch (Exception e) {
             Log.e("AboutFragment", "declaredField", e);
         }
+    }
+
+    public String getPreferenceScreenTitle() {
+        try (XmlResourceParser xml = getResources().getXml(getPreferenceScreenResId())) {
+            int eventType = xml.getEventType();
+            if (eventType == XmlPullParser.START_TAG && xml.getName().equals("PreferenceScreen")) {
+                try {
+                    String location = xml.getAttributeValue(APP_NS, "myLocation");
+
+                    if (location != null) {
+                        int titleResId = Integer.parseInt(location.substring(1));
+                        if (titleResId > 0) {
+                            return getResources().getString(titleResId);
+                        }
+                    }
+
+                } catch (Throwable t) {
+                    AndroidLogUtils.logE(TAG, "Failed to get xml keyword object!", t);
+                }
+            }
+        } catch (Throwable t) {
+            AndroidLogUtils.logE(TAG, "Failed to access XML resource!", t);
+        }
+        return null;
     }
 }

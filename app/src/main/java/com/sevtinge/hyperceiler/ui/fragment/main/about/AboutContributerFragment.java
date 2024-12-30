@@ -20,8 +20,9 @@ package com.sevtinge.hyperceiler.ui.fragment.main.about;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
-public class AboutContributerFragment extends SettingsPreferenceFragment {
+public class AboutContributerFragment extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.prefs_about_contributor;
