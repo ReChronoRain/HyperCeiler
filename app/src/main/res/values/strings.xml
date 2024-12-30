@@ -823,7 +823,7 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Network speed values below this level are considered slow and a different indicator icon will be displayed (only some icons)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Hide byte per second suffix (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Indicator icon</string>
-    <string name="system_ui_statusbar_clock_tip">Instructions for use: \ n-After the use of enlightenment, please modify the clock format in the display to change the application. If the clock format contains the number of seconds, please \"Seconds refresh switch\" function</string>
+    <string name="system_ui_statusbar_clock_tip">Instructions for use:\n• After enabling the enlightenment feature, please modify the clock format on the display to switch the app. If the clock format includes seconds, please enable the \"Seconds refresh switch\" feature.</string>
     <string name="system_ui_statusbar_clock_double_mode_title">Double row alignment</string>
     <string name="system_ui_statusbar_clock_desc">Clock format example</string>
     <string name="system_ui_statusbar_clock_size">Clock size</string>
@@ -840,7 +840,7 @@
     <string name="system_ui_statusbar_clock_layout_b">Notification shade big clock</string>
     <string name="system_ui_statusbar_clock_layout_n">Notification shade mini clock</string>
     <string name="system_ui_statusbar_clock_editor_s">Status bar clock format</string>
-    <string name="system_ui_statusbar_clock_editor_b">Notification big clock format</string>
+    <string name="system_ui_statusbar_clock_editor_b">Notification shade big clock format</string>
     <string name="system_ui_statusbar_clock_editor_n">Notification shade mini clock format</string>
     <string name="system_ui_statusbar_clock_style_f">Status bar clock arrangement</string>
     <string name="system_ui_status_bar_strong_toast_layout">Layout</string>
@@ -865,7 +865,7 @@
     <string name="system_ui_controlcenter_title">Control center</string>
     <string name="system_ui_controlcenter_media_card_title">Media notification card</string>
     <string name="system_ui_control_center_magnet_tile_settings">Magnet</string>
-    <string name="system_ui_control_center_notification_title">Notification center</string>
+    <string name="system_ui_control_center_notification_title">Notification shade</string>
     <string name="quick_settings_state_change_message_on_my">%1$s is on</string>
     <string name="quick_settings_state_change_message_off_my">%1$s is off</string>
     <string name="system_control_center_5g_tile">5G network switch</string>
@@ -891,8 +891,8 @@
     <string name="system_ui_control_center_notification_disable_transparent">Disable transparent mode</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Disable setting notification background to be transparent</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Optimize color mixing effect of the media control panel</string>
-    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Optimize the rounded corner transition of album images</string>
-    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">Remove album audio source identifie</string>
+    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Optimize rounded corner transition of album images</string>
+    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">Remove album audio source identifier</string>
     <string name="system_ui_control_center_media_control_progress">Progress bar</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Remove custom action restrictions for media notification cards</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Wavy</string>
@@ -1436,7 +1436,7 @@
     <string name="mediaeditor_unlock_spring_title">Unlock Chinese New Year custom picture frames</string>
     <string name="mediaeditor_unlock_spring_desc">To permanently add a Chinese New Year custom picture frame, the prerequisite is that you need a Leica custom picture frame or a Redmi custom picture frame.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Remove the minimum crop image limit</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Unlock customize the frame</string>
+    <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Unlock Customize the frame</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">Customize the frame type</string>
     <string name="mediaeditor_unlock_leica_filter_title">Unlock the Leica filter</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Only some versions are supported</string>
@@ -1696,7 +1696,7 @@
     <string name="sim_activation_service">Xiaomi SIM Activation Service</string>
     <string name="sim_activation_service_disable_activate_when_roaming">Disable SIM 2 activation when roaming</string>
     <string name="sim_activation_service_disable_activate_when_roaming_desc">Only Chinese mainland is supported</string>
-    <string name="sim_activation_service_disable_activate_when_roaming_radical">Use more aggressive roaming filtering</string>
+    <string name="sim_activation_service_disable_activate_when_roaming_radical">Use a more aggressive roaming filtering</string>
     <!--Scanner-->
     <string name="scanner_hyper">AI Scanner</string>
     <string name="scanner_card">Unlock scan ID card</string>
@@ -1852,8 +1852,8 @@
     <string name="ic_qs_title_vowifi2">VoWiFi SIM 2</string>
     <string name="custom_hook_new">Add hook</string>
     <string name="custom_hook_mode">Select mode</string>
-    <string name="open_source">Open Source Projects</string>
-    <string name="close_source">Close Source Projects</string>
+    <string name="open_source">Open source projects</string>
+    <string name="close_source">Close source projects</string>
     <string name="exit">Exit</string>
     <string name="ignore">Ignore</string>
     <string name="log_level">Log level</string>
