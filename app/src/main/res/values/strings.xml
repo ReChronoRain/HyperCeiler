@@ -710,7 +710,7 @@
     <string name="phone_vice_slot_volte">Unlock Vice slot VoLTE</string>
     <string name="phone_vice_slot_volte_desc">Use mobile data during VoLTE calls on the secondary SIM</string>
     <string name="phone_unlock_voice_link">Unlock Voice link</string>
-    <string name="phone_unlock_voice_link_desc">Unlock Voice link for some SIMs which support Wi‑Fi calling</string>
+    <string name="phone_unlock_voice_link_desc">Unlock Voice link for some SIMs which support Wi-Fi calling</string>
     <!--Download management program-->
     <string name="downloads">Downloads</string>
     <string name="various_fuck_xlDownload">Block creation of .xlDownload folder</string>
@@ -974,7 +974,7 @@
     <string name="system_ui_controlcenter_card_title">Card</string>
     <string name="system_ui_controlcenter_media_card_title">Media notification card</string>
     <string name="system_ui_control_center_magnet_tile_settings">Magnet</string>
-    <string name="system_ui_control_center_notification_title">Notification center</string>
+    <string name="system_ui_control_center_notification_title">Notification shade</string>
     <string name="system_control_center_qs_detail_bg">Card background transparency</string>
     <string name="quick_settings_state_change_message_on_my">%1$s is on</string>
     <string name="quick_settings_state_change_message_off_my">%1$s is off</string>
@@ -1115,12 +1115,12 @@
     <string name="system_ui_other_default_plugin_theme_desc">Unlock the blur of Advanced textures, which is disabled by default for third-party themes in the System UI Plug-in.</string>
     <string name="system_ui_plugin_volume_title">Volume bar</string>
     <string name="system_ui_volume_collpased_column_press">Press to expand the secondary volume bar</string>
-    <string name="system_ui_volume_collpased_column_press_desc">When this feature is enabled, the expand button is turned off</string>
-    <string name="system_ui_volume_hide_foot_button">Hide mute and do not disturb buttons</string>
+    <string name="system_ui_volume_collpased_column_press_desc">When this feature is enabled, the expand button is turned off.</string>
+    <string name="system_ui_volume_hide_foot_button">Hide mute and DND buttons</string>
     <string name="system_ui_volume_timer">Extended timer</string>
     <string name="system_ui_plugin_enable_volume_blur">Enable volume bar blur</string>
     <string name="system_ui_move_log_to_miui">Move statusbar_gestures.dat to MIUI dir</string>
-    <string name="system_ui_plugin_enable_volume_blur_desc">There may be high GPU load.</string>
+    <string name="system_ui_plugin_enable_volume_blur_desc">There may be high GPU load</string>
     <!--Telecom-->
     <string name="telecom">Manage calls</string>
     <string name="scam_reminder_bypass_caption">Allow call forwarding via MMI code</string>
@@ -1566,8 +1566,8 @@
     <string name="home_other_opt_app_launch_delay">Optimize app launch delay</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Gallery Editor</string>
-    <string name="mediaeditor_tip">Instructions for use:\n- Please use v2 hook for versions 1.7.5.0.4 and later, and please use v1 hook for versions lower than 1.7.5.0.4</string>
-    <string name="mediaeditor_hook_type">Gallery editor hook type</string>
+    <string name="mediaeditor_tip">Instructions for use:\n• Use the v2 hook for versions 1.7.5.0.4 or higher. For versions earlier than 1.7.5.0.4, use the v1 hook.</string>
+    <string name="mediaeditor_hook_type">Gallery Editor hook type</string>
     <string name="mediaeditor_foundation">Foundation</string>
     <string name="mediaeditor_authoring">Authoring</string>
     <string name="mediaeditor_ai_authoring">AI authoring</string>
@@ -1846,9 +1846,9 @@
     <string name="add_clipboard_clear">Add clear clipboard button</string>
     <!--Sim Activation Service-->
     <string name="sim_activation_service">Xiaomi SIM Activation Service</string>
-    <string name="sim_activation_service_disable_activate_when_roaming">Disable activate SIM 2 when it is roaming</string>
+    <string name="sim_activation_service_disable_activate_when_roaming">Disable SIM 2 activation when roaming</string>
     <string name="sim_activation_service_disable_activate_when_roaming_desc">Only Chinese mainland is supported</string>
-    <string name="sim_activation_service_disable_activate_when_roaming_radical">Use a more aggressive roaming filtering approach</string>
+    <string name="sim_activation_service_disable_activate_when_roaming_radical">Use more aggressive roaming filtering</string>
     <!--Scanner-->
     <string name="scanner">Scanner</string>
     <string name="scanner_hyper">AI Scanner</string>
@@ -2014,9 +2014,8 @@
     <string name="log_level_none">Disabled</string>
     <string name="disable_suggest">Disable suggest</string>
     <string name="enable_suggest">Enable suggest</string>
-
-    <string name="notification_channel_app_crash_name" >APP is running abnormally</string>
-    <string name="notification_title_message_emergency_crash">%s multiple crashes</string>
-    <string name="notification_content_message" >Click to view details</string>
-    <string name="notification_view" >View</string>
+    <string name="notification_channel_app_crash_name">The app is running abnormally</string>
+    <string name="notification_title_message_emergency_crash">%s has crashed multiple times</string>
+    <string name="notification_content_message">Click to view details</string>
+    <string name="notification_view">View</string>
 </resources>

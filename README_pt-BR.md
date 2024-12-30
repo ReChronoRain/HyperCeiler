@@ -95,6 +95,7 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13. Se você q
 | Acorde com voz                                 | com.miui.voicetrigger              |
 | Gravador                                       | com.android.soundrecorder          |
 | LPA                                            | com.miui.euicc                     |
+| Serviço de ativação do SIM Xiaomi              | com.xiaomi.simactivate.service     |
 
 </details>
 

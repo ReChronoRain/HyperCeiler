@@ -33,74 +33,75 @@ HyperCeiler has stopped maintaining MIUI ROM for Android 11-13. If you want to u
 <details>
     <summary>Click to see supported apps</summary>
 
-| App name                   | Package name                       |
-|:---------------------------|:-----------------------------------|
-| System Framework           | system                             |
-| System UI                  | com.android.systemui               |
-| System launcher            | com.miui.home                      |
-| Updater                    | com.android.updater                |
-| Joyose                     | com.xiaomi.joyose                  |
-| Mi Settings                | com.xiaomi.misettings              |
-| Security                   | com.miui.securitycenter            |
-| Notes                      | com.miui.notes                     |
-| Wallpaper                  | com.miui.miwallpaper               |
-| Taplus                     | com.miui.contentextension          |
-| Bullet screen notification | com.xiaomi.barrage                 |
-| Phone                      | com.android.incallui               |
-| Phone Service              | com.android.phone                  |
-| Battery and performance    | com.miui.powerkeeper               |
-| Messaging                  | com.android.mms                    |
-| Screenshot                 | com.miui.screenshot                |
-| Calendar                   | com.android.calendar               |
-| Browser                    | com.android.browser                |
-| Rueban (MTB)               | com.xiaomi.mtb                     |
-| Screen Recorder            | com.miui.screenrecorder            |
-| Permissions                | com.lbe.security.miui              |
-| Settings                   | com.android.settings               |
-| Sogou Keyboard for MIUI    | com.sohu.inputmethod.sogou.xiaomi  |
-| Weather                    | com.miui.weather2                  |
-| Cast                       | com.milink.service                 |
-| External Storage           | com.android.externalstorage        |
-| Always-on display          | com.miui.aod                       |
-| File Manager               | com.android.fileexplorer           |
-| System service plugin      | com.miui.securityadd               |
-| Downloads                  | com.android.providers.downloads.ui |
-| Downloads                  | com.android.providers.downloads    |
-| Gallery                    | com.miui.gallery                   |
-| Mi Canvas                  | com.miui.creation                  |
-| Xiaomi Share               | com.miui.mishare.connectivity      |
-| Gallery Editor             | com.miui.mediaeditor               |
-| Xiaomi Cloud               | com.miui.cloudservice              |
-| Smart cards                | com.miui.tsmclient                 |
-| iFlytek IME for MIUI       | com.iflytek.inputmethod.miui       |
-| Package installer          | com.miui.packageinstaller          |
-| GetApps                    | com.xiaomi.market                  |
-| App vault                  | com.miui.personalassistant         |
-| Themes                     | com.android.thememanager           |
-| System security components | com.miui.guardprovider             |
-| Camera                     | com.android.camera                 |
-| Mi AI Translate            | com.xiaomi.aiasst.vision           |
-| Scanner                    | com.xiaomi.scanner                 |
-| Mi AI                      | com.miui.voiceassist               |
-| NFC Service                | com.android.nfc                    |
-| Earphones                  | com.miui.misound                   |
-| Backup                     | com.miui.backup                    |
-| Mi Mover                   | com.miui.huanji                    |
-| MiTrustService             | com.xiaomi.trustservice            |
-| HTML Viewer                | com.android.htmlviewer             |
-| Manage calls               | com.android.server.telecom         |
-| Mi Remote                  | com.duokan.phone.remotecontroller  |
-| Analytics                  | com.miui.analytics                 |
-| Xiaomi Community           | com.xiaomi.vipaccount              |
-| Voice Trigger              | com.miui.voicetrigger              |
-| Sound Recorder             | com.android.soundrecorder          |
-| LPA                        | com.miui.euicc                     |
+| App name                      | Package name                       |
+|:------------------------------|:-----------------------------------|
+| System Framework              | system                             |
+| System UI                     | com.android.systemui               |
+| System launcher               | com.miui.home                      |
+| Updater                       | com.android.updater                |
+| Joyose                        | com.xiaomi.joyose                  |
+| Mi Settings                   | com.xiaomi.misettings              |
+| Security                      | com.miui.securitycenter            |
+| Notes                         | com.miui.notes                     |
+| Wallpaper                     | com.miui.miwallpaper               |
+| Taplus                        | com.miui.contentextension          |
+| Bullet screen notification    | com.xiaomi.barrage                 |
+| Phone                         | com.android.incallui               |
+| Phone Service                 | com.android.phone                  |
+| Battery and performance       | com.miui.powerkeeper               |
+| Messaging                     | com.android.mms                    |
+| Screenshot                    | com.miui.screenshot                |
+| Calendar                      | com.android.calendar               |
+| Browser                       | com.android.browser                |
+| Rueban (MTB)                  | com.xiaomi.mtb                     |
+| Screen Recorder               | com.miui.screenrecorder            |
+| Permissions                   | com.lbe.security.miui              |
+| Settings                      | com.android.settings               |
+| Sogou Keyboard for MIUI       | com.sohu.inputmethod.sogou.xiaomi  |
+| Weather                       | com.miui.weather2                  |
+| Cast                          | com.milink.service                 |
+| External Storage              | com.android.externalstorage        |
+| Always-on display             | com.miui.aod                       |
+| File Manager                  | com.android.fileexplorer           |
+| System service plugin         | com.miui.securityadd               |
+| Downloads                     | com.android.providers.downloads.ui |
+| Downloads                     | com.android.providers.downloads    |
+| Gallery                       | com.miui.gallery                   |
+| Mi Canvas                     | com.miui.creation                  |
+| Xiaomi Share                  | com.miui.mishare.connectivity      |
+| Gallery Editor                | com.miui.mediaeditor               |
+| Xiaomi Cloud                  | com.miui.cloudservice              |
+| Smart cards                   | com.miui.tsmclient                 |
+| iFlytek IME for MIUI          | com.iflytek.inputmethod.miui       |
+| Package installer             | com.miui.packageinstaller          |
+| GetApps                       | com.xiaomi.market                  |
+| App vault                     | com.miui.personalassistant         |
+| Themes                        | com.android.thememanager           |
+| System security components    | com.miui.guardprovider             |
+| Camera                        | com.android.camera                 |
+| Mi AI Translate               | com.xiaomi.aiasst.vision           |
+| Scanner                       | com.xiaomi.scanner                 |
+| Mi AI                         | com.miui.voiceassist               |
+| NFC Service                   | com.android.nfc                    |
+| Earphones                     | com.miui.misound                   |
+| Backup                        | com.miui.backup                    |
+| Mi Mover                      | com.miui.huanji                    |
+| MiTrustService                | com.xiaomi.trustservice            |
+| HTML Viewer                   | com.android.htmlviewer             |
+| Manage calls                  | com.android.server.telecom         |
+| Mi Remote                     | com.duokan.phone.remotecontroller  |
+| Analytics                     | com.miui.analytics                 |
+| Xiaomi Community              | com.xiaomi.vipaccount              |
+| Voice Trigger                 | com.miui.voicetrigger              |
+| Sound Recorder                | com.android.soundrecorder          |
+| LPA                           | com.miui.euicc                     |
+| Xiaomi SIM Activation Service | com.xiaomi.simactivate.service     |
 
 </details>
 
 > All scopes above are active in LSPosed
 
-## Chat & Feedback Group
+## Chat & feedback group
 
 Join our group to report issues or get the latest updates.
 
