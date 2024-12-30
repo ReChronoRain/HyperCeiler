@@ -1042,8 +1042,6 @@
     <string name="system_ui_control_center_expand_notification">Expand notifications</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is on, the pop-up notification doesn\'t play the alert sound.</string>
     <string name="system_ui_control_center_rounded_rect">Rounded rectangle tile</string>
-    <string name="system_ui_control_center_rounded_rect_opt">Use more aggressive optimizations</string>
-    <string name="system_ui_control_center_rounded_rect_opt_desc">This may cause some or all of the rounded rectangular tiles to revert to their defaults</string>
     <string name="system_ui_control_center_statusbar_blur">Force background blur</string>
     <string name="system_ui_control_center_rounded_rect_radius">Rounded radius</string>
     <string name="system_ui_control_center_fix_tiles_list">Disable hide extremely dark tiles</string>

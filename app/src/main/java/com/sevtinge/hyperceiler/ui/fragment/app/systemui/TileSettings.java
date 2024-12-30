@@ -1,7 +1,6 @@
 package com.sevtinge.hyperceiler.ui.fragment.app.systemui;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getWhoAmI;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
@@ -28,7 +27,6 @@ public class TileSettings extends DashboardFragment implements Preference.OnPref
     SwitchPreference mNewCCGridLabel;
     SwitchPreference mRoundedRect;
     SeekBarPreferenceCompat mRoundedRectRadius;
-    SwitchPreference mRoundedRectOpt;
     SeekBarPreferenceCompat mSunshineModeHighBrightness;
     DropDownPreference mFiveG;
     DropDownPreference mSunshineMode;
@@ -47,7 +45,6 @@ public class TileSettings extends DashboardFragment implements Preference.OnPref
         mFiveG = findPreference("prefs_key_system_control_center_5g_new_tile");
         mRoundedRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
         mRoundedRectRadius = findPreference("prefs_key_system_ui_control_center_rounded_rect_radius");
-        mRoundedRectOpt = findPreference("prefs_key_system_ui_control_center_rounded_rect_opt");
         mTaplus = findPreference("prefs_key_security_center_taplus");
         mNewCCGridLabel = findPreference("prefs_key_system_control_center_qs_tile_label");
         mSunshineMode = findPreference("prefs_key_system_control_center_sunshine_new_mode");
@@ -85,8 +82,6 @@ public class TileSettings extends DashboardFragment implements Preference.OnPref
             mNewCCGridLabel.setVisible(true);
         }
 
-        mRoundedRectOpt.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false) && isAndroidVersion(34));
-
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
         mSunshineModeHighBrightness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_control_center_sunshine_new_mode_high", "0")) == 3);;
 
@@ -111,7 +106,6 @@ public class TileSettings extends DashboardFragment implements Preference.OnPref
 
     private void setCanBeVisibleRoundedRect(boolean mode) {
         mRoundedRectRadius.setVisible(mode && isMoreHyperOSVersion(1f));
-        mRoundedRectOpt.setVisible(mode && isAndroidVersion(34));
     }
 
     private void setCanBeVisibleSunshineBrightness(int mode) {
