@@ -22,10 +22,12 @@ import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 public class CrashService extends Service {
@@ -61,15 +63,31 @@ public class CrashService extends Service {
         throwMethodName = intent.getStringExtra("key_throwMethodName");
         ShellInit.getShell().run("setprop persist.hyperceiler.crash.report " + "\"" + report + "\"").sync();
         Intent intent1 = getIntent(abbr);
-        startActivity(intent1);
+        intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "30"+intent1);
+
+
+
+        startActivity(new Intent(Intent.ACTION_MAIN));
+        /*try {
+            startActivity(intent1);
+        }catch (Throwable t){
+            AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "30A "+t);
+        }*/
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "31");
         stopSelf();
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "32");
         return super.onStartCommand(intent, flags, startId);
     }
 
     @NonNull
     private Intent getIntent(String abbr) {
+        Toast.makeText(getBaseContext(), abbr, Toast.LENGTH_LONG).show();
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "0");
         Intent intent1 = new Intent(this, CrashActivity.class);
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "1");
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "2");
         intent1.putExtra("key_longMsg", longMsg);
         intent1.putExtra("key_stackTrace", stackTrace);
         intent1.putExtra("key_throwClassName", throwClassName);
@@ -77,6 +95,7 @@ public class CrashService extends Service {
         intent1.putExtra("key_throwLineNumber", throwLineNumber);
         intent1.putExtra("key_throwMethodName", throwMethodName);
         intent1.putExtra("key_pkg", abbr);
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "3");
         return intent1;
     }
 

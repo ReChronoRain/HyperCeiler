@@ -33,6 +33,7 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import java.util.ArrayList;
@@ -59,10 +60,15 @@ public class CrashActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "10");
         ShellInit.init();
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "11");
         if (swappedMap.isEmpty()) swappedMap = CrashData.swappedData();
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "12");
         setContentView(R.layout.activity_crash_dialog);
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "13");
         Intent intent = getIntent();
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "14");
         String code = intent.getStringExtra("key_pkg");
         longMsg = intent.getStringExtra("key_longMsg");
         stackTrace = intent.getStringExtra("key_stackTrace");
@@ -97,6 +103,7 @@ public class CrashActivity extends AppCompatActivity {
         mCrashRecordTv.getPaint().setAntiAlias(true);
         mCrashRecordTv.setOnClickListener(v -> DialogHelper.showCrashMsgDialog(this, throwClassName,
                 throwFileName, throwLineNumber, throwMethodName, longMsg, stackTrace));
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "15");
         DialogHelper.showCrashReportDialog(this, view);
     }
 

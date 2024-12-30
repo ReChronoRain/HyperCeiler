@@ -2004,4 +2004,9 @@
     <string name="log_level_none">Disabled</string>
     <string name="disable_suggest">Disable suggest</string>
     <string name="enable_suggest">Enable suggest</string>
+
+    <string name="notification_channel_app_crash_name" >APP is running abnormally</string>
+    <string name="notification_title_message_emergency_crash">%s multiple crashes</string>
+    <string name="notification_content_message" >Click to view details</string>
+    <string name="notification_view" >View</string>
 </resources>

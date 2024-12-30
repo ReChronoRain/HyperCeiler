@@ -23,6 +23,7 @@
     <uses-permission
         android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -66,6 +67,8 @@
         android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         tools:node="remove" />
 
+    <uses-permission android:name="hyperceiler.permission.APP_CRASH" />
+
     <permission
         android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         tools:node="remove" />
@@ -76,7 +79,8 @@
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:allowNativeHeapPointerTagging="true">
 
         <activity
             android:name=".ui.activity.HyperCeilerTabActivity"
@@ -91,11 +95,11 @@
         <activity
             android:name=".safe.CrashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:excludeFromRecents="true"
             android:exported="true"
             android:finishOnTaskLaunch="true"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.HyperCeiler.Translucent.NoActionBar">
+            android:theme="@style/Theme.HyperCeiler.Translucent.NoActionBar"
+            android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.Crash" />
                 <category android:name="android.intent.category.CrashDailog" />
@@ -162,11 +166,21 @@
         <service
             android:name="com.sevtinge.hyperceiler.safe.CrashService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.sevtinge.hyperceiler.crash.Service" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".receiver.CrashReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="hyperceiler.permission.APP_CRASH">
+            <intent-filter>
+                <action android:name="hyperceiler.intent.action.APP_CRASH" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

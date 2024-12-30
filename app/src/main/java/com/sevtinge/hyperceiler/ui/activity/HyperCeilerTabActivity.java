@@ -7,6 +7,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.isLoggerAlive;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +39,8 @@ import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
+import com.sevtinge.hyperceiler.utils.NotificationUtils;
+import com.sevtinge.hyperceiler.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.utils.PropUtils;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
@@ -86,6 +89,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
         handler = new Handler(this.getMainLooper());
         context = this;
+        requestPermissions();
 
         int logLevel = Integer.parseInt(mPrefs.getString("prefs_key_log_level", "3"));
         super.onCreate(savedInstanceState);
@@ -264,5 +268,23 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         PreferenceHeader.mUninstallApp.clear();
         PreferenceHeader.mDisableOrHiddenApp.clear();
         super.onDestroy();
+    }
+
+    //权限申请
+    public void requestPermissions() {
+        PermissionUtils.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1,
+                //实现接口方法
+                new PermissionUtils.OnPermissionListener() {
+                    @Override
+                    public void onPermissionGranted(Context context) {
+                        //获取权限成功
+                    }
+
+                    @Override
+                    public void onPermissionDenied() {
+                        //获取权限失败
+                        finish();
+                    }
+                });
     }
 }

@@ -96,7 +96,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     private void loadData() {
         mCustomEnabledPreference.setChecked(isCustomEnabled());
         mColorPickerPreference.setColor(getColor(-1));
-        mCornerRadiusPreference.setValue(getSeekBarValue(mCornerRadiusKey, 18));
+        //mCornerRadiusPreference.setValue(getSeekBarValue(mCornerRadiusKey, 18));
         mBlurEnabledPreference.setChecked(isBackgroundBlurEnabled());
         //mBlurRadiusPreference.setValue(getSeekBarValue(mBlurRadiusKey, 60));
     }

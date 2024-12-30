@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
@@ -78,18 +79,24 @@ public class DialogHelper {
     }
 
     public static void showCrashReportDialog(Activity activity, View view) {
-        new AlertDialog.Builder(activity)
-                .setCancelable(false)
-                .setTitle(R.string.warn)
-                .setView(view)
-                .setHapticFeedbackEnabled(true)
-                .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
+        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "20");
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setCancelable(true);
+        builder.setTitle(R.string.warn);
+        builder.setView(view);
+        builder.setHapticFeedbackEnabled(true);
+        builder.setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
                     ShellExec shellExec = ShellInit.getShell();
                     shellExec.run("setprop persist.hyperceiler.crash.report \"\"").sync();
                     activity.finish();
-                })
-                .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> activity.finish())
-                .show();
+                });
+        builder.setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> activity.finish());
+
+        AlertDialog dialog = builder.create();
+        dialog.setOnCancelListener(dialogInterface -> {
+            activity.finish();
+        });
+        dialog.show();
     }
 
     public static void showCrashMsgDialog(Context context, String throwClassName, String throwFileName,
