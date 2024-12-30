@@ -18,19 +18,13 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logD;
 import static com.sevtinge.hyperceiler.utils.prefs.PrefsUtils.mPrefsMap;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.tool.HookTool;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
@@ -59,7 +53,12 @@ public class CCGridForHyperOS {
                 new HookTool.MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        if ((boolean) param.args[1] && (boolean) param.args[2] || warningD == null || enabledD == null || restrictedD == null || disabledD == null || unavailableD == null) {
+                        if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect_opt")) {
+                            if ((boolean) param.args[1] && (boolean) param.args[2] || warningD == null || enabledD == null || restrictedD == null || disabledD == null || unavailableD == null) {
+                                getPluginResources((Context) XposedHelpers.getObjectField(param.thisObject, "pluginContext"));
+                                // XposedHelpers.callMethod(param.thisObject, "updateResources");       // 为什么能跑起来？
+                            }
+                        } else {
                             getPluginResources((Context) XposedHelpers.getObjectField(param.thisObject, "pluginContext"));
                             // XposedHelpers.callMethod(param.thisObject, "updateResources");       // 为什么能跑起来？
                         }
@@ -69,33 +68,54 @@ public class CCGridForHyperOS {
 
         XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader,
                 "updateResources",
-                new HookTool.MethodHook() {
+                new Object[]{new HookTool.MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        if (warningD == null || enabledD == null || restrictedD == null || disabledD == null || unavailableD == null) getPluginResources((Context) XposedHelpers.getObjectField(param.thisObject, "pluginContext"));
-                        if (warningD != null) {
+                        if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect_opt")) {
+                            if ((boolean) param.args[1] && (boolean) param.args[2] || warningD == null || enabledD == null || restrictedD == null || disabledD == null || unavailableD == null) {
+                                getPluginResources((Context) XposedHelpers.getObjectField(param.thisObject, "pluginContext"));
+                                // XposedHelpers.callMethod(param.thisObject, "updateResources");       // 为什么能跑起来？
+                                if (warningD != null) {
+                                    GradientDrawable warningG = (GradientDrawable) warningD;
+                                    warningG.setCornerRadius(radius);
+                                }
+                                if (enabledD != null) {
+                                    GradientDrawable enabledG = (GradientDrawable) enabledD;
+                                    enabledG.setCornerRadius(radius);
+                                }
+                                if (restrictedD != null) {
+                                    GradientDrawable restrictedG = (GradientDrawable) restrictedD;
+                                    restrictedG.setCornerRadius(radius);
+                                }
+                                if (disabledD != null) {
+                                    GradientDrawable disabledG = (GradientDrawable) disabledD;
+                                    disabledG.setCornerRadius(radius);
+                                }
+                                if (unavailableD != null) {
+                                    GradientDrawable unavailableG = (GradientDrawable) unavailableD;
+                                    unavailableG.setCornerRadius(radius);
+                                }
+                            }
+                        } else {
+                            getPluginResources((Context) XposedHelpers.getObjectField(param.thisObject, "pluginContext"));
+                            // XposedHelpers.callMethod(param.thisObject, "updateResources");       // 为什么能跑起来？
                             GradientDrawable warningG = (GradientDrawable) warningD;
                             warningG.setCornerRadius(radius);
-                        }
-                        if (enabledD != null) {
+
                             GradientDrawable enabledG = (GradientDrawable) enabledD;
                             enabledG.setCornerRadius(radius);
-                        }
-                        if (restrictedD != null) {
+
                             GradientDrawable restrictedG = (GradientDrawable) restrictedD;
                             restrictedG.setCornerRadius(radius);
-                        }
-                        if (disabledD != null) {
+
                             GradientDrawable disabledG = (GradientDrawable) disabledD;
                             disabledG.setCornerRadius(radius);
-                        }
-                        if (unavailableD != null) {
+
                             GradientDrawable unavailableG = (GradientDrawable) unavailableD;
                             unavailableG.setCornerRadius(radius);
                         }
                     }
-                }
-        );
+                }});
 
         XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader,
                 "setCornerRadius", float.class,
