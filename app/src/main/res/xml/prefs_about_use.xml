@@ -251,11 +251,18 @@
                 android:data="https://github.com/LSPosed/LSParanoid" />
         </Preference>
         <Preference
-            android:summary="xiaowine | Apache-2.0"
-            android:title="Lyric-Getter-Api">
+            android:summary="LSPosed | Apache-2.0"
+            android:title="LSParanoid">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/xiaowine/Lyric-Getter-Api" />
+                android:data="https://github.com/LSPosed/LSParanoid" />
+        </Preference>
+        <Preference
+            android:summary="wolfhong | MIT"
+            android:title="LunarCalendar">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/wolfhong/LunarCalendar" />
         </Preference>
         <Preference
             android:summary="YifePlayte | GPL-3.0"

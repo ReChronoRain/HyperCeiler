@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.view;
 
+import static com.sevtinge.hyperceiler.utils.PersistConfig.isLunarNewYearThemeView;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.RenderEffect;
@@ -103,7 +105,13 @@ public class BgEffectPainter {
         setLightOffset(0.1f);
         setSaturateOffset(0.2f);
         setPoints(new float[]{0.67f, 0.42f, 1.0f, 0.69f, 0.75f, 1.0f, 0.14f, 0.71f, 0.95f, 0.14f, 0.27f, 0.8f});
-        setColors(new float[]{0.57f, 0.76f, 0.98f, 1.0f, 0.98f, 0.85f, 0.68f, 1.0f, 0.98f, 0.75f, 0.93f, 1.0f, 0.73f, 0.7f, 0.98f, 1.0f});
+        if (isLunarNewYearThemeView) {
+            setColors(new float[]{1.0f, 0.83f, 0.68f, 1.0f, 0.92f, 0.56f, 0.47f, 1.0f, 0.98f, 0.74f, 0.72f, 1.0f, 1.0f, 0.62f, 0.53f, 1.0f});
+            // setColors(new float[]{0.97f, 0.67f, 0.46f, 1.0f, 0.80f, 0.12f, 0.09f, 1.0f, 0.93f, 0.47f, 0.2f, 1.0f, 0.98f, 0.36f, 0.28f, 1.0f});
+        } else {
+            setColors(new float[]{0.57f, 0.76f, 0.98f, 1.0f, 0.98f, 0.85f, 0.68f, 1.0f, 0.98f, 0.75f, 0.93f, 1.0f, 0.73f, 0.7f, 0.98f, 1.0f});
+        }
+        setBound(fArr);
         setBound(fArr);
     }
 
@@ -111,7 +119,12 @@ public class BgEffectPainter {
         setLightOffset(-0.1f);
         setSaturateOffset(0.2f);
         setPoints(new float[]{0.63f, 0.5f, 0.88f, 0.69f, 0.75f, 0.8f, 0.17f, 0.66f, 0.81f, 0.14f, 0.24f, 0.72f});
-        setColors(new float[]{0.0f, 0.31f, 0.58f, 1.0f, 0.53f, 0.29f, 0.15f, 1.0f, 0.46f, 0.06f, 0.27f, 1.0f, 0.16f, 0.12f, 0.45f, 1.0f});
+        if (isLunarNewYearThemeView) {
+            setColors(new float[]{0.58f, 0.4f, 0.28f, 1.0f, 0.48f, 0.12f, 0.1f, 1.0f, 0.56f, 0.28f, 0.12f, 1.0f, 0.46f, 0.16f, 0.11f, 1.0f});
+            // setColors(new float[]{0.97f, 0.67f, 0.46f, 1.0f, 0.80f, 0.12f, 0.09f, 1.0f, 0.93f, 0.47f, 0.2f, 1.0f, 0.98f, 0.36f, 0.28f, 1.0f});
+        } else {
+            setColors(new float[]{0.0f, 0.31f, 0.58f, 1.0f, 0.53f, 0.29f, 0.15f, 1.0f, 0.46f, 0.06f, 0.27f, 1.0f, 0.16f, 0.12f, 0.45f, 1.0f});
+        }
         setBound(fArr);
     }
 

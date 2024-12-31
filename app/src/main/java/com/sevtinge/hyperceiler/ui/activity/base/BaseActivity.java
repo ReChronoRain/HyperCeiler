@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.activity.base;
 
-import static com.sevtinge.hyperceiler.utils.GrayViewUtils.isNeedGrayView;
+import static com.sevtinge.hyperceiler.utils.PersistConfig.isNeedGrayView;
 
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;

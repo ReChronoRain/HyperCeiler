@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.ui.activity;
 
-import static com.sevtinge.hyperceiler.utils.GrayViewUtils.isNeedGrayView;
+import static com.sevtinge.hyperceiler.utils.PersistConfig.isLunarNewYearThemeView;
+import static com.sevtinge.hyperceiler.utils.PersistConfig.isNeedGrayView;
 import static com.sevtinge.hyperceiler.utils.Helpers.isModuleActive;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -33,28 +34,28 @@ import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.prefs.XmlPreference;
 import com.sevtinge.hyperceiler.safe.CrashData;
 import com.sevtinge.hyperceiler.ui.activity.base.NaviBaseActivity;
-import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.ui.fragment.main.ContentFragment;
 import com.sevtinge.hyperceiler.ui.fragment.main.DetailFragment;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
-import com.sevtinge.hyperceiler.utils.NotificationUtils;
 import com.sevtinge.hyperceiler.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.utils.PropUtils;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.search.SearchHelper;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
+import com.xhinliang.lunarcalendar.Lunar;
+import com.xhinliang.lunarcalendar.LunarCalendar;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import fan.appcompat.app.AlertDialog;
-import fan.appcompat.app.Fragment;
 import fan.navigator.Navigator;
 import fan.navigator.NavigatorFragmentListener;
 import fan.navigator.navigatorinfo.UpdateDetailFragmentNavInfo;
@@ -82,7 +83,9 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
             decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
         }
 
-        HolidayHelper mHolidayHelper = new HolidayHelper(this);
+        if (isLunarNewYearThemeView) {
+            HolidayHelper mHolidayHelper = new HolidayHelper(this);
+        }
 
         SharedPreferences mPrefs = PrefsUtils.mSharedPreferences;
         String languageSetting = mPrefs.getString("prefs_key_settings_app_language", "-1");
