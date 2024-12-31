@@ -9,6 +9,7 @@
 -keep class org.luckypray.dexkit.**{ *; }
 -keep class cn.lyric.getter.api.**{ *; }
 -keep class com.sevtinge.hyperceiler.module.base.**{ *; }
+-keep class com.sevtinge.hyperceiler.holiday.**{ *; }
 -keep class * extends com.sevtinge.hyperceiler.ui.fragment.base.*
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook { <init>(); }
 -keep class com.sevtinge.hyperceiler.module.base.dexkit.**{ *; }
