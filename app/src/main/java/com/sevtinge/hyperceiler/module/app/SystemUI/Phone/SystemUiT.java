@@ -24,6 +24,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.module.hook.systemui.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemui.AutoCollapse;
 import com.sevtinge.hyperceiler.module.hook.systemui.BluetoothRestrict;
@@ -276,6 +277,7 @@ public class SystemUiT extends BaseModule {
         initHook(StatusBarLayout.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_layout_compatibility_mode") ||
                 mPrefsMap.getStringAsInt("system_ui_statusbar_layout_mode", 0) != 0);
 
+        initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
         // 实验性功能
         // initHook(new SwitchControlPanel(), false);
         // initHook(new MiuiGxzwSize(), false);
