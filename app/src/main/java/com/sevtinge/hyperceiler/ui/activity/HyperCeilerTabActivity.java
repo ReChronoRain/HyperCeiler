@@ -28,6 +28,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.callback.IResult;
+import com.sevtinge.hyperceiler.holiday.HolidayHelper;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.prefs.XmlPreference;
 import com.sevtinge.hyperceiler.safe.CrashData;
@@ -80,6 +81,8 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
             paint.setColorFilter(new ColorMatrixColorFilter(cm));
             decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
         }
+
+        HolidayHelper mHolidayHelper = new HolidayHelper(this);
 
         SharedPreferences mPrefs = PrefsUtils.mSharedPreferences;
         String languageSetting = mPrefs.getString("prefs_key_settings_app_language", "-1");

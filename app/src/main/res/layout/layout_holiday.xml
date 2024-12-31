@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0.1dp"
+    android:paddingRight="0.1dp"
+    android:animateLayoutChanges="true"
+    android:fitsSystemWindows="false">
+
+    <com.sevtinge.hyperceiler.holiday.WeatherView
+        android:id="@+id/weather_view"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:translationZ="100dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:visibility="gone"
+        android:fitsSystemWindows="false"/>
+
+    <ImageView
+        android:id="@+id/holiday_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitStart"
+        android:adjustViewBounds="true"
+        android:layout_alignParentTop="true"
+        android:translationZ="100dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/nav_host"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>
