@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import android.text.TextUtils;
 
 import com.hchen.database.HookBase;
@@ -26,6 +28,7 @@ import com.sevtinge.hyperceiler.module.hook.screenshot.DeviceShellCustomize;
 import com.sevtinge.hyperceiler.module.hook.screenshot.SaveToPictures;
 import com.sevtinge.hyperceiler.module.hook.screenshot.UnlockMinimumCropLimit2;
 import com.sevtinge.hyperceiler.module.hook.screenshot.UnlockPrivacyMarking;
+import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
 @HookBase(targetPackage = "com.miui.screenshot")
@@ -39,5 +42,6 @@ public class ScreenShot extends BaseModule {
         initHook(UnlockPrivacyMarking.INSTANCE, mPrefsMap.getBoolean("screenshot_unlock_privacy_marking"));
         // 超级剪切板
         initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getStringAsInt("various_super_clipboard_e", 0) != 0);
+        initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure") && isMoreAndroidVersion(33));
     }
 }

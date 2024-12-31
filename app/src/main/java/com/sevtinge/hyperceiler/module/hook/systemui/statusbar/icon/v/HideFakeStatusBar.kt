@@ -61,6 +61,10 @@ object HideFakeStatusBar : MusicBaseHook() {
     // 正在显示焦点通知歌词(有歌词并且正在 UI 上显示)
     private var isShowingFocusedLyric: Boolean = false
 
+    private val miuiNotificationClass by lazy {
+        loadClass("com.android.systemui.qs.MiuiNotificationHeaderView")
+    }
+
     private fun updateLayout() {
         if (isShowingFocused.value && isLyric.value && !showCLock) {
             isShowingFocusedLyric = true
@@ -102,26 +106,26 @@ object HideFakeStatusBar : MusicBaseHook() {
 
         loadClass("com.android.systemui.statusbar.phone.MiuiPhoneStatusBarView").methodFinder()
             .filterByName("onFinishInflate").first().createAfterHook {
-                logI(lpparam.packageName, "onFinishInflate")
+                logD(TAG, lpparam.packageName, "onFinishInflate")
                 // 通知栏左边部分(包含时间和通知图标)
                 mStatusBarLeftContainer =
-                    it.thisObject.getObjectField("mStatusBarLeftContainer") as View
+                    it.thisObject.getObjectFieldOrNullAs<View>("mStatusBarLeftContainer") ?: return@createAfterHook
                 // mStatusBarLeftContainer!!.visibility = View.INVISIBLE
             }
         loadClass("com.android.systemui.statusbar.phone.fragment.CollapsedStatusBarFragment").methodFinder()
             .filterByName("onViewCreated").first().createAfterHook {
                 // 焦点通知左边竖线
-                mFocusedNotLine = it.thisObject.getObjectField("mFocusedNotLine") as View
+                mFocusedNotLine = it.thisObject.getObjectFieldOrNullAs<View>("mFocusedNotLine") ?: return@createAfterHook
                 // 焦点通知左边占位布局
-                mClockSeat = it.thisObject.getObjectField("mClockSeat") as View
+                mClockSeat = it.thisObject.getObjectFieldOrNullAs<View>("mClockSeat") ?: return@createAfterHook
             }
 
-        loadClass("com.android.systemui.qs.MiuiNotificationHeaderView").methodFinder()
+        miuiNotificationClass.methodFinder()
             .filterByName("onFinishInflate").first().createAfterHook {
                 // 大时钟布局
-                mBigTime = it.thisObject.getObjectField("mBigTime") as TextView
+                mBigTime = it.thisObject.getObjectFieldOrNullAs<TextView>("mBigTime") ?: return@createAfterHook
             }
-        loadClass("com.android.systemui.qs.MiuiNotificationHeaderView").methodFinder()
+        miuiNotificationClass.methodFinder()
             .filterByName("updateBigTimeColor").first().replaceMethod {
                 if (isShowingFocusedLyric) {
                     // 显示歌词的时候取消设置大时钟颜色(假时钟动画会设置颜色,显示歌词的时候取消了假时钟动画,所以可能会下拉通知栏之后时间是黑色)
@@ -148,9 +152,9 @@ object HideFakeStatusBar : MusicBaseHook() {
                     if (isShowingFocusedLyric) {
                         // 在显示歌词的时候固定通知栏顶部时间和日期的位置和缩放
                         val notificationHeaderExpandController =
-                            it.thisObject.getObjectField("this\$0")
+                            it.thisObject.getObjectFieldOrNull("this\$0") ?: return@after
                         val combinedHeaderController =
-                            notificationHeaderExpandController!!.getObjectField("headerController")!!
+                            notificationHeaderExpandController.getObjectFieldOrNull("headerController")!!
                                 .callMethod("get")
                         val notificationBigTime =
                             combinedHeaderController!!.getObjectFieldAs<TextView>("notificationBigTime")
@@ -184,9 +188,9 @@ object HideFakeStatusBar : MusicBaseHook() {
                     if (isShowingFocusedLyric) {
                         // 显示歌词的时候手动调用动画,防止大时钟突然出现
                         val notificationHeaderExpandController =
-                            it.thisObject.getObjectField("this\$0")
+                            it.thisObject.getObjectFieldOrNull("this\$0") ?: return@after
                         val combinedHeaderController =
-                            notificationHeaderExpandController!!.getObjectField("headerController")!!
+                            notificationHeaderExpandController.getObjectField("headerController")!!
                                 .callMethod("get")
                         loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController")
                             .callStaticMethod(
@@ -205,8 +209,8 @@ object HideFakeStatusBar : MusicBaseHook() {
             .filterByName("notifyNotifBeanChanged").first().createHook {
                 before {
                     // 焦点通知更新的事件,通过这个判断当前展示的焦点通知是不是歌词
-                    val sbn = it.args[0]?.getObjectField("sbn") as StatusBarNotification?
-                    isLyric.value = sbn?.notification?.channelId == CHANNEL_ID
+                    val sbn = it.args[0]?.getObjectFieldOrNullAs<StatusBarNotification?>("sbn") ?: return@before
+                    isLyric.value = sbn.notification?.channelId == CHANNEL_ID
                     updateLayout()
                 }
             }
@@ -258,7 +262,7 @@ object HideFakeStatusBar : MusicBaseHook() {
                 // 获取是否在显示焦点通知
                 // 更新一次 isShowingFocused
                 isShowingFocused.value =
-                    it.thisObject.getBooleanField("mIsFocusedNotifyViewShowing")
+                    it.thisObject.getBooleanFieldOrNull("mIsFocusedNotifyViewShowing") ?: return@createAfterHook
                 updateLayout()
             }
     }
