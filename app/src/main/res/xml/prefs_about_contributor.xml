@@ -14,7 +14,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
-  ~ Copyright (C) 2023-2024 HyperCeiler Contributions
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -42,6 +42,13 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/CLOUDERHEM" />
+        </Preference>
+        <Preference
+            android:summary="GitHub@DeepChirp"
+            android:title="DeepChirp">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/DeepChirp" />
         </Preference>
         <Preference
             android:summary="GitHub@ItzDFPlayer"
@@ -231,6 +238,13 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/SmartJQ" />
+        </Preference>
+        <Preference
+            android:summary="GitHub@SpaceVector"
+            android:title="SpaceVector">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/SpaceVector" />
         </Preference>
         <Preference
             android:summary="GitHub@yxsra"

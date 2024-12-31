@@ -14,7 +14,7 @@
   * You should have received a copy of the GNU Affero General Public License
   * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
+  * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
 package com.sevtinge.hyperceiler.utils.devicesdk
 
@@ -30,7 +30,7 @@ val IS_INTERNATIONAL_BUILD by lazy {
 
 /**
  * 函数调用，适用于其他一些需要判断的情况，仅支持小米设备的判断
- * 2024-04-20 更新对非小米设备的判断方式，仅防止闪退
+ * 2025-04-20 更新对非小米设备的判断方式，仅防止闪退
  * @return 一个 Boolean 值，true 代表是平板，false 代表不是平板
  */
 fun isPad(): Boolean {

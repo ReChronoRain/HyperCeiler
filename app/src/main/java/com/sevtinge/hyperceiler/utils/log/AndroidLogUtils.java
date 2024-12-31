@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
- * Copyright (C) 2023-2024 HyperCeiler Contributions
+ * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.utils.log;
 
@@ -26,9 +26,9 @@ import com.sevtinge.hyperceiler.utils.PropUtils;
  * 可能因为 <BaseHook.mPrefsMap.getBoolean("settings_disable_detailed_log");>
  * 会导致 <java.lang.NoClassDefFoundError: Failed resolution of: Lcom/sevtinge/hyperceiler/XposedInit;> 等
  * 日记:
- * 2024/1/3
+ * 2025/1/3
  * 我的评价是不要限制这个。
- * 2024/1/4
+ * 2025/1/4
  * 我爱 prop。
  * */
 public class AndroidLogUtils {

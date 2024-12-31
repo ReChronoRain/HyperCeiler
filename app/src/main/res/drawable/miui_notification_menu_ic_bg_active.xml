@@ -14,7 +14,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
-  ~ Copyright (C) 2023-2024 HyperCeiler Contributions
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
   -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android" android:height="@dimen/miui_notification_modal_menu_icon_bg_size" android:width="@dimen/miui_notification_modal_menu_icon_bg_size" android:viewportWidth="156" android:viewportHeight="156">
 	<path android:fillColor="#ff0073dd" android:pathData="M78,78m-78,0a78,78 0,1 1,156 0a78,78 0,1 1,-156 0"/>

@@ -14,7 +14,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
-  ~ Copyright (C) 2023-2024 HyperCeiler Contributions
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -27,7 +27,7 @@
             android:title="@string/camera_custom_theme_color" />
 
         <ColorPickerPreference
-            android:defaultValue="-2024677"
+            android:defaultValue="-2025677"
             android:dependency="prefs_key_camera_custom_theme_color"
             android:key="prefs_key_camera_custom_theme_color_picker"
             android:title="@string/camera_custom_theme_color_picker" />

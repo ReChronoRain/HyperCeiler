@@ -15,11 +15,11 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
-  ~ Copyright (C) 2023-2024 HyperCeiler Contributions
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
   -->
 <resources>
     <string name="version_update">發現新版本</string>
-    <string name="about_copy_right">© 2023-2024 Sevtinge &amp; HyperCeiler 的建設者.</string>
+    <string name="about_copy_right">© 2023-2025 Sevtinge &amp; HyperCeiler 的建設者.</string>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">讓 HyperOS/MIUI 再次偉大！</string>
     <string name="new_permission_wifi_state_desc">在裝置的內部儲存空間新增和刪除檔案</string>

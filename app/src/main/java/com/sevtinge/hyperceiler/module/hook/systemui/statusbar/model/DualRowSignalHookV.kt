@@ -14,7 +14,7 @@
   * You should have received a copy of the GNU Affero General Public License
   * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
+  * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model
 
@@ -302,16 +302,16 @@ class DualRowSignalHookV : BaseHook() {
      *   -> access$setTintColor
      *     14系列没有此方法导致移动网络类型单独显示不能正常反色
      *
-     * K60U(OS2.0.0.31) / 2024-12-06:
+     * K60U(OS2.0.0.31) / 2025-12-06:
      *   -> setImageResWithTintLight
      *   -> access$resetImageWithTintLight
      *   -> setTintColor
      *
-     * 13系列 / 2024-12-06:
+     * 13系列 / 2025-12-06:
      *   -> access$setImageResWithTintLight
      *   access$resetImageWithTintLight 和 access$setTintColor 改成了 lambda 内联
      *
-     * 14系列 / 2024-12-07:
+     * 14系列 / 2025-12-07:
      *   同上
      */
     private fun setDualSignalIcon() {
