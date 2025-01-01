@@ -22,7 +22,7 @@ ezxhelper = "2.2.0"
 hiddenapibypass = "4.3"
 hooktool = "v.1.1.4"
 lyricGetterApi = "6.0.0"
-mmkv = "2.0.1"
+mmkv = "2.0.2"
 
 [libraries]
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
