@@ -145,17 +145,15 @@ public class FlagSecure extends BaseHook {
                 }
 
                 // Xiaomi HyperOS (U)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                    try {
-                        var windowManagerServiceImplClazz = XposedHelpers.findClass("com.android.server.wm.WindowManagerServiceImpl", lpparam.classLoader);
-                        XposedHelpers.findAndHookMethod(
-                                windowManagerServiceImplClazz,
-                                "notAllowCaptureDisplay",
-                                XposedHelpers.findClass("com.android.server.wm.RootWindowContainer", lpparam.classLoader), int.class,
-                                XC_MethodReplacement.returnConstant(false));
-                    } catch (Throwable t) {
-                        logE(TAG, this.lpparam.packageName, "hook HyperOS failed", t);
-                    }
+                try {
+                    var windowManagerServiceImplClazz = XposedHelpers.findClass("com.android.server.wm.WindowManagerServiceImpl", lpparam.classLoader);
+                    XposedHelpers.findAndHookMethod(
+                            windowManagerServiceImplClazz,
+                            "notAllowCaptureDisplay",
+                            XposedHelpers.findClass("com.android.server.wm.RootWindowContainer", lpparam.classLoader), int.class,
+                            XC_MethodReplacement.returnConstant(false));
+                } catch (Throwable t) {
+                    logE(TAG, this.lpparam.packageName, "hook HyperOS failed", t);
                 }
             }
 

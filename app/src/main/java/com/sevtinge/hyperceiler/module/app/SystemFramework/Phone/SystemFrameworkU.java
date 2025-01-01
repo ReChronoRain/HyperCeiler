@@ -157,7 +157,6 @@ public class SystemFrameworkU extends BaseModule {
 
         // Other
         initHook(new PackagePermissions(), true);
-        initHook(new RotationButton(), mPrefsMap.getStringAsInt("system_framework_other_rotation_button_int", 0) == 2);
         initHook(new GlobalActions(), mLoadPackageParam.processName.equals("android"));
         initHook(new ThermalBrightness(), mPrefsMap.getBoolean("system_framework_other_thermal_brightness"));
         initHook(DisableCleaner.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_cleaner"));
