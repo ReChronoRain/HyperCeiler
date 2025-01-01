@@ -1454,7 +1454,6 @@
     <string name="mediaeditor_unlock_custom_photo_frames_title">フレームの種類をカスタマイズ</string>
     <string name="mediaeditor_unlock_leica_filter_title">Leica フィルターをアンロック</string>
     <string name="mediaeditor_unlock_leica_filter_desc">一部のバージョンにのみ対応しています</string>
-    <string name="mediaeditor_filter_manager">フィルターマネージャーをアンロック</string>
     <string name="mediaeditor_unlock_aigc">AIGC をアンロック</string>
     <!--Mi Share-->
     <string name="mishare">Mi シェア</string>

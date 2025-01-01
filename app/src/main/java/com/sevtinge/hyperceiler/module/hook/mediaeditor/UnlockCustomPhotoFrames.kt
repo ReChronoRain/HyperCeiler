@@ -28,9 +28,6 @@ object UnlockCustomPhotoFrames : BaseHook() {
     private val frames by lazy {
         mPrefsMap.getStringAsInt("mediaeditor_unlock_custom_photo_frames", 0)
     }
-    private val isOpenSpring by lazy {
-        mPrefsMap.getBoolean("mediaeditor_unlock_spring")
-    }
     private val isNewMediaeditor by lazy {
         // 以 1.7.5.0.4 为新旧版本分界线
         getPackageVersionCode(lpparam) >= 4658180
@@ -116,13 +113,13 @@ object UnlockCustomPhotoFrames : BaseHook() {
             other(method)
         }
 
-        if (isOpenSpring && publicC.isNotEmpty()) {
+        /*if (isOpenSpring && publicC.isNotEmpty()) {
             publicC.forEach { method ->
                 other(method)
                 // 1.6.0.5.2 新增限时新春定制画框
                 // 后续版本已移除，其实可以删掉的，但还是留着吧，兴许后面可能还有用
             }
-        }
+        }*/
     }
 
     private fun xiaomi(name: Method) {

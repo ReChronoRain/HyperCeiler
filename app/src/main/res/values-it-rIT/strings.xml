@@ -1249,7 +1249,6 @@
     <string name="mediaeditor_unlock_custom_photo_frames_title">Personalizza il tipo di cornice</string>
     <string name="mediaeditor_unlock_leica_filter_title">Sblocca il filtro Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Sono supportate solo alcune versioni</string>
-    <string name="mediaeditor_filter_manager">Sblocca la gestione filtri</string>
     <!--Mi Share-->
     <string name="mishare">Mi Share</string>
     <string name="mishare_disable_mishare_auto_off">Disabilita la chiusura automatica di Mi Share</string>

@@ -1574,7 +1574,6 @@
     <string name="mediaeditor_unlock_custom_photo_frames_title">Customize the frame type</string>
     <string name="mediaeditor_unlock_leica_filter_title">Unlock the Leica filter</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Only some versions are supported</string>
-    <string name="mediaeditor_filter_manager">Unlock the filter manager</string>
     <string name="mediaeditor_unlock_aigc">Unlock AIGC</string>
     <!--Mi Share-->
     <string name="mishare">Xiaomi Share</string>

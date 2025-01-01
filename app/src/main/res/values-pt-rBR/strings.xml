@@ -1494,7 +1494,6 @@
     <string name="mediaeditor_unlock_custom_photo_frames_title">Personalizar tipo de moldura</string>
     <string name="mediaeditor_unlock_leica_filter_title">Desbloquear filtro Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Apenas algumas versões são suportadas</string>
-    <string name="mediaeditor_filter_manager">Desbloquear gerenciador de filtros</string>
     <string name="mediaeditor_unlock_aigc">Desbloquear AIGC</string>
     <!--Mi Share-->
     <string name="mishare">Xiaomi Share</string>

@@ -1493,7 +1493,6 @@
     <string name="mediaeditor_unlock_custom_photo_frames_title">تخصيص نوع الإطار</string>
     <string name="mediaeditor_unlock_leica_filter_title">فتح فلتر لايكا</string>
     <string name="mediaeditor_unlock_leica_filter_desc">يتم دعم بعض الإصدارات فقط</string>
-    <string name="mediaeditor_filter_manager">فتح مدير الفلاتر</string>
     <string name="mediaeditor_unlock_aigc">فتح AIGC</string>
     <!--Mi Share-->
     <string name="mishare">مشاركة شاومي</string>

@@ -37,11 +37,6 @@
             android:summary="@string/mediaeditor_unlock_leica_filter_desc"
             android:title="@string/mediaeditor_unlock_leica_filter_title" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_mediaeditor_filter_manager"
-            android:title="@string/mediaeditor_filter_manager" />
-
         <EditTextPreference
             android:title="@string/camera_custom_watermark"
             android:key="prefs_key_mediaeditor_custom_watermark"
@@ -50,11 +45,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/mediaeditor_ai_authoring">
-        <SwitchPreference
+        <!--<SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_mediaeditor_unlock_spring"
             android:summary="@string/mediaeditor_unlock_spring_desc"
-            android:title="@string/mediaeditor_unlock_spring_title" />
+            android:title="@string/mediaeditor_unlock_spring_title" />-->
 
         <fan.preference.DropDownPreference
             android:defaultValue="0"
