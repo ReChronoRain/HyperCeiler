@@ -51,6 +51,9 @@ object BlurButton : BaseHook() {
     private val hyperBlur by lazy {
         mPrefsMap.getBoolean("system_ui_lock_screen_hyper_blur_button")
     }
+    private val blurBotton by lazy {
+        isTransparencyLow(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0))
+    }
 
     override fun init() {
         // by StarVoyager
@@ -63,23 +66,13 @@ object BlurButton : BaseHook() {
                     )
                 }.toList().createHooks {
                     after { param ->
-                        if (hyperBlur) hyperBlur(param) else systemBlur(param)
+                        try {
+                            if (hyperBlur) hyperBlur(param) else systemBlur(param)
+                            if (blurBotton) param.thisObject.setBooleanField("mBottomIconRectIsDeep", isColorDark(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0)))
+                        } catch (_: Throwable) {
+                        }
                     }
                 }
-            if (isTransparencyLow(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0))) {
-                findAndHookMethod("com.android.keyguard.injector.KeyguardBottomAreaInjector", "updateLeftIcon",
-                    object : MethodHook() {
-                        override fun before(param: MethodHookParam) {
-                            XposedHelpers.setBooleanField(param.thisObject, "mBottomIconRectIsDeep", isColorDark(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0)))
-                        }
-                    })
-                findAndHookMethod("com.android.keyguard.injector.KeyguardBottomAreaInjector", "updateRightIcon",
-                    object : MethodHook() {
-                        override fun before(param: MethodHookParam) {
-                            XposedHelpers.setBooleanField(param.thisObject, "mBottomIconRectIsDeep", isColorDark(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0)))
-                        }
-                    })
-            }
         } else {
             loadClassOrNull(
                 "com.android.systemui.statusbar.phone.KeyguardBottomAreaView"
@@ -93,7 +86,10 @@ object BlurButton : BaseHook() {
                     )
                 }.toList().createHooks {
                     after { param ->
-                        systemBlur(param)
+                        try {
+                            systemBlur(param)
+                        } catch (_: Throwable) {
+                        }
                     }
                 }
         }
@@ -166,7 +162,7 @@ object BlurButton : BaseHook() {
                 mLeftAffordanceView.background = if (!removeLeft) {
                     setOldBackgroundBlur(keyguardBottomAreaView)
                 } else null
-                mRightAffordanceView.background =  if (!removeRight) {
+                mRightAffordanceView.background = if (!removeRight) {
                     setOldBackgroundBlur(keyguardBottomAreaView)
                 } else null
             } else {
