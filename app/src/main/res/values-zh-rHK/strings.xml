@@ -1356,7 +1356,7 @@
     <string name="mediaeditor_unlock_custom_photo_frames_title">訂製画框類型</string>
     <string name="mediaeditor_unlock_leica_filter_title">解鎖 Leica 濾鏡</string>
     <string name="mediaeditor_unlock_leica_filter_desc">僅支援部分版本</string>
-    <string name="mediaeditor_filter_manager">解鎖大師濾鏡</string>
+    <string name="mediaeditor_unlock_aigc">解鎖 AIGC</string>
     <!--Mi Share-->
     <string name="mishare">小米互傳</string>
     <string name="mishare_disable_mishare_auto_off">禁用自動關閉小米互傳</string>

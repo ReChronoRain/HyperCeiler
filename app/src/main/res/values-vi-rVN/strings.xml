@@ -1500,7 +1500,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="mediaeditor_unlock_custom_photo_frames_title">Tùy chỉnh loại khung hình</string>
     <string name="mediaeditor_unlock_leica_filter_title">Mở khóa bộ lọc Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Chỉ hỗ trợ một số phiên bản</string>
-    <string name="mediaeditor_filter_manager">Mở khóa bộ lọc chính</string>
     <string name="mediaeditor_unlock_aigc">Mở khóa AIGC</string>
     <!--Mi Share-->
     <string name="mishare">Mi Share</string>

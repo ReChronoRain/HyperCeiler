@@ -1283,7 +1283,6 @@ aplicaciones del sistema</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">Personalizar el tipo de marco</string>
     <string name="mediaeditor_unlock_leica_filter_title">Desbloquear filtros de Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Solo en algunas versiones se funciona</string>
-    <string name="mediaeditor_filter_manager">Desbloquear filtros de maestro</string>
     <!--Mi Share-->
     <string name="mishare">Mi Share</string>
     <string name="mishare_disable_mishare_auto_off">No se permite el cierre automático de Mi Share</string>

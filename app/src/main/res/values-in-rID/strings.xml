@@ -1279,7 +1279,6 @@
     <string name="mediaeditor_unlock_custom_photo_frames_title">Sesuaikan jenis bingkai</string>
     <string name="mediaeditor_unlock_leica_filter_title">Buka kunci filter Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Hanya beberapa versi yang didukung</string>
-    <string name="mediaeditor_filter_manager">Buka kunci manajer filter</string>
     <!--Mi Share-->
     <string name="mishare">Mi Share</string>
     <string name="mishare_disable_mishare_auto_off">Nonaktifkan penutupan otomatis Mi Share</string>

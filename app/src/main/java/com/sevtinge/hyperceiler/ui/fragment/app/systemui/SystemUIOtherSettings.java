@@ -34,6 +34,8 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
+import java.util.Objects;
+
 import fan.preference.DropDownPreference;
 
 public class SystemUIOtherSettings extends DashboardFragment {
@@ -88,7 +90,7 @@ public class SystemUIOtherSettings extends DashboardFragment {
                 (preference, o) -> {
                     ComponentName componentName = new ComponentName("miui.systemui.plugin",
                             "miui.systemui.volume.VolumeDialogPlugin");
-                    PackageManager packageManager = getContext().getPackageManager();
+                    PackageManager packageManager = requireContext().getPackageManager();
                     if ((boolean) o) {
                         packageManager.setComponentEnabledSetting(componentName,
                                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
@@ -107,7 +109,7 @@ public class SystemUIOtherSettings extends DashboardFragment {
             public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
                 ComponentName componentName = new ComponentName("miui.systemui.plugin",
                         "miui.systemui.globalactions.GlobalActionsPlugin");
-                PackageManager packageManager = getContext().getPackageManager();
+                PackageManager packageManager = requireContext().getPackageManager();
                 if ((boolean) o) {
                     packageManager.setComponentEnabledSetting(componentName,
                             PackageManager.COMPONENT_ENABLED_STATE_DISABLED,

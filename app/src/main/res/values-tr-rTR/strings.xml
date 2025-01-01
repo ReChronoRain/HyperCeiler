@@ -1269,7 +1269,6 @@
     <string name="mediaeditor_unlock_custom_photo_frames_title">Çerçeve türünü özelleştirin</string>
     <string name="mediaeditor_unlock_leica_filter_title">Leica filtresinin kilidini açın</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Sadece bazı sürümler destekleniyor</string>
-    <string name="mediaeditor_filter_manager">Filtre yöneticisinin kilidini açın</string>
     <!--Mi Share-->
     <string name="mishare">Mi Paylaşım</string>
     <string name="mishare_disable_mishare_auto_off">Mi Paylaşımının otomatik kapanmasını devre dışı bırak</string>

@@ -1494,7 +1494,6 @@
     <string name="mediaeditor_unlock_custom_photo_frames_title">Изменить тип фрейма</string>
     <string name="mediaeditor_unlock_leica_filter_title">Разблокировать фильтр Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Поддерживаются только некоторые версии</string>
-    <string name="mediaeditor_filter_manager">Менеджер фильтров</string>
     <string name="mediaeditor_unlock_aigc">Разблокировать AIGC</string>
     <!--Mi Share-->
     <string name="mishare">Mi Share</string>

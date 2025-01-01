@@ -1494,7 +1494,6 @@
     <string name="mediaeditor_unlock_custom_photo_frames_title">Dostosuj typ ramki</string>
     <string name="mediaeditor_unlock_leica_filter_title">Odblokuj filtr Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Obsługiwane są tylko niektóre wersje</string>
-    <string name="mediaeditor_filter_manager">Odblokuj menedżera filtrów</string>
     <string name="mediaeditor_unlock_aigc">Odblokuj AIGC</string>
     <!--Mi Share-->
     <string name="mishare">Mi Share</string>
