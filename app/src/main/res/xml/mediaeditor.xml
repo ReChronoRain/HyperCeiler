@@ -20,27 +20,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/mediaeditor"
     app:quick_restart="com.miui.mediaeditor">
-
-    <Preference
-        android:enabled="false"
-        android:layout="@layout/headtip_tip"
-        android:title="@string/mediaeditor_tip" />
-
-    <PreferenceCategory>
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_mediaeditor_hook_type"
-            android:title="@string/mediaeditor_hook_type"
-            app:entries="@array/mediaeditor_hook_type"
-            app:entryValues="@array/mediaeditor_hook_type_value" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_mediaeditor_unlock_aigc"
-            android:title="@string/mediaeditor_unlock_aigc" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/mediaeditor_foundation">
         <SwitchPreference
             android:defaultValue="false"
@@ -49,95 +28,35 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_mediaeditor_unlock_aigc"
+            android:title="@string/mediaeditor_unlock_aigc" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_mediaeditor_unlock_leica_filter"
             android:summary="@string/mediaeditor_unlock_leica_filter_desc"
             android:title="@string/mediaeditor_unlock_leica_filter_title" />
 
         <EditTextPreference
-            android:defaultValue=""
+            android:title="@string/camera_custom_watermark"
             android:key="prefs_key_mediaeditor_custom_watermark"
-            android:title="@string/camera_custom_watermark" />
+            android:defaultValue="" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:key="prefs_key_mediaeditor_custom_photo_frames_v2"
-        android:title="@string/mediaeditor_authoring">
-        <SwitchPreference
+    <PreferenceCategory android:title="@string/mediaeditor_ai_authoring">
+        <!--<SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_mediaeditor_unlock_spring"
             android:summary="@string/mediaeditor_unlock_spring_desc"
-            android:title="@string/mediaeditor_unlock_spring_title" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_mediaeditor_unlock_custom_photo_frames_v2"
-            android:title="@string/mediaeditor_unlock_custom_photo_frames_v2_title" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_mediaeditor_unlock_disney_some_func_v2"
-            android:title="@string/mediaeditor_unlock_disney_title" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:dependency="prefs_key_mediaeditor_unlock_custom_photo_frames_v2"
-        android:key="prefs_key_mediaeditor_custom_photo_frames_v2_photo"
-        android:title="@string/mediaeditor_custom_photo_frames_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_mediaeditor_unlock_custom_photo_frames_leica"
-            android:title="Leica" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_mediaeditor_unlock_custom_photo_frames_redmi"
-            android:title="Redmi" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_mediaeditor_unlock_custom_photo_frames_poco"
-            android:title="POCO" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:dependency="prefs_key_mediaeditor_unlock_disney_some_func_v2"
-        android:key="prefs_key_mediaeditor_custom_photo_frames_v2_disney"
-        android:title="@string/mediaeditor_custom_disney_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_mediaeditor_unlock_mickey_some_func"
-            android:title="@string/mediaeditor_mickey" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_mediaeditor_unlock_bear_some_func"
-            android:title="@string/mediaeditor_strawberry_bear" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_mediaeditor_unlock_princess_some_func"
-            android:title="@string/mediaeditor_disney_princess" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="prefs_key_mediaeditor_custom_photo_frames_v1"
-        android:title="@string/mediaeditor_ai_authoring">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_mediaeditor_unlock_spring"
-            android:summary="@string/mediaeditor_unlock_spring_desc"
-            android:title="@string/mediaeditor_unlock_spring_title" />
+            android:title="@string/mediaeditor_unlock_spring_title" />-->
 
         <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_mediaeditor_unlock_custom_photo_frames"
             android:title="@string/mediaeditor_unlock_custom_photo_frames_title"
-            app:entries="@array/customize_frame_type_v1"
-            app:entryValues="@array/customize_frame_type_v1_value" />
+            app:entries="@array/customize_frame_type"
+            app:entryValues="@array/customize_frame_type_value" />
 
         <fan.preference.DropDownPreference
             android:defaultValue="0"
@@ -147,5 +66,4 @@
             app:entries="@array/customize_disney_type"
             app:entryValues="@array/customize_disney_type_value" />
     </PreferenceCategory>
-
 </PreferenceScreen>
