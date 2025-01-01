@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
@@ -58,7 +60,11 @@ public class StatusBarIconPositionAdjust extends BaseHook {
     @Override
     public void init() {
 
-        mStatusBarIconList = findClassIfExists("com.android.systemui.statusbar.phone.ui.StatusBarIconList");
+        if (isMoreHyperOSVersion(2f)) {
+            mStatusBarIconList = findClassIfExists("com.android.systemui.statusbar.phone.ui.StatusBarIconList");
+        } else {
+            mStatusBarIconList = findClassIfExists("com.android.systemui.statusbar.phone.StatusBarIconList");
+        }
         mSystemUIApplication = findClassIfExists("com.android.systemui.SystemUIApplication");
         mMiuiDripLeftStatusBarIconControllerImpl = findClassIfExists("com.android.systemui.statusbar.phone.MiuiDripLeftStatusBarIconControllerImpl");
 
