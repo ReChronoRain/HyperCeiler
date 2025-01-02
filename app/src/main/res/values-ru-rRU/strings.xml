@@ -219,7 +219,9 @@
     <string name="miuix_alphabet_indexer_name">Индексная панель</string>
     <string name="miuix_appcompat_action_mode_cancel">Отмена</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">Очистка</string>
+    <string name="miuix_appcompat_color_erro_entry">Неправильное значение. Пожалуйста, проверьте и введите снова.</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">Прозрачность</string>
+    <string name="miuix_appcompat_color_picker_custom_color">Пользовательский цвет</string>
     <string name="miuix_appcompat_color_picker_tab_dynamic">Monet</string>
     <string name="miuix_appcompat_color_picker_tab_grid">Сетка</string>
     <string name="miuix_appcompat_color_picker_tab_slider">Ползунок</string>
@@ -234,6 +236,7 @@
     <string name="miuix_navigator_content_switch_description">Показать боковую панель</string>
     <string name="miuix_navigator_multiple_choice">Выбрать</string>
     <string name="miuix_navigator_navigator_switch_description">Скрыть боковую панель</string>
+    <string name="miuix_preference_textentry_erro_entry">Неправильное значение. Пожалуйста, проверьте и введите снова.</string>
     <string name="miuix_sbl_tracking_progress_labe_pull_to_refresh">Потянуть вниз для обновления</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshed">Успешно обновлено</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshing">Обновление…</string>
@@ -642,6 +645,8 @@
     <string name="phone_disable_remove_network_mode">Отключить \"Удалить сетевой режим\"</string>
     <string name="phone_vice_slot_volte">Интернет во время вызовов VoLTE</string>
     <string name="phone_vice_slot_volte_desc">Используйте мобильные данные во время вызовов VoLTE на дополнительной SIM-карте</string>
+    <string name="phone_unlock_voice_link">Разблокировать голосовую ссылку</string>
+    <string name="phone_unlock_voice_link_desc">Разблокировать голосовую ссылку для некоторых SIM-карт, поддерживающих WiFi-вызов.</string>
     <!--Download management program-->
     <string name="downloads">Диспетчер загрузки</string>
     <string name="various_fuck_xlDownload">Заблокировать создание папки .xl Download</string>
@@ -959,6 +964,8 @@
     <string name="system_ui_control_center_remove_media_control_panel_background">Удалить смешанный цветной фон с карты</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Радиус размытия фонового изображения</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Непрозрачность слоя наложения фона</string>
+    <string name="system_ui_control_center_media_control_media_button_title">Кнопка \"Медиа\"</string>
+    <string name="system_ui_control_center_media_control_media_seekbar_title">Панель поиска медиа</string>
     <string name="system_ui_control_center_compact_notice">Компактные уведомления</string>
     <string name="system_ui_control_center_compact_notice_desc">Уменьшить вертикальные отступы уведомлений</string>
     <string name="system_ui_control_center_redirect_notice">Перенаправить настройки уведомлений</string>
@@ -1003,6 +1010,11 @@
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Разрешить отображение 10, 17 или более уведомлений.</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">Оптимизация смешивания цветов фона подсветки уведомлений</string>
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">Вернуться к обычному стилю смешивания цветов уведомлений</string>
+    <string name="system_ui_control_center_qs_brightness_top_value_show_title">Значение яркости дисплея</string>
+    <string name="system_ui_control_center_qs_volume_top_value_show_title">Отображать значение громкости</string>
+    <string name="system_ui_control_center_qs_top_value_title">Содержание</string>
+    <string name="system_ui_control_center_qs_top_value_per">Проценты</string>
+    <string name="system_ui_control_center_qs_top_value_original">Оригинальное значение</string>
     <string name="system_ui_other_title">Прочее</string>
     <string name="system_ui_disable_volume">Встроенная панель громкости</string>
     <string name="system_ui_disable_power">Меню выключения от AOSP</string>
@@ -1498,6 +1510,7 @@
     <!--Mi Share-->
     <string name="mishare">Mi Share</string>
     <string name="mishare_disable_mishare_auto_off">Отключить автозакрытие Mi Share</string>
+    <string name="mishare_disable_auto_on_location">Включайте службы определения местоположения, когда общий доступ к файлам отключен.</string>
     <string name="mishare_unlock_turbo_mode">Разблокировать турбоперенос</string>
     <string name="mishare_hook_switch_mode_all">Все</string>
     <!--Wallpaper-->
@@ -1918,4 +1931,8 @@
     <string name="log_level_none">Отключить журнал</string>
     <string name="disable_suggest">Отключить предложение</string>
     <string name="enable_suggest">Включить предложение</string>
+    <string name="notification_channel_app_crash_name">Приложение работает ненормально</string>
+    <string name="notification_title_message_emergency_crash">%s множественные сбои</string>
+    <string name="notification_content_message">Нажмите, чтобы просмотреть детали.</string>
+    <string name="notification_view">Просмотреть</string>
 </resources>
