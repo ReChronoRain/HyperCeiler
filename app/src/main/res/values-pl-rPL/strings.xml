@@ -219,7 +219,9 @@
     <string name="miuix_alphabet_indexer_name">Pasek indeksu</string>
     <string name="miuix_appcompat_action_mode_cancel">Anuluj</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">Wyczyść</string>
+    <string name="miuix_appcompat_color_erro_entry">Nieprawidłowa wartość. Proszę sprawdzić ją i wprowadzić ponownie.</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">Przezroczystość</string>
+    <string name="miuix_appcompat_color_picker_custom_color">Własny kolor</string>
     <string name="miuix_appcompat_color_picker_tab_dynamic">Monet</string>
     <string name="miuix_appcompat_color_picker_tab_grid">Siatka</string>
     <string name="miuix_appcompat_color_picker_tab_slider">Suwak</string>
@@ -234,6 +236,7 @@
     <string name="miuix_navigator_content_switch_description">Pokaż pasek boczny</string>
     <string name="miuix_navigator_multiple_choice">Wybierz</string>
     <string name="miuix_navigator_navigator_switch_description">Ukryj pasek boczny</string>
+    <string name="miuix_preference_textentry_erro_entry">Nieprawidłowa wartość. Proszę sprawdzić ją i wprowadzić ponownie.</string>
     <string name="miuix_sbl_tracking_progress_labe_pull_to_refresh">Przeciągnij w dół, aby odświeżyć</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshed">Pomyślnie odświeżono</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshing">Odświeżanie…</string>
@@ -642,6 +645,8 @@
     <string name="phone_disable_remove_network_mode">Wyłącz tryb usuwania sieci</string>
     <string name="phone_vice_slot_volte">Odblokuj VoLTE dla drugiej karty SIM</string>
     <string name="phone_vice_slot_volte_desc">Używa danych mobilnych podczas połączeń VoLTE na wtórnej karcie SIM</string>
+    <string name="phone_unlock_voice_link">Odblokuj łącze głosowe</string>
+    <string name="phone_unlock_voice_link_desc">Odblokuj łącze głosowe dla niektórych kart SIM obsługujących połączenia Wi-Fi</string>
     <!--Download management program-->
     <string name="downloads">Pobrania</string>
     <string name="various_fuck_xlDownload">Blokuj tworzenie folderu .xlDownload</string>
@@ -959,6 +964,8 @@
     <string name="system_ui_control_center_remove_media_control_panel_background">Usuń mieszane tło kolorów z karty</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Promień rozmycia tła</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Przezroczystość warstwy tła nakładki</string>
+    <string name="system_ui_control_center_media_control_media_button_title">Przycisk multimedialny</string>
+    <string name="system_ui_control_center_media_control_media_seekbar_title">Suwak multimediów</string>
     <string name="system_ui_control_center_compact_notice">Kompaktowe powiadomienia</string>
     <string name="system_ui_control_center_compact_notice_desc">Zmniejsza pionowe odstępy powiadomień</string>
     <string name="system_ui_control_center_redirect_notice">Przekieruj ustawienia powiadomień</string>
@@ -1003,6 +1010,11 @@
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Zezwalaj na wyświetlanie 10, 17 lub więcej powiadomień.</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">Optymalizuj mieszanie kolorów tła powiadomień</string>
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">Przywróć standardowe mieszanie kolorów powiadomień</string>
+    <string name="system_ui_control_center_qs_brightness_top_value_show_title">Wyświetl wartość jasności</string>
+    <string name="system_ui_control_center_qs_volume_top_value_show_title">Wyświetl wartość głośności</string>
+    <string name="system_ui_control_center_qs_top_value_title">Treść</string>
+    <string name="system_ui_control_center_qs_top_value_per">Procent</string>
+    <string name="system_ui_control_center_qs_top_value_original">Wartość początkowa</string>
     <string name="system_ui_other_title">Pozostałe</string>
     <string name="system_ui_disable_volume">Natywny pasek głośności</string>
     <string name="system_ui_disable_power">Natywne menu wyłączenia</string>
@@ -1919,4 +1931,8 @@
     <string name="log_level_none">Wyłączone</string>
     <string name="disable_suggest">Wyłącz sugestie</string>
     <string name="enable_suggest">Włącz sugestie</string>
+    <string name="notification_channel_app_crash_name">Aplikacja działa nieprawidłowo</string>
+    <string name="notification_title_message_emergency_crash">%s awarii(rie)</string>
+    <string name="notification_content_message">Kliknij, aby wyświetlić szczegóły</string>
+    <string name="notification_view">Wyświetl</string>
 </resources>

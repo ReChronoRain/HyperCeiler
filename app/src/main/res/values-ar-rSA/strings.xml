@@ -219,7 +219,9 @@
     <string name="miuix_alphabet_indexer_name">شريط الفهرس</string>
     <string name="miuix_appcompat_action_mode_cancel">إلغاء</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">مسح</string>
+    <string name="miuix_appcompat_color_erro_entry">قيمة غير صالحة. الرجاء التحقق منها وإعادة إدخالها.</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">الشفافية</string>
+    <string name="miuix_appcompat_color_picker_custom_color">لون مخصص</string>
     <string name="miuix_appcompat_color_picker_tab_dynamic">مونيت</string>
     <string name="miuix_appcompat_color_picker_tab_grid">الشبكة</string>
     <string name="miuix_appcompat_color_picker_tab_slider">شريط التمرير</string>
@@ -234,6 +236,7 @@
     <string name="miuix_navigator_content_switch_description">إظهار الشريط الجانبي</string>
     <string name="miuix_navigator_multiple_choice">تحديد</string>
     <string name="miuix_navigator_navigator_switch_description">إخفاء الشريط الجانبي</string>
+    <string name="miuix_preference_textentry_erro_entry">قيمة غير صالحة. الرجاء التحقق منها وإعادة إدخالها.</string>
     <string name="miuix_sbl_tracking_progress_labe_pull_to_refresh">اسحب لأسفل للتحديث</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshed">تم التحديث بنجاح</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshing">جاري التحديث…</string>
@@ -642,6 +645,8 @@
     <string name="phone_disable_remove_network_mode">تعطيل إزالة وضع الشبكة</string>
     <string name="phone_vice_slot_volte">فتح VoLTE للشريحة الثانوية</string>
     <string name="phone_vice_slot_volte_desc">استخدام بيانات الجوال أثناء مكالمات VoLTE على شريحة SIM الثانوية</string>
+    <string name="phone_unlock_voice_link">فتح رابط الصوت</string>
+    <string name="phone_unlock_voice_link_desc">فتح الرابط الصوتي لبعض SIMs التي تدعم الاتصال عبر WiFi</string>
     <!--Download management program-->
     <string name="downloads">التنزيلات</string>
     <string name="various_fuck_xlDownload">حظر إنشاء مجلد .xlDownload</string>
@@ -944,6 +949,7 @@
     <string name="system_ui_control_center_corner_radius_desc">لا حاجة لتعديل السمة الافتراضية</string>
     <string name="system_ui_control_center_blur_background_alpha">قيمة خلفية التشويش</string>
     <string name="system_ui_control_center_default_background_alpha">قيمة الخلفية الافتراضية</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">تحسين تأثير مزج الألوان في لوحة التحكم بالوسائط</string>
     <string name="system_ui_control_center_media_control_progress">شريط التقدم</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">إزالة قيود الإجراءات المخصصة لبطاقات إشعار الوسائط</string>
     <string name="system_ui_control_center_media_control_progress_wavy">موجي</string>
@@ -958,6 +964,8 @@
     <string name="system_ui_control_center_remove_media_control_panel_background">إزالة خلفية مزج الألوان من البطاقة</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">نصف قطر خلفية التشويش</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">التعتيم في طبقة التراكب الخلفية</string>
+    <string name="system_ui_control_center_media_control_media_button_title">زر الوسائط</string>
+    <string name="system_ui_control_center_media_control_media_seekbar_title">شريط البحث عن الوسائط</string>
     <string name="system_ui_control_center_compact_notice">الإشعارات المدمجة</string>
     <string name="system_ui_control_center_compact_notice_desc">تقليل المسافات الرأسية للإشعارات</string>
     <string name="system_ui_control_center_redirect_notice">إعادة توجيه إعدادات الإشعارات</string>
@@ -1002,6 +1010,11 @@
     <string name="system_ui_control_center_remove_notif_num_limit_desc">السماح بعرض 10 أو 17 إشعارًا أو أكثر.</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">تحسين خلط ألوان الخلفية في قسم الإشعارات</string>
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">العودة إلى نمط الإشعارات العادي وخلط الألوان</string>
+    <string name="system_ui_control_center_qs_brightness_top_value_show_title">قيمة سطوع العرض</string>
+    <string name="system_ui_control_center_qs_volume_top_value_show_title">عرض قيمة مستوى الصوت</string>
+    <string name="system_ui_control_center_qs_top_value_title">المحتوى</string>
+    <string name="system_ui_control_center_qs_top_value_per">النسبة المئوية</string>
+    <string name="system_ui_control_center_qs_top_value_original">القيمة الأصلية</string>
     <string name="system_ui_other_title">أخرى</string>
     <string name="system_ui_disable_volume">شريط الصوت الأصلي</string>
     <string name="system_ui_disable_power">قائمة إيقاف التشغيل الأصلية</string>
@@ -1497,6 +1510,7 @@
     <!--Mi Share-->
     <string name="mishare">مشاركة شاومي</string>
     <string name="mishare_disable_mishare_auto_off">إيقاف إغلاق مشاركة شاومي التلقائي</string>
+    <string name="mishare_disable_auto_on_location">تمكين خَدمات الموقع عند إيقاف مشاركة الملفات</string>
     <string name="mishare_unlock_turbo_mode">فتح وضع النقل السريع</string>
     <string name="mishare_hook_switch_mode_all">الجميع</string>
     <!--Wallpaper-->
@@ -1733,6 +1747,7 @@
     <string name="market_package_monitor_desc">منع GetApps من مراقبة تثبيت وإلغاء تثبيت التطبيقات</string>
     <string name="market_disable_ads">تعطيل الإعلانات</string>
     <string name="market_bypass_risk_check">تخطي فحص المخاطر</string>
+    <string name="market_disable_start_push_dialog">تعطيل مربع حوار بدأ الدفع</string>
     <!--Mi sound-->
     <string name="misound">السماعات</string>
     <string name="misound_bluetooth">تغيير حالة سماعة الرأس إلى الصوت الأصلي</string>
@@ -1916,4 +1931,8 @@
     <string name="log_level_none">معطل</string>
     <string name="disable_suggest">تعطيل الاقتراحات</string>
     <string name="enable_suggest">تمكين الاقتراحات</string>
+    <string name="notification_channel_app_crash_name">التطبيق يعمل بشكل غير طبيعي</string>
+    <string name="notification_title_message_emergency_crash">%s أعطال متعددة</string>
+    <string name="notification_content_message">انقر هنا لعرض التفاصيل</string>
+    <string name="notification_view">عرض</string>
 </resources>
