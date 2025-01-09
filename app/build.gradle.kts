@@ -99,8 +99,9 @@ android {
         versionCode = 155
         versionName = "2.5.155"
 
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        sdf.timeZone = TimeZone.getTimeZone("Asia/Shanghai")
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").apply {
+            timeZone = TimeZone.getTimeZone("Asia/Shanghai")
+        }
         val buildTime = sdf.format(Date())
         val osName = System.getProperty("os.name")
         // val osArch = System.getProperty("os.arch")
@@ -126,18 +127,12 @@ android {
     }
 
     androidResources {
-        additionalParameters += "--allow-reserved-package-id"
-        additionalParameters += "--package-id"
-        additionalParameters += "0x36"
+        additionalParameters += listOf("--allow-reserved-package-id", "--package-id", "0x36")
     }
 
     packaging {
         resources {
-            excludes += "/META-INF/**"
-            excludes += "/kotlin/**"
-            excludes += "/*.txt"
-            excludes += "/*.bin"
-            excludes += "/*.json"
+            excludes += listOf("/META-INF/**", "/kotlin/**", "/*.txt", "/*.bin", "/*.json")
         }
         dex {
             useLegacyPackaging = true
@@ -188,8 +183,7 @@ android {
                 "proguard-rules.pro",
                 "proguard-log.pro"
             )
-            versionNameSuffix =
-                "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
+            versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
             buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
             signingConfig = if (properties != null) {
@@ -204,8 +198,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            versionNameSuffix =
-                "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
+            versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
             buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
             signingConfig = if (properties != null) {

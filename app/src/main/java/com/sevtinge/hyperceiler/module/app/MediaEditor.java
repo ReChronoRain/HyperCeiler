@@ -34,14 +34,20 @@ public class MediaEditor extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        // AI
+        initHook(new UnlockAigc(), mPrefsMap.getBoolean("mediaeditor_unlock_aigc"));
         // 基础
         initHook(UnlockMinimumCropLimit2.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_minimum_crop_limit"));
         initHook(UnlockLeicaFilter.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_leica_filter"));
         initHook(CustomWatermark.INSTANCE, !Objects.equals(mPrefsMap.getString("mediaeditor_custom_watermark", ""), ""));
-        // AI 创作
-        initHook(UnlockCustomPhotoFrames.INSTANCE, mPrefsMap.getStringAsInt("mediaeditor_unlock_custom_photo_frames", 0) != 0);
-        initHook(UnlockDisney.INSTANCE, mPrefsMap.getStringAsInt("mediaeditor_unlock_disney_some_func", 0) != 0);
-        initHook(new UnlockAigc(), mPrefsMap.getBoolean("mediaeditor_unlock_aigc"));
+        // 创作
+        if (mPrefsMap.getStringAsInt("mediaeditor_hook_type", 0) == 1) {
+            initHook(UnlockCustomPhotoFrames.INSTANCE, mPrefsMap.getStringAsInt("mediaeditor_unlock_custom_photo_frames", 0) != 0);
+            initHook(UnlockDisney.INSTANCE, mPrefsMap.getStringAsInt("mediaeditor_unlock_disney_some_func", 0) != 0);
+        } else if (mPrefsMap.getStringAsInt("mediaeditor_hook_type", 0) == 2) {
+            initHook(UnlockCustomPhotoFrames.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_custom_photo_frames_v2"));
+            initHook(UnlockDisney.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_disney_some_func_v2"));
+        }
     }
 
 }

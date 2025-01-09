@@ -294,11 +294,11 @@
             app:inflatedXml="@xml/huanji"/>
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.MediaeditorFragment"
             android:icon="@drawable/ic_default"
             android:key="prefs_key_mediaeditor"
             android:summary="com.miui.mediaeditor"
-            android:title="@string/mediaeditor"
-            app:inflatedXml="@xml/mediaeditor"/>
+            android:title="@string/mediaeditor" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.MiShareFragment"
