@@ -54,20 +54,59 @@ object UnlockDisney : BaseHook() {
         }
     }
 
+    private val princess by lazy<Method> {
+        DexKit.findMember("UnlockDisneyPrincess") {
+            it.findField {
+                matcher {
+                    declaredClass = mickey.declaringClass.name
+                    modifiers = Modifier.STATIC or Modifier.FINAL
+                }
+            }.last().readers.single()
+        }
+    }
+
+    private val isHookType by lazy {
+        mPrefsMap.getStringAsInt("mediaeditor_hook_type", 0)
+    }
     private val isType by lazy {
         mPrefsMap.getStringAsInt("mediaeditor_unlock_disney_some_func", 0)
     }
 
+    private val isMickey by lazy {
+        mPrefsMap.getBoolean("mediaeditor_unlock_mickey_some_func")
+    }
+    private val isBear by lazy {
+        mPrefsMap.getBoolean("mediaeditor_unlock_bear_some_func")
+    }
+    private val isPrincess by lazy {
+        mPrefsMap.getBoolean("mediaeditor_unlock_princess_some_func")
+    }
+
     override fun init() {
-        when (isType) {
-            1 -> {
-                isHook(mickey, true)
-                isHook(bear, false)
+        if (isHookType == 1) {
+            when (isType) {
+                1 -> {
+                    isHook(mickey, true)
+                    isHook(bear, false)
+                    isHook(princess, false)
+                }
+
+                2 -> {
+                    isHook(mickey, false)
+                    isHook(bear, true)
+                    isHook(princess, false)
+                }
+
+                3 -> {
+                    isHook(mickey, false)
+                    isHook(bear, false)
+                    isHook(princess, true)
+                }
             }
-            2 -> {
-                isHook(mickey, false)
-                isHook(bear, true)
-            }
+        } else if (isHookType == 2) {
+            isHook(mickey, isMickey)
+            isHook(bear, isBear)
+            isHook(princess, isPrincess)
         }
     }
 

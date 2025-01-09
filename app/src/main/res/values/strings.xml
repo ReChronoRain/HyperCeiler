@@ -463,6 +463,7 @@
     <string name="system_ui_statusbar_clock_style_3">Two-line display\n\nNotification shade mini clock on top\nStatus bar clock on bottom</string>
     <string name="mediaeditor_mickey">Mickey Mouse</string>
     <string name="mediaeditor_strawberry_bear">Strawberry Bear</string>
+    <string name="mediaeditor_disney_princess">Disney Princess</string>
     <string name="tiles_gms">Google Play Service</string>
     <string name="tiles_snow_leopard_mode">S-Leo mode</string>
     <string name="tiles_taplus">Taplus</string>
@@ -1564,13 +1565,19 @@
     <string name="home_other_opt_app_launch_delay">Optimize app launch delay</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Gallery Editor</string>
+    <string name="mediaeditor_tip">Instructions for use:\n- Please use v2 hook for versions 1.7.5.0.4 and later, and please use v1 hook for versions lower than 1.7.5.0.4</string>
+    <string name="mediaeditor_hook_type">Gallery editor hook type</string>
     <string name="mediaeditor_foundation">Foundation</string>
+    <string name="mediaeditor_authoring">Authoring</string>
     <string name="mediaeditor_ai_authoring">AI authoring</string>
+    <string name="mediaeditor_custom_photo_frames_title">Customize the frame</string>
+    <string name="mediaeditor_custom_disney_title">Joint function</string>
     <string name="mediaeditor_unlock_disney_title">Unlock Disney customization features</string>
     <string name="mediaeditor_unlock_disney_desc">Unlocks include the following features:\n• Custom frames - Disney custom frames (in conflict with other custom frames)\n• Bokeh background - Mickey Mokeh\n• Stickers - Disney stickers</string>
     <string name="mediaeditor_unlock_spring_title">Unlock Chinese New Year custom picture frames</string>
     <string name="mediaeditor_unlock_spring_desc">To permanently add a Chinese New Year custom picture frame, the prerequisite is that you need a Leica custom picture frame or a Redmi custom picture frame.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Remove the minimum crop image limit</string>
+    <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Unlock customize the frame</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">Customize the frame type</string>
     <string name="mediaeditor_unlock_leica_filter_title">Unlock the Leica filter</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Only some versions are supported</string>

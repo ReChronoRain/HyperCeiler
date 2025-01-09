@@ -976,15 +976,27 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="customize_frame_type">
+    <string-array name="mediaeditor_hook_type">
+        <item>@string/array_close</item>
+        <item>v1</item>
+        <item>v2</item>
+    </string-array>
+
+    <string-array name="mediaeditor_hook_type_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="customize_frame_type_v1">
         <item>@string/array_default</item>
         <item>Leica</item>
         <item>Redmi</item>
         <item>POCO</item>
-        <item>Disney</item>
+        <item>@string/array_close</item>
     </string-array>
 
-    <string-array name="customize_frame_type_value">
+    <string-array name="customize_frame_type_v1_value">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -996,12 +1008,14 @@
         <item>@string/array_default</item>
         <item>@string/mediaeditor_mickey</item>
         <item>@string/mediaeditor_strawberry_bear</item>
+        <item>@string/mediaeditor_disney_princess</item>
     </string-array>
 
     <string-array name="customize_disney_type_value">
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="security_center_suggest">

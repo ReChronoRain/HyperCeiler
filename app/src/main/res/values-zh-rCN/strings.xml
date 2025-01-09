@@ -447,6 +447,7 @@
 
     <string name="mediaeditor_mickey">米老鼠</string>
     <string name="mediaeditor_strawberry_bear">草莓熊</string>
+    <string name="mediaeditor_disney_princess">迪士尼公主</string>
 
     <string name="tiles_gms">Google Play 服务</string>
     <string name="tiles_taplus">传送门</string>
@@ -1577,13 +1578,19 @@
     <string name="lpa_custom_imei_desc">请确认正确填写了 IMEI ，错误的 IMEI 可能会造成 eSIM 不可用或异常，由此产生的后果概不负责</string>
     <!--小米相册-编辑-->
     <string name="mediaeditor">小米相册-编辑</string>
+    <string name="mediaeditor_tip">使用说明：\n- 1.7.5.0.4 及之后的版本请使用 v2 hook，低于 1.7.5.0.4 的版本请使用 v1 hook</string>
+    <string name="mediaeditor_hook_type">相册编辑 hook 模式</string>
     <string name="mediaeditor_foundation">基础</string>
+    <string name="mediaeditor_authoring">创作</string>
     <string name="mediaeditor_ai_authoring">AI 创作</string>
+    <string name="mediaeditor_custom_photo_frames_title">定制画框</string>
+    <string name="mediaeditor_custom_disney_title">联名功能</string>
     <string name="mediaeditor_unlock_disney_title">解锁 Disney 定制功能</string>
     <string name="mediaeditor_unlock_disney_desc">解锁包括以下功能：\n- 定制画框-Disney 定制画框(与其他定制画框冲突)\n- 背景虚化-米奇虚化\n- 贴纸-Disney 贴纸</string>
     <string name="mediaeditor_unlock_spring_title">解锁新春定制画框</string>
-    <string name="mediaeditor_unlock_spring_desc">永久添加新春定制画框，前置条件是需要有 Leica 定制画框或 Redmi 定制画框</string>
+    <string name="mediaeditor_unlock_spring_desc">永久添加新春定制画框，前置条件是需要有 Leica 定制画框或 Redmi 定制画框，仅支持部分版本</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">移除最小裁切图片限制</string>
+    <string name="mediaeditor_unlock_custom_photo_frames_v2_title">解锁定制画框</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">定制画框类型</string>
     <string name="mediaeditor_unlock_leica_filter_title">解锁 Leica 滤镜</string>
     <string name="mediaeditor_unlock_leica_filter_desc">仅支持部分版本</string>
