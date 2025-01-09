@@ -1,4 +1,4 @@
-name: CI Build
+name: CI Build For Qiqi
 
 on:
   pull_request:
@@ -13,7 +13,7 @@ on:
       - ".github/workflows/crowdin.yml"
       - "crowdin.yml"
   push:
-    branches: [main]
+    branches: [pull]
     paths-ignore:
       - ".github/**"
       - "!.github/workflows/**"
@@ -45,7 +45,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Create Sign File
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request'
         run: |
           touch signing.properties
           echo storePassword=${{ secrets.KEY_STORE_PASSWORD }} >> signing.properties
@@ -55,18 +55,11 @@ jobs:
           echo ${{ secrets.SIGNING_KEY }} | base64 --decode > key.jks
 
       - name: Build with Gradle (Canary)
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request'
         shell: bash
         run: |
           ./gradlew assembleCanary
           echo "IS_DEBUG=false" >> $GITHUB_ENV
-
-      - name: Build with Gradle (Debug)
-        if: github.event_name == 'pull_request'
-        shell: bash
-        run: |
-          ./gradlew assembleDebug
-          echo "IS_DEBUG=true" >> $GITHUB_ENV
 
       - name: Find APKs
         run: |
@@ -85,11 +78,7 @@ jobs:
           echo "|Artifact|SHA256|" >> $GITHUB_STEP_SUMMARY
           echo "|:---:|:---|" >> $GITHUB_STEP_SUMMARY
           APK_SHA256=($(shasum -a 256 ${{ env.APK_FILE }}))
-          if [ ${{ env.IS_DEBUG }} = true ]; then
-            echo "|Debug|$APK_SHA256" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "|Canary|$APK_SHA256" >> $GITHUB_STEP_SUMMARY
-          fi
+          echo "|Canary|$APK_SHA256" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload APKs
         uses: actions/upload-artifact@v4
@@ -98,10 +87,10 @@ jobs:
           path: ${{ env.APK_FILE }}
           compression-level: 9
 
-  push_to_canary_channel:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && !contains(github.event.head_commit.message, '[skp]') && !contains(github.event.head_commit.message, 's#')
+  push_to_canary:
+    if: github.event_name == 'push' && github.ref_type != 'tag' && !contains(github.event.head_commit.message, '[skp]') && !contains(github.event.head_commit.message, 's#')
     runs-on: ubuntu-latest
-    name: Push to Canary Channel
+    name: Push to Canary
     needs: build_app
     steps:
       - name: Download Artifacts
@@ -113,9 +102,9 @@ jobs:
         run: |
           echo "APK_FILE_CANARY=$(find artifacts -name '*.apk')" >> $GITHUB_ENV
 
-      - name: Post to Canary Channel
+      - name: Post to Canary
         env:
-          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          GROUP_ID: ${{ secrets.GROUP_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CANARY: ${{ env.APK_FILE_CANARY }}
           COMMIT_MESSAGE: |+
@@ -123,37 +112,9 @@ jobs:
             ```
             ${{ github.event.head_commit.message }}
             ```by `${{ github.event.head_commit.author.name }}`
-            See commit detail [here](${{ github.event.head_commit.url }})
+            
+            Instructions before use: [here](https://t.me/cemiuiler_canary_feedback/95896)
         run: |
           ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')
           cd ${{ github.workspace }}
-          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22:%22document%22,%20%22media%22:%22attach://canary%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D" -F canary="@${CANARY}"
-
-  push_to_debug_group:
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    name: Push to Debug Group
-    needs: build_app
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-
-      - name: Find Artifacts
-        run: |
-          echo "APK_FILE_DEBUG=$(find artifacts -name '*.apk')" >> $GITHUB_ENV
-
-      - name: Post to Debug Group
-        shell: bash
-        env:
-          GROUP_DEBUG_ID: ${{ secrets.GROUP_DEBUG_ID }}
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          DEBUG: ${{ env.APK_FILE_DEBUG }}
-          COMMIT_MESSAGE: |+
-            New push to GitHub
-            by `${{ github.triggering_actor }}`
-        run: |
-          ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')
-          cd ${{ github.workspace }}
-          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_DEBUG_ID}&media=%5B%7B%22type%22:%22document%22,%20%22media%22:%22attach://debug%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D" -F debug="@${DEBUG}"
+          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID}&media=%5B%7B%22type%22:%22document%22,%20%22media%22:%22attach://canary%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D" -F canary="@${CANARY}"
