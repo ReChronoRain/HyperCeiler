@@ -275,62 +275,31 @@ public class FlagSecure extends BaseHook {
         } else if (lpparam.packageName.equals("com.android.systemui") || lpparam.packageName.equals("com.miui.screenshot")) {
             try {
                 var screenCaptureClazz = SurfaceControl.class;
-                var captureArgsClazz = XposedHelpers.findClass(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ?
-                        "android.window.ScreenCapture$CaptureArgs" :
-                        "android.view.SurfaceControl$CaptureArgs", lpparam.classLoader);
-                var displayCaptureArgsClazz = XposedHelpers.findClass("android.window.ScreenCapture$DisplayCaptureArgs", lpparam.classLoader);
-                var layerCaptureArgsClazz = XposedHelpers.findClass("android.window.ScreenCapture$LayerCaptureArgs", lpparam.classLoader);
+                var captureArgsClazz = XposedHelpers.findClass("android.view.SurfaceControl$CaptureArgs", lpparam.classLoader);
                 captureSecureLayersField = captureArgsClazz.getDeclaredField("mCaptureSecureLayers");
                 captureSecureLayersField.setAccessible(true);
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                    XposedHelpers.findAndHookMethod("android.window.ScreenCapture", lpparam.classLoader, "nativeCaptureDisplay",
-                            displayCaptureArgsClazz, long.class,
-                            new MethodHook() {
-                                @Override
-                                protected void before(MethodHookParam param) throws Throwable {
-                                    try {
-                                        captureSecureLayersField.set(param.args[0], true);
-                                    } catch (IllegalAccessException t) {
-                                        logE(TAG, "other", "ScreenCaptureHooker failed", t);
-                                    }
+                XposedHelpers.findAndHookMethod(screenCaptureClazz, "nativeCaptureDisplay",
+                        new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) throws Throwable {
+                                try {
+                                    captureSecureLayersField.set(param.args[0], true);
+                                } catch (IllegalAccessException t) {
+                                    logE(TAG, "other", "ScreenCaptureHooker failed", t);
                                 }
-                            });
-                    XposedHelpers.findAndHookMethod("android.window.ScreenCapture", lpparam.classLoader, "nativeCaptureLayers",
-                            layerCaptureArgsClazz, long.class, boolean.class,
-                            new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) throws Throwable {
-                            try {
-                                captureSecureLayersField.set(param.args[0], true);
-                            } catch (IllegalAccessException t) {
-                                logE(TAG, "other", "ScreenCaptureHooker failed", t);
                             }
+                        });
+                XposedHelpers.findAndHookMethod(screenCaptureClazz, "nativeCaptureLayers", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        try {
+                            captureSecureLayersField.set(param.args[0], true);
+                        } catch (IllegalAccessException t) {
+                            logE(TAG, "other", "ScreenCaptureHooker failed", t);
                         }
-                    });
-                } else {
-                    XposedHelpers.findAndHookMethod(screenCaptureClazz, "nativeCaptureDisplay",
-                            new MethodHook() {
-                                @Override
-                                protected void before(MethodHookParam param) throws Throwable {
-                                    try {
-                                        captureSecureLayersField.set(param.args[0], true);
-                                    } catch (IllegalAccessException t) {
-                                        logE(TAG, "other", "ScreenCaptureHooker failed", t);
-                                    }
-                                }
-                            });
-                    XposedHelpers.findAndHookMethod(screenCaptureClazz, "nativeCaptureLayers", new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) throws Throwable {
-                            try {
-                                captureSecureLayersField.set(param.args[0], true);
-                            } catch (IllegalAccessException t) {
-                                logE(TAG, "other", "ScreenCaptureHooker failed", t);
-                            }
-                        }
-                    });
-                }
+                    }
+                });
             } catch (Throwable t) {
                 logE(TAG, this.lpparam.packageName, "hook ScreenCapture failed", t);
             }

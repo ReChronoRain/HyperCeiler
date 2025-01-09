@@ -27,7 +27,7 @@
     <string name="new_cta_app_all_purpose_title">欢迎使用 HyperCeiler，本应用依赖 Xposed 框架运行，你可以使用本应用劫持并修改其他受支持的应用以实现对系统的增强功能。在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往您的 Root/Su 管理器进行管理。</string>
     <!--HyperCeiler Tips-->
     <string name="warn">警告</string>
-    <string name="safe_mode_desc">%1$s由于多次崩溃，已进入安全模式，HyperCeiler 对其的功能已停用。\n您可以解除对其的安全模式，或稍后进入 HyperCeiler 处理。</string>
+    <string name="safe_mode_desc">%1$s 由于多次崩溃，已进入安全模式，HyperCeiler 对其的功能已停用。\n您可以解除对其的安全模式，或稍后进入 HyperCeiler 处理。</string>
     <string name="safe_mode_history">查看异常记录</string>
     <string name="safe_mode_cancel">解除</string>
     <string name="safe_mode_ok">稍后处理</string>
@@ -1880,6 +1880,11 @@
     <string name="bypass_udk_word_legal_check_description">允许在无网状态下录入语音唤醒词</string>
     <string name="voicetrigger_accuracy_percent_caption">设置唤醒词检测精度</string>
     <string name="voicetrigger_accuracy_percent_description">更大的值意味着更难被检测到。对于 \"小爱同学\"，其默认值是 0%。设置完毕后，需要重新录入唤醒词</string>
+    <!--Sim Activation Service-->
+    <string name="sim_activation_service">小米SIM卡激活服务</string>
+    <string name="sim_activation_service_disable_activate_when_roaming">禁止卡 2 在漫游时激活服务</string>
+    <string name="sim_activation_service_disable_activate_when_roaming_desc">仅支持中国大陆</string>
+    <string name="sim_activation_service_disable_activate_when_roaming_radical">使用更激进的漫游过滤方法</string>
     <!--其他-->
     <string name="various">其他</string>
     <string name="share_center">小米妙享中心</string>

@@ -1843,6 +1843,11 @@
     <string name="sogou_xiaomi">Sogou input method</string>
     <string name="sogou_xiaomi_clipboard">Remove the limit on the number of clipboards</string>
     <string name="add_clipboard_clear">Add clear clipboard button</string>
+    <!--Sim Activation Service-->
+    <string name="sim_activation_service">Xiaomi SIM Activation Service</string>
+    <string name="sim_activation_service_disable_activate_when_roaming">Disable activate SIM 2 when it is roaming</string>
+    <string name="sim_activation_service_disable_activate_when_roaming_desc">Only Chinese mainland is supported</string>
+    <string name="sim_activation_service_disable_activate_when_roaming_radical">Use a more aggressive roaming filtering approach</string>
     <!--Scanner-->
     <string name="scanner">Scanner</string>
     <string name="scanner_hyper">AI Scanner</string>

@@ -89,7 +89,7 @@
             android:fallbackLineSpacing="false"
             android:includeFontPadding="false"
             android:scrollbars="none"
-            android:textAlignment="viewStart"
+            android:textAlignment="center"
             android:textSize="14sp" />
 
     </LinearLayout>

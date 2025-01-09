@@ -476,6 +476,14 @@
         <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_simactivate_state"
+            android:layout="@layout/preference_header"
+            android:summary="com.xiaomi.simactivate.service"
+            android:title="@string/sim_activation_service" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_trustservice_state"
             android:layout="@layout/preference_header"
             android:summary="com.xiaomi.trustservice"
