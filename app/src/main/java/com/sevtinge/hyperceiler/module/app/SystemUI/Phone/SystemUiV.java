@@ -138,7 +138,6 @@ public class SystemUiV extends BaseModule {
         // PluginHelper
         initHook(NewPluginHelperKt.INSTANCE);
         // initHook(Island.INSTANCE, true); // 灵动岛
-        initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
 
         // 小窗
         initHook(new NotificationFreeform(), mPrefsMap.getBoolean("system_ui_notification_freeform"));

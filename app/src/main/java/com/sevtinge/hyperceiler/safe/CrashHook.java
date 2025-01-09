@@ -24,21 +24,12 @@ import android.app.ActivityOptions;
 import android.app.ApplicationErrorReport;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.provider.Settings;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.callback.ITAG;
-import com.sevtinge.hyperceiler.data.AppCrashInfo;
-import com.sevtinge.hyperceiler.data.AppErrorsData;
-import com.sevtinge.hyperceiler.data.ProcessInfo;
 import com.sevtinge.hyperceiler.module.base.tool.HookTool;
-import com.sevtinge.hyperceiler.receiver.CrashReceiver;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import org.json.JSONObject;
@@ -100,18 +91,9 @@ public class CrashHook extends HookTool {
                         logE("CrashHook", "context: " + mContext + " pkg: " + mContext.getPackageName() + " proc: " + proc + " crash: " + crashInfo + " short: " + shortMsg
                                 + " long: " + longMsg + " stack: " + stackTrace + " time: " + timeMillis + " pid: " + callingPid + " uid: " + callingUid);
                         recordCrash(mContext, proc, crashInfo, shortMsg, longMsg, stackTrace, timeMillis, callingPid, callingUid);
-
-                        //XposedBridge.log(crashInfo.throwClassName + " :" + crashInfo.exceptionMessage);
                     }
                 }
         );
-/*
-        findAndHookMethod("com.android.server.wm.BackgroundActivityStartController", "checkCrossUidActivitySwitchFromBelow", "com.android.server.wm.ActivityRecord", int.class, "com.android.server.wm.BackgroundActivityStartController$BlockActivityStart", new MethodHook(){
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(param.args[2]);
-            }
-        });*/
     }
 
     private void backgroundActivity(ClassLoader classLoader) {
@@ -142,24 +124,14 @@ public class CrashHook extends HookTool {
                             @Override
                             protected void before(MethodHookParam param) {
                                 String pkg = (String) param.args[2];
-                                AndroidLogUtils.logI("jzskjizdfblkjnxdfboknxffb", pkg);
                                 if (pkg == null) return;
                                 if (ProjectApi.mAppModulePkg.equals(pkg)) {
-                                    findAndHookMethod("com.android.server.wm.BackgroundActivityStartController$BalVerdict", classLoader, "allows", new MethodHook() {
-                                                @Override
-                                                protected void before(MethodHookParam param) {
-                                                    AndroidLogUtils.logI("jzskjizdfblkjnxdfboknxffb", "1");
-                                                    param.setResult(true);
-                                                }
-                                            }
-                                    );
-                                    /*Object balAllowDefault = XposedHelpers.getStaticObjectField(
+                                    Object balAllowDefault = XposedHelpers.getStaticObjectField(
                                             XposedHelpers.findClass("com.android.server.wm.BackgroundActivityStartController$BalVerdict",
                                                     lpparam.classLoader),
                                             "BAL_ALLOW_DEFAULT"
                                     );
-                                    AndroidLogUtils.logI("jzskjizdfblkjnxdfboknxffb", "2");
-                                    param.setResult(balAllowDefault);*/
+                                    param.setResult(balAllowDefault);
                                 }
                             }
                         }
@@ -314,28 +286,27 @@ public class CrashHook extends HookTool {
         ShellInit.init();
         ShellInit.getShell().run("setprop persist.hyperceiler.crash.report " + "\"" + stringBuilder + "\"").sync();
 
-        Intent intent1 = getIntent(abbr);
-        intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent1);
+        Intent intent = getIntent(abbr);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
 
         /*Intent intent = getIntent(abbr, stringBuilder);
         mContext.startService(intent);*/
     }
 
     private Intent getIntent(String abbr) {
-        Intent intent1 = new Intent();
-        intent1.setPackage("com.sevtinge.hyperceiler");
-        intent1.setClassName("com.sevtinge.hyperceiler", "com.sevtinge.hyperceiler.safe.CrashActivity");
-        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent1.putExtra("key_longMsg", longMsg);
-        intent1.putExtra("key_stackTrace", stackTrace);
-        intent1.putExtra("key_throwClassName", throwClassName);
-        intent1.putExtra("key_throwFileName", throwFileName);
-        intent1.putExtra("key_throwLineNumber", throwLineNumber);
-        intent1.putExtra("key_throwMethodName", throwMethodName);
-        intent1.putExtra("key_pkg", abbr);
-        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "3");
-        return intent1;
+        Intent intent = new Intent();
+        intent.setPackage("com.sevtinge.hyperceiler");
+        intent.setClassName("com.sevtinge.hyperceiler", "com.sevtinge.hyperceiler.safe.CrashActivity");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("key_longMsg", longMsg);
+        intent.putExtra("key_stackTrace", stackTrace);
+        intent.putExtra("key_throwClassName", throwClassName);
+        intent.putExtra("key_throwFileName", throwFileName);
+        intent.putExtra("key_throwLineNumber", throwLineNumber);
+        intent.putExtra("key_throwMethodName", throwMethodName);
+        intent.putExtra("key_pkg", abbr);
+        return intent;
     }
 
     private ArrayList<JSONObject> getReportCrash() {

@@ -333,6 +333,7 @@ public class SearchHelper {
         parsePrefXmlForDashboardFragment(context, R.xml.misound);
         parsePrefXmlForDashboardFragment(context, R.xml.trustservice);
         parsePrefXmlForDashboardFragment(context, R.xml.calendar);
+        parsePrefXmlForDashboardFragment(context, R.xml.simactivate);
         parsePrefXml(context, SecurityAddFragment.class, R.xml.securityadd);
 
         parsePrefXmlForDashboardFragment(context, R.xml.community);

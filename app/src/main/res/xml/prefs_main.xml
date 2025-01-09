@@ -456,6 +456,13 @@
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_simactivate"
+            android:summary="com.xiaomi.simactivate.service"
+            android:title="@string/sim_activation_service"
+            app:inflatedXml="@xml/simactivate"/>
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_trustservice"
             android:summary="com.xiaomi.trustservice"
             android:title="@string/trustservice"

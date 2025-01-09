@@ -156,13 +156,8 @@ public class SystemUiU extends BaseModule {
         // 小窗
         initHook(new NotificationFreeform(), mPrefsMap.getBoolean("system_ui_notification_freeform"));
 
-        // 禁用蓝牙临时关闭
-        initHook(new BluetoothRestrict(), mPrefsMap.getBoolean("system_ui_disable_bluetooth_restrict"));
-
         // Monet
         initHook(new MonetThemeOverlay(), mPrefsMap.getBoolean("system_ui_monet_overlay_custom"));
-
-        initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
 
         // 状态栏图标
         boolean isHideSim = (mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||

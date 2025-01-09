@@ -134,9 +134,7 @@ public class SystemUiV extends BaseModule {
         /*initHook(new NewPluginHelper());
         initHook(FocusNotifLyricPluginHelper.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch"));*/
         // initHook(Island.INSTANCE, true); // 灵动岛
-        initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         // initHook(DisableChargeAnimation.INSTANCE);
-        initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
 
         // 小窗
         initHook(new NotificationFreeform(), mPrefsMap.getBoolean("system_ui_notification_freeform"));
