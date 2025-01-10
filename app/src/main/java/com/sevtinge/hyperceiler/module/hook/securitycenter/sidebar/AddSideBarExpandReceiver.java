@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar;
 
-import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.getPackageVersionCode;
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getPackageVersionCode;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.content.BroadcastReceiver;
@@ -100,22 +100,16 @@ public class AddSideBarExpandReceiver extends BaseHook {
                                 myhandler.removeCallbacks(this);
                                 if (!enableSideBar) {
                                     Object li = XposedHelpers.getObjectField(view, "mListenerInfo");
-                                    if (li != null) {
-                                        try {
-                                            Object mOnTouchListener = XposedHelpers.getObjectField(li, "mOnTouchListener");
-                                            findAndHookMethod(mOnTouchListener.getClass(), "onTouch", View.class, MotionEvent.class, new MethodHook() {
-                                                @Override
-                                                protected void before(MethodHookParam param) throws Throwable {
-                                                    MotionEvent me = (MotionEvent) param.args[1];
-                                                    if (me.getSource() != 9999) {
-                                                        param.setResult(false);
-                                                    }
-                                                }
-                                            });
-                                        } catch (Throwable e) {
-                                            logE(TAG, lpparam.packageName, "OnTouchListener is failed, " + e);
+                                    Object mOnTouchListener = XposedHelpers.getObjectField(li, "mOnTouchListener");
+                                    findAndHookMethod(mOnTouchListener.getClass(), "onTouch", View.class, MotionEvent.class, new MethodHook() {
+                                        @Override
+                                        protected void before(MethodHookParam param) throws Throwable {
+                                            MotionEvent me = (MotionEvent) param.args[1];
+                                            if (me.getSource() != 9999) {
+                                                param.setResult(false);
+                                            }
                                         }
-                                    }
+                                    });
                                 }
                                 if (isNewVersion) {
                                     try {
