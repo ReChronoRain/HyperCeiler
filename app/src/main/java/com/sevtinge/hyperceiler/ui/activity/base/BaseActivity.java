@@ -28,7 +28,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.appcompat.app.AppCompatActivity;
@@ -54,7 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void registerObserver() {
         PrefsUtils.registerOnSharedPreferenceChangeListener(getApplicationContext());
-        Helpers.fixPermissionsAsync(getApplicationContext());
-        Helpers.registerFileObserver(getApplicationContext());
+        AppsTool.fixPermissionsAsync(getApplicationContext());
+        AppsTool.registerFileObserver(getApplicationContext());
     }
 }

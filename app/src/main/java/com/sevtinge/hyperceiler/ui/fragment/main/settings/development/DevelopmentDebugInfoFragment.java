@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.ui.fragment.main.settings.development;
 
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 
-import static com.sevtinge.hyperceiler.utils.Helpers.isModuleActive;
+import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.isModuleActive;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getBoard;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getBrand;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getCharacteristics;

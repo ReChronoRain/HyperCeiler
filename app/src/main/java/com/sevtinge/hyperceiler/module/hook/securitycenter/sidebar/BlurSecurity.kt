@@ -28,6 +28,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
+import com.sevtinge.hyperceiler.module.base.tool.AppsTool.*
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
@@ -53,7 +54,7 @@ object BlurSecurity : BaseHook() {
     }
     private val shouldInvertColor = !ColorUtils.isDarkColor(backgroundColor)
 
-    private var appVersionCode = 40000727
+    private val appVersionCode = getPackageVersionCode(lpparam)
 
     // 反色 同时保持红蓝色变化不大
     private val invertColorRenderEffect = RenderEffect.createColorFilterEffect(

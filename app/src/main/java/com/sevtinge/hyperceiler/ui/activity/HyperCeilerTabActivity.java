@@ -2,7 +2,7 @@ package com.sevtinge.hyperceiler.ui.activity;
 
 import static com.sevtinge.hyperceiler.utils.PersistConfig.isLunarNewYearThemeView;
 import static com.sevtinge.hyperceiler.utils.PersistConfig.isNeedGrayView;
-import static com.sevtinge.hyperceiler.utils.Helpers.isModuleActive;
+import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.isModuleActive;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
@@ -37,20 +37,16 @@ import com.sevtinge.hyperceiler.ui.activity.base.NaviBaseActivity;
 import com.sevtinge.hyperceiler.ui.fragment.main.DetailFragment;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.utils.PropUtils;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.search.SearchHelper;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
-import com.xhinliang.lunarcalendar.Lunar;
-import com.xhinliang.lunarcalendar.LunarCalendar;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -101,7 +97,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         super.onCreate(savedInstanceState);
         new Thread(() -> SearchHelper.getAllMods(context, savedInstanceState != null)).start();
 
-        Helpers.checkXposedActivateState(this);
+        AppsTool.checkXposedActivateState(this);
 
         if (!IS_LOGGER_ALIVE && isModuleActive && BuildConfig.BUILD_TYPE != "release" && !mPrefs.getBoolean("prefs_key_development_close_log_alert_dialog", false)) {
             handler.post(() -> DialogHelper.showLogServiceWarnDialog(context));

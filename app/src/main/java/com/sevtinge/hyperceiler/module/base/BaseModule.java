@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.safe.CrashData;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
@@ -116,8 +116,8 @@ public abstract class BaseModule {
                 onCreate(hook);
                 return;
             }
-            int code = Helpers.getPackageVersionCode(mLoadPackageParam);
-            String name = Helpers.getPackageVersionName(mLoadPackageParam);
+            int code = AppsTool.getPackageVersionCode(mLoadPackageParam);
+            String name = AppsTool.getPackageVersionName(mLoadPackageParam);
             if (code == versionCode)
                 onCreate(hook);
             if (name.equals(versionName))

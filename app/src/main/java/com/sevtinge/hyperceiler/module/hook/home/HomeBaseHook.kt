@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.module.hook.home
 
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
+import com.sevtinge.hyperceiler.module.base.tool.AppsTool.*
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 abstract class HomeBaseHook : BaseHook() {
