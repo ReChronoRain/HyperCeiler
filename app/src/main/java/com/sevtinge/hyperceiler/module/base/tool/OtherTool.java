@@ -39,8 +39,13 @@ import android.widget.TextView;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtils;
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt;
+
+import java.io.File;
+import java.lang.ref.WeakReference;
 
 import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class OtherTool {
     // 尝试全部
@@ -53,6 +58,8 @@ public class OtherTool {
     @SuppressLint("StaticFieldLeak")
     public static TextView mPct = null;
 
+    // public  Context mModuleContext = null;
+
     public static Resources getModuleRes(Context context)
             throws PackageManager.NameNotFoundException {
         return ResourcesTool.loadModuleRes(context);
@@ -62,9 +69,14 @@ public class OtherTool {
         Context context = null;
         try {
             switch (flag) {
-                case FLAG_ALL -> context = currentApplication() != null ? currentApplication() : getSystemContext();
+                case FLAG_ALL -> {
+                    if ((context = currentApplication()) == null)
+                        context = getSystemContext();
+                }
                 case FLAG_CURRENT_APP -> context = currentApplication();
                 case FlAG_ONLY_ANDROID -> context = getSystemContext();
+                default -> {
+                }
             }
             return context;
         } catch (Throwable ignore) {
@@ -110,6 +122,32 @@ public class OtherTool {
                     "set", key, val);
         } catch (Throwable throwable) {
             logE("setProp", "set key e: " + key + " e:" + throwable);
+        }
+    }
+
+    public static String getPackageVersionName(XC_LoadPackage.LoadPackageParam lpparam) {
+        try {
+            Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
+            Object parser = parserCls.getDeclaredConstructor().newInstance();
+            File apkPath = new File(lpparam.appInfo.sourceDir);
+            Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
+            return (String) XposedHelpers.getObjectField(pkg, "mVersionName");
+        } catch (Throwable e) {
+            logE("getPackageVersionCode", e);
+            return "";
+        }
+    }
+
+    public static int getPackageVersionCode(XC_LoadPackage.LoadPackageParam lpparam) {
+        try {
+            Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
+            Object parser = parserCls.getDeclaredConstructor().newInstance();
+            File apkPath = new File(lpparam.appInfo.sourceDir);
+            Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
+            return XposedHelpers.getIntField(pkg, "mVersionCode");
+        } catch (Throwable e) {
+            logE("getPackageVersionCode", e);
+            return -1;
         }
     }
 
