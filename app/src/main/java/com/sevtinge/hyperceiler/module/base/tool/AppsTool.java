@@ -16,13 +16,12 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.utils;
+package com.sevtinge.hyperceiler.module.base.tool;
 
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.backup.BackupManager;
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +41,7 @@ import android.util.LruCache;
 import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
@@ -56,16 +56,12 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import fan.appcompat.app.AlertDialog;
 
-public class Helpers {
+public class AppsTool {
 
-    private static final String TAG = "Helpers";
+    private static final String TAG = "AppsTool";
 
     public static boolean isModuleActive = false;
     public static int XposedVersion = 0;
-
-    public static final int REQUEST_PERMISSIONS_BACKUP = 1;
-    public static final int REQUEST_PERMISSIONS_RESTORE = 2;
-
 
     public static LruCache<String, Bitmap> memoryCache = new LruCache<>((int) (Runtime.getRuntime().maxMemory() / 1024) / 2) {
         @Override
@@ -96,16 +92,6 @@ public class Helpers {
         Configuration config = context.getResources().getConfiguration();
         Context moduleContext = getModuleContext(context);
         return (config == null ? moduleContext.getResources() : moduleContext.createConfigurationContext(config).getResources());
-    }
-
-    public static boolean checkStorageReadable(Activity activity) {
-        String state = Environment.getExternalStorageState();
-        if (state.equals(Environment.MEDIA_MOUNTED_READ_ONLY) || state.equals(Environment.MEDIA_MOUNTED)) {
-            return true;
-        } else {
-            DialogHelper.showDialog(activity, "警告！", "无法访问任何合适的存储空间");
-            return false;
-        }
     }
 
     public static class MimeType {
@@ -180,7 +166,7 @@ public class Helpers {
             FileObserver mFileObserver = new FileObserver(new File(PrefsUtils.getSharedPrefsPath()), FileObserver.CLOSE_WRITE) {
                 @Override
                 public void onEvent(int event, String path) {
-                    Helpers.fixPermissionsAsync(context);
+                    AppsTool.fixPermissionsAsync(context);
                 }
             };
             mFileObserver.startWatching();
@@ -199,29 +185,6 @@ public class Helpers {
             if (el != null && el.getClassName().startsWith(ProjectApi.mAppModulePkg + ".module"))
                 return el.getMethodName();
         return stackTrace[4].getMethodName();
-    }
-
-    public static ActivityOptions makeFreeformActivityOptions(Context context, String str) {
-
-        /*ActivityOptions activityOptions;
-        try {
-            activityOptions = ReflectUtils.callStaticObjectMethod(Class.forName("android.util.MiuiMultiWindowUtils"), ActivityOptions.class, "getActivityOptions", new Class[]{Context.class, String.class, Boolean.TYPE, Boolean.TYPE}, context, str, true, false);
-        } catch (Exception e) {
-            logD(TAG, "MiuiMultiWindowUtils getActivityOptions error", e);
-            activityOptions = null;
-        }
-
-        if (activityOptions != null) {
-            return activityOptions;
-        }
-
-
-        ActivityOptions makeBasic = ActivityOptions.makeBasic();
-        ReflectUtils.callObjectMethod("android.app.ActivityOptions", "setLaunchWindowingMode", new Class[]{int.class}, 5);
-        Rect rect = (Rect) ReflectUtils.callObjectMethod("android.util.MiuiMultiWindowUtils", "getFreeformRect", new Class[]{Context.class}, new Object[]{context});
-        makeBasic.setLaunchBounds(rect);
-        return makeBasic;*/
-        return null;
     }
 
     public static void openAppInfo(Context context, String pkg, int user) {
@@ -249,13 +212,12 @@ public class Helpers {
     public static String getPackageVersionName(XC_LoadPackage.LoadPackageParam lpparam) {
         try {
             Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
-            Object parser = parserCls.newInstance();
+            Object parser = parserCls.getDeclaredConstructor().newInstance();
             File apkPath = new File(lpparam.appInfo.sourceDir);
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
-            // XposedLogUtils.logI("getPackageVersionName", lpparam.packageName + " versionName is " + versionName);
             return (String) XposedHelpers.getObjectField(pkg, "mVersionName");
         } catch (Throwable e) {
-            // XposedLogUtils.logW("getPackageVersionName", e);
+            logE("getPackageVersionCode", e);
             return "null";
         }
     }
@@ -263,13 +225,12 @@ public class Helpers {
     public static int getPackageVersionCode(XC_LoadPackage.LoadPackageParam lpparam) {
         try {
             Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
-            Object parser = parserCls.newInstance();
+            Object parser = parserCls.getDeclaredConstructor().newInstance();
             File apkPath = new File(lpparam.appInfo.sourceDir);
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
-            // XposedLogUtils.logI("getPackageVersionCode", lpparam.packageName + " versionCode is " + versionCode);
             return XposedHelpers.getIntField(pkg, "mVersionCode");
         } catch (Throwable e) {
-            // XposedLogUtils.logW("getPackageVersionCode", e);
+            logE("getPackageVersionCode", e);
             return -1;
         }
     }
@@ -279,76 +240,88 @@ public class Helpers {
     }
 
     public static void doRestart(Context context, String[] packageName, boolean isRestartSystem) {
-        boolean result = false;
+        boolean result;
         boolean pid = true;
+
         if (isRestartSystem) {
             result = ShellInit.getShell().run("reboot").sync().isResult();
         } else {
-            if (packageName != null) {
-                for (String packageGet : packageName) {
-                    if (packageGet == null) {
-                        continue;
-                    }
-                    // String test = "XX";
-                    // ShellUtils.CommandResult commandResult = ShellUtils.execCommand("{ [[ $(pgrep -f '" + packageGet +
-                    //     "' | grep -v $$) != \"\" ]] && { pkill -l 9 -f \"" + packageGet +
-                    //     "\"; }; } || { echo \"kill error\"; }", true, true);
+            result = handlePackages(packageName);
+            pid = result;
+        }
 
-                    boolean getResult =
-                            ShellInit.getShell().add("pid=$(pgrep -f \"" + packageGet + "\" | grep -v $$)")
-                                    .add("if [[ $pid == \"\" ]]; then")
-                                    .add(" pids=\"\"")
-                                    .add(" pid=$(ps -A -o PID,ARGS=CMD | grep \"" + packageGet + "\" | grep -v \"grep\")")
-                                    .add("  for i in $pid; do")
-                                    .add("   if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
-                                    .add("    if [[ $pids == \"\" ]]; then")
-                                    .add("      pids=$i")
-                                    .add("    else")
-                                    .add("      pids=\"$pids $i\"")
-                                    .add("    fi")
-                                    .add("   fi")
-                                    .add("  done")
-                                    .add("fi")
-                                    .add("if [[ $pids != \"\" ]]; then")
-                                    .add(" pid=$pids")
-                                    .add("fi")
-                                    .add("if [[ $pid != \"\" ]]; then")
-                                    .add(" for i in $pid; do")
-                                    .add("  kill -s 15 $i &>/dev/null")
-                                    .add(" done")
-                                    .add("else")
-                                    .add(" echo \"No Find Pid!\"")
-                                    .add("fi").over().sync().isResult();
-                    ArrayList<String> outPut = ShellInit.getShell().getOutPut();
-                    ArrayList<String> error = ShellInit.getShell().getError();
+        if (!result) {
+            showAlertDialog(context, isRestartSystem, pid);
+        }
+    }
 
-                    if (getResult) {
-                        if (!outPut.isEmpty()) {
-                            if (outPut.get(0).equals("No Find Pid!")) {
-                                pid = false;
-                            } else {
-                                result = true;
-                            }
-                        } else result = true;
-                    } else
-                        AndroidLogUtils.logE("doRestart: ", "result: " + ShellInit.getShell().getResult() +
-                                " errorMsg: " + error + " package: " + packageGet);
+    private static boolean handlePackages(String[] packageName) {
+        if (packageName == null) {
+            AndroidLogUtils.logE("doRestart: ", "packageName is null");
+            return false;
+        }
 
+        boolean result = false;
+        for (String packageGet : packageName) {
+            if (packageGet == null) continue;
+
+            boolean getResult =
+                    ShellInit.getShell().add("pid=$(pgrep -f \"" + packageGet + "\" | grep -v $$)")
+                            .add("if [[ $pid == \"\" ]]; then")
+                            .add(" pids=\"\"")
+                            .add(" pid=$(ps -A -o PID,ARGS=CMD | grep \"" + packageGet + "\" | grep -v \"grep\")")
+                            .add("  for i in $pid; do")
+                            .add("   if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
+                            .add("    if [[ $pids == \"\" ]]; then")
+                            .add("      pids=$i")
+                            .add("    else")
+                            .add("      pids=\"$pids $i\"")
+                            .add("    fi")
+                            .add("   fi")
+                            .add("  done")
+                            .add("fi")
+                            .add("if [[ $pids != \"\" ]]; then")
+                            .add(" pid=$pids")
+                            .add("fi")
+                            .add("if [[ $pid != \"\" ]]; then")
+                            .add(" for i in $pid; do")
+                            .add("  kill -s 15 $i &>/dev/null")
+                            .add(" done")
+                            .add("else")
+                            .add(" echo \"No Find Pid!\"")
+                            .add("fi").over().sync().isResult();
+
+            ArrayList<String> outPut = ShellInit.getShell().getOutPut();
+            ArrayList<String> error = ShellInit.getShell().getError();
+
+            if (getResult) {
+                if (!outPut.isEmpty() && outPut.get(0).equals("No Find Pid!")) {
+                    return false;
+                } else {
+                    result = true;
                 }
             } else {
-                AndroidLogUtils.logE("doRestart: ", "packageName is null");
+                AndroidLogUtils.logE("doRestart: ", "result: " + ShellInit.getShell().getResult() + " errorMsg: " + error + " package: " + packageGet);
             }
-            // result = ShellUtils.getResultBoolean("pkill -l 9 -f " + packageName, true);
         }
-        if (!result) {
-            new AlertDialog.Builder(context)
-                    .setCancelable(false)
-                    .setTitle(R.string.tip)
-                    .setMessage(isRestartSystem ? R.string.reboot_failed :
-                            pid ? R.string.kill_failed : R.string.pid_failed)
-                    .setHapticFeedbackEnabled(true)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show();
+        return result;
+    }
+
+    private static void showAlertDialog(Context context, boolean isRestartSystem, boolean pid) {
+        new AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setTitle(R.string.tip)
+                .setMessage(getErrorMessage(isRestartSystem, pid))
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
+
+    private static int getErrorMessage(boolean isRestartSystem, boolean pid) {
+        if (isRestartSystem) {
+            return R.string.reboot_failed;
+        } else {
+            return pid ? R.string.kill_failed : R.string.pid_failed;
         }
     }
 }

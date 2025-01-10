@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler;
 
-import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
-import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
+import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.getPackageVersionCode;
+import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.getPackageVersionName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
@@ -188,7 +188,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
             return;
         }
 
-        dataMap.forEach(new BiConsumer<String, DataBase>() {
+        dataMap.forEach(new BiConsumer<>() {
             @Override
             public void accept(String s, DataBase dataBase) {
                 if (!mPkgName.equals(dataBase.mTargetPackage))
@@ -251,10 +251,10 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
     }
 
     public void moduleActiveHook(XC_LoadPackage.LoadPackageParam lpparam) {
-        Class<?> mHelpers = XposedHelpers.findClassIfExists(ProjectApi.mAppModulePkg + ".utils.Helpers", lpparam.classLoader);
+        Class<?> AppsTool = XposedHelpers.findClassIfExists(ProjectApi.mAppModulePkg + ".module.base.tool.AppsTool", lpparam.classLoader);
 
-        XposedHelpers.setStaticBooleanField(mHelpers, "isModuleActive", true);
-        XposedHelpers.setStaticIntField(mHelpers, "XposedVersion", XposedBridge.getXposedVersion());
+        XposedHelpers.setStaticBooleanField(AppsTool, "isModuleActive", true);
+        XposedHelpers.setStaticIntField(AppsTool, "XposedVersion", XposedBridge.getXposedVersion());
         XposedBridge.log("[HyperCeiler][I]: Log level is " + logLevelDesc());
     }
 

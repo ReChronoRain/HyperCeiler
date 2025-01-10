@@ -32,7 +32,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.io.File;
@@ -121,7 +121,7 @@ public class SharedPrefsProvider extends ContentProvider {
             }
             return afd;
         } else if (uriMatcher.match(uri) == 6) {
-            Context context = Helpers.getProtectedContext(getContext());
+            Context context = AppsTool.getProtectedContext(getContext());
             File file = new File(context.getFilesDir() + "/shortcuts/" + parts.get(1) + "_shortcut.png");
             if (!file.exists()) return null;
             return new AssetFileDescriptor(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY), 0, AssetFileDescriptor.UNKNOWN_LENGTH);

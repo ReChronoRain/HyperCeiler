@@ -19,6 +19,8 @@
 package com.sevtinge.hyperceiler.module.hook.securitycenter.app;
 
 import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes;
+import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.getPackageVersionCode;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -36,7 +38,6 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.MiuiDialog;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -60,7 +61,7 @@ public class AppDisable extends BaseHook {
 
     @Override
     public void init() {
-        boolean isNewSecurityCenter = Helpers.getPackageVersionCode(lpparam) >= 40001000;
+        boolean isNewSecurityCenter = (getPackageVersionCode(lpparam) >= 40001000 && !isPad()) || (getPackageVersionCode(lpparam) >= 40011000 && isPad());
         String clazzName = !isNewSecurityCenter ? "com.miui.appmanager.ApplicationsDetailsActivity" : "com.miui.appmanager.fragment.ApplicationsDetailsFragment";
 
         findAndHookMethod("com.miui.appmanager.ApplicationsDetailsActivity", "onCreateOptionsMenu", Menu.class, new MethodHook() {

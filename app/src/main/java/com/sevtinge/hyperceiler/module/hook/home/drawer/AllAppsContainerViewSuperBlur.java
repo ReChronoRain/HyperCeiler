@@ -29,7 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.ViewSwitcher;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtils;
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt;
 
@@ -57,7 +57,7 @@ public class AllAppsContainerViewSuperBlur extends BaseHook {
                                     200));
                             MiBlurUtils.clearMiBackgroundBlendColor(view);
                             int a;
-                            if (Helpers.isDarkMode(view.getContext())) a = 100;
+                            if (AppsTool.isDarkMode(view.getContext())) a = 100;
                             else a = 140;
                             MiBlurUtils.addMiBackgroundBlendColor(view, Color.argb(a, 0, 0, 0), 103);
                             MiBlurUtils.setMiViewBlurMode(view, 1);

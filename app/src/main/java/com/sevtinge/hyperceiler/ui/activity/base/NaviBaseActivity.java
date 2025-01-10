@@ -2,15 +2,12 @@ package com.sevtinge.hyperceiler.ui.activity.base;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.main.ContentFragment;
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.appcompat.app.Fragment;
@@ -42,8 +39,8 @@ public class NaviBaseActivity extends NavigatorActivity {
 
     private void registerObserver() {
         PrefsUtils.registerOnSharedPreferenceChangeListener(getApplicationContext());
-        Helpers.fixPermissionsAsync(getApplicationContext());
-        Helpers.registerFileObserver(getApplicationContext());
+        AppsTool.fixPermissionsAsync(getApplicationContext());
+        AppsTool.registerFileObserver(getApplicationContext());
     }
 
     @Override

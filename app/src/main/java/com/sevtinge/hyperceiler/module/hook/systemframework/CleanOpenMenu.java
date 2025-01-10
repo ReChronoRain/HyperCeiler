@@ -31,7 +31,7 @@ import android.util.Pair;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.utils.prefs.PrefType;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
@@ -142,11 +142,11 @@ public class CleanOpenMenu extends BaseHook {
         int mimeFlags0;
         int mimeFlags999;
         if (dynamic) {
-            mimeFlags0 = PrefsUtils.getSharedIntPrefs(context, "pref_key_" + key + "_" + pkgName + "|0", Helpers.MimeType.ALL);
-            mimeFlags999 = PrefsUtils.getSharedIntPrefs(context, "pref_key_" + key + "_" + pkgName + "|999", Helpers.MimeType.ALL);
+            mimeFlags0 = PrefsUtils.getSharedIntPrefs(context, "pref_key_" + key + "_" + pkgName + "|0", AppsTool.MimeType.ALL);
+            mimeFlags999 = PrefsUtils.getSharedIntPrefs(context, "pref_key_" + key + "_" + pkgName + "|999", AppsTool.MimeType.ALL);
         } else {
-            mimeFlags0 = mPrefsMap.getInt(key + "_" + pkgName + "|0", Helpers.MimeType.ALL);
-            mimeFlags999 = mPrefsMap.getInt(key + "_" + pkgName + "|999", Helpers.MimeType.ALL);
+            mimeFlags0 = mPrefsMap.getInt(key + "_" + pkgName + "|0", AppsTool.MimeType.ALL);
+            mimeFlags999 = mPrefsMap.getInt(key + "_" + pkgName + "|999", AppsTool.MimeType.ALL);
         }
         boolean removeOriginal = (selectedApps.contains(pkgName) || selectedApps.contains(pkgName + "|0")) && hideMimeType(mimeFlags0, mimeType);
         boolean removeDual = selectedApps.contains(pkgName + "|999") && hideMimeType(mimeFlags999, mimeType);
@@ -166,17 +166,17 @@ public class CleanOpenMenu extends BaseHook {
     }
 
     private static boolean hideMimeType(int mimeFlags, String mimeType) {
-        int dataType = Helpers.MimeType.OTHERS;
+        int dataType = AppsTool.MimeType.OTHERS;
         if (mimeType != null)
-            if (mimeType.startsWith("image/")) dataType = Helpers.MimeType.IMAGE;
-            else if (mimeType.startsWith("audio/")) dataType = Helpers.MimeType.AUDIO;
-            else if (mimeType.startsWith("video/")) dataType = Helpers.MimeType.VIDEO;
+            if (mimeType.startsWith("image/")) dataType = AppsTool.MimeType.IMAGE;
+            else if (mimeType.startsWith("audio/")) dataType = AppsTool.MimeType.AUDIO;
+            else if (mimeType.startsWith("video/")) dataType = AppsTool.MimeType.VIDEO;
             else if (mimeType.startsWith("text/") ||
                     mimeType.startsWith("application/pdf") ||
                     mimeType.startsWith("application/msword") ||
                     mimeType.startsWith("application/vnd.ms-") ||
                     mimeType.startsWith("application/vnd.openxmlformats-"))
-                dataType = Helpers.MimeType.DOCUMENT;
+                dataType = AppsTool.MimeType.DOCUMENT;
             else if (mimeType.startsWith("application/vnd.android.package-archive") ||
                     mimeType.startsWith("application/zip") ||
                     mimeType.startsWith("application/x-zip") ||
@@ -190,8 +190,8 @@ public class CleanOpenMenu extends BaseHook {
                     mimeType.startsWith("application/x-compress") ||
                     mimeType.startsWith("application/x-7z") ||
                     mimeType.startsWith("application/java-archive"))
-                dataType = Helpers.MimeType.ARCHIVE;
-            else if (mimeType.startsWith("link/")) dataType = Helpers.MimeType.LINK;
+                dataType = AppsTool.MimeType.ARCHIVE;
+            else if (mimeType.startsWith("link/")) dataType = AppsTool.MimeType.LINK;
         return (mimeFlags & dataType) == dataType;
     }
 

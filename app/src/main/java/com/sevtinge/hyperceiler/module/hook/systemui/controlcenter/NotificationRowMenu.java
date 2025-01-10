@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -97,7 +97,7 @@ public class NotificationRowMenu extends BaseHook {
                     }
 
                     if (view == mInfoBtn) {
-                        Helpers.openAppInfo(mContext, pkgName, user);
+                        AppsTool.openAppInfo(mContext, pkgName, user);
                         mContext.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
                     } else if (view == mForceCloseBtn) {
                         ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);

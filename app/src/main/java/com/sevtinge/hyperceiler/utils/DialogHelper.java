@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellExec;
@@ -193,7 +194,7 @@ public class DialogHelper {
                 .setMessage(isRestartSystem ? isSystem : isOther)
                 .setHapticFeedbackEnabled(true)
                 .setPositiveButton(android.R.string.ok, (dialog, which) ->
-                        Helpers.doRestart(context, packageName, isRestartSystem)
+                        AppsTool.doRestart(context, packageName, isRestartSystem)
                 )
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();

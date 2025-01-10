@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.base.dexkit;
 
-import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
-import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
+import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.getPackageVersionCode;
+import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.getPackageVersionName;
 import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
 
 import android.content.Context;

@@ -26,7 +26,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver.PrefToUri;
@@ -49,7 +49,7 @@ public class PrefsUtils {
     public static String mPrefsFile = mPrefsPath + "/" + mPrefsName + ".xml";
 
     public static SharedPreferences getSharedPrefs(Context context, boolean multiProcess) {
-        context = Helpers.getProtectedContext(context);
+        context = AppsTool.getProtectedContext(context);
         try {
             return context.getSharedPreferences(mPrefsName, multiProcess ? Context.MODE_MULTI_PROCESS | Context.MODE_WORLD_READABLE : Context.MODE_WORLD_READABLE);
         } catch (Throwable t) {
@@ -190,7 +190,7 @@ public class PrefsUtils {
     public static void registerOnSharedPreferenceChangeListener(Context context) {
         mSharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
             Log.i("prefs", "Changed: " + key);
-            Helpers.requestBackup(context);
+            AppsTool.requestBackup(context);
             Object val = sharedPreferences.getAll().get(key);
             String path = "";
             if (val instanceof String)
