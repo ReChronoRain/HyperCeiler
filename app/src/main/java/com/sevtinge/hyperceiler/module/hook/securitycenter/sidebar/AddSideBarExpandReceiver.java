@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar;
 
-import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getPackageVersionCode;
+import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.getPackageVersionCode;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.content.BroadcastReceiver;
