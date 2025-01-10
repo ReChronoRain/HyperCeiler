@@ -18,18 +18,24 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar;
 
+import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.getPackageVersionCode;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.core.content.ContextCompat;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
@@ -38,8 +44,17 @@ import java.lang.reflect.Method;
 import de.robv.android.xposed.XposedHelpers;
 
 public class AddSideBarExpandReceiver extends BaseHook {
+
+    boolean isNewVersion;
+
     @Override
     public void init() {
+        try {
+            isNewVersion = (getPackageVersionCode(lpparam) >= 40001000 && !isPad()) || (getPackageVersionCode(lpparam) >= 40011000 && isPad());
+        } catch (Throwable e) {
+            logE(TAG, lpparam.packageName, "Failed to get version code, " + e);
+        }
+
         final boolean[] isHooked = {false, false};
         boolean enableSideBar = mPrefsMap.getBoolean("security_center_leave_open");
         if (!enableSideBar) {
@@ -68,12 +83,12 @@ public class AddSideBarExpandReceiver extends BaseHook {
                             int pos = originDockLocation;
                             if (bundle != null) {
                                 pos = bundle.getInt("inDirection", 0);
-                                view.getContext().getSharedPreferences("sp_video_box", 0).edit().putInt("dock_line_location", pos).commit();
+                                view.getContext().getSharedPreferences("sp_video_box", 0).edit().putInt("dock_line_location", pos).apply();
                             }
                             showSideBar(view, pos);
                         }
                     };
-                    view.getContext().registerReceiver(showReceiver, new IntentFilter(ACTION_PREFIX + "ShowSideBar"));
+                    ContextCompat.registerReceiver(view.getContext(), showReceiver, new IntentFilter(ACTION_PREFIX + "ShowSideBar"), ContextCompat.RECEIVER_NOT_EXPORTED);
                     XposedHelpers.setAdditionalInstanceField(param.thisObject, "showReceiver", showReceiver);
 
                     if (!isHooked[1]) {
@@ -96,14 +111,34 @@ public class AddSideBarExpandReceiver extends BaseHook {
                                         }
                                     });
                                 }
-                                Class<?> bgDrawable = view.getBackground().getClass();
-                                findAndHookMethod(bgDrawable, "draw", Canvas.class, new MethodHook() {
-                                    @Override
-                                    protected void before(MethodHookParam param) throws Throwable {
-                                        param.setResult(null);
+                                if (isNewVersion) {
+                                    try {
+                                        // 10.0.0 及以上版本的手机/平板管家获取 drawable 的方式
+                                        Class<?> bgDrawable = XposedHelpers.callMethod(view, "getDrawable").getClass();
+                                        findAndHookMethod(bgDrawable, "draw", Canvas.class, new MethodHook() {
+                                            @Override
+                                            protected void before(MethodHookParam param) {
+                                                param.setResult(null);
+                                            }
+                                        });
+                                        XposedHelpers.callMethod(view, "setImageDrawable", (Drawable) null);
+                                    } catch (Throwable e) {
+                                        logE(TAG, lpparam.packageName, "Drawable is failed, " + e);
                                     }
-                                });
-                                view.setBackground(null);
+                                } else {
+                                    try {
+                                        Class<?> bgDrawable = view.getBackground().getClass();
+                                        findAndHookMethod(bgDrawable, "draw", Canvas.class, new MethodHook() {
+                                            @Override
+                                            protected void before(MethodHookParam param) {
+                                                param.setResult(null);
+                                            }
+                                        });
+                                        view.setBackground(null);
+                                    } catch (Throwable e) {
+                                        logE(TAG, lpparam.packageName, "Drawable background is failed, " + e);
+                                    }
+                                }
                             }
                         };
                         myhandler.postDelayed(removeBg, 150);
