@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
@@ -27,7 +29,7 @@ import de.robv.android.xposed.XposedHelpers;
 public class AutoCollapse extends BaseHook {
     @Override
     public void init() {
-        findAndHookMethod("com.android.systemui.qs.tileimpl.QSTileImpl", lpparam.classLoader, "click", View.class, new MethodHook() {
+        MethodHook method = new MethodHook() {
             @Override
             protected void after(MethodHookParam param) {
                 Object mState = XposedHelpers.callMethod(param.thisObject, "getState");
@@ -40,6 +42,12 @@ public class AutoCollapse extends BaseHook {
                     }
                 }
             }
-        });
+        };
+
+        if (isMoreHyperOSVersion(2f)) {
+            findAndHookMethod("com.android.systemui.qs.tileimpl.QSTileImpl", lpparam.classLoader, "click","com.android.systemui.animation.Expandable", method);
+        } else {
+            findAndHookMethod("com.android.systemui.qs.tileimpl.QSTileImpl", lpparam.classLoader, "click", View.class, method);
+        }
     }
 }
