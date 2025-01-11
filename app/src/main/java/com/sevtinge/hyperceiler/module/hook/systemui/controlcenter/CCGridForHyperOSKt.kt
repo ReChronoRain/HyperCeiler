@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
+import android.content.*
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import com.sevtinge.hyperceiler.utils.prefs.*
@@ -74,5 +75,29 @@ object CCGridForHyperOSKt {
                 param.args[0] = drawable
             }
         })
+        //OS1可能会有的圆角设置
+        XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView",
+            classLoader,
+            "setCornerRadius",
+            Float::javaClass,
+            object : XC_MethodHook(){
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    super.beforeHookedMethod(param)
+                    param?.args?.set(0, radius)
+
+                }
+
+            }
+        )
+        //OS2加载磁贴时的圆角
+        XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView",
+            classLoader,
+            "getCornerRadius",  object : XC_MethodReplacement() {
+
+                override fun replaceHookedMethod(param: MethodHookParam?): Any {
+                    val pluginContext: Context = XposedHelpers.getObjectField(param?.thisObject, "pluginContext") as Context
+                    return radius
+                }
+            })
     }
 }
