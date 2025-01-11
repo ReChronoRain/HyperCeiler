@@ -58,21 +58,39 @@ object CCGridForHyperOSKt {
                 }
             }
         })*/
+
         XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "setDisabledBg", Drawable::class.java, object : XC_MethodHook(){
             override fun beforeHookedMethod(param: MethodHookParam?) {
-                super.beforeHookedMethod(param)
                 val drawable = param?.args?.get(0) as Drawable
                 if (drawable is GradientDrawable) drawable.cornerRadius = radius
                 param.args[0] = drawable
             }
         })
+
         XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "setEnabledBg", Drawable::class.java, object : XC_MethodHook(){
             override fun beforeHookedMethod(param: MethodHookParam?) {
-                super.beforeHookedMethod(param)
                 val drawable = param?.args?.get(0) as Drawable
                 if (drawable is GradientDrawable) drawable.cornerRadius = radius
                 param.args[0] = drawable
             }
         })
+
+        // OS1 可能会有的圆角设置
+        XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView",
+            classLoader, "setCornerRadius", Float::class.java,
+            object : XC_MethodHook(){
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    param?.args?.set(0, radius)
+                }
+            }
+        )
+
+        // OS2 加载磁贴时的圆角
+        XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView",
+            classLoader, "getCornerRadius",  object : XC_MethodReplacement() {
+                override fun replaceHookedMethod(param: MethodHookParam?): Any {
+                    return radius
+                }
+            })
     }
 }

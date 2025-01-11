@@ -27,7 +27,8 @@ import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.*
 import com.sevtinge.hyperceiler.module.hook.systemui.other.*
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.*
-import com.sevtinge.hyperceiler.utils.api.PluginFactory
+import com.sevtinge.hyperceiler.utils.api.*
+import com.sevtinge.hyperceiler.utils.log.LogManager.*
 import java.lang.ref.*
 
 object NewPluginHelperKt : BaseHook() {
@@ -199,8 +200,9 @@ object NewPluginHelperKt : BaseHook() {
                 if (prefKey) {
                     loader(classLoader)
                 }
+                if (logLevel >= 3) logI(TAG, lpparam.packageName, "$name is loaded success.")
             }.onFailure {
-                logE(TAG, lpparam.packageName, "[$tag] $name is fail loaded, log: $it")
+                if (logLevel >= 1) logE(TAG, lpparam.packageName, "[$tag] $name is fail loaded, log: $it")
             }
         }
     }
