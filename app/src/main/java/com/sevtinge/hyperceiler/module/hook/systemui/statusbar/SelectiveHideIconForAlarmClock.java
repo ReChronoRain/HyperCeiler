@@ -18,6 +18,12 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMiuiVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
+
 import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -45,17 +51,20 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
     private boolean lastState = false;
 
     Class<?> mMiuiPhoneStatusBarPolicy;
+    Class<?> mPhoneStatusBarPolicy;
 
     @Override
     public void init() {
         mMiuiPhoneStatusBarPolicy = findClassIfExists("com.android.systemui.statusbar.phone.MiuiPhoneStatusBarPolicy");
+        mPhoneStatusBarPolicy = findClassIfExists("com.android.systemui.statusbar.phone.PhoneStatusBarPolicy$4");
+
         hookAllConstructors(mMiuiPhoneStatusBarPolicy, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 XposedHelpers.setAdditionalInstanceField(param.thisObject, "mNextAlarmTime", getNextMIUIAlarmTime(mContext));
                 ContentResolver resolver = mContext.getContentResolver();
-                ContentObserver alarmObserver = new ContentObserver(new Handler()) {
+                ContentObserver alarmObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
                     @Override
                     public void onChange(boolean selfChange) {
                         if (selfChange) return;
@@ -80,22 +89,26 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
             }
         });
 
-        findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarPolicy", "updateAlarm", new MethodHook() {
+        findAndHookMethod(mPhoneStatusBarPolicy, "onAlarmChanged", boolean.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                lastState = (boolean) XposedHelpers.getObjectField(param.thisObject, "mHasAlarm");
-                updateAlarmVisibility(param.thisObject, lastState);
-            }
-        });
-
-        findAndHookMethod(mMiuiPhoneStatusBarPolicy, "onMiuiAlarmChanged", new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) {
-                lastState = (boolean) XposedHelpers.getObjectField(param.thisObject, "mHasAlarm");
-                updateAlarmVisibility(param.thisObject, lastState);
+                Object getThisObject = XposedHelpers.getObjectField(param.thisObject, "this$0");
+                lastState = (boolean) XposedHelpers.getObjectField(getThisObject, "mHasAlarm");
+                updateAlarmVisibility(getThisObject, lastState);
                 param.setResult(null);
             }
         });
+
+        if (isAndroidVersion(33) && !isMoreHyperOSVersion(1f)) {
+            findAndHookMethod(mMiuiPhoneStatusBarPolicy, "onMiuiAlarmChanged", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    lastState = (boolean) XposedHelpers.getObjectField(param.thisObject, "mHasAlarm");
+                    updateAlarmVisibility(param.thisObject, lastState);
+                    param.setResult(null);
+                }
+            });
+        }
     }
 
     private void updateAlarmVisibility(Object thisObject, boolean state) {
@@ -121,8 +134,10 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
             float diffHours = (diffMSec - 59 * 1000) / (1000f * 60f * 60f);
             boolean vis = diffHours <= mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0);
             XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
-            mIconController = XposedHelpers.getObjectField(thisObject, "miuiDripLeftStatusBarIconController");
-            XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
+            if (!isMoreHyperOSVersion(1f)) {
+                mIconController = XposedHelpers.getObjectField(thisObject, "miuiDripLeftStatusBarIconController");
+                XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
+            }
             logI(TAG, this.lpparam.packageName, "Now is " + diffHours + "min remain, show when " + vis + "min remain.");
         } catch (Throwable t) {
             logE(TAG, this.lpparam.packageName, "updateAlarmVisibility failed", t);
