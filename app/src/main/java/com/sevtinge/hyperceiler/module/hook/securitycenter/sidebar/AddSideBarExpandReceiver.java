@@ -100,16 +100,22 @@ public class AddSideBarExpandReceiver extends BaseHook {
                                 myhandler.removeCallbacks(this);
                                 if (!enableSideBar) {
                                     Object li = XposedHelpers.getObjectField(view, "mListenerInfo");
-                                    Object mOnTouchListener = XposedHelpers.getObjectField(li, "mOnTouchListener");
-                                    findAndHookMethod(mOnTouchListener.getClass(), "onTouch", View.class, MotionEvent.class, new MethodHook() {
-                                        @Override
-                                        protected void before(MethodHookParam param) throws Throwable {
-                                            MotionEvent me = (MotionEvent) param.args[1];
-                                            if (me.getSource() != 9999) {
-                                                param.setResult(false);
-                                            }
+                                    if (li != null) {
+                                        try {
+                                            Object mOnTouchListener = XposedHelpers.getObjectField(li, "mOnTouchListener");
+                                            findAndHookMethod(mOnTouchListener.getClass(), "onTouch", View.class, MotionEvent.class, new MethodHook() {
+                                                @Override
+                                                protected void before(MethodHookParam param) throws Throwable {
+                                                    MotionEvent me = (MotionEvent) param.args[1];
+                                                    if (me.getSource() != 9999) {
+                                                        param.setResult(false);
+                                                    }
+                                                }
+                                            });
+                                        } catch (Throwable e) {
+                                            logE(TAG, lpparam.packageName, "OnTouchListener is failed, " + e);
                                         }
-                                    });
+                                    }
                                 }
                                 if (isNewVersion) {
                                     try {
