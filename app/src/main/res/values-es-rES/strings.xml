@@ -972,7 +972,6 @@ aplicaciones del sistema</string>
     <string name="milink">Proyectar la pantalla</string>
     <string name="milink_hyperos">Servicios de interconexión</string>
     <string name="milink_unlock_mishare">Desbloquear interconexión de dispositivo</string>
-    <string name="milink_unlock_hmind">Desactivar HyperMind/MiLink</string>
     <string name="milink_allow_camera_devices">Forzar el soporte para la transmisión de cámara</string>
     <string name="milink_fuck_hpplay">Bloquear la creación de carpetas de hpplay</string>
     <!--Sound Recorder-->

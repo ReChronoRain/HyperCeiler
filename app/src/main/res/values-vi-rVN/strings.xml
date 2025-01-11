@@ -1152,7 +1152,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="milink">Truyền</string>
     <string name="milink_hyperos">Dịch vụ kết nối</string>
     <string name="milink_unlock_mishare">Mở khóa Kết nối thiết bị</string>
-    <string name="milink_unlock_hmind">Mở khóa Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">Hỗ trợ bắt buộc cho việc truyền phát camera</string>
     <string name="milink_fuck_hpplay">Chặn tạo thư mục hpplay</string>
     <!--Sound Recorder-->

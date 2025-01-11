@@ -972,7 +972,6 @@
     <!--Cast-->
     <string name="milink">Yayınla</string>
     <string name="milink_unlock_mishare">Cihaz ara bağlantısının kilidini aç</string>
-    <string name="milink_unlock_hmind">Xiaomi HyperMind kilidini aç</string>
     <string name="milink_allow_camera_devices">Kamera akışı desteğini zorla</string>
     <string name="milink_fuck_hpplay">Hpplay klasörlerinin oluşturulmasını engelleme</string>
     <!--Sound Recorder-->

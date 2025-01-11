@@ -54,7 +54,7 @@ object NotificationWeather : BaseHook() {
                     val viewGroup = it.thisObject as ViewGroup
                     val mOrientation = viewGroup.getObjectField("mOrientation") as Int
 
-                    mWeatherView?.visibility = if (mOrientation == 1) {
+                    mWeatherView?.visibility = if (mOrientation == 1 || isPad()) {
                         View.VISIBLE
                     } else {
                         View.GONE

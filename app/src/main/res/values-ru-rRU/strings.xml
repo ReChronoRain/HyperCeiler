@@ -1146,7 +1146,6 @@
     <string name="milink">Cast</string>
     <string name="milink_hyperos">Сервисы подключения</string>
     <string name="milink_unlock_mishare">Разблокировать подключение устройства</string>
-    <string name="milink_unlock_hmind">Разблокировать Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">Принудительная поддержка вещания камеры</string>
     <string name="milink_fuck_hpplay">Блокировка создания папок hpplay</string>
     <!--Sound Recorder-->
