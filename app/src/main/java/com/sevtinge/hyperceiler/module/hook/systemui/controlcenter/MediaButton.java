@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.widget.ImageButton;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -35,19 +37,25 @@ import java.lang.reflect.Method;
 import de.robv.android.xposed.XposedHelpers;
 
 public class MediaButton extends BaseHook {
-    private String pkg = null;
+    Class<?> MediaControlPanel;
+
     private final int type = mPrefsMap.getInt("system_ui_control_center_media_control_media_button", 140);
     private final int typeCustom = mPrefsMap.getInt("system_ui_control_center_media_control_media_button_custom", 140);
 
     @Override
     public void init() throws NoSuchMethodException {
 
+        if (isMoreHyperOSVersion(2f)) {
+            MediaControlPanel = findClassIfExists("com.android.systemui.media.controls.ui.controller.MediaControlPanel", lpparam.classLoader);
+        } else {
+            MediaControlPanel = findClassIfExists("com.android.systemui.media.controls.ui.MediaControlPanel", lpparam.classLoader);
+        }
         Class<?> DrawableUtils = findClassIfExists("com.miui.utils.DrawableUtils", lpparam.classLoader);
-        hookAllMethods("com.android.systemui.media.controls.ui.controller.MediaControlPanel",
-        "bindButtonCommon", new MethodHook() {
+
+        hookAllMethods(MediaControlPanel, "bindButtonCommon", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                Object mediaAction = param.args[0];
+                Object mediaAction = param.args[1];
                 String desc = (String) XposedHelpers.getObjectField(mediaAction, "contentDescription");
                 if ((typeCustom != 140) && 
                     !desc.contains("Play") && !desc.contains("Pause") && 
