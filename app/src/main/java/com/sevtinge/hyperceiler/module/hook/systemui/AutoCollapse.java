@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.view.View;
@@ -31,38 +29,25 @@ import de.robv.android.xposed.XposedHelpers;
 public class AutoCollapse extends BaseHook {
     @Override
     public void init() {
-        if (isHyperOSVersion(2f)) {
-            findAndHookMethod("com.android.systemui.qs.tileimpl.QSTileImpl", lpparam.classLoader, "click","com.android.systemui.animation.Expandable", new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) {
-                    Object mState = XposedHelpers.callMethod(param.thisObject, "getState");
-                    int state = XposedHelpers.getIntField(mState, "state");
-                    if (state != 0) {
-                        String tileSpec = (String) XposedHelpers.callMethod(param.thisObject, "getTileSpec");
-                        if (!"edit".equals(tileSpec)) {
-                            Object mHost = XposedHelpers.getObjectField(param.thisObject, "mHost");
-                            XposedHelpers.callMethod(mHost, "collapsePanels");
-                        }
+        MethodHook method = new MethodHook() {
+            @Override
+            protected void after(MethodHookParam param) {
+                Object mState = XposedHelpers.callMethod(param.thisObject, "getState");
+                int state = XposedHelpers.getIntField(mState, "state");
+                if (state != 0) {
+                    String tileSpec = (String) XposedHelpers.callMethod(param.thisObject, "getTileSpec");
+                    if (!"edit".equals(tileSpec)) {
+                        Object mHost = XposedHelpers.getObjectField(param.thisObject, "mHost");
+                        XposedHelpers.callMethod(mHost, "collapsePanels");
                     }
                 }
-            });
+            }
+        };
 
-        }else {
-            findAndHookMethod("com.android.systemui.qs.tileimpl.QSTileImpl", lpparam.classLoader, "click", View.class, new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) {
-                    Object mState = XposedHelpers.callMethod(param.thisObject, "getState");
-                    int state = XposedHelpers.getIntField(mState, "state");
-                    if (state != 0) {
-                        String tileSpec = (String) XposedHelpers.callMethod(param.thisObject, "getTileSpec");
-                        if (!"edit".equals(tileSpec)) {
-                            Object mHost = XposedHelpers.getObjectField(param.thisObject, "mHost");
-                            XposedHelpers.callMethod(mHost, "collapsePanels");
-                        }
-                    }
-                }
-            });
-
+        if (isMoreHyperOSVersion(2f)) {
+            findAndHookMethod("com.android.systemui.qs.tileimpl.QSTileImpl", lpparam.classLoader, "click","com.android.systemui.animation.Expandable", method);
+        } else {
+            findAndHookMethod("com.android.systemui.qs.tileimpl.QSTileImpl", lpparam.classLoader, "click", View.class, method);
         }
     }
 }
