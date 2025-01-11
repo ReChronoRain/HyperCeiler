@@ -1231,7 +1231,6 @@
     <string name="milink">投屏</string>
     <string name="milink_hyperos">互联互通服务</string>
     <string name="milink_unlock_mishare">解锁小米妙享</string>
-    <string name="milink_unlock_hmind">解锁 Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">强制支持摄像头流转</string>
     <string name="milink_fuck_hpplay">阻止生成乐播投屏相关文件</string>
     <!--录音机-->

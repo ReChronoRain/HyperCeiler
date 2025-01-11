@@ -22,15 +22,11 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 
 import android.view.View;
 
-import androidx.preference.SwitchPreference;
-
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
 public class MiLinkFragment extends DashboardFragment {
-
-    SwitchPreference mUnlockHMind;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -43,13 +39,5 @@ public class MiLinkFragment extends DashboardFragment {
             getResources().getString(!isMoreHyperOSVersion(1f) ? R.string.milink : R.string.milink_hyperos),
             "com.milink.service"
         );
-    }
-
-    @Override
-    public void initPrefs() {
-        mUnlockHMind = findPreference("prefs_key_milink_unlock_hmind");
-        if (mUnlockHMind != null) {
-            mUnlockHMind.setVisible(isMoreHyperOSVersion(1f));
-        }
     }
 }

@@ -1145,7 +1145,6 @@
     <string name="milink">الإرسال</string>
     <string name="milink_hyperos">خدمات الاتصال البيني</string>
     <string name="milink_unlock_mishare">فتح الاتصال بالجهاز</string>
-    <string name="milink_unlock_hmind">فتح Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">دعم إجبارى لبث الكاميرا</string>
     <string name="milink_fuck_hpplay">منع إنشاء مجلدات hpplay</string>
     <!--Sound Recorder-->

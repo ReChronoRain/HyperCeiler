@@ -942,7 +942,6 @@
     <string name="milink">Trasmetti</string>
     <string name="milink_hyperos">Servizi di interconnettività</string>
     <string name="milink_unlock_mishare">Sblocca l\'interconnessione dei dispositivi</string>
-    <string name="milink_unlock_hmind">Sblocca Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">Supporto forzato per lo streaming della fotocamera</string>
     <string name="milink_fuck_hpplay">Blocca la creazione di cartelle hpplay</string>
     <!--Sound Recorder-->

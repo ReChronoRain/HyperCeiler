@@ -1115,7 +1115,6 @@
     <string name="milink">キャスト</string>
     <string name="milink_hyperos">相互接続サービス</string>
     <string name="milink_unlock_mishare">デバイスの相互接続をアンロック</string>
-    <string name="milink_unlock_hmind">Xiaomi HyperMind をアンロック</string>
     <string name="milink_allow_camera_devices">カメラストリーミングの強制サポート</string>
     <string name="milink_fuck_hpplay">hpplay フォルダの作成をブロック</string>
     <!--Sound Recorder-->
