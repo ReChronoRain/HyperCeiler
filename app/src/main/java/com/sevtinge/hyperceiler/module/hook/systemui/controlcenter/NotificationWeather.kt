@@ -20,8 +20,11 @@ package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
 import android.annotation.*
 import android.content.*
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
+import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.view.*
 import android.widget.*
+import androidx.annotation.IntDef
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
@@ -34,10 +37,50 @@ import com.sevtinge.hyperceiler.view.*
 
 @SuppressLint("DiscouragedApi", "ServiceCast", "StaticFieldLeak")
 object NotificationWeather : BaseHook() {
-    private var mWeatherView : TextView? = null
-    private var mWeatherViewFolme : Any? = null
+    // 横屏状态下的天气组件
+    private var hWeatherView: TextView? = null
+    // 及动画
+    private var hWeatherViewFolme: Any? = null
+
+    // 竖屏状态下的天气组件
+    private var vWeatherView: TextView? = null
+    // 及动画
+    private var vWeatherViewFolme: Any? = null
+
+    // 天气组件点击事件
+    private val weatherViewClickListener = View.OnClickListener {
+        val intent = Intent().apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            component = ComponentName(
+                "com.miui.weather2",
+                "com.miui.weather2.ActivityWeatherMain"
+            )
+        }
+
+        val clz = findClass(InterfacesImplManager.I_ACTIVITY_STARTER)
+        if (isMoreHyperOSVersion(2f)) {
+            InterfacesImplManager.sClassContainer[clz]
+        } else {
+            Dependency.get(clz)
+        }?.callMethod("startActivity", intent, true)
+    }
+
+    // 是否显示城市
     private val isDisplayCity by lazy {
         mPrefsMap.getBoolean("system_ui_control_center_show_weather_city")
+    }
+
+    private val combinedHeaderController by lazy {
+        loadClass("com.android.systemui.controlcenter.shade.CombinedHeaderController")
+    }
+    private val notificationHeaderExpandController by lazy {
+        loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController")
+    }
+    private val miuiNotificationHeaderView by lazy {
+        loadClass("com.android.systemui.qs.MiuiNotificationHeaderView")
+    }
+    private val folme by lazy {
+        loadClass("miuix.animation.Folme")
     }
 
     override fun init() {
@@ -47,187 +90,218 @@ object NotificationWeather : BaseHook() {
             oldNotificationWeather()
         }
 
-        loadClass("com.android.systemui.qs.MiuiNotificationHeaderView").methodFinder()
-            .filterByName("updateLayout")
+        // 更新资源
+        miuiNotificationHeaderView.methodFinder()
+            .filterByName("updateHeaderResources")
             .single().createHook {
-                after {
-                    val viewGroup = it.thisObject as ViewGroup
-                    val mOrientation = viewGroup.getObjectField("mOrientation") as Int
-
-                    mWeatherView?.visibility = if (mOrientation == 1 || isPad()) {
-                        View.VISIBLE
-                    } else {
-                        View.GONE
+                after { param ->
+                    val viewGroup = param.thisObject as ViewGroup
+                    val orientation = viewGroup.getObjectFieldAs<Int>("mOrientation")
+                    if (orientation == -1) {
+                        return@after
                     }
+
+                    val dateView = viewGroup.getObjectFieldAs<TextView>("mDateView")
+                    val landClock = viewGroup.getObjectFieldAs<TextView>("mLandClock")
+
+                    vWeatherView?.setTextSize(0, dateView.textSize)
+                    vWeatherView?.setTypeface(dateView.typeface)
+
+                    hWeatherView?.setTextSize(0, landClock.textSize)
+                    hWeatherView?.setTypeface(landClock.typeface)
                 }
             }
+
+        // 更新布局
+        miuiNotificationHeaderView.methodFinder().filterByName("updateLayout").single().createHook {
+            before {
+                val viewGroup = it.thisObject as ViewGroup
+                val context = viewGroup.context
+                val configuration = context.resources.configuration
+                val orientation = viewGroup.getObjectFieldAs<Int>("mOrientation")
+                val screenLayout = viewGroup.getObjectFieldAs<Int>("mScreenLayout")
+
+                if (orientation == configuration.orientation &&
+                    screenLayout == configuration.screenLayout
+                ) {
+                    return@before
+                }
+
+                val isVerticalMode = if (isMoreHyperOSVersion(2f)) {
+                    val miuiConfigs = loadClass("com.miui.utils.configs.MiuiConfigs")
+                    miuiConfigs.callStaticMethodAs<Boolean>("isVerticalMode", context)
+                } else {
+                    val commonUtil = loadClass("com.miui.systemui.util.CommonUtil")
+                    val isTabletUI = commonUtil.callStaticMethodAs<Boolean>("isTabletUI", context)
+                    orientation != ORIENTATION_PORTRAIT || isTabletUI
+                }
+
+                if (isVerticalMode) {
+                    hWeatherView?.visibility = View.GONE
+                    vWeatherView?.visibility = View.VISIBLE
+                } else {
+                    hWeatherView?.visibility = View.VISIBLE
+                    vWeatherView?.visibility = View.GONE
+                }
+            }
+        }
     }
 
     private fun newNotificationWeather() {
-        loadClass("com.android.systemui.controlcenter.shade.CombinedHeaderController").constructors
-            .single().createHook {
-                after { param ->
-                    val headerController = param.thisObject
-                    val notificationDateTime = headerController.getObjectFieldAs<View>("notificationDateTime")
-                    val context = notificationDateTime.context
+        combinedHeaderController.constructors.single().createHook {
+            after { param ->
+                val controller = param.thisObject
+                val dateView = controller.getObjectFieldAs<View>("notificationDateTime")
+                val landClock = controller.getObjectFieldAs<View>("notificationHorizontalTime")
 
-                    addWeatherViewAfterOf(notificationDateTime)
-                    setWeatherViewOnClinkListener(context)
+                addWeatherViewAfterOf(dateView, ORIENTATION_PORTRAIT)
+                addWeatherViewAfterOf(landClock, ORIENTATION_LANDSCAPE)
 
-                    mWeatherView?.let {
-                        mWeatherViewFolme = loadClass("miuix.animation.Folme")
-                            .callStaticMethod("useAt", arrayOf<View>(it))
-                    }
+                // 创建动画
+                hWeatherView?.let {
+                    hWeatherViewFolme = folme.callStaticMethod("useAt", arrayOf<View>(it))
+                }
+                vWeatherView?.let {
+                    vWeatherViewFolme = folme.callStaticMethod("useAt", arrayOf<View>(it))
                 }
             }
+        }
 
-        loadClass("com.android.systemui.controlcenter.shade.CombinedHeaderController").methodFinder()
+        combinedHeaderController.methodFinder()
             .filterByName("onSwitchProgressChanged")
             .filterByParamTypes(Float::class.java)
             .first().createHook {
                 after { param ->
-                    val headerController = param.thisObject
-                    val dateTime = headerController.getObjectFieldAs<View>("notificationDateTime")
-                    mWeatherView?.translationX = dateTime.translationX
-                    mWeatherView?.translationY = dateTime.translationY
+                    val controller = param.thisObject
+                    val dateView = controller.getObjectFieldAs<View>("notificationDateTime")
+                    val landClock = controller.getObjectFieldAs<View>("notificationHorizontalTime")
+
+                    vWeatherView?.translationX = dateView.translationX
+                    vWeatherView?.translationY = dateView.translationY
+
+                    hWeatherView?.translationX = landClock.translationX
+                    hWeatherView?.translationY = landClock.translationY
                 }
             }
 
-        val expandControllerClz = loadClass(
-            "com.android.systemui.controlcenter.shade.NotificationHeaderExpandController"
-        )
-        expandControllerClz.constructors
-            .single().createHook {
-                after { param ->
-                    val expandController = param.thisObject
-                    expandController.getObjectFieldAs<Any>("notificationCallback")::class.java
-                        .methodFinder()
-                        .filterByName("onExpansionChanged")
-                        .first()
-                        .createHook {
-                            after {
-                                val dateTime = expandController.getObjectFieldAs<Any>("headerController")
-                                    .callMethodAs<Any>("get")
-                                    .getObjectFieldAs<View>("notificationDateTime")
+        notificationHeaderExpandController.constructors.single().createHook {
+            after { param ->
+                val expandController = param.thisObject
+                val callback = expandController.getObjectFieldAs<Any>("notificationCallback")
 
-                                mWeatherView?.translationX = dateTime.translationX
-                                mWeatherView?.translationY = dateTime.translationY
-                            }
-                        }
-                }
+                hookNotificationCallback(expandController, callback::class.java)
             }
-        expandControllerClz.methodFinder()
-            .filterByName("access\$startFolmeAnimationAlpha")
-            .filterByParamCount(5)
-            .single().createHook {
-                before { param ->
-                    val view = param.args[1] as View
-                    val context = view.context
-                    val dateTimeId = context.resources.getIdentifier("date_time", "id", context.packageName)
-                    if (view.id == dateTimeId) {
-                        expandControllerClz.callStaticMethod(
-                            "access\$startFolmeAnimationAlpha",
-                            param.args[0],
-                            mWeatherView,
-                            mWeatherViewFolme,
-                            param.args[3],
-                            param.args[4],
-                        )
-                    }
-                }
-            }
+        }
+    }
 
-        expandControllerClz.methodFinder()
-            .filterByName("access\$startFolmeAnimationTranslationX")
-            .single().createHook {
-                before { param ->
-                    val view = param.args[1] as View
-                    val context = view.context
-                    val dateTimeId = context.resources.getIdentifier("date_time", "id", context.packageName)
-                    if (view.id == dateTimeId) {
-                        expandControllerClz.callStaticMethod(
-                            "access\$startFolmeAnimationTranslationX",
-                            param.args[0],
-                            mWeatherView,
-                            mWeatherViewFolme,
-                            param.args[3],
-                            param.args[4],
-                        )
-                    }
+    private fun hookNotificationCallback(expandController: Any, clazz: Class<*>) {
+        clazz.methodFinder().filterByName("onAppearanceChanged").first().createHook {
+            after {
+                val newAppearance = it.args[0] as Boolean
+                val animate = it.args[1] as Boolean
+
+                val startFolmeAnimationAlpha = { view: View?, folme: Any? ->
+                    notificationHeaderExpandController.callStaticMethod(
+                        "access\$startFolmeAnimationAlpha",
+                        expandController,
+                        view,
+                        folme,
+                        if (newAppearance) 1F else 0F,
+                        animate,
+                    )
+                }
+
+                startFolmeAnimationAlpha(hWeatherView, hWeatherViewFolme)
+                startFolmeAnimationAlpha(vWeatherView, vWeatherViewFolme)
+            }
+        }
+
+        clazz.methodFinder().filterByName("onExpansionChanged").first().createHook {
+            after {
+                val headerController = expandController.getObjectFieldAs<Any>("headerController")
+                    .callMethodAs<Any>("get")
+
+                headerController.getObjectFieldAs<View>("notificationDateTime").let {
+                    vWeatherView?.translationX = it.translationX
+                    vWeatherView?.translationY = it.translationY
+                }
+
+                headerController.getObjectFieldAs<View>("notificationHorizontalTime").let {
+                    hWeatherView?.translationX = it.translationX
+                    hWeatherView?.translationY = it.translationY
                 }
             }
+        }
     }
 
     private fun oldNotificationWeather() {
-        loadClass("com.android.systemui.qs.MiuiNotificationHeaderView").methodFinder()
+        miuiNotificationHeaderView.methodFinder()
             .filterByName("onFinishInflate")
             .single().createHook {
                 after { param ->
                     val viewGroup = param.thisObject as ViewGroup
                     val context = viewGroup.context
 
-                    val dateTime = viewGroup.findViewById<View>(
+                    val dateView = viewGroup.findViewById<View>(
                         context.resources.getIdentifier(
                             "date_time",
                             "id",
                             context.packageName
                         )
                     )
+                    val landClock = viewGroup.findViewById<View>(
+                        context.resources.getIdentifier(
+                            "horizontal_time",
+                            "id",
+                            context.packageName
+                        )
+                    )
 
-                    addWeatherViewAfterOf(dateTime)
-                    setWeatherViewOnClinkListener(context)
+                    addWeatherViewAfterOf(dateView, ORIENTATION_PORTRAIT)
+                    addWeatherViewAfterOf(landClock, ORIENTATION_LANDSCAPE)
                 }
             }
     }
 
-    private fun addWeatherViewAfterOf(dateTimeView : View) {
-        mWeatherView = WeatherView(dateTimeView.context, isDisplayCity).apply {
-            setTextAppearance(
-                context.resources.getIdentifier(
-                    "TextAppearance.QSControl.Date",
-                    "style",
-                    context.packageName
-                )
-            )
+    private fun addWeatherViewAfterOf(view: View, @Orientation key: Int) {
+        val weatherView = WeatherView(view.context, isDisplayCity).apply {
+            var appearance = "TextAppearance."
+            when (key) {
+                ORIENTATION_PORTRAIT -> {
+                    vWeatherView = this
+                    appearance += "QSControl.Date"
+                }
+
+                ORIENTATION_LANDSCAPE -> {
+                    hWeatherView = this
+                    appearance += "NSNotification.Clock"
+                }
+            }
+
+            val resources = context.resources
+            setTextAppearance(resources.getIdentifier(appearance, "style", context.packageName))
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                gravity = Gravity.BOTTOM
-                marginStart = context.resources.getDimensionPixelSize(
-                    context.resources.getIdentifier(
+                gravity = Gravity.CENTER_VERTICAL
+                marginStart = resources.getDimensionPixelSize(
+                    resources.getIdentifier(
                         "notification_panel_time_date_space",
                         "dimen",
                         context.packageName
                     )
                 ) + dp2px(5f)
             }
+
+            setOnClickListener(weatherViewClickListener)
         }
 
-        val dateTimeParent = dateTimeView.parent as ViewGroup
-        dateTimeParent.addView(mWeatherView)
+        val viewParent = view.parent as ViewGroup
+        viewParent.addView(weatherView, viewParent.indexOfChild(view) + 1)
     }
 
-    private fun setWeatherViewOnClinkListener(context : Context) {
-        mWeatherView?.setOnClickListener {
-            try {
-                val intent = Intent().apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    component = ComponentName(
-                        "com.miui.weather2",
-                        "com.miui.weather2.ActivityWeatherMain"
-                    )
-                }
-
-                val clz = findClass(InterfacesImplManager.I_ACTIVITY_STARTER)
-                if (isMoreHyperOSVersion(2f)) {
-                    InterfacesImplManager.sClassContainer[clz]
-                } else {
-                    Dependency.get(clz)
-                }?.callMethod("startActivity", intent, true)
-            } catch (e : Exception) {
-                Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
-            }
-        }
-    }
+    @IntDef(value = [ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE])
+    @Retention(AnnotationRetention.SOURCE)
+    annotation class Orientation
 }
