@@ -79,6 +79,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.RestoreEsc;
 import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.SetGestureNeedFingerNum;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.DualNRSupport;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.DualSASupport;
+import com.sevtinge.hyperceiler.module.hook.systemframework.network.FlightModeHotSpot;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N1Band;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.module.hook.systemframework.network.N5N8Band;
@@ -161,6 +162,7 @@ public class SystemFrameworkT extends BaseModule {
         initHook(N1Band.INSTANCE, mPrefsMap.getBoolean("phone_n1"));
         initHook(N5N8Band.INSTANCE, mPrefsMap.getBoolean("phone_n5_n8"));
         initHook(N28Band.INSTANCE, mPrefsMap.getBoolean("phone_n28"));
+        initHook(new FlightModeHotSpot(), mPrefsMap.getBoolean("system_framework_network_flightmode_hotspot"));
 
         // Other
         initHook(new PackagePermissions(), true);
