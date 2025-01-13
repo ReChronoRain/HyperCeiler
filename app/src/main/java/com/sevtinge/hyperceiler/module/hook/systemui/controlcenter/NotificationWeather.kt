@@ -31,6 +31,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.hook.systemui.*
 import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.api.LazyClass.miuiConfigs
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import com.sevtinge.hyperceiler.view.*
@@ -105,10 +106,10 @@ object NotificationWeather : BaseHook() {
                     val landClock = viewGroup.getObjectFieldAs<TextView>("mLandClock")
 
                     vWeatherView?.setTextSize(0, dateView.textSize)
-                    vWeatherView?.setTypeface(dateView.typeface)
+                    vWeatherView?.typeface = dateView.typeface
 
                     hWeatherView?.setTextSize(0, landClock.textSize)
-                    hWeatherView?.setTypeface(landClock.typeface)
+                    hWeatherView?.typeface = landClock.typeface
                 }
             }
 
@@ -128,12 +129,9 @@ object NotificationWeather : BaseHook() {
                 }
 
                 val isVerticalMode = if (isMoreHyperOSVersion(2f)) {
-                    val miuiConfigs = loadClass("com.miui.utils.configs.MiuiConfigs")
-                    miuiConfigs.callStaticMethodAs<Boolean>("isVerticalMode", context)
+                    miuiConfigs.callStaticMethodAs("isVerticalMode", context)
                 } else {
-                    val commonUtil = loadClass("com.miui.systemui.util.CommonUtil")
-                    val isTabletUI = commonUtil.callStaticMethodAs<Boolean>("isTabletUI", context)
-                    orientation != ORIENTATION_PORTRAIT || isTabletUI
+                    orientation != ORIENTATION_PORTRAIT || isLargeUI()
                 }
 
                 if (isVerticalMode) {
