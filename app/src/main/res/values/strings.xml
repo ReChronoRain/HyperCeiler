@@ -1056,8 +1056,6 @@
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Move the Bluetooth tile near the network tile</string>
     <string name="system_ui_control_center_notifrowmenu">Extended notification menu</string>
     <string name="system_ui_control_center_notifrowmenu_desc">Open app info, force close app and open in floating window from notification menu (swipe notification to the left to open it)</string>
-    <string name="system_ui_unlock_super_volume">Unlock Super volume</string>
-    <string name="system_ui_unlock_super_volume_desc">Experimental feature. Actual features need to be supported by the underlying code.</string>
     <string name="system_ui_controlcenter_new_title">New control center</string>
     <string name="system_ui_controlcenter_old_title">Legacy control center</string>
     <string name="system_ui_controlcenter_unlock_old_title">Unlock control center styles</string>

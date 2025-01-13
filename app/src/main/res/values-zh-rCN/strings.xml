@@ -1061,8 +1061,6 @@
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">蓝牙磁贴移至网络磁贴区域</string>
     <string name="system_ui_control_center_notifrowmenu">扩展通知菜单</string>
     <string name="system_ui_control_center_notifrowmenu_desc">从通知菜单打开应用信息、强制关闭应用和浮窗打开</string>
-    <string name="system_ui_unlock_super_volume">解锁超大音量</string>
-    <string name="system_ui_unlock_super_volume_desc">实验性功能，实际功能需要底层代码支持</string>
     <string name="system_ui_control_center_unlock_blur_supported">解除通知背景模糊限制</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">仅对三方主题移除没有高级材质背景模糊的限制</string>
     <string name="system_ui_control_center_remove_notif_num_limit">移除通知数量限制</string>

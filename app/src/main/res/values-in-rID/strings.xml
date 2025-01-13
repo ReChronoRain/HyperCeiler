@@ -821,8 +821,6 @@
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Pindahkan ubin bluetooth di dekat ubin jaringan</string>
     <string name="system_ui_control_center_notifrowmenu">Menu notifikasi yang diperluas</string>
     <string name="system_ui_control_center_notifrowmenu_desc">Buka info aplikasi, tutup paksa aplikasi dan buka di jendela mengambang dari menu notifikasi (geser notifikasi ke kiri untuk membukanya)</string>
-    <string name="system_ui_unlock_super_volume">Buka Kunci Volume Super</string>
-    <string name="system_ui_unlock_super_volume_desc">Fitur eksperimental, fitur sebenarnya perlu didukung oleh kode yang mendasarinya</string>
     <string name="system_ui_controlcenter_new_title">Pusat kendali baru</string>
     <string name="system_ui_controlcenter_old_title">Pusat kendali warisan</string>
     <string name="system_ui_controlcenter_unlock_old_title">Buka kunci gaya pusat kendali</string>
