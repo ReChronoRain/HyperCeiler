@@ -18,14 +18,33 @@
 */
 package com.sevtinge.hyperceiler.utils.devicesdk
 
+import android.content.res.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNullAs
 import com.sevtinge.hyperceiler.utils.api.LazyClass.clazzMiuiBuild
 
 val IS_TABLET by lazy {
     getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_TABLET") ?: false
 }
+val IS_PAD by lazy {
+    getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_PAD") ?: false
+}
+val IS_FOLD by lazy {
+    getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_FOLD") ?: false
+}
 val IS_INTERNATIONAL_BUILD by lazy {
     getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD") ?: false
+}
+
+/**
+ * 函数调用，适用于其他一些需要更高精度判断大屏设备的情况，仅支持小米设备的判断
+ * @return 一个 Boolean 值，true 代表是大屏设备，false 代表不是大屏设备
+ */
+fun isLargeUI(): Boolean {
+    return runCatching {
+        !(!IS_PAD && (!IS_FOLD || !isTablet()))
+    }.getOrElse {
+        isPad()
+    }
 }
 
 /**
@@ -34,9 +53,9 @@ val IS_INTERNATIONAL_BUILD by lazy {
  * @return 一个 Boolean 值，true 代表是平板，false 代表不是平板
  */
 fun isPad(): Boolean {
-    return try {
+    return runCatching {
         IS_TABLET
-    } catch(_: Throwable) {
+    }.getOrElse {
         isPadDevice()
     }
 }
@@ -46,9 +65,9 @@ fun isPad(): Boolean {
  * @return 一个 Boolean 值，true 代表是国际版系统，false 代表不是国际版系统
  */
 fun isInternational(): Boolean {
-    return  try {
+    return runCatching {
         IS_INTERNATIONAL_BUILD
-    } catch(_: Throwable) {
+    }.getOrElse {
         false
     }
 }
