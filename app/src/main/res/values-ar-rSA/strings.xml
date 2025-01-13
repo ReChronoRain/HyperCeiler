@@ -984,8 +984,6 @@
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">نقل بلاطة البلوتوث بالقرب من بلاطة الشبكة</string>
     <string name="system_ui_control_center_notifrowmenu">قائمة إشعارات موسعة</string>
     <string name="system_ui_control_center_notifrowmenu_desc">فتح معلومات التطبيق، إغلاق التطبيق بالقوة وفتح في نافذة عائمة من قائمة الإشعارات (اسحب الإشعار لليسار لفتحه)</string>
-    <string name="system_ui_unlock_super_volume">فتح مستوى الصوت الفائق</string>
-    <string name="system_ui_unlock_super_volume_desc">ميزة تجريبية. الميزات الفعلية يجب أن تدعمها الشيفرة الأساسية.</string>
     <string name="system_ui_controlcenter_new_title">مركز التحكم الجديد</string>
     <string name="system_ui_controlcenter_old_title">مركز التحكم القديم</string>
     <string name="system_ui_controlcenter_unlock_old_title">فتح أنماط مركز التحكم</string>
