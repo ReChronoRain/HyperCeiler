@@ -152,9 +152,9 @@ object HideFakeStatusBar : MusicBaseHook() {
                     if (isShowingFocusedLyric) {
                         // 在显示歌词的时候固定通知栏顶部时间和日期的位置和缩放
                         val notificationHeaderExpandController =
-                            it.thisObject.getObjectFieldOrNull("this\$0") ?: return@after
+                            it.thisObject.getObjectField("this\$0")
                         val combinedHeaderController =
-                            notificationHeaderExpandController.getObjectFieldOrNull("headerController")!!
+                            notificationHeaderExpandController?.getObjectFieldOrNull("headerController")!!
                                 .callMethod("get")
                         val notificationBigTime =
                             combinedHeaderController!!.getObjectFieldAs<TextView>("notificationBigTime")
@@ -188,9 +188,9 @@ object HideFakeStatusBar : MusicBaseHook() {
                     if (isShowingFocusedLyric) {
                         // 显示歌词的时候手动调用动画,防止大时钟突然出现
                         val notificationHeaderExpandController =
-                            it.thisObject.getObjectFieldOrNull("this\$0") ?: return@after
+                            it.thisObject.getObjectField("this\$0")
                         val combinedHeaderController =
-                            notificationHeaderExpandController.getObjectField("headerController")!!
+                            notificationHeaderExpandController?.getObjectField("headerController")!!
                                 .callMethod("get")
                         loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController")
                             .callStaticMethod(
