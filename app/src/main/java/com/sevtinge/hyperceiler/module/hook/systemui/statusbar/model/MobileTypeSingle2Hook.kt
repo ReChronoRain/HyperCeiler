@@ -65,13 +65,8 @@ object MobileTypeSingle2Hook : BaseHook() {
     private val simDataConnected = booleanArrayOf(false, false)
 
     override fun init() {
-        if (mobileNetworkType != 0) {
-            hookMobileView()
-        }
-
-        if (!showMobileType) {
-            return
-        }
+        hookMobileView()
+        if (!showMobileType) return
 
         try {
             method = DarkIconDispatcherClass.getMethod(
@@ -79,25 +74,18 @@ object MobileTypeSingle2Hook : BaseHook() {
                 MutableCollection::class.java,
                 View::class.java
             )
-
-            try {
-                method2 = DarkIconDispatcherClass.getMethod(
-                    "getTint",
-                    MutableCollection::class.java,
-                    View::class.java,
-                    Integer.TYPE
-                )
-            } catch (unused: Throwable) {
-                logE(TAG, lpparam.packageName, "DarkIconDispatcher.isInArea not found")
-                if (method != null) {
-                    return
-                }
-                return
-            }
-        } catch (unused2: Throwable) {
+            method2 = DarkIconDispatcherClass.getMethod(
+                "getTint",
+                MutableCollection::class.java,
+                View::class.java,
+                Integer.TYPE
+            )
+        } catch (unused: Throwable) {
+            logE(TAG, lpparam.packageName, "DarkIconDispatcher methods not found")
             method = null
+            method2 = null
         }
-        if (method == null || method2 == null) {
+        if (method == null && method2 == null) {
             return
         }
 
@@ -167,7 +155,8 @@ object MobileTypeSingle2Hook : BaseHook() {
 
                     // 添加大 5G 并设置样式
                     if (showMobileType) {
-                        val mobileType = containerLeft.findViewByIdName("mobile_type") as? ImageView?
+                        val mobileType =
+                            containerLeft.findViewByIdName("mobile_type") as? ImageView?
                         val textView =
                             mobileGroup.findViewByIdName("mobile_type_single") as TextView
                         if (!getLocation) {
