@@ -26,7 +26,8 @@ import android.view.*
 import android.widget.*
 import androidx.annotation.IntDef
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.hook.systemui.*
@@ -35,6 +36,7 @@ import com.sevtinge.hyperceiler.utils.api.LazyClass.miuiConfigs
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import com.sevtinge.hyperceiler.view.*
+import de.robv.android.xposed.XposedHelpers.findMethodExactIfExists
 
 @SuppressLint("DiscouragedApi", "ServiceCast", "StaticFieldLeak")
 object NotificationWeather : BaseHook() {
@@ -92,46 +94,57 @@ object NotificationWeather : BaseHook() {
         }
 
         // 更新资源
-        miuiNotificationHeaderView.methodFinder()
-            .filterByName("updateHeaderResources")
-            .single().createHook {
-                after { param ->
-                    val viewGroup = param.thisObject as ViewGroup
-                    val orientation = viewGroup.getObjectFieldAs<Int>("mOrientation")
-                    if (orientation == -1) {
-                        return@after
-                    }
+        updateResources()
+        // 更新布局
+        updateLayout()
+    }
 
-                    val dateView = viewGroup.getObjectFieldAs<TextView>("mDateView")
-                    val landClock = viewGroup.getObjectFieldAs<TextView>("mLandClock")
+    private fun updateResources() {
+        var method = findMethodExactIfExists(miuiNotificationHeaderView, "updateHeaderResources")
+        if (method == null) {
+            method = findMethodExactIfExists(miuiNotificationHeaderView, "updateResources")
+        }
 
-                    vWeatherView?.setTextSize(0, dateView.textSize)
-                    vWeatherView?.typeface = dateView.typeface
-
-                    hWeatherView?.setTextSize(0, landClock.textSize)
-                    hWeatherView?.typeface = landClock.typeface
-                }
+        method?.createAfterHook { param ->
+            val viewGroup = param.thisObject as ViewGroup
+            val orientation = viewGroup.getObjectFieldAs<Int>("mOrientation")
+            if (orientation == -1) {
+                return@createAfterHook
             }
 
-        // 更新布局
-        miuiNotificationHeaderView.methodFinder().filterByName("updateLayout").single().createHook {
-            before {
+            val dateView = viewGroup.getObjectFieldAs<TextView>("mDateView")
+            val landClock = viewGroup.getObjectFieldAs<TextView>("mLandClock")
+
+            vWeatherView?.setTextSize(0, dateView.textSize)
+            vWeatherView?.typeface = dateView.typeface
+
+            hWeatherView?.setTextSize(0, landClock.textSize)
+            hWeatherView?.typeface = landClock.typeface
+        }
+    }
+
+    private fun updateLayout() {
+        miuiNotificationHeaderView.methodFinder()
+            .filterByName("updateLayout")
+            .single().createBeforeHook {
                 val viewGroup = it.thisObject as ViewGroup
                 val context = viewGroup.context
                 val configuration = context.resources.configuration
-                val orientation = viewGroup.getObjectFieldAs<Int>("mOrientation")
+                var orientation = viewGroup.getObjectFieldAs<Int>("mOrientation")
                 val screenLayout = viewGroup.getObjectFieldAs<Int>("mScreenLayout")
 
                 if (orientation == configuration.orientation &&
                     screenLayout == configuration.screenLayout
                 ) {
-                    return@before
+                    return@createBeforeHook
                 }
+
+                orientation = configuration.orientation
 
                 val isVerticalMode = if (isMoreHyperOSVersion(2f)) {
                     miuiConfigs.callStaticMethodAs("isVerticalMode", context)
                 } else {
-                    orientation != ORIENTATION_PORTRAIT || isLargeUI()
+                    orientation == ORIENTATION_PORTRAIT || isLargeUI()
                 }
 
                 if (isVerticalMode) {
@@ -142,92 +155,81 @@ object NotificationWeather : BaseHook() {
                     vWeatherView?.visibility = View.GONE
                 }
             }
-        }
     }
 
     private fun newNotificationWeather() {
-        combinedHeaderController.constructors.single().createHook {
-            after { param ->
-                val controller = param.thisObject
-                val dateView = controller.getObjectFieldAs<View>("notificationDateTime")
-                val landClock = controller.getObjectFieldAs<View>("notificationHorizontalTime")
+        combinedHeaderController.constructors.single().createAfterHook { param ->
+            val controller = param.thisObject
+            val dateView = controller.getObjectFieldAs<View>("notificationDateTime")
+            val landClock = controller.getObjectFieldAs<View>("notificationHorizontalTime")
 
-                addWeatherViewAfterOf(dateView, ORIENTATION_PORTRAIT)
-                addWeatherViewAfterOf(landClock, ORIENTATION_LANDSCAPE)
+            addWeatherViewAfterOf(dateView, ORIENTATION_PORTRAIT)
+            addWeatherViewAfterOf(landClock, ORIENTATION_LANDSCAPE)
 
-                // 创建动画
-                hWeatherView?.let {
-                    hWeatherViewFolme = folme.callStaticMethod("useAt", arrayOf<View>(it))
-                }
-                vWeatherView?.let {
-                    vWeatherViewFolme = folme.callStaticMethod("useAt", arrayOf<View>(it))
-                }
+            // 创建动画
+            hWeatherView?.let {
+                hWeatherViewFolme = folme.callStaticMethod("useAt", arrayOf<View>(it))
+            }
+            vWeatherView?.let {
+                vWeatherViewFolme = folme.callStaticMethod("useAt", arrayOf<View>(it))
             }
         }
 
         combinedHeaderController.methodFinder()
             .filterByName("onSwitchProgressChanged")
             .filterByParamTypes(Float::class.java)
-            .first().createHook {
-                after { param ->
-                    val controller = param.thisObject
-                    val dateView = controller.getObjectFieldAs<View>("notificationDateTime")
-                    val landClock = controller.getObjectFieldAs<View>("notificationHorizontalTime")
+            .first().createAfterHook { param ->
+                val controller = param.thisObject
+                val dateView = controller.getObjectFieldAs<View>("notificationDateTime")
+                val landClock = controller.getObjectFieldAs<View>("notificationHorizontalTime")
 
-                    vWeatherView?.translationX = dateView.translationX
-                    vWeatherView?.translationY = dateView.translationY
+                vWeatherView?.translationX = dateView.translationX
+                vWeatherView?.translationY = dateView.translationY
 
-                    hWeatherView?.translationX = landClock.translationX
-                    hWeatherView?.translationY = landClock.translationY
-                }
+                hWeatherView?.translationX = landClock.translationX
+                hWeatherView?.translationY = landClock.translationY
             }
 
-        notificationHeaderExpandController.constructors.single().createHook {
-            after { param ->
-                val expandController = param.thisObject
-                val callback = expandController.getObjectFieldAs<Any>("notificationCallback")
+        notificationHeaderExpandController.constructors.single().createAfterHook { param ->
+            val expandController = param.thisObject
+            val callback = expandController.getObjectFieldAs<Any>("notificationCallback")
 
-                hookNotificationCallback(expandController, callback::class.java)
-            }
+            hookNotificationCallback(expandController, callback::class.java)
         }
     }
 
     private fun hookNotificationCallback(expandController: Any, clazz: Class<*>) {
-        clazz.methodFinder().filterByName("onAppearanceChanged").first().createHook {
-            after {
-                val newAppearance = it.args[0] as Boolean
-                val animate = it.args[1] as Boolean
+        clazz.methodFinder().filterByName("onAppearanceChanged").first().createAfterHook {
+            val newAppearance = it.args[0] as Boolean
+            val animate = it.args[1] as Boolean
 
-                val startFolmeAnimationAlpha = { view: View?, folme: Any? ->
-                    notificationHeaderExpandController.callStaticMethod(
-                        "access\$startFolmeAnimationAlpha",
-                        expandController,
-                        view,
-                        folme,
-                        if (newAppearance) 1F else 0F,
-                        animate,
-                    )
-                }
-
-                startFolmeAnimationAlpha(hWeatherView, hWeatherViewFolme)
-                startFolmeAnimationAlpha(vWeatherView, vWeatherViewFolme)
+            val startFolmeAnimationAlpha = { view: View?, folme: Any? ->
+                notificationHeaderExpandController.callStaticMethod(
+                    "access\$startFolmeAnimationAlpha",
+                    expandController,
+                    view,
+                    folme,
+                    if (newAppearance) 1F else 0F,
+                    animate,
+                )
             }
+
+            startFolmeAnimationAlpha(hWeatherView, hWeatherViewFolme)
+            startFolmeAnimationAlpha(vWeatherView, vWeatherViewFolme)
         }
 
-        clazz.methodFinder().filterByName("onExpansionChanged").first().createHook {
-            after {
-                val headerController = expandController.getObjectFieldAs<Any>("headerController")
-                    .callMethodAs<Any>("get")
+        clazz.methodFinder().filterByName("onExpansionChanged").first().createAfterHook {
+            val headerController = expandController.getObjectFieldAs<Any>("headerController")
+                .callMethodAs<Any>("get")
 
-                headerController.getObjectFieldAs<View>("notificationDateTime").let {
-                    vWeatherView?.translationX = it.translationX
-                    vWeatherView?.translationY = it.translationY
-                }
+            headerController.getObjectFieldAs<View>("notificationDateTime").let {
+                vWeatherView?.translationX = it.translationX
+                vWeatherView?.translationY = it.translationY
+            }
 
-                headerController.getObjectFieldAs<View>("notificationHorizontalTime").let {
-                    hWeatherView?.translationX = it.translationX
-                    hWeatherView?.translationY = it.translationY
-                }
+            headerController.getObjectFieldAs<View>("notificationHorizontalTime").let {
+                hWeatherView?.translationX = it.translationX
+                hWeatherView?.translationY = it.translationY
             }
         }
     }
@@ -235,29 +237,27 @@ object NotificationWeather : BaseHook() {
     private fun oldNotificationWeather() {
         miuiNotificationHeaderView.methodFinder()
             .filterByName("onFinishInflate")
-            .single().createHook {
-                after { param ->
-                    val viewGroup = param.thisObject as ViewGroup
-                    val context = viewGroup.context
+            .single().createAfterHook { param ->
+                val viewGroup = param.thisObject as ViewGroup
+                val context = viewGroup.context
 
-                    val dateView = viewGroup.findViewById<View>(
-                        context.resources.getIdentifier(
-                            "date_time",
-                            "id",
-                            context.packageName
-                        )
+                val dateView = viewGroup.findViewById<View>(
+                    context.resources.getIdentifier(
+                        "date_time",
+                        "id",
+                        context.packageName
                     )
-                    val landClock = viewGroup.findViewById<View>(
-                        context.resources.getIdentifier(
-                            "horizontal_time",
-                            "id",
-                            context.packageName
-                        )
+                )
+                val landClock = viewGroup.findViewById<View>(
+                    context.resources.getIdentifier(
+                        "horizontal_time",
+                        "id",
+                        context.packageName
                     )
+                )
 
-                    addWeatherViewAfterOf(dateView, ORIENTATION_PORTRAIT)
-                    addWeatherViewAfterOf(landClock, ORIENTATION_LANDSCAPE)
-                }
+                addWeatherViewAfterOf(dateView, ORIENTATION_PORTRAIT)
+                addWeatherViewAfterOf(landClock, ORIENTATION_LANDSCAPE)
             }
     }
 
