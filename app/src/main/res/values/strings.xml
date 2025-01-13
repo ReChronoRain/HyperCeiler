@@ -1108,15 +1108,19 @@
     <string name="system_ui_monet_overlay_custom">Customize theme color</string>
     <string name="system_ui_monet_overlay_custom_desc">Customize theme colors instead of pulling colors from system wallpaper</string>
     <string name="system_ui_monet_overlay_custom_color">Choose theme color</string>
-    <string name="system_ui_volume_timer">Extended timer</string>
     <string name="system_ui_qs_label">Quick switch tab</string>
     <string name="system_ui_notification_title">Notification</string>
     <string name="system_ui_other_notification_fix">Disable notification whitelist</string>
     <string name="system_ui_other_default_plugin_theme">Remove blur restrictions from Advanced textures</string>
     <string name="system_ui_other_default_plugin_theme_desc">Unlock the blur of Advanced textures, which is disabled by default for third-party themes in the System UI Plug-in.</string>
+    <string name="system_ui_plugin_volume_title">Volume bar</string>
+    <string name="system_ui_volume_collpased_column_press">Press to expand the secondary volume bar</string>
+    <string name="system_ui_volume_collpased_column_press_desc">When this feature is enabled, the expand button is turned off</string>
+    <string name="system_ui_volume_hide_foot_button">Hide mute and do not disturb buttons</string>
+    <string name="system_ui_volume_timer">Extended timer</string>
     <string name="system_ui_plugin_enable_volume_blur">Enable volume bar blur</string>
     <string name="system_ui_move_log_to_miui">Move statusbar_gestures.dat to MIUI dir</string>
-    <string name="system_ui_plugin_enable_volume_blur_desc">Only for Android12+ MTK models. There may be high GPU load.</string>
+    <string name="system_ui_plugin_enable_volume_blur_desc">There may be high GPU load.</string>
     <!--Telecom-->
     <string name="telecom">Manage calls</string>
     <string name="scam_reminder_bypass_caption">Allow call forwarding via MMI code</string>

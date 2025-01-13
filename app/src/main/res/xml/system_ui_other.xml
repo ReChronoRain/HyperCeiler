@@ -21,8 +21,8 @@
     app:myLocation="@string/system_ui_other_title"
     app:quick_restart="com.android.systemui">
     <PreferenceCategory
-        android:title="@string/system_ui_charge_animation_title"
-        android:key="prefs_key_system_ui_statusbar_charge_animation_title" >
+        android:key="prefs_key_system_ui_statusbar_charge_animation_title"
+        android:title="@string/system_ui_charge_animation_title">
         <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_charge_animation_style"
@@ -78,10 +78,10 @@
             android:title="@string/system_showpct_title" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="54"
             android:key="prefs_key_system_ui_others_showpct_top"
             android:summary="@string/system_ui_others_showpct_top_desc"
             android:title="@string/system_ui_others_showpct_top"
+            app:defaultValue="54"
             app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="1024"
@@ -95,7 +95,32 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_ui_another_title">
+    <PreferenceCategory android:title="@string/system_ui_plugin_volume_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_volume_collpased_column_press"
+            android:summary="@string/system_ui_volume_collpased_column_press_desc"
+            android:title="@string/system_ui_volume_collpased_column_press" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_volume_hide_foot_button"
+            android:title="@string/system_ui_volume_hide_foot_button" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_volume_timer"
+            android:title="@string/system_ui_volume_timer" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_plugin_enable_volume_blur"
+            android:summary="@string/system_ui_plugin_enable_volume_blur_desc"
+            android:title="@string/system_ui_plugin_enable_volume_blur" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/floating_window">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_disable_miui_multi_win_switch"
@@ -103,7 +128,7 @@
             android:title="@string/system_ui_disable_miui_multi_win_switch" />
 
         <SwitchPreference
-        android:defaultValue="false"
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_remove_miui_multi_win_switch"
             android:title="@string/system_ui_remove_miui_multi_win_switch" />
 
@@ -118,6 +143,9 @@
             android:key="prefs_key_system_ui_disable_bottombar"
             android:title="@string/system_ui_disable_bottombar" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_another_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_disable_bluetooth_restrict"
@@ -143,30 +171,18 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_ui_volume_timer"
-            android:title="@string/system_ui_volume_timer" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_ui_other_default_plugin_theme"
             android:summary="@string/system_ui_other_default_plugin_theme_desc"
             android:title="@string/system_ui_other_default_plugin_theme" />
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_ui_plugin_enable_volume_blur"
-            android:summary="@string/system_ui_plugin_enable_volume_blur_desc"
-            android:title="@string/system_ui_plugin_enable_volume_blur" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_ui_move_log_to_miui"
-            android:title="@string/system_ui_move_log_to_miui"/>
+            android:title="@string/system_ui_move_log_to_miui" />
 
     </PreferenceCategory>
 
     <PreferenceCategory app:isPreferenceVisible="false">
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_qs_label"
