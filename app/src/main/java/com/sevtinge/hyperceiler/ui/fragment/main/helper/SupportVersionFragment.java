@@ -30,7 +30,7 @@ import java.util.Objects;
 
 public class SupportVersionFragment extends SettingsPreferenceFragment {
 
-    private static final String mFSupportMiuiVersion = "13.0(130) / 13.1(130) / 13.2(130) / 14.0(140)";
+    private static final String mFSupportMiuiVersion = "14.0(140)";
     private static final String mFSupportHyperOsVersion = "1.0 / 2.0";
     private static final String mFSupportAndroidVersion = "13(T, 33) / 14(U, 34) / 15(V, 35)";
     private static final String mNSupportHyperOsVersion = "1.1";
@@ -58,12 +58,22 @@ public class SupportVersionFragment extends SettingsPreferenceFragment {
                 .append("\n\n - MIUI ").append(mFSupportMiuiVersion)
                 .append("\n - HyperOS ").append(mFSupportHyperOsVersion)
                 .append("\n - Android ").append(mFSupportAndroidVersion);
-        if (!(Objects.equals(mNSupportHyperOsVersion, "") && Objects.equals(mNSupportAndroidVersion, ""))) {
+
+        if (!mNSupportHyperOsVersion.isEmpty() || !mNSupportAndroidVersion.isEmpty()) {
             stringBuilder.append("\n\n").append(getString(R.string.help_support_version_desc_2));
-            if (!Objects.equals(mNSupportHyperOsVersion, "")) stringBuilder.append("\n\n - HyperOS ").append(mNSupportHyperOsVersion);
-            if (!Objects.equals(mNSupportAndroidVersion, "")) stringBuilder.append("\n - Android ").append(mNSupportAndroidVersion);
+            if (!mNSupportHyperOsVersion.isEmpty()) {
+                stringBuilder.append("\n\n - HyperOS ").append(mNSupportHyperOsVersion);
+            }
+            if (!mNSupportAndroidVersion.isEmpty()) {
+                stringBuilder.append("\n - Android ").append(mNSupportAndroidVersion);
+            }
         }
-        stringBuilder.append("\n\n").append(isFullSupport() ? getString(R.string.help_support_version_desc_3) : getString(R.string.help_support_version_desc_4));
+
+        stringBuilder.append("\n\n")
+                .append(isFullSupport() ?
+                        getString(R.string.help_support_version_desc_3) :
+                        getString(R.string.help_support_version_desc_4));
+
         return stringBuilder.toString();
     }
 }

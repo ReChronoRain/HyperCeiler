@@ -50,7 +50,7 @@ private val hyperOSSDK: Float by lazy {
     getProp("ro.mi.os.version.code").toFloatOrNull() ?: 0f
 }
 private val mSupportMiuiVersion: List<Float> by lazy {
-    mutableListOf(13.0f, 14.0f, 816.0f, 818.0f)
+    mutableListOf(14.0f, 816.0f, 818.0f)
 }
 private val mSupportHyperOsVersion: List<Float> by lazy {
     mutableListOf(-1.0f, 1.0f, 2.0f)
