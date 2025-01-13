@@ -53,10 +53,9 @@
             android:title="@string/system_ui_statusbar_music_speed_title"
             app:defaultValueTitle="@string/array_default"
             app:showDividerValue="10"
-            app:format="%d f"
+            app:format="%s f"
             app:maxValue="48"
             app:minValue="5"
-            app:showSeekBarValue="true"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
@@ -65,10 +64,9 @@
             android:title="@string/system_ui_statusbar_music_scroll_delay_title"
             app:defaultValueTitle="@string/array_default"
             app:showDividerValue="10"
-            app:format="%d f"
+            app:format="%s f"
             app:maxValue="24"
             app:minValue="3"
-            app:showSeekBarValue="true"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
@@ -77,10 +75,9 @@
             android:summary="@string/system_ui_statusbar_music_width_desc"
             android:title="@string/system_ui_statusbar_music_width_title"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="32"
             app:minValue="0"
-            app:showSeekBarValue="true"
             app:stepValue="1" />
 
     </PreferenceCategory>

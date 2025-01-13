@@ -71,6 +71,11 @@ object NewPluginHelperKt : BaseHook() {
 
                 val loaders = listOf(
                     Triple(
+                        "VolumeTimerValuesHook",
+                        mPrefsMap.getBoolean("system_ui_volume_timer"),
+                        VolumeTimerValuesHook::initVolumeTimerValuesHook
+                    ),
+                    Triple(
                         "NewShowVolumePct",
                         mPrefsMap.getBoolean("system_cc_volume_showpct_title"),
                         NewShowVolumePct::initLoader
@@ -79,6 +84,16 @@ object NewPluginHelperKt : BaseHook() {
                         "EnableVolumeBlur",
                         mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"),
                         EnableVolumeBlur::initEnableVolumeBlur
+                    ),
+                    Triple(
+                        "StartCollpasedColumnPress",
+                        mPrefsMap.getBoolean("system_ui_volume_collpased_column_press"),
+                        StartCollpasedColumnPress::initLoaderHook
+                    ),
+                    Triple(
+                        "StartCollpasedFootButton",
+                        mPrefsMap.getBoolean("system_ui_volume_hide_foot_button"),
+                        HideCollpasedFootButton::initLoaderHook
                     ),
                     Triple(
                         "DefaultPluginTheme",

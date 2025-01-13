@@ -52,6 +52,8 @@ public class SystemUIOtherSettings extends DashboardFragment {
     SwitchPreference mPctUseBlur;
     SwitchPreference mFuckSG;
     SwitchPreference mTimer;
+    SwitchPreference mHideFootButton;
+    SwitchPreference mCollpasedColumnPress;
     SwitchPreference mPluginThemeBlur;
 
     @Override
@@ -73,17 +75,21 @@ public class SystemUIOtherSettings extends DashboardFragment {
         mPctUseBlur = findPreference("prefs_key_system_showpct_use_blur");
         mFuckSG = findPreference("prefs_key_system_ui_move_log_to_miui");
         mTimer = findPreference("prefs_key_system_ui_volume_timer");
+        mHideFootButton = findPreference("prefs_key_system_ui_volume_hide_foot_button");
+        mCollpasedColumnPress = findPreference("prefs_key_system_ui_volume_collpased_column_press");
         mPluginThemeBlur = findPreference("prefs_key_system_ui_other_default_plugin_theme");
 
         mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && !isMoreHyperOSVersion(1f));
         mMiuiMultiWinSwitch.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
-        mMiuiMultiWinSwitchRemove.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34) && isPad());
+        mMiuiMultiWinSwitchRemove.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
         mDisableInfinitymodeGesture.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34) && isPad());
         mBottomBar.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
         mPctUseBlur.setVisible(isMoreHyperOSVersion(1f));
         mFuckSG.setVisible(isMoreHyperOSVersion(2f));
         mTimer.setVisible(!isMoreAndroidVersion(35));
+        mHideFootButton.setVisible(isMoreHyperOSVersion(1f));
+        mCollpasedColumnPress.setVisible(isMoreHyperOSVersion(2f));
         mPluginThemeBlur.setVisible(isMoreHyperOSVersion(1f));
 
         mVolume.setOnPreferenceChangeListener(

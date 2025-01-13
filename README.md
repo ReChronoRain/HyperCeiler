@@ -145,6 +145,7 @@ HyperCeiler 已停止维护 Android 11-13 的 MIUI ROM，如需使用请停留[�
 - [「Hyper Helper」 by HowieHChen](https://github.com/HowieHChen/XiaomiHelper)
 - [「HideMiuiClipboardDialog」 by zerorooot](https://github.com/zerorooot/HideMiuiClipboardDialog)
 - [「HyperSmartCharge」 by buffcow](https://github.com/buffcow/HyperSmartCharge)
+- [「HyperStar」 by YunZiA](https://github.com/YunZiA/HyperStar)
 - [「Kotlin」 by JetBrains](https://github.com/JetBrains/kotlin)
 - [「Lyric-Getter」 by xiaowine](https://github.com/xiaowine/Lyric-Getter)
 - [「MaxFreeForm」 by YifePlayte](https://github.com/YifePlayte/MaxFreeForm)

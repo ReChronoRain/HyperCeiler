@@ -1114,14 +1114,18 @@
     <string name="system_ui_monet_overlay_custom">自定义主题色</string>
     <string name="system_ui_monet_overlay_custom_desc">自定义主题颜色，而不是从壁纸中提取颜色</string>
     <string name="system_ui_monet_overlay_custom_color">选择主题色</string>
-    <string name="system_ui_volume_timer">扩展计时器</string>
     <string name="system_ui_qs_label">快捷开关标签</string>
     <string name="system_ui_notification_title">通知</string>
     <string name="system_ui_other_notification_fix">禁用通知白名单</string>
     <string name="system_ui_other_default_plugin_theme">解除高级材质模糊限制</string>
     <string name="system_ui_other_default_plugin_theme_desc">解除系统界面组件对第三方主题默认禁用的高级材质模糊</string>
+    <string name="system_ui_plugin_volume_title">音量条</string>
+    <string name="system_ui_volume_collpased_column_press">按压展开二级音量条</string>
+    <string name="system_ui_volume_collpased_column_press_desc">启用此功能后，会关闭展开按钮</string>
+    <string name="system_ui_volume_hide_foot_button">隐藏静音和勿扰按钮</string>
+    <string name="system_ui_volume_timer">扩展计时器</string>
     <string name="system_ui_plugin_enable_volume_blur">音量条模糊</string>
-    <string name="system_ui_plugin_enable_volume_blur_desc">仅供 Android 12 及以上的 MTK 机型使用，可能存在 GPU 负载较高的情况</string>
+    <string name="system_ui_plugin_enable_volume_blur_desc">可能存在 GPU 负载较高的情况</string>
     <string name="system_ui_move_log_to_miui">将 statusbar_gestures.dat 移动到 MIUI 目录</string>
     <!--设置-->
     <string name="system_settings">设置</string>
