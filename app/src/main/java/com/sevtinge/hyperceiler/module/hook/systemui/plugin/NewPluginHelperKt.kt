@@ -81,6 +81,11 @@ object NewPluginHelperKt : BaseHook() {
                         NewShowVolumePct::initLoader
                     ),
                     Triple(
+                        "NewSuperVolume",
+                        mPrefsMap.getBoolean("system_ui_unlock_super_volume"),
+                        NewSuperVolume::initSuperVolume
+                    ),
+                    Triple(
                         "EnableVolumeBlur",
                         mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"),
                         EnableVolumeBlur::initEnableVolumeBlur

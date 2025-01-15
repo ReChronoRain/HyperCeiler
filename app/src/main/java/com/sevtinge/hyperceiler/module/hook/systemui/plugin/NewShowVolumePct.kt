@@ -144,7 +144,7 @@ object NewShowVolumePct {
                     currentLevel = if (currentLevel == max) maxLevel else (currentLevel * i3 / max) + 1
                 }
 
-                mPct.text = if (((currentLevel * 100) / maxLevel) == 100 && mSupportSV) {
+                mPct.text = if (((currentLevel * 100) / maxLevel) == 100 && (HookTool.mPrefsMap.getBoolean("system_ui_unlock_super_volume") || mSupportSV)) {
                     "200%"
                 } else {
                     ((currentLevel * 100) / maxLevel).toString() + "%"

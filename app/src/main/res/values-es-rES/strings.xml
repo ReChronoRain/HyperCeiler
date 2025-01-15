@@ -843,6 +843,8 @@ aplicaciones del sistema</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Mover la pegatina de Bluetooth a cerca de la de red</string>
     <string name="system_ui_control_center_notifrowmenu">Menú de notificaciones extendido</string>
     <string name="system_ui_control_center_notifrowmenu_desc">Abrir información de la aplicación, cerrarla y abrirla en ventana flotante desde el menú de notificación (deslizar la notificación a la izquierda para abrirla)</string>
+    <string name="system_ui_unlock_super_volume">Desbloquear supervolumen</string>
+    <string name="system_ui_unlock_super_volume_desc">Características experimentales, cuyos resultados reales dependen del código subyacente</string>
     <string name="system_ui_controlcenter_new_title">Centro de control nuevo</string>
     <string name="system_ui_controlcenter_old_title">Centro de control clásico</string>
     <string name="system_ui_controlcenter_unlock_old_title">Desbloquear estilos del centro de control</string>

@@ -987,6 +987,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Ô Bluetooth được di chuyển đến khu vực ô mạng</string>
     <string name="system_ui_control_center_notifrowmenu">Menu thông báo mở rộng</string>
     <string name="system_ui_control_center_notifrowmenu_desc">Mở thông tin ứng dụng, buộc đóng ứng dụng và mở trong cửa sổ nổi từ menu thông báo (vuốt thông báo sang trái để mở)</string>
+    <string name="system_ui_unlock_super_volume">Mở khóa siêu âm lượng</string>
+    <string name="system_ui_unlock_super_volume_desc">Chức năng thử nghiệm, chức năng thực tế yêu cầu hỗ trợ mã cơ bản</string>
     <string name="system_ui_controlcenter_new_title">Trung tâm điều khiển kiểu mới</string>
     <string name="system_ui_controlcenter_old_title">Trung tâm điều khiển kiểu cũ</string>
     <string name="system_ui_controlcenter_unlock_old_title">Mở khóa các kiểu trung tâm điều khiển</string>

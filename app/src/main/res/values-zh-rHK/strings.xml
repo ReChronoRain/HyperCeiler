@@ -875,6 +875,8 @@
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">藍牙磁貼移至網絡磁貼區域</string>
     <string name="system_ui_control_center_notifrowmenu">擴展通知選單</string>
     <string name="system_ui_control_center_notifrowmenu_desc">從通知選單中打開應用程式信息、強制關閉應用程式和視窗打開</string>
+    <string name="system_ui_unlock_super_volume">解鎖超大音量</string>
+    <string name="system_ui_unlock_super_volume_desc">實驗性功能，實際功能需要底層代碼支持</string>
     <string name="system_ui_controlcenter_new_title">新控制中心</string>
     <string name="system_ui_controlcenter_old_title">經典控制中心</string>
     <string name="system_ui_controlcenter_unlock_old_title">解鎖控制中心樣式</string>
