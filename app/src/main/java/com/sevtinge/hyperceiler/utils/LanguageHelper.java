@@ -138,11 +138,20 @@ public class LanguageHelper {
     }
 
     public static int resultIndex(String[] languages, String value) {
-        int index = -1;
-        for (String l : languages) {
-            index = index + 1;
-            if (l.equals(value)) {
-                return index;
+
+        String targetLanguage = value.split("_")[0];
+
+        for (int i = 0; i < languages.length; i++) {
+            String currentLang = languages[i];
+            if (currentLang == null) continue;
+
+            if (currentLang.equals(value)) {
+                return i;
+            }
+
+            String currentLanguage = currentLang.split("_")[0];
+            if (targetLanguage.equals(currentLanguage)) {
+                return i; // Language匹配成功
             }
         }
         return -1;
