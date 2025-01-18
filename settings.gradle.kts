@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+
 pluginManagement {
     repositories {
         maven("https://jitpack.io")
@@ -22,3 +23,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "HyperCeiler"
 include(":app", ":hidden-api", ":app:processor")
+include(":app:provision")
