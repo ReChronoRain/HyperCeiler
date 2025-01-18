@@ -22,7 +22,7 @@ import com.hchen.hooktool.BaseHC;
 import com.hchen.hooktool.HCInit;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
-import com.sevtinge.hyperceiler.safe.CrashData;
+import com.sevtinge.hyperceiler.ui.safe.CrashData;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;

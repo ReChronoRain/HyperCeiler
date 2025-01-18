@@ -29,7 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.ui.activity.MainActivityContextHelper;
+import com.sevtinge.hyperceiler.ui.main.utils.MainActivityContextHelper;
 
 import java.io.BufferedReader;
 import java.io.IOException;

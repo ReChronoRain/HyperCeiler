@@ -31,7 +31,7 @@ import android.os.UserHandle;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.ui.activity.HyperCeilerTabActivity;
+import com.sevtinge.hyperceiler.ui.main.HyperCeilerTabActivity;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 
 import java.util.ArrayList;

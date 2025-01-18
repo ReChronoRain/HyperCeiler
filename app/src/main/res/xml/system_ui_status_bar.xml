@@ -22,23 +22,23 @@
     app:quick_restart="com.android.systemui">
     <PreferenceCategory>
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.IconManageNewSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.statusbar.IconManageNewSettings"
             android:title="@string/system_ui_statusbar_iconmanage_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.NetworkSpeedIndicatorSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.statusbar.NetworkSpeedIndicatorSettings"
             android:title="@string/system_ui_statusbar_network_speed_indicator_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.NewClockIndicatorSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.statusbar.NewClockIndicatorSettings"
             android:title="@string/system_ui_statusbar_clock_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.StrongToastSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.statusbar.StrongToastSettings"
             android:title="@string/system_ui_statusbar_strong_toast_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.FocusNotificationLyrics"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.statusbar.FocusNotificationLyrics"
             android:key="prefs_key_system_ui_status_bar_music"
             android:title="@string/system_ui_statusbar_music_title" />
 

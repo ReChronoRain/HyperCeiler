@@ -21,7 +21,7 @@
     app:myLocation="@string/security_center_hyperos">
     <PreferenceCategory>
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.ApplicationsSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.securitycenter.ApplicationsSettings"
             android:title="@string/security_center_app_title" />
 
         <com.sevtinge.hyperceiler.prefs.XmlPreference
@@ -29,16 +29,16 @@
             app:inflatedXml="@xml/security_center_battery"/>
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.PrivacySafetySettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.securitycenter.PrivacySafetySettings"
             android:key="prefs_key_security_center_privacy_safety"
             android:title="@string/security_center_privacy_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.SidebarSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.securitycenter.SidebarSettings"
             android:title="@string/security_center_newbox_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.OtherSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.securitycenter.OtherSettings"
             android:title="@string/security_center_other_title" />
 
     </PreferenceCategory>

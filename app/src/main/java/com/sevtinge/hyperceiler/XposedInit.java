@@ -47,7 +47,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ToastBlur;
 import com.sevtinge.hyperceiler.module.hook.systemframework.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.module.skip.SystemFrameworkForCorePatch;
-import com.sevtinge.hyperceiler.safe.CrashHook;
+import com.sevtinge.hyperceiler.ui.safe.CrashHook;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.LogManager;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;

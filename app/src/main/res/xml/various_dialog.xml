@@ -65,7 +65,7 @@
             app:showSeekBarValue="true" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.CustomBackgroundSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.sub.CustomBackgroundSettings"
             android:key="prefs_key_various_dialog_bg_blur"
             android:title="@string/custom_background" />
     </PreferenceCategory>
