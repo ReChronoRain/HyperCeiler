@@ -18,14 +18,12 @@
 */
 package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
-import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.api.*
-import com.sevtinge.hyperceiler.utils.log.*
 import java.lang.reflect.*
 
 object UnlockCustomPhotoFrames : BaseHook() {
@@ -105,25 +103,6 @@ object UnlockCustomPhotoFrames : BaseHook() {
         }
     }
 
-    private val redmiB by lazy<Field> {
-        DexKit.findMember("RB") { bridge ->
-            bridge.findField {
-                matcher {
-                    // 改动日志:
-                    // 这里是红米定制联名画框的解锁
-                    // 从 1.6.5.10.2 版本开始，解锁此画框的难度较高
-                    // 这里的 declaredClass 不清楚米米还会不会混淆，混淆了非常麻烦，比如从 1.3 - 1.4 版本的混淆
-                    if (isHookType) {
-                        declaredClass("com.miui.mediaeditor.config.galleryframe.GalleryFrameAccessUtils")
-                    } else {
-                        declaredClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils")
-                    }
-                    modifiers = Modifier.STATIC or Modifier.FINAL
-                }
-            }.last()
-        }
-    }
-
     override fun init() {
         var index = 0
         val actions = listOf<(Method) -> Unit>(::xiaomi, ::poco, ::redmi)
@@ -143,9 +122,21 @@ object UnlockCustomPhotoFrames : BaseHook() {
             springA.setBoolean(null, true)
         }
 
-        /*if (isRedmi && redmiB != null) {
-
-        }*/
+        if (isRedmi) {
+            runCatching {
+                loadClass("com.miui.mediaeditor.config.galleryframe.GalleryFrameAccessUtils\$isVictoriaDeviceSupport\$2")
+                    .methodFinder().filterByName("invoke").single()
+                    .createHook {
+                        returnConstant(true)
+                    }
+            }.onFailure {
+                loadClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils\$isVictoriaDeviceSupport\$2")
+                    .methodFinder().filterByName("invoke").single()
+                    .createHook {
+                        returnConstant(true)
+                    }
+            }
+        }
     }
 
     private fun xiaomi(name: Method) {
