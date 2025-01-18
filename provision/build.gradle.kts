@@ -29,5 +29,13 @@ android {
 }
 
 dependencies {
-
+    api(libs.core)
+    api(libs.collection)
+    api(libs.recyclerview)
+    api(libs.fragment)
+    api(libs.lifecycle.common)
+    api(libs.coordinatorlayout)
+    api(libs.constraintlayout) {
+        exclude("androidx.appcompat", "appcompat")
+    }
 }

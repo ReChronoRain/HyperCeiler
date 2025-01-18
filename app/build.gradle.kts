@@ -259,16 +259,6 @@ dependencies {
     implementation(libs.lyric.getter.api)
     implementation(libs.lunarcalendar)
 
-    implementation(libs.core)
-    implementation(libs.collection)
-    implementation(libs.recyclerview)
-    implementation(libs.fragment)
-    implementation(libs.lifecycle.common)
-    implementation(libs.coordinatorlayout)
-    implementation(libs.constraintlayout) {
-        exclude("androidx.appcompat", "appcompat")
-    }
-
     implementation(files(roots["animation"]))
     implementation(files(roots["appcompat"]))
     implementation(files(roots["basewidget"]))
@@ -295,6 +285,7 @@ dependencies {
     // project packs
     implementation(files(roots["expansion_packs"]))
 
+    implementation(project(":provision"))
     implementation(project(":app:processor"))
     annotationProcessor(project(":app:processor"))
 }
