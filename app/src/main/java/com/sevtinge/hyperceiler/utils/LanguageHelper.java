@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -138,19 +139,15 @@ public class LanguageHelper {
     }
 
     public static int resultIndex(String[] languages, String value) {
+        int index = -1;
+        Log.d("ggc", "resultIndex: "+value);
+        for (String l : languages) {
+            index = index + 1;
+            if (l.equals(value)) {
+                return index;
+            }else if (value.split("_")[0].equals(l.split("_")[0])){
+                return index;
 
-        String valueLanguage = value.split("_")[0];
-        for (int i = 0; i < languages.length; i++) {
-            String currentLang = languages[i];
-            if (currentLang == null) continue;
-
-            if (currentLang.equals(value)) {
-                return i;
-            }
-
-            String currentLanguage = currentLang.split("_")[0];
-            if (valueLanguage.equals(currentLanguage)) {
-                return i;// language匹配成功
             }
         }
         return -1;
