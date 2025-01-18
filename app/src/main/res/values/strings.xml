@@ -889,6 +889,8 @@
     <string name="system_ui_control_center_notification_disable_transparent">Disable transparent mode</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Disable setting notification background to be transparent</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Optimize color mixing effect of the media control panel</string>
+    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Optimize the rounded corner transition of album images</string>
+    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">Remove album audio source identifie</string>
     <string name="system_ui_control_center_media_control_progress">Progress bar</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Remove custom action restrictions for media notification cards</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Wavy</string>

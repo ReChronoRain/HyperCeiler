@@ -19,8 +19,6 @@
 
 package com.sevtinge.hyperceiler.module.app.SystemUI.Phone;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.systemui.AllowManageAllNotifications;
@@ -35,7 +33,8 @@ import com.sevtinge.hyperceiler.module.hook.systemui.MonetThemeOverlay;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFix;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFreeform;
 import com.sevtinge.hyperceiler.module.hook.systemui.RemoveMiuiMultiWinSwitch;
-import com.sevtinge.hyperceiler.module.hook.systemui.SquigglyProgress;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media.MediaPicture;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media.SquigglyProgress;
 import com.sevtinge.hyperceiler.module.hook.systemui.StatusBarActions;
 import com.sevtinge.hyperceiler.module.hook.systemui.StickyFloatingWindowsForSystemUI;
 import com.sevtinge.hyperceiler.module.hook.systemui.UiLockApp;
@@ -51,11 +50,11 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FiveGTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FixTilesList;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.GmsTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.HideDelimiter;
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaButton;
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlPanelBackgroundMix;
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlPanelTimeViewTextSize;
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaSeekBar;
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaSeekBarColor;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media.MediaButton;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media.MediaControlPanelBackgroundMix;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media.MediaControlPanelTimeViewTextSize;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media.MediaSeekBar;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media.MediaSeekBarColor;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NewFlashLight;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationColor;
@@ -257,6 +256,8 @@ public class SystemUiV extends BaseModule {
                 || mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1) != -1);
         initHook(new SquigglyProgress(), mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 1);
         initHook(new MediaControlPanelTimeViewTextSize(), mPrefsMap.getInt("system_ui_control_center_media_control_time_view_text_size", 13) != 13);
+        initHook(MediaPicture.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_media_control_album_picture_rounded_corners") ||
+                mPrefsMap.getBoolean("system_ui_control_center_media_control_remove_album_audio_source_identifie"));
         initHook(MediaSeekBar.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_remove_media_control_panel_background") ||
                 mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2);
 

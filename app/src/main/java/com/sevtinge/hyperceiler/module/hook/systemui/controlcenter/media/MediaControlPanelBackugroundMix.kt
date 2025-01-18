@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
+package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media
 
 import android.annotation.*
 import android.app.*
@@ -36,7 +36,11 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.utils.api.*
+import com.sevtinge.hyperceiler.module.hook.systemui.base.controlcenter.PublicClass.miuiMediaControlPanel
+import com.sevtinge.hyperceiler.module.hook.systemui.base.controlcenter.PublicClass.notificationUtil
+import com.sevtinge.hyperceiler.module.hook.systemui.base.controlcenter.PublicClass.playerTwoCircleView
+import com.sevtinge.hyperceiler.module.hook.systemui.base.controlcenter.PublicClass.seekBarObserver
+import com.sevtinge.hyperceiler.module.hook.systemui.base.controlcenter.PublicClass.statusBarStateControllerImpl
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setBlurRoundRect
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlendColors
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
@@ -58,23 +62,6 @@ class MediaControlPanelBackgroundMix : BaseHook() {
 
     override fun init() {
         // 部分代码来自 Hyper Helper (https://github.com/HowieHChen/XiaomiHelper/blob/master/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/systemui/CustomMusicControl.kt)
-        val miuiMediaControlPanel = loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaControlPanel")
-        val notificationUtil = if (isMoreAndroidVersion(35)) {
-            loadClassOrNull("com.miui.systemui.notification.MiuiBaseNotifUtil")
-        } else {
-            loadClassOrNull("com.android.systemui.statusbar.notification.NotificationUtil")
-        }
-        val seekBarObserver = if (isMoreAndroidVersion(35)) {
-            loadClassOrNull("com.android.systemui.media.controls.ui.binder.SeekBarObserver")
-        } else {
-            loadClassOrNull("com.android.systemui.media.controls.models.player.SeekBarObserver")
-        }
-        val playerTwoCircleView = if (isMoreAndroidVersion(35)) {
-            loadClassOrNull("com.miui.systemui.notification.media.PlayerTwoCircleView")
-        } else {
-            loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.PlayerTwoCircleView")
-        }
-        val statusBarStateControllerImpl = loadClassOrNull("com.android.systemui.statusbar.StatusBarStateControllerImpl")
         val miuiStubClass = loadClassOrNull("miui.stub.MiuiStub")
         val miuiStubInstance = XposedHelpers.getStaticObjectField(miuiStubClass, "INSTANCE")
 
@@ -149,37 +136,6 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     val seekBar = mMediaViewHolder.objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
                     val elapsedTimeView = mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("elapsedTimeView")
                     val totalTimeView = mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("totalTimeView")
-                    val albumView = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("albumView")
-                    val appIcon = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("appIcon")
-
-                    val artwork = it.args[0].objectHelper().getObjectOrNullAs<Icon>("artwork") ?: return@createAfterHook
-                    val artworkLayer = artwork.loadDrawable(context) ?: return@createAfterHook
-
-                    val artworkBitmap = Bitmap.createBitmap(artworkLayer.intrinsicWidth, artworkLayer.intrinsicHeight, Bitmap.Config.ARGB_8888)
-                    val canvas = Canvas(artworkBitmap)
-                    artworkLayer.setBounds(0, 0, artworkLayer.intrinsicWidth, artworkLayer.intrinsicHeight)
-                    artworkLayer.draw(canvas)
-                    val minDimen = artworkBitmap.width.coerceAtMost(artworkBitmap.height)
-                    val left = (artworkBitmap.width - minDimen) / 2
-                    val top = (artworkBitmap.height - minDimen) / 2
-                    val rect = Rect(left, top, left + minDimen, top + minDimen)
-                    val croppedBitmap = Bitmap.createBitmap(minDimen, minDimen, Bitmap.Config.ARGB_8888)
-                    val canvasCropped = Canvas(croppedBitmap)
-                    canvasCropped.drawBitmap(artworkBitmap, rect, Rect(0, 0, minDimen, minDimen), null)
-                    // 300px & 45f rounded corners are necessary，otherwise the rounded corners are not drawn correctly.
-                    val resizedBitmap = Bitmap.createScaledBitmap(croppedBitmap, 300, 300, true)
-                    val bitmapNew = Bitmap.createBitmap(resizedBitmap.width, resizedBitmap.height, Bitmap.Config.ARGB_8888)
-                    val canvasNew = Canvas(bitmapNew)
-                    val paint = Paint()
-                    val rectF = RectF(0f, 0f, resizedBitmap.width.toFloat(), resizedBitmap.height.toFloat())
-                    paint.isAntiAlias = true
-                    canvasNew.drawARGB(0, 0, 0, 0)
-                    paint.color = Color.BLACK
-                    canvasNew.drawRoundRect(rectF, 45f, 45f, paint)
-                    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-                    canvasNew.drawBitmap(resizedBitmap, 0f, 0f, paint)
-                    albumView?.setImageDrawable(BitmapDrawable(context.resources, bitmapNew))
-                    (appIcon?.parent as ViewGroup?)?.removeView(appIcon)
 
                     val grey = if (isDarkMode()) Color.LTGRAY else Color.DKGRAY
                     val color = if (isDarkMode()) Color.WHITE else Color.BLACK

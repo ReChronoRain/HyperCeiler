@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.systemui;
+package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media;
 
 import android.graphics.drawable.Drawable;
 import android.widget.SeekBar;

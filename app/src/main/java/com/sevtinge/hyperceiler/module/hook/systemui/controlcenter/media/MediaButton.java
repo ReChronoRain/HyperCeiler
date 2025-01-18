@@ -16,19 +16,14 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
+package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.widget.ImageButton;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
-import android.media.session.MediaController;
-import android.media.session.PlaybackState;
-import android.os.UserHandle;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 

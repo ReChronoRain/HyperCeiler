@@ -1,31 +1,21 @@
-package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
+package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media
 
 import android.content.res.*
 import android.graphics.*
 import android.graphics.drawable.*
 import android.view.*
 import android.widget.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.hook.systemui.base.controlcenter.PublicClass.mediaViewHolder
+import com.sevtinge.hyperceiler.module.hook.systemui.base.controlcenter.PublicClass.miuiMediaControlPanel
+import com.sevtinge.hyperceiler.module.hook.systemui.base.controlcenter.PublicClass.seekBarObserver
 import com.sevtinge.hyperceiler.utils.api.*
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 object MediaSeekBar : BaseHook() {
-    private val miuiMediaControlPanel = loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaControlPanel")
-    private val mediaViewHolder = if (isMoreAndroidVersion(35)) {
-        loadClassOrNull("com.android.systemui.media.controls.ui.view.MediaViewHolder")
-    } else {
-        loadClassOrNull("com.android.systemui.media.controls.models.player.MediaViewHolder")
-    }
-    private val seekBarObserver = if (isMoreAndroidVersion(35)) {
-        loadClassOrNull("com.android.systemui.media.controls.ui.binder.SeekBarObserver")
-    } else {
-        loadClassOrNull("com.android.systemui.media.controls.models.player.SeekBarObserver")
-    }
-
     private val progress by lazy {
         mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2
     }
@@ -81,9 +71,6 @@ object MediaSeekBar : BaseHook() {
         if (!removeBackground) {
             miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()?.createAfterHook {
                 val mMediaViewHolder = it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder") ?: return@createAfterHook
-
-                /*val appIcon = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("appIcon")
-                (appIcon?.parent as ViewGroup?)?.removeView(appIcon)*/
 
                 val seekBar = mMediaViewHolder.objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
                 seekBar?.thumb?.colorFilter = colorFilter(Color.TRANSPARENT)
