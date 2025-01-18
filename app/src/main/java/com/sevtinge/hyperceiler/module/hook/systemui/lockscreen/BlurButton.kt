@@ -57,42 +57,24 @@ object BlurButton : BaseHook() {
 
     override fun init() {
         // by StarVoyager
-        if (isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) {
-            loadClassOrNull("com.android.keyguard.injector.KeyguardBottomAreaInjector")!!.methodFinder()
-                .filter {
-                    name in setOf(
-                        "updateLeftIcon",
-                        "updateRightIcon"
-                    )
-                }.toList().createHooks {
-                    after { param ->
-                        try {
-                            if (hyperBlur) hyperBlur(param) else systemBlur(param)
-                            if (blurBotton) param.thisObject.setBooleanField("mBottomIconRectIsDeep", isColorDark(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0)))
-                        } catch (_: Throwable) {
-                        }
+        loadClassOrNull("com.android.keyguard.injector.KeyguardBottomAreaInjector")!!.methodFinder()
+            .filter {
+                name in setOf(
+                    "updateLeftIcon",
+                    "updateRightIcon"
+                )
+            }.toList().createHooks {
+                after { param ->
+                    try {
+                        if (hyperBlur) hyperBlur(param) else systemBlur(param)
+                        if (blurBotton) param.thisObject.setBooleanField(
+                            "mBottomIconRectIsDeep",
+                            isColorDark(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0))
+                        )
+                    } catch (_: Throwable) {
                     }
                 }
-        } else {
-            loadClassOrNull(
-                "com.android.systemui.statusbar.phone.KeyguardBottomAreaView"
-            )!!.methodFinder()
-                .filter {
-                    name in setOf(
-                        "onAttachedToWindow",
-                        "onDetachedFromWindow",
-                        "updateRightAffordanceIcon",
-                        "updateLeftAffordanceIcon"
-                    )
-                }.toList().createHooks {
-                    after { param ->
-                        try {
-                            systemBlur(param)
-                        } catch (_: Throwable) {
-                        }
-                    }
-                }
-        }
+            }
     }
 
     private fun setNewBackgroundBlur(imageView: ImageView): LayerDrawable {
@@ -114,62 +96,31 @@ object BlurButton : BaseHook() {
     }
 
     private fun systemBlur(param: XC_MethodHook.MethodHookParam) {
-        if (isMoreHyperOSVersion(1f)) {
-            val mLeftAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
-                param.thisObject,
-                "mLeftButton"
-            )!!
-            val mRightAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
-                param.thisObject,
-                "mRightButton"
-            )!!
-            // Your blur logic
-            val context = ObjectUtils.getObjectOrNull(param.thisObject, "mContext") as Context
-            val keyguardManager =
-                context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        val mLeftAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
+            param.thisObject,
+            "mLeftButton"
+        )!!
+        val mRightAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
+            param.thisObject,
+            "mRightButton"
+        )!!
+        // Your blur logic
+        val context = ObjectUtils.getObjectOrNull(param.thisObject, "mContext") as Context
+        val keyguardManager =
+            context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
-            if (keyguardManager.isKeyguardLocked) {
-                mLeftAffordanceView.background = if (!removeLeft) {
-                    setNewBackgroundBlur(mLeftAffordanceView)
-                } else null
-                mRightAffordanceView.background = if (!removeRight) {
-                    setNewBackgroundBlur(mRightAffordanceView)
-                } else null
-            } else {
-                mLeftAffordanceView.background = null
-                mRightAffordanceView.background = null
-            }
+        if (keyguardManager.isKeyguardLocked) {
+            mLeftAffordanceView.background = if (!removeLeft) {
+                setNewBackgroundBlur(mLeftAffordanceView)
+            } else null
+            mRightAffordanceView.background = if (!removeRight) {
+                setNewBackgroundBlur(mRightAffordanceView)
+            } else null
         } else {
-            val mLeftAffordanceView: ImageView =
-                ObjectUtils.getObjectOrNullAs<ImageView>(
-                    param.thisObject,
-                    "mLeftAffordanceView"
-                )!!
-
-            val mRightAffordanceView: ImageView =
-                ObjectUtils.getObjectOrNullAs<ImageView>(
-                    param.thisObject,
-                    "mRightAffordanceView"
-                )!!
-
-            val keyguardBottomAreaView: View = param.thisObject as View
-            // Your blur logic
-            val context = keyguardBottomAreaView.context
-            val keyguardManager =
-                context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-
-            if (keyguardManager.isKeyguardLocked) {
-                mLeftAffordanceView.background = if (!removeLeft) {
-                    setOldBackgroundBlur(keyguardBottomAreaView)
-                } else null
-                mRightAffordanceView.background = if (!removeRight) {
-                    setOldBackgroundBlur(keyguardBottomAreaView)
-                } else null
-            } else {
-                mLeftAffordanceView.background = null
-                mRightAffordanceView.background = null
-            }
+            mLeftAffordanceView.background = null
+            mRightAffordanceView.background = null
         }
+
     }
 
     private fun hyperBlur(param: XC_MethodHook.MethodHookParam) {

@@ -18,9 +18,7 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:myLocation="@string/security_center"
-    app:myLocationHyper="@string/security_center_hyperos"
-    app:myLocationPad="@string/security_center_pad">
+    app:myLocation="@string/security_center_hyperos">
     <PreferenceCategory>
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.ApplicationsSettings"

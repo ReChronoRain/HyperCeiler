@@ -68,7 +68,7 @@
 
     <PreferenceCategory
         android:dependency="prefs_key_system_ui_statusbar_clock_all_status_enable"
-        android:title="@string/system_ui_statusbar_layout_title">
+        android:title="@string/home_layout">
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.clock.StatusBarClock"
             android:title="@string/system_ui_statusbar_clock_layout_s" />

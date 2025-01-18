@@ -41,7 +41,7 @@ public class SecurityCenterFragment extends DashboardFragment {
     @Override
     public View.OnClickListener addRestartListener() {
         return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-                isPad() ? getResources().getString(R.string.security_center_pad) : isHyperOSVersion(1f) ? getResources().getString(R.string.security_center_hyperos) : getResources().getString(R.string.security_center),
+                getResources().getString(R.string.security_center_hyperos),
                 "com.miui.securitycenter"
         );
     }

@@ -36,7 +36,7 @@ public class MiLinkFragment extends DashboardFragment {
     @Override
     public View.OnClickListener addRestartListener() {
         return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(!isMoreHyperOSVersion(1f) ? R.string.milink : R.string.milink_hyperos),
+            getResources().getString(R.string.milink_hyperos),
             "com.milink.service"
         );
     }

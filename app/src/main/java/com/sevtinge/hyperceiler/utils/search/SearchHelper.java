@@ -30,7 +30,6 @@ import android.text.TextUtils;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.ModData;
 import com.sevtinge.hyperceiler.ui.fragment.app.AodFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.CameraFragment;
 import com.sevtinge.hyperceiler.ui.fragment.app.CameraNewFragment;
 import com.sevtinge.hyperceiler.ui.fragment.app.ContentExtensionFragment;
 import com.sevtinge.hyperceiler.ui.fragment.app.MiCloudServiceFragment;
@@ -75,12 +74,9 @@ import com.sevtinge.hyperceiler.ui.fragment.app.systemui.LockScreenSettings;
 import com.sevtinge.hyperceiler.ui.fragment.app.systemui.NavigationSettings;
 import com.sevtinge.hyperceiler.ui.fragment.app.systemui.StatusBarSettings;
 import com.sevtinge.hyperceiler.ui.fragment.app.systemui.SystemUIOtherSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.BatteryDetailIndicatorSettings;
 import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.BatteryStyleSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.ClockIndicatorSettings;
 import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.DoubleLineNetworkSettings;
 import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.IconManageNewSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.IconManageSettings;
 import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.MobileNetworkTypeSettings;
 import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.NetworkSpeedIndicatorSettings;
 import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.NewClockIndicatorSettings;
@@ -134,8 +130,8 @@ public class SearchHelper {
         parsePrefXml(context, StatusBarSettings.class, R.xml.system_ui_status_bar, R.string.system_ui);
 
         parsePrefXml(context,
-                !isMoreHyperOSVersion(1f) ? IconManageSettings.class : IconManageNewSettings.class,
-                !isMoreHyperOSVersion(1f) ? R.xml.system_ui_status_bar_icon_manage : R.xml.system_ui_status_bar_icon_manage_new,
+                IconManageNewSettings.class,
+                R.xml.system_ui_status_bar_icon_manage_new,
                 R.string.system_ui,
                 R.string.system_ui_statusbar_title
         );
@@ -164,15 +160,8 @@ public class SearchHelper {
         );
 
         parsePrefXml(context,
-                !isMoreHyperOSVersion(1f) ? ClockIndicatorSettings.class : NewClockIndicatorSettings.class,
-                !isMoreHyperOSVersion(1f) ? R.xml.system_ui_status_bar_clock_indicator : R.xml.system_ui_status_bar_new_clock_indicator,
-                R.string.system_ui,
-                R.string.system_ui_statusbar_title
-        );
-
-        // 这里
-        parsePrefXml(context, BatteryDetailIndicatorSettings.class,
-                R.xml.system_ui_status_bar_hardware_detail_indicator,
+                NewClockIndicatorSettings.class,
+                R.xml.system_ui_status_bar_new_clock_indicator,
                 R.string.system_ui,
                 R.string.system_ui_statusbar_title
         );
@@ -275,11 +264,7 @@ public class SearchHelper {
         // 其他杂项
         parsePrefXmlForDashboardFragment(context, R.xml.analytics);
         parsePrefXmlForDashboardFragment(context, R.xml.browser);
-        parsePrefXml(
-                context,
-                !isMoreHyperOSVersion(1f) ? CameraFragment.class : CameraNewFragment.class,
-                !isMoreHyperOSVersion(1f) ? R.xml.camera : R.xml.camera_new
-        );
+        parsePrefXml(context, CameraNewFragment.class, R.xml.camera_new);
         parsePrefXmlForDashboardFragment(context, R.xml.fileexplorer);
         parsePrefXmlForDashboardFragment(context, R.xml.incallui);
         parsePrefXmlForDashboardFragment(context, R.xml.mms);
@@ -362,7 +347,7 @@ public class SearchHelper {
     }
 
     private static void parsePrefXmlForSecurityCenter(Context context, Class<?> catPrefsFragment, int xmlResId) {
-        parsePrefXml(context, catPrefsFragment, xmlResId, R.string.security_center);
+        parsePrefXml(context, catPrefsFragment, xmlResId, R.string.security_center_hyperos);
     }
 
     private static void parsePrefXmlForVarious(Context context, int xmlResId) {
@@ -400,10 +385,6 @@ private static void parsePrefXml(Context context, String catPrefsFragment, int x
                     modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
                     boolean isPreferenceVisible = Boolean.parseBoolean(xml.getAttributeValue(APP_NS, "isPreferenceVisible"));
 
-                    if (locationHyper == null) {
-                        locationHyper = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocationHyper"));
-                        locationHyperId = getModId(xml.getAttributeValue(APP_NS, "myLocationHyper"));
-                    }
                     if (locationPad == null) {
                         locationPad = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocationPad"));
                         locationPadId = getModId(xml.getAttributeValue(APP_NS, "myLocationPad"));
@@ -414,30 +395,21 @@ private static void parsePrefXml(Context context, String catPrefsFragment, int x
                     }
 
                     if (!TextUtils.isEmpty(modData.title) && !isPreferenceVisible) {
-                        String internalHyper = internalName == null ? locationHyper : internalName + "/" + locationHyper;
                         String internalPad = internalName == null ? locationPad : internalName + "/" + locationPad;
-                        String internalMiui = internalName == null ? location : internalName + "/" + location;
+                        String internal = internalName == null ? location : internalName + "/" + location;
 
                         if (locationHyper == null || location == null || (isPad && locationPad == null)) {
                             if (location != null) {
-                                modData.breadcrumbs = internalMiui;
+                                modData.breadcrumbs = internal;
                                 modData.catTitleResId = locationId;
-                            } else if (locationHyper != null) {
-                                modData.breadcrumbs = internalHyper;
-                                modData.catTitleResId = locationHyperId;
                             } else if (locationPad != null) {
                                 modData.breadcrumbs = internalPad;
                                 modData.catTitleResId = locationPadId;
                             }
                         } else {
                             if (!isPad) {
-                                if (isMoreHyperOSVersion(1f)) {
-                                    modData.breadcrumbs = internalHyper;
-                                    modData.catTitleResId = locationHyperId;
-                                } else {
-                                    modData.breadcrumbs = internalMiui;
-                                    modData.catTitleResId = locationId;
-                                }
+                                modData.breadcrumbs = internal;
+                                modData.catTitleResId = locationId;
                             } else {
                                 modData.breadcrumbs = internalPad;
                                 modData.catTitleResId = locationPadId;

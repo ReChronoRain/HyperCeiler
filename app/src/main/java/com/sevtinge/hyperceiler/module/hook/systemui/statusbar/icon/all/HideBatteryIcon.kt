@@ -57,12 +57,9 @@ object HideBatteryIcon : BaseHook() {
         if (isMoreAndroidVersion(35)) {
             mBatteryMeterViewClass.methodFinder()
                 .filterByName("updateAll\$1")
-        } else if (isAndroidVersion(34)) {
-            mBatteryMeterViewClass.methodFinder()
-                .filterByName("updateAll")
         } else {
             mBatteryMeterViewClass.methodFinder()
-                .filterByName("updateResources")
+                .filterByName("updateAll")
         }.single().createHook {
             after { param ->
                 if (param.thisObject != null) {

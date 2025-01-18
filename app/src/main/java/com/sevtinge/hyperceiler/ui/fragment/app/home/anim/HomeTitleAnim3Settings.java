@@ -1,24 +1,22 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2025 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2025 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment.app.home.anim;
-
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.view.View;
 
@@ -37,6 +35,7 @@ public class HomeTitleAnim3Settings extends DashboardFragment {
     SeekBarPreferenceCompat mSRW;
     SeekBarPreferenceCompat mDRR;
     SeekBarPreferenceCompat mSRR;
+
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.home_title_anim_3;
@@ -44,9 +43,9 @@ public class HomeTitleAnim3Settings extends DashboardFragment {
 
     @Override
     public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.mihome),
-            "com.miui.home"
+        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
+                getResources().getString(R.string.mihome),
+                "com.miui.home"
         );
     }
 
@@ -61,24 +60,14 @@ public class HomeTitleAnim3Settings extends DashboardFragment {
         mDRR = findPreference("prefs_key_home_title_custom_anim_param_damping_RECT_RATIO_3");
         mSRR = findPreference("prefs_key_home_title_custom_anim_param_stiffness_RECT_RATIO_3");
 
-        if (isMoreHyperOSVersion(1f)) {
-            mDRCX.setDefaultValue(900);
-            mSRCX.setDefaultValue(270);
-            mDRCY.setDefaultValue(900);
-            mSRCY.setDefaultValue(270);
-            mDRW.setDefaultValue(990);
-            mSRW.setDefaultValue(360);
-            mDRR.setDefaultValue(990);
-            mSRR.setDefaultValue(360);
-        } else {
-            mDRCX.setDefaultValue(900);
-            mSRCX.setDefaultValue(270);
-            mDRCY.setDefaultValue(900);
-            mSRCY.setDefaultValue(270);
-            mDRW.setDefaultValue(990);
-            mSRW.setDefaultValue(360);
-            mDRR.setDefaultValue(990);
-            mSRR.setDefaultValue(360);
-        }
+        mDRCX.setDefaultValue(900);
+        mSRCX.setDefaultValue(270);
+        mDRCY.setDefaultValue(900);
+        mSRCY.setDefaultValue(270);
+        mDRW.setDefaultValue(990);
+        mSRW.setDefaultValue(360);
+        mDRR.setDefaultValue(990);
+        mSRR.setDefaultValue(360);
+
     }
 }

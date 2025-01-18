@@ -119,11 +119,6 @@
             android:key="prefs_key_system_settings_voip_assistant_controller"
             android:title="@string/system_settings_voip_assistant_controller" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_settings_area_screenshot"
-            android:title="@string/system_settings_area_screenshot" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_settings_display_and_lockscreen_title">
@@ -153,6 +148,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_settings_more_notification_settings"
+            android:summary="@string/system_settings_restart_systemui_desc"
             android:title="@string/system_settings_more_notification_settings" />
 
         <SwitchPreference

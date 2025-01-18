@@ -18,8 +18,7 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:myLocation="@string/milink"
-    app:myLocationHyper="@string/milink_hyperos"
+    app:myLocation="@string/milink_hyperos"
     app:quick_restart="com.milink.service">
     <PreferenceCategory>
     <SwitchPreference

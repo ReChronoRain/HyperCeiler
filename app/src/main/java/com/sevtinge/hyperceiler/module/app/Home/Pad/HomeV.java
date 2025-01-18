@@ -96,7 +96,6 @@ import com.sevtinge.hyperceiler.module.hook.home.recent.BackgroundBlur;
 import com.sevtinge.hyperceiler.module.hook.home.recent.BlurLevel;
 import com.sevtinge.hyperceiler.module.hook.home.recent.CardTextColor;
 import com.sevtinge.hyperceiler.module.hook.home.recent.CardTextSize;
-import com.sevtinge.hyperceiler.module.hook.home.recent.DisableRecentViewWallpaperDarken;
 import com.sevtinge.hyperceiler.module.hook.home.recent.FreeformCardBackgroundColor;
 import com.sevtinge.hyperceiler.module.hook.home.recent.HideCleanUp;
 import com.sevtinge.hyperceiler.module.hook.home.recent.HideFreeform;
@@ -212,7 +211,6 @@ public class HomeV extends BaseModule {
 
         // 最近任务
         initHook(BlurLevel.INSTANCE, mPrefsMap.getStringAsInt("home_recent_blur_level", 6) != 6 && !mPrefsMap.getBoolean("home_title_app_blur_enable"));
-        initHook(DisableRecentViewWallpaperDarken.INSTANCE, mPrefsMap.getBoolean("home_recent_disable_wallpaper_dimming"));
         initHook(HideStatusBarWhenEnterRecent.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_status_bar_in_task_view"));
         initHook(RemoveCardAnim.INSTANCE, mPrefsMap.getBoolean("home_recent_modify_animation"));
         initHook(TaskViewHorizontal.INSTANCE, true);

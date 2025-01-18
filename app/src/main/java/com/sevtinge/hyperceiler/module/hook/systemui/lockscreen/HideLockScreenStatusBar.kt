@@ -45,7 +45,7 @@ object HideLockScreenStatusBar : BaseHook() {
                         XposedHelpers.setObjectField(mKeyguardStatusBar, "mKeyguardStatusBarAnimateAlpha", 0.0f)
                     }
                 }
-        } else if (isAndroidVersion(34)) {
+        } else {
             hookAllMethods(
                 "com.android.systemui.statusbar.phone.CentralSurfacesImpl", lpparam.classLoader,
                 "updateIsKeyguard",
@@ -57,22 +57,6 @@ object HideLockScreenStatusBar : BaseHook() {
                         val mKeyguardStatusBar = XposedHelpers.getObjectField(
                             XposedHelpers.getObjectField(
                                 shadeControllerImpl,
-                                "mNotificationPanelViewController"
-                            ), "mKeyguardStatusBar"
-                        ) as View
-                        mKeyguardStatusBar.translationY = -999f
-                    }
-                }
-            )
-        } else {
-            hookAllMethods(
-                "com.android.systemui.statusbar.phone.CentralSurfacesImpl", lpparam.classLoader,
-                "makeStatusBarView",
-                object : MethodHook() {
-                    override fun after(param: MethodHookParam) {
-                        val mKeyguardStatusBar = XposedHelpers.getObjectField(
-                            XposedHelpers.getObjectField(
-                                param.thisObject,
                                 "mNotificationPanelViewController"
                             ), "mKeyguardStatusBar"
                         ) as View

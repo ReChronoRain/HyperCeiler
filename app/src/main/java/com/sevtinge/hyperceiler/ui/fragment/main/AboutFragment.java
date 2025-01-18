@@ -250,7 +250,7 @@ public class AboutFragment extends DashboardFragment
 
         if (lIIllII != null) {
             lIIllII.setTitle(BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE);
-            if (isMoreHyperOSVersion(1f)) lIIllII.setSummary(R.string.description_hyperos); else lIIllII.setSummary(R.string.description_miui);
+            lIIllII.setSummary(R.string.description_hyperos);
             lIIllII.setOnPreferenceClickListener(lIIllll -> {
                 if (lIIllll instanceof SwitchPreference switchPreference) {
                     switchPreference.setChecked(!switchPreference.isChecked());

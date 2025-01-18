@@ -26,52 +26,25 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isMiuiVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 
 object RemoveCamera : BaseHook() {
-    private val oldClass by lazy {
-        loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardBottomAreaView")
-    }
     private val newClass by lazy {
         loadClassOrNull("com.android.keyguard.injector.KeyguardBottomAreaInjector")
     }
 
     override fun init() {
         // 屏蔽右下角组件显示
-        if (isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) {
-            newClass!!.methodFinder().filter {
-                name in setOf(
-                    "updateRightAffordanceViewLayoutVisibility",
-                    "startButtonLayoutAnimate"
-                )
-            }.toList().createHooks {
-                after {
-                    val right =
-                        ObjectUtils.getObjectOrNullAs<LinearLayout>(it.thisObject, "mRightAffordanceViewLayout") ?: return@after
-                    right.visibility = View.GONE
-                }
+        newClass!!.methodFinder().filter {
+            name in setOf(
+                "updateRightAffordanceViewLayoutVisibility",
+                "startButtonLayoutAnimate"
+            )
+        }.toList().createHooks {
+            after {
+                val right =
+                    ObjectUtils.getObjectOrNullAs<LinearLayout>(it.thisObject, "mRightAffordanceViewLayout") ?: return@after
+                right.visibility = View.GONE
             }
-        } else if (isMiuiVersion(14f) && isAndroidVersion(34)) {
-            newClass!!.methodFinder().filterByName("onFinishInflate")
-                .single().createHook {
-                    after {
-                        val right =
-                            ObjectUtils.getObjectOrNullAs<LinearLayout>(it.thisObject, "mRightAffordanceViewLayout") ?: return@after
-                        right.visibility = View.GONE
-                    }
-                }
-        } else {
-            oldClass!!.methodFinder().filterByName("onFinishInflate")
-                .single().createHook {
-                    after {
-                        val right =
-                            ObjectUtils.getObjectOrNullAs<LinearLayout>(it.thisObject, "mRightAffordanceViewLayout") ?: return@after
-                        right.visibility = View.GONE
-                    }
-                }
         }
 
         // 屏蔽滑动撞墙动画

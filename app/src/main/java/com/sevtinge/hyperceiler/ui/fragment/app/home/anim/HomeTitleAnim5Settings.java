@@ -1,24 +1,22 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2025 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2025 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment.app.home.anim;
-
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.view.View;
 
@@ -49,9 +47,9 @@ public class HomeTitleAnim5Settings extends DashboardFragment {
 
     @Override
     public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.mihome),
-            "com.miui.home"
+        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
+                getResources().getString(R.string.mihome),
+                "com.miui.home"
         );
     }
 
@@ -70,32 +68,18 @@ public class HomeTitleAnim5Settings extends DashboardFragment {
         mDA = findPreference("prefs_key_home_title_custom_anim_param_damping_ALPHA_5");
         mSA = findPreference("prefs_key_home_title_custom_anim_param_stiffness_ALPHA_5");
 
-        if (isMoreHyperOSVersion(1f)) {
-            mDRCX.setDefaultValue(880);
-            mSRCX.setDefaultValue(460);
-            mDRCY.setDefaultValue(880);
-            mSRCY.setDefaultValue(460);
-            mDRW.setDefaultValue(850);
-            mSRW.setDefaultValue(460);
-            mDRR.setDefaultValue(1000);
-            mSRR.setDefaultValue(350);
-            mDR.setDefaultValue(1000);
-            mSR.setDefaultValue(350);
-            mDA.setDefaultValue(1000);
-            mSA.setDefaultValue(400);
-        } else {
-            mDRCX.setDefaultValue(990);
-            mSRCX.setDefaultValue(450);
-            mDRCY.setDefaultValue(990);
-            mSRCY.setDefaultValue(450);
-            mDRW.setDefaultValue(900);
-            mSRW.setDefaultValue(450);
-            mDRR.setDefaultValue(990);
-            mSRR.setDefaultValue(370);
-            mDR.setDefaultValue(990);
-            mSR.setDefaultValue(150);
-            mDA.setDefaultValue(990);
-            mSA.setDefaultValue(420);
-        }
+        mDRCX.setDefaultValue(880);
+        mSRCX.setDefaultValue(460);
+        mDRCY.setDefaultValue(880);
+        mSRCY.setDefaultValue(460);
+        mDRW.setDefaultValue(850);
+        mSRW.setDefaultValue(460);
+        mDRR.setDefaultValue(1000);
+        mSRR.setDefaultValue(350);
+        mDR.setDefaultValue(1000);
+        mSR.setDefaultValue(350);
+        mDA.setDefaultValue(1000);
+        mSA.setDefaultValue(400);
+
     }
 }

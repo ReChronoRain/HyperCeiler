@@ -74,14 +74,8 @@ public class TileSettings extends DashboardFragment implements Preference.OnPref
             mSunshineModeHighBrightness.setVisible(false);
         }
 
-        if (isMoreHyperOSVersion(1f)) {
-            mRoundedRectRadius.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false));
-            mNewCCGridLabel.setVisible(false);
-        } else {
-            mRoundedRectRadius.setVisible(false);
-            mNewCCGridLabel.setVisible(true);
-        }
-
+        mRoundedRectRadius.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false));
+        mNewCCGridLabel.setVisible(false);
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
         mSunshineModeHighBrightness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_control_center_sunshine_new_mode_high", "0")) == 3);;
 
@@ -105,7 +99,7 @@ public class TileSettings extends DashboardFragment implements Preference.OnPref
     }
 
     private void setCanBeVisibleRoundedRect(boolean mode) {
-        mRoundedRectRadius.setVisible(mode && isMoreHyperOSVersion(1f));
+        mRoundedRectRadius.setVisible(mode);
     }
 
     private void setCanBeVisibleSunshineBrightness(int mode) {

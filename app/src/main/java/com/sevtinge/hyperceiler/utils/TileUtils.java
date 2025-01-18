@@ -65,11 +65,8 @@ public abstract class TileUtils extends BaseHook {
         SystemUiHook();
         customTileProvider();
         showStateMessage(myTile);
-        if (isMoreAndroidVersion(34)) {
-            tileAllName14(mQSFactory);
-        } else {
-            tileAllName(mQSFactory);
-        }
+        tileAllName14(mQSFactory);
+
         try {
             myTile.getDeclaredMethod("isAvailable");
             findAndHookMethod(myTile, "isAvailable", new MethodHook() {
@@ -333,26 +330,6 @@ public abstract class TileUtils extends BaseHook {
                 });
             } catch (NoSuchMethodException e) {
                 logE(TAG, "com.android.systemui", "Don't Have onCreate: " + e);
-            }
-        }
-    }
-
-    /*
-     * 判断是否是自定义磁贴，如果是则在自定义磁贴前加上 Key，用于定位磁贴。
-     */
-    private void tileAllName(Class<?> QSFactory) {
-        if (!needOverride()) {
-            try {
-                QSFactory.getDeclaredMethod(getCustomTileProvider()[1], String.class);
-                tileAllNameMode(QSFactory, 1);
-            } catch (NoSuchMethodException e) {
-                try {
-                    QSFactory.getDeclaredMethod(getCustomTileProvider()[2], String.class);
-                    tileAllNameMode(QSFactory, 2);
-                } catch (NoSuchMethodException f) {
-                    logE(TAG, "com.android.systemui", "Don't Have " + getCustomTileProvider()[2], f);
-                }
-                logE(TAG, "com.android.systemui", "Don't Have " + getCustomTileProvider()[1], e);
             }
         }
     }

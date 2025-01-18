@@ -36,10 +36,8 @@ public class IconManageNewSettings extends DashboardFragment {
     DropDownPreference mAlarmClockIcon;
     SeekBarPreferenceCompat mAlarmClockIconN;
     SeekBarPreferenceCompat mNotificationIconMaximum;
-    SeekBarPreferenceCompat mNotificationIconColumns;
     SwitchPreference mBatteryNumber;
     SwitchPreference mBatteryPercentage;
-    SwitchPreference mNotificationIconColumnsEnabled;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -54,15 +52,6 @@ public class IconManageNewSettings extends DashboardFragment {
 
         mBatteryNumber = findPreference("prefs_key_system_ui_status_bar_battery_percent");
         mBatteryPercentage = findPreference("prefs_key_system_ui_status_bar_battery_percent_mark");
-        mNotificationIconColumns = findPreference("prefs_key_system_ui_status_bar_notification_icon_maximum");
-        mNotificationIconColumnsEnabled = findPreference("prefs_key_system_ui_status_bar_notification_dots_maximum_enable");
-
-        if (isMoreHyperOSVersion(2f)) {
-            mNotificationIconColumns.setVisible(false);
-            mNotificationIconColumnsEnabled.setVisible(false);
-        } else {
-            mNotificationIconColumns.setDefaultValue((isHyperOSVersion(1f) && isMoreAndroidVersion(34)) ? 1 : 3);
-        }
 
         mAlarmClockIconN.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
 

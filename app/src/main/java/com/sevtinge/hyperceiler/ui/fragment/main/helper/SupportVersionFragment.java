@@ -30,7 +30,6 @@ import java.util.Objects;
 
 public class SupportVersionFragment extends SettingsPreferenceFragment {
 
-    private static final String mFSupportMiuiVersion = "14.0(140)";
     private static final String mFSupportHyperOsVersion = "1.0 / 2.0";
     private static final String mFSupportAndroidVersion = "13(T, 33) / 14(U, 34) / 15(V, 35)";
     private static final String mNSupportHyperOsVersion = "1.1";
@@ -55,7 +54,6 @@ public class SupportVersionFragment extends SettingsPreferenceFragment {
     private String stringBuilder() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(getString(R.string.help_support_version_desc_1))
-                .append("\n\n - MIUI ").append(mFSupportMiuiVersion)
                 .append("\n - HyperOS ").append(mFSupportHyperOsVersion)
                 .append("\n - Android ").append(mFSupportAndroidVersion);
 

@@ -40,7 +40,7 @@ object HideLockScreenHint : BaseHook() {
                 .filterStatic().single().createHook {
                     returnConstant(null)
                 }
-        } else if (isAndroidVersion(34) && isMoreHyperOSVersion(1f)) {
+        } else {
             // by Hyper Helper
             keyguardIndicationController!!.methodFinder()
                 .filterByName("updateDeviceEntryIndication")
@@ -59,13 +59,6 @@ object HideLockScreenHint : BaseHook() {
                         image.alpha = 0.0f
                     }
                 }
-        } else if (isAndroidVersion(33)) {
-            findAndHookMethod(
-                "com.android.systemui.keyguard.KeyguardIndicationRotateTextViewController",
-                lpparam.classLoader,
-                "hasIndicationsExceptResting",
-                XC_MethodReplacement.returnConstant(true)
-            )
         }
     }
 }

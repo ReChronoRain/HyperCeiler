@@ -19,11 +19,9 @@
 package com.sevtinge.hyperceiler.module.hook.systemframework.freeform
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 class FreeFormCount : BaseHook() {
     override fun init() {
@@ -37,15 +35,6 @@ class FreeFormCount : BaseHook() {
             )
         }.toList().createHooks {
             returnConstant(256)
-        }
-
-        // ShouldStopStartFreeform
-        if (isAndroidVersion(33)) {
-            clazzMiuiFreeFormStackDisplayStrategy.methodFinder()
-                .filterByName("shouldStopStartFreeform")
-                .single().createHook {
-                    returnConstant(false)
-                }
         }
     }
 }

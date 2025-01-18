@@ -54,9 +54,6 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.UnlockSuperWi
 import com.sevtinge.hyperceiler.module.hook.securitycenter.beauty.BeautyLightAuto;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.beauty.BeautyPc;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.beauty.BeautyPrivacy;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.lab.AiClipboardEnable;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.lab.BlurLocationEnable;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.lab.GetNumberEnable;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.BypassSimLockMiAccountAuth;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.DisableRootCheck;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.FuckRiskPkg;
@@ -102,9 +99,6 @@ public class SecurityCenterU extends BaseModule {
 
         // 隐私保护
         initHook(new AppLockPinScramble(), mPrefsMap.getBoolean("security_center_applock_pin_scramble"));
-        initHook(AiClipboardEnable.INSTANCE, mPrefsMap.getBoolean("security_center_ai_clipboard"));
-        initHook(BlurLocationEnable.INSTANCE, mPrefsMap.getBoolean("security_center_blur_location"));
-        initHook(GetNumberEnable.INSTANCE, mPrefsMap.getBoolean("security_center_get_number"));
         initHook(new HideXOptModeTip(), mPrefsMap.getBoolean("security_center_hide_xopt_mode_tip"));
 
         // 前置摄像助手

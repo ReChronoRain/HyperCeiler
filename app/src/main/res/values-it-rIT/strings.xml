@@ -18,8 +18,9 @@
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
   -->
 <resources>
+    <string name="version_update">It</string>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Rendiamo HyperOS/MIUI ottimo di nuovo!</string>
+    <string name="xposed_description">Rendiamo HyperOS ottimo di nuovo!</string>
     <string name="new_permission_wifi_state_desc">aggiungi ed elimina file nella memoria interna del dispositivo</string>
     <string name="new_permission_location_desc">usato per fornire servizi come latitudine e longitudine</string>
     <string name="new_cta_agree_desc">Durante l\'uso, in modo da poterti fornire più funzionalità, potremmo chiederti i permessi di Root/SU. Puoi andare su Gestione permessi in qualsiasi momento per gestire tutte le autorizzazioni, e per favore controlla il tuo manager Root/SU per i permessi di Root/SU.</string>
@@ -184,10 +185,6 @@
     <string name="feature">Funzione</string>
     <string name="recommend">Raccomandato</string>
     <string name="editor">Editor</string>
-    <string name="record">Registra</string>
-    <string name="shot">Scatto</string>
-    <string name="portrait">Ritratto</string>
-    <string name="camera_pro">Pro</string>
     <string name="enable">Attivo</string>
     <string name="disable">Disabilita</string>
     <string name="custom_enable">Attivazione personalizzata</string>
@@ -289,8 +286,6 @@
     <string name="app_sort_frequency">Frequenza di utilizzo</string>
     <string name="app_sort_storage">Memoria utilizzata</string>
     <string name="app_sort_install">Data di installazione</string>
-    <string name="array_bluetooth_tile_style_3rows">Tre piastrelle grandi</string>
-    <string name="array_bluetooth_tile_style_2rows2cols">Una grande e due piastrelle piccole</string>
     <string name="array_pa_blur_official">Ufficiale è dotato di sfocatura</string>
     <string name="array_bpa_blur_customize">Sfocatura sfondo personalizzata</string>
     <string name="control_center_sunshine_mode_default">Chiudi</string>
@@ -337,9 +332,7 @@
     <string name="system_framework_freeform_content_extension_desc">Supporta solo i link</string>
     <string name="system_framework_default_volume_stream">Regola il volume di default</string>
     <string name="system_framework_volume_first_press">Regolazione istantanea del volume</string>
-    <string name="system_framework_volume_separate_control">Controllo indipendente del volume</string>
     <string name="system_framework_volume_disable_safe">Rimuovi le restrizioni di sicurezza ad alto volume</string>
-    <string name="system_framework_volume_separate_slider">Cursore del volume notifiche</string>
     <string name="system_framework_volume_media_steps">Livello volume multimediale</string>
     <string name="system_framework_volume_media_steps_desc">Può causare il blocco dello scorrimento della barra del volume o l\'anomalia del volume del Bluetooth</string>
     <string name="system_framework_volume_steps">Moltiplicatore del livello volume</string>
@@ -441,52 +434,7 @@
     <string name="camera_custom_watermark">Filigrana del dispositivo personalizzata</string>
     <string name="camera_custom_watermark_manufacturer">Informazioni sul produttore</string>
     <string name="camera_custom_watermark_device">Informazioni sul dispositivo</string>
-    <string name="camera_features_unlock_aiwatermark">Sblocca filigrana AI</string>
-    <string name="camera_features_unlock_ambilight">Sblocca lunga esposizione</string>
-    <string name="camera_features_unlock_clone">Sblocca modalità clone</string>
-    <string name="camera_features_unlock_cosmetic_mirror">Sblocca specchio tascabile</string>
-    <string name="camera_features_unlock_doc">Sblocca la modalità Documento</string>
-    <string name="camera_features_unlock_idcard">Sblocca la modalità carta ID</string>
-    <string name="camera_features_unlock_dualcam">Sblocca doppia fotocamera</string>
-    <string name="camera_features_unlock_duration">Sblocca Durata</string>
-    <string name="camera_features_unlock_milive">Sblocca video brevi</string>
-    <string name="camera_features_unlock_moon">Sblocca la modalità Super-Luna</string>
-    <string name="camera_features_unlock_pano">Sblocca modalità Panorama</string>
-    <string name="camera_features_unlock_pixel">Sblocca modalità Pixel</string>
-    <string name="camera_features_unlock_portrait">Sblocca modalità Ritratto</string>
-    <string name="camera_features_unlock_slow">Sblocca Slow motion</string>
-    <string name="camera_features_unlock_videosky">Sblocca Video-sky</string>
-    <string name="camera_features_unlock_vlog">Sblocca Vlog</string>
-    <string name="camera_features_unlock_vlog_pro">Sblocca Vlog Pro</string>
-    <string name="camera_features_unlock_film">Sblocca fotocamera film</string>
-    <string name="camera_features_unlock_film_delay">Sblocca lunga esposizione</string>
-    <string name="camera_features_unlock_film_dollyzoom">Sblocca zoom Dolly</string>
-    <string name="camera_features_unlock_film_dream">Sblocca Sogno</string>
-    <string name="camera_features_unlock_film_slowshutter">Sblocca otturatore lento</string>
-    <string name="camera_features_unlock_film_timebackflow">Sblocca tempo di back-flow</string>
-    <string name="camera_features_unlock_film_timefreeze">Sblocca congelamento Tempo</string>
     <string name="camera_shot_hand_gesture">Sblocca scatto con palmo</string>
-    <string name="camera_shot_color_enhance">Sblocca miglioramento colore</string>
-    <string name="camera_shot_makeup">Sblocca Trucco</string>
-    <string name="camera_shot_makeup_desc">Ha effetto solo quando si utilizza la fotocamera frontale</string>
-    <string name="camera_record_60fps">Sblocca 60FPS</string>
-    <string name="camera_record_60fps_desc">Non disponibile in alcune qualità, assicurati che il tuo dispositivo sia supportato</string>
-    <string name="camera_record_120fps">Sblocca 120FPS</string>
-    <string name="camera_record_120fps_desc">Supporta solo le qualità 4K, assicurati che il tuo dispositivo sia supportato</string>
-    <string name="camera_record_audio_zoom">Sblocca zoom audio</string>
-    <string name="camera_record_hdr">Sblocca HDR</string>
-    <string name="camera_record_ai">Sblocca miglioramento IA</string>
-    <string name="camera_portrait_new_beauty">Sblocca nuova bellezza</string>
-    <string name="camera_portrait_new_beauty_desc">Ha effetto solo quando si utilizza la fotocamera frontale</string>
-    <string name="camera_portrait_cvlens">Sblocca Master-lens</string>
-    <string name="camera_portrait_cvlens_desc">Potrebbe non funzionare su alcuni dispositivi</string>
-    <string name="camera_pro_raw">Sblocca RAW</string>
-    <string name="camera_pro_log">Sblocca LOG</string>
-    <string name="camera_settings_heic">Sblocca HEIF</string>
-    <string name="camera_settings_track_focus">Sblocca messa a fuoco nel tracciamento del movimento</string>
-    <string name="camera_settings_predictive">Sblocca acquisizione in movimento</string>
-    <string name="camera_settings_nevus">Sblocca Rimuovi moli</string>
-    <string name="camera_settings_men_makeup">Sblocca Regola effetti di trucco per gli uomini</string>
     <string name="camera_settings_lab_options">Abilita opzioni sperimentali (Lab)</string>
     <string name="camera_settings_track_eyes">Sblocca tracciamento degli occhi</string>
     <!--Calendar-->
@@ -535,9 +483,7 @@
     <string name="system_ui_lock_screen_hide_camera">Nascondi fotocamera</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Nascondi carrello smart</string>
     <string name="system_ui_lock_screen_current">Attuale</string>
-    <string name="system_ui_lock_screen_show_second">Mostra secondi nell\'orologio</string>
     <string name="system_ui_lock_screen_blur_button">Sfoca pulsanti fotocamera e carrello intelligente</string>
-    <string name="system_ui_lock_screen_force_system_fonts">Forza l\'uso di caratteri di sistema nell\'orologio</string>
     <string name="system_ui_lock_screen_double_lock">Doppio tocco per bloccare lo schermo</string>
     <string name="system_ui_lock_screen_double_lock_desc">Tocca 2 volte su uno spazio vuoto nella schermata di blocco</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">Nascondi notifica modalità zen</string>
@@ -568,12 +514,7 @@
     <string name="system_ui_statusbar_iconmanage_title">Gestione Icone</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">Gestione Indicatore Di Velocità Di Rete</string>
     <string name="system_ui_statusbar_clock_title">Gestione Indicatore Orologio</string>
-    <string name="system_ui_statusbar_device_title">Indicatori Hardware</string>
     <string name="system_ui_statusbar_strong_toast_title">Toast notifica intelligente</string>
-    <string name="system_ui_statusbar_layout_title">Layout</string>
-    <string name="system_ui_statusbar_layout_compatibility_mode_title">Modalità di compatibilità</string>
-    <string name="system_ui_statusbar_layout_compatibility_mode_desc">Abilitare forzatamente il layout a schermo intero per tutti gli schermi a forma speciale</string>
-    <string name="system_ui_statusbar_layout_mode_title">Modalità layout</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Doppio tocco per spegnere lo schermo</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Barra del segnale a doppia riga</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Tema icone</string>
@@ -602,8 +543,6 @@
     <string name="system_ui_statusbar_iconmanage_devices_title">Dispositivi</string>
     <string name="system_ui_statusbar_iconmanage_internet_title">Rete</string>
     <string name="system_ui_statusbar_iconmanage_privacy_title">Privacy</string>
-    <string name="system_ui_statusbar_iconmanage_left_title">Il lato sinistro dell\'icona viene mostrato</string>
-    <string name="system_ui_statusbar_iconmanage_right_title">La parte destra dell\'icona viene mostrata</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_slave">Slave Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Wi-Fi standard</string>
@@ -646,23 +585,17 @@
     <string name="system_ui_status_bar_icon_soundbox_group_stereo">Gruppo Suoni Box Stereo</string>
     <string name="system_ui_status_bar_icon_tv">TV</string>
     <string name="system_ui_status_bar_icon_wireless_headset">Cuffie Wireless</string>
-    <string name="system_ui_status_bar_notification_dots_maximum">Numero massimo di punti di notifica</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Numero massimo di icone di notifica</string>
     <string name="system_ui_status_bar_battery_percent">Nascondi percentuale batteria</string>
     <string name="system_ui_status_bar_battery_percent_mark">Nascondi percentuale batteria</string>
     <string name="system_ui_status_bar_battery_charging">Nascondi indicatore di ricarica</string>
     <string name="system_ui_status_bar_battery_icon">Nascondi icona batteria</string>
     <string name="system_ui_status_bar_battery_style_title">Personalizzazione della batteria</string>
-    <string name="system_ui_status_bar_battery_indicator_title">Indicatore Batteria</string>
     <string name="system_ui_status_bar_wifi_at_left">Wi-Fi</string>
     <string name="system_ui_status_bar_mobile_network_at_left">Rete mobile</string>
     <string name="system_ui_status_bar_swap_wifi_and_mobile_network">Scambia Wi-Fi e rete mobile</string>
     <string name="system_ui_status_bar_network_speed_at_right">Velocità di connessione</string>
     <string name="system_ui_status_bar_volume_at_right">Scena audio</string>
-    <string name="system_ui_status_bar_use_new_hd">Forza l\'uso della nuova icona HD</string>
-    <string name="system_ui_status_bar_use_new_hd_summary">Supporta solo alcune versioni di sistema</string>
-    <string name="system_ui_status_bar_no_netspeed_separator_title">Separatore velocità di rete</string>
-    <string name="system_ui_status_bar_no_netspeed_separator_desc">La linea verticale tra orologio e velocità di internet non viene visualizzata sui dispositivi con fotocamera al centro</string>
     <string name="system_ui_status_bar_hide_icon">Nascondi la barra di stato quando si cattura uno screenshot</string>
     <string name="system_ui_status_bar_mobile_type_single_title">Icona tipo di rete mobile</string>
     <string name="system_ui_statusbar_network_speed_all_status">Abilita Modifica</string>
@@ -678,21 +611,9 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">I valori di velocità di rete sotto questo livello sono considerati lenti e verrà visualizzato un indicatore differente (solo alcune icone)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Nascondi byte al secondo suffisso (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Icona dell\'indicatore</string>
-    <string name="system_ui_statusbar_clock_mode">Modalità orologio personalizzata</string>
-    <string name="system_ui_statusbar_clock_editor">Formato orologio</string>
-    <string name="system_ui_statusbar_clock_year">Mostra anno</string>
-    <string name="system_ui_statusbar_clock_month">Mostra mese</string>
-    <string name="system_ui_statusbar_clock_date">Mostra giorno</string>
-    <string name="system_ui_statusbar_clock_week">Mostra settimana</string>
-    <string name="system_ui_statusbar_clock_hour_cn">Mostra doppia ora</string>
-    <string name="system_ui_statusbar_clock_period">Mostra periodo orologio</string>
-    <string name="system_ui_statusbar_clock_second">Mostra i secondi</string>
-    <string name="system_ui_statusbar_clock_hide_space">Nascondi spazi</string>
-    <string name="system_ui_statusbar_clock_double">Mostra il doppio</string>
     <string name="system_ui_statusbar_clock_double_mode_title">Allineamento a doppia riga</string>
     <string name="system_ui_statusbar_clock_desc">Esempio formato orologio</string>
     <string name="system_ui_statusbar_clock_size">Dimensione orologio</string>
-    <string name="system_ui_statusbar_clock_double_size">Dimensione orologio a doppia riga</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Valido solo se visualizzato su due righe</string>
     <string name="system_ui_statusbar_clock_fix_color">Fix color</string>
     <string name="system_ui_disable_clock_anim">Disabilita l\'animazione di transizione dell\'orologio all\'apertura del centro notifiche</string>
@@ -706,35 +627,6 @@
     <string name="system_ui_statusbar_clock_editor_s">Formato orologio barra di stato</string>
     <string name="system_ui_statusbar_clock_editor_n">Formato mini orologio barra delle notifiche</string>
     <string name="system_ui_statusbar_clock_style_f">Disposizione orologio barra di stato</string>
-    <string name="system_ui_statusbar_indicator_battery_title">Potenza correlata</string>
-    <string name="system_ui_statusbar_indicator_temperature_title">Temperatura correlata</string>
-    <string name="system_ui_statusbar_battery_size">Dimensione carattere</string>
-    <string name="system_ui_statusbar_battery_show">Mostra contenuti</string>
-    <string name="system_ui_statusbar_temp_decimal_places">Nascondi posizioni decimali</string>
-    <string name="system_ui_statusbar_battery_disable">Nascondi unità</string>
-    <string name="system_ui_statusbar_battery_right_show">Mostra a destra</string>
-    <string name="system_ui_statusbar_battery_electric_current">La corrente mostra sempre un valore positivo</string>
-    <string name="system_ui_statusbar_battery_line_show">Visualizzazione singola riga</string>
-    <string name="system_ui_statusbar_battery_opposite">Ordine inverso</string>
-    <string name="system_ui_statusbar_battery_only_changing_show">Mostra solo durante la carica</string>
-    <string name="system_ui_statusbar_battery_update_spacing">Imposta l\'intervallo di aggiornamento</string>
-    <string name="system_ui_statusbar_temp_fix_cpu">Correggi temperatura CPU</string>
-    <string name="system_ui_statusbar_temp_fix_cpu_desc">Inserisci il numero di /sys/devices/virtual/thermal/thermal_zone*</string>
-    <string name="system_ui_status_bar_battery_indicator_centered">Centrato</string>
-    <string name="system_ui_status_bar_battery_indicator_rounded">Angoli arrotondati</string>
-    <string name="system_ui_status_bar_battery_indicator_limitvis">Limita visibilità</string>
-    <string name="system_ui_status_bar_battery_indicator_align">Allinea verticalmente</string>
-    <string name="system_ui_status_bar_battery_indicator_color">Colore</string>
-    <string name="system_ui_status_bar_battery_indicator_color_full_power">Colore batteria carica</string>
-    <string name="system_ui_status_bar_battery_indicator_color_low_power">Colore con batteria scarica</string>
-    <string name="system_ui_status_bar_battery_indicator_color_power_saving">Colore modalità risparmio energetico</string>
-    <string name="system_ui_status_bar_battery_indicator_color_power_charging">Colore durante la carica</string>
-    <string name="system_ui_status_bar_battery_indicator_height">Altezza</string>
-    <string name="system_ui_status_bar_battery_indicator_padding">Margine orizzontale</string>
-    <string name="system_ui_status_bar_battery_indicator_alpha">Trasparenza</string>
-    <string name="system_ui_status_bar_battery_indicator_glow">Brillantezza</string>
-    <string name="system_ui_status_bar_battery_indicator_low_level">Batteria scarica</string>
-    <string name="system_ui_status_bar_battery_indicator_test">Test</string>
     <string name="system_ui_status_bar_strong_toast_layout">Layout</string>
     <string name="system_ui_status_bar_strong_toast_text">Informazioni</string>
     <string name="system_ui_status_bar_strong_toast_test">Debug</string>
@@ -744,11 +636,8 @@
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Scrivi</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Questo è un lungo pezzo di testo che sarà mostrato durante lo scorrimento</string>
     <string name="system_ui_controlcenter_title">Centro di Controllo</string>
-    <string name="system_ui_controlcenter_card_title">Scheda</string>
     <string name="system_ui_controlcenter_media_card_title">Scheda Notifiche Media</string>
-    <string name="system_ui_control_center_magnet_tile_settings">Magnet</string>
     <string name="system_ui_control_center_notification_title">Notifica</string>
-    <string name="system_control_center_qs_detail_bg">Trasparenza sfondo carta</string>
     <string name="quick_settings_state_change_message_on_my">%1$s è attivo</string>
     <string name="quick_settings_state_change_message_off_my">%1$s è spento</string>
     <string name="system_control_center_5g_tile">Commutatore di rete 5G</string>
@@ -763,21 +652,8 @@
     <string name="system_control_center_qs_columns">Colonne</string>
     <string name="system_control_center_qs_columns_format">%d lista</string>
     <string name="system_control_center_qs_columns_horizontal">Colonne (orizzontale)</string>
-    <string name="system_ui_control_center_hide_mi_play_entry">Elemento MiPlay</string>
-    <string name="system_ui_control_center_hide_mi_smart_hub_entry">Elemento Mi smart hub</string>
-    <string name="system_ui_control_center_hide_device_ctrl_entry">Elemento controllo dispositivo</string>
-    <string name="system_ui_control_center_control_detail_background_alpha">Controllo dettaglio Valore sfocatura sfondo</string>
     <string name="system_ui_control_center_notification_disable_transparent">Disabilita Modalità Trasparente</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Disabilita l\'impostazione trasparenza nello sfondo delle notifiche</string>
-    <string name="system_ui_control_center_notification_blur_model">Modello sfocatura notifiche</string>
-    <string name="system_ui_control_center_notification_blur_fix">Ottimizzazione delle notifiche</string>
-    <string name="system_ui_control_center_notification_blur_fix_desc">Funzione sperimentale, disponibile solo per i modelli Android 13 e versioni successive. Dopo l\'abilitazione, la sfocatura delle notifiche in alcune aree verrà ottimizzata\nSu alcuni modelli potrebbe verificarsi un problema di arresto anomalo dell\'interfaccia utente del sistema.</string>
-    <string name="system_ui_control_center_blur_radius">Raggio sfocatura</string>
-    <string name="system_ui_control_center_blur_radius_desc">Senza notifica a discesa</string>
-    <string name="system_ui_control_center_corner_radius">Raggio angolo</string>
-    <string name="system_ui_control_center_corner_radius_desc">Non è necessario modificare il tema predefinito</string>
-    <string name="system_ui_control_center_blur_background_alpha">Valore sfondo sfocato</string>
-    <string name="system_ui_control_center_default_background_alpha">Valore sfondo predefinito</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Ottimizza l\'effetto di miscelazione dei colori del pannello di controllo multimediale</string>
     <string name="system_ui_control_center_media_control_progress">Barra di avanzamento</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Rimuovi la restrizione sull\'applicazione di azioni personalizzate per le schede di notifica multimediale</string>
@@ -811,8 +687,6 @@
     <string name="system_ui_control_center_hide_operator">Personalizzazione nome operatore</string>
     <string name="system_ui_control_center_hide_delimiter">Solo i divisori sono nascosti</string>
     <string name="system_ui_control_center_hide_name">Nascondi tutti i nomi</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Stile riquadro Bluetooth</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Sposta il riquadro Bluetooth vicino al riquadro della rete</string>
     <string name="system_ui_control_center_notifrowmenu">Menu di notifica esteso</string>
     <string name="system_ui_control_center_notifrowmenu_desc">Apri informazioni sull\'app, forza la chiusura dell\'app e aprila in una finestra mobile dal menu di notifica (scorri la notifica verso sinistra per aprirla)</string>
     <string name="system_ui_controlcenter_new_title">Nuovo centro di controllo</string>
@@ -825,14 +699,8 @@
     <string name="system_ui_control_center_unlock_blur_supported_desc">Non esiste alcuna restrizione sulla sfocatura dello sfondo per i materiali premium ufficiali solo per la rimozione di temi di terze parti</string>
     <string name="system_ui_other_title">Altro</string>
     <string name="system_ui_disable_volume">Barra del volume nativa</string>
-    <string name="system_ui_disable_volume_desc">La modifica della barra del volume di Xiaomi non si applica alla barra del volume nativa</string>
     <string name="system_ui_unlock_clipboard">Sblocca l\'editor degli appunti AOSP</string>
-    <string name="system_ui_unlock_clipboard_desc">Dopo lo sblocco, verrà visualizzato insieme all\'editor MIUI/HyperOS.</string>
-    <string name="system_ui_charge_animation_title">Animazione di ricarica</string>
-    <string name="system_ui_charge_animation_style">Stile di animazione di ricarica</string>
-    <string name="system_ui_charge_animation_style_desc">Seleziona lo stile di animazione di ricarica della schermata di blocco</string>
     <string name="system_ui_another_title">Altro</string>
-    <string name="system_ui_disable_bluetooth_restrict">Impedisci la disattivazione temporanea del Bluetooth</string>
     <string name="system_ui_disable_miui_multi_win_switch">Nascondi il pulsante della finestra Comodità</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Nascondi i tre punti permanenti, inclusa la parte superiore del piccolo e il pulsante al centro della parte superiore dello schermo orizzontale di HyperOS for Pad (non influisce sull\'uso delle funzioni)</string>
     <string name="system_ui_disable_bottombar">Nascondi il gesto inferiore della piccola finestra</string>
@@ -847,10 +715,10 @@
     <string name="system_ui_monet_overlay_custom">Personalizza tema colore</string>
     <string name="system_ui_monet_overlay_custom_desc">Personalizza i colori del tema invece di estrarre i colori dallo sfondo del sistema</string>
     <string name="system_ui_monet_overlay_custom_color">Scegli il colore del tema</string>
-    <string name="system_ui_volume_timer">Timer esteso</string>
     <string name="system_ui_qs_label">Scheda cambio rapido</string>
     <string name="system_ui_notification_title">Notifica</string>
     <string name="system_ui_other_notification_fix">Disabilita whitelist notifiche</string>
+    <string name="system_ui_volume_timer">Timer esteso</string>
     <string name="system_ui_plugin_enable_volume_blur">Abilita sfocatura barra volume</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Solo per i modelli Android12+ MTK, lì potrebbe essere elevato il carico della GPU</string>
     <!--Telecom-->
@@ -882,7 +750,6 @@
     <string name="system_settings_new_nfc_page">Nuova pagina NFC</string>
     <string name="system_settings_new_nfc_page_desc">Dopo l\'apertura, l\'applicazione di pagamento predefinita per i modelli non supportati non può selezionare Xiaomi Wallet</string>
     <string name="system_settings_lab_title">Funzioni in primo piano</string>
-    <string name="system_settings_area_screenshot">Schermata dell\'area di sblocco</string>
     <string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
     <string name="system_settings_display_and_lockscreen_title">Visualizza e amp; Schermata di blocco</string>
     <string name="system_settings_ai_image_unlock_sr">Sblocca risoluzione super</string>
@@ -896,6 +763,7 @@
     <string name="system_settings_permission_unknown_origin_app">Installa i permessi delle app sconosciute senza cercare nell\'elenco delle applicazioni</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Utilizza i permessi internazionali build, passa direttamente all\'interruttore di autorizzazione dell\'applicazione corrispondente “visualizzata sopra le altre applicazioni”</string>
     <string name="system_settings_permission_accessibility">Autorizzazioni dei servizi di accessibilità senza cercare nell\'elenco delle applicazioni</string>
+    <string name="system_settings_permission_disable_install_unknown_verify"></string>
     <string name="system_settings_develop_title">Opzioni sviluppatore</string>
     <string name="system_settings_apps_freezer">Forza la visualizzazione delle app bloccate nella cache</string>
     <string name="system_settings_apps_freezer_more">Una volta abilitata, questa funzione può si trova in \"Opzioni sviluppatore\", ma la sua funzionalità non è garantita</string>
@@ -931,20 +799,13 @@
     <string name="updater_diable_dialog">Disabilita pop-up della finestra di dialogo \"Attiva aggiornamenti automatici\"</string>
     <!--Permissions-->
     <string name="lbe">Permessi</string>
-    <string name="clipboard">Appunti</string>
-    <string name="lbe_disable_clipboard_tip">Nascondi suggerimenti Toast</string>
-    <string name="lbe_clipboard_tip_toast">Leggi negli appunti utilizzando i suggerimenti di Toast</string>
-    <string name="lbe_clipboard_tip_toast_desc">Nascondi la finestra di dialogo e consenti all\'app di leggere gli appunti per impostazione predefinita</string>
-    <string name="lbe_clipboard_tip">Leggi appunti</string>
     <!--Cast-->
-    <string name="milink">Trasmetti</string>
     <string name="milink_hyperos">Servizi di interconnettività</string>
     <string name="milink_unlock_mishare">Sblocca l\'interconnessione dei dispositivi</string>
     <string name="milink_allow_camera_devices">Supporto forzato per lo streaming della fotocamera</string>
     <string name="milink_fuck_hpplay">Blocca la creazione di cartelle hpplay</string>
     <!--Sound Recorder-->
     <!--Always-on display-->
-    <string name="aod">Display sempre attivo</string>
     <string name="aod_hyperos">Display sempre attivo e editor schermata di blocco</string>
     <string name="aod_unlock_always_on_display">Sblocca il limite di tempo di visualizzazione dello schermo sempre attivo</string>
     <string name="aod_unlock_aon">Sblocca Aod Aon</string>
@@ -994,8 +855,7 @@
     <string name="gallery_backup_server">Server di backup</string>
     <string name="gallery_backup_server_xiaomi">Xiaomi Cloud Servizio</string>
     <string name="gallery_backup_server_google">Google</string>
-    <!--MIUI security components-->
-    <string name="guard_provider">Componenti di sicurezza MIUI</string>
+    <!--System security components-->
     <string name="guard_provider_hyperos">Componenti di sicurezza del sistema</string>
     <string name="guard_provider_disable_upload_applist">Impedisci il caricamento automatico dell\'elenco delle app installate</string>
     <!--System launcher-->
@@ -1137,7 +997,6 @@
     <string name="home_title_custom_anim_param_stiffness_title">Rigidità</string>
     <string name="home_recent">Recenti</string>
     <string name="home_recent_animation_speed">Velocità di animazione</string>
-    <string name="home_recent_disable_wallpaper_dimming">Disabilita oscuramento dello sfondo</string>
     <string name="home_recent_unlock_pin">Sblocca app aggiunte</string>
     <string name="home_recent_hide_status_bar_in_task_view">Nascondi la barra di stato nella visualizzazione attività</string>
     <string name="home_recent_hide_world_circulate">Nascondi la finestra mobile dell\'app di mirroring dello schermo</string>
@@ -1310,8 +1169,6 @@
     <string name="screenshot_device_customize_desc">Inserisci il codice del dispositivo e il dispositivo colorato deve essere riempito con un suffisso, ad esempio:\n- Xiaomi 13, inserisci il contenuto è fuxi \n- Versione rosa Xiaomi 14, compilare il contenuto è houji_PK</string>
     <!--System Service Plugin-->
     <!--Security/Tablet security center-->
-    <string name="security_center">Sicurezza</string>
-    <string name="security_center_pad">Centro sicurezza tablet</string>
     <string name="security_center_hyperos">Strumenti di sicurezza</string>
     <string name="security_center_app_title">Gestione app</string>
     <string name="security_center_battery_title">Risparmio batteria e batteria</string>
@@ -1322,14 +1179,11 @@
     <string name="security_center_dolby_open">Chiudi la finestra pop-up Dolby</string>
     <string name="security_center_show_battery_temperature">Mostra la temperatura della batteria</string>
     <string name="security_center_show_battery_health">Mostra lo stato dettagliato della batteria</string>
-    <string name="security_center_ai_clipboard">Proteggi gli appunti</string>
-    <string name="security_center_blur_location">Riduci la precisione di posizionamento</string>
     <string name="security_center_gms_open">Servizio GMS</string>
     <string name="security_center_taplus">Interruttori Taplus</string>
     <string name="security_center_reduce_bright_colors_tile">Sostituzione dell\'icona del riquadro molto scuro</string>
     <string name="security_center_flash_light">Torcia controllo della luminosità</string>
     <string name="security_center_flash_light_more">Ti permette di controllare la luminosità della torcia trascinando il cursore della luminosità</string>
-    <string name="security_center_get_number">Gestisci l\'applicazione per ottenere il numero di cellulare e accedi con un clic</string>
     <string name="security_center_applock_pin_scramble">PIN AppLock fuori servizio</string>
     <string name="security_center_applock_pin_scramble_desc">Cambia casualmente il PIN di blocco dell\'app sequenza tastierino</string>
     <string name="security_center_beauty_light_auto">Sblocca Regola automaticamente la luminosità della luce di riempimento</string>
@@ -1469,8 +1323,8 @@
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Metodo di immissione Sogou</string>
     <string name="sogou_xiaomi_clipboard">Rimuovi il limite al numero di appunti</string>
+    <!--Sim Activation Service-->
     <!--Scanner-->
-    <string name="scanner">Scanner</string>
     <string name="scanner_card">Sblocca scansione carta d\'identità</string>
     <string name="scanner_translation">Sblocca traduzione</string>
     <string name="scanner_ocr">Sblocca OCR</string>
@@ -1479,7 +1333,6 @@
     <string name="scanner_ppt">Sblocca scansiona PPT</string>
     <string name="scanner_doc_ppt">Sblocca scansiona file</string>
     <!--MI AI-->
-    <string name="voiceassist">Mi AI</string>
     <string name="voiceassist_disable_watermark">Disabilita filigrana chat</string>
     <!--Voice Trigger-->
     <!--Other-->

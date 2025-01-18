@@ -74,7 +74,6 @@ public class HomeFolderSettings extends DashboardFragment {
             mSmallFolderIconBackgroundCustom2.setTitle(R.string.home_big_folder_icon_bg_1x2_n);
             mSmallFolderIconBackgroundCustom3.setTitle(R.string.home_big_folder_icon_bg_n);
         }
-        mUnlockFolderBlurSupport.setVisible(isMoreHyperOSVersion(1f));
         mRecommendAppsSwitch.setVisible(!isMoreAndroidVersion(35));
         setFolderShadeLevelEnable(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_home_folder_shade", "0")));
 

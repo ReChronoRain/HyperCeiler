@@ -52,7 +52,6 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.PackagePermissions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.PstedClipboard;
 import com.sevtinge.hyperceiler.module.hook.systemframework.QuickScreenshot;
 import com.sevtinge.hyperceiler.module.hook.systemframework.RemoveSmallWindowRestrictions;
-import com.sevtinge.hyperceiler.module.hook.systemframework.RotationButton;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.SpeedInstall;
 import com.sevtinge.hyperceiler.module.hook.systemframework.StickyFloatingWindows;
@@ -64,7 +63,6 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDefaultStream;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDisableSafe;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeFirstPress;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeMediaSteps;
-import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeSeparateControl;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeSteps;
 import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.BypassIsolationViolation;
@@ -106,7 +104,6 @@ public class SystemFrameworkV extends BaseModule {
         // 音量
         initHook(new VolumeDefaultStream(), true);
         initHook(new VolumeFirstPress(), mPrefsMap.getBoolean("system_framework_volume_first_press"));
-        initHook(new VolumeSeparateControl(), mPrefsMap.getBoolean("system_framework_volume_separate_control"));
         initHook(new VolumeSteps(), mPrefsMap.getInt("system_framework_volume_steps", 0) > 0);
         initHook(new VolumeMediaSteps(), mPrefsMap.getBoolean("system_framework_volume_media_steps_enable"));
         initHook(new VolumeDisableSafe(), mPrefsMap.getStringAsInt("system_framework_volume_disable_safe_new", 0) != 0);

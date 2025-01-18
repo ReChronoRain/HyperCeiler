@@ -34,11 +34,7 @@ import de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField
 
 object LockScreenDoubleTapToSleep : BaseHook() {
     private val className by lazy {
-        if (isMoreAndroidVersion(34)) {
-            loadClass("com.android.systemui.shade.NotificationsQuickSettingsContainer")
-        } else {
-            loadClass("com.android.systemui.statusbar.phone.NotificationsQuickSettingsContainer")
-        }
+        loadClass("com.android.systemui.shade.NotificationsQuickSettingsContainer")
     }
 
     override fun init() {

@@ -92,6 +92,7 @@
             app:inflatedXml="@xml/calendar"/>
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.CameraNewFragment"
             android:icon="@drawable/ic_default"
             android:key="prefs_key_camera_2"
             android:summary="com.android.camera"
@@ -214,7 +215,7 @@
             android:icon="@drawable/ic_default"
             android:key="prefs_key_milink"
             android:summary="com.milink.service"
-            android:title="@string/milink" />
+            android:title="@string/milink_hyperos" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"
@@ -228,7 +229,7 @@
             android:icon="@drawable/ic_default"
             android:key="prefs_key_aod"
             android:summary="com.miui.aod"
-            android:title="@string/aod" />
+            android:title="@string/aod_hyperos" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"
@@ -276,7 +277,7 @@
             android:icon="@drawable/ic_default"
             android:key="prefs_key_guardprovider"
             android:summary="com.miui.guardprovider"
-            android:title="@string/guard_provider"
+            android:title="@string/guard_provider_hyperos"
             app:inflatedXml="@xml/guard_provider"/>
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
@@ -375,7 +376,7 @@
             android:icon="@drawable/ic_default"
             android:key="prefs_key_security_center"
             android:summary="com.miui.securitycenter"
-            android:title="@string/security_center" />
+            android:title="@string/security_center_hyperos" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"
@@ -388,7 +389,7 @@
             android:icon="@drawable/ic_default"
             android:key="prefs_key_voiceassist"
             android:summary="com.miui.voiceassist"
-            android:title="@string/voiceassist"
+            android:title="@string/voiceassist_hyper"
             app:inflatedXml="@xml/voiceassist"/>
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
@@ -451,7 +452,7 @@
             android:icon="@drawable/ic_default"
             android:key="prefs_key_scanner"
             android:summary="com.xiaomi.scanner"
-            android:title="@string/scanner"
+            android:title="@string/scanner_hyper"
             app:inflatedXml="@xml/scanner"/>
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader

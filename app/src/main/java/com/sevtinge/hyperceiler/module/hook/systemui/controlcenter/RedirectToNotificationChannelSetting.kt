@@ -35,7 +35,6 @@ import com.github.kyuubiran.ezxhelper.ObjectUtils.getObjectOrNullAs
 import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 
 object RedirectToNotificationChannelSetting : BaseHook() {
     // by starVoyager
@@ -49,38 +48,36 @@ object RedirectToNotificationChannelSetting : BaseHook() {
 
     override fun init() {
         // hyperos fix by yife
-        if (isMoreHyperOSVersion(1f)) {
-            val clazzDependency = loadClass("com.android.systemui.Dependency")
-            val clazzModalController =
-                loadClass("com.android.systemui.statusbar.notification.modal.ModalController")
-            val clazzCommandQueue = loadClass("com.android.systemui.statusbar.CommandQueue")
-            clazzMiuiNotificationMenuRow.methodFinder().filterByName("createMenuViews").first()
-                .createHook {
-                    after { param ->
-                        val mSbn =
-                            getObjectOrNullAs<StatusBarNotification>(param.thisObject, "mSbn") ?: return@after
-                        val mInfoItem =
-                            getObjectOrNull(param.thisObject, "mInfoItem") ?: return@after
-                        initAppContext(getObjectOrNullAs(param.thisObject, "mContext"))
-                        val mIcon = getObjectOrNullAs<ImageView>(mInfoItem, "mIcon") ?: return@after
-                        mIcon.setOnClickListener {
-                            startChannelNotificationSettings(mSbn)
-                            val modalController = invokeStaticMethodBestMatch(
-                                clazzDependency, "get", null, clazzModalController
-                            ) ?: return@setOnClickListener
-                            invokeMethodBestMatch(
-                                modalController, "animExitModal", null, 50L, true, "MORE", false
-                            )
-                            val commandQueue = invokeStaticMethodBestMatch(
-                                clazzDependency, "get", null, clazzCommandQueue
-                            ) ?: return@setOnClickListener
-                            invokeMethodBestMatch(
-                                commandQueue, "animateCollapsePanels", null, 0, false
-                            )
-                        }
+        val clazzDependency = loadClass("com.android.systemui.Dependency")
+        val clazzModalController =
+            loadClass("com.android.systemui.statusbar.notification.modal.ModalController")
+        val clazzCommandQueue = loadClass("com.android.systemui.statusbar.CommandQueue")
+        clazzMiuiNotificationMenuRow.methodFinder().filterByName("createMenuViews").first()
+            .createHook {
+                after { param ->
+                    val mSbn =
+                        getObjectOrNullAs<StatusBarNotification>(param.thisObject, "mSbn") ?: return@after
+                    val mInfoItem =
+                        getObjectOrNull(param.thisObject, "mInfoItem") ?: return@after
+                    initAppContext(getObjectOrNullAs(param.thisObject, "mContext"))
+                    val mIcon = getObjectOrNullAs<ImageView>(mInfoItem, "mIcon") ?: return@after
+                    mIcon.setOnClickListener {
+                        startChannelNotificationSettings(mSbn)
+                        val modalController = invokeStaticMethodBestMatch(
+                            clazzDependency, "get", null, clazzModalController
+                        ) ?: return@setOnClickListener
+                        invokeMethodBestMatch(
+                            modalController, "animExitModal", null, 50L, true, "MORE", false
+                        )
+                        val commandQueue = invokeStaticMethodBestMatch(
+                            clazzDependency, "get", null, clazzCommandQueue
+                        ) ?: return@setOnClickListener
+                        invokeMethodBestMatch(
+                            commandQueue, "animateCollapsePanels", null, 0, false
+                        )
                     }
                 }
-        }
+            }
         clazzMiuiNotificationMenuRow.methodFinder().filterByName("onClickInfoItem").firstOrNull()
             ?.createHook {
                 before { param ->

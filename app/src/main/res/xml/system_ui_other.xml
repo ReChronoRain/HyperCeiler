@@ -21,19 +21,6 @@
     app:myLocation="@string/system_ui_other_title"
     app:quick_restart="com.android.systemui">
     <PreferenceCategory
-        android:key="prefs_key_system_ui_statusbar_charge_animation_title"
-        android:title="@string/system_ui_charge_animation_title">
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_charge_animation_style"
-            android:summary="@string/system_ui_charge_animation_style_desc"
-            android:title="@string/system_ui_charge_animation_style"
-            app:entries="@array/charge_animation_entries"
-            app:entryValues="@array/charge_animation_values" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:key="prefs_key_system_ui_monet"
         android:title="@string/system_ui_monet_title">
 
@@ -148,11 +135,6 @@
     <PreferenceCategory android:title="@string/system_ui_another_title">
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_ui_disable_bluetooth_restrict"
-            android:title="@string/system_ui_disable_bluetooth_restrict" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_ui_disable_volume"
             android:summary="@string/system_ui_disable_volume_desc"
             android:title="@string/system_ui_disable_volume" />
@@ -160,7 +142,6 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_disable_power"
-            android:summary="@string/system_ui_disable_power_desc"
             android:title="@string/system_ui_disable_power" />
 
         <SwitchPreference

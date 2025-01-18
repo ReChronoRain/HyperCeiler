@@ -4,7 +4,7 @@
 
 # HyperCeiler
 
-### Make HyperOS/MIUI Great Again!
+### Make HyperOS Great Again!
 
 [简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;English&nbsp;&nbsp;|&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
 
@@ -12,15 +12,13 @@
 
 ## Currently supported versions
 
-MIUI and HyperOS for Android 13-15
-
-> Note: Android 13 has basically stopped maintenance, only provides temporary support, and no longer accepts feedback.
+HyperOS for Android 14-15
 
 ## Pre-use instructions
 
 Please enable HyperCeiler in [LSPosed](https://github.com/LSPosed/LSPosed/releases), then enable the corresponding feature in the HyperCeiler app and restart the scope (root access required).
 
-This module <b>does not support</b> `third-party MIUI/Xiaomi HyperOS ROMs with a lot of modifications`, `system software with a lot of modifications`, and some `international MIUI/Xiaomi HyperOS ROMs`.
+This module <b>does not support</b> `third-party Xiaomi HyperOS ROMs with a lot of modifications`, `system software with a lot of modifications`, and some `international Xiaomi HyperOS ROMs`.
 
 Currently, HyperCeiler is adapted for Xiaomi HyperOS 2.0 mobile devices based on Android 15. The coverage isn't very comprehensive and requires ongoing testing and improvements.
 

@@ -32,10 +32,7 @@ import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
 public class LockScreenSettings extends DashboardFragment {
-    SwitchPreference mShowSec; // 时钟显示秒数
-    SwitchPreference mForceSystemFonts; // 时钟使用系统字体
     SwitchPreference mPasswordFree; // 开机免输入密码
-    SwitchPreference mChangingCVTime; // 充电信息显示刷新间隔
     SwitchPreference mBlockEditor; // 禁用长按进入锁屏编辑
 
     @Override
@@ -45,16 +42,10 @@ public class LockScreenSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
-        mShowSec = findPreference("prefs_key_system_ui_lock_screen_show_second");
-        mForceSystemFonts = findPreference("prefs_key_system_ui_lock_screen_force_system_fonts");
         mPasswordFree = findPreference("prefs_key_system_ui_lock_screen_password_free");
-        mChangingCVTime = findPreference("prefs_key_system_ui_lock_screen_show_spacing_value");
         mBlockEditor = findPreference("prefs_key_system_ui_lock_screen_block_editor");
 
-        mShowSec.setVisible(!isMoreHyperOSVersion(1f));
-        mForceSystemFonts.setVisible(!isMoreHyperOSVersion(1f));
-        mChangingCVTime.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU));
-        mBlockEditor.setVisible(!isMoreAndroidVersion(Build.VERSION_CODES.VANILLA_ICE_CREAM));
+        mBlockEditor.setVisible(!isMoreAndroidVersion(35));
 
         if (isDeviceEncrypted(requireContext())) {
             mPasswordFree.setChecked(false);

@@ -24,7 +24,6 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.ObjectUtils.setObject
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 object ControlCenterStyle : BaseHook() {
     override fun init() {
@@ -34,11 +33,7 @@ object ControlCenterStyle : BaseHook() {
             }
         }
 
-        if (isMoreAndroidVersion(34)) {
-            loadClass("com.miui.interfaces.SettingsObserver")
-        } else {
-            loadClass("com.miui.systemui.SettingsObserver")
-        }.methodFinder()
+        loadClass("com.miui.interfaces.SettingsObserver").methodFinder()
             .filterByName("setValue\$default").first()
             .createHook {
                 before {

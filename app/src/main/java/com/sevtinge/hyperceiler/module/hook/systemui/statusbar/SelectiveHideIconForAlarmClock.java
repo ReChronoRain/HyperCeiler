@@ -18,12 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMiuiVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
-
 import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -98,17 +92,6 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
                 param.setResult(null);
             }
         });
-
-        if (isAndroidVersion(33) && !isMoreHyperOSVersion(1f)) {
-            findAndHookMethod(mMiuiPhoneStatusBarPolicy, "onMiuiAlarmChanged", new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    lastState = (boolean) XposedHelpers.getObjectField(param.thisObject, "mHasAlarm");
-                    updateAlarmVisibility(param.thisObject, lastState);
-                    param.setResult(null);
-                }
-            });
-        }
     }
 
     private void updateAlarmVisibility(Object thisObject, boolean state) {
@@ -134,10 +117,6 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
             float diffHours = (diffMSec - 59 * 1000) / (1000f * 60f * 60f);
             boolean vis = diffHours <= mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0);
             XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
-            if (!isMoreHyperOSVersion(1f)) {
-                mIconController = XposedHelpers.getObjectField(thisObject, "miuiDripLeftStatusBarIconController");
-                XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
-            }
             logI(TAG, this.lpparam.packageName, "Now is " + diffHours + "min remain, show when " + vis + "min remain.");
         } catch (Throwable t) {
             logE(TAG, this.lpparam.packageName, "updateAlarmVisibility failed", t);

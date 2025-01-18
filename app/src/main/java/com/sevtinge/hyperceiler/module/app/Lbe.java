@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.module.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.lbe.AutoStart;
-import com.sevtinge.hyperceiler.module.hook.lbe.DisableClipboardTip;
 
 @HookBase(targetPackage = "com.lbe.security.miui")
 public class Lbe extends BaseModule {
@@ -29,6 +28,5 @@ public class Lbe extends BaseModule {
     @Override
     public void handleLoadPackage() {
         initHook(new AutoStart(), mPrefsMap.getBoolean("lbe_auto_start"));
-        initHook(DisableClipboardTip.INSTANCE, mPrefsMap.getBoolean("lbe_clipboard_tip_toast"));
     }
 }

@@ -47,7 +47,7 @@
         android:key="prefs_key_security_center_safe_mode_enable"
         android:layout="@layout/preference_header"
         android:summary="com.miui.securitycenter"
-        android:title="@string/security_center" />
+        android:title="@string/security_center_hyperos" />
 
     <SwitchPreference
         android:icon="@drawable/ic_default"

@@ -39,26 +39,21 @@ import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
+import java.util.Objects;
+
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
 
 public class ControlCenterSettings extends DashboardFragment {
 
     Preference mExpandNotification;
-    Preference mMusic;
-    PreferenceCategory mCard;
     PreferenceCategory mOldCCGrid;
-    SwitchPreference mNotice;
-    SwitchPreference mNoticex;
     SwitchPreference mSwitchCCAN;
     SwitchPreference mSpotlightNotifColorMix;
     SeekBarPreferenceCompat mNewCCGrid;
     SeekBarPreferenceCompat mNewCCGridColumns;
-    DropDownPreference mBluetoothSytle;
-    SwitchPreference mThemeBlur;
     SwitchPreference mRedirectNotice;
     SwitchPreference mShadeHeaderBlur;
-    SwitchPreference mNotifrowmenu;
     RecommendPreference mRecommend;
     SwitchPreference mBrightness;
     DropDownPreference mBrightnessValue;
@@ -72,7 +67,7 @@ public class ControlCenterSettings extends DashboardFragment {
 
     @Override
     public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
+        return view -> ((BaseSettingsActivity) requireActivity()).showRestartDialog(
                 getResources().getString(R.string.system_ui),
                 "com.android.systemui"
         );
@@ -80,18 +75,11 @@ public class ControlCenterSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
-        mMusic = findPreference("prefs_key_system_ui_control_center_media_control_media_custom");
-        mCard = findPreference("prefs_key_system_ui_controlcenter_card");
         mOldCCGrid = findPreference("prefs_key_system_ui_controlcenter_old");
         mExpandNotification = findPreference("prefs_key_system_ui_control_center_expand_notification");
         mNewCCGrid = findPreference("prefs_key_system_control_center_cc_rows");
         mNewCCGridColumns = findPreference("prefs_key_system_control_center_cc_columns");
-        mNotice = findPreference("prefs_key_n_enable");
-        mNoticex = findPreference("prefs_key_n_enable_fix");
         mSwitchCCAN = findPreference("prefs_key_system_ui_control_center_switch_cc_and_notification");
-        mBluetoothSytle = findPreference("prefs_key_system_ui_control_center_cc_bluetooth_tile_style");
-        mThemeBlur = findPreference("prefs_key_system_ui_control_center_unlock_blur_supported");
-        mNotifrowmenu = findPreference("prefs_key_system_ui_control_center_notifrowmenu");
         mRedirectNotice = findPreference("prefs_key_system_ui_control_center_redirect_notice");
         mSpotlightNotifColorMix = findPreference("prefs_key_system_ui_control_center_opt_notification_element_background_color");
         mShadeHeaderBlur = findPreference("prefs_key_system_ui_shade_header_gradient_blur");
@@ -112,22 +100,7 @@ public class ControlCenterSettings extends DashboardFragment {
 
         if (isMoreHyperOSVersion(1f)) {
             mNewCCGrid.setVisible(false);
-            mCard.setVisible(false);
             mNewCCGridColumns.setVisible(false);
-            mNotice.setVisible(false);
-            mBluetoothSytle.setVisible(false);
-            mNotifrowmenu.setVisible(false);
-            mMusic.setVisible(true);
-            mThemeBlur.setVisible(true);
-        } else {
-            mNewCCGrid.setVisible(true);
-            mCard.setVisible(true);
-            mNewCCGridColumns.setVisible(true);
-            mNotice.setVisible(true);
-            mBluetoothSytle.setVisible(true);
-            mNotifrowmenu.setVisible(true);
-            mMusic.setVisible(false);
-            mThemeBlur.setVisible(false);
         }
 
         if (isMoreHyperOSVersion(2f)) {
@@ -173,12 +146,10 @@ public class ControlCenterSettings extends DashboardFragment {
         });
 
         Bundle args1 = new Bundle();
-        mRecommend = new RecommendPreference(getContext());
+        mRecommend = new RecommendPreference(requireContext());
         getPreferenceScreen().addPreference(mRecommend);
 
-        if (isMoreHyperOSVersion(1f))
-            args1.putString(":settings:fragment_args_key", "prefs_key_new_clock_status");
-        else args1.putString(":settings:fragment_args_key", "prefs_key_old_clock_status");
+        args1.putString(":settings:fragment_args_key", "prefs_key_new_clock_status");
         mRecommend.addRecommendView(getString(R.string.system_ui_statusbar_clock_title),
                 null,
                 StatusBarSettings.class,

@@ -26,16 +26,8 @@ import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 import fan.preference.DropDownPreference;
 
 public class WeatherFragment extends DashboardFragment {
-
-    DropDownPreference mCardDisplayType;
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.weather;
-    }
-
-    @Override
-    public void initPrefs() {
-        mCardDisplayType = findPreference("prefs_key_weather_card_display_type");
-        mCardDisplayType.setVisible(isMoreHyperOSVersion(1f));
     }
 }

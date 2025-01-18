@@ -52,10 +52,7 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
     Preference mCleanProcessTextApps;
     Preference mAutoStart;
     Preference mClipboardWhitelistApps;
-    SwitchPreference mEntry;
-    SwitchPreference mUseOriginalAnim;
     SwitchPreference mVerifyDisable;
-    SwitchPreference mDisableDeviceLog; // 关闭访问设备日志确认
     SwitchPreference mLockApp;
     SwitchPreference mLockAppSc;
     DropDownPreference mLockAppScreen;
@@ -76,8 +73,6 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
         mAutoStart = findPreference("prefs_key_system_framework_auto_start_apps");
         mClipboardWhitelistApps = findPreference("prefs_key_system_framework_clipboard_whitelist_apps");
         mVerifyDisable = findPreference("prefs_key_system_framework_disable_verify_can_ve_disabled");
-        mUseOriginalAnim = findPreference("prefs_key_system_framework_other_use_original_animation");
-        mEntry = findPreference("prefs_key_system_framework_hook_entry");
         mLockApp = findPreference("prefs_key_system_framework_guided_access");
         mLockAppSc = findPreference("prefs_key_system_framework_guided_access_sc");
         mLockAppScreen = findPreference("prefs_key_system_framework_guided_access_screen_int");
@@ -87,13 +82,6 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
         mLockAppSc.setOnPreferenceChangeListener(this);
         mLockAppScreen.setOnPreferenceChangeListener(this);
         mLockAppStatus.setOnPreferenceChangeListener(this);
-
-        mDisableDeviceLog = findPreference("prefs_key_various_disable_access_device_logs");
-
-        // mVerifyDisable.setVisible(isMoreHyperOSVersion(1f));
-        mEntry.setVisible(isMoreHyperOSVersion(1f));
-        mUseOriginalAnim.setVisible(!isAndroidVersion(33));
-        mDisableDeviceLog.setVisible(isMoreAndroidVersion(33));
 
         mAutoStart.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

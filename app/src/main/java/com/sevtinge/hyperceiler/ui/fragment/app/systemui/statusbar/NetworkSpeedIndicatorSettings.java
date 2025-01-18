@@ -36,7 +36,6 @@ public class NetworkSpeedIndicatorSettings extends DashboardFragment
 
     SeekBarPreferenceCompat mNetworkSpeedSpacing; // 网速间间距
     SwitchPreference mNetworkSwapIcon;
-    SwitchPreference mNetworkSpeedSeparator;
     SwitchPreference mNetworkAllHide;
     DropDownPreference mNetworkAlign;
     DropDownPreference mNetworkStyle;
@@ -55,9 +54,7 @@ public class NetworkSpeedIndicatorSettings extends DashboardFragment
         mNetworkIcon = findPreference("prefs_key_system_ui_statusbar_network_speed_icon");
         mNetworkAllHide = findPreference("prefs_key_system_ui_statusbar_network_speed_hide_all");
         mNetworkSwapIcon = findPreference("prefs_key_system_ui_statusbar_network_speed_swap_places");
-        mNetworkSpeedSeparator = findPreference("prefs_key_system_ui_status_bar_no_netspeed_separator");
         mNetworkSpeedSpacing = findPreference("prefs_key_system_ui_statusbar_network_speed_spacing_margin");
-        mNetworkSpeedSeparator.setVisible(!isMoreHyperOSVersion(1f));
 
         setNetworkMode(mNetworkMode);
         mNetworkStyle.setOnPreferenceChangeListener(this);

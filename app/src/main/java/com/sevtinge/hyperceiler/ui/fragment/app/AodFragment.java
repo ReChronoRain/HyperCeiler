@@ -18,10 +18,6 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.app;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-
-import androidx.preference.SwitchPreference;
-
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
@@ -30,13 +26,5 @@ public class AodFragment extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.aod;
-    }
-
-    @Override
-    public void initPrefs() {
-        SwitchPreference aod = findPreference("prefs_key_aod_unlock_always_on_display");
-        aod.setVisible(!isMoreHyperOSVersion(1f));
-        SwitchPreference aodH = findPreference("prefs_key_aod_unlock_always_on_display_hyper");
-        aodH.setVisible(isMoreHyperOSVersion(1f));
     }
 }

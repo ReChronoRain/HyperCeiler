@@ -53,11 +53,6 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
     private final String TAG = "HomepageEntrance";
     private static EntranceState entranceState = null;
 
-    Preference mSecurityCenter;
-    Preference mMiLink;
-    Preference mAod;
-    Preference mGuardProvider;
-
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.prefs_set_homepage_entrance;
@@ -100,25 +95,6 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
                 }
             }
         });
-        mSecurityCenter = findPreference("prefs_key_security_center_state");
-        mMiLink = findPreference("prefs_key_milink_state");
-        mAod = findPreference("prefs_key_aod_state");
-        mGuardProvider = findPreference("prefs_key_guardprovider_state");
-        if (isMoreHyperOSVersion(1f)) {
-            mAod.setTitle(R.string.aod_hyperos);
-            mMiLink.setTitle(R.string.milink_hyperos);
-            mGuardProvider.setTitle(R.string.guard_provider_hyperos);
-            mSecurityCenter.setTitle(R.string.security_center_hyperos);
-        } else {
-            mAod.setTitle(R.string.aod);
-            mMiLink.setTitle(R.string.milink);
-            mGuardProvider.setTitle(R.string.guard_provider);
-            if (isPad()) {
-                mSecurityCenter.setTitle(R.string.security_center_pad);
-            } else {
-                mSecurityCenter.setTitle(R.string.security_center);
-            }
-        }
 
         setPreference();
     }

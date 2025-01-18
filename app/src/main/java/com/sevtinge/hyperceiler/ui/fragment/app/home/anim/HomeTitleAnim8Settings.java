@@ -63,25 +63,15 @@ public class HomeTitleAnim8Settings extends DashboardFragment {
         mDRR = findPreference("prefs_key_home_title_custom_anim_param_damping_RECT_RATIO_8");
         mSRR = findPreference("prefs_key_home_title_custom_anim_param_stiffness_RECT_RATIO_8");
 
-        if (isMoreHyperOSVersion(1f)) {
-            mDRCX.setDefaultValue(990);
-            mSRCX.setDefaultValue(180);
-            mDRCY.setDefaultValue(990);
-            mSRCY.setDefaultValue(180);
-            mDRW.setDefaultValue(990);
-            mSRW.setDefaultValue(180);
-            mDRR.setDefaultValue(990);
-            mSRR.setDefaultValue(180);
-        } else {
-            mDRCX.setDefaultValue(990);
-            mSRCX.setDefaultValue(180);
-            mDRCY.setDefaultValue(990);
-            mSRCY.setDefaultValue(180);
-            mDRW.setDefaultValue(990);
-            mSRW.setDefaultValue(180);
-            mDRR.setDefaultValue(990);
-            mSRR.setDefaultValue(180);
-        }
+        mDRCX.setDefaultValue(990);
+        mSRCX.setDefaultValue(180);
+        mDRCY.setDefaultValue(990);
+        mSRCY.setDefaultValue(180);
+        mDRW.setDefaultValue(990);
+        mSRW.setDefaultValue(180);
+        mDRR.setDefaultValue(990);
+        mSRR.setDefaultValue(180);
+
     }
 
 }

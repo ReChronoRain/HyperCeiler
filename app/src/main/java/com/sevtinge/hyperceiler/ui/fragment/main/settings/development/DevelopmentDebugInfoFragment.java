@@ -36,12 +36,12 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getModelName;
 // import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSerial;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSoc;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isInternational;
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isLargeUI;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBuildDate;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getCurrentUserId;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getWhoAmI;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
@@ -107,6 +107,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesDevice.put("ModDevice", getModDevice());
             propertiesDevice.put("Characteristics", getCharacteristics());
             propertiesDevice.put("Pad", String.valueOf(isPad()));
+            propertiesDevice.put("Large Screen", String.valueOf(isLargeUI()));
             propertiesDevice.put("FingerPrint", getFingerPrint());
             propertiesDevice.put("Locale", getLocale());
             propertiesDevice.put("Language", getLanguage());
@@ -117,7 +118,6 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
         }
         try {
             propertiesSystem.put("AndroidSdkVersion", String.valueOf(getAndroidVersion()));
-            propertiesSystem.put("MiuiVersion", String.valueOf(getMiuiVersion()));
             propertiesSystem.put("HyperOsVersion", String.valueOf(getHyperOSVersion()));
             propertiesSystem.put("SystemVersion", getSystemVersionIncremental());
             propertiesSystem.put("InternationalBuild", String.valueOf(isInternational()));

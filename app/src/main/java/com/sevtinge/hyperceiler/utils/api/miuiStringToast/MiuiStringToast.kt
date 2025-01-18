@@ -80,18 +80,13 @@ object MiuiStringToast {
                 .setParam(str)
                 .setStatusBarStrongToast("show_custom_strong_toast")
                 .onCreate()
-            if (isMoreHyperOSVersion(1f)) {
-                val service = context.getSystemService(Context.STATUS_BAR_SERVICE)
-                service.javaClass.getMethod(
-                    "setStatus",
-                    Int::class.javaPrimitiveType,
-                    String::class.java,
-                    Bundle::class.java
-                )
-                    .invoke(service, 1, "strong_toast_action", bundle)
-            } else {
-                Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-            }
+            val service = context.getSystemService(Context.STATUS_BAR_SERVICE)
+            service.javaClass.getMethod(
+                "setStatus",
+                Int::class.javaPrimitiveType,
+                String::class.java,
+                Bundle::class.java
+            ).invoke(service, 1, "strong_toast_action", bundle)
         } catch (e: IllegalAccessException) {
             throw RuntimeException(e)
         } catch (e: InvocationTargetException) {

@@ -36,64 +36,51 @@ public class VolumeDisableSafe extends BaseHook {
 
     @Override
     public void init() {
-        if (isMoreAndroidVersion(34)) {
-            Class<?> SoundDoseHelperStub;
-            Class<?> SoundDoseHelper = findClass("com.android.server.audio.SoundDoseHelper", lpparam.classLoader);
-            try {
-                SoundDoseHelperStub = findClass("com.android.server.audio.SoundDoseHelperStub", lpparam.classLoader);
-            } catch (Throwable t) {
-                SoundDoseHelperStub = findClass("com.android.server.audio.SoundDoseHelperStubImpl", lpparam.classLoader);
-            }
-
-            findAndHookMethod(SoundDoseHelperStub, "updateSafeMediaVolumeIndex", int.class, new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) throws Throwable {
-                    if (mode == 1) {
-                        param.setResult(2147483646);
-                        return;
-                    }
-                    if (isHeadsetOn) param.setResult(2147483646);
-                }
-            });
-
-            findAndHookMethod(SoundDoseHelper, "safeMediaVolumeIndex", int.class, new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) throws Throwable {
-                    if (mode == 1) {
-                        param.setResult(2147483646);
-                        return;
-                    }
-                    if (isHeadsetOn) param.setResult(2147483646);
-                }
-            });
-
-            hookAllConstructors(SoundDoseHelper, new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) throws Throwable {
-                    if (mode == 1) {
-                        return;
-                    }
-                    Context context = (Context) param.args[1];
-                    IntentFilter intentFilter = new IntentFilter();
-                    intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
-                    intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-                    intentFilter.addAction(AudioManager.ACTION_HEADSET_PLUG);
-                    context.registerReceiver(new Listener(), intentFilter);
-                }
-            });
-
-        } else {
-            findAndHookMethod("com.android.server.audio.AudioService", "safeMediaVolumeIndex", new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) throws Throwable {
-                    if (mode == 1) {
-                        param.setResult(2147483646);
-                        return;
-                    }
-                    if (isHeadsetOn) param.setResult(2147483646);
-                }
-            });
+        Class<?> SoundDoseHelperStub;
+        Class<?> SoundDoseHelper = findClass("com.android.server.audio.SoundDoseHelper", lpparam.classLoader);
+        try {
+            SoundDoseHelperStub = findClass("com.android.server.audio.SoundDoseHelperStub", lpparam.classLoader);
+        } catch (Throwable t) {
+            SoundDoseHelperStub = findClass("com.android.server.audio.SoundDoseHelperStubImpl", lpparam.classLoader);
         }
+
+        findAndHookMethod(SoundDoseHelperStub, "updateSafeMediaVolumeIndex", int.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                if (mode == 1) {
+                    param.setResult(2147483646);
+                    return;
+                }
+                if (isHeadsetOn) param.setResult(2147483646);
+            }
+        });
+
+        findAndHookMethod(SoundDoseHelper, "safeMediaVolumeIndex", int.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                if (mode == 1) {
+                    param.setResult(2147483646);
+                    return;
+                }
+                if (isHeadsetOn) param.setResult(2147483646);
+            }
+        });
+
+        hookAllConstructors(SoundDoseHelper, new MethodHook() {
+            @Override
+            protected void after(MethodHookParam param) throws Throwable {
+                if (mode == 1) {
+                    return;
+                }
+                Context context = (Context) param.args[1];
+                IntentFilter intentFilter = new IntentFilter();
+                intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+                intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+                intentFilter.addAction(AudioManager.ACTION_HEADSET_PLUG);
+                context.registerReceiver(new Listener(), intentFilter);
+            }
+        });
+
     }
 
     private static class Listener extends BroadcastReceiver {

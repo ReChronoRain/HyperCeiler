@@ -185,11 +185,6 @@ public class HomePageFragment extends DashboardFragment
         );
     }
 
-    Preference mCamera;
-    Preference mSecurityCenter;
-    Preference mMiLink;
-    Preference mAod;
-    Preference mGuardProvider;
     Preference mHeadtipWarn;
     Preference mHeadtipNotice;
     Preference mHeadtipBirthday;
@@ -233,38 +228,11 @@ public class HomePageFragment extends DashboardFragment
                 }
             }
         });
-        mCamera = findPreference("prefs_key_camera_2");
-        mSecurityCenter = findPreference("prefs_key_security_center");
-        mMiLink = findPreference("prefs_key_milink");
-        mAod = findPreference("prefs_key_aod");
-        mGuardProvider = findPreference("prefs_key_guardprovider");
         mHeadtipWarn = findPreference("prefs_key_headtip_warn");
         mHeadtipNotice = findPreference("prefs_key_headtip_notice");
         mHeadtipBirthday = findPreference("prefs_key_headtip_hyperceiler_birthday");
         mHeadtipHyperCeiler = findPreference("prefs_key_headtip_hyperceiler");
         mHeadtipTip = findPreference("prefs_key_headtip_tip");
-
-        if (isHyperOSVersion(1f)) {
-            mSecurityCenter.setTitle(R.string.security_center_hyperos);
-        } else {
-            if (isPad()) {
-                mSecurityCenter.setTitle(R.string.security_center_pad);
-            } else {
-                mSecurityCenter.setTitle(R.string.security_center);
-            }
-        }
-
-        if (isMoreHyperOSVersion(1f)) {
-            mCamera.setFragment("com.sevtinge.hyperceiler.ui.fragment.app.CameraNewFragment");
-            mAod.setTitle(R.string.aod_hyperos);
-            mMiLink.setTitle(R.string.milink_hyperos);
-            mGuardProvider.setTitle(R.string.guard_provider_hyperos);
-        } else {
-            mCamera.setFragment("com.sevtinge.hyperceiler.ui.fragment.app.CameraFragment");
-            mAod.setTitle(R.string.aod);
-            mMiLink.setTitle(R.string.milink);
-            mGuardProvider.setTitle(R.string.guard_provider);
-        }
 
         setPreference();
 

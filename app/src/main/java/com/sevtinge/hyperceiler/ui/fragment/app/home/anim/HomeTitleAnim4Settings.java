@@ -1,24 +1,22 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2025 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2025 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment.app.home.anim;
-
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.view.View;
 
@@ -41,7 +39,7 @@ public class HomeTitleAnim4Settings extends DashboardFragment {
     SeekBarPreferenceCompat mSR;
     SeekBarPreferenceCompat mDA;
     SeekBarPreferenceCompat mSA;
-    
+
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.home_title_anim_4;
@@ -49,9 +47,9 @@ public class HomeTitleAnim4Settings extends DashboardFragment {
 
     @Override
     public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.mihome),
-            "com.miui.home"
+        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
+                getResources().getString(R.string.mihome),
+                "com.miui.home"
         );
     }
 
@@ -70,32 +68,18 @@ public class HomeTitleAnim4Settings extends DashboardFragment {
         mDA = findPreference("prefs_key_home_title_custom_anim_param_damping_ALPHA_4");
         mSA = findPreference("prefs_key_home_title_custom_anim_param_stiffness_ALPHA_4");
 
-        if (isMoreHyperOSVersion(1f)) {
-            mDRCX.setDefaultValue(900);
-            mSRCX.setDefaultValue(400);
-            mDRCY.setDefaultValue(900);
-            mSRCY.setDefaultValue(400);
-            mDRW.setDefaultValue(900);
-            mSRW.setDefaultValue(400);
-            mDRR.setDefaultValue(970);
-            mSRR.setDefaultValue(350);
-            mDR.setDefaultValue(900);
-            mSR.setDefaultValue(400);
-            mDA.setDefaultValue(900);
-            mSA.setDefaultValue(400);
-        } else {
-            mDRCX.setDefaultValue(950);
-            mSRCX.setDefaultValue(315);
-            mDRCY.setDefaultValue(950);
-            mSRCY.setDefaultValue(315);
-            mDRW.setDefaultValue(950);
-            mSRW.setDefaultValue(315);
-            mDRR.setDefaultValue(950);
-            mSRR.setDefaultValue(270);
-            mDR.setDefaultValue(990);
-            mSR.setDefaultValue(270);
-            mDA.setDefaultValue(990);
-            mSA.setDefaultValue(270);
-        }
+        mDRCX.setDefaultValue(900);
+        mSRCX.setDefaultValue(400);
+        mDRCY.setDefaultValue(900);
+        mSRCY.setDefaultValue(400);
+        mDRW.setDefaultValue(900);
+        mSRW.setDefaultValue(400);
+        mDRR.setDefaultValue(970);
+        mSRR.setDefaultValue(350);
+        mDR.setDefaultValue(900);
+        mSR.setDefaultValue(400);
+        mDA.setDefaultValue(900);
+        mSA.setDefaultValue(400);
+
     }
 }

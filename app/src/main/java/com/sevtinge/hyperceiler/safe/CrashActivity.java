@@ -81,13 +81,7 @@ public class CrashActivity extends AppCompatActivity {
         appNameMap.put("com.android.settings", getString(R.string.system_settings));
         appNameMap.put("com.miui.home", getString(R.string.mihome));
         appNameMap.put("com.hchen.demo", getString(R.string.demo));
-        if (isMoreHyperOSVersion(1f)) {
-            appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_hyperos));
-        } else if (isPad()) {
-            appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_pad));
-        } else {
-            appNameMap.put("com.miui.securitycenter", getString(R.string.security_center));
-        }
+        appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_hyperos));
         String pkg = getReportCrashPkg(code);
         String appName = appNameMap.get(pkg);
         String msg = getString(R.string.safe_mode_desc, " " + appName + " (" + pkg + ") ");

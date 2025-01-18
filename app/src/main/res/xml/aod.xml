@@ -18,17 +18,9 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:myLocation="@string/aod"
-    app:myLocationHyper="@string/aod_hyperos"
+    app:myLocation="@string/aod_hyperos"
     app:quick_restart="com.miui.aod">
-
     <PreferenceCategory>
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_aod_unlock_always_on_display"
-            android:title="@string/aod_unlock_always_on_display" />
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_aod_unlock_always_on_display_hyper"

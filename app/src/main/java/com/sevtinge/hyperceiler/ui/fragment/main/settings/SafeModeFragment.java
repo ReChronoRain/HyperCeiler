@@ -65,7 +65,6 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
         mSystemUi = findPreference("prefs_key_system_ui_safe_mode_enable");
         mSecurityCenter = findPreference("prefs_key_security_center_safe_mode_enable");
         mDemo = findPreference("prefs_key_demo_safe_mode_enable");
-        mSecurityCenter.setTitle(isMoreHyperOSVersion(1f) ? R.string.security_center_hyperos : R.string.security_center);
         mDemo.setVisible(Objects.equals(BuildConfig.BUILD_TYPE, "debug"));
         mSystemUi.setChecked(mPkgList.contains("systemui"));
         mSettings.setChecked(mPkgList.contains("settings"));

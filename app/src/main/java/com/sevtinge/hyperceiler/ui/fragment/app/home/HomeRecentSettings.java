@@ -36,7 +36,6 @@ import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 public class HomeRecentSettings extends DashboardFragment {
 
     Preference mHideRecentCard;
-    SwitchPreference mDimming;
     SwitchPreference mShowMenInfo;
     SwitchPreference mHideCleanIcon;
     SwitchPreference mNotHideCleanIcon;
@@ -60,7 +59,6 @@ public class HomeRecentSettings extends DashboardFragment {
         mShowMenInfo = findPreference("prefs_key_home_recent_show_memory_info");
         mHideCleanIcon = findPreference("prefs_key_home_recent_hide_clean_up");
         mNotHideCleanIcon = findPreference("prefs_key_always_show_clean_up");
-        mDimming = findPreference("prefs_key_home_recent_disable_wallpaper_dimming");
 
         mHideRecentCard.setOnPreferenceClickListener(
                 preference -> {
@@ -72,7 +70,6 @@ public class HomeRecentSettings extends DashboardFragment {
                 }
         );
 
-        mDimming.setVisible(!isMoreHyperOSVersion(1f));
         mShowMenInfo.setVisible(isPad());
 
         mHideCleanIcon.setOnPreferenceChangeListener((preference, o) -> {

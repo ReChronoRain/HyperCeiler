@@ -18,8 +18,7 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:myLocation="@string/voiceassist"
-    app:myLocationHyper="@string/voiceassist_hyper"
+    app:myLocation="@string/voiceassist_hyper"
     app:quick_restart="com.miui.voiceassist">
     <SwitchPreference
         android:title="@string/voiceassist_disable_watermark"

@@ -189,7 +189,7 @@
             android:key="prefs_key_milink_state"
             android:layout="@layout/preference_header"
             android:summary="com.milink.service"
-            android:title="@string/milink" />
+            android:title="@string/milink_hyperos" />
 
         <SwitchPreference
             android:defaultValue="true"
@@ -205,7 +205,7 @@
             android:key="prefs_key_aod_state"
             android:layout="@layout/preference_header"
             android:summary="com.miui.aod"
-            android:title="@string/aod" />
+            android:title="@string/aod_hyperos" />
 
         <SwitchPreference
             android:defaultValue="true"
@@ -261,7 +261,7 @@
             android:key="prefs_key_guardprovider_state"
             android:layout="@layout/preference_header"
             android:summary="com.miui.guardprovider"
-            android:title="@string/guard_provider" />
+            android:title="@string/guard_provider_hyperos" />
 
         <SwitchPreference
             android:defaultValue="true"
@@ -374,7 +374,7 @@
             android:key="prefs_key_security_center_state"
             android:layout="@layout/preference_header"
             android:summary="com.miui.securitycenter"
-            android:title="@string/security_center" />
+            android:title="@string/security_center_hyperos" />
 
         <SwitchPreference
             android:defaultValue="true"
@@ -390,7 +390,7 @@
             android:key="prefs_key_voiceassist_state"
             android:layout="@layout/preference_header"
             android:summary="com.miui.voiceassist"
-            android:title="@string/voiceassist" />
+            android:title="@string/voiceassist_hyper" />
 
         <SwitchPreference
             android:defaultValue="true"
@@ -471,7 +471,7 @@
             android:key="prefs_key_scanner_state"
             android:layout="@layout/preference_header"
             android:summary="com.xiaomi.scanner"
-            android:title="@string/scanner" />
+            android:title="@string/scanner_hyper" />
 
         <SwitchPreference
             android:defaultValue="true"

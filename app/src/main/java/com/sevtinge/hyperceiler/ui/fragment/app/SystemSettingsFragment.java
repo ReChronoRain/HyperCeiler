@@ -19,10 +19,6 @@
 package com.sevtinge.hyperceiler.ui.fragment.app;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
 
 import android.os.Bundle;
 import android.provider.Settings;
@@ -40,12 +36,7 @@ import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import fan.preference.SeekBarPreferenceCompat;
 
 public class SystemSettingsFragment extends DashboardFragment {
-    SwitchPreference mNewNfc; // 新版 NFC 界面
-    SwitchPreference mAreaScreenshot; // 区域截屏
-    SwitchPreference mHighMode; // 极致模式
-    SwitchPreference mNoveltyHaptic; // 新版触感调节页面
     SwitchPreference mPad; // 解锁平板分区
-    SwitchPreference mNotice; // 重要通知程度
     SwitchPreference mUiMode;
     RecommendPreference mRecommend;
 
@@ -64,24 +55,11 @@ public class SystemSettingsFragment extends DashboardFragment {
 
     @Override
     public void initPrefs() {
-        mHighMode = findPreference("prefs_key_system_settings_develop_speed_mode");
-        mAreaScreenshot = findPreference("prefs_key_system_settings_area_screenshot");
-        mNewNfc = findPreference("prefs_key_system_settings_new_nfc_page");
-        mNoveltyHaptic = findPreference("prefs_key_system_settings_novelty_haptic");
         mPad = findPreference("prefs_key_system_settings_enable_pad_area");
-        mNotice = findPreference("prefs_key_system_settings_more_notification_settings");
         mUiMode = findPreference("prefs_key_system_settings_unlock_ui_mode");
 
         mUiMode.setVisible(isPad());
-        mHighMode.setVisible(!isAndroidVersion(30));
-        mAreaScreenshot.setVisible(isAndroidVersion(30));
-        mNewNfc.setVisible((isMoreMiuiVersion(14f) || isMoreHyperOSVersion(1f)) && isMoreAndroidVersion(33));
-        mNoveltyHaptic.setVisible((isMoreMiuiVersion(14f) || isMoreHyperOSVersion(1f)) && isMoreAndroidVersion(31));
         mPad.setVisible(isPad());
-
-        if (isMoreHyperOSVersion(1f)) {
-            mNotice.setSummary(R.string.system_settings_restart_systemui_desc);
-        }
 
         Bundle args1 = new Bundle();
         mRecommend = new RecommendPreference(getContext());

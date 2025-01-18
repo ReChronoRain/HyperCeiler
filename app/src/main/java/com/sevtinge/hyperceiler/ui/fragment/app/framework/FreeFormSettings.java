@@ -18,29 +18,16 @@
  */
 package com.sevtinge.hyperceiler.ui.fragment.app.framework;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
-
-import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.activity.base.BaseSettingsActivity;
+
 import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
 
-import androidx.preference.SwitchPreference;
-
 public class FreeFormSettings extends DashboardFragment {
-
-    SwitchPreference mMoreFreeForm; // 多小窗
 
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.framework_freeform;
     }
 
-    @Override
-    public void initPrefs() {
-        mMoreFreeForm = findPreference("prefs_key_system_framework_freeform_count");
-        mMoreFreeForm.setVisible(isMoreMiuiVersion(13f) || isMoreHyperOSVersion(1f));
-    }
 }

@@ -32,11 +32,8 @@ public class MuteVisibleNotifications extends BaseHook {
 
     @Override
     public void init() {
-        if (isMoreAndroidVersion(34)) {
-            NotificationLoadClass = "com.android.systemui.statusbar.notification.policy.MiuiAlertManager";
-        } else {
-            NotificationLoadClass = "com.android.systemui.statusbar.notification.policy.NotificationAlertController";
-        }
+        NotificationLoadClass = "com.android.systemui.statusbar.notification.policy.MiuiAlertManager";
+
         hookAllMethods(NotificationLoadClass, lpparam.classLoader, "buzzBeepBlink", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {

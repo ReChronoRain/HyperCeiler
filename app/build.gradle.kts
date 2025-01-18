@@ -90,11 +90,11 @@ fun loadPropertiesFromFile(fileName: String): Properties? {
 android {
     namespace = "com.sevtinge.hyperceiler"
     compileSdk = 35
-    buildToolsVersion = "35.0.0"
+    buildToolsVersion = "35.0.1"
 
     defaultConfig {
         applicationId = namespace
-        minSdk = 33
+        minSdk = 34
         targetSdk = 35
         versionCode = getVersionCode()
         versionName = "2.5.156"

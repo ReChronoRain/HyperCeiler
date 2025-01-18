@@ -19,7 +19,7 @@
   -->
 <resources>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">讓 HyperOS/MIUI 再次偉大！</string>
+    <string name="xposed_description">讓 HyperOS 再次偉大！</string>
     <string name="new_permission_wifi_state_desc">在裝置的內部儲存空間新增和刪除檔案</string>
     <string name="new_permission_location_desc">用於提供緯度和經度等服務</string>
     <string name="new_cta_agree_desc">喺使用過程中，為咗為您提供更多功能，我哋可能會向您申請 Root/Su 權限。您可隨時前往權限管理調整所有權限嘅授權情況，Root/Su 權限請前往您嘅 Root/Su 管理器進行管理。</string>
@@ -202,10 +202,6 @@
     <string name="feature">功能</string>
     <string name="recommend">推薦</string>
     <string name="editor">編輯</string>
-    <string name="record">錄影</string>
-    <string name="shot">拍照</string>
-    <string name="portrait">人像</string>
-    <string name="camera_pro">專業</string>
     <string name="enable">啟用</string>
     <string name="disable">停用</string>
     <string name="custom_enable">啟用自訂</string>
@@ -309,8 +305,6 @@
     <string name="app_sort_frequency">使用頻率</string>
     <string name="app_sort_storage">存儲佔用</string>
     <string name="app_sort_install">安裝時間</string>
-    <string name="array_bluetooth_tile_style_3rows">三個大磁貼</string>
-    <string name="array_bluetooth_tile_style_2rows2cols">大尺寸磁貼與兩個小磁貼</string>
     <string name="array_pa_blur_official">官方自備模糊</string>
     <string name="array_bpa_blur_customize">自訂背景模糊</string>
     <string name="control_center_sunshine_mode_default">關閉</string>
@@ -364,11 +358,9 @@
     <string name="system_framework_freeform_content_extension_desc">僅支援鏈接</string>
     <string name="system_framework_default_volume_stream">預設調整音量</string>
     <string name="system_framework_volume_first_press">音量即時調整</string>
-    <string name="system_framework_volume_separate_control">音量獨立控制</string>
     <string name="system_framework_volume_disable_safe">移除高音量安全限制</string>
     <string name="default_volume_safe_all">對全部情況啟用</string>
     <string name="default_volume_safe_headset">僅連接耳機時啟用</string>
-    <string name="system_framework_volume_separate_slider">通知音量滑動條</string>
     <string name="system_framework_volume_media_steps">媒體音量階數</string>
     <string name="system_framework_volume_media_steps_desc">可能會導致音量條的滾動卡頓或藍牙音量異常</string>
     <string name="system_framework_volume_steps">音量級數倍增</string>
@@ -483,52 +475,7 @@
     <string name="camera_custom_watermark">自訂設備水印</string>
     <string name="camera_custom_watermark_manufacturer">廠商信息</string>
     <string name="camera_custom_watermark_device">機型信息</string>
-    <string name="camera_features_unlock_aiwatermark">解鎖 AI 浮水印</string>
-    <string name="camera_features_unlock_ambilight">解鎖長曝光</string>
-    <string name="camera_features_unlock_clone">解鎖魔法分身</string>
-    <string name="camera_features_unlock_cosmetic_mirror">解鎖化妝鏡</string>
-    <string name="camera_features_unlock_doc">解鎖文件</string>
-    <string name="camera_features_unlock_idcard">解鎖身份證拍攝</string>
-    <string name="camera_features_unlock_dualcam">解鎖前後雙景</string>
-    <string name="camera_features_unlock_duration">解鎖延時攝影</string>
-    <string name="camera_features_unlock_milive">解鎖短視頻</string>
-    <string name="camera_features_unlock_moon">解鎖超級月亮</string>
-    <string name="camera_features_unlock_pano">解鎖全景</string>
-    <string name="camera_features_unlock_pixel">解鎖超解析度模式</string>
-    <string name="camera_features_unlock_portrait">解鎖人像</string>
-    <string name="camera_features_unlock_slow">解鎖慢動作</string>
-    <string name="camera_features_unlock_videosky">解鎖 Video-sky</string>
-    <string name="camera_features_unlock_vlog">解鎖 VLOG</string>
-    <string name="camera_features_unlock_vlog_pro">解鎖 VLOG Pro</string>
-    <string name="camera_features_unlock_film">解鎖電影鏡頭</string>
-    <string name="camera_features_unlock_film_delay">解鎖長曝光延時</string>
-    <string name="camera_features_unlock_film_dollyzoom">解鎖滑動變焦</string>
-    <string name="camera_features_unlock_film_dream">解鎖平行夢境</string>
-    <string name="camera_features_unlock_film_slowshutter">解鎖慢快門</string>
-    <string name="camera_features_unlock_film_timebackflow">解鎖時光倒流</string>
-    <string name="camera_features_unlock_film_timefreeze">解鎖時間靜止</string>
     <string name="camera_shot_hand_gesture">解鎖手勢拍照</string>
-    <string name="camera_shot_color_enhance">解鎖艷麗模式</string>
-    <string name="camera_shot_makeup">解鎖妝容</string>
-    <string name="camera_shot_makeup_desc">僅在使用前置鏡頭時生效</string>
-    <string name="camera_record_60fps">解鎖 60FPS</string>
-    <string name="camera_record_60fps_desc">部分畫質下唔可用，部分設備硬件唔支持</string>
-    <string name="camera_record_120fps">解鎖 120FPS</string>
-    <string name="camera_record_120fps_desc">僅 4K 模式支持, 部分設備硬件唔支持</string>
-    <string name="camera_record_audio_zoom">解鎖音源變焦</string>
-    <string name="camera_record_hdr">解鎖 HDR</string>
-    <string name="camera_record_ai">解鎖 AI 模式</string>
-    <string name="camera_portrait_new_beauty">解鎖新版美顏</string>
-    <string name="camera_portrait_new_beauty_desc">僅在使用前置鏡頭時生效</string>
-    <string name="camera_portrait_cvlens">解鎖大師鏡頭</string>
-    <string name="camera_portrait_cvlens_desc">部分設備無法正常工作</string>
-    <string name="camera_pro_raw">解鎖 RAW</string>
-    <string name="camera_pro_log">解鎖 LOG</string>
-    <string name="camera_settings_heic">解鎖 HEIF 格式</string>
-    <string name="camera_settings_track_focus">解鎖萬物追焦</string>
-    <string name="camera_settings_predictive">解鎖運動抓拍</string>
-    <string name="camera_settings_nevus">解鎖除痣</string>
-    <string name="camera_settings_men_makeup">解鎖男性妝容適配</string>
     <string name="camera_settings_lab_options">啟用實驗室選項</string>
     <string name="camera_settings_track_eyes">解鎖人眼追焦</string>
     <string name="camera_max_brightness">使用相機時使屏幕亮度最大</string>
@@ -584,9 +531,7 @@
     <string name="system_ui_lock_screen_hide_camera">禁用相機</string>
     <string name="system_ui_lock_screen_hide_smart_screen">禁用資訊助理</string>
     <string name="system_ui_lock_screen_current">當前</string>
-    <string name="system_ui_lock_screen_show_second">時鐘顯示秒數</string>
     <string name="system_ui_lock_screen_blur_button">相機同負一屏按鈕背景模糊</string>
-    <string name="system_ui_lock_screen_force_system_fonts">時鐘強制使用系統字體</string>
     <string name="system_ui_lock_screen_double_lock">雙擊鎖屏</string>
     <string name="system_ui_lock_screen_double_lock_desc">雙擊空白處鎖定螢幕</string>
     <string name="system_ui_lock_screen_unlock_notification_restrict">解除通知限制</string>
@@ -620,12 +565,7 @@
     <string name="system_ui_statusbar_iconmanage_title">圖標</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">網速指示器</string>
     <string name="system_ui_statusbar_clock_title">時鐘指示器</string>
-    <string name="system_ui_statusbar_device_title">硬件指示器</string>
     <string name="system_ui_statusbar_strong_toast_title">靈動舞台</string>
-    <string name="system_ui_statusbar_layout_title">佈局</string>
-    <string name="system_ui_statusbar_layout_compatibility_mode_title">相容模式</string>
-    <string name="system_ui_statusbar_layout_compatibility_mode_desc">對所有異形螢幕強制開啟完整螢幕版面配置</string>
-    <string name="system_ui_statusbar_layout_mode_title">佈局模式</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">雙擊狀態欄鎖屏</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">雙排蜂窩移動網絡圖示</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">圖示主題</string>
@@ -654,8 +594,6 @@
     <string name="system_ui_statusbar_iconmanage_devices_title">裝置</string>
     <string name="system_ui_statusbar_iconmanage_internet_title">網絡連接</string>
     <string name="system_ui_statusbar_iconmanage_privacy_title">私隱資訊</string>
-    <string name="system_ui_statusbar_iconmanage_left_title">圖標左側顯示</string>
-    <string name="system_ui_statusbar_iconmanage_right_title">圖標右側顯示</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_slave">輔助 WIFI 圖標</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Wi-Fi 標準</string>
@@ -698,23 +636,17 @@
     <string name="system_ui_status_bar_icon_soundbox_group_stereo">小愛音箱組合立體聲</string>
     <string name="system_ui_status_bar_icon_tv">電視</string>
     <string name="system_ui_status_bar_icon_wireless_headset">無線耳機</string>
-    <string name="system_ui_status_bar_notification_dots_maximum">通知點數最大數量</string>
     <string name="system_ui_status_bar_notification_icon_maximum">通知圖示最大數量</string>
     <string name="system_ui_status_bar_battery_percent">隱藏電量百分比</string>
     <string name="system_ui_status_bar_battery_percent_mark">隱藏電量百分比符號</string>
     <string name="system_ui_status_bar_battery_charging">隱藏充電指示器</string>
     <string name="system_ui_status_bar_battery_icon">隱藏電池圖示</string>
     <string name="system_ui_status_bar_battery_style_title">電池自訂</string>
-    <string name="system_ui_status_bar_battery_indicator_title">電量指示器</string>
     <string name="system_ui_status_bar_wifi_at_left">Wi-Fi</string>
     <string name="system_ui_status_bar_mobile_network_at_left">移動網絡</string>
     <string name="system_ui_status_bar_swap_wifi_and_mobile_network">交換 WIFI 同移動網絡</string>
     <string name="system_ui_status_bar_network_speed_at_right">網絡速度</string>
     <string name="system_ui_status_bar_volume_at_right">聲音情境</string>
-    <string name="system_ui_status_bar_use_new_hd">強制使用新 HD 圖示</string>
-    <string name="system_ui_status_bar_use_new_hd_summary">僅支援部分系统版本</string>
-    <string name="system_ui_status_bar_no_netspeed_separator_title">網速分隔符號</string>
-    <string name="system_ui_status_bar_no_netspeed_separator_desc">於居中攝像頭嘅設備上唔顯示時間同網速間嘅豎線</string>
     <string name="system_ui_status_bar_hide_icon">截圖時隱藏狀態欄</string>
     <string name="system_ui_status_bar_mobile_type_single_title">蜂窩移動網絡類型圖示</string>
     <string name="system_ui_statusbar_network_speed_all_status">啟用修改</string>
@@ -730,21 +662,9 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">網速值低於該水平時被認為慢，部分指示器圖示會有所不同</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">網速隱藏 *b/s 單位</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器圖示</string>
-    <string name="system_ui_statusbar_clock_mode">自訂時鐘模式</string>
-    <string name="system_ui_statusbar_clock_editor">時鐘格式</string>
-    <string name="system_ui_statusbar_clock_year">顯示年份</string>
-    <string name="system_ui_statusbar_clock_month">顯示月份</string>
-    <string name="system_ui_statusbar_clock_date">顯示日期</string>
-    <string name="system_ui_statusbar_clock_week">顯示星期</string>
-    <string name="system_ui_statusbar_clock_hour_cn">顯示時辰</string>
-    <string name="system_ui_statusbar_clock_period">顯示時段</string>
-    <string name="system_ui_statusbar_clock_second">顯示秒數</string>
-    <string name="system_ui_statusbar_clock_hide_space">隱藏間隔</string>
-    <string name="system_ui_statusbar_clock_double">雙排顯示</string>
     <string name="system_ui_statusbar_clock_double_mode_title">雙排對齊方式</string>
     <string name="system_ui_statusbar_clock_desc">時鐘格式範例</string>
     <string name="system_ui_statusbar_clock_size">時鐘大小</string>
-    <string name="system_ui_statusbar_clock_double_size">雙排時鐘大小</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">僅在雙排顯示下生效</string>
     <string name="system_ui_statusbar_clock_fix_color">修復時鐘反色時的顏色異常</string>
     <string name="system_ui_disable_clock_anim">禁用通知中心下滑時鐘過渡動畫</string>
@@ -760,35 +680,6 @@
     <string name="system_ui_statusbar_clock_editor_s">狀態欄時鐘格式</string>
     <string name="system_ui_statusbar_clock_editor_n">通知中心迷你時鐘格式</string>
     <string name="system_ui_statusbar_clock_style_f">狀態欄時鐘排列</string>
-    <string name="system_ui_statusbar_indicator_battery_title">功耗相關</string>
-    <string name="system_ui_statusbar_indicator_temperature_title">溫度相關</string>
-    <string name="system_ui_statusbar_battery_size">字體大小</string>
-    <string name="system_ui_statusbar_battery_show">顯示內容</string>
-    <string name="system_ui_statusbar_temp_decimal_places">隱藏小數位</string>
-    <string name="system_ui_statusbar_battery_disable">隱藏單位</string>
-    <string name="system_ui_statusbar_battery_right_show">右側顯示</string>
-    <string name="system_ui_statusbar_battery_electric_current">電流總顯示正值</string>
-    <string name="system_ui_statusbar_battery_line_show">單排顯示</string>
-    <string name="system_ui_statusbar_battery_opposite">反序</string>
-    <string name="system_ui_statusbar_battery_only_changing_show">僅在充電時顯示</string>
-    <string name="system_ui_statusbar_battery_update_spacing">狀態更新間隔</string>
-    <string name="system_ui_statusbar_temp_fix_cpu">更改 CPU 溫度獲取源</string>
-    <string name="system_ui_statusbar_temp_fix_cpu_desc">輸入 /sys/devices/virtual/thermal/ 資料夾下 thermal_zone* 資料夾後的數位以指定源</string>
-    <string name="system_ui_status_bar_battery_indicator_centered">置中</string>
-    <string name="system_ui_status_bar_battery_indicator_rounded">圓角</string>
-    <string name="system_ui_status_bar_battery_indicator_limitvis">限制可見性</string>
-    <string name="system_ui_status_bar_battery_indicator_align">垂直對齊</string>
-    <string name="system_ui_status_bar_battery_indicator_color">顏色</string>
-    <string name="system_ui_status_bar_battery_indicator_color_full_power">滿電量顏色</string>
-    <string name="system_ui_status_bar_battery_indicator_color_low_power">低電量顏色</string>
-    <string name="system_ui_status_bar_battery_indicator_color_power_saving">省電模式顏色</string>
-    <string name="system_ui_status_bar_battery_indicator_color_power_charging">充電顏色</string>
-    <string name="system_ui_status_bar_battery_indicator_height">高度</string>
-    <string name="system_ui_status_bar_battery_indicator_padding">水平邊距</string>
-    <string name="system_ui_status_bar_battery_indicator_alpha">透明度</string>
-    <string name="system_ui_status_bar_battery_indicator_glow">發光</string>
-    <string name="system_ui_status_bar_battery_indicator_low_level">低電量水平</string>
-    <string name="system_ui_status_bar_battery_indicator_test">測試</string>
     <string name="system_ui_status_bar_strong_toast_layout">佈局</string>
     <string name="system_ui_status_bar_strong_toast_text">訊息</string>
     <string name="system_ui_status_bar_strong_toast_test">除錯</string>
@@ -798,11 +689,9 @@
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">測試</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">這是一條長文本，將以滾動形式輸出</string>
     <string name="system_ui_controlcenter_title">通知與控制中心</string>
-    <string name="system_ui_controlcenter_card_title">卡片</string>
     <string name="system_ui_controlcenter_media_card_title">媒體通知卡片</string>
     <string name="system_ui_control_center_magnet_tile_settings">磁貼</string>
     <string name="system_ui_control_center_notification_title">通知中心</string>
-    <string name="system_control_center_qs_detail_bg">卡片背景透明度</string>
     <string name="quick_settings_state_change_message_on_my">%1$s已開啟</string>
     <string name="quick_settings_state_change_message_off_my">%1$s已關閉</string>
     <string name="system_control_center_5g_tile">5G 網絡開關</string>
@@ -821,21 +710,8 @@
     <string name="system_control_center_qs_columns">列數</string>
     <string name="system_control_center_qs_columns_format">%d 列</string>
     <string name="system_control_center_qs_columns_horizontal">列（橫向）</string>
-    <string name="system_ui_control_center_hide_mi_play_entry">小米妙播</string>
-    <string name="system_ui_control_center_hide_mi_smart_hub_entry">小米妙享</string>
-    <string name="system_ui_control_center_hide_device_ctrl_entry">智慧生活</string>
-    <string name="system_ui_control_center_control_detail_background_alpha">面板詳情背景透明度</string>
     <string name="system_ui_control_center_notification_disable_transparent">禁用透明模式</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">禁止將通知背景設為透明</string>
-    <string name="system_ui_control_center_notification_blur_model">通知模糊設置</string>
-    <string name="system_ui_control_center_notification_blur_fix">通知優化</string>
-    <string name="system_ui_control_center_notification_blur_fix_desc">實驗性功能，僅供 Android 13 及以上機型使用，啟用後將對部分區域嘅通知模糊進行優化\n可能會存在部分機型系統界面崩潰嘅問題</string>
-    <string name="system_ui_control_center_blur_radius">通知模糊程度</string>
-    <string name="system_ui_control_center_blur_radius_desc">不含下拉通知</string>
-    <string name="system_ui_control_center_corner_radius">通知模糊區域圓角</string>
-    <string name="system_ui_control_center_corner_radius_desc">默認主題無需調節</string>
-    <string name="system_ui_control_center_blur_background_alpha">通知背景透明度</string>
-    <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">優化音樂面板背景混色效果</string>
     <string name="system_ui_control_center_media_control_progress">媒體進度條樣式</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">解除自定義動作應用限制</string>
@@ -871,8 +747,6 @@
     <string name="system_ui_control_center_hide_delimiter">僅隱藏分隔線</string>
     <string name="system_ui_control_center_hide_display_device_name">顯示設備名稱</string>
     <string name="system_ui_control_center_hide_name">隱藏全部名稱</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">藍牙磁貼樣式</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">藍牙磁貼移至網絡磁貼區域</string>
     <string name="system_ui_control_center_notifrowmenu">擴展通知選單</string>
     <string name="system_ui_control_center_notifrowmenu_desc">從通知選單中打開應用程式信息、強制關閉應用程式和視窗打開</string>
     <string name="system_ui_controlcenter_new_title">新控制中心</string>
@@ -890,15 +764,8 @@
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_disable_volume">原生音量條</string>
     <string name="system_ui_disable_power">原生關機菜單</string>
-    <string name="system_ui_disable_power_desc">MIUI 為舊版菜單，HyperOS 為原生菜單</string>
-    <string name="system_ui_disable_volume_desc">針對 MIUI/HyperOS 音量條嘅修改無法作用於原生音量條</string>
     <string name="system_ui_unlock_clipboard">解鎖原生剪貼簿編輯器</string>
-    <string name="system_ui_unlock_clipboard_desc">實驗性功能，會導致 MIUI/HyperOS 嘅編輯器一並彈出</string>
-    <string name="system_ui_charge_animation_title">充電動畫</string>
-    <string name="system_ui_charge_animation_style">充電動畫樣式</string>
-    <string name="system_ui_charge_animation_style_desc">選擇鎖屏充電動畫樣式</string>
     <string name="system_ui_another_title">其他</string>
-    <string name="system_ui_disable_bluetooth_restrict">禁用藍牙臨時關閉</string>
     <string name="system_ui_disable_miui_multi_win_switch">隱藏快捷窗口按鈕</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">隱藏常駐嘅三個小點，包括小窗頂部同 HyperOS for Pad 橫屏頂部中間嘅按鈕 (唔影響功能使用)</string>
     <string name="system_ui_remove_miui_multi_win_switch">禁用快捷窗口按鈕</string>
@@ -917,10 +784,10 @@
     <string name="system_ui_monet_overlay_custom">自訂主題顏色</string>
     <string name="system_ui_monet_overlay_custom_desc">自訂主題顏色，而不是從桌布中提取顏色</string>
     <string name="system_ui_monet_overlay_custom_color">選擇主題顏色</string>
-    <string name="system_ui_volume_timer">擴展計時器</string>
     <string name="system_ui_qs_label">快捷開關標籤</string>
     <string name="system_ui_notification_title">通知</string>
     <string name="system_ui_other_notification_fix">禁用通知白名單</string>
+    <string name="system_ui_volume_timer">擴展計時器</string>
     <string name="system_ui_plugin_enable_volume_blur">音量條模糊</string>
     <string name="system_ui_move_log_to_miui">將 statusbar_gestures.dat 移至 MIUI 目錄</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">僅供 Android 12 及以上嘅 MTK 機型使用，可能存在 GPU 負載較高嘅情況</string>
@@ -958,7 +825,6 @@
     <string name="system_settings_new_nfc_page">新版 NFC 頁面</string>
     <string name="system_settings_new_nfc_page_desc">此功能會導致唔支持嘅機型默認付款應用無法選中小米錢包</string>
     <string name="system_settings_lab_title">特色功能</string>
-    <string name="system_settings_area_screenshot">解鎖區域截圖</string>
     <string name="system_settings_voip_assistant_controller">網絡通話助手</string>
     <string name="system_settings_display_and_lockscreen_title">顯示與鎖屏</string>
     <string name="system_settings_ai_image_unlock_sr">解鎖超解析度增強</string>
@@ -1014,21 +880,14 @@
     <string name="updater_diable_dialog">移除 “開啟自動更新” 彈窗</string>
     <!--Permissions-->
     <string name="lbe">權限管理服務</string>
-    <string name="clipboard">剪貼簿</string>
-    <string name="lbe_disable_clipboard_tip">隱藏 Toast 提示</string>
     <string name="lbe_auto_start">禁止自動關閉自啟動</string>
-    <string name="lbe_clipboard_tip_toast">使用 Toast 提示讀取剪貼板</string>
-    <string name="lbe_clipboard_tip_toast_desc">隱藏對話框並允許應用程式默認讀取剪貼簿</string>
-    <string name="lbe_clipboard_tip">讀取了剪貼簿</string>
     <!--Cast-->
-    <string name="milink">投影</string>
     <string name="milink_hyperos">互聯互通服務</string>
     <string name="milink_unlock_mishare">解鎖小米妙享</string>
     <string name="milink_allow_camera_devices">強制支援攝影機串流媒體</string>
     <string name="milink_fuck_hpplay">阻止建立 hpplay 資料夾</string>
     <!--Sound Recorder-->
     <!--Always-on display-->
-    <string name="aod">萬象息屏</string>
     <string name="aod_hyperos">息屏與鎖屏編輯</string>
     <string name="aod_unlock_always_on_display">解鎖息屏顯示時長限制</string>
     <string name="aod_unlock_always_on_display_more">重啟系統界面以完整開啟功能</string>
@@ -1080,8 +939,7 @@
     <string name="gallery_backup_server_xiaomi">小米雲服務</string>
     <string name="gallery_backup_server_google">Google</string>
     <string name="gallery_backup_server_onedrive">Google &amp; OneDrive</string>
-    <!--MIUI security components-->
-    <string name="guard_provider">MIUI 安全性群組件</string>
+    <!--System security components-->
     <string name="guard_provider_hyperos">系統安全組件</string>
     <string name="guard_provider_disable_upload_applist">阻止自動上傳已安裝的應用程式列表</string>
     <!--System launcher-->
@@ -1234,7 +1092,6 @@
     <string name="home_title_hide_report_text_desc">隱藏部分應用喺卸載對話框嘅 \"舉報該應用\" 入口</string>
     <string name="home_recent">最近任務</string>
     <string name="home_recent_animation_speed">動畫速度</string>
-    <string name="home_recent_disable_wallpaper_dimming">取消桌布壓暗</string>
     <string name="home_recent_unlock_pin">解鎖應用程式固定功能</string>
     <string name="home_recent_hide_status_bar_in_task_view">隱藏狀態欄</string>
     <string name="home_recent_hide_world_circulate">隱藏投送應用浮窗</string>
@@ -1423,8 +1280,6 @@
     <string name="securityadd">系統服務組件</string>
     <string name="securityadd_disable_gb_ads">禁用遊戲中心廣告</string>
     <!--Security/Tablet security center-->
-    <string name="security_center">手機管家</string>
-    <string name="security_center_pad">平板管家</string>
     <string name="security_center_hyperos">安全服務</string>
     <string name="security_center_app_title">應用管理</string>
     <string name="security_center_battery_title">省電與電池</string>
@@ -1435,14 +1290,11 @@
     <string name="security_center_dolby_open">關閉杜比彈窗</string>
     <string name="security_center_show_battery_temperature">顯示電池溫度</string>
     <string name="security_center_show_battery_health">顯示詳細的電池健康狀況</string>
-    <string name="security_center_ai_clipboard">剪貼簿隱私保護</string>
-    <string name="security_center_blur_location">模糊定位</string>
     <string name="security_center_gms_open">GMS 服務</string>
     <string name="security_center_taplus">傳送門開關</string>
     <string name="security_center_reduce_bright_colors_tile">極暗磁貼優化</string>
     <string name="security_center_flash_light">手電筒亮度控制</string>
     <string name="security_center_flash_light_more">開啟手電筒時劫持亮度條，拖動亮度條即可控制手電筒亮度</string>
-    <string name="security_center_get_number">管理應用獲取手機號並一鍵登錄</string>
     <string name="security_center_applock_pin_scramble">應用鎖亂序 PIN</string>
     <string name="security_center_power_saver">禁止妙享省電</string>
     <string name="security_center_privacy_thumbnail_blur">禁止自啟模糊預覽圖</string>
@@ -1594,8 +1446,8 @@
     <string name="sogou_xiaomi">搜狗輸入法</string>
     <string name="sogou_xiaomi_clipboard">解除剪貼簿數量限制</string>
     <string name="add_clipboard_clear">新增清空剪貼簿按鈕</string>
+    <!--Sim Activation Service-->
     <!--Scanner-->
-    <string name="scanner">小愛視覺</string>
     <string name="scanner_card">解鎖掃名片</string>
     <string name="scanner_translation">解鎖翻譯</string>
     <string name="scanner_ocr">解鎖識文字</string>
@@ -1604,7 +1456,6 @@
     <string name="scanner_ppt">解鎖提取 PPT</string>
     <string name="scanner_doc_ppt">解鎖掃文件</string>
     <!--MI AI-->
-    <string name="voiceassist">小愛同學</string>
     <string name="voiceassist_disable_watermark">停用聊天浮水印</string>
     <!--Voice Trigger-->
     <string name="voicetrigger">語音喚醒</string>

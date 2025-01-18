@@ -135,25 +135,11 @@ object ChargingCVP : BaseHook() {
                 }
 
                 override fun run() {
-                    if (isMoreHyperOSVersion(1f)) {
-                        doUpdateForHyperOS()
-                    } else if (!isMoreHyperOSVersion(1f) && isAndroidVersion(34)) {
-                        XposedHelpers.callStaticMethod(
-                            loadClass("com.android.systemui.statusbar.KeyguardIndicationController"),
-                            "updatePowerIndication"
-                        )
-                    } else {
-                        invokeMethodBestMatch(
-                            keyguardIndicationController,
-                            "updatePowerIndication"
-                        )
-                    }
+                    doUpdateForHyperOS()
+
                     handler.postDelayed(
                         this,
-                        mPrefsMap.getInt(
-                            "system_ui_statusbar_lock_screen_show_spacing",
-                            6
-                        ) / 2 * 1000L
+                        mPrefsMap.getInt("system_ui_statusbar_lock_screen_show_spacing", 6) / 2 * 1000L
                     )
                 }
 

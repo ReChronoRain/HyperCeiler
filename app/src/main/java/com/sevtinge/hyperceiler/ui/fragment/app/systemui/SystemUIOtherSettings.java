@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.ui.fragment.app.systemui;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
@@ -39,22 +38,12 @@ import java.util.Objects;
 import fan.preference.DropDownPreference;
 
 public class SystemUIOtherSettings extends DashboardFragment {
-
-    DropDownPreference mChargeAnimationStyle;
-    PreferenceCategory mChargeAnimationTitle;
-    SwitchPreference mMiuiMultiWinSwitch;
-    SwitchPreference mMiuiMultiWinSwitchRemove;
     SwitchPreference mDisableInfinitymodeGesture;
-    SwitchPreference mBottomBar;
     SwitchPreference mVolume;
     SwitchPreference mPower;
-    SwitchPreference mDisableBluetoothRestrict; // 禁用蓝牙临时关闭
-    SwitchPreference mPctUseBlur;
     SwitchPreference mFuckSG;
     SwitchPreference mTimer;
-    SwitchPreference mHideFootButton;
     SwitchPreference mCollpasedColumnPress;
-    SwitchPreference mPluginThemeBlur;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -63,34 +52,17 @@ public class SystemUIOtherSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
-        mChargeAnimationStyle = findPreference("prefs_key_system_ui_charge_animation_style");
-        mChargeAnimationTitle = findPreference("prefs_key_system_ui_statusbar_charge_animation_title");
-        mDisableBluetoothRestrict = findPreference("prefs_key_system_ui_disable_bluetooth_restrict");
-        mMiuiMultiWinSwitch = findPreference("prefs_key_system_ui_disable_miui_multi_win_switch");
-        mMiuiMultiWinSwitchRemove = findPreference("prefs_key_system_ui_remove_miui_multi_win_switch");
         mDisableInfinitymodeGesture = findPreference("prefs_key_system_ui_disable_infinitymode_gesture");
-        mBottomBar = findPreference("prefs_key_system_ui_disable_bottombar");
         mVolume = findPreference("prefs_key_system_ui_disable_volume");
         mPower = findPreference("prefs_key_system_ui_disable_power");
-        mPctUseBlur = findPreference("prefs_key_system_showpct_use_blur");
         mFuckSG = findPreference("prefs_key_system_ui_move_log_to_miui");
         mTimer = findPreference("prefs_key_system_ui_volume_timer");
-        mHideFootButton = findPreference("prefs_key_system_ui_volume_hide_foot_button");
         mCollpasedColumnPress = findPreference("prefs_key_system_ui_volume_collpased_column_press");
-        mPluginThemeBlur = findPreference("prefs_key_system_ui_other_default_plugin_theme");
 
-        mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
-        mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && !isMoreHyperOSVersion(1f));
-        mMiuiMultiWinSwitch.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
-        mMiuiMultiWinSwitchRemove.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
-        mDisableInfinitymodeGesture.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34) && isPad());
-        mBottomBar.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
-        mPctUseBlur.setVisible(isMoreHyperOSVersion(1f));
+        mDisableInfinitymodeGesture.setVisible(isPad());
         mFuckSG.setVisible(isMoreHyperOSVersion(2f));
         mTimer.setVisible(!isMoreAndroidVersion(35));
-        mHideFootButton.setVisible(isMoreHyperOSVersion(1f));
         mCollpasedColumnPress.setVisible(isMoreHyperOSVersion(2f));
-        mPluginThemeBlur.setVisible(isMoreHyperOSVersion(1f));
 
         mVolume.setOnPreferenceChangeListener(
                 (preference, o) -> {

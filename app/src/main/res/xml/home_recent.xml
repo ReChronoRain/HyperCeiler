@@ -22,11 +22,6 @@
     app:quick_restart="com.miui.home">
     <PreferenceCategory>
         <SwitchPreference
-            android:key="prefs_key_home_recent_disable_wallpaper_dimming"
-            android:title="@string/home_recent_disable_wallpaper_dimming"
-            android:defaultValue="false" />
-
-        <SwitchPreference
             android:key="prefs_key_home_recent_blur"
             android:title="@string/home_recent_blur"
             android:defaultValue="false" />
