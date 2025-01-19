@@ -31,20 +31,20 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.hook.systemui.*
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.hdController
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.mOperatorConfig
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.modernStatusBarMobileView
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.shadeHeaderController
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.bold
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.fontSize
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.getLocation
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.hideIndicator
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.isEnableDouble
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.leftMargin
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.mobileNetworkType
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.rightMargin
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.showMobileType
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.verticalOffset
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.hdController
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.mOperatorConfig
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.modernStatusBarMobileView
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.shadeHeaderController
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.bold
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.fontSize
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.getLocation
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.hideIndicator
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.isEnableDouble
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.leftMargin
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.mobileNetworkType
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.rightMargin
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.showMobileType
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.verticalOffset
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.utils.api.ProjectApi.*
@@ -80,7 +80,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                 View::class.java,
                 Integer.TYPE
             )
-        } catch (unused: Throwable) {
+        } catch (_: Throwable) {
             logE(TAG, lpparam.packageName, "DarkIconDispatcher methods not found")
             method = null
             method2 = null

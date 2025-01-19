@@ -33,6 +33,7 @@ import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setBlurRoundRect
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.utils.color.*
@@ -421,6 +422,7 @@ object BlurSecurity : BaseHook() {
                 clearMiBackgroundBlendColor()
                 setMiViewBlurMode(1)
                 setMiBackgroundBlurRadius(40)
+                setBlurRoundRect(40) // 给视频/通话/会议工具箱设置的圆角
                 addMiBackgroundBlendColor(Color.argb(255, 0, 0, 0), 103)
             }
         }

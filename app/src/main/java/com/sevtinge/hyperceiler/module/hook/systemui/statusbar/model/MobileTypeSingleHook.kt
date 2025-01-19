@@ -24,24 +24,19 @@ import android.widget.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobileClass.statusBarMobileClass
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.bold
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.fontSize
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.getLocation
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.leftMargin
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.rightMargin
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.verticalOffset
-import com.sevtinge.hyperceiler.utils.devicesdk.*
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.statusBarMobileClass
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.bold
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.fontSize
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.getLocation
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.leftMargin
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.rightMargin
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.verticalOffset
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
 import de.robv.android.xposed.*
 
 object MobileTypeSingleHook : BaseHook() {
     override fun init() {
-        if (isHyperOSVersion(1f)) {
-            getMobileViewForHyperOS()
-        } else {
-            getMobileViewForMIUI()
-        }
+        getMobileViewForHyperOS()
     }
 
     private fun getMobileViewForHyperOS() {
@@ -56,23 +51,6 @@ object MobileTypeSingleHook : BaseHook() {
                         XposedHelpers.getObjectField(it.result, "mMobileGroup") as LinearLayout
                     val mobileTypeSingle =
                         XposedHelpers.getObjectField(it.result, "mMobileTypeSingle") as TextView
-
-                    setMobileType(mobileGroup, mobileTypeSingle, mobileLeftContainer)
-                }
-            }
-    }
-
-    private fun getMobileViewForMIUI() {
-        statusBarMobileClass.methodFinder()
-            .filterByName("init")
-            .single().createHook {
-                after {
-                    val mobileLeftContainer =
-                        XposedHelpers.getObjectField(it.thisObject, "mMobileLeftContainer") as ViewGroup
-                    val mobileGroup =
-                        XposedHelpers.getObjectField(it.thisObject, "mMobileGroup") as LinearLayout
-                    val mobileTypeSingle =
-                        XposedHelpers.getObjectField(it.thisObject, "mMobileTypeSingle") as TextView
 
                     setMobileType(mobileGroup, mobileTypeSingle, mobileLeftContainer)
                 }

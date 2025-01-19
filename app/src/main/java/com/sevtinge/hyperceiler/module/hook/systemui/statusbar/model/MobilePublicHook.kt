@@ -24,13 +24,14 @@ import android.view.View
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.card1
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public.MobilePrefs.card2
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.card1
+import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.card2
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import com.sevtinge.hyperceiler.utils.getIntField
 import com.sevtinge.hyperceiler.utils.setObjectField
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import de.robv.android.xposed.XposedHelpers
+import androidx.core.view.isGone
 
 object MobilePublicHook : BaseHook() {
     private val statusBarMobileClass by lazy {
@@ -138,7 +139,7 @@ object MobilePublicHook : BaseHook() {
             mLeftInOut.visibility = View.GONE
             mRightInOut.visibility = View.GONE
         }
-        if (mMobileType.visibility == View.GONE && mLeftInOut.visibility == View.GONE) {
+        if (mMobileType.isGone && mLeftInOut.isGone) {
             val mMobileLeftContainer =
                 XposedHelpers.getObjectField(param.thisObject, "mMobileLeftContainer") as View
             mMobileLeftContainer.visibility = View.GONE

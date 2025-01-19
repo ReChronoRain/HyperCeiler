@@ -26,7 +26,7 @@ import com.sevtinge.hyperceiler.utils.log.XposedLogUtils.*
 object DefaultPluginTheme {
     fun initDefaultPluginTheme(mClassLoader: ClassLoader) {
         loadClass("miui.systemui.util.ThemeUtils", mClassLoader).methodFinder()
-            .filterByName("getDefaultPluginTheme").single()
+            .filterByName("getDefaultPluginTheme").first()
             .createAfterHook {
                 it.result = true
             }

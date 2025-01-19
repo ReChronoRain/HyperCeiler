@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.public
+package com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon
 
 import com.sevtinge.hyperceiler.module.base.BaseHook.*
 

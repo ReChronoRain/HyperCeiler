@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
 import android.annotation.*
-import android.content.*
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.view.*
@@ -30,7 +29,6 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.hook.systemui.*
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.api.LazyClass.miuiConfigs
 import com.sevtinge.hyperceiler.utils.devicesdk.*
@@ -49,24 +47,6 @@ object NotificationWeather : BaseHook() {
     private var vWeatherView: TextView? = null
     // 及动画
     private var vWeatherViewFolme: Any? = null
-
-    // 天气组件点击事件
-    private val weatherViewClickListener = View.OnClickListener {
-        val intent = Intent().apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            component = ComponentName(
-                "com.miui.weather2",
-                "com.miui.weather2.ActivityWeatherMain"
-            )
-        }
-
-        val clz = findClass(InterfacesImplManager.I_ACTIVITY_STARTER)
-        if (isMoreHyperOSVersion(2f)) {
-            InterfacesImplManager.sClassContainer[clz]
-        } else {
-            Dependency.get(clz)
-        }?.callMethod("startActivity", intent, true)
-    }
 
     // 是否显示城市
     private val isDisplayCity by lazy {
@@ -292,7 +272,9 @@ object NotificationWeather : BaseHook() {
                 ) + dp2px(5f)
             }
 
-            setOnClickListener(weatherViewClickListener)
+            setOnClickListener {
+                startWeatherApp()
+            }
         }
 
         val viewParent = view.parent as ViewGroup

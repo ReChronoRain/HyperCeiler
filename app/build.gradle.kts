@@ -232,7 +232,7 @@ dependencies {
     implementation(libs.lyric.getter.api)
     implementation(libs.lunarcalendar)
 
-    implementation(project(":app:provision"))
-    implementation(project(":app:processor"))
-    annotationProcessor(project(":app:processor"))
+    implementation(project(":provision"))
+    implementation(project(":processor"))
+    annotationProcessor(project(":processor"))
 }

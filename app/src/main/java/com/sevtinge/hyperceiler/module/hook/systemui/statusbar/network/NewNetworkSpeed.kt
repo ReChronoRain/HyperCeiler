@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news
+package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network
 
 import android.annotation.*
 import android.content.*

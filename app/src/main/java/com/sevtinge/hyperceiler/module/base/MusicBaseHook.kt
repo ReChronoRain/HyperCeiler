@@ -46,18 +46,18 @@ abstract class MusicBaseHook : BaseHook() {
 
     private val receiver = LyricReceiver(object : LyricListener() {
         override fun onUpdate(lyricData: LyricData) {
-            try {
+            runCatching {
                 this@MusicBaseHook.onUpdate(lyricData)
-            } catch (e: Throwable) {
-                logE(TAG, lpparam.packageName, e)
+            }.onFailure {
+                logE(TAG, lpparam.packageName, it)
             }
         }
 
         override fun onStop(lyricData: LyricData) {
-            try {
+            runCatching {
                 this@MusicBaseHook.onStop()
-            } catch (e: Throwable) {
-                logE(TAG, lpparam.packageName, e)
+            }.onFailure {
+                logE(TAG, lpparam.packageName, it)
             }
         }
     })
