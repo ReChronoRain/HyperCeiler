@@ -18,9 +18,11 @@ dependencyResolutionManagement {
         maven("https://api.xposed.info")
         google()
         mavenCentral()
+        flatDir {
+            dirs("provision/libs")
+        }
     }
 }
 
 rootProject.name = "HyperCeiler"
-include(":app", ":hidden-api", ":app:processor")
-include(":app:provision")
+include(":app", "provision", "processor", "hidden-api")

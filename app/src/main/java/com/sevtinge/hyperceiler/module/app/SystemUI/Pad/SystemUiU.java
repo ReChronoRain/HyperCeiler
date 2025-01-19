@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.MonetThemeOverlay;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFix;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFreeform;
 import com.sevtinge.hyperceiler.module.hook.systemui.RemoveMiuiMultiWinSwitch;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.OldWeather;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media.MediaPicture;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media.SquigglyProgress;
 import com.sevtinge.hyperceiler.module.hook.systemui.StatusBarActions;
@@ -251,6 +252,7 @@ public class SystemUiU extends BaseModule {
                 mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
         initHook(new SwitchCCAndNotification(), mPrefsMap.getBoolean("system_ui_control_center_switch_cc_and_notification"));
+        initHook(OldWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(CompactNotificationsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_compact_notice"));
         /*initHook(CCGridOld.INSTANCE, mPrefsMap.getInt("system_control_center_cc_rows", 4) > 4 ||
