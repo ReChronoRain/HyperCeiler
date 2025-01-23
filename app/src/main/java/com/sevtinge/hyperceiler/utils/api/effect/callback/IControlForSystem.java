@@ -16,19 +16,22 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.app;
+package com.sevtinge.hyperceiler.utils.api.effect.callback;
 
-import com.hchen.database.HookBase;
-import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.hook.misound.IncreaseSamplingRate;
-import com.sevtinge.hyperceiler.module.hook.misound.NewAutoSEffSwitch;
+import android.content.Context;
 
-@HookBase(targetPackage = "com.miui.misound")
-public class MiSound extends BaseModule {
+/**
+ * 状态控制接口
+ *
+ * @author 焕晨HChen
+ */
+public interface IControlForSystem {
+    void updateLastEffectState();
 
-    @Override
-    public void handleLoadPackage() {
-        initHook(new NewAutoSEffSwitch(), mPrefsMap.getBoolean("misound_bluetooth"));
-        initHook(IncreaseSamplingRate.INSTANCE, mPrefsMap.getBoolean("misound_increase_sampling_rate"));
+    void setEffectToNone(Context context);
+
+    void resetAudioEffect();
+
+    default void dumpAudioEffectState() {
     }
 }

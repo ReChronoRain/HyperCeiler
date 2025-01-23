@@ -1587,10 +1587,7 @@
     <!--Mi sound-->
     <string name="misound">音質音效</string>
     <string name="misound_bluetooth">耳機狀態自動切換原聲</string>
-    <string name="misound_bluetooth_uuid">音效 UUID 識別符</string>
-    <string name="misound_bluetooth_uuid_more">杜比等音效標識符，無效果時再填寫，自己想辦法取得</string>
     <string name="misound_increase_sampling_rate">提高音頻採樣率</string>
-    <string name="misound_spatial">斷開耳機強制開啟沉浸聲</string>
     <!--Mi Settings-->
     <string name="mi_settings">小米設定</string>
     <string name="mi_input_settings">輸入設定</string>

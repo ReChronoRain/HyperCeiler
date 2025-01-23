@@ -1614,10 +1614,7 @@
     <!--Mi sound-->
     <string name="misound">السماعات</string>
     <string name="misound_bluetooth">تغيير حالة سماعة الرأس إلى الصوت الأصلي</string>
-    <string name="misound_bluetooth_uuid">معرف تأثير الصوت UUID</string>
-    <string name="misound_bluetooth_uuid_more">إذا لم يكن لتأثير الصوت أي تأثير، يمكنك محاولة تعديله بنفسك.</string>
     <string name="misound_increase_sampling_rate">زيادة معدل العينة</string>
-    <string name="misound_spatial">فرض الصوت المحيطي بعد فصل السماعات</string>
     <!--Mi Settings-->
     <string name="mi_settings">إعدادات Mi</string>
     <string name="mi_input_settings">إعدادات الإدخال</string>

@@ -24,25 +24,14 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_misound_bluetooth"
+            android:summary="@string/disable_detailed_log_desc"
             android:title="@string/misound_bluetooth" />
 
         <SwitchPreference
             android:defaultValue="false"
-            android:dependency="prefs_key_misound_bluetooth"
-            android:key="prefs_key_misound_spatial"
-            android:title="@string/misound_spatial" />
-
-        <EditTextPreference
-            android:dependency="prefs_key_misound_bluetooth"
-            android:key="prefs_key_misound_bluetooth_uuid"
-            android:summary="@string/misound_bluetooth_uuid_more"
-            android:title="@string/misound_bluetooth_uuid" />
+            android:key="prefs_key_misound_increase_sampling_rate"
+            android:title="@string/misound_increase_sampling_rate" />
 
     </PreferenceCategory>
-
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_misound_increase_sampling_rate"
-        android:title="@string/misound_increase_sampling_rate" />
 
 </PreferenceScreen>

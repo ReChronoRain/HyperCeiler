@@ -1539,10 +1539,7 @@
     <!--Mi sound-->
     <string name="misound">Xiaomi サウンド</string>
     <string name="misound_bluetooth">ヘッドセット接続時にオリジナルサウンドへ自動切り替えする</string>
-    <string name="misound_bluetooth_uuid">サウンドエフェクトUUID</string>
-    <string name="misound_bluetooth_uuid_more">Dolby やその他のサウンド ID です。見つからないときは自分で探してください</string>
     <string name="misound_increase_sampling_rate">サンプリングレートを上げる</string>
-    <string name="misound_spatial">ヘッドフォンを取り外した後、イマーシブ サウンドを強制的にオンにする</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi の設定</string>
     <string name="mi_input_settings">入力設定</string>

@@ -1614,10 +1614,7 @@
     <!--Mi sound-->
     <string name="misound">Słuchawki</string>
     <string name="misound_bluetooth">Zmień status słuchawek na oryginalny dźwięk</string>
-    <string name="misound_bluetooth_uuid">Identyfikator UUID efektu dźwiękowego</string>
-    <string name="misound_bluetooth_uuid_more">Jeśli efekt dźwiękowy nie ma żadnego efektu, możesz spróbować go zmodyfikować samodzielnie.</string>
     <string name="misound_increase_sampling_rate">Zwiększ częstotliwość próbkowania</string>
-    <string name="misound_spatial">Wymuś dźwięk przestrzenny po odłączeniu słuchawek</string>
     <!--Mi Settings-->
     <string name="mi_settings">Ustawienia Mi</string>
     <string name="mi_input_settings">Ustawienia wprowadzania</string>

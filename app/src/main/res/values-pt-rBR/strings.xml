@@ -1606,10 +1606,7 @@
     <!--Mi sound-->
     <string name="misound">Fones de ouvido</string>
     <string name="misound_bluetooth">Mudar status do fone de ouvido para o som original</string>
-    <string name="misound_bluetooth_uuid">Identificador UUID de efeito sonoro</string>
-    <string name="misound_bluetooth_uuid_more">Se o efeito sonoro não tiver efeito, você pode tentar modificá-lo você mesmo.</string>
     <string name="misound_increase_sampling_rate">Aumentar taxa de amostragem</string>
-    <string name="misound_spatial">Forçar Som imersivo após desconectar o fone de ouvido</string>
     <!--Mi Settings-->
     <string name="mi_settings">Configurações Mi</string>
     <string name="mi_input_settings">Configurações de entrada</string>

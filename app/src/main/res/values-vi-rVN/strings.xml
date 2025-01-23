@@ -1627,10 +1627,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Mi sound-->
     <string name="misound">Mi Sound</string>
     <string name="misound_bluetooth">Trạng thái tai nghe tự động chuyển sang âm thanh gốc</string>
-    <string name="misound_bluetooth_uuid">Mã định danh UUID hiệu ứng âm thanh</string>
-    <string name="misound_bluetooth_uuid_more">Dolby và các mã nhận dạng hiệu ứng âm thanh khác, hãy điền chúng vào nếu không có hiệu ứng và tự tìm cách lấy chúng</string>
     <string name="misound_increase_sampling_rate">Tăng tốc độ lấy mẫu</string>
-    <string name="misound_spatial">Bật chế độ âm thanh đắm chìm sau khi ngắt kết nối tai nghe</string>
     <!--Mi Settings-->
     <string name="mi_settings">Cài đặt Mi</string>
     <string name="mi_input_settings">Input settings</string>

@@ -1614,10 +1614,7 @@
     <!--Mi sound-->
     <string name="misound">Наушники</string>
     <string name="misound_bluetooth">Гарнитура автоматически переключается на исходный звук</string>
-    <string name="misound_bluetooth_uuid">Идентификатор UUID звукового эффекта</string>
-    <string name="misound_bluetooth_uuid_more">Идентификаторы звука Dolby и других звуков. Заполните их, если эффекта нет, и найдите способ получить его самостоятельно</string>
     <string name="misound_increase_sampling_rate">Увеличить частоту выборки</string>
-    <string name="misound_spatial">Принудительное включение объемного звука после отключения наушников</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi Настройки</string>
     <string name="mi_input_settings">Настройки ввода</string>

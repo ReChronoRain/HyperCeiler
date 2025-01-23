@@ -1307,8 +1307,6 @@
     <!--Mi sound-->
     <string name="misound">Kulaklıklar</string>
     <string name="misound_bluetooth">Kulaklık durumunu orijinal sese değiştir</string>
-    <string name="misound_bluetooth_uuid">Ses efekti UUID tanımlayıcısı</string>
-    <string name="misound_bluetooth_uuid_more">Eğer ses efektinin bir etkisi olmazsa kendiniz değiştirmeyi deneyebilirsiniz.</string>
     <string name="misound_increase_sampling_rate">Örnekleme oranını artırın</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi Ayarları</string>

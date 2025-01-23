@@ -1682,10 +1682,7 @@
     <!--Mi sound-->
     <string name="misound">Earphones</string>
     <string name="misound_bluetooth">Change headphone status to the original sound</string>
-    <string name="misound_bluetooth_uuid">Sound effect UUID identifier</string>
-    <string name="misound_bluetooth_uuid_more">If the sound effect has no effect, you can try modifying it yourself.</string>
     <string name="misound_increase_sampling_rate">Increase sampling rate</string>
-    <string name="misound_spatial">Force Immersive sound on after disconnecting headphones</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi Settings</string>
     <string name="mi_input_settings">Input settings</string>

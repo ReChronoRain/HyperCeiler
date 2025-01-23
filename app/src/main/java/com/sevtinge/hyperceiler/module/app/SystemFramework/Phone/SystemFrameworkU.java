@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouch;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AntiQues;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AppLinkVerify;
+import com.sevtinge.hyperceiler.module.hook.systemframework.AutoEffectSwitchForSystem;
 import com.sevtinge.hyperceiler.module.hook.systemframework.BackgroundBlur;
 import com.sevtinge.hyperceiler.module.hook.systemframework.BypassUnknownSourcesRestrictions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanOpenMenu;
@@ -43,6 +44,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.DisableMiuiWatermark
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePersistent;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePinVerifyPer72h;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableVerifyCanBeDisabled;
+import com.sevtinge.hyperceiler.module.hook.systemframework.EffectBinderProxy;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.module.hook.systemframework.HookEntry;
@@ -166,6 +168,9 @@ public class SystemFrameworkU extends BaseModule {
 
         initHook(new DisableLowApiCheckForU(), mPrefsMap.getBoolean("system_framework_disable_low_api_check"));
         initHook(new DisablePersistent(), mPrefsMap.getBoolean("system_framework_disable_persistent"));
+
+        initHook(new EffectBinderProxy(), mPrefsMap.getBoolean("misound_bluetooth"));
+        initHook(new AutoEffectSwitchForSystem(), mPrefsMap.getBoolean("misound_bluetooth"));
     }
 
 }

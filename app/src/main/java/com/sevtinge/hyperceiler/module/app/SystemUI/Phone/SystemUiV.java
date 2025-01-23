@@ -23,6 +23,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.systemui.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemui.AutoCollapse;
+import com.sevtinge.hyperceiler.module.hook.systemui.AutoSEffSwitchForSystemUi;
 import com.sevtinge.hyperceiler.module.hook.systemui.BrightnessPct;
 import com.sevtinge.hyperceiler.module.hook.systemui.DisableBottomBar;
 import com.sevtinge.hyperceiler.module.hook.systemui.DisableInfinitymodeGesture;
@@ -298,5 +299,7 @@ public class SystemUiV extends BaseModule {
         initHook(new AllowManageAllNotifications(), mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"));
 
         initHook(new FuckStatusbarGestures(), mPrefsMap.getBoolean("system_ui_move_log_to_miui"));
+
+        initHook(new AutoSEffSwitchForSystemUi(), mPrefsMap.getBoolean("misound_bluetooth"));
     }
 }

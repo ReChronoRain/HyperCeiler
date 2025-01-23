@@ -213,6 +213,10 @@ android {
 
     kotlin.jvmToolchain(21)
 
+    buildFeatures {
+        aidl = true
+    }
+
     // https://stackoverflow.com/a/77745844
     tasks.withType<PackageAndroidArtifact> {
         doFirst { appMetadata.asFile.orNull?.writeText("") }

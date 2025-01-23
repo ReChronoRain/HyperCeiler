@@ -1692,10 +1692,7 @@
     <!--音质音效-->
     <string name="misound">音质音效</string>
     <string name="misound_bluetooth">耳机状态自动切换原声</string>
-    <string name="misound_bluetooth_uuid">音效效果 UUID 标识符</string>
-    <string name="misound_bluetooth_uuid_more">音效无效果时可尝试进行修改</string>
     <string name="misound_increase_sampling_rate">提高音频采样率</string>
-    <string name="misound_spatial">断开耳机强制打开沉浸声</string>
     <!--小米设置-->
     <string name="mi_settings">小米设置</string>
     <string name="mi_input_settings">输入设置</string>
