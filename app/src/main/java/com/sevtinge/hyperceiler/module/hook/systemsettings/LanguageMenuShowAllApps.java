@@ -23,6 +23,7 @@ import android.content.Context;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -45,10 +46,19 @@ public class LanguageMenuShowAllApps extends BaseHook {
             }
         });
 
+        /*允许对小米定义的列表中的应用进行语言调整*/
         findAndHookMethod("com.android.settings.localepicker.LocalePickerWithRegion", "filterTheLanguagesNotSupportedInApp", boolean.class, HashSet.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
                 param.setResult(XposedHelpers.getObjectField(param.thisObject, "mLocaleList"));
+            }
+        });
+
+        /*允许对 系统应用、平台签名的应用（如GMS等） 进行语言调整*/
+        findAndHookMethod("com.android.settings.applications.AppLocaleUtil", "canDisplayLocaleUi", Context.class, String.class, List.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                param.setResult(true);
             }
         });
     }
