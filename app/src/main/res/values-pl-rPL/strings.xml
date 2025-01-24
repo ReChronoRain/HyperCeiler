@@ -390,9 +390,9 @@
     <string name="system_ui_statusbar_network_speed_style_2">Wartości i jednostki są wyświetlane w dwóch liniach</string>
     <string name="system_ui_statusbar_network_speed_style_3">Prędkości sieciowe są wyświetlane w tej samej linii</string>
     <string name="system_ui_statusbar_network_speed_style_4">Dwuwierszowy wyświetlacz prędkości sieci</string>
-    <string name="system_ui_statusbar_clock_style_1">Wyświetlanie w jednej linii\n\nTylko zegar na pasku stanu</string>
-    <string name="system_ui_statusbar_clock_style_2">Wyświetlanie w dwóch liniach\n\nZegar na górze\nMini zegar w powiadomieniach na dole</string>
-    <string name="system_ui_statusbar_clock_style_3">Wyświetlanie w dwóch liniach\n\nMini zegar w powiadomieniach na górze\nZegar na dole</string>
+    <string name="system_ui_statusbar_clock_style_1">Tylko zegar na pasku stanu</string>
+    <string name="system_ui_statusbar_clock_style_2">Zegar na górze\nMini zegar w powiadomieniach na dole</string>
+    <string name="system_ui_statusbar_clock_style_3">Mini zegar w powiadomieniach na górze\nZegar na dole</string>
     <string name="mediaeditor_mickey">Myszka Miki</string>
     <string name="mediaeditor_strawberry_bear">Truskawkowy Miś</string>
     <string name="mediaeditor_disney_princess">Księżniczka Disney</string>

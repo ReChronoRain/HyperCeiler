@@ -387,9 +387,9 @@
     <string name="system_ui_statusbar_network_speed_style_2">值和單位雙排顯示</string>
     <string name="system_ui_statusbar_network_speed_style_3">上下行網路單行顯示</string>
     <string name="system_ui_statusbar_network_speed_style_4">上下行網路雙排顯示</string>
-    <string name="system_ui_statusbar_clock_style_1">單行顯示\n\n僅狀態欄時鐘</string>
-    <string name="system_ui_statusbar_clock_style_2">兩行顯示\n\n頂部狀態欄時鐘\n底部通知欄迷你時鐘</string>
-    <string name="system_ui_statusbar_clock_style_3">兩行顯示\n\n頂部通知欄迷你時鐘\n底部狀態欄時鐘</string>
+    <string name="system_ui_statusbar_clock_style_1">僅狀態欄時鐘</string>
+    <string name="system_ui_statusbar_clock_style_2">頂部狀態欄時鐘\n底部通知欄迷你時鐘</string>
+    <string name="system_ui_statusbar_clock_style_3">頂部通知欄迷你時鐘\n底部狀態欄時鐘</string>
     <string name="mediaeditor_mickey">米奇</string>
     <string name="mediaeditor_strawberry_bear">草莓熊</string>
     <string name="tiles_gms">Google Play 服務</string>

@@ -329,9 +329,9 @@
     <string name="system_ui_statusbar_network_speed_style_2">值和单位双排显示</string>
     <string name="system_ui_statusbar_network_speed_style_3">上下行速度显示在单行中</string>
     <string name="system_ui_statusbar_network_speed_style_4">双行显示上行和下行网络速度</string>
-    <string name="system_ui_statusbar_clock_style_1">单行显示\n\n状态栏时钟</string>
-    <string name="system_ui_statusbar_clock_style_2">双行显示\n\n状态栏时钟在顶部\n通知小时钟在底部</string>
-    <string name="system_ui_statusbar_clock_style_3">双行显示喵\n\n顶部通知小时钟喵\n底部状态栏时钟喵</string>
+    <string name="system_ui_statusbar_clock_style_1">仅状态栏时钟喵</string>
+    <string name="system_ui_statusbar_clock_style_2">状态栏时钟在顶部\n通知小时钟在底部</string>
+    <string name="system_ui_statusbar_clock_style_3">顶部通知小时钟喵\n底部状态栏时钟喵</string>
     <string name="mediaeditor_mickey">律师函</string>
     <string name="mediaeditor_strawberry_bear">想要笔记本贴纸了</string>
     <string name="tiles_gms">咕噜咕噜普雷服务</string>

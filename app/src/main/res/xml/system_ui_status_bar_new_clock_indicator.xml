@@ -20,6 +20,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/system_ui_statusbar_clock_title"
     app:quick_restart="com.android.systemui">
+    <Preference
+        android:enabled="false"
+        android:key="prefs_key_system_ui_statusbar_clock_tip"
+        android:layout="@layout/headtip_tip"
+        android:title="@string/system_ui_statusbar_clock_tip" />
+
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
@@ -90,6 +96,12 @@
             android:defaultValue="HH:mm"
             android:key="prefs_key_system_ui_statusbar_clock_editor_s"
             android:title="@string/system_ui_statusbar_clock_editor_s" />
+
+        <EditTextPreference
+            android:defaultValue="HH:mm"
+            android:dependency="prefs_key_system_ui_disable_clock_synch"
+            android:key="prefs_key_system_ui_statusbar_clock_editor_b"
+            android:title="@string/system_ui_statusbar_clock_editor_b" />
 
         <EditTextPreference
             android:defaultValue=""

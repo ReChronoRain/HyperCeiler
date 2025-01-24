@@ -392,7 +392,7 @@
     <string name="system_ui_statusbar_network_speed_style_4">Двурядное отображение скорости сети</string>
     <string name="system_ui_statusbar_clock_style_1">Часы в одну строку в строке состояния</string>
     <string name="system_ui_statusbar_clock_style_2">Часы в строке состояния Мини-часы в панели уведомлений</string>
-    <string name="system_ui_statusbar_clock_style_3">Отображение в две строки\n\nМини-часы в панели уведомлений сверху\nЧасы в строке состояния снизу</string>
+    <string name="system_ui_statusbar_clock_style_3">Мини-часы в панели уведомлений сверху\nЧасы в строке состояния снизу</string>
     <string name="mediaeditor_mickey">Микки Маус</string>
     <string name="mediaeditor_strawberry_bear">Клубничный мишка</string>
     <string name="mediaeditor_disney_princess">Принцесса Disney</string>

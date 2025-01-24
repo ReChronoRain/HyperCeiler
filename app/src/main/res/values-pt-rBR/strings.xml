@@ -390,9 +390,9 @@
     <string name="system_ui_statusbar_network_speed_style_2">Valores e unidades são exibidos em duas linhas</string>
     <string name="system_ui_statusbar_network_speed_style_3">A velocidade da rede uplink e downlink é exibida em uma única linha</string>
     <string name="system_ui_statusbar_network_speed_style_4">Exibição de linha dupla de velocidades da rede de uplink e downlink</string>
-    <string name="system_ui_statusbar_clock_style_1">Exibição em uma única linha\n\nSomente relógio da barra de status</string>
-    <string name="system_ui_statusbar_clock_style_2">Exibição de duas linhas\n\nRelógio da barra de status na parte superior\nMini-relógio da Área de notificações na parte inferior</string>
-    <string name="system_ui_statusbar_clock_style_3">Exibição de duas linhas\n\nMini-relógio da Área de notificações na parte superior\nRelógio da barra de status na parte inferior</string>
+    <string name="system_ui_statusbar_clock_style_1">Somente relógio da barra de status</string>
+    <string name="system_ui_statusbar_clock_style_2">Relógio da barra de status na parte superior\nMini-relógio da Área de notificações na parte inferior</string>
+    <string name="system_ui_statusbar_clock_style_3">Mini-relógio da Área de notificações na parte superior\nRelógio da barra de status na parte inferior</string>
     <string name="mediaeditor_mickey">Mickey Mouse</string>
     <string name="mediaeditor_strawberry_bear">Urso de morango</string>
     <string name="mediaeditor_disney_princess">Princesa da Disney</string>

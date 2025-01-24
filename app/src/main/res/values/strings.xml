@@ -452,9 +452,9 @@
     <string name="system_ui_statusbar_network_speed_style_2">Values and units are displayed in two rows</string>
     <string name="system_ui_statusbar_network_speed_style_3">The uplink and downlink network speed is displayed in a single line</string>
     <string name="system_ui_statusbar_network_speed_style_4">Dual-row display of uplink and downlink network speeds</string>
-    <string name="system_ui_statusbar_clock_style_1">Single line display\n\nStatus bar clock only</string>
-    <string name="system_ui_statusbar_clock_style_2">Two-line display\n\nStatus bar clock on top\nNotification shade mini clock on bottom</string>
-    <string name="system_ui_statusbar_clock_style_3">Two-line display\n\nNotification shade mini clock on top\nStatus bar clock on bottom</string>
+    <string name="system_ui_statusbar_clock_style_1">Status bar clock only</string>
+    <string name="system_ui_statusbar_clock_style_2">Status bar clock on top\nNotification shade mini clock on bottom</string>
+    <string name="system_ui_statusbar_clock_style_3">Notification shade mini clock on top\nStatus bar clock on bottom</string>
     <string name="mediaeditor_mickey">Mickey Mouse</string>
     <string name="mediaeditor_strawberry_bear">Strawberry Bear</string>
     <string name="mediaeditor_disney_princess">Disney Princess</string>
@@ -823,6 +823,7 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Network speed values below this level are considered slow and a different indicator icon will be displayed (only some icons)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Hide byte per second suffix (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Indicator icon</string>
+    <string name="system_ui_statusbar_clock_tip">Instructions for use: \ n-After the use of enlightenment, please modify the clock format in the display to change the application. If the clock format contains the number of seconds, please \"Seconds refresh switch\" function</string>
     <string name="system_ui_statusbar_clock_double_mode_title">Double row alignment</string>
     <string name="system_ui_statusbar_clock_desc">Clock format example</string>
     <string name="system_ui_statusbar_clock_size">Clock size</string>
@@ -839,6 +840,7 @@
     <string name="system_ui_statusbar_clock_layout_b">Notification shade big clock</string>
     <string name="system_ui_statusbar_clock_layout_n">Notification shade mini clock</string>
     <string name="system_ui_statusbar_clock_editor_s">Status bar clock format</string>
+    <string name="system_ui_statusbar_clock_editor_b">Notification big clock format</string>
     <string name="system_ui_statusbar_clock_editor_n">Notification shade mini clock format</string>
     <string name="system_ui_statusbar_clock_style_f">Status bar clock arrangement</string>
     <string name="system_ui_status_bar_strong_toast_layout">Layout</string>

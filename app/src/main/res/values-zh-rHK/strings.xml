@@ -329,9 +329,9 @@
     <string name="system_ui_statusbar_network_speed_style_2">值和單位雙排顯示</string>
     <string name="system_ui_statusbar_network_speed_style_3">上下行網速單行顯示</string>
     <string name="system_ui_statusbar_network_speed_style_4">上下行網速雙排顯示</string>
-    <string name="system_ui_statusbar_clock_style_1">單行顯示\n\n僅狀態欄時鐘</string>
-    <string name="system_ui_statusbar_clock_style_2">雙行顯示\n\n狀態欄時鐘喺上\n通知中心迷你時鐘喺下</string>
-    <string name="system_ui_statusbar_clock_style_3">雙行顯示\n\n通知中心迷你時鐘喺上\n狀態欄時鐘喺下</string>
+    <string name="system_ui_statusbar_clock_style_1">僅狀態欄時鐘</string>
+    <string name="system_ui_statusbar_clock_style_2">狀態欄時鐘喺上\n通知中心迷你時鐘喺下</string>
+    <string name="system_ui_statusbar_clock_style_3">通知中心迷你時鐘喺上\n狀態欄時鐘喺下</string>
     <string name="mediaeditor_mickey">米奇</string>
     <string name="mediaeditor_strawberry_bear">草莓熊</string>
     <string name="tiles_gms">Google Play 服務</string>

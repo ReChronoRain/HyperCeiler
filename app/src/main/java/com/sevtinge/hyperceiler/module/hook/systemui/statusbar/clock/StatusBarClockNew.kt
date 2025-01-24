@@ -105,10 +105,42 @@ object StatusBarClockNew : BaseHook() {
     }
 
     // 时钟格式
-    private val getFormatS = mPrefsMap.getString("system_ui_statusbar_clock_editor_s", "HH:mm")
-    private val getFormatN = mPrefsMap.getString("system_ui_statusbar_clock_editor_n", "")
+    private val getFormatS by lazy {
+        mPrefsMap.getString("system_ui_statusbar_clock_editor_s", "HH:mm")
+    }
+    private val getFormatB by lazy {
+        mPrefsMap.getString("system_ui_statusbar_clock_editor_b", "HH:mm")
+    }
+    private val getFormatN by lazy {
+        mPrefsMap.getString("system_ui_statusbar_clock_editor_n", "")
+    }
     private val getClockStyle by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_clock_style", 0)
+    }
+
+    private val safeFormatS by lazy {
+        safeSplitFirst(getFormatS)
+    }
+    private val safeFormatB by lazy {
+        safeSplitFirst(getFormatB)
+    }
+    private val safeFormatN by lazy {
+        safeSplitFirst(getFormatN)
+    }
+    private val sClockName by lazy {
+        if (getFormatN.isNullOrEmpty()) {
+            when (getClockStyle) {
+                0 -> safeFormatS
+                1 -> "$safeFormatS\nM/d E"
+                else -> "M/d E\n$safeFormatS"
+            }
+        } else {
+            when (getClockStyle) {
+                0 -> safeFormatS
+                1 -> "$safeFormatS\n$safeFormatN"
+                else -> "$safeFormatN\n$safeFormatS"
+            }
+        }
     }
 
     override fun init() {
@@ -117,7 +149,7 @@ object StatusBarClockNew : BaseHook() {
             .filterByParamTypes {
                 it[0] == Context::class.java
             }.first().createAfterHook {
-                try {
+                runCatching {
                     val miuiClock = it.thisObject as TextView
                     val miuiClockName = miuiClock.resources.getResourceEntryName(miuiClock.id)
                         ?: return@createAfterHook
@@ -148,7 +180,6 @@ object StatusBarClockNew : BaseHook() {
 
                         Timer().schedule(timerTask, 1000 - System.currentTimeMillis() % 1000, 1000)
                     }
-                } catch (_: Exception) {
                 }
             }
 
@@ -160,13 +191,12 @@ object StatusBarClockNew : BaseHook() {
                     notificationHeaderExpandController!!.callMethod("updateWeight", 0.3f)
                 }
         } else if (isHyperOSVersion(1f)) {
-            try {
+            runCatching {
                 loadClassOrNull("com.android.systemui.statusbar.policy.FakeStatusBarClockController")!!
                     .methodFinder().filterByName("initState")
                     .first().createHook {
                         replace { null }
                     }
-            } catch (_: Throwable) {
             }
         }
 
@@ -174,18 +204,16 @@ object StatusBarClockNew : BaseHook() {
         statusBarClass.methodFinder()
             .filterByName("updateTime")
             .single().createBeforeHook {
-                try {
+                runCatching {
                     applyMiuiClockStyleAndFormat(it)
-                } catch (_: Exception) {
                 }
             }
 
         mNewClockClass.methodFinder()
             .filterByName("updateTime")
             .single().createBeforeHook {
-                try {
+                runCatching {
                     applyMiuiClockStyleAndFormat(it)
-                } catch (_: Exception) {
                 }
             }
     }
@@ -198,15 +226,11 @@ object StatusBarClockNew : BaseHook() {
         if (miuiClockName in setOf("clock", "big_time", "date_time")) {
             setMiuiClockStyle(miuiClockName, textV)
 
-            if (shouldSkipHook(isSync, miuiClockName, getFormatN)) return
+            if (getFormatN.isEmpty() && miuiClockName == "date_time") return
 
             setMiuiClockFormat(context, miuiClockName, textV)
             hook.result = null
         }
-    }
-
-    private fun shouldSkipHook(isSync: Boolean, miuiClockName: String, formatN: String): Boolean {
-        return (isSync && miuiClockName == "big_time") || (formatN.isEmpty() && miuiClockName == "date_time")
     }
 
     private fun setMiuiClockStyle(name: String, text: TextView) {
@@ -283,28 +307,23 @@ object StatusBarClockNew : BaseHook() {
         id.setPaddingRelative(left, topMargin, right, 0)
     }
 
-    private fun setMiuiClockFormat(context: Context?, name: String, textV: TextView) {
+    private fun setMiuiClockFormat(context: Context?, name: String, textV: TextView?) {
         if (context == null || textV == null) return
 
-        val mMiuiStatusBarClockController =
-            textV.getObjectField("mMiuiStatusBarClockController")
         val mCalendar =
-            mMiuiStatusBarClockController?.getObjectField("mCalendar")
-        if (mCalendar == null) return
-        val sClockName = buildFormatString(getFormatS, getFormatN, getClockStyle)
+            textV.getObjectField("mMiuiStatusBarClockController")
+                ?.getObjectField("mCalendar") ?: return
+
         val (textSb, formatSb) = when (name) {
-            "clock" -> {
-                val baseFormat = StringBuilder(sClockName)
-                Pair(StringBuilder(), baseFormat)
-            }
-            "big_time" -> {
-                val baseFormat = StringBuilder(safeSplitFirst(getFormatS))
-                Pair(StringBuilder(), baseFormat)
-            }
-            else -> {
-                val baseFormat = StringBuilder(safeSplitFirst(getFormatN))
-                Pair(StringBuilder(), baseFormat)
-            }
+            "clock" -> Pair(StringBuilder(), StringBuilder(sClockName))
+
+            "big_time" -> Pair(
+                StringBuilder(),
+                if (isSync) StringBuilder(safeFormatB)
+                else StringBuilder(safeFormatS)
+            )
+
+            else -> Pair(StringBuilder(), StringBuilder(safeFormatN))
         }
 
         mCalendar.let {
@@ -316,20 +335,5 @@ object StatusBarClockNew : BaseHook() {
 
     private fun safeSplitFirst(str: String?): String {
         return str?.split("\n")?.firstOrNull() ?: ""
-    }
-
-    private fun buildFormatString(formatS: String?, formatN: String?, clockStyle: Int): String {
-        return when {
-            formatN.isNullOrEmpty() -> when (clockStyle) {
-                0 -> safeSplitFirst(formatS)
-                1 -> "${safeSplitFirst(formatS)}\nM/d E"
-                else -> "M/d E\n${safeSplitFirst(formatS)}"
-            }
-            else -> when (clockStyle) {
-                0 -> safeSplitFirst(formatS)
-                1 -> "${safeSplitFirst(formatS)}\n${safeSplitFirst(formatN)}"
-                else -> "${safeSplitFirst(formatN)}\n${safeSplitFirst(formatS)}"
-            }
-        }
     }
 }

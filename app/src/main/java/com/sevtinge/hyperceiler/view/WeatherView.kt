@@ -65,18 +65,13 @@ class WeatherView(context: Context?, private val showCity: Boolean) : TextView(c
             var str = ""
             mContext.contentResolver.query(weatherUri, null, null, null, null)?.use { query ->
                 if (query.moveToFirst()) {
+                    val city = query.getString(query.getColumnIndexOrThrow("city_name"))
+                    val description = query.getString(query.getColumnIndexOrThrow("description"))
+                    val temperature = query.getString(query.getColumnIndexOrThrow("temperature"))
                     str = if (showCity) {
-                        "${query.getString(query.getColumnIndexOrThrow("city_name"))} ${
-                            query.getString(
-                                query.getColumnIndexOrThrow("description")
-                            )
-                        } ${query.getString(query.getColumnIndexOrThrow("temperature"))}"
+                        "$city $description $temperature"
                     } else {
-                        "${query.getString(query.getColumnIndexOrThrow("description"))} ${
-                            query.getString(
-                                query.getColumnIndexOrThrow("temperature")
-                            )
-                        }"
+                        "$description $temperature"
                     }
                 }
             }

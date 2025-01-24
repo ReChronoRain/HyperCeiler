@@ -306,9 +306,9 @@
     <string name="system_ui_statusbar_network_speed_style_2">Valori e unità sono visualizzati in due righe</string>
     <string name="system_ui_statusbar_network_speed_style_3">Le velocite di rete in upload e in download vengono visualizzate in una singola riga</string>
     <string name="system_ui_statusbar_network_speed_style_4">Visualizzazione a doppia riga di velocità di rete upload e download</string>
-    <string name="system_ui_statusbar_clock_style_1">Visualizzazione a singola linea\n\nSolo orologio della barra di stato</string>
-    <string name="system_ui_statusbar_clock_style_2">Mostra su due linee\n\nOrologio della barra di stato nella parte superiore\nMini orologio della barra di notifica in basso</string>
-    <string name="system_ui_statusbar_clock_style_3">Mostra su due linee\n\nMini orologio nella barra delle notifiche in alto\nOrologio barra di stato in basso</string>
+    <string name="system_ui_statusbar_clock_style_1">Solo orologio della barra di stato</string>
+    <string name="system_ui_statusbar_clock_style_2">Orologio della barra di stato nella parte superiore\nMini orologio della barra di notifica in basso</string>
+    <string name="system_ui_statusbar_clock_style_3">Mini orologio nella barra delle notifiche in alto\nOrologio barra di stato in basso</string>
     <string name="mediaeditor_mickey">Mickey Mouse</string>
     <string name="mediaeditor_strawberry_bear">Strawberry Bear</string>
     <string name="tiles_taplus">Interruttori Taplus</string>

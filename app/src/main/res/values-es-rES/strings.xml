@@ -376,8 +376,8 @@ aplicaciones del sistema</string>
     <string name="system_ui_statusbar_network_speed_style_2">Valor y unidad se muestran en dos filas</string>
     <string name="system_ui_statusbar_network_speed_style_3">La velocidad de red del enlace de subida y bajada se muestra en una línea</string>
     <string name="system_ui_statusbar_network_speed_style_4">La velocidad de red del enlace de subida y bajada se muestra en dos filas</string>
-    <string name="system_ui_statusbar_clock_style_1">Pantalla de una sola línea\n\nSolo reloj en la barra de estado</string>
-    <string name="system_ui_statusbar_clock_style_3">Pantalla de dos líneas\n\nMini reloj de la barra de notificaciones en la parte superior\nReloj de la barra de estado en la parte inferior</string>
+    <string name="system_ui_statusbar_clock_style_1">Solo reloj en la barra de estado</string>
+    <string name="system_ui_statusbar_clock_style_3">Mini reloj de la barra de notificaciones en la parte superior\nReloj de la barra de estado en la parte inferior</string>
     <string name="mediaeditor_mickey">Mickey Mouse</string>
     <string name="mediaeditor_strawberry_bear">Mermelada de fresa</string>
     <string name="tiles_gms">Servicio de Google Play</string>

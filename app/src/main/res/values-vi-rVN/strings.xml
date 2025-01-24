@@ -390,9 +390,9 @@
     <string name="system_ui_statusbar_network_speed_style_2">Giá trị và đơn vị hiển thị theo hàng đôi</string>
     <string name="system_ui_statusbar_network_speed_style_3">Tốc độ mạng up và down được hiển thị trên một dòng duy nhất</string>
     <string name="system_ui_statusbar_network_speed_style_4">Tốc độ mạng up và down được hiển thị trên dòng đôi</string>
-    <string name="system_ui_statusbar_clock_style_1">Chỉ hiển thị một dòng\n\nChỉ đồng hồ trên thanh trạng thái</string>
-    <string name="system_ui_statusbar_clock_style_2">Hiển thị hai dòng\n\nĐồng hồ thanh trạng thái ở trên cùng\nĐồng hồ nhỏ trên thanh thông báo ở dưới cùng</string>
-    <string name="system_ui_statusbar_clock_style_3">Hiển thị hai dòng\n\nĐồng hồ nhỏ trên thanh thông báo ở trên cùng\nĐồng hồ trên thanh trạng thái ở dưới cùng</string>
+    <string name="system_ui_statusbar_clock_style_1">Chỉ đồng hồ trên thanh trạng thái</string>
+    <string name="system_ui_statusbar_clock_style_2">Đồng hồ thanh trạng thái ở trên cùng\nĐồng hồ nhỏ trên thanh thông báo ở dưới cùng</string>
+    <string name="system_ui_statusbar_clock_style_3">Đồng hồ nhỏ trên thanh thông báo ở trên cùng\nĐồng hồ trên thanh trạng thái ở dưới cùng</string>
     <string name="mediaeditor_mickey">Chuột Mickey</string>
     <string name="mediaeditor_strawberry_bear">Gấu dâu</string>
     <string name="mediaeditor_disney_princess">Công chúa Disney</string>
