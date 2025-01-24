@@ -115,7 +115,7 @@ object QSVolumeOrBrightnessValue {
 
                 if (!default){
                     val colorId = context.resources.getIdentifier("toggle_slider_top_text_color", "color", "miui.systemui.plugin")
-                    val color = item.resources.getColor(colorId)
+                    val color = item.resources.getColor(colorId, null)
 
                     topValue.setTextColor(color)
                     XposedHelpers.callStaticMethod(MiBlurCompat,"setMiViewBlurModeCompat",topValue,0)

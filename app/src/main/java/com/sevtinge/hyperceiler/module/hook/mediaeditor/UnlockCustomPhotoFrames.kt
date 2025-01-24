@@ -84,7 +84,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
         }
     }
 
-    private val springA by lazy<Field> {
+    private val springA by lazy<Field?> {
         DexKit.findMember("SA") { bridge ->
             bridge.findField {
                 matcher {
@@ -119,7 +119,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
         }
 
         if (isOpenSpring && springA != null) {
-            springA.setBoolean(null, true)
+            springA!!.setBoolean(null, true)
         }
 
         if (isRedmi) {

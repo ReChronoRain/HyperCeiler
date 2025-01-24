@@ -91,9 +91,7 @@ class WeatherView(context: Context?, private val showCity: Boolean) : TextView(c
 
     public override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        if (mWeatherObserver != null) {
-            mContext.contentResolver.unregisterContentObserver(mWeatherObserver)
-        }
+        mContext.contentResolver.unregisterContentObserver(mWeatherObserver)
     }
 
     fun startWeatherApp() {
