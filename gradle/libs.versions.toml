@@ -6,11 +6,9 @@ autoService = "1.1.1"
 
 annotation = "1.9.1"
 core = "1.15.0"
-collection = "1.4.5"
 fragment = "1.8.5"
 lunarcalendar = "latest.release"
 recyclerview = "1.4.0"
-lifecycle-common = "2.8.7"
 coordinatorlayout = "1.2.0"
 constraintlayout = "2.2.0"
 
@@ -27,12 +25,10 @@ mmkv = "2.0.2"
 [libraries]
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
 core = { group = "androidx.core", name = "core", version.ref = "core" }
-collection = { group = "androidx.collection", name = "collection", version.ref = "collection" }
 fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
 hooktool = { module = "com.github.HChenX:HookTool", version.ref = "hooktool" }
 lunarcalendar = { module = "com.xhinliang:LunarCalendar", version.ref = "lunarcalendar" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
-lifecycle-common = { group = "androidx.lifecycle", name = "lifecycle-common", version.ref = "lifecycle-common" }
 
 auto-service = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 coordinatorlayout = { group = "androidx.coordinatorlayout", name = "coordinatorlayout", version.ref = "coordinatorlayout" }

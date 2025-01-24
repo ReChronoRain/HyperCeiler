@@ -6,6 +6,10 @@ android {
     namespace = "com.sevtinge.provision"
     compileSdk = 35
 
+    defaultConfig {
+        minSdk = 26
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -54,18 +58,10 @@ android {
 
 dependencies {
     api(libs.core)
-    api(libs.collection)
     api(libs.recyclerview)
     api(libs.fragment)
-    api(libs.lifecycle.common)
     api(libs.coordinatorlayout)
     api(libs.constraintlayout) {
         exclude("androidx.appcompat", "appcompat")
     }
-
-    api(
-        fileTree(
-            mapOf("dir" to "libs", "include" to listOf("*-debug.aar"))
-        )
-    )
 }

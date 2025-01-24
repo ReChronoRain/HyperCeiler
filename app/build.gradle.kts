@@ -224,8 +224,16 @@ android {
 }
 
 dependencies {
-    compileOnly(project(":hidden-api"))
+    compileOnly(projects.hiddenApi)
     compileOnly(libs.xposed.api)
+
+    implementation(libs.core)
+    implementation(libs.recyclerview)
+    implementation(libs.fragment)
+    implementation(libs.coordinatorlayout)
+    implementation(libs.constraintlayout) {
+        exclude("androidx.appcompat", "appcompat")
+    }
 
     implementation(libs.dexkit)
     implementation(libs.mmkv)
@@ -236,7 +244,13 @@ dependencies {
     implementation(libs.lyric.getter.api)
     implementation(libs.lunarcalendar)
 
-    implementation(project(":provision"))
-    implementation(project(":processor"))
-    annotationProcessor(project(":processor"))
+    implementation(
+        fileTree(
+            mapOf("dir" to "libs", "include" to listOf("*-debug.aar"))
+        )
+    )
+
+    // implementation(projects.provision)
+    implementation(projects.processor)
+    annotationProcessor(projects.processor)
 }

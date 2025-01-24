@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
@@ -18,9 +19,6 @@ dependencyResolutionManagement {
         maven("https://api.xposed.info")
         google()
         mavenCentral()
-        flatDir {
-            dirs("provision/libs")
-        }
     }
 }
 
