@@ -24,7 +24,10 @@ Currently, HyperCeiler is adapted for Xiaomi HyperOS 2.0 mobile devices based on
 
 Before submitting feedback, please pay attention to whether there is already the same feedback to avoid causing trouble to developers. Spending the same energy reading the same feedback is a waste of time.
 
-HyperCeiler has stopped maintaining MIUI ROM for Android 11-13. If you want to use it, please stay at [this version](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
+HyperCeiler has stopped maintaining MIUI ROMs for Android 11-13 and HyperOS1.0 ROM for Android 13.
+
+> - For MIUI ROMs on Android 11-12, please use [this version](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130)
+> - For MIUI ROMs on Android 13 and HyperOS1.0 ROM, please use [this version](https://github.com/Xposed-Modules-Repo/com.sevtinge.hyperceiler/releases/download/3866-2.5.156_20250118/HyperCeiler_2.5.156_20250118_3866_release_miui.apk)
 
 ## Supported apps
 
