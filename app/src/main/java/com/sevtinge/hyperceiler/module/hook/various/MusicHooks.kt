@@ -55,7 +55,7 @@ object MusicHooks : MusicBaseHook() {
             val pkgName = lyricData.extraData.packageName
             if (pkgName == context.packageName) {
                 try {
-                    sendNotification(lyricData.lyric)
+                    sendNotification(lyricData.lyric, lyricData.extraData)
                 } catch (e: Throwable) {
                     logE(TAG, lpparam.packageName, e)
                 }

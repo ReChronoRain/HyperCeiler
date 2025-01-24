@@ -4,7 +4,7 @@
 
 # HyperCeiler
 
-### Make HyperOS/MIUI Great Again!
+### Make HyperOS Great Again!
 
 简体中文&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md)&nbsp;&nbsp;|&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
 
@@ -12,15 +12,13 @@
 
 ## 当前支持的版本
 
-Android 13-15 的 MIUI 和 HyperOS
-
-> 注：Android 13 已基本停止维护，仅提供临时支持，不再接受反馈
+Android 14-15 的 HyperOS
 
 ## 使用前说明
 
 请在 [LSPosed](https://github.com/LSPosed/LSPosed/releases) 中启用 HyperCeiler， 然后在 HyperCeiler 应用内启用对应的功能，重启作用域 (需要 Root 权限)；
 
-本模块<b>不支持</b> `修改较多的第三方 MIUI/Xiaomi HyperOS ROM`、`修改较多的系统软件`，以及`部分国际 MIUI/Xiaomi HyperOS ROM`；
+本模块<b>不支持</b> `修改较多的第三方 Xiaomi HyperOS ROM`、`修改较多的系统软件`，以及`部分国际 Xiaomi HyperOS ROM`；
 
 目前 HyperCeiler 是基于 Android 15 的 Xiaomi HyperOS 2.0 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进
 

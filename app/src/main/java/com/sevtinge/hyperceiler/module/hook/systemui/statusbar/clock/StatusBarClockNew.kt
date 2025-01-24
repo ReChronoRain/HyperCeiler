@@ -289,11 +289,7 @@ object StatusBarClockNew : BaseHook() {
         val mMiuiStatusBarClockController =
             textV.getObjectField("mMiuiStatusBarClockController")
         val mCalendar =
-            if (isMoreAndroidVersion(34)) {
-                mMiuiStatusBarClockController?.getObjectField("mCalendar")
-            } else {
-                mMiuiStatusBarClockController?.callMethod("getCalendar")
-            }
+            mMiuiStatusBarClockController?.getObjectField("mCalendar")
         if (mCalendar == null) return
         val sClockName = buildFormatString(getFormatS, getFormatN, getClockStyle)
         val (textSb, formatSb) = when (name) {

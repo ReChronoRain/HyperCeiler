@@ -18,60 +18,19 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
-import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.initPct;
 import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.mPct;
 import static com.sevtinge.hyperceiler.module.base.tool.OtherTool.removePct;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.annotation.SuppressLint;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
-import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class BrightnessPct extends BaseHook {
     @Override
     @SuppressLint("SetTextI18n")
     public void init() throws NoSuchMethodException {
-        if (!isMoreHyperOSVersion(1f)) {
-            findAndHookMethod("com.android.systemui.statusbar.policy.BrightnessMirrorController", "showMirror", new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) {
-                    ViewGroup mStatusBarWindow = (ViewGroup) XposedHelpers.getObjectField(param.thisObject, "mStatusBarWindow");
-                    if (mStatusBarWindow == null) {
-                        logE(TAG, lpparam.packageName, "mStatusBarWindow is null");
-                        return;
-                    }
-                    initPct(mStatusBarWindow, 1);
-                    mPct.setVisibility(View.VISIBLE);
-                }
-            });
-
-            findAndHookMethod("com.android.systemui.statusbar.policy.BrightnessMirrorController", "hideMirror", new MethodHook() {
-                    @Override
-                    protected void after(MethodHookParam param) {
-                        removePct(mPct);
-                    }
-                }
-            );
-
-            hookAllMethods("com.android.systemui.controlcenter.policy.MiuiBrightnessController", "onStart", new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    Object windowView = getObject(param);
-                    if (windowView == null) {
-                        logE(TAG, lpparam.packageName, "mControlPanelContentView is null");
-                        return;
-                    }
-                    initPct((ViewGroup) windowView, 2);
-                    mPct.setVisibility(View.VISIBLE);
-                }
-            });
-        }
-
         hookAllMethods("com.android.systemui.controlcenter.policy.MiuiBrightnessController", "onStop", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) {
@@ -95,15 +54,5 @@ public class BrightnessPct extends BaseHook {
                 }
             }
         });
-    }
-
-    private static Object getObject(XC_MethodHook.MethodHookParam param) {
-        Object mMirror = XposedHelpers.getObjectField(param.thisObject, "mControl");
-        Object controlCenterWindowViewController = XposedHelpers.getObjectField(mMirror, "controlCenterWindowViewController");
-        String clsName = controlCenterWindowViewController.getClass().getName();
-        if (!clsName.equals("ControlCenterWindowViewController")) {
-            controlCenterWindowViewController = XposedHelpers.callMethod(controlCenterWindowViewController, "get");
-        }
-        return XposedHelpers.callMethod(controlCenterWindowViewController, "getView");
     }
 }

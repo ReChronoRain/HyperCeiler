@@ -79,9 +79,7 @@ public class MobileNetwork extends BaseHook {
             @Override
             protected void before(MethodHookParam param) {
                 int opt = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_new_hd", 0);
-                if (opt > 0 && !isMoreHyperOSVersion(1f)) {
-                    XposedHelpers.setBooleanField(param.thisObject, "mWifiAvailable", opt == 2);
-                } else if (opt == 2 && isMoreHyperOSVersion(1f)) {
+                if (opt == 2) {
                     XposedHelpers.setBooleanField(param.thisObject, "mWifiAvailable", true);
                 }
             }

@@ -46,7 +46,7 @@
 
     <PreferenceCategory android:title="@string/system_ui_control_center_notification_title">
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.MediaCardSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.MediaCardSettings"
             android:key="prefs_key_system_ui_control_center_media_control_media_custom"
             android:title="@string/system_ui_controlcenter_media_card_title" />
 
@@ -107,120 +107,11 @@
             android:summary="@string/system_ui_control_center_notification_disable_transparent_desc"
             android:title="@string/system_ui_control_center_notification_disable_transparent" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_n_enable"
-            android:title="@string/system_ui_control_center_notification_blur_model" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_n_enable"
-            android:key="prefs_key_n_enable_fix"
-            android:summary="@string/system_ui_control_center_notification_blur_fix_desc"
-            android:title="@string/system_ui_control_center_notification_blur_fix" />
-
-        <SeekBarPreferenceCompat
-            app:defaultValue="56"
-            android:dependency="prefs_key_n_enable"
-            android:key="prefs_key_system_ui_control_center_blur_radius"
-            android:summary="@string/system_ui_control_center_blur_radius_desc"
-            android:title="@string/system_ui_control_center_blur_radius"
-            app:defaultValueTitle="@string/array_default"
-            app:format="%d %%"
-            app:maxValue="99"
-            app:minValue="20"
-            app:showSeekBarValue="true"
-            app:stepValue="1" />
-
-        <SeekBarPreferenceCompat
-            app:defaultValue="48"
-            android:dependency="prefs_key_n_enable"
-            android:key="prefs_key_system_ui_control_center_corner_radius"
-            android:summary="@string/system_ui_control_center_corner_radius_desc"
-            android:title="@string/system_ui_control_center_corner_radius"
-            app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
-            app:maxValue="100"
-            app:showSeekBarValue="true"
-            app:stepValue="1" />
-
-        <SeekBarPreferenceCompat
-            app:defaultValue="100"
-            android:dependency="prefs_key_n_enable"
-            android:key="prefs_key_system_ui_control_center_blur_background_alpha"
-            android:title="@string/system_ui_control_center_blur_background_alpha"
-            app:defaultValueTitle="@string/array_default"
-            app:format="%s"
-            app:maxValue="255"
-            app:minValue="85"
-            app:showSeekBarValue="true"
-            app:stepValue="1" />
-
-        <SeekBarPreferenceCompat
-            app:defaultValue="200"
-            android:dependency="prefs_key_n_enable"
-            android:key="prefs_key_system_ui_control_center_default_background_alpha"
-            android:title="@string/system_ui_control_center_default_background_alpha"
-            app:defaultValueTitle="@string/array_default"
-            app:format="%s"
-            app:maxValue="255"
-            app:minValue="85"
-            app:showSeekBarValue="true"
-            app:stepValue="1" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="prefs_key_system_ui_controlcenter_card"
-        android:title="@string/system_ui_controlcenter_card_title">
-        <SeekBarPreferenceCompat
-            app:defaultValue="0"
-            android:key="prefs_key_system_control_center_qs_detail_bg"
-            android:title="@string/system_control_center_qs_detail_bg"
-            app:defaultValueTitle="@string/array_default"
-            app:format="%s"
-            app:maxValue="255"
-            app:showSeekBarValue="true"
-            app:stepValue="1" />
-
-        <SeekBarPreferenceCompat
-            app:defaultValue="255"
-            android:key="prefs_key_system_ui_control_center_control_detail_background_alpha"
-            android:title="@string/system_ui_control_center_control_detail_background_alpha"
-            app:defaultValueTitle="@string/array_default"
-            app:format="%s"
-            app:maxValue="255"
-            app:minValue="85"
-            app:showSeekBarValue="true"
-            app:stepValue="1" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:enabled="false"
-            android:key="prefs_key_system_ui_control_center_mi_play_entry"
-            android:title="@string/system_ui_control_center_hide_mi_play_entry"
-            app:entries="@array/status_bar_icon_mode"
-            app:entryValues="@array/status_bar_icon_mode_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_control_center_mi_smart_hub_entry"
-            android:title="@string/system_ui_control_center_hide_mi_smart_hub_entry"
-            app:entries="@array/status_bar_icon_mode"
-            app:entryValues="@array/status_bar_icon_mode_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_control_center_device_ctrl_entry"
-            android:title="@string/system_ui_control_center_hide_device_ctrl_entry"
-            app:entries="@array/status_bar_icon_mode"
-            app:entryValues="@array/status_bar_icon_mode_value" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_controlcenter_new_title">
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.TileSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.TileSettings"
             android:key="prefs_key_system_ui_control_center_tile_settings"
             android:title="@string/system_ui_control_center_magnet_tile_settings" />
 
@@ -271,14 +162,6 @@
             android:title="@string/system_ui_control_center_hide_operator"
             app:entries="@array/system_ui_control_center_hide_operator"
             app:entryValues="@array/system_ui_control_center_hide_operator_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="1"
-            android:key="prefs_key_system_ui_control_center_cc_bluetooth_tile_style"
-            android:summary="@string/system_ui_control_center_cc_bluetooth_tile_style_sum"
-            android:title="@string/system_ui_control_center_cc_bluetooth_tile_style_title"
-            app:entries="@array/control_center_cc_bluetooth_tile_style"
-            app:entryValues="@array/control_center_cc_bluetooth_tile_style_value" />
 
         <SeekBarPreferenceCompat
             app:defaultValue="4"

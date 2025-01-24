@@ -19,34 +19,38 @@
 package com.sevtinge.hyperceiler.view
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.database.ContentObserver
-import android.net.Uri
 import android.os.Handler
-import android.os.Looper
 import android.os.Message
 import android.text.TextUtils
 import android.widget.TextView
+import androidx.core.net.toUri
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.sevtinge.hyperceiler.module.hook.systemui.Dependency
+import com.sevtinge.hyperceiler.module.hook.systemui.InterfacesImplManager
+import com.sevtinge.hyperceiler.utils.callMethod
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 
 @SuppressLint("ViewConstructor")
 class WeatherView(context: Context?, private val showCity: Boolean) : TextView(context) {
 
-    private val mContext: Context
-    private val weatherUri = Uri.parse("content://weather/weather")
-    private val mHandler: Handler = object : Handler(Looper.getMainLooper()) {
+    private val mContext: Context = context!!
+    private val weatherUri = "content://weather/weather".toUri()
+    private val mHandler: Handler = object : Handler(mContext.mainLooper) {
         override fun handleMessage(message: Message) {
             val str = message.obj as String
             this@WeatherView.text = if (TextUtils.isEmpty(str)) " " else str
         }
     }
-    private val mWeatherObserver: ContentObserver?
+    private val mWeatherObserver = WeatherContentObserver(mHandler)
     private val mWeatherRunnable: WeatherRunnable
 
     init {
-        mWeatherObserver = WeatherContentObserver(mHandler)
-        mContext = context!!
         mWeatherRunnable = WeatherRunnable()
-        context.contentResolver.registerContentObserver(weatherUri, true, mWeatherObserver)
+        context?.contentResolver?.registerContentObserver(weatherUri, true, mWeatherObserver)
         updateWeatherInfo()
     }
 
@@ -59,33 +63,29 @@ class WeatherView(context: Context?, private val showCity: Boolean) : TextView(c
     inner class WeatherRunnable : Runnable {
         override fun run() {
             var str = ""
-            try {
-                val query = mContext.contentResolver.query(weatherUri, null, null, null, null)
-                if (query != null) {
-                    if (query.moveToFirst()) {
-                        str = if (showCity) {
-                            query.getString(query.getColumnIndexOrThrow("city_name")) + " " + query.getString(
-                                query.getColumnIndexOrThrow(
-                                    "description"
-                                )
-                            ) + " " + query.getString(query.getColumnIndexOrThrow("temperature"))
-                        } else {
-                            query.getString(query.getColumnIndexOrThrow("description")) + " " + query.getString(
-                                query.getColumnIndexOrThrow(
-                                    "temperature"
-                                )
+            mContext.contentResolver.query(weatherUri, null, null, null, null)?.use { query ->
+                if (query.moveToFirst()) {
+                    str = if (showCity) {
+                        "${query.getString(query.getColumnIndexOrThrow("city_name"))} ${
+                            query.getString(
+                                query.getColumnIndexOrThrow("description")
                             )
-                        }
+                        } ${query.getString(query.getColumnIndexOrThrow("temperature"))}"
+                    } else {
+                        "${query.getString(query.getColumnIndexOrThrow("description"))} ${
+                            query.getString(
+                                query.getColumnIndexOrThrow("temperature")
+                            )
+                        }"
                     }
-                    query.close()
                 }
-            } catch (_: Exception) {
-
             }
-            val obtainMessage2 = mHandler.obtainMessage()
-            obtainMessage2.what = 100
-            obtainMessage2.obj = str
-            mHandler.sendMessage(obtainMessage2)
+
+            mHandler.obtainMessage().apply {
+                what = 100
+                obj = str
+                mHandler.sendMessage(this)
+            }
         }
     }
 
@@ -98,6 +98,25 @@ class WeatherView(context: Context?, private val showCity: Boolean) : TextView(c
         super.onDetachedFromWindow()
         if (mWeatherObserver != null) {
             mContext.contentResolver.unregisterContentObserver(mWeatherObserver)
+        }
+    }
+
+    fun startWeatherApp() {
+        runCatching {
+            val intent = Intent().apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                component = ComponentName(
+                    "com.miui.weather2",
+                    "com.miui.weather2.ActivityWeatherMain"
+                )
+            }
+
+            val clz = loadClass(InterfacesImplManager.I_ACTIVITY_STARTER)
+            if (isMoreHyperOSVersion(2f)) {
+                InterfacesImplManager.sClassContainer[clz]
+            } else {
+                Dependency.get(clz)
+            }?.callMethod("startActivity", intent, true)
         }
     }
 

@@ -38,12 +38,7 @@ class QSGrid : BaseHook() {
         val rows = mPrefsMap.getInt("system_control_center_old_qs_rows", 3)
         val rowsHorizontal = mPrefsMap.getInt("system_control_center_old_qs_rows_horizontal", 2)
 
-        if (isMoreHyperOSVersion(1f) && isAndroidVersion(34)) {
-            hyperHooks(cols, colsHorizontal)
-        } else {
-            miuiHooks(cols, colsHorizontal)
-        }
-
+        hyperHooks(cols, colsHorizontal)
         miuiTileClass.methodFinder()
             .filterByName("updateResources")
             .first().createHook {
@@ -67,25 +62,6 @@ class QSGrid : BaseHook() {
         miuiTileClass.methodFinder()
             .filterByName("layoutTileRecords")
             .filterByParamCount(1)
-            .first().createHook {
-                after {
-                    val viewGroup = it.thisObject as ViewGroup
-                    val mConfiguration: Configuration = viewGroup.context.resources.configuration
-                    if (mConfiguration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        XposedHelpers.setObjectField(it.thisObject, "mColumns", cols)
-                    } else {
-                        XposedHelpers.setObjectField(it.thisObject, "mColumns", colsHorizontal)
-                    }
-                }
-            }
-    }
-
-    private fun miuiHooks(
-        cols: Int,
-        colsHorizontal: Int
-    ) {
-        miuiTileClass.methodFinder()
-            .filterByName("updateColumns")
             .first().createHook {
                 after {
                     val viewGroup = it.thisObject as ViewGroup

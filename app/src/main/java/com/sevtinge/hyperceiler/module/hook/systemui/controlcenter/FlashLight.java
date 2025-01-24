@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -100,13 +99,13 @@ public class FlashLight extends TileUtils {
 
     private void initListen() {
         hookAllConstructors("com.android.systemui.controlcenter.policy.MiuiBrightnessController",
-            new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) {
-                    Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                    listening(mContext, param);
+                new MethodHook() {
+                    @Override
+                    protected void after(MethodHookParam param) {
+                        Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                        listening(mContext, param);
+                    }
                 }
-            }
         );
     }
 
@@ -135,15 +134,13 @@ public class FlashLight extends TileUtils {
                 }
             };
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor("flash_light_enabled"),
-                false, contentObserver);
+                    false, contentObserver);
             this.isListening = true;
         }
     }
 
     private void hookBrightness() {
-        if (!isMoreAndroidVersion(34)) {
-            findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController",
-                "lambda$onChanged$0", boolean.class, float.class,
+        findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController$$ExternalSyntheticLambda0", "run",
                 new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
@@ -152,9 +149,9 @@ public class FlashLight extends TileUtils {
                         }
                     }
                 }
-            );
+        );
 
-            findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController$5",
+        findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController$2",
                 "run",
                 new MethodHook() {
                     @Override
@@ -164,50 +161,25 @@ public class FlashLight extends TileUtils {
                         }
                     }
                 }
-            );
-        } else {
-            findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController$$ExternalSyntheticLambda0",
-                "run",
-                new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        if (isHook) {
-                            param.setResult(null);
-                        }
-                    }
-                }
-            );
-
-            findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController$2",
-                "run",
-                new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        if (isHook) {
-                            param.setResult(null);
-                        }
-                    }
-                }
-            );
-        }
+        );
         hookStop();
         hookBrightnessUtils();
     }
 
     private void hookStop() {
         findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController",
-            "onStop", int.class, new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    if (isHook) {
-                        Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                        if (lastFlash != -1) {
-                            JSONObject object = new FlashBrightness((int) param.args[0], lastFlash).toJSON();
-                            setFlashBrightness(mContext, object.toString());
+                "onStop", int.class, new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        if (isHook) {
+                            Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                            if (lastFlash != -1) {
+                                JSONObject object = new FlashBrightness((int) param.args[0], lastFlash).toJSON();
+                                setFlashBrightness(mContext, object.toString());
+                            }
                         }
                     }
                 }
-            }
         );
     }
 
@@ -217,13 +189,13 @@ public class FlashLight extends TileUtils {
         Object mControl = XposedHelpers.getObjectField(param.thisObject, "mControl");
         if (!isUserSliding && toggleSliderBase != null) {
             boolean mControlValueInitialized = (boolean) XposedHelpers.getObjectField(param.thisObject,
-                "mControlValueInitialized");
+                    "mControlValueInitialized");
             if (!mControlValueInitialized) {
                 XposedHelpers.callMethod(toggleSliderBase, "setValue", i);
                 XposedHelpers.setObjectField(param.thisObject, "mControlValueInitialized", true);
             }
             ValueAnimator ofInt = ValueAnimator.ofInt((int) XposedHelpers.callMethod(mControl,
-                "getValue"), i);
+                    "getValue"), i);
             XposedHelpers.setObjectField(param.thisObject, "mSliderAnimator", ofInt);
             ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -262,57 +234,57 @@ public class FlashLight extends TileUtils {
     private void convertGammaToLinearFloat(Class<?> clz, boolean b) {
         int maxBrightness = maxBrightness();
         findAndHookMethod(clz, "convertGammaToLinearFloat",
-            b ? int.class : float.class, float.class, b ? float.class : int.class,
-            new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    if (isHook) {
-                        // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat int 1: " + param.args[0]);
-                        // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat float 2: " + param.args[1]);
-                        // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat float 3: " + param.args[2]);
-                        float min = (float) param.args[b ? 1 : 0];
-                        float max = (float) param.args[b ? 2 : 1];
-                        if (min < 0.001f) {
-                            min = 0.00114514f;
-                        }
-                        min = Math.round(min * 500);
-                        max = Math.round(max * 500);
-                        float exp;
-                        Class<?> BrightnessUtils = XposedHelpers.findClass("com.android.systemui.controlcenter.policy.BrightnessUtils",
-                            lpparam.classLoader);
-                        int GAMMA_SPACE_MAX = XposedHelpers.getStaticIntField(BrightnessUtils, "GAMMA_SPACE_MAX");
-                        float R = XposedHelpers.getStaticFloatField(BrightnessUtils, "R");
-                        float A = XposedHelpers.getStaticFloatField(BrightnessUtils, "A");
-                        float B = XposedHelpers.getStaticFloatField(BrightnessUtils, "B");
-                        float C = XposedHelpers.getStaticFloatField(BrightnessUtils, "C");
-                        float norm = MathUtils.norm(0.0f, GAMMA_SPACE_MAX, (int) param.args[b ? 0 : 2]);
-                        if (norm <= R) {
-                            exp = MathUtils.sq(norm / R);
-                        } else {
-                            exp = MathUtils.exp((norm - C) / A) + B;
-                        }
-                        if (min < 10) {
-                            min = 12;
-                        }
-                        // logE("FlashLight", "convertGammaToLinearFloat R: " + R + " A: " + A + " B: " + B + " C: " + C);
-                        // logE("FlashLight", "convertGammaToLinearFloat exp: " + exp);
-                        float end = MathUtils.lerpNew(min, max, (MathUtils.constrain(exp, 0.0f, 12.0f) / 12.0f));
-                        // logE("FlashLight", "convertGammaToLinearFloat min: " + min);
-                        // logE("FlashLight", "convertGammaToLinearFloat max: " + max);
-                        // logE("FlashLight", "convertGammaToLinearFloat end: " + end);
-                        int i = Math.round(end);
-                        if (i != 0) {
-                            if (maxBrightness != -1 && i > maxBrightness) {
-                                i = maxBrightness;
+                b ? int.class : float.class, float.class, b ? float.class : int.class,
+                new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        if (isHook) {
+                            // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat int 1: " + param.args[0]);
+                            // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat float 2: " + param.args[1]);
+                            // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat float 3: " + param.args[2]);
+                            float min = (float) param.args[b ? 1 : 0];
+                            float max = (float) param.args[b ? 2 : 1];
+                            if (min < 0.001f) {
+                                min = 0.00114514f;
                             }
-                            // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat i: " + i);
-                            lastFlash = i;
-                            writeFile(i);
+                            min = Math.round(min * 500);
+                            max = Math.round(max * 500);
+                            float exp;
+                            Class<?> BrightnessUtils = XposedHelpers.findClass("com.android.systemui.controlcenter.policy.BrightnessUtils",
+                                    lpparam.classLoader);
+                            int GAMMA_SPACE_MAX = XposedHelpers.getStaticIntField(BrightnessUtils, "GAMMA_SPACE_MAX");
+                            float R = XposedHelpers.getStaticFloatField(BrightnessUtils, "R");
+                            float A = XposedHelpers.getStaticFloatField(BrightnessUtils, "A");
+                            float B = XposedHelpers.getStaticFloatField(BrightnessUtils, "B");
+                            float C = XposedHelpers.getStaticFloatField(BrightnessUtils, "C");
+                            float norm = MathUtils.norm(0.0f, GAMMA_SPACE_MAX, (int) param.args[b ? 0 : 2]);
+                            if (norm <= R) {
+                                exp = MathUtils.sq(norm / R);
+                            } else {
+                                exp = MathUtils.exp((norm - C) / A) + B;
+                            }
+                            if (min < 10) {
+                                min = 12;
+                            }
+                            // logE("FlashLight", "convertGammaToLinearFloat R: " + R + " A: " + A + " B: " + B + " C: " + C);
+                            // logE("FlashLight", "convertGammaToLinearFloat exp: " + exp);
+                            float end = MathUtils.lerpNew(min, max, (MathUtils.constrain(exp, 0.0f, 12.0f) / 12.0f));
+                            // logE("FlashLight", "convertGammaToLinearFloat min: " + min);
+                            // logE("FlashLight", "convertGammaToLinearFloat max: " + max);
+                            // logE("FlashLight", "convertGammaToLinearFloat end: " + end);
+                            int i = Math.round(end);
+                            if (i != 0) {
+                                if (maxBrightness != -1 && i > maxBrightness) {
+                                    i = maxBrightness;
+                                }
+                                // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat i: " + i);
+                                lastFlash = i;
+                                writeFile(i);
+                            }
+                            param.setResult(end);
                         }
-                        param.setResult(end);
                     }
                 }
-            }
         );
     }
 

@@ -21,7 +21,7 @@
     <string name="version_update">تم العثور على نسخة جديدة</string>
     <string name="about_copy_right">© 2023-2025 مساهمو Sevtinge و HyperCeiler.</string>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">اجعل HyperOS/MIUI عظيم مجدداً!</string>
+    <string name="xposed_description">اجعل HyperOS عظيم مجدداً!</string>
     <string name="new_permission_wifi_state_desc">إضافة وحذف الملفات الموجودة على التخزين الداخلي للجهاز</string>
     <string name="new_permission_location_desc">تستخدم لتقديم خدمات مثل خطوط العرض وخطوط الطول</string>
     <string name="new_cta_agree_desc">أثناء الاستخدام، من أجل تزويدك بالمزيد من الميزات، قد نتقدم بطلب للحصول على إذن الروت منك. يمكنك الذهاب إلى إدارة الأذونات في أي وقت لتعديل حالة التفويض لجميع الأذونات، يرجى الذهاب إلى مدير الروت الخاص بك للحصول على أذونات الروت.</string>
@@ -53,8 +53,8 @@
     <string name="headtip_notice_dead_logger_errcode">خدمة السجلات الحالية للجهاز غير طبيعية، وستكون خصائص HyperCeiler محدودة. يرجى استعادة خدمة السجلات ليعمل التطبيق بشكل طبيعي.\nرمز الخطأ: %1$s</string>
     <string name="headtip_notice_dead_logger">خدمة السجلات الحالية للجهاز غير طبيعية، وستكون خصائص HyperCeiler محدودة. يرجى استعادة خدمة السجلات ليعمل التطبيق بشكل طبيعي.</string>
     <!--HyperCeiler Settings/About Page-->
-    <string name="language">الإنجليزية</string>
-    <string name="translator">الرسمي HyperCeiler</string>
+    <string name="language">العربية</string>
+    <string name="translator">Mohamed Zeroug</string>
     <string name="translator_url">https://github.com/ReChronoRain</string>
     <string name="home">الرئيسية</string>
     <string name="help">مساعدة</string>
@@ -219,7 +219,9 @@
     <string name="miuix_alphabet_indexer_name">شريط الفهرس</string>
     <string name="miuix_appcompat_action_mode_cancel">إلغاء</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">مسح</string>
+    <string name="miuix_appcompat_color_erro_entry">قيمة غير صالحة. الرجاء التحقق منها وإعادة إدخالها.</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">الشفافية</string>
+    <string name="miuix_appcompat_color_picker_custom_color">لون مخصص</string>
     <string name="miuix_appcompat_color_picker_tab_dynamic">مونيت</string>
     <string name="miuix_appcompat_color_picker_tab_grid">الشبكة</string>
     <string name="miuix_appcompat_color_picker_tab_slider">شريط التمرير</string>
@@ -234,6 +236,7 @@
     <string name="miuix_navigator_content_switch_description">إظهار الشريط الجانبي</string>
     <string name="miuix_navigator_multiple_choice">تحديد</string>
     <string name="miuix_navigator_navigator_switch_description">إخفاء الشريط الجانبي</string>
+    <string name="miuix_preference_textentry_erro_entry">قيمة غير صالحة. الرجاء التحقق منها وإعادة إدخالها.</string>
     <string name="miuix_sbl_tracking_progress_labe_pull_to_refresh">اسحب لأسفل للتحديث</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshed">تم التحديث بنجاح</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshing">جاري التحديث…</string>
@@ -254,10 +257,6 @@
     <string name="feature">وظيفة</string>
     <string name="recommend">مقترح</string>
     <string name="editor">المحرِّر</string>
-    <string name="record">تسجيل</string>
-    <string name="shot">إطلاق</string>
-    <string name="portrait">عمودي</string>
-    <string name="camera_pro">احترافي</string>
     <string name="enable">تفعيل</string>
     <string name="disable">تعطيل</string>
     <string name="custom_enable">تفعيل مخصص</string>
@@ -365,8 +364,6 @@
     <string name="app_sort_frequency">استخدام مؤخرًا</string>
     <string name="app_sort_storage">استخدام التخزين</string>
     <string name="app_sort_install">وقت التثبيت</string>
-    <string name="array_bluetooth_tile_style_3rows">ثلاث بلاطات كبيرة</string>
-    <string name="array_bluetooth_tile_style_2rows2cols">بلاطة كبيرة و إثنان صغيرتان</string>
     <string name="array_pa_blur_official">الرسمي يأتي بضبابية</string>
     <string name="array_bpa_blur_customize">تخصيص ضبابية الخلفية</string>
     <string name="control_center_sunshine_mode_default">إغلاق</string>
@@ -398,6 +395,7 @@
     <string name="system_ui_statusbar_clock_style_3">عرض سطرين\n\nساعة صغيرة في أسفل إشعار الظل\nساعة شريط الحالة في الأسفل</string>
     <string name="mediaeditor_mickey">ميكي ماوس</string>
     <string name="mediaeditor_strawberry_bear">دب الفراولة</string>
+    <string name="mediaeditor_disney_princess">أميرة ديزني</string>
     <string name="tiles_gms">خدمة Google Play</string>
     <string name="tiles_snow_leopard_mode">وضع S-Leo</string>
     <string name="tiles_taplus">Taplus</string>
@@ -424,11 +422,9 @@
     <string name="system_framework_freeform_content_extension_desc">الروابط المدعومة فقط</string>
     <string name="system_framework_default_volume_stream">تعديل الصوت بشكل افتراضي</string>
     <string name="system_framework_volume_first_press">تعديل فوري للصوت</string>
-    <string name="system_framework_volume_separate_control">فصل صوت النظام والاشعارات عن صوت الرنين</string>
     <string name="system_framework_volume_disable_safe">إزالة قيود أمان الصوت العالي</string>
     <string name="default_volume_safe_all">لجميع الحالات</string>
     <string name="default_volume_safe_headset">فقط عند الاتصال بالسماعات</string>
-    <string name="system_framework_volume_separate_slider">شريط تمرير صوت الإشعارات</string>
     <string name="system_framework_volume_media_steps">مستوى صوت الوسائط</string>
     <string name="system_framework_volume_media_steps_desc">قد تتسبب في تجميد شريط تمرير الصوت أو أن يكون مستوى صوت البلوتوث غير طبيعي</string>
     <string name="system_framework_volume_steps">مضاعف مستوى الصوت</string>
@@ -557,52 +553,7 @@
     <string name="camera_custom_watermark">علامة مائية مخصصة للجهاز</string>
     <string name="camera_custom_watermark_manufacturer">معلومات الشركة المصنعة</string>
     <string name="camera_custom_watermark_device">معلومات الجهاز</string>
-    <string name="camera_features_unlock_aiwatermark">فتح علامة AI المائية</string>
-    <string name="camera_features_unlock_ambilight">فتح خيار التصوير بالتعريض الطويل</string>
-    <string name="camera_features_unlock_clone">فتح وضع الإستنساخ في الكاميرا</string>
-    <string name="camera_features_unlock_cosmetic_mirror">فتح ميزة المرآة التجميلية</string>
-    <string name="camera_features_unlock_doc">فتح وضع تصوير المستندات</string>
-    <string name="camera_features_unlock_idcard">فتح وضع تصوير بطاقة الهوية</string>
-    <string name="camera_features_unlock_dualcam">فتح ميزة الكاميرا المزدوجة</string>
-    <string name="camera_features_unlock_duration">فتح المدة</string>
-    <string name="camera_features_unlock_milive">فتح الفيديو القصير</string>
-    <string name="camera_features_unlock_moon">فتح وضع السوبر مون</string>
-    <string name="camera_features_unlock_pano">فتح وضع البانوراما</string>
-    <string name="camera_features_unlock_pixel">فتح وضع البكسل</string>
-    <string name="camera_features_unlock_portrait">فتح وضع البورتريه</string>
-    <string name="camera_features_unlock_slow">فتح وضع الحركة البطيئة</string>
-    <string name="camera_features_unlock_videosky">فتح وضع الفيديو-سماء</string>
-    <string name="camera_features_unlock_vlog">فتح وضع الڤلوگر</string>
-    <string name="camera_features_unlock_vlog_pro">فتح وضع الڤلوگر المحترف</string>
-    <string name="camera_features_unlock_film">فتح وضع الكاميرا السينمائية</string>
-    <string name="camera_features_unlock_film_delay">فتح خيار التصوير بالتعريض الطويل</string>
-    <string name="camera_features_unlock_film_dollyzoom">فتح وضع التقريب الضئيل</string>
-    <string name="camera_features_unlock_film_dream">فتح وضع الحلم</string>
-    <string name="camera_features_unlock_film_slowshutter">فتح خيار الإلتقاط البطيء</string>
-    <string name="camera_features_unlock_film_timebackflow">فتح خيار التدفق الخلفي للوقت</string>
-    <string name="camera_features_unlock_film_timefreeze">فتح خيار تجميد الوقت</string>
     <string name="camera_shot_hand_gesture">فتح خيار اللتقاط الصور برفع راحة اليد</string>
-    <string name="camera_shot_color_enhance">فتح الألوان المحسنة</string>
-    <string name="camera_shot_makeup">فتح وضع المكياج</string>
-    <string name="camera_shot_makeup_desc">يسري مفعوله فقط عند استخدام الكاميرا الأمامية</string>
-    <string name="camera_record_60fps">فتح خيار 60 إطار بالثانية (60FPS)</string>
-    <string name="camera_record_60fps_desc">غير متاح في بعض الجودة. يرجى التأكد من أن جهازك مدعوم.</string>
-    <string name="camera_record_120fps">فتح خيار 120 إطار بالثانية (120FPS)</string>
-    <string name="camera_record_120fps_desc">يدعم فقط في جودات 4K. يرجى التأكد من أن جهازك مدعوم.</string>
-    <string name="camera_record_audio_zoom">فتح خيار تقريب الصوت</string>
-    <string name="camera_record_hdr">فتح خيار الـHDR</string>
-    <string name="camera_record_ai">فتح خيار التحسين بواسطة الـAI</string>
-    <string name="camera_portrait_new_beauty">فتح Beautify الجديدة</string>
-    <string name="camera_portrait_new_beauty_desc">تأخذ المفعول فقط عند استخدام الكاميرا الأمامية</string>
-    <string name="camera_portrait_cvlens">فتح Master portrait</string>
-    <string name="camera_portrait_cvlens_desc">لا يعمل بشكل صحيح على بعض الأجهزة</string>
-    <string name="camera_pro_raw">فتح RAW</string>
-    <string name="camera_pro_log">فتح LOG</string>
-    <string name="camera_settings_heic">فتح HEIF</string>
-    <string name="camera_settings_track_focus">فتح تتبع الحركة في التركيز</string>
-    <string name="camera_settings_predictive">فتح التقاط الحركة</string>
-    <string name="camera_settings_nevus">فتح ازالة النمش</string>
-    <string name="camera_settings_men_makeup">فتح تأثيرات المكياچ للرجال</string>
     <string name="camera_settings_lab_options">تمكين خيارات المختبر</string>
     <string name="camera_settings_track_eyes">فتح تتبع العيون في التركيز</string>
     <string name="camera_max_brightness">فرض الحد الأقصى من السطوع عند استخدام الكاميرا</string>
@@ -642,6 +593,8 @@
     <string name="phone_disable_remove_network_mode">تعطيل إزالة وضع الشبكة</string>
     <string name="phone_vice_slot_volte">فتح VoLTE للشريحة الثانوية</string>
     <string name="phone_vice_slot_volte_desc">استخدام بيانات الجوال أثناء مكالمات VoLTE على شريحة SIM الثانوية</string>
+    <string name="phone_unlock_voice_link">فتح رابط الصوت</string>
+    <string name="phone_unlock_voice_link_desc">فتح الرابط الصوتي لبعض SIMs التي تدعم الاتصال عبر WiFi</string>
     <!--Download management program-->
     <string name="downloads">التنزيلات</string>
     <string name="various_fuck_xlDownload">حظر إنشاء مجلد .xlDownload</string>
@@ -669,12 +622,10 @@
     <string name="system_ui_lock_screen_hide_camera">إخفاء زر الكاميرا</string>
     <string name="system_ui_lock_screen_hide_smart_screen">إخفاء الشاشة الذكية</string>
     <string name="system_ui_lock_screen_current">الحالي</string>
-    <string name="system_ui_lock_screen_show_second">عرض ثواني الساعة</string>
     <string name="system_ui_lock_screen_blur_button">تمويه أزرار شاشة القفل</string>
     <string name="system_ui_lock_screen_blur_button_desc">بعد التمكين، يتم تمويه خلفية زر الكاميرا وزر الشاشة السلبية على شاشة القفل، مما قد يؤدي إلى استهلاك طاقة مرتفع.\nيدعم الثيم الافتراضي فقط.</string>
     <string name="system_ui_lock_screen_blur_button_radius">نصف قطر الخلفية</string>
     <string name="system_ui_lock_screen_blur_button_bg_color">لون الخلفية</string>
-    <string name="system_ui_lock_screen_force_system_fonts">إجبار الساعة على استخدام خطوط النظام</string>
     <string name="system_ui_lock_screen_double_lock">انقر مرتين لقفل الشاشة</string>
     <string name="system_ui_lock_screen_double_lock_desc">انقر مرتين فوق موقع فارغ لقفل الشاشة</string>
     <string name="system_ui_lock_screen_unlock_notification_restrict">إلغاء قفل الإشعارات</string>
@@ -711,13 +662,8 @@
     <string name="system_ui_statusbar_iconmanage_title">إدارة الأيقونات</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">إدارة مؤشر سرعة الشبكة</string>
     <string name="system_ui_statusbar_clock_title">إدارة مؤشر الساعة</string>
-    <string name="system_ui_statusbar_device_title">مؤشرات الأجهزة</string>
     <string name="system_ui_statusbar_strong_toast_title">تنبيه قوي ذكي</string>
     <string name="system_ui_statusbar_music_title">تركيز الكلمات</string>
-    <string name="system_ui_statusbar_layout_title">التصاميم</string>
-    <string name="system_ui_statusbar_layout_compatibility_mode_title">وضع التوافق</string>
-    <string name="system_ui_statusbar_layout_compatibility_mode_desc">تمكين تخطيط ملء الشاشة بالقوة لجميع الشاشات ذات الشكل الخاص</string>
-    <string name="system_ui_statusbar_layout_mode_title">وضع التخطيط</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">نقر مزدوج للنوم</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">شريط مزدوج لشريط الإشارة</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">ثيمات الأيقونات</string>
@@ -746,8 +692,6 @@
     <string name="system_ui_statusbar_iconmanage_devices_title">الأجهزة</string>
     <string name="system_ui_statusbar_iconmanage_internet_title">الشبكة</string>
     <string name="system_ui_statusbar_iconmanage_privacy_title">الخصوصية</string>
-    <string name="system_ui_statusbar_iconmanage_left_title">عرض الأيقونات على الجانب الأيسر</string>
-    <string name="system_ui_statusbar_iconmanage_right_title">عرض الأيقونات على الجانب الأيمن</string>
     <string name="system_ui_status_bar_icon_wifi">الـ Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_slave">الـ Wi-Fi المساعد</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Wi-Fi إعتياي</string>
@@ -790,23 +734,17 @@
     <string name="system_ui_status_bar_icon_soundbox_group_stereo">مجموعة صندوق الصوت الاستيريو</string>
     <string name="system_ui_status_bar_icon_tv">تلفاز</string>
     <string name="system_ui_status_bar_icon_wireless_headset">سماعة رأس لاسلكية</string>
-    <string name="system_ui_status_bar_notification_dots_maximum">الحد الأقصى لعدد نقاط الإشعارات</string>
     <string name="system_ui_status_bar_notification_icon_maximum">الحد الأقصى لعدد أيقونات الإشعارات</string>
     <string name="system_ui_status_bar_battery_percent">إخفاء النسبة المئوية للبطارية</string>
     <string name="system_ui_status_bar_battery_percent_mark">إخفاء علامة النسبة المئوية للبطارية</string>
     <string name="system_ui_status_bar_battery_charging">إخفاء مؤشر الشحن</string>
     <string name="system_ui_status_bar_battery_icon">إخفاء أيقونة البطارية</string>
     <string name="system_ui_status_bar_battery_style_title">تخصيصات البطارية</string>
-    <string name="system_ui_status_bar_battery_indicator_title">مؤشر البطارية</string>
     <string name="system_ui_status_bar_wifi_at_left">الـ Wi-Fi</string>
     <string name="system_ui_status_bar_mobile_network_at_left">شبكة المحمول</string>
     <string name="system_ui_status_bar_swap_wifi_and_mobile_network">تبديل الـ Wi-Fi وشبكة المحمول</string>
     <string name="system_ui_status_bar_network_speed_at_right">سرعة الإنترنت</string>
     <string name="system_ui_status_bar_volume_at_right">مشهد الصوت</string>
-    <string name="system_ui_status_bar_use_new_hd">إجبار إستخدام أيقونة HD الجديدة</string>
-    <string name="system_ui_status_bar_use_new_hd_summary">يدعم فقط بعض إصدارات النظام</string>
-    <string name="system_ui_status_bar_no_netspeed_separator_title">فاصل سرعة الشبكة</string>
-    <string name="system_ui_status_bar_no_netspeed_separator_desc">الخط العمودي بين الوقت وسرعة الإنترنت لا يُعرض على الأجهزة التي تحتوي على كاميرا مركزة</string>
     <string name="system_ui_status_bar_hide_icon">إخفاء شريط الحالة عند التقاط لقطة الشاشة</string>
     <string name="system_ui_status_bar_mobile_type_single_title">نوع أيقونة بيانات الجوال</string>
     <string name="system_ui_statusbar_network_speed_all_status">تمكين التعديل</string>
@@ -822,21 +760,9 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">تعتبر قِيم سرعة الشبكة الأقل من هذا المستوى بطيئة وسيتم عرض أيقونة مؤشر مختلفة (بعض الأيقونات فقط)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">إخفاء البايت لكل ثانية (*ب/ث)</string>
     <string name="system_ui_statusbar_network_speed_icon">أيقونة المؤشر</string>
-    <string name="system_ui_statusbar_clock_mode">وضع ساعة مخصص</string>
-    <string name="system_ui_statusbar_clock_editor">تنسيق الساعة</string>
-    <string name="system_ui_statusbar_clock_year">عرض السنة</string>
-    <string name="system_ui_statusbar_clock_month">عرض الشهر</string>
-    <string name="system_ui_statusbar_clock_date">عرض اليوم</string>
-    <string name="system_ui_statusbar_clock_week">عرض الأسبوع</string>
-    <string name="system_ui_statusbar_clock_hour_cn">عرض ساعة مزدوجة</string>
-    <string name="system_ui_statusbar_clock_period">عرض فترة الساعة</string>
-    <string name="system_ui_statusbar_clock_second">عرض الثواني</string>
-    <string name="system_ui_statusbar_clock_hide_space">إخفاء المسافة</string>
-    <string name="system_ui_statusbar_clock_double">عرض مزدوج</string>
     <string name="system_ui_statusbar_clock_double_mode_title">تنسيق الصف المزدوج</string>
     <string name="system_ui_statusbar_clock_desc">نموذج تنسيق الساعة</string>
     <string name="system_ui_statusbar_clock_size">حجم الساعة</string>
-    <string name="system_ui_statusbar_clock_double_size">حجم الساعة في الصف المزدوج</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">صالح فقط عند عرضها في صفين</string>
     <string name="system_ui_statusbar_clock_fix_color">إصلاح اللون</string>
     <string name="system_ui_disable_clock_anim">تعطيل الرسوم المتحركة لتبديل الساعة في ظل الإشعارات</string>
@@ -852,36 +778,6 @@
     <string name="system_ui_statusbar_clock_editor_s">تنسيق ساعة شريط الحالة</string>
     <string name="system_ui_statusbar_clock_editor_n">تنسيق ساعة صغيرة في ظل الإشعارات</string>
     <string name="system_ui_statusbar_clock_style_f">تنسيق ساعة شريط الحالة</string>
-    <string name="system_ui_statusbar_indicator_battery_title">الطاقة</string>
-    <string name="system_ui_statusbar_indicator_temperature_title">درجة الحرارة</string>
-    <string name="system_ui_statusbar_battery_size">حجم الخط</string>
-    <string name="system_ui_statusbar_battery_show">عرض المحتويات</string>
-    <string name="system_ui_statusbar_temp_decimal_places">إخفاء الأماكن العشرية</string>
-    <string name="system_ui_statusbar_battery_disable">إخفاء الوحدات</string>
-    <string name="system_ui_statusbar_battery_right_show">عرض على اليمين</string>
-    <string name="system_ui_statusbar_battery_electric_current">إظهار التيار بشكل دائم بقيمة إيجابية</string>
-    <string name="system_ui_statusbar_battery_power_abs">إظهار الطاقة بشكل دائم بقيمة إيجابية</string>
-    <string name="system_ui_statusbar_battery_line_show">عرض في صف واحد</string>
-    <string name="system_ui_statusbar_battery_opposite">ترتيب عكسي</string>
-    <string name="system_ui_statusbar_battery_only_changing_show">عرض فقط عند الشحن</string>
-    <string name="system_ui_statusbar_battery_update_spacing">فاصل تحديث الحالة</string>
-    <string name="system_ui_statusbar_temp_fix_cpu">إصلاح درجة حرارة المعالج</string>
-    <string name="system_ui_statusbar_temp_fix_cpu_desc">أدخل الرقم /sys/devices/virtual/thermal/thermal_zone*</string>
-    <string name="system_ui_status_bar_battery_indicator_centered">مركزي</string>
-    <string name="system_ui_status_bar_battery_indicator_rounded">زوايا مستديرة</string>
-    <string name="system_ui_status_bar_battery_indicator_limitvis">حدود الرؤية</string>
-    <string name="system_ui_status_bar_battery_indicator_align">محاذاة عمودية</string>
-    <string name="system_ui_status_bar_battery_indicator_color">اللون</string>
-    <string name="system_ui_status_bar_battery_indicator_color_full_power">لون البطارية وهي مكتملة</string>
-    <string name="system_ui_status_bar_battery_indicator_color_low_power">لون البطارية وهي منخفضة</string>
-    <string name="system_ui_status_bar_battery_indicator_color_power_saving">لون وضع توفير الطاقة</string>
-    <string name="system_ui_status_bar_battery_indicator_color_power_charging">لون البطارية أثناء الشحن</string>
-    <string name="system_ui_status_bar_battery_indicator_height">الإرتفاع</string>
-    <string name="system_ui_status_bar_battery_indicator_padding">الطرف الأفقي</string>
-    <string name="system_ui_status_bar_battery_indicator_alpha">الشفافية</string>
-    <string name="system_ui_status_bar_battery_indicator_glow">اللمعان</string>
-    <string name="system_ui_status_bar_battery_indicator_low_level">مستوى البطارية المنخفض</string>
-    <string name="system_ui_status_bar_battery_indicator_test">اختبار</string>
     <string name="system_ui_status_bar_strong_toast_layout">التصاميم</string>
     <string name="system_ui_status_bar_strong_toast_text">المعلومات</string>
     <string name="system_ui_status_bar_strong_toast_test">تصحيح الأخطاء</string>
@@ -902,11 +798,9 @@
     <string name="system_ui_statusbar_music_width_title">إضافة مساحة بيضاء في نهاية كلمات الأغاني</string>
     <string name="system_ui_statusbar_music_width_desc">اجعل كلمات الأغاني المتحركة مكتملة قدر الإمكان</string>
     <string name="system_ui_controlcenter_title">مركز التحكم</string>
-    <string name="system_ui_controlcenter_card_title">بطاقة</string>
     <string name="system_ui_controlcenter_media_card_title">بطاقة إشعار الوسائط</string>
     <string name="system_ui_control_center_magnet_tile_settings">مغناطيس</string>
     <string name="system_ui_control_center_notification_title">الإشعارات</string>
-    <string name="system_control_center_qs_detail_bg">شفافية الخلفية للبطاقة</string>
     <string name="quick_settings_state_change_message_on_my">%1$s مفعل</string>
     <string name="quick_settings_state_change_message_off_my">%1$s غير مفعل</string>
     <string name="system_control_center_5g_tile">مفتاح تبديل شبكة 5G</string>
@@ -929,21 +823,9 @@
     <string name="system_control_center_qs_columns">الأعمدة</string>
     <string name="system_control_center_qs_columns_format">%d عمود(ـات)</string>
     <string name="system_control_center_qs_columns_horizontal">الأعمدة (بالعرض)</string>
-    <string name="system_ui_control_center_hide_mi_play_entry">إدخال Xiaomi Smart Play</string>
-    <string name="system_ui_control_center_hide_mi_smart_hub_entry">إدخال Xiaomi Smart Hub</string>
-    <string name="system_ui_control_center_hide_device_ctrl_entry">إدخال التحكم بالجهاز</string>
-    <string name="system_ui_control_center_control_detail_background_alpha">شفافية خلفية تفاصيل التحكم</string>
     <string name="system_ui_control_center_notification_disable_transparent">تعطيل الوضع الشفاف</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">تعطيل ضبط خلفية الإشعارات لتكون شفافة</string>
-    <string name="system_ui_control_center_notification_blur_model">نموذج تشويش الإشعارات</string>
-    <string name="system_ui_control_center_notification_blur_fix">تحسين الإشعارات</string>
-    <string name="system_ui_control_center_notification_blur_fix_desc">ميزة تجريبية. متاحة فقط لأجهزة Android 13 وما فوق. بعد التمكين، سيتم تحسين تشويش الإشعارات في بعض المناطق. قد يحدث مشكلة في تعطل واجهة النظام على بعض الأجهزة.</string>
-    <string name="system_ui_control_center_blur_radius">نصف قطر التشويش</string>
-    <string name="system_ui_control_center_blur_radius_desc">دون إشعار منسدل</string>
-    <string name="system_ui_control_center_corner_radius">نصف قطر الزوايا</string>
-    <string name="system_ui_control_center_corner_radius_desc">لا حاجة لتعديل السمة الافتراضية</string>
-    <string name="system_ui_control_center_blur_background_alpha">قيمة خلفية التشويش</string>
-    <string name="system_ui_control_center_default_background_alpha">قيمة الخلفية الافتراضية</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">تحسين تأثير مزج الألوان في لوحة التحكم بالوسائط</string>
     <string name="system_ui_control_center_media_control_progress">شريط التقدم</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">إزالة قيود الإجراءات المخصصة لبطاقات إشعار الوسائط</string>
     <string name="system_ui_control_center_media_control_progress_wavy">موجي</string>
@@ -958,6 +840,8 @@
     <string name="system_ui_control_center_remove_media_control_panel_background">إزالة خلفية مزج الألوان من البطاقة</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">نصف قطر خلفية التشويش</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">التعتيم في طبقة التراكب الخلفية</string>
+    <string name="system_ui_control_center_media_control_media_button_title">زر الوسائط</string>
+    <string name="system_ui_control_center_media_control_media_seekbar_title">شريط البحث عن الوسائط</string>
     <string name="system_ui_control_center_compact_notice">الإشعارات المدمجة</string>
     <string name="system_ui_control_center_compact_notice_desc">تقليل المسافات الرأسية للإشعارات</string>
     <string name="system_ui_control_center_redirect_notice">إعادة توجيه إعدادات الإشعارات</string>
@@ -980,8 +864,6 @@
     <string name="system_ui_control_center_hide_delimiter">إخفاء الفواصل فقط</string>
     <string name="system_ui_control_center_hide_display_device_name">إخفاء اسم الجهاز</string>
     <string name="system_ui_control_center_hide_name">إخفاء جميع الأسماء</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">نمط بلاطة البلوتوث</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">نقل بلاطة البلوتوث بالقرب من بلاطة الشبكة</string>
     <string name="system_ui_control_center_notifrowmenu">قائمة إشعارات موسعة</string>
     <string name="system_ui_control_center_notifrowmenu_desc">فتح معلومات التطبيق، إغلاق التطبيق بالقوة وفتح في نافذة عائمة من قائمة الإشعارات (اسحب الإشعار لليسار لفتحه)</string>
     <string name="system_ui_controlcenter_new_title">مركز التحكم الجديد</string>
@@ -1000,18 +882,16 @@
     <string name="system_ui_control_center_remove_notif_num_limit_desc">السماح بعرض 10 أو 17 إشعارًا أو أكثر.</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">تحسين خلط ألوان الخلفية في قسم الإشعارات</string>
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">العودة إلى نمط الإشعارات العادي وخلط الألوان</string>
+    <string name="system_ui_control_center_qs_brightness_top_value_show_title">قيمة سطوع العرض</string>
+    <string name="system_ui_control_center_qs_volume_top_value_show_title">عرض قيمة مستوى الصوت</string>
+    <string name="system_ui_control_center_qs_top_value_title">المحتوى</string>
+    <string name="system_ui_control_center_qs_top_value_per">النسبة المئوية</string>
+    <string name="system_ui_control_center_qs_top_value_original">القيمة الأصلية</string>
     <string name="system_ui_other_title">أخرى</string>
     <string name="system_ui_disable_volume">شريط الصوت الأصلي</string>
     <string name="system_ui_disable_power">قائمة إيقاف التشغيل الأصلية</string>
-    <string name="system_ui_disable_power_desc">تستخدم MIUI واجهة قائمة إيقاف التشغيل القديمة، بينما يستخدم HyperOS واجهة قائمة AOSP.</string>
-    <string name="system_ui_disable_volume_desc">لا يمكن تطبيق التعديلات على شريط الصوت في HyperOS/MIUI على شريط الصوت الأصلي</string>
     <string name="system_ui_unlock_clipboard">فتح محرر الحافظة AOSP</string>
-    <string name="system_ui_unlock_clipboard_desc">بعد الفتح، سيتم عرضه مع محرر HyperOS/MIUI.</string>
-    <string name="system_ui_charge_animation_title">رسوم متحركة للشحن</string>
-    <string name="system_ui_charge_animation_style">نمط رسوم الشحن المتحركة</string>
-    <string name="system_ui_charge_animation_style_desc">اختر نمط رسوم الشحن في شاشة القفل</string>
     <string name="system_ui_another_title">أخرى</string>
-    <string name="system_ui_disable_bluetooth_restrict">منع إيقاف البلوتوث مؤقتًا</string>
     <string name="system_ui_disable_miui_multi_win_switch">إخفاء زر تقسيم الشاشة</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">إخفاء النقاط الثلاثة الثابتة، بما في ذلك أعلى النافذة الصغيرة وزر المنتصف في الأعلى لوضع الشاشة الأفقية في HyperOS للتابلت (لا يؤثر على استخدام الوظائف).</string>
     <string name="system_ui_remove_miui_multi_win_switch">تعطيل زر تقسيم الشاشة</string>
@@ -1030,12 +910,16 @@
     <string name="system_ui_monet_overlay_custom">تخصيص لون السمة</string>
     <string name="system_ui_monet_overlay_custom_desc">تخصيص ألوان السمة بدلاً من سحب الألوان من ورق الحائط النظامي</string>
     <string name="system_ui_monet_overlay_custom_color">اختيار لون السمة</string>
-    <string name="system_ui_volume_timer">مؤقت موسع</string>
     <string name="system_ui_qs_label">علامة التبديل السريع</string>
     <string name="system_ui_notification_title">إشعار</string>
     <string name="system_ui_other_notification_fix">تعطيل القائمة البيضاء للإشعارات</string>
     <string name="system_ui_other_default_plugin_theme">إزالة قيود الضبابية من القوائم المتقدمة</string>
     <string name="system_ui_other_default_plugin_theme_desc">قم بإلغاء قفل ضبابية القوام المتقدمة، والتي يتم تعطيلها بشكل افتراضي للموضوعات التابعة لجهات خارجية في المكون الإضافي لواجهة المستخدم للنظام.</string>
+    <string name="system_ui_plugin_volume_title">شريط الصوت</string>
+    <string name="system_ui_volume_collpased_column_press">اضغط لتوسيع شريط الصوت الثانوي</string>
+    <string name="system_ui_volume_collpased_column_press_desc">عند تمكين هذه الميزة، يتم إيقاف تشغيل زر التوسيع</string>
+    <string name="system_ui_volume_hide_foot_button">إخفاء أزرار كتم الصوت وعدم الإزعاج</string>
+    <string name="system_ui_volume_timer">مؤقت موسع</string>
     <string name="system_ui_plugin_enable_volume_blur">تمكين ضبابية شريط الصوت</string>
     <string name="system_ui_move_log_to_miui">نقل statusbar_gestures.dat إلى دليل MIUI</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">مخصص لنماذج MTK التي تعمل بنظام Android12+. قد يتسبب ذلك في تحميل GPU عالي.</string>
@@ -1076,7 +960,6 @@
     <string name="system_settings_unlock_xiaomihyperai_entrance">فتح Xiaomi HyperAI</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance_desc">بعد تفعيلها، يتم عرض خيار Xiaomi HyperAI في الإعدادات. دعم ميزات الذكاء الاصطناعي للجهاز يتم تحديده بواسطة Xiaomi.</string>
     <string name="system_settings_lab_title">الوظائف المميزة</string>
-    <string name="system_settings_area_screenshot">فتح لقطة شاشة المنطقة</string>
     <string name="system_settings_voip_assistant_controller">مساعد VoIP</string>
     <string name="system_settings_display_and_lockscreen_title">الشاشة والإضاءة الخلفية</string>
     <string name="system_settings_ai_image_unlock_sr">فتح دقة الصورة الفائقة</string>
@@ -1133,14 +1016,8 @@
     <string name="updater_diable_dialog">إيقاف ظهور مربع الحوار \"تشغيل التحديثات التلقائية\"</string>
     <!--Permissions-->
     <string name="lbe">الأذونات</string>
-    <string name="clipboard">الحافظة</string>
-    <string name="lbe_disable_clipboard_tip">إخفاء إشعارات التنبيه</string>
     <string name="lbe_auto_start">إيقاف إيقاف التشغيل التلقائي لتشغيل التطبيقات تلقائيًا</string>
-    <string name="lbe_clipboard_tip_toast">قراءة الحافظة باستخدام إشعارات التنبيه</string>
-    <string name="lbe_clipboard_tip_toast_desc">إخفاء الحوار والسماح للتطبيق بقراءة الحافظة بشكل افتراضي</string>
-    <string name="lbe_clipboard_tip">قراءة الحافظة</string>
     <!--Cast-->
-    <string name="milink">الإرسال</string>
     <string name="milink_hyperos">خدمات الاتصال البيني</string>
     <string name="milink_unlock_mishare">فتح الاتصال بالجهاز</string>
     <string name="milink_allow_camera_devices">دعم إجبارى لبث الكاميرا</string>
@@ -1149,7 +1026,6 @@
     <string name="sound_recorder">مسجل الصوت</string>
     <string name="sound_recorder_disable_ai_watermark">تعطيل العلامة المائية للذكاء الاصطناعي</string>
     <!--Always-on display-->
-    <string name="aod">الشاشة الدائمة</string>
     <string name="aod_hyperos">الشاشة الدائمة ومحرر قفل الشاشة</string>
     <string name="aod_unlock_always_on_display">فتح الحد الزمني لعرض الشاشة الدائمة</string>
     <string name="aod_unlock_always_on_display_more">إعادة تشغيل واجهة النظام لتمكين الميزة بالكامل</string>
@@ -1204,8 +1080,7 @@
     <string name="gallery_backup_server_xiaomi">Xiaomi Cloud</string>
     <string name="gallery_backup_server_google">Google</string>
     <string name="gallery_backup_server_onedrive">Google &amp; OneDrive</string>
-    <!--MIUI security components-->
-    <string name="guard_provider">مكونات أمان MIUI</string>
+    <!--System security components-->
     <string name="guard_provider_hyperos">مكونات أمان النظام</string>
     <string name="guard_provider_disable_upload_applist">منع تحميل قائمة التطبيقات المثبتة تلقائيًا</string>
     <string name="guard_provider_disable_root_check">تعطيل فحص البيئة</string>
@@ -1369,7 +1244,6 @@
     <string name="home_title_icon_size">حجم الأيقونة</string>
     <string name="home_recent">التطبيقات الحديثة</string>
     <string name="home_recent_animation_speed">سرعة الرسوم المتحركة</string>
-    <string name="home_recent_disable_wallpaper_dimming">تعطيل تخفيف خلفية الشاشة</string>
     <string name="home_recent_unlock_pin">إلغاء تثبيت التطبيقات المثبتة</string>
     <string name="home_recent_hide_status_bar_in_task_view">إخفاء شريط الحالة في التطبيقات الحديثة</string>
     <string name="home_recent_hide_world_circulate">إخفاء النافذة العائمة عند عكس الشاشة</string>
@@ -1480,13 +1354,19 @@
     <string name="home_other_opt_app_launch_delay">تحسين تأخير تشغيل التطبيق</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">محرر المعرض</string>
+    <string name="mediaeditor_tip">تعليمات للاستخدام:\n- الرجاء استخدام v2 hook للإصدارات 1.7.5.0.4 وما بعدها، يرجى استخدام v1 hook للإصدارات الأقل من 1.7.5.0.4</string>
+    <string name="mediaeditor_hook_type">نوع خطاف محرر المعرض</string>
     <string name="mediaeditor_foundation">الأساس</string>
+    <string name="mediaeditor_authoring">المؤلف</string>
     <string name="mediaeditor_ai_authoring">الكتابة بواسطة الذكاء الاصطناعي</string>
+    <string name="mediaeditor_custom_photo_frames_title">تخصيص الإطار</string>
+    <string name="mediaeditor_custom_disney_title">وظيفة مشتركة</string>
     <string name="mediaeditor_unlock_disney_title">فتح ميزات تخصيص ديزني</string>
     <string name="mediaeditor_unlock_disney_desc">الميزات المفتوحة تشمل ما يلي:\n• الإطارات المخصصة - إطارات مخصصة من ديزني (تتعارض مع الإطارات المخصصة الأخرى)\n• خلفية بوكيه - بوكه ميكي\n• الملصقات - ملصقات ديزني</string>
     <string name="mediaeditor_unlock_spring_title">فتح إطارات الصور المخصصة لعيد رأس السنة الصينية</string>
     <string name="mediaeditor_unlock_spring_desc">لإضافة إطارات صور مخصصة لعيد رأس السنة الصينية بشكل دائم، المطلب الأساسي هو أنك بحاجة إلى إطار صورة مخصص من لايكا أو إطار صورة مخصص من ريدمي.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">إزالة حد القص الأدنى للصورة</string>
+    <string name="mediaeditor_unlock_custom_photo_frames_v2_title">فتح تخصيص الإطار</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">تخصيص نوع الإطار</string>
     <string name="mediaeditor_unlock_leica_filter_title">فتح فلتر لايكا</string>
     <string name="mediaeditor_unlock_leica_filter_desc">يتم دعم بعض الإصدارات فقط</string>
@@ -1494,6 +1374,7 @@
     <!--Mi Share-->
     <string name="mishare">مشاركة شاومي</string>
     <string name="mishare_disable_mishare_auto_off">إيقاف إغلاق مشاركة شاومي التلقائي</string>
+    <string name="mishare_disable_auto_on_location">تمكين خَدمات الموقع عند إيقاف مشاركة الملفات</string>
     <string name="mishare_unlock_turbo_mode">فتح وضع النقل السريع</string>
     <string name="mishare_hook_switch_mode_all">الجميع</string>
     <!--Wallpaper-->
@@ -1567,8 +1448,6 @@
     <string name="securityadd_disable_gb_ads">إيقاف إعلانات مركز الألعاب</string>
     <string name="securityadd_disable_gb_ads_desc">قد يؤدي هذا إلى حدوث خلل في وظائف أخرى</string>
     <!--Security/Tablet security center-->
-    <string name="security_center">الأمان</string>
-    <string name="security_center_pad">الأمان</string>
     <string name="security_center_hyperos">الأمان</string>
     <string name="security_center_app_title">إدارة التطبيقات</string>
     <string name="security_center_battery_title">البطارية</string>
@@ -1580,14 +1459,11 @@
     <string name="security_center_dolby_open">إغلاق نافذة منبثقة Dolby</string>
     <string name="security_center_show_battery_temperature">عرض درجة حرارة البطارية</string>
     <string name="security_center_show_battery_health">عرض صحة البطارية بالتفصيل</string>
-    <string name="security_center_ai_clipboard">حماية الحافظة</string>
-    <string name="security_center_blur_location">تقليل دقة الموقع</string>
     <string name="security_center_gms_open">خدمة GMS</string>
     <string name="security_center_taplus">مفاتيح Taplus</string>
     <string name="security_center_reduce_bright_colors_tile">استبدال أيقونة البلاط الداكنة جدًا</string>
     <string name="security_center_flash_light">التحكم في سطوع الفلاش</string>
     <string name="security_center_flash_light_more">يسمح لك بالتحكم في سطوع الفلاش عن طريق سحب شريط السطوع</string>
-    <string name="security_center_get_number">إدارة التطبيق للحصول على رقم الهاتف وتسجيل الدخول بنقرة واحدة</string>
     <string name="security_center_simplify_home">تبسيط شاشة الأمان الرئيسية</string>
     <string name="security_center_simplify_home_desc">إزالة بطاقة التوصية بالوظائف</string>
     <string name="security_center_applock_pin_scramble">قفل التطبيقات مع تشويش الرقم السري</string>
@@ -1730,6 +1606,7 @@
     <string name="market_package_monitor_desc">منع GetApps من مراقبة تثبيت وإلغاء تثبيت التطبيقات</string>
     <string name="market_disable_ads">تعطيل الإعلانات</string>
     <string name="market_bypass_risk_check">تخطي فحص المخاطر</string>
+    <string name="market_disable_start_push_dialog">تعطيل مربع حوار بدأ الدفع</string>
     <!--Mi sound-->
     <string name="misound">السماعات</string>
     <string name="misound_bluetooth">تغيير حالة سماعة الرأس إلى الصوت الأصلي</string>
@@ -1750,8 +1627,12 @@
     <string name="sogou_xiaomi">طريقة إدخال Sogou</string>
     <string name="sogou_xiaomi_clipboard">إزالة الحد الأقصى لعدد الحافظات</string>
     <string name="add_clipboard_clear">إضافة زر مسح الحافظة</string>
+    <!--Sim Activation Service-->
+    <string name="sim_activation_service">خدمة تفعيل Xiaomi SIM</string>
+    <string name="sim_activation_service_disable_activate_when_roaming">تعطيل تفعيل شريحة SIM 2 عند التجوال</string>
+    <string name="sim_activation_service_disable_activate_when_roaming_desc">يتم دعم البر الرئيسي الصيني فقط</string>
+    <string name="sim_activation_service_disable_activate_when_roaming_radical">استخدام نهج تصفية التجوال الأكثر عدوانية</string>
     <!--Scanner-->
-    <string name="scanner">الماسح الضوئي</string>
     <string name="scanner_hyper">الماسح الذكي</string>
     <string name="scanner_card">فتح مسح بطاقة الهوية</string>
     <string name="scanner_translation">فتح الترجمة</string>
@@ -1761,7 +1642,6 @@
     <string name="scanner_ppt">فتح مسح PPT</string>
     <string name="scanner_doc_ppt">فتح مسح الملفات</string>
     <!--MI AI-->
-    <string name="voiceassist">Mi AI</string>
     <string name="voiceassist_hyper">Super AI</string>
     <string name="voiceassist_disable_watermark">تعطيل العلامة المائية للمحادثة</string>
     <!--Voice Trigger-->
@@ -1913,4 +1793,8 @@
     <string name="log_level_none">معطل</string>
     <string name="disable_suggest">تعطيل الاقتراحات</string>
     <string name="enable_suggest">تمكين الاقتراحات</string>
+    <string name="notification_channel_app_crash_name">التطبيق يعمل بشكل غير طبيعي</string>
+    <string name="notification_title_message_emergency_crash">%s أعطال متعددة</string>
+    <string name="notification_content_message">انقر هنا لعرض التفاصيل</string>
+    <string name="notification_view">عرض</string>
 </resources>

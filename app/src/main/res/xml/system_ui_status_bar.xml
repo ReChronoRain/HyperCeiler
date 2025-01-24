@@ -21,54 +21,30 @@
     app:myLocation="@string/system_ui_statusbar_title"
     app:quick_restart="com.android.systemui">
     <PreferenceCategory>
-    <Preference
-        android:title="@string/system_ui_statusbar_iconmanage_title"
-        android:key="prefs_key_icon_manager" />
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.statusbar.IconManageNewSettings"
+            android:title="@string/system_ui_statusbar_iconmanage_title" />
 
-    <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.NetworkSpeedIndicatorSettings"
-        android:title="@string/system_ui_statusbar_network_speed_indicator_title" />
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.statusbar.NetworkSpeedIndicatorSettings"
+            android:title="@string/system_ui_statusbar_network_speed_indicator_title" />
 
-    <Preference
-        android:key="prefs_key_clock_status"
-        android:title="@string/system_ui_statusbar_clock_title" />
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.statusbar.NewClockIndicatorSettings"
+            android:title="@string/system_ui_statusbar_clock_title" />
 
-    <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.BatteryDetailIndicatorSettings"
-        android:key="prefs_key_system_ui_status_bar_device"
-        android:title="@string/system_ui_statusbar_device_title" />
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.statusbar.StrongToastSettings"
+            android:title="@string/system_ui_statusbar_strong_toast_title" />
 
-    <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.StrongToastSettings"
-        android:key="prefs_key_system_ui_status_bar_toast"
-        android:title="@string/system_ui_statusbar_strong_toast_title" />
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.statusbar.FocusNotificationLyrics"
+            android:key="prefs_key_system_ui_status_bar_music"
+            android:title="@string/system_ui_statusbar_music_title" />
 
-    <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.FocusNotificationLyrics"
-        android:key="prefs_key_system_ui_status_bar_music"
-        android:title="@string/system_ui_statusbar_music_title" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="pref_key_system_ui_statusbar_layout"
-        android:title="@string/system_ui_statusbar_layout_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="pref_key_system_ui_statusbar_layout_compatibility_mode"
-            android:summary="@string/system_ui_statusbar_layout_compatibility_mode_desc"
-            android:title="@string/system_ui_statusbar_layout_compatibility_mode_title" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_statusbar_layout_mode"
-            android:title="@string/system_ui_statusbar_layout_mode_title"
-            app:entries="@array/system_ui_status_bar_layout_mode"
-            app:entryValues="@array/system_ui_status_bar_layout_mode_value" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_other_title">
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_double_tap_to_sleep"

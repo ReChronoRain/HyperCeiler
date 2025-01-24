@@ -34,23 +34,13 @@ fun getWhoAmI(): String = rootExecCmd("whoami")
 fun getCurrentUserId(): Int = Process.myUserHandle().hashCode()
 // 仅获取设备信息，不要用于判断
 fun getAndroidVersion(): Int = androidSDK
-fun getMiuiVersion(): Float = miuiSDK
 fun getHyperOSVersion(): Float = hyperOSSDK
 
 private val androidSDK: Int by lazy {
     Build.VERSION.SDK_INT
 }
-private val miuiSDK: Float by lazy {
-    when (getProp("ro.miui.ui.version.name")) {
-        "V125" -> 12.5f
-        else -> getProp("ro.miui.ui.version.code").toFloatOrNull() ?: -1f
-    }
-}
 private val hyperOSSDK: Float by lazy {
     getProp("ro.mi.os.version.code").toFloatOrNull() ?: 0f
-}
-private val mSupportMiuiVersion: List<Float> by lazy {
-    mutableListOf(14.0f, 816.0f, 818.0f)
 }
 private val mSupportHyperOsVersion: List<Float> by lazy {
     mutableListOf(-1.0f, 1.0f, 2.0f)
@@ -73,21 +63,6 @@ fun isAndroidVersion(code: Int): Boolean = androidSDK == code
  */
 fun isMoreAndroidVersion(code: Int): Boolean = androidSDK >= code
 
-/**
- * 判断是否为指定某个 MIUI 版本
- * @param code 传入的 MIUI 版本 Float 数值
- * @return 一个 Boolean 值
- * HyperOS 2.0 已弃用
- */
-fun isMiuiVersion(code: Float): Boolean = miuiSDK == code
-
-/**
- * 判断是否大于某个 MIUI 版本
- * @param code 传入的 MIUI 版本 Float 数值
- * @return 一个 Boolean 值
- * HyperOS 2.0 已弃用
- */
-fun isMoreMiuiVersion(code: Float): Boolean = miuiSDK >= code
 
 /**
  * 判断是否为指定某个 HyperOS 版本
@@ -105,8 +80,7 @@ fun isHyperOSVersion(code: Float): Boolean = hyperOSSDK == code
 fun isMoreHyperOSVersion(code: Float): Boolean = hyperOSSDK >= code
 
 fun isFullSupport(): Boolean {
-    val isMiuiVersionSupport = mSupportMiuiVersion.contains(miuiSDK)
     val isHyperOsVersionSupport = mSupportHyperOsVersion.contains(hyperOSSDK)
     val isAndroidVersionSupport = mSupportAndroidVersion.contains(androidSDK)
-    return isMiuiVersionSupport && isHyperOsVersionSupport && isAndroidVersionSupport
+    return isHyperOsVersionSupport && isAndroidVersionSupport
 }

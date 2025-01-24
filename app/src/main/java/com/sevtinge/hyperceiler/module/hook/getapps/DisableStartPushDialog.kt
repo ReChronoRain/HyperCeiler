@@ -9,16 +9,15 @@ import com.sevtinge.hyperceiler.module.base.*
 object DisableStartPushDialog : BaseHook() {
     override fun init() {
         // 禁用开启推送弹窗
-        loadClass("com.xiaomi.market.util.NotificationUtils").methodFinder()
-            .filterByName("isNotificationEnabled")
-            .filterByParamTypes(String::class.java)
+        loadClass("com.xiaomi.market.ui.UpdateListFragment").methodFinder()
+            .filterByName("tryShowDialog")
             .first().createHook {
-                returnConstant(true)
+                interrupt()
             }
-        loadClass("com.xiaomi.market.util.SettingsUtils").methodFinder()
-            .filterByName("shouldNotifyUpdate")
+        loadClass("com.xiaomi.market.ui.update.UpdatePushDialogManager").methodFinder()
+            .filterByName("tryShowDialog")
             .first().createHook {
-                returnConstant(true)
+                interrupt()
             }
     }
 }

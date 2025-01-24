@@ -22,8 +22,12 @@ import android.annotation.*
 import android.app.*
 import android.app.AndroidAppHelper.*
 import android.content.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.*
 import android.os.*
+import android.util.Base64
 import androidx.core.app.*
 import androidx.core.graphics.drawable.*
 import cn.lyric.getter.api.*
@@ -42,18 +46,18 @@ abstract class MusicBaseHook : BaseHook() {
 
     private val receiver = LyricReceiver(object : LyricListener() {
         override fun onUpdate(lyricData: LyricData) {
-            try {
+            runCatching {
                 this@MusicBaseHook.onUpdate(lyricData)
-            } catch (e: Throwable) {
-                logE(TAG, lpparam.packageName, e)
+            }.onFailure {
+                logE(TAG, lpparam.packageName, it)
             }
         }
 
         override fun onStop(lyricData: LyricData) {
-            try {
+            runCatching {
                 this@MusicBaseHook.onStop()
-            } catch (e: Throwable) {
-                logE(TAG, lpparam.packageName, e)
+            }.onFailure {
+                logE(TAG, lpparam.packageName, it)
             }
         }
     })
@@ -70,11 +74,12 @@ abstract class MusicBaseHook : BaseHook() {
     abstract fun onStop()
 
     @SuppressLint("NotificationPermission", "LaunchActivityFromNotification")
-    fun sendNotification(text: String) {
+    fun sendNotification(text: String, extraData: ExtraData) {
         //  logE("sendNotification: " + context.packageName + ": " + text)
         createNotificationChannel()
         val isClickClock = mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
         val launchIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+        val base64icon = extraData.base64Icon
         val bitmap = context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         val intent = Intent("$CHANNEL_ID.actions.switchClockStatus")
@@ -85,7 +90,16 @@ abstract class MusicBaseHook : BaseHook() {
             PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_MUTABLE)
         }
         builder.setContentTitle(text)
-        builder.setSmallIcon(IconCompat.createWithBitmap(bitmap))
+        if (base64icon != "") {
+            val bitmapBase64Icon = base64ToDrawable(base64icon)
+            if (bitmapBase64Icon != null) {
+                builder.setSmallIcon(IconCompat.createWithBitmap(bitmapBase64Icon))
+            } else {
+                builder.setSmallIcon(IconCompat.createWithBitmap(bitmap))
+            }
+        } else {
+            builder.setSmallIcon(IconCompat.createWithBitmap(bitmap))
+        }
         builder.setTicker(text).setPriority(NotificationCompat.PRIORITY_LOW)
         builder.setOngoing(true) // 设置为常驻通知
         builder.setContentIntent(pendingIntent)
@@ -103,12 +117,35 @@ abstract class MusicBaseHook : BaseHook() {
         val bundle = Bundle()
         bundle.putString("miui.focus.param", jSONObject.toString())
         val bundle3 = Bundle()
-        bundle3.putParcelable(
-            "miui.focus.pic_ticker", Icon.createWithBitmap(bitmap)
-        )
-        bundle3.putParcelable(
-            "miui.focus.pic_ticker_dark", Icon.createWithBitmap(bitmap)
-        )
+        if (base64icon != ""){
+            val bitmapBase64Icon = base64ToDrawable(base64icon)
+            if (bitmapBase64Icon != null) {
+                val iconwiter = Icon.createWithBitmap(bitmapBase64Icon)
+                iconwiter.setTint(Color.WHITE)
+                bundle3.putParcelable(
+                    "miui.focus.pic_ticker", iconwiter
+                )
+                val iconblack = Icon.createWithBitmap(bitmapBase64Icon)
+                iconblack.setTint(Color.BLACK)
+                bundle3.putParcelable(
+                    "miui.focus.pic_ticker_dark", iconblack
+                )
+            } else {
+                bundle3.putParcelable(
+                    "miui.focus.pic_ticker", Icon.createWithBitmap(bitmap)
+                )
+                bundle3.putParcelable(
+                    "miui.focus.pic_ticker_dark", Icon.createWithBitmap(bitmap)
+                )
+            }
+        } else {
+            bundle3.putParcelable(
+                "miui.focus.pic_ticker", Icon.createWithBitmap(bitmap)
+            )
+            bundle3.putParcelable(
+                "miui.focus.pic_ticker_dark", Icon.createWithBitmap(bitmap)
+            )
+        }
         bundle.putBundle("miui.focus.pics", bundle3)
 
 
@@ -118,7 +155,6 @@ abstract class MusicBaseHook : BaseHook() {
             CHANNEL_ID.hashCode(), notification
         )
     }
-
 
     private fun createNotificationChannel() {
         val modRes = OtherTool.getModuleRes(context)
@@ -134,6 +170,20 @@ abstract class MusicBaseHook : BaseHook() {
     @SuppressLint("NotificationPermission")
     fun cancelNotification() {
         (context.getSystemService("notification") as NotificationManager).cancel(CHANNEL_ID.hashCode())
+    }
+
+    /**
+     *
+     * @param [base64] 图片的 Base64
+     * @return [Bitmap] 返回图片的 Bitmap?，传入 Base64 无法转换则为 null
+     */
+    fun base64ToDrawable(base64: String): Bitmap? {
+        return try {
+            val bitmapArray: ByteArray = Base64.decode(base64, Base64.DEFAULT)
+            BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.size)
+        } catch (_: Exception) {
+            null
+        }
     }
 
     companion object {

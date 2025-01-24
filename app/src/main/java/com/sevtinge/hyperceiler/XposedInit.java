@@ -23,10 +23,8 @@ import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.getPackageVersi
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
@@ -48,9 +46,8 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ToastBlur;
 import com.sevtinge.hyperceiler.module.hook.systemframework.UnlockAlwaysOnDisplay;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.VolumeSeparateControlForSettings;
 import com.sevtinge.hyperceiler.module.skip.SystemFrameworkForCorePatch;
-import com.sevtinge.hyperceiler.safe.CrashHook;
+import com.sevtinge.hyperceiler.ui.safe.CrashHook;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.LogManager;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
@@ -124,8 +121,6 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         if (mPrefsMap.getBoolean("system_framework_screen_all_rotations")) ScreenRotation.initRes();
         if (mPrefsMap.getBoolean("system_framework_clean_share_menu")) CleanShareMenu.initRes();
         if (mPrefsMap.getBoolean("system_framework_clean_open_menu")) CleanOpenMenu.initRes();
-        if (mPrefsMap.getBoolean("system_framework_volume_separate_control"))
-            VolumeSeparateControlForSettings.initRes();
 
         if (startupParam != null) {
             new BackgroundBlurDrawable().initZygote(startupParam);
@@ -171,7 +166,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
     private void init(XC_LoadPackage.LoadPackageParam lpparam) {
         String packageName = lpparam.packageName;
         if (Objects.equals(packageName, "android"))
-            logI(packageName, "androidVersion = " + getAndroidVersion() + ", miuiVersion = " + getMiuiVersion() + ", hyperosVersion = " + getHyperOSVersion());
+            logI(packageName, "androidVersion = " + getAndroidVersion() + ", hyperosVersion = " + getHyperOSVersion());
         else
             logI(packageName, "versionName = " + getPackageVersionName(lpparam) + ", versionCode = " + getPackageVersionCode(lpparam));
 
@@ -203,7 +198,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
                     return;
                 if (!(dataBase.mTargetSdk == -1) && !isAndroidVersion(dataBase.mTargetSdk))
                     return;
-                if (!(dataBase.mTargetOSVersion == -1F) && !(isHyperOSVersion(dataBase.mTargetOSVersion) || isMiuiVersion(dataBase.mTargetOSVersion)))
+                if (!(dataBase.mTargetOSVersion == -1F) && !(isHyperOSVersion(dataBase.mTargetOSVersion)))
                     return;
                 if ((dataBase.isPad == 1 && !isPad()) || (dataBase.isPad == 2 && isPad()))
                     return;

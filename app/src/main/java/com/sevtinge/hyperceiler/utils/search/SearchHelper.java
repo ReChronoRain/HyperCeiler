@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.utils.search;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -29,64 +28,60 @@ import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.ModData;
-import com.sevtinge.hyperceiler.ui.fragment.app.AodFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.CameraFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.CameraNewFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.ContentExtensionFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.MiCloudServiceFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.MiLinkFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.MiShareFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.NfcFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.PersonalAssistantFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.PhoneFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.SecurityAddFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.SystemSettingsFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.UpdaterFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.VariousFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.WeatherFragment;
-import com.sevtinge.hyperceiler.ui.fragment.app.framework.CorePatchSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.framework.DisplaySettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.framework.FreeFormSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.framework.NetworkSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.framework.OtherSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.framework.VolumeSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeDockSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeDrawerSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeFolderSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeGestureSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeLayoutSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeOtherSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeRecentSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeTitleAnimSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeTitleSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.HomeWidgetSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.anim.HomeTitleAnim1Settings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.anim.HomeTitleAnim2Settings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.anim.HomeTitleAnim3Settings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.anim.HomeTitleAnim4Settings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.anim.HomeTitleAnim5Settings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.anim.HomeTitleAnim7Settings;
-import com.sevtinge.hyperceiler.ui.fragment.app.home.anim.HomeTitleAnim8Settings;
-import com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.ApplicationsSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.PrivacySafetySettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.SidebarSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.ControlCenterSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.LockScreenSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.NavigationSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.StatusBarSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.SystemUIOtherSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.BatteryDetailIndicatorSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.BatteryStyleSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.ClockIndicatorSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.DoubleLineNetworkSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.IconManageNewSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.IconManageSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.MobileNetworkTypeSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.NetworkSpeedIndicatorSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.NewClockIndicatorSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.StrongToastSettings;
-import com.sevtinge.hyperceiler.ui.fragment.app.various.AOSPSettings;
-import com.sevtinge.hyperceiler.ui.fragment.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.app.AodFragment;
+import com.sevtinge.hyperceiler.ui.app.CameraNewFragment;
+import com.sevtinge.hyperceiler.ui.app.ContentExtensionFragment;
+import com.sevtinge.hyperceiler.ui.app.MiCloudServiceFragment;
+import com.sevtinge.hyperceiler.ui.app.MiLinkFragment;
+import com.sevtinge.hyperceiler.ui.app.MiShareFragment;
+import com.sevtinge.hyperceiler.ui.app.NfcFragment;
+import com.sevtinge.hyperceiler.ui.app.PersonalAssistantFragment;
+import com.sevtinge.hyperceiler.ui.app.PhoneFragment;
+import com.sevtinge.hyperceiler.ui.app.SecurityAddFragment;
+import com.sevtinge.hyperceiler.ui.app.SystemSettingsFragment;
+import com.sevtinge.hyperceiler.ui.app.UpdaterFragment;
+import com.sevtinge.hyperceiler.ui.app.VariousFragment;
+import com.sevtinge.hyperceiler.ui.app.WeatherFragment;
+import com.sevtinge.hyperceiler.ui.app.framework.CorePatchSettings;
+import com.sevtinge.hyperceiler.ui.app.framework.DisplaySettings;
+import com.sevtinge.hyperceiler.ui.app.framework.FreeFormSettings;
+import com.sevtinge.hyperceiler.ui.app.framework.NetworkSettings;
+import com.sevtinge.hyperceiler.ui.app.framework.OtherSettings;
+import com.sevtinge.hyperceiler.ui.app.framework.VolumeSettings;
+import com.sevtinge.hyperceiler.ui.app.home.HomeDockSettings;
+import com.sevtinge.hyperceiler.ui.app.home.HomeDrawerSettings;
+import com.sevtinge.hyperceiler.ui.app.home.HomeFolderSettings;
+import com.sevtinge.hyperceiler.ui.app.home.HomeGestureSettings;
+import com.sevtinge.hyperceiler.ui.app.home.HomeLayoutSettings;
+import com.sevtinge.hyperceiler.ui.app.home.HomeOtherSettings;
+import com.sevtinge.hyperceiler.ui.app.home.HomeRecentSettings;
+import com.sevtinge.hyperceiler.ui.app.home.HomeTitleAnimSettings;
+import com.sevtinge.hyperceiler.ui.app.home.HomeTitleSettings;
+import com.sevtinge.hyperceiler.ui.app.home.HomeWidgetSettings;
+import com.sevtinge.hyperceiler.ui.app.home.anim.HomeTitleAnim1Settings;
+import com.sevtinge.hyperceiler.ui.app.home.anim.HomeTitleAnim2Settings;
+import com.sevtinge.hyperceiler.ui.app.home.anim.HomeTitleAnim3Settings;
+import com.sevtinge.hyperceiler.ui.app.home.anim.HomeTitleAnim4Settings;
+import com.sevtinge.hyperceiler.ui.app.home.anim.HomeTitleAnim5Settings;
+import com.sevtinge.hyperceiler.ui.app.home.anim.HomeTitleAnim7Settings;
+import com.sevtinge.hyperceiler.ui.app.home.anim.HomeTitleAnim8Settings;
+import com.sevtinge.hyperceiler.ui.app.securitycenter.ApplicationsSettings;
+import com.sevtinge.hyperceiler.ui.app.securitycenter.PrivacySafetySettings;
+import com.sevtinge.hyperceiler.ui.app.securitycenter.SidebarSettings;
+import com.sevtinge.hyperceiler.ui.app.systemui.ControlCenterSettings;
+import com.sevtinge.hyperceiler.ui.app.systemui.LockScreenSettings;
+import com.sevtinge.hyperceiler.ui.app.systemui.NavigationSettings;
+import com.sevtinge.hyperceiler.ui.app.systemui.StatusBarSettings;
+import com.sevtinge.hyperceiler.ui.app.systemui.SystemUIOtherSettings;
+import com.sevtinge.hyperceiler.ui.app.systemui.statusbar.BatteryStyleSettings;
+import com.sevtinge.hyperceiler.ui.app.systemui.statusbar.DoubleLineNetworkSettings;
+import com.sevtinge.hyperceiler.ui.app.systemui.statusbar.IconManageNewSettings;
+import com.sevtinge.hyperceiler.ui.app.systemui.statusbar.MobileNetworkTypeSettings;
+import com.sevtinge.hyperceiler.ui.app.systemui.statusbar.NetworkSpeedIndicatorSettings;
+import com.sevtinge.hyperceiler.ui.app.systemui.statusbar.NewClockIndicatorSettings;
+import com.sevtinge.hyperceiler.ui.app.systemui.statusbar.StrongToastSettings;
+import com.sevtinge.hyperceiler.ui.app.various.AOSPSettings;
+import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -134,8 +129,8 @@ public class SearchHelper {
         parsePrefXml(context, StatusBarSettings.class, R.xml.system_ui_status_bar, R.string.system_ui);
 
         parsePrefXml(context,
-                !isMoreHyperOSVersion(1f) ? IconManageSettings.class : IconManageNewSettings.class,
-                !isMoreHyperOSVersion(1f) ? R.xml.system_ui_status_bar_icon_manage : R.xml.system_ui_status_bar_icon_manage_new,
+                IconManageNewSettings.class,
+                R.xml.system_ui_status_bar_icon_manage_new,
                 R.string.system_ui,
                 R.string.system_ui_statusbar_title
         );
@@ -164,15 +159,8 @@ public class SearchHelper {
         );
 
         parsePrefXml(context,
-                !isMoreHyperOSVersion(1f) ? ClockIndicatorSettings.class : NewClockIndicatorSettings.class,
-                !isMoreHyperOSVersion(1f) ? R.xml.system_ui_status_bar_clock_indicator : R.xml.system_ui_status_bar_new_clock_indicator,
-                R.string.system_ui,
-                R.string.system_ui_statusbar_title
-        );
-
-        // 这里
-        parsePrefXml(context, BatteryDetailIndicatorSettings.class,
-                R.xml.system_ui_status_bar_hardware_detail_indicator,
+                NewClockIndicatorSettings.class,
+                R.xml.system_ui_status_bar_new_clock_indicator,
                 R.string.system_ui,
                 R.string.system_ui_statusbar_title
         );
@@ -275,11 +263,7 @@ public class SearchHelper {
         // 其他杂项
         parsePrefXmlForDashboardFragment(context, R.xml.analytics);
         parsePrefXmlForDashboardFragment(context, R.xml.browser);
-        parsePrefXml(
-                context,
-                !isMoreHyperOSVersion(1f) ? CameraFragment.class : CameraNewFragment.class,
-                !isMoreHyperOSVersion(1f) ? R.xml.camera : R.xml.camera_new
-        );
+        parsePrefXml(context, CameraNewFragment.class, R.xml.camera_new);
         parsePrefXmlForDashboardFragment(context, R.xml.fileexplorer);
         parsePrefXmlForDashboardFragment(context, R.xml.incallui);
         parsePrefXmlForDashboardFragment(context, R.xml.mms);
@@ -311,7 +295,7 @@ public class SearchHelper {
         parsePrefXmlForDashboardFragment(context, R.xml.security_center_battery);
         parsePrefXmlForSecurityCenter(context, PrivacySafetySettings.class, R.xml.security_center_privacy_safety);
         parsePrefXmlForSecurityCenter(context, SidebarSettings.class, R.xml.security_center_sidebar);
-        parsePrefXmlForSecurityCenter(context, com.sevtinge.hyperceiler.ui.fragment.app.securitycenter.OtherSettings.class, R.xml.security_center_other);
+        parsePrefXmlForSecurityCenter(context, com.sevtinge.hyperceiler.ui.app.securitycenter.OtherSettings.class, R.xml.security_center_other);
 
         parsePrefXmlForDashboardFragment(context, R.xml.tsmclient);
         parsePrefXmlForDashboardFragment(context, R.xml.soundrecorder);
@@ -362,7 +346,7 @@ public class SearchHelper {
     }
 
     private static void parsePrefXmlForSecurityCenter(Context context, Class<?> catPrefsFragment, int xmlResId) {
-        parsePrefXml(context, catPrefsFragment, xmlResId, R.string.security_center);
+        parsePrefXml(context, catPrefsFragment, xmlResId, R.string.security_center_hyperos);
     }
 
     private static void parsePrefXmlForVarious(Context context, int xmlResId) {
@@ -400,10 +384,6 @@ private static void parsePrefXml(Context context, String catPrefsFragment, int x
                     modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
                     boolean isPreferenceVisible = Boolean.parseBoolean(xml.getAttributeValue(APP_NS, "isPreferenceVisible"));
 
-                    if (locationHyper == null) {
-                        locationHyper = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocationHyper"));
-                        locationHyperId = getModId(xml.getAttributeValue(APP_NS, "myLocationHyper"));
-                    }
                     if (locationPad == null) {
                         locationPad = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocationPad"));
                         locationPadId = getModId(xml.getAttributeValue(APP_NS, "myLocationPad"));
@@ -414,30 +394,21 @@ private static void parsePrefXml(Context context, String catPrefsFragment, int x
                     }
 
                     if (!TextUtils.isEmpty(modData.title) && !isPreferenceVisible) {
-                        String internalHyper = internalName == null ? locationHyper : internalName + "/" + locationHyper;
                         String internalPad = internalName == null ? locationPad : internalName + "/" + locationPad;
-                        String internalMiui = internalName == null ? location : internalName + "/" + location;
+                        String internal = internalName == null ? location : internalName + "/" + location;
 
                         if (locationHyper == null || location == null || (isPad && locationPad == null)) {
                             if (location != null) {
-                                modData.breadcrumbs = internalMiui;
+                                modData.breadcrumbs = internal;
                                 modData.catTitleResId = locationId;
-                            } else if (locationHyper != null) {
-                                modData.breadcrumbs = internalHyper;
-                                modData.catTitleResId = locationHyperId;
                             } else if (locationPad != null) {
                                 modData.breadcrumbs = internalPad;
                                 modData.catTitleResId = locationPadId;
                             }
                         } else {
                             if (!isPad) {
-                                if (isMoreHyperOSVersion(1f)) {
-                                    modData.breadcrumbs = internalHyper;
-                                    modData.catTitleResId = locationHyperId;
-                                } else {
-                                    modData.breadcrumbs = internalMiui;
-                                    modData.catTitleResId = locationId;
-                                }
+                                modData.breadcrumbs = internal;
+                                modData.catTitleResId = locationId;
                             } else {
                                 modData.breadcrumbs = internalPad;
                                 modData.catTitleResId = locationPadId;

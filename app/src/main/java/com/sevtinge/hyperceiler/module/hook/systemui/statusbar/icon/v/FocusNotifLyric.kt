@@ -35,9 +35,18 @@ import de.robv.android.xposed.*
 // author git@wuyou-123
 // co-author git@lingqiqi5211
 object FocusNotifLyric : MusicBaseHook() {
+    private var speed = -0.1f
+    private var lastLyric = ""
+    private val runnablePool = mutableMapOf<Int, Runnable>()
     private val focusTextViewList = mutableListOf<TextView>()
     private val textViewWidth by lazy {
         mPrefsMap.getInt("system_ui_statusbar_music_width", 0)
+    }
+    private val MARQUEE_DELAY by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_music_scroll_delay", 12) * 100L
+    }
+    private val SPEED_INCREASE by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_music_speed", 18) * 0.1f
     }
 
     override fun init() {
@@ -82,7 +91,7 @@ object FocusNotifLyric : MusicBaseHook() {
     }
 
     fun initLoader(classLoader: ClassLoader) {
-        try {
+        runCatching {
             loadClass("miui.systemui.notification.NotificationSettingsManager", classLoader)
                 .methodFinder().filterByName("canShowFocus")
                 .first().createHook {
@@ -90,19 +99,13 @@ object FocusNotifLyric : MusicBaseHook() {
                     returnConstant(true)
                 }
 
-        } catch (e: Exception) {
+        }.onFailure {
             return
         }
         // 启用debug日志
         // setStaticObject(loadClass("miui.systemui.notification.NotificationUtil", classLoader), "DEBUG", true)
     }
 
-    private val MARQUEE_DELAY = mPrefsMap.getInt("system_ui_statusbar_music_scroll_delay", 12) * 100L
-    private var speed = -0.1f
-    private val SPEED_INCREASE = mPrefsMap.getInt("system_ui_statusbar_music_speed", 18) * 0.1f
-
-    private val runnablePool = mutableMapOf<Int, Runnable>()
-    private var lastLyric = ""
     override fun onUpdate(lyricData: LyricData) {
         val lyric = lyricData.lyric
         focusTextViewList.forEach {
@@ -127,7 +130,7 @@ object FocusNotifLyric : MusicBaseHook() {
     }
 
     private fun startScroll(textView: TextView) {
-        try {
+        runCatching {
             // 开始滚动
             textView.callMethod("setMarqueeRepeatLimit", 1)
             textView.callMethod("startMarqueeLocal")
@@ -149,12 +152,11 @@ object FocusNotifLyric : MusicBaseHook() {
                 m.setObjectField("mRestartCallback", Choreographer.FrameCallback {})
                 XposedHelpers.setAdditionalStaticField(textView, "is_scrolling", 1)
             }
-        } catch (e: Throwable) {
-            logE(TAG, lpparam.packageName, "error: $e")
+        }.onFailure {
+            logE(TAG, lpparam.packageName, "error: $it")
         }
     }
 
     override fun onStop() {
-        logD(lpparam.packageName, "==========================================")
     }
 }

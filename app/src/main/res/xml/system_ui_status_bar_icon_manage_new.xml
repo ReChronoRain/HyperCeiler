@@ -116,10 +116,10 @@
             app:isPreferenceVisible="false" />
 
         <Preference android:title="@string/system_ui_status_bar_mobile_type_single_title"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.MobileNetworkTypeSettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.statusbar.MobileNetworkTypeSettings" />
 
         <Preference android:title="@string/system_ui_statusbar_iconmanage_mobile_network_title"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.DoubleLineNetworkSettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.statusbar.DoubleLineNetworkSettings" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_bluetooth_title">
@@ -219,23 +219,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_notify_title">
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_status_bar_notification_dots_maximum_enable"
-            android:title="@string/system_ui_status_bar_notification_dots_maximum" />
-
-        <SeekBarPreferenceCompat
-            android:dependency="prefs_key_system_ui_status_bar_notification_dots_maximum_enable"
-            android:key="prefs_key_system_ui_status_bar_notification_dots_maximum"
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
-            app:dialogTitle="@string/system_ui_status_bar_notification_dots_maximum"
-            android:defaultValue="3"
-            app:defaultValueTitle="@string/array_default"
-            app:maxValue="5"
-            app:stepValue="1"
-            app:format="%s" />
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_notification_icon_maximum_enable"
@@ -279,12 +262,8 @@
 
         <Preference
             android:title="@string/system_ui_status_bar_battery_style_title"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.BatteryStyleSettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.statusbar.BatteryStyleSettings" />
 
-        <Preference
-            android:title="@string/system_ui_status_bar_battery_indicator_title"
-            app:isPreferenceVisible="false"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.app.systemui.statusbar.BatteryIndicatorSettings" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_call_title">

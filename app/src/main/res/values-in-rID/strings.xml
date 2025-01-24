@@ -19,7 +19,7 @@
   -->
 <resources>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Jadikan HyperOS/MIUI Hebat Lagi!</string>
+    <string name="xposed_description">Jadikan HyperOS Hebat Lagi!</string>
     <string name="new_permission_wifi_state_desc">menambah dan menghapus file pada penyimpanan internal perangkat</string>
     <string name="new_permission_location_desc">digunakan untuk menyediakan layanan latitude dan longitude</string>
     <string name="new_cta_agree_desc">Selama penggunaan, untuk memberi Anda lebih banyak fitur, kami mungkin meminta izin Root/Su dari Anda. Anda dapat membuka Manajemen Izin kapan saja untuk menyesuaikan status otorisasi semua izin, dan silakan buka manajer Root/Su Anda untuk meng-izinkan.</string>
@@ -187,10 +187,6 @@
     <string name="feature">Fungsi</string>
     <string name="recommend">Menyarankan</string>
     <string name="editor">Editor</string>
-    <string name="record">Catatan</string>
-    <string name="shot">Tembakan</string>
-    <string name="portrait">Potret</string>
-    <string name="camera_pro">Pro</string>
     <string name="enable">Mengaktifkan</string>
     <string name="disable">Cacat</string>
     <string name="custom_enable">Pengaktifan khusus</string>
@@ -293,8 +289,6 @@
     <string name="app_sort_frequency">Frekuensi penggunaan</string>
     <string name="app_sort_storage">Penyimpanan bekas</string>
     <string name="app_sort_install">Waktu instalasi</string>
-    <string name="array_bluetooth_tile_style_3rows">Tiga ubin besar</string>
-    <string name="array_bluetooth_tile_style_2rows2cols">Satu ubin besar dan dua ubin kecil</string>
     <string name="array_pa_blur_official">Resmi hadir dengan blur</string>
     <string name="array_bpa_blur_customize">Latar belakang khusus buram</string>
     <string name="control_center_sunshine_mode_default">Menutup</string>
@@ -343,9 +337,7 @@
     <string name="system_framework_freeform_content_extension_desc">Hanya mendukung tautan</string>
     <string name="system_framework_default_volume_stream">Sesuaikan volume secara default</string>
     <string name="system_framework_volume_first_press">Penyesuaian volume instan</string>
-    <string name="system_framework_volume_separate_control">Kontrol volume independen</string>
     <string name="system_framework_volume_disable_safe">Hapus batasan keamanan volume tinggi</string>
-    <string name="system_framework_volume_separate_slider">Penggeser volume notifikasi</string>
     <string name="system_framework_volume_media_steps">Tingkat volume media</string>
     <string name="system_framework_volume_media_steps_desc">Hal ini dapat menyebabkan pengguliran bilah volume terhenti atau volume Bluetooth menjadi tidak normal</string>
     <string name="system_framework_volume_steps">Pengganda tingkat volume</string>
@@ -448,52 +440,7 @@
     <string name="camera_custom_watermark">Tanda air perangkat khusus</string>
     <string name="camera_custom_watermark_manufacturer">Informasi Pabrikan</string>
     <string name="camera_custom_watermark_device">Informasi Perangkat</string>
-    <string name="camera_features_unlock_aiwatermark">Buka kunci tanda air AI</string>
-    <string name="camera_features_unlock_ambilight">Buka kunci eksposur panjang</string>
-    <string name="camera_features_unlock_clone">Buka kunci mode Klon</string>
-    <string name="camera_features_unlock_cosmetic_mirror">Buka kunci cermin saku</string>
-    <string name="camera_features_unlock_doc">Buka kunci mode Dokumen</string>
-    <string name="camera_features_unlock_idcard">Buka kunci mode Kartu ID</string>
-    <string name="camera_features_unlock_dualcam">Buka kunci kamera ganda</string>
-    <string name="camera_features_unlock_duration">Buka Kunci Durasi</string>
-    <string name="camera_features_unlock_milive">Buka kunci video pendek</string>
-    <string name="camera_features_unlock_moon">Buka kunci mode Super-bulan</string>
-    <string name="camera_features_unlock_pano">Buka kunci mode Panorama</string>
-    <string name="camera_features_unlock_pixel">Buka kunci mode Piksel</string>
-    <string name="camera_features_unlock_portrait">Buka kunci mode Potret</string>
-    <string name="camera_features_unlock_slow">Buka kunci Gerakan lambat</string>
-    <string name="camera_features_unlock_videosky">Buka kunci Video-langit</string>
-    <string name="camera_features_unlock_vlog">Buka kunci Vlog</string>
-    <string name="camera_features_unlock_vlog_pro">Buka kunci Vlog Pro</string>
-    <string name="camera_features_unlock_film">Buka kunci kamera Film</string>
-    <string name="camera_features_unlock_film_delay">Buka kunci Long-exp</string>
-    <string name="camera_features_unlock_film_dollyzoom">Buka kunci zoom Dolly</string>
-    <string name="camera_features_unlock_film_dream">Buka Kunci Mimpi</string>
-    <string name="camera_features_unlock_film_slowshutter">Buka kunci Rana Lambat</string>
-    <string name="camera_features_unlock_film_timebackflow">Buka kunci aliran balik Waktu</string>
-    <string name="camera_features_unlock_film_timefreeze">Buka kunci Pembekuan waktu</string>
     <string name="camera_shot_hand_gesture">Buka kunci rana Palm</string>
-    <string name="camera_shot_color_enhance">Buka kunci Peningkatan warna</string>
-    <string name="camera_shot_makeup">Buka kunci Riasan</string>
-    <string name="camera_shot_makeup_desc">Hanya berlaku saat menggunakan kamera depan</string>
-    <string name="camera_record_60fps">Buka kunci 60FPS</string>
-    <string name="camera_record_60fps_desc">Tidak tersedia dalam beberapa kualitas, pastikan perangkat Anda didukung</string>
-    <string name="camera_record_120fps">Buka kunci 120FPS</string>
-    <string name="camera_record_120fps_desc">Hanya mendukung kualitas 4K, pastikan perangkat Anda didukung</string>
-    <string name="camera_record_audio_zoom">Buka kunci pembesaran Audio</string>
-    <string name="camera_record_hdr">Buka kunci HDR</string>
-    <string name="camera_record_ai">Buka kunci peningkatan AI</string>
-    <string name="camera_portrait_new_beauty">Buka kecantikan baru</string>
-    <string name="camera_portrait_new_beauty_desc">Hanya berlaku saat menggunakan kamera depan</string>
-    <string name="camera_portrait_cvlens">Buka kunci lensa Master</string>
-    <string name="camera_portrait_cvlens_desc">Tidak dapat berfungsi dengan baik pada beberapa perangkat</string>
-    <string name="camera_pro_raw">Buka kunci RAW</string>
-    <string name="camera_pro_log">Buka kunci LOG</string>
-    <string name="camera_settings_heic">Buka kunci HEIF</string>
-    <string name="camera_settings_track_focus">Buka kunci fokus trek Gerak</string>
-    <string name="camera_settings_predictive">Buka kunci penangkapan gerak</string>
-    <string name="camera_settings_nevus">Buka kunci Hapus tahi lalat</string>
-    <string name="camera_settings_men_makeup">Buka kunci Sesuaikan efek riasan untuk pria</string>
     <string name="camera_settings_lab_options">Aktifkan opsi Lab</string>
     <string name="camera_settings_track_eyes">Buka kunci Lacak mata</string>
     <!--Calendar-->
@@ -542,9 +489,7 @@
     <string name="system_ui_lock_screen_hide_camera">Sembunyikan kamera</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Sembunyikan layar pintar</string>
     <string name="system_ui_lock_screen_current">Saat ini</string>
-    <string name="system_ui_lock_screen_show_second">Jam menunjukkan detik</string>
     <string name="system_ui_lock_screen_blur_button">Kamera buram dan tombol layar pintar</string>
-    <string name="system_ui_lock_screen_force_system_fonts">Paksa jam menggunakan font sistem</string>
     <string name="system_ui_lock_screen_double_lock">Ketuk dua kali layar kunci</string>
     <string name="system_ui_lock_screen_double_lock_desc">Ketuk dua kali lokasi kosong untuk mengunci layar</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">Sembunyikan notifikasi mode zen</string>
@@ -574,12 +519,7 @@
     <string name="system_ui_statusbar_iconmanage_title">Manajemen ikon</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">Manajemen indikator kecepatan jaringan</string>
     <string name="system_ui_statusbar_clock_title">Manajemen indikator jam</string>
-    <string name="system_ui_statusbar_device_title">Indikator perangkat keras</string>
     <string name="system_ui_statusbar_strong_toast_title">Roti Bakar Kuat yang Cerdas</string>
-    <string name="system_ui_statusbar_layout_title">Tata Letak</string>
-    <string name="system_ui_statusbar_layout_compatibility_mode_title">Modus kompatibilitas</string>
-    <string name="system_ui_statusbar_layout_compatibility_mode_desc">Aktifkan secara paksa tata letak layar penuh untuk semua layar berbentuk khusus</string>
-    <string name="system_ui_statusbar_layout_mode_title">Modus tata letak</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Ketuk dua kali untuk tidur</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Bilah sinyal baris ganda</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Tema ikon</string>
@@ -608,8 +548,6 @@
     <string name="system_ui_statusbar_iconmanage_devices_title">Perangkat</string>
     <string name="system_ui_statusbar_iconmanage_internet_title">Jaringan</string>
     <string name="system_ui_statusbar_iconmanage_privacy_title">Privasi</string>
-    <string name="system_ui_statusbar_iconmanage_left_title">Sisi kiri ikon muncul</string>
-    <string name="system_ui_statusbar_iconmanage_right_title">Sisi kanan ikon muncul</string>
     <string name="system_ui_status_bar_icon_wifi">Wifi</string>
     <string name="system_ui_status_bar_icon_wifi_slave">Wi-Fi budak</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Standar Wi-Fi</string>
@@ -652,23 +590,17 @@
     <string name="system_ui_status_bar_icon_soundbox_group_stereo">Grup Stereo Kotak Suara</string>
     <string name="system_ui_status_bar_icon_tv">Televisi</string>
     <string name="system_ui_status_bar_icon_wireless_headset">Headset nirkabel</string>
-    <string name="system_ui_status_bar_notification_dots_maximum">Jumlah maksimum titik notifikasi</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Jumlah maksimum ikon notifikasi</string>
     <string name="system_ui_status_bar_battery_percent">Sembunyikan persentase baterai</string>
     <string name="system_ui_status_bar_battery_percent_mark">Sembunyikan tanda persentase baterai</string>
     <string name="system_ui_status_bar_battery_charging">Sembunyikan indikator pengisian daya</string>
     <string name="system_ui_status_bar_battery_icon">Sembunyikan ikon baterai</string>
     <string name="system_ui_status_bar_battery_style_title">Kustomisasi baterai</string>
-    <string name="system_ui_status_bar_battery_indicator_title">Indikator baterai</string>
     <string name="system_ui_status_bar_wifi_at_left">Wifi</string>
     <string name="system_ui_status_bar_mobile_network_at_left">Jaringan Seluler</string>
     <string name="system_ui_status_bar_swap_wifi_and_mobile_network">Tukar Wi-Fi dan Jaringan Seluler</string>
     <string name="system_ui_status_bar_network_speed_at_right">Kecepatan internet</string>
     <string name="system_ui_status_bar_volume_at_right">Adegan suara</string>
-    <string name="system_ui_status_bar_use_new_hd">Paksa untuk menggunakan ikon HD baru</string>
-    <string name="system_ui_status_bar_use_new_hd_summary">Hanya mendukung beberapa versi sistem</string>
-    <string name="system_ui_status_bar_no_netspeed_separator_title">Pemisah kecepatan jaringan</string>
-    <string name="system_ui_status_bar_no_netspeed_separator_desc">Garis vertikal antara waktu dan kecepatan internet tidak ditampilkan pada perangkat dengan kamera terpusat</string>
     <string name="system_ui_status_bar_hide_icon">Sembunyikan bilah status saat mengambil tangkapan layar</string>
     <string name="system_ui_status_bar_mobile_type_single_title">Ikon tipe jaringan seluler</string>
     <string name="system_ui_statusbar_network_speed_all_status">Aktifkan Modifikasi</string>
@@ -684,21 +616,9 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Nilai kecepatan jaringan di bawah level ini dianggap lambat dan ikon indikator berbeda akan ditampilkan (hanya beberapa ikon)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Sembunyikan akhiran Byte per detik (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Ikon indikator</string>
-    <string name="system_ui_statusbar_clock_mode">Mode jam khusus</string>
-    <string name="system_ui_statusbar_clock_editor">Format jam</string>
-    <string name="system_ui_statusbar_clock_year">Tampilkan tahun</string>
-    <string name="system_ui_statusbar_clock_month">Tampilkan bulan</string>
-    <string name="system_ui_statusbar_clock_date">Tampilkan hari</string>
-    <string name="system_ui_statusbar_clock_week">Tampilkan minggu</string>
-    <string name="system_ui_statusbar_clock_hour_cn">Tampilkan jam ganda</string>
-    <string name="system_ui_statusbar_clock_period">Tampilkan periode jam</string>
-    <string name="system_ui_statusbar_clock_second">Tampilkan detik</string>
-    <string name="system_ui_statusbar_clock_hide_space">Sembunyikan ruang</string>
-    <string name="system_ui_statusbar_clock_double">Tampilkan ganda</string>
     <string name="system_ui_statusbar_clock_double_mode_title">Perataan baris ganda</string>
     <string name="system_ui_statusbar_clock_desc">Contoh format jam</string>
     <string name="system_ui_statusbar_clock_size">Ukuran jam</string>
-    <string name="system_ui_statusbar_clock_double_size">Ukuran jam baris ganda</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Hanya valid jika ditampilkan dalam dua baris</string>
     <string name="system_ui_statusbar_clock_fix_color">Perbaiki warna</string>
     <string name="system_ui_disable_clock_anim">Nonaktifkan animasi transisi jam slide di Pusat Pemberitahuan</string>
@@ -713,35 +633,6 @@
     <string name="system_ui_statusbar_clock_editor_s">Format jam bilah status</string>
     <string name="system_ui_statusbar_clock_editor_n">Format jam mini bilah notifikasi</string>
     <string name="system_ui_statusbar_clock_style_f">Pengaturan jam bilah status</string>
-    <string name="system_ui_statusbar_indicator_battery_title">Terkait dengan kekuatan</string>
-    <string name="system_ui_statusbar_indicator_temperature_title">Terkait suhu</string>
-    <string name="system_ui_statusbar_battery_size">Ukuran huruf</string>
-    <string name="system_ui_statusbar_battery_show">Tampilkan isinya</string>
-    <string name="system_ui_statusbar_temp_decimal_places">Sembunyikan tempat desimal</string>
-    <string name="system_ui_statusbar_battery_disable">Sembunyikan unit</string>
-    <string name="system_ui_statusbar_battery_right_show">Tunjukkan di sebelah kanan</string>
-    <string name="system_ui_statusbar_battery_electric_current">Arus selalu menunjukkan nilai positif</string>
-    <string name="system_ui_statusbar_battery_line_show">Tampilan baris tunggal</string>
-    <string name="system_ui_statusbar_battery_opposite">Urutan terbalik</string>
-    <string name="system_ui_statusbar_battery_only_changing_show">Tampilkan hanya saat mengisi daya</string>
-    <string name="system_ui_statusbar_battery_update_spacing">Interval pembaruan status</string>
-    <string name="system_ui_statusbar_temp_fix_cpu">Perbaiki suhu CPU</string>
-    <string name="system_ui_statusbar_temp_fix_cpu_desc">Masukkan nomor /sys/devices/virtual/thermal/thermal_zone*</string>
-    <string name="system_ui_status_bar_battery_indicator_centered">terpusat</string>
-    <string name="system_ui_status_bar_battery_indicator_rounded">Sudut membulat</string>
-    <string name="system_ui_status_bar_battery_indicator_limitvis">Batasi visibilitas</string>
-    <string name="system_ui_status_bar_battery_indicator_align">Sejajarkan secara vertikal</string>
-    <string name="system_ui_status_bar_battery_indicator_color">Warna</string>
-    <string name="system_ui_status_bar_battery_indicator_color_full_power">Warna baterai penuh</string>
-    <string name="system_ui_status_bar_battery_indicator_color_low_power">Warna baterai lemah</string>
-    <string name="system_ui_status_bar_battery_indicator_color_power_saving">Warna mode hemat daya</string>
-    <string name="system_ui_status_bar_battery_indicator_color_power_charging">Warna pengisian daya</string>
-    <string name="system_ui_status_bar_battery_indicator_height">Tinggi</string>
-    <string name="system_ui_status_bar_battery_indicator_padding">Margin horisontal</string>
-    <string name="system_ui_status_bar_battery_indicator_alpha">Transparansi</string>
-    <string name="system_ui_status_bar_battery_indicator_glow">Bersinar</string>
-    <string name="system_ui_status_bar_battery_indicator_low_level">Tingkat baterai rendah</string>
-    <string name="system_ui_status_bar_battery_indicator_test">Tes</string>
     <string name="system_ui_status_bar_strong_toast_layout">Tata Letak</string>
     <string name="system_ui_status_bar_strong_toast_text">Informasi</string>
     <string name="system_ui_status_bar_strong_toast_test">Men-debug</string>
@@ -751,11 +642,9 @@
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Teks</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Ini adalah teks panjang yang akan ditampilkan dalam bentuk bergulir</string>
     <string name="system_ui_controlcenter_title">Pusat kendali</string>
-    <string name="system_ui_controlcenter_card_title">Kartu</string>
     <string name="system_ui_controlcenter_media_card_title">Kartu Pemberitahuan Media</string>
     <string name="system_ui_control_center_magnet_tile_settings">magnet</string>
     <string name="system_ui_control_center_notification_title">Pemberitahuan</string>
-    <string name="system_control_center_qs_detail_bg">Transparansi latar belakang kartu</string>
     <string name="quick_settings_state_change_message_on_my">%1$s aktif</string>
     <string name="quick_settings_state_change_message_off_my">%1$s tidak aktif</string>
     <string name="system_control_center_5g_tile">Sakelar jaringan 5G</string>
@@ -772,21 +661,8 @@
     <string name="system_control_center_qs_columns">Kolom</string>
     <string name="system_control_center_qs_columns_format">%d Daftar</string>
     <string name="system_control_center_qs_columns_horizontal">Kolom (Lanskap)</string>
-    <string name="system_ui_control_center_hide_mi_play_entry">Entri MiPlay</string>
-    <string name="system_ui_control_center_hide_mi_smart_hub_entry">Entri hub pintar Mi</string>
-    <string name="system_ui_control_center_hide_device_ctrl_entry">Entri kontrol perangkat</string>
-    <string name="system_ui_control_center_control_detail_background_alpha">Kontrol Detail Nilai keburaman latar belakang</string>
     <string name="system_ui_control_center_notification_disable_transparent">Nonaktifkan Mode Transparan</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Nonaktifkan pengaturan latar belakang notifikasi menjadi transparan</string>
-    <string name="system_ui_control_center_notification_blur_model">Model Buram Pemberitahuan</string>
-    <string name="system_ui_control_center_notification_blur_fix">Optimalisasi notifikasi</string>
-    <string name="system_ui_control_center_notification_blur_fix_desc">Fungsi eksperimental, hanya tersedia untuk model Android 13 dan yang lebih baru. Setelah diaktifkan, notifikasi buram di beberapa area akan dioptimalkan\nMungkin ada masalah antarmuka sistem crash pada beberapa model.</string>
-    <string name="system_ui_control_center_blur_radius">Radius Buram</string>
-    <string name="system_ui_control_center_blur_radius_desc">Tanpa pemberitahuan dropdown</string>
-    <string name="system_ui_control_center_corner_radius">Radius Sudut</string>
-    <string name="system_ui_control_center_corner_radius_desc">Tema default tidak perlu disesuaikan</string>
-    <string name="system_ui_control_center_blur_background_alpha">Nilai Latar Belakang Buram</string>
-    <string name="system_ui_control_center_default_background_alpha">Nilai Latar Belakang Default</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Optimalkan efek pencampuran warna pada media panel kontrol</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Bergelombang</string>
     <string name="system_ui_control_center_media_control_progress_sleek">Ramping</string>
@@ -817,8 +693,6 @@
     <string name="system_ui_control_center_hide_operator">Kustomisasi nama operator</string>
     <string name="system_ui_control_center_hide_delimiter">Hanya pembatas yang disembunyikan</string>
     <string name="system_ui_control_center_hide_name">Sembunyikan semua nama</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Gaya ubin Bluetooth</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Pindahkan ubin bluetooth di dekat ubin jaringan</string>
     <string name="system_ui_control_center_notifrowmenu">Menu notifikasi yang diperluas</string>
     <string name="system_ui_control_center_notifrowmenu_desc">Buka info aplikasi, tutup paksa aplikasi dan buka di jendela mengambang dari menu notifikasi (geser notifikasi ke kiri untuk membukanya)</string>
     <string name="system_ui_controlcenter_new_title">Pusat kendali baru</string>
@@ -833,14 +707,8 @@
     <string name="system_ui_control_center_unlock_blur_supported_desc">Tidak ada batasan keburaman latar belakang untuk materi premium resmi hanya untuk penghapusan tema pihak ketiga</string>
     <string name="system_ui_other_title">Lainnya</string>
     <string name="system_ui_disable_volume">Bilah volume asli</string>
-    <string name="system_ui_disable_volume_desc">Modifikasi bilah volume Xiaomi tidak berlaku untuk bilah volume asli</string>
     <string name="system_ui_unlock_clipboard">Buka kunci editor papan klip AOSP</string>
-    <string name="system_ui_unlock_clipboard_desc">Setelah dibuka, itu akan muncul bersama dengan editor MIUI/HyperOS.</string>
-    <string name="system_ui_charge_animation_title">Mengisi animasi</string>
-    <string name="system_ui_charge_animation_style">Gaya animasi pengisian daya</string>
-    <string name="system_ui_charge_animation_style_desc">Pilih gaya animasi pengisian daya layar kunci</string>
     <string name="system_ui_another_title">Lainnya</string>
-    <string name="system_ui_disable_bluetooth_restrict">Cegah bluetooth dimatikan sementara</string>
     <string name="system_ui_disable_miui_multi_win_switch">Sembunyikan tombol Jendela Kenyamanan</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Sembunyikan tombol jendela praktis yang berada di tengah bagian atas layar lanskap HyperOS untuk Pad</string>
     <string name="system_ui_remove_miui_multi_win_switch">Nonaktifkan tombol Layar belah</string>
@@ -859,10 +727,10 @@
     <string name="system_ui_monet_overlay_custom">Sesuaikan warna tema</string>
     <string name="system_ui_monet_overlay_custom_desc">Sesuaikan warna tema alih-alih mengambil warna dari wallpaper sistem</string>
     <string name="system_ui_monet_overlay_custom_color">Pilih warna tema</string>
-    <string name="system_ui_volume_timer">Pengatur waktu diperpanjang</string>
     <string name="system_ui_qs_label">Tab peralihan cepat</string>
     <string name="system_ui_notification_title">Pemberitahuan</string>
     <string name="system_ui_other_notification_fix">Nonaktifkan daftar putih notifikasi</string>
+    <string name="system_ui_volume_timer">Pengatur waktu diperpanjang</string>
     <string name="system_ui_plugin_enable_volume_blur">Aktifkan kekaburan bilah volume</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Hanya untuk model Android12+ MTK, mungkin terdapat beban GPU yang tinggi</string>
     <!--Telecom-->
@@ -896,7 +764,6 @@
     <string name="system_settings_new_nfc_page">Halaman NFC Baru</string>
     <string name="system_settings_new_nfc_page_desc">Setelah dibuka, aplikasi pembayaran default untuk model yang tidak didukung tidak dapat memilih Xiaomi Wallet</string>
     <string name="system_settings_lab_title">Fungsi unggulan</string>
-    <string name="system_settings_area_screenshot">Buka kunci tangkapan layar area</string>
     <string name="system_settings_voip_assistant_controller">Asisten VoIP</string>
     <string name="system_settings_display_and_lockscreen_title">Tampilan &amp; Layar kunci</string>
     <string name="system_settings_ai_image_unlock_sr">Buka kunci resolusi Super</string>
@@ -952,21 +819,14 @@
     <string name="updater_diable_dialog">Nonaktifkan pop-up dialog \"Aktifkan pembaruan otomatis\"</string>
     <!--Permissions-->
     <string name="lbe">Izin</string>
-    <string name="clipboard">papan klip</string>
-    <string name="lbe_disable_clipboard_tip">Sembunyikan Tip Roti Bakar</string>
     <string name="lbe_auto_start">Nonaktifkan mati otomatis dari mulai otomatis</string>
-    <string name="lbe_clipboard_tip_toast">Baca clipboard menggunakan petunjuk Toast</string>
-    <string name="lbe_clipboard_tip_toast_desc">Sembunyikan dialog dan izinkan aplikasi membaca clipboard secara default</string>
-    <string name="lbe_clipboard_tip">Baca papan klip</string>
     <!--Cast-->
-    <string name="milink">Pemeran</string>
     <string name="milink_hyperos">Layanan Interkonektivitas</string>
     <string name="milink_unlock_mishare">Buka kunci interkoneksi Perangkat</string>
     <string name="milink_allow_camera_devices">Dukungan paksa untuk streaming kamera</string>
     <string name="milink_fuck_hpplay">Blokir pembuatan folder hpplay</string>
     <!--Sound Recorder-->
     <!--Always-on display-->
-    <string name="aod">Tampilan selalu aktif</string>
     <string name="aod_hyperos">Tampilan Selalu Aktif dan Editor Layar Kunci</string>
     <string name="aod_unlock_always_on_display">Buka kunci batas waktu tampilan layar selalu aktif</string>
     <string name="aod_unlock_always_on_display_more">Mulai ulang UI Sistem untuk mengaktifkan fitur sepenuhnya</string>
@@ -1018,8 +878,7 @@
     <string name="gallery_backup_server_xiaomi">Layanan Xiaomi Cloud</string>
     <string name="gallery_backup_server_google">Google</string>
     <string name="gallery_backup_server_onedrive">Google &amp; OneDrive</string>
-    <!--MIUI security components-->
-    <string name="guard_provider">Komponen keamanan MIUI</string>
+    <!--System security components-->
     <string name="guard_provider_hyperos">Komponen Keamanan Sistem</string>
     <string name="guard_provider_disable_upload_applist">Cegah pengunggahan otomatis daftar aplikasi yang diinstal</string>
     <!--System launcher-->
@@ -1171,7 +1030,6 @@
     <string name="home_title_hide_report_text">Sembunyikan teks laporan</string>
     <string name="home_recent">Terkini</string>
     <string name="home_recent_animation_speed">Kecepatan animasi</string>
-    <string name="home_recent_disable_wallpaper_dimming">Nonaktifkan peredupan wallpaper</string>
     <string name="home_recent_unlock_pin">Buka kunci aplikasi yang disematkan</string>
     <string name="home_recent_hide_status_bar_in_task_view">Sembunyikan bilah status di tampilan tugas</string>
     <string name="home_recent_hide_world_circulate">Sembunyikan jendela mengambang aplikasi pencerminan layar</string>
@@ -1340,8 +1198,6 @@
     <string name="screenshot_device_customize_desc">Silakan masukkan kode model</string>
     <!--System Service Plugin-->
     <!--Security/Tablet security center-->
-    <string name="security_center">Keamanan</string>
-    <string name="security_center_pad">Pusat keamanan tablet</string>
     <string name="security_center_hyperos">Alat Keamanan</string>
     <string name="security_center_app_title">Manajemen aplikasi</string>
     <string name="security_center_battery_title">Penghemat Baterai dan Baterai</string>
@@ -1352,14 +1208,11 @@
     <string name="security_center_dolby_open">Tutup jendela pop-up Dolby</string>
     <string name="security_center_show_battery_temperature">Tampilkan suhu baterai</string>
     <string name="security_center_show_battery_health">Tampilkan kesehatan baterai secara detail</string>
-    <string name="security_center_ai_clipboard">Lindungi papan klip</string>
-    <string name="security_center_blur_location">Akurasi posisi lebih rendah</string>
     <string name="security_center_gms_open">Layanan RUPS</string>
     <string name="security_center_taplus">Sakelar Taplus</string>
     <string name="security_center_reduce_bright_colors_tile">Penggantian ikon ubin yang sangat gelap</string>
     <string name="security_center_flash_light">Kontrol kecerahan senter</string>
     <string name="security_center_flash_light_more">Memungkinkan Anda mengontrol kecerahan senter dengan menyeret penggeser kecerahan</string>
-    <string name="security_center_get_number">Kelola aplikasi untuk mendapatkan nomor ponsel dan masuk dengan satu klik</string>
     <string name="security_center_applock_pin_scramble">Applock rusak PIN pesanan</string>
     <string name="security_center_applock_pin_scramble_desc">Ubah urutan papan tombol PIN kunci aplikasi secara acak</string>
     <string name="security_center_beauty_light_auto">Buka kunci Sesuaikan kecerahan cahaya isi secara otomatis</string>
@@ -1497,8 +1350,8 @@
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Metode masukan Sogou</string>
     <string name="sogou_xiaomi_clipboard">Hapus batasan jumlah clipboard</string>
+    <!--Sim Activation Service-->
     <!--Scanner-->
-    <string name="scanner">Pemindai</string>
     <string name="scanner_card">Buka kunci pindaian kartu ID</string>
     <string name="scanner_translation">Buka kunci terjemahan</string>
     <string name="scanner_ocr">Buka kunci OCR</string>
@@ -1507,7 +1360,6 @@
     <string name="scanner_ppt">Buka kunci pemindaian PPT</string>
     <string name="scanner_doc_ppt">Buka kunci file pindaian</string>
     <!--MI AI-->
-    <string name="voiceassist">Mi AI</string>
     <string name="voiceassist_disable_watermark">Nonaktifkan tanda air obrolan</string>
     <!--Voice Trigger-->
     <!--Other-->

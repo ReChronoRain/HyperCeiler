@@ -49,7 +49,7 @@
 
         </fan.springback.view.SpringBackLayout>
 
-        <com.sevtinge.hyperceiler.widget.VersionCard
+        <com.sevtinge.hyperceiler.ui.about.widget.VersionCard
             android:id="@+id/version_card_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/logo_area_height"

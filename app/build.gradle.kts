@@ -23,33 +23,6 @@ lsparanoid {
 }
 
 val apkId = "HyperCeiler"
-val buildTypes = "debug"
-val roots = mapOf(
-    "animation" to "libs/animation-${buildTypes}.aar",
-    "appcompat" to "libs/appcompat-${buildTypes}.aar",
-    "basewidget" to "libs/basewidget-${buildTypes}.aar",
-    "bottomsheet" to "libs/bottomsheet-${buildTypes}.aar",
-    "cardview" to "libs/cardview-${buildTypes}.aar",
-    "core" to "libs/core-${buildTypes}.aar",
-    "flexible" to "libs/flexible-${buildTypes}.aar",
-    "folme" to "libs/folme-${buildTypes}.aar",
-    "graphics" to "libs/graphics-${buildTypes}.aar",
-    "haptic" to "libs/haptic-${buildTypes}.aar",
-    "navigator" to "libs/navigator-${buildTypes}.aar",
-    "nestedheader" to "libs/nestedheader-${buildTypes}.aar",
-    "pickerwidget" to "libs/pickerwidget-${buildTypes}.aar",
-    "popupwidget" to "libs/popupwidget-${buildTypes}.aar",
-    "preference" to "libs/preference-${buildTypes}.aar",
-    "recyclerview" to "libs/recyclerview-${buildTypes}.aar",
-    "smooth" to "libs/smooth-${buildTypes}.aar",
-    "springback" to "libs/springback-${buildTypes}.aar",
-    "slidingwidget" to "libs/slidingwidget-${buildTypes}.aar",
-    "stretchablewidget" to "libs/stretchablewidget-${buildTypes}.aar",
-    "theme" to "libs/theme-${buildTypes}.aar",
-    "viewpager" to "libs/viewpager-${buildTypes}.aar",
-    "external" to "libs/external-${buildTypes}.aar",
-    "expansion_packs" to "libs/hyperceiler_expansion_packs-debug.aar"
-)
 
 val getGitCommitCount: () -> Int = {
     val output = ByteArrayOutputStream()
@@ -90,14 +63,14 @@ fun loadPropertiesFromFile(fileName: String): Properties? {
 android {
     namespace = "com.sevtinge.hyperceiler"
     compileSdk = 35
-    buildToolsVersion = "35.0.0"
+    buildToolsVersion = "35.0.1"
 
     defaultConfig {
         applicationId = namespace
-        minSdk = 33
+        minSdk = 34
         targetSdk = 35
         versionCode = getVersionCode()
-        versionName = "2.5.156"
+        versionName = "2.5.157"
 
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").apply {
             timeZone = TimeZone.getTimeZone("Asia/Shanghai")
@@ -259,42 +232,7 @@ dependencies {
     implementation(libs.lyric.getter.api)
     implementation(libs.lunarcalendar)
 
-    implementation(libs.core)
-    implementation(libs.collection)
-    implementation(libs.recyclerview)
-    implementation(libs.fragment)
-    implementation(libs.lifecycle.common)
-    implementation(libs.coordinatorlayout)
-    implementation(libs.constraintlayout) {
-        exclude("androidx.appcompat", "appcompat")
-    }
-
-    implementation(files(roots["animation"]))
-    implementation(files(roots["appcompat"]))
-    implementation(files(roots["basewidget"]))
-    implementation(files(roots["bottomsheet"]))
-    implementation(files(roots["cardview"]))
-    implementation(files(roots["core"]))
-    implementation(files(roots["flexible"]))
-    implementation(files(roots["folme"]))
-    implementation(files(roots["graphics"]))
-    implementation(files(roots["haptic"]))
-    implementation(files(roots["navigator"]))
-    implementation(files(roots["nestedheader"]))
-    implementation(files(roots["pickerwidget"]))
-    implementation(files(roots["popupwidget"]))
-    implementation(files(roots["preference"]))
-    implementation(files(roots["recyclerview"]))
-    implementation(files(roots["smooth"]))
-    implementation(files(roots["springback"]))
-    implementation(files(roots["slidingwidget"]))
-    implementation(files(roots["stretchablewidget"]))
-    implementation(files(roots["theme"]))
-    implementation(files(roots["viewpager"]))
-    implementation(files(roots["external"]))
-    // project packs
-    implementation(files(roots["expansion_packs"]))
-
-    implementation(project(":app:processor"))
-    annotationProcessor(project(":app:processor"))
+    implementation(project(":provision"))
+    implementation(project(":processor"))
+    annotationProcessor(project(":processor"))
 }

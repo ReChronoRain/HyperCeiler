@@ -48,7 +48,7 @@ public class RestartAlertDialog extends AlertDialog {
     private MultipleChoiceView createMultipleChoiceView(Context context) {
         Resources mRes = context.getResources();
         MultipleChoiceView view = new MultipleChoiceView(context);
-        mAppNameList = Arrays.asList(mRes.getStringArray(!isMoreHyperOSVersion(1f) ? (!isPad() ? R.array.restart_apps_name : R.array.restart_apps_name_pad) : R.array.restart_apps_name_hyperos));
+        mAppNameList = Arrays.asList(mRes.getStringArray(R.array.restart_apps_name_hyperos));
         mAppPackageNameList = Arrays.asList(mRes.getStringArray(R.array.restart_apps_packagename));
         view.setData(mAppNameList, null);
         view.deselectAll();

@@ -22,10 +22,7 @@ import android.app.admin.*
 import android.content.*
 import android.content.res.Resources.*
 import android.view.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.MemberExtensions.isStatic
-import de.robv.android.xposed.*
 import java.lang.reflect.*
 
 @JvmInline
@@ -59,9 +56,9 @@ fun getValueByFields(target: Any, fieldNames: List<String>, clazz: Class<*>? = n
                     // Log.i("BlurPersonalAssistant Window field name: $fieldName")
                     return value
                 }
-            } catch (e: NoSuchFieldException) {
+            } catch (_: NoSuchFieldException) {
                 // This field doesn't exist in this class, skip it
-            } catch (e: IllegalAccessException) {
+            } catch (_: IllegalAccessException) {
                 // This field isn't accessible, skip it
             }
         }
@@ -148,7 +145,7 @@ fun Any.method(
     argTypes: ArgTypes = argTypes()
 ): Method {
     if (methodName.isBlank()) throw IllegalArgumentException("Method name must not be empty!")
-    var c = if (this is Class<*>) this else this.javaClass
+    var c = this as? Class<*> ?: this.javaClass
     do {
         c.declaredMethods.toList().asSequence()
             .filter { it.name == methodName }
@@ -185,13 +182,13 @@ fun Any.invokeMethod(
     return if (args.args.isEmpty()) {
         try {
             this.method(methodName, returnType, false)
-        } catch (e: NoSuchMethodException) {
+        } catch (_: NoSuchMethodException) {
             return null
         }.invoke(this)
     } else {
         try {
             this.method(methodName, returnType, false, argTypes = argTypes)
-        } catch (e: NoSuchMethodException) {
+        } catch (_: NoSuchMethodException) {
             return null
         }.invoke(this, *args.args)
     }
@@ -208,22 +205,6 @@ fun isDeviceEncrypted(context: Context): Boolean {
     val encryption = policyMgr.storageEncryptionStatus
     return encryption == DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE ||
         encryption == DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE_PER_USER
-}
-
-/**
- * 判断是否为新网速指示器
- * @return 返回一个 Boolean 值，true 为新布局，false 为旧布局
- */
-
-fun isNewNetworkStyle(): Boolean {
-    val networkSpeedViewCls = XposedHelpers.findClassIfExists(
-        "com.android.systemui.statusbar.views.NetworkSpeedView", EzXHelper.classLoader
-    )
-    return if (networkSpeedViewCls != null) {
-        LinearLayout::class.java.isAssignableFrom(networkSpeedViewCls)
-    } else {
-        false
-    }
 }
 
 val Int.dp: Int get() = (this.toFloat().dp).toInt()

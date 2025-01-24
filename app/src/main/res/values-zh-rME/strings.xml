@@ -197,10 +197,6 @@
     <string name="feature">函数</string>
     <string name="recommend">主人，看看西米露酱给您推荐的...</string>
     <string name="editor">编辑</string>
-    <string name="record">录</string>
-    <string name="shot">拍照</string>
-    <string name="portrait">人像</string>
-    <string name="camera_pro">专业</string>
     <string name="enable">打开</string>
     <string name="disable">关掉</string>
     <string name="custom_enable">自己搞</string>
@@ -308,8 +304,6 @@
     <string name="app_sort_frequency">一段时间几次？</string>
     <string name="app_sort_storage">学习资料已占用</string>
     <string name="app_sort_install">安装时间</string>
-    <string name="array_bluetooth_tile_style_3rows">三个 E 磁块</string>
-    <string name="array_bluetooth_tile_style_2rows2cols">一个 E 和两个 A 磁块</string>
     <string name="array_pa_blur_official">小米自己搞的模糊</string>
     <string name="array_bpa_blur_customize">自定义背景模糊度</string>
     <string name="control_center_sunshine_mode_default">一定要关掉</string>
@@ -365,11 +359,9 @@
     <string name="system_framework_freeform_content_extension_desc">只有广告链接</string>
     <string name="system_framework_default_volume_stream">默认调节音响</string>
     <string name="system_framework_volume_first_press">即刻音响调节</string>
-    <string name="system_framework_volume_separate_control">独立体积控制</string>
     <string name="system_framework_volume_disable_safe">减掉高体积安全限制</string>
     <string name="default_volume_safe_all">都要关掉</string>
     <string name="default_volume_safe_headset">仅手套耳机大水时</string>
-    <string name="system_framework_volume_separate_slider">通知体积滚动条</string>
     <string name="system_framework_volume_media_steps">媒体体积关卡</string>
     <string name="system_framework_volume_media_steps_desc">它可能会导致系统的音量栏冻结或蓝牙音量丸啦！</string>
     <string name="system_framework_volume_steps">音量电平乘法器</string>
@@ -498,52 +490,7 @@
     <string name="camera_custom_watermark">水印？我全都要！</string>
     <string name="camera_custom_watermark_manufacturer">制造商的名片</string>
     <string name="camera_custom_watermark_device">设备的名片</string>
-    <string name="camera_features_unlock_aiwatermark">凭什么不让我用AI水印！</string>
-    <string name="camera_features_unlock_ambilight">我就要用长曝光！</string>
-    <string name="camera_features_unlock_clone">解锁魔法分身</string>
-    <string name="camera_features_unlock_cosmetic_mirror">解锁化妆镜</string>
-    <string name="camera_features_unlock_doc">解锁文档</string>
-    <string name="camera_features_unlock_idcard">解锁身份证拍摄</string>
-    <string name="camera_features_unlock_dualcam">解锁前后双景</string>
-    <string name="camera_features_unlock_duration">解锁延时摄影</string>
-    <string name="camera_features_unlock_milive">解锁短视频</string>
-    <string name="camera_features_unlock_moon">解锁P图月亮</string>
-    <string name="camera_features_unlock_pano">解锁全景</string>
-    <string name="camera_features_unlock_pixel">解锁超分辨率模式</string>
-    <string name="camera_features_unlock_portrait">解锁人像</string>
-    <string name="camera_features_unlock_slow">解锁慢~~~动~~~作~~~</string>
-    <string name="camera_features_unlock_videosky">解锁霍格沃兹天空</string>
-    <string name="camera_features_unlock_vlog">解锁 Vlog</string>
-    <string name="camera_features_unlock_vlog_pro">解锁 Vlog Pro</string>
-    <string name="camera_features_unlock_film">解锁电影镜头</string>
-    <string name="camera_features_unlock_film_delay">解锁长曝光延时</string>
-    <string name="camera_features_unlock_film_dollyzoom">解锁滑动变焦</string>
-    <string name="camera_features_unlock_film_dream">解锁平行梦境</string>
-    <string name="camera_features_unlock_film_slowshutter">解锁慢快门</string>
-    <string name="camera_features_unlock_film_timebackflow">你要穿越？</string>
-    <string name="camera_features_unlock_film_timefreeze">不是哥们，时间冻结？</string>
     <string name="camera_shot_hand_gesture">上锁脚掌慢门</string>
-    <string name="camera_shot_color_enhance">解锁颜色增强版</string>
-    <string name="camera_shot_makeup">装扮全解锁</string>
-    <string name="camera_shot_makeup_desc">仅在拍摄哥布林时可用</string>
-    <string name="camera_record_60fps">我要高帧数！</string>
-    <string name="camera_record_60fps_desc">某些Bug可能不适用于你的设备，请先确保你的瘦鸡可以支持这个Bug。</string>
-    <string name="camera_record_120fps">我要更高的帧数！</string>
-    <string name="camera_record_120fps_desc">仅在4K画质下可用，请先确保你的瘦鸡可以支持拉姆搞基的花枝。</string>
-    <string name="camera_record_audio_zoom">解锁音量大小</string>
-    <string name="camera_record_hdr">解锁HDR</string>
-    <string name="camera_record_ai"> 解锁人工智障反向优化图像</string>
-    <string name="camera_portrait_new_beauty">使哥布林变成帅哥</string>
-    <string name="camera_portrait_new_beauty_desc">仅在拍摄哥布林时可用</string>
-    <string name="camera_portrait_cvlens">打开Damn尸画像</string>
-    <string name="camera_portrait_cvlens_desc">一些瘦鸡中可能没法工作</string>
-    <string name="camera_pro_raw">解锁生肉</string>
-    <string name="camera_pro_log">解锁木头</string>
-    <string name="camera_settings_heic">解锁HEIF格式</string>
-    <string name="camera_settings_track_focus">解锁运动跟踪</string>
-    <string name="camera_settings_predictive">解锁每一帧都让你丑的魔法🤓👆</string>
-    <string name="camera_settings_nevus">解锁痔疮消失术</string>
-    <string name="camera_settings_men_makeup">解锁男性妆容适配</string>
     <string name="camera_settings_lab_options">启用实验室选项</string>
     <string name="camera_settings_track_eyes">解锁眼动追踪</string>
     <string name="camera_max_brightness">使用相机时强制瞎眼（啊，我的眼睛！）</string>
@@ -607,11 +554,9 @@
     <string name="system_ui_lock_screen_hide_camera">防止版本T0污蔑</string>
     <string name="system_ui_lock_screen_hide_smart_screen">隐藏并不聪明的屏幕</string>
     <string name="system_ui_lock_screen_current">当前电流</string>
-    <string name="system_ui_lock_screen_show_second">时钟秒数? 都给你砍了（bushi）</string>
     <string name="system_ui_lock_screen_blur_button">糊上锁屏按钮</string>
     <string name="system_ui_lock_screen_blur_button_radius">背景圆角</string>
     <string name="system_ui_lock_screen_blur_button_bg_color">后背颜色</string>
-    <string name="system_ui_lock_screen_force_system_fonts">所以时钟也用系统字体的话真的会很好看吗？</string>
     <string name="system_ui_lock_screen_double_lock">屏幕怎么亮了？双击试试</string>
     <string name="system_ui_lock_screen_double_lock_desc">霜鸡空白位置锁屏</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">别告诉我你开了免打扰😭</string>
@@ -624,8 +569,6 @@
     <string name="system_ui_navigation_handle_custom_thickness">粗 细</string>
     <string name="system_ui_statusbar_title">状态不实时显示的栏</string>
     <string name="system_ui_statusbar_iconmanage_title">你还管上图标了？</string>
-    <string name="system_ui_statusbar_layout_title">躺外面</string>
-    <string name="system_ui_statusbar_layout_mode_title">躺外面模式</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">双击睡大觉</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">典</string>
     <string name="system_ui_status_bar_mobile_type_single_desc">你都把数据标隐藏了，你还想打开我吗❤️</string>
@@ -650,14 +593,11 @@
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">卸载sim 2 图标</string>
     <string name="system_ui_status_bar_wifi_at_left">Wi-Fe</string>
     <string name="system_ui_status_bar_network_speed_at_right">看看天翼 3G 有多快？</string>
-    <string name="system_ui_status_bar_no_netspeed_separator_desc">❤️叫声情景❤️</string>
-    <string name="system_ui_status_bar_battery_indicator_low_level">没电了</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长</string>
     <string name="quick_settings_state_change_message_on_my">%1$s 已打开</string>
     <string name="quick_settings_state_change_message_off_my">%1$s 已关掉</string>
     <string name="system_control_center_5g_tile">启用5G开关，好让运营商多赚点钱。</string>
     <string name="system_ui_control_center_notification_disable_transparent">人家的里面不好看吗...</string>
-    <string name="system_ui_control_center_blur_radius">X 光半径</string>
     <string name="system_ui_control_center_card_tiles_customization_add">加了</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">没加</string>
     <string name="system_ui_other_title">还想... 看更多吗❤️</string>
@@ -672,7 +612,6 @@
     <string name="system_settings_wifi_password_label">神秘咒语</string>
     <string name="system_settings_wifi_password_dlgtitle">WiFe 详细</string>
     <string name="system_settings_unlock_google_header">解锁咕噜咕噜条目</string>
-    <string name="system_settings_area_screenshot">解锁区域视监👁️‍🗨️</string>
     <string name="system_settings_ai_image_unlock_memc">让动作片更流畅</string>
     <string name="system_settings_more_notification_settings">通知设置... 圆圆的... 还想要...</string>
     <string name="system_settings_develop_speed_mode">解锁 Moster 模式</string>
@@ -696,7 +635,6 @@
     <!--Cast-->
     <!--Sound Recorder-->
     <!--Always-on display-->
-    <string name="aod">烧屏小功能</string>
     <string name="aod_unlock_aon">你想要解锁？不是你配吗，要解锁？</string>
     <!--Taplus-->
     <!--Xiaomi Cloud Service-->
@@ -710,7 +648,7 @@
     <!--Gallery-->
     <string name="gallery">Apiano 店</string>
     <string name="gallery_enable_ai_gallery">AI高清写真</string>
-    <!--MIUI security components-->
+    <!--System security components-->
     <!--System launcher-->
     <string name="home_recent_animation_speed">能... 能不能... 再快一点...</string>
     <string name="home_recent_hide_card">我的后台卡片呢</string>
@@ -779,9 +717,9 @@
     <!--MTB-->
     <string name="mtb_auth_desc">道路千万条，安全第一条，玩机不规范，亲人两行泪（拨号盘输入\"*#*#MODEMTEST#*#*\"进入MTB界面）</string>
     <!--Sogou input method-->
+    <!--Sim Activation Service-->
     <!--Scanner-->
     <!--MI AI-->
-    <string name="voiceassist">人工智障</string>
     <!--Voice Trigger-->
     <!--Other-->
     <string name="various_nobrightness">不自由，毋宁死</string>

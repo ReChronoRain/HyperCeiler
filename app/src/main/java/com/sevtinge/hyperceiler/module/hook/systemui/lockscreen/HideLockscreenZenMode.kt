@@ -40,17 +40,11 @@ object HideLockscreenZenMode : BaseHook() {
                 .first().createBeforeHook {
                     it.thisObject.setObjectField("manuallyDismissed", true)
                 }
-        } else if (isAndroidVersion(34)) {
+        } else {
             zenModeClass.methodFinder()
                 .filterByName("updateVisibility")
                 .single().createBeforeHook {
                     it.thisObject.setObjectField("manuallyDismissed", true)
-                }
-        } else {
-            zenModeClass.methodFinder()
-                .filterByName("shouldBeVisible")
-                .single().createHook {
-                    returnConstant(false)
                 }
         }
     }

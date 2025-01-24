@@ -22,13 +22,11 @@ package com.sevtinge.hyperceiler.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.safe.CrashActivity;
-import com.sevtinge.hyperceiler.utils.NotificationUtils;
+import com.sevtinge.hyperceiler.ui.safe.CrashActivity;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
