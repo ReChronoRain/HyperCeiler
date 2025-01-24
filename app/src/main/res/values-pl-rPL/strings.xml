@@ -826,6 +826,8 @@
     <string name="system_ui_control_center_notification_disable_transparent">Wyłącz tryb przezroczysty</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Wyłącza ustawienie tła powiadomienia na przezroczyste</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Optymalizuj efekt mieszania kolorów w panelu sterowania multimediami</string>
+    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Optymalizuj przejście zaokrąglonych rogów obrazów albumu</string>
+    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">Usuń identyfikator źródła dźwięku albumu</string>
     <string name="system_ui_control_center_media_control_progress">Pasek postępu</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Usuń ograniczenia niestandardowych akcji dla kart powiadomień multimediów</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Falisty</string>
@@ -890,7 +892,9 @@
     <string name="system_ui_other_title">Pozostałe</string>
     <string name="system_ui_disable_volume">Natywny pasek głośności</string>
     <string name="system_ui_disable_power">Natywne menu wyłączenia</string>
+    <string name="system_ui_disable_volume_desc">Modyfikacje paska głośności w HyperOS nie mogą być zastosowane do natywnego paska głośności</string>
     <string name="system_ui_unlock_clipboard">Odblokuj edytor schowka AOSP</string>
+    <string name="system_ui_unlock_clipboard_desc">Po odblokowaniu będzie pojawiać się razem z edytorem HyperOS.</string>
     <string name="system_ui_another_title">Pozostałe</string>
     <string name="system_ui_disable_miui_multi_win_switch">Ukryj przycisk \"Podziel ekran\"</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Ukrywa trzy stałe kropki, w tym te na górze małego okna oraz przycisk w środku góry ekranu HyperOS dla poziomego widoku na Padzie (nie wpływa to na używanie funkcji).</string>

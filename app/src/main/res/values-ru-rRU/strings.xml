@@ -826,6 +826,8 @@
     <string name="system_ui_control_center_notification_disable_transparent">Отключить прозрачный режим</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Отключить настройку прозрачности фона уведомлений</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Оптимизировать эффект смешивания цветов на панели управления мультимедиа</string>
+    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Оптимизировать закругленный переход к изображениям альбомов</string>
+    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">Удалить идентификатор источника звука альбома</string>
     <string name="system_ui_control_center_media_control_progress">Индикатор выполнения</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Удалить ограничение на применение специальных действий для карточек мультимедийных уведомлений</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Волнистый</string>
@@ -890,7 +892,9 @@
     <string name="system_ui_other_title">Прочее</string>
     <string name="system_ui_disable_volume">Встроенная панель громкости</string>
     <string name="system_ui_disable_power">Меню выключения от AOSP</string>
+    <string name="system_ui_disable_volume_desc">Изменения панели громкости в HyperOS не могут быть применены к собственной панели громкости</string>
     <string name="system_ui_unlock_clipboard">Разблокировать редактор буфера обмена AOSP</string>
+    <string name="system_ui_unlock_clipboard_desc">После разблокировки он появится вместе с редактором HyperOS</string>
     <string name="system_ui_another_title">Прочее</string>
     <string name="system_ui_disable_miui_multi_win_switch">Скрыть кнопку управления окнами</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Скрыть кнопку с тремя точками</string>

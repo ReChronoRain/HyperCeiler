@@ -826,6 +826,8 @@
     <string name="system_ui_control_center_notification_disable_transparent">تعطيل الوضع الشفاف</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">تعطيل ضبط خلفية الإشعارات لتكون شفافة</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">تحسين تأثير مزج الألوان في لوحة التحكم بالوسائط</string>
+    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">تحسين انتقال الزوايا المستديرة لصور الألبوم</string>
+    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">قم بإزالة مصدر الصوت الخاص بالألبوم</string>
     <string name="system_ui_control_center_media_control_progress">شريط التقدم</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">إزالة قيود الإجراءات المخصصة لبطاقات إشعار الوسائط</string>
     <string name="system_ui_control_center_media_control_progress_wavy">موجي</string>
@@ -890,7 +892,9 @@
     <string name="system_ui_other_title">أخرى</string>
     <string name="system_ui_disable_volume">شريط الصوت الأصلي</string>
     <string name="system_ui_disable_power">قائمة إيقاف التشغيل الأصلية</string>
+    <string name="system_ui_disable_volume_desc">لا يمكن تطبيق التعديلات على شريط مستوى الصوت في HyperOS على شريط مستوى الصوت الأصلي</string>
     <string name="system_ui_unlock_clipboard">فتح محرر الحافظة AOSP</string>
+    <string name="system_ui_unlock_clipboard_desc">بعد إلغاء القفل، ستظهر نافذة منبثقة مع محرر HyperOS.</string>
     <string name="system_ui_another_title">أخرى</string>
     <string name="system_ui_disable_miui_multi_win_switch">إخفاء زر تقسيم الشاشة</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">إخفاء النقاط الثلاثة الثابتة، بما في ذلك أعلى النافذة الصغيرة وزر المنتصف في الأعلى لوضع الشاشة الأفقية في HyperOS للتابلت (لا يؤثر على استخدام الوظائف).</string>
