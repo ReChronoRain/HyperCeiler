@@ -93,6 +93,7 @@ HyperCeiler 已停止维护 Android 11-13 的 MIUI ROM，如需使用请停留[�
 | 语音唤醒              | com.miui.voicetrigger              |
 | 录音机                      | com.android.soundrecorder          |
 | LPA                        | com.miui.euicc                     |
+| 小米SIM卡激活服务             | com.xiaomi.simactivate.service |
 
 </details>
 

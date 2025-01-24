@@ -44,7 +44,7 @@
     <string name="notification_channel_app_crash_name">应用运行异常</string>
     <string name="notification_title_message_emergency_crash">%s 多次崩溃</string>
     <string name="notification_content_message">点击查看详细信息</string>
-    <string name="notification_view" >查看</string>
+    <string name="notification_view">查看</string>
 
     <string name="tip_default">Tip: 这里是默认 tip ~ 如果你能看见我，就说明 HyperCeiler 出现了问题，请及时且有效的反馈给开发者。</string>
 
