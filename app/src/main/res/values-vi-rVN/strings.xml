@@ -1412,8 +1412,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="html_viewer_disable_cloud_control">Tắt kiểm soát đám mây</string>
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
-    <string name="personal_assistant_fold_widget_enable">Tiện ích Pad/Fold</string>
-    <string name="personal_assistant_fold_widget_enable_desc">Bật tiện ích kiểu Pad/Fold</string>
     <string name="personal_assistant_overlap_mode">Màn hình trợ lý thông minh kiểu Fold</string>
     <string name="personal_assistant_blur_model">Làm mờ nền trợ lý cá nhân</string>
     <string name="personal_assistant_blur_value">Kiểu nền</string>

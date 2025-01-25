@@ -1406,8 +1406,6 @@
     <string name="html_viewer_disable_cloud_control">إيقاف التحكم السحابي</string>
     <!--App vault-->
     <string name="personal_assistant">خزنة التطبيقات</string>
-    <string name="personal_assistant_fold_widget_enable">وزن اللوحة/الطي</string>
-    <string name="personal_assistant_fold_widget_enable_desc">تمكين عناصر واجهة مستخدم بأسلوب اللوحة/الطي</string>
     <string name="personal_assistant_overlap_mode">أسلوب الطي السلبي</string>
     <string name="personal_assistant_blur_model">نموذج التمويه للمساعد الشخصي</string>
     <string name="personal_assistant_blur_value">أسلوب الخلفية</string>

@@ -1160,8 +1160,6 @@
     <!--HTML Viewer-->
     <!--App vault-->
     <string name="personal_assistant">Gudang aplikasi</string>
-    <string name="personal_assistant_fold_widget_enable">Berat Pad/Fold</string>
-    <string name="personal_assistant_fold_widget_enable_desc">Aktifkan widget gaya Pad/Lipat</string>
     <string name="personal_assistant_overlap_mode">Negatif satu layar Gaya lipat</string>
     <string name="personal_assistant_blur_model">Model blur asisten pribadi</string>
     <string name="personal_assistant_blur_value">Gaya latar belakang</string>

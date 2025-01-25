@@ -1406,8 +1406,6 @@
     <string name="html_viewer_disable_cloud_control">Отключить облачное управление</string>
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
-    <string name="personal_assistant_fold_widget_enable">Виджеты Pad/Mix Fold</string>
-    <string name="personal_assistant_fold_widget_enable_desc">Включить виджеты в стиле Pad/Mix Fold</string>
     <string name="personal_assistant_overlap_mode">Негатив на один экран в сложенном виде</string>
     <string name="personal_assistant_blur_model">Настройка размытия персонального помощника</string>
     <string name="personal_assistant_blur_value">Стиль фона</string>

@@ -1337,8 +1337,6 @@
     <string name="html_viewer_disable_cloud_control">クラウドコントロールを無効化</string>
     <!--App vault-->
     <string name="personal_assistant">アプリ保管庫</string>
-    <string name="personal_assistant_fold_widget_enable">Pad/Fold ウィジェット</string>
-    <string name="personal_assistant_fold_widget_enable_desc">Pad/Fold 用のウィジェットを有効にします</string>
     <string name="personal_assistant_overlap_mode">-1画面を Fold スタイルにする</string>
     <string name="personal_assistant_blur_model">パーソナルアシスタントのぼかしモデル</string>
     <string name="personal_assistant_blur_value">背景のスタイル</string>

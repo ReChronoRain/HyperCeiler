@@ -1246,8 +1246,6 @@ aplicaciones del sistema</string>
     <string name="html_viewer_disable_cloud_control">Desactivar el control de la nube</string>
     <!--App vault-->
     <string name="personal_assistant">Asistente personal</string>
-    <string name="personal_assistant_fold_widget_enable">Widget de Pad/Fold</string>
-    <string name="personal_assistant_fold_widget_enable_desc">Activar widgets de estilo de Pad/Fold</string>
     <string name="personal_assistant_overlap_mode">Asistente personal del estilo de Fold</string>
     <string name="personal_assistant_blur_model">Ajuste del fondo de la pantalla inteligente</string>
     <string name="personal_assistant_blur_value">Estilo del fondo</string>

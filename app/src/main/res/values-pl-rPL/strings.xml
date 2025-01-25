@@ -1406,8 +1406,6 @@
     <string name="html_viewer_disable_cloud_control">Wyłącz kontrolę chmury</string>
     <!--App vault-->
     <string name="personal_assistant">Panel informacyjny</string>
-    <string name="personal_assistant_fold_widget_enable">Widżety Pad/Fold</string>
-    <string name="personal_assistant_fold_widget_enable_desc">Włącz widgety w stylu Pad/Fold</string>
     <string name="personal_assistant_overlap_mode">Negatyw złożony na jeden ekran</string>
     <string name="personal_assistant_blur_model">Model rozmycia asystenta osobistego</string>
     <string name="personal_assistant_blur_value">Styl tła</string>

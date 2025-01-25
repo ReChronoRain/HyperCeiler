@@ -1131,8 +1131,6 @@
     <!--HTML Viewer-->
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
-    <string name="personal_assistant_fold_widget_enable">Pad/Ripiega peso</string>
-    <string name="personal_assistant_fold_widget_enable_desc">Abilita widget Pad/Stile di piegatura</string>
     <string name="personal_assistant_overlap_mode">Stile di piegatura di uno schermo negativo</string>
     <string name="personal_assistant_blur_model">Modello di sfocatura dell\'assistente personale</string>
     <string name="personal_assistant_blur_value">Stile sfondo</string>

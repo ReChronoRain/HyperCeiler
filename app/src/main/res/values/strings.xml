@@ -1476,8 +1476,6 @@
     <string name="html_viewer_disable_cloud_control">Disable Cloud control</string>
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
-    <string name="personal_assistant_fold_widget_enable">Pad/Fold weight</string>
-    <string name="personal_assistant_fold_widget_enable_desc">Enable Pad/Fold style widgets</string>
     <string name="personal_assistant_overlap_mode">Negative one screen Fold style</string>
     <string name="personal_assistant_blur_model">Personal assistant blur model</string>
     <string name="personal_assistant_blur_value">Background style</string>

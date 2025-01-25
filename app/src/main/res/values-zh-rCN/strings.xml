@@ -1486,8 +1486,6 @@
     <string name="html_viewer_disable_cloud_control">禁用云控</string>
     <!--智能助理-->
     <string name="personal_assistant">智能助理</string>
-    <string name="personal_assistant_fold_widget_enable">Pad/Fold 小部件</string>
-    <string name="personal_assistant_fold_widget_enable_desc">启用 Pad/Fold 样式的小部件</string>
     <string name="personal_assistant_overlap_mode">负一屏 Fold 样式</string>
     <string name="personal_assistant_blur_model">负一屏背景设置</string>
     <string name="personal_assistant_blur_value">背景样式</string>

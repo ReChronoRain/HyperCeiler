@@ -1156,8 +1156,6 @@
     <string name="html_viewer_disable_cloud_control">Bulut denetimini devre dışı bırak</string>
     <!--App vault-->
     <string name="personal_assistant">Uygulama kasası</string>
-    <string name="personal_assistant_fold_widget_enable">Pad/Fold ağırlığı</string>
-    <string name="personal_assistant_fold_widget_enable_desc">Ped / Katlama stili widget\'larını etkinleştir</string>
     <string name="personal_assistant_overlap_mode">Negatif bir ekran Katlama stili</string>
     <string name="personal_assistant_blur_model">Kişisel asistan bulanıklık modeli</string>
     <string name="personal_assistant_blur_value">Arkaplan stili</string>

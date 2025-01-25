@@ -1398,8 +1398,6 @@
     <string name="html_viewer_disable_cloud_control">Desativar Controle de nuvem</string>
     <!--App vault-->
     <string name="personal_assistant">Assistente</string>
-    <string name="personal_assistant_fold_widget_enable">Widget estilo Pad/Fold</string>
-    <string name="personal_assistant_fold_widget_enable_desc">Ative widgets de estilo Pad/Fold</string>
     <string name="personal_assistant_overlap_mode">Estilo de dobra do Assistente</string>
     <string name="personal_assistant_blur_model">Modelo do blur do assistente pessoal</string>
     <string name="personal_assistant_blur_value">Estilo do fundo</string>
