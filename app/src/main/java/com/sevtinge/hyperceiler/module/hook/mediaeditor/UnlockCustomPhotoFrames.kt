@@ -125,13 +125,13 @@ object UnlockCustomPhotoFrames : BaseHook() {
         if (isRedmi) {
             runCatching {
                 loadClass("com.miui.mediaeditor.config.galleryframe.GalleryFrameAccessUtils\$isVictoriaDeviceSupport\$2")
-                    .methodFinder().filterByName("invoke").single()
+                    .methodFinder().filterByName("invoke").first()
                     .createHook {
                         returnConstant(true)
                     }
             }.onFailure {
                 loadClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils\$isVictoriaDeviceSupport\$2")
-                    .methodFinder().filterByName("invoke").single()
+                    .methodFinder().filterByName("invoke").first()
                     .createHook {
                         returnConstant(true)
                     }

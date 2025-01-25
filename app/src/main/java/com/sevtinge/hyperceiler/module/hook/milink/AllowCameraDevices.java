@@ -18,17 +18,24 @@
 */
 package com.sevtinge.hyperceiler.module.hook.milink;
 
+import android.content.Context;
+
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 public class AllowCameraDevices extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookMethod("com.xiaomi.vtcamera.cloud.RulesConfig", "isDeviceAllowed", String.class, new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    param.setResult(true);
-                }
+        MethodHook hook = new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                param.setResult(true);
             }
-        );
+        };
+
+        try {
+            findAndHookMethod("com.xiaomi.vtcamera.cloud.RulesConfig", "isDeviceAllowedToBeDiscoverable", Context.class, String.class, String.class, hook);
+        } catch(Throwable t) {
+            findAndHookMethod("com.xiaomi.vtcamera.cloud.RulesConfig", "isDeviceAllowed", String.class, hook);
+        }
     }
 }
