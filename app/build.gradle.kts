@@ -227,14 +227,6 @@ dependencies {
     compileOnly(projects.hiddenApi)
     compileOnly(libs.xposed.api)
 
-    implementation(libs.core)
-    implementation(libs.recyclerview)
-    implementation(libs.fragment)
-    implementation(libs.coordinatorlayout)
-    implementation(libs.constraintlayout) {
-        exclude("androidx.appcompat", "appcompat")
-    }
-
     implementation(libs.dexkit)
     implementation(libs.mmkv)
     implementation(libs.ezxhelper)
@@ -244,13 +236,7 @@ dependencies {
     implementation(libs.lyric.getter.api)
     implementation(libs.lunarcalendar)
 
-    implementation(
-        fileTree(
-            mapOf("dir" to "libs", "include" to listOf("*-debug.aar"))
-        )
-    )
-
-    // implementation(projects.provision)
+    implementation(projects.provision)
     implementation(projects.processor)
     annotationProcessor(projects.processor)
 }

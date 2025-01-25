@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="provision_padding_top">30dp</dimen>
+
+    <dimen name="provision_back_icon_margin_start">0dp</dimen>
+
+    <dimen name="provision_actionbar_height">66.5dp</dimen>
+    <dimen name="provision_actionbar_padding_top">43dp</dimen>
+    <dimen name="provision_actionbar_padding_bottom">8dp</dimen>
+    <dimen name="provision_actionbar_padding_horizontal">20dp</dimen>
+
+    <dimen name="provision_title_padding">20dp</dimen>
+    <dimen name="provision_title_padding_top">@dimen/provision_padding_top</dimen>
+    <dimen name="provision_title_padding_bottom">50dp</dimen>
+
+    <dimen name="provision_title_padding_top_goku">30dp</dimen>
+
+    <dimen name="provision_subtitle_text_size">14dp</dimen>
+
+    <dimen name="provision_preview_image_width">100dp</dimen>
+    <dimen name="provision_preview_image_height">100dp</dimen>
+
+    <dimen name="provision_real_title_margin_top">8dp</dimen>
+
+    <dimen name="provision_title_text_size">32sp</dimen>
+    <dimen name="provision_title_margin_top">5.799988dp</dimen>
+
+    <dimen name="provision_dynamic_title_padding_bottom">36dp</dimen>
+
+    <dimen name="provision_preview_width">392dp</dimen>
+    <dimen name="provision_preview_height">236dp</dimen>
+
+    <dimen name="provision_qr_entrance_size">100dp</dimen>
+    <dimen name="provision_next_button_size">70.0dp</dimen>
+
+    <dimen name="provision_anim_margin_start">0dp</dimen>
+    <dimen name="provision_anim_margin_end">0dp</dimen>
+
+    <dimen name="provision_container_margin_top">0dp</dimen>
+
+
+    <dimen name="provision_lyt_btn_margin_bottom">44dp</dimen>
+    <dimen name="provision_lyt_btn_margin_bottom_flip">40dp</dimen>
+    <dimen name="provision_lyt_btn_margin_bottom_goku">44dp</dimen>
+
+    <dimen name="provision_navigation_button_width">336dp</dimen>
+    <dimen name="provision_navigation_button_height">50dp</dimen>
+    <dimen name="provision_navigation_button_margin_top">28dp</dimen>
+
+    <dimen name="provision_navigation_button_width_goku">372dp</dimen>
+
+    <dimen name="provision_listview_text_size">18.179993sp</dimen>
+    <dimen name="provision_list_item_end">26.909973dp</dimen>
+    <dimen name="provision_list_item_start">34.179993dp</dimen>
+    <dimen name="provision_list_item_height">76.359985dp</dimen>
+    <dimen name="provision_more_list_item_top_margin">10dp</dimen>
+
+    <dimen name="provision_lyt_content_margin_start">13.089996dp</dimen>
+    <dimen name="provision_lyt_content_margin_end">13.089996dp</dimen>
+
+    <dimen name="provision_startup_logo_width_thirteen">320dp</dimen>
+    <dimen name="provision_startup_logo_height_thirteen">45.28dp</dimen>
+
+    <dimen name="provision_page_content_horizontal">30.909973dp</dimen>
+
+    <dimen name="provision_page_checkbox_agree_text_size">13.799988sp</dimen>
+    <dimen name="provision_page_checkbox_agree_margin_top">8.699982dp</dimen>
+    <dimen name="provision_page_checkbox_agree_margin_end">6.5dp</dimen>
+    <dimen name="provision_page_checkbox_horizontal_end">@dimen/provision_page_content_horizontal</dimen>
+
+    <dimen name="provision_service_permission_margin_start">23.299988dp</dimen>
+
+    <dimen name="provision_license_item_start">30.909973dp</dimen>
+    <dimen name="provision_license_item_end">17.819977dp</dimen>
+    <dimen name="provision_license_item_padding_bottom">22.0dp</dimen>
+
+    <dimen name="provision_license_description_text_size">13.799988sp</dimen>
+
+    <dimen name="provision_list_terms_description_margin_start">0.0dp</dimen>
+    <dimen name="provision_list_terms_description_margin_end">0.0dp</dimen>
+    <dimen name="provision_list_terms_description_margin_bottom">22.0dp</dimen>
+
+    <dimen name="provision_service_name_text_size">16.699982sp</dimen>
+    <dimen name="provision_service_name_margin_bottom">8.0dp</dimen>
+
+    <dimen name="provision_service_desc_text_size">13.799988sp</dimen>
+
+    <dimen name="provision_service_agree_margin_top">14.899994dp</dimen>
+    <dimen name="provision_service_agree_text_size">13.799988sp</dimen>
+
+    <dimen name="provision_congratulation_logo_margin_top">30.0dp</dimen>
+    <dimen name="provision_congratulation_title_text_size_complete">24sp</dimen>
+    <dimen name="provision_congratulation_slogan_margin_top_complete">5.909973dp</dimen>
+    <dimen name="provision_congratulation_start_up_slogan_text_size">13.099976sp</dimen>
+    <dimen name="provision_congratulation_end_bottom_margin">44dp</dimen>
+    <dimen name="provision_congratulation_end_bottom_margin_full_screen">60.0dp</dimen>
+</resources>

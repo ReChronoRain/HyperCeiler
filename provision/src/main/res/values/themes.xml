@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ProvisionTheme" parent="@style/Theme.AppCompat.DayNight">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:listDivider">@null</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="preferenceTheme">@style/ThemeOverlay.Preference.DayNight</item>
+    </style>
+</resources>

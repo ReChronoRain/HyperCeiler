@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/provision_lyt_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/provision_title_padding"
+    android:paddingTop="@dimen/provision_title_padding_top"
+    android:paddingRight="@dimen/provision_title_padding"
+    android:paddingBottom="@dimen/provision_title_padding_bottom">
+
+    <ImageView
+        android:id="@+id/preview_image"
+        android:layout_width="@dimen/provision_preview_image_width"
+        android:layout_height="@dimen/provision_preview_image_height"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:id="@+id/provision_real_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/provision_real_title_margin_top"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <include layout="@layout/provision_big_title_layout" />
+
+        <Space
+            android:id="@+id/provision_title_space"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/provision_title_margin_top"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/provision_sub_title"
+            style="@style/ProvisionPageSubTitleTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

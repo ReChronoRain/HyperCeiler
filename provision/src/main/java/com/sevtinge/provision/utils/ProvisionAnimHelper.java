@@ -16,12 +16,12 @@ public class ProvisionAnimHelper {
     private int mAnimY;
     private int mSkipOrNext = 0;
 
-    private final Context mContext;
-    private final Handler mHandler;
+    private Context mContext;
+    private Handler mHandler;
     private AnimListener mAnimListener;
 
     private IProvisionAnim mProxy;
-    private final IAnimCallback mCallback = new IAnimCallback.Stub() {
+    private IAnimCallback mCallback = new IAnimCallback.Stub() {
         @Override
         public void onNextAminStart() throws RemoteException {
             Log.d("OobeUtil2", "onNextAminStart: " + mSkipOrNext);
@@ -49,7 +49,7 @@ public class ProvisionAnimHelper {
             }
         }
     };
-    private final ServiceConnection mConnection = new ServiceConnection() {
+    private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mProxy = IProvisionAnim.Stub.asInterface(service);
@@ -66,7 +66,7 @@ public class ProvisionAnimHelper {
 
         }
     };
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && intent.getAction().equals("fan.action.PROVISION_ANIM_END") &&
@@ -136,7 +136,7 @@ public class ProvisionAnimHelper {
         if (mContext != null) {
             mContext.registerReceiver(mReceiver, new IntentFilter("fan.action.PROVISION_ANIM_END"), Context.RECEIVER_EXPORTED);
             Intent intent = new Intent("fan.intent.action.OOBSERVICE");
-            intent.setPackage("com.fan.catalog");
+            intent.setPackage("com.sevtinge.hyperceiler");
             mContext.bindService(intent, mConnection, 1);
         } else {
             Log.e("OobeUtil2", "registerAnimService context is null");

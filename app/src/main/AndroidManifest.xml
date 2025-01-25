@@ -80,7 +80,8 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:allowNativeHeapPointerTagging="true">
+        android:allowNativeHeapPointerTagging="true"
+        android:extractNativeLibs="true">
 
         <activity
             android:name=".ui.main.HyperCeilerTabActivity"

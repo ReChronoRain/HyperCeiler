@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/enter_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:importantForAccessibility="no">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.opengl.GLSurfaceView
+            android:id="@+id/gl_surface_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:importantForAccessibility="no"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/background_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/provision_logo_image_bg"
+            android:contentDescription="@null"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/space_top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20.0" />
+
+        <RelativeLayout
+            android:id="@+id/logo_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="40.0">
+
+            <include
+                layout="@layout/provision_logo_image_wrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/logo_image_wrapper"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/congratulation_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/provision_congratulation_logo_margin_top"
+                    android:fontFamily="mipro-medium"
+                    android:textColor="@color/provision_complete_title_color"
+                    android:textSize="@dimen/provision_congratulation_title_text_size_complete" />
+
+                <TextView
+                    android:id="@+id/congratulation_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/provision_congratulation_slogan_margin_top_complete"
+                    android:fontFamily="mipro-medium"
+                    android:letterSpacing="0.29"
+                    android:textColor="@color/provision_slogan_text_color"
+                    android:textSize="@dimen/provision_congratulation_start_up_slogan_text_size" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/next"
+                android:layout_width="336dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="bottom">
+
+                <View
+                    android:id="@+id/btn_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/provision_next_btn_background" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/provision_complete_text"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="17sp" />
+            </FrameLayout>
+        </RelativeLayout>
+
+        <Space
+            android:id="@+id/space_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/provision_congratulation_end_bottom_margin" />
+    </LinearLayout>
+</FrameLayout>

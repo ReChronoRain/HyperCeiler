@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom">
+
+    <Button
+        android:id="@+id/confirm_button"
+        android:layout_width="@dimen/provision_navigation_button_width"
+        android:layout_height="@dimen/provision_navigation_button_height"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/provision_navigation_button_margin_top"
+        android:background="@drawable/provision_confirm_background"
+        android:text="@string/provision_next"
+        android:textColor="#FFFFFFFF" />
+
+    <Button
+        android:id="@+id/skip_button"
+        android:layout_width="@dimen/provision_navigation_button_width"
+        android:layout_height="@dimen/provision_navigation_button_height"
+        android:layout_below="@id/confirm_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/provision_skip_background"
+        android:text="@string/provision_skip_underline"
+        android:visibility="gone" />
+</RelativeLayout>

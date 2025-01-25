@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/provision_lyt_content_margin_end"
+    android:layout_marginEnd="@dimen/provision_lyt_content_margin_end"
+    android:layout_marginBottom="@dimen/provision_more_list_item_top_margin">
+
+    <RelativeLayout
+        style="@style/Widget.ListView.Item.SingleLine"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/provision_list_item_height"
+        android:background="@drawable/provision_list_item_background"
+        android:layoutDirection="locale"
+        android:paddingStart="@dimen/provision_list_item_start"
+        android:paddingEnd="@dimen/provision_list_item_end"
+        android:textAlignment="viewStart">
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:clickable="false"
+            android:focusable="false"
+            android:fontFamily="mipro-medium"
+            android:textColor="@color/provision_list_item_text_unselected"
+            android:textSize="@dimen/provision_listview_text_size" />
+
+        <ImageView
+            android:id="@+id/item_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:clickable="false"
+            android:focusable="false"
+            android:src="@drawable/provision_picker_btn_radio" />
+    </RelativeLayout>
+</FrameLayout>

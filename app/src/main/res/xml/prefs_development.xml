@@ -20,42 +20,50 @@
 
     <PreferenceCategory>
 
-    <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.settings.development.DevelopmentDebugInfoFragment"
-        android:key="prefs_key_development_debug_info"
-        android:title="@string/development_debug_info" />
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.settings.development.DevelopmentDebugInfoFragment"
+            android:key="prefs_key_development_debug_info"
+            android:title="@string/development_debug_info" />
 
-    <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.settings.development.DevelopmentKillFragment"
-        android:key="prefs_key_development_kill"
-        android:title="@string/kill" />
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.settings.development.DevelopmentKillFragment"
+            android:key="prefs_key_development_kill"
+            android:title="@string/kill" />
 
-    <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.settings.development.DevelopmentPrefsFragment"
-        android:key="prefs_key_development_prefs"
-        android:title="@string/development_prefs" />
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.settings.development.DevelopmentPrefsFragment"
+            android:key="prefs_key_development_prefs"
+            android:title="@string/development_prefs" />
 
-    <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.settings.development.DevelopmentUIFragment"
-        android:key="prefs_key_development_ui"
-        android:title="@string/development_ui" />
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.settings.development.DevelopmentUIFragment"
+            android:key="prefs_key_development_ui"
+            android:title="@string/development_ui" />
 
-    <Preference
-        android:key="prefs_key_development_cmd_r"
-        android:title="@string/development_cmd_r" />
+        <Preference
+            android:key="prefs_key_development_oobe"
+            android:title="Oobe测试">
+            <intent
+                android:targetPackage="com.sevtinge.hyperceiler"
+                android:targetClass="com.sevtinge.provision.activity.ProvisionActivity"/>
+        </Preference>
 
-    <Preference
-        android:key="prefs_key_development_delete_all_dexkit_cache"
-        android:title="@string/development_delete_all_dexkit_cache" />
+        <Preference
+            android:key="prefs_key_development_cmd_r"
+            android:title="@string/development_cmd_r" />
 
-    <SwitchPreference
-        android:title="@string/development_close_log_alert_dialog"
-        android:key="prefs_key_development_close_log_alert_dialog"
-        android:defaultValue="false" />
+        <Preference
+            android:key="prefs_key_development_delete_all_dexkit_cache"
+            android:title="@string/development_delete_all_dexkit_cache" />
 
-    <Preference
-        android:key="prefs_key_development_fix_lsposed_log"
-        android:title="@string/development_fix_lsposed_log" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_development_close_log_alert_dialog"
+            android:title="@string/development_close_log_alert_dialog" />
+
+        <Preference
+            android:key="prefs_key_development_fix_lsposed_log"
+            android:title="@string/development_fix_lsposed_log" />
 
     </PreferenceCategory>
 

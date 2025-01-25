@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/provision_license_item_start"
+    android:paddingEnd="@dimen/provision_license_item_end"
+    android:paddingBottom="@dimen/provision_license_item_padding_bottom">
+
+    <TextView
+        android:id="@+id/service_name"
+        style="@style/ProvisionServiceTitleTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/provision_terms_of_use" />
+
+    <TextView
+        android:id="@+id/service_introduction"
+        style="@style/ProvisionServiceDescTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/protect_statement"
+        style="@style/ProvisionServiceDescTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/provision_protect_persoanl_info_statement" />
+
+    <TextView
+        android:id="@+id/provid"
+        style="@style/ProvisionServiceDescTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/service_permission_info"
+        style="@style/ProvisionServiceDescTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/user_disagreement"
+        style="@style/ProvisionServiceDescTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/service_policy"
+        style="@style/ProvisionServiceDescTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/agree_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/provision_service_agree_margin_top"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/provision_service_agreement"
+        android:textColor="@color/provision_service_agree_color"
+        android:textSize="@dimen/provision_service_agree_text_size"
+        android:visibility="gone" />
+</LinearLayout>

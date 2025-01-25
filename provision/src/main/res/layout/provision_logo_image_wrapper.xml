@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/logo_image_wrapper"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/logo_image"
+        android:layout_width="@dimen/provision_startup_logo_width_thirteen"
+        android:layout_height="@dimen/provision_startup_logo_height_thirteen"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no"
+        android:src="@drawable/provision_logo_image_lite"/>
+</FrameLayout>

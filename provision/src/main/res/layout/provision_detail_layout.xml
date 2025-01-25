@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/provision_actionbar_layout" />
+
+    <include layout="@layout/provision_lyt_title_layout" />
+
+    <FrameLayout
+        android:id="@+id/provision_preview_layout"
+        android:layout_width="@dimen/provision_preview_width"
+        android:layout_height="@dimen/provision_preview_height"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone">
+
+        <include layout="@layout/provision_anim_display_layout" />
+    </FrameLayout>
+
+    <include layout="@layout/provision_fragment_content" />
+
+    <include
+        android:id="@+id/provision_lyt_btn"
+        layout="@layout/provision_btn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/provision_lyt_btn_margin_bottom" />
+</LinearLayout>

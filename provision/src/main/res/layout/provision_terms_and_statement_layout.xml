@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/privacy"
+            style="@style/ProvisionListSecondaryTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/provision_page_content_horizontal"
+            android:layout_marginTop="@dimen/provision_page_checkbox_agree_margin_top"
+            android:layout_marginEnd="@dimen/provision_page_checkbox_horizontal_end"
+            android:paddingStart="@dimen/provision_page_checkbox_agree_margin_end"
+            android:textColor="@color/provision_list_description_color"
+            android:textSize="@dimen/provision_page_checkbox_agree_text_size" />
+
+        <CheckBox
+            android:id="@+id/checkbox_agree"
+            style="@style/ProvisionListSecondaryTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/provision_page_content_horizontal"
+            android:layout_marginTop="@dimen/provision_page_checkbox_agree_margin_top"
+            android:layout_marginEnd="@dimen/provision_page_checkbox_horizontal_end"
+            android:paddingStart="@dimen/provision_page_checkbox_agree_margin_end"
+            android:textColor="@color/provision_list_description_color"
+            android:textSize="@dimen/provision_page_checkbox_agree_text_size"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</FrameLayout>

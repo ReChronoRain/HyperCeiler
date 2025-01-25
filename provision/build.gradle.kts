@@ -51,7 +51,7 @@ android {
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
+            languageVersion = JavaLanguageVersion.of(22)
         }
     }
 }
@@ -64,4 +64,10 @@ dependencies {
     api(libs.constraintlayout) {
         exclude("androidx.appcompat", "appcompat")
     }
+
+    api(
+        fileTree(
+            mapOf("dir" to "libs", "include" to listOf("*-debug.aar"))
+        )
+    )
 }

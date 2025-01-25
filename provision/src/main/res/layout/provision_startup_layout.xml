@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/enter_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.opengl.GLSurfaceView
+            android:id="@+id/background_glsurfaceview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:importantForAccessibility="no" />
+
+        <ImageView
+            android:id="@+id/background_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/provision_logo_image_bg"
+            android:contentDescription="@null"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="40.0">
+
+            <View
+                android:id="@+id/show_qr_view"
+                android:layout_width="@dimen/provision_qr_entrance_size"
+                android:layout_height="@dimen/provision_qr_entrance_size"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@null"
+                android:importantForAccessibility="no" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="40.0">
+
+            <include
+                layout="@layout/provision_logo_image_wrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <FrameLayout
+                android:layout_width="@dimen/provision_next_button_size"
+                android:layout_height="@dimen/provision_next_button_size"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true">
+
+                <ImageButton
+                    android:id="@+id/next"
+                    android:layout_width="@dimen/provision_next_button_size"
+                    android:layout_height="@dimen/provision_next_button_size"
+                    android:background="@drawable/provision_next_lite"
+                    android:contentDescription="@string/provision_start_content_description" />
+
+                <ImageView
+                    android:id="@+id/next_arrow"
+                    android:layout_width="29dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/provision_start_content_description"
+                    android:visibility="gone" />
+            </FrameLayout>
+        </RelativeLayout>
+
+        <Space
+            android:id="@+id/space_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20.0" />
+    </LinearLayout>
+</FrameLayout>

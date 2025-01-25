@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/provision_lyt_actionbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/provision_actionbar_padding_horizontal"
+    android:paddingTop="@dimen/provision_actionbar_padding_top"
+    android:paddingBottom="@dimen/provision_actionbar_padding_bottom">
+
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/provision_back_icon_margin_start"
+        android:contentDescription="@string/provision_back_description"
+        android:src="@drawable/miuix_action_icon_back_light" />
+</LinearLayout>

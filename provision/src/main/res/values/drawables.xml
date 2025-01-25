@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="provision_congratulation_btn_background">@color/provision_list_description_color</drawable>
+</resources>
