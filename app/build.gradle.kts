@@ -1,11 +1,13 @@
 // file:noinspection DependencyNotationArgument
-import com.android.build.gradle.internal.api.*
-import com.android.build.gradle.tasks.*
-import java.io.*
-import java.text.*
-import java.time.*
-import java.time.format.*
-import java.util.*
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import com.android.build.gradle.tasks.PackageAndroidArtifact
+import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Properties
+import java.util.TimeZone
 
 plugins {
     alias(libs.plugins.android.application)
@@ -140,12 +142,6 @@ android {
             enableV3Signing = true
             enableV4Signing = true
         }
-        create("withoutProperties") {
-            enableV1Signing = true
-            enableV2Signing = true
-            enableV3Signing = true
-            enableV4Signing = true
-        }
     }
 
     buildTypes {
@@ -162,7 +158,7 @@ android {
             signingConfig = if (properties != null) {
                 signingConfigs["hasProperties"]
             } else {
-                signingConfigs["withoutProperties"]
+                signingConfigs["debug"]
             }
         }
         create("beta") {
@@ -177,7 +173,7 @@ android {
             signingConfig = if (properties != null) {
                 signingConfigs["hasProperties"]
             } else {
-                signingConfigs["withoutProperties"]
+                signingConfigs["debug"]
             }
         }
         create("canary") {
@@ -192,7 +188,7 @@ android {
             signingConfig = if (properties != null) {
                 signingConfigs["hasProperties"]
             } else {
-                signingConfigs["withoutProperties"]
+                signingConfigs["debug"]
             }
         }
         debug {
