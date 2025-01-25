@@ -937,17 +937,13 @@ aplicaciones del sistema</string>
     <string name="gallery_enable_pdf">Desbloquear la generación de PDF</string>
     <string name="gallery_enable_ocr">Desbloquear OCR</string>
     <string name="gallery_enable_ocr_form">Desbloquear el escaneo de tabla</string>
-    <string name="gallery_enable_ai_gallery">Desbloquear IA de foto</string>
     <string name="gallery_enable_id_photo">Desbloquear fotos de ID</string>
     <string name="gallery_enable_photo_movie">Desbloquear película fotográfica</string>
     <string name="gallery_enable_video_post">Desbloquear efectos cinematográficos</string>
     <string name="gallery_enable_video_editor">Desbloquear editor de vídeos</string>
-    <string name="gallery_enable_text_yanhua">Desbloquear fuegos artificiales de texto</string>
     <string name="gallery_enable_un_privacy_watermark">Eliminar el límite de palabras de marca de agua</string>
     <string name="gallery_enable_un_privacy_watermark_more">Activarlo aumentará ligeramente la densidad de la marca de agua para acomodar conteos de palabras más largos</string>
-    <string name="gallery_enable_remover_2">Desbloquear borrador mágico</string>
     <string name="gallery_enable_magic_matting">Desbloquear extracción mágica de imagen</string>
-    <string name="gallery_enable_magic_sky">Desbloquear cielo mágico</string>
     <string name="gallery_backup_server">Servidor de respaldo</string>
     <string name="gallery_backup_server_xiaomi">Servicio de Xiaomi Cloud</string>
     <string name="gallery_backup_server_google">Google</string>

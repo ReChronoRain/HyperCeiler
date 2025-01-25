@@ -868,17 +868,13 @@
     <string name="gallery_enable_pdf">PDF oluşturmanın kilidini aç</string>
     <string name="gallery_enable_ocr">OCR\'nin kilidini aç</string>
     <string name="gallery_enable_ocr_form">Tarama tablosunun kilidini aç</string>
-    <string name="gallery_enable_ai_gallery">AI fotoğraf kilidini aç</string>
     <string name="gallery_enable_id_photo">Kimliğin kilidini aç</string>
     <string name="gallery_enable_photo_movie">Klibin kilidini aç</string>
     <string name="gallery_enable_video_post">Video efektlerinin kilidini aç</string>
     <string name="gallery_enable_video_editor">Video düzenleyicinin kilidini aç</string>
-    <string name="gallery_enable_text_yanhua">Metin havai fişeklerinin kilidini aç</string>
     <string name="gallery_enable_un_privacy_watermark">Gizlilik filigranı kelime sınırını kaldırın</string>
     <string name="gallery_enable_un_privacy_watermark_more">Etkinleştirmek, daha uzun kelime sayılarına uyum sağlamak için filigran yoğunluğunu biraz artıracaktır</string>
-    <string name="gallery_enable_remover_2">Silgi kilidini aç</string>
     <string name="gallery_enable_magic_matting">Kesmenin Kilidini Aç</string>
-    <string name="gallery_enable_magic_sky">Gökyüzünün kilidini aç</string>
     <string name="gallery_backup_server">Yedekleme sunucusu</string>
     <string name="gallery_backup_server_google">Google</string>
     <string name="gallery_backup_server_onedrive">Google &amp; OneDrive</string>

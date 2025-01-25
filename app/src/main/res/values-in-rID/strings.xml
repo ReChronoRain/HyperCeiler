@@ -863,17 +863,13 @@
     <string name="gallery_enable_pdf">Buka kunci menghasilkan PDF</string>
     <string name="gallery_enable_ocr">Buka kunci OCR</string>
     <string name="gallery_enable_ocr_form">Buka kunci tabel pemindaian</string>
-    <string name="gallery_enable_ai_gallery">Buka kunci foto AI</string>
     <string name="gallery_enable_id_photo">Buka kunci ID</string>
     <string name="gallery_enable_photo_movie">Buka Kunci Klip</string>
     <string name="gallery_enable_video_post">Buka kunci efek Video</string>
     <string name="gallery_enable_video_editor">Buka kunci editor Video</string>
-    <string name="gallery_enable_text_yanhua">Buka kunci kembang api Teks</string>
     <string name="gallery_enable_un_privacy_watermark">Hapus batas kata tanda air privasi</string>
     <string name="gallery_enable_un_privacy_watermark_more">Mengaktifkannya akan sedikit meningkatkan kepadatan tanda air untuk mengakomodasi jumlah kata yang lebih panjang</string>
-    <string name="gallery_enable_remover_2">Buka Kunci Hapus</string>
     <string name="gallery_enable_magic_matting">Buka Kunci Potong</string>
-    <string name="gallery_enable_magic_sky">Buka kunci Langit</string>
     <string name="gallery_backup_server">Server cadangan</string>
     <string name="gallery_backup_server_xiaomi">Layanan Xiaomi Cloud</string>
     <string name="gallery_backup_server_google">Google</string>

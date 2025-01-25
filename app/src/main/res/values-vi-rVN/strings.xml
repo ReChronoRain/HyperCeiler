@@ -1075,17 +1075,13 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="gallery_enable_pdf">Mở khóa tạo PDF</string>
     <string name="gallery_enable_ocr">Mở khóa OCR</string>
     <string name="gallery_enable_ocr_form">Mở khóa quét biểu mẫu</string>
-    <string name="gallery_enable_ai_gallery">Mở khóa ảnh AI</string>
     <string name="gallery_enable_id_photo">Mở khóa ID</string>
     <string name="gallery_enable_photo_movie">Mở khóa Clip</string>
     <string name="gallery_enable_video_post">Mở khóa Hiệu ứng video</string>
     <string name="gallery_enable_video_editor">Mở khóa Chỉnh sửa video</string>
-    <string name="gallery_enable_text_yanhua">Mở khóa văn bản pháo hoa</string>
     <string name="gallery_enable_un_privacy_watermark">Xóa giới hạn chữ ở hình mờ cá nhân</string>
     <string name="gallery_enable_un_privacy_watermark_more">Việc kích hoạt nó sẽ tăng nhẹ mật độ hình mờ để phù hợp với số lượng từ dài hơn</string>
-    <string name="gallery_enable_remover_2">Mở khóa Xóa vật thể</string>
     <string name="gallery_enable_magic_matting">Mở khóa Cắt</string>
-    <string name="gallery_enable_magic_sky">Mở khóa Bầu trời</string>
     <string name="gallery_backup_server">Máy chủ sao lưu</string>
     <string name="gallery_backup_server_xiaomi">Dịch vụ đám mây Xiaomi</string>
     <string name="gallery_backup_server_google">Google</string>

@@ -1135,17 +1135,13 @@
     <string name="gallery_enable_pdf">Unlock Create PDF</string>
     <string name="gallery_enable_ocr">Unlock OCR</string>
     <string name="gallery_enable_ocr_form">Unlock scan table</string>
-    <string name="gallery_enable_ai_gallery">Unlock AI photo</string>
     <string name="gallery_enable_id_photo">Unlock ID</string>
     <string name="gallery_enable_photo_movie">Unlock Clip</string>
     <string name="gallery_enable_video_post">Unlock Video effects</string>
     <string name="gallery_enable_video_editor">Unlock Video editor</string>
-    <string name="gallery_enable_text_yanhua">Unlock Fireworks</string>
     <string name="gallery_enable_un_privacy_watermark">Remove the privacy watermark word limit</string>
     <string name="gallery_enable_un_privacy_watermark_more">Enabling it will slightly increase the watermark density to accommodate longer word counts</string>
-    <string name="gallery_enable_remover_2">Unlock Erase</string>
     <string name="gallery_enable_magic_matting">Unlock Cut</string>
-    <string name="gallery_enable_magic_sky">Unlock Sky</string>
     <string name="gallery_backup_server">Backup server</string>
     <string name="gallery_backup_server_xiaomi">Xiaomi Cloud</string>
     <string name="gallery_backup_server_google">Google</string>

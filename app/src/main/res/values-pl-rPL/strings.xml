@@ -1069,17 +1069,13 @@
     <string name="gallery_enable_pdf">Odblokuj tworzenie PDF</string>
     <string name="gallery_enable_ocr">Odblokuj OCR</string>
     <string name="gallery_enable_ocr_form">Odblokuj skanowanie tabeli</string>
-    <string name="gallery_enable_ai_gallery">Odblokuj zdjęcia SI</string>
     <string name="gallery_enable_id_photo">Odblokuj ID</string>
     <string name="gallery_enable_photo_movie">Odblokuj klip</string>
     <string name="gallery_enable_video_post">Odblokuj efekty wideo</string>
     <string name="gallery_enable_video_editor">Odblokuj edytor wideo</string>
-    <string name="gallery_enable_text_yanhua">Odblokuj fajerwerki</string>
     <string name="gallery_enable_un_privacy_watermark">Usuń limit słów na znaku wodnym prywatności</string>
     <string name="gallery_enable_un_privacy_watermark_more">Włączenie tej funkcji nieznacznie zwiększy gęstość znaku wodnego, aby umożliwić dłuższe teksty</string>
-    <string name="gallery_enable_remover_2">Odblokuj usuwanie</string>
     <string name="gallery_enable_magic_matting">Odblokuj wycięcie</string>
-    <string name="gallery_enable_magic_sky">Odblokuj niebo</string>
     <string name="gallery_backup_server">Zapasowy serwer</string>
     <string name="gallery_backup_server_xiaomi">Chmura Xiaomi</string>
     <string name="gallery_backup_server_google">Google</string>

@@ -25,17 +25,18 @@ import de.robv.android.xposed.XC_MethodHook;
 public class EnablePhotoMovie extends BaseHook {
     @Override
     public void init() {
-        findAndHookMethod("com.miui.mediaeditor.api.MediaEditorApiHelper", "isPhotoMovieAvailable", new BaseHook.MethodHook() {
+        MethodHook hook = new MethodHook() {
             @Override
             protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
                 param.setResult(true);
             }
-        });
-        findAndHookMethod("com.miui.gallery.domain.DeviceFeature", "isDeviceSupportPhotoMovie", new BaseHook.MethodHook() {
-            @Override
-            protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
-                param.setResult(true);
-            }
-        });
+        };
+
+        try {
+            findAndHookMethod("com.miui.mediaeditor.api.MediaEditorApiHelper", "isDeviceSupportPhotoMovie", hook);
+        } catch (Throwable t) {
+            findAndHookMethod("com.miui.mediaeditor.api.MediaEditorApiHelper", "isPhotoMovieAvailable", hook);
+        }
+        findAndHookMethod("com.miui.gallery.domain.DeviceFeature", "isDeviceSupportPhotoMovie", hook);
     }
 }

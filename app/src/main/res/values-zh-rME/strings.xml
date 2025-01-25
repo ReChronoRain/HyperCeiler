@@ -647,7 +647,6 @@
     <!--LPA-->
     <!--Gallery-->
     <string name="gallery">Apiano 店</string>
-    <string name="gallery_enable_ai_gallery">AI高清写真</string>
     <!--System security components-->
     <!--System launcher-->
     <string name="home_recent_animation_speed">能... 能不能... 再快一点...</string>

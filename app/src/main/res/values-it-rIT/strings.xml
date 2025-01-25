@@ -841,17 +841,13 @@
     <string name="gallery_enable_pdf">Sblocca genera PDF</string>
     <string name="gallery_enable_ocr">Sblocca OCR</string>
     <string name="gallery_enable_ocr_form">Sblocca tabella di scansione</string>
-    <string name="gallery_enable_ai_gallery">Sblocca foto AI</string>
     <string name="gallery_enable_id_photo">Sblocca ID</string>
     <string name="gallery_enable_photo_movie">Sblocca clip</string>
     <string name="gallery_enable_video_post">Sblocca effetti video</string>
     <string name="gallery_enable_video_editor">Sblocca Editor video</string>
-    <string name="gallery_enable_text_yanhua">Sblocca fuochi d\'artificio di testo</string>
     <string name="gallery_enable_un_privacy_watermark">Rimuovi il limite di parole della filigrana sulla privacy</string>
     <string name="gallery_enable_un_privacy_watermark_more">Abilitandolo aumenterà leggermente la densità della filigrana per contenere un numero di parole più lungo</string>
-    <string name="gallery_enable_remover_2">Sblocca Cancella</string>
     <string name="gallery_enable_magic_matting">Sblocca Taglia</string>
-    <string name="gallery_enable_magic_sky">Sblocca Sky</string>
     <string name="gallery_backup_server">Server di backup</string>
     <string name="gallery_backup_server_xiaomi">Xiaomi Cloud Servizio</string>
     <string name="gallery_backup_server_google">Google</string>

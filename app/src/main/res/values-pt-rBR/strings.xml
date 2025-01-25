@@ -1063,17 +1063,13 @@
     <string name="gallery_enable_pdf">Desbloquear Criar PDF</string>
     <string name="gallery_enable_ocr">Desbloquear Reconhecer texto</string>
     <string name="gallery_enable_ocr_form">Desbloquear tabela de digitalização</string>
-    <string name="gallery_enable_ai_gallery">Desbloquear foto IA</string>
     <string name="gallery_enable_id_photo">Desbloquear Identificação</string>
     <string name="gallery_enable_photo_movie">Desbloquear Clipe</string>
     <string name="gallery_enable_video_post">Desbloquear Efeitos de vídeo</string>
     <string name="gallery_enable_video_editor">Desbloquear Editor de vídeo</string>
-    <string name="gallery_enable_text_yanhua">Desbloquear Fogos de artifício</string>
     <string name="gallery_enable_un_privacy_watermark">Remover limite de palavras da marca d’água de proteção</string>
     <string name="gallery_enable_un_privacy_watermark_more">Ao ativá-lo, aumentará ligeiramente a densidade da marca d\'água para acomodar contagens de palavras mais longas.</string>
-    <string name="gallery_enable_remover_2">Desbloquear Apagar</string>
     <string name="gallery_enable_magic_matting">Desbloquear Corte</string>
-    <string name="gallery_enable_magic_sky">Desbloquear Céu</string>
     <string name="gallery_backup_server">Servidor de backup</string>
     <string name="gallery_backup_server_xiaomi">MiCloud</string>
     <string name="gallery_backup_server_google">Google</string>

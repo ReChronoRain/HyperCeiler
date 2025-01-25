@@ -55,11 +55,6 @@
     <PreferenceCategory android:title="@string/recommend">
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_gallery_enable_ai_gallery"
-            android:title="@string/gallery_enable_ai_gallery" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_gallery_enable_id_photo"
             android:title="@string/gallery_enable_id_photo" />
 
@@ -100,23 +95,8 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_gallery_enable_text_yanhua"
-            android:title="@string/gallery_enable_text_yanhua" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_gallery_enable_remover_2"
-            android:title="@string/gallery_enable_remover_2" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_gallery_enable_magic_matting"
             android:title="@string/gallery_enable_magic_matting" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_gallery_enable_magic_sky"
-            android:title="@string/gallery_enable_magic_sky" />
 
     </PreferenceCategory>
 

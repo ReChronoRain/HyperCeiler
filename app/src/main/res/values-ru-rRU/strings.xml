@@ -1069,17 +1069,13 @@
     <string name="gallery_enable_pdf">Создать PDF</string>
     <string name="gallery_enable_ocr">Распознавание текста</string>
     <string name="gallery_enable_ocr_form">Распознавание таблиц</string>
-    <string name="gallery_enable_ai_gallery">Разблокировать AI-фото</string>
     <string name="gallery_enable_id_photo">Фото ID</string>
     <string name="gallery_enable_photo_movie">Ролик из фото</string>
     <string name="gallery_enable_video_post">Видеоэффекты</string>
     <string name="gallery_enable_video_editor">Редактор видео</string>
-    <string name="gallery_enable_text_yanhua">Текстовый фейерверк</string>
     <string name="gallery_enable_un_privacy_watermark">Удалить лимит слов с ватермарков</string>
     <string name="gallery_enable_un_privacy_watermark_more">Включение этого параметра немного увеличит плотность водяных знаков для размещения большего количества слов</string>
-    <string name="gallery_enable_remover_2">Волшебное удаление</string>
     <string name="gallery_enable_magic_matting">Убрать фон</string>
-    <string name="gallery_enable_magic_sky">Волшебное небо</string>
     <string name="gallery_backup_server">Резервный сервер</string>
     <string name="gallery_backup_server_xiaomi">Облачный сервис Xiaomi</string>
     <string name="gallery_backup_server_google">Google</string>

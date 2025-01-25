@@ -1069,17 +1069,13 @@
     <string name="gallery_enable_pdf">فتح إنشاء PDF</string>
     <string name="gallery_enable_ocr">فتح OCR</string>
     <string name="gallery_enable_ocr_form">فتح مسح الجدول</string>
-    <string name="gallery_enable_ai_gallery">فتح المعرض الذكي</string>
     <string name="gallery_enable_id_photo">فتح صورة الهوية</string>
     <string name="gallery_enable_photo_movie">فتح مقطع الفيديو</string>
     <string name="gallery_enable_video_post">فتح تأثيرات الفيديو</string>
     <string name="gallery_enable_video_editor">فتح محرر الفيديو</string>
-    <string name="gallery_enable_text_yanhua">فتح الألعاب النارية</string>
     <string name="gallery_enable_un_privacy_watermark">إزالة الحد من العلامة المائية للخصوصية</string>
     <string name="gallery_enable_un_privacy_watermark_more">تمكينها سيزيد قليلاً من كثافة العلامة المائية لاستيعاب العد النصي الأطول</string>
-    <string name="gallery_enable_remover_2">فتح الإزالة</string>
     <string name="gallery_enable_magic_matting">فتح القطع</string>
-    <string name="gallery_enable_magic_sky">فتح السماء</string>
     <string name="gallery_backup_server">خادم النسخ الاحتياطي</string>
     <string name="gallery_backup_server_xiaomi">Xiaomi Cloud</string>
     <string name="gallery_backup_server_google">Google</string>

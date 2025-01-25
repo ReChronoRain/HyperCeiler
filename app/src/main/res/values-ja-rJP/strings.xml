@@ -1015,17 +1015,13 @@
     <string name="gallery_enable_pdf">PDF の生成をアンロック</string>
     <string name="gallery_enable_ocr">OCR をアンロック</string>
     <string name="gallery_enable_ocr_form">表のスキャンをアンロック</string>
-    <string name="gallery_enable_ai_gallery">AI 写真をアンロック</string>
     <string name="gallery_enable_id_photo">ID をアンロック</string>
     <string name="gallery_enable_photo_movie">クリップ機能をアンロック</string>
     <string name="gallery_enable_video_post">ビデオエフェクトをアンロック</string>
     <string name="gallery_enable_video_editor">ビデオエディターをアンロック</string>
-    <string name="gallery_enable_text_yanhua">テキスト花火をアンロック</string>
     <string name="gallery_enable_un_privacy_watermark">プライバシーウォーターマークの文字数制限を削除</string>
     <string name="gallery_enable_un_privacy_watermark_more">有効にすると、長い文字に対応するよう透かしの密度をわずかに増加させます</string>
-    <string name="gallery_enable_remover_2">消去機能をアンロック</string>
     <string name="gallery_enable_magic_matting">カットをアンロック</string>
-    <string name="gallery_enable_magic_sky">空の合成をアンロック</string>
     <string name="gallery_backup_server">バックアップサーバー</string>
     <string name="gallery_backup_server_xiaomi">Xiaomi クラウドサービス</string>
     <string name="gallery_backup_server_google">Google</string>
