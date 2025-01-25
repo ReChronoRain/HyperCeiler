@@ -28,13 +28,18 @@ import com.sevtinge.hyperceiler.utils.api.field
 
 
 object RemoveSmallWindowRestrictions : BaseHook() {
-    private val mSettingsClass =
+    private val mSettingsClass by lazy {
         loadClass("com.android.server.wm.WindowManagerService\$SettingsObserver")
-    private val mWindowsUtilsClass = loadClass("android.util.MiuiMultiWindowUtils")
-    private val mWindowsClass = loadClass("android.util.MiuiMultiWindowAdapter")
+    }
+    private val mWindowsUtilsClass by lazy {
+        loadClass("android.util.MiuiMultiWindowUtils")
+    }
+    private val mWindowsClass by lazy {
+        loadClass("android.util.MiuiMultiWindowAdapter")
+    }
 
     override fun init() {
-        try {
+        runCatching {
             loadClass("com.android.server.wm.ActivityTaskManagerService").methodFinder()
                 .filterByName("retrieveSettings")
                 .single().createHook {
@@ -43,11 +48,11 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                             .setBoolean(param.thisObject, true)
                     }
                 }
-        } catch (e: Throwable) {
+        }.onFailure { e ->
             logE(TAG, this.lpparam.packageName, "Hook retrieveSettings failed by: $e")
         }
 
-        try {
+        runCatching {
             mSettingsClass.methodFinder().filter {
                 name == "updateDevEnableNonResizableMultiWindow"
             }.toList().createHooks {
@@ -58,15 +63,11 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                         .setBoolean(mAtmService, true)
                 }
             }
-        } catch (e: Throwable) {
-            logE(
-                TAG,
-                this.lpparam.packageName,
-                "Hook updateDevEnableNonResizableMultiWindow failed by: $e"
-            )
+        }.onFailure { e ->
+            logE(TAG, this.lpparam.packageName, "Hook updateDevEnableNonResizableMultiWindow failed by: $e")
         }
 
-        try {
+        runCatching {
             mSettingsClass.methodFinder().filter {
                 name == "onChange"
             }.toList().createHooks {
@@ -77,42 +78,42 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                         .setBoolean(mAtmService, true)
                 }
             }
-        } catch (e: Throwable) {
+        }.onFailure { e ->
             logE(TAG, this.lpparam.packageName, "Hook onChange failed by: $e")
         }
 
-        try {
+        runCatching {
             mWindowsUtilsClass.methodFinder()
                 .filterByName("isForceResizeable")
-                .single().createHook {
+                .first().createHook {
                     returnConstant(true)
                 }
-        } catch (e: Throwable) {
+        }.onFailure { e ->
             logE(TAG, this.lpparam.packageName, "Hook isForceResizeable failed by: $e")
         }
 
         // Author: LittleTurtle2333
-        try {
+        runCatching {
             loadClass("com.android.server.wm.Task").methodFinder()
                 .filterByName("isResizeable")
-                .single().createHook {
+                .first().createHook {
                     returnConstant(true)
                 }
-        } catch (e: Throwable) {
+        }.onFailure { e ->
             logE(TAG, this.lpparam.packageName, "Hook isResizeable failed by: $e")
         }
 
-        try {
+        runCatching {
             mWindowsClass.methodFinder()
                 .filterByName("getFreeformBlackList")
                 .single().createHook {
                     returnConstant(mutableListOf<String>())
                 }
-        } catch (e: Throwable) {
+        }.onFailure { e ->
             logE(TAG, this.lpparam.packageName, "Hook getFreeformBlackList failed by: $e")
         }
 
-        try {
+        runCatching {
             mWindowsClass.methodFinder()
                 .filterByName("getFreeformBlackListFromCloud")
                 .filterByParamTypes {
@@ -121,27 +122,27 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 .single().createHook {
                     returnConstant(mutableListOf<String>())
                 }
-        } catch (e: Throwable) {
+        }.onFailure { e ->
             logE(TAG, this.lpparam.packageName, "Hook getFreeformBlackListFromCloud failed by: $e")
         }
 
-        try {
+        runCatching {
             mWindowsClass.methodFinder()
                 .filterByName("getStartFromFreeformBlackListFromCloud")
                 .single().createHook {
                     returnConstant(mutableListOf<String>())
                 }
-        } catch (e: Throwable) {
+        }.onFailure { e ->
             logE(TAG, this.lpparam.packageName, "Hook getStartFromFreeformBlackListFromCloud failed by: $e")
         }
 
-        try {
+        runCatching {
             mWindowsUtilsClass.methodFinder()
                 .filterByName("supportFreeform")
                 .single().createHook {
                     returnConstant(true)
                 }
-        } catch (e: Throwable) {
+        }.onFailure { e ->
             logE(TAG, this.lpparam.packageName, "Hook supportFreeform failed by: $e")
         }
 

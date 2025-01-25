@@ -83,7 +83,7 @@ public class VariousThirdApps extends BaseModule {
             }
             return pkgName;
         } catch (Throwable e) {
-            XposedLogUtils.logE("getAppsUsingInputMethod", "have e: " + e);
+            XposedLogUtils.logE("getAppsUsingInputMethod", "have e: " + e + ", message: " + e.getMessage());
             return new ArrayList<>();
         }
     }

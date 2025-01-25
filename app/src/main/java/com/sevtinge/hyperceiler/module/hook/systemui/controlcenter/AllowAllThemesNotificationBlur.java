@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
@@ -48,13 +50,14 @@ public class AllowAllThemesNotificationBlur extends BaseHook {
                 isDefaultLockScreenThemeHook = null;
             }
         });
-        findAndHookMethod("com.miui.systemui.util.MiBlurCompat","getBackgroundBlurOpened",Context.class, new MethodHook(){
+        findAndHookMethod("com.miui.systemui.util.MiBlurCompat","getBackgroundBlurOpened", Context.class, new MethodHook(){
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(true);
             }
         });
-        findAndHookMethod("com.android.systemui.statusbar.notification.NotificationUtil", "isBackgroundBlurOpened",Context.class, new MethodHook(){
+
+        MethodHook blurHook = new MethodHook(){
             XC_MethodHook.Unhook isDefaultLockScreenThemeHook;
 
             @Override
@@ -73,6 +76,12 @@ public class AllowAllThemesNotificationBlur extends BaseHook {
                 if (isDefaultLockScreenThemeHook != null) isDefaultLockScreenThemeHook.unhook();
                 isDefaultLockScreenThemeHook = null;
             }
-        });
+        };
+
+        if (isMoreHyperOSVersion(2f)) {
+            findAndHookMethod("com.miui.systemui.notification.MiuiBaseNotifUtil", "isBackgroundBlurOpened", Context.class, blurHook);
+        } else {
+            findAndHookMethod("com.android.systemui.statusbar.notification.NotificationUtil", "isBackgroundBlurOpened", Context.class, blurHook);
+        }
     }
 }
