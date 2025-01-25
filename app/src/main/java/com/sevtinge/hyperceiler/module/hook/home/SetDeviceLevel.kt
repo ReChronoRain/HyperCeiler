@@ -37,13 +37,18 @@ object SetDeviceLevel : BaseHook() {
     }
 
     override fun init() {
-        try {
+        runCatching {
             loadClass("com.miui.home.launcher.common.CpuLevelUtils").methodFinder()
                 .filterByName("getQualcommCpuLevel")
                 .filterByParamCount(1)
                 .single()
-        } catch (e: Exception) {
+        }.recoverCatching {
             loadClass("miuix.animation.utils.DeviceUtils").methodFinder()
+                .filterByName("getQualcommCpuLevel")
+                .filterByParamCount(1)
+                .single()
+        }.getOrElse {
+            loadClass("miuix.device.DeviceUtils").methodFinder()
                 .filterByName("getQualcommCpuLevel")
                 .filterByParamCount(1)
                 .single()
