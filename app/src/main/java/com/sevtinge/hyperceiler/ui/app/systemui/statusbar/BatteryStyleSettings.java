@@ -18,21 +18,10 @@
 */
 package com.sevtinge.hyperceiler.ui.app.systemui.statusbar;
 
-import android.view.View;
-
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 
 public class BatteryStyleSettings extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() { return R.xml.system_ui_status_bar_battery_styles; }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.system_ui),
-            "com.android.systemui"
-        );
-    }
 }

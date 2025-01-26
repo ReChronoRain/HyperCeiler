@@ -72,7 +72,7 @@ public abstract class BaseSettingsActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         if (mFragment != null) {
             mFragment.onCreateOptionsMenu(menu, getMenuInflater());
         }
@@ -85,9 +85,5 @@ public abstract class BaseSettingsActivity extends BaseActivity {
             mFragment.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void showRestartDialog(String string, String s) {
-
     }
 }

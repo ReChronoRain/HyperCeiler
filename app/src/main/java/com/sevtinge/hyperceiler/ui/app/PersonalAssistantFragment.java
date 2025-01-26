@@ -21,13 +21,10 @@ package com.sevtinge.hyperceiler.ui.app;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -47,14 +44,6 @@ public class PersonalAssistantFragment extends DashboardFragment
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.personal_assistant;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.personal_assistant),
-            "com.miui.personalassistant"
-        );
     }
 
     @Override

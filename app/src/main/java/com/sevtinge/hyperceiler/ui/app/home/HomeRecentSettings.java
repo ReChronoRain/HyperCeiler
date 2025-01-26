@@ -21,16 +21,14 @@ package com.sevtinge.hyperceiler.ui.app.home;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.content.Intent;
-import android.view.View;
 
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.sub.SubPickerActivity;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.sub.AppPicker;
+import com.sevtinge.hyperceiler.ui.sub.SubPickerActivity;
 
 public class HomeRecentSettings extends DashboardFragment {
 
@@ -42,14 +40,6 @@ public class HomeRecentSettings extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.home_recent;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.mihome),
-            "com.miui.home"
-        );
     }
 
     @Override

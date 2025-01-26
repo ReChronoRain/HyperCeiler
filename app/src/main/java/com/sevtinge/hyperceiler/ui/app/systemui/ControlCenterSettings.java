@@ -24,7 +24,6 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.View;
 import android.widget.SeekBar;
 
 import androidx.preference.Preference;
@@ -33,10 +32,9 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
-import com.sevtinge.hyperceiler.ui.sub.SubPickerActivity;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.sub.AppPicker;
+import com.sevtinge.hyperceiler.ui.sub.SubPickerActivity;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import fan.preference.DropDownPreference;
@@ -61,14 +59,6 @@ public class ControlCenterSettings extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.system_ui_control_center;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity) requireActivity()).showRestartDialog(
-                getResources().getString(R.string.system_ui),
-                "com.android.systemui"
-        );
     }
 
     @Override

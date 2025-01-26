@@ -18,12 +18,9 @@
 */
 package com.sevtinge.hyperceiler.ui.app;
 
-import android.view.View;
-
 import androidx.preference.EditTextPreference;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -39,14 +36,6 @@ public class GetAppsFragment extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.getapps;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.market),
-            "com.xiaomi.market"
-        );
     }
 
     @Override

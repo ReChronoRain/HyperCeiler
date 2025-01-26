@@ -19,11 +19,9 @@
 package com.sevtinge.hyperceiler.ui.app;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 
 public class NfcFragment extends DashboardFragment {
@@ -33,14 +31,6 @@ public class NfcFragment extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.nfc;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.nfc),
-            "com.android.nfc"
-        );
     }
 
     @Override

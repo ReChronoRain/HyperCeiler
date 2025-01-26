@@ -22,14 +22,12 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.View;
 import android.widget.SeekBar;
 
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
@@ -43,14 +41,6 @@ public class SystemSettingsFragment extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.system_settings;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-                getResources().getString(R.string.system_settings),
-                "com.android.settings"
-        );
     }
 
     @Override

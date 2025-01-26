@@ -19,10 +19,8 @@
 package com.sevtinge.hyperceiler.ui.app.systemui;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 
 public class CardTileSettings extends DashboardFragment {
@@ -35,13 +33,5 @@ public class CardTileSettings extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.system_ui_control_center_card_tile;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-                getResources().getString(R.string.system_ui),
-                "com.android.systemui"
-        );
     }
 }

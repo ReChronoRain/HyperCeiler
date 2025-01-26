@@ -25,7 +25,6 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
@@ -33,10 +32,9 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
-import com.sevtinge.hyperceiler.ui.sub.SubPickerActivity;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.sub.AppPicker;
+import com.sevtinge.hyperceiler.ui.sub.SubPickerActivity;
 
 import fan.preference.SeekBarPreferenceCompat;
 
@@ -54,14 +52,6 @@ public class HomeTitleSettings extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.home_title;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-            getResources().getString(R.string.mihome),
-            "com.miui.home"
-        );
     }
 
     @Override

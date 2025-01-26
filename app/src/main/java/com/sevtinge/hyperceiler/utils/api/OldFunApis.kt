@@ -18,12 +18,16 @@
 */
 package com.sevtinge.hyperceiler.utils.api
 
-import android.app.admin.*
-import android.content.*
-import android.content.res.Resources.*
-import android.view.*
+import android.annotation.SuppressLint
+import android.app.admin.DevicePolicyManager
+import android.content.Context
+import android.content.res.Resources.getSystem
+import android.os.Bundle
+import android.view.Window
 import com.github.kyuubiran.ezxhelper.MemberExtensions.isStatic
-import java.lang.reflect.*
+import com.sevtinge.hyperceiler.BuildConfig
+import java.lang.reflect.Field
+import java.lang.reflect.Method
 
 @JvmInline
 value class Args(val args: Array<out Any?>)
@@ -209,3 +213,21 @@ fun isDeviceEncrypted(context: Context): Boolean {
 
 val Int.dp: Int get() = (this.toFloat().dp).toInt()
 val Float.dp: Float get() = this / getSystem().displayMetrics.density
+
+/**
+ * 澎湃超简单免 root 重启系统界面
+ * 原理是利用小米灵动额头传输的错误信息使其崩溃以达到重启系统界面的目的
+ * author @YukongA
+ */
+@SuppressLint("WrongConstant")
+fun restartXiaomiSystemUI(context: Context) {
+    val bundle = Bundle().apply {
+        putString("package_name", BuildConfig.APPLICATION_ID)
+        putString("strong_toast_category", "text_bitmap")
+        putString("param", "{\"a\":{\"a\":{\"a\":\"a\"}}}") // 哎嘿，包崩溃的
+        putString("status_bar_strong_toast", "show_custom_strong_toast")
+    }
+    val service = context.getSystemService(Context.STATUS_BAR_SERVICE)
+    service.javaClass.getMethod("setStatus", Int::class.javaPrimitiveType, String::class.java, Bundle::class.java)
+        .invoke(service, 1, "strong_toast_action", bundle)
+}

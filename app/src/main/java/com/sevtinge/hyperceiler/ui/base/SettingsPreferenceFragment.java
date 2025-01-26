@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.ui.base;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -96,10 +95,6 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
 
     public SubSettings getSubSettings() {
         return (SubSettings) getActivity();
-    }
-
-    public View.OnClickListener addRestartListener() {
-        return null;
     }
 
     public SharedPreferences getSharedPreferences() {

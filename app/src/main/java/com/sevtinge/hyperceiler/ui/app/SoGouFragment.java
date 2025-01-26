@@ -31,12 +31,4 @@ public class SoGouFragment extends DashboardFragment {
     public int getPreferenceScreenResId() {
         return R.xml.sogou_xiaomi;
     }
-
-    /*@Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-            getResources().getString(R.string.sogou_xiaomi),
-            all
-        );
-    }*/
 }

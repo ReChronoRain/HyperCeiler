@@ -18,13 +18,10 @@
 */
 package com.sevtinge.hyperceiler.ui.app;
 
-import android.view.View;
+import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
-
-import androidx.preference.Preference;
 
 public class SecurityCenterFragment extends DashboardFragment {
 
@@ -33,14 +30,6 @@ public class SecurityCenterFragment extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.security_center;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-                getResources().getString(R.string.security_center_hyperos),
-                "com.miui.securitycenter"
-        );
     }
 
     @Override

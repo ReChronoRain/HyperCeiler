@@ -18,10 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.app;
 
-import android.view.View;
-
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 
 public class MiLinkFragment extends DashboardFragment {
@@ -29,13 +26,5 @@ public class MiLinkFragment extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.milink;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.milink_hyperos),
-            "com.milink.service"
-        );
     }
 }

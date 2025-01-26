@@ -21,12 +21,9 @@ package com.sevtinge.hyperceiler.ui.app.systemui;
 import static com.sevtinge.hyperceiler.utils.api.OldFunApisKt.isDeviceEncrypted;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
-import android.view.View;
-
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 
 public class LockScreenSettings extends DashboardFragment {
@@ -50,13 +47,5 @@ public class LockScreenSettings extends DashboardFragment {
             mPasswordFree.setEnabled(false);
             mPasswordFree.setSummary(R.string.system_ui_lock_screen_password_free_tip);
         }
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.system_ui),
-            "com.android.systemui"
-        );
     }
 }

@@ -21,12 +21,9 @@ package com.sevtinge.hyperceiler.ui.app.home;
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
-import android.view.View;
-
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -47,14 +44,6 @@ public class HomeFolderSettings extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.home_folder;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.mihome),
-            "com.miui.home"
-        );
     }
 
     @Override

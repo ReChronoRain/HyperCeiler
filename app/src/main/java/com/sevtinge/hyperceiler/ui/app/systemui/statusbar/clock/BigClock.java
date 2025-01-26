@@ -18,23 +18,12 @@
  */
 package com.sevtinge.hyperceiler.ui.app.systemui.statusbar.clock;
 
-import android.view.View;
-
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 
 public class BigClock extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar_new_clock_indicator_2;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-                getResources().getString(R.string.system_ui),
-                "com.android.systemui"
-        );
     }
 }

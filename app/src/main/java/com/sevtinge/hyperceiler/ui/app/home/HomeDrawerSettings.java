@@ -18,10 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.app.home;
 
-import android.view.View;
-
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
 
 public class HomeDrawerSettings extends DashboardFragment {
@@ -29,13 +26,5 @@ public class HomeDrawerSettings extends DashboardFragment {
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.home_drawer;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.mihome),
-            "com.miui.home"
-        );
     }
 }
