@@ -24,7 +24,10 @@ Atualmente, o HyperCeiler está adaptado para dispositivos móveis Xiaomi HyperO
 
 Antes de enviar feedback, preste atenção se já existe o mesmo feedback para evitar problemas aos desenvolvedores. Gastar a mesma energia lendo o mesmo feedback é uma perda de tempo.
 
-O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13. Se você quiser usá-lo, fique [nesta versão](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
+O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13 e ROM HyperOS 1.0 para Android 13.
+
+> - Para ROM MIUI no Android 11-12, use [esta versão](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
+> - Para ROM MIUI no Android 13 e ROM HyperOS 1.0, use [esta versão](https://github.com/Xposed-Modules-Repo/com.sevtinge.hyperceiler/releases/download/3866-2.5.156_20250118/HyperCeiler_2.5.156_20250118_3866_release_miui.apk).
 
 ## Apps suportados
 
@@ -144,7 +147,7 @@ Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler)
 - [「Hyper Helper」 por HowieHChen](https://github.com/HowieHChen/XiaomiHelper)
 - [「HideMiuiClipboardDialog」 por zerorooot](https://github.com/zerorooot/HideMiuiClipboardDialog)
 - [「HyperSmartCharge」 por buffcow](https://github.com/buffcow/HyperSmartCharge)
-- [「HyperStar」 by YunZiA](https://github.com/YunZiA/HyperStar)
+- [「HyperStar」 por YunZiA](https://github.com/YunZiA/HyperStar)
 - [「Kotlin」 por JetBrains](https://github.com/JetBrains/kotlin)
 - [「Lyric-Getter」 por xiaowine](https://github.com/xiaowine/Lyric-Getter)
 - [「MaxFreeForm」 por YifePlayte](https://github.com/YifePlayte/MaxFreeForm)
