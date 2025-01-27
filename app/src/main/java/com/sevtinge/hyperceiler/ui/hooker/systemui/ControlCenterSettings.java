@@ -37,7 +37,6 @@ import com.sevtinge.hyperceiler.ui.base.sub.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
-import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
 
 public class ControlCenterSettings extends DashboardFragment {
@@ -51,10 +50,6 @@ public class ControlCenterSettings extends DashboardFragment {
     SwitchPreference mRedirectNotice;
     SwitchPreference mShadeHeaderBlur;
     RecommendPreference mRecommend;
-    SwitchPreference mBrightness;
-    DropDownPreference mBrightnessValue;
-    SwitchPreference mVolume;
-    DropDownPreference mVolumeValue;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -71,10 +66,6 @@ public class ControlCenterSettings extends DashboardFragment {
         mRedirectNotice = findPreference("prefs_key_system_ui_control_center_redirect_notice");
         mSpotlightNotifColorMix = findPreference("prefs_key_system_ui_control_center_opt_notification_element_background_color");
         mShadeHeaderBlur = findPreference("prefs_key_system_ui_shade_header_gradient_blur");
-        mBrightness = findPreference("prefs_key_system_ui_control_center_qs_brightness_top_value_show");
-        mBrightnessValue = findPreference("prefs_key_system_ui_control_center_qs_brightness_top_value_show_value");
-        mVolume = findPreference("prefs_key_system_ui_control_center_qs_volume_top_value_show");
-        mVolumeValue = findPreference("prefs_key_system_ui_control_center_qs_volume_top_value_show_value");
 
         mExpandNotification.setOnPreferenceClickListener(
                 preference -> {
@@ -96,19 +87,11 @@ public class ControlCenterSettings extends DashboardFragment {
             mSwitchCCAN.setVisible(false);
             mSpotlightNotifColorMix.setVisible(isMoreAndroidVersion(35));
             mShadeHeaderBlur.setVisible(isMoreAndroidVersion(35));
-            mBrightness.setVisible(true);
-            mBrightnessValue.setVisible(true);
-            mVolume.setVisible(true);
-            mVolumeValue.setVisible(true);
         } else {
             mOldCCGrid.setVisible(true);
             mSwitchCCAN.setVisible(true);
             mSpotlightNotifColorMix.setVisible(false);
             mShadeHeaderBlur.setVisible(false);
-            mBrightness.setVisible(false);
-            mBrightnessValue.setVisible(false);
-            mVolume.setVisible(false);
-            mVolumeValue.setVisible(false);
         }
         mRedirectNotice.setVisible(!isMoreAndroidVersion(35));
 

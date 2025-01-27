@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.ui.hooker.systemui;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.ComponentName;
@@ -31,14 +30,27 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
-public class SystemUIOtherSettings extends DashboardFragment {
+import fan.preference.DropDownPreference;
+import fan.preference.SeekBarPreferenceCompat;
+
+public class SystemUIOtherSettings extends DashboardFragment
+        implements Preference.OnPreferenceChangeListener{
     SwitchPreference mDisableInfinitymodeGesture;
     SwitchPreference mVolume;
     SwitchPreference mPower;
     SwitchPreference mFuckSG;
     SwitchPreference mTimer;
     SwitchPreference mCollpasedColumnPress;
+    // 数据显示
+    DropDownPreference mPctStyle;
+    SwitchPreference mBrightness1;
+    SwitchPreference mVolume1;
+    SwitchPreference mBrightness2;
+    SwitchPreference mVolume2;
+    SeekBarPreferenceCompat mShowPctTop;
+    SwitchPreference mShowPctBlur;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -47,6 +59,8 @@ public class SystemUIOtherSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
+        int mPct = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_system_ui_others_pct_style", "0"));;
+
         mDisableInfinitymodeGesture = findPreference("prefs_key_system_ui_disable_infinitymode_gesture");
         mVolume = findPreference("prefs_key_system_ui_disable_volume");
         mPower = findPreference("prefs_key_system_ui_disable_power");
@@ -54,10 +68,32 @@ public class SystemUIOtherSettings extends DashboardFragment {
         mTimer = findPreference("prefs_key_system_ui_volume_timer");
         mCollpasedColumnPress = findPreference("prefs_key_system_ui_volume_collpased_column_press");
 
+        mPctStyle = findPreference("prefs_key_system_ui_others_pct_style");
+        mBrightness1 = findPreference("prefs_key_system_ui_control_center_qs_brightness_top_value_show");
+        mVolume1 = findPreference("prefs_key_system_ui_control_center_qs_volume_top_value_show");
+        mBrightness2 = findPreference("prefs_key_system_cc_volume_showpct_title");
+        mVolume2 = findPreference("prefs_key_system_showpct_title");
+        mShowPctTop = findPreference("prefs_key_system_ui_others_showpct_top");
+        mShowPctBlur = findPreference("prefs_key_system_showpct_use_blur");
+
         mDisableInfinitymodeGesture.setVisible(isPad());
-        mFuckSG.setVisible(isMoreHyperOSVersion(2f));
-        mTimer.setVisible(!isMoreAndroidVersion(35));
-        mCollpasedColumnPress.setVisible(isMoreHyperOSVersion(2f));
+
+        if (isMoreHyperOSVersion(2f)) {
+            mFuckSG.setVisible(true);
+            mTimer.setVisible(false);
+            mCollpasedColumnPress.setVisible(true);
+
+            setStyleMode(mPct);
+            mPctStyle.setOnPreferenceChangeListener(this);
+        } else {
+            mFuckSG.setVisible(false);
+            mTimer.setVisible(true);
+            mCollpasedColumnPress.setVisible(false);
+
+            mPctStyle.setVisible(false);
+            mBrightness1.setVisible(false);
+            mVolume1.setVisible(false);
+        }
 
         mVolume.setOnPreferenceChangeListener(
                 (preference, o) -> {
@@ -95,5 +131,22 @@ public class SystemUIOtherSettings extends DashboardFragment {
                 return true;
             }
         });
+    }
+
+    @Override
+    public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
+        if (preference == mPctStyle) {
+            setStyleMode(Integer.parseInt((String) o));
+        }
+        return true;
+    }
+
+    private void setStyleMode(int mode) {
+        mBrightness1.setVisible(mode == 1);
+        mVolume1.setVisible(mode == 1);
+        mBrightness2.setVisible(mode == 2);
+        mVolume2.setVisible(mode == 2);
+        mShowPctTop.setVisible(mode == 2);
+        mShowPctBlur.setVisible(mode == 2);
     }
 }

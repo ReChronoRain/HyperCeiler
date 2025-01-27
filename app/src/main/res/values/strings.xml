@@ -464,6 +464,8 @@
     <string name="tiles_5g">5G network</string>
     <string name="dashboard_5g">Use 5G</string>
     <string name="tiles_sunshine_mode">Sunlight mode</string>
+    <string name="system_cc_showpct_style_1">inline</string>
+    <string name="system_cc_showpct_style_2">explicit</string>
     <!--System Framework-->
     <string name="system_framework">System Framework</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -951,9 +953,6 @@
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">Revert to normal notification style color mixing</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">Display brightness value</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">Display volume value</string>
-    <string name="system_ui_control_center_qs_top_value_title">Content</string>
-    <string name="system_ui_control_center_qs_top_value_per">Percentage</string>
-    <string name="system_ui_control_center_qs_top_value_original">Origin value</string>
 
     <string name="system_ui_other_title">Others</string>
     <string name="system_ui_disable_volume">Native volume bar</string>
@@ -969,6 +968,7 @@
     <string name="system_ui_disable_infinitymode_gesture_sum">Only for tablets</string>
     <string name="system_ui_disable_bottombar">Hide bottom gesture of the small window</string>
     <string name="system_ui_others_pct_title">Data display</string>
+    <string name="system_cc_showpct_style">Data percentage display style</string>
     <string name="system_showpct_title">Display brightness percentage</string>
     <string name="system_cc_volume_showpct_title">Display sound percentage</string>
     <string name="system_ui_others_showpct_top">Top of percentage</string>
