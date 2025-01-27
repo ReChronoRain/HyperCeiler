@@ -18,20 +18,26 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.plugin
 
-import android.content.*
-import android.text.*
+import android.content.ContextWrapper
+import android.text.TextUtils
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.*
-import com.sevtinge.hyperceiler.module.hook.systemui.other.*
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.*
-import com.sevtinge.hyperceiler.utils.api.*
-import com.sevtinge.hyperceiler.utils.log.LogManager.*
-import java.lang.ref.*
+import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGridForHyperOSKt
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CustomCardTiles
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSColor
+import com.sevtinge.hyperceiler.module.hook.systemui.other.DefaultPluginTheme
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.FocusNotifLyric
+import com.sevtinge.hyperceiler.utils.api.PluginFactory
+import com.sevtinge.hyperceiler.utils.log.LogManager.logLevel
+import java.lang.ref.WeakReference
 
 object NewPluginHelperKt : BaseHook() {
+    private val isStyle by lazy {
+        mPrefsMap.getStringAsInt("system_ui_others_pct_style", 0)
+    }
+
     override fun init() {
         // from hyperstar2.0
         /*loadClass("com.android.systemui.shared.plugins.PluginActionManager\$PluginContextWrapper")
@@ -77,7 +83,7 @@ object NewPluginHelperKt : BaseHook() {
                     ),
                     Triple(
                         "NewShowVolumePct",
-                        mPrefsMap.getBoolean("system_cc_volume_showpct_title"),
+                        (isStyle == 2) && mPrefsMap.getBoolean("system_cc_volume_showpct_title"),
                         NewShowVolumePct::initLoader
                     ),
                     Triple(
@@ -111,9 +117,9 @@ object NewPluginHelperKt : BaseHook() {
 
                 val loaders = listOf(
                     Triple(
-                        "QSVolumeOrBrightnessValue",
-                        mPrefsMap.getBoolean("system_ui_control_center_qs_brightness_top_value_show") || mPrefsMap.getBoolean("system_ui_control_center_qs_volume_top_value_show"),
-                        QSVolumeOrBrightnessValue::initQSVolumeOrBrightnessValue
+                        "VolumeOrQSBrightnessValue",
+                        (isStyle == 1) && (mPrefsMap.getBoolean("system_ui_control_center_qs_brightness_top_value_show") || mPrefsMap.getBoolean("system_ui_control_center_qs_volume_top_value_show")),
+                        VolumeOrQSBrightnessValue::initVolumeOrQSBrightnessValue
                     ),
                     Triple(
                         "CustomCardTiles",
@@ -138,7 +144,7 @@ object NewPluginHelperKt : BaseHook() {
                     ),
                     Triple(
                         "NewBrightnessPct",
-                        mPrefsMap.getBoolean("system_showpct_title"),
+                        (isStyle == 2) && mPrefsMap.getBoolean("system_showpct_title"),
                         NewBrightnessPct::initLoaderHook
                     ),
                     Triple(

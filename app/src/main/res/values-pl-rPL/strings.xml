@@ -886,9 +886,6 @@
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">Przywróć standardowe mieszanie kolorów powiadomień</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">Wyświetl wartość jasności</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">Wyświetl wartość głośności</string>
-    <string name="system_ui_control_center_qs_top_value_title">Treść</string>
-    <string name="system_ui_control_center_qs_top_value_per">Procent</string>
-    <string name="system_ui_control_center_qs_top_value_original">Wartość początkowa</string>
     <string name="system_ui_other_title">Pozostałe</string>
     <string name="system_ui_disable_volume">Natywny pasek głośności</string>
     <string name="system_ui_disable_power">Natywne menu wyłączenia</string>

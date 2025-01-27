@@ -449,6 +449,8 @@
     <string name="tiles_snow_leopard_mode">雪豹模式</string>
     <string name="dashboard_5g">使用 5G 网络</string>
 
+    <string name="system_cc_showpct_style_1">内联</string>
+    <string name="system_cc_showpct_style_2">外显</string>
     <!--系统框架-->
     <string name="system_framework">系统框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -943,9 +945,6 @@
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">恢复为普通通知混色样式</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">亮度值显示</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">音量值显示</string>
-    <string name="system_ui_control_center_qs_top_value_title">显示内容</string>
-    <string name="system_ui_control_center_qs_top_value_per">百分比</string>
-    <string name="system_ui_control_center_qs_top_value_original">原始数据</string>
 
     <string name="system_ui_controlcenter_new_title">新控制中心</string>
     <string name="system_ui_controlcenter_old_title">经典控制中心</string>
@@ -973,6 +972,7 @@
     <string name="system_ui_disable_bottombar">隐藏小窗的手势提示线</string>
     <string name="system_ui_notification_freeform">更多应用通知栏下拉打开小窗</string>
     <string name="system_ui_others_pct_title">数据显示</string>
+    <string name="system_cc_showpct_style">数据百分比显示样式</string>
     <string name="system_showpct_title">显示亮度百分比</string>
     <string name="system_cc_volume_showpct_title">显示声音百分比</string>
     <string name="system_ui_others_showpct_top">顶部边距</string>

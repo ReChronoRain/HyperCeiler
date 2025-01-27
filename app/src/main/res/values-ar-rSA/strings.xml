@@ -886,9 +886,6 @@
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">العودة إلى نمط الإشعارات العادي وخلط الألوان</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">قيمة سطوع العرض</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">عرض قيمة مستوى الصوت</string>
-    <string name="system_ui_control_center_qs_top_value_title">المحتوى</string>
-    <string name="system_ui_control_center_qs_top_value_per">النسبة المئوية</string>
-    <string name="system_ui_control_center_qs_top_value_original">القيمة الأصلية</string>
     <string name="system_ui_other_title">أخرى</string>
     <string name="system_ui_disable_volume">شريط الصوت الأصلي</string>
     <string name="system_ui_disable_power">قائمة إيقاف التشغيل الأصلية</string>
