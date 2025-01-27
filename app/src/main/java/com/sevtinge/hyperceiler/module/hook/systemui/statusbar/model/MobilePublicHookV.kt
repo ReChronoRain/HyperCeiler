@@ -18,19 +18,23 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model
 
-import android.telephony.*
-import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.hook.systemui.*
+import android.telephony.SubscriptionManager
+import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.hook.systemui.Dependency
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.miuiCellularIconVM
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.card1
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.card2
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.hideIndicator
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.hideRoaming
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.isEnableDouble
-import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.MethodHookParam
 import com.sevtinge.hyperceiler.utils.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.utils.StateFlowHelper.setStateFlowValue
-import java.util.function.*
+import com.sevtinge.hyperceiler.utils.callMethod
+import com.sevtinge.hyperceiler.utils.getObjectField
+import com.sevtinge.hyperceiler.utils.getObjectFieldAs
+import com.sevtinge.hyperceiler.utils.setObjectField
+import java.util.function.Consumer
 
 class MobilePublicHookV : BaseHook() {
     override fun init() {
@@ -53,6 +57,7 @@ class MobilePublicHookV : BaseHook() {
                 if (isEnableDouble) {
                     val isVisible = newReadonlyStateFlow(false)
                     cellularIcon.setObjectField("isVisible", isVisible)
+                    if (!hideRoaming) cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(false))
 
                     val activeSubId = Dependency.mMiuiLegacyDependency
                         ?.getObjectField("mOperatorCustomizedPolicy")

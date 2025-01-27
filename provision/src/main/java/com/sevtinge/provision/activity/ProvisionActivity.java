@@ -7,12 +7,14 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -26,6 +28,7 @@ import com.sevtinge.provision.utils.OobeUtils;
 import com.sevtinge.provision.utils.PageIntercepHelper;
 import com.sevtinge.provision.utils.ProvisionStateHolder;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class ProvisionActivity extends ProvisionBaseActivity {
@@ -39,9 +42,7 @@ public class ProvisionActivity extends ProvisionBaseActivity {
         super.onCreate(savedInstanceState);
         if (!isDeviceIsProvisioned()) {
             PageIntercepHelper.getInstance().register(this);
-            PageIntercepHelper.getInstance().setCallback((requestCode, resultCode, data) -> {
-                ProvisionActivity.this.onActivityResult(requestCode, resultCode, data);
-            });
+            PageIntercepHelper.getInstance().setCallback(ProvisionActivity.this::onActivityResult);
 
             mStateMachine = new StateMachine(this);
             mStateMachine.start(savedInstanceState == null ||
@@ -95,7 +96,7 @@ public class ProvisionActivity extends ProvisionBaseActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle bundle) {
+    public void onSaveInstanceState(@NonNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putBoolean("com.android.provision:state_enter_currentstate", mStateMachine.mCurrentState instanceof StartupState);
     }
@@ -150,7 +151,7 @@ public class ProvisionActivity extends ProvisionBaseActivity {
 
     @Override
     public void onBackPressed() {
-
+        super.onBackPressed();
     }
 
     public static class StartupState extends State implements IKeyEvent, IOnFocusListener {
@@ -468,7 +469,7 @@ public class ProvisionActivity extends ProvisionBaseActivity {
                 state = null;
                 try {
                     state = prefState.getString("com.android.provision.STATE_" + i, null);
-                } catch (Exception unused) {}
+                } catch (Exception _) {}
                 if (state != null) {
                     if (i != 0) {
                         mStateStack.add(mCurrentState);
@@ -510,7 +511,7 @@ public class ProvisionActivity extends ProvisionBaseActivity {
         public String mClassName;
         public Class<?> mTargetClass;
 
-        protected Handler mHandler = new Handler();
+        protected Handler mHandler = new Handler(Looper.getMainLooper());
 
         public boolean canBackTo() {
             return true;
@@ -524,10 +525,14 @@ public class ProvisionActivity extends ProvisionBaseActivity {
 
         public static State create(String name) {
             try {
-                return (State) Class.forName(PREFIX + name).newInstance();
+                return (State) Class.forName(PREFIX + name).getDeclaredConstructor().newInstance();
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-                e.printStackTrace();
+                Log.e(TAG, String.valueOf(e));
                 return null;
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e);
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
             }
         }
 

@@ -23,11 +23,13 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+
 import java.util.Locale;
 
 public class LanguageHelper {
     public static final String[] appLanguages = {
-            "en", "zh_CN", "zh_TW", "zh_HK", "ja_JP", "pl_PL", "ru_RU", "ar_SA", "es_ES", "pt_BR", "in_ID", "tr_TR", "vi_VN", "it_IT", "zh_ME"
+            "en", "zh_CN", "zh_TW", "zh_HK", "ja_JP", "pl_PL", "ru_RU", "ar_SA", "es_ES", "pt_BR", "id_ID", "tr_TR", "vi_VN", "it_IT", "zh_ME"
     };
 
     public static void setLanguage(Context context, String language) {
@@ -99,7 +101,7 @@ public class LanguageHelper {
                 if (recreate) activity.recreate();
             }
             case 10 -> {
-                LanguageHelper.setLanguage(activity.getBaseContext(), "in", "ID");
+                LanguageHelper.setLanguage(activity.getBaseContext(), "id", "ID");
                 if (recreate) activity.recreate();
             }
             case 11 -> {
@@ -123,11 +125,15 @@ public class LanguageHelper {
 
     public static String getLanguage(Context context) {
         Resources resources = context.getResources();
-        String country = resources.getConfiguration().getLocales().get(0).getCountry();
-        if (country.isEmpty()) {
-            return resources.getConfiguration().getLocales().get(0).getLanguage();
+        Locale locale = resources.getConfiguration().getLocales().isEmpty() ? null : resources.getConfiguration().getLocales().get(0);
+        if (locale == null) {
+            return "";
         }
-        return resources.getConfiguration().getLocales().get(0).getLanguage() + "_" + country;
+        String country = locale.getCountry();
+        if (country.isEmpty()) {
+            return locale.getLanguage();
+        }
+        return locale.getLanguage() + "_" + country;
     }
 
     public static String newLanguage(String language, String country) {
@@ -138,23 +144,30 @@ public class LanguageHelper {
     }
 
     public static int resultIndex(String[] languages, String value) {
-
-        String targetLanguage = value.split("_")[0];
+        String[] parts = value.split("_");
+        String targetLanguage = parts[0];
+        String countryLanguage = parts.length > 1 ? parts[1] : "";
 
         for (int i = 0; i < languages.length; i++) {
             String currentLang = languages[i];
             if (currentLang == null) continue;
 
             if (currentLang.equals(value)) {
+                AndroidLogUtils.logI("Language", "Match found: " + currentLang + " at index " + i);
                 return i;
             }
 
-            String currentLanguage = currentLang.split("_")[0];
-            if (targetLanguage.equals(currentLanguage)) {
-                return i; // Language匹配成功
+            String[] currentParts = currentLang.split("_");
+            String currentLanguage = currentParts[0];
+            String currentCountry = currentParts.length > 1 ? currentParts[1] : "";
+
+            if (targetLanguage.equals(currentLanguage) && countryLanguage.equals(currentCountry)) {
+                AndroidLogUtils.logI("Language", "Match found: " + currentLang + " at index " + i);
+                return i;
             }
         }
-        return -1;
+        AndroidLogUtils.logE("Language", "No match found for: " + value);
+        return 0; // 遇到错误就切回英语，防止崩溃
     }
 
     public static boolean isUpperCase(String string) {
