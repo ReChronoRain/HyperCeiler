@@ -375,7 +375,7 @@ public class ProvisionActivity extends ProvisionBaseActivity {
                 mCurrentState = state2;
             }
             if (!mCurrentState.isAvailable(false)) {
-                Log.w("Provision_DefaultActivity", "" + mCurrentState + " can not go back, stop here");
+                Log.w("Provision_DefaultActivity", mCurrentState + " can not go back, stop here");
             }
             return mCurrentState;
         }
@@ -410,7 +410,7 @@ public class ProvisionActivity extends ProvisionBaseActivity {
         }
 
         private void transitToPrevious() {
-            if (mStateStack.size() > 0) {
+            if (!mStateStack.isEmpty()) {
                 State previousState = getPreviousAvailableState(mStateStack);
                 mCurrentState.onLeave();
                 mCurrentState = previousState;
@@ -469,7 +469,7 @@ public class ProvisionActivity extends ProvisionBaseActivity {
                 state = null;
                 try {
                     state = prefState.getString("com.android.provision.STATE_" + i, null);
-                } catch (Exception _) {}
+                } catch (Exception e) {}
                 if (state != null) {
                     if (i != 0) {
                         mStateStack.add(mCurrentState);

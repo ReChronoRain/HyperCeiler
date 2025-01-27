@@ -83,7 +83,7 @@
         android:allowNativeHeapPointerTagging="true">
 
         <activity
-            android:name=".ui.main.HyperCeilerTabActivity"
+            android:name=".ui.app.main.HyperCeilerTabActivity"
             android:exported="true"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
@@ -93,7 +93,7 @@
         </activity>
 
         <activity
-            android:name=".ui.safe.CrashActivity"
+            android:name=".ui.app.safe.CrashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:finishOnTaskLaunch="true"
@@ -107,10 +107,10 @@
         </activity>
 
         <activity-alias
-            android:name=".ui.activity.LauncherActivity"
+            android:name=".ui.LauncherActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:targetActivity=".ui.main.HyperCeilerTabActivity"
+            android:targetActivity=".ui.app.main.HyperCeilerTabActivity"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -129,7 +129,7 @@
         </activity>
 
         <activity
-            android:name=".ui.sub.SubPickerActivity"
+            android:name=".ui.base.sub.SubPickerActivity"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
         <provider
@@ -164,7 +164,7 @@
             android:resource="@array/xposed_scope" />
 
         <service
-            android:name="com.sevtinge.hyperceiler.ui.safe.CrashService"
+            android:name="com.sevtinge.hyperceiler.ui.app.safe.CrashService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

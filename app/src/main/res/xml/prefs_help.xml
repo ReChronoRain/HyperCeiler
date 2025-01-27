@@ -24,13 +24,13 @@
     <Preference
         android:key="prefs_key_help_support_version"
         android:title="@string/help_support_version_title"
-        android:fragment="com.sevtinge.hyperceiler.ui.helper.SupportVersionFragment">
+        android:fragment="com.sevtinge.hyperceiler.ui.app.helper.SupportVersionFragment">
     </Preference>
 
     <Preference
         android:key="prefs_key_help_cant_see_app"
         android:title="@string/help_cant_see_apps_title"
-        android:fragment="com.sevtinge.hyperceiler.ui.helper.CantSeeAppsFragment">
+        android:fragment="com.sevtinge.hyperceiler.ui.app.helper.CantSeeAppsFragment">
     </Preference>
 
     </PreferenceCategory>

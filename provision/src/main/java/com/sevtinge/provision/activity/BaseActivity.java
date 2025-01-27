@@ -22,7 +22,7 @@ public abstract class BaseActivity extends ProvisionBaseActivity {
     private boolean mCheckNewJump = true;
     private boolean mIsDisableBack = false;
 
-    private View.OnClickListener mBackListener = _ -> onBackPressed();
+    private final View.OnClickListener mBackListener = v -> onBackPressed();
 
     protected abstract Fragment getFragment();
     protected abstract String getFragmentTag();

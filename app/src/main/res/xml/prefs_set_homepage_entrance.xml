@@ -507,7 +507,7 @@
     </PreferenceCategory>
 
     <TextButtonPreference
-        android:fragment="com.sevtinge.hyperceiler.ui.helper.CantSeeAppsFragment"
+        android:fragment="com.sevtinge.hyperceiler.ui.app.helper.CantSeeAppsFragment"
         android:key="prefs_key_help_cant_see_app"
         android:title="@string/help_cant_see_apps_guide" />
 

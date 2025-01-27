@@ -8,13 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.app.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 
 import fan.preference.TextPreference;
 
 public class XmlPreference extends TextPreference {
 
-    private int mInflatedXml;
+    private final int mInflatedXml;
 
     public XmlPreference(@NonNull Context context) {
         this(context, null);

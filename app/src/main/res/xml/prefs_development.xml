@@ -21,22 +21,22 @@
     <PreferenceCategory>
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.settings.development.DevelopmentDebugInfoFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.settings.development.DevelopmentDebugInfoFragment"
             android:key="prefs_key_development_debug_info"
             android:title="@string/development_debug_info" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.settings.development.DevelopmentKillFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.settings.development.DevelopmentKillFragment"
             android:key="prefs_key_development_kill"
             android:title="@string/kill" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.settings.development.DevelopmentPrefsFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.settings.development.DevelopmentPrefsFragment"
             android:key="prefs_key_development_prefs"
             android:title="@string/development_prefs" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.settings.development.DevelopmentUIFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.app.settings.development.DevelopmentUIFragment"
             android:key="prefs_key_development_ui"
             android:title="@string/development_ui" />
 

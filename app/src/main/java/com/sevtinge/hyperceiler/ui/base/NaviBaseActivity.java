@@ -6,8 +6,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.main.ContentFragment;
 import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
+import com.sevtinge.hyperceiler.ui.app.main.ContentFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import fan.appcompat.app.Fragment;

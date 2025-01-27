@@ -1,0 +1,29 @@
+package com.sevtinge.hyperceiler.ui.app.holiday;
+
+import android.content.Context;
+
+import com.sevtinge.hyperceiler.ui.app.holiday.weather.PrecipType;
+import com.sevtinge.hyperceiler.ui.app.holiday.weather.confetto.Confetto;
+import com.sevtinge.hyperceiler.ui.app.holiday.weather.confetto.ConfettoGenerator;
+import com.sevtinge.hyperceiler.ui.app.holiday.weather.confetto.ConfettoInfo;
+
+import java.util.Random;
+
+public class SnowGenerator implements ConfettoGenerator {
+	private final ConfettoInfo confettoInfo;
+	private final Context context;
+
+	public SnowGenerator(Context ctx) {
+		super();
+		this.context = ctx;
+		this.confettoInfo = new ConfettoInfo(PrecipType.SNOW);
+	}
+
+	public Confetto generateConfetto(Random random) {
+		return new SnowParticle(this.context, this.confettoInfo);
+	}
+
+	public final ConfettoInfo getConfettoInfo() {
+		return this.confettoInfo;
+	}
+}

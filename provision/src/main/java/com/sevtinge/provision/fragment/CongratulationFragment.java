@@ -87,7 +87,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
         }
         if (mNext != null) {
             mNext.setEnabled(false);
-            mNext.setOnClickListener(_ -> nextStep());
+            mNext.setOnClickListener(v -> nextStep());
         }
         setupBlurBackground();
     }

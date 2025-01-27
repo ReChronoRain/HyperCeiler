@@ -98,6 +98,7 @@ android {
     }
 
     buildFeatures {
+        aidl = true
         buildConfig = true
     }
 
@@ -201,25 +202,38 @@ android {
         }
     }
 
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
-        }
-    }
+}
 
-    kotlin.jvmToolchain(21)
+// https://stackoverflow.com/a/77745844
+tasks.withType<PackageAndroidArtifact> {
+    doFirst { appMetadata.asFile.orNull?.writeText("") }
+}
 
-    buildFeatures {
-        aidl = true
-    }
-
-    // https://stackoverflow.com/a/77745844
-    tasks.withType<PackageAndroidArtifact> {
-        doFirst { appMetadata.asFile.orNull?.writeText("") }
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
+kotlin.jvmToolchain(21)
+
 dependencies {
+    implementation(libs.core)
+    implementation(libs.fragment)
+    implementation(libs.recyclerview)
+    implementation(libs.coordinatorlayout)
+    implementation(libs.constraintlayout) {
+        exclude("androidx.appcompat", "appcompat")
+    }
+
+    implementation(projects.miuix)
+    val directory = File("libs")
+    val files = directory.listFiles()?.filter { it.isFile } ?: emptyList()
+    files.forEach { i ->
+        val groupName = i.name.substring(startIndex = 0, endIndex = i.name.length - 10)
+        implementation("fan:$groupName:3.0")
+    }
+
     compileOnly(projects.hiddenApi)
     compileOnly(libs.xposed.api)
 

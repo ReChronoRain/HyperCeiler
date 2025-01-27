@@ -46,7 +46,7 @@
 
     <PreferenceCategory android:title="@string/system_ui_control_center_notification_title">
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.MediaCardSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.MediaCardSettings"
             android:key="prefs_key_system_ui_control_center_media_control_media_custom"
             android:title="@string/system_ui_controlcenter_media_card_title" />
 
@@ -111,7 +111,7 @@
 
     <PreferenceCategory android:title="@string/system_ui_controlcenter_new_title">
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.app.systemui.TileSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.TileSettings"
             android:key="prefs_key_system_ui_control_center_tile_settings"
             android:title="@string/system_ui_control_center_magnet_tile_settings" />
 

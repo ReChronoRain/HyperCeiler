@@ -12,9 +12,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.sevtinge.hyperceiler.data.model.TabViewModel;
-import com.sevtinge.hyperceiler.ui.about.AboutFragment;
-import com.sevtinge.hyperceiler.ui.main.HomePageFragment;
-import com.sevtinge.hyperceiler.ui.settings.ModuleSettingsFragment;
+import com.sevtinge.hyperceiler.ui.app.about.AboutFragment;
+import com.sevtinge.hyperceiler.ui.app.main.HomePageFragment;
+import com.sevtinge.hyperceiler.ui.app.settings.ModuleSettingsFragment;
 
 import java.util.Map;
 

@@ -47,8 +47,8 @@ public class PreferenceHeader extends XmlPreference {
     public static ArrayList<String> mDisableOrHiddenApp = new ArrayList<>();
     public static ArrayList<String> mNoScoped = new ArrayList<>();
 
-    public static List<String> scope = new ArrayList<String>();
-    public static List<String> notInSelectedScope = new ArrayList<String>();
+    public static List<String> scope = new ArrayList<>();
+    public static List<String> notInSelectedScope = new ArrayList<>();
 
     private static boolean isScopeGet = false;
     private static boolean isScopeGetFailed = false;
@@ -127,9 +127,9 @@ public class PreferenceHeader extends XmlPreference {
 
             cursor = db.query(tableName, columns, selection, selectionArgs, null, null, null);
 
-            if (cursor != null && cursor.moveToFirst()) {
-                List<String> scopeMid = new ArrayList<>();
-                List<String> scopeUid = new ArrayList<>();
+            if (cursor.moveToFirst()) {
+                List<String> scopeMid;
+                List<String> scopeUid;
 
                 do {
                     String mid = cursor.getString(cursor.getColumnIndex("mid"));

@@ -40,26 +40,28 @@ android {
             )
         }
     }
+}
 
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(22)
-        }
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
 dependencies {
-    api(libs.core)
-    api(libs.recyclerview)
-    api(libs.fragment)
-    api(libs.coordinatorlayout)
-    api(libs.constraintlayout) {
+    implementation(libs.core)
+    implementation(libs.fragment)
+    implementation(libs.recyclerview)
+    implementation(libs.coordinatorlayout)
+    implementation(libs.constraintlayout) {
         exclude("androidx.appcompat", "appcompat")
     }
 
-    api(
-        fileTree(
-            mapOf("dir" to "libs", "include" to listOf("*-debug.aar"))
-        )
-    )
+    implementation(projects.miuix)
+    val directory = File("libs")
+    val files = directory.listFiles()?.filter { it.isFile } ?: emptyList()
+    files.forEach { i ->
+        val groupName = i.name.substring(startIndex = 0, endIndex = i.name.length - 10)
+        implementation("fan:$groupName:3.0")
+    }
 }

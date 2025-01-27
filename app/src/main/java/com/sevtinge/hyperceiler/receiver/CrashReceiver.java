@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.ui.safe.CrashActivity;
+import com.sevtinge.hyperceiler.ui.app.safe.CrashActivity;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 

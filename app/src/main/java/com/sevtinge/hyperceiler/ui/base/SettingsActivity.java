@@ -24,12 +24,12 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.sevtinge.hyperceiler.ui.app.framework.OtherSettings;
-import com.sevtinge.hyperceiler.ui.app.home.HomeDockSettings;
-import com.sevtinge.hyperceiler.ui.app.home.HomeFolderSettings;
-import com.sevtinge.hyperceiler.ui.app.home.HomeGestureSettings;
-import com.sevtinge.hyperceiler.ui.sub.MultiActionSettings;
-import com.sevtinge.hyperceiler.ui.app.various.AlertDialogSettings;
+import com.sevtinge.hyperceiler.ui.base.sub.MultiActionSettings;
+import com.sevtinge.hyperceiler.ui.hooker.framework.OtherSettings;
+import com.sevtinge.hyperceiler.ui.hooker.home.HomeDockSettings;
+import com.sevtinge.hyperceiler.ui.hooker.home.HomeFolderSettings;
+import com.sevtinge.hyperceiler.ui.hooker.home.HomeGestureSettings;
+import com.sevtinge.hyperceiler.ui.hooker.various.AlertDialogSettings;
 
 import fan.preference.PreferenceFragment;
 

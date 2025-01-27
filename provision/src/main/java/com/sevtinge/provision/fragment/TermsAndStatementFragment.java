@@ -49,7 +49,7 @@ public class TermsAndStatementFragment extends BaseListFragment {
             }
             mNextView.setEnabled(mAgreeCheckBox.isChecked());
             mNextView.setAlpha(mAgreeCheckBox.isChecked() ? OobeUtils.NO_ALPHA : OobeUtils.HALF_ALPHA);
-            mAgreeCheckBox.setOnCheckedChangeListener((_, isChecked) -> {
+            mAgreeCheckBox.setOnCheckedChangeListener((v, isChecked) -> {
                 mNextView.setEnabled(isChecked);
                 mNextView.setAlpha(isChecked ? OobeUtils.NO_ALPHA : OobeUtils.HALF_ALPHA);
                 OobeUtils.saveOperatorState(requireContext(), "cm_pick_status", isChecked);

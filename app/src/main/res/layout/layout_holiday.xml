@@ -7,7 +7,7 @@
     android:animateLayoutChanges="true"
     android:fitsSystemWindows="false">
 
-    <com.sevtinge.hyperceiler.ui.holiday.WeatherView
+    <com.sevtinge.hyperceiler.ui.app.holiday.WeatherView
         android:id="@+id/weather_view"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
