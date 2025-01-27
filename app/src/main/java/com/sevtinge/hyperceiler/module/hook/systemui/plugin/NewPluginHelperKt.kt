@@ -111,9 +111,9 @@ object NewPluginHelperKt : BaseHook() {
 
                 val loaders = listOf(
                     Triple(
-                        "QSVolumeOrBrightnessValue",
+                        "VolumeOrQSBrightnessValue",
                         mPrefsMap.getBoolean("system_ui_control_center_qs_brightness_top_value_show") || mPrefsMap.getBoolean("system_ui_control_center_qs_volume_top_value_show"),
-                        QSVolumeOrBrightnessValue::initQSVolumeOrBrightnessValue
+                        VolumeOrQSBrightnessValue::initVolumeOrQSBrightnessValue
                     ),
                     Triple(
                         "CustomCardTiles",
