@@ -1,6 +1,6 @@
 [versions]
 agp = "8.8.0"
-kotlin-android = "2.1.0"
+kotlin-android = "2.1.10"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 
@@ -17,8 +17,8 @@ xposed-api = "82"
 gson = "2.11.0"
 dexkit = "2.0.3"
 ezxhelper = "2.2.0"
-hiddenapibypass = "5.1"
-hooktool = "v.1.1.7"
+hiddenapibypass = "6.0"
+hooktool = "v.1.2.0"
 lyricGetterApi = "6.0.0"
 mmkv = "2.0.2"
 
