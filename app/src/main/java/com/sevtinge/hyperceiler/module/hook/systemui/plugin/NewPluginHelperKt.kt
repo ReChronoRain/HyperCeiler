@@ -30,6 +30,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSColor
 import com.sevtinge.hyperceiler.module.hook.systemui.other.DefaultPluginTheme
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.FocusNotifLyric
 import com.sevtinge.hyperceiler.utils.api.PluginFactory
+import com.sevtinge.hyperceiler.utils.devicesdk.isHyperOSVersion
 import com.sevtinge.hyperceiler.utils.log.LogManager.logLevel
 import java.lang.ref.WeakReference
 
@@ -83,7 +84,7 @@ object NewPluginHelperKt : BaseHook() {
                     ),
                     Triple(
                         "NewShowVolumePct",
-                        (isStyle == 2) && mPrefsMap.getBoolean("system_cc_volume_showpct_title"),
+                        (isHyperOSVersion(1f) || isStyle == 2) && mPrefsMap.getBoolean("system_cc_volume_showpct_title"),
                         NewShowVolumePct::initLoader
                     ),
                     Triple(
@@ -144,7 +145,7 @@ object NewPluginHelperKt : BaseHook() {
                     ),
                     Triple(
                         "NewBrightnessPct",
-                        (isStyle == 2) && mPrefsMap.getBoolean("system_showpct_title"),
+                        (isHyperOSVersion(1f) || isStyle == 2) && mPrefsMap.getBoolean("system_showpct_title"),
                         NewBrightnessPct::initLoaderHook
                     ),
                     Triple(

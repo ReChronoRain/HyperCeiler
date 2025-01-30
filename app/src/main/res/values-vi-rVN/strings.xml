@@ -156,8 +156,6 @@
     <string name="about_translator_title">Dịch thuật</string>
     <string name="about_chat_title">Thảo luận</string>
     <string name="about_other_title">Khác</string>
-    <string name="about_qq_group">Nhóm QQ</string>
-    <string name="about_qq_channel">Kênh QQ</string>
     <string name="about_tg_group">Nhóm Telegram</string>
     <string name="about_tg_channel">Kênh Telegram</string>
     <string name="about_github">Mã nguồn</string>
@@ -286,16 +284,6 @@
     <string name="array_default_bold">Phông chữ mặc định - Đậm</string>
     <string name="array_bold">Đậm</string>
     <string name="array_theme">Theo chủ đề</string>
-    <string name="array_clock_center">Đồng hồ ở giữa</string>
-    <string name="array_clock_right">Đồng hồ bên phải</string>
-    <string name="array_clock_center_and_icon_left">Đồng hồ ở giữa và biểu tượng ở bên trái</string>
-    <string name="array_clock_default">Mặc định</string>
-    <string name="array_clock_geek">Tuỳ chỉnh</string>
-    <string name="array_battery_both">Cả hai</string>
-    <string name="array_battery_power">Chỉ W</string>
-    <string name="array_battery_current">Chỉ Ampe</string>
-    <string name="array_battery_temp">Nhiệt độ Pin</string>
-    <string name="array_cpu_temp">Nhiệt độ CPU</string>
     <string name="array_global_actions_none">Không có thao tác</string>
     <string name="array_global_actions_notif">Mở trung tâm thông báo</string>
     <string name="array_global_actions_eqs">Mở rộng bảng cài đặt nhanh</string>
@@ -335,10 +323,6 @@
     <string name="various_install_app_info_version_code">Mã phiên bản</string>
     <string name="various_install_app_info_sdk">Hỗ trợ SDK</string>
     <string name="various_install_app_size">Kích thước</string>
-    <string name="charge_animation_entries_disable">Tắt</string>
-    <string name="charge_animation_entries_aura">Aura</string>
-    <string name="charge_animation_entries_stream">Streamer</string>
-    <string name="charge_animation_entries_alpha">Rhythm</string>
     <string name="status_bar_icon_mode_default">Mặc định</string>
     <string name="status_bar_icon_mode_on">Luôn hiện</string>
     <string name="status_bar_icon_mode_on_non_wifi">Luôn hiển thị khi không có WiFi</string>
@@ -432,7 +416,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_display_cutout_title">Màn hình khuyết</string>
     <string name="system_ui_display_hide_cutout">Ẩn màn hình khuyết</string>
     <string name="system_ui_display_use_aosp_screenshot">Sử dụng trình chụp ảnh màn hình AOSP</string>
-    <string name="system_ui_display_use_aosp_screenshot_desc">Chuyển ứng dụng chụp ảnh màn hình sang chụp ảnh màn hình AOSP, ứng dụng chụp màn hình trong MIUI/HyperOS sẽ không phản hồi thao tác chụp màn hình</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">Chuyển ứng dụng chụp ảnh màn hình sang chụp ảnh màn hình AOSP, ứng dụng chụp màn hình trong HyperOS sẽ không phản hồi thao tác chụp màn hình</string>
     <string name="system_ui_display_brightness_title">Độ sáng</string>
     <string name="system_ui_display_auto_brightness">Phạm vi cho độ sáng tự động</string>
     <string name="system_ui_display_auto_brightness_desc">Xác định giá trị tối thiểu và tối đa cho độ sáng tự động</string>
@@ -1275,8 +1259,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_recent_hide_card_desc">Ẩn thẻ của ứng dụng đã chọn trong Gần đây</string>
     <string name="home_widget">Tiện ích</string>
     <string name="home_widget_all_widget_animation">Hoạt ảnh tiện ích</string>
-    <string name="home_widget_show_miui_widget">Hiển thị tiện ích MIUI</string>
-    <string name="home_widget_show_miui_widget_desc">Hiển thị tiện ích MIUI trên trang tiện ích Android</string>
+    <string name="home_widget_show_miui_widget">Hiển thị tiện ích HyperOS</string>
+    <string name="home_widget_show_miui_widget_desc">Hiển thị tiện ích HyperOS trên trang tiện ích Android</string>
     <string name="home_widget_corner_radius">Bo tròn góc tiện ích</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Cho phép di chuyển tiện ích Android sang màn hình -1</string>
     <string name="home_widget_hide_title">Ẩn tiêu đề widget</string>

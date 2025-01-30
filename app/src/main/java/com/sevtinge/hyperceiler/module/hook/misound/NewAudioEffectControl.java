@@ -97,15 +97,15 @@ public class NewAudioEffectControl {
             Field effectSelectionField = mDexKit.findField(FindField.create()
                     .matcher(FieldMatcher.create()
                             .declaredClass(activityClass)
-                            .type(findClass("miuix.preference.DropDownPreference").get())
+                            .type(findClass("miuix.preference.DropDownPreference"))
                             .addReadMethod(MethodMatcher.create()
                                     .declaredClass(activityClass)
                                     .usingStrings("updateEffectSelectionPreference(): set as ")
                             )
                     )).singleOrNull().getFieldInstance(classLoader);
 
-            Class<?> preferenceCategoryClass = findClass("miuix.preference.PreferenceCategory").get();
-            Class<?> preferenceClass = findClass("androidx.preference.Preference").get();
+            Class<?> preferenceCategoryClass = findClass("miuix.preference.PreferenceCategory");
+            Class<?> preferenceClass = findClass("androidx.preference.Preference");
             hook(create, new IHook() {
                 @Override
                 public void after() {

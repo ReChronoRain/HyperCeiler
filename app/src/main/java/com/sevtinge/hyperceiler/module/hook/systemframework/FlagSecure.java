@@ -72,7 +72,7 @@ public class FlagSecure extends BaseHook {
         for (Constructor<?> constructor : clazz.getDeclaredConstructors()) {
             if (deoptimizeMethod != null) {
                 deoptimizeMethod.invoke(null, constructor);
-                Log.d("DisableFlagSecure", "Deoptimized constructor " + constructor);
+                Log.d("FlagSecure", "Deoptimized constructor " + constructor);
             }
         }
     }

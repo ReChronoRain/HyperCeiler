@@ -115,8 +115,6 @@
     <string name="about_translator_title">作此翻译之人</string>
     <string name="about_chat_title">妙妙屋</string>
     <string name="about_other_title">别的东西</string>
-    <string name="about_qq_group">QQ 群组</string>
-    <string name="about_qq_channel">QQ 频道</string>
     <string name="about_tg_group">Telegram 群组</string>
     <string name="about_tg_channel">Telegram 频道</string>
     <string name="about_github">Gayhub 主页</string>
@@ -226,16 +224,6 @@
     <string name="array_default_bold">原始人字体，但是粗体</string>
     <string name="array_bold">好... 好粗🥵</string>
     <string name="array_theme">跟随主题</string>
-    <string name="array_clock_center">时钟居中</string>
-    <string name="array_clock_right">时钟居右</string>
-    <string name="array_clock_center_and_icon_left">时钟居中 + 图标居左</string>
-    <string name="array_clock_default">啥都不改</string>
-    <string name="array_clock_geek">非常有实力极客</string>
-    <string name="array_battery_both">两个都要</string>
-    <string name="array_battery_power">仅功率</string>
-    <string name="array_battery_current">仅电流</string>
-    <string name="array_battery_temp">电池温度</string>
-    <string name="array_cpu_temp">没逝的，CPU不高于100℃炸不了</string>
     <string name="array_global_actions_none">坐以待毙</string>
     <string name="array_global_actions_notif">打开通知中心</string>
     <string name="array_global_actions_eqs">展开快速设置面板</string>
@@ -275,10 +263,6 @@
     <string name="various_install_app_info_version_code">此版本之号码</string>
     <string name="various_install_app_info_sdk">支持的 SDK</string>
     <string name="various_install_app_size">她有多大？</string>
-    <string name="charge_animation_entries_disable">关掉</string>
-    <string name="charge_animation_entries_aura">非常美丽光韵</string>
-    <string name="charge_animation_entries_stream">非常好流光</string>
-    <string name="charge_animation_entries_alpha">非常有节奏律动</string>
     <string name="status_bar_icon_mode_default">啥都不改</string>
     <string name="status_bar_icon_mode_on">一直放那</string>
     <string name="status_bar_icon_mode_on_non_wifi">没 Wi-Fi 也一直放那</string>
@@ -368,7 +352,7 @@
     <string name="system_ui_display_cutout_title">显示保险开关</string>
     <string name="system_ui_display_hide_cutout">隐藏显示保险开关</string>
     <string name="system_ui_display_use_aosp_screenshot">不使用HyperOS自带的垃圾截屏</string>
-    <string name="system_ui_display_use_aosp_screenshot_desc">重定向截图应用以解封 AOSP 截图。HyperOS/MIUI 中截图功能将被封印。</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">重定向截图应用以解封 AOSP 截图。HyperOS 中截图功能将被封印。</string>
     <string name="system_ui_display_brightness_title">光光</string>
     <string name="system_ui_display_auto_brightness">自动调整明亮度之上下限</string>
     <string name="system_ui_display_auto_brightness_desc">定义自动调整明亮度之上下限</string>

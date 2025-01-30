@@ -110,8 +110,6 @@
     <string name="about_translator_title">Çevirmen.</string>
     <string name="about_chat_title">Tartışma.</string>
     <string name="about_other_title">Diğer</string>
-    <string name="about_qq_group">QQ grup.</string>
-    <string name="about_qq_channel">QQ kanal.</string>
     <string name="about_tg_group">Telegram grubu.</string>
     <string name="about_tg_channel">Telegram kanalı.</string>
     <string name="about_github">Kaynak kod</string>
@@ -205,16 +203,6 @@
     <string name="array_default_bold">Varsayılan Yazı Tipi-Kalın</string>
     <string name="array_bold">Kalın</string>
     <string name="array_theme">Ögeyi takip et</string>
-    <string name="array_clock_center">Saat ortada</string>
-    <string name="array_clock_right">Saat sağda</string>
-    <string name="array_clock_center_and_icon_left">Saat ortada &amp; Simge solda</string>
-    <string name="array_clock_default">Varsayılan</string>
-    <string name="array_clock_geek">İnek</string>
-    <string name="array_battery_both">Her ikisi</string>
-    <string name="array_battery_power">Sadece güç</string>
-    <string name="array_battery_current">Sadece akım</string>
-    <string name="array_battery_temp">Pil sıcaklığı</string>
-    <string name="array_cpu_temp">CPU sıcaklığı</string>
     <string name="array_global_actions_none">Eylem yok</string>
     <string name="array_global_actions_notif">Bildirim merkezi\'ni açın</string>
     <string name="array_global_actions_eqs">Hızlı ayarlar panelini genişletin</string>
@@ -254,10 +242,6 @@
     <string name="various_install_app_info_version_code">Sürüm kodu</string>
     <string name="various_install_app_info_sdk">SDK desteği</string>
     <string name="various_install_app_size">Boyut</string>
-    <string name="charge_animation_entries_disable">Devre dışı</string>
-    <string name="charge_animation_entries_aura">Aura</string>
-    <string name="charge_animation_entries_stream">Streamer</string>
-    <string name="charge_animation_entries_alpha">Ritim</string>
     <string name="status_bar_icon_mode_default">Varsayılan</string>
     <string name="status_bar_icon_mode_on">Her zaman göster</string>
     <string name="status_bar_icon_mode_on_non_wifi">WiFi açık değilken her zaman gösterilir</string>
@@ -345,7 +329,7 @@
     <string name="system_ui_display_cutout_title">Ekran kesimi</string>
     <string name="system_ui_display_hide_cutout">Ekran kesimini gizle</string>
     <string name="system_ui_display_use_aosp_screenshot">AOSP Ekran Görüntüsü kullanın</string>
-    <string name="system_ui_display_use_aosp_screenshot_desc">Ekran görüntüsü uygulamasını AOSP ekran görüntüsüne yönlendirin, MIUI/HyperOS\'taki ekran görüntüsü uygulaması ekran görüntüsü işlemine yanıt vermeyecektir.</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">Ekran görüntüsü uygulamasını AOSP ekran görüntüsüne yönlendirin, HyperOS\'taki ekran görüntüsü uygulaması ekran görüntüsü işlemine yanıt vermeyecektir.</string>
     <string name="system_ui_display_brightness_title">Parlaklık</string>
     <string name="system_ui_display_auto_brightness">Oto. parlaklık aralığı</string>
     <string name="system_ui_display_auto_brightness_desc">Oto. parlaklık için minimum ve maksimum değerleri tanımlayın</string>
@@ -1038,8 +1022,8 @@
     <string name="home_recent_show_launch_alpha">Başlatıcı arka plan alfası</string>
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Widget animasyonu</string>
-    <string name="home_widget_show_miui_widget">MIUI widget\'larını göster</string>
-    <string name="home_widget_show_miui_widget_desc">Android widget sayfasında MIUI widget\'larını görüntüleme</string>
+    <string name="home_widget_show_miui_widget">HyperOS widget\'larını göster</string>
+    <string name="home_widget_show_miui_widget_desc">Android widget sayfasında HyperOS widget\'larını görüntüleme</string>
     <string name="home_widget_corner_radius">Yuvarlatılmış widget köşeleri</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Klasik widget\'ın Eksi Bir ekrana taşınmasına izin ver</string>
     <string name="home_widget_hide_title">Widget başlığını gizle</string>

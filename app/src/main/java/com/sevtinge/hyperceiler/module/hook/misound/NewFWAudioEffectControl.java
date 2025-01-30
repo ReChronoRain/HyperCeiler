@@ -89,12 +89,12 @@ public class NewFWAudioEffectControl {
             Field prefsField = mDexKit.findField(FindField.create()
                     .matcher(FieldMatcher.create()
                             .declaredClass(activityClass)
-                            .type(findClass("miuix.preference.DropDownPreference").get())
+                            .type(findClass("miuix.preference.DropDownPreference"))
                     )
             ).singleOrNull().getFieldInstance(classLoader);
 
-            Class<?> preferenceCategoryClass = findClass("miuix.preference.PreferenceCategory").get();
-            Class<?> preferenceClass = findClass("androidx.preference.Preference").get();
+            Class<?> preferenceCategoryClass = findClass("miuix.preference.PreferenceCategory");
+            Class<?> preferenceClass = findClass("androidx.preference.Preference");
             hook(create, new IHook() {
                 @Override
                 public void after() {

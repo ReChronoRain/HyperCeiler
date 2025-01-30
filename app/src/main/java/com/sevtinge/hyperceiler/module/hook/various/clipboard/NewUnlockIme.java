@@ -23,7 +23,6 @@ import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 
 import android.content.Context;
 
-import com.sevtinge.hyperceiler.module.hook.various.clipboard.LoadInputMethodDex;
 import com.hchen.hooktool.BaseHC;
 import com.hchen.hooktool.hook.IHook;
 import com.hchen.hooktool.tool.additional.SystemPropTool;
@@ -48,7 +47,7 @@ public class NewUnlockIme extends BaseHC implements LoadInputMethodDex.OnInputMe
         fakeSupportImeList(classLoader);
         notDeleteNotSupportIme("com.miui.inputmethod.InputMethodBottomManager$MiuiSwitchInputMethodListener", classLoader);
         if (!shouldHook) return;
-        Class<?> InputMethodBottomManager = findClass("com.miui.inputmethod.InputMethodBottomManager", classLoader).get();
+        Class<?> InputMethodBottomManager = findClass("com.miui.inputmethod.InputMethodBottomManager", classLoader);
         if (InputMethodBottomManager != null) {
             fakeIsSupportIme(InputMethodBottomManager);
             fakeIsXiaoAiEnable(InputMethodBottomManager);
@@ -68,9 +67,9 @@ public class NewUnlockIme extends BaseHC implements LoadInputMethodDex.OnInputMe
         // 检查是否为小米定制输入法
         if (Arrays.stream(miuiImeList).anyMatch(s -> s.equals(lpparam.packageName))) return;
         shouldHook = true;
-        Class<?> sInputMethodServiceInjector = findClass("android.inputmethodservice.InputMethodServiceInjector").get();
+        Class<?> sInputMethodServiceInjector = findClass("android.inputmethodservice.InputMethodServiceInjector");
         if (sInputMethodServiceInjector == null)
-            sInputMethodServiceInjector = findClass("android.inputmethodservice.InputMethodServiceStubImpl").get();
+            sInputMethodServiceInjector = findClass("android.inputmethodservice.InputMethodServiceStubImpl");
         if (sInputMethodServiceInjector != null) {
             fakeIsSupportIme(sInputMethodServiceInjector);
             fakeIsXiaoAiEnable(sInputMethodServiceInjector);

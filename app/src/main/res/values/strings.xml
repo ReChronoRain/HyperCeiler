@@ -218,8 +218,6 @@
     <string name="about_translator_title">Translator</string>
     <string name="about_chat_title">Discussion</string>
     <string name="about_other_title">Others</string>
-    <string name="about_qq_group">QQ Group</string>
-    <string name="about_qq_channel">QQ Channel</string>
     <string name="about_tg_group">Telegram Group</string>
     <string name="about_tg_channel">Telegram Channel</string>
     <string name="about_github">Source code</string>
@@ -348,16 +346,6 @@
     <string name="array_default_bold">Default font-bold</string>
     <string name="array_bold">Bold</string>
     <string name="array_theme">Follow the subject</string>
-    <string name="array_clock_center">Clock center</string>
-    <string name="array_clock_right">Clock right</string>
-    <string name="array_clock_center_and_icon_left">Clock center &amp; icon left</string>
-    <string name="array_clock_default">Default</string>
-    <string name="array_clock_geek">Geek</string>
-    <string name="array_battery_both">Both</string>
-    <string name="array_battery_power">Power only</string>
-    <string name="array_battery_current">Current only</string>
-    <string name="array_battery_temp">Battery temperature</string>
-    <string name="array_cpu_temp">CPU temperature</string>
     <string name="array_global_actions_none">No action</string>
     <string name="array_global_actions_notif">Open the Notification shade</string>
     <string name="array_global_actions_eqs">Expand the quick settings panel</string>
@@ -397,10 +385,6 @@
     <string name="various_install_app_info_version_code">Version code</string>
     <string name="various_install_app_info_sdk">Support SDK</string>
     <string name="various_install_app_size">Size</string>
-    <string name="charge_animation_entries_disable">Disabled</string>
-    <string name="charge_animation_entries_aura">Aura</string>
-    <string name="charge_animation_entries_stream">Streamer</string>
-    <string name="charge_animation_entries_alpha">Rhythm</string>
     <string name="status_bar_icon_mode_default">Default</string>
     <string name="status_bar_icon_mode_on">Always show</string>
     <string name="status_bar_icon_mode_on_non_wifi">Always shown when not on Wi-Fi</string>
@@ -495,7 +479,7 @@
     <string name="system_ui_display_cutout_title">Display cutout</string>
     <string name="system_ui_display_hide_cutout">Hide display cutout</string>
     <string name="system_ui_display_use_aosp_screenshot">Use AOSP screenshot</string>
-    <string name="system_ui_display_use_aosp_screenshot_desc">Redirect the screenshot app to use the AOSP screenshot capture. The screenshot app in HyperOS/MIUI won\'t respond to the screenshot operation.</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">Redirect the screenshot app to use the AOSP screenshot capture. The screenshot app in HyperOS won\'t respond to the screenshot operation.</string>
     <string name="system_ui_display_brightness_title">Brightness</string>
     <string name="system_ui_display_auto_brightness">Auto brightness range</string>
     <string name="system_ui_display_auto_brightness_desc">Define minimum and maximum values for automatic brightness</string>
@@ -1341,7 +1325,7 @@
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Widget animation</string>
     <string name="home_widget_show_miui_widget">Show system widgets</string>
-    <string name="home_widget_show_miui_widget_desc">Display HyperOS/MIUI widget on the AOSP widgets page</string>
+    <string name="home_widget_show_miui_widget_desc">Display HyperOS widget on the AOSP widgets page</string>
     <string name="home_widget_corner_radius">Widget rounded corners</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Allow classic widget to be moved to the Minus One screen</string>
     <string name="home_widget_hide_title">Hide widget title</string>

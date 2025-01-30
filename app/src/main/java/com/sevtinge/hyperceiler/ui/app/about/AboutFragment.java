@@ -22,8 +22,6 @@ import static com.sevtinge.hyperceiler.utils.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getDeviceToken;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -224,7 +222,6 @@ public class AboutFragment extends DashboardFragment
         int lIIlllI = ClickCountsUtils.getClickCounts();
         MainActivityContextHelper mainActivityContextHelper = new MainActivityContextHelper(requireContext());
         Preference lIIllII = findPreference("prefs_key_various_enable_super_function");
-        Preference mQQGroup = findPreference("prefs_key_about_join_qq_group");
         mDeviceName = findPreference("prefs_key_about_device_name");
         mDeviceInfoDevice = findPreference("prefs_key_about_device_info_device");
         mDeviceInfoAndroid = findPreference("prefs_key_about_device_info_android");
@@ -263,29 +260,6 @@ public class AboutFragment extends DashboardFragment
                 }
                 return false;
             });
-        }
-
-        if (mQQGroup != null) {
-            mQQGroup.setOnPreferenceClickListener(preference -> {
-                joinQQGroup("MF68KGcOGYEfMvkV_htdyT6D6C13We_r");
-                return true;
-            });
-        }
-    }
-
-    /**
-     * 调用 joinQQGroup() 即可发起手Q客户端申请加群
-     *
-     * @param key 由官网生成的key
-     */
-    private void joinQQGroup(String key) {
-        Intent intent = new Intent();
-        intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3D" + key));
-
-        try {
-            startActivity(intent);
-        } catch (Exception e) {
-            // 未安装手Q或安装的版本不支持
         }
     }
 

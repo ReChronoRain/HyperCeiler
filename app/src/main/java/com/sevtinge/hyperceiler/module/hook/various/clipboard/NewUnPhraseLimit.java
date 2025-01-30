@@ -59,7 +59,7 @@ public class NewUnPhraseLimit extends BaseHC {
     public void init() {
         try {
             // 解除 20 条限制
-            Class<?> InputMethodUtil = findClass("com.miui.inputmethod.InputMethodUtil").get();
+            Class<?> InputMethodUtil = findClass("com.miui.inputmethod.InputMethodUtil");
             setStaticField(InputMethodUtil, "sPhraseListSize", 0);
             hookMethod(InputMethodUtil, "queryPhrase", Context.class, new IHook() {
                 @Override
@@ -68,7 +68,7 @@ public class NewUnPhraseLimit extends BaseHC {
                 }
             });
 
-            Class<?> AddPhraseActivity = findClass("com.miui.phrase.AddPhraseActivity").get();
+            Class<?> AddPhraseActivity = findClass("com.miui.phrase.AddPhraseActivity");
             hookMethod("com.miui.phrase.PhraseEditActivity", "onClick", View.class, new IHook() {
                 @Override
                 public void before() {

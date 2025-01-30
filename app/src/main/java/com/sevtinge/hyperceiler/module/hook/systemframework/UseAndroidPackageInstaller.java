@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 import java.lang.reflect.InvocationTargetException;
@@ -80,10 +82,13 @@ public class UseAndroidPackageInstaller extends BaseHook {
                         fakeCts = false;
                     }
                 });
-                try {
-                    deoptimizeMethod(method);
-                } catch (Throwable t) {
-                    logE("UseAndroidPackageInstaller", "android", t);
+
+                if (isMoreHyperOSVersion(2f)) {
+                    try {
+                        deoptimizeMethod(method);
+                    } catch (Throwable t) {
+                        logE("UseAndroidPackageInstaller", "android", t);
+                    }
                 }
             }
         }

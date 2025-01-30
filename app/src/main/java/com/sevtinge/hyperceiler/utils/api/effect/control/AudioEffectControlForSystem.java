@@ -63,13 +63,13 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
     private boolean mLast3dSurroundEnable = false;
 
     public void init() {
-        mAudioManagerClass = findClass("android.media.AudioManager").get();
-        mMiSoundClass = findClass("android.media.audiofx.MiSound").get();
+        mAudioManagerClass = findClass("android.media.AudioManager");
+        mMiSoundClass = findClass("android.media.audiofx.MiSound");
         if (existsClass("com.dolby.dax.DolbyAudioEffect")) {
-            mDolbyClass = findClass("com.dolby.dax.DolbyAudioEffect").get();
+            mDolbyClass = findClass("com.dolby.dax.DolbyAudioEffect");
             isIntactDolbyClass = true;
         } else
-            mDolbyClass = findClass("com.android.server.audio.dolbyeffect.DolbyEffectController$DolbyAudioEffectHelper").get();
+            mDolbyClass = findClass("com.android.server.audio.dolbyeffect.DolbyEffectController$DolbyAudioEffectHelper");
 
         hookMethod("android.media.audiofx.AudioEffect",
                 "setEnabled",

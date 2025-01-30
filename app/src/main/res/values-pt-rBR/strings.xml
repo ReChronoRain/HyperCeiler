@@ -156,8 +156,6 @@
     <string name="about_translator_title">Tradutor</string>
     <string name="about_chat_title">Discussão</string>
     <string name="about_other_title">Outros</string>
-    <string name="about_qq_group">Grupo QQ</string>
-    <string name="about_qq_channel">Canal QQ</string>
     <string name="about_tg_group">Grupo Telegram</string>
     <string name="about_tg_channel">Canal Telegram</string>
     <string name="about_github">Código-fonte</string>
@@ -286,16 +284,6 @@
     <string name="array_default_bold">Fonte padrão negrito</string>
     <string name="array_bold">Negrito</string>
     <string name="array_theme">Seguir o assunto</string>
-    <string name="array_clock_center">Centralizar o relógio</string>
-    <string name="array_clock_right">Relógio à direita</string>
-    <string name="array_clock_center_and_icon_left">Relógio no meio e ícone à esquerda</string>
-    <string name="array_clock_default">Padrão</string>
-    <string name="array_clock_geek">Geek</string>
-    <string name="array_battery_both">Ambos</string>
-    <string name="array_battery_power">Somente energia</string>
-    <string name="array_battery_current">Somente corrente</string>
-    <string name="array_battery_temp">Temperatura da bateria</string>
-    <string name="array_cpu_temp">Temperatura da CPU</string>
     <string name="array_global_actions_none">Nenhuma ação</string>
     <string name="array_global_actions_notif">Abrir Área de notificações</string>
     <string name="array_global_actions_eqs">Expandir o painel de configurações rápidas</string>
@@ -335,10 +323,6 @@
     <string name="various_install_app_info_version_code">Código da versão</string>
     <string name="various_install_app_info_sdk">Suporte SDK</string>
     <string name="various_install_app_size">Tamanho</string>
-    <string name="charge_animation_entries_disable">Desativado</string>
-    <string name="charge_animation_entries_aura">Fluxo</string>
-    <string name="charge_animation_entries_stream">Brilho</string>
-    <string name="charge_animation_entries_alpha">Onda</string>
     <string name="status_bar_icon_mode_default">Padrão</string>
     <string name="status_bar_icon_mode_on">Sempre exibir</string>
     <string name="status_bar_icon_mode_on_non_wifi">Sempre exibir quando não estiver no Wi-Fi</string>
@@ -431,7 +415,7 @@
     <string name="system_ui_display_cutout_title">Recorte de exibição</string>
     <string name="system_ui_display_hide_cutout">Ocultar recorte de exibição</string>
     <string name="system_ui_display_use_aosp_screenshot">Usar captura de tela AOSP</string>
-    <string name="system_ui_display_use_aosp_screenshot_desc">Redirecione o app de captura de tela para a captura de tela AOSP. O app de captura de tela no HyperOS/MIUI não responderá à operação de captura de tela.</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">Redirecione o app de captura de tela para a captura de tela AOSP. O app de captura de tela no HyperOS não responderá à operação de captura de tela.</string>
     <string name="system_ui_display_brightness_title">Brilho</string>
     <string name="system_ui_display_auto_brightness">Alcance do brilho automático</string>
     <string name="system_ui_display_auto_brightness_desc">Defina valores mínimos e máximos para o brilho automático</string>
@@ -1264,7 +1248,7 @@
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Animação do widget</string>
     <string name="home_widget_show_miui_widget">Exibir widgets do sistema</string>
-    <string name="home_widget_show_miui_widget_desc">Exiba widgets do HyperOS/MIUI na página de widgets AOSP</string>
+    <string name="home_widget_show_miui_widget_desc">Exiba widgets do HyperOS na página de widgets AOSP</string>
     <string name="home_widget_corner_radius">Cantos arredondados do widget</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Permitir que o widget clássico seja movido para o Assistente</string>
     <string name="home_widget_hide_title">Ocultar nome dos widgets</string>

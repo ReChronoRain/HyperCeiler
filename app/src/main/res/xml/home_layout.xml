@@ -20,7 +20,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/home_layout"
     app:quick_restart="com.miui.home">
-    <PreferenceCategory>
+    <PreferenceCategory android:key="prefs_key_home_layout_old_func">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_home_other_show_clock"
@@ -32,6 +32,9 @@
             android:key="prefs_key_personal_assistant_overlap_mode"
             android:title="@string/personal_assistant_overlap_mode" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_layout_home_title">
         <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_home_other_seek_points"
@@ -39,9 +42,6 @@
             app:entries="@array/seek_points"
             app:entryValues="@array/seek_points_value" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/home_layout_home_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_home_layout_unlock_grids"

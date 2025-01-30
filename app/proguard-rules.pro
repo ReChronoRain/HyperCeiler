@@ -4,12 +4,8 @@
 -keep class com.sevtinge.hyperceiler.utils.blur.*
 -keep class com.sevtinge.hyperceiler.module.base.tool.AppsTool { boolean isModuleActive; }
 -keep class com.sevtinge.hyperceiler.module.base.tool.AppsTool { int XposedVersion; }
--keep class fan.**{ *; }
--keep class androidx.preference.**{ *; }
--keep class org.luckypray.dexkit.**{ *; }
--keep class cn.lyric.getter.api.**{ *; }
 -keep class com.sevtinge.hyperceiler.module.base.**{ *; }
--keep class com.sevtinge.hyperceiler.holiday.**{ *; }
+-keep class com.sevtinge.hyperceiler.ui.app.holiday.**{ *; }
 -keep class * extends com.sevtinge.hyperceiler.ui.base.BasePreferenceFragment
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook { <init>(); }
 -keep class com.sevtinge.hyperceiler.module.base.dexkit.**{ *; }
@@ -18,6 +14,16 @@
 -keep class com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.** { *; }
 -keep class com.sevtinge.hyperceiler.utils.ContentModel {*;}
 -keep class com.sevtinge.hyperceiler.utils.FileHelper {*;}
+
+-keep class androidx.preference.**{ *; }
+-keep class com.sevtinge.provision.activity.** { *; }
+-keep class com.sevtinge.provision.fragment.** { *; }
+
+-keep class fan.**{ *; }
+-keep class miuix.mgl.** { *; }
+
+-keep class cn.lyric.getter.api.**{ *; }
+-keep class org.luckypray.dexkit.**{ *; }
 
 -keepattributes SourceFile,LineNumberTable
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo

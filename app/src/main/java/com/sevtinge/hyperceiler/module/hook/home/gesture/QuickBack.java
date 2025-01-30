@@ -43,7 +43,7 @@ public class QuickBack extends BaseHC {
     @Override
     protected void init() {
         try {
-            Class<?> mReadyStateClass = findClass("com.miui.home.recents.GestureBackArrowView$ReadyState").get();
+            Class<?> mReadyStateClass = findClass("com.miui.home.recents.GestureBackArrowView$ReadyState");
             Enum<?> READY_STATE_BACK = (Enum<?>) getStaticField(mReadyStateClass, "READY_STATE_BACK");
             Enum<?> READY_STATE_RECENT = (Enum<?>) getStaticField(mReadyStateClass, "READY_STATE_RECENT");
             Enum<?> READY_STATE_NONE = (Enum<?>) getStaticField(mReadyStateClass, "READY_STATE_NONE");
@@ -76,8 +76,8 @@ public class QuickBack extends BaseHC {
                             int ordinal = (int) callMethod(getCurrentState, "ordinal");
                             if (values == null) {
                                 Class<?> mGestureStubView$X = existsClass("com.miui.home.recents.GestureStubView$4") ?
-                                        findClass("com.miui.home.recents.GestureStubView$4").get()
-                                        : findClass("com.miui.home.recents.GestureStubView$5").get();
+                                        findClass("com.miui.home.recents.GestureStubView$4")
+                                        : findClass("com.miui.home.recents.GestureStubView$5");
                                 int[] mState = (int[]) getStaticField(mGestureStubView$X, "$SwitchMap$com$miui$home$recents$GestureBackArrowView$ReadyState");
                                 ordinal = mState[ordinal];
 

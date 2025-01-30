@@ -8,6 +8,7 @@ annotation = "1.9.1"
 core = "1.15.0"
 fragment = "1.8.5"
 lunarcalendar = "latest.release"
+miuix = "1.0.5"
 recyclerview = "1.4.0"
 coordinatorlayout = "1.2.0"
 constraintlayout = "2.2.0"
@@ -17,8 +18,8 @@ xposed-api = "82"
 gson = "2.11.0"
 dexkit = "2.0.3"
 ezxhelper = "2.2.0"
-hiddenapibypass = "5.1"
-hooktool = "v.1.1.7"
+hiddenapibypass = "6.0"
+hooktool = "v.1.2.0"
 lyricGetterApi = "6.0.0"
 mmkv = "2.0.2"
 
@@ -28,6 +29,30 @@ core = { group = "androidx.core", name = "core", version.ref = "core" }
 fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
 hooktool = { module = "com.github.HChenX:HookTool", version.ref = "hooktool" }
 lunarcalendar = { module = "com.xhinliang:LunarCalendar", version.ref = "lunarcalendar" }
+miuix-animation = { module = "fan.miuix:animation", version.ref = "miuix" }
+miuix-appcompat = { module = "fan.miuix:appcompat", version.ref = "miuix" }
+miuix-basewidget = { module = "fan.miuix:basewidget", version.ref = "miuix" }
+miuix-bottomsheet = { module = "fan.miuix:bottomsheet", version.ref = "miuix" }
+miuix-cardview = { module = "fan.miuix:cardview", version.ref = "miuix" }
+miuix-core = { module = "fan.miuix:core", version.ref = "miuix" }
+miuix-flexible = { module = "fan.miuix:flexible", version.ref = "miuix" }
+miuix-folme = { module = "fan.miuix:folme", version.ref = "miuix" }
+miuix-graphics = { module = "fan.miuix:graphics", version.ref = "miuix" }
+miuix-haptic = { module = "fan.miuix:haptic", version.ref = "miuix" }
+miuix-mgl = { module = "fan.miuix:mgl", version.ref = "miuix" }
+miuix-navigator = { module = "fan.miuix:navigator", version.ref = "miuix" }
+miuix-nestedheader = { module = "fan.miuix:nestedheader", version.ref = "miuix" }
+miuix-pickerwidget = { module = "fan.miuix:pickerwidget", version.ref = "miuix" }
+miuix-popupwidget = { module = "fan.miuix:popupwidget", version.ref = "miuix" }
+miuix-preference = { module = "fan.miuix:preference", version.ref = "miuix" }
+miuix-recyclerview = { module = "fan.miuix:recyclerview", version.ref = "miuix" }
+miuix-slidingwidget = { module = "fan.miuix:slidingwidget", version.ref = "miuix" }
+miuix-smooth = { module = "fan.miuix:smooth", version.ref = "miuix" }
+miuix-springback = { module = "fan.miuix:springback", version.ref = "miuix" }
+miuix-stretchablewidget = { module = "fan.miuix:stretchablewidget", version.ref = "miuix" }
+miuix-theme = { module = "fan.miuix:theme", version.ref = "miuix" }
+miuix-viewpager = { module = "fan.miuix:viewpager", version.ref = "miuix" }
+miuix-visualcheck = { module = "fan.miuix:visualcheck", version.ref = "miuix" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
 auto-service = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }

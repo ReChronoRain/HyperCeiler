@@ -248,23 +248,6 @@
         <item>@string/open_with_test_all</item>
     </string-array>
 
-    <string-array name="charge_animation_entries">
-        <item>@string/array_default</item>
-        <item>@string/charge_animation_entries_disable</item>
-        <item>@string/charge_animation_entries_aura</item>
-        <item>@string/charge_animation_entries_stream</item>
-        <item>@string/charge_animation_entries_alpha</item>
-    </string-array>
-
-    <string-array name="charge_animation_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-    </string-array>
-
-
     <string-array name="status_bar_icon_mode">
         <item>@string/status_bar_icon_mode_default</item>
         <item>@string/status_bar_icon_mode_on</item>
@@ -641,18 +624,6 @@
         <item>6</item>
     </string-array>
 
-    <string-array name="system_ui_status_bar_clock_mode">
-        <item>@string/array_close</item>
-        <item>@string/array_clock_default</item>
-        <item>@string/array_clock_geek</item>
-    </string-array>
-
-    <string-array name="system_ui_status_bar_clock_mode_value">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
     <string-array name="system_ui_status_bar_clock_double_mode">
         <item>@string/array_align_left</item>
         <item>@string/array_align_center</item>
@@ -675,52 +646,6 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
-    </string-array>
-
-    <string-array name="system_ui_status_bar_battery_show">
-        <item>@string/array_battery_both</item>
-        <item>@string/array_battery_power</item>
-        <item>@string/array_battery_current</item>
-    </string-array>
-
-    <string-array name="system_ui_status_bar_battery_show_value">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="system_ui_status_bar_battery_disable">
-        <item>@string/array_default</item>
-        <item>@string/array_battery_both</item>
-        <item>@string/array_battery_power</item>
-        <item>@string/array_battery_current</item>
-    </string-array>
-
-    <string-array name="system_ui_status_bar_battery_disable_value">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="system_ui_status_bar_layout_mode">
-        <item>@string/array_default</item>
-        <item>@string/array_clock_center</item>
-        <item>@string/array_clock_right</item>
-        <item>@string/array_clock_center_and_icon_left</item>
-    </string-array>
-
-    <string-array name="system_ui_status_bar_layout_mode_value">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="system_ui_status_bar_device_temp_details">
-        <item>@string/array_battery_both</item>
-        <item>@string/array_battery_temp</item>
-        <item>@string/array_cpu_temp</item>
     </string-array>
 
     <string-array name="market_device_modify_list">

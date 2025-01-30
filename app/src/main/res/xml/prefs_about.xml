@@ -94,11 +94,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/about_chat_title">
-
-        <Preference
-            android:key="prefs_key_about_join_qq_group"
-            android:title="@string/about_qq_group" />
-
         <Preference android:title="@string/about_tg_group">
             <intent
                 android:action="android.intent.action.VIEW"
