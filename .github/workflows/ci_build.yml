@@ -53,6 +53,8 @@ jobs:
           echo keyPassword='${{ secrets.KEY_STORE_PASSWORD }}' >> signing.properties
           echo storeFile=../key.jks >> signing.properties
           echo ${{ secrets.SIGNING_KEY }} | base64 --decode > key.jks
+          echo "GIT_ACTOR=${{ secrets.GIT_ACTOR }}" >> $GITHUB_ENV
+          echo "GIT_TOKEN=${{ secrets.GIT_TOKEN }}" >> $GITHUB_ENV
 
       - name: Build with Gradle (Canary)
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
