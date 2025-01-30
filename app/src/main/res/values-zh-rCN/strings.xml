@@ -286,6 +286,7 @@
     <string name="save_to_screen_title">规范保存位置</string>
     <string name="only_new_version_can_do">仅支持较新的版本</string>
     <string name="use_hyper_blur">使用高级材质</string>
+    <string name="hide">隐藏</string>
 
     <string name="system_ui_statusbar_indicator_default_title">常规</string>
     <string name="system_ui_statusbar_indicator_expand_title">扩展</string>
@@ -658,6 +659,7 @@
     <string name="system_ui_lock_screen_show_spacing">显示刷新间隔</string>
     <string name="system_ui_lock_screen_hide_camera">隐藏相机</string>
     <string name="system_ui_lock_screen_hide_smart_screen">隐藏负一屏</string>
+    <string name="system_ui_lock_screen_bottom_left_button">底部左侧按钮</string>
     <string name="system_ui_lock_screen_current">当前电流</string>
     <string name="system_ui_lock_screen_blur_button">锁屏按钮背景模糊</string>
     <string name="system_ui_lock_screen_blur_button_desc">启用后相机和负一屏按钮的背景带有模糊，可能存在功耗偏高的情况，仅支持默认主题</string>

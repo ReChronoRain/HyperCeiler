@@ -330,6 +330,7 @@
     <string name="save_to_screen_title">Specification save location</string>
     <string name="only_new_version_can_do">Only newer versions supported</string>
     <string name="use_hyper_blur">Use Advanced textures</string>
+    <string name="hide">Hide</string>
     <string name="system_ui_statusbar_indicator_default_title">Default</string>
     <string name="system_ui_statusbar_indicator_expand_title">Expand</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Fix content width</string>
@@ -671,6 +672,7 @@
     <string name="system_ui_lock_screen_show_spacing">Display refresh interval</string>
     <string name="system_ui_lock_screen_hide_camera">Hide camera</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Hide smart screen</string>
+    <string name="system_ui_lock_screen_bottom_left_button">Left button at the bottom</string>
     <string name="system_ui_lock_screen_current">Current</string>
     <string name="system_ui_lock_screen_blur_button">Blur Lock screen buttons</string>
     <string name="system_ui_lock_screen_blur_button_desc">After enabling, the background of the camera and negative screen button on the Lock screen is blurred, which may cause high power consumption.\nSupport default theme only.</string>

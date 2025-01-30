@@ -23,15 +23,23 @@
     <PreferenceCategory android:title="@string/system_ui_lockscreen_ui_title">
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_ui_lock_screen_hide_camera"
-            android:summary="@string/system_ui_lock_screen_default_theme"
-            android:title="@string/system_ui_lock_screen_hide_camera" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_hide_smart_screen"
             android:summary="@string/system_ui_lock_screen_default_theme"
             android:title="@string/system_ui_lock_screen_hide_smart_screen" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_lock_screen_bottom_left_button"
+            android:summary="@string/system_ui_lock_screen_default_theme"
+            android:title="@string/system_ui_lock_screen_bottom_left_button"
+            app:entries="@array/lock_screen_bottom_left_button"
+            app:entryValues="@array/lock_screen_bottom_left_button_value" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_hide_camera"
+            android:summary="@string/system_ui_lock_screen_default_theme"
+            android:title="@string/system_ui_lock_screen_hide_camera" />
 
         <SwitchPreference
             android:defaultValue="false"

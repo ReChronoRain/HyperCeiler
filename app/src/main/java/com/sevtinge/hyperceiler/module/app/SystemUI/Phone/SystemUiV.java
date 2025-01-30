@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.MonetThemeOverlay;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFix;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFreeform;
 import com.sevtinge.hyperceiler.module.hook.systemui.RemoveMiuiMultiWinSwitch;
+import com.sevtinge.hyperceiler.module.hook.systemui.base.Keyguard;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.OldWeather;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media.MediaPicture;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.media.SquigglyProgress;
@@ -77,6 +78,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.TaplusTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.AllowThirdLockScreenUseFace;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.BlurButton;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ChargingCVP;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.CustomizeBottomButton;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.DisableUnlockByBleToast;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.HideLockScreenHint;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.HideLockScreenStatusBar;
@@ -278,6 +280,7 @@ public class SystemUiV extends BaseModule {
         initHook(UnlockClipboard.INSTANCE, mPrefsMap.getBoolean("system_ui_unlock_clipboard"));
 
         // 锁屏
+        initHook(CustomizeBottomButton.INSTANCE, Keyguard.getLeftButtonType() != 0);
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
         initHook(ChargingCVP.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_cv"));
         initHook(RemoveCamera.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera"));
