@@ -25,17 +25,16 @@ import android.graphics.drawable.*
 import android.view.*
 import android.widget.*
 import com.github.kyuubiran.ezxhelper.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.hook.systemui.base.Keyguard.keyguardBottomAreaInjector
 import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
-import com.sevtinge.hyperceiler.utils.devicesdk.*
 import de.robv.android.xposed.*
 
 object BlurButton : BaseHook() {
@@ -57,7 +56,7 @@ object BlurButton : BaseHook() {
 
     override fun init() {
         // by StarVoyager
-        loadClassOrNull("com.android.keyguard.injector.KeyguardBottomAreaInjector")!!.methodFinder()
+        keyguardBottomAreaInjector.methodFinder()
             .filter {
                 name in setOf(
                     "updateLeftIcon",
