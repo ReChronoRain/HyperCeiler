@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model
 
 import android.telephony.SubscriptionManager
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.hook.systemui.Dependency
+import com.sevtinge.hyperceiler.module.hook.systemui.api.Dependency
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.miuiCellularIconVM
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.card1
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.card2
@@ -48,7 +48,7 @@ class MobilePublicHookV : BaseHook() {
                 val mobileIconInteractor = param.args[2]
                 val subId = mobileIconInteractor.getObjectFieldAs<Int>("subId")
 
-                val javaAdapter = Dependency.mMiuiLegacyDependency
+                val javaAdapter = Dependency.miuiLegacyDependency
                     ?.getObjectField("mCentralSurfaces")
                     ?.callMethod("get")
                     ?.getObjectField("mJavaAdapter")
@@ -59,7 +59,7 @@ class MobilePublicHookV : BaseHook() {
                     cellularIcon.setObjectField("isVisible", isVisible)
                     if (!hideRoaming) cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(false))
 
-                    val activeSubId = Dependency.mMiuiLegacyDependency
+                    val activeSubId = Dependency.miuiLegacyDependency
                         ?.getObjectField("mOperatorCustomizedPolicy")
                         ?.callMethod("get")
                         ?.getObjectField("mobileIcons")

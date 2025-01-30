@@ -31,7 +31,7 @@ import com.github.kyuubiran.ezxhelper.misc.ViewUtils.getIdByName
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.*
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
-import com.sevtinge.hyperceiler.module.hook.systemui.*
+import com.sevtinge.hyperceiler.module.hook.systemui.api.Dependency
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.miuiMobileIconBinder
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.mobileSignalController
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.modernStatusBarMobileView
@@ -255,9 +255,9 @@ class DualRowSignalHookV : BaseHook() {
 
                     if (reuseCache == null) {
                         if (miuiIconManagerFactory != null &&
-                            Dependency.mDependencies?.contains(miuiIconManagerFactory) == true
+                            Dependency.dependencies.contains(miuiIconManagerFactory) == true
                         ) {
-                            reuseCache = Dependency.mMiuiLegacyDependency
+                            reuseCache = Dependency.miuiLegacyDependency
                                 ?.getObjectField("mMiuiIconManagerFactory")
                                 ?.callMethod("get")
                                 ?.getObjectField("mMobileUiAdapter")

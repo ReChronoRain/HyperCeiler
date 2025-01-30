@@ -30,7 +30,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
 import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.hook.systemui.*
+import com.sevtinge.hyperceiler.module.hook.systemui.api.Dependency
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.hdController
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.mOperatorConfig
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.modernStatusBarMobileView
@@ -249,12 +249,12 @@ object MobileTypeSingle2Hook : BaseHook() {
 
     @SuppressLint("NewApi")
     private fun setOnDataChangedListener() {
-        val javaAdapter = Dependency.mMiuiLegacyDependency
+        val javaAdapter = Dependency.miuiLegacyDependency
             ?.getObjectField("mCentralSurfaces")
             ?.callMethod("get")
             ?.getObjectField("mJavaAdapter")
 
-        val dataConnected = Dependency.mMiuiLegacyDependency
+        val dataConnected = Dependency.miuiLegacyDependency
             ?.getObjectField("mMiuiIconManagerFactory")
             ?.callMethod("get")
             ?.getObjectField("mMobileUiAdapter")
@@ -353,7 +353,7 @@ object MobileTypeSingle2Hook : BaseHook() {
     }
 
     private fun getMobileViewBySubId(subId: Int, callback: (View) -> Unit) {
-        val statusBarIconController = Dependency.mMiuiLegacyDependency
+        val statusBarIconController = Dependency.miuiLegacyDependency
             ?.getObjectField("mStatusBarIconController")
             ?.callMethod("get")
 
