@@ -97,51 +97,19 @@ public class SystemUIOtherSettings extends DashboardFragment
             mVolume1.setVisible(false);
         }
 
-        mVolume.setOnPreferenceChangeListener(
-                (preference, o) -> {
-                    ComponentName componentName = new ComponentName("miui.systemui.plugin",
-                            "miui.systemui.volume.VolumeDialogPlugin");
-                    PackageManager packageManager = requireContext().getPackageManager();
-                    if ((boolean) o) {
-                        packageManager.setComponentEnabledSetting(componentName,
-                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                                PackageManager.DONT_KILL_APP);
-                    } else {
-                        packageManager.setComponentEnabledSetting(componentName,
-                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                                PackageManager.DONT_KILL_APP);
-                    }
-                    return true;
-                }
-        );
+        mVolume.setOnPreferenceChangeListener(generateListener(
+            new ComponentName(
+                "miui.systemui.plugin",
+                "miui.systemui.volume.VolumeDialogPlugin"
+            )
+        ));
 
-        mPower.setOnPreferenceChangeListener((preference, o) -> {
-            boolean value = (boolean) o;
-            boolean result = true;
-
-            ComponentName componentName = new ComponentName("miui.systemui.plugin",
-                "miui.systemui.globalactions.GlobalActionsPlugin");
-            try {
-                PackageManager packageManager = requireContext().getPackageManager();
-                if (value) {
-                    packageManager.setComponentEnabledSetting(componentName,
-                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                        PackageManager.DONT_KILL_APP);
-                } else {
-                    packageManager.setComponentEnabledSetting(componentName,
-                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                        PackageManager.DONT_KILL_APP);
-                }
-            } catch (Exception e) {
-                result = ShellPackageManager.enableOrDisable(componentName, !value);
-            } finally {
-                if (!result) {
-                    ToastHelper.makeText(requireContext(),
-                        getString(R.string.preference_enable_failed, preference.getTitle()));
-                }
-            }
-            return result;
-        });
+        mPower.setOnPreferenceChangeListener(generateListener(
+            new ComponentName(
+                "miui.systemui.plugin",
+                "miui.systemui.globalactions.GlobalActionsPlugin"
+            )
+        ));
     }
 
     @Override
@@ -159,5 +127,38 @@ public class SystemUIOtherSettings extends DashboardFragment
         mVolume2.setVisible(mode == 2);
         mShowPctTop.setVisible(mode == 2);
         mShowPctBlur.setVisible(mode == 2);
+    }
+
+    private Preference.OnPreferenceChangeListener generateListener(ComponentName componentName) {
+        return (preference, o) -> {
+            boolean value = (boolean) o;
+            boolean result = true;
+
+            try {
+                PackageManager packageManager = requireContext().getPackageManager();
+                if (value) {
+                    packageManager.setComponentEnabledSetting(componentName,
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                        PackageManager.DONT_KILL_APP
+                    );
+                } else {
+                    packageManager.setComponentEnabledSetting(componentName,
+                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                        PackageManager.DONT_KILL_APP
+                    );
+                }
+            } catch (Exception e) {
+                result = ShellPackageManager.enableOrDisable(componentName, !value);
+            } finally {
+                if (!result) {
+                    ToastHelper.makeText(
+                        requireContext(),
+                        getString(R.string.preference_enable_failed, preference.getTitle())
+                    );
+                }
+            }
+
+            return result;
+        };
     }
 }
