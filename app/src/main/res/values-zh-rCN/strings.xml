@@ -200,6 +200,7 @@
 
     <string name="preference_on">已开启</string>
     <string name="preference_off">已关闭</string>
+    <string name="preference_enable_failed">启用 %s 失败</string>
     <string name="preference_copied">已将 %1$s 复制到剪贴板。</string>
     <string name="preference_default_value_text">默认</string>
     <string name="preference_dialog_color_picker_default_title">选择颜色</string>
