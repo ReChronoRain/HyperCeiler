@@ -244,6 +244,7 @@
     <string name="clearable_edittext_clear_description">Clear</string>
     <string name="preference_on">Turned on</string>
     <string name="preference_off">Turned off</string>
+    <string name="preference_enable_failed">Failed to enable %s</string>
     <string name="preference_copied">\"%1$s\" copied to clipboard.</string>
     <string name="preference_default_value_text">Default</string>
     <string name="preference_dialog_color_picker_default_title">Choose the color</string>

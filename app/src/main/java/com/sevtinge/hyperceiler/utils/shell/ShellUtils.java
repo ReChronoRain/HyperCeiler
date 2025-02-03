@@ -20,6 +20,8 @@ package com.sevtinge.hyperceiler.utils.shell;
 
 import static com.sevtinge.hyperceiler.expansion.utils.ShellSafeUtils.isSafeCommand;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import java.io.BufferedReader;
@@ -255,6 +257,16 @@ public class ShellUtils {
             this.result = result;
             this.successMsg = successMsg;
             this.errorMsg = errorMsg;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "CommandResult{" +
+                "result=" + result +
+                ", successMsg='" + successMsg + '\'' +
+                ", errorMsg='" + errorMsg + '\'' +
+                '}';
         }
     }
 

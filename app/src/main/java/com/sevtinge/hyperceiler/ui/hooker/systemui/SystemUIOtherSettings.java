@@ -30,7 +30,9 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.utils.ToastHelper;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellPackageManager;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
@@ -59,7 +61,7 @@ public class SystemUIOtherSettings extends DashboardFragment
 
     @Override
     public void initPrefs() {
-        int mPct = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_system_ui_others_pct_style", "0"));;
+        int mPct = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_system_ui_others_pct_style", "0"));
 
         mDisableInfinitymodeGesture = findPreference("prefs_key_system_ui_disable_infinitymode_gesture");
         mVolume = findPreference("prefs_key_system_ui_disable_volume");
@@ -95,42 +97,19 @@ public class SystemUIOtherSettings extends DashboardFragment
             mVolume1.setVisible(false);
         }
 
-        mVolume.setOnPreferenceChangeListener(
-                (preference, o) -> {
-                    ComponentName componentName = new ComponentName("miui.systemui.plugin",
-                            "miui.systemui.volume.VolumeDialogPlugin");
-                    PackageManager packageManager = requireContext().getPackageManager();
-                    if ((boolean) o) {
-                        packageManager.setComponentEnabledSetting(componentName,
-                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                                PackageManager.DONT_KILL_APP);
-                    } else {
-                        packageManager.setComponentEnabledSetting(componentName,
-                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                                PackageManager.DONT_KILL_APP);
-                    }
-                    return true;
-                }
-        );
+        mVolume.setOnPreferenceChangeListener(generateListener(
+            new ComponentName(
+                "miui.systemui.plugin",
+                "miui.systemui.volume.VolumeDialogPlugin"
+            )
+        ));
 
-        mPower.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
-                ComponentName componentName = new ComponentName("miui.systemui.plugin",
-                        "miui.systemui.globalactions.GlobalActionsPlugin");
-                PackageManager packageManager = requireContext().getPackageManager();
-                if ((boolean) o) {
-                    packageManager.setComponentEnabledSetting(componentName,
-                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                            PackageManager.DONT_KILL_APP);
-                } else {
-                    packageManager.setComponentEnabledSetting(componentName,
-                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                            PackageManager.DONT_KILL_APP);
-                }
-                return true;
-            }
-        });
+        mPower.setOnPreferenceChangeListener(generateListener(
+            new ComponentName(
+                "miui.systemui.plugin",
+                "miui.systemui.globalactions.GlobalActionsPlugin"
+            )
+        ));
     }
 
     @Override
@@ -148,5 +127,38 @@ public class SystemUIOtherSettings extends DashboardFragment
         mVolume2.setVisible(mode == 2);
         mShowPctTop.setVisible(mode == 2);
         mShowPctBlur.setVisible(mode == 2);
+    }
+
+    private Preference.OnPreferenceChangeListener generateListener(ComponentName componentName) {
+        return (preference, o) -> {
+            boolean value = (boolean) o;
+            boolean result = true;
+
+            try {
+                PackageManager packageManager = requireContext().getPackageManager();
+                if (value) {
+                    packageManager.setComponentEnabledSetting(componentName,
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                        PackageManager.DONT_KILL_APP
+                    );
+                } else {
+                    packageManager.setComponentEnabledSetting(componentName,
+                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                        PackageManager.DONT_KILL_APP
+                    );
+                }
+            } catch (Exception e) {
+                result = ShellPackageManager.enableOrDisable(componentName, !value);
+            } finally {
+                if (!result) {
+                    ToastHelper.makeText(
+                        requireContext(),
+                        getString(R.string.preference_enable_failed, preference.getTitle())
+                    );
+                }
+            }
+
+            return result;
+        };
     }
 }
