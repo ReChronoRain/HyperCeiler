@@ -265,12 +265,28 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (isLunarNewYearThemeView) {
+            HolidayHelper.resumeAnimation();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (isLunarNewYearThemeView) {
+            HolidayHelper.pauseAnimation();
+        }
+    }
+
+    @Override
     public void onDestroy() {
+        super.onDestroy();
         ShellInit.destroy();
         ThreadPoolManager.shutdown();
         PreferenceHeader.mUninstallApp.clear();
         PreferenceHeader.mDisableOrHiddenApp.clear();
-        super.onDestroy();
     }
 
     // 权限申请

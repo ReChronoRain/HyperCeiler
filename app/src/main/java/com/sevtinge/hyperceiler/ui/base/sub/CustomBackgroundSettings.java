@@ -29,11 +29,11 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
+import fan.pickerwidget.color.HSLColor;
 import fan.preference.ColorPickerPreference;
 
 public class CustomBackgroundSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
-    private String mKey = "";
     private String mCustomBackgroundEnabledKey;
     private String mColorKey;
     private String mCornerRadiusKey;
@@ -59,7 +59,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
         Bundle args = getArguments();
 
         if (args != null) {
-            mKey = args.getString("key");
+            String mKey = args.getString("key");
 
             mCustomBackgroundEnabledKey = mKey + "_custom_enable";
 
@@ -125,7 +125,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
         if (preference == mCustomEnabledPreference) {
             setCustomEnable((Boolean) o);
         } else if (preference == mColorPickerPreference) {
-            setBackgroundColor((int) o);
+            setBackgroundColor((HSLColor) o);
         } else if (preference == mCornerRadiusPreference) {
             setBackgroundCornerRadius((int) o);
         } else if (preference == mBlurEnabledPreference) {
@@ -141,9 +141,9 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
         PrefsUtils.mSharedPreferences.edit().putBoolean(mCustomBackgroundEnabledKey, isCustomEnabled).apply();
     }
 
-    private void setBackgroundColor(int value) {
-        mColorPickerPreference.setColor(value);
-        PrefsUtils.mSharedPreferences.edit().putInt(mColorKey, value).apply();
+    private void setBackgroundColor(HSLColor value) {
+        mColorPickerPreference.setColor(value.color);
+        PrefsUtils.mSharedPreferences.edit().putInt(mColorKey, value.color).apply();
     }
 
     private void setBackgroundCornerRadius(int value) {

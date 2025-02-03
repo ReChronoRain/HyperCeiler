@@ -17,6 +17,7 @@ import com.sevtinge.hyperceiler.ui.app.holiday.weather.confetto.ConfettoGenerato
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 import fan.navigator.app.NavigatorActivity;
 
@@ -36,8 +37,8 @@ public class HolidayHelper {
 
     public HolidayHelper(Activity activity) {
         mContext = activity;
-        mRotation = activity.getWindowManager().getDefaultDisplay().getRotation();
-        mContentView  = activity.findViewById(android.R.id.content);
+        mRotation = Objects.requireNonNull(mContext.getDisplay()).getRotation();
+        mContentView = activity.findViewById(android.R.id.content);
         mHolidayView = LayoutInflater.from(mContext).inflate(R.layout.layout_holiday, mContentView, false);
         initialize(activity instanceof NavigatorActivity);
     }
@@ -68,66 +69,56 @@ public class HolidayHelper {
 
     private void initHoliday() {
         mWeatherView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-
         weatherView = new WeakReference<>(mWeatherView);
-        GravitySensor listener = null;
-        if (opt == 1) {
-            mWeatherView.setPrecipType(PrecipType.SNOW);
-            mWeatherView.setSpeed(50);
-            mWeatherView.setEmissionRate(mRotation == Surface.ROTATION_90 || mRotation == Surface.ROTATION_270 ? 8 : 4);
-            mWeatherView.setFadeOutPercent(0.75f);
-            mWeatherView.setAngle(0);
-            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)mWeatherView.getLayoutParams();
-            lp.height = mContext.getResources().getDisplayMetrics().heightPixels / (mRotation == Surface.ROTATION_90 || mRotation == Surface.ROTATION_270 ? 2 : 3);
-            mWeatherView.setLayoutParams(lp);
-            setWeatherGenerator(new SnowGenerator(mContext));
-            mWeatherView.resetWeather();
-            mWeatherView.setVisibility(View.VISIBLE);
-            mWeatherView.getConfettiManager().setRotationalVelocity(0, 45);
 
-            listener = new GravitySensor(mContext, mWeatherView);
-            listener.setOrientation(mRotation);
-            listener.setSpeed(50);
-            listener.start();
-
-            mHeaderView.setImageResource(R.drawable.newyear_header);
-            mHeaderView.setVisibility(View.VISIBLE);
-        } else if (opt == 2) {
-            mWeatherView.setPrecipType(PrecipType.SNOW);
-            mWeatherView.setSpeed(35);
-            mWeatherView.setEmissionRate(mRotation == Surface.ROTATION_90 || mRotation == Surface.ROTATION_270 ? 4 : 2);
-            mWeatherView.setFadeOutPercent(0.75f);
-            mWeatherView.setAngle(0);
-            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)mWeatherView.getLayoutParams();
-            lp.height = mContext.getResources().getDisplayMetrics().heightPixels / (mRotation == Surface.ROTATION_90 || mRotation == Surface.ROTATION_270 ? 3 : 4);
-            mWeatherView.setLayoutParams(lp);
-            setWeatherGenerator(new FlowerGenerator(mContext));
-            mWeatherView.resetWeather();
-            mWeatherView.setVisibility(View.VISIBLE);
-            mWeatherView.getConfettiManager().setRotationalVelocity(0, 45);
-
-            listener = new GravitySensor(mContext, mWeatherView);
-            listener.setOrientation(mRotation);
-            listener.setSpeed(35);
-            listener.start();
-
-            mHeaderView.setImageResource(R.drawable.lunar_newyear_header);
-            mHeaderView.setVisibility(View.VISIBLE);
-        } else if (opt == 3) {
-            mWeatherView.setPrecipType(PrecipType.CLEAR);
-            mWeatherView.setSpeed(0);
-            mWeatherView.setEmissionRate(0.6f);
-            mWeatherView.setFadeOutPercent(1.0f);
-            mWeatherView.setAngle(0);
-            setWeatherGenerator(new CoinGenerator(mContext));
-            mWeatherView.resetWeather();
-            mWeatherView.setVisibility(View.VISIBLE);
-            mWeatherView.getConfettiManager().setRotationalVelocity(0, 15).setTTL(30000);
-
-            mHeaderView.setImageResource(R.drawable.crypto_header);
-            mHeaderView.setVisibility(View.VISIBLE);
+        mWeatherView.setPrecipType(opt == 3 ? PrecipType.CLEAR : PrecipType.SNOW);
+        mWeatherView.setSpeed(opt == 1 ? 50 : (opt == 2 ? 35 : 0));
+        mWeatherView.setEmissionRate(mRotation == Surface.ROTATION_90 || mRotation == Surface.ROTATION_270 ? (opt == 1 ? 8 : 4) : (opt == 1 ? 4 : 2));
+        mWeatherView.setFadeOutPercent(opt == 3 ? 1.0f : 0.75f);
+        mWeatherView.setAngle(0);
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mWeatherView.getLayoutParams();
+        lp.height = mContext.getResources().getDisplayMetrics().heightPixels / (mRotation == Surface.ROTATION_90 || mRotation == Surface.ROTATION_270 ? (opt == 1 ? 2 : 3) : (opt == 1 ? 3 : 4));
+        mWeatherView.setLayoutParams(lp);
+        setWeatherGenerator(opt == 1 ? new SnowGenerator(mContext) : (opt == 2 ? new FlowerGenerator(mContext) : new CoinGenerator(mContext)));
+        mWeatherView.resetWeather();
+        mWeatherView.setVisibility(View.VISIBLE);
+        mWeatherView.getConfettiManager().setRotationalVelocity(0, opt == 3 ? 15 : 45);
+        if (opt == 3) {
+            mWeatherView.getConfettiManager().setTTL(30000);
         }
+        GravitySensor listener = new GravitySensor(mContext, mWeatherView);
+        listener.setOrientation(mRotation);
+        listener.setSpeed(opt == 1 ? 50 : 35);
+        listener.start();
+
+        setupHeaderView(opt);
         angleListener = new WeakReference<>(listener);
+    }
+
+    public static void pauseAnimation() {
+        if (angleListener != null) {
+            GravitySensor listener = angleListener.get();
+            if (listener != null) {
+                listener.stop();
+            }
+            angleListener.clear();
+        }
+    }
+
+    public static void resumeAnimation() {
+        if (angleListener != null) {
+            GravitySensor listener = angleListener.get();
+            if (listener != null) {
+                listener.start();
+            }
+            angleListener.clear();
+        }
+    }
+
+    private void setupHeaderView(int opt) {
+        int headerResId = opt == 1 ? R.drawable.newyear_header : (opt == 2 ? R.drawable.lunar_newyear_header : R.drawable.crypto_header);
+        mHeaderView.setImageResource(headerResId);
+        mHeaderView.setVisibility(View.VISIBLE);
     }
 
     private void setWeatherGenerator(ConfettoGenerator generator) {
