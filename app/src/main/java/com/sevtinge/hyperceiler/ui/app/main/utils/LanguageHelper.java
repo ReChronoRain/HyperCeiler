@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.utils;
+package com.sevtinge.hyperceiler.ui.app.main.utils;
 
 import android.app.Activity;
 import android.content.Context;

@@ -33,7 +33,6 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
-import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.ToastHelper;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
@@ -41,12 +40,13 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.function.BiConsumer;
 
 public class HomepageEntrance extends DashboardFragment implements Preference.OnPreferenceChangeListener {
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
 
     private boolean isInit = false;
-    private final String TAG = "HomepageEntrance";
+    private static final String TAG = "HomepageEntrance";
     private static EntranceState entranceState = null;
 
     @Override
@@ -63,66 +63,54 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
         super.initPrefs();
         if (isInit) return;
         Resources resources = getResources();
-        ThreadPoolManager.getInstance().submit(() -> {
-            try (XmlResourceParser xml = resources.getXml(R.xml.prefs_set_homepage_entrance)) {
-                try {
-                    int event = xml.getEventType();
-                    while (event != XmlPullParser.END_DOCUMENT) {
-                        if (event == XmlPullParser.START_TAG) {
-                            if (xml.getName().equals("SwitchPreference")) {
-                                String key = xml.getAttributeValue(ANDROID_NS, "key");
-                                SwitchPreference switchPreference = findPreference(key);
-                                if (switchPreference != null) {
-                                    String summary = (String) switchPreference.getSummary();
-                                    if (summary != null && !summary.equals("android")) {
-                                        if (PackagesUtils.checkAppStatus(getContext(), summary)) {
-                                            switchPreference.setVisible(false);
-                                        }
-                                    }
-                                    switchPreference.setOnPreferenceChangeListener(HomepageEntrance.this);
-                                }
-                            }
-                        }
-                        event = xml.next();
-                    }
-                    isInit = true;
-                } catch (XmlPullParserException | IOException e) {
-                    AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
-                }
-            }
-        });
+        parseXmlResource(resources, R.xml.prefs_set_homepage_entrance, this::processSwitchPreference);
+        parseXmlResource(resources, R.xml.prefs_set_homepage_entrance, this::processSwitchPreferenceHeader);
 
-        setPreference();
+        isInit = true;
     }
 
-    private void setPreference() {
-        Resources resources = getResources();
-        try (XmlResourceParser xml = resources.getXml(R.xml.prefs_set_homepage_entrance)) {
+    private void parseXmlResource(Resources resources, int xmlResId, BiConsumer<XmlResourceParser, String> processor) {
+        try (XmlResourceParser xml = resources.getXml(xmlResId)) {
             int event = xml.getEventType();
             while (event != XmlPullParser.END_DOCUMENT) {
-                if (event == XmlPullParser.START_TAG && xml.getName().equals("SwitchPreference")) {
+                if (event == XmlPullParser.START_TAG && "SwitchPreference".equals(xml.getName())) {
                     String key = xml.getAttributeValue(ANDROID_NS, "key");
-                    String summary = xml.getAttributeValue(ANDROID_NS, "summary");
-                    if (key != null && summary != null) {
-                        SwitchPreference preferenceHeader = findPreference(key);
-                        if (!scope.contains(summary)) {
-                            if (preferenceHeader != null) {
-                                preferenceHeader.setVisible(false);
-                            }
-                        } else {
-                            Drawable icon = getPackageIcon(summary);
-                            String name = getPackageName(summary);
-                            if (preferenceHeader != null) {
-                                preferenceHeader.setIcon(icon);
-                                if (!summary.equals("android")) preferenceHeader.setTitle(name);
-                            }
-                        }
-                    }
+                    processor.accept(xml, key);
                 }
                 event = xml.next();
             }
         } catch (XmlPullParserException | IOException e) {
             AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
+        }
+    }
+
+    private void processSwitchPreference(XmlResourceParser xml, String key) {
+        SwitchPreference switchPreference = findPreference(key);
+        if (switchPreference != null) {
+            String summary = (String) switchPreference.getSummary();
+            if (summary != null && !summary.equals("android") && PackagesUtils.checkAppStatus(getContext(), summary)) {
+                switchPreference.setVisible(false);
+            }
+            switchPreference.setOnPreferenceChangeListener(HomepageEntrance.this);
+        }
+    }
+
+    private void processSwitchPreferenceHeader(XmlResourceParser xml, String key) {
+        String summary = xml.getAttributeValue(ANDROID_NS, "summary");
+        if (key != null && summary != null) {
+            SwitchPreference preferenceHeader = findPreference(key);
+            if (!scope.contains(summary)) {
+                if (preferenceHeader != null) {
+                    preferenceHeader.setVisible(false);
+                }
+            } else {
+                Drawable icon = getPackageIcon(summary);
+                String name = getPackageName(summary);
+                if (preferenceHeader != null) {
+                    preferenceHeader.setIcon(icon);
+                    if (!summary.equals("android")) preferenceHeader.setTitle(name);
+                }
+            }
         }
     }
 

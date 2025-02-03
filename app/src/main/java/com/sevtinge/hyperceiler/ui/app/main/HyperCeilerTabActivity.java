@@ -1,8 +1,8 @@
 package com.sevtinge.hyperceiler.ui.app.main;
 
 import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.isModuleActive;
-import static com.sevtinge.hyperceiler.utils.PersistConfig.isLunarNewYearThemeView;
-import static com.sevtinge.hyperceiler.utils.PersistConfig.isNeedGrayView;
+import static com.sevtinge.hyperceiler.ui.app.main.utils.PersistConfig.isLunarNewYearThemeView;
+import static com.sevtinge.hyperceiler.ui.app.main.utils.PersistConfig.isNeedGrayView;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.isTablet;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.isLoggerAlive;
@@ -32,12 +32,12 @@ import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.prefs.XmlPreference;
 import com.sevtinge.hyperceiler.ui.app.holiday.HolidayHelper;
+import com.sevtinge.hyperceiler.ui.app.main.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.ui.app.safe.CrashData;
 import com.sevtinge.hyperceiler.ui.base.NaviBaseActivity;
 import com.sevtinge.hyperceiler.ui.base.SubSettings;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
-import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.utils.PropUtils;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
@@ -65,20 +65,14 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     private ArrayList<String> appCrash = new ArrayList<>();
 
     @Override
-    @SuppressLint("StringFormatInvalid")
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         IS_LOGGER_ALIVE = isLoggerAlive();
         if (isNeedGrayView) {
-            View decorView = getWindow().getDecorView();
-            Paint paint = new Paint();
-            ColorMatrix cm = new ColorMatrix();
-            cm.setSaturation(0);
-            paint.setColorFilter(new ColorMatrixColorFilter(cm));
-            decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
+            applyGrayScaleFilter();
         }
 
         if (isLunarNewYearThemeView) {
-            HolidayHelper mHolidayHelper = new HolidayHelper(this);
+            new HolidayHelper(this);
         }
 
         SharedPreferences mPrefs = PrefsUtils.mSharedPreferences;
@@ -93,11 +87,11 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
         int logLevel = Integer.parseInt(mPrefs.getString("prefs_key_log_level", "3"));
         super.onCreate(savedInstanceState);
-        new Thread(() -> SearchHelper.getAllMods(context, savedInstanceState != null)).start();
+        ThreadPoolManager.getInstance().submit(() -> SearchHelper.getAllMods(context, savedInstanceState != null));
 
         AppsTool.checkXposedActivateState(this);
 
-        if (!IS_LOGGER_ALIVE && isModuleActive && BuildConfig.BUILD_TYPE != "release" && !mPrefs.getBoolean("prefs_key_development_close_log_alert_dialog", false)) {
+        if (shouldShowLogServiceWarnDialog()) {
             handler.post(() -> DialogHelper.showLogServiceWarnDialog(context));
         }
 
@@ -106,16 +100,32 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         PropUtils.setProp("persist.hyperceiler.log.level", effectiveLogLevel);
 
         appCrash = CrashData.toPkgList();
-        handler.postDelayed(() -> {
-            if (haveCrashReport()) {
-                Map<String, String> appNameMap = createAppNameMap();
-                ArrayList<String> appList = getAppListWithCrashReports(appNameMap);
-                String appName = String.join(", ", appList);
-                String msg = getString(R.string.safe_mode_later_desc, appName);
-                msg = cleanUpMessage(msg);
-                DialogHelper.showSafeModeDialog(context, msg);
-            }
-        }, 600);
+        handler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
+    }
+
+    private void applyGrayScaleFilter() {
+        View decorView = getWindow().getDecorView();
+        Paint paint = new Paint();
+        ColorMatrix cm = new ColorMatrix();
+        cm.setSaturation(0);
+        paint.setColorFilter(new ColorMatrixColorFilter(cm));
+        decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
+    }
+
+    private boolean shouldShowLogServiceWarnDialog() {
+        return !IS_LOGGER_ALIVE && isModuleActive && BuildConfig.BUILD_TYPE != "release" && !PrefsUtils.mSharedPreferences.getBoolean("prefs_key_development_close_log_alert_dialog", false);
+    }
+
+    @SuppressLint("StringFormatInvalid")
+    private void showSafeModeDialogIfNeeded() {
+        if (haveCrashReport()) {
+            Map<String, String> appNameMap = createAppNameMap();
+            ArrayList<String> appList = getAppListWithCrashReports(appNameMap);
+            String appName = String.join(", ", appList);
+            String msg = getString(R.string.safe_mode_later_desc, appName);
+            msg = cleanUpMessage(msg);
+            DialogHelper.showSafeModeDialog(context, msg);
+        }
     }
 
     private Map<String, String> createAppNameMap() {
@@ -263,19 +273,19 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         super.onDestroy();
     }
 
-    //权限申请
+    // 权限申请
     public void requestPermissions() {
         PermissionUtils.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1,
-                //实现接口方法
+                // 实现接口方法
                 new PermissionUtils.OnPermissionListener() {
                     @Override
                     public void onPermissionGranted(Context context) {
-                        //获取权限成功
+                        // 获取权限成功
                     }
 
                     @Override
                     public void onPermissionDenied() {
-                        //获取权限失败
+                        // 获取权限失败
                         finish();
                     }
                 });

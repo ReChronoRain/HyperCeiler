@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.ui.app.about.view;
 
-import static com.sevtinge.hyperceiler.utils.PersistConfig.isLunarNewYearThemeView;
+import static com.sevtinge.hyperceiler.ui.app.main.utils.PersistConfig.isLunarNewYearThemeView;
 
 import android.content.Context;
 import android.content.res.Resources;

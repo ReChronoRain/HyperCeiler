@@ -80,6 +80,8 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         mResHook = new ResourcesTool(startupParam.modulePath);
         mModulePath = startupParam.modulePath;
         // mXmlTool = new XmlTool(startupParam);
+        // load New XSPrefs
+        setXSharedPrefs();
 
         // load EzXHelper and set log tag
         EzXHelper.initZygote(startupParam);
@@ -94,8 +96,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         );
         HCInit.initStartupParam(startupParam);
 
-        // load New XSPrefs
-        setXSharedPrefs();
+
         // load CorePatch
         new SystemFrameworkForCorePatch().initZygote(startupParam);
         // load ZygoteHook

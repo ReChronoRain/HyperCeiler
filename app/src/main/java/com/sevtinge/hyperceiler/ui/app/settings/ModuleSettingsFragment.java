@@ -31,10 +31,10 @@ import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.app.main.ContentFragment.IFragmentChange;
+import com.sevtinge.hyperceiler.ui.app.main.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
-import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 

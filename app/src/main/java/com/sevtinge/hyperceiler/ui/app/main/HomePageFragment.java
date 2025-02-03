@@ -7,7 +7,6 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isFullSupport
 import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
 
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -37,7 +36,6 @@ import com.sevtinge.hyperceiler.ui.app.main.utils.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.base.SubSettings;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
-import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
@@ -47,6 +45,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Objects;
+import java.util.function.BiConsumer;
 
 import fan.appcompat.app.Fragment;
 import fan.navigator.NavigatorFragmentListener;
@@ -201,35 +200,12 @@ public class HomePageFragment extends DashboardFragment
     @Override
     public void initPrefs() {
         HomepageEntrance.setEntranceStateListen(this);
-        Resources resources = getResources();
-        ThreadPoolManager.getInstance().submit(() -> {
-            XmlResourceParser xml = null;
-            try {
-                xml = resources.getXml(R.xml.prefs_set_homepage_entrance);
-                int event = xml.getEventType();
-                while (event != XmlPullParser.END_DOCUMENT) {
-                    if (event == XmlPullParser.START_TAG && "SwitchPreference".equals(xml.getName())) {
-                        String key = xml.getAttributeValue(ANDROID_NS, "key");
-                        processSwitchPreference(key);
-                    }
-                    event = xml.next();
-                }
-            } catch (XmlPullParserException | IOException e) {
-                AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
-            } finally {
-                if (xml != null) {
-                    xml.close(); // Ensure the parser is closed
-                }
-            }
-        });
+        setPreference();
         mHeadtipWarn = findPreference("prefs_key_headtip_warn");
         mHeadtipNotice = findPreference("prefs_key_headtip_notice");
         mHeadtipBirthday = findPreference("prefs_key_headtip_hyperceiler_birthday");
         mHeadtipHyperCeiler = findPreference("prefs_key_headtip_hyperceiler");
         mHeadtipTip = findPreference("prefs_key_headtip_tip");
-
-        setPreference();
-
         mainActivityContextHelper = new MainActivityContextHelper(requireContext());
 
         // 优先级由上往下递减，优先级低的会被覆盖执行
@@ -240,12 +216,42 @@ public class HomePageFragment extends DashboardFragment
         // Notice
         isLoggerAlive();
         // Warn
-        isSignPass();
-        isFullSupportSysVer();
-        isOfficialRom();
+        checkWarnings();
         // Tip
         isSupportAutoSafeMode();
 
+    }
+
+    private void setPreference() {
+        try {
+            processXmlResource(R.xml.prefs_set_homepage_entrance, (key, summary) -> processSwitchPreference(key));
+            processXmlResource(R.xml.prefs_main, this::processPreferenceHeader);
+        } catch (XmlPullParserException | IOException e) {
+            AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
+        }
+
+    }
+
+    private void processXmlResource(int xmlResId, BiConsumer<String, String> processor) throws XmlPullParserException, IOException {
+        try (XmlResourceParser xml = getResources().getXml(xmlResId)) {
+            int event = xml.getEventType();
+            while (event != XmlPullParser.END_DOCUMENT) {
+                if (event == XmlPullParser.START_TAG && "SwitchPreference".equals(xml.getName())) {
+                    String key = xml.getAttributeValue(ANDROID_NS, "key");
+                    processor.accept(key, null);
+                }
+                if (event == XmlPullParser.START_TAG && isPreferenceHeaderTag(xml)) {
+                    String key = xml.getAttributeValue(ANDROID_NS, "key");
+                    String summary = xml.getAttributeValue(ANDROID_NS, "summary");
+                    processor.accept(key, summary);
+                }
+                event = xml.next();
+            }
+        }
+    }
+
+    private boolean isPreferenceHeaderTag(XmlResourceParser xml) {
+        return "com.sevtinge.hyperceiler.prefs.PreferenceHeader".equals(xml.getName());
     }
 
     private void processSwitchPreference(String key) {
@@ -261,28 +267,7 @@ public class HomePageFragment extends DashboardFragment
         }
     }
 
-    private void setPreference() {
-        Resources resources = getResources();
-        try (XmlResourceParser xml = resources.getXml(R.xml.prefs_main)) {
-            int event = xml.getEventType();
-            while (event != XmlPullParser.END_DOCUMENT) {
-                if (event == XmlPullParser.START_TAG && isPreferenceHeaderTag(xml)) {
-                    String key = xml.getAttributeValue(ANDROID_NS, "key");
-                    String summary = xml.getAttributeValue(ANDROID_NS, "summary");
-                    processPreferenceHeader(key, summary, xml);
-                }
-                event = xml.next();
-            }
-        } catch (XmlPullParserException | IOException e) {
-            AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
-        }
-    }
-
-    private boolean isPreferenceHeaderTag(XmlResourceParser xml) {
-        return "com.sevtinge.hyperceiler.prefs.PreferenceHeader".equals(xml.getName());
-    }
-
-    private void processPreferenceHeader(String key, String summary, XmlResourceParser xml) {
+    private void processPreferenceHeader(String key, String summary) {
         if (key != null && summary != null) {
             PreferenceHeader preferenceHeader = findPreference(key);
             if (preferenceHeader != null) {
@@ -297,25 +282,27 @@ public class HomePageFragment extends DashboardFragment
     }
 
     private Drawable getPackageIcon(String packageName) {
+        Drawable icon = null;
         try {
-            return requireContext().getPackageManager().getApplicationIcon(packageName);
+            icon = requireContext().getPackageManager().getApplicationIcon(packageName);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            return null;
         }
+        return icon;
     }
 
     private String getPackageName(String packageName) {
+        String name = null;
         try {
-            return (String) requireContext().getPackageManager().getApplicationLabel(requireContext().getPackageManager().getApplicationInfo(packageName, 0));
+            name = (String) requireContext().getPackageManager().getApplicationLabel(requireContext().getPackageManager().getApplicationInfo(packageName, 0));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            return null; // 如果包名找不到则返回 null
         }
+        return name;
     }
 
     public void isBirthday() {
-        if (mBirthdayTipVisible) return;;
+        if (mBirthdayTipVisible) return;
         Calendar calendar = Calendar.getInstance();
         int currentMonth = calendar.get(Calendar.MONTH);
         int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -324,27 +311,13 @@ public class HomePageFragment extends DashboardFragment
     }
 
     public void isFuckCoolapkSDay() {
-        if (mHyperCeilerTipVisible) return;;
+        if (mHyperCeilerTipVisible) return;
         Calendar calendar = Calendar.getInstance();
         int currentMonth = calendar.get(Calendar.MONTH);
         int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
         mHeadtipHyperCeiler.setVisible(currentMonth == Calendar.JULY && currentDay == 14);
         mHeadtipHyperCeiler.setTitle(R.string.headtip_tip_fuck_coolapk);
         mHyperCeilerTipVisible = true;
-    }
-
-    public void isOfficialRom() {
-        if (mWarnTipVisible) return;
-        mHeadtipWarn.setTitle(R.string.headtip_warn_not_offical_rom);
-        mHeadtipWarn.setVisible(getIsOfficialRom());
-        mWarnTipVisible = true;
-    }
-
-    public void isFullSupportSysVer() {
-        if (mWarnTipVisible) return;
-        mHeadtipWarn.setTitle(R.string.headtip_warn_unsupport_sysver);
-        mHeadtipWarn.setVisible(!isFullSupport());
-        mWarnTipVisible = true;
     }
 
     public void isLoggerAlive() {
@@ -354,6 +327,26 @@ public class HomePageFragment extends DashboardFragment
             mHeadtipNotice.setVisible(true);
             mNoticeTipVisible = true;
         }
+    }
+
+    public void checkWarnings() {
+        if (mWarnTipVisible) return;
+        boolean isOfficialRom = getIsOfficialRom();
+        boolean isFullSupport = isFullSupport();
+        boolean isSignPass = SignUtils.isSignCheckPass(requireContext());
+
+        if (!isSignPass) {
+            mHeadtipWarn.setTitle(R.string.headtip_warn_sign_verification_failed);
+            mHeadtipWarn.setVisible(true);
+        } else if (!isOfficialRom) {
+            mHeadtipWarn.setTitle(R.string.headtip_warn_not_offical_rom);
+            mHeadtipWarn.setVisible(true);
+        } else if (!isFullSupport) {
+            mHeadtipWarn.setTitle(R.string.headtip_warn_unsupport_sysver);
+            mHeadtipWarn.setVisible(true);
+        }
+
+        mWarnTipVisible = true;
     }
 
     public boolean getIsOfficialRom() {
@@ -374,15 +367,7 @@ public class HomePageFragment extends DashboardFragment
                 !host.startsWith("non-pangu-pod") &&
                 !host.equals("xiaomi.com");
 
-        return isNotCustomBaseOs || hasRomAuthor || Objects.equals(host, "xiaomi.eu") || isNotCustomHost;
-    }
-
-
-    public void isSignPass() {
-        if (mWarnTipVisible) return;
-        mHeadtipWarn.setTitle(R.string.headtip_warn_sign_verification_failed);
-        mHeadtipWarn.setVisible(!SignUtils.isSignCheckPass(requireContext()));
-        mWarnTipVisible = true;
+        return hasRomAuthor || Objects.equals(host, "xiaomi.eu") || (isNotCustomBaseOs && isNotCustomHost);
     }
 
     public void isSupportAutoSafeMode() {

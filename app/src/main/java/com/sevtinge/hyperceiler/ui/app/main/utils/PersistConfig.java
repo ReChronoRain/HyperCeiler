@@ -17,7 +17,7 @@
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
 
-package com.sevtinge.hyperceiler.utils;
+package com.sevtinge.hyperceiler.ui.app.main.utils;
 
 import com.xhinliang.lunarcalendar.Lunar;
 import com.xhinliang.lunarcalendar.LunarCalendar;

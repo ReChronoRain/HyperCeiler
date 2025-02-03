@@ -163,11 +163,10 @@ public class RecommendPreference extends Preference
     @Override
     public void onPreferenceExtraPadding(PreferenceViewHolder holder, int i) {
         View view = holder.itemView;
-        float f = i;
         view.setPadding(
-                (int) (view.getContext().getResources().getDimension(R.dimen.miuix_preference_checkable_item_mask_padding_start) + f),
+                (int) (view.getContext().getResources().getDimension(R.dimen.miuix_preference_checkable_item_mask_padding_start) + (float) i),
                 view.getPaddingTop(),
-                (int) (view.getContext().getResources().getDimension(R.dimen.miuix_preference_checkable_item_bg_padding_end) + f),
+                (int) (view.getContext().getResources().getDimension(R.dimen.miuix_preference_checkable_item_bg_padding_end) + (float) i),
                 view.getPaddingBottom()
         );
     }
