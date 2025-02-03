@@ -34,7 +34,7 @@ HyperCeiler 已停止維護 Android 11-13 的 MIUI ROM 和 Android 13 的 HyperO
 <details>
     <summary>點擊展開折疊的內容</summary>
 
-| 应用名                   | 包名                                 |
+| 應用名                   | 包名                                 |
 |:----------------------|:-----------------------------------|
 | 系統框架                  | system                             |
 | 系統 UI                  | com.android.systemui               |
