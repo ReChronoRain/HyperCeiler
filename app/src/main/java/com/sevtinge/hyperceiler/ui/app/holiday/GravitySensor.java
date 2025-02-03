@@ -47,19 +47,31 @@ public final class GravitySensor implements SensorEventListener {
 		if (this.magneticValues == null || this.accelerometerValues == null) return;
 
 		float[] rotationMatrix = new float[9];
-		SensorManager.getRotationMatrix(rotationMatrix, null, this.accelerometerValues, this.magneticValues);
 		float[] remappedRotationMatrix = new float[9];
-		SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, remappedRotationMatrix);
 		float[] orientationAngles = new float[3];
+
+		SensorManager.getRotationMatrix(rotationMatrix, null, this.accelerometerValues, this.magneticValues);
+		SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, remappedRotationMatrix);
 		SensorManager.getOrientation(remappedRotationMatrix, orientationAngles);
-		//double pitch = Math.toDegrees((double)orientationAngles[1]);
+
 		double roll = Math.toDegrees(orientationAngles[2]) + Math.random() * 20 - 10;
-		if (this.orientation == Surface.ROTATION_90) roll += 90;
-		else if (this.orientation == Surface.ROTATION_270) roll -= 90;
-		else if (this.orientation == Surface.ROTATION_180) roll += roll > 0 ? 180 : -180;
-		if (roll > 90) roll -= 180; else if (roll < -90) roll += 180;
-		this.weatherView.setAngle((int)roll);
-		this.weatherView.setSpeed(this.speed + (int)Math.round(Math.random() * 20 - 10));
+		switch (this.orientation) {
+			case Surface.ROTATION_90:
+				roll += 90;
+				break;
+			case Surface.ROTATION_270:
+				roll -= 90;
+				break;
+			case Surface.ROTATION_180:
+				roll += roll > 0 ? 180 : -180;
+				break;
+		}
+
+		if (roll > 90) roll -= 180;
+		else if (roll < -90) roll += 180;
+
+		this.weatherView.setAngle((int) roll);
+		this.weatherView.setSpeed(this.speed + (int) Math.round(Math.random() * 20 - 10));
 	}
 
 	private void registerListener() {
@@ -71,31 +83,31 @@ public final class GravitySensor implements SensorEventListener {
 		this.sensorManager.unregisterListener(this);
 	}
 
-	public final void start() {
+	public void start() {
 		this.started = true;
 		this.registerListener();
 	}
 
-	public final void stop() {
+	public void stop() {
 		this.started = false;
 		this.unregisterListener();
 	}
 
-	public final void onResume() {
+	public void onResume() {
 		if (this.started) {
 			this.registerListener();
 		}
 	}
 
-	public final void onPause() {
+	public void onPause() {
 		this.unregisterListener();
 	}
 
-	public final Context getContext() {
+	public Context getContext() {
 		return this.context;
 	}
 
-	public final WeatherView getWeatherView() {
+	public WeatherView getWeatherView() {
 		return this.weatherView;
 	}
 

@@ -65,7 +65,7 @@ public class KillApp {
                     .add("fi")
                     .add("if [[ $pid != \"\" ]]; then")
                     .add(" for i in $pid; do")
-                    .add("  kill -s 15 $i &>/dev/null")
+                    .add("  kill -s 9 $i &>/dev/null")
                     .add(" done")
                     .add("else")
                     .add(" echo \"No Find Pid!\"")
