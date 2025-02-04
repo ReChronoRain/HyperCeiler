@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="/imgs/icon.png" width="160" height="160" style="display: block; margin: 0 auto;" alt="icon">
+<img src="\imgs\icon.webp" width="160" height="160" style="display: block; margin: 0 auto;" alt="icon" />
 
 # HyperCeiler
 
@@ -26,8 +26,9 @@ Android 14-15 的 HyperOS
 
 HyperCeiler 已停止維護 Android 11-13 的 MIUI ROM 和 Android 13 的 HyperOS 1.0 ROM
 
-> - Android 11-12 的 MIUI ROM 請使用 [此版本](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130)
-> - Android 13 的 MIUI ROM 和 HyperOS 1.0 ROM 請使用 [此版本](https://github.com/Xposed-Modules-Repo/com.sevtinge.hyperceiler/releases/download/3866-2.5.156_20250118/HyperCeiler_2.5.156_20250118_3866_release_miui.apk)
+> Android 11-12 的 MIUI ROM 請使用 [此版本](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130)
+> 
+> Android 13 的 MIUI ROM 和 HyperOS 1.0 ROM 請使用 [此版本](https://github.com/Xposed-Modules-Repo/com.sevtinge.hyperceiler/releases/download/3866-2.5.156_20250118/HyperCeiler_2.5.156_20250118_3866_release_miui.apk)
 
 ## 作用域包含的應用
 
@@ -106,8 +107,8 @@ HyperCeiler 已停止維護 Android 11-13 的 MIUI ROM 和 Android 13 的 HyperO
 
 加入我們所創建的群組以反饋問題或是了解最新情況。
 
-[![badge_qgroup]][qgroup_url]
-[![badge_qguild]][qguild_url]
+[![badge_trguild]][trguild_url]
+[![badge_tcguild]][tcguild_url]
 [![badge_telegram]][telegram_url]
 
 ## 為 HyperCeiler 貢獻翻譯
@@ -174,13 +175,13 @@ HyperCeiler 已停止維護 Android 11-13 的 MIUI ROM 和 Android 13 的 HyperO
 - [「XposedBridge」 by rovo89](https://github.com/rovo89/XposedBridge)
 - [「.xlDownload」 by Kr328](https://github.com/Kr328/.xlDownload)
 
-[qgroup_url]: https://jq.qq.com/?_wv=1027&k=TedCJq8V
+[trguild_url]: https://t.me/cemiuiler_release
 
-[badge_qgroup]: https://img.shields.io/badge/QQ-群组-4DB8FF?style=for-the-badge&logo=tencentqq
+[badge_trguild]: https://img.shields.io/badge/TG-频道-4991D3?style=for-the-badge&logo=telegram
 
-[qguild_url]: https://pd.qq.com/s/35ooe0ssj
+[tcguild_url]: https://t.me/cemiuiler_canary
 
-[badge_qguild]: https://img.shields.io/badge/QQ-频道-4991D3?style=for-the-badge&logo=tencentqq
+[badge_tcguild]: https://img.shields.io/badge/TGCI-频道-4991D3?style=for-the-badge&logo=telegram
 
 [telegram_url]: https://t.me/cemiuiler
 
