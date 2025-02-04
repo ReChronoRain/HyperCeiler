@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-@file:Suppress("unused")
+@file:Suppress("unused", "UNCHECKED_CAST")
 
 package com.sevtinge.hyperceiler.utils
 
@@ -250,16 +250,27 @@ inline fun <T, R> T.runCatchingOrNull(func: T.() -> R?) = try {
     null
 }
 
+fun Any.getAdditionalInstanceField(field: String): Any? = getAdditionalInstanceField(this, field)
+
+fun <T> Any.getAdditionalInstanceFieldAs(field: String) = getAdditionalInstanceField(field) as T
+
+fun Any.setAdditionalInstanceField(
+    field: String,
+    value: Any?
+) = setAdditionalInstanceField(this, field, value)
+
+fun Any.removeAdditionalInstanceField(
+    field: String
+): Any? = removeAdditionalInstanceField(this, field)
+
 fun Any.getObjectField(field: String?): Any? = getObjectField(this, field)
 
 fun Any.getObjectFieldOrNull(field: String?): Any? = runCatchingOrNull {
     getObjectField(this, field)
 }
 
-@Suppress("UNCHECKED_CAST")
 fun <T> Any.getObjectFieldAs(field: String?) = getObjectField(this, field) as T
 
-@Suppress("UNCHECKED_CAST")
 fun <T> Any.getObjectFieldOrNullAs(field: String?) = runCatchingOrNull {
     getObjectField(this, field) as T
 }
@@ -303,20 +314,16 @@ fun Class<*>.callStaticMethodOrNull(methodName: String?, vararg args: Any?): Any
         callStaticMethod(this, methodName, *args)
     }
 
-@Suppress("UNCHECKED_CAST")
 fun <T> Class<*>.callStaticMethodAs(methodName: String?, vararg args: Any?) =
     callStaticMethod(this, methodName, *args) as T
 
-@Suppress("UNCHECKED_CAST")
 fun <T> Class<*>.callStaticMethodOrNullAs(methodName: String?, vararg args: Any?) =
     runCatchingOrNull {
         callStaticMethod(this, methodName, *args) as T
     }
 
-@Suppress("UNCHECKED_CAST")
 fun <T> Class<*>.getStaticObjectFieldAs(field: String?) = getStaticObjectField(this, field) as T
 
-@Suppress("UNCHECKED_CAST")
 fun <T> Class<*>.getStaticObjectFieldOrNullAs(field: String?) = runCatchingOrNull {
     getStaticObjectField(this, field) as T
 }
@@ -361,11 +368,9 @@ inline fun <reified T> Class<*>.findFieldByExactType(): Field? =
 
 fun Class<*>.findFieldByExactType(type: Class<*>): Field? = findFirstFieldByExactType(this, type)
 
-@Suppress("UNCHECKED_CAST")
 fun <T> Any.callMethodAs(methodName: String?, vararg args: Any?) =
     callMethod(this, methodName, *args) as T
 
-@Suppress("UNCHECKED_CAST")
 fun <T> Any.callMethodOrNullAs(methodName: String?, vararg args: Any?) = runCatchingOrNull {
     callMethod(this, methodName, *args) as T
 }
@@ -471,7 +476,6 @@ fun Class<*>.findFirstFieldByExactTypeOrNull(type: Class<*>?): Field? = runCatch
 fun Any.getFirstFieldByExactType(type: Class<*>): Any? =
     javaClass.findFirstFieldByExactType(type).get(this)
 
-@Suppress("UNCHECKED_CAST")
 fun <T> Any.getFirstFieldByExactTypeAs(type: Class<*>) =
     javaClass.findFirstFieldByExactType(type).get(this) as? T
 
@@ -482,7 +486,6 @@ fun Any.getFirstFieldByExactTypeOrNull(type: Class<*>?): Any? = runCatchingOrNul
     javaClass.findFirstFieldByExactTypeOrNull(type)?.get(this)
 }
 
-@Suppress("UNCHECKED_CAST")
 fun <T> Any.getFirstFieldByExactTypeOrNullAs(type: Class<*>?) =
     getFirstFieldByExactTypeOrNull(type) as? T
 

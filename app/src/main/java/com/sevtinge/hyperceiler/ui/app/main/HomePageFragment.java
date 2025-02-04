@@ -184,7 +184,7 @@ public class HomePageFragment extends DashboardFragment
     Preference mHeadtipHyperCeiler;
     Preference mHeadtipTip;
     MainActivityContextHelper mainActivityContextHelper;
-    private final String TAG = "MainFragment";
+    private static final String TAG = "MainFragment";
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
     boolean mWarnTipVisible = false;
     boolean mNoticeTipVisible = false;
@@ -338,7 +338,7 @@ public class HomePageFragment extends DashboardFragment
         if (!isSignPass) {
             mHeadtipWarn.setTitle(R.string.headtip_warn_sign_verification_failed);
             mHeadtipWarn.setVisible(true);
-        } else if (!isOfficialRom) {
+        } else if (isOfficialRom) {
             mHeadtipWarn.setTitle(R.string.headtip_warn_not_offical_rom);
             mHeadtipWarn.setVisible(true);
         } else if (!isFullSupport) {

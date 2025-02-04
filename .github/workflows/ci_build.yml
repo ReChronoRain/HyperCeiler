@@ -102,10 +102,10 @@ jobs:
           path: ${{ env.APK_FILE }}
           compression-level: 9
 
-  push_to_canary_channel:
+  push_to_canary_group:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && !contains(github.event.head_commit.message, '[skp]') && !contains(github.event.head_commit.message, 's#')
     runs-on: ubuntu-latest
-    name: Push to Canary Channel
+    name: Push to Canary Group
     needs: build_app
     steps:
       - name: Download Artifacts

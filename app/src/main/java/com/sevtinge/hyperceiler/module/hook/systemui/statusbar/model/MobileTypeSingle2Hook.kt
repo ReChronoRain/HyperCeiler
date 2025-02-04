@@ -19,18 +19,21 @@
 
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model
 
-import android.annotation.*
-import android.graphics.*
-import android.telephony.*
-import android.view.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.*
+import android.annotation.SuppressLint
+import android.graphics.Typeface
+import android.telephony.SubscriptionManager
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
-import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.hook.systemui.*
+import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.hook.systemui.base.api.Dependency
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.hdController
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.mOperatorConfig
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.modernStatusBarMobileView
@@ -45,13 +48,19 @@ import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileP
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.rightMargin
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.showMobileType
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.verticalOffset
-import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.StateFlowHelper.newReadonlyStateFlow
-import com.sevtinge.hyperceiler.utils.api.ProjectApi.*
-import com.sevtinge.hyperceiler.utils.devicesdk.*
-import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
-import java.lang.reflect.*
-import java.util.function.*
+import com.sevtinge.hyperceiler.utils.api.ProjectApi.isDebug
+import com.sevtinge.hyperceiler.utils.callMethod
+import com.sevtinge.hyperceiler.utils.callMethodAs
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px
+import com.sevtinge.hyperceiler.utils.devicesdk.SubscriptionManagerProvider
+import com.sevtinge.hyperceiler.utils.getBooleanField
+import com.sevtinge.hyperceiler.utils.getIntField
+import com.sevtinge.hyperceiler.utils.getObjectField
+import com.sevtinge.hyperceiler.utils.getObjectFieldAs
+import com.sevtinge.hyperceiler.utils.setObjectField
+import java.lang.reflect.Method
+import java.util.function.Consumer
 
 object MobileTypeSingle2Hook : BaseHook() {
     private val DarkIconDispatcherClass by lazy {
@@ -249,12 +258,12 @@ object MobileTypeSingle2Hook : BaseHook() {
 
     @SuppressLint("NewApi")
     private fun setOnDataChangedListener() {
-        val javaAdapter = Dependency.mMiuiLegacyDependency
+        val javaAdapter = Dependency.miuiLegacyDependency
             ?.getObjectField("mCentralSurfaces")
             ?.callMethod("get")
             ?.getObjectField("mJavaAdapter")
 
-        val dataConnected = Dependency.mMiuiLegacyDependency
+        val dataConnected = Dependency.miuiLegacyDependency
             ?.getObjectField("mMiuiIconManagerFactory")
             ?.callMethod("get")
             ?.getObjectField("mMobileUiAdapter")
@@ -353,7 +362,7 @@ object MobileTypeSingle2Hook : BaseHook() {
     }
 
     private fun getMobileViewBySubId(subId: Int, callback: (View) -> Unit) {
-        val statusBarIconController = Dependency.mMiuiLegacyDependency
+        val statusBarIconController = Dependency.miuiLegacyDependency
             ?.getObjectField("mStatusBarIconController")
             ?.callMethod("get")
 

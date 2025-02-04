@@ -23,15 +23,23 @@
     <PreferenceCategory android:title="@string/system_ui_lockscreen_ui_title">
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_ui_lock_screen_hide_camera"
-            android:summary="@string/system_ui_lock_screen_default_theme"
-            android:title="@string/system_ui_lock_screen_hide_camera" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_hide_smart_screen"
             android:summary="@string/system_ui_lock_screen_default_theme"
             android:title="@string/system_ui_lock_screen_hide_smart_screen" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_lock_screen_bottom_left_button"
+            android:summary="@string/system_ui_lock_screen_default_theme"
+            android:title="@string/system_ui_lock_screen_bottom_left_button"
+            app:entries="@array/lock_screen_bottom_left_button"
+            app:entryValues="@array/lock_screen_bottom_left_button_value" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_hide_camera"
+            android:summary="@string/system_ui_lock_screen_default_theme"
+            android:title="@string/system_ui_lock_screen_hide_camera" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -122,7 +130,6 @@
             app:defaultValue="6"
             android:dependency="prefs_key_system_ui_lock_screen_show_spacing_value"
             android:key="prefs_key_system_ui_lock_screen_show_spacing"
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
             app:showDividerValue="2"
             app:format="%s s"

@@ -592,6 +592,18 @@
         <item>4</item>
     </string-array>
 
+    <string-array name="lock_screen_bottom_left_button">
+        <item>@string/array_default</item>
+        <item>@string/array_hide</item>
+        <item>@string/ic_qs_title_flashlight</item>
+    </string-array>
+
+    <string-array name="lock_screen_bottom_left_button_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="system_ui_status_bar_horizontal_align">
         <item>@string/array_default</item>
         <item>@string/array_align_left</item>

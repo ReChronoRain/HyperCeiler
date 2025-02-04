@@ -337,6 +337,7 @@
     <string name="system_ui_statusbar_indicator_bold">Bold</string>
     <!--Multi-list Array-->
     <string name="array_close">Close</string>
+    <string name="array_hide">Hide</string>
     <string name="array_default">Default</string>
     <string name="array_align_left">Left</string>
     <string name="array_align_right">Right</string>
@@ -671,6 +672,7 @@
     <string name="system_ui_lock_screen_show_spacing">Display refresh interval</string>
     <string name="system_ui_lock_screen_hide_camera">Hide camera</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Hide smart screen</string>
+    <string name="system_ui_lock_screen_bottom_left_button">Left button at the bottom</string>
     <string name="system_ui_lock_screen_current">Current</string>
     <string name="system_ui_lock_screen_blur_button">Blur Lock screen buttons</string>
     <string name="system_ui_lock_screen_blur_button_desc">After enabling, the background of the camera and negative screen button on the Lock screen is blurred, which may cause high power consumption.\nSupport default theme only.</string>

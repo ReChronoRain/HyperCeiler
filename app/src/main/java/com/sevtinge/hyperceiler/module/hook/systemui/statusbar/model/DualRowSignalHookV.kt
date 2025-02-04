@@ -18,33 +18,44 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model
 
-import android.content.*
-import android.content.res.*
-import android.view.*
-import android.widget.*
+import android.content.Context
+import android.content.res.ColorStateList
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
 import com.github.kyuubiran.ezxhelper.misc.ViewUtils.getIdByName
-import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
-import com.sevtinge.hyperceiler.module.hook.systemui.*
+import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit
+import com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes
+import com.sevtinge.hyperceiler.module.hook.systemui.base.api.Dependency
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.miuiMobileIconBinder
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.mobileSignalController
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.modernStatusBarMobileView
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.networkController
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.showMobileType
-import com.sevtinge.hyperceiler.utils.*
 import com.sevtinge.hyperceiler.utils.StateFlowHelper.setStateFlowValue
-import com.sevtinge.hyperceiler.utils.api.*
-import com.sevtinge.hyperceiler.utils.devicesdk.*
-import de.robv.android.xposed.*
-import org.luckypray.dexkit.query.enums.*
-import java.lang.reflect.*
-import java.util.function.*
+import com.sevtinge.hyperceiler.utils.api.ProjectApi
+import com.sevtinge.hyperceiler.utils.callMethod
+import com.sevtinge.hyperceiler.utils.callMethodAs
+import com.sevtinge.hyperceiler.utils.callStaticMethod
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils
+import com.sevtinge.hyperceiler.utils.getBooleanField
+import com.sevtinge.hyperceiler.utils.getIntField
+import com.sevtinge.hyperceiler.utils.getObjectField
+import com.sevtinge.hyperceiler.utils.getObjectFieldAs
+import de.robv.android.xposed.XposedHelpers
+import org.luckypray.dexkit.query.enums.StringMatchType
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
+import java.util.function.Consumer
 
 
 class DualRowSignalHookV : BaseHook() {
@@ -255,9 +266,9 @@ class DualRowSignalHookV : BaseHook() {
 
                     if (reuseCache == null) {
                         if (miuiIconManagerFactory != null &&
-                            Dependency.mDependencies?.contains(miuiIconManagerFactory) == true
+                            Dependency.dependencies.contains(miuiIconManagerFactory) == true
                         ) {
-                            reuseCache = Dependency.mMiuiLegacyDependency
+                            reuseCache = Dependency.miuiLegacyDependency
                                 ?.getObjectField("mMiuiIconManagerFactory")
                                 ?.callMethod("get")
                                 ?.getObjectField("mMobileUiAdapter")

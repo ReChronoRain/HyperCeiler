@@ -294,6 +294,7 @@
     <string name="system_ui_statusbar_indicator_bold">加粗</string>
     <!--多列表 Array-->
     <string name="array_close">关闭</string>
+    <string name="array_hide">隐藏</string>
     <string name="array_default">默认</string>
     <string name="array_align_left">左侧</string>
     <string name="array_align_right">右侧</string>
@@ -658,6 +659,7 @@
     <string name="system_ui_lock_screen_show_spacing">显示刷新间隔</string>
     <string name="system_ui_lock_screen_hide_camera">隐藏相机</string>
     <string name="system_ui_lock_screen_hide_smart_screen">隐藏负一屏</string>
+    <string name="system_ui_lock_screen_bottom_left_button">底部左侧按钮</string>
     <string name="system_ui_lock_screen_current">当前电流</string>
     <string name="system_ui_lock_screen_blur_button">锁屏按钮背景模糊</string>
     <string name="system_ui_lock_screen_blur_button_desc">启用后相机和负一屏按钮的背景带有模糊，可能存在功耗偏高的情况，仅支持默认主题</string>

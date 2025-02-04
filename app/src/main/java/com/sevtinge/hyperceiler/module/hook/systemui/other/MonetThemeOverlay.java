@@ -16,9 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.hook.systemui;
-
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+package com.sevtinge.hyperceiler.module.hook.systemui.other;
 
 import android.content.Context;
 import android.os.Handler;

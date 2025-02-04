@@ -26,15 +26,12 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.hook.systemui.base.lockscreen.Keyguard.keyguardBottomAreaInjector
 
 object RemoveCamera : BaseHook() {
-    private val newClass by lazy {
-        loadClassOrNull("com.android.keyguard.injector.KeyguardBottomAreaInjector")
-    }
-
     override fun init() {
         // 屏蔽右下角组件显示
-        newClass!!.methodFinder().filter {
+        keyguardBottomAreaInjector.methodFinder().filter {
             name in setOf(
                 "updateRightAffordanceViewLayoutVisibility",
                 "startButtonLayoutAnimate"

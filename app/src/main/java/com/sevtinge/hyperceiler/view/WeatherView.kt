@@ -28,10 +28,8 @@ import android.os.Message
 import android.text.TextUtils
 import android.widget.TextView
 import androidx.core.net.toUri
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.sevtinge.hyperceiler.module.hook.systemui.Dependency
-import com.sevtinge.hyperceiler.module.hook.systemui.InterfacesImplManager
-import com.sevtinge.hyperceiler.utils.callMethod
+import com.sevtinge.hyperceiler.module.hook.systemui.base.api.Dependency
+import com.sevtinge.hyperceiler.module.hook.systemui.base.api.MiuiStub
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 
 @SuppressLint("ViewConstructor")
@@ -104,12 +102,11 @@ class WeatherView(context: Context?, private val showCity: Boolean) : TextView(c
                 )
             }
 
-            val clz = loadClass(InterfacesImplManager.I_ACTIVITY_STARTER)
             if (isMoreHyperOSVersion(2f)) {
-                InterfacesImplManager.sClassContainer[clz]
+                MiuiStub.sysUIProvider.activityStarter
             } else {
-                Dependency.get(clz)
-            }?.callMethod("startActivity", intent, true)
+                Dependency.activityStarter
+            }.startActivity(intent)
         }
     }
 
