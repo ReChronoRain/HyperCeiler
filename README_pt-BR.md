@@ -1,12 +1,12 @@
 <div align="center">
 
-<img src="/imgs/icon.png" width="160" height="160" style="display: block; margin: 0 auto;" alt="icon">
+<img src="\imgs\icon.webp" width="160" height="160" style="display: block; margin: 0 auto;" alt="icon" />
 
 # HyperCeiler
 
 ### Torne o HyperOS ótimo novamente!
 
-[简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md)&nbsp;&nbsp;|&nbsp;&nbsp;Português (Brasil)
+[简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[繁體中文](/README_zh-HK.md)&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md)&nbsp;&nbsp;|&nbsp;&nbsp;Português (Brasil)
 
 </div>
 
@@ -26,8 +26,9 @@ Antes de enviar feedback, preste atenção se já existe o mesmo feedback para e
 
 O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13 e ROM HyperOS 1.0 para Android 13.
 
-> - Para ROM MIUI no Android 11-12, use [esta versão](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
-> - Para ROM MIUI no Android 13 e ROM HyperOS 1.0, use [esta versão](https://github.com/Xposed-Modules-Repo/com.sevtinge.hyperceiler/releases/download/3866-2.5.156_20250118/HyperCeiler_2.5.156_20250118_3866_release_miui.apk).
+> Para ROM MIUI no Android 11-12, use [esta versão](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
+> 
+> Para ROM MIUI no Android 13 e ROM HyperOS 1.0, use [esta versão](https://github.com/Xposed-Modules-Repo/com.sevtinge.hyperceiler/releases/download/3866-2.5.156_20250118/HyperCeiler_2.5.156_20250118_3866_release_miui.apk).
 
 ## Apps suportados
 
@@ -106,8 +107,8 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13 e ROM Hyper
 
 Junte-se ao nosso grupo para relatar problemas ou obter as atualizações mais recentes.
 
-[![badge_qgroup]][qgroup_url]
-[![badge_qguild]][qguild_url]
+[![badge_trguild]][trguild_url]
+[![badge_tcguild]][tcguild_url]
 [![badge_telegram]][telegram_url]
 
 ## Contribuições de tradução
@@ -174,13 +175,13 @@ Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler)
 - [「XposedBridge」 por rovo89](https://github.com/rovo89/XposedBridge)
 - [「.xlDownload」 por Kr328](https://github.com/Kr328/.xlDownload)
 
-[qgroup_url]: https://jq.qq.com/?_wv=1027&k=TedCJq8V
+[trguild_url]: https://t.me/cemiuiler_release
 
-[badge_qgroup]: https://img.shields.io/badge/QQ-Grupo-4DB8FF?style=for-the-badge&logo=tencentqq
+[badge_trguild]: https://img.shields.io/badge/TG-Canal-4991D3?style=for-the-badge&logo=telegram
 
-[qguild_url]: https://pd.qq.com/s/35ooe0ssj
+[tcguild_url]: https://t.me/cemiuiler_canary
 
-[badge_qguild]: https://img.shields.io/badge/QQ-Canal-4991D3?style=for-the-badge&logo=tencentqq
+[badge_tcguild]: https://img.shields.io/badge/TGCI-Canal-4991D3?style=for-the-badge&logo=telegram
 
 [telegram_url]: https://t.me/cemiuiler
 
