@@ -91,8 +91,8 @@
     <!--HyperCeiler Tips-->
     <string name="error">Error</string>
     <string name="warn">Attention</string>
-    <string name="app_error_desc">This module had a fatal collapse and could not continue to run! Please bring the following error information for feedback! \n\n</string>
-    <string name="app_exit">Ending process</string>
+    <string name="app_error_desc">This module has encountered a critical failure and cannot continue to run! Please provide the following error information for feedback! \n\n</string>
+    <string name="app_exit">OK</string>
     <string name="safe_mode_desc">%1$s has entered Safe mode due to multiple crashes, and HyperCeiler features has been temporarily disabled.</string>
     <string name="safe_mode_history">View exception records</string>
     <string name="safe_mode_cancel">Disable Safe mode</string>
@@ -453,8 +453,8 @@
     <string name="tiles_5g">5G network</string>
     <string name="dashboard_5g">Use 5G</string>
     <string name="tiles_sunshine_mode">Sunlight mode</string>
-    <string name="system_cc_showpct_style_1">inline</string>
-    <string name="system_cc_showpct_style_2">explicit</string>
+    <string name="system_cc_showpct_style_1">Inline</string>
+    <string name="system_cc_showpct_style_2">Explicit</string>
     <!--System Framework-->
     <string name="system_framework">System Framework</string>
     <string name="system_framework_volume_title">Volume</string>
