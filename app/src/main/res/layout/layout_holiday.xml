@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="0.1dp"
-    android:paddingRight="0.1dp"
+    android:paddingEnd="0.1dp"
     android:animateLayoutChanges="true"
     android:fitsSystemWindows="false">
 

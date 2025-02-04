@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.view.Surface;
-import android.view.WindowManager;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.app.holiday.weather.confetto.Confetto;
@@ -19,24 +18,28 @@ public class FlowerParticle extends Confetto {
     private final ConfettoInfo confettoInfo;
     private final Bitmap petal;
     private float petalScale;
-    private final int[] petals = new int[] { R.drawable.confetti1, R.drawable.confetti1, R.drawable.confetti2, R.drawable.confetti2, R.drawable.confetti3, R.drawable.confetti3, R.drawable.petal };
 
     FlowerParticle(Context context, ConfettoInfo confettoInfo) {
         super();
         this.confettoInfo = confettoInfo;
-        petalScale = 0.6f - (float)Math.random() * 0.15f;
-        petal = BitmapFactory.decodeResource(context.getResources(), petals[new Random().nextInt(petals.length)]);
+        this.petalScale = 0.6f - (float)Math.random() * 0.15f;
+        int[] petals = {R.drawable.confetti1, R.drawable.confetti1, R.drawable.confetti2, R.drawable.confetti2, R.drawable.confetti3, R.drawable.confetti3, R.drawable.petal};
+        this.petal = BitmapFactory.decodeResource(context.getResources(), petals[new Random().nextInt(petals.length)]);
 
-        int rotation = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
-        if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) petalScale *= 1.5;
+        int rotation = context.getDisplay().getRotation();
+        if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) {
+            this.petalScale *= 1.5f;
+        }
     }
 
+    @Override
     public int getHeight() {
-        return 0;
+        return petal.getHeight();
     }
 
+    @Override
     public int getWidth() {
-        return 0;
+        return petal.getWidth();
     }
 
     public void reset() {
@@ -49,6 +52,7 @@ public class FlowerParticle extends Confetto {
         paint.setAntiAlias(true);
     }
 
+    @Override
     protected void drawInternal(Canvas canvas, Matrix matrix, Paint paint, float x, float y, float rotation, float percentageAnimated) {
         switch (confettoInfo.getPrecipType()) {
             case CLEAR:

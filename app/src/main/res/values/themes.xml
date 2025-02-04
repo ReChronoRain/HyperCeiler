@@ -17,6 +17,9 @@
 
     <style name="Theme.HyperCeiler.Translucent" parent="Base.Theme.HyperCeiler">
         <item name="android:windowBackground">@color/miuix_color_transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
@@ -28,6 +31,21 @@
     <style name="Theme.HyperCeiler.Translucent.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
+    </style>
+
+    <style name="Theme.HyperCeiler.Translucent.NoActionBar.NoAnimation">
+        <item name="android:windowAnimationStyle">@style/Animation</item>
+    </style>
+
+    <style name="Animation">
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
+        <item name="android:windowShowAnimation">@null</item>
+        <item name="android:windowHideAnimation">@null</item>
+        <item name="android:activityOpenEnterAnimation">@null</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@null</item>
+        <item name="android:activityCloseExitAnimation">@null</item>
     </style>
 
     <style name="Preference.SeekBarPreferenceCompat" parent="@style/Preference" tools:ignore="PrivateResource">
