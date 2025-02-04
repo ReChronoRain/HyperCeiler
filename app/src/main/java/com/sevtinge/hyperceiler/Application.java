@@ -24,7 +24,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.hchen.hooktool.log.AndroidLog;
-import com.sevtinge.hyperceiler.ui.app.crash.CrashHandlerActivity;
+import com.sevtinge.hyperceiler.ui.app.crash.CrashHandlerDialog;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.io.PrintWriter;
@@ -73,13 +73,11 @@ public class Application extends android.app.Application {
     }
 
     private void showEmergencyDialog(String crashInfo) {
-        Context context = getBaseContext();
         new Handler(Looper.getMainLooper()).post(() -> {
             try {
-                Intent intent = new Intent(context, CrashHandlerActivity.class);
+                Intent intent = new Intent(CrashHandlerDialog.CrashHandlerBroadcastReceiver.CRASH_HANDLER);
                 intent.putExtra("crashInfo", crashInfo);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                sendBroadcast(intent);
             } catch (Throwable e) {
                 AndroidLog.logE(TAG, e);
             }

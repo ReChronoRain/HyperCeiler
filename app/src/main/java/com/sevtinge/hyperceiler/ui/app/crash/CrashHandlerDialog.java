@@ -18,33 +18,31 @@
  */
 package com.sevtinge.hyperceiler.ui.app.crash;
 
-import android.os.Bundle;
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-
-import androidx.annotation.Nullable;
 
 import com.hchen.hooktool.log.AndroidLog;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import fan.appcompat.app.AlertDialog;
-import fan.appcompat.app.AppCompatActivity;
 
-public class CrashHandlerActivity extends AppCompatActivity {
-    private static final String TAG = "CrashHandlerActivity";
+public class CrashHandlerDialog {
+    private static final String TAG = "CrashHandlerDialog";
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        String crashInfo = getIntent().getStringExtra("crashInfo");
+    CrashHandlerDialog(Context context, Intent intent) {
+        String crashInfo = intent.getStringExtra("crashInfo");
 
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(context)
             .setTitle("错误")
             .setMessage("模块发生致命崩溃事件，无法继续运行！请携带以下报错信息进行反馈！\n" + crashInfo)
             .setPositiveButton("结束进程", (d, w) -> {
                 AndroidLog.logI(TAG, "kill myself!!");
-                moveTaskToBack(true);
-                finish();
+                ((Activity) context).moveTaskToBack(true);
+                ((Activity) context).finish();
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     ShellInit.getShell().run("am force-stop com.sevtinge.hyperceiler").sync();
@@ -53,5 +51,16 @@ public class CrashHandlerActivity extends AppCompatActivity {
             .setCancelable(false)
             .setHapticFeedbackEnabled(true)
             .show();
+    }
+
+    public static class CrashHandlerBroadcastReceiver extends BroadcastReceiver {
+        public static final String CRASH_HANDLER = "com.sevtinge.hyperceiler.CrashHandler";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (CRASH_HANDLER.equals(intent.getAction())) {
+                new CrashHandlerDialog(context, intent);
+            }
+        }
     }
 }

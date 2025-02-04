@@ -106,13 +106,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.app.crash.CrashHandlerActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="false"
-            android:theme="@style/Theme.HyperCeiler.Translucent.NoActionBar.NoAnimation">
-        </activity>
-
         <activity-alias
             android:name=".ui.LauncherActivity"
             android:exported="true"

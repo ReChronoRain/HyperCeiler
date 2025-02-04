@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.ui.app.main;
 
 import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.isModuleActive;
+import static com.sevtinge.hyperceiler.ui.app.crash.CrashHandlerDialog.CrashHandlerBroadcastReceiver.CRASH_HANDLER;
 import static com.sevtinge.hyperceiler.ui.app.main.utils.PersistConfig.isLunarNewYearThemeView;
 import static com.sevtinge.hyperceiler.ui.app.main.utils.PersistConfig.isNeedGrayView;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.isTablet;
@@ -11,6 +12,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
@@ -31,6 +33,7 @@ import com.sevtinge.hyperceiler.callback.IResult;
 import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.prefs.XmlPreference;
+import com.sevtinge.hyperceiler.ui.app.crash.CrashHandlerDialog;
 import com.sevtinge.hyperceiler.ui.app.holiday.HolidayHelper;
 import com.sevtinge.hyperceiler.ui.app.main.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.ui.app.safe.CrashData;
@@ -57,11 +60,11 @@ import fan.navigator.navigatorinfo.UpdateDetailFragmentNavInfo;
 import fan.preference.PreferenceFragment;
 
 public class HyperCeilerTabActivity extends NaviBaseActivity
-        implements PreferenceFragment.OnPreferenceStartFragmentCallback, IResult {
+    implements PreferenceFragment.OnPreferenceStartFragmentCallback, IResult {
 
     private Handler handler;
     private Context context;
-
+    private CrashHandlerDialog.CrashHandlerBroadcastReceiver mCrashHandlerBroadcastReceiver;
     private ArrayList<String> appCrash = new ArrayList<>();
 
     @Override
@@ -74,6 +77,10 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         if (isLunarNewYearThemeView) {
             new HolidayHelper(this);
         }
+
+        mCrashHandlerBroadcastReceiver = new CrashHandlerDialog.CrashHandlerBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter(CRASH_HANDLER);
+        registerReceiver(mCrashHandlerBroadcastReceiver, intentFilter, Context.RECEIVER_EXPORTED);
 
         SharedPreferences mPrefs = PrefsUtils.mSharedPreferences;
         String languageSetting = mPrefs.getString("prefs_key_settings_app_language", "-1");
@@ -171,8 +178,8 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     @Override
     public boolean onPreferenceStartFragment(@NonNull PreferenceFragmentCompat caller, @NonNull Preference pref) {
         if (caller instanceof NavigatorFragmentListener &&
-                Navigator.get(caller).getNavigationMode() == Navigator.Mode.NLC &&
-                isTablet()) {
+            Navigator.get(caller).getNavigationMode() == Navigator.Mode.NLC &&
+            isTablet()) {
             Bundle args = new Bundle();
             Bundle savedInstanceState = new Bundle();
             if (pref instanceof XmlPreference xmlPreference) {
@@ -283,6 +290,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     @Override
     public void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(mCrashHandlerBroadcastReceiver);
         ShellInit.destroy();
         ThreadPoolManager.shutdown();
         PreferenceHeader.mUninstallApp.clear();
@@ -292,18 +300,19 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     // 权限申请
     public void requestPermissions() {
         PermissionUtils.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1,
-                // 实现接口方法
-                new PermissionUtils.OnPermissionListener() {
-                    @Override
-                    public void onPermissionGranted(Context context) {
-                        // 获取权限成功
-                    }
+            // 实现接口方法
+            new PermissionUtils.OnPermissionListener() {
+                @Override
+                public void onPermissionGranted(Context context) {
+                    // 获取权限成功
+                }
 
-                    @Override
-                    public void onPermissionDenied() {
-                        // 获取权限失败
-                        finish();
-                    }
-                });
+                @Override
+                public void onPermissionDenied() {
+                    // 获取权限失败
+                    finish();
+                }
+            }
+        );
     }
 }
