@@ -28,10 +28,9 @@ import android.os.Message
 import android.text.TextUtils
 import android.widget.TextView
 import androidx.core.net.toUri
-import com.sevtinge.hyperceiler.module.hook.systemui.api.Dependency
-import com.sevtinge.hyperceiler.module.hook.systemui.api.MiuiStub
+import com.sevtinge.hyperceiler.module.hook.systemui.base.api.Dependency
+import com.sevtinge.hyperceiler.module.hook.systemui.base.api.MiuiStub
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
 
 @SuppressLint("ViewConstructor")
 class WeatherView(context: Context?, private val showCity: Boolean) : TextView(context) {

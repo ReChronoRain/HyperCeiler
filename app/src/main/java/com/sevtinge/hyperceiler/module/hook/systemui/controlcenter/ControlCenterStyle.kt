@@ -23,7 +23,8 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.ObjectUtils.setObject
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.devicesdk.isHyperOSVersion
 
 object ControlCenterStyle : BaseHook() {
     override fun init() {
@@ -33,14 +34,16 @@ object ControlCenterStyle : BaseHook() {
             }
         }
 
-        loadClass("com.miui.interfaces.SettingsObserver").methodFinder()
-            .filterByName("setValue\$default").first()
-            .createHook {
-                before {
-                    if (it.args[1] == "force_use_control_panel") {
-                        it.args[2] = 0
+        if (isHyperOSVersion(1f)) {
+            loadClass("com.miui.interfaces.SettingsObserver").methodFinder()
+                .filterByName("setValue\$default").first()
+                .createHook {
+                    before {
+                        if (it.args[1] == "force_use_control_panel") {
+                            it.args[2] = 0
+                        }
                     }
                 }
-            }
+        }
     }
 }

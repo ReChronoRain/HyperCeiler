@@ -19,13 +19,10 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.tool.HookTool.MethodHook.returnConstant
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.CustomizeBottomButton.hideLeftButton
 
 object RemoveSmartScreen : BaseHook() {
     override fun init() {
-        findAndHookMethod(
-            "com.android.keyguard.negative.KeyguardMoveLeftController", "isLeftViewLaunchActivity",
-            returnConstant(false)
-        )
+        hideLeftButton()
     }
 }

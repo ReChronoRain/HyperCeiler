@@ -18,28 +18,31 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
-import android.app.*
-import android.content.*
-import android.graphics.*
-import android.graphics.drawable.*
-import android.view.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.*
+import android.app.KeyguardManager
+import android.content.Context
+import android.graphics.Color
+import android.graphics.Outline
+import android.graphics.drawable.LayerDrawable
+import android.view.View
+import android.view.ViewOutlineProvider
+import android.widget.ImageView
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
+import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.hook.systemui.base.Keyguard.keyguardBottomAreaInjector
-import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.blur.BlurUtils.*
+import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.hook.systemui.base.lockscreen.Keyguard.keyguardBottomAreaInjector
+import com.sevtinge.hyperceiler.module.hook.systemui.base.lockscreen.Keyguard.leftButtonType
+import com.sevtinge.hyperceiler.utils.blur.BlurUtils.createBlurDrawable
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
-import de.robv.android.xposed.*
+import com.sevtinge.hyperceiler.utils.setBooleanField
+import de.robv.android.xposed.XC_MethodHook
 
 object BlurButton : BaseHook() {
     private val removeLeft by lazy {
-        mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen")
+        leftButtonType == 1
     }
     private val removeRight by lazy {
         mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera")

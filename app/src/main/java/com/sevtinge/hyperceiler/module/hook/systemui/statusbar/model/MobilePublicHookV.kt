@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model
 
 import android.telephony.SubscriptionManager
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.hook.systemui.api.Dependency
+import com.sevtinge.hyperceiler.module.hook.systemui.base.api.Dependency
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.miuiCellularIconVM
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.card1
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobilePrefs.card2

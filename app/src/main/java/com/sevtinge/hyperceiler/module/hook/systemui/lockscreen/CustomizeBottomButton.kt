@@ -7,13 +7,18 @@ import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
+import com.github.kyuubiran.ezxhelper.ObjectUtils.getObjectOrNullAs
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.tool.HookTool.MethodHook.returnConstant
 import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool
-import com.sevtinge.hyperceiler.module.hook.systemui.api.FlashlightController
-import com.sevtinge.hyperceiler.module.hook.systemui.api.MiuiStub
-import com.sevtinge.hyperceiler.module.hook.systemui.base.Keyguard.keyguardBottomAreaInjector
-import com.sevtinge.hyperceiler.module.hook.systemui.base.Keyguard.leftButtonType
+import com.sevtinge.hyperceiler.module.hook.systemui.base.api.FlashlightController
+import com.sevtinge.hyperceiler.module.hook.systemui.base.api.MiuiStub
+import com.sevtinge.hyperceiler.module.hook.systemui.base.lockscreen.Keyguard.keyguardBottomAreaInjector
+import com.sevtinge.hyperceiler.module.hook.systemui.base.lockscreen.Keyguard.leftButtonType
 import com.sevtinge.hyperceiler.utils.getAdditionalInstanceFieldAs
 import com.sevtinge.hyperceiler.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.utils.setAdditionalInstanceField
@@ -28,13 +33,14 @@ object CustomizeBottomButton : BaseHook() {
         }
     }
 
-    private fun hideLeftButton() {
-        findAndHookMethod(keyguardBottomAreaInjector, "updateIcons", object : MethodHook() {
-            override fun after(param: MethodHookParam) {
-                val leftButton = param.thisObject.getObjectFieldAs<ImageView?>("mLeftButton")
-                leftButton?.setImageDrawable(null)
+    fun hideLeftButton() {
+        keyguardBottomAreaInjector.methodFinder()
+            .filterByName("updateIcons")
+            .single().createAfterHook {
+                val left =
+                    getObjectOrNullAs<LinearLayout>(it.thisObject, "mLeftAffordanceViewLayout") ?: return@createAfterHook
+                left.visibility = View.GONE
             }
-        })
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -150,5 +156,10 @@ object CustomizeBottomButton : BaseHook() {
                 }
             }
         })
+
+        findAndHookMethod(
+            "com.android.keyguard.negative.KeyguardMoveLeftController", "isLeftViewLaunchActivity",
+            returnConstant(false)
+        )
     }
 }

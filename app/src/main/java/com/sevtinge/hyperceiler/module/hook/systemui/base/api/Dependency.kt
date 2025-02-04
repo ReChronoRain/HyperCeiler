@@ -16,10 +16,15 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.systemui.api
+package com.sevtinge.hyperceiler.module.hook.systemui.base.api
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.callMethod
+import com.sevtinge.hyperceiler.utils.callMethodAs
+import com.sevtinge.hyperceiler.utils.callStaticMethod
+import com.sevtinge.hyperceiler.utils.getObjectField
+import com.sevtinge.hyperceiler.utils.getObjectFieldAs
+import com.sevtinge.hyperceiler.utils.getStaticObjectFieldAs
 
 @Suppress("unused")
 object Dependency {

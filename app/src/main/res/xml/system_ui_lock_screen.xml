@@ -130,7 +130,6 @@
             app:defaultValue="6"
             android:dependency="prefs_key_system_ui_lock_screen_show_spacing_value"
             android:key="prefs_key_system_ui_lock_screen_show_spacing"
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
             app:showDividerValue="2"
             app:format="%s s"

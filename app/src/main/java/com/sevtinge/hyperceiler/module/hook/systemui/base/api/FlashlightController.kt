@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.module.hook.systemui.api
+package com.sevtinge.hyperceiler.module.hook.systemui.base.api
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook

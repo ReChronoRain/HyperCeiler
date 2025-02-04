@@ -286,7 +286,6 @@
     <string name="save_to_screen_title">规范保存位置</string>
     <string name="only_new_version_can_do">仅支持较新的版本</string>
     <string name="use_hyper_blur">使用高级材质</string>
-    <string name="hide">隐藏</string>
 
     <string name="system_ui_statusbar_indicator_default_title">常规</string>
     <string name="system_ui_statusbar_indicator_expand_title">扩展</string>
@@ -295,6 +294,7 @@
     <string name="system_ui_statusbar_indicator_bold">加粗</string>
     <!--多列表 Array-->
     <string name="array_close">关闭</string>
+    <string name="array_hide">隐藏</string>
     <string name="array_default">默认</string>
     <string name="array_align_left">左侧</string>
     <string name="array_align_right">右侧</string>

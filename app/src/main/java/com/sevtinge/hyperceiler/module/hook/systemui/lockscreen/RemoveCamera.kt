@@ -26,7 +26,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.hook.systemui.base.Keyguard.keyguardBottomAreaInjector
+import com.sevtinge.hyperceiler.module.hook.systemui.base.lockscreen.Keyguard.keyguardBottomAreaInjector
 
 object RemoveCamera : BaseHook() {
     override fun init() {

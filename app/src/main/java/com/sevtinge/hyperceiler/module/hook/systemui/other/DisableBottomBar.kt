@@ -16,25 +16,25 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.systemui
+package com.sevtinge.hyperceiler.module.hook.systemui.other
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.utils.devicesdk.*
+import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 
-// by ljlvink
-object RemoveMiuiMultiWinSwitch : BaseHook() {
+object DisableBottomBar : BaseHook() {
     override fun init() {
-        if (isMoreAndroidVersion(35)) {
-            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration", lpparam.classLoader)
+        val clazzMiuiBaseWindowDecoration = if (isMoreAndroidVersion(35)) {
+            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiBottomDecoration", lpparam.classLoader)
         } else {
             loadClass("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration", lpparam.classLoader)
-        }.methodFinder()
-            .filterByName("shouldHideCaption")
-            .single().createHook {
-                returnConstant(true)
+        }
+
+        clazzMiuiBaseWindowDecoration.methodFinder().filterByName("createBottomCaption").first()
+            .createHook {
+                returnConstant(null)
             }
     }
 }

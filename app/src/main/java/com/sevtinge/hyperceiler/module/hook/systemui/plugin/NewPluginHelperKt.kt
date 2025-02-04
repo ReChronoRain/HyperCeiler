@@ -208,11 +208,11 @@ object NewPluginHelperKt : BaseHook() {
     }
 
     private fun loadClassLoaders(
-        name: String,
+        tag: String,
         classLoader: ClassLoader,
         loaders: List<Triple<String, Boolean, (ClassLoader) -> Unit>>
     ) {
-        loaders.forEach { (tag, prefKey, loader) ->
+        loaders.forEach { (name, prefKey, loader) ->
             runCatching {
                 if (prefKey) {
                     loader(classLoader)
