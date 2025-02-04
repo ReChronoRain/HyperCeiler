@@ -26,6 +26,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.hchen.hooktool.log.AndroidLog;
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import fan.appcompat.app.AlertDialog;
@@ -37,9 +38,9 @@ public class CrashHandlerDialog {
         String crashInfo = intent.getStringExtra("crashInfo");
 
         new AlertDialog.Builder(context)
-            .setTitle("错误")
-            .setMessage("模块发生致命崩溃事件，无法继续运行！请携带以下报错信息进行反馈！\n" + crashInfo)
-            .setPositiveButton("结束进程", (d, w) -> {
+            .setTitle(context.getString(R.string.error))
+            .setMessage(context.getString(R.string.app_error_desc) + crashInfo)
+            .setPositiveButton(context.getString(R.string.app_exit), (d, w) -> {
                 AndroidLog.logI(TAG, "kill myself!!");
                 ((Activity) context).moveTaskToBack(true);
                 ((Activity) context).finish();
