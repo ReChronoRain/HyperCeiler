@@ -9,8 +9,8 @@ on:
       - ".idea/"
       - "doc/*"
       - "*.md"
+      - "imgs/*"
       - "app/src/assets/**"
-      - ".github/workflows/crowdin.yml"
       - "crowdin.yml"
   push:
     branches: [main]
@@ -20,7 +20,9 @@ on:
       - ".idea/"
       - "doc/*"
       - "*.md"
+      - "imgs/*"
       - "app/src/assets/**"
+      - ".github/workflows/crowdin.yml"
       - "crowdin.yml"
   workflow_dispatch:
 
@@ -115,9 +117,9 @@ jobs:
         run: |
           echo "APK_FILE_CANARY=$(find artifacts -name '*.apk')" >> $GITHUB_ENV
 
-      - name: Post to Canary Channel
+      - name: Post to Canary Group
         env:
-          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          GROUP_ID: ${{ secrets.GROUP_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CANARY: ${{ env.APK_FILE_CANARY }}
           COMMIT_MESSAGE: |+
@@ -129,7 +131,7 @@ jobs:
         run: |
           ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')
           cd ${{ github.workspace }}
-          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22:%22document%22,%20%22media%22:%22attach://canary%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D" -F canary="@${CANARY}"
+          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID}&media=%5B%7B%22type%22:%22document%22,%20%22media%22:%22attach://canary%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D" -F canary="@${CANARY}"
 
   push_to_debug_group:
     if: github.event_name == 'pull_request'
