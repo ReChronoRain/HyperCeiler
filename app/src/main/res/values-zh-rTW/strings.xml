@@ -19,7 +19,7 @@
   -->
 <resources>
     <string name="version_update">發現新版本</string>
-    <string name="about_copy_right">© 2023-2025 Sevtinge &amp; HyperCeiler 的建設者.</string>
+    <string name="about_copy_right">© 2023-2025 Sevtinge &amp; HyperCeiler 的貢獻者。</string>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">讓 HyperOS 再次偉大！</string>
     <string name="new_permission_wifi_state_desc">在裝置的內部儲存空間新增和刪除檔案</string>
@@ -28,7 +28,10 @@
     <string name="new_cta_app_main_purpose">修改系統應用程式</string>
     <string name="new_cta_app_all_purpose_title">歡迎使用 HyperCeiler，這個應用程式執行在 Xposed 框架上，您可以使用這個應用程式來劫持和修改其他支援的應用程式，以實現系統的增強功能。在使用過程中，為了提供您更多功能，我們可能會向您申請 Root/Su 權限。您可以到您的 Root/Su 管理員管理 Root/Su 權限。</string>
     <!--HyperCeiler Tips-->
+    <string name="error">錯誤</string>
     <string name="warn">警告</string>
+    <string name="app_error_desc">此模組發生致命崩潰，無法繼續運作！請提供以下錯誤訊息進行回饋！ \n\n</string>
+    <string name="app_exit">停止進程中</string>
     <string name="safe_mode_desc">%1$s由於多次閃退已進入安全模式，且 HyperCeiler 功能已暫時停用。 \n按一下「確定」取消，按一下「取消」稍後處理。</string>
     <string name="safe_mode_history">查看異常記錄</string>
     <string name="safe_mode_cancel">停用安全模式</string>
@@ -182,6 +185,7 @@
     <string name="clearable_edittext_clear_description">清空</string>
     <string name="preference_on">已開啟</string>
     <string name="preference_off">已關閉</string>
+    <string name="preference_enable_failed">無法啟用 %s</string>
     <string name="preference_copied">已將%1$s複製到剪貼簿。</string>
     <string name="preference_default_value_text">預設</string>
     <string name="preference_dialog_color_picker_default_title">選擇顏色</string>
@@ -217,7 +221,9 @@
     <string name="miuix_alphabet_indexer_name">索引條</string>
     <string name="miuix_appcompat_action_mode_cancel">取消</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">清除</string>
+    <string name="miuix_appcompat_color_erro_entry">無效值。請檢查並重新輸入。</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">透明度</string>
+    <string name="miuix_appcompat_color_picker_custom_color">自訂顏色</string>
     <string name="miuix_appcompat_color_picker_tab_dynamic">Monet</string>
     <string name="miuix_appcompat_color_picker_tab_grid">網格</string>
     <string name="miuix_appcompat_color_picker_tab_slider">滑塊</string>
@@ -232,6 +238,7 @@
     <string name="miuix_navigator_content_switch_description">顯示側邊欄</string>
     <string name="miuix_navigator_multiple_choice">選擇</string>
     <string name="miuix_navigator_navigator_switch_description">隱藏側邊欄</string>
+    <string name="miuix_preference_textentry_erro_entry">無效值。請檢查並重新輸入。</string>
     <string name="miuix_sbl_tracking_progress_labe_pull_to_refresh">下拉重新整理</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshed">重新整理成功</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshing">重新整理中…</string>
@@ -271,6 +278,7 @@
     <string name="system_ui_statusbar_indicator_bold">加粗</string>
     <!--Multi-list Array-->
     <string name="array_close">關閉</string>
+    <string name="array_hide">隐藏</string>
     <string name="array_default">預設</string>
     <string name="array_align_left">左側</string>
     <string name="array_align_right">右側</string>
@@ -376,12 +384,15 @@
     <string name="system_ui_statusbar_clock_style_3">頂部通知欄迷你時鐘\n底部狀態欄時鐘</string>
     <string name="mediaeditor_mickey">米奇</string>
     <string name="mediaeditor_strawberry_bear">草莓熊</string>
+    <string name="mediaeditor_disney_princess">迪士尼公主</string>
     <string name="tiles_gms">Google Play 服務</string>
     <string name="tiles_snow_leopard_mode">雪豹模式</string>
     <string name="tiles_taplus">傳送門開關</string>
     <string name="tiles_5g">5G 網路</string>
     <string name="dashboard_5g">使用 5G 網路</string>
     <string name="tiles_sunshine_mode">陽光模式</string>
+    <string name="system_cc_showpct_style_1">行內</string>
+    <string name="system_cc_showpct_style_2">明確</string>
     <!--System Framework-->
     <string name="system_framework">系統框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -573,6 +584,8 @@
     <string name="phone_disable_remove_network_mode">啟用網路類型選單</string>
     <string name="phone_vice_slot_volte">副卡 VoLTE 通話時可聯網</string>
     <string name="phone_vice_slot_volte_desc">在副卡通話時會將數據切換至副卡</string>
+    <string name="phone_unlock_voice_link">解鎖語音連結</string>
+    <string name="phone_unlock_voice_link_desc">為支援 Wi-Fi 通話的 SIM 卡解鎖語音鏈接</string>
     <!--Download management program-->
     <string name="downloads">下載管理程式</string>
     <string name="various_fuck_xlDownload">阻止建立 .xlDownload 資料夾</string>
@@ -599,6 +612,7 @@
     <string name="system_ui_lock_screen_show_spacing">顯示刷新間隔</string>
     <string name="system_ui_lock_screen_hide_camera">停用相機</string>
     <string name="system_ui_lock_screen_hide_smart_screen">停用資訊助理</string>
+    <string name="system_ui_lock_screen_bottom_left_button">底部左側按鈕</string>
     <string name="system_ui_lock_screen_current">當前</string>
     <string name="system_ui_lock_screen_blur_button">相機和智慧助理按鈕背景模糊</string>
     <string name="system_ui_lock_screen_blur_button_desc">啟用後，鎖定螢幕上的相機和負一螢幕按鈕背景會變得模糊，可能會導致功耗較高。\n僅支援預設主題。</string>
@@ -738,6 +752,7 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">網速值低於該水準時被認為慢，部分指示器圖示會有所不同</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">網速隱藏 *b/s 單位</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器圖示</string>
+    <string name="system_ui_statusbar_clock_tip">使用說明：\n- 啟用啟蒙功能後，請修改螢幕上的時鐘格式去切換應用程式。如果想時鐘格式顯示秒，請啟用「時鐘每秒刷新」功能。</string>
     <string name="system_ui_statusbar_clock_double_mode_title">雙排對齊方式</string>
     <string name="system_ui_statusbar_clock_desc">時鐘格式範例</string>
     <string name="system_ui_statusbar_clock_size">時鐘大小</string>
@@ -754,6 +769,7 @@
     <string name="system_ui_statusbar_clock_layout_b">通知欄大時鐘</string>
     <string name="system_ui_statusbar_clock_layout_n">通知欄迷你時鐘</string>
     <string name="system_ui_statusbar_clock_editor_s">狀態欄時鐘格式</string>
+    <string name="system_ui_statusbar_clock_editor_b">通知欄大時鐘格式</string>
     <string name="system_ui_statusbar_clock_editor_n">通知欄迷你時鐘格式</string>
     <string name="system_ui_statusbar_clock_style_f">狀態欄時鐘排列</string>
     <string name="system_ui_status_bar_strong_toast_layout">佈局</string>
@@ -804,6 +820,8 @@
     <string name="system_ui_control_center_notification_disable_transparent">停用透明模式</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">禁止將通知背景設為透明</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">最佳化媒體控制面板混色效果</string>
+    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">優化相簿圖片的圓角轉場</string>
+    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">移除專輯音訊來源識別符</string>
     <string name="system_ui_control_center_media_control_progress">進度條</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">取消媒體通知卡應用程式自訂操作的限制</string>
     <string name="system_ui_control_center_media_control_progress_wavy">波浪</string>
@@ -818,6 +836,8 @@
     <string name="system_ui_control_center_remove_media_control_panel_background">從卡片中刪除混合顏色背景</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景圖案模糊半徑</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景覆蓋層的不透明度</string>
+    <string name="system_ui_control_center_media_control_media_button_title">媒體按鈕</string>
+    <string name="system_ui_control_center_media_control_media_seekbar_title">媒體 Seekbar</string>
     <string name="system_ui_control_center_compact_notice">緊湊通知</string>
     <string name="system_ui_control_center_compact_notice_desc">減小通知垂直邊框</string>
     <string name="system_ui_control_center_redirect_notice">重定向通知設定</string>
@@ -858,10 +878,14 @@
     <string name="system_ui_control_center_remove_notif_num_limit_desc">允許顯示 10、17 或更多通知。</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">最佳化焦點通知背景混色效果</string>
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">恢復為正常通知背景混色效果</string>
+    <string name="system_ui_control_center_qs_brightness_top_value_show_title">顯示亮度值</string>
+    <string name="system_ui_control_center_qs_volume_top_value_show_title">顯示音量值</string>
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_disable_volume">原生音量條</string>
     <string name="system_ui_disable_power">原生電源選單</string>
+    <string name="system_ui_disable_volume_desc">無法套用 HyperOS 中音量欄的修改至原生音量欄</string>
     <string name="system_ui_unlock_clipboard">解鎖原生剪貼簿編輯器</string>
+    <string name="system_ui_unlock_clipboard_desc">解鎖後會與 HyperOS 編輯器一起彈出。</string>
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_disable_miui_multi_win_switch">隱藏快捷視窗按鈕</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">隱藏常駐的三個小點，包括小窗應用程式頂部和 HyperOS for Pad 橫向螢幕下頂部中間的快速視窗按鈕（不影響功能使用）</string>
@@ -870,6 +894,7 @@
     <string name="system_ui_disable_infinitymode_gesture_sum">平板裝置專用</string>
     <string name="system_ui_disable_bottombar">隱藏小窗應用程式的手勢提示線</string>
     <string name="system_ui_others_pct_title">數據顯示</string>
+    <string name="system_cc_showpct_style">數據百分比顯示樣式</string>
     <string name="system_showpct_title">顯示亮度百分比</string>
     <string name="system_cc_volume_showpct_title">顯示聲音百分比</string>
     <string name="system_ui_others_showpct_top">頂部邊距</string>
@@ -886,6 +911,10 @@
     <string name="system_ui_other_notification_fix">停用通知白名單</string>
     <string name="system_ui_other_default_plugin_theme">移除高級材質的模糊限制</string>
     <string name="system_ui_other_default_plugin_theme_desc">解除系統介面模組對第三方主題預設停用高級材質模糊效果</string>
+    <string name="system_ui_plugin_volume_title">音量條</string>
+    <string name="system_ui_volume_collpased_column_press">按下可展開輔助音量條</string>
+    <string name="system_ui_volume_collpased_column_press_desc">啟用此功能時，擴充按鈕就會被關閉。</string>
+    <string name="system_ui_volume_hide_foot_button">隱藏靜音和請勿打擾按鈕</string>
     <string name="system_ui_volume_timer">擴展計時器</string>
     <string name="system_ui_plugin_enable_volume_blur">音量條模糊</string>
     <string name="system_ui_move_log_to_miui">將 statusbar_gestures.dat 移至 MIUI 目錄</string>
@@ -1317,13 +1346,19 @@
     <string name="home_other_opt_app_launch_delay">最佳化應用程式啟動延遲</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">小米相簿-編輯</string>
+    <string name="mediaeditor_tip">使用說明：\n- 對於 1.7.5.0.4 或更高版本請用 v2 hook。對於 1.7.5.0.4 之前的版本則使用 v1 hook。</string>
+    <string name="mediaeditor_hook_type">相簿編輯器 hook 類型</string>
     <string name="mediaeditor_foundation">基礎</string>
+    <string name="mediaeditor_authoring">創作</string>
     <string name="mediaeditor_ai_authoring">AI 創作</string>
+    <string name="mediaeditor_custom_photo_frames_title">自定框架</string>
+    <string name="mediaeditor_custom_disney_title">聯合功能</string>
     <string name="mediaeditor_unlock_disney_title">解鎖 Disney 客製功能</string>
     <string name="mediaeditor_unlock_disney_desc">解鎖包括以下功能：\n- 訂製畫框-Disney 訂製畫框（與其他訂製畫框衝突）\n- 背景虛化-米奇虛化\n- 貼紙-Disney 貼紙</string>
     <string name="mediaeditor_unlock_spring_title">解鎖龍年春節訂製相框</string>
     <string name="mediaeditor_unlock_spring_desc">永久加入龍年春節訂製相框，前提是您需要徠卡訂製相框或紅米訂製相框。</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">解除最小圖片裁切限制</string>
+    <string name="mediaeditor_unlock_custom_photo_frames_v2_title">解鎖自訂框架</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">訂製畫框類型</string>
     <string name="mediaeditor_unlock_leica_filter_title">解鎖 Leica 濾鏡</string>
     <string name="mediaeditor_unlock_leica_filter_desc">僅支援部分版本</string>
@@ -1580,6 +1615,10 @@
     <string name="sogou_xiaomi_clipboard">解除剪貼簿數量限制</string>
     <string name="add_clipboard_clear">新增清空剪貼簿按鈕</string>
     <!--Sim Activation Service-->
+    <string name="sim_activation_service">小米 SIM 卡啟動服務</string>
+    <string name="sim_activation_service_disable_activate_when_roaming">漫遊時停用 SIM 卡 2</string>
+    <string name="sim_activation_service_disable_activate_when_roaming_desc">僅支援中國大陸</string>
+    <string name="sim_activation_service_disable_activate_when_roaming_radical">使用更積極的漫遊過濾</string>
     <!--Scanner-->
     <string name="scanner_hyper">小愛視覺</string>
     <string name="scanner_card">解鎖掃名片</string>
@@ -1741,4 +1780,8 @@
     <string name="log_level_none">停用日誌輸出</string>
     <string name="disable_suggest">停用推薦</string>
     <string name="enable_suggest">啟用推薦</string>
+    <string name="notification_channel_app_crash_name">應用程式運行異常</string>
+    <string name="notification_title_message_emergency_crash">%s 已多次崩潰</string>
+    <string name="notification_content_message">點擊查看詳情</string>
+    <string name="notification_view">檢示</string>
 </resources>

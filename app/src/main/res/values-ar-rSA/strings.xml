@@ -28,7 +28,10 @@
     <string name="new_cta_app_main_purpose">تعديل تطبيقات النظام</string>
     <string name="new_cta_app_all_purpose_title">مرحبا بكم في HyperCeiler. يعتمد هذا التطبيق على إطار LSposed للتشغيل. يمكنك استخدام هذا التطبيق لتعديل التطبيقات الأخرى المدعومة وتعديلها لتعزيز النظام. أثناء الاستخدام، من أجل تزويدك بمزيد من الوظائف، قد نتقدم بطلب أذونات الروت منك. يمكنك إدارتها في أي وقت عن طريق الذهاب إلى مدير الروت.</string>
     <!--HyperCeiler Tips-->
+    <string name="error">خطأ</string>
     <string name="warn">تنبيه</string>
+    <string name="app_error_desc">لقد تعرضت هذه الوحدة لانهيار مميت ولم تتمكن من الاستمرار في العمل! يرجى إحضار معلومات الخطأ التالية للتعليق عليها! \n\n</string>
+    <string name="app_exit">إنهاء العملية</string>
     <string name="safe_mode_desc">%1$s دخل وضع الأمان بسبب تعطل عدة مرات، وتم تعطيل خصائص HyperCeiler مؤقتًا.</string>
     <string name="safe_mode_history">عرض سجلات الاستثناء</string>
     <string name="safe_mode_cancel">تعطيل وضع الأمان</string>
@@ -182,6 +185,7 @@
     <string name="clearable_edittext_clear_description">مسح</string>
     <string name="preference_on">تم التشغيل</string>
     <string name="preference_off">تم إيقاف التشغيل</string>
+    <string name="preference_enable_failed">فشل في تمكين %s</string>
     <string name="preference_copied">\"%1$s\" تم نسخه إلى الحافظة.</string>
     <string name="preference_default_value_text">الافتراضي</string>
     <string name="preference_dialog_color_picker_default_title">اختر اللون</string>
@@ -274,6 +278,7 @@
     <string name="system_ui_statusbar_indicator_bold">خط عريض</string>
     <!--Multi-list Array-->
     <string name="array_close">إغلاق</string>
+    <string name="array_hide">إخفاء</string>
     <string name="array_default">الافتراضي</string>
     <string name="array_align_left">يسار</string>
     <string name="array_align_right">يمين</string>
@@ -386,6 +391,8 @@
     <string name="tiles_5g">شبكة 5G</string>
     <string name="dashboard_5g">استخدام 5G</string>
     <string name="tiles_sunshine_mode">وضع الضوء الشمسي</string>
+    <string name="system_cc_showpct_style_1">مضمن</string>
+    <string name="system_cc_showpct_style_2">صريح</string>
     <!--System Framework-->
     <string name="system_framework">إطار النظام</string>
     <string name="system_framework_volume_title">مستوى الصوت</string>
@@ -605,6 +612,7 @@
     <string name="system_ui_lock_screen_show_spacing">عرض الفاصل الزمني للتحديث</string>
     <string name="system_ui_lock_screen_hide_camera">إخفاء زر الكاميرا</string>
     <string name="system_ui_lock_screen_hide_smart_screen">إخفاء الشاشة الذكية</string>
+    <string name="system_ui_lock_screen_bottom_left_button">الزر الأيسر في الأسفل</string>
     <string name="system_ui_lock_screen_current">الحالي</string>
     <string name="system_ui_lock_screen_blur_button">تمويه أزرار شاشة القفل</string>
     <string name="system_ui_lock_screen_blur_button_desc">بعد التمكين، يتم تمويه خلفية زر الكاميرا وزر الشاشة السلبية على شاشة القفل، مما قد يؤدي إلى استهلاك طاقة مرتفع.\nيدعم الثيم الافتراضي فقط.</string>
@@ -744,6 +752,7 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">تعتبر قِيم سرعة الشبكة الأقل من هذا المستوى بطيئة وسيتم عرض أيقونة مؤشر مختلفة (بعض الأيقونات فقط)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">إخفاء البايت لكل ثانية (*ب/ث)</string>
     <string name="system_ui_statusbar_network_speed_icon">أيقونة المؤشر</string>
+    <string name="system_ui_statusbar_clock_tip">تعليمات الاستخدام:\n• بعد تفعيل ميزة التنوير، يرجى تعديل تنسيق الساعة على الشاشة لتبديل التطبيق. إذا كان تنسيق الساعة يتضمن الثواني، يرجى تفعيل ميزة \"تحديث الثواني\".</string>
     <string name="system_ui_statusbar_clock_double_mode_title">تنسيق الصف المزدوج</string>
     <string name="system_ui_statusbar_clock_desc">نموذج تنسيق الساعة</string>
     <string name="system_ui_statusbar_clock_size">حجم الساعة</string>
@@ -760,6 +769,7 @@
     <string name="system_ui_statusbar_clock_layout_b">ساعة كبيرة في ظل الإشعارات</string>
     <string name="system_ui_statusbar_clock_layout_n">ساعة صغيرة في ظل الإشعارات</string>
     <string name="system_ui_statusbar_clock_editor_s">تنسيق ساعة شريط الحالة</string>
+    <string name="system_ui_statusbar_clock_editor_b">تنسيق الساعة الكبيرة في لوحة الإشعارات</string>
     <string name="system_ui_statusbar_clock_editor_n">تنسيق ساعة صغيرة في ظل الإشعارات</string>
     <string name="system_ui_statusbar_clock_style_f">تنسيق ساعة شريط الحالة</string>
     <string name="system_ui_status_bar_strong_toast_layout">التصاميم</string>
@@ -884,6 +894,7 @@
     <string name="system_ui_disable_infinitymode_gesture_sum">مخصص للأجهزة اللوحية فقط</string>
     <string name="system_ui_disable_bottombar">إخفاء الإيماءة السفلية للنافذة الصغيرة</string>
     <string name="system_ui_others_pct_title">عرض البيانات</string>
+    <string name="system_cc_showpct_style">نمط عرض النسبة المئوية للبيانات</string>
     <string name="system_showpct_title">عرض نسبة السطوع</string>
     <string name="system_cc_volume_showpct_title">عرض نسبة الصوت</string>
     <string name="system_ui_others_showpct_top">نسبة العرض من الأعلى</string>
