@@ -35,7 +35,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AllowAllTheme
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CompactNotificationsHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ControlCenterStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.DisableDeviceManaged;
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ExpandNotification;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ExpandNotificationKt;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FiveGTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FixTilesList;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FlashLight;
@@ -225,7 +225,7 @@ public class SystemUiU extends BaseModule {
         initHook(new QSColor(), mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") || mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color"));
         initHook(new UnimportantNotification(), mPrefsMap.getBoolean("system_ui_control_center_unimportant_notification"));
         initHook(new BlurEnable(), mPrefsMap.getBoolean("system_ui_control_center_statusbar_blur"));
-        initHook(new ExpandNotification(), !mPrefsMap.getStringSet("system_ui_control_center_expand_notification").isEmpty());
+        initHook(ExpandNotificationKt.INSTANCE, !mPrefsMap.getStringSet("system_ui_control_center_expand_notification").isEmpty());
         initHook(new HideDelimiter(), mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) != 0);
         initHook(new GmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));
         initHook(new TaplusTile(), mPrefsMap.getBoolean("security_center_taplus"));
