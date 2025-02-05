@@ -37,12 +37,13 @@ import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendCol
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
+import com.sevtinge.hyperceiler.utils.devicesdk.isHyperOSVersion
 import com.sevtinge.hyperceiler.utils.setBooleanField
 import de.robv.android.xposed.XC_MethodHook
 
 object BlurButton : BaseHook() {
     private val removeLeft by lazy {
-        leftButtonType == 1
+        mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen")
     }
     private val removeRight by lazy {
         mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera")
@@ -88,15 +89,6 @@ object BlurButton : BaseHook() {
         return layoutDrawable
     }
 
-    private fun setOldBackgroundBlur(view: View): LayerDrawable {
-        val blurDrawable = createBlurDrawable(
-            view, 40, 100, Color.argb(60, 255, 255, 255)
-        )
-        val layoutDrawable = LayerDrawable(arrayOf(blurDrawable))
-        layoutDrawable.setLayerInset(0, radius, radius, radius, radius)
-        return layoutDrawable
-    }
-
     private fun systemBlur(param: XC_MethodHook.MethodHookParam) {
         val mLeftAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
             param.thisObject,
@@ -135,7 +127,7 @@ object BlurButton : BaseHook() {
             "mRightButton"
         )!!
 
-        if (!removeLeft) {
+        if ((!removeLeft && isHyperOSVersion(1f)) || leftButtonType == 1) {
             addHyBlur(mLeftAffordanceView)
         }
         if (!removeRight) {

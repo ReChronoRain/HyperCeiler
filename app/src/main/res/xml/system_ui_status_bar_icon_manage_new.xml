@@ -21,12 +21,10 @@
     app:myLocation="@string/system_ui_statusbar_iconmanage_title"
     app:quick_restart="com.android.systemui">
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_internet_title">
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_status_bar_icon_wifi_network_indicator"
-            android:title="@string/system_ui_status_bar_icon_wifi_network_indicator"
-            app:entries="@array/status_bar_icon_mode"
-            app:entryValues="@array/status_bar_icon_mode_value" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_icon_wifi_network_indicator_new"
+            android:title="@string/system_ui_status_bar_icon_wifi_network_indicator" />
 
         <fan.preference.DropDownPreference
             android:defaultValue="0"

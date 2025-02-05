@@ -20,28 +20,50 @@ package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all
 
 import android.view.View
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.StateFlowHelper.newReadonlyStateFlow
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
+import com.sevtinge.hyperceiler.utils.getObjectField
+import com.sevtinge.hyperceiler.utils.getStaticObjectField
+import com.sevtinge.hyperceiler.utils.setObjectField
 import de.robv.android.xposed.XposedHelpers
 
 object WifiNetworkIndicator : BaseHook() {
-    var mVisibility = 0
-    private var mStatusBarWifiView: Class<*>? = null
-    override fun init() {
-        mStatusBarWifiView = findClassIfExists("com.android.systemui.statusbar.StatusBarWifiView")
-        val mWifiNetworkIndicator =
-            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0)
+    private val mStatusBarWifiViewNew by lazy {
+        findClassIfExists("com.android.systemui.statusbar.pipeline.wifi.data.repository.prod.WifiRepositoryImpl")
+    }
+    private val mStatusBarWifiView by lazy {
+        findClassIfExists("com.android.systemui.statusbar.StatusBarWifiView")
+    }
 
-        when (mWifiNetworkIndicator) {
-            1 -> mVisibility = View.VISIBLE
-            2 -> mVisibility = View.INVISIBLE
+    override fun init() {
+        if (isMoreHyperOSVersion(2f)) {
+            hideWifiActivityNew()
+        } else {
+            hideWifiActivity()
         }
 
-        val hideWifiActivity: MethodHook = object : MethodHook() {
+    }
+
+    private fun hideWifiActivityNew() {
+        hookAllConstructors(mStatusBarWifiViewNew, object : MethodHook() {
+            override fun after(param: MethodHookParam) {
+                param.thisObject.setObjectField(
+                    "wifiActivity",
+                    newReadonlyStateFlow(
+                        mStatusBarWifiViewNew.getStaticObjectField("ACTIVITY_DEFAULT")
+                    )
+                )
+            }
+        })
+    }
+
+    private fun hideWifiActivity() {
+        hookAllMethods(mStatusBarWifiView, "applyWifiState", object : MethodHook() {
             override fun after(param: MethodHookParam) {
                 val mWifiActivityView =
-                    XposedHelpers.getObjectField(param.thisObject, "mWifiActivityView")
-                XposedHelpers.callMethod(mWifiActivityView, "setVisibility", mVisibility)
+                    param.thisObject.getObjectField("mWifiActivityView")
+                XposedHelpers.callMethod(mWifiActivityView, "setVisibility", View.GONE)
             }
-        }
-        hookAllMethods(mStatusBarWifiView, "applyWifiState", hideWifiActivity)
+        })
     }
 }

@@ -674,7 +674,7 @@
     <string name="system_ui_status_bar_icon_wifi_slave">從 Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Wi-Fi 標準</string>
     <string name="system_ui_status_bar_icon_hotspot">WIFI 熱點</string>
-    <string name="system_ui_status_bar_icon_wifi_network_indicator">網路活動指示器</string>
+    <string name="system_ui_status_bar_icon_wifi_network_indicator">隱藏網路活動指示器</string>
     <string name="system_ui_status_bar_icon_bluetooth">藍牙</string>
     <string name="system_ui_status_bar_icon_bluetooth_battery">藍牙電池</string>
     <string name="system_ui_status_bar_icon_new_hd">新 HD 圖示</string>
