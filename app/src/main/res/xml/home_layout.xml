@@ -163,6 +163,7 @@
             app:defaultValueTitle="@string/array_default"
             app:format="%d dp"
             app:maxValue="150"
+            app:minValue="60"
             app:showSeekBarValue="true" />
 
         <SwitchPreference
