@@ -28,9 +28,9 @@
 
         <Preference
             android:dependency="prefs_key_home_title_custom_anim_param_main"
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim1Settings"
-            android:key="prefs_key_home_title_custom_anim_param_1_title"
-            android:title="@string/home_title_custom_anim_param_1_title"
+            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim9Settings"
+            android:key="prefs_key_home_title_custom_anim_param_9_title"
+            android:title="@string/home_title_custom_anim_param_9_title"
             app:isPreferenceVisible="false" />
 
         <Preference

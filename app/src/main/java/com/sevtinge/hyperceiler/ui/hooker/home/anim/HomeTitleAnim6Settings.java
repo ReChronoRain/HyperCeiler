@@ -21,53 +21,9 @@ package com.sevtinge.hyperceiler.ui.hooker.home.anim;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 
-import fan.preference.SeekBarPreferenceCompat;
-
 public class HomeTitleAnim6Settings extends DashboardFragment {
-    SeekBarPreferenceCompat mDRCX;
-    SeekBarPreferenceCompat mSRCX;
-    SeekBarPreferenceCompat mDRCY;
-    SeekBarPreferenceCompat mSRCY;
-    SeekBarPreferenceCompat mDRW;
-    SeekBarPreferenceCompat mSRW;
-    SeekBarPreferenceCompat mDRR;
-    SeekBarPreferenceCompat mSRR;
-    SeekBarPreferenceCompat mDR;
-    SeekBarPreferenceCompat mSR;
-    SeekBarPreferenceCompat mDA;
-    SeekBarPreferenceCompat mSA;
-
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.home_title_anim_6;
-    }
-
-    @Override
-    public void initPrefs() {
-        mDRCX = findPreference("prefs_key_home_title_custom_anim_param_damping_RECT_CENTERX_6");
-        mSRCX = findPreference("prefs_key_home_title_custom_anim_param_stiffness_RECT_CENTERX_6");
-        mDRCY = findPreference("prefs_key_home_title_custom_anim_param_damping_RECT_CENTERY_6");
-        mSRCY = findPreference("prefs_key_home_title_custom_anim_param_stiffness_RECT_CENTERY_6");
-        mDRW = findPreference("prefs_key_home_title_custom_anim_param_damping_RECT_WIDTH_6");
-        mSRW = findPreference("prefs_key_home_title_custom_anim_param_stiffness_RECT_WIDTH_6");
-        mDRR = findPreference("prefs_key_home_title_custom_anim_param_damping_RECT_RATIO_6");
-        mSRR = findPreference("prefs_key_home_title_custom_anim_param_stiffness_RECT_RATIO_6");
-        mDR = findPreference("prefs_key_home_title_custom_anim_param_damping_RADIUS_6");
-        mSR = findPreference("prefs_key_home_title_custom_anim_param_stiffness_RADIUS_6");
-        mDA = findPreference("prefs_key_home_title_custom_anim_param_damping_ALPHA_6");
-        mSA = findPreference("prefs_key_home_title_custom_anim_param_stiffness_ALPHA_6");
-
-        mDRCX.setDefaultValue(950);
-        mSRCX.setDefaultValue(378);
-        mDRCY.setDefaultValue(950);
-        mSRCY.setDefaultValue(378);
-        mDRW.setDefaultValue(900);
-        mSRW.setDefaultValue(405);
-        mDRR.setDefaultValue(950);
-        mSRR.setDefaultValue(333);
-        mDR.setDefaultValue(990);
-        mSR.setDefaultValue(180);
-        mDA.setDefaultValue(990);
-        mSA.setDefaultValue(378);
     }
 }

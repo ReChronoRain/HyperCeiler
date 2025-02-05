@@ -31,10 +31,15 @@ import de.robv.android.xposed.XC_MethodReplacement;
 public class AnimParamCustom extends BaseHook {
     @Override
     public void init() {
+        Class<?> clazzRectFSpringAnimRectAnimType = findClassIfExists("com.miui.home.recents.util.RectFSpringAnim$RectAnimType");
+        if (clazzRectFSpringAnimRectAnimType == null) {
+            AndroidLogUtils.logE(TAG, "clazzRectFSpringAnimRectAnimType is not found");
+            return;
+        }
+
         findAndHookMethod("com.miui.home.recents.util.RectFSpringAnim", "setAnimParamByType", "com.miui.home.recents.util.RectFSpringAnim$AnimType", new XC_MethodReplacement() {
             @Override
             protected Object replaceHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-                Class<?> clazzRectFSpringAnimRectAnimType = findClassIfExists("com.miui.home.recents.util.RectFSpringAnim$RectAnimType");
                 Object RECT_CENTERX = ClassUtils.getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "RECT_CENTER_X");
                 Object RECT_CENTERY = ClassUtils.getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "RECT_CENTER_Y");
                 Object RECT_WIDTH = ClassUtils.getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "RECT_WIDTH");

@@ -21,44 +21,9 @@ package com.sevtinge.hyperceiler.ui.hooker.home.anim;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 
-import fan.preference.SeekBarPreferenceCompat;
-
 public class HomeTitleAnim8Settings extends DashboardFragment {
-
-    SeekBarPreferenceCompat mDRCX;
-    SeekBarPreferenceCompat mSRCX;
-    SeekBarPreferenceCompat mDRCY;
-    SeekBarPreferenceCompat mSRCY;
-    SeekBarPreferenceCompat mDRW;
-    SeekBarPreferenceCompat mSRW;
-    SeekBarPreferenceCompat mDRR;
-    SeekBarPreferenceCompat mSRR;
-
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.home_title_anim_8;
     }
-
-    @Override
-    public void initPrefs() {
-        mDRCX = findPreference("prefs_key_home_title_custom_anim_param_damping_RECT_CENTERX_8");
-        mSRCX = findPreference("prefs_key_home_title_custom_anim_param_stiffness_RECT_CENTERX_8");
-        mDRCY = findPreference("prefs_key_home_title_custom_anim_param_damping_RECT_CENTERY_8");
-        mSRCY = findPreference("prefs_key_home_title_custom_anim_param_stiffness_RECT_CENTERY_8");
-        mDRW = findPreference("prefs_key_home_title_custom_anim_param_damping_RECT_WIDTH_8");
-        mSRW = findPreference("prefs_key_home_title_custom_anim_param_stiffness_RECT_WIDTH_8");
-        mDRR = findPreference("prefs_key_home_title_custom_anim_param_damping_RECT_RATIO_8");
-        mSRR = findPreference("prefs_key_home_title_custom_anim_param_stiffness_RECT_RATIO_8");
-
-        mDRCX.setDefaultValue(990);
-        mSRCX.setDefaultValue(180);
-        mDRCY.setDefaultValue(990);
-        mSRCY.setDefaultValue(180);
-        mDRW.setDefaultValue(990);
-        mSRW.setDefaultValue(180);
-        mDRR.setDefaultValue(990);
-        mSRR.setDefaultValue(180);
-
-    }
-
 }

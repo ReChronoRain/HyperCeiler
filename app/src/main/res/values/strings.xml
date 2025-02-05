@@ -43,7 +43,6 @@
     <string name="summary_collapsed_preference_list" translatable="false">%1$s%2$s</string>
     <string name="networkboost" translatable="false">NetworkBoost</string>
     <string name="crc_value" translatable="false">399F71FC</string>
-    <string name="home_title_custom_anim_param_1_title" translatable="false">BREAK_OPEN</string>
     <string name="home_title_custom_anim_param_2_title" translatable="false">OPEN_FROM_HOME</string>
     <string name="home_title_custom_anim_param_3_title" translatable="false">OPEN_FROM_RECENTS</string>
     <string name="home_title_custom_anim_param_4_title" translatable="false">CLOSE_TO_RECENTS</string>
@@ -51,6 +50,7 @@
     <string name="home_title_custom_anim_param_6_title" translatable="false">CLOSE_FROM_FEED</string>
     <string name="home_title_custom_anim_param_7_title" translatable="false">APP_TO_APP</string>
     <string name="home_title_custom_anim_param_8_title" translatable="false">START_FIRST_TASK</string>
+    <string name="home_title_custom_anim_param_9_title" translatable="false">CLOSE_TO_DRAG</string>
     <string name="home_title_custom_anim_param_RECT_CENTERX_title" translatable="false">RECT_CENTERX</string>
     <string name="home_title_custom_anim_param_RECT_CENTERY_title" translatable="false">RECT_CENTERY</string>
     <string name="home_title_custom_anim_param_RECT_WIDTH_title" translatable="false">RECT_WIDTH</string>

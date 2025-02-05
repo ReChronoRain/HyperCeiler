@@ -59,13 +59,13 @@ import com.sevtinge.hyperceiler.ui.hooker.home.HomeRecentSettings;
 import com.sevtinge.hyperceiler.ui.hooker.home.HomeTitleAnimSettings;
 import com.sevtinge.hyperceiler.ui.hooker.home.HomeTitleSettings;
 import com.sevtinge.hyperceiler.ui.hooker.home.HomeWidgetSettings;
-import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim1Settings;
 import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim2Settings;
 import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim3Settings;
 import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim4Settings;
 import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim5Settings;
 import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim7Settings;
 import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim8Settings;
+import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim9Settings;
 import com.sevtinge.hyperceiler.ui.hooker.securitycenter.ApplicationsSettings;
 import com.sevtinge.hyperceiler.ui.hooker.securitycenter.PrivacySafetySettings;
 import com.sevtinge.hyperceiler.ui.hooker.securitycenter.SidebarSettings;
@@ -195,13 +195,6 @@ public class SearchHelper {
 
         parsePrefXml(context, HomeTitleAnimSettings.class, R.xml.home_title_anim, R.string.mihome, R.string.home_title);
 
-        parsePrefXml(context, HomeTitleAnim1Settings.class,
-                R.xml.home_title_anim_1,
-                R.string.mihome,
-                R.string.home_title,
-                R.string.home_title_custom_anim_param
-        );
-
         parsePrefXml(context, HomeTitleAnim2Settings.class,
                 R.xml.home_title_anim_2,
                 R.string.mihome,
@@ -247,6 +240,14 @@ public class SearchHelper {
         parsePrefXml(context,
                 HomeTitleAnim8Settings.class,
                 R.xml.home_title_anim_8,
+                R.string.mihome,
+                R.string.home_title,
+                R.string.home_title_custom_anim_param
+        );
+
+        parsePrefXml(context,
+                HomeTitleAnim9Settings.class,
+                R.xml.home_title_anim_9,
                 R.string.mihome,
                 R.string.home_title,
                 R.string.home_title_custom_anim_param
