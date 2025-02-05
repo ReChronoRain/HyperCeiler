@@ -28,7 +28,10 @@
     <string name="new_cta_app_main_purpose">sửa đổi ứng dụng hệ thống</string>
     <string name="new_cta_app_all_purpose_title">Chào mừng đến với HyperCeiler. Ứng dụng này dựa trên khung Xpose để chạy. Bạn có thể sử dụng ứng dụng này để chiếm quyền điều khiển và sửa đổi các ứng dụng được hỗ trợ khác nhằm nâng cao hệ thống.  Trong quá trình sử dụng, để cung cấp cho bạn nhiều chức năng hơn, chúng tôi có thể xin quyền Root/Su từ bạn. Bạn có thể quản lý nó bất kỳ lúc nào bằng cách đi tới Trình quản lý Root/Su.</string>
     <!--HyperCeiler Tips-->
+    <string name="error">Lỗi</string>
     <string name="warn">Cảnh báo</string>
+    <string name="app_error_desc">Mô-đun này đã bị hư nghiêm trọng và không thể tiếp tục chạy! Vui lòng đưa thông tin lỗi sau để phản hồi! \n\n</string>
+    <string name="app_exit">Quá trình kết thúc</string>
     <string name="safe_mode_desc">%1$s bạn đã vào Chế độ an toàn do một số sự cố và các tính năng của HyperCeiler đã tạm thời bị tắt.\nNhấp OK để hủy hoặc nhấp Hủy để tiếp tục sau.</string>
     <string name="safe_mode_history">Xem nhật ký ngoại lệ</string>
     <string name="safe_mode_cancel">Tắt chế độ an toàn</string>
@@ -182,6 +185,7 @@
     <string name="clearable_edittext_clear_description">Xoá hết</string>
     <string name="preference_on">Bật</string>
     <string name="preference_off">Tắt</string>
+    <string name="preference_enable_failed">Không thể bật %s</string>
     <string name="preference_copied">Sao chép vào clipboard.</string>
     <string name="preference_default_value_text">Mặc định</string>
     <string name="preference_dialog_color_picker_default_title">Lựa chọn màu</string>
@@ -274,6 +278,7 @@
     <string name="system_ui_statusbar_indicator_bold">Chữ đậm</string>
     <!--Multi-list Array-->
     <string name="array_close">Đóng</string>
+    <string name="array_hide">Ẩn</string>
     <string name="array_default">Mặc định</string>
     <string name="array_align_left">Bên trái</string>
     <string name="array_align_right">Bên phải</string>
@@ -386,6 +391,8 @@
     <string name="tiles_5g">5G</string>
     <string name="dashboard_5g">Dùng 5G</string>
     <string name="tiles_sunshine_mode">Chế độ ngoài trời</string>
+    <string name="system_cc_showpct_style_1">nội tuyến</string>
+    <string name="system_cc_showpct_style_2">rõ ràng</string>
     <!--System Framework-->
     <string name="system_framework">Framework hệ thống</string>
     <string name="system_framework_volume_title">Âm lượng</string>
@@ -607,6 +614,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_lock_screen_show_spacing">Thời gian làm mới</string>
     <string name="system_ui_lock_screen_hide_camera">Ẩn Camera</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Ẩn Khoá tạp chí</string>
+    <string name="system_ui_lock_screen_bottom_left_button">Nút bên trái ở phía dưới</string>
     <string name="system_ui_lock_screen_current">Hiện tại</string>
     <string name="system_ui_lock_screen_blur_button">Làm mờ phím tắt và thông báo</string>
     <string name="system_ui_lock_screen_blur_button_desc">Sau khi bật, nền của camera và nút màn hình điều hướng trên Màn hình khóa sẽ bị mờ, có thể gây tốn điện năng.\nChỉ hỗ trợ chủ đề mặc định.</string>
@@ -746,6 +754,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Khi giá trị tốc độ mạng thấp hơn mức này, nó được coi là chậm và một số biểu tượng chỉ báo sẽ hiển thị các biểu tượng chỉ báo khác nhau</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Ẩn hậu tố Byte trên giây (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Biểu tượng chỉ báo</string>
+    <string name="system_ui_statusbar_clock_tip">Hướng dẫn sử dụng:\n• Sau khi bật tính năng làm sáng, vui lòng sửa đổi định dạng đồng hồ trên màn hình để chuyển đổi ứng dụng. Nếu định dạng đồng hồ bao gồm giây, vui lòng bật tính năng \"Chuyển đổi làm mới giây\".</string>
     <string name="system_ui_statusbar_clock_double_mode_title">Căn chỉnh hàng đôi</string>
     <string name="system_ui_statusbar_clock_desc">Ví dụ về định dạng đồng hồ</string>
     <string name="system_ui_statusbar_clock_size">Kích thước đồng hồ (0 là giá trị gốc)</string>
@@ -762,6 +771,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_clock_layout_b">Đồng hồ lớn trên thanh thông báo</string>
     <string name="system_ui_statusbar_clock_layout_n">Đồng hồ nhỏ trên thanh thông báo</string>
     <string name="system_ui_statusbar_clock_editor_s">Định dạng đồng hồ trên thanh trạng thái</string>
+    <string name="system_ui_statusbar_clock_editor_b">Thanh thông báo dạng đồng hồ lớn</string>
     <string name="system_ui_statusbar_clock_editor_n">Định dạng đồng hồ nhỏ trên thanh thông báo</string>
     <string name="system_ui_statusbar_clock_style_f">Sắp xếp đồng hồ trên thanh trạng thái</string>
     <string name="system_ui_status_bar_strong_toast_layout">Bố cục</string>
@@ -886,6 +896,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_disable_infinitymode_gesture_sum">Chỉ sử dụng cho máy tính bảng</string>
     <string name="system_ui_disable_bottombar">Ẩn cử chỉ dưới cùng của cửa sổ nhỏ</string>
     <string name="system_ui_others_pct_title">Hiển thị dữ liệu</string>
+    <string name="system_cc_showpct_style">Kiểu hiển thị phần trăm dữ liệu</string>
     <string name="system_showpct_title">Hiển thị phần trăm độ sáng</string>
     <string name="system_cc_volume_showpct_title">Hiển thị phần trăm âm thanh</string>
     <string name="system_ui_others_showpct_top">Phần trăm cao nhất</string>
@@ -1259,7 +1270,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_recent_hide_card_desc">Ẩn thẻ của ứng dụng đã chọn trong Gần đây</string>
     <string name="home_widget">Tiện ích</string>
     <string name="home_widget_all_widget_animation">Hoạt ảnh tiện ích</string>
-    <string name="home_widget_show_miui_widget">Hiển thị tiện ích HyperOS</string>
+    <string name="home_widget_show_miui_widget">Hiển thị tiện ích MIUI</string>
     <string name="home_widget_show_miui_widget_desc">Hiển thị tiện ích HyperOS trên trang tiện ích Android</string>
     <string name="home_widget_corner_radius">Bo tròn góc tiện ích</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Cho phép di chuyển tiện ích Android sang màn hình -1</string>
