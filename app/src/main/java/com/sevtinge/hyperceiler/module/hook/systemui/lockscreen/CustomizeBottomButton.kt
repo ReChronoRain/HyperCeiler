@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.SystemClock
 import android.view.HapticFeedbackConstants
@@ -19,6 +20,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.base.api.FlashlightControll
 import com.sevtinge.hyperceiler.module.hook.systemui.base.api.MiuiStub
 import com.sevtinge.hyperceiler.module.hook.systemui.base.lockscreen.Keyguard.keyguardBottomAreaInjector
 import com.sevtinge.hyperceiler.module.hook.systemui.base.lockscreen.Keyguard.leftButtonType
+import com.sevtinge.hyperceiler.utils.MethodHookParam
 import com.sevtinge.hyperceiler.utils.getAdditionalInstanceFieldAs
 import com.sevtinge.hyperceiler.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.utils.setAdditionalInstanceField
@@ -137,14 +139,24 @@ object CustomizeBottomButton : BaseHook() {
             }
         )
 
+        fun chargeImage(param: MethodHookParam, context: Context) {
+            val mBottomIconRectIsDeep = param.thisObject.getObjectFieldAs<Boolean>("mBottomIconRectIsDeep")
+            if (!mBottomIconRectIsDeep) {
+                offDrawable = context.getDrawable(R.drawable.ic_flashlight_off_filled_black)
+                onDrawable = context.getDrawable(R.drawable.ic_flashlight_on_filled_black)
+            } else {
+                offDrawable = context.getDrawable(R.drawable.ic_flashlight_off_filled)
+                onDrawable = context.getDrawable(R.drawable.ic_flashlight_on_filled)
+            }
+        }
+
         hookAllConstructors(keyguardBottomAreaInjector, object : MethodHook() {
             override fun after(param: MethodHookParam) {
                 flashlightController = MiuiStub.sysUIProvider.flashlightController
 
                 val context = MiuiStub.baseProvider.context
                 ResourcesTool.loadModuleRes(context)
-                offDrawable = context.getDrawable(R.drawable.ic_flashlight_off_filled)
-                onDrawable = context.getDrawable(R.drawable.ic_flashlight_on_filled)
+                chargeImage(param, context)
             }
         })
 
@@ -154,6 +166,8 @@ object CustomizeBottomButton : BaseHook() {
                     resetImageDrawable(false, false)
                     it.setOnTouchListener(touchListener)
                 }
+                val context = MiuiStub.baseProvider.context
+                chargeImage(param, context)
             }
         })
 

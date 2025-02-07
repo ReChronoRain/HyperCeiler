@@ -127,7 +127,7 @@ object BlurButton : BaseHook() {
             "mRightButton"
         )!!
 
-        if ((!removeLeft && isHyperOSVersion(1f)) || leftButtonType == 1) {
+        if ((!removeLeft && isHyperOSVersion(1f)) || leftButtonType != 1) {
             addHyBlur(mLeftAffordanceView)
         }
         if (!removeRight) {
