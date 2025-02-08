@@ -18,10 +18,10 @@
  */
 package com.sevtinge.hyperceiler.ui.hooker.framework;
 
-import android.provider.Settings;
-
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
 
 import fan.preference.DropDownPreference;
 
@@ -38,8 +38,14 @@ public class VolumeSettings extends DashboardFragment {
     public void initPrefs() {
         mDefaultVolumeStream = findPreference("prefs_key_system_framework_default_volume_stream");
 
+        assert mDefaultVolumeStream != null;
         mDefaultVolumeStream.setOnPreferenceChangeListener((preference, o) -> {
-            Settings.Secure.putInt(getContext().getContentResolver(), "system_framework_default_volume_stream", Integer.parseInt((String) o));
+            try {
+                String command = "settings put secure system_framework_default_volume_stream " + Integer.parseInt((String) o);
+                ShellUtils.execCommand(command, true);
+            } catch (Throwable e) {
+                AndroidLogUtils.logE("VolumeSettings", "Throwable: " + e.getMessage());
+            }
             return true;
         });
     }
