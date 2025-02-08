@@ -60,7 +60,7 @@
             android:key="prefs_key_home_layout_unlock_grids_cell_x"
             android:title="@string/home_layout_unlock_grids_new_x"
             app:format="%d"
-            app:maxValue="8"
+            app:maxValue="9"
             app:minValue="3"
             app:stepValue="1" />
 
@@ -71,7 +71,7 @@
             android:title="@string/home_layout_unlock_grids_new_y"
             app:defaultValueTitle="@string/array_default"
             app:format="%d"
-            app:maxValue="9"
+            app:maxValue="13"
             app:minValue="4"
             app:stepValue="1" />
 
