@@ -28,7 +28,10 @@
     <string name="new_cta_app_main_purpose">modificar apps do sistema</string>
     <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler! Este app depende do LSPosed para ser executado. Você pode usar este app para sequestrar e modificar outros apps suportados para aprimorar o sistema. Durante o uso, para fornecer mais funções, podemos solicitar suas permissões Root/Su. Você pode gerenciá-lo a qualquer momento acessando seu gerenciador Root/Su.</string>
     <!--HyperCeiler Tips-->
+    <string name="error">Erro</string>
     <string name="warn">Atenção!</string>
+    <string name="app_error_desc">Este módulo encontrou uma falha crítica e não pode continuar a execução! Por favor, forneça as seguintes informações de erro para feedback! \n\n</string>
+    <string name="app_exit">OK</string>
     <string name="safe_mode_desc">%1$s entrou no Modo seguro devido a várias falhas e os recursos do HyperCeiler foi temporariamente desativado.</string>
     <string name="safe_mode_history">Ver registros de exceção</string>
     <string name="safe_mode_cancel">Desativar Modo seguro</string>
@@ -182,6 +185,7 @@
     <string name="clearable_edittext_clear_description">Limpar</string>
     <string name="preference_on">Ativado</string>
     <string name="preference_off">Desativado</string>
+    <string name="preference_enable_failed">Falha ao ativar %s</string>
     <string name="preference_copied">\"%1$s\" copiado para a área de transferência.</string>
     <string name="preference_default_value_text">Padrão</string>
     <string name="preference_dialog_color_picker_default_title">Escolha a cor</string>
@@ -274,6 +278,7 @@
     <string name="system_ui_statusbar_indicator_bold">Negrito</string>
     <!--Multi-list Array-->
     <string name="array_close">Fechar</string>
+    <string name="array_hide">Ocultar</string>
     <string name="array_default">Padrão</string>
     <string name="array_align_left">Esquerda</string>
     <string name="array_align_right">Direita</string>
@@ -386,6 +391,8 @@
     <string name="tiles_5g">Rede 5G</string>
     <string name="dashboard_5g">Usar 5G</string>
     <string name="tiles_sunshine_mode">Modo luz solar</string>
+    <string name="system_cc_showpct_style_1">Na linha</string>
+    <string name="system_cc_showpct_style_2">Explícito</string>
     <!--System Framework-->
     <string name="system_framework">Framework do Sistema</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -605,6 +612,7 @@
     <string name="system_ui_lock_screen_show_spacing">Intervalo de atualização de tela</string>
     <string name="system_ui_lock_screen_hide_camera">Ocultar câmera</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Ocultar tela inteligente</string>
+    <string name="system_ui_lock_screen_bottom_left_button">Botão esquerdo na parte inferior</string>
     <string name="system_ui_lock_screen_current">Corrente</string>
     <string name="system_ui_lock_screen_blur_button">Desfocar botões da Tela de bloqueio</string>
     <string name="system_ui_lock_screen_blur_button_desc">Após ativar, o fundo da câmera e do botão negativo da Tela de bloqueio ficam desfocados, o que pode causar alto consumo de energia.\nSuporta apenas o tema padrão.</string>
@@ -744,6 +752,7 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Os valores da velocidade de rede abaixo desse nível são considerados lentos e um indicador diferente será exibido (apenas alguns ícones)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Ocultar sufixo de bytes por segundo (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Ícone indicador</string>
+    <string name="system_ui_statusbar_clock_tip">Instruções de uso:\n• Após ativar o recurso de iluminação, modifique o formato do relógio na tela para alternar o app. Se o formato do relógio incluir os segundos, ative o recurso \"Interruptor de atualização dos segundos\".</string>
     <string name="system_ui_statusbar_clock_double_mode_title">Alinhamento de duas linhas</string>
     <string name="system_ui_statusbar_clock_desc">Exemplo do formato de relógio</string>
     <string name="system_ui_statusbar_clock_size">Tamanho do relógio</string>
@@ -760,6 +769,7 @@
     <string name="system_ui_statusbar_clock_layout_b">Grande relógio da Área de notificações</string>
     <string name="system_ui_statusbar_clock_layout_n">Mini-relógio da Área de notificações</string>
     <string name="system_ui_statusbar_clock_editor_s">Formato do relógio da barra de status</string>
+    <string name="system_ui_statusbar_clock_editor_b">Formato do grande relógio da Área de notificações</string>
     <string name="system_ui_statusbar_clock_editor_n">Formato do mini-relógio da Área de notificações</string>
     <string name="system_ui_statusbar_clock_style_f">Arranjo do relógio da barra de status</string>
     <string name="system_ui_status_bar_strong_toast_layout">Layout</string>
@@ -810,6 +820,8 @@
     <string name="system_ui_control_center_notification_disable_transparent">Desativar modo transparente</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Desative a configuração do plano de fundo da notificação para ser transparente</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Otimizar mistura de cores no painel de controle de mídia</string>
+    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Otimizar transição de cantos arredondados das imagens do álbum</string>
+    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">Remover identificador da fonte de áudio do álbum</string>
     <string name="system_ui_control_center_media_control_progress">Barra de progresso</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Remover restrições personalizadas para notificação de mídia</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Ondulado</string>
@@ -871,7 +883,9 @@
     <string name="system_ui_other_title">Outros</string>
     <string name="system_ui_disable_volume">Barra de volume nativa</string>
     <string name="system_ui_disable_power">Menu de energia nativo</string>
+    <string name="system_ui_disable_volume_desc">Modificações na barra de volume do HyperOS não podem ser aplicadas à barra de volume nativa</string>
     <string name="system_ui_unlock_clipboard">Desbloquear editor da área de transferência AOSP</string>
+    <string name="system_ui_unlock_clipboard_desc">Após o desbloqueio, ele aparecerá junto com o editor HyperOS.</string>
     <string name="system_ui_another_title">Outros</string>
     <string name="system_ui_disable_miui_multi_win_switch">Ocultar botão de Tela dividida</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Oculte os três pontos permanentes, incluindo a parte superior da janela pequena e o botão no meio da parte superior da tela horizontal do HyperOS para Pad (não afeta o uso das funções).</string>
@@ -880,6 +894,7 @@
     <string name="system_ui_disable_infinitymode_gesture_sum">Apenas para tablets</string>
     <string name="system_ui_disable_bottombar">Ocultar gesto inferior da janela pequena</string>
     <string name="system_ui_others_pct_title">Exibição de dados</string>
+    <string name="system_cc_showpct_style">Estilo de exibição de porcentagem de dados</string>
     <string name="system_showpct_title">Exibir porcentagem do brilho</string>
     <string name="system_cc_volume_showpct_title">Exibir porcentagem do som</string>
     <string name="system_ui_others_showpct_top">Topo da porcentagem</string>
@@ -898,10 +913,12 @@
     <string name="system_ui_other_default_plugin_theme_desc">Desbloqueie o blur das Texturas avançadas, que está desativado por padrão para temas de terceiros no Plug-in da IU do Sistema.</string>
     <string name="system_ui_plugin_volume_title">Barra de volume</string>
     <string name="system_ui_volume_collpased_column_press">Pressionar para expandir a barra de volume secundária</string>
+    <string name="system_ui_volume_collpased_column_press_desc">Quando esse recurso está ativado, o botão de expansão fica desativado.</string>
+    <string name="system_ui_volume_hide_foot_button">Ocultar botões mudo e Não perturbe</string>
     <string name="system_ui_volume_timer">Timer estendido</string>
     <string name="system_ui_plugin_enable_volume_blur">Ativar blur na barra de volume</string>
     <string name="system_ui_move_log_to_miui">Mover statusbar_gestures.dat para o diretório MIUI</string>
-    <string name="system_ui_plugin_enable_volume_blur_desc">Pode haver alta carga na GPU.</string>
+    <string name="system_ui_plugin_enable_volume_blur_desc">Pode haver alta carga na GPU</string>
     <!--Telecom-->
     <string name="telecom">Gerenciamento de chamadas</string>
     <string name="scam_reminder_bypass_caption">Permitir encaminhamento de chamadas através do código MMI</string>
@@ -1329,6 +1346,8 @@
     <string name="home_other_opt_app_launch_delay">Otimizar atraso na abertura do app</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Editor da Galeria</string>
+    <string name="mediaeditor_tip">Instruções de uso:\n• Use o gancho v2 para versões 1.7.5.0.4 ou superiores. Para versões anteriores à 1.7.5.0.4, use o gancho v1.</string>
+    <string name="mediaeditor_hook_type">Tipo de gancho do Editor da Galeria</string>
     <string name="mediaeditor_foundation">Fundação</string>
     <string name="mediaeditor_authoring">Autoria</string>
     <string name="mediaeditor_ai_authoring">Autoria de IA</string>
@@ -1597,7 +1616,9 @@
     <string name="add_clipboard_clear">Adicionar botão limpar área de transferência</string>
     <!--Sim Activation Service-->
     <string name="sim_activation_service">Serviço de ativação do SIM Xiaomi</string>
+    <string name="sim_activation_service_disable_activate_when_roaming">Desativar ativação do SIM 2 em roaming</string>
     <string name="sim_activation_service_disable_activate_when_roaming_desc">Apenas o Continente Chinês é suportado</string>
+    <string name="sim_activation_service_disable_activate_when_roaming_radical">Usar filtragem de roaming mais agressiva</string>
     <!--Scanner-->
     <string name="scanner_hyper">Scanner IA</string>
     <string name="scanner_card">Desbloquear Escanear cartão ID</string>
@@ -1759,6 +1780,8 @@
     <string name="log_level_none">Desativado</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
+    <string name="notification_channel_app_crash_name">O app está funcionando de forma anormal</string>
+    <string name="notification_title_message_emergency_crash">%s travou várias vezes</string>
     <string name="notification_content_message">Clique para ver detalhes</string>
     <string name="notification_view">Ver</string>
 </resources>
