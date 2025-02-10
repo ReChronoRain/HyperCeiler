@@ -28,7 +28,10 @@
     <string name="new_cta_app_main_purpose">изменить системные приложения</string>
     <string name="new_cta_app_all_purpose_title">Добро пожаловать в HyperCeiler! Это приложение использует для работы фреймворк Xposed. Вы можете использовать это приложение для взлома и изменения других поддерживаемых приложений с целью улучшения системы. Во время использования, чтобы предоставить вам больше функций, мы можем запросить у вас разрешения Root/Su. Вы можете управлять этим в любое время, перейдя в свой менеджер Root/Su.</string>
     <!--HyperCeiler Tips-->
+    <string name="error">Ошибка</string>
     <string name="warn">Предупреждение</string>
+    <string name="app_error_desc">Этот модуль столкнулся с критическим сбоем и не может продолжать работу! Пожалуйста, предоставьте следующую информацию об ошибке для обратной связи! \n\n</string>
+    <string name="app_exit">ОК</string>
     <string name="safe_mode_desc">Перешел в безопасный режим из-за нескольких сбоев, а функциональность HyperCeiler временно отключена. Нажмите \"ОК\", чтобы отменить, нажмите \"Отмена\", чтобы продолжить обработку позже.</string>
     <string name="safe_mode_history">Просмотр записей исключений</string>
     <string name="safe_mode_cancel">Отключить безопасный режим</string>
@@ -182,6 +185,7 @@
     <string name="clearable_edittext_clear_description">Очистить</string>
     <string name="preference_on">Включено</string>
     <string name="preference_off">Выключено</string>
+    <string name="preference_enable_failed">Не удалось включить %s</string>
     <string name="preference_copied">%1$s скопировано в буфер обмена.</string>
     <string name="preference_default_value_text">Стандарт</string>
     <string name="preference_dialog_color_picker_default_title">Выбрать цвет</string>
@@ -274,6 +278,7 @@
     <string name="system_ui_statusbar_indicator_bold">Жирный</string>
     <!--Multi-list Array-->
     <string name="array_close">Закрыть</string>
+    <string name="array_hide">Скрыть</string>
     <string name="array_default">Стандарт</string>
     <string name="array_align_left">Слева</string>
     <string name="array_align_right">Справа</string>
@@ -386,6 +391,8 @@
     <string name="tiles_5g">Сеть 5G</string>
     <string name="dashboard_5g">Использовать 5G</string>
     <string name="tiles_sunshine_mode">Солнечный режим</string>
+    <string name="system_cc_showpct_style_1">Встроенный</string>
+    <string name="system_cc_showpct_style_2">Явный</string>
     <!--System Framework-->
     <string name="system_framework">Системный фреймворк</string>
     <string name="system_framework_volume_title">Громкость</string>
@@ -605,6 +612,7 @@
     <string name="system_ui_lock_screen_show_spacing">Показывать интервал обновления</string>
     <string name="system_ui_lock_screen_hide_camera">Скрыть камеру</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Скрыть умный экран</string>
+    <string name="system_ui_lock_screen_bottom_left_button">Левая кнопка внизу</string>
     <string name="system_ui_lock_screen_current">Ток</string>
     <string name="system_ui_lock_screen_blur_button">Размытие камеры и кнопки умного экрана</string>
     <string name="system_ui_lock_screen_blur_button_desc">После включения фон камеры и кнопки отрицательного экрана на экране блокировки размыты, что может привести к высокому энергопотреблению. Поддерживается только тема по умолчанию.</string>
@@ -744,6 +752,7 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Значения скорости сети ниже этого уровня считаются низкими и будет отображаться другой значок индикатора (только часть значков).</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Скрыть суффикс байт в секунду (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Значок индикатора</string>
+    <string name="system_ui_statusbar_clock_tip">Инструкции по использованию:\n• После включения функции просветления измените формат часов на дисплее, чтобы переключить приложение. Если формат часов включает секунды, включите функцию \"Переключатель обновления секунд\".</string>
     <string name="system_ui_statusbar_clock_double_mode_title">Выравнивание двойных строк</string>
     <string name="system_ui_statusbar_clock_desc">Пример формата часов</string>
     <string name="system_ui_statusbar_clock_size">Размер часов</string>
@@ -760,6 +769,7 @@
     <string name="system_ui_statusbar_clock_layout_b">Большие часы на панели уведомлений</string>
     <string name="system_ui_statusbar_clock_layout_n">Мини-часы на панели уведомлений</string>
     <string name="system_ui_statusbar_clock_editor_s">Формат часов в строке состояния</string>
+    <string name="system_ui_statusbar_clock_editor_b">Оттенок уведомления в большом формате часов</string>
     <string name="system_ui_statusbar_clock_editor_n">Формат мини-часов на панели уведомлений</string>
     <string name="system_ui_statusbar_clock_style_f">Расположение часов в строке состояния</string>
     <string name="system_ui_status_bar_strong_toast_layout">Отображение</string>
@@ -884,6 +894,7 @@
     <string name="system_ui_disable_infinitymode_gesture_sum">Только для планшета</string>
     <string name="system_ui_disable_bottombar">Скрыть нижний жест маленького окна</string>
     <string name="system_ui_others_pct_title">Отображение данных</string>
+    <string name="system_cc_showpct_style">Стиль отображения данных в процентах</string>
     <string name="system_showpct_title">Отображать процент яркости</string>
     <string name="system_cc_volume_showpct_title">Отображать процентное содержание звука</string>
     <string name="system_ui_others_showpct_top">Верхний процент</string>
