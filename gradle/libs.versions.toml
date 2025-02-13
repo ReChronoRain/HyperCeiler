@@ -1,12 +1,12 @@
 [versions]
-agp = "8.8.0"
+agp = "8.8.1"
 kotlin-android = "2.1.10"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 
 annotation = "1.9.1"
 core = "1.15.0"
-fragment = "1.8.5"
+fragment = "1.8.6"
 lunarcalendar = "latest.release"
 miuix = "1.0.5"
 recyclerview = "1.4.0"
