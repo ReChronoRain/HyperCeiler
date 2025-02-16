@@ -66,7 +66,7 @@ abstract class MusicBaseHook : BaseHook() {
         // 尝试修复更新到酒域 2.0.25 版本后焦点通知歌词无显示的问题
         Application::class.java.methodFinder().filterByName("attach").first()
             .createAfterHook {
-                val mContext = hook.args[0] as Context
+                val mContext = it.args[0] as Context
                 runCatching {
                     registerLyricListener(mContext, API.API_VERSION, receiver)
                     // if (isDebug()) logD(TAG, lpparam.packageName, "registerLyricListener")
