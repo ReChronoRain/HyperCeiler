@@ -63,11 +63,19 @@ abstract class MusicBaseHook : BaseHook() {
     })
 
     init {
+        // 尝试修复更新到酒域 2.0.25 版本后焦点通知歌词无显示的问题
+        runCatching {
+            registerLyricListener(context, API.API_VERSION, receiver)
+        }.onFailure {
+            logE(TAG, lpparam.packageName, it)
+        }
+        /*
         loadClass("android.app.Application").methodFinder().filterByName("onCreate").first()
             .createAfterHook {
                 registerLyricListener(context, API.API_VERSION, receiver)
                 if (isDebug()) logD(TAG, lpparam.packageName, "registerLyricListener")
             }
+        */
     }
 
     abstract fun onUpdate(lyricData: LyricData)
