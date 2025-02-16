@@ -36,4 +36,7 @@
 -dontwarn javax.annotation.processing.Processor
 -dontwarn miui.util.HapticFeedbackUtil
 -allowaccessmodification
--overloadaggressively
+-obfuscationdictionary          dict.txt
+-classobfuscationdictionary     dict.txt
+-packageobfuscationdictionary   dict.txt
+
