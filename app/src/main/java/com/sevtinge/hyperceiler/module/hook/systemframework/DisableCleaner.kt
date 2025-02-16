@@ -92,7 +92,7 @@ object DisableCleaner : BaseHook() {
                 }
             }
         )
-        hookAllMethods("com.miui.cameraopt.booster.CameraBooster", "notifyActivityChanged",
+        hookAllMethods("com.miui.cameraopt.adapter.ProcessManagerAdapter", "killApplication",
             object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.result = null
