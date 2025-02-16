@@ -71,7 +71,7 @@ abstract class MusicBaseHook : BaseHook() {
                     registerLyricListener(mContext, API.API_VERSION, receiver)
                     // if (isDebug()) logD(TAG, lpparam.packageName, "registerLyricListener")
                 }.onFailure {
-                    logE(TAG, lpparam.packageName, "registerLyricListener is no found")
+                    logE(TAG, "registerLyricListener is no found")
                 }
             }
         /*
