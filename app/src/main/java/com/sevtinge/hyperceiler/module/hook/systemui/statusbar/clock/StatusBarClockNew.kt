@@ -18,12 +18,12 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock
 
-import android.content.*
-import android.graphics.*
-import android.os.*
-import android.util.*
-import android.view.*
-import android.widget.*
+import android.content.Context
+import android.graphics.Typeface
+import android.os.Handler
+import android.util.TypedValue
+import android.view.View
+import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
@@ -31,29 +31,40 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.api.LazyClass.mNewClockClass
-import com.sevtinge.hyperceiler.utils.devicesdk.*
-import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
-import de.robv.android.xposed.*
-import java.lang.reflect.*
-import java.util.*
-import kotlin.Pair
+import com.sevtinge.hyperceiler.utils.callMethod
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px
+import com.sevtinge.hyperceiler.utils.devicesdk.isHyperOSVersion
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
+import com.sevtinge.hyperceiler.utils.getObjectField
+import de.robv.android.xposed.XC_MethodHook
+import java.lang.reflect.Method
+import java.util.Timer
+import java.util.TimerTask
 
 object StatusBarClockNew : BaseHook() {
     private val statusBarClass by lazy {
         loadClass("com.android.systemui.statusbar.views.MiuiClock")
     }
 
-    private val clockBold by lazy {
+    private val sBold by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_clock_bold")
     }
-    private val isBold by lazy {
+    private val bBold by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_clock_big_bold")
+    }
+    private val nBold by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_clock_small_bold")
+    }
+    private val pBold by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_clock_pad_bold")
     }
     private val isSync by lazy {
         mPrefsMap.getBoolean("system_ui_disable_clock_synch")
+    }
+    private val isHidePClock by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_clock_pad_hide")
     }
     private val clockSizeS by lazy {
         mPrefsMap.getInt("system_ui_statusbar_clock_size_1", 12)
@@ -63,6 +74,9 @@ object StatusBarClockNew : BaseHook() {
     }
     private val clockSizeN by lazy {
         mPrefsMap.getInt("system_ui_statusbar_clock_size_3", 12)
+    }
+    private val clockSizeP by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_clock_size_4", 12)
     }
     private val clockTextSpacing by lazy {
         mPrefsMap.getInt("system_ui_statusbar_clock_double_spacing_margin_1", 16)
@@ -97,6 +111,15 @@ object StatusBarClockNew : BaseHook() {
     private val nClockVerticalOffset by lazy {
         mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset_3", 12)
     }
+    private val pClockLeftMargin by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_clock_left_margin_4", 0)
+    }
+    private val pClockRightMargin by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_clock_right_margin_4", 0)
+    }
+    private val pClockVerticalOffset by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset_4", 12)
+    }
     private val clockAlign by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_1", 0)
     }
@@ -114,6 +137,9 @@ object StatusBarClockNew : BaseHook() {
     private val getFormatN by lazy {
         mPrefsMap.getString("system_ui_statusbar_clock_editor_n", "")
     }
+    private val getFormatP by lazy {
+        mPrefsMap.getString("system_ui_statusbar_clock_editor_p", "")
+    }
     private val getClockStyle by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_clock_style", 0)
     }
@@ -126,6 +152,9 @@ object StatusBarClockNew : BaseHook() {
     }
     private val safeFormatN by lazy {
         safeSplitFirst(getFormatN)
+    }
+    private val safeFormatP by lazy {
+        safeSplitFirst(getFormatP)
     }
     private val sClockName by lazy {
         if (getFormatN.isNullOrEmpty()) {
@@ -153,14 +182,20 @@ object StatusBarClockNew : BaseHook() {
                     val miuiClock = it.thisObject as TextView
                     val miuiClockName = miuiClock.resources.getResourceEntryName(miuiClock.id)
                         ?: return@createAfterHook
-
                     val isSec =
-                        miuiClockName in setOf("clock", "big_time", "date_time")
+                        miuiClockName in setOf("clock", "big_time", "date_time", "pad_clock")
                     // miuiClockName 内部标签分类如下
                     // clock 竖屏状态栏时钟
                     // big_time 通知中心时钟
                     // horizontal_time 横屏通知中心时钟
                     // date_time 通知中心日期时钟
+                    // pad_clock Pad 状态栏日期时钟
+                    if (miuiClockName == "pad_clock" && isHidePClock) {
+                        miuiClock.apply {
+                            setTextSize(TypedValue.COMPLEX_UNIT_DIP, 0f)
+                            setPaddingRelative(1, 0, 0, 0)
+                        }
+                    }
 
                     if (getClockStyle != 0 && miuiClockName == "clock")
                         miuiClock.isSingleLine = false
@@ -183,7 +218,7 @@ object StatusBarClockNew : BaseHook() {
                 }
             }
 
-        if (isMoreHyperOSVersion(2f) && isBold) {
+        if (isMoreHyperOSVersion(2f) && bBold) {
             loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController\$notificationCallback\$1").methodFinder()
                 .filterByName("onExpansionChanged").first().createAfterHook {
                     val notificationHeaderExpandController =
@@ -222,20 +257,31 @@ object StatusBarClockNew : BaseHook() {
         val textV = hook.thisObject as TextView
         val context = textV.context
         val miuiClockName = textV.resources.getResourceEntryName(textV.id) ?: return
+        val isHide = (isHidePClock && miuiClockName == "pad_clock") || miuiClockName == "normal_control_center_date_view"
+        val isEmpty = listOf(
+            getFormatN.isEmpty() && miuiClockName == "date_time",
+            getFormatP.isEmpty() && miuiClockName == "pad_clock",
+            miuiClockName == "horizontal_time"
+        ).any { it }
 
-        if (miuiClockName in setOf("clock", "big_time", "date_time")) {
-            setMiuiClockStyle(miuiClockName, textV)
+        if (isHide) return
+        setMiuiClockStyle(miuiClockName, textV)
 
-            if (getFormatN.isEmpty() && miuiClockName == "date_time") return
-
-            setMiuiClockFormat(context, miuiClockName, textV)
-            hook.result = null
-        }
+        if (isEmpty) return
+        setMiuiClockFormat(context, miuiClockName, textV)
+        hook.result = null
     }
 
     private fun setMiuiClockStyle(name: String, text: TextView) {
         // 时钟加粗
-        if (clockBold && (name == "clock" || (name == "big_time" && isBold && !isMoreHyperOSVersion(2f)))) {
+        val shouldUseBold = listOf(
+            sBold && name == "clock",
+            bBold && name == "big_time" && !isMoreHyperOSVersion(2f),
+            nBold && name in setOf("date_time", "horizontal_time"),
+            pBold && name == "pad_clock"
+        ).any { it }
+
+        if (shouldUseBold) {
             text.typeface = Typeface.DEFAULT_BOLD
         }
 
@@ -270,6 +316,9 @@ object StatusBarClockNew : BaseHook() {
             "big_time" -> {
                 setClockMargin(text, bClockLeftMargin, bClockRightMargin, bClockVerticalOffset)
             }
+            "pad_clock" -> {
+                setClockMargin(text, pClockLeftMargin, pClockRightMargin, pClockVerticalOffset)
+            }
             else -> {
                 setClockMargin(text, nClockLeftMargin, nClockRightMargin, nClockVerticalOffset)
             }
@@ -288,6 +337,10 @@ object StatusBarClockNew : BaseHook() {
 
             clockSizeN != 12 && name in setOf("date_time", "horizontal_time") -> {
                 text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeN.toFloat())
+            }
+
+            clockSizeP != 12 && name == "pad_clock" -> {
+                text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeP.toFloat())
             }
         }
     }
@@ -323,12 +376,16 @@ object StatusBarClockNew : BaseHook() {
                 else StringBuilder(safeFormatS)
             )
 
+            "pad_clock" -> Pair(
+                StringBuilder(), StringBuilder(safeFormatP)
+            )
+
             else -> Pair(StringBuilder(), StringBuilder(safeFormatN))
         }
 
-        mCalendar.let {
-            it.callMethod("setTimeInMillis", System.currentTimeMillis())
-            it.callMethod("format", context, textSb, formatSb)
+        mCalendar.apply {
+            callMethod("setTimeInMillis", System.currentTimeMillis())
+            callMethod("format", context, textSb, formatSb)
             textV.text = textSb.toString()
         }
     }

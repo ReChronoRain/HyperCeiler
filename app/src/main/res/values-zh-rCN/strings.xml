@@ -820,8 +820,12 @@
     <string name="system_ui_disable_clock_synch_desc">通知中心大时钟不再同步状态栏时钟格式</string>
     <string name="system_ui_statusbar_clock_fix_color">修复时钟反色时颜色异常</string>
 
+    <string name="system_ui_statusbar_clock_pad_show">平板相关</string>
+    <string name="system_ui_statusbar_clock_pad_hide">隐藏状态栏日期时钟</string>
+    <string name="system_ui_statusbar_clock_layout_p">状态栏日期时钟</string>
+    <string name="system_ui_statusbar_clock_editor_p">状态栏日期时钟格式</string>
+
     <string name="system_ui_statusbar_clock_show">显示</string>
-    <string name="system_ui_statusbar_clock_big_bold">通知中心大时钟加粗</string>
     <string name="system_ui_clock_is_show_sec">允许时钟以秒刷新</string>
     <string name="system_ui_clock_is_show_sec_desc">会增加不必要的性能开销，请酌情使用</string>
     <string name="system_ui_statusbar_clock_layout_s">状态栏时钟</string>

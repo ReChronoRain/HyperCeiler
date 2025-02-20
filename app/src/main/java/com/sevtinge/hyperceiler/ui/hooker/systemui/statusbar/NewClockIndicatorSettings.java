@@ -18,8 +18,10 @@
  */
 package com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
+import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
@@ -28,6 +30,7 @@ import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 public class NewClockIndicatorSettings extends DashboardFragment {
 
     SwitchPreference mClockAnim;
+    PreferenceCategory mPadClock;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -37,6 +40,9 @@ public class NewClockIndicatorSettings extends DashboardFragment {
     @Override
     public void initPrefs() {
         mClockAnim = findPreference("prefs_key_system_ui_disable_clock_anim");
+        mPadClock = findPreference("prefs_key_system_ui_statusbar_clock_pad_show");
+
         mClockAnim.setVisible(!isMoreHyperOSVersion(2f));
+        mPadClock.setVisible(isPad());
     }
 }

@@ -747,7 +747,6 @@
     <string name="system_ui_disable_clock_synch">狀態欄時鐘設定不同步</string>
     <string name="system_ui_disable_clock_synch_desc">大通知欄時鐘不再與狀態欄時鐘格式同步</string>
     <string name="system_ui_statusbar_clock_show">顯示</string>
-    <string name="system_ui_statusbar_clock_big_bold">通知欄大時鐘粗體</string>
     <string name="system_ui_clock_is_show_sec">秒數更新器</string>
     <string name="system_ui_clock_is_show_sec_desc">如果時鐘要顯示秒，請記得開啟\n顯示秒會增加不必要的效能損耗，請斟酌使用</string>
     <string name="system_ui_statusbar_clock_layout_s">狀態欄時鐘</string>

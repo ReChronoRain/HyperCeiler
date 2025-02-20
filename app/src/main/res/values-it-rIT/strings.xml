@@ -604,7 +604,6 @@
     <string name="system_ui_disable_clock_synch">Impostazioni orologio barra di stato non sincronizzate</string>
     <string name="system_ui_disable_clock_synch_desc">Il grande orologio della barra di notifica non è più sincronizzato con il formato dell\'orologio della barra di stato</string>
     <string name="system_ui_statusbar_clock_show">Mostra</string>
-    <string name="system_ui_statusbar_clock_big_bold">Orologio barra notifiche in grassetto</string>
     <string name="system_ui_statusbar_clock_layout_s">Orologio barra di stato</string>
     <string name="system_ui_statusbar_clock_layout_b">Orologio barra notifiche in grassetto</string>
     <string name="system_ui_statusbar_clock_layout_n">Mini Orologio Della Barra Delle Notifiche</string>

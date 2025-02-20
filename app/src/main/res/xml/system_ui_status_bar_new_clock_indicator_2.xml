@@ -21,6 +21,11 @@
     app:myLocation="@string/system_ui_statusbar_clock_layout_b"
     app:quick_restart="com.android.systemui">
     <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_clock_big_bold"
+            android:title="@string/system_ui_statusbar_indicator_bold" />
+
         <SeekBarPreferenceCompat
             app:defaultValue="50"
             android:key="prefs_key_system_ui_statusbar_clock_size_2"

@@ -753,7 +753,6 @@
     <string name="system_ui_disable_clock_synch">إعدادات الساعة في شريط الحالة غير متزامنة</string>
     <string name="system_ui_disable_clock_synch_desc">الساعة الكبيرة في ظل الإشعارات لم تعد متزامنة مع تنسيق ساعة شريط الحالة</string>
     <string name="system_ui_statusbar_clock_show">عرض</string>
-    <string name="system_ui_statusbar_clock_big_bold">الساعة الكبيرة في ظل الإشعارات بالخط العريض</string>
     <string name="system_ui_clock_is_show_sec">مفتاح تحديث الثواني</string>
     <string name="system_ui_clock_is_show_sec_desc">إذا كانت الساعة ترغب في عرض الثواني، يرجى تفعيلها.\nعرض الثواني سيزيد من الحمل الزائد غير الضروري على الأداء. يرجى استخدامها بشكل مناسب.</string>
     <string name="system_ui_statusbar_clock_layout_s">ساعة شريط الحالة</string>

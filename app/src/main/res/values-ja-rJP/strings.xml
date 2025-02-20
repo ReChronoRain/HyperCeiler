@@ -735,7 +735,6 @@
     <string name="system_ui_disable_clock_synch">ステータスバーの時計設定が同期されていません</string>
     <string name="system_ui_disable_clock_synch_desc">大きな通知バーの時計はステータスバーの時計形式と同期されなくなりました</string>
     <string name="system_ui_statusbar_clock_show">表示</string>
-    <string name="system_ui_statusbar_clock_big_bold">大きな通知バー時計を太字にする</string>
     <string name="system_ui_clock_is_show_sec">秒の更新スイッチ</string>
     <string name="system_ui_clock_is_show_sec_desc">時計で秒を表示したいときは必ずオンにしてください\n秒を表示するとパフォーマンスが低下する可能性があるため、必要な場合だけ使用してください</string>
     <string name="system_ui_statusbar_clock_layout_s">ステータスバーの時計</string>

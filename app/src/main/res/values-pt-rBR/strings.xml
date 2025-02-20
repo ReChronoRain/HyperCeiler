@@ -753,7 +753,6 @@
     <string name="system_ui_disable_clock_synch">Configurações do relógio da barra de status não sincronizadas</string>
     <string name="system_ui_disable_clock_synch_desc">O grande relógio da Área de notificações não está mais sincronizado com o formato do relógio da barra de status</string>
     <string name="system_ui_statusbar_clock_show">Exibir</string>
-    <string name="system_ui_statusbar_clock_big_bold">Grande relógio da Área de notificações em negrito</string>
     <string name="system_ui_clock_is_show_sec">Interruptor de atualização dos segundos</string>
     <string name="system_ui_clock_is_show_sec_desc">Se o relógio quiser exibir os segundos, lembre-se de ativá-lo.\nA exibição dos segundos aumentará a sobrecarga desnecessária de desempenho. Por favor, use-o conforme apropriado.</string>
     <string name="system_ui_statusbar_clock_layout_s">Relógio da barra de status</string>
