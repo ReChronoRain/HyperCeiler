@@ -27,7 +27,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.ui.app.safe.CrashActivity;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 public class CrashReceiver extends BroadcastReceiver {
@@ -69,13 +68,10 @@ public class CrashReceiver extends BroadcastReceiver {
     @NonNull
     private Intent getIntent(Context context, String abbr) {
         Toast.makeText(context, abbr, Toast.LENGTH_LONG).show();
-        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "0");
         Intent intent1 = new Intent(context, CrashActivity.class);
         intent1.setAction("android.intent.action.Crash");
         intent1.addCategory("android.intent.category.CrashDailog");
-        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "1");
         //intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "2");
         intent1.putExtra("key_longMsg", longMsg);
         intent1.putExtra("key_stackTrace", stackTrace);
         intent1.putExtra("key_throwClassName", throwClassName);
@@ -83,7 +79,6 @@ public class CrashReceiver extends BroadcastReceiver {
         intent1.putExtra("key_throwLineNumber", throwLineNumber);
         intent1.putExtra("key_throwMethodName", throwMethodName);
         intent1.putExtra("key_pkg", abbr);
-        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "3");
         return intent1;
     }
 }

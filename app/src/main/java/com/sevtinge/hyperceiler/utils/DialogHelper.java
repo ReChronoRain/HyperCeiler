@@ -27,7 +27,6 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
@@ -80,7 +79,6 @@ public class DialogHelper {
     }
 
     public static void showCrashReportDialog(Activity activity, View view) {
-        AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "20");
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setCancelable(true);
         builder.setTitle(R.string.warn);

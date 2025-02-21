@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2025 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2025 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
 import android.hardware.display.DisplayManager;
@@ -84,7 +84,7 @@ public class FlagSecure extends BaseHook {
                 deoptimizeMethods(XposedHelpers.findClass("com.android.server.wm.WindowStateAnimator", lpparam.classLoader), "createSurfaceLocked");
 
                 deoptimizeMethods(XposedHelpers.findClass("com.android.server.display.DisplayManagerService", lpparam.classLoader),
-                        "setUserPreferredModeForDisplayLocked", "setUserPreferredDisplayModeInternal");
+                    "setUserPreferredModeForDisplayLocked", "setUserPreferredDisplayModeInternal");
 
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) {
                     Class<?> insetsPolicyListenerClass = XposedHelpers.findClass("com.android.server.wm.InsetsPolicy$InsetsPolicyAnimationControlListener", lpparam.classLoader);
@@ -92,7 +92,7 @@ public class FlagSecure extends BaseHook {
                 }
 
                 deoptimizeMethods(XposedHelpers.findClass("com.android.server.wm.InsetsPolicy", lpparam.classLoader),
-                        "startAnimation", "controlAnimationUnchecked");
+                    "startAnimation", "controlAnimationUnchecked");
 
                 for (int i = 0; i < 20; i++) {
                     Class<?> clazz = XposedHelpers.findClassIfExists("com.android.server.wm.DisplayContent$$ExternalSyntheticLambda" + i, lpparam.classLoader);
@@ -134,12 +134,12 @@ public class FlagSecure extends BaseHook {
                 // Screenshot detection (U~V)
                 try {
                     XposedHelpers.findAndHookMethod(
-                            "com.android.server.wm.ActivityTaskManagerService",
-                            lpparam.classLoader,
-                            "registerScreenCaptureObserver",
-                            "android.os.IBinder",
-                            "android.app.IScreenCaptureObserver",
-                            XC_MethodReplacement.DO_NOTHING);
+                        "com.android.server.wm.ActivityTaskManagerService",
+                        lpparam.classLoader,
+                        "registerScreenCaptureObserver",
+                        "android.os.IBinder",
+                        "android.app.IScreenCaptureObserver",
+                        XC_MethodReplacement.DO_NOTHING);
                 } catch (Throwable t) {
                     logE(TAG, this.lpparam.packageName, "hook ActivityTaskManagerService failed", t);
                 }
@@ -148,10 +148,10 @@ public class FlagSecure extends BaseHook {
                 try {
                     var windowManagerServiceImplClazz = XposedHelpers.findClass("com.android.server.wm.WindowManagerServiceImpl", lpparam.classLoader);
                     XposedHelpers.findAndHookMethod(
-                            windowManagerServiceImplClazz,
-                            "notAllowCaptureDisplay",
-                            XposedHelpers.findClass("com.android.server.wm.RootWindowContainer", lpparam.classLoader), int.class,
-                            XC_MethodReplacement.returnConstant(false));
+                        windowManagerServiceImplClazz,
+                        "notAllowCaptureDisplay",
+                        XposedHelpers.findClass("com.android.server.wm.RootWindowContainer", lpparam.classLoader), int.class,
+                        XC_MethodReplacement.returnConstant(false));
                 } catch (Throwable t) {
                     logE(TAG, this.lpparam.packageName, "hook HyperOS failed", t);
                 }
@@ -160,27 +160,27 @@ public class FlagSecure extends BaseHook {
             // ScreenCapture in WindowManagerService (S~V)
             try {
                 var screenCaptureClazz = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ?
-                        XposedHelpers.findClass("android.window.ScreenCapture", lpparam.classLoader) :
-                        SurfaceControl.class;
+                    XposedHelpers.findClass("android.window.ScreenCapture", lpparam.classLoader) :
+                    SurfaceControl.class;
                 var captureArgsClazz = XposedHelpers.findClass(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ?
-                        "android.window.ScreenCapture$CaptureArgs" :
-                        "android.view.SurfaceControl$CaptureArgs", lpparam.classLoader);
+                    "android.window.ScreenCapture$CaptureArgs" :
+                    "android.view.SurfaceControl$CaptureArgs", lpparam.classLoader);
                 var displayCaptureArgsClazz = XposedHelpers.findClass("android.window.ScreenCapture$DisplayCaptureArgs", lpparam.classLoader);
                 var layerCaptureArgsClazz = XposedHelpers.findClass("android.window.ScreenCapture$LayerCaptureArgs", lpparam.classLoader);
                 captureSecureLayersField = captureArgsClazz.getDeclaredField("mCaptureSecureLayers");
                 captureSecureLayersField.setAccessible(true);
                 XposedHelpers.findAndHookMethod(screenCaptureClazz, "nativeCaptureDisplay",
-                        displayCaptureArgsClazz, long.class,
-                        new MethodHook() {
-                            @Override
-                            protected void before(MethodHookParam param) throws Throwable {
-                                try {
-                                    captureSecureLayersField.set(param.args[0], true);
-                                } catch (IllegalAccessException t) {
-                                    logE(TAG, "android", "ScreenCaptureHooker failed", t);
-                                }
+                    displayCaptureArgsClazz, long.class,
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) throws Throwable {
+                            try {
+                                captureSecureLayersField.set(param.args[0], true);
+                            } catch (IllegalAccessException t) {
+                                logE(TAG, "android", "ScreenCaptureHooker failed", t);
                             }
-                        });
+                        }
+                    });
                 XposedHelpers.findAndHookMethod(screenCaptureClazz, "nativeCaptureLayers", layerCaptureArgsClazz, long.class, boolean.class, new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
@@ -217,12 +217,12 @@ public class FlagSecure extends BaseHook {
             // WifiDisplay (S~V) / OverlayDisplay (S~V) / VirtualDisplay (U~V)
             try {
                 var displayControlClazz = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ?
-                        XposedHelpers.findClass("com.android.server.display.DisplayControl", lpparam.classLoader) :
-                        SurfaceControl.class;
+                    XposedHelpers.findClass("com.android.server.display.DisplayControl", lpparam.classLoader) :
+                    SurfaceControl.class;
                 var method = displayControlClazz.getDeclaredMethod(
-                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM ?
-                                "createVirtualDisplay" :
-                                "createDisplay", String.class, boolean.class);
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM ?
+                        "createVirtualDisplay" :
+                        "createDisplay", String.class, boolean.class);
                 hookMethod(method, new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
@@ -248,58 +248,43 @@ public class FlagSecure extends BaseHook {
                 var virtualDisplayConfig = XposedHelpers.findClass("android.hardware.display.VirtualDisplayConfig", lpparam.classLoader);
 
                 XposedHelpers.findAndHookMethod(displayControlClazz, "createVirtualDisplayLocked",
-                        iVirtualDisplayCallback, iMediaProjection, int.class, String.class, String.class, surface, int.class, virtualDisplayConfig,
-                        new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        var caller = (int) param.args[2];
-                        if (caller != 1000 && param.args[1] == null) {
-                            // not os and not media projection
-                            return;
-                        }
-                        for (int i = 3; i < param.args.length; i++) {
-                            var arg = param.args[i];
-                            if (arg instanceof Integer) {
-                                var flags = (int) arg;
-                                flags |= DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE;
-                                param.args[i] = flags;
+                    iVirtualDisplayCallback, iMediaProjection, int.class, String.class, String.class, surface, int.class, virtualDisplayConfig,
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) throws Throwable {
+                            var caller = (int) param.args[2];
+                            if (caller != 1000 && param.args[1] == null) {
+                                // not os and not media projection
                                 return;
                             }
+                            for (int i = 3; i < param.args.length; i++) {
+                                var arg = param.args[i];
+                                if (arg instanceof Integer) {
+                                    var flags = (int) arg;
+                                    flags |= DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE;
+                                    param.args[i] = flags;
+                                    return;
+                                }
+                            }
+                            logE(TAG, "android", "flag not found in CreateVirtualDisplayLockedHooker");
                         }
-                        logE(TAG, "android", "flag not found in CreateVirtualDisplayLockedHooker");
-                    }
-                });
+                    });
             } catch (Throwable t) {
                 logE(TAG, this.lpparam.packageName, "hook VirtualDisplayAdapter failed", t);
             }
         } else if (lpparam.packageName.equals("com.android.systemui") || lpparam.packageName.equals("com.miui.screenshot")) {
             try {
-                var screenCaptureClazz = SurfaceControl.class;
-                var captureArgsClazz = XposedHelpers.findClass("android.view.SurfaceControl$CaptureArgs", lpparam.classLoader);
-                captureSecureLayersField = captureArgsClazz.getDeclaredField("mCaptureSecureLayers");
-                captureSecureLayersField.setAccessible(true);
-
-                XposedHelpers.findAndHookMethod(screenCaptureClazz, "nativeCaptureDisplay",
-                        new MethodHook() {
-                            @Override
-                            protected void before(MethodHookParam param) throws Throwable {
-                                try {
-                                    captureSecureLayersField.set(param.args[0], true);
-                                } catch (IllegalAccessException t) {
-                                    logE(TAG, "other", "ScreenCaptureHooker failed", t);
-                                }
-                            }
-                        });
-                XposedHelpers.findAndHookMethod(screenCaptureClazz, "nativeCaptureLayers", new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        try {
-                            captureSecureLayersField.set(param.args[0], true);
-                        } catch (IllegalAccessException t) {
-                            logE(TAG, "other", "ScreenCaptureHooker failed", t);
+                findAndHookMethod("android.window.ScreenCapture$CaptureArgs$Builder",
+                    "build",
+                    new MethodHook() {
+                        @Override
+                        protected void after(MethodHookParam param) throws Throwable {
+                            Object result = param.getResult();
+                            if (result == null) return;
+                            XposedHelpers.setObjectField(result, "mCaptureSecureLayers", true);
                         }
                     }
-                });
+                );
             } catch (Throwable t) {
                 logE(TAG, this.lpparam.packageName, "hook ScreenCapture failed", t);
             }
