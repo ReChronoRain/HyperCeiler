@@ -18,17 +18,23 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.plugin
 
-import android.animation.*
-import android.annotation.*
-import android.view.*
-import android.widget.*
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
+import android.view.View
+import android.widget.FrameLayout
+import android.widget.SeekBar
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.tool.*
-import com.sevtinge.hyperceiler.module.base.tool.OtherTool.*
-import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.devicesdk.*
+import com.sevtinge.hyperceiler.module.base.tool.OtherTool.initPct
+import com.sevtinge.hyperceiler.module.base.tool.OtherTool.mPct
+import com.sevtinge.hyperceiler.module.base.tool.OtherTool.removePct
+import com.sevtinge.hyperceiler.module.hook.systemui.base.api.mSupportSV
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
+import com.sevtinge.hyperceiler.utils.getIntField
+import com.sevtinge.hyperceiler.utils.getObjectField
+import com.sevtinge.hyperceiler.utils.getObjectFieldOrNull
+import com.sevtinge.hyperceiler.utils.getObjectFieldOrNullAs
 
 object NewShowVolumePct {
     @JvmStatic
@@ -50,7 +56,7 @@ object NewShowVolumePct {
                 }
 
             mVolumeDisable(volumePanelViewControllerClazz)
-            mSupportSV(volumePanelViewControllerListener, classLoader)
+            onProgressChanged(volumePanelViewControllerListener, mSupportSV)
         } else {
             val miuiVolumeDialogImplClazz by lazy {
                 loadClass("com.android.systemui.miui.volume.MiuiVolumeDialogImpl", classLoader)
@@ -68,7 +74,7 @@ object NewShowVolumePct {
                 }
 
             mVolumeDisable(miuiVolumeDialogImplClazz)
-            mSupportSV(miuiVolumeDialogImplListener, classLoader)
+            onProgressChanged(miuiVolumeDialogImplListener, mSupportSV)
         }
     }
 
@@ -77,26 +83,6 @@ object NewShowVolumePct {
             .first().createAfterHook {
                 removePct(mPct)
             }
-    }
-
-    private fun mSupportSV(clazz: Class<*>, classLoader: ClassLoader) {
-        runCatching {
-            loadClass("miui.systemui.util.VolumeUtils", classLoader).methodFinder()
-                .filterByName("getSUPER_VOLUME_SUPPORTED")
-                .first().createAfterHook {
-                    val result = it.result as Boolean
-                    onProgressChanged(clazz, result)
-                }
-        }.recoverCatching {
-            loadClass("miui.systemui.util.CommonUtils", classLoader).methodFinder()
-                .filterByName("voiceSupportSuperVolume")
-                .first().createAfterHook {
-                    val result = it.result as Boolean
-                    onProgressChanged(clazz, result)
-                }
-        }.onFailure {
-            onProgressChanged(clazz, false)
-        }
     }
 
     @SuppressLint("SetTextI18n")
