@@ -753,8 +753,6 @@
     <string name="system_ui_disable_clock_synch">Настройки часов в строке состояния не синхронизированы</string>
     <string name="system_ui_disable_clock_synch_desc">Часы большой панели уведомлений больше не синхронизируются с форматом часов строки состояния</string>
     <string name="system_ui_statusbar_clock_show">Показать</string>
-    <string name="system_ui_clock_is_show_sec">Переключатель обновления секунд</string>
-    <string name="system_ui_clock_is_show_sec_desc">Если часы хотят отображать секунды, не забудьте включить их. Отображение секунд приведет к ненужному увеличению производительности, используйте его по мере необходимости</string>
     <string name="system_ui_statusbar_clock_layout_s">Часы в строке состояния</string>
     <string name="system_ui_statusbar_clock_layout_b">Большие часы на панели уведомлений</string>
     <string name="system_ui_statusbar_clock_layout_n">Мини-часы на панели уведомлений</string>

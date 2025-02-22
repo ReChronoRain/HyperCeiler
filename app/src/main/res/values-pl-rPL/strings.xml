@@ -753,8 +753,6 @@
     <string name="system_ui_disable_clock_synch">Wyłącz synchronizację zegara</string>
     <string name="system_ui_disable_clock_synch_desc">Duży zegar w pasku powiadomień nie jest już zsynchronizowany z formatem zegara na pasku stanu</string>
     <string name="system_ui_statusbar_clock_show">Pokaż</string>
-    <string name="system_ui_clock_is_show_sec">Przełącznik odświeżania sekund</string>
-    <string name="system_ui_clock_is_show_sec_desc">Jeśli zegar ma wyświetlać sekundy, pamiętaj, aby włączyć tę opcję.\nWyświetlanie sekund zmniejszy wydajność urządzenia. Używaj tej funkcji z rozwagą.</string>
     <string name="system_ui_statusbar_clock_layout_s">Zegar paska stanu</string>
     <string name="system_ui_statusbar_clock_layout_b">Duży zegar w pasku powiadomień</string>
     <string name="system_ui_statusbar_clock_layout_n">Mini zegar w pasku powiadomień</string>

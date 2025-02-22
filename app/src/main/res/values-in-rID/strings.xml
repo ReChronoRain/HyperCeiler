@@ -609,7 +609,6 @@
     <string name="system_ui_disable_clock_synch">Pengaturan jam bilah status tidak disinkronkan</string>
     <string name="system_ui_disable_clock_synch_desc">Jam bilah notifikasi besar tidak lagi disinkronkan dengan format jam bilah status</string>
     <string name="system_ui_statusbar_clock_show">Tampilkan</string>
-    <string name="system_ui_clock_is_show_sec">Sakelar penyegaran detik</string>
     <string name="system_ui_statusbar_clock_layout_s">Jam Bilah Status</string>
     <string name="system_ui_statusbar_clock_layout_b">Jam Besar Pemberitahuan</string>
     <string name="system_ui_statusbar_clock_layout_n">Jam Mini Bilah Pemberitahuan</string>

@@ -123,9 +123,6 @@ object StatusBarClockNew : BaseHook() {
     private val clockAlign by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_1", 0)
     }
-    private val isShowSec by lazy {
-        mPrefsMap.getBoolean("system_ui_clock_is_show_sec")
-    }
 
     // 时钟格式
     private val getFormatS by lazy {
@@ -179,11 +176,17 @@ object StatusBarClockNew : BaseHook() {
                 it[0] == Context::class.java
             }.first().createAfterHook {
                 runCatching {
+                    val regex = Regex("(ss|s)")
                     val miuiClock = it.thisObject as TextView
                     val miuiClockName = miuiClock.resources.getResourceEntryName(miuiClock.id)
                         ?: return@createAfterHook
-                    val isSec =
-                        miuiClockName in setOf("clock", "big_time", "date_time", "pad_clock")
+                    val isSec = setOf(
+                        regex.containsMatchIn(getFormatS) && isSync && miuiClockName == "clock",
+                        regex.containsMatchIn(getFormatS) && !isSync && miuiClockName in setOf("clock", "big_time"),
+                        regex.containsMatchIn(getFormatB) && isSync && miuiClockName == "big_time",
+                        regex.containsMatchIn(getFormatN) && miuiClockName == "date_time",
+                        regex.containsMatchIn(getFormatP) && miuiClockName == "pad_clock"
+                    ).any { it }
                     // miuiClockName 内部标签分类如下
                     // clock 竖屏状态栏时钟
                     // big_time 通知中心时钟
@@ -200,7 +203,7 @@ object StatusBarClockNew : BaseHook() {
                     if (getClockStyle != 0 && miuiClockName == "clock")
                         miuiClock.isSingleLine = false
 
-                    if (isSec && isShowSec) {
+                    if (isSec) {
                         val updateTimeMethod: Method = miuiClock.javaClass.getDeclaredMethod("updateTime")
                         val runnable = Runnable {
                             updateTimeMethod.isAccessible = true
@@ -258,7 +261,7 @@ object StatusBarClockNew : BaseHook() {
         val context = textV.context
         val miuiClockName = textV.resources.getResourceEntryName(textV.id) ?: return
         val isHide = (isHidePClock && miuiClockName == "pad_clock") || miuiClockName == "normal_control_center_date_view"
-        val isEmpty = listOf(
+        val isEmpty = setOf(
             getFormatN.isEmpty() && miuiClockName == "date_time",
             getFormatP.isEmpty() && miuiClockName == "pad_clock",
             miuiClockName == "horizontal_time"
@@ -274,7 +277,7 @@ object StatusBarClockNew : BaseHook() {
 
     private fun setMiuiClockStyle(name: String, text: TextView) {
         // 时钟加粗
-        val shouldUseBold = listOf(
+        val shouldUseBold = setOf(
             sBold && name == "clock",
             bBold && name == "big_time" && !isMoreHyperOSVersion(2f),
             nBold && name in setOf("date_time", "horizontal_time"),

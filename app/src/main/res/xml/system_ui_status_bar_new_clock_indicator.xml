@@ -20,12 +20,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/system_ui_statusbar_clock_title"
     app:quick_restart="com.android.systemui">
-    <Preference
-        android:enabled="false"
-        android:key="prefs_key_system_ui_statusbar_clock_tip"
-        android:layout="@layout/headtip_tip"
-        android:title="@string/system_ui_statusbar_clock_tip" />
-
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
@@ -34,13 +28,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_default_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_system_ui_statusbar_clock_all_status_enable"
-            android:key="prefs_key_system_ui_clock_is_show_sec"
-            android:summary="@string/system_ui_clock_is_show_sec_desc"
-            android:title="@string/system_ui_clock_is_show_sec" />
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_disable_clock_anim"

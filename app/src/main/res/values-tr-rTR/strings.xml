@@ -638,7 +638,6 @@
     <string name="system_ui_statusbar_clock_fix_color">Renk düzeltme</string>
     <string name="system_ui_disable_clock_synch">Durum çubuğu saat ayarları senkronize değil</string>
     <string name="system_ui_statusbar_clock_show">Göster</string>
-    <string name="system_ui_clock_is_show_sec">Saniye yenileme anahtarı</string>
     <string name="system_ui_statusbar_clock_editor_s">Bildirim çubuğu saat biçimi</string>
     <string name="system_ui_statusbar_clock_style_f">Durum çubuğu saat düzenlemesi</string>
     <string name="system_ui_status_bar_strong_toast_layout">Yerleşim</string>

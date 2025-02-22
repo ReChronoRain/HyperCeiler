@@ -655,8 +655,6 @@
     <string name="system_ui_disable_clock_synch">狀態欄時鐘設定不同步</string>
     <string name="system_ui_disable_clock_synch_desc">通知中心大時鐘唔再同步狀態欄時鐘格式</string>
     <string name="system_ui_statusbar_clock_show">顯示</string>
-    <string name="system_ui_clock_is_show_sec">秒數更新器</string>
-    <string name="system_ui_clock_is_show_sec_desc">會增加唔必要嘅性能開銷，請酌情使用</string>
     <string name="system_ui_statusbar_clock_layout_s">狀態欄時鐘</string>
     <string name="system_ui_statusbar_clock_layout_b">通知中心大時鐘</string>
     <string name="system_ui_statusbar_clock_layout_n">通知中心迷你時鐘</string>

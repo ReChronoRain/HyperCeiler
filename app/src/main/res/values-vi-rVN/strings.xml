@@ -755,8 +755,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_disable_clock_synch">Cài đặt đồng hồ trên thanh trạng thái không được đồng bộ hóa</string>
     <string name="system_ui_disable_clock_synch_desc">Đồng hồ trên thanh thông báo lớn không còn đồng bộ với định dạng đồng hồ trên thanh trạng thái</string>
     <string name="system_ui_statusbar_clock_show">Hiện</string>
-    <string name="system_ui_clock_is_show_sec">Hiển thị giây trên đồng hồ</string>
-    <string name="system_ui_clock_is_show_sec_desc">Nếu muốn hiển thị giây trên đồng hồ, hãy bật nó\nViệc hiển thị giây sẽ làm hao phí hiệu năng không cần thiết, vui lòng sử dụng nó khi thích hợp</string>
     <string name="system_ui_statusbar_clock_layout_s">Đồng hồ trên thanh trạng thái</string>
     <string name="system_ui_statusbar_clock_layout_b">Đồng hồ lớn trên thanh thông báo</string>
     <string name="system_ui_statusbar_clock_layout_n">Đồng hồ nhỏ trên thanh thông báo</string>

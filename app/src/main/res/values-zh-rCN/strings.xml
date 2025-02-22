@@ -810,7 +810,6 @@
     <string name="system_ui_statusbar_network_speed_sec_unit">网速隐藏 *b/s 单位</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器图标</string>
 
-    <string name="system_ui_statusbar_clock_tip">使用说明: \n- 启用后请在显示内修改时钟格式以应用更改，如果时钟格式包含秒数请开启 “允许时钟以秒刷新” 功能</string>
     <string name="system_ui_statusbar_clock_double_mode_title">双排对齐方式</string>
     <string name="system_ui_statusbar_clock_desc">时钟格式示例</string>
     <string name="system_ui_statusbar_clock_size">时钟大小</string>
@@ -826,8 +825,6 @@
     <string name="system_ui_statusbar_clock_editor_p">状态栏日期时钟格式</string>
 
     <string name="system_ui_statusbar_clock_show">显示</string>
-    <string name="system_ui_clock_is_show_sec">允许时钟以秒刷新</string>
-    <string name="system_ui_clock_is_show_sec_desc">会增加不必要的性能开销，请酌情使用</string>
     <string name="system_ui_statusbar_clock_layout_s">状态栏时钟</string>
     <string name="system_ui_statusbar_clock_layout_b">通知中心大时钟</string>
     <string name="system_ui_statusbar_clock_layout_n">通知中心迷你时钟</string>
