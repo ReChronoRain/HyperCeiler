@@ -173,6 +173,11 @@ object NewPluginHelperKt : BaseHook() {
                         FocusNotifLyric::initLoader
                     ),
                     Triple(
+                        "FlashLightNotificationColor",
+                        mPrefsMap.getBoolean("system_ui_control_center_opt_notification_element_background_color"),
+                        FlashLightNotificationColor::initLoaderHook
+                    ),
+                    Triple(
                         "DefaultPluginTheme",
                         mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"),
                         DefaultPluginTheme::initDefaultPluginTheme
