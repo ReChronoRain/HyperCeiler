@@ -149,11 +149,6 @@ object NewPluginHelperKt : BaseHook() {
                         NewBrightnessPct::initLoaderHook
                     ),
                     Triple(
-                        "FlashLightNotificationColor",
-                        mPrefsMap.getBoolean("system_ui_control_center_opt_notification_element_background_color"),
-                        FlashLightNotificationColor::initLoaderHook
-                    ),
-                    Triple(
                         "DisableDeviceManaged",
                         mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"),
                         DisableDeviceManagedNew::initDisableDeviceManaged
@@ -193,11 +188,6 @@ object NewPluginHelperKt : BaseHook() {
                         "ShowDeviceName",
                         mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3,
                         ShowDeviceName::initShowDeviceName
-                    ),
-                    Triple(
-                        "FlashLightNotificationColor",
-                        mPrefsMap.getBoolean("system_ui_control_center_opt_notification_element_background_color"),
-                        FlashLightNotificationColor::initLoaderHook
                     ),
                 )
                 loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)

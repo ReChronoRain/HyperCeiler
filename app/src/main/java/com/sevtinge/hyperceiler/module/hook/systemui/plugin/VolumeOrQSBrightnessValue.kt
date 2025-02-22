@@ -36,6 +36,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHooks
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
+import com.sevtinge.hyperceiler.module.hook.systemui.base.api.mSupportSV
 import com.sevtinge.hyperceiler.utils.callMethod
 import com.sevtinge.hyperceiler.utils.callStaticMethod
 import com.sevtinge.hyperceiler.utils.getObjectField
@@ -155,11 +156,13 @@ object VolumeOrQSBrightnessValue {
                 }
 
             // 有超大音量功能的拦截隐藏
-            volumePanelViewController
-                .methodFinder().filterByName("updateSuperVolumeView")
-                .first().replaceMethod {
-                    null
-                }
+            if (mSupportSV) {
+                volumePanelViewController
+                    .methodFinder().filterByName("updateSuperVolumeView")
+                    .first().replaceMethod {
+                        null
+                    }
+            }
         }
 
         if (brightnessShow) {

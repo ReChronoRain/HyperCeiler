@@ -82,6 +82,7 @@
         <item>com.sohu.inputmethod.sogou.xiaomi</item> <!--搜狗输入法小米版-->
         <item>com.miui.voicetrigger</item> <!--语音唤醒-->
         <item>com.xiaomi.simactivate.service</item> <!--sim卡激活服务-->
+        <item>miui.systemui.plugin</item> <!--系统界面组件-->
         <!--<item>com.hchen.demo</item>--> <!--Demo-->
     </string-array>
 
