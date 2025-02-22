@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.utils.extension.getString
 import com.sevtinge.hyperceiler.utils.getObjectField
@@ -14,7 +14,7 @@ object FlashLightNotificationColor {
     fun initLoaderHook(classLoader: ClassLoader) {
         loadClass("miui.systemui.flashlight.MiFlashlightManager", classLoader).methodFinder()
         .filterByName("getExtraMiuiFocusParam")
-        .first().createBeforeHook {
+        .first().createAfterHook {
             val mContext = it.thisObject.getObjectField("context") as Context
             val stringTitle = mContext.getString("flashlight_notification_content_title")
             val stringText = mContext.getString("flashlight_notification_content_text")
