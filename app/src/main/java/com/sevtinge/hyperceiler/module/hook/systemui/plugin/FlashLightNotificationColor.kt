@@ -6,7 +6,7 @@ import android.content.Intent
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
+import com.sevtinge.hyperceiler.utils.extension.getString
 import com.sevtinge.hyperceiler.utils.getObjectField
 import de.robv.android.xposed.*
 
@@ -16,9 +16,9 @@ object FlashLightNotificationColor {
         .filterByName("getExtraMiuiFocusParam")
         .first().createBeforeHook {
             val mContext = it.thisObject.getObjectField("context") as Context
-            val stringTitle = mContext.findViewByIdName("flashlight_notification_content_title") as String
-            val stringText = mContext.findViewByIdName("flashlight_notification_content_text") as String
-            val button = mContext.findViewByIdName("flashlight_notification_button") as String
+            val stringTitle = mContext.getString("flashlight_notification_content_title")
+            val stringText = mContext.getString("flashlight_notification_content_text")
+            val button = mContext.getString("flashlight_notification_button")
             val intent = Intent("miui.systemui.action.ACTION_CLOSE_FLASHLIGHT").apply {
                             setPackage("miui.systemui.plugin")
                         }
