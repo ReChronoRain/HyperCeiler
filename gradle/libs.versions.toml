@@ -17,11 +17,11 @@ xposed-api = "82"
 
 gson = "2.12.1"
 dexkit = "2.0.3"
-ezxhelper = "2.2.0"
+ezxhelper = "2.2.1"
 hiddenapibypass = "6.1"
 hooktool = "v.1.2.2"
 lyricGetterApi = "6.0.0"
-mmkv = "2.0.2"
+mmkv = "2.1.0"
 
 [libraries]
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
