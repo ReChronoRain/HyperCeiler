@@ -18,32 +18,33 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.dock
 
-import android.app.*
-import android.view.*
-import android.widget.*
+import android.view.Gravity
+import android.view.View
+import android.widget.FrameLayout
+import androidx.core.view.doOnAttach
+import androidx.core.view.doOnDetach
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.base.dexkit.*
-import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit
+import com.sevtinge.hyperceiler.module.base.tool.AppsTool
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearAllBlur
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setBlurRoundRect
-import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurMode
-import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
-import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setPassWindowBlurEnabled
-import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.*
-import de.robv.android.xposed.*
-import java.lang.reflect.*
-import java.util.function.*
+import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px
+import com.sevtinge.hyperceiler.utils.getObjectFieldAs
+import com.sevtinge.hyperceiler.utils.hookAfterMethod
+import java.lang.reflect.Method
+import java.util.function.Consumer
 
 object DockCustomNew : BaseHook() {
     private val launcherClass by lazy {
         loadClass("com.miui.home.launcher.Launcher")
     }
+
     private val animationCompatComplexClass by lazy {
         loadClass("com.miui.home.launcher.compat.UserPresentAnimationCompatComplex")
     }
@@ -64,86 +65,83 @@ object DockCustomNew : BaseHook() {
         } as Method?
     }
 
-    private var mDockBlur: Any? = null
-
     override fun init() {
-        launcherClass.constructors.toList().createHooks {
-            after {
-                val context = AndroidAppHelper.currentApplication().applicationContext
-                mDockBlur = XposedHelpers.getAdditionalInstanceField(it.thisObject, "mDockBlur")
-                if (mDockBlur != null) return@after
-                mDockBlur = FrameLayout(context)
-                XposedHelpers.setAdditionalInstanceField(it.thisObject, "mDockBlur", mDockBlur)
-            }
-        }
+        val dockBgStyle = mPrefsMap.getStringAsInt("home_dock_add_blur", 0)
+        var dockBlurView: View? = null
 
         launcherClass.hookAfterMethod("setupViews") {
-            val mHotSeats = it.thisObject.getObjectField("mHotSeats") as FrameLayout
-            val mDockBlur =
-                XposedHelpers.getAdditionalInstanceField(it.thisObject, "mDockBlur") as FrameLayout
-            val mDockRadius =
-                dp2px(mPrefsMap.getInt("home_dock_bg_radius", 30).toFloat())
-            val mDockHeight =
-                dp2px(mPrefsMap.getInt("home_dock_bg_height", 80).toFloat())
-            val mDockMargin = dp2px(
-                (mPrefsMap.getInt("home_dock_bg_margin_horizontal", 30) - 6).toFloat()
-            )
-            val mDockBottomMargin = dp2px(
-                (mPrefsMap.getInt("home_dock_bg_margin_bottom", 30) - 92).toFloat()
-            )
-            if (mPrefsMap.getStringAsInt("home_dock_add_blur", 0) == 1) {
-                mDockBlur.setPassWindowBlurEnabled(true)
-                mDockBlur.setMiBackgroundBlurMode(1) // 非0时截断
-                mDockBlur.setMiBackgroundBlurRadius(
-                    mPrefsMap.getInt(
-                        "custom_background_blur_degree",
-                        200
-                    )
-                )
-                mDockBlur.clearMiBackgroundBlendColor()
-                mDockBlur.addMiBackgroundBlendColor(mPrefsMap.getInt("home_dock_bg_color", 0), 101)
-                mDockBlur.setMiViewBlurMode(1)
-                mDockBlur.setMiBackgroundBlurMode(0)
-            }
-            val mAllApp = mPrefsMap.getBoolean("home_dock_bg_all_app")
-            mDockBlur.setBlurRoundRect(mDockRadius)
-            if (mPrefsMap.getStringAsInt(
-                    "home_dock_add_blur",
-                    0
-                ) == 0
-            ) mDockBlur.setBackgroundColor(mPrefsMap.getInt("home_dock_bg_color", 0))
-            mDockBlur.layoutParams =
-                FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, mDockHeight)
-                    .also { layoutParams ->
-                        if (mAllApp) layoutParams.gravity = Gravity.TOP
-                        else layoutParams.gravity = Gravity.BOTTOM
-                        layoutParams.setMargins(mDockMargin, 0, mDockMargin, mDockBottomMargin)
+            val isAllApp = mPrefsMap.getBoolean("home_dock_bg_all_app")
+            val dockBgColor = mPrefsMap.getInt("home_dock_bg_color", 0)
+            val dockRadius = dp2px(mPrefsMap.getInt("home_dock_bg_radius", 30))
+            val dockHeight = dp2px(mPrefsMap.getInt("home_dock_bg_height", 80))
+            val dockMargin = dp2px(mPrefsMap.getInt("home_dock_bg_margin_horizontal", 30) - 6)
+            val dockBottomMargin = dp2px(mPrefsMap.getInt("home_dock_bg_margin_bottom", 30) - 92)
+
+            val hotSeats = it.thisObject.getObjectFieldAs<FrameLayout>("mHotSeats")
+            dockBlurView = View(hotSeats.context).apply {
+                if (dockBgStyle == 0) {
+                    setBackgroundColor(dockBgColor)
+                } else if (dockBgStyle == 1) {
+                    doOnAttach {
+                        addBlur()
                     }
-            mHotSeats.addView(mDockBlur, 0)
+
+                    doOnDetach {
+                        clearAllBlur()
+                    }
+                }
+
+                setBlurRoundRect(dockRadius)
+            }
+
+            hotSeats.addView(
+                dockBlurView,
+                FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, dockHeight).apply {
+                    gravity = if (isAllApp) {
+                        Gravity.TOP
+                    } else {
+                        Gravity.BOTTOM
+                    }
+                    setMargins(dockMargin, 0, dockMargin, dockBottomMargin)
+                }
+            )
+        }
+
+        if (dockBgStyle == 1) {
+            launcherClass.hookAfterMethod("onDarkModeChanged") {
+                dockBlurView?.addBlur()
+            }
         }
 
         // 添加动画
         animationCompatComplexClass.methodFinder()
             .filterByName("operateAllPresentAnimationRelatedViews")
             .single()
-            .createHook {
-                after { param ->
-                    if (mDockBlur == null) {
-                        return@after
-                    }
-
-                    val consumer = param.args[0] as Consumer<Any>
-                    consumer.accept(mDockBlur!!)
+            .createAfterHook {
+                dockBlurView?.run {
+                    val consumer = it.args[0] as Consumer<View>
+                    consumer.accept(this)
                 }
             }
-        showAnimationLambda?.createHook {
-            after { param ->
-                val view = param.args[2] as View
 
-                if (view == mDockBlur) {
-                    view.translationZ = 0F
-                }
+        showAnimationLambda?.createAfterHook {
+            val view = it.args[2] as View
+            if (view == dockBlurView) {
+                view.translationZ = 0F
             }
         } ?: logD(TAG, lpparam.packageName, "can't find lambda\$showUserPresentAnimation")
+    }
+
+    private fun View.addBlur() {
+        clearMiBackgroundBlendColor()
+        setMiViewBlurMode(1)
+
+        if (AppsTool.isDarkMode(context)) {
+            addMiBackgroundBlendColor(0xB3767676.toInt(), 100)
+            addMiBackgroundBlendColor(0xFF149400.toInt(), 106)
+        } else {
+            addMiBackgroundBlendColor(0x66B4B4B4, 100)
+            addMiBackgroundBlendColor(0xFF2EF200.toInt(), 106)
+        }
     }
 }
