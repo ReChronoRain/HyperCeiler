@@ -97,7 +97,6 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.HideStatusBarBeforeScreenshot;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.SelectiveHideIconForAlarmClock;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.WifiStandard;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.DisableAnim;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.FixColor;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.StatusBarClockNew;
@@ -109,6 +108,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.IconsFro
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBarIcon;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.WifiStandard;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileNetwork;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobilePublicHook;

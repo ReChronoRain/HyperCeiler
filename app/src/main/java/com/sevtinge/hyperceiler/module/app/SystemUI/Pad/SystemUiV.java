@@ -96,7 +96,6 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.HideStatusBarBeforeScreenshot;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.SelectiveHideIconForAlarmClock;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.WifiStandard;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.FixColor;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.StatusBarClockNew;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.BatteryStyle;
@@ -107,6 +106,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.IconsFro
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBarIcon;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.FocusNotifLyric;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.WifiStandard;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSec;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSpacing;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NewNetworkSpeed;
@@ -134,7 +134,7 @@ public class SystemUiV extends BaseModule {
         initHook(new StatusBarIcon(), true);
         initHook(new IconsFromSystemManager(), true);
         initHook(new UnlockCustomActions(), mPrefsMap.getBoolean("system_ui_control_center_media_control_unlock_custom_actions"));
-        initHook(new WifiStandard(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
+        initHook(WifiStandard.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
         initHook(new SelectiveHideIconForAlarmClock(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
         initHook(new NotificationIconColumns(), mPrefsMap.getBoolean("system_ui_status_bar_notification_icon_maximum_enable"));
         initHook(new HideStatusBarBeforeScreenshot(), mPrefsMap.getBoolean("system_ui_status_bar_hide_icon"));
