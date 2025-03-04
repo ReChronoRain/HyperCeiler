@@ -86,4 +86,8 @@
     <color name="notification_element_blend_keyguard_color_2">#bdfa00</color>
     <color name="notification_element_blend_shade_color_1">#818181</color>
     <color name="notification_element_blend_shade_color_2">#b3ff00</color>
+
+    <color name="pa_widget_blur_color_lab">#2EF200</color>
+    <color name="pa_widget_blur_color_linear_light">#66B4B4B4</color>
+    <color name="pa_widget_blur_color_src_over">#00000000</color>
 </resources>

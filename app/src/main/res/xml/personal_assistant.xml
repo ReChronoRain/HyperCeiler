@@ -31,6 +31,11 @@
             android:title="@string/personal_assistant_unlock_widget_count_limit"
             android:defaultValue="false" />
 
+        <SwitchPreference
+            android:key="prefs_key_personal_assistant_widget_widget_blur_opt"
+            android:title="@string/personal_assistant_widget_widget_blur_opt"
+            android:defaultValue="false" />
+
         <fan.preference.DropDownPreference
             android:title="@string/personal_assistant_blur_model"
             android:key="prefs_key_personal_assistant_value"

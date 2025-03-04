@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.module.hook.personalassistant.BlurPersonalAssist
 import com.sevtinge.hyperceiler.module.hook.personalassistant.DisableLiteVersion;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.SetTravelNotificationStatusBarInfoMaxWidth;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.UnlockWidgetCountLimit;
+import com.sevtinge.hyperceiler.module.hook.personalassistant.WidgetBlurOpt;
 
 @HookBase(targetPackage = "com.miui.personalassistant")
 public class PersonalAssistant extends BaseModule {
@@ -44,6 +45,8 @@ public class PersonalAssistant extends BaseModule {
         }
 
         initHook(new SetTravelNotificationStatusBarInfoMaxWidth(), mPrefsMap.getInt("personal_assistant_set_tv_notif_info_max_width", 60) != 60 && isHyperOSVersion(1f));
+
+        initHook(new WidgetBlurOpt(), mPrefsMap.getBoolean("personal_assistant_widget_widget_blur_opt"));
     }
 
 }
