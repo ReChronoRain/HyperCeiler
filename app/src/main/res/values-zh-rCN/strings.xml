@@ -933,6 +933,8 @@
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">恢复为普通通知混色样式</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">亮度值显示</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">音量值显示</string>
+    <string name="system_ui_control_center_zen_fix">勿扰模式修复</string>
+    <string name="system_ui_control_center_zen_fix_desc">修复部分设备在勿扰模式依旧响铃</string>
 
     <string name="system_ui_controlcenter_new_title">新控制中心</string>
     <string name="system_ui_controlcenter_old_title">经典控制中心</string>

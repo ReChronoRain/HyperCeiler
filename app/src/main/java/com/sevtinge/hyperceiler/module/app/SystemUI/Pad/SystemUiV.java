@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.UiLockApp;
 import com.sevtinge.hyperceiler.module.hook.systemui.UnimportantNotification;
 import com.sevtinge.hyperceiler.module.hook.systemui.UnlockClipboard;
 import com.sevtinge.hyperceiler.module.hook.systemui.UnlockCustomActions;
+import com.sevtinge.hyperceiler.module.hook.systemui.ZenModeFix;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AllowAllThemesNotificationBlur;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CompactNotificationsHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ControlCenterStyle;
@@ -226,6 +227,7 @@ public class SystemUiV extends BaseModule {
         initHook(new DisableDeviceManaged(), mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"));
         initHook(new RemoveNotifNumLimit(), mPrefsMap.getBoolean("system_ui_control_center_remove_notif_num_limit"));
         initHook(new NotificationColor(), mPrefsMap.getBoolean("system_ui_control_center_opt_notification_element_background_color"));
+        initHook(new ZenModeFix(), mPrefsMap.getBoolean("system_ui_control_center_zen_fix"));
 
         // Media Card
         initHook(new MediaControlPanelBackgroundMix(), mPrefsMap.getBoolean("system_ui_control_center_media_control_panel_background_mix"));
