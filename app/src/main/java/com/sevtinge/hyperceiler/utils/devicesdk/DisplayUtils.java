@@ -45,6 +45,10 @@ public class DisplayUtils {
         mHeightDps = (int) ((float) mHeightPixels / f);
     }
 
+    public static int dp2px(int dipValue) {
+        return dp2px((float) dipValue);
+    }
+
     public static int dp2px(float dipValue) {
         final float scale = EzXHelper.getAppContext().getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);

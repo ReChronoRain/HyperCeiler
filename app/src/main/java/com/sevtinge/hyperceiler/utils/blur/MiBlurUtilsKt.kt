@@ -71,16 +71,16 @@ object MiBlurUtilsKt {
         setMiBackgroundBlurRadius.invoke(this, radius)
     }
 
-    fun View.setPassWindowBlurEnabled(z: Boolean) {
-        setPassWindowBlurEnabled.invoke(this, z)
+    fun View.setPassWindowBlurEnabled(isEnabled: Boolean) {
+        setPassWindowBlurEnabled.invoke(this, isEnabled)
     }
 
-    fun View.disableMiBackgroundContainBelow(z: Boolean) {
-        disableMiBackgroundContainBelow.invoke(this, z)
+    fun View.disableMiBackgroundContainBelow(isEnabled: Boolean) {
+        disableMiBackgroundContainBelow.invoke(this, isEnabled)
     }
 
-    fun View.addMiBackgroundBlendColor(i: Int, i2: Int) {
-        addMiBackgroundBlendColor(this, i, i2)
+    fun View.addMiBackgroundBlendColor(color: Int, mode: Int) {
+        addMiBackgroundBlendColor(this, color, mode)
     }
 
     fun View.clearMiBackgroundBlendColor() {
@@ -91,45 +91,35 @@ object MiBlurUtilsKt {
         setMiBackgroundBlurScaleRatio.invoke(this, ratio)
     }
 
-    fun View.setMiBackgroundBlendColors(iArr: IntArray, f: Float) {
-        var z: Boolean
-        this.clearMiBackgroundBlendColor()
-        val length = iArr.size / 2
-        for (i in 0 until length) {
-            val i2 = i * 2
-            var i3 = iArr[i2]
-            z = f == 1.0f
-            if (!z) {
-                val i4 = (i3 shr 24) and 255
-                i3 = (i3 and ((i4 shl 24).inv())) or (((i4 * f).toInt()) shl 24)
+    fun View.setMiBackgroundBlendColors(colors: IntArray, ratio: Float) {
+        clearMiBackgroundBlendColor()
+        for (i in 0 until colors.size / 2) {
+            val j = i * 2
+            var color = colors[j]
+            if (ratio != 1.0f) {
+                val alpha = (color shr 24) and 255
+                color = (color and (alpha shl 24).inv()) or ((alpha * ratio).toInt() shl 24)
             }
-            val i5 = iArr[i2 + 1]
-            this.addMiBackgroundBlendColor(i3, i5)
+            addMiBackgroundBlendColor(color, colors[j + 1])
         }
     }
 
-    fun View.setBlurRoundRect(i: Int, i2: Int, i3: Int, i4: Int, i5: Int) {
-        this.clipToOutline = false
-        val outlineProvider = object : ViewOutlineProvider() {
+    fun View.setBlurRoundRect(radius: Int, left: Int, top: Int, right: Int, bottom: Int) {
+        clipToOutline = false
+        outlineProvider = object : ViewOutlineProvider() {
             override fun getOutline(view: View, outline: Outline) {
-                outline.setRoundRect(
-                    i2, i3, i4, i5, i.toFloat()
-                )
+                outline.setRoundRect(left, top, right, bottom, radius.toFloat())
             }
         }
-        this.outlineProvider = outlineProvider
     }
 
-    fun View.setBlurRoundRect(i: Int) {
-        this.clipToOutline = true
-        val outlineProvider = object : ViewOutlineProvider() {
+    fun View.setBlurRoundRect(radius: Int) {
+        clipToOutline = true
+        outlineProvider = object : ViewOutlineProvider() {
             override fun getOutline(view: View, outline: Outline) {
-                outline.setRoundRect(
-                    0, 0, view.width, view.height, i.toFloat()
-                )
+                outline.setRoundRect(0, 0, view.width, view.height, radius.toFloat())
             }
         }
-        this.outlineProvider = outlineProvider
     }
 
     fun View.clearAllBlur() {

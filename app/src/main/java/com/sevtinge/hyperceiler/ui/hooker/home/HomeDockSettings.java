@@ -65,6 +65,6 @@ public class HomeDockSettings extends DashboardFragment implements Preference.On
 
     private void setCanBeVisible(int mode) {
         mDockBackgroundBlur.setVisible(mode == 2);
-        mDockBackgroundColor.setVisible(mode != 2);
+        mDockBackgroundColor.setVisible(mode == 0);
     }
 }
