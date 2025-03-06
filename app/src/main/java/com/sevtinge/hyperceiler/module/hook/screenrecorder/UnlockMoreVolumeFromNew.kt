@@ -34,6 +34,16 @@ object UnlockMoreVolumeFromNew : BaseHook() {
         }
     }
 
+    private val bothRecordMethod by lazy<Method> {
+        DexKit.findMember("BothRecordMethod") {
+            it.findMethod {
+                matcher {
+                    usingStrings("ro.vendor.audio.screenrecorder.bothrecord")
+                }
+            }.single()
+        }
+    }
+
     override fun init() {
         val fieldData = DexKit.findMemberList<Field>("UnlockMoreVolumeFromNewField") { dexkit ->
             dexkit.findField {
@@ -50,5 +60,11 @@ object UnlockMoreVolumeFromNew : BaseHook() {
                     XposedHelpers.setObjectField(param.thisObject, i.name, true)
                 }
             } })
+
+        hookMethod(bothRecordMethod, object : MethodHook() {
+            override fun before(param: MethodHookParam?) {
+                param?.result = 1
+            }
+        })
     }
 }
