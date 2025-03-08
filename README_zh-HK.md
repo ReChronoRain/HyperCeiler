@@ -177,11 +177,11 @@ HyperCeiler 已停止維護 Android 11-13 的 MIUI ROM 和 Android 13 的 HyperO
 
 [trguild_url]: https://t.me/cemiuiler_release
 
-[badge_trguild]: https://img.shields.io/badge/TG-频道-4991D3?style=for-the-badge&logo=telegram
+[badge_trguild]: https://img.shields.io/badge/TG-頻道-4991D3?style=for-the-badge&logo=telegram
 
 [tcguild_url]: https://t.me/cemiuiler_canary
 
-[badge_tcguild]: https://img.shields.io/badge/TGCI-频道-4991D3?style=for-the-badge&logo=telegram
+[badge_tcguild]: https://img.shields.io/badge/TGCI-頻道-4991D3?style=for-the-badge&logo=telegram
 
 [telegram_url]: https://t.me/cemiuiler
 
