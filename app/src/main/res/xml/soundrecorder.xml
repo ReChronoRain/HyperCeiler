@@ -25,4 +25,9 @@
         android:key="prefs_key_sound_recorder_disable_ai_watermark"
         android:defaultValue="false" />
 
+    <SwitchPreference
+        android:title="@string/sound_recorder_unlock_recording_scene"
+        android:key="prefs_key_sound_recorder_unlock_recording_scene"
+        android:defaultValue="false" />
+
 </PreferenceScreen>

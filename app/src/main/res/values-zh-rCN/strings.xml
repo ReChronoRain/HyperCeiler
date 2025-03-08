@@ -1090,6 +1090,7 @@
     <!--录音机-->
     <string name="sound_recorder">录音机</string>
     <string name="sound_recorder_disable_ai_watermark">禁用水印</string>
+    <string name="sound_recorder_unlock_recording_scene">解锁选择录音场景</string>
     <!--万象息屏-->
     <string name="aod_hyperos">息屏与锁屏编辑</string>
     <string name="aod_unlock_always_on_display">解锁息屏显示时长限制</string>
