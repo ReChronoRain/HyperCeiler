@@ -1891,4 +1891,6 @@
 
     <string name="disable_suggest">禁用推荐</string>
     <string name="enable_suggest">启用推荐</string>
+    <string name="system_framework_other_disable_thermal_desc" >禁止限制刷新率和模糊效果</string>
+    <string name="system_framework_other_disable_thermal" >禁用温控</string>
 </resources>

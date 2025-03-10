@@ -43,6 +43,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.DisableMiuiLite;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableMiuiWatermark;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePersistent;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePinVerifyPer72h;
+import com.sevtinge.hyperceiler.module.hook.systemframework.DisableThermal;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableVerifyCanBeDisabled;
 import com.sevtinge.hyperceiler.module.hook.systemframework.EffectBinderProxy;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
@@ -175,6 +176,7 @@ public class SystemFrameworkV extends BaseModule {
         initHook(new ThermalBrightness(), mPrefsMap.getBoolean("system_framework_other_thermal_brightness"));
         initHook(DisableCleaner.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_cleaner"));
         initHook(DisableGestureMonitor.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_gesture_monitor"));
+        initHook(DisableThermal.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_thermal"));
         initHook(new DisablePinVerifyPer72h(), mPrefsMap.getBoolean("system_framework_disable_72h_verify"));
         initHook(new DisableVerifyCanBeDisabled(), mPrefsMap.getBoolean("system_framework_disable_verify_can_ve_disabled"));
         initHook(new UseAndroidPackageInstaller(), mPrefsMap.getBoolean("system_framework_use_android_package_installer"));
