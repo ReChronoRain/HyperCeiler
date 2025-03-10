@@ -1893,4 +1893,6 @@
     <string name="enable_suggest">启用推荐</string>
     <string name="system_framework_other_disable_thermal_desc" >禁止限制刷新率和模糊效果</string>
     <string name="system_framework_other_disable_thermal" >禁用温控</string>
+    <string name="system_framework_enhance_recents_visibility_desc" >使得一些被系统隐藏的卡片可见</string>
+    <string name="system_framework_enhance_recents_visibility" >增强最近任务可见性</string>
 </resources>

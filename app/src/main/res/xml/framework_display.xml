@@ -48,6 +48,12 @@
             android:title="@string/system_ui_display_use_aosp_screenshot"
             android:key="prefs_key_system_ui_display_use_aosp_screenshot_enable" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:summary="@string/system_framework_enhance_recents_visibility_desc"
+            android:title="@string/system_framework_enhance_recents_visibility"
+            android:key="prefs_key_system_framework_enhance_recents_visibility" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_display_cutout_title">
