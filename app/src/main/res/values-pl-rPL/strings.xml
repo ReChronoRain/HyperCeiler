@@ -19,7 +19,7 @@
   -->
 <resources>
     <string name="version_update">Znaleziono nową wersję</string>
-    <string name="about_copy_right">© 2023-2025 Sevtinge &amp; Współtwórcy HyperCeiler.</string>
+    <string name="about_copy_right">© 2023-2025 Sevtinge i Współtwórcy HyperCeiler.</string>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Uczyńmy HyperOS znów wielkim!</string>
     <string name="new_permission_wifi_state_desc">dodawanie i usuwanie plików z pamięci wewnętrznej urządzenia</string>
@@ -28,7 +28,10 @@
     <string name="new_cta_app_main_purpose">modyfikacja aplikacji systemowych</string>
     <string name="new_cta_app_all_purpose_title">Witaj w HyperCeiler! Ta aplikacja opiera się na frameworku Xposed do działania. Możesz używać tej aplikacji do modyfikowania innych obsługiwanych aplikacji w celu ulepszenia systemu. Podczas użytkowania, aby zapewnić Ci więcej funkcji, możemy poprosić o uprawnienia Root. Możesz nimi zarządzać w dowolnym momencie, przechodząc do swojego menedżera Root.</string>
     <!--HyperCeiler Tips-->
+    <string name="error">Błąd</string>
     <string name="warn">Uwaga</string>
+    <string name="app_error_desc">Ten moduł napotkał krytyczny błąd i nie może kontynuować działania! Podaj następujące informacje o błędzie w celu zgłoszenia! \n\n</string>
+    <string name="app_exit">OK</string>
     <string name="safe_mode_desc">%1$s wszedł w tryb awaryjny z powodu wielu awarii, a funkcje HyperCeiler zostały tymczasowo wyłączone.</string>
     <string name="safe_mode_history">Wyświetl zapisy wyjątków</string>
     <string name="safe_mode_cancel">Wyłącz tryb awaryjny</string>
@@ -182,6 +185,7 @@
     <string name="clearable_edittext_clear_description">Wyczyść</string>
     <string name="preference_on">Włączono</string>
     <string name="preference_off">Wyłączono</string>
+    <string name="preference_enable_failed">Nie udało się włączyć %s</string>
     <string name="preference_copied">Skopiowano \"%1$s\" do schowka.</string>
     <string name="preference_default_value_text">Domyślny</string>
     <string name="preference_dialog_color_picker_default_title">Wybierz kolor</string>
@@ -274,6 +278,7 @@
     <string name="system_ui_statusbar_indicator_bold">Pogrubiony</string>
     <!--Multi-list Array-->
     <string name="array_close">Zamknij</string>
+    <string name="array_hide">Ukryj</string>
     <string name="array_default">Domyślny</string>
     <string name="array_align_left">Lewy</string>
     <string name="array_align_right">Prawy</string>
@@ -386,6 +391,8 @@
     <string name="tiles_5g">Sieć 5G</string>
     <string name="dashboard_5g">Używaj 5G</string>
     <string name="tiles_sunshine_mode">Tryb słoneczny</string>
+    <string name="system_cc_showpct_style_1">W linii</string>
+    <string name="system_cc_showpct_style_2">Wyraźny</string>
     <!--System Framework-->
     <string name="system_framework">System Android</string>
     <string name="system_framework_volume_title">Głośność</string>
@@ -605,6 +612,7 @@
     <string name="system_ui_lock_screen_show_spacing">Częstotliwość odświeżania</string>
     <string name="system_ui_lock_screen_hide_camera">Ukryj aparat</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Ukryj inteligentny ekran</string>
+    <string name="system_ui_lock_screen_bottom_left_button">Lewy przycisk na dole</string>
     <string name="system_ui_lock_screen_current">Przepływ</string>
     <string name="system_ui_lock_screen_blur_button">Rozmycie przycisków ekranu blokady</string>
     <string name="system_ui_lock_screen_blur_button_desc">Po włączeniu tło przycisków na ekranie blokady będą rozmyte, co może powodować wysokie zużycie energii.\nObsługiwany tylko domyślny motyw.</string>
@@ -749,6 +757,10 @@
     <string name="system_ui_statusbar_clock_size">Rozmiar zegara</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Obowiązuje tylko wtedy, gdy jest wyświetlany w dwóch wierszach</string>
     <string name="system_ui_statusbar_clock_fix_color">Napraw kolor</string>
+    <string name="system_ui_statusbar_clock_pad_show">Panel</string>
+    <string name="system_ui_statusbar_clock_pad_hide">Ukryj zegar na pasku statusu</string>
+    <string name="system_ui_statusbar_clock_layout_p">Zegar paska stanu</string>
+    <string name="system_ui_statusbar_clock_editor_p">Format zegara paska stanu</string>
     <string name="system_ui_disable_clock_anim">Wyłącz animację przejścia zegara przy przewijaniu w pasku powiadomień</string>
     <string name="system_ui_disable_clock_synch">Wyłącz synchronizację zegara</string>
     <string name="system_ui_disable_clock_synch_desc">Duży zegar w pasku powiadomień nie jest już zsynchronizowany z formatem zegara na pasku stanu</string>
@@ -757,6 +769,7 @@
     <string name="system_ui_statusbar_clock_layout_b">Duży zegar w pasku powiadomień</string>
     <string name="system_ui_statusbar_clock_layout_n">Mini zegar w pasku powiadomień</string>
     <string name="system_ui_statusbar_clock_editor_s">Format zegara paska stanu</string>
+    <string name="system_ui_statusbar_clock_editor_b">Format dużego zegara w panelu powiadomień</string>
     <string name="system_ui_statusbar_clock_editor_n">Format mini zegara w pasku powiadomień</string>
     <string name="system_ui_statusbar_clock_style_f">Układ zegara na pasku stanu</string>
     <string name="system_ui_status_bar_strong_toast_layout">Układ</string>
@@ -867,6 +880,8 @@
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">Przywróć standardowe mieszanie kolorów powiadomień</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">Wyświetl wartość jasności</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">Wyświetl wartość głośności</string>
+    <string name="system_ui_control_center_zen_fix">Naprawa trybu DND</string>
+    <string name="system_ui_control_center_zen_fix_desc">Naprawia niektóre urządzenia, które nadal dzwonią w trybie DND</string>
     <string name="system_ui_other_title">Pozostałe</string>
     <string name="system_ui_disable_volume">Natywny pasek głośności</string>
     <string name="system_ui_disable_power">Natywne menu wyłączenia</string>
@@ -881,6 +896,7 @@
     <string name="system_ui_disable_infinitymode_gesture_sum">Tylko dla tabletów</string>
     <string name="system_ui_disable_bottombar">Ukryj gest dolny małego okna</string>
     <string name="system_ui_others_pct_title">Wyświetlanie danych</string>
+    <string name="system_cc_showpct_style">Styl wyświetlania procentu danych</string>
     <string name="system_showpct_title">Wyświetlaj procent jasności</string>
     <string name="system_cc_volume_showpct_title">Wyświetl procent głośności</string>
     <string name="system_ui_others_showpct_top">Górna wartość procentowa</string>
@@ -1007,6 +1023,7 @@
     <!--Sound Recorder-->
     <string name="sound_recorder">Dyktafon</string>
     <string name="sound_recorder_disable_ai_watermark">Wyłącz znak wodny SI</string>
+    <string name="sound_recorder_unlock_recording_scene">Odblokuj scenę nagrywania</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Ekran zawsze włączony i edytor Ekranu blokady</string>
     <string name="aod_unlock_always_on_display">Odblokuj limit czasu wyświetlania</string>
@@ -1256,6 +1273,7 @@
     <string name="home_widget_allow_moved_to_minus_one_screen">Zezwól na przeniesienie klasycznego widżetu na ekran -1</string>
     <string name="home_widget_hide_title">Ukryj etykiety widżetów</string>
     <string name="home_widget_resizable">Usuń wszelkie ograniczenia rozmiaru widżetu</string>
+    <string name="home_widget_widget_blur_opt">Optymalizacja rozmycia widżetu</string>
     <string name="home_dock">Dok</string>
     <string name="home_dock_bg_enable">Dodaj rozmycie tła do doku</string>
     <string name="home_dock_bg_all_app">Kompatybilność trybu szuflady</string>
@@ -1332,7 +1350,7 @@
     <string name="home_other_opt_app_launch_delay">Optymalizuj opóźnienie uruchamiania aplikacji</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Edytor galerii</string>
-    <string name="mediaeditor_tip">Instrukcja użycia:\n- Użyj haka v2 dla wersji 1.7.5.0.4 i nowszych, a haka v1 dla wersji niższych niż 1.7.5.0.4  </string>
+    <string name="mediaeditor_tip">Instrukcja użycia:\n• Użyj haka v2 dla wersji 1.7.5.0.4 i nowszych, a haka v1 dla wersji niższych niż 1.7.5.0.4</string>
     <string name="mediaeditor_hook_type">Typ haka edytora galerii</string>
     <string name="mediaeditor_foundation">Podkład</string>
     <string name="mediaeditor_authoring">Autorstwo</string>
@@ -1393,6 +1411,7 @@
     <string name="personal_assistant_set_tv_notif_info_max_width">Ustaw powiadomienie o podróży w pasku stanu</string>
     <string name="personal_assistant_set_tv_notif_info_max_width_desc">Dostosuj tę wartość odpowiednio, aby rozwiązać problem z pomijaniem treści wyświetlanej</string>
     <string name="personal_assistant_disable_lite_version">Wyłącz wersje Lite</string>
+    <string name="personal_assistant_widget_widget_blur_opt">Optymalizacja rozmycia widżetu</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Bateria i wydajność</string>
     <string name="powerkeeper_custom_refresh_rate">Niestandardowe aplikacje z wysokim odświeżaniem</string>
@@ -1767,7 +1786,7 @@
     <string name="disable_suggest">Wyłącz sugestie</string>
     <string name="enable_suggest">Włącz sugestie</string>
     <string name="notification_channel_app_crash_name">Aplikacja działa nieprawidłowo</string>
-    <string name="notification_title_message_emergency_crash">%s awarii(rie)</string>
+    <string name="notification_title_message_emergency_crash">%s uległ awarii wielokrotnie</string>
     <string name="notification_content_message">Kliknij, aby wyświetlić szczegóły</string>
     <string name="notification_view">Wyświetl</string>
 </resources>
