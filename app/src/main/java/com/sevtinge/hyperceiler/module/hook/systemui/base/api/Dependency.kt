@@ -28,10 +28,8 @@ import com.sevtinge.hyperceiler.utils.getStaticObjectFieldAs
 
 @Suppress("unused")
 object Dependency {
-    private const val DEPENDENCY = "com.android.systemui.Dependency"
-
     private val CLASS by lazy {
-        loadClass(DEPENDENCY)
+        loadClass("com.android.systemui.Dependency")
     }
 
     val INSTANCE by lazy {
