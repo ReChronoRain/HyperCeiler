@@ -712,4 +712,8 @@
     <string name="disable_app_settings">好主意❌</string>
     <string name="ic_qs_title_bluetooth">蓝色牙齿</string>
     <string name="ic_qs_title_flashlight">烫点</string>
+    <string name="system_framework_other_disable_thermal_desc">杂鱼有什么资格给咱戴锁呢~</string>
+    <string name="system_framework_other_disable_thermal">摆脱束缚</string>
+    <string name="system_framework_enhance_recents_visibility_desc" >让害羞的小卡片们无处藏身</string>
+    <string name="system_framework_enhance_recents_visibility" >给我看看</string>
 </resources>
