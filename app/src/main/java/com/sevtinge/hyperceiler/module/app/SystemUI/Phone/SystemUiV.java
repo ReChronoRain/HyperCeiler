@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.UnimportantNotification;
 import com.sevtinge.hyperceiler.module.hook.systemui.UnlockClipboard;
 import com.sevtinge.hyperceiler.module.hook.systemui.UnlockCustomActions;
 import com.sevtinge.hyperceiler.module.hook.systemui.ZenModeFix;
+import com.sevtinge.hyperceiler.module.hook.systemui.base.api.MiuiStub;
 import com.sevtinge.hyperceiler.module.hook.systemui.base.lockscreen.Keyguard;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AllowAllThemesNotificationBlur;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CompactNotificationsHook;
@@ -129,6 +130,8 @@ import java.util.Objects;
 public class SystemUiV extends BaseModule {
     @Override
     public void handleLoadPackage() {
+        MiuiStub.createHook();
+
         // PluginHelper
         initHook(NewPluginHelperKt.INSTANCE);
         // initHook(Island.INSTANCE, true); // 灵动岛

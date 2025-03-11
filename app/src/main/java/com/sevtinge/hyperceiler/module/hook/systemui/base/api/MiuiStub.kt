@@ -3,6 +3,8 @@ package com.sevtinge.hyperceiler.module.hook.systemui.base.api
 import android.content.Context
 import android.os.Handler
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
+import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.sevtinge.hyperceiler.utils.callMethodAs
 import com.sevtinge.hyperceiler.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.utils.getStaticObjectFieldAs
@@ -13,11 +15,11 @@ import java.util.concurrent.Executor
  */
 @Suppress("unused")
 object MiuiStub {
-    private const val MIUI_STUB = "miui.stub.MiuiStub"
-
     private val INSTANCE by lazy {
-        loadClass(MIUI_STUB).getStaticObjectFieldAs<Any>("INSTANCE")
+        loadClass("miui.stub.MiuiStub").getStaticObjectFieldAs<Any>("INSTANCE")
     }
+
+    lateinit var javaAdapter: JavaAdapter
 
     val baseProvider by lazy {
         BaseProvider(INSTANCE.getObjectFieldAs("mBaseProvider"))
@@ -29,6 +31,15 @@ object MiuiStub {
 
     val sysUIProvider by lazy {
         SysUIProvider(INSTANCE.getObjectFieldAs("mSysUIProvider"))
+    }
+
+    @JvmStatic
+    fun createHook() {
+        loadClass("com.android.systemui.util.kotlin.JavaAdapter").constructorFinder()
+            .first()
+            .createAfterHook {
+                javaAdapter = JavaAdapter(it.thisObject)
+            }
     }
 
     override fun toString(): String = INSTANCE.toString()
