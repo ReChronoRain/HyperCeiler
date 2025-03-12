@@ -52,26 +52,26 @@ public class HookBaseProcessor extends AbstractProcessor {
             writer.write("""
                     /*
                       * This file is part of HyperCeiler.
-                    
+
                       * HyperCeiler is free software: you can redistribute it and/or modify
                       * it under the terms of the GNU Affero General Public License as
                       * published by the Free Software Foundation, either version 3 of the
                       * License.
-                    
+
                       * This program is distributed in the hope that it will be useful,
                       * but WITHOUT ANY WARRANTY; without even the implied warranty of
                       * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
                       * GNU Affero General Public License for more details.
-                    
+
                       * You should have received a copy of the GNU Affero General Public License
                       * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-                    
+
                       * Copyright (C) 2023-2025 HyperCeiler Contributions
                     */
                     package com.sevtinge.hyperceiler.module.base;
-                    
+
                     import java.util.HashMap;
-                    
+
                     /**
                      * 注解处理器自动生成的 Map 图
                      *
@@ -82,14 +82,14 @@ public class HookBaseProcessor extends AbstractProcessor {
                         public int mTargetSdk;
                         public float mTargetOSVersion;
                         public int isPad;
-                    
+
                         public DataBase(String targetPackage, int targetSdk, float targetOSVersion, int isPad){
                             this.mTargetPackage = targetPackage;
                             this.mTargetSdk = targetSdk;
                             this.mTargetOSVersion = targetOSVersion;
                             this.isPad = isPad;
                         }
-                    
+
                         public static HashMap<String, DataBase> get() {
                             HashMap<String, DataBase> dataMap = new HashMap<>();
                     """);
@@ -130,14 +130,14 @@ public class HookBaseProcessor extends AbstractProcessor {
     }
 
     /*
-     ________  ___  ___   ________   ________       ___    ___ 
+     ________  ___  ___   ________   ________       ___    ___
     |\  _____\|\  \|\  \ |\   __  \ |\   __  \     |\  \  /  /|
     \ \  \__/ \ \  \\\  \\ \  \|\  \\ \  \|\  \    \ \  \/  / /
-     \ \   __\ \ \  \\\  \\ \   _  _\\ \   _  _\    \ \    / / 
-      \ \  \_|  \ \  \\\  \\ \  \\  \|\ \  \\  \|    \/  /  /  
-       \ \__\    \ \_______\\ \__\\ _\ \ \__\\ _\  __/  / /    
-        \|__|     \|_______| \|__|\|__| \|__|\|__||\___/ /     
-                                                  \|___|/                                                   
+     \ \   __\ \ \  \\\  \\ \   _  _\\ \   _  _\    \ \    / /
+      \ \  \_|  \ \  \\\  \\ \  \\  \|\ \  \\  \|    \/  /  /
+       \ \__\    \ \_______\\ \__\\ _\ \ \__\\ _\  __/  / /
+        \|__|     \|_______| \|__|\|__| \|__|\|__||\___/ /
+                                                  \|___|/
     * */
     private void delayedOutput() {
         final String RESET = "\033[0m";  // Text Reset
@@ -148,17 +148,7 @@ public class HookBaseProcessor extends AbstractProcessor {
         final String PURPLE = "\033[0;35m"; // PURPLE
         final String CYAN = "\033[0;36m";   // CYAN
         final String WHITE = "\033[0;37m";  // WHITE
-        System.out.println(BLUE + "                                                            " + RESET);
-        System.out.println(BLUE + " ________  ___  ___   ________   ________       ___    ___ " + RESET);
-        System.out.println(BLUE + "|\\  _____\\|\\  \\|\\  \\ |\\   __  \\ |\\   __  \\     |\\  \\  /  /|" + RESET);
-        System.out.println(BLUE + "\\ \\  \\__/ \\ \\  \\\\\\  \\\\ \\  \\|\\  \\\\ \\  \\|\\  \\    \\ \\  \\/  / /" + RESET);
-        System.out.println(BLUE + " \\ \\   __\\ \\ \\  \\\\\\  \\\\ \\   _  _\\\\ \\   _  _\\    \\ \\    / / " + RESET);
-        System.out.println(BLUE + "  \\ \\  \\_|  \\ \\  \\\\\\  \\\\ \\  \\\\  \\|\\ \\  \\\\  \\|    \\/  /  /  " + RESET);
-        System.out.println(BLUE + "   \\ \\__\\    \\ \\_______\\\\ \\__\\\\ _\\ \\ \\__\\\\ _\\  __/  / /    " + RESET);
-        System.out.println(BLUE + "    \\|__|     \\|_______| \\|__|\\|__| \\|__|\\|__||\\___/ /     " + RESET);
-        System.out.println(BLUE + "                                              \\|___|/      " + RESET);
-        System.out.println(BLUE + "                                                            " + RESET);
-        System.out.println(BLUE + "                                 Code By 焕晨HChen  " + RESET); // 别改谢谢
+        // 引起歧义了 请不要再写这类东西了
     }
 
 }
