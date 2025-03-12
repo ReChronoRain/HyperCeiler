@@ -19,49 +19,128 @@
 
 package com.sevtinge.hyperceiler.module.hook.securitycenter;
 
-import android.content.Intent;
-
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.module.base.dexkit.IDexKitList;
 
 import org.luckypray.dexkit.DexKitBridge;
+import org.luckypray.dexkit.query.FindClass;
+import org.luckypray.dexkit.query.FindField;
 import org.luckypray.dexkit.query.FindMethod;
+import org.luckypray.dexkit.query.matchers.ClassMatcher;
+import org.luckypray.dexkit.query.matchers.FieldMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.BaseDataList;
+import org.luckypray.dexkit.result.ClassData;
+import org.luckypray.dexkit.result.FieldData;
 import org.luckypray.dexkit.result.MethodData;
 import org.luckypray.dexkit.result.MethodDataList;
+import org.luckypray.dexkit.result.base.BaseData;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.List;
+
+import de.robv.android.xposed.XposedHelpers;
 
 public class DisableRootedCheck extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookMethod("com.xiaomi.security.xsof.MiSafetyDetectService", "onCreate", new MethodHook() {
+        Method returnEnvironment = DexKit.findMember("ReturnEnvironment", new IDexKit() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(null);
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .usingStrings("Invalid Task , reason:  [canceled, ")
+                    )).singleOrNull();
+                return methodData;
             }
         });
-        findAndHookMethod("com.xiaomi.security.xsof.MiSafetyDetectService", "onDestroy", new MethodHook() {
+        Class<?> clientApiRequest = DexKit.findMember("ClientApiRequest", new IDexKit() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(null);
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                ClassData classData = bridge.findClass(FindClass.create()
+                    .matcher(ClassMatcher.create()
+                        .usingStrings("ClientApiRequest")
+                    )).singleOrNull();
+                return classData;
             }
         });
-        /*findAndHookMethod("com.xiaomi.security.xsof.MiSafetyDetectService", "onBind", Intent.class, new MethodHook() {
+        Method environmentPut = DexKit.findMember("EnvironmentPut", new IDexKit() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(null);
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .declaredClass(clientApiRequest)
+                        .returnType(boolean.class)
+                    )).singleOrNull();
+                return methodData;
             }
         });
-        findAndHookMethod("com.xiaomi.security.xsof.MiSafetyDetectService", "onUnbind", Intent.class, new MethodHook() {
+        Class<?> riskAppClass = DexKit.findMember("RiskAppClass", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                ClassData classData = bridge.findClass(FindClass.create()
+                    .matcher(ClassMatcher.create()
+                        .usingStrings("RiskAppManager")
+                    )).singleOrNull();
+                return classData;
+            }
+        });
+        Field riskApp = DexKit.findMember("RiskApp", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                FieldData fieldData = bridge.findField(FindField.create()
+                    .matcher(FieldMatcher.create()
+                        .type(riskAppClass)
+                        .modifiers(Modifier.PRIVATE)
+                    )).singleOrNull();
+                return fieldData;
+            }
+        });
+        Method unsetEnvironment = DexKit.findMember("UnsetEnvironment", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .usingStrings("RiskAppManager")
+                    )).singleOrNull();
+                return methodData;
+            }
+        });
+        List<Method> setEnvironment = DexKit.findMemberList("SetEnvironment", new IDexKitList() {
+            @Override
+            public BaseDataList<MethodData> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodDataList methodData = bridge.findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .returnType(void.class)
+                        .paramTypes(clientApiRequest)
+                        .declaredClass(riskAppClass)
+                    )
+                );
+                return methodData;
+            }
+        });
+
+        hookMethod(returnEnvironment, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(null);
+                Object obj = param.args[0];
+                if (clientApiRequest.isInstance(obj)) {
+                    XposedHelpers.callMethod(obj, environmentPut.getName());
+                    Object thisObj = param.thisObject;
+                    Object cField = XposedHelpers.getObjectField(thisObj, riskApp.getName());
+                    for (Method method : setEnvironment) {
+                        if (method != unsetEnvironment) {
+                            XposedHelpers.callMethod(cField, method.getName(), obj);
+                        }
+                    }
+                }
             }
-        });*/
+        });
+
         List<Method> methods = DexKit.findMemberList("CheckRoot", new IDexKitList() {
             @Override
             public BaseDataList<MethodData> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
