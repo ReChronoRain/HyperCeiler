@@ -70,7 +70,7 @@
     <string name="settings_app_ja_jp" translatable="false">日本語</string>
     <string name="settings_app_pl_pl" translatable="false">Polski</string>
     <string name="settings_app_ru_ru" translatable="false">Русский</string>
-    <string name="settings_app_ar_sa" translatable="false">الإنجليزية</string>
+    <string name="settings_app_ar_sa" translatable="false">العربية</string>
     <string name="settings_app_es_es" translatable="false">Español</string>
     <string name="settings_app_pt_br" translatable="false">Português (Brasil)</string>
     <string name="settings_app_in_id" translatable="false">Bahasa Indonesia</string>
@@ -104,6 +104,10 @@
     <string name="safe_mode_recorder_line">Line</string>
     <string name="safe_mode_recorder_msg">Exception message</string>
     <string name="safe_mode_recorder_st">Stack trace</string>
+    <string name="notification_channel_app_crash_name">The app is running abnormally</string>
+    <string name="notification_title_message_emergency_crash">%s has crashed multiple times</string>
+    <string name="notification_content_message">Click to view details</string>
+    <string name="notification_view">View</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there\'s a problem with HyperCeiler. Please report it to the developer in a timely and effective manner.</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you\'re using may not be an official Xiaomi ROM, and some features may not work. Please contact your supplier for more details.</string>
     <string name="headtip_warn_unsupport_sysver">The current device is running on a system version that isn\'t (fully) adapted, which may result in anomalies in the HyperCeiler functionality.</string>
@@ -546,6 +550,10 @@
     <string name="system_framework_other_thermal_brightness_more">Only automatically reduce screen brightness that isn\'t caused by thermal control</string>
     <string name="system_framework_other_disable_cleaner">Disable kill background apps</string>
     <string name="system_framework_other_disable_cleaner_desc">Experimental feature. May cause abnormal RAM usage.</string>
+    <string name="system_framework_other_disable_thermal_desc">Disables the refresh rate and blur effect limit</string>
+    <string name="system_framework_other_disable_thermal">Disable thermal</string>
+    <string name="system_framework_enhance_recents_visibility_desc">Make system-hidden recents visible again</string>
+    <string name="system_framework_enhance_recents_visibility">Enhance recents visibility</string>
     <string name="system_framework_other_disable_gesture_monitor">Disable gesture monitor</string>
     <string name="system_framework_other_disable_gesture_monitor_desc">Reduces CPU load, but breaks input-related and gesture shortcut features, such as three-finger screenshots.</string>
     <string name="system_framework_disable_72h_verify">Disable Lock screen password verify every 72 hours</string>
@@ -1846,12 +1854,4 @@
     <string name="log_level_none">Disabled</string>
     <string name="disable_suggest">Disable suggest</string>
     <string name="enable_suggest">Enable suggest</string>
-    <string name="notification_channel_app_crash_name">The app is running abnormally</string>
-    <string name="notification_title_message_emergency_crash">%s has crashed multiple times</string>
-    <string name="notification_content_message">Click to view details</string>
-    <string name="notification_view">View</string>
-    <string name="system_framework_other_disable_thermal_desc">Disables the refresh rate and blur effect limit</string>
-    <string name="system_framework_other_disable_thermal">Disable thermal</string>
-    <string name="system_framework_enhance_recents_visibility_desc">Make system-hidden recents visible again</string>
-    <string name="system_framework_enhance_recents_visibility">Enhance recents visibility</string>
 </resources>

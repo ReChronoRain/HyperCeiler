@@ -20,8 +20,9 @@ package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import com.sevtinge.hyperceiler.utils.prefs.*
-import de.robv.android.xposed.*
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedHelpers
 
 // from YunZiA
 object CCGridForHyperOSKt {
@@ -86,11 +87,12 @@ object CCGridForHyperOSKt {
         )
 
         // OS2 加载磁贴时的圆角
-        XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView",
+        // maybe 会导致系统界面奔溃，暂时先取消此 hook
+        /*XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView",
             classLoader, "getCornerRadius",  object : XC_MethodReplacement() {
                 override fun replaceHookedMethod(param: MethodHookParam?): Any {
                     return radius
                 }
-            })
+            })*/
     }
 }

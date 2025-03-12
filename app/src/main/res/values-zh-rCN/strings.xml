@@ -535,6 +535,10 @@
     <string name="system_framework_other_thermal_brightness_more">仅限非温控导致的自动降低屏幕亮度</string>
     <string name="system_framework_other_disable_cleaner">禁止杀后台应用</string>
     <string name="system_framework_other_disable_cleaner_desc">实验性功能，可能导致运行内存占用异常</string>
+    <string name="system_framework_other_disable_thermal_desc" >禁止限制刷新率和模糊效果</string>
+    <string name="system_framework_other_disable_thermal" >禁用温控</string>
+    <string name="system_framework_enhance_recents_visibility_desc" >使得一些被系统隐藏的卡片可见</string>
+    <string name="system_framework_enhance_recents_visibility" >增强最近任务可见性</string>
     <string name="system_framework_disable_72h_verify">禁用每 72 小时验证锁屏密码</string>
     <string name="system_framework_disable_verify_can_ve_disabled">禁用是否允许禁用 APP 校验</string>
     <string name="system_framework_allow_all_dark_mode">允许所有 APP 使用深色模式</string>
@@ -930,7 +934,7 @@
     <string name="system_ui_control_center_remove_notif_num_limit">移除通知数量限制</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">允许显示 10 条或 17 条及以上的通知</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">优化焦点通知背景混色</string>
-    <string name="system_ui_control_center_opt_notification_element_background_color_desc">恢复为普通通知混色样式</string>
+    <string name="system_ui_control_center_opt_notification_element_background_color_desc">恢复为普通通知混色样式，手电筒焦点通知还原需要同时勾选系统界面组件作用域</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">亮度值显示</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">音量值显示</string>
     <string name="system_ui_control_center_zen_fix">勿扰模式修复</string>
@@ -977,7 +981,7 @@
     <string name="system_ui_notification_title">通知</string>
     <string name="system_ui_other_notification_fix">禁用通知白名单</string>
     <string name="system_ui_other_default_plugin_theme">解除高级材质模糊限制</string>
-    <string name="system_ui_other_default_plugin_theme_desc">解除系统界面组件对第三方主题默认禁用的高级材质模糊</string>
+    <string name="system_ui_other_default_plugin_theme_desc">解除系统界面组件对第三方主题默认禁用的高级材质模糊，需要同时勾选系统界面组件作用域</string>
     <string name="system_ui_plugin_volume_title">音量条</string>
     <string name="system_ui_volume_collpased_column_press">按压展开二级音量条</string>
     <string name="system_ui_volume_collpased_column_press_desc">启用此功能后，会关闭展开按钮</string>
@@ -1891,8 +1895,4 @@
 
     <string name="disable_suggest">禁用推荐</string>
     <string name="enable_suggest">启用推荐</string>
-    <string name="system_framework_other_disable_thermal_desc">禁止限制刷新率和模糊效果</string>
-    <string name="system_framework_other_disable_thermal">禁用温控</string>
-    <string name="system_framework_enhance_recents_visibility_desc">使得一些被系统隐藏的卡片可见</string>
-    <string name="system_framework_enhance_recents_visibility">增强最近任务可见性</string>
 </resources>
