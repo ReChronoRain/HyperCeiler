@@ -27,7 +27,6 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGridForHyperOSKt
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CustomCardTiles
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSColor
-import com.sevtinge.hyperceiler.module.hook.systemui.other.DefaultPluginTheme
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v.FocusNotifLyric
 import com.sevtinge.hyperceiler.utils.api.PluginFactory
 import com.sevtinge.hyperceiler.utils.devicesdk.isHyperOSVersion
@@ -102,11 +101,6 @@ object NewPluginHelperKt : BaseHook() {
                         mPrefsMap.getBoolean("system_ui_volume_hide_foot_button"),
                         HideCollpasedFootButton::initLoaderHook
                     ),
-                    Triple(
-                        "DefaultPluginTheme",
-                        mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"),
-                        DefaultPluginTheme::initDefaultPluginTheme
-                    ),
                 )
                 loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
             }
@@ -153,11 +147,6 @@ object NewPluginHelperKt : BaseHook() {
                         mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"),
                         DisableDeviceManagedNew::initDisableDeviceManaged
                     ),
-                    Triple(
-                        "DefaultPluginTheme",
-                        mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"),
-                        DefaultPluginTheme::initDefaultPluginTheme
-                    ),
                 )
                 loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
             }
@@ -171,11 +160,6 @@ object NewPluginHelperKt : BaseHook() {
                         "FocusNotifLyric",
                         mPrefsMap.getBoolean("system_ui_statusbar_music_switch"),
                         FocusNotifLyric::initLoader
-                    ),
-                    Triple(
-                        "DefaultPluginTheme",
-                        mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"),
-                        DefaultPluginTheme::initDefaultPluginTheme
                     ),
                 )
                 loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)

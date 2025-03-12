@@ -934,7 +934,7 @@
     <string name="system_ui_control_center_remove_notif_num_limit">移除通知数量限制</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">允许显示 10 条或 17 条及以上的通知</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">优化焦点通知背景混色</string>
-    <string name="system_ui_control_center_opt_notification_element_background_color_desc">恢复为普通通知混色样式</string>
+    <string name="system_ui_control_center_opt_notification_element_background_color_desc">恢复为普通通知混色样式，手电筒焦点通知还原需要同时勾选系统界面组件作用域</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">亮度值显示</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">音量值显示</string>
     <string name="system_ui_control_center_zen_fix">勿扰模式修复</string>
@@ -981,7 +981,7 @@
     <string name="system_ui_notification_title">通知</string>
     <string name="system_ui_other_notification_fix">禁用通知白名单</string>
     <string name="system_ui_other_default_plugin_theme">解除高级材质模糊限制</string>
-    <string name="system_ui_other_default_plugin_theme_desc">解除系统界面组件对第三方主题默认禁用的高级材质模糊</string>
+    <string name="system_ui_other_default_plugin_theme_desc">解除系统界面组件对第三方主题默认禁用的高级材质模糊，需要同时勾选系统界面组件作用域</string>
     <string name="system_ui_plugin_volume_title">音量条</string>
     <string name="system_ui_volume_collpased_column_press">按压展开二级音量条</string>
     <string name="system_ui_volume_collpased_column_press_desc">启用此功能后，会关闭展开按钮</string>

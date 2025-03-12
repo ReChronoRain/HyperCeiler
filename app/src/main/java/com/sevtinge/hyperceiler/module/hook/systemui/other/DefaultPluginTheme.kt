@@ -21,15 +21,14 @@ package com.sevtinge.hyperceiler.module.hook.systemui.other
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils.*
+import com.sevtinge.hyperceiler.module.base.BaseHook
 
-object DefaultPluginTheme {
-    fun initDefaultPluginTheme(mClassLoader: ClassLoader) {
-        loadClass("miui.systemui.util.ThemeUtils", mClassLoader).methodFinder()
+object DefaultPluginTheme: BaseHook() {
+    override fun init() {
+        loadClass("miui.systemui.util.ThemeUtils").methodFinder()
             .filterByName("getDefaultPluginTheme").first()
             .createAfterHook {
                 it.result = true
             }
-        logD("DefaultPluginTheme", "initDefaultPluginTheme hook success")
     }
 }
