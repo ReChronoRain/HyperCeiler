@@ -24,12 +24,11 @@ object WifiStandard : BaseHook() {
 
     private val makeWifiStandardZero by lazy {
         DexKit.findMember("makeWifiStandardZero") { bridge ->
-            bridge.findClass {
+            bridge.findMethod {
                 matcher {
-                    className("viewmodel.WifiViewModel\$special", StringMatchType.Contains)
-                }
-            }.findMethod {
-                matcher {
+                    declaredClass {
+                        className("viewmodel.WifiViewModel\$special", StringMatchType.Contains)
+                    }
                     usingNumbers(5, 0)
                     addInvoke("Ljava/lang/Integer;-><init>(I)V")
                 }
