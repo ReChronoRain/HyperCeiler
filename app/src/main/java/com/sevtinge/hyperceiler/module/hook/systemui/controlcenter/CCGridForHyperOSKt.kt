@@ -20,8 +20,10 @@ package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils
 import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 
 // from YunZiA
@@ -62,17 +64,25 @@ object CCGridForHyperOSKt {
 
         XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "setDisabledBg", Drawable::class.java, object : XC_MethodHook(){
             override fun beforeHookedMethod(param: MethodHookParam?) {
-                val drawable = param?.args?.get(0) as Drawable
-                if (drawable is GradientDrawable) drawable.cornerRadius = radius
-                param.args[0] = drawable
+                runCatching {
+                    val drawable = param?.args?.get(0) as Drawable
+                    if (drawable is GradientDrawable) drawable.cornerRadius = radius
+                    param.args[0] = drawable
+                }.onFailure {
+                    logE("initCCGridForHyperOS", "radius 1 crash, $it")
+                }
             }
         })
 
         XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "setEnabledBg", Drawable::class.java, object : XC_MethodHook(){
             override fun beforeHookedMethod(param: MethodHookParam?) {
-                val drawable = param?.args?.get(0) as Drawable
-                if (drawable is GradientDrawable) drawable.cornerRadius = radius
-                param.args[0] = drawable
+                runCatching {
+                    val drawable = param?.args?.get(0) as Drawable
+                    if (drawable is GradientDrawable) drawable.cornerRadius = radius
+                    param.args[0] = drawable
+                }.onFailure {
+                    logE("initCCGridForHyperOS", "radius 2 crash, $it")
+                }
             }
         })
 
@@ -81,18 +91,25 @@ object CCGridForHyperOSKt {
             classLoader, "setCornerRadius", Float::class.java,
             object : XC_MethodHook(){
                 override fun beforeHookedMethod(param: MethodHookParam?) {
-                    param?.args?.set(0, radius)
+                    runCatching {
+                        param?.args?.set(0, radius)
+                    }.onFailure {
+                        logE("initCCGridForHyperOS", "radius 3 crash, $it")
+                    }
                 }
             }
         )
 
         // OS2 加载磁贴时的圆角
-        // maybe 会导致系统界面奔溃，暂时先取消此 hook
-        /*XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView",
-            classLoader, "getCornerRadius",  object : XC_MethodReplacement() {
-                override fun replaceHookedMethod(param: MethodHookParam?): Any {
-                    return radius
-                }
-            })*/
+        runCatching {
+            XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView",
+                classLoader, "getCornerRadius", object : XC_MethodReplacement() {
+                    override fun replaceHookedMethod(param: MethodHookParam?): Any {
+                        return radius
+                    }
+                })
+        }.onFailure {
+            logE("initCCGridForHyperOS", "radius 4 crash, $it")
+        }
     }
 }
