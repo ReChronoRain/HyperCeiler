@@ -609,6 +609,7 @@
     <!--日历-->
     <string name="calendar">日历</string>
     <string name="calendar_unlock_subscription">解锁订阅服务</string>
+    <string name="calendar_remove_fortune_card">移除运势卡片</string>
     <!--小米社区-->
     <string name="community">小米社区</string>
     <string name="community_device_modify">机型伪装</string>

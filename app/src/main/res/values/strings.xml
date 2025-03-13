@@ -626,6 +626,7 @@
     <!--Calendar-->
     <string name="calendar">Calendar</string>
     <string name="calendar_unlock_subscription">Unlock Subscription</string>
+    <string name="calendar_remove_fortune_card">Remove Fortune Card</string>
     <!--Community-->
     <string name="community">Xiaomi Community</string>
     <string name="community_device_modify">Spoof Model</string>

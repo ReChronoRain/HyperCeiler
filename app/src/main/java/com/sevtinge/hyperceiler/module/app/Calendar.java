@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.module.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.calendar.UnlockSubscription;
+import com.sevtinge.hyperceiler.module.hook.calendar.RemoveFortuneCard;
 
 @HookBase(targetPackage = "com.android.calendar")
 public class Calendar extends BaseModule {
@@ -28,5 +29,6 @@ public class Calendar extends BaseModule {
     @Override
     public void handleLoadPackage() {
         initHook(new UnlockSubscription(), mPrefsMap.getBoolean("calendar_unlock_subscription"));
+        initHook(new RemoveFortuneCard(), mPrefsMap.getBoolean("calendar_remove_fortune_card"));
     }
 }

@@ -25,6 +25,10 @@
             android:defaultValue="false"
             android:key="prefs_key_calendar_unlock_subscription"
             android:title="@string/calendar_unlock_subscription" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_calendar_remove_fortune_card"
+            android:title="@string/calendar_remove_fortune_card" />
 
     </PreferenceCategory>
 
