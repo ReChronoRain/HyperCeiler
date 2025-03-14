@@ -21,15 +21,39 @@ package com.sevtinge.hyperceiler.module.hook.aiasst
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit
+import java.lang.reflect.Method
 
 object UnlockAllCaptions : BaseHook() {
+    private val mBuildConfigUtils by lazy {
+        findClassIfExists("com.xiaomi.aiasst.vision.common.BuildConfigUtils")
+    }
+    private val getMethod by lazy<Method> {
+        DexKit.findMember("BuildConfigUtils") {
+            it.findMethod {
+                matcher {
+                    declaredClass {
+                        addEqString("BuildConfigUtils")
+                    }
+                    addUsingField("Lmiui/os/Build;->DEVICE:Ljava/lang/String;")
+                }
+            }.single()
+        }
+    }
+
     override fun init() {
         // by PedroZ
-        loadClass("com.xiaomi.aiasst.vision.common.BuildConfigUtils").methodFinder()
-            .filterByName("isSupplierOnline")
-            .single().createHook {
+        if (mBuildConfigUtils == null) {
+            getMethod.createHook {
                 returnConstant(true)
             }
+        } else {
+            loadClass("com.xiaomi.aiasst.vision.common.BuildConfigUtils").methodFinder()
+                .filterByName("isSupplierOnline")
+                .single().createHook {
+                    returnConstant(true)
+                }
+        }
     }
 }
