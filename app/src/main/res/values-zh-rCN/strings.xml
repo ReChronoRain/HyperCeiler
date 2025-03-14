@@ -982,7 +982,7 @@
     <string name="system_ui_notification_title">通知</string>
     <string name="system_ui_other_notification_fix">禁用通知白名单</string>
     <string name="system_ui_other_default_plugin_theme">解除高级材质模糊限制</string>
-    <string name="system_ui_other_default_plugin_theme_desc">解除系统界面组件对第三方主题默认禁用的高级材质模糊，需要同时勾选系统界面组件作用域</string>
+    <string name="system_ui_other_default_plugin_theme_desc">解除系统界面组件对第三方主题默认禁用的高级材质模糊</string>
     <string name="system_ui_plugin_volume_title">音量条</string>
     <string name="system_ui_volume_collpased_column_press">按压展开二级音量条</string>
     <string name="system_ui_volume_collpased_column_press_desc">启用此功能后，会关闭展开按钮</string>

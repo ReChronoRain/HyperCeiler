@@ -980,7 +980,7 @@
     <string name="system_ui_notification_title">Notification</string>
     <string name="system_ui_other_notification_fix">Disable notification whitelist</string>
     <string name="system_ui_other_default_plugin_theme">Remove blur restrictions from Advanced textures</string>
-    <string name="system_ui_other_default_plugin_theme_desc">It\'s not possible to blur the Advanced textures because the System UI components are disabled by default for third-party themes. Additionally, it\'s necessary to check the scope of these components simultaneously.</string>
+    <string name="system_ui_other_default_plugin_theme_desc">Unlock the blur of Advanced textures, which is disabled by default for third-party themes in the System UI Plug-in.</string>
     <string name="system_ui_plugin_volume_title">Volume bar</string>
     <string name="system_ui_volume_collpased_column_press">Long press to expand the secondary volume bar</string>
     <string name="system_ui_volume_collpased_column_press_desc">The expand button will turn off when this feature are enabled.</string>
