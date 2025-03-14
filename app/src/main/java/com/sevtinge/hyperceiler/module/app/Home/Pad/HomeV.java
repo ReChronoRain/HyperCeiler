@@ -293,6 +293,7 @@ public class HomeV extends BaseModule {
         // initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
         initHook(new HideReportText(), mPrefsMap.getBoolean("home_title_hide_report_text"));
         initHook(new DisablePrestart(), mPrefsMap.getBoolean("home_other_disable_prestart"));
+        initHook(new DisableParallelAnim(), mPrefsMap.getBoolean("home_other_disable_parallel_anim"));
         initHook(new OptAppLaunchDelay(), mPrefsMap.getBoolean("home_other_opt_app_launch_delay"));
 
         // 实验性功能
