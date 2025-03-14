@@ -1422,6 +1422,7 @@
     <string name="home_other_mi_pad_enable_more_setting_title">Unlock more options for Home screen settings</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">The unlocked features may not be available, and some features require support from the underlying system.</string>
     <string name="home_other_disable_prestart">Disable app preload</string>
+    <string name="home_other_disable_parallel_anim">Disable Parallel Anim</string>
     <string name="home_other_opt_app_launch_delay">Optimize app launch delay</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Gallery Editor</string>
