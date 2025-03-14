@@ -87,6 +87,7 @@ import com.sevtinge.hyperceiler.module.hook.home.other.DisableHideGoogle;
 import com.sevtinge.hyperceiler.module.hook.home.other.FreeformShortcutMenu;
 import com.sevtinge.hyperceiler.module.hook.home.other.HomeMode;
 import com.sevtinge.hyperceiler.module.hook.home.other.InfiniteScroll;
+import com.sevtinge.hyperceiler.module.hook.home.other.DisableParallelAnim;
 import com.sevtinge.hyperceiler.module.hook.home.other.OptAppLaunchDelay;
 import com.sevtinge.hyperceiler.module.hook.home.other.OverlapMode;
 import com.sevtinge.hyperceiler.module.hook.home.other.ShortcutItemCount;
