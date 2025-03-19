@@ -19,12 +19,17 @@
 package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.base.dexkit.*
-import java.lang.reflect.*
+import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit
+import com.sevtinge.hyperceiler.utils.api.LazyClass.AndroidBuildCls
+import de.robv.android.xposed.XposedHelpers
+import java.lang.reflect.Field
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 
 object UnlockCustomPhotoFrames : BaseHook() {
     private val frames by lazy {
@@ -60,27 +65,59 @@ object UnlockCustomPhotoFrames : BaseHook() {
 
     private val methodA by lazy<List<Method>> {
         DexKit.findMemberList("MA") { bridge ->
-            bridge.findMethod {
-                matcher {
-                    // 改动日志:
-                    // 现在这个查找方式直接兼容 1.5 - 1.9
-                    // 1.6.5.10.2 之后迪斯尼定制画框解锁的地方和现在的不一样
-                    // 1.7.5.0.4 之后，类名迁移，内部文件改动较大
-                    // 合并缓存，现在只需查询一次即可获取全部 6 个需要 Hook 的方法，且不会出现多余的方法 (2025.1.8)
-                    // 这里的 declaredClass 不清楚米米还会不会混淆，混淆了非常麻烦，比如从 1.3 - 1.4 版本的混淆
-                    if (isHookType) {
-                        declaredClass("com.miui.mediaeditor.config.galleryframe.GalleryFrameAccessUtils")
-                    } else {
+            // 改动日志:
+            // 现在这个查找方式直接兼容 1.5 - 1.10
+            // 1.6.5.10.2 之后迪斯尼定制画框解锁的地方和现在的不一样
+            // 1.7.5.0.4 之后，类名迁移，内部文件改动较大
+            // 合并缓存，现在只需查询一次即可获取全部 6 个需要 Hook 的方法，且不会出现多余的方法 (2025.1.8)
+            // 1.10.0.0.6 之后，类名混淆
+            // 所以，它要是再把特征混淆完了的话，那 886 了
+            // 这构思玩意都快接近 hook 安全服务了 (2025.3.19)
+            if (isHookType) {
+                // 使用二次查询，虽然慢，但是能找全
+                bridge.findMethod {
+                    matcher {
+                        addCaller {
+                            // paramCount = 2
+                            returnType = "java.util.LinkedHashMap"
+                            modifiers = Modifier.STATIC or Modifier.FINAL
+                        }
+                        addUsingField {
+                            type = "java.util.List"
+                        }
+                        returnType = "boolean"
+                    }
+                }.last().declaredClass?.findMethod {
+                    matcher {
+                        addUsingField {
+                            type = "java.util.List"
+                        }
+                        returnType = "boolean"
+                    }
+                }
+            } else {
+                bridge.findMethod {
+                    matcher {
                         declaredClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils")
+                        addUsingField {
+                            type = "java.util.List"
+                        }
+                        returnType = "boolean"
                     }
-                    addUsingField {
-                        // 如果后面有改的话请释放这个注释
-                        // modifiers = Modifier.STATIC or Modifier.FINAL
-                        type = "java.util.List"
-                    }
-                    returnType = "boolean"
                 }
             }
+        }
+    }
+
+    private val methodB by lazy<Method?> {
+        DexKit.findMember("MB") { bridge ->
+            bridge.findMethod {
+                matcher {
+                    paramCount = 2
+                    returnType = "java.util.LinkedHashMap"
+                    modifiers = Modifier.STATIC or Modifier.FINAL
+                }
+            }.single()
         }
     }
 
@@ -90,9 +127,10 @@ object UnlockCustomPhotoFrames : BaseHook() {
                 matcher {
                     // 改动日志:
                     // 这里是新春定制画框的解锁，仅在部分版本中存在
-                    // 这里的 declaredClass 不清楚米米还会不会混淆，混淆了非常麻烦，比如从 1.3 - 1.4 版本的混淆
+                    // 1.10.0.0.6 之后，类名混淆，只能获取 methodA 所属的 Class
                     if (isHookType) {
-                        declaredClass("com.miui.mediaeditor.config.galleryframe.GalleryFrameAccessUtils")
+                        // declaredClass("com.miui.mediaeditor.config.galleryframe.GalleryFrameAccessUtils")
+                        declaredClass(methodA.first().declaringClass.name)
                     } else {
                         declaredClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils")
                     }
@@ -122,16 +160,34 @@ object UnlockCustomPhotoFrames : BaseHook() {
             springA!!.setBoolean(null, true)
         }
 
+        if (isLeica && methodB != null) {
+            // 1.10.0.0.6 新增 Xiaomi 15 Ultra 独占定制画框
+            methodB?.createBeforeHook {
+                XposedHelpers.setStaticObjectField(
+                    AndroidBuildCls,
+                    "DEVICE",
+                    "xuanyuan"
+                )
+            }
+        }
+
         if (isRedmi) {
+            // Redmi Note 13 Pro+ 定制版画框
             runCatching {
-                loadClass("com.miui.mediaeditor.config.galleryframe.GalleryFrameAccessUtils\$isVictoriaDeviceSupport\$2")
-                    .methodFinder().filterByName("invoke").first()
+                loadClass("${methodA.first().declaringClass.name}\$a").methodFinder()
+                    .filterByName("invoke").first()
+                    .createHook {
+                        returnConstant(true)
+                    }
+            }.recoverCatching {
+                loadClass("com.miui.mediaeditor.config.galleryframe.GalleryFrameAccessUtils\$isVictoriaDeviceSupport$2").methodFinder()
+                    .filterByName("invoke").first()
                     .createHook {
                         returnConstant(true)
                     }
             }.onFailure {
-                loadClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils\$isVictoriaDeviceSupport\$2")
-                    .methodFinder().filterByName("invoke").first()
+                loadClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils\$isVictoriaDeviceSupport$2").methodFinder()
+                    .filterByName("invoke").first()
                     .createHook {
                         returnConstant(true)
                     }
