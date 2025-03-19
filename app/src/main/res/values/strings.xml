@@ -112,7 +112,7 @@
     <string name="headtip_warn_not_offical_rom">The source of the ROM you\'re using may not be an official Xiaomi ROM, and some features may not work. Please contact your supplier for more details.</string>
     <string name="headtip_warn_unsupport_sysver">The current device is running on a system version that isn\'t (fully) adapted, which may result in anomalies in the HyperCeiler functionality.</string>
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you\'re using may not be from the official version of HyperCeiler, and may contain malicious code.</string>
-    <string name="headtip_tip_auto_safe_mode">Auto safe mode can unhook some apps in time when they crash multiple times to ensure safety. This feature requires the System Framework hook scope to run. We strongly recommend checking the System Framework scope to turn on Auto safe mode.</string>
+    <string name="headtip_tip_auto_safe_mode">Safe mode can unhook some apps in time when they crash multiple times to ensure security. This feature requires the System Framework hook scope to run. We strongly recommend checking the System Framework scope to turn on Safe mode.</string>
     <string name="headtip_tip_long_press_to_copy">You can select text after long or double press, or copy it and send it back to the developer.</string>
     <string name="happy_birthday_hyperceiler">Today is HyperCeiler\'s birthday!\nThank you for your support over the past year, and let\'s continue to work together this year!</string>
     <string name="headtip_tip_fuck_coolapk">Today in history: Sevtinge delivered an important speech on July 14, 2022.</string>
@@ -138,8 +138,8 @@
     <string name="hyperceiler_notice">Pull down the status bar to display shortcut switches and system notifications</string>
     <string name="hyperceiler_restart_quick">Quickly restart apps</string>
     <string name="debug_info" translatable="false">Cannot get debug info.</string>
-    <string name="delete_all_dexkit_cache_desc">Are you sure you want to clear all the DexKit cache?</string>
-    <string name="delete_all_dexkit_cache_success">Successfully cleared all the DexKit cache</string>
+    <string name="delete_all_dexkit_cache_desc">Are you sure you want to clear all DexKit cache?</string>
+    <string name="delete_all_dexkit_cache_success">Successfully cleared all DexKit cache</string>
     <string name="set_homepage_entrance">Set up the homepage entry</string>
     <string name="set_homepage_entrance_about">Note: Modifying this setting only hides the visibility of the feature on the homepage, and features that have been turned on won\'t be turned off!\nHiding the feature on the homepage will take effect immediately, and the app will need to be restarted to reappear.</string>
     <string name="help_cant_see_apps_guide">Can\'t find the app features?</string>
