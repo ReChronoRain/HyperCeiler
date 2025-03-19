@@ -45,7 +45,8 @@ object UnlockLeicaFilter : BaseHook() {
         DexKit.findMember("UnlockLeicaFilterNew") { dexkit ->
             dexkit.findMethod {
                 matcher {
-                    declaredClass = "com.miui.mediaeditor.photo.filter.repository.FilterRepository"
+                    // declaredClass = "com.miui.mediaeditor.photo.filter.repository.FilterRepository" // 1.10.0.0.6 版本开始混淆，不再推荐使用
+                    usingStrings("portrait_support_devices") // 临时解决方法，可能很快就会失效
                     returnType = "java.io.Serializable"
                 }
             }.single()
