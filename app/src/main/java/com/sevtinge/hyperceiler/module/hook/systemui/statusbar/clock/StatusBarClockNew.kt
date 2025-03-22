@@ -279,7 +279,7 @@ object StatusBarClockNew : BaseHook() {
         // 时钟加粗
         val shouldUseBold = setOf(
             sBold && name == "clock",
-            bBold && name == "big_time" && !isMoreHyperOSVersion(2f),
+            bBold && name == "big_time",
             nBold && name in setOf("date_time", "horizontal_time"),
             pBold && name == "pad_clock"
         ).any { it }
