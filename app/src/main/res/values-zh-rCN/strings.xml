@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -535,10 +536,10 @@
     <string name="system_framework_other_thermal_brightness_more">仅限非温控导致的自动降低屏幕亮度</string>
     <string name="system_framework_other_disable_cleaner">禁止杀后台应用</string>
     <string name="system_framework_other_disable_cleaner_desc">实验性功能，可能导致运行内存占用异常</string>
-    <string name="system_framework_other_disable_thermal_desc" >禁止限制刷新率和模糊效果</string>
-    <string name="system_framework_other_disable_thermal" >禁用温控</string>
-    <string name="system_framework_enhance_recents_visibility_desc" >使得一些被系统隐藏的卡片可见</string>
-    <string name="system_framework_enhance_recents_visibility" >增强最近任务可见性</string>
+    <string name="system_framework_other_disable_thermal_desc">禁止限制刷新率和模糊效果</string>
+    <string name="system_framework_other_disable_thermal">禁用温控</string>
+    <string name="system_framework_enhance_recents_visibility_desc">使得一些被系统隐藏的卡片可见</string>
+    <string name="system_framework_enhance_recents_visibility">增强最近任务可见性</string>
     <string name="system_framework_disable_72h_verify">禁用每 72 小时验证锁屏密码</string>
     <string name="system_framework_disable_verify_can_ve_disabled">禁用是否允许禁用 APP 校验</string>
     <string name="system_framework_allow_all_dark_mode">允许所有 APP 使用深色模式</string>
