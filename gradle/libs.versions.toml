@@ -1,6 +1,6 @@
 [versions]
-agp = "8.9.0"
-kotlin-android = "2.1.10"
+agp = "8.9.1"
+kotlin-android = "2.1.20"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 
@@ -19,7 +19,7 @@ gson = "2.12.1"
 dexkit = "2.0.3"
 ezxhelper = "2.2.1"
 hiddenapibypass = "6.1"
-hooktool = "v.1.2.4"
+hooktool = "v.1.2.5"
 lyricGetterApi = "6.0.0"
 mmkv = "2.1.0"
 
