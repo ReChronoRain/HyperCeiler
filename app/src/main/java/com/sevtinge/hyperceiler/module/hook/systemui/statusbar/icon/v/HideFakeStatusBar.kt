@@ -28,18 +28,25 @@ import android.graphics.Rect
 import android.service.notification.StatusBarNotification
 import android.view.View
 import android.widget.TextView
-import cn.lyric.getter.api.data.*
+import cn.lyric.getter.api.data.LyricData
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.module.base.MusicBaseHook.Companion.CHANNEL_ID
-import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.module.base.MusicBaseHook
 import com.sevtinge.hyperceiler.utils.api.LazyClass.miuiConfigs
-import de.robv.android.xposed.*
-import kotlinx.coroutines.flow.*
+import com.sevtinge.hyperceiler.utils.callMethod
+import com.sevtinge.hyperceiler.utils.callStaticMethod
+import com.sevtinge.hyperceiler.utils.getBooleanFieldOrNull
+import com.sevtinge.hyperceiler.utils.getObjectField
+import com.sevtinge.hyperceiler.utils.getObjectFieldAs
+import com.sevtinge.hyperceiler.utils.getObjectFieldOrNull
+import com.sevtinge.hyperceiler.utils.getObjectFieldOrNullAs
+import com.sevtinge.hyperceiler.utils.invokeOriginalMethod
+import com.sevtinge.hyperceiler.utils.replaceMethod
+import de.robv.android.xposed.XC_MethodHook
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @SuppressLint("StaticFieldLeak")
 // author git@wuyou-123
@@ -126,15 +133,19 @@ object HideFakeStatusBar : MusicBaseHook() {
                 // 大时钟布局
                 mBigTime = it.thisObject.getObjectFieldOrNullAs<TextView>("mBigTime") ?: return@createAfterHook
             }
-        miuiNotificationClass.methodFinder()
-            .filterByName("updateBigTimeColor").first().replaceMethod {
-                if (isShowingFocusedLyric) {
-                    // 显示歌词的时候取消设置大时钟颜色(假时钟动画会设置颜色,显示歌词的时候取消了假时钟动画,所以可能会下拉通知栏之后时间是黑色)
-                    null
-                } else {
-                    it.invokeOriginalMethod()
+
+        runCatching {
+            miuiNotificationClass.methodFinder()
+                .filterByName("updateBigTimeColor").first().replaceMethod {
+                    if (isShowingFocusedLyric) {
+                        // 显示歌词的时候取消设置大时钟颜色(假时钟动画会设置颜色,显示歌词的时候取消了假时钟动画,所以可能会下拉通知栏之后时间是黑色)
+                        null
+                    } else {
+                        it.invokeOriginalMethod()
+                    }
                 }
-            }
+        }
+
         var unhook0: XC_MethodHook.Unhook? = null
         loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController\$notificationCallback\$1").methodFinder()
             .filterByName("onExpansionChanged").first().createHook {
