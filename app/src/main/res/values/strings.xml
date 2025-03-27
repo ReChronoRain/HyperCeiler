@@ -1620,6 +1620,8 @@
     <string name="security_center_hide_xopt_mode_tip">Hide tip for hidden permission usage</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Unlock Cold endurance mode</string>
     <string name="secutity_center_unlock_app_sandbox">Unlock Independent storage</string>
+    <string name="secutity_center_battery_show_more_info">Show more battery info</string>
+    <string name="secutity_center_battery_show_more_info_desc">Experimental feature, specific supported display content varies by device</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Disable risk detections</string>

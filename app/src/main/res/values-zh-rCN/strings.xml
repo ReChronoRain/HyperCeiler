@@ -1633,6 +1633,8 @@
     <string name="security_center_hide_xopt_mode_tip">隐藏权限使用提示</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">解锁低温超级续航</string>
     <string name="secutity_center_unlock_app_sandbox">解锁应用存储沙盒</string>
+    <string name="secutity_center_battery_show_more_info">显示更多电池信息</string>
+    <string name="secutity_center_battery_show_more_info_desc">实验性功能，具体支持显示内容因设备而异</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">禁用风险检测</string>
