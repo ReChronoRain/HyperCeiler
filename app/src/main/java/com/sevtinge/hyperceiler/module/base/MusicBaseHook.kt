@@ -18,28 +18,33 @@
  */
 package com.sevtinge.hyperceiler.module.base
 
-import android.annotation.*
-import android.app.*
-import android.app.AndroidAppHelper.*
-import android.content.*
+import android.annotation.SuppressLint
+import android.app.AndroidAppHelper.currentApplication
+import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.*
-import android.os.*
+import android.graphics.drawable.Icon
+import android.os.Bundle
 import android.util.Base64
-import androidx.core.app.*
-import androidx.core.graphics.drawable.*
-import cn.lyric.getter.api.*
-import cn.lyric.getter.api.data.*
-import cn.lyric.getter.api.listener.*
+import androidx.core.app.NotificationCompat
+import androidx.core.graphics.drawable.IconCompat
+import androidx.core.graphics.drawable.toBitmap
+import cn.lyric.getter.api.API
+import cn.lyric.getter.api.data.ExtraData
+import cn.lyric.getter.api.data.LyricData
+import cn.lyric.getter.api.listener.LyricListener
+import cn.lyric.getter.api.listener.LyricReceiver
 import cn.lyric.getter.api.tools.Tools.registerLyricListener
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.tool.*
-import com.sevtinge.hyperceiler.utils.api.ProjectApi.*
-import org.json.*
+import com.sevtinge.hyperceiler.module.base.tool.OtherTool
+import org.json.JSONObject
 
 abstract class MusicBaseHook : BaseHook() {
     val context: Application by lazy { currentApplication() }
@@ -63,24 +68,15 @@ abstract class MusicBaseHook : BaseHook() {
     })
 
     init {
-        // 尝试修复更新到酒域 2.0.25 版本后焦点通知歌词无显示的问题
-        Application::class.java.methodFinder().filterByName("attach").first()
+        loadClass("android.app.Application").methodFinder().filterByName("onCreate").first()
             .createAfterHook {
-                val mContext = it.args[0] as Context
                 runCatching {
-                    registerLyricListener(mContext, API.API_VERSION, receiver)
+                    registerLyricListener(context, API.API_VERSION, receiver)
                     // if (isDebug()) logD(TAG, lpparam.packageName, "registerLyricListener")
                 }.onFailure {
                     logE(TAG, "registerLyricListener is no found")
                 }
             }
-        /*
-        loadClass("android.app.Application").methodFinder().filterByName("onCreate").first()
-            .createAfterHook {
-                registerLyricListener(context, API.API_VERSION, receiver)
-                if (isDebug()) logD(TAG, lpparam.packageName, "registerLyricListener")
-            }
-        */
     }
 
     abstract fun onUpdate(lyricData: LyricData)

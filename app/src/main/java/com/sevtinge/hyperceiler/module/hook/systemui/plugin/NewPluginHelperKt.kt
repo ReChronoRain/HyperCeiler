@@ -55,11 +55,11 @@ object NewPluginHelperKt : BaseHook() {
         // https://github.com/buffcow/Hyper5GSwitch/blob/master/app/src/main/kotlin/cn/buffcow/hyper5g/hooker/PluginLoader.kt
         loadClass("com.android.systemui.shared.plugins.PluginInstance\$PluginFactory")
             .methodFinder().filterByName("createPluginContext")
-            .first().createAfterHook {
+            .first().createAfterHook { it ->
                 runCatching {
                     val wrapper = it.result as ContextWrapper
-                    onPluginLoaded(PluginFactory(it.thisObject).also {
-                        it.pluginCtxRef = WeakReference(wrapper)
+                    onPluginLoaded(PluginFactory(it.thisObject).also { isLoad ->
+                        isLoad.pluginCtxRef = WeakReference(wrapper)
                     })
                 }.onFailure {
                     logE(TAG, lpparam.packageName, "Failed to create plugin context.")

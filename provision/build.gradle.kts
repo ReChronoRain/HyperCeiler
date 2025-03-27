@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.sevtinge.provision"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 34

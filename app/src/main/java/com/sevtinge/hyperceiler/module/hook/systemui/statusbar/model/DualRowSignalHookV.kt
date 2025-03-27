@@ -54,7 +54,6 @@ import com.sevtinge.hyperceiler.utils.getObjectFieldAs
 import de.robv.android.xposed.XposedHelpers
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
-import java.lang.reflect.Modifier
 import java.util.function.Consumer
 
 
@@ -87,7 +86,7 @@ class DualRowSignalHookV : BaseHook() {
             bridge.findMethod {
                 matcher {
                     declaredClass(miuiMobileIconBinder)
-                    modifiers = Modifier.STATIC
+                    // modifiers = Modifier.STATIC
                     name("setImageResWithTintLight", StringMatchType.Contains)
                 }
             }.singleOrNull()

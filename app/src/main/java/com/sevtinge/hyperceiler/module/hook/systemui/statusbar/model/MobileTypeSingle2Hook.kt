@@ -34,6 +34,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.module.hook.systemui.base.api.Dependency
+import com.sevtinge.hyperceiler.module.hook.systemui.base.api.MiuiStub
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.hdController
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.mOperatorConfig
 import com.sevtinge.hyperceiler.module.hook.systemui.base.statusbar.icon.MobileClass.modernStatusBarMobileView
@@ -54,10 +55,12 @@ import com.sevtinge.hyperceiler.utils.callMethod
 import com.sevtinge.hyperceiler.utils.callMethodAs
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.utils.devicesdk.SubscriptionManagerProvider
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreSmallVersion
 import com.sevtinge.hyperceiler.utils.getBooleanField
 import com.sevtinge.hyperceiler.utils.getIntField
 import com.sevtinge.hyperceiler.utils.getObjectField
 import com.sevtinge.hyperceiler.utils.getObjectFieldAs
+import com.sevtinge.hyperceiler.utils.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.utils.setObjectField
 import java.lang.reflect.Method
 import java.util.function.Consumer
@@ -241,7 +244,7 @@ object MobileTypeSingle2Hook : BaseHook() {
             showMobileTypeSingle()
         }
 
-        if (showMobileType && (mobileNetworkType == 0 || mobileNetworkType == 2)) {
+        if (showMobileType && (mobileNetworkType == 0 || mobileNetworkType == 2) && !isMoreSmallVersion(200, 2f)) {
             setOnWiFiChangedListener()
         }
     }
@@ -258,21 +261,19 @@ object MobileTypeSingle2Hook : BaseHook() {
 
     @SuppressLint("NewApi")
     private fun setOnDataChangedListener() {
-        val javaAdapter = Dependency.miuiLegacyDependency
-            ?.getObjectField("mCentralSurfaces")
-            ?.callMethod("get")
-            ?.getObjectField("mJavaAdapter")
-
-        val dataConnected = Dependency.miuiLegacyDependency
+        val hdController = Dependency.miuiLegacyDependency
             ?.getObjectField("mMiuiIconManagerFactory")
             ?.callMethod("get")
             ?.getObjectField("mMobileUiAdapter")
             ?.getObjectField("hdController")
-            ?.getObjectField("mMiuiMobileIconsInt")
-            ?.getObjectField("dataConnected")
+
+
+        val dataConnected =
+            hdController?.getObjectFieldOrNull("mMiuiMobileIconsInt")?.getObjectField("dataConnected") ?:
+            hdController?.getObjectFieldOrNull("miuiMobileIconsInt")?.getObjectField("dataConnected")
 
         // 监听移动网络
-        javaAdapter?.callMethod(
+        MiuiStub.javaAdapter.callMethod(
             "alwaysCollectFlow",
             dataConnected,
             Consumer<BooleanArray> {
