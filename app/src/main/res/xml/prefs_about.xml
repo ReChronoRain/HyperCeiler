@@ -129,7 +129,7 @@
         <Preference android:title="@string/about_offical">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://hyperceiler.sevtinge.cc" />
+                android:data="https://hyperceiler.sevtinge.com" />
         </Preference>
 
         <Preference
@@ -142,7 +142,7 @@
             android:title="@string/about_donation">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://blog.sevtinge.cc/donation" />
+                android:data="https://www.sevtinge.com/donation" />
         </Preference>
 
         <Preference
@@ -153,13 +153,13 @@
         <Preference android:title="@string/about_protocol">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://hyperceiler.sevtinge.cc/Protocol" />
+                android:data="https://hyperceiler.sevtinge.com/Protocol" />
         </Preference>
 
         <Preference android:title="@string/about_privacy">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://hyperceiler.sevtinge.cc/Privacy" />
+                android:data="https://hyperceiler.sevtinge.com/Privacy" />
         </Preference>
 
     </PreferenceCategory>

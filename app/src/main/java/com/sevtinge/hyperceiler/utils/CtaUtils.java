@@ -63,8 +63,8 @@ public class CtaUtils {
         intent.putExtra(KEY_OPTIONAL_PERM_DESC, getOptionalPermissionDesc(activity));
         intent.putExtra(KEY_OPTIONAL_PERM_SHOW, false);
         intent.putExtra(KEY_AGREE_DESC, activity.getResources().getString(R.string.new_cta_agree_desc));
-        intent.putExtra("user_agreement", "https://hyperceiler.sevtinge.cc/Protocol");
-        intent.putExtra("privacy_policy", "https://hyperceiler.sevtinge.cc/Privacy");
+        intent.putExtra("user_agreement", "https://hyperceiler.sevtinge.com/Protocol");
+        intent.putExtra("privacy_policy", "https://hyperceiler.sevtinge.com/Privacy");
         intent.putExtra(KEY_USE_NETWORK, false);
         intent.putExtra(KEY_SHOW_LOCK, false);
         try {
