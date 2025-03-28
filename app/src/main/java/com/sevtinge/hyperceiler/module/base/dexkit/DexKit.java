@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.module.base.dexkit;
 
 import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.getPackageVersionCode;
 import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.getPackageVersionName;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
 
 import android.content.Context;
@@ -62,7 +63,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class DexKit {
     private static String TAG = "DexKit";
     private static boolean isInit = false;
-    private static final int mVersion = 1; // 新时节，新气象
+    private static final int mVersion = 3;
     private static final String MMKV_PATH = "/files/hyperceiler/mmkv";
     private static XC_LoadPackage.LoadPackageParam mParam;
     private static final String TYPE_METHOD = "METHOD";
@@ -105,15 +106,28 @@ public class DexKit {
         } else
             mMMKV.putInt("version", mVersion);
 
+        String osVersion = getSystemVersionIncremental();
         String pkgVersion = getPackageVersionName(mParam) + "(" + getPackageVersionCode(mParam) + ")";
         if (mMMKV.containsKey("pkgVersion")) {
             String oldPkgVersion = mMMKV.getString("pkgVersion", "null");
             if (!Objects.equals(pkgVersion, oldPkgVersion)) {
                 mMMKV.clearAll();
-                mMMKV.putString("pkgVersion", pkgVersion);
+                mMMKV.putString("pkgVersion", pkgVersion + "\n");
             }
         } else
-            mMMKV.putString("pkgVersion", pkgVersion);
+            mMMKV.putString("pkgVersion", pkgVersion + "\n");
+
+        // 对于长时间恒定不变的应用版本号但内部有改动的简易处理方式
+        if (mParam.packageName.equals("com.android.systemui")) {
+            if (mMMKV.containsKey("osVersion")) {
+                String oldOSVersion = mMMKV.getString("osVersion", "null");
+                if (!Objects.equals(osVersion, oldOSVersion)) {
+                    mMMKV.clearAll();
+                    mMMKV.putString("osVersion", osVersion + "\n");
+                }
+            } else
+                mMMKV.putString("osVersion", osVersion + "\n");
+        } 
 
         // 启动 DexKit
         System.loadLibrary("dexkit");

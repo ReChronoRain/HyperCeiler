@@ -157,7 +157,8 @@ object NewPluginHelperKt : BaseHook() {
                 loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
             }
 
-            factory.componentNames("miui.systemui.notification.NotificationStatPluginImpl") -> {
+            factory.componentNames("miui.systemui.notification.NotificationStatPluginImpl"),
+            factory.componentNames("miui.systemui.notification.FocusNotificationPluginImpl") -> {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 logD(TAG, lpparam.packageName, "Plugin for sysui NotificationStatPluginImpl loaded.")
 
