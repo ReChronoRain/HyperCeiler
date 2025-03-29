@@ -44,7 +44,29 @@ object LockOneHundredPoints : BaseHook() {
         DexKit.findMember("LockOneHundredPoints2") {
             it.findMethod {
                 matcher {
-                    addUsingString("getMinusPredictScore", StringMatchType.Contains)
+                    declaredClass = "com.miui.securityscan.scanner.ScoreManager"
+                    usingNumbers(41, 100)
+                    returnType = "int"
+                }
+            }.single()
+        }
+    }
+    
+    private val score3 by lazy<Method> {
+        DexKit.findMember("LockOneHundredPointsField") {
+            it.findMethod {
+                matcher {
+                    declaredClass = "com.miui.securityscan.scanner.ScoreManager"
+                    addUsingField {
+                        type = "java.util.Map"
+                    }
+                    addInvoke {
+                        declaredClass = "com.miui.securityscan.scanner.ScoreManager"
+                        addUsingField {
+                            type = "int"
+                        }
+                        returnType = "int"
+                    }
                 }
             }.single()
         }
@@ -58,17 +80,21 @@ object LockOneHundredPoints : BaseHook() {
                 returnConstant(null)
             }
 
-        try {
-            logI(TAG, lpparam.packageName, "LockOneHundredPoints method is $score")
+        runCatching {
+            logD(TAG, lpparam.packageName, "LockOneHundredPoints method is $score")
+            logD(TAG, lpparam.packageName, "LockOneHundredPoints old method is $scoreOld")
+            logD(TAG, lpparam.packageName, "LockOneHundredPoints 3 method is $score3")
+            scoreOld.createHook {
+                returnConstant(0)
+            }
             score.createHook {
                 returnConstant(0)
             }
-        } catch (e: Exception) {
-            logE(TAG, lpparam.packageName, "LockOneHundredPoints hook Failed: ${e.message}")
-            logI(TAG, lpparam.packageName, "LockOneHundredPoints old method is $scoreOld")
-            scoreOld.createHook {
-                replace { 0 }
+            score3.createHook {
+                returnConstant(true)
             }
+        }.onFailure {
+            logE(TAG, lpparam.packageName, "LockOneHundredPoints hook Failed: $it")
         }
     }
 }
