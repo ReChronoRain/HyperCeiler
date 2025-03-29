@@ -102,6 +102,17 @@ object FocusNotifLyric : MusicBaseHook() {
         }.onFailure {
             return
         }
+        runCatching {
+            loadClass("miui.systemui.notification.NotificationSettingsManager", classLoader)
+                .methodFinder().filterByName("canCustomFocus")
+                .first().createHook {
+                    // 允许全部应用发送自定义焦点通知
+                    returnConstant(true)
+                }
+
+        }.onFailure {
+            return
+        }
         // 启用debug日志
         // setStaticObject(loadClass("miui.systemui.notification.NotificationUtil", classLoader), "DEBUG", true)
     }
