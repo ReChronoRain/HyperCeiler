@@ -53,11 +53,11 @@ object FocusNotifLyric : MusicBaseHook() {
         // 拦截构建通知的函数
         loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").methodFinder()
             .filterByName("requestPipelineRun").first().createBeforeHook {
-                val statusBarNotification =
-                    it.args[0].getObjectFieldOrNullAs<StatusBarNotification>("mSbn")
-                if (statusBarNotification!!.notification.channelId == CHANNEL_ID) {
-                    it.result = null
-                }
+                //val statusBarNotification =
+                    //it.args[0].getObjectFieldOrNullAs<StatusBarNotification>("mSbn")
+                //if (statusBarNotification!!.notification.channelId == CHANNEL_ID) {
+                    //it.result = null
+                //}
             }
 
         // 拦截初始化状态栏焦点通知文本布局
