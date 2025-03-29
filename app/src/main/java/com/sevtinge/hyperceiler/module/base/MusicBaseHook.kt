@@ -24,6 +24,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -46,6 +47,9 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool
+import com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes
+import com.sevtinge.hyperceiler.utils.api.ProjectApi
+import com.sevtinge.hyperceiler.utils.callMethodAs
 import org.json.JSONObject
 
 abstract class MusicBaseHook : BaseHook() {
@@ -88,6 +92,7 @@ abstract class MusicBaseHook : BaseHook() {
     fun sendNotification(text: String, extraData: ExtraData) {
         //  logE("sendNotification: " + context.packageName + ": " + text)
         createNotificationChannel()
+        val modRes = getModuleRes(context)
         val isClickClock = mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
         val launchIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         val base64icon = extraData.base64Icon
@@ -114,8 +119,11 @@ abstract class MusicBaseHook : BaseHook() {
         builder.setTicker(text).setPriority(NotificationCompat.PRIORITY_LOW)
         builder.setOngoing(true) // 设置为常驻通知
         builder.setContentIntent(pendingIntent)
-        val remoteViews = RemoteViews(context.packageName,R.layout.focuslyric_layout)
-        remoteViews.setTextViewText(R.id.focuslyric,text )
+
+        val focuslyric_layout = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
+        val focuslyric = modRes.getIdentifier("focuslyric", "layout", ProjectApi.mAppModulePkg)
+        val remoteViews = RemoteViews(context.packageName,focuslyric_layout)
+        remoteViews.setTextViewText(focuslyric,text )
         val focus = Bundle()
         val pics = Bundle()
         if (base64icon != "") {
