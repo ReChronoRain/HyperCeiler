@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
@@ -55,8 +56,11 @@ public class UnimportantNotification extends BaseHook {
                         }
                     }
             );
-        }catch (Throwable ignore){
-            findAndHookMethod("com.android.systemui.statusbar.notification.utils.NotificationUtil",
+        } catch (Throwable ignore) {
+            findAndHookMethod(
+                    isMoreHyperOSVersion(2f) ? 
+                    "com.android.systemui.statusbar.notification.NotificationUtil": 
+                    "com.android.systemui.statusbar.notification.utils.NotificationUtil",
                     "shouldIgnoreEntry",
                     "com.android.systemui.statusbar.notification.collection.NotificationEntry",
                     new MethodHook() {
