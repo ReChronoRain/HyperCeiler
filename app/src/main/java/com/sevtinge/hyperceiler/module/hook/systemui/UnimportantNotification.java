@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
@@ -28,6 +27,8 @@ import java.util.ArrayList;
 import de.robv.android.xposed.XposedHelpers;
 
 public class UnimportantNotification extends BaseHook {
+    Class clazz;
+
     @Override
     public void init() throws NoSuchMethodException {
         findAndHookMethod("com.android.systemui.statusbar.notification.collection.coordinator.FoldCoordinator$shadeExpansionListener$1",
@@ -57,11 +58,12 @@ public class UnimportantNotification extends BaseHook {
                     }
             );
         } catch (Throwable ignore) {
-            findAndHookMethod(
-                    isMoreHyperOSVersion(2f) ? 
-                    "com.android.systemui.statusbar.notification.NotificationUtil": 
-                    "com.android.systemui.statusbar.notification.utils.NotificationUtil",
-                    "shouldIgnoreEntry",
+            clazz = findClassIfExists("com.android.systemui.statusbar.notification.utils.NotificationUtil");
+            if (clazz == null) {
+                clazz = findClassIfExists("com.android.systemui.statusbar.notification.NotificationUtil");
+            }
+
+            findAndHookMethod(clazz, "shouldIgnoreEntry",
                     "com.android.systemui.statusbar.notification.collection.NotificationEntry",
                     new MethodHook() {
                         @Override
