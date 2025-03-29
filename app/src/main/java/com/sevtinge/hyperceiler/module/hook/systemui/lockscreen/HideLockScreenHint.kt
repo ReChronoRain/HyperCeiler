@@ -33,7 +33,7 @@ object HideLockScreenHint : BaseHook() {
     }
 
     override fun init() {
-        if (isAndroidVersion(35) && isMoreHyperOSVersion(2f)) {
+        if (isMoreHyperOSVersion(2f)) {
             keyguardIndicationController!!.methodFinder()
                 .filterByParamCount(1)
                 .filterByParamTypes(keyguardIndicationController)
