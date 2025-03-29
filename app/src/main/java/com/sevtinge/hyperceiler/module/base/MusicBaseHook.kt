@@ -121,7 +121,7 @@ abstract class MusicBaseHook : BaseHook() {
         builder.setContentIntent(pendingIntent)
 
         val focuslyric_layout = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
-        val focuslyric = modRes.getIdentifier("focuslyric", "layout", ProjectApi.mAppModulePkg)
+        val focuslyric = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
         val remoteViews = RemoteViews(context.packageName,focuslyric_layout)
         remoteViews.setTextViewText(focuslyric,text )
         val focus = Bundle()
