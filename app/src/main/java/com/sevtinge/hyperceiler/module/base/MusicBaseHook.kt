@@ -31,6 +31,7 @@ import android.graphics.Color
 import android.graphics.drawable.Icon
 import android.os.Bundle
 import android.util.Base64
+import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -43,6 +44,7 @@ import cn.lyric.getter.api.tools.Tools.registerLyricListener
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool
 import org.json.JSONObject
 
@@ -112,53 +114,30 @@ abstract class MusicBaseHook : BaseHook() {
         builder.setTicker(text).setPriority(NotificationCompat.PRIORITY_LOW)
         builder.setOngoing(true) // 设置为常驻通知
         builder.setContentIntent(pendingIntent)
-        val jSONObject = JSONObject()
-        val jSONObject3 = JSONObject()
-        val jSONObject4 = JSONObject()
-        jSONObject4.put("type", 1)
-        jSONObject4.put("title", text)
-        jSONObject3.put("baseInfo", jSONObject4)
-        jSONObject3.put("ticker", text)
-        jSONObject3.put("tickerPic", "miui.focus.pic_ticker")
-        jSONObject3.put("tickerPicDark", "miui.focus.pic_ticker_dark")
-
-        jSONObject.put("param_v2", jSONObject3)
-        val bundle = Bundle()
-        bundle.putString("miui.focus.param", jSONObject.toString())
-        val bundle3 = Bundle()
-        if (base64icon != ""){
+        val remoteViews = RemoteViews(context.packageName,R.layout.focuslyric_layout)
+        remoteViews.setTextViewText(R.id.focuslyric,text )
+        val focus = Bundle()
+        val pics = Bundle()
+        if (base64icon != "") {
             val bitmapBase64Icon = base64ToDrawable(base64icon)
             if (bitmapBase64Icon != null) {
-                val iconwiter = Icon.createWithBitmap(bitmapBase64Icon)
-                iconwiter.setTint(Color.WHITE)
-                bundle3.putParcelable(
-                    "miui.focus.pic_ticker", iconwiter
-                )
-                val iconblack = Icon.createWithBitmap(bitmapBase64Icon)
-                iconblack.setTint(Color.BLACK)
-                bundle3.putParcelable(
-                    "miui.focus.pic_ticker_dark", iconblack
-                )
+                pics.putParcelable("pro_a",Icon.createWithBitmap(bitmapBase64Icon))
             } else {
-                bundle3.putParcelable(
-                    "miui.focus.pic_ticker", Icon.createWithBitmap(bitmap)
-                )
-                bundle3.putParcelable(
-                    "miui.focus.pic_ticker_dark", Icon.createWithBitmap(bitmap)
-                )
+                pics.putParcelable("pro_a",Icon.createWithBitmap(bitmap))
             }
         } else {
-            bundle3.putParcelable(
-                "miui.focus.pic_ticker", Icon.createWithBitmap(bitmap)
-            )
-            bundle3.putParcelable(
-                "miui.focus.pic_ticker_dark", Icon.createWithBitmap(bitmap)
-            )
+            pics.putParcelable("pro_a",Icon.createWithBitmap(bitmap))
         }
-        bundle.putBundle("miui.focus.pics", bundle3)
-
-
-        builder.addExtras(bundle)
+        val cus = Bundle()
+        cus.putString("ticker","Ticker")
+        cus.putString("tickerPic","pro_a")
+        cus.putBoolean("enableFloat",false) //通知是否弹出
+        focus.putParcelable("miui.focus.param.custom",cus)
+        focus.putParcelable("miui.focus.pics",pics)
+        focus.putParcelable("miui.focus.rv",remoteViews)
+        focus.putParcelable("miui.focus.rvAod",remoteViews)
+        focus.putParcelable("miui.focus.rvNight",remoteViews)
+        builder.addExtras(focus)
         val notification = builder.build()
         (context.getSystemService("notification") as NotificationManager).notify(
             CHANNEL_ID.hashCode(), notification
