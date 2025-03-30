@@ -550,7 +550,7 @@
     <string name="system_framework_other_thermal_brightness_more">Only automatically reduce screen brightness that isn\'t caused by thermal control</string>
     <string name="system_framework_other_disable_cleaner">Disable kill background apps</string>
     <string name="system_framework_other_disable_cleaner_desc">Experimental feature. May cause abnormal RAM usage.</string>
-    <string name="system_framework_other_disable_thermal_desc">Disables the refresh rate and blur effect limit</string>
+    <string name="system_framework_other_disable_thermal_desc">Disable the refresh rate and blur effect limit</string>
     <string name="system_framework_other_disable_thermal">Disable thermal</string>
     <string name="system_framework_enhance_recents_visibility_desc">Make system-hidden recents visible again</string>
     <string name="system_framework_enhance_recents_visibility">Enhance recents visibility</string>
@@ -636,7 +636,7 @@
     <!--Phone-->
     <string name="incallui">Phone</string>
     <string name="incallui_hide_crbt">Hide personalized calling ui video</string>
-    <string name="incallui_answer_in_head_up">Block full screen mode when answering a call via notification</string>
+    <string name="incallui_answer_in_head_up">Block fullscreen on call answer</string>
     <!--Message-->
     <string name="mms">Messaging</string>
     <string name="mms_disable_ad">Disable ads</string>
@@ -915,7 +915,7 @@
     <string name="system_ui_control_center_disable_device_managed">Hide network monitoring prompts</string>
     <string name="system_ui_control_center_hide_edit_botton">Hide Edit button</string>
     <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
-    <string name="system_ui_control_center_unimportant_notification">Block notification from auto collapse into More notifications</string>
+    <string name="system_ui_control_center_unimportant_notification">Block unimportant notifications automatically</string>
     <string name="system_ui_control_center_expand_notification">Expand notifications</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is on, the pop-up notification won\'t play the alert sound.</string>
     <string name="system_ui_control_center_rounded_rect">Rounded rectangle tile</string>
@@ -945,7 +945,7 @@
     <string name="system_ui_control_center_remove_notif_num_limit">Remove notification count limit</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Allow display 10, 17 or more notifications.</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">Optimize focus notification background color mixing</string>
-    <string name="system_ui_control_center_opt_notification_element_background_color_desc">Restore the default color mixing style of notifications, and check the flashlight focus notification simultaneously.</string>
+    <string name="system_ui_control_center_opt_notification_element_background_color_desc">Restore the default notifications color mixing style, and check the flashlight focus notification simultaneously.</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">Display brightness value</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">Display volume value</string>
     <string name="system_ui_control_center_zen_fix">DND mode fix</string>
@@ -1621,7 +1621,7 @@
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Unlock Cold endurance mode</string>
     <string name="secutity_center_unlock_app_sandbox">Unlock Independent storage</string>
     <string name="secutity_center_battery_show_more_info">Show more battery info</string>
-    <string name="secutity_center_battery_show_more_info_desc">Experimental feature, specific supported display content varies by device</string>
+    <string name="secutity_center_battery_show_more_info_desc">Experimental feature. The additional battery information displayed may vary depending on the device.</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Disable risk detections</string>
@@ -1684,7 +1684,7 @@
     <!--MTB-->
     <string name="mtb">MTB</string>
     <string name="mtb_auth">Bypass MTB authentication</string>
-    <string name="mtb_auth_desc">This is a high-risk feature; any problems arising from this will be the user\'s responsibility. Please be cautious and back up your baseband. Enter *#*#MODEMTEST#*#* in the dialer interface to open MTB Settings.</string>
+    <string name="mtb_auth_desc">This is a high-risk feature; any issues resulting from it will be the user\'s responsibility. Please ensure you back up your baseband. Enter *#*#MODEMTEST#*#* on the phone dialer to open MTB Settings.</string>
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Sogou input method</string>
     <string name="sogou_xiaomi_clipboard">Remove the limit on the number of clipboards</string>
