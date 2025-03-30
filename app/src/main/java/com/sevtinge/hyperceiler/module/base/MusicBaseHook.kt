@@ -24,11 +24,9 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.graphics.drawable.Icon
 import android.os.Bundle
 import android.util.Base64
@@ -45,15 +43,13 @@ import cn.lyric.getter.api.tools.Tools.registerLyricListener
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.R
-import com.sevtinge.hyperceiler.module.base.tool.OtherTool
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes
 import com.sevtinge.hyperceiler.utils.api.ProjectApi
-import com.sevtinge.hyperceiler.utils.callMethodAs
-import org.json.JSONObject
 
 abstract class MusicBaseHook : BaseHook() {
     val context: Application by lazy { currentApplication() }
+    // 初始化 Api
+    val FocusApi = FocusApi()
 
     private val receiver = LyricReceiver(object : LyricListener() {
         override fun onUpdate(lyricData: LyricData) {
@@ -122,29 +118,29 @@ abstract class MusicBaseHook : BaseHook() {
 
         val focuslyric_layout = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
         val focuslyric = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
-        val remoteViews = RemoteViews(context.packageName,focuslyric_layout)
-        remoteViews.setTextViewText(focuslyric,text )
+        val remoteViews = RemoteViews(ProjectApi.mAppModulePkg, focuslyric_layout)
+        remoteViews.setTextViewText(focuslyric, text)
         val focus = Bundle()
         val pics = Bundle()
         if (base64icon != "") {
             val bitmapBase64Icon = base64ToDrawable(base64icon)
             if (bitmapBase64Icon != null) {
-                pics.putParcelable("pro_a",Icon.createWithBitmap(bitmapBase64Icon))
+                pics.putParcelable("pro_a", Icon.createWithBitmap(bitmapBase64Icon))
             } else {
-                pics.putParcelable("pro_a",Icon.createWithBitmap(bitmap))
+                pics.putParcelable("pro_a", Icon.createWithBitmap(bitmap))
             }
         } else {
-            pics.putParcelable("pro_a",Icon.createWithBitmap(bitmap))
+            pics.putParcelable("pro_a", Icon.createWithBitmap(bitmap))
         }
         val cus = Bundle()
-        cus.putString("ticker","Ticker")
-        cus.putString("tickerPic","pro_a")
-        cus.putBoolean("enableFloat",false) //通知是否弹出
-        focus.putParcelable("miui.focus.param.custom",cus)
-        focus.putParcelable("miui.focus.pics",pics)
-        focus.putParcelable("miui.focus.rv",remoteViews)
-        focus.putParcelable("miui.focus.rvAod",remoteViews)
-        focus.putParcelable("miui.focus.rvNight",remoteViews)
+        cus.putString("ticker", "Ticker")
+        cus.putString("tickerPic", "pro_a")
+        cus.putBoolean("enableFloat", false) //通知是否弹出
+        focus.putParcelable("miui.focus.param.custom", cus)
+        focus.putParcelable("miui.focus.pics", pics)
+        focus.putParcelable("miui.focus.rv", remoteViews)
+        focus.putParcelable("miui.focus.rvAod", remoteViews)
+        focus.putParcelable("miui.focus.rvNight", remoteViews)
         builder.addExtras(focus)
         val notification = builder.build()
         (context.getSystemService("notification") as NotificationManager).notify(
@@ -153,7 +149,7 @@ abstract class MusicBaseHook : BaseHook() {
     }
 
     private fun createNotificationChannel() {
-        val modRes = OtherTool.getModuleRes(context)
+        val modRes = getModuleRes(context)
         val notificationManager = context.getSystemService("notification") as NotificationManager
         val notificationChannel = NotificationChannel(
             CHANNEL_ID, modRes.getString(com.sevtinge.hyperceiler.R.string.system_ui_statusbar_music_notification), NotificationManager.IMPORTANCE_DEFAULT

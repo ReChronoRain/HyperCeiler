@@ -18,19 +18,24 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v
 
-import android.service.notification.*
-import android.view.*
-import android.widget.*
-import cn.lyric.getter.api.data.*
+import android.view.Choreographer
+import android.widget.TextView
+import cn.lyric.getter.api.data.LyricData
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.*
-import com.sevtinge.hyperceiler.utils.*
-import de.robv.android.xposed.*
+import com.sevtinge.hyperceiler.module.base.MusicBaseHook
+import com.sevtinge.hyperceiler.utils.callMethod
+import com.sevtinge.hyperceiler.utils.getFloatField
+import com.sevtinge.hyperceiler.utils.getObjectFieldOrNull
+import com.sevtinge.hyperceiler.utils.setFloatField
+import com.sevtinge.hyperceiler.utils.setLongField
+import com.sevtinge.hyperceiler.utils.setObjectField
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedHelpers
 
 // author git@wuyou-123
 // co-author git@lingqiqi5211
@@ -51,14 +56,14 @@ object FocusNotifLyric : MusicBaseHook() {
 
     override fun init() {
         // 拦截构建通知的函数
-        loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").methodFinder()
-            .filterByName("requestPipelineRun").first().createBeforeHook {
-                //val statusBarNotification =
-                    //it.args[0].getObjectFieldOrNullAs<StatusBarNotification>("mSbn")
-                //if (statusBarNotification!!.notification.channelId == CHANNEL_ID) {
-                    //it.result = null
-                //}
-            }
+        // loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").methodFinder()
+        //     .filterByName("requestPipelineRun").first().createBeforeHook {
+        //         val statusBarNotification =
+        //             it.args[0].getObjectFieldOrNullAs<StatusBarNotification>("mSbn")
+        //         if (statusBarNotification!!.notification.channelId == CHANNEL_ID) {
+        //             it.result = null
+        //         }
+        //     }
 
         // 拦截初始化状态栏焦点通知文本布局
         var unhook: XC_MethodHook.Unhook? = null
@@ -100,7 +105,7 @@ object FocusNotifLyric : MusicBaseHook() {
                 }
 
         }.onFailure {
-            return
+           logE(TAG, "canShowFocus failed, ${it.message}")
         }
         runCatching {
             loadClass("miui.systemui.notification.NotificationSettingsManager", classLoader)
@@ -111,7 +116,7 @@ object FocusNotifLyric : MusicBaseHook() {
                 }
 
         }.onFailure {
-            return
+            logE(TAG, "canCustomFocus failed, ${it.message}")
         }
         // 启用debug日志
         // setStaticObject(loadClass("miui.systemui.notification.NotificationUtil", classLoader), "DEBUG", true)
@@ -164,7 +169,7 @@ object FocusNotifLyric : MusicBaseHook() {
                 XposedHelpers.setAdditionalStaticField(textView, "is_scrolling", 1)
             }
         }.onFailure {
-            logE(TAG, lpparam.packageName, "error: $it")
+            logE(TAG, lpparam.packageName, "error: ${it.message}")
         }
     }
 

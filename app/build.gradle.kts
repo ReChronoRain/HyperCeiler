@@ -261,6 +261,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.hooktool)
     implementation(libs.lyric.getter.api)
+    implementation(libs.hyperfocusapi)
     implementation(libs.lunarcalendar)
 
     implementation(projects.provision)

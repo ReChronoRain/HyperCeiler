@@ -1,5 +1,6 @@
 [versions]
 agp = "8.9.1"
+hyperfocusapi = "0.11"
 kotlin-android = "2.1.20"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
@@ -28,6 +29,7 @@ annotation = { module = "androidx.annotation:annotation", version.ref = "annotat
 core = { group = "androidx.core", name = "core", version.ref = "core" }
 fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
 hooktool = { module = "com.github.HChenX:HookTool", version.ref = "hooktool" }
+hyperfocusapi = { module = "com.github.ghhccghk:HyperFocusApi", version.ref = "hyperfocusapi" }
 lunarcalendar = { module = "com.xhinliang:LunarCalendar", version.ref = "lunarcalendar" }
 miuix-animation = { module = "fan.miuix:animation", version.ref = "miuix" }
 miuix-appcompat = { module = "fan.miuix:appcompat", version.ref = "miuix" }
