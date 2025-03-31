@@ -769,7 +769,7 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Это длинный фрагмент текста, который будет выводиться в виде прокрутки</string>
     <string name="system_ui_statusbar_music_tip">Примечания перед использованием:\n• После включения этой функции проверьте и перезапустите системный пользовательский интерфейс и соответствующую музыкальную область.\n• Эту функцию необходимо использовать с модулем \"Lyric Getter\".\n• Убедитесь, что уведомление \"Сфокусировать уведомления на тексте\" включено в категории уведомлений соответствующего музыкального приложения и в настройках уведомлений фокуса приложения.</string>
     <string name="system_ui_statusbar_music_notification">Сфокусировать уведомления на тексте</string>
-    <string name="system_ui_statusbar_music_cusiom_title">Настройки экрана</string>
+    <string name="system_ui_statusbar_music_cusiom_statusbar_title">Настройки экрана</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Скрыть часы в строке состояния</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">Скройте часы в строке состояния при отображении выделенного текста и настройте анимацию раскрывающейся панели уведомлений</string>
     <string name="system_ui_statusbar_music_click_clock_title">Нажмите, чтобы показать часы</string>

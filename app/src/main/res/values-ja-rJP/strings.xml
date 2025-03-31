@@ -749,7 +749,7 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">長いテキスト出力</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">テキスト</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">これはスクロール形式で出力される長いテキストです</string>
-    <string name="system_ui_statusbar_music_cusiom_title">画面の設定</string>
+    <string name="system_ui_statusbar_music_cusiom_statusbar_title">画面の設定</string>
     <string name="system_ui_statusbar_music_hide_clock_title">ステータスバーの時計を隠す</string>
     <string name="system_ui_statusbar_music_click_clock_title">タップで時計を表示</string>
     <string name="system_ui_controlcenter_title">コントロールセンター</string>

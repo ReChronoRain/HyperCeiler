@@ -29,7 +29,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.Icon
-import android.os.Bundle
 import android.util.Base64
 import android.util.TypedValue
 import android.widget.RemoteViews
@@ -51,6 +50,9 @@ import com.sevtinge.hyperceiler.utils.api.ProjectApi
 
 abstract class MusicBaseHook : BaseHook() {
     val context: Application by lazy { currentApplication() }
+    val nSize by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_music_size_n", 15).toFloat()
+    }
 
     private val receiver = LyricReceiver(object : LyricListener() {
         override fun onUpdate(lyricData: LyricData) {
@@ -114,13 +116,13 @@ abstract class MusicBaseHook : BaseHook() {
         val focuslyric = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
         val remoteViews = RemoteViews(ProjectApi.mAppModulePkg, focuslyric_layout)
         remoteViews.setTextViewText(focuslyric, text)
-        remoteViews.setTextColor(focuslyric, Color.WHITE)//字体颜色
-        remoteViews.setTextViewTextSize(focuslyric,TypedValue.COMPLEX_UNIT_SP,15f) //字体大小 为第三个
-        //浅色模式下的
+        remoteViews.setTextColor(focuslyric, Color.WHITE) // 字体颜色
+        remoteViews.setTextViewTextSize(focuslyric, TypedValue.COMPLEX_UNIT_SP, nSize) // 字体大小 为第三个
+        // 浅色模式下的
         val remoteViewsrv = RemoteViews(ProjectApi.mAppModulePkg, focuslyric_layout)
         remoteViewsrv.setTextViewText(focuslyric, text)
-        remoteViewsrv.setTextColor(focuslyric, Color.BLACK)//字体颜色
-        remoteViewsrv.setTextViewTextSize(focuslyric,TypedValue.COMPLEX_UNIT_SP,15f) //字体大小 为第三个
+        remoteViewsrv.setTextColor(focuslyric, Color.BLACK) // 字体颜色
+        remoteViewsrv.setTextViewTextSize(focuslyric, TypedValue.COMPLEX_UNIT_SP, nSize) // 字体大小 为第三个
         val icon: Icon = base64ToDrawable(base64icon)?.let { Icon.createWithBitmap(it) }
             ?: Icon.createWithBitmap(bitmap)
         val api = FocusApi().senddiyFocus(
@@ -131,9 +133,8 @@ abstract class MusicBaseHook : BaseHook() {
             rvNight = remoteViews,
             picticker = icon
         )
-        api.putBoolean("miui.enableFloat",false)
-        api.putBoolean("miui.focus.enableAlert",false)
-        api.putString("aodTitle",text)
+        api.putString("miui.reopen", "reopen")
+        api.putString("aodTitle", text)
         builder.addExtras(api)
         val notification = builder.build()
         (context.getSystemService("notification") as NotificationManager).notify(

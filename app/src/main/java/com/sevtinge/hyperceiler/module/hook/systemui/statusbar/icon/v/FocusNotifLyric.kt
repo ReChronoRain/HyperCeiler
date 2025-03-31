@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.v
 
+import android.service.notification.StatusBarNotification
 import android.view.Choreographer
 import android.widget.TextView
 import cn.lyric.getter.api.data.LyricData
@@ -31,6 +32,7 @@ import com.sevtinge.hyperceiler.module.base.MusicBaseHook
 import com.sevtinge.hyperceiler.utils.callMethod
 import com.sevtinge.hyperceiler.utils.getFloatField
 import com.sevtinge.hyperceiler.utils.getObjectFieldOrNull
+import com.sevtinge.hyperceiler.utils.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.utils.setFloatField
 import com.sevtinge.hyperceiler.utils.setLongField
 import com.sevtinge.hyperceiler.utils.setObjectField
@@ -53,17 +55,22 @@ object FocusNotifLyric : MusicBaseHook() {
     private val SPEED_INCREASE by lazy {
         mPrefsMap.getInt("system_ui_statusbar_music_speed", 18) * 0.1f
     }
+    private val isShowNotific by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_music_show_notific")
+    }
 
     override fun init() {
         // 拦截构建通知的函数
-        // loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").methodFinder()
-        //     .filterByName("requestPipelineRun").first().createBeforeHook {
-        //         val statusBarNotification =
-        //             it.args[0].getObjectFieldOrNullAs<StatusBarNotification>("mSbn")
-        //         if (statusBarNotification!!.notification.channelId == CHANNEL_ID) {
-        //             it.result = null
-        //         }
-        //     }
+        if (!isShowNotific) {
+            loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").methodFinder()
+                .filterByName("requestPipelineRun").first().createBeforeHook {
+                    val statusBarNotification =
+                        it.args[0].getObjectFieldOrNullAs<StatusBarNotification>("mSbn")
+                    if (statusBarNotification!!.notification.channelId == CHANNEL_ID) {
+                        it.result = null
+                    }
+                }
+        }
 
         // 拦截初始化状态栏焦点通知文本布局
         var unhook: XC_MethodHook.Unhook? = null
@@ -117,17 +124,6 @@ object FocusNotifLyric : MusicBaseHook() {
 
         }.onFailure {
             logE(TAG, "canCustomFocus failed, ${it.message}")
-        }
-        runCatching {
-            loadClass("miui.systemui.notification.NotificationSettingsManager", classLoader)
-                .methodFinder().filterByName("canCustomFocus")
-                .first().createHook {
-                    // 允许全部应用发送自定义焦点通知
-                    returnConstant(true)
-                }
-
-        }.onFailure {
-            return
         }
         // 启用debug日志
         // setStaticObject(loadClass("miui.systemui.notification.NotificationUtil", classLoader), "DEBUG", true)
