@@ -133,8 +133,7 @@ abstract class MusicBaseHook : BaseHook() {
             rvNight = remoteViews,
             picticker = icon
         )
-        api.putString("miui.reopen", "reopen")
-        api.putString("aodTitle", text)
+        api.putBoolean("miui.enableFloat",false)
         builder.addExtras(api)
         val notification = builder.build()
         (context.getSystemService("notification") as NotificationManager).notify(
