@@ -27,9 +27,11 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.Icon
 import android.os.Bundle
 import android.util.Base64
+import android.util.TypedValue
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -43,13 +45,12 @@ import cn.lyric.getter.api.tools.Tools.registerLyricListener
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.hyperfocus.api.FocusApi
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes
 import com.sevtinge.hyperceiler.utils.api.ProjectApi
 
 abstract class MusicBaseHook : BaseHook() {
     val context: Application by lazy { currentApplication() }
-    // 初始化 Api
-    val FocusApi = FocusApi()
 
     private val receiver = LyricReceiver(object : LyricListener() {
         override fun onUpdate(lyricData: LyricData) {
@@ -102,16 +103,9 @@ abstract class MusicBaseHook : BaseHook() {
             PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_MUTABLE)
         }
         builder.setContentTitle(text)
-        if (base64icon != "") {
-            val bitmapBase64Icon = base64ToDrawable(base64icon)
-            if (bitmapBase64Icon != null) {
-                builder.setSmallIcon(IconCompat.createWithBitmap(bitmapBase64Icon))
-            } else {
-                builder.setSmallIcon(IconCompat.createWithBitmap(bitmap))
-            }
-        } else {
-            builder.setSmallIcon(IconCompat.createWithBitmap(bitmap))
-        }
+        val iconc: IconCompat = base64ToDrawable(base64icon)?.let { IconCompat.createWithBitmap(it) }
+            ?: IconCompat.createWithBitmap(bitmap)
+        builder.setSmallIcon(iconc)
         builder.setTicker(text).setPriority(NotificationCompat.PRIORITY_LOW)
         builder.setOngoing(true) // 设置为常驻通知
         builder.setContentIntent(pendingIntent)
@@ -120,28 +114,27 @@ abstract class MusicBaseHook : BaseHook() {
         val focuslyric = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
         val remoteViews = RemoteViews(ProjectApi.mAppModulePkg, focuslyric_layout)
         remoteViews.setTextViewText(focuslyric, text)
-        val focus = Bundle()
-        val pics = Bundle()
-        if (base64icon != "") {
-            val bitmapBase64Icon = base64ToDrawable(base64icon)
-            if (bitmapBase64Icon != null) {
-                pics.putParcelable("pro_a", Icon.createWithBitmap(bitmapBase64Icon))
-            } else {
-                pics.putParcelable("pro_a", Icon.createWithBitmap(bitmap))
-            }
-        } else {
-            pics.putParcelable("pro_a", Icon.createWithBitmap(bitmap))
-        }
-        val cus = Bundle()
-        cus.putString("ticker", "Ticker")
-        cus.putString("tickerPic", "pro_a")
-        cus.putBoolean("enableFloat", false) //通知是否弹出
-        focus.putParcelable("miui.focus.param.custom", cus)
-        focus.putParcelable("miui.focus.pics", pics)
-        focus.putParcelable("miui.focus.rv", remoteViews)
-        focus.putParcelable("miui.focus.rvAod", remoteViews)
-        focus.putParcelable("miui.focus.rvNight", remoteViews)
-        builder.addExtras(focus)
+        remoteViews.setTextColor(focuslyric, Color.WHITE)//字体颜色
+        remoteViews.setTextViewTextSize(focuslyric,TypedValue.COMPLEX_UNIT_SP,15f) //字体大小 为第三个
+        //浅色模式下的
+        val remoteViewsrv = RemoteViews(ProjectApi.mAppModulePkg, focuslyric_layout)
+        remoteViewsrv.setTextViewText(focuslyric, text)
+        remoteViewsrv.setTextColor(focuslyric, Color.BLACK)//字体颜色
+        remoteViewsrv.setTextViewTextSize(focuslyric,TypedValue.COMPLEX_UNIT_SP,15f) //字体大小 为第三个
+        val icon: Icon = base64ToDrawable(base64icon)?.let { Icon.createWithBitmap(it) }
+            ?: Icon.createWithBitmap(bitmap)
+        val api = FocusApi().senddiyFocus(
+            ticker = text,
+            updatable = true,
+            enableFloat = false,
+            rv = remoteViewsrv,
+            rvNight = remoteViews,
+            picticker = icon
+        )
+        api.putBoolean("miui.enableFloat",false)
+        api.putBoolean("miui.focus.enableAlert",false)
+        api.putString("aodTitle",text)
+        builder.addExtras(api)
         val notification = builder.build()
         (context.getSystemService("notification") as NotificationManager).notify(
             CHANNEL_ID.hashCode(), notification
