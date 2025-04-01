@@ -35,4 +35,6 @@ public class PersistConfig {
                     (lunar.month == 1 && 1 <= lunar.day && lunar.day <= 15) ||
                     (localDate.getMonthValue() == 12 && localDate.getDayOfMonth() == 31) ||
                     (localDate.getMonthValue() == 1 && 1 <= localDate.getDayOfMonth() && localDate.getDayOfMonth() <= 5);
+
+    public final static boolean isAprilFoolsThemeView = localDate.getMonthValue() == 4 && localDate.getDayOfMonth() == 1;
 }
