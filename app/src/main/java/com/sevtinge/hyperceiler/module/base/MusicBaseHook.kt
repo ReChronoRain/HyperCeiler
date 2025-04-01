@@ -111,34 +111,52 @@ abstract class MusicBaseHook : BaseHook() {
         builder.setTicker(text).setPriority(NotificationCompat.PRIORITY_LOW)
         builder.setOngoing(true) // 设置为常驻通知
         builder.setContentIntent(pendingIntent)
-
-        val focuslyric_layout = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
-        val focuslyric = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
-        val remoteViews = RemoteViews(ProjectApi.mAppModulePkg, focuslyric_layout)
-        remoteViews.setTextViewText(focuslyric, text)
-        remoteViews.setTextColor(focuslyric, Color.WHITE) // 字体颜色
-        remoteViews.setTextViewTextSize(focuslyric, TypedValue.COMPLEX_UNIT_SP, nSize) // 字体大小 为第三个
-        // 浅色模式下的
-        val remoteViewsrv = RemoteViews(ProjectApi.mAppModulePkg, focuslyric_layout)
-        remoteViewsrv.setTextViewText(focuslyric, text)
-        remoteViewsrv.setTextColor(focuslyric, Color.BLACK) // 字体颜色
-        remoteViewsrv.setTextViewTextSize(focuslyric, TypedValue.COMPLEX_UNIT_SP, nSize) // 字体大小 为第三个
         val icon: Icon = base64ToDrawable(base64icon)?.let { Icon.createWithBitmap(it) }
             ?: Icon.createWithBitmap(bitmap)
-        val api = FocusApi().senddiyFocus(
-            ticker = text,
-            updatable = true,
-            enableFloat = false,
-            rv = remoteViewsrv,
-            rvNight = remoteViews,
-            picticker = icon
-        )
-        api.putBoolean("miui.enableFloat",false)
-        builder.addExtras(api)
-        val notification = builder.build()
-        (context.getSystemService("notification") as NotificationManager).notify(
-            CHANNEL_ID.hashCode(), notification
-        )
+        runCatching {
+            val focuslyric_layout = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
+            val focuslyric = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
+            val remoteViews = RemoteViews(ProjectApi.mAppModulePkg, focuslyric_layout)
+            remoteViews.setTextViewText(focuslyric, text)
+            remoteViews.setTextColor(focuslyric, Color.WHITE) // 字体颜色
+            remoteViews.setTextViewTextSize(focuslyric, TypedValue.COMPLEX_UNIT_SP, nSize) // 字体大小 为第三个
+            // 浅色模式下的
+            val remoteViewsrv = RemoteViews(ProjectApi.mAppModulePkg, focuslyric_layout)
+            remoteViewsrv.setTextViewText(focuslyric, text)
+            remoteViewsrv.setTextColor(focuslyric, Color.BLACK) // 字体颜色
+            remoteViewsrv.setTextViewTextSize(focuslyric, TypedValue.COMPLEX_UNIT_SP, nSize) // 字体大小 为第三个
+            val api = FocusApi().senddiyFocus(
+                ticker = text,
+                updatable = true,
+                enableFloat = false,
+                rv = remoteViewsrv,
+                rvNight = remoteViews,
+                picticker = icon
+            )
+            api.putBoolean("miui.enableFloat",false)
+            builder.addExtras(api)
+            val notification = builder.build()
+            (context.getSystemService("notification") as NotificationManager).notify(
+                CHANNEL_ID.hashCode(), notification
+            )
+        }.onFailure {
+            logE(TAG, lpparam.packageName,"发送焦点通知时出错,切换为默认模式，以下为报错内容 ${it.message}")
+            val baseinfo = FocusApi().baseinfo(
+                basetype = 1,
+                title = text,)
+            val api = FocusApi().sendFocus(
+                ticker = text,
+                baseInfo = baseinfo,
+                updatable = true,
+                enableFloat = false,
+                picticker = icon
+            )
+            builder.addExtras(api)
+            val notification = builder.build()
+            (context.getSystemService("notification") as NotificationManager).notify(
+                CHANNEL_ID.hashCode(), notification
+            )
+        }
     }
 
     private fun createNotificationChannel() {
