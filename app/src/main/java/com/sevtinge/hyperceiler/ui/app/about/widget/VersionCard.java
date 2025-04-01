@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.ui.app.about.widget;
 
+import static com.sevtinge.hyperceiler.ui.app.main.utils.PersistConfig.isAprilFoolsThemeView;
+
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -92,7 +94,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     }
 
     private void initView() {
-        mRootView = (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.layout_version_card, this, true);
+        mRootView = (ViewGroup) LayoutInflater.from(getContext()).inflate(isAprilFoolsThemeView ? R.layout.layout_version_card_sp : R.layout.layout_version_card, this, true);
         mLogoView = findViewById(R.id.logo_view_linear_layout);
         mIconLogoView = findViewById(R.id.app_icon_logo_view);
         mTextLogoView = findViewById(R.id.app_text_logo_view);
@@ -226,12 +228,12 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
             modeValue = ViewUtils.isNightMode(getContext()) ? 18 : 19;
             enableTextBlur(mIconLogoView, true, iArr, new int[]{modeValue, 100, 106});
             enableTextBlur(mTextLogoView, true, iArr, new int[]{modeValue, 100, 106});
-            mIconLogoView.setBackgroundResource(R.drawable.ic_hyperceiler_logo);
-            mTextLogoView.setBackgroundResource(R.drawable.ic_text_logo);
+            mIconLogoView.setBackgroundResource(isAprilFoolsThemeView ? R.drawable.ic_hyperceiler_logo_sp : R.drawable.ic_hyperceiler_logo);
+            mTextLogoView.setBackgroundResource(isAprilFoolsThemeView ? R.drawable.ic_text_logo_sp : R.drawable.ic_text_logo);
             Log.d("VersionCard", "start logoBlur: ");
         } else {
-            mIconLogoView.setImageResource(R.drawable.ic_hyperceiler_logo);
-            mTextLogoView.setImageResource(R.drawable.ic_text_logo);
+            mIconLogoView.setBackgroundResource(isAprilFoolsThemeView ? R.drawable.ic_hyperceiler_logo_sp : R.drawable.ic_hyperceiler_logo);
+            mTextLogoView.setBackgroundResource(isAprilFoolsThemeView ? R.drawable.ic_text_logo_sp : R.drawable.ic_text_logo);
             mIconLogoView.setColorFilter(getResources().getColor(R.color.logo_overlay_color, null));
             mTextLogoView.setColorFilter(getResources().getColor(R.color.logo_overlay_color, null));
             mLogoViewShade.setVisibility(View.VISIBLE);
