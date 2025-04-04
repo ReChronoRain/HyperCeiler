@@ -54,57 +54,85 @@ public class HideDelimiter extends BaseHook {
                     }
             );
         } catch (Throwable e) {
-            findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl",
-                    "addCallback", "com.android.systemui.plugins.miui.statusbar.MiuiCarrierTextController$CarrierTextListener",
-                    new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) {
-                            String mCurrentCarrier = (String) XposedHelpers.getObjectField(param.thisObject, "mCurrentCarrier");
-                            switch (prefs) {
-                                case 1 -> mCurrentCarrier = mCurrentCarrier.replace(" | ", "");
-                                case 2 -> mCurrentCarrier = "";
-                                case 3 -> mCurrentCarrier = getProp("persist.sys.device_name");
+            try {
+                findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl",
+                        "addCallback", "com.android.systemui.plugins.miui.statusbar.MiuiCarrierTextController$CarrierTextListener",
+                        new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) {
+                                String mCurrentCarrier = (String) XposedHelpers.getObjectField(param.thisObject, "mCurrentCarrier");
+                                switch (prefs) {
+                                    case 1 -> mCurrentCarrier = mCurrentCarrier.replace(" | ", "");
+                                    case 2 -> mCurrentCarrier = "";
+                                    case 3 -> mCurrentCarrier = getProp("persist.sys.device_name");
+                                }
+                                XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", mCurrentCarrier);
                             }
-                            XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", mCurrentCarrier);
                         }
-                    }
-            );
+                );
+            } catch (Throwable ignore) {
+                findAndHookMethod("com.android.keyguard.CarrierText",
+                        "updateHDDrawable", int.class,
+                        new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) {
+                                param.setResult(null);
+                            }
+                        }
+                );
+
+                findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextController",
+                        "fireCarrierTextChanged", int.class, int.class, String.class,
+                        new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) {
+                                switch (prefs) {
+                                    case 2 -> param.args[2] = "";
+                                    case 3 -> param.args[2] = getProp("persist.sys.device_name");
+                                }
+                            }
+                        }
+                );
+
+                if (operator) {
+                    // 暂时不懂分隔线怎么去掉
+                    findAndHookMethod("com.android.keyguard.CarrierText$1",
+                            "onCarrierTextChanged", int.class, int.class, String.class,
+                            new MethodHook() {
+                                @Override
+                                protected void before(MethodHookParam param) {
+                                    String mCurrentCarrier = (String) param.args[2];
+                                    param.args[2] = mCurrentCarrier.replace(" | ", "");
+                                }
+                            }
+                    );
+                }
+            }
 
             if (prefs == 3) {
-
                 if (isMoreAndroidVersion(35)) {
+                    try {
+                        findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl", "updateCarrierText", new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) throws Throwable {
+                                XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", getProp("persist.sys.device_name"));
+                                XposedHelpers.setObjectField(param.thisObject, "mCustomCarrier", deviceNameList);
+                                XposedHelpers.setObjectField(param.thisObject, "mCarrier", deviceNameList);
+                                XposedHelpers.setObjectField(param.thisObject, "mRealCarrier", deviceNameList);
+                            }
+                        });
+                    } catch(Throwable ignore) {
+                        findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextController", "updateCarrierText", new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) throws Throwable {
+                                XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", getProp("persist.sys.device_name"));
+                                XposedHelpers.setObjectField(param.thisObject, "mCustomCarrier", deviceNameList);
+                                XposedHelpers.setObjectField(param.thisObject, "mCarrier", deviceNameList);
+                                XposedHelpers.setObjectField(param.thisObject, "mRealCarrier", deviceNameList);
+                            }
+                        });
+                    }
 
-                    findAndHookMethod("miui.stub.statusbar.StatusBarStub$registerMiuiCarrierTextController$1$addCallback$callback$1", "onCarrierTextChanged", String.class, new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) throws Throwable {
-                            param.args[0] = getProp("persist.sys.device_name");
-                        }
-                    });
-
-                    findAndHookMethod("miui.stub.statusbar.StatusBarStub$registerMiuiCarrierTextController$1$addCallback$callback$1", "onCarrierTextChanged", String.class, int.class, new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) throws Throwable {
-                            param.args[0] = getProp("persist.sys.device_name");
-                            param.args[1] = 1;
-                        }
-                    });
-
-                    findAndHookMethod("com.android.keyguard.CarrierText$$ExternalSyntheticLambda0", "onCarrierTextChanged", String.class, new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) throws Throwable {
-                            param.args[0] = getProp("persist.sys.device_name");
-                        }
-                    });
-
-                    findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl", "updateCarrierText", new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) throws Throwable {
-                            XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", getProp("persist.sys.device_name"));
-                            XposedHelpers.setObjectField(param.thisObject, "mCustomCarrier", deviceNameList);
-                            XposedHelpers.setObjectField(param.thisObject, "mCarrier", deviceNameList);
-                            XposedHelpers.setObjectField(param.thisObject, "mRealCarrier", deviceNameList);
-                        }
-                    });
 
                     findAndHookMethod(SubscriptionInfo.class, "getCarrierName", new MethodHook() {
                         @Override

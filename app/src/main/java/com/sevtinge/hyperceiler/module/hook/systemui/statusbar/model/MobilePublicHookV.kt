@@ -31,6 +31,7 @@ import com.sevtinge.hyperceiler.utils.MethodHookParam
 import com.sevtinge.hyperceiler.utils.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.utils.StateFlowHelper.setStateFlowValue
 import com.sevtinge.hyperceiler.utils.callMethod
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreSmallVersion
 import com.sevtinge.hyperceiler.utils.getObjectField
 import com.sevtinge.hyperceiler.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.utils.setObjectField
@@ -87,9 +88,11 @@ class MobilePublicHookV : BaseHook() {
                     cellularIcon.setObjectField("mobileRoamVisible", newReadonlyStateFlow(false))
                 }
                 // 隐藏 hd
-                updateIconState(param, "smallHdVisible", "system_ui_status_bar_icon_small_hd")
-                updateIconState(param, "volteVisibleCn", "system_ui_status_bar_icon_big_hd")
-                updateIconState(param, "volteVisibleGlobal", "system_ui_status_bar_icon_big_hd")
+                if (!isMoreSmallVersion(200, 2f)) {
+                    updateIconState(param, "smallHdVisible", "system_ui_status_bar_icon_small_hd")
+                    updateIconState(param, "volteVisibleCn", "system_ui_status_bar_icon_big_hd")
+                    updateIconState(param, "volteVisibleGlobal", "system_ui_status_bar_icon_big_hd")
+                }
             }
         })
     }

@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
+
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
@@ -28,6 +30,9 @@ import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
 
 public class IconManageNewSettings extends DashboardFragment {
+    DropDownPreference mNewHD;
+    DropDownPreference mSmallHD;
+    DropDownPreference mBigHD;
 
     DropDownPreference mAlarmClockIcon;
     SeekBarPreferenceCompat mAlarmClockIconN;
@@ -42,6 +47,10 @@ public class IconManageNewSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
+        mSmallHD = findPreference("prefs_key_system_ui_status_bar_icon_small_hd");
+        mBigHD = findPreference("prefs_key_system_ui_status_bar_icon_big_hd");
+        mNewHD = findPreference("prefs_key_system_ui_status_bar_icon_new_hd");
+
         mAlarmClockIcon = findPreference("prefs_key_system_ui_status_bar_icon_alarm_clock");
         mAlarmClockIconN = findPreference("prefs_key_system_ui_status_bar_icon_alarm_clock_n");
         mNotificationIconMaximum = findPreference("prefs_key_system_ui_status_bar_notification_icon_maximum");
@@ -50,6 +59,12 @@ public class IconManageNewSettings extends DashboardFragment {
         mBatteryPercentage = findPreference("prefs_key_system_ui_status_bar_battery_percent_mark");
 
         mAlarmClockIconN.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
+
+        if (isMoreSmallVersion(200, 2f)) {
+            mSmallHD.setVisible(false);
+            mBigHD.setVisible(false);
+            mNewHD.setVisible(false);
+        }
 
         mAlarmClockIcon.setOnPreferenceChangeListener((preference, o) -> {
             mAlarmClockIconN.setVisible(Integer.parseInt((String) o) == 3);
