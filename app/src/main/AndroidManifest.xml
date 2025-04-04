@@ -163,6 +163,10 @@
             android:name="xposedscope"
             android:resource="@array/xposed_scope" />
 
+        <meta-data
+            android:name="miui_keyguard_shortcuts"
+            android:resource="@xml/miui_keyguard_shortcuts" />
+
         <service
             android:name="com.sevtinge.hyperceiler.ui.app.safe.CrashService"
             android:enabled="true"

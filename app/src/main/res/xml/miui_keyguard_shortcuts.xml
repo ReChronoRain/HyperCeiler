@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config xmlns:android="http://schemas.android.com/apk/res/android">
+    <intent
+        android:icon="@drawable/ic_hyperceiler_settings_v130"
+        android:name="@string/app_name"
+        android:targetPackage="com.sevtinge.hyperceiler"
+        android:action="android.intent.action.VIEW"
+        android:targetClass="com.sevtinge.hyperceiler.ui.app.main.HyperCeilerTabActivity"
+        android:tag="HYPERCEILER" />
+</config>
