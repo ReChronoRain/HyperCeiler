@@ -29,6 +29,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.Icon
+import android.os.Bundle
 import android.util.Base64
 import android.util.TypedValue
 import android.widget.RemoteViews
@@ -47,6 +48,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.hyperfocus.api.FocusApi
 import com.sevtinge.hyperceiler.module.base.tool.OtherTool.getModuleRes
 import com.sevtinge.hyperceiler.utils.api.ProjectApi
+import org.json.JSONObject
 
 abstract class MusicBaseHook : BaseHook() {
     val context: Application by lazy { currentApplication() }
@@ -128,12 +130,13 @@ abstract class MusicBaseHook : BaseHook() {
             val api = FocusApi().senddiyFocus(
                 ticker = text,
                 updatable = true,
+                aodTitle = text,
+                aodPic = icon,
                 enableFloat = false,
                 rv = remoteViewsrv,
                 rvNight = remoteViews,
                 picticker = icon
             )
-            api.putBoolean("miui.enableFloat",false)
             builder.addExtras(api)
             val notification = builder.build()
             (context.getSystemService("notification") as NotificationManager).notify(
@@ -146,6 +149,8 @@ abstract class MusicBaseHook : BaseHook() {
                 title = text,)
             val api = FocusApi().sendFocus(
                 ticker = text,
+                aodTitle = text,
+                aodPic = icon,
                 baseInfo = baseinfo,
                 updatable = true,
                 enableFloat = false,
