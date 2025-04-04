@@ -1898,4 +1898,5 @@
 
     <string name="disable_suggest">禁用推荐</string>
     <string name="enable_suggest">启用推荐</string>
+    <string name="miwallpaper_disable_auto_darken">禁用壁纸自动压暗</string>
 </resources>

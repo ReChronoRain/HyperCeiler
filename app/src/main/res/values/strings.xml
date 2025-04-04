@@ -1857,4 +1857,5 @@
     <string name="log_level_none">Disabled</string>
     <string name="disable_suggest">Disable suggest</string>
     <string name="enable_suggest">Enable suggest</string>
+    <string name="miwallpaper_disable_auto_darken" >Disable Wallpaper Auto Darken</string>
 </resources>

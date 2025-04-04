@@ -716,4 +716,5 @@
     <string name="disable_app_settings">好主意❌</string>
     <string name="ic_qs_title_bluetooth">蓝色牙齿</string>
     <string name="ic_qs_title_flashlight">烫点</string>
+    <string name="miwallpaper_disable_auto_darken">明眸壁纸</string>
 </resources>
