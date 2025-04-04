@@ -1416,6 +1416,7 @@
     <string name="home_other_mi_pad_enable_more_setting_title">解锁桌面设置更多选项</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">解锁后的功能不一定可用，部分功能需要系统底层支持</string>
     <string name="home_other_disable_prestart">禁用应用预加载</string>
+    <string name="home_other_disable_parallel_anim">关闭并行动画</string>
     <string name="home_other_opt_app_launch_delay">优化应用启动延迟</string>
 
     <string name="home_recent_blur_level">模糊等级</string>
