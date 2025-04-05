@@ -1,6 +1,5 @@
 package com.sevtinge.hyperceiler.utils;
 
-
 import androidx.preference.PreferenceManager;
 
 public class SettingsHelper {

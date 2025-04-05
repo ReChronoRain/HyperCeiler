@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.ui.hooker.home.anim;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 
 public class HomeTitleAnim4Settings extends DashboardFragment {

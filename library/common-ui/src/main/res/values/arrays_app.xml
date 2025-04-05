@@ -1,0 +1,953 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+
+    <string-array name="app_module_support">
+        <item>@string/system_framework</item>
+        <item>@string/system_ui</item>
+        <item>@string/mihome</item>
+        <item>@string/security_center</item>
+        <item>@string/various</item>
+    </string-array>
+
+    <string-array name="default_bubble_apps">
+        <item>com.tencent.mm</item>
+        <item>com.tencent.mobileqq</item>
+        <item>com.alibaba.android.rimet</item>
+        <item>com.tencent.wemeet.app</item>
+        <item>com.tencent.wework</item>
+        <item>com.ss.android.lark</item>
+        <item>com.ss.android.lark.kami</item>
+        <item>nekox.messenger</item>
+        <item>tw.nekomimi.nekogram</item>
+        <item>org.telegram.messenger</item>
+    </string-array>
+
+    <string-array name="settings_icon">
+        <item>@string/settings_icon_disable</item>
+        <item>@string/settings_icon_top</item>
+        <item>@string/settings_icon_medium</item>
+        <item>@string/settings_icon_down</item>
+    </string-array>
+
+    <string-array name="settings_icon_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="settings_icon_mode">
+        <item>@string/settings_icon_miui_14</item>
+        <item>@string/settings_icon_miui_13</item>
+    </string-array>
+
+    <string-array name="settings_icon_mode_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="settings_app_language">
+        <item>@string/settings_app_en</item>
+        <item>@string/settings_app_zh_cn</item>
+        <item>@string/settings_app_zh_tw</item>
+        <item>@string/settings_app_zh_hk</item>
+        <item>@string/settings_app_ja_jp</item>
+        <item>@string/settings_app_pl_pl</item>
+        <item>@string/settings_app_ru_ru</item>
+        <item>@string/settings_app_ar_sa</item>
+        <item>@string/settings_app_es_es</item>
+        <item>@string/settings_app_pt_br</item>
+        <item>@string/settings_app_in_id</item>
+        <item>@string/settings_app_tr_tr</item>
+        <item>@string/settings_app_vi_vn</item>
+        <item>@string/settings_app_it_it</item>
+        <item>@string/settings_app_zh_me</item>
+    </string-array>
+
+    <string-array name="settings_app_language_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+    </string-array>
+
+
+
+    <string-array name="default_volume_stream">
+        <item>@string/array_default</item>
+        <item>@string/default_volume_stream_ring</item>
+        <item>@string/default_volume_stream_media</item>
+        <item>@string/default_volume_stream_tip</item>
+    </string-array>
+
+    <string-array name="default_volume_streame_value">
+        <item>0</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="default_volume_safe">
+        <item>@string/array_default</item>
+        <item>@string/default_volume_safe_all</item>
+        <item>@string/default_volume_safe_headset</item>
+    </string-array>
+
+    <string-array name="default_volume_safe_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="open_with_test">
+        <item>@string/open_with_test_picture</item>
+        <item>@string/open_with_test_audio</item>
+        <item>@string/open_with_test_media</item>
+        <item>@string/open_with_test_doc</item>
+        <item>@string/open_with_test_zip</item>
+        <item>@string/open_with_test_all</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_mode">
+        <item>@string/status_bar_icon_mode_default</item>
+        <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_off</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_mode_new">
+        <item>@string/status_bar_icon_mode_default</item>
+        <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_on_control_center</item>
+        <item>@string/status_bar_icon_mode_on_status_bar</item>
+        <item>@string/status_bar_icon_mode_off</item>
+    </string-array>
+
+    <string-array name="control_center_sunshine_mode">
+        <item>@string/control_center_sunshine_mode_default</item>
+        <item>@string/control_center_sunshine_mode_one</item>
+        <item>@string/control_center_sunshine_mode_two</item>
+    </string-array>
+
+    <string-array name="control_center_sunshine_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="control_center_sunshine_mode_high">
+        <item>@string/control_center_sunshine_mode_default</item>
+        <item>@string/control_center_sunshine_mode_one</item>
+        <item>@string/control_center_sunshine_mode_two</item>
+        <item>@string/control_center_sunshine_mode_three</item>
+    </string-array>
+
+    <string-array name="control_center_sunshine_mode_high_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="system_framework_other_rotation_button_mode">
+        <item>@string/array_default</item>
+        <item>@string/array_close</item>
+        <item>@string/system_framework_other_rotation_button_3</item>
+    </string-array>
+
+    <string-array name="guided_access_screen_area">
+        <item>@string/array_close</item>
+        <item>@string/guided_access_screen_area_full</item>
+        <item>@string/guided_access_screen_area_left</item>
+        <item>@string/guided_access_screen_area_right</item>
+    </string-array>
+
+    <string-array name="security_center_flash_light">
+        <item>@string/security_center_flash_light_default</item>
+        <item>@string/security_center_flash_light_1</item>
+        <item>@string/security_center_flash_light_2</item>
+        <item>@string/security_center_flash_light_3</item>
+    </string-array>
+
+    <string-array name="control_center_5g_mode">
+        <item>@string/control_center_5g_off</item>
+        <item>@string/control_center_5g_v1</item>
+        <item>@string/control_center_5g_v2</item>
+        <item>@string/control_center_5g_v3</item>
+    </string-array>
+
+    <string-array name="usb_mode_choose">
+        <item>@string/system_settings_usb_default</item>
+        <item>@string/system_usb_use_charging_only</item>
+        <item>@string/system_usb_use_file_transfers</item>
+        <item>@string/system_usb_use_photo_transfers</item>
+        <item>@string/system_usb_use_MIDI</item>
+        <item>@string/system_usb_reverse_charge</item>
+        <item>@string/system_usb_tethering</item>
+    </string-array>
+
+    <string-array name="system_ui_control_center_hide_operator">
+        <item>@string/array_default</item>
+        <item>@string/system_ui_control_center_hide_delimiter</item>
+        <item>@string/system_ui_control_center_hide_name</item>
+        <item>@string/system_ui_control_center_hide_display_device_name</item>
+    </string-array>
+
+    <string-array name="system_ui_control_center_hide_operator_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="guided_access_screen_area_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="security_center_flash_light_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_mode_new_value">
+        <item>0</item>
+        <item>1</item>
+        <item>11</item>
+        <item>12</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="usb_mode_choose_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_mobile_network_type">
+        <item>@string/status_bar_icon_mode_default</item>
+        <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_on_non_wifi</item>
+        <item>@string/status_bar_icon_mode_off</item>
+        <item>@string/status_bar_icon_mode_off_unconnect</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_mobile_network_type_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_alarm_clock">
+        <item>@string/status_bar_icon_mode_default</item>
+        <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_off</item>
+        <item>@string/status_bar_icon_mode_on_beforering</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_alarm_clock_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_bluetooth">
+        <item>@string/status_bar_icon_mode_default</item>
+        <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_off</item>
+        <item>@string/status_bar_icon_mode_off_unconnect</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_bluetooth_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="folder_shade">
+        <item>@string/array_default</item>
+        <item>@string/home_folder_shade_solid</item>
+        <item>@string/home_folder_shade_gradient</item>
+    </string-array>
+
+    <string-array name="folder_shade_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="home_mode">
+        <item>@string/array_default</item>
+        <item>@string/home_mode_day</item>
+        <item>@string/home_mode_dark</item>
+    </string-array>
+
+    <string-array name="home_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="seek_points">
+        <item>@string/array_default</item>
+        <item>@string/seek_points_roll</item>
+        <item>@string/seek_points_edit</item>
+    </string-array>
+
+    <string-array name="seek_points_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="home_folder_title_pos">
+        <item>@string/array_default</item>
+        <item>@string/array_align_center</item>
+    </string-array>
+
+    <string-array name="home_folder_title_pos_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+
+    <string-array name="app_sort">
+        <item>@string/app_sort_running</item>
+        <item>@string/app_sort_name</item>
+        <item>@string/app_sort_frequency</item>
+        <item>@string/app_sort_storage</item>
+        <item>@string/app_sort_install</item>
+    </string-array>
+
+    <string-array name="app_sort_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="skip_count_down_limit_type">
+        <item>自动勾选和跳过读秒</item>
+        <item>直接授权</item>
+    </string-array>
+
+    <string-array name="skip_count_down_limit_type_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="dialog_gravity">
+        <item>@string/array_default</item>
+        <item>@string/dialog_gravity_medium</item>
+        <item>@string/dialog_gravity_down</item>
+    </string-array>
+
+    <string-array name="dialog_gravity_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="collapse_miui_title">
+        <item>@string/array_default</item>
+        <item>@string/collapse_miui_title_off</item>
+        <item>@string/collapse_miui_title_on</item>
+        <item>@string/collapse_miui_title_off_always</item>
+        <item>@string/collapse_miui_title_on_always</item>
+    </string-array>
+
+    <string-array name="collapse_miui_title_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+
+    <string-array name="location">
+        <item>@string/array_default</item>
+        <item>@string/location_custom</item>
+    </string-array>
+
+    <string-array name="location_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="operator_fix">
+        <item>@string/operator_fix_none</item>
+        <item>@string/operator_fix_1</item>
+        <item>@string/operator_fix_2</item>
+    </string-array>
+
+    <string-array name="operator_fix_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="weather_device_level">
+        <item>@string/array_default</item>
+        <item>@string/weather_device_level_title_low</item>
+        <item>@string/weather_device_level_title_middle</item>
+        <item>@string/weather_device_level_title_high</item>
+    </string-array>
+
+    <string-array name="weather_device_level_value">
+        <item>3</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="weather_card_display_type">
+        <item>@string/array_default</item>
+        <item>@string/weather_card_display_type_title_2</item>
+        <item>@string/weather_card_display_type_title_3</item>
+    </string-array>
+
+    <string-array name="weather_card_display_type_value">
+        <item>0</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="home_recent_blur">
+        <item>@string/array_default</item>
+        <item>@string/home_recent_complete_blur_plus</item>
+        <item>@string/home_recent_complete_blur</item>
+        <item>@string/home_recent_test_blur</item>
+        <item>@string/home_recent_simple_blur</item>
+        <item>@string/home_recent_none_blur</item>
+        <item>@string/home_recent_none_blur_simple_anim</item>
+    </string-array>
+
+    <string-array name="home_recent_blur_value">
+        <item>6</item>
+        <item>5</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="lock_screen_bottom_left_button">
+        <item>@string/array_default</item>
+        <item>@string/array_hide</item>
+        <item>@string/ic_qs_title_flashlight</item>
+    </string-array>
+
+    <string-array name="lock_screen_bottom_left_button_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_horizontal_align">
+        <item>@string/array_default</item>
+        <item>@string/array_align_left</item>
+        <item>@string/array_align_center</item>
+        <item>@string/array_align_right</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_horizontal_align_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_network_icon">
+        <item>@string/array_netspeedicons_no</item>
+        <item>@string/array_netspeedicons_arrows</item>
+        <item>@string/array_netspeedicons_arrows_small</item>
+        <item>@string/array_netspeedicons_bullets</item>
+        <item>@string/array_netspeedicons_arrows_long1</item>
+        <item>@string/array_netspeedicons_arrows_long2</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_network_icon_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_clock_double_mode">
+        <item>@string/array_align_left</item>
+        <item>@string/array_align_center</item>
+        <item>@string/array_align_right</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_clock_double_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="system_ui_control_center_media_control_progress_mode">
+        <item>@string/array_default</item>
+        <item>@string/system_ui_control_center_media_control_progress_wavy</item>
+        <item>@string/system_ui_control_center_media_control_progress_sleek</item>
+    </string-array>
+
+    <string-array name="system_ui_control_center_media_control_progress_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="market_device_modify_list">
+        <item>@string/array_default</item>
+        <item>Xiaomi 15S Pro</item>
+        <item>Xiaomi 15 Ultra</item>
+        <item>Xiaomi 15 Pro</item>
+        <item>Xiaomi 15</item>
+        <item>Xiaomi 14 Ultra</item>
+        <item>Xiaomi 14 Pro</item>
+        <item>Xiaomi CIVI 4 Pro</item>
+        <item>Xiaomi MIX Flip 2</item>
+        <item>Xiaomi MIX Fold 4</item>
+        <item>Xiaomi MIX Alpha</item>
+        <item>Xiaomi Pad 7 Pro</item>
+        <item>Xiaomi Pad 7</item>
+        <item>Xiaomi Pad 6S Pro 12.4</item>
+        <item>Redmi K80 Pro</item>
+        <item>Redmi K80</item>
+        <item>Redmi K70 Ultra</item>
+        <item>Redmi K70 Pro</item>
+        <item>Redmi K70E</item>
+        <item>Redmi Turbo 3</item>
+        <item>Redmi Note 14 Pro+</item>
+        <item>Redmi 13C / Redmi 13R</item>
+        <item>@string/customization</item>
+    </string-array>
+
+    <string-array name="market_device_modify_value">
+        <item>0</item>
+        <item>108</item>
+        <item>107</item>
+        <item>106</item>
+        <item>105</item>
+        <item>104</item>
+        <item>102</item>
+        <item>155</item>
+        <item>202</item>
+        <item>224</item>
+        <item>190</item>
+        <item>211</item>
+        <item>210</item>
+        <item>209</item>
+        <item>312</item>
+        <item>311</item>
+        <item>310</item>
+        <item>309</item>
+        <item>351</item>
+        <item>335</item>
+        <item>354</item>
+        <item>402</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="link_open_mode">
+        <item>@string/link_open_mode_default</item>
+        <item>@string/link_open_mode_mi</item>
+    </string-array>
+
+    <string-array name="link_open_mode_value">
+        <item>0</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_network_icon_style">
+        <item>@string/array_default</item>
+        <item>@string/array_bold</item>
+        <item>@string/array_theme</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_network_icon_style_value">
+        <item />
+        <item>thick</item>
+        <item>theme</item>
+    </string-array>
+
+    <string-array name="mipad_input_bluetooth_version">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="mipad_input_bluetooth_version_value">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="updater_version_mode">
+        <item>MIUI</item>
+        <item>Xiaomi HyperOS</item>
+    </string-array>
+
+    <string-array name="updater_version_mode_value">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="development_test">
+        <item>Test1</item>
+        <item>Test2</item>
+    </string-array>
+
+    <string-array name="development_prefs">
+        <item>Int</item>
+        <item>String</item>
+        <item>StringAsInt</item>
+        <item>StringSet</item>
+        <item>Boolean</item>
+    </string-array>
+
+    <string-array name="development_test_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="development_prefs_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="super_clipboard">
+        <item>@string/array_default</item>
+        <item>@string/custom_enable</item>
+    </string-array>
+
+    <string-array name="super_clipboard_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="super_clipboard_switch">
+        <item>@string/array_default</item>
+        <item>@string/enable</item>
+        <item>@string/disable</item>
+    </string-array>
+
+    <string-array name="super_clipboard_switch_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="blur_switch">
+        <item>@string/no_blur</item>
+        <item>@string/miui_blur</item>
+        <item>@string/android_blur</item>
+    </string-array>
+
+    <string-array name="blur_switch_per">
+        <item>@string/no_blur</item>
+        <item>@string/miui_android_blur</item>
+        <item>@string/android_blur</item>
+    </string-array>
+
+    <string-array name="blur_switch_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="log_level">
+        <item>@string/log_level_none</item>
+        <item>Error</item>
+        <item>Warn</item>
+        <item>Info</item>
+        <item>Debug</item>
+    </string-array>
+
+    <string-array name="log_level_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_network_icon_theme">
+        <item>@string/system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic</item>
+        <item>@string/system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_network_icon_theme_value">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="mediaeditor_hook_type">
+        <item>@string/array_close</item>
+        <item>v1</item>
+        <item>v2</item>
+    </string-array>
+
+    <string-array name="mediaeditor_hook_type_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="customize_frame_type_v1">
+        <item>@string/array_default</item>
+        <item>Leica</item>
+        <item>Redmi</item>
+        <item>POCO</item>
+        <item>@string/array_close</item>
+    </string-array>
+
+    <string-array name="customize_frame_type_v1_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="customize_disney_type">
+        <item>@string/array_default</item>
+        <item>@string/mediaeditor_mickey</item>
+        <item>@string/mediaeditor_strawberry_bear</item>
+        <item>@string/mediaeditor_disney_princess</item>
+    </string-array>
+
+    <string-array name="customize_disney_type_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="security_center_suggest">
+        <item>@string/array_default</item>
+        <item>@string/disable_suggest</item>
+        <item>@string/enable_suggest</item>
+    </string-array>
+
+    <string-array name="security_center_suggest_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="network_speed_style">
+        <item>@string/array_default</item>
+        <item>@string/system_ui_statusbar_network_speed_style_1</item>
+        <item>@string/system_ui_statusbar_network_speed_style_2</item>
+        <item>@string/system_ui_statusbar_network_speed_style_3</item>
+        <item>@string/system_ui_statusbar_network_speed_style_4</item>
+    </string-array>
+
+    <string-array name="network_speed_style_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="new_clock_style">
+        <item>@string/system_ui_statusbar_clock_style_1</item>
+        <item>@string/system_ui_statusbar_clock_style_2</item>
+        <item>@string/system_ui_statusbar_clock_style_3</item>
+    </string-array>
+
+    <string-array name="new_clock_style_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="network_speed_font_style">
+        <item>@string/array_default_official</item>
+        <item>@string/array_default_thin</item>
+        <item>@string/array_default_bold</item>
+    </string-array>
+
+    <string-array name="network_speed_font_style_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="others_pct_switch_style">
+        <item>@string/array_close</item>
+        <item>@string/system_cc_showpct_style_1</item>
+        <item>@string/system_cc_showpct_style_2</item>
+    </string-array>
+
+    <string-array name="others_pct_switch_style_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="gallery_backup_server_entries">
+        <item>@string/array_default</item>
+        <item>@string/gallery_backup_server_xiaomi</item>
+        <item>@string/gallery_backup_server_google</item>
+        <item>@string/gallery_backup_server_onedrive</item>
+    </string-array>
+
+    <string-array name="gallery_backup_server_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="theme_manager_version_code">
+        <item>@string/array_default</item>
+        <item>MIUI 11</item>
+        <item>MIUI 12</item>
+        <item>MIUI 12.5</item>
+        <item>MIUI 13</item>
+        <item>MIUI 14</item>
+        <item>HyperOS 1.0</item>
+    </string-array>
+
+    <string-array name="theme_manager_version_code_value">
+        <item>0</item>
+        <item>110</item>
+        <item>120</item>
+        <item>125</item>
+        <item>130</item>
+        <item>140</item>
+        <item>150</item>
+    </string-array>
+
+    <string-array name="card_tile_list">
+        <item>wifi</item>
+        <item>cell</item>
+        <item>bt</item>
+        <item>gps</item>
+        <item>nfc</item>
+        <item>hotspot</item>
+        <item>flashlight</item>
+        <item>settings</item>
+        <item>airplane</item>
+        <item>autobrightness</item>
+        <item>vowifi1</item>
+        <item>vowifi2</item>
+    </string-array>
+
+    <integer-array name="card_tile_icon_list">
+        <item>@drawable/ic_cc_qs_wifi</item>
+        <item>@drawable/ic_cc_qs_cellular</item>
+        <item>@drawable/ic_cc_qs_bluetooth</item>
+        <item>@drawable/ic_cc_qs_gps</item>
+        <item>@drawable/ic_cc_qs_nfc</item>
+        <item>@drawable/ic_cc_qs_hotspot</item>
+        <item>@drawable/ic_cc_qs_flashlight</item>
+        <item>@drawable/ic_cc_qs_settings</item>
+        <item>@drawable/ic_cc_qs_airplane</item>
+        <item>@drawable/ic_cc_qs_auto_brightness</item>
+        <item>@drawable/ic_cc_qs_vowifi</item>
+        <item>@drawable/ic_cc_qs_vowifi</item>
+    </integer-array>
+
+    <string-array name="card_tile_title_list">
+        <item>@string/ic_qs_title_wifi</item>
+        <item>@string/ic_qs_title_cellular</item>
+        <item>@string/ic_qs_title_bluetooth</item>
+        <item>@string/ic_qs_title_gps</item>
+        <item>@string/ic_qs_title_nfc</item>
+        <item>@string/ic_qs_title_hotspot</item>
+        <item>@string/ic_qs_title_flashlight</item>
+        <item>@string/ic_qs_title_settings</item>
+        <item>@string/ic_qs_title_airplane</item>
+        <item>@string/ic_qs_title_autobrightness</item>
+        <item>@string/ic_qs_title_vowifi1</item>
+        <item>@string/ic_qs_title_vowifi2</item>
+    </string-array>
+
+    <array name="my_card_stroke_gradient_colors_light">
+        <item>@color/update_text_border2</item>
+        <item>@color/update_text_border1</item>
+    </array>
+
+    <string-array name="actions">
+        <item>@string/array_global_actions_none</item>
+        <item>@string/array_global_actions_lock</item>
+        <item>@string/array_global_actions_sleep</item>
+        <item>@string/array_global_actions_screenshot</item>
+        <item>@string/array_global_actions_clear_memory</item>
+        <item>@string/array_global_actions_invert_colors</item>
+        <item>@string/array_global_actions_recents</item>
+        <item>@string/array_global_actions_volume</item>
+        <item>@string/array_global_actions_powermenu</item>
+        <item>@string/array_global_actions_notif</item>
+        <item>@string/array_global_actions_launch</item>
+    </string-array>
+
+    <string-array name="actions_value">
+        <item>no_action</item>
+        <item>screen_lock</item>
+        <item>screen_sleep</item>
+        <item>screen_capture</item>
+        <item>clear_memory</item>
+        <item>invert_colors</item>
+        <item>screen_recents</item>
+        <item>volume_dialog</item>
+        <item>open_powermenu</item>
+        <item>open_notification_center</item>
+        <item>open_app</item>
+    </string-array>
+</resources>

@@ -2,7 +2,7 @@ package com.sevtinge.hyperceiler.provision.renderengine.painter;
 
 import android.util.Log;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.provision.renderengine.utils.BasePainter;
 import com.sevtinge.hyperceiler.provision.renderengine.utils.RenderContext;
 

@@ -10,7 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.app.holiday.weather.ConfettiManager;
 import com.sevtinge.hyperceiler.ui.app.holiday.weather.PrecipType;
 import com.sevtinge.hyperceiler.ui.app.holiday.weather.confetto.ConfettoGenerator;

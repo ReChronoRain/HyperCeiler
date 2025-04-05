@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.app.about;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.base.SettingsPreferenceFragment;
 
 public class AboutUseFragment extends SettingsPreferenceFragment {

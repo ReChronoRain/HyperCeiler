@@ -23,7 +23,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isFullSupport
 
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.base.SettingsPreferenceFragment;
 
 public class SupportVersionFragment extends SettingsPreferenceFragment {

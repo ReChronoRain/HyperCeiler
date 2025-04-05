@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
 import com.sevtinge.hyperceiler.provision.utils.ProvisionAnimHelper;
 import com.sevtinge.hyperceiler.provision.utils.ProvisionAnimHelper.AnimListener;

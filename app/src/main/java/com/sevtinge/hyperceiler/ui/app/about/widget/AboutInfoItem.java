@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.StringRes;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 
 public class AboutInfoItem extends FrameLayout {
 

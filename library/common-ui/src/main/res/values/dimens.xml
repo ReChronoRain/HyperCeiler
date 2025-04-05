@@ -94,4 +94,11 @@
     <dimen name="provision_congratulation_start_up_slogan_text_size">13.099976sp</dimen>
     <dimen name="provision_congratulation_end_bottom_margin">44dp</dimen>
     <dimen name="provision_congratulation_end_bottom_margin_full_screen">60.0dp</dimen>
+
+
+
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>

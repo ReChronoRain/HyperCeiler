@@ -19,7 +19,7 @@
 
 package com.sevtinge.hyperceiler.ui.app.helper;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.base.SettingsPreferenceFragment;
 
 public class HelpFragment extends SettingsPreferenceFragment {

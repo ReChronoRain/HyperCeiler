@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.provision.renderengine.AIRender;
 import com.sevtinge.hyperceiler.provision.utils.AnimHelper;
 import com.sevtinge.hyperceiler.provision.utils.BlurUtils;

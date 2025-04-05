@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 
 import java.util.Locale;
 

@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.app.holiday.weather.confetto.Confetto;
 import com.sevtinge.hyperceiler.ui.app.holiday.weather.confetto.ConfettoInfo;
 

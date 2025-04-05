@@ -25,7 +25,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 public abstract class SettingsPreferenceFragment extends BasePreferenceFragment {

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_surface_variant">#DC9A9B9D</color>
+
+    <color name="pa_widget_blur_color_lab">#2EF200</color>
+    <color name="pa_widget_blur_color_linear_light">#66B4B4B4</color>
+    <color name="pa_widget_blur_color_src_over">#00000000</color>
+
+    <color name="focus_notification_element_blend_headsUp_color_1">#919191</color>
+    <color name="focus_notification_element_blend_headsUp_color_2">#ccfa00</color>
+    <color name="focus_notification_element_blend_headsUp_color_3">#00ffffff</color>
+    <color name="focus_notification_element_blend_keyguard_color_1">#919191</color>
+    <color name="focus_notification_element_blend_keyguard_color_2">#bdfa00</color>
+    <color name="focus_notification_element_blend_keyguard_color_3">#00ffffff</color>
+    <color name="focus_notification_element_blend_shade_color_1">#818181</color>
+    <color name="focus_notification_element_blend_shade_color_2">#b3ff00</color>
+    <color name="focus_notification_element_blend_shade_color_3">#00ffffff</color>
+    <color name="media_notification_element_blend_keyguard_color_1">#919191</color>
+    <color name="media_notification_element_blend_keyguard_color_2">#bdfa00</color>
+    <color name="media_notification_element_blend_keyguard_color_3">#00ffffff</color>
+    <color name="media_notification_element_blend_shade_color_1">#818181</color>
+    <color name="media_notification_element_blend_shade_color_2">#b3ff00</color>
+    <color name="media_notification_element_blend_shade_color_3">#00ffffff</color>
+    <color name="notification_element_blend_headsUp_color_1">#919191</color>
+    <color name="notification_element_blend_headsUp_color_2">#ccfa00</color>
+    <color name="notification_element_blend_keyguard_color_1">#919191</color>
+    <color name="notification_element_blend_keyguard_color_2">#bdfa00</color>
+    <color name="notification_element_blend_shade_color_1">#818181</color>
+    <color name="notification_element_blend_shade_color_2">#b3ff00</color>
+</resources>

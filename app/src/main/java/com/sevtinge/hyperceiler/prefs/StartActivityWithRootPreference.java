@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

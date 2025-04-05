@@ -93,7 +93,7 @@
         </activity>
 
         <activity
-            android:name=".ui.app.safe.CrashActivity"
+            android:name=".safe.CrashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:finishOnTaskLaunch="true"
@@ -168,7 +168,7 @@
             android:resource="@xml/miui_keyguard_shortcuts" />
 
         <service
-            android:name="com.sevtinge.hyperceiler.ui.app.safe.CrashService"
+            android:name="com.sevtinge.hyperceiler.safe.CrashService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

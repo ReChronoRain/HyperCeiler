@@ -23,7 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 
 public class CtaUtils {
     private static final String APP_PERMISSION_MANAGE_PKG = "com.miui.securitycenter";

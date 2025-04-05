@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.ui.app.helper;
 
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.ui.base.SettingsPreferenceFragment;
 

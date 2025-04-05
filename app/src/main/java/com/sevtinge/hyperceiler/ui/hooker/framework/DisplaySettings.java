@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.ui.hooker.framework;
 
 import android.widget.SeekBar;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 
 import fan.preference.SeekBarPreferenceCompat;

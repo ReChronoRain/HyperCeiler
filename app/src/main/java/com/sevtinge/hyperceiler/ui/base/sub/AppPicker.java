@@ -36,7 +36,7 @@ import android.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.callback.IAppSelectCallback;
 import com.sevtinge.hyperceiler.callback.IEditCallback;
 import com.sevtinge.hyperceiler.data.AppData;

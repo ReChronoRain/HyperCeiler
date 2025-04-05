@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.provision.renderengine.utils;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 
 import miuix.mgl.Primitive;
 import miuix.mgl.RenderMaterial;

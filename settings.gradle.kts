@@ -1,5 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":library:hook")
+
 
 var gprUser = System.getenv("GIT_ACTOR") ?:""
 var gprKey = System.getenv("GIT_TOKEN") ?: ""

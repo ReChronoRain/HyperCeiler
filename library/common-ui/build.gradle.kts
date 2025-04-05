@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.sevtinge.hyperceiler"
+    namespace = "com.sevtinge.hyperceiler.ui"
     compileSdk = 36
 
     defaultConfig {
@@ -49,36 +49,31 @@ java {
 }
 
 dependencies {
-    implementation(libs.core)
-    implementation(libs.fragment)
-    implementation(libs.recyclerview)
-    implementation(libs.coordinatorlayout)
-    implementation(libs.constraintlayout) {
-        exclude("androidx.appcompat", "appcompat")
-    }
 
-    implementation(libs.miuix.animation)
-    implementation(libs.miuix.appcompat)
-    implementation(libs.miuix.basewidget)
-    implementation(libs.miuix.bottomsheet)
-    implementation(libs.miuix.cardview)
-    implementation(libs.miuix.core)
-    implementation(libs.miuix.flexible)
-    implementation(libs.miuix.folme)
-    implementation(libs.miuix.graphics)
-    implementation(libs.miuix.haptic)
-    implementation(libs.miuix.mgl)
-    implementation(libs.miuix.navigator)
-    implementation(libs.miuix.nestedheader)
-    implementation(libs.miuix.pickerwidget)
-    implementation(libs.miuix.popupwidget)
-    implementation(libs.miuix.preference)
-    implementation(libs.miuix.recyclerview)
-    implementation(libs.miuix.slidingwidget)
-    implementation(libs.miuix.smooth)
-    implementation(libs.miuix.springback)
-    implementation(libs.miuix.stretchablewidget)
-    implementation(libs.miuix.theme)
-    implementation(libs.miuix.viewpager)
-    implementation(libs.miuix.visualcheck)
+    api(libs.miuix.animation)
+    api(libs.miuix.appcompat)
+    api(libs.miuix.basewidget)
+    api(libs.miuix.bottomsheet)
+    api(libs.miuix.cardview)
+    api(libs.miuix.core)
+    api(libs.miuix.flexible)
+    api(libs.miuix.folme)
+    api(libs.miuix.graphics)
+    api(libs.miuix.haptic)
+    api(libs.miuix.mgl)
+    api(libs.miuix.navigator)
+    api(libs.miuix.nestedheader)
+    api(libs.miuix.pickerwidget)
+    api(libs.miuix.popupwidget)
+    api(libs.miuix.preference)
+    api(libs.miuix.recyclerview)
+    api(libs.miuix.slidingwidget)
+    api(libs.miuix.smooth)
+    api(libs.miuix.springback)
+    api(libs.miuix.stretchablewidget)
+    api(libs.miuix.theme)
+    api(libs.miuix.viewpager)
+    api(libs.miuix.visualcheck)
+
+    api(projects.library.hook)
 }

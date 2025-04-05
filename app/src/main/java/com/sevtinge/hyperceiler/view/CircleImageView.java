@@ -36,7 +36,7 @@ import android.net.Uri;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;

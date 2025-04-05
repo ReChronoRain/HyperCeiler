@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.ui.base;
 
-import static com.sevtinge.hyperceiler.ui.app.crash.CrashHandlerDialog.CrashHandlerBroadcastReceiver.CRASH_HANDLER;
+import static com.sevtinge.hyperceiler.safe.CrashHandlerDialog.CrashHandlerBroadcastReceiver.CRASH_HANDLER;
 
 import android.content.Context;
 import android.content.IntentFilter;
@@ -28,7 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.sevtinge.hyperceiler.ui.app.crash.CrashHandlerDialog;
+import com.sevtinge.hyperceiler.safe.CrashHandlerDialog;
 import com.sevtinge.hyperceiler.ui.base.sub.MultiActionSettings;
 import com.sevtinge.hyperceiler.ui.hooker.framework.OtherSettings;
 import com.sevtinge.hyperceiler.ui.hooker.home.HomeDockSettings;

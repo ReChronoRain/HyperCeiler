@@ -1,6 +1,7 @@
 // file:noinspection DependencyNotationArgument
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import com.android.build.gradle.tasks.PackageAndroidArtifact
+import org.jetbrains.kotlin.tooling.core.withClosureSequence
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -12,16 +13,6 @@ import java.util.TimeZone
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.lsparanoid)
-}
-
-lsparanoid {
-    seed = 227263
-    classFilter = { true }
-    includeDependencies = true
-    variantFilter = { variant ->
-        variant.buildType != "debug"
-    }
 }
 
 val apkId = "HyperCeiler"
@@ -218,52 +209,6 @@ java {
 kotlin.jvmToolchain(21)
 
 dependencies {
-    implementation(libs.core)
-    implementation(libs.fragment)
-    implementation(libs.recyclerview)
-    implementation(libs.coordinatorlayout)
-    implementation(libs.constraintlayout) {
-        exclude("androidx.appcompat", "appcompat")
-    }
-
-    implementation(libs.miuix.animation)
-    implementation(libs.miuix.appcompat)
-    implementation(libs.miuix.basewidget)
-    implementation(libs.miuix.bottomsheet)
-    implementation(libs.miuix.cardview)
-    implementation(libs.miuix.core)
-    implementation(libs.miuix.flexible)
-    implementation(libs.miuix.folme)
-    implementation(libs.miuix.graphics)
-    implementation(libs.miuix.haptic)
-    implementation(libs.miuix.navigator)
-    implementation(libs.miuix.nestedheader)
-    implementation(libs.miuix.pickerwidget)
-    implementation(libs.miuix.popupwidget)
-    implementation(libs.miuix.preference)
-    implementation(libs.miuix.recyclerview)
-    implementation(libs.miuix.slidingwidget)
-    implementation(libs.miuix.smooth)
-    implementation(libs.miuix.springback)
-    implementation(libs.miuix.stretchablewidget)
-    implementation(libs.miuix.theme)
-    implementation(libs.miuix.viewpager)
-    implementation(libs.miuix.visualcheck)
-    implementation(files("libs/hyperceiler_expansion_packs-debug.aar"))
-
-    compileOnly(projects.library.hiddenApi)
-    compileOnly(libs.xposed.api)
-
-    implementation(libs.dexkit)
-    implementation(libs.mmkv)
-    implementation(libs.ezxhelper)
-    implementation(libs.hiddenapibypass)
-    implementation(libs.gson)
-    implementation(libs.hooktool)
-    implementation(libs.lyric.getter.api)
-    implementation(libs.lunarcalendar)
 
     implementation(projects.library.commonUi)
-    implementation(projects.library.processor)
-    annotationProcessor(projects.library.processor)
 }

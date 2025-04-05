@@ -1,9 +1,9 @@
 package com.sevtinge.hyperceiler.ui.app.main;
 
-import static com.sevtinge.hyperceiler.module.base.tool.AppsTool.isModuleActive;
-import static com.sevtinge.hyperceiler.ui.app.crash.CrashHandlerDialog.CrashHandlerBroadcastReceiver.CRASH_HANDLER;
+import static com.sevtinge.hyperceiler.safe.CrashHandlerDialog.CrashHandlerBroadcastReceiver.CRASH_HANDLER;
 import static com.sevtinge.hyperceiler.ui.app.main.utils.PersistConfig.isLunarNewYearThemeView;
 import static com.sevtinge.hyperceiler.ui.app.main.utils.PersistConfig.isNeedGrayView;
+import static com.sevtinge.hyperceiler.utils.XposedActivateHelper.isModuleActive;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.isTablet;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.isLoggerAlive;
@@ -28,15 +28,15 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.sevtinge.hyperceiler.BuildConfig;
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.callback.IResult;
 import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.prefs.XmlPreference;
-import com.sevtinge.hyperceiler.ui.app.crash.CrashHandlerDialog;
+import com.sevtinge.hyperceiler.safe.CrashHandlerDialog;
 import com.sevtinge.hyperceiler.ui.app.holiday.HolidayHelper;
 import com.sevtinge.hyperceiler.ui.app.main.utils.LanguageHelper;
-import com.sevtinge.hyperceiler.ui.app.safe.CrashData;
+import com.sevtinge.hyperceiler.safe.CrashData;
 import com.sevtinge.hyperceiler.ui.base.NaviBaseActivity;
 import com.sevtinge.hyperceiler.ui.base.SubSettings;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
@@ -44,6 +44,7 @@ import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.utils.PropUtils;
 import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
+import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.search.SearchHelper;
@@ -96,7 +97,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         super.onCreate(savedInstanceState);
         ThreadPoolManager.getInstance().submit(() -> SearchHelper.getAllMods(context, savedInstanceState != null));
 
-        AppsTool.checkXposedActivateState(this);
+        XposedActivateHelper.checkActivateState(this);
 
         if (shouldShowLogServiceWarnDialog()) {
             handler.post(() -> DialogHelper.showLogServiceWarnDialog(context));
