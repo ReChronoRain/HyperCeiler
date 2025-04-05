@@ -16,19 +16,19 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.app;
+package com.sevtinge.hyperceiler.module.hook.miwallpaper
 
-import com.hchen.database.HookBase;
-import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.hook.miwallpaper.DisableAutoDarken;
-import com.sevtinge.hyperceiler.module.hook.miwallpaper.UnlockSuperWallpaper;
+import com.sevtinge.hyperceiler.module.base.BaseHook
 
-@HookBase(targetPackage = "com.miui.miwallpaper")
-public class MiWallpaper extends BaseModule {
-
-    @Override
-    public void handleLoadPackage() {
-        initHook(new UnlockSuperWallpaper(), mPrefsMap.getBoolean("miwallpaper_unlock_super_wallpaper"));
-        initHook(DisableAutoDarken.INSTANCE, mPrefsMap.getBoolean("miwallpaper_disable_auto_darken"));
+object DisableAutoDarken : BaseHook() {
+    override fun init() {
+        hookAllMethods("com.miui.miwallpaper.opengl.ordinary.AnimImageGLProgram", "updateMaskLayerStatus",
+            object : MethodHook() {
+                override fun before(param: MethodHookParam) {
+                    param.args[0] = false
+                    param.args[1] = false
+                }
+            }
+        )
     }
 }
