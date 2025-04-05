@@ -849,7 +849,9 @@
 
     <string name="system_ui_statusbar_music_tip">使用前注意事项：\n- 开启此功能后，请勾选并重启系统界面及对应音乐作用域\n- 此功能需要搭配 \"酒域-歌词获取\" 模块使用\n- 请确保对应音乐 App 的通知类别下有启用 \"焦点通知歌词\" 的通知和应用的焦点通知</string>
     <string name="system_ui_statusbar_music_notification">焦点通知歌词</string>
-    <string name="system_ui_statusbar_music_cusiom_title">显示设置</string>
+    <string name="system_ui_statusbar_music_cusiom_notific_title">通知栏显示设置</string>
+    <string name="system_ui_statusbar_music_show_notific_title">显示通知歌词</string>
+    <string name="system_ui_statusbar_music_cusiom_statusbar_title">状态栏显示设置</string>
     <string name="system_ui_statusbar_music_hide_clock_title">隐藏状态栏时钟</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">显示焦点歌词时隐藏状态栏时钟，并调整下拉通知中心的动画</string>
     <string name="system_ui_statusbar_music_click_clock_title">点按显示时钟</string>

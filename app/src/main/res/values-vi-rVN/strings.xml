@@ -771,7 +771,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Đây là một đoạn văn bản dài sẽ được xuất ra ở dạng cuộn</string>
     <string name="system_ui_statusbar_music_tip">Lưu ý trước khi sử dụng:\n• Sau khi bật tính năng này, hãy kiểm tra và khởi động lại Giao diện người dùng hệ thống và phạm vi âm nhạc tương ứng.\n• Tính năng này cần được sử dụng với mô-đun \"Lyric Getter\".\n• Đảm bảo rằng thông báo \"Tập trung vào lời bài hát\" được bật trong danh mục thông báo của ứng dụng âm nhạc tương ứng và trong cài đặt thông báo Focus của ứng dụng.</string>
     <string name="system_ui_statusbar_music_notification">Thông báo lời bài hát Focus</string>
-    <string name="system_ui_statusbar_music_cusiom_title">Tùy chọn hiển thị</string>
+    <string name="system_ui_statusbar_music_cusiom_statusbar_title">Tùy chọn hiển thị</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Ẩn đồng hồ thanh trạng thái</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">Ẩn đồng hồ trên thanh trạng thái khi hiển thị lời bài hát focus và điều chỉnh hoạt ảnh của mục Thông báo thả xuống.</string>
     <string name="system_ui_statusbar_music_click_clock_title">Nhấp để hiện đồng hồ</string>

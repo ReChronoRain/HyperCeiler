@@ -262,6 +262,7 @@ dependencies {
     implementation(libs.hooktool)
     implementation(libs.lyric.getter.api)
     implementation(libs.lunarcalendar)
+    implementation(libs.hyperfocusapi)
 
     implementation(projects.library.commonUi)
     implementation(projects.library.processor)
