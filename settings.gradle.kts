@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+
 var gprUser = System.getenv("GIT_ACTOR") ?:""
 var gprKey = System.getenv("GIT_TOKEN") ?: ""
 
@@ -55,4 +56,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "HyperCeiler"
-include("app", "provision", "processor", "hidden-api")
+include("app")
+include(":library:common-ui", "library:processor", "library:hidden-api")

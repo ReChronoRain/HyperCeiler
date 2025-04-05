@@ -251,7 +251,7 @@ dependencies {
     implementation(libs.miuix.visualcheck)
     implementation(files("libs/hyperceiler_expansion_packs-debug.aar"))
 
-    compileOnly(projects.hiddenApi)
+    compileOnly(projects.library.hiddenApi)
     compileOnly(libs.xposed.api)
 
     implementation(libs.dexkit)
@@ -263,7 +263,7 @@ dependencies {
     implementation(libs.lyric.getter.api)
     implementation(libs.lunarcalendar)
 
-    implementation(projects.provision)
-    implementation(projects.processor)
-    annotationProcessor(projects.processor)
+    implementation(projects.library.commonUi)
+    implementation(projects.library.processor)
+    annotationProcessor(projects.library.processor)
 }

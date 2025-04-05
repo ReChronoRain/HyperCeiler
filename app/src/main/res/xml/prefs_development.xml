@@ -45,7 +45,7 @@
             android:title="Oobe测试">
             <intent
                 android:targetPackage="com.sevtinge.hyperceiler"
-                android:targetClass="com.sevtinge.provision.activity.ProvisionActivity"/>
+                android:targetClass="com.sevtinge.hyperceiler.provision.activity.ProvisionActivity"/>
         </Preference>
 
         <Preference
