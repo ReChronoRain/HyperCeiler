@@ -21,14 +21,17 @@
     <string name="version_update">Есть новая версия</string>
     <string name="about_copy_right">© 2023-2025 Sevtinge &amp; Вклад HyperCeiler.</string>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Сделайте HyperOS снова великой!</string>
+    <string name="xposed_description">Сделаем HyperOS снова великой!</string>
     <string name="new_permission_wifi_state_desc">добавление и удаление файлов в памяти устройства</string>
     <string name="new_permission_location_desc">используется для предоставления таких услуг, как широта и долгота</string>
     <string name="new_cta_agree_desc">Во время использования, чтобы предоставить вам больше функций, мы можем запросить у вас разрешение Root/Su. Вы можете в любое время перейти к управлению разрешениями, чтобы настроить статус авторизации всех разрешений, а также обратиться к своему менеджеру Root/Su за разрешениями Root/Su.</string>
     <string name="new_cta_app_main_purpose">изменить системные приложения</string>
     <string name="new_cta_app_all_purpose_title">Добро пожаловать в HyperCeiler! Это приложение использует для работы фреймворк Xposed. Вы можете использовать это приложение для взлома и изменения других поддерживаемых приложений с целью улучшения системы. Во время использования, чтобы предоставить вам больше функций, мы можем запросить у вас разрешения Root/Su. Вы можете управлять этим в любое время, перейдя в свой менеджер Root/Su.</string>
     <!--HyperCeiler Tips-->
+    <string name="error">Ошибка</string>
     <string name="warn">Предупреждение</string>
+    <string name="app_error_desc">Этот модуль столкнулся с критическим сбоем и не может продолжать работу! Пожалуйста, предоставьте следующую информацию об ошибке для обратной связи! \n\n</string>
+    <string name="app_exit">ОК</string>
     <string name="safe_mode_desc">Перешел в безопасный режим из-за нескольких сбоев, а функциональность HyperCeiler временно отключена. Нажмите \"ОК\", чтобы отменить, нажмите \"Отмена\", чтобы продолжить обработку позже.</string>
     <string name="safe_mode_history">Просмотр записей исключений</string>
     <string name="safe_mode_cancel">Отключить безопасный режим</string>
@@ -42,6 +45,10 @@
     <string name="safe_mode_recorder_line">Линия</string>
     <string name="safe_mode_recorder_msg">Сообщение об исключении</string>
     <string name="safe_mode_recorder_st">Трассировка стека</string>
+    <string name="notification_channel_app_crash_name">Приложение работает ненормально</string>
+    <string name="notification_title_message_emergency_crash">%s множественные сбои</string>
+    <string name="notification_content_message">Нажмите, чтобы просмотреть детали</string>
+    <string name="notification_view">Просмотреть</string>
     <string name="tip_default">Совет: Вот совет по умолчанию. Если вы можете видеть меня, это означает, что есть проблема с гиперселером, пожалуйста, сообщите об этом разработчику своевременно и эффективно.</string>
     <string name="headtip_warn_not_offical_rom">Источник используемого вами ПЗУ может быть неофициальным от Xiaomi, и некоторые функции могут не работать, пожалуйста, свяжитесь с поставщиком, которого вы используете, для получения подробной информации.</string>
     <string name="headtip_warn_unsupport_sysver">Текущее устройство работает на версии системы, которая не (полностью) адаптирована, что может привести к аномалиям в функциональности HyperCeiler.</string>
@@ -182,6 +189,7 @@
     <string name="clearable_edittext_clear_description">Очистить</string>
     <string name="preference_on">Включено</string>
     <string name="preference_off">Выключено</string>
+    <string name="preference_enable_failed">Не удалось включить %s</string>
     <string name="preference_copied">%1$s скопировано в буфер обмена.</string>
     <string name="preference_default_value_text">Стандарт</string>
     <string name="preference_dialog_color_picker_default_title">Выбрать цвет</string>
@@ -274,6 +282,7 @@
     <string name="system_ui_statusbar_indicator_bold">Жирный</string>
     <!--Multi-list Array-->
     <string name="array_close">Закрыть</string>
+    <string name="array_hide">Скрыть</string>
     <string name="array_default">Стандарт</string>
     <string name="array_align_left">Слева</string>
     <string name="array_align_right">Справа</string>
@@ -375,7 +384,7 @@
     <string name="system_ui_statusbar_network_speed_style_3">Скорости сети в одну строку</string>
     <string name="system_ui_statusbar_network_speed_style_4">Двурядное отображение скорости сети</string>
     <string name="system_ui_statusbar_clock_style_1">Часы в одну строку в строке состояния</string>
-    <string name="system_ui_statusbar_clock_style_2">Часы в строке состояния Мини-часы в панели уведомлений</string>
+    <string name="system_ui_statusbar_clock_style_2">Часы в строке состояния\nМини-часы в панели уведомлений</string>
     <string name="system_ui_statusbar_clock_style_3">Мини-часы в панели уведомлений сверху\nЧасы в строке состояния снизу</string>
     <string name="mediaeditor_mickey">Микки Маус</string>
     <string name="mediaeditor_strawberry_bear">Клубничный мишка</string>
@@ -386,6 +395,8 @@
     <string name="tiles_5g">Сеть 5G</string>
     <string name="dashboard_5g">Использовать 5G</string>
     <string name="tiles_sunshine_mode">Солнечный режим</string>
+    <string name="system_cc_showpct_style_1">Встроенный</string>
+    <string name="system_cc_showpct_style_2">Явный</string>
     <!--System Framework-->
     <string name="system_framework">Системный фреймворк</string>
     <string name="system_framework_volume_title">Громкость</string>
@@ -415,7 +426,7 @@
     <string name="system_ui_display_cutout_title">Вырез экрана</string>
     <string name="system_ui_display_hide_cutout">Скрыть вырез экрана</string>
     <string name="system_ui_display_use_aosp_screenshot">Использовать скриншоты экрана AOSP</string>
-    <string name="system_ui_display_use_aosp_screenshot_desc">Перенаправить приложение для создания скриншотов экрана на скриншоты экрана AOSP, приложение для создания скриншотов экрана в HyperOS не будет реагировать на операцию создания скриншота экрана</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">Перенаправить приложение для создания скриншотов экрана на скриншоты экрана AOSP, приложение для создания скриншотов экрана в HyperOS не будет реагировать на операцию создания скриншота экрана.</string>
     <string name="system_ui_display_brightness_title">Яркость</string>
     <string name="system_ui_display_auto_brightness">Автоматический диапазон яркости</string>
     <string name="system_ui_display_auto_brightness_desc">Определение минимальных и максимальных значений для автояркости</string>
@@ -479,6 +490,10 @@
     <string name="system_framework_other_thermal_brightness_more">Только автоматически уменьшает яркость экрана, не вызванную контролем температуры.</string>
     <string name="system_framework_other_disable_cleaner">Отключить системное активное завершение фоновых программ</string>
     <string name="system_framework_other_disable_cleaner_desc">Это экспериментальная функция, которая может привести к неправильному использованию оперативной памяти</string>
+    <string name="system_framework_other_disable_thermal_desc">Отключить ограничение частоты обновления и эффекта размытия</string>
+    <string name="system_framework_other_disable_thermal">Отключить температурные ограничения</string>
+    <string name="system_framework_enhance_recents_visibility_desc">Снова сделать скрытые системой недавние файлы видимыми</string>
+    <string name="system_framework_enhance_recents_visibility">Улучшить видимость недавних</string>
     <string name="system_framework_other_disable_gesture_monitor">Отключить монитор жестов</string>
     <string name="system_framework_other_disable_gesture_monitor_desc">Снижает нагрузку на CPU, но нарушает функции, связанные с вводом, такие как скриншоты тремя пальцами.</string>
     <string name="system_framework_disable_72h_verify">Отключить проверку экрана блокировки каждые 72 часа</string>
@@ -578,7 +593,7 @@
     <string name="phone_vice_slot_volte">Интернет во время вызовов VoLTE</string>
     <string name="phone_vice_slot_volte_desc">Используйте мобильные данные во время вызовов VoLTE на дополнительной SIM-карте</string>
     <string name="phone_unlock_voice_link">Разблокировать голосовую ссылку</string>
-    <string name="phone_unlock_voice_link_desc">Разблокировать голосовую ссылку для некоторых SIM-карт, поддерживающих WiFi-вызов.</string>
+    <string name="phone_unlock_voice_link_desc">Разблокировать голосовую ссылку для некоторых SIM-карт, поддерживающих Wi-Fi вызов</string>
     <!--Download management program-->
     <string name="downloads">Диспетчер загрузки</string>
     <string name="various_fuck_xlDownload">Заблокировать создание папки .xl Download</string>
@@ -605,6 +620,7 @@
     <string name="system_ui_lock_screen_show_spacing">Показывать интервал обновления</string>
     <string name="system_ui_lock_screen_hide_camera">Скрыть камеру</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Скрыть умный экран</string>
+    <string name="system_ui_lock_screen_bottom_left_button">Левая кнопка внизу</string>
     <string name="system_ui_lock_screen_current">Ток</string>
     <string name="system_ui_lock_screen_blur_button">Размытие камеры и кнопки умного экрана</string>
     <string name="system_ui_lock_screen_blur_button_desc">После включения фон камеры и кнопки отрицательного экрана на экране блокировки размыты, что может привести к высокому энергопотреблению. Поддерживается только тема по умолчанию.</string>
@@ -749,6 +765,10 @@
     <string name="system_ui_statusbar_clock_size">Размер часов</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Действителен только когда отображается две строки</string>
     <string name="system_ui_statusbar_clock_fix_color">Исправить цвет</string>
+    <string name="system_ui_statusbar_clock_pad_show">Панель</string>
+    <string name="system_ui_statusbar_clock_pad_hide">Скрыть дату и часы в строке состояния</string>
+    <string name="system_ui_statusbar_clock_layout_p">Часы с датой в строке состояния</string>
+    <string name="system_ui_statusbar_clock_editor_p">Формат даты и часов в строке состояния</string>
     <string name="system_ui_disable_clock_anim">Отключите анимацию перехода по времени слайда в \"Центр уведомлений\"</string>
     <string name="system_ui_disable_clock_synch">Настройки часов в строке состояния не синхронизированы</string>
     <string name="system_ui_disable_clock_synch_desc">Часы большой панели уведомлений больше не синхронизируются с форматом часов строки состояния</string>
@@ -757,6 +777,7 @@
     <string name="system_ui_statusbar_clock_layout_b">Большие часы на панели уведомлений</string>
     <string name="system_ui_statusbar_clock_layout_n">Мини-часы на панели уведомлений</string>
     <string name="system_ui_statusbar_clock_editor_s">Формат часов в строке состояния</string>
+    <string name="system_ui_statusbar_clock_editor_b">Оттенок уведомления в большом формате часов</string>
     <string name="system_ui_statusbar_clock_editor_n">Формат мини-часов на панели уведомлений</string>
     <string name="system_ui_statusbar_clock_style_f">Расположение часов в строке состояния</string>
     <string name="system_ui_status_bar_strong_toast_layout">Отображение</string>
@@ -867,12 +888,14 @@
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">Вернуться к обычному стилю смешивания цветов уведомлений</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">Значение яркости дисплея</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">Отображать значение громкости</string>
+    <string name="system_ui_control_center_zen_fix">Исправление режима \"Не беспокоить\"</string>
+    <string name="system_ui_control_center_zen_fix_desc">Исправлена ​​ошибка, из-за которой некоторые устройства продолжали звонить в режиме \"Не беспокоить\".</string>
     <string name="system_ui_other_title">Прочее</string>
     <string name="system_ui_disable_volume">Встроенная панель громкости</string>
     <string name="system_ui_disable_power">Меню выключения от AOSP</string>
     <string name="system_ui_disable_volume_desc">Изменения панели громкости в HyperOS не могут быть применены к собственной панели громкости</string>
     <string name="system_ui_unlock_clipboard">Разблокировать редактор буфера обмена AOSP</string>
-    <string name="system_ui_unlock_clipboard_desc">После разблокировки он появится вместе с редактором HyperOS</string>
+    <string name="system_ui_unlock_clipboard_desc">После разблокировки он появится вместе с редактором HyperOS.</string>
     <string name="system_ui_another_title">Прочее</string>
     <string name="system_ui_disable_miui_multi_win_switch">Скрыть кнопку управления окнами</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Скрыть кнопку с тремя точками</string>
@@ -881,6 +904,7 @@
     <string name="system_ui_disable_infinitymode_gesture_sum">Только для планшета</string>
     <string name="system_ui_disable_bottombar">Скрыть нижний жест маленького окна</string>
     <string name="system_ui_others_pct_title">Отображение данных</string>
+    <string name="system_cc_showpct_style">Стиль отображения данных в процентах</string>
     <string name="system_showpct_title">Отображать процент яркости</string>
     <string name="system_cc_volume_showpct_title">Отображать процентное содержание звука</string>
     <string name="system_ui_others_showpct_top">Верхний процент</string>
@@ -1007,6 +1031,7 @@
     <!--Sound Recorder-->
     <string name="sound_recorder">Запись звука</string>
     <string name="sound_recorder_disable_ai_watermark">Отключить водяной знак AI</string>
+    <string name="sound_recorder_unlock_recording_scene">Разблокировать сцену записи</string>
     <!--Always-on display-->
     <string name="aod_hyperos">AOD</string>
     <string name="aod_unlock_always_on_display">Разблокирует ограничение по времени отображения постоянно включенного экрана</string>
@@ -1256,6 +1281,7 @@
     <string name="home_widget_allow_moved_to_minus_one_screen">Разрешить перемещение классического виджета на Боковую панель</string>
     <string name="home_widget_hide_title">Скрыть название виджета</string>
     <string name="home_widget_resizable">Убирает все ограничения на размер виджетов</string>
+    <string name="home_widget_widget_blur_opt">Оптимизировать размытие виджета</string>
     <string name="home_dock">Док</string>
     <string name="home_dock_bg_enable">Добавить фон панели закрепления</string>
     <string name="home_dock_bg_all_app">Совместимость с режимом док-бара</string>
@@ -1332,8 +1358,9 @@
     <string name="home_other_opt_app_launch_delay">Оптимизация задержки запуска приложения</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Редактор галереи</string>
-    <string name="mediaeditor_tip">Инструкции по использованию:\n- Пожалуйста, используйте хук v2 для версий 1.7.5.0.4 и более поздних, и пожалуйста, используйте хук v1 для версий ниже 1.7.5.0.4.</string>
-    <string name="mediaeditor_hook_type">Тип хука редактора галереи</string>
+    <string name="mediaeditor_tip">Инструкции по использованию:\n- Используйте hook v2 для версий 1.7.5.0.4 и более поздних.
+Используйте hook v1 для версий до 1.7.5.0.4.</string>
+    <string name="mediaeditor_hook_type">Тип hook\'а редактора галереи</string>
     <string name="mediaeditor_foundation">Foundation</string>
     <string name="mediaeditor_authoring">Авторизация</string>
     <string name="mediaeditor_ai_authoring">Авторизация ИИ</string>
@@ -1393,6 +1420,7 @@
     <string name="personal_assistant_set_tv_notif_info_max_width">Установить максимальную ширину подсветки уведомлений о поездках в строке состояния</string>
     <string name="personal_assistant_set_tv_notif_info_max_width_desc">Отрегулируйте это значение соответствующим образом, чтобы решить проблему пропущенного отображаемого содержимого</string>
     <string name="personal_assistant_disable_lite_version">Отключить облегченную версию</string>
+    <string name="personal_assistant_widget_widget_blur_opt">Оптимизировать размытие виджета</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Батарея и производительность</string>
     <string name="powerkeeper_custom_refresh_rate">Пользовательские приложения с высокой частотой обновления</string>
@@ -1533,6 +1561,8 @@
     <string name="security_center_hide_xopt_mode_tip">Скрыть совет по режиму XOpt</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Разблокировать экстремальную выносливость при низких температурах</string>
     <string name="secutity_center_unlock_app_sandbox">Разблокировать независимое хранилище</string>
+    <string name="secutity_center_battery_show_more_info">Показать больше информации о батареи</string>
+    <string name="secutity_center_battery_show_more_info_desc">Экспериментальная функция. Отображаемая дополнительная информация о батарее может различаться в зависимости от устройства.</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Отключить отслеживание рисков</string>
@@ -1766,8 +1796,4 @@
     <string name="log_level_none">Отключить журнал</string>
     <string name="disable_suggest">Отключить предложение</string>
     <string name="enable_suggest">Включить предложение</string>
-    <string name="notification_channel_app_crash_name">Приложение работает ненормально</string>
-    <string name="notification_title_message_emergency_crash">%s множественные сбои</string>
-    <string name="notification_content_message">Нажмите, чтобы просмотреть детали.</string>
-    <string name="notification_view">Просмотреть</string>
 </resources>
