@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.ui.hooker.framework;
 
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 
 public class FreeFormSettings extends DashboardFragment {

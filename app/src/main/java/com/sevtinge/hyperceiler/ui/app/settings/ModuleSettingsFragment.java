@@ -28,7 +28,7 @@ import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.BuildConfig;
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.app.main.ContentFragment.IFragmentChange;
 import com.sevtinge.hyperceiler.ui.app.main.utils.LanguageHelper;

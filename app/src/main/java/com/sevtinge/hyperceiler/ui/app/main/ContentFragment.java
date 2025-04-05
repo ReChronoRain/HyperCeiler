@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.data.adapter.DynamicFragmentPagerAdapter;
 import com.sevtinge.hyperceiler.data.model.TabViewModel;
 import com.sevtinge.hyperceiler.ui.app.main.widget.DraggableViewPager;

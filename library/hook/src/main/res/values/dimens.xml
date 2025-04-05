@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="miui_volume_content_width_expanded">283.625dp</dimen>
+    <dimen name="miui_volume_ringer_layout_width_expanded">@dimen/miui_volume_content_width_expanded</dimen>
+    <dimen name="miui_volume_column_width_expanded">56dp</dimen>
+    <dimen name="miui_volume_column_margin_horizontal_expanded">19.5dp</dimen>
+    <dimen name="miui_notification_modal_menu_icon_size">26dp</dimen>
+    <dimen name="miui_notification_modal_menu_icon_bg_size">50dp</dimen>
+</resources>

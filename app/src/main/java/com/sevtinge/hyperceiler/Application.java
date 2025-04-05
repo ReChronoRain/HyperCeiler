@@ -24,7 +24,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.hchen.hooktool.log.AndroidLog;
-import com.sevtinge.hyperceiler.ui.app.crash.CrashHandlerDialog;
+import com.sevtinge.hyperceiler.safe.CrashHandlerDialog;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.io.PrintWriter;

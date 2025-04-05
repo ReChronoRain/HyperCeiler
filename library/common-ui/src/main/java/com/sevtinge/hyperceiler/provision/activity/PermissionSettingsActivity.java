@@ -4,7 +4,7 @@ import android.os.Handler;
 
 import androidx.fragment.app.Fragment;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.provision.fragment.PermissionSettingsFragment;
 
 public class PermissionSettingsActivity extends BaseActivity {

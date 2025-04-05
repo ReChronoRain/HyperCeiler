@@ -2,7 +2,7 @@ package com.sevtinge.hyperceiler.provision.data;
 
 import android.content.Context;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

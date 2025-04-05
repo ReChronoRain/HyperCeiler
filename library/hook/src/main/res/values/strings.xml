@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="library_app_name" translatable="false">HyperCeiler</string>
+
+    <string name="miui_quick_settings_tiles_stock" translatable="false">reduce_brightness,vowifi1,vowifi2,cell,wifi,bt,airplane,autobrightness,mute,screenshot,flashlight,rotation,screenlock,dtmdtm,scanner,papermode,night,quietmode,batterysaver,uwb_shp,aitranslate,aisubtitles,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,gps,edit,hearingassisttile,controls,wallet,inversion,saver,dark,onehanded,color_correction,user,dnd,taskmanager,settings</string>
+    <string name="miui_quick_settings_tiles_stock_pad" translatable="false">reduce_brightness,vowifi1,vowifi2,cell,wifi,rotation,airplane,mute,screenshot,bt,autobrightness,screenlock,dtmdtm,night,papermode,quietmode,batterysaver,gps,flashlight,scanner,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,edit,controls,workmode,wallet,inversion,saver,dark,onehanded,color_correction,user,dnd,taskmanager,settings</string>
+
+    <!--String reuse-->
+    <string name="floating_window">Freeform</string>
+
+    <!--Multi-list Array-->
+    <string name="tiles_gms">Google Play Service</string>
+    <string name="tiles_snow_leopard_mode">S-Leo mode</string>
+    <string name="tiles_taplus">Taplus</string>
+    <string name="tiles_5g">5G network</string>
+
+    <string name="system_ui_statusbar_music_notification">Focus notification lyrics</string>
+
+    <string name="system_ui_statusbar_network_speed_Bs" translatable="false">B/s</string>
+    <string name="system_ui_statusbar_network_speed_speedunits" translatable="false">KMG</string>
+
+    <string name="open_by_default">Open by default</string>
+    <string name="security_center_aosp_app_info_label">AOSP app info</string>
+    <string name="security_center_aosp_app_info">Add AOSP app info entry</string>
+    <string name="security_center_aosp_app_manager_label">AOSP app manager</string>
+    <string name="security_center_aosp_app_manager">Add AOSP app manager entry</string>
+
+
+    <string name="app_link_open_always">Allows the app to open supported links</string>
+    <string name="app_link_open_never">Don\'t allow apps to open links</string>
+
+    <string name="dashboard_5g">Use 5G</string>
+    <string name="tiles_sunshine_mode">Sunlight mode</string>
+    <string name="system_cc_showpct_style_1">Inline</string>
+    <string name="system_cc_showpct_style_2">Explicit</string>
+
+    <!--System Framework-->
+    <string name="system_framework_phone_network_title">Network settings</string>
+
+    <string name="system_ui_hide_navigation_bar">Hide gesture line</string>
+    <string name="system_ui_hide_navigation_bar_toast">Don\'t switch to button navigation</string>
+    <string name="system_ui_hide_navigation_bar_toast_2">Don\'t hide gesture lines</string>
+    <string name="system_ui_hide_navigation_bar_more">Please restart the System launcher and System UI scopes</string>
+
+    <string name="system_framework_guided_access_status">Hide status bar when the app is pinned</string>
+    <string name="system_framework_guided_access_status_more">The exit way will change to long press the power button. The status bar will hide until you exit the lock mode.</string>
+    <string name="system_framework_guided_access_sc">Lock sidebar when pinned</string>
+    <string name="system_framework_guided_access_screen">Jump to the Lock screen when unpinned</string>
+    <string name="system_framework_guided_access">Fixed apps</string>
+    <string name="system_framework_guided_access_will_lock">Long press to lock app</string>
+    <string name="system_framework_guided_access_lock">Locked app</string>
+    <string name="system_framework_guided_access_unlock">Unlocked app</string>
+    <string name="system_framework_guided_access_will_unlock">Long press to unlock app</string>
+    <string name="system_framework_guided_access_r">Restore</string>
+    <string name="system_framework_guided_access_e">Please unlock it in the locked app interface</string>
+    <string name="system_framework_guided_access_more">Guided Access similar to iOS, which pins the current app to the screen.\nTo use, press and hold the upper status bar; to exit, press and hold the upper status bar again.\nThe first time you use it, you need to restart the device.</string>
+
+    <!--System UI-->
+    <string name="quick_settings_state_change_message_on_my">%1$s is on</string>
+    <string name="quick_settings_state_change_message_off_my">%1$s is off</string>
+
+    <string name="system_control_center_reduce_bright_colors_tile">Extra dim</string>
+    <string name="system_control_center_sunshine_mode">Sunlight mode</string>
+    <string name="system_control_center_sunshine_mode_brightness">Sunlight mode brightness</string>
+    <string name="system_control_center_sunshine_mode_brightness_desc">A very high brightness can cause screen aging, screen burn-in, and other irreversible consequences. It\'s recommended to choose the brightness and use it appropriately.</string>
+
+
+
+    <!--Settings-->
+    <string name="system_settings_wifipassword_btn_title">View</string>
+    <string name="system_settings_wifi_password_label">Password</string>
+    <string name="system_settings_wifi_password_dlgtitle">Wi-Fi details</string>
+
+    <!--Mi Share-->
+    <string name="mishare">Xiaomi Share</string>
+    <string name="mishare_disable_mishare_auto_off">Disable automatic disable of Xiaomi Share</string>
+    <string name="mishare_disable_auto_on_location">Disable auto enable location when sharing document</string>
+    <string name="mishare_unlock_turbo_mode">Unlock Turbo transfer</string>
+    <string name="mishare_hook_switch_mode_all">Everyone</string>
+
+    <!--Smart cards-->
+    <string name="tsmclient">Smart cards</string>
+    <string name="tsmclient_auto_nfc">Manage NFC automatically</string>
+    <string name="tsmclient_auto_nfc_desc">NFC automatically turn on when entering the card swiping page, and automatically turn off after exit.</string>
+    <string name="tsmclient_nfc_turning_on">Turning on NFC automatically…</string>
+    <string name="tsmclient_nfc_turn_on_manually">Turn on NFC manually</string>
+    <string name="tsmclient_nfc_turn_on_failed">Failed to enable NFC automatically</string>
+
+
+    <!--Other-->
+    <string name="share_center">Xiaomi Smart Hub</string>
+    <string name="new_task">New task</string>
+    <string name="custom_hook">Custom</string>
+
+    <string name="various_install_app_info_version_name">Version name</string>
+    <string name="various_install_app_info_version_code">Version code</string>
+    <string name="various_install_app_info_sdk">Support SDK</string>
+    <string name="various_install_app_size">Size</string>
+
+    <string name="app_details_playstore">Open with Play Store</string>
+    <string name="app_details_launch">Launch</string>
+    <string name="app_details_nolaunch">App has no default launchable activity</string>
+    <string name="app_details_apk_file">APK directory</string>
+    <string name="app_details_apk_version_code">App version number</string>
+    <string name="app_details_data_path">Data directory</string>
+    <string name="app_details_app_uid">User ID</string>
+    <string name="app_details_sdk">Target SDK version</string>
+    <string name="app_details_min_sdk">Min SDK version</string>
+
+    <string name="disable_app_settings">It\'s a bad idea!</string>
+    <string name="disable_app_title">Are you sure you want to disable the app?</string>
+    <string name="disable_app_text">If this is a necessary system app, disabling it could cause damage.</string>
+    <string name="disable_app_fail">Failed to change app state</string>
+
+    <string name="system_notifrowmenu_appinfo">App info</string>
+    <string name="system_notifrowmenu_openinfw">Floating window</string>
+    <string name="system_notifrowmenu_forceclose">Force close</string>
+
+</resources>

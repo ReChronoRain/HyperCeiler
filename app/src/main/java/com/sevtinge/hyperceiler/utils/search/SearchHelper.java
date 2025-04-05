@@ -26,7 +26,7 @@ import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.text.TextUtils;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.data.ModData;
 import com.sevtinge.hyperceiler.ui.hooker.AodFragment;
 import com.sevtinge.hyperceiler.ui.hooker.CameraNewFragment;

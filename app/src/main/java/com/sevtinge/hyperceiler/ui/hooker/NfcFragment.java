@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.ui.hooker;
 
 import android.os.Bundle;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.hook.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 
@@ -30,7 +30,7 @@ public class NfcFragment extends DashboardFragment {
 
     @Override
     public int getPreferenceScreenResId() {
-        return R.xml.nfc;
+        return com.sevtinge.hyperceiler.ui.R.xml.nfc;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class NfcFragment extends DashboardFragment {
         getPreferenceScreen().addPreference(mRecommend);
 
         args1.putString(":settings:fragment_args_key", "prefs_key_tsmclient_auto_nfc");
-        args1.putInt(":settings:fragment_resId", R.xml.tsmclient);
+        args1.putInt(":settings:fragment_resId", com.sevtinge.hyperceiler.ui.R.xml.tsmclient);
         mRecommend.addRecommendView(getString(R.string.tsmclient_auto_nfc),
                 null,
                 DashboardFragment.class,

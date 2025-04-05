@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.provision.activity.ProvisionActivity;
 import com.sevtinge.hyperceiler.provision.renderengine.AIRender;
 import com.sevtinge.hyperceiler.provision.utils.AnimHelper;

@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 
 public class BatteryStyleSettings extends DashboardFragment {

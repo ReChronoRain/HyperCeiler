@@ -25,7 +25,7 @@ import android.content.Intent;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.base.sub.AppPicker;
 import com.sevtinge.hyperceiler.ui.base.sub.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;

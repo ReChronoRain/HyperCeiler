@@ -33,4 +33,86 @@
     <string name="provision_congratulation_label">体验激动人心的MIUI吧！</string>
     <string name="provision_complete_text">进入系统</string>
 
+
+
+
+    <!--Pop-up window/miuix part-->
+    <string name="miuix_appcompat_action_mode_select_all">Select all</string>
+    <string name="miuix_appcompat_cancel_description">Cancel</string>
+    <string name="miuix_appcompat_confirm_description">OK</string>
+    <string name="miuix_appcompat_select_all_description">Select all</string>
+    <string name="miuix_appcompat_deselect_all_description">Deselect all</string>
+    <string name="miuix_appcompat_delete_description">Delete</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">Cancel</string>
+    <string name="miuix_appcompat_search_input_description">Search</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">More</string>
+    <string name="miuix_appcompat_action_mode_inverse">Inverse</string>
+
+    <!--HyperCeiler Settings/About Page-->
+    <string name="tip">Tip</string>
+    <string name="root">Some features aren\'t available without Root/Su permission</string>
+    <string name="soft_reboot">Reboot </string>
+    <string name="restart_app_desc">Are you sure you want to restart now %1$s?</string>
+
+    <string name="hyperceiler_restart_quick">Quickly restart apps</string>
+    <string name="hook_failed">The module isn\'t activated yet. Please check if LSPosed is enabled. If so, please restart or re-optimize the module.</string>
+    <string name="kill_failed">Failed to end process. Please check if HyperCeiler has been granted Root/Su permissions.</string>
+    <string name="start_failed">Failed to start activity. Please check if HyperCeiler has been granted Root/Su permissions.</string>
+    <string name="pid_failed">The target app isn\'t running and doesn\'t need to be restarted.</string>
+    <string name="reboot_failed">Reboot failed. Please check if HyperCeiler has been granted Root/Su permission.</string>
+
+    <!--HyperCeiler Tips-->
+    <string name="error">Error</string>
+    <string name="warn">Attention</string>
+    <string name="app_error_desc">This module has encountered a critical failure and cannot continue to run! Please provide the following error information for feedback! \n\n</string>
+    <string name="app_exit">OK</string>
+    <string name="safe_mode_desc">%1$s has entered Safe mode due to multiple crashes, and HyperCeiler features has been temporarily disabled.</string>
+    <string name="safe_mode_history">View exception records</string>
+    <string name="safe_mode_cancel">Disable Safe mode</string>
+    <string name="safe_mode_ok">Cancel</string>
+    <string name="safe_mode_later_title">Tip</string>
+    <string name="safe_mode_later_desc">%1$s is still in Safe mode and HyperCeiler features has been disabled. Disable Safe mode?</string>
+    <string name="safe_mode_recorder_title">Exception records</string>
+    <string name="safe_mode_recorder_file">File</string>
+    <string name="safe_mode_recorder_class">Class</string>
+    <string name="safe_mode_recorder_method">Method</string>
+    <string name="safe_mode_recorder_line">Line</string>
+    <string name="safe_mode_recorder_msg">Exception message</string>
+    <string name="safe_mode_recorder_st">Stack trace</string>
+    <string name="notification_channel_app_crash_name">The app is running abnormally</string>
+    <string name="notification_title_message_emergency_crash">%s has crashed multiple times</string>
+    <string name="notification_content_message">Click to view details</string>
+    <string name="notification_view">View</string>
+    <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there\'s a problem with HyperCeiler. Please report it to the developer in a timely and effective manner.</string>
+    <string name="headtip_warn_not_offical_rom">The source of the ROM you\'re using may not be an official Xiaomi ROM, and some features may not work. Please contact your supplier for more details.</string>
+    <string name="headtip_warn_unsupport_sysver">The current device is running on a system version that isn\'t (fully) adapted, which may result in anomalies in the HyperCeiler functionality.</string>
+    <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you\'re using may not be from the official version of HyperCeiler, and may contain malicious code.</string>
+    <string name="headtip_tip_auto_safe_mode">Safe mode can unhook some apps in time when they crash multiple times to ensure security. This feature requires the System Framework hook scope to run. We strongly recommend checking the System Framework scope to turn on Safe mode.</string>
+    <string name="headtip_tip_long_press_to_copy">You can select text after long or double press, or copy it and send it back to the developer.</string>
+    <string name="happy_birthday_hyperceiler">Today is HyperCeiler\'s birthday!\nThank you for your support over the past year, and let\'s continue to work together this year!</string>
+    <string name="headtip_tip_fuck_coolapk">Today in history: Sevtinge delivered an important speech on July 14, 2022.</string>
+    <string name="headtip_notice_dead_logger_errcode">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.\nError code: %1$s</string>
+    <string name="headtip_notice_dead_logger">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.</string>
+
+
+    <!--System UI-->
+    <string name="system_ui">System UI</string>
+
+    <!--System launcher-->
+    <string name="mihome">System launcher</string>
+
+    <!--Settings-->
+    <string name="system_settings">Settings</string>
+
+    <!--Security/Tablet security center-->
+    <string name="security_center_hyperos">Security</string>
+
+    <!--Other-->
+    <string name="demo" translatable="false">Demo</string>
+    <string name="exit">Exit</string>
+    <string name="ignore">Ignore</string>
+    <string name="log_level">Log level</string>
+    <string name="log_level_none">Disabled</string>
+    <string name="disable_suggest">Disable suggest</string>
+    <string name="enable_suggest">Enable suggest</string>
 </resources>

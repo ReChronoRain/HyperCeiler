@@ -2,7 +2,7 @@ package com.sevtinge.hyperceiler.provision.activity;
 
 import androidx.fragment.app.Fragment;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.provision.fragment.BasicSettingsFragment;
 
 public class BasicSettingsActivity extends BaseActivity {

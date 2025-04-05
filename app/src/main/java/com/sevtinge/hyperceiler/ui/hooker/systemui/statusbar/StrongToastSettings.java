@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar;
 
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.api.miuiStringToast.MiuiStringToast;
 

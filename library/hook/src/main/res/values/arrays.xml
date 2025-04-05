@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="xposed_scope">
+        <item>android</item> <!--系统框架-->
+        <item>com.android.browser</item> <!--浏览器-->
+        <item>com.android.calendar</item> <!--日历-->
+        <item>com.android.camera</item> <!--相机-->
+        <item>com.android.externalstorage</item> <!--外部存储设备-->
+        <item>com.android.fileexplorer</item> <!--文件管理-->
+        <item>com.android.htmlviewer</item> <!--HTML 查看器-->
+        <item>com.android.incallui</item> <!--电话-->
+        <item>com.android.mms</item> <!--短信-->
+        <item>com.android.nfc</item> <!--NFC 服务-->
+        <item>com.android.phone</item> <!--电话服务-->
+        <item>com.android.providers.downloads</item> <!--下载管理程序-->
+        <item>com.android.providers.downloads.ui</item> <!--下载管理-->
+        <item>com.android.server.telecom</item> <!--通话管理-->
+        <item>com.android.settings</item> <!--设置-->
+        <item>com.android.soundrecorder</item> <!--录音机-->
+        <item>com.android.systemui</item> <!--系统界面-->
+        <item>com.android.thememanager</item> <!--主题壁纸-->
+        <item>com.android.updater</item> <!--系统更新-->
+        <item>com.duokan.phone.remotecontroller</item> <!--万能遥控-->
+        <item>com.lbe.security.miui</item> <!--权限管理服务-->
+        <item>com.milink.service</item> <!--互联互通服务-->
+        <item>com.miui.analytics</item> <!--Analytics-->
+        <item>com.miui.aod</item> <!--息屏与锁屏编辑-->
+        <item>com.miui.backup</item> <!--备份-->
+        <!--<item>com.miui.cleanmaster</item>--> <!--垃圾清理-->
+        <item>com.miui.cloudservice</item> <!--小米云服务-->
+        <item>com.miui.contentextension</item> <!--传送门-->
+        <item>com.miui.creation</item> <!--小米创作-->
+        <item>com.miui.euicc</item> <!--LPA-->
+        <item>com.miui.gallery</item> <!--相册-->
+        <item>com.miui.guardprovider</item> <!--系统安全组件-->
+        <item>com.miui.home</item> <!--系统桌面-->
+        <item>com.miui.huanji</item> <!--小米换机-->
+        <item>com.miui.mediaeditor</item> <!--小米相册-编辑-->
+        <item>com.miui.mishare.connectivity</item> <!--小米互传-->
+        <item>com.miui.misound</item> <!--音质音效-->
+        <item>com.miui.miwallpaper</item> <!--壁纸-->
+        <item>com.miui.notes</item> <!--笔记-->
+        <item>com.miui.packageinstaller</item> <!--应用包管理组件-->
+        <item>com.miui.personalassistant</item> <!--智能助理-->
+        <item>com.miui.powerkeeper</item> <!--电量与性能-->
+        <item>com.miui.screenrecorder</item> <!--屏幕录制-->
+        <item>com.miui.screenshot</item> <!--截屏-->
+        <item>com.miui.securityadd</item> <!--系统服务组件-->
+        <item>com.miui.securitycenter</item> <!--手机管家-->
+        <item>com.miui.tsmclient</item> <!--小米智能卡-->
+        <item>com.miui.voiceassist</item> <!--超级小爱-->
+        <item>com.miui.weather2</item> <!--天气-->
+        <item>com.xiaomi.aiasst.vision</item> <!--小爱翻译-->
+        <item>com.xiaomi.barrage</item> <!--弹幕通知-->
+        <item>com.xiaomi.joyose</item> <!--Joyose-->
+        <item>com.xiaomi.market</item> <!--应用商店-->
+        <!--<item>com.xiaomi.mirror</item>--> <!--MIUI+-->
+        <item>com.xiaomi.misettings</item> <!--小米设置-->
+        <item>com.xiaomi.mtb</item> <!--鲁班 (MTB)-->
+        <item>com.xiaomi.scanner</item> <!--小爱视觉-->
+        <item>com.xiaomi.trustservice</item> <!--MiTrustService-->
+        <item>com.xiaomi.vipaccount</item> <!--小米社区-->
+        <item>com.iflytek.inputmethod.miui</item> <!--讯飞输入法小米版-->
+        <item>com.sohu.inputmethod.sogou.xiaomi</item> <!--搜狗输入法小米版-->
+        <item>com.miui.voicetrigger</item> <!--语音唤醒-->
+        <item>com.xiaomi.simactivate.service</item> <!--sim卡激活服务-->
+        <item>miui.systemui.plugin</item> <!--系统界面组件-->
+        <!--<item>com.hchen.demo</item>--> <!--Demo-->
+    </string-array>
+
+    <array name="miui_freeform_black_list">
+        <item>ab.cd.xyz</item>
+    </array>
+
+    <string-array name="miui_core_app_package_name">
+        <item>com.lbe.security.miui</item>
+        <item>com.miui.packageinstaller</item>
+    </string-array>
+
+    <array name="miui_volume_timer_segments">
+        <item>@null</item>
+        <item>1800</item>
+        <item>3600</item>
+        <item>7200</item>
+        <item>10800</item>
+        <item>14400</item>
+        <item>18000</item>
+        <item>21600</item>
+        <item>28800</item>
+        <item>36000</item>
+        <item>43200</item>
+    </array>
+
+    <string-array name="hook_system_settings_vpn_types">
+        <item>PPTP</item>
+        <item>L2TP/IPSec PSK</item>
+        <item>L2TP/IPSec RSA</item>
+        <item>IPSec Xauth PSK</item>
+        <item>IPSec Xauth RSA</item>
+        <item>IPSec Hybrid RSA</item>
+        <item>IKEv2/IPSec MSCHAPv2</item>
+        <item>IKEv2/IPSec PSK</item>
+        <item>IKEv2/IPSec RSA</item>
+    </string-array>
+</resources>

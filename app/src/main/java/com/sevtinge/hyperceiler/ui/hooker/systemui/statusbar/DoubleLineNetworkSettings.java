@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar;
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 
 import fan.preference.DropDownPreference;

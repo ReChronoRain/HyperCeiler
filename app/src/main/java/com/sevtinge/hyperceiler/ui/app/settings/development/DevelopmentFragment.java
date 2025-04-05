@@ -29,7 +29,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.ui.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.DialogHelper;

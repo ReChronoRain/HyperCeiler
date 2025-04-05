@@ -24,7 +24,7 @@ import android.os.Build;
 
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 
 public class ApplicationsSettings extends DashboardFragment {

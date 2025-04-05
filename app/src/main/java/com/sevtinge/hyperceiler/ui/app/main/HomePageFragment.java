@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.BuildConfig;
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.callback.ModSearchCallback;
 import com.sevtinge.hyperceiler.data.ModData;
 import com.sevtinge.hyperceiler.data.adapter.ModSearchAdapter;

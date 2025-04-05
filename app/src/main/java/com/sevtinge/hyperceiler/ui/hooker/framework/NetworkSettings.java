@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.ui.hooker.framework;
 
 import android.os.Bundle;
 
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.hooker.PhoneFragment;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;

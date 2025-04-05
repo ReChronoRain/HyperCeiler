@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="navigation_divider">#1A000000</color>
+    <color name="navigation_icon_dark">#FF000000</color>
+    <color name="navigation_icon_light">#FFFFFFFF</color>
+    <color name="transparent_background">#50000000</color>
+
+    <color name="miuix_blurdrawable_view_fg_dark">#80000000</color>
+    <color name="miuix_blurdrawable_view_fg_light">#ccffffff</color>
+
+    <color name="light_mode_icon_color_single_tone">#e6ffffff</color>
+    <color name="light_mode_icon_transparent_color_single_tone">#5cffffff</color>
+    <color name="dark_mode_icon_color_single_tone">#bf000000</color>
+    <color name="dark_mode_icon_transparent_color_single_tone">#4c000000</color>
+
+    <color name="color_on_surface_variant">#FAFCFCFC</color>
+    <color name="ic_launcher_background">#FC5B8D</color>
+
+    <color name="preference_recommend_region_color">@color/miuix_color_white_solid_100</color>
+    <color name="preference_recommend_title_color">#66000000</color>
+
+    <color name="preference_recommend_item_link">#ff0d84ff</color>
+    <color name="preference_recommend_item_link_pressed">#990d84ff</color>
+
+    <color name="card_tile_disabled_color_legacy">#9E9E9E</color>
+
+
+    <color name="logo_color1">#cc4a4a4a</color>
+    <color name="logo_color2">#4f4f4f</color>
+    <color name="logo_color3">#1af200</color>
+
+    <color name="logo_overlay_shade_color">#55000000</color>
+    <color name="logo_overlay_color">#FF000000</color>
+
+    <color name="my_card_bg_color">#99ffffff</color>
+    <color name="my_card_shadow_color">#40000000</color>
+
+    <color name="update_text_border1">#29ffffff</color>
+    <color name="update_text_border2">#ccffffff</color>
+
+</resources>

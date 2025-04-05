@@ -30,7 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.BuildConfig;
-import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.controller.LogoAnimationController;
 import com.sevtinge.hyperceiler.utils.SettingsFeatures;
 import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
