@@ -27,15 +27,15 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.data.AppData;
+import com.sevtinge.hyperceiler.ui.common.model.data.AppData;
 import com.sevtinge.hyperceiler.ui.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.ContextUtils;
-import com.sevtinge.hyperceiler.utils.KillApp;
-import com.sevtinge.hyperceiler.utils.PackagesUtils;
-import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
-import com.sevtinge.hyperceiler.utils.ToastHelper;
-import com.sevtinge.hyperceiler.utils.shell.ShellExec;
-import com.sevtinge.hyperceiler.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.hook.utils.ContextUtils;
+import com.sevtinge.hyperceiler.hook.utils.KillApp;
+import com.sevtinge.hyperceiler.ui.common.utils.PackagesUtils;
+import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
+import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
+import com.sevtinge.hyperceiler.hook.utils.shell.ShellExec;
+import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 
 import java.util.ArrayList;
 import java.util.List;

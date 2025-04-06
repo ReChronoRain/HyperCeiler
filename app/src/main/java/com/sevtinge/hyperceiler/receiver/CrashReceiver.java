@@ -26,8 +26,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.safe.CrashActivity;
-import com.sevtinge.hyperceiler.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.ui.safe.CrashActivity;
+import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 
 public class CrashReceiver extends BroadcastReceiver {
 

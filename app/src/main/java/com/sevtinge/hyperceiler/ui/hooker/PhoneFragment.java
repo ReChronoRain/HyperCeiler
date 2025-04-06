@@ -22,7 +22,7 @@ import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 
 public class PhoneFragment extends DashboardFragment {
     Preference mPhone;

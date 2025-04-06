@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker.securitycenter;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.os.Build;
 

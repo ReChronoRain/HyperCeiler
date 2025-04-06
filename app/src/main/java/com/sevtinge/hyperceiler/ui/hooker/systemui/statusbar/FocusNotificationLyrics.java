@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import androidx.preference.SwitchPreference;
 

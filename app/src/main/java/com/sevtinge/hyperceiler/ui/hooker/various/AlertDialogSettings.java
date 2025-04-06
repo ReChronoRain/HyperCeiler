@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.ui.hooker.various;
 
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;

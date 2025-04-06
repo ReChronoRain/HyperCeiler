@@ -19,7 +19,7 @@
 
 package com.sevtinge.hyperceiler.ui.app.helper;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isFullSupport;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isFullSupport;
 
 import androidx.preference.Preference;
 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+
+        <activity
+            android:name=".safe.CrashActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.HyperCeiler.Translucent.NoActionBar"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.Crash" />
+                <category android:name="android.intent.category.CrashDailog" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:theme="@style/ProvisionTheme"
+            android:name="com.sevtinge.hyperceiler.provision.activity.ProvisionActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:theme="@style/ProvisionTheme"
+            android:name="com.sevtinge.hyperceiler.provision.activity.PermissionSettingsActivity"
+            android:exported="true"/>
+
+        <activity
+            android:theme="@style/ProvisionTheme"
+            android:name="com.sevtinge.hyperceiler.provision.activity.TermsAndStatementActivity"
+            android:exported="true"/>
+
+        <activity
+            android:theme="@style/ProvisionTheme"
+            android:name="com.sevtinge.hyperceiler.provision.activity.BasicSettingsActivity"
+            android:exported="true"/>
+
+        <activity
+            android:theme="@style/ProvisionTheme"
+            android:name="com.sevtinge.hyperceiler.provision.activity.CongratulationActivity"
+            android:exported="true"/>
+
+        <service android:name="com.sevtinge.hyperceiler.provision.service.ProvisionAnimService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action
+                    android:name="fan.intent.action.OOBSERVICE" />
+                <category
+                    android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>

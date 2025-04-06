@@ -28,8 +28,8 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
+import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import fan.appcompat.app.AppCompatActivity;
 

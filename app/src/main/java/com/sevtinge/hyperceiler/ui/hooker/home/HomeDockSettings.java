@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker.home;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
@@ -26,7 +26,7 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import fan.preference.ColorPickerPreference;
 import fan.preference.DropDownPreference;

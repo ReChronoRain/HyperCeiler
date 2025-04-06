@@ -16,8 +16,8 @@ import androidx.preference.PreferenceScreen;
 
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.DialogHelper;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.ui.common.utils.DialogHelper;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 

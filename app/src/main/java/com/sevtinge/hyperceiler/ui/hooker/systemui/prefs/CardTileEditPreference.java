@@ -34,7 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.data.adapter.CardTileAdapter;
 import com.sevtinge.hyperceiler.data.adapter.CardTileAddAdapter;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

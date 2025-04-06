@@ -19,39 +19,40 @@
 package com.sevtinge.hyperceiler.ui.app.settings.development;
 
 import static com.sevtinge.hyperceiler.utils.XposedActivateHelper.isModuleActive;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getBoard;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getBrand;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getCharacteristics;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getDeviceName;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getDeviceToken;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getFingerPrint;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLanguage;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLocale;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getManufacturer;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getMarketName;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getModDevice;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getModelName;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSoc;
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isInternational;
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isLargeUI;
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBuildDate;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getCurrentUserId;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getWhoAmI;
-import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.utils.log.LogManager.LOGGER_CHECKER_ERR_CODE;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getBoard;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getBrand;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getCharacteristics;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getDeviceName;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getDeviceToken;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getFingerPrint;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getLanguage;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getLocale;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getManufacturer;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getMarketName;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getModDevice;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getModelName;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getSoc;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isInternational;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isLargeUI;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getAndroidVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getBuildDate;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getCurrentUserId;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getWhoAmI;
+import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
+import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.LOGGER_CHECKER_ERR_CODE;
 
 import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt;
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.ui.app.main.utils.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.api.ProjectApi;
+import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -121,8 +122,8 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesSystem.put("InternationalBuild", String.valueOf(isInternational()));
             // propertiesSystem.put("Builder", getBuilder());
             // propertiesSystem.put("RomAuthor", getRomAuthor());
-            propertiesSystem.put("BaseOs", com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs());
-            propertiesSystem.put("Host", com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHost());
+            propertiesSystem.put("BaseOs", SystemSDKKt.getBaseOs());
+            propertiesSystem.put("Host", SystemSDKKt.getHost());
             propertiesSystem.put("BuildDate", getBuildDate());
         } catch (Exception ignored) {
         }

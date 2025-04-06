@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.prefs;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLanguage;
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getLanguage;
+import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
 
 import android.content.Context;
 import android.content.res.AssetManager;

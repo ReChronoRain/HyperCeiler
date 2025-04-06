@@ -1,0 +1,95 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2025 HyperCeiler Contributions
+*/
+package com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen
+
+import android.app.KeyguardManager
+import android.content.Context
+import android.os.SystemClock
+import android.view.MotionEvent
+import android.view.View
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import de.robv.android.xposed.XposedHelpers
+import de.robv.android.xposed.XposedHelpers.getAdditionalInstanceField
+import de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField
+import kotlin.math.abs
+
+object LockScreenDoubleTapToSleep : BaseHook() {
+    private val className by lazy {
+        loadClass("com.android.systemui.shade.NotificationsQuickSettingsContainer")
+    }
+
+    override fun init() {
+        className.methodFinder()
+            .filterByName("onFinishInflate")
+            .single().createHook {
+                before {
+                    val view = it.thisObject as View
+                    setAdditionalInstanceField(view, "currentTouchTime", 0L)
+                    setAdditionalInstanceField(view, "currentTouchX", 0f)
+                    setAdditionalInstanceField(view, "currentTouchY", 0f)
+                    view.setOnTouchListener(View.OnTouchListener { v, event ->
+                        if (event.action != MotionEvent.ACTION_DOWN) return@OnTouchListener false
+
+                        var currentTouchTime =
+                            getAdditionalInstanceField(view, "currentTouchTime") as Long
+                        var currentTouchX =
+                            getAdditionalInstanceField(view, "currentTouchX") as Float
+                        var currentTouchY =
+                            getAdditionalInstanceField(view, "currentTouchY") as Float
+                        val lastTouchTime = currentTouchTime
+                        val lastTouchX = currentTouchX
+                        val lastTouchY = currentTouchY
+
+                        currentTouchTime = System.currentTimeMillis()
+                        currentTouchX = event.x
+                        currentTouchY = event.y
+
+                        if (currentTouchTime - lastTouchTime < 250L
+                            && abs(currentTouchX - lastTouchX) < 100f
+                            && abs(currentTouchY - lastTouchY) < 100f
+                        ) {
+                            val keyguardMgr =
+                                v.context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+
+                            if (keyguardMgr.isKeyguardLocked) {
+                                XposedHelpers.callMethod(
+                                    v.context.getSystemService(Context.POWER_SERVICE),
+                                    "goToSleep",
+                                    SystemClock.uptimeMillis()
+                                )
+                            }
+                            currentTouchTime = 0L
+                            currentTouchX = 0f
+                            currentTouchY = 0f
+                        }
+
+                        setAdditionalInstanceField(view, "currentTouchTime", currentTouchTime)
+                        setAdditionalInstanceField(view, "currentTouchX", currentTouchX)
+                        setAdditionalInstanceField(view, "currentTouchY", currentTouchY)
+                        v.performClick()
+                        false
+                    })
+                }
+            }
+    }
+
+}

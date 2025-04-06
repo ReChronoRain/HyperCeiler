@@ -27,7 +27,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 
 import com.sevtinge.hyperceiler.utils.SettingsHelper;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import fan.preference.PreferenceFragment;
 

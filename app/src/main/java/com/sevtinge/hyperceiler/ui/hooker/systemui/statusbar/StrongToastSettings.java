@@ -22,7 +22,7 @@ import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.utils.api.miuiStringToast.MiuiStringToast;
+import com.sevtinge.hyperceiler.hook.utils.api.miuiStringToast.MiuiStringToast;
 
 public class StrongToastSettings extends DashboardFragment {
     Preference mShortToast;

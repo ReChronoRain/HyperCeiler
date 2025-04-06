@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.ui.app.settings;
 
 import static com.sevtinge.hyperceiler.ui.app.main.HomePageFragment.ANDROID_NS;
-import static com.sevtinge.hyperceiler.utils.PropUtils.getProp;
+import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
 
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -33,8 +33,8 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

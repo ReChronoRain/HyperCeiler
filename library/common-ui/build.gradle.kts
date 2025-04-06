@@ -2,6 +2,11 @@ plugins {
     alias(libs.plugins.android.library)
 }
 
+val srcDir = arrayOf (
+    "safe",
+    "provision"
+)
+
 android {
     namespace = "com.sevtinge.hyperceiler.ui"
     compileSdk = 36
@@ -10,34 +15,21 @@ android {
         minSdk = 34
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-        create("beta") {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-        create("canary") {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-        debug {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+    buildTypes.configureEach {
+        consumerProguardFiles(libs.versions.proguard.rules.get())
+    }
+
+    sourceSets {
+        getByName("main") {
+            //java.srcDir("java")
+            java.srcDirs("java/main/src")
+            res.srcDirs("java/main/res")
+            manifest.srcFile("java/AndroidManifest.xml")
+
+            srcDir.forEach {
+                java.srcDirs("java/$it/src")
+                res.srcDirs("java/$it/res")
+            }
         }
     }
 }

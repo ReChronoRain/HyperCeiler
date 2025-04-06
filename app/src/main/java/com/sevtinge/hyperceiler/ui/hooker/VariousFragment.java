@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.ui.hooker;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.os.Handler;
 
@@ -30,9 +30,9 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.KillApp;
-import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.hook.utils.KillApp;
+import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
+import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import fan.preference.DropDownPreference;
 

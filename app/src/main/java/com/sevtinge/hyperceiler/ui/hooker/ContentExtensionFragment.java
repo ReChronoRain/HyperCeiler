@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import androidx.preference.SwitchPreference;
 

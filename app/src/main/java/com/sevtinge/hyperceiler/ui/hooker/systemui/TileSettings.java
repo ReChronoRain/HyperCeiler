@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.ui.hooker.systemui;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getWhoAmI;
-import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getWhoAmI;
+import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -12,10 +12,10 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.utils.KillApp;
-import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
-import com.sevtinge.hyperceiler.utils.devicesdk.TelephonyManager;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.hook.utils.KillApp;
+import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.TelephonyManager;
+import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;

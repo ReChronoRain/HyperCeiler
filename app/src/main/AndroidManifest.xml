@@ -92,20 +92,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".safe.CrashActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:finishOnTaskLaunch="true"
-            android:launchMode="singleTask"
-            android:theme="@style/Theme.HyperCeiler.Translucent.NoActionBar"
-            android:excludeFromRecents="true">
-            <intent-filter>
-                <action android:name="android.intent.action.Crash" />
-                <category android:name="android.intent.category.CrashDailog" />
-            </intent-filter>
-        </activity>
-
         <activity-alias
             android:name=".ui.LauncherActivity"
             android:exported="true"
@@ -132,14 +118,6 @@
             android:name=".ui.base.sub.SubPickerActivity"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
-        <provider
-            android:name=".provider.SharedPrefsProvider"
-            android:authorities="com.sevtinge.hyperceiler.provider.sharedprefs"
-            android:defaultToDeviceProtectedStorage="true"
-            android:directBootAware="true"
-            android:exported="true"
-            android:grantUriPermissions="true" />
-
         <property
             android:name="miui.blurRelaunch"
             android:value="true" />
@@ -147,28 +125,14 @@
         <meta-data
             android:name="required_permissions"
             android:value=";" />
-        <meta-data
-            android:name="xposedmodule"
-            android:value="true" />
-        <meta-data
-            android:name="xposedminversion"
-            android:value="93" />
-        <meta-data
-            android:name="xposeddescription"
-            android:value="@string/xposed_description" />
-        <meta-data
-            android:name="xposedsharedprefs"
-            android:value="true" />
-        <meta-data
-            android:name="xposedscope"
-            android:resource="@array/xposed_scope" />
+
 
         <meta-data
             android:name="miui_keyguard_shortcuts"
             android:resource="@xml/miui_keyguard_shortcuts" />
 
         <service
-            android:name="com.sevtinge.hyperceiler.safe.CrashService"
+            android:name="com.sevtinge.hyperceiler.ui.safe.CrashService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
