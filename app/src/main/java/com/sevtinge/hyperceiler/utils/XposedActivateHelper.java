@@ -2,6 +2,8 @@ package com.sevtinge.hyperceiler.utils;
 
 import android.content.Context;
 
+import com.sevtinge.hyperceiler.ui.common.utils.DialogHelper;
+
 public class XposedActivateHelper {
 
     public static boolean isModuleActive = false;

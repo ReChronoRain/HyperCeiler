@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.ui.hooker.systemui;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
@@ -30,9 +30,9 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.utils.ToastHelper;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
-import com.sevtinge.hyperceiler.utils.shell.ShellPackageManager;
+import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
+import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.hook.utils.shell.ShellPackageManager;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;

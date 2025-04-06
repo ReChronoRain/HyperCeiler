@@ -39,11 +39,11 @@ import androidx.fragment.app.Fragment;
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.callback.IAppSelectCallback;
 import com.sevtinge.hyperceiler.callback.IEditCallback;
-import com.sevtinge.hyperceiler.data.AppData;
+import com.sevtinge.hyperceiler.ui.common.model.data.AppData;
 import com.sevtinge.hyperceiler.data.adapter.AppDataAdapter;
-import com.sevtinge.hyperceiler.utils.BitmapUtils;
-import com.sevtinge.hyperceiler.utils.PackagesUtils;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.hook.utils.BitmapUtils;
+import com.sevtinge.hyperceiler.ui.common.utils.PackagesUtils;
+import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import java.text.Collator;
 import java.util.ArrayList;

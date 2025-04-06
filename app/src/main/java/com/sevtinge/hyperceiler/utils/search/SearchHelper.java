@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.utils.search;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -82,7 +82,7 @@ import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.NetworkSpeedIndicat
 import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.NewClockIndicatorSettings;
 import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.StrongToastSettings;
 import com.sevtinge.hyperceiler.ui.hooker.various.AOSPSettings;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 

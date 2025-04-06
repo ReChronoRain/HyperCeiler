@@ -19,11 +19,11 @@
 package com.sevtinge.hyperceiler.prefs;
 
 import static com.sevtinge.hyperceiler.BuildConfig.APPLICATION_ID;
-import static com.sevtinge.hyperceiler.utils.SQLiteDatabaseHelper.isDatabaseLocked;
-import static com.sevtinge.hyperceiler.utils.SQLiteDatabaseHelper.queryList;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getCurrentUserId;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getWhoAmI;
-import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.rootExecCmd;
+import static com.sevtinge.hyperceiler.hook.utils.SQLiteDatabaseHelper.isDatabaseLocked;
+import static com.sevtinge.hyperceiler.hook.utils.SQLiteDatabaseHelper.queryList;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getCurrentUserId;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getWhoAmI;
+import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -35,8 +35,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.utils.PackagesUtils;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.ui.common.utils.PackagesUtils;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 
 import java.util.ArrayList;
 import java.util.List;

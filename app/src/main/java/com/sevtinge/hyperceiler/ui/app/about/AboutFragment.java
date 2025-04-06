@@ -18,9 +18,9 @@
 */
 package com.sevtinge.hyperceiler.ui.app.about;
 
-import static com.sevtinge.hyperceiler.utils.PropUtils.getProp;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getDeviceToken;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
+import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getDeviceToken;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 
 import android.os.Bundle;
 import android.os.Handler;

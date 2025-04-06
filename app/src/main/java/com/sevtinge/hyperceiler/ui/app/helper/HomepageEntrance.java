@@ -32,9 +32,9 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.utils.PackagesUtils;
-import com.sevtinge.hyperceiler.utils.ToastHelper;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.ui.common.utils.PackagesUtils;
+import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker.systemui;
 
-import static com.sevtinge.hyperceiler.utils.api.OldFunApisKt.isDeviceEncrypted;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.hook.utils.api.OldFunApisKt.isDeviceEncrypted;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import androidx.preference.SwitchPreference;
 

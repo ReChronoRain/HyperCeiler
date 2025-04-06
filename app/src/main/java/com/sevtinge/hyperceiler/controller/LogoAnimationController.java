@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.utils.SettingsFeatures;
-import com.sevtinge.hyperceiler.utils.devicesdk.DisplayUtils;
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils;
 
 import fan.cardview.HyperCardView;
 

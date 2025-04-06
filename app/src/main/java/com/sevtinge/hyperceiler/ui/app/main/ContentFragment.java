@@ -15,7 +15,7 @@ import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.data.adapter.DynamicFragmentPagerAdapter;
 import com.sevtinge.hyperceiler.data.model.TabViewModel;
 import com.sevtinge.hyperceiler.ui.app.main.widget.DraggableViewPager;
-import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.ui.common.utils.DialogHelper;
 
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;

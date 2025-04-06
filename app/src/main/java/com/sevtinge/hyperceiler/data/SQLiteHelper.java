@@ -26,7 +26,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.utils.ToastHelper;
+import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
 
 import java.io.File;
 

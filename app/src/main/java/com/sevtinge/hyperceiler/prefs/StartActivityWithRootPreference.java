@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.prefs;
 
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
-import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.checkRootPermission;
+import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
+import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
 
 import android.content.Context;
 import android.util.AttributeSet;

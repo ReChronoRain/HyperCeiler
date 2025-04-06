@@ -31,8 +31,8 @@ import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.ui.base.sub.AppPicker;
 import com.sevtinge.hyperceiler.ui.base.sub.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.utils.KillApp;
-import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
+import com.sevtinge.hyperceiler.hook.utils.KillApp;
+import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 
 import java.util.concurrent.ExecutorService;
 

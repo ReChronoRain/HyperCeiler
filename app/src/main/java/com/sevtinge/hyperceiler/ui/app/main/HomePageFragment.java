@@ -1,10 +1,10 @@
 package com.sevtinge.hyperceiler.ui.app.main;
 
 import static com.sevtinge.hyperceiler.prefs.PreferenceHeader.notInSelectedScope;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isFullSupport;
-import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getBaseOs;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getRomAuthor;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isFullSupport;
+import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
 
 import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt;
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.callback.ModSearchCallback;
 import com.sevtinge.hyperceiler.data.ModData;
@@ -36,8 +37,7 @@ import com.sevtinge.hyperceiler.ui.app.main.utils.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.base.SubSettings;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
-import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

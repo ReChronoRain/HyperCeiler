@@ -1,12 +1,12 @@
 package com.sevtinge.hyperceiler.ui.app.main;
 
-import static com.sevtinge.hyperceiler.safe.CrashHandlerDialog.CrashHandlerBroadcastReceiver.CRASH_HANDLER;
+import static com.sevtinge.hyperceiler.ui.safe.CrashHandlerDialog.CrashHandlerBroadcastReceiver.CRASH_HANDLER;
 import static com.sevtinge.hyperceiler.ui.app.main.utils.PersistConfig.isLunarNewYearThemeView;
 import static com.sevtinge.hyperceiler.ui.app.main.utils.PersistConfig.isNeedGrayView;
 import static com.sevtinge.hyperceiler.utils.XposedActivateHelper.isModuleActive;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.isTablet;
-import static com.sevtinge.hyperceiler.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.utils.log.LogManager.isLoggerAlive;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isTablet;
+import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
+import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.isLoggerAlive;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -29,26 +29,25 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.callback.IResult;
-import com.sevtinge.hyperceiler.module.base.tool.AppsTool;
+import com.sevtinge.hyperceiler.hook.callback.IResult;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.prefs.XmlPreference;
-import com.sevtinge.hyperceiler.safe.CrashHandlerDialog;
+import com.sevtinge.hyperceiler.ui.safe.CrashHandlerDialog;
 import com.sevtinge.hyperceiler.ui.app.holiday.HolidayHelper;
 import com.sevtinge.hyperceiler.ui.app.main.utils.LanguageHelper;
-import com.sevtinge.hyperceiler.safe.CrashData;
+import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.ui.base.NaviBaseActivity;
 import com.sevtinge.hyperceiler.ui.base.SubSettings;
-import com.sevtinge.hyperceiler.utils.BackupUtils;
-import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
+import com.sevtinge.hyperceiler.ui.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.PermissionUtils;
-import com.sevtinge.hyperceiler.utils.PropUtils;
-import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
+import com.sevtinge.hyperceiler.hook.utils.PropUtils;
+import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
-import com.sevtinge.hyperceiler.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
+import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.search.SearchHelper;
-import com.sevtinge.hyperceiler.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -23,7 +23,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 
 import java.util.Locale;
 

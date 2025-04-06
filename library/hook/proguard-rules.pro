@@ -20,19 +20,19 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.sevtinge.hyperceiler.XposedInit
--keep class com.sevtinge.hyperceiler.module.skip.SystemFrameworkForCorePatch
+-keep class com.sevtinge.hyperceiler.hook.XposedInit
+-keep class com.sevtinge.hyperceiler.hook.module.skip.SystemFrameworkForCorePatch
 
--keep class com.sevtinge.hyperceiler.module.base.**{ *; }
+-keep class com.sevtinge.hyperceiler.hook.module.base.**{ *; }
 
--keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook { <init>(); }
+-keep class * extends com.sevtinge.hyperceiler.hook.module.base.BaseHook { <init>(); }
 
--keep class com.sevtinge.hyperceiler.module.base.dexkit.**{ *; }
--keep class * extends com.sevtinge.hyperceiler.module.base.BaseModule
--keep class com.sevtinge.hyperceiler.module.base.BaseModule { *; }
+-keep class com.sevtinge.hyperceiler.hook.module.base.dexkit.**{ *; }
+-keep class * extends com.sevtinge.hyperceiler.hook.module.base.BaseModule
+-keep class com.sevtinge.hyperceiler.hook.module.base.BaseModule { *; }
 
--keep class com.sevtinge.hyperceiler.utils.blur.*
--keep class com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.** { *; }
--keep class com.sevtinge.hyperceiler.utils.ContentModel {*;}
--keep class com.sevtinge.hyperceiler.utils.FileHelper {*;}
+-keep class com.sevtinge.hyperceiler.hook.utils.blur.*
+-keep class com.sevtinge.hyperceiler.hook.utils.api.miuiStringToast.res.** { *; }
+-keep class com.sevtinge.hyperceiler.hook.utils.ContentModel {*;}
+-keep class com.sevtinge.hyperceiler.hook.utils.FileHelper {*;}
 -allowaccessmodification

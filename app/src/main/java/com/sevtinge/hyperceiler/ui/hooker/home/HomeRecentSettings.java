@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker.home;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.content.Intent;
 
