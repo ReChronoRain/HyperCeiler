@@ -2,7 +2,7 @@ package com.sevtinge.hyperceiler.utils;
 
 import android.content.Context;
 
-import com.sevtinge.hyperceiler.ui.common.utils.DialogHelper;
+import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 
 public class XposedActivateHelper {
 

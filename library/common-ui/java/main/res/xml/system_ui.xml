@@ -19,23 +19,23 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory>
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.LockScreenSettings"
+        android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.systemui.LockScreenSettings"
         android:title="@string/system_ui_lockscreen_title" />
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.StatusBarSettings"
+        android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.systemui.StatusBarSettings"
         android:title="@string/system_ui_statusbar_title" />
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.NavigationSettings"
+        android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.systemui.NavigationSettings"
         android:title="@string/system_ui_navigation_title" />
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.ControlCenterSettings"
+        android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.systemui.ControlCenterSettings"
         android:title="@string/system_ui_controlcenter_title" />
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.SystemUIOtherSettings"
+        android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.systemui.SystemUIOtherSettings"
         android:title="@string/system_ui_other_title" />
 
     </PreferenceCategory>

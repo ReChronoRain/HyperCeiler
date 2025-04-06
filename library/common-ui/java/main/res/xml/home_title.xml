@@ -129,7 +129,7 @@
             android:title="@string/home_title_fix_animation" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.HomeTitleAnimSettings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.HomeTitleAnimSettings"
             android:key="prefs_key_home_title_custom_anim_param"
             android:title="@string/home_title_custom_anim_param" />
 

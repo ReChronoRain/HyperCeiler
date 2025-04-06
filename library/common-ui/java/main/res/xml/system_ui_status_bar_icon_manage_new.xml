@@ -114,10 +114,10 @@
             app:isPreferenceVisible="false" />
 
         <Preference android:title="@string/system_ui_status_bar_mobile_type_single_title"
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.MobileNetworkTypeSettings" />
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.systemui.statusbar.MobileNetworkTypeSettings" />
 
         <Preference android:title="@string/system_ui_statusbar_iconmanage_mobile_network_title"
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.DoubleLineNetworkSettings" />
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.systemui.statusbar.DoubleLineNetworkSettings" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_bluetooth_title">
@@ -260,7 +260,7 @@
 
         <Preference
             android:title="@string/system_ui_status_bar_battery_style_title"
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.BatteryStyleSettings" />
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.systemui.statusbar.BatteryStyleSettings" />
 
     </PreferenceCategory>
 

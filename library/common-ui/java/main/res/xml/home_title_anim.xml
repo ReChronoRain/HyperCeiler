@@ -28,50 +28,50 @@
 
         <Preference
             android:dependency="prefs_key_home_title_custom_anim_param_main"
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim9Settings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.anim.HomeTitleAnim9Settings"
             android:key="prefs_key_home_title_custom_anim_param_9_title"
             android:title="@string/home_title_custom_anim_param_9_title"
             app:isPreferenceVisible="false" />
 
         <Preference
             android:dependency="prefs_key_home_title_custom_anim_param_main"
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim2Settings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.anim.HomeTitleAnim2Settings"
             android:key="prefs_key_home_title_custom_anim_param_2_title"
             android:title="@string/home_title_custom_anim_param_2_title" />
 
         <Preference
             android:dependency="prefs_key_home_title_custom_anim_param_main"
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim3Settings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.anim.HomeTitleAnim3Settings"
             android:key="prefs_key_home_title_custom_anim_param_3_title"
             android:title="@string/home_title_custom_anim_param_3_title" />
 
         <Preference
             android:dependency="prefs_key_home_title_custom_anim_param_main"
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim4Settings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.anim.HomeTitleAnim4Settings"
             android:key="prefs_key_home_title_custom_anim_param_4_title"
             android:title="@string/home_title_custom_anim_param_4_title" />
 
         <Preference
             android:dependency="prefs_key_home_title_custom_anim_param_main"
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim5Settings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.anim.HomeTitleAnim5Settings"
             android:key="prefs_key_home_title_custom_anim_param_5_title"
             android:title="@string/home_title_custom_anim_param_5_title" />
 
         <Preference
             android:dependency="prefs_key_home_title_custom_anim_param_main"
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim6Settings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.anim.HomeTitleAnim6Settings"
             android:key="prefs_key_home_title_custom_anim_param_6_title"
             android:title="@string/home_title_custom_anim_param_6_title" />
 
         <Preference
             android:dependency="prefs_key_home_title_custom_anim_param_main"
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim7Settings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.anim.HomeTitleAnim7Settings"
             android:key="prefs_key_home_title_custom_anim_param_7_title"
             android:title="@string/home_title_custom_anim_param_7_title" />
 
         <Preference
             android:dependency="prefs_key_home_title_custom_anim_param_main"
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim8Settings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.anim.HomeTitleAnim8Settings"
             android:key="prefs_key_home_title_custom_anim_param_8_title"
             android:title="@string/home_title_custom_anim_param_8_title" />
 

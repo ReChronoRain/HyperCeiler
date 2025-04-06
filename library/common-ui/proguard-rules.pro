@@ -21,6 +21,11 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class androidx.preference.**{ *; }
+
+-keep class com.sevtinge.hyperceiler.ui.app.holiday.**{ *; }
+-keep class * extends com.sevtinge.hyperceiler.dashboard.base.fragment.BasePreferenceFragment
+
+
 -keep class com.sevtinge.hyperceiler.provision.activity.** { *; }
 -keep class com.sevtinge.hyperceiler.provision.fragment.** { *; }
 

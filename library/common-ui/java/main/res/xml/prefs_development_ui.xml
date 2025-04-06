@@ -51,7 +51,7 @@
 
         </RadioSetPreferenceCategory>
 
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+        <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:icon="@drawable/ic_hyperceiler_settings_v140"
             android:title="PreferenceHeader" />
 

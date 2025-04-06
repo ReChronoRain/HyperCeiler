@@ -38,7 +38,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.safe.CrashActivity;
+import com.sevtinge.hyperceiler.safemode.CrashActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

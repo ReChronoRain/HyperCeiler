@@ -63,7 +63,7 @@
             android:key="prefs_key_system_ui_statusbar_clock_editor_p"
             android:title="@string/system_ui_statusbar_clock_editor_p" />
 
-        <com.sevtinge.hyperceiler.prefs.XmlPreference
+        <com.sevtinge.hyperceiler.common.prefs.XmlPreference
             android:dependency="prefs_key_system_ui_statusbar_clock_pad_hide"
             android:title="@string/system_ui_statusbar_clock_layout_p"
             app:inflatedXml="@xml/system_ui_status_bar_new_clock_indicator_4"/>
@@ -73,15 +73,15 @@
     <PreferenceCategory
         android:dependency="prefs_key_system_ui_statusbar_clock_all_status_enable"
         android:title="@string/home_layout">
-        <com.sevtinge.hyperceiler.prefs.XmlPreference
+        <com.sevtinge.hyperceiler.common.prefs.XmlPreference
             android:title="@string/system_ui_statusbar_clock_layout_s"
             app:inflatedXml="@xml/system_ui_status_bar_new_clock_indicator_1"/>
 
-        <com.sevtinge.hyperceiler.prefs.XmlPreference
+        <com.sevtinge.hyperceiler.common.prefs.XmlPreference
             android:title="@string/system_ui_statusbar_clock_layout_b"
             app:inflatedXml="@xml/system_ui_status_bar_new_clock_indicator_2"/>
 
-        <com.sevtinge.hyperceiler.prefs.XmlPreference
+        <com.sevtinge.hyperceiler.common.prefs.XmlPreference
             android:title="@string/system_ui_statusbar_clock_layout_n"
             app:inflatedXml="@xml/system_ui_status_bar_new_clock_indicator_3"/>
 

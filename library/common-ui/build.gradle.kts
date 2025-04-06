@@ -3,7 +3,8 @@ plugins {
 }
 
 val srcDir = arrayOf (
-    "safe",
+    "safemode",
+    "dashboard",
     "provision"
 )
 
@@ -13,6 +14,12 @@ android {
 
     defaultConfig {
         minSdk = 34
+
+        buildConfigField("String", "APP_MODULE_ID", "\"com.sevtinge.hyperceiler\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     sourceSets {

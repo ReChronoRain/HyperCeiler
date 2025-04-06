@@ -5,6 +5,6 @@
         android:name="@string/app_name"
         android:targetPackage="com.sevtinge.hyperceiler"
         android:action="android.intent.action.VIEW"
-        android:targetClass="com.sevtinge.hyperceiler.ui.app.main.HyperCeilerTabActivity"
+        android:targetClass="com.sevtinge.hyperceiler.ui.HyperCeilerTabActivity"
         android:tag="HYPERCEILER" />
 </config>
