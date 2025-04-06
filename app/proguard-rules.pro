@@ -1,9 +1,6 @@
 
 -keep class com.sevtinge.hyperceiler.ui.LauncherActivity
 
--keep class com.sevtinge.hyperceiler.ui.app.holiday.**{ *; }
--keep class * extends com.sevtinge.hyperceiler.ui.base.BasePreferenceFragment
-
 -keep class com.sevtinge.hyperceiler.utils.XposedActivateHelper { boolean isModuleActive; }
 -keep class com.sevtinge.hyperceiler.utils.XposedActivateHelper { int XposedVersion; }
 

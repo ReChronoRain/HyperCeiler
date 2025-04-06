@@ -4,7 +4,7 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getBaseO
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isFullSupport;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.prefs.PreferenceHeader.notInSelectedScope;
+import static com.sevtinge.hyperceiler.common.prefs.PreferenceHeader.notInSelectedScope;
 
 import android.content.Context;
 import android.widget.TextView;
@@ -16,7 +16,7 @@ import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt;
 import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.prefs.LayoutPreference;
+import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 
 import java.util.Calendar;
 import java.util.Objects;

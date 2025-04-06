@@ -19,31 +19,31 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory>
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.framework.FreeFormSettings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.framework.FreeFormSettings"
             android:title="@string/floating_window" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.framework.VolumeSettings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.framework.VolumeSettings"
             android:title="@string/system_framework_volume_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.framework.DisplaySettings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.framework.DisplaySettings"
             android:title="@string/system_framework_display_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.framework.NetworkSettings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.framework.NetworkSettings"
             android:key="prefs_key_system_framework_network"
             android:title="@string/system_framework_phone_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.framework.OtherSettings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.framework.OtherSettings"
             android:title="@string/system_framework_other_title" />
 
     </PreferenceCategory>
 
     <PreferenceCategory>
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.hooker.framework.CorePatchSettings"
+            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.framework.CorePatchSettings"
             android:title="@string/system_framework_corepatch_title" />
     </PreferenceCategory>
 

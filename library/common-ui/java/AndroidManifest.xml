@@ -3,7 +3,7 @@
     <application>
 
         <activity
-            android:name=".safe.CrashActivity"
+            android:name="com.sevtinge.hyperceiler.safemode.CrashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:finishOnTaskLaunch="true"

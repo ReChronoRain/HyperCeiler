@@ -12,7 +12,7 @@
         app:scrollOrientation="angle"
         app:scrollableView="@id/vp_fragments">
 
-        <com.sevtinge.hyperceiler.ui.app.main.widget.DraggableViewPager
+        <com.sevtinge.hyperceiler.common.view.DraggableViewPager
             android:id="@+id/vp_fragments"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

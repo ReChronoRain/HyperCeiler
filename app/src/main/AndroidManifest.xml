@@ -61,6 +61,7 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="miui.permission.READ_LOGS" />
     <uses-permission android:name="miui.permission.DUMP_CACHED_LOG" />
+    <uses-permission android:name="com.miui.securitycenter.permission.PERM_USE_INFO" />
     <uses-permission android:name="com.miui.securitycenter.permission.SYSTEM_PERMISSION_DECLARE" />
     <uses-permission android:name="com.miui.securitycenter.permission.ACCESS_SECURITY_CENTER_PROVIDER" />
     <uses-permission
@@ -83,7 +84,7 @@
         android:allowNativeHeapPointerTagging="true">
 
         <activity
-            android:name=".ui.app.main.HyperCeilerTabActivity"
+            android:name=".ui.HyperCeilerTabActivity"
             android:exported="true"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
@@ -96,7 +97,7 @@
             android:name=".ui.LauncherActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:targetActivity=".ui.app.main.HyperCeilerTabActivity"
+            android:targetActivity=".ui.HyperCeilerTabActivity"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -105,7 +106,7 @@
         </activity-alias>
 
         <activity
-            android:name=".ui.base.SubSettings"
+            android:name=".dashboard.SubSettings"
             android:exported="true"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
@@ -115,24 +116,15 @@
         </activity>
 
         <activity
-            android:name=".ui.base.sub.SubPickerActivity"
+            android:name=".ui.sub.SubPickerActivity"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
-
-        <property
-            android:name="miui.blurRelaunch"
-            android:value="true" />
-
-        <meta-data
-            android:name="required_permissions"
-            android:value=";" />
-
 
         <meta-data
             android:name="miui_keyguard_shortcuts"
             android:resource="@xml/miui_keyguard_shortcuts" />
 
         <service
-            android:name="com.sevtinge.hyperceiler.ui.safe.CrashService"
+            android:name="com.sevtinge.hyperceiler.safemode.CrashService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -141,7 +133,7 @@
         </service>
 
         <receiver
-            android:name=".receiver.CrashReceiver"
+            android:name=".safemode.CrashReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="hyperceiler.permission.APP_CRASH">
