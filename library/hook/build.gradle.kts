@@ -31,7 +31,7 @@ android {
         buildConfig = true
     }
 
-    buildTypes.configureEach {
+    buildTypes.all {
         consumerProguardFiles(libs.versions.proguard.rules.get())
     }
 }

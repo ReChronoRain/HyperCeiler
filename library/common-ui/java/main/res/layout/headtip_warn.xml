@@ -32,60 +32,28 @@
   ~ limitations under the License
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:background="@drawable/headtip_warn_background"
-    android:clickable="false"
     android:clipChildren="false"
     android:gravity="center_vertical">
 
-    <include layout="@layout/image_frame" />
-
-    <RelativeLayout
-        android:layout_width="0dp"
+    <TextView
+        android:id="@android:id/title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1.0"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@android:id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:enabled="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:inputType="textMultiLine"
-            android:longClickable="true"
-            android:paddingLeft="16dp"
-            android:paddingTop="14dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="14dp"
-            android:textColor="#FF0000"
-            android:textIsSelectable="true" />
-
-    </RelativeLayout>
-
-    <!-- Preference should place its actual preference widget here. -->
-    <LinearLayout
-        android:id="@android:id/widget_frame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clipChildren="false"
-        android:gravity="center"
-        android:minWidth="@dimen/miuix_preference_widget_width"
-        android:orientation="vertical" />
-
-    <ImageView
-        android:id="@+id/arrow_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|end"
-        android:gravity="center"
-        android:importantForAccessibility="no"
-        android:src="@drawable/miuix_preference_icon_arrow_right" />
-
-</LinearLayout>
+        android:clickable="true"
+        android:enabled="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:inputType="textMultiLine"
+        android:longClickable="true"
+        android:paddingLeft="16dp"
+        android:paddingTop="14dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="14dp"
+        android:textColor="#FF0000"
+        android:textIsSelectable="true" />
+</FrameLayout>
