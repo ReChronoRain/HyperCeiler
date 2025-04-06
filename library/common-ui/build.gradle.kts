@@ -15,10 +15,6 @@ android {
         minSdk = 34
     }
 
-    buildTypes.configureEach {
-        consumerProguardFiles(libs.versions.proguard.rules.get())
-    }
-
     sourceSets {
         getByName("main") {
             //java.srcDir("java")
@@ -31,6 +27,10 @@ android {
                 res.srcDirs("java/$it/res")
             }
         }
+    }
+
+    buildTypes.all {
+        consumerProguardFiles(libs.versions.proguard.rules.get())
     }
 }
 

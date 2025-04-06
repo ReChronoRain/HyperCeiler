@@ -6,6 +6,8 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getRomAu
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isFullSupport;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
 
+import android.app.Application;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +41,7 @@ import com.sevtinge.hyperceiler.ui.base.SubSettings;
 import com.sevtinge.hyperceiler.ui.hooker.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.utils.banner.HomePageBannerHelper;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -178,19 +182,10 @@ public class HomePageFragment extends DashboardFragment
         );
     }
 
-    Preference mHeadtipWarn;
-    Preference mHeadtipNotice;
-    Preference mHeadtipBirthday;
-    Preference mHeadtipHyperCeiler;
-    Preference mHeadtipTip;
+    PreferenceCategory mHeadtipGround;
     MainActivityContextHelper mainActivityContextHelper;
     private static final String TAG = "MainFragment";
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
-    boolean mWarnTipVisible = false;
-    boolean mNoticeTipVisible = false;
-    boolean mBirthdayTipVisible = false;
-    boolean mHyperCeilerTipVisible = false;
-    boolean mTipTipVisible;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -201,25 +196,9 @@ public class HomePageFragment extends DashboardFragment
     public void initPrefs() {
         HomepageEntrance.setEntranceStateListen(this);
         setPreference();
-        mHeadtipWarn = findPreference("prefs_key_headtip_warn");
-        mHeadtipNotice = findPreference("prefs_key_headtip_notice");
-        mHeadtipBirthday = findPreference("prefs_key_headtip_hyperceiler_birthday");
-        mHeadtipHyperCeiler = findPreference("prefs_key_headtip_hyperceiler");
-        mHeadtipTip = findPreference("prefs_key_headtip_tip");
+        mHeadtipGround = findPreference("prefs_key_headtip_ground");
         mainActivityContextHelper = new MainActivityContextHelper(requireContext());
-
-        // 优先级由上往下递减，优先级低的会被覆盖执行
-        // HyperCeiler
-        isFuckCoolapkSDay();
-        // Birthday
-        isBirthday();
-        // Notice
-        isLoggerAlive();
-        // Warn
-        checkWarnings();
-        // Tip
-        isSupportAutoSafeMode();
-
+        HomePageBannerHelper.init(requireContext(), mHeadtipGround);
     }
 
     private void setPreference() {
@@ -229,7 +208,6 @@ public class HomePageFragment extends DashboardFragment
         } catch (XmlPullParserException | IOException e) {
             AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
         }
-
     }
 
     private void processXmlResource(int xmlResId, BiConsumer<String, String> processor) throws XmlPullParserException, IOException {
@@ -269,112 +247,26 @@ public class HomePageFragment extends DashboardFragment
 
     private void processPreferenceHeader(String key, String summary) {
         if (key != null && summary != null) {
-            PreferenceHeader preferenceHeader = findPreference(key);
-            if (preferenceHeader != null) {
-                Drawable icon = getPackageIcon(summary);
-                String name = getPackageName(summary);
-                preferenceHeader.setIcon(icon);
-                if (!summary.equals("android")) {
-                    preferenceHeader.setTitle(name);
-                }
+            PreferenceHeader header = findPreference(key);
+            if (header != null) {
+                setIconAndTitle(header, summary);
             }
         }
     }
 
-    private Drawable getPackageIcon(String packageName) {
-        Drawable icon = null;
+    private void setIconAndTitle(PreferenceHeader header, String packageName) {
         try {
-            icon = requireContext().getPackageManager().getApplicationIcon(packageName);
+            PackageManager pm = requireContext().getPackageManager();
+            ApplicationInfo applicationInfo = pm.getApplicationInfo(packageName, 0);
+            Drawable icon = applicationInfo.loadIcon(pm);
+            CharSequence name = applicationInfo.loadLabel(pm);
+            header.setIcon(icon);
+            if (!packageName.equals("android")) {
+                header.setTitle(name);
+            }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        return icon;
-    }
-
-    private String getPackageName(String packageName) {
-        String name = null;
-        try {
-            name = (String) requireContext().getPackageManager().getApplicationLabel(requireContext().getPackageManager().getApplicationInfo(packageName, 0));
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return name;
-    }
-
-    public void isBirthday() {
-        if (mBirthdayTipVisible) return;
-        Calendar calendar = Calendar.getInstance();
-        int currentMonth = calendar.get(Calendar.MONTH);
-        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-        mHeadtipBirthday.setVisible(currentMonth == Calendar.MAY && currentDay == 1);
-        mBirthdayTipVisible = true;
-    }
-
-    public void isFuckCoolapkSDay() {
-        if (mHyperCeilerTipVisible) return;
-        Calendar calendar = Calendar.getInstance();
-        int currentMonth = calendar.get(Calendar.MONTH);
-        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-        mHeadtipHyperCeiler.setVisible(currentMonth == Calendar.JULY && currentDay == 14);
-        mHeadtipHyperCeiler.setTitle(R.string.headtip_tip_fuck_coolapk);
-        mHyperCeilerTipVisible = true;
-    }
-
-    public void isLoggerAlive() {
-        if (mNoticeTipVisible) return;
-        if (!IS_LOGGER_ALIVE && !Objects.equals(BuildConfig.BUILD_TYPE, "release")) {
-            mHeadtipNotice.setTitle(R.string.headtip_notice_dead_logger);
-            mHeadtipNotice.setVisible(true);
-            mNoticeTipVisible = true;
-        }
-    }
-
-    public void checkWarnings() {
-        if (mWarnTipVisible) return;
-        boolean isOfficialRom = getIsOfficialRom();
-        boolean isFullSupport = isFullSupport();
-        boolean isSignPass = SignUtils.isSignCheckPass(requireContext());
-
-        if (!isSignPass) {
-            mHeadtipWarn.setTitle(R.string.headtip_warn_sign_verification_failed);
-            mHeadtipWarn.setVisible(true);
-        } else if (isOfficialRom) {
-            mHeadtipWarn.setTitle(R.string.headtip_warn_not_offical_rom);
-            mHeadtipWarn.setVisible(true);
-        } else if (!isFullSupport) {
-            mHeadtipWarn.setTitle(R.string.headtip_warn_unsupport_sysver);
-            mHeadtipWarn.setVisible(true);
-        }
-
-        mWarnTipVisible = true;
-    }
-
-    public boolean getIsOfficialRom() {
-        String baseOs = getBaseOs();
-        String romAuthor = getRomAuthor();
-        String host = SystemSDKKt.getHost();
-
-        boolean isNotCustomBaseOs = !baseOs.startsWith("V") &&
-                !baseOs.startsWith("Xiaomi") &&
-                !baseOs.startsWith("Redmi") &&
-                !baseOs.startsWith("POCO") &&
-                !"null".equals(baseOs);
-
-        boolean hasRomAuthor = !romAuthor.isEmpty();
-
-        boolean isNotCustomHost = !host.startsWith("pangu-build-component-system") &&
-                !host.startsWith("builder-system") &&
-                !host.startsWith("non-pangu-pod") &&
-                !host.equals("xiaomi.com");
-
-        return hasRomAuthor || Objects.equals(host, "xiaomi.eu") || (isNotCustomBaseOs && isNotCustomHost);
-    }
-
-    public void isSupportAutoSafeMode() {
-        if (mTipTipVisible) return;
-        mHeadtipTip.setTitle(R.string.headtip_tip_auto_safe_mode);
-        mHeadtipTip.setVisible(notInSelectedScope.contains("android"));
-        mTipTipVisible = true;
     }
 
     @Override

@@ -24,25 +24,6 @@
 
     <attr name="rebootIconColor" format="color" />
 
-    <declare-styleable name="MagicBubbleSeekBar">
-        <attr name="empty_color" format="color" />
-        <attr name="fill_color" format="color" />
-        <attr name="slider_color" format="color" />
-        <attr name="max_progress" format="integer" />
-        <attr name="min_progress" format="integer" />
-        <attr name="slider_width" format="dimension" />
-        <attr name="current_progress" format="float" />
-        <attr name="empty_progress_height" format="dimension" />
-        <attr name="empty_progress_width" format="dimension" />
-        <attr name="fill_progress_height" format="dimension" />
-        <attr name="hide_bubble" format="boolean" />
-        <attr name="slider_enlarge_hide" format="boolean" />
-        <attr name="normal_width" format="dimension" />
-        <attr name="visibility_height" format="dimension" />
-        <attr name="visibility_width" format="dimension" />
-        <attr name="bubble_seekbar_distance" format="dimension" />
-    </declare-styleable>
-
     <!--<declare-styleable name="SeekBarPreference">
         <attr name="android:defaultValue" />
         <attr name="minValue" format="integer" />

@@ -32,7 +32,7 @@
   ~ limitations under the License
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:clickable="false"
     android:clipChildren="false"
     android:gravity="center_vertical"
@@ -41,51 +41,22 @@
     android:layout_gravity="center_vertical"
     android:background="@drawable/headtip_notice_background">
 
-    <include layout="@layout/image_frame" />
-
-    <RelativeLayout
-        android:gravity="center_vertical"
-        android:layout_width="wrap_content"
+    <TextView
+        android:text="@string/headtip_notice_dead_logger"
+        android:id="@android:id/title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1.0">
+        android:textColor="#EDA306"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:inputType="textMultiLine"
+        android:textIsSelectable="true"
+        android:enabled="false"
+        android:clickable="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:longClickable="true" />
 
-        <TextView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@android:id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#EDA306"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:inputType="textMultiLine"
-            android:textIsSelectable="true"
-            android:enabled="false"
-            android:clickable="true"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:longClickable="true"
-            />
-    </RelativeLayout>
-
-    <!-- Preference should place its actual preference widget here. -->
-    <LinearLayout
-        android:id="@android:id/widget_frame"
-        android:gravity="center"
-        android:clipChildren="false"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minWidth="@dimen/miuix_preference_widget_width" />
-
-    <ImageView
-        android:id="@+id/arrow_right"
-        android:gravity="center"
-        android:layout_gravity="center|end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/miuix_preference_icon_arrow_right" />
-
-</LinearLayout>
+</FrameLayout>
