@@ -15,7 +15,6 @@ import androidx.preference.PreferenceCategory;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt;
-import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 
