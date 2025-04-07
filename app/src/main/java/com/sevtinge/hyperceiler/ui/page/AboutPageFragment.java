@@ -22,14 +22,12 @@ import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getDeviceToken;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,7 +43,6 @@ import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.expansion.utils.ClickCountsUtils;
 import com.sevtinge.hyperceiler.ui.page.about.view.BgEffectPainter;
 import com.sevtinge.hyperceiler.ui.page.about.widget.VersionCard;
-import com.sevtinge.hyperceiler.common.utils.ActionBarUtils;
 import com.sevtinge.hyperceiler.widget.ListContainerView;
 import com.sevtinge.hyperceiler.widget.VersionCardClickView;
 
@@ -54,7 +51,6 @@ import java.util.Objects;
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
 import fan.appcompat.internal.app.widget.ActionBarImpl;
-import fan.appcompat.internal.app.widget.ActionBarOverlayLayout;
 import fan.core.widget.NestedScrollView;
 import fan.navigator.NavigatorFragmentListener;
 import fan.springback.view.SpringBackLayout;
@@ -189,7 +185,7 @@ public class AboutPageFragment extends DashboardFragment
                 mVersionCardView.setScrollValue(scrollY);
                 mVersionCardView.setAnimation(scrollY, mBgEffectView, getAppCompatActionBar().getTitleView(0));
             } else {
-                if (v.getId() == R.id.springview && scrollY >= 0) {
+                if (v.getId() == com.sevtinge.hyperceiler.R.id.scrollable_view_group && scrollY >= 0) {
                     mVersionCardView.setAnimation(scrollY + scrollValue, mBgEffectView, getAppCompatActionBar().getTitleView(0));
                 }
             }
@@ -260,9 +256,6 @@ public class AboutPageFragment extends DashboardFragment
         if (actionBar != null) {
             actionBar.getExpandTitle().setTitle("");
             actionBar.getActionBarView().requestFocus();
-            if (mVersionCardView != null) {
-                mVersionCardView.mAnimationController.setActionBarAlpha(getAppCompatActionBar().getTitleView(0));
-            }
             resetActionBar(actionBar, false);
         }
     }
@@ -281,6 +274,7 @@ public class AboutPageFragment extends DashboardFragment
             } else {
                 actionBar.setExpandState(0);
                 actionBar.setResizable(false);
+                mVersionCardView.setAnimation(mScrollView.getScrollY(), mBgEffectView, getAppCompatActionBar().getTitleView(0));
                 setActionBarBlur(actionBar, false);
             }
         }
