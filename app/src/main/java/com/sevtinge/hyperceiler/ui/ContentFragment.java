@@ -111,12 +111,12 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
         Log.d(TAG, "handleFragmentChange: oldTab: " + oldTab + "newTab: " + newTab);
         IFragmentChange oldFragment = (IFragmentChange) mViewPagerAdapter.getFragment(oldTab, false);
         Log.d(TAG, "oldFragment: " + oldFragment);
-        if (oldFragment != null) oldFragment.onLeave();
+        if (oldFragment != null) oldFragment.onLeave(mActionBar);
 
         IFragmentChange newFragment = (IFragmentChange) mViewPagerAdapter.getFragment(newTab, false);
         Log.d(TAG, "newFragment: " + newFragment);
         if (newFragment != null) {
-            newFragment.onEnter();
+            newFragment.onEnter(mActionBar);
         }
     }
 
@@ -307,7 +307,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
     }
 
     public interface IFragmentChange {
-        void onEnter();
-        void onLeave();
+        void onEnter(ActionBar actionBar);
+        void onLeave(ActionBar actionBar);
     }
 }

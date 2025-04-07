@@ -265,8 +265,8 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
         scrollValue = value;
     }
 
-    public void setAnimation(int scrollY, View bgEffectView) {
-        mAnimationController.startAnimation(scrollY, mIconLogoView, mTextLogoView, mIconLogoViewShade, mTextLogoViewShade, mUpdateText, mVersionLayout, bgEffectView);
+    public void setAnimation(int scrollY, View bgEffectView, View titleView) {
+        mAnimationController.startAnimation(scrollY, mIconLogoView, mTextLogoView, mIconLogoViewShade, mTextLogoViewShade, mUpdateText, mVersionLayout, bgEffectView, titleView);
     }
 
     @Override
