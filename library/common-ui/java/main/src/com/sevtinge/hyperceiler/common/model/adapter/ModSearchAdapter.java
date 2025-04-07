@@ -36,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sevtinge.hyperceiler.common.model.data.ModData;
 import com.sevtinge.hyperceiler.common.utils.search.SearchHelper;
 import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.common.model.adapter.ModSearchAdapter.ModSearchViewHolder;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -90,12 +91,12 @@ public class ModSearchAdapter extends CardGroupAdapter {
 
     @Override
     public int getItemViewGroup(int i) {
-        return Integer.MIN_VALUE;
+        return 0;
     }
 
     @Override
     public void setHasStableIds() {
-        setHasStableIds(true);
+
     }
 
     public static class ModSearchViewHolder extends RecyclerView.ViewHolder {

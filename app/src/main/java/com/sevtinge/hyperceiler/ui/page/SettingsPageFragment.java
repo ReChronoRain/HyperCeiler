@@ -21,9 +21,14 @@ package com.sevtinge.hyperceiler.ui.page;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
@@ -37,6 +42,9 @@ import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.widget.ListContainerView;
+
+import java.util.List;
 
 import fan.appcompat.app.AppCompatActivity;
 import fan.navigator.NavigatorFragmentListener;
@@ -44,12 +52,25 @@ import fan.preference.DropDownPreference;
 
 public class SettingsPageFragment extends DashboardFragment
         implements Preference.OnPreferenceChangeListener, NavigatorFragmentListener, IFragmentChange {
+
+    ListContainerView mContainerView;
+
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
     SwitchPreference mHideAppIcon;
 
     DropDownPreference mLogLevel;
     DropDownPreference mLanguage;
+
+    @NonNull
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mContainerView = new ListContainerView(requireContext());
+        mContainerView.addPrefsContainer(super.onCreateView(inflater, container, savedInstanceState));
+        setOverlayMode();
+        registerCoordinateScrollView(mContainerView.getNestedHeader());
+        return mContainerView;
+    }
 
     @Override
     public int getPreferenceScreenResId() {
@@ -171,5 +192,11 @@ public class SettingsPageFragment extends DashboardFragment
     @Override
     public void onLeave() {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterCoordinateScrollView(mContainerView.getNestedHeader());
     }
 }

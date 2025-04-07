@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sevtinge.hyperceiler.ui.page.about.widget.VersionCard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/version_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/logo_area_height"
+    android:fitsSystemWindows="false" />

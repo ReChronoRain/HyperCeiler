@@ -45,11 +45,14 @@ import com.sevtinge.hyperceiler.expansion.utils.ClickCountsUtils;
 import com.sevtinge.hyperceiler.ui.page.about.view.BgEffectPainter;
 import com.sevtinge.hyperceiler.ui.page.about.widget.VersionCard;
 import com.sevtinge.hyperceiler.common.utils.ActionBarUtils;
+import com.sevtinge.hyperceiler.widget.ListContainerView;
+import com.sevtinge.hyperceiler.widget.VersionCardClickView;
 
 import java.util.Objects;
 
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
+import fan.appcompat.internal.app.widget.ActionBarOverlayLayout;
 import fan.core.widget.NestedScrollView;
 import fan.navigator.NavigatorFragmentListener;
 import fan.springback.view.SpringBackLayout;
@@ -63,7 +66,7 @@ public class AboutPageFragment extends DashboardFragment
     private int scrollValue = 0;
     private boolean isFirst = true;
 
-    private View mRootView;
+    private ListContainerView mContainerView;
     private View scrollLayout;
     private NestedScrollView mScrollView;
     private SpringBackLayout mSpringBackView;
@@ -92,18 +95,21 @@ public class AboutPageFragment extends DashboardFragment
         }
     };
 
+    @Override
+    public int getThemeRes() {
+        return R.style.Theme_Navigator_ContentChild_About;
+    }
+
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (container != null) {
             //updateFragmentView(container);
         }
-        if (mRootView == null) {
-            mRootView = inflater.inflate(R.layout.fragment_about_page, container, false);
-            ViewGroup prefsContainer = mRootView.findViewById(R.id.prefs_container);
-            View view = super.onCreateView(inflater, container, savedInstanceState);
+        if (mContainerView == null) {
+            mContainerView = new ListContainerView(requireContext());
+            mContainerView.addPrefsContainer(super.onCreateView(inflater, container, savedInstanceState));
             setOverlayMode();
-            prefsContainer.addView(view);
 
             RecyclerView listView = getListView();
             View parent = (View) listView.getParent();
@@ -112,18 +118,20 @@ public class AboutPageFragment extends DashboardFragment
                 listView.setPaddingRelative(listView.getPaddingStart(), 0, listView.getPaddingEnd(), 0);
             }
 
-            scrollLayout = mRootView.findViewById(R.id.scroll_layout);
-            mVersionCardView = mRootView.findViewById(R.id.version_card_view);
+            mContainerView.addContainerView(new VersionCardClickView(requireContext()));
 
-            mScrollView = mRootView.findViewById(R.id.scrollview);
-            mSpringBackView = mRootView.findViewById(R.id.springview);
+            mVersionCardView = new VersionCard(requireContext());
+            mContainerView.addContentView(mVersionCardView);
 
-            registerCoordinateScrollView(scrollLayout);
+            mScrollView = mContainerView.getNestedScrollView();
+            mSpringBackView = mContainerView.getSpringBackLayout();
+
+            registerCoordinateScrollView(mContainerView.getContentView());
             mScrollView.setOnScrollChangeListener(this);
             mSpringBackView.setOnScrollChangeListener(this);
             setShaderBackground();
         }
-        return mRootView;
+        return mContainerView;
     }
 
     private void initCardView() {
@@ -170,8 +178,8 @@ public class AboutPageFragment extends DashboardFragment
         setContentViewPadding();
         if (mBgEffectView == null) {
             mBgEffectView = LayoutInflater.from(getContext()).inflate(R.layout.layout_effect_bg, (ViewGroup) contentView, false);
-            contentView.addView(mBgEffectView, 0);
-            mBgEffectView = contentView.findViewById(R.id.bgEffectView);
+            mContainerView.addView(mBgEffectView, 0);
+            mBgEffectView = mContainerView.findViewById(R.id.bgEffectView);
         }
         mBgEffectView.post(() -> {
             if (getContext() != null) {
@@ -185,9 +193,9 @@ public class AboutPageFragment extends DashboardFragment
     }
 
     private void setContentViewPadding() {
-        if (contentView == null && getActivity() != null) {
-            contentView = mRootView.findViewById(R.id.fragment_container);
-            contentView.setOnApplyWindowInsetsListener((v, insets) -> {
+        if (mContainerView == null && getActivity() != null) {
+            //contentView = mContainerView.findViewById(R.id.fragment_container);
+            mContainerView.setOnApplyWindowInsetsListener((v, insets) -> {
                 v.setPadding(0, 0, 0, 0);
                 return insets;
             });
@@ -267,8 +275,8 @@ public class AboutPageFragment extends DashboardFragment
     public void onDestroyView() {
         super.onDestroyView();
         if (mHandler != null) mHandler.removeCallbacks(runnableBgEffect);
-        if (mRootView != null) unregisterCoordinateScrollView(mRootView);
-        mRootView = null;
+        if (mContainerView != null) unregisterCoordinateScrollView(mContainerView.getNestedHeader());
+        mContainerView = null;
     }
 
     @Override

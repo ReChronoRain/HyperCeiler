@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pull_to_enter_private">下拉进入隐私空间</string>
+    <string name="release_enter_private">松开进入隐私空间</string>
+</resources>
