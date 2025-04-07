@@ -31,9 +31,11 @@ import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import fan.preference.PreferenceFragment;
 
-public class BasePreferenceFragment extends PreferenceFragment {
+public abstract class BasePreferenceFragment extends PreferenceFragment {
 
     protected PreferenceManager mPreferenceManager;
+
+    public abstract int getThemeRes();
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {

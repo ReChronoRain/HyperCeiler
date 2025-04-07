@@ -47,9 +47,14 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     }
 
     @Override
+    public int getThemeRes() {
+        return R.style.AppTheme;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeRes(R.style.AppTheme);
+        if (getThemeRes() != 0) setThemeRes(R.style.AppTheme);
         if (savedInstanceState != null) {
             mPreferenceHighlighted = savedInstanceState.getBoolean(SAVE_HIGHLIGHTED_KEY);
         }
