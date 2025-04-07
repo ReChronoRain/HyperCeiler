@@ -36,8 +36,10 @@ android {
         }
     }
 
-    buildTypes.all {
-        consumerProguardFiles(libs.versions.proguard.rules.get())
+    buildTypes {
+        create("canary") {
+            consumerProguardFiles(libs.versions.proguard.rules.get())
+        }
     }
 }
 
