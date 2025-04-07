@@ -35,4 +35,13 @@
 -keep class com.sevtinge.hyperceiler.hook.utils.api.miuiStringToast.res.** { *; }
 -keep class com.sevtinge.hyperceiler.hook.utils.ContentModel {*;}
 -keep class com.sevtinge.hyperceiler.hook.utils.FileHelper {*;}
+
+-dontwarn android.app.ActivityTaskManager$RootTaskInfo
+-dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo
+-dontwarn javax.annotation.processing.AbstractProcessor
+-dontwarn javax.annotation.processing.SupportedAnnotationTypes
+-dontwarn javax.annotation.processing.SupportedOptions
+-dontwarn javax.annotation.processing.SupportedSourceVersion
+-dontwarn javax.annotation.processing.Processor
+
 -allowaccessmodification

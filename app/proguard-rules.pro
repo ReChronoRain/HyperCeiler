@@ -8,13 +8,7 @@
 -keep class org.luckypray.dexkit.**{ *; }
 
 -keepattributes SourceFile,LineNumberTable
--dontwarn android.app.ActivityTaskManager$RootTaskInfo
--dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo
--dontwarn javax.annotation.processing.AbstractProcessor
--dontwarn javax.annotation.processing.SupportedAnnotationTypes
--dontwarn javax.annotation.processing.SupportedOptions
--dontwarn javax.annotation.processing.SupportedSourceVersion
--dontwarn javax.annotation.processing.Processor
+
 -allowaccessmodification
 -obfuscationdictionary          dict.txt
 -classobfuscationdictionary     dict.txt
