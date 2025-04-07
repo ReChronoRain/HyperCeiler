@@ -23,48 +23,48 @@
         <com.sevtinge.hyperceiler.common.prefs.XmlPreference
             android:key="prefs_key_home_gesture"
             android:title="@string/home_gesture"
-            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.HomeGestureSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.HomeGestureSettings"
             app:inflatedXml="@xml/home_gesture"/>
 
         <Preference
             android:key="prefs_key_home_layout"
             android:title="@string/home_layout"
-            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.HomeLayoutSettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.HomeLayoutSettings" />
 
         <Preference
             android:key="prefs_key_home_folder"
             android:title="@string/home_folder"
-            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.HomeFolderSettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.HomeFolderSettings" />
 
         <Preference
             android:key="prefs_key_home_drawer"
             android:title="@string/home_drawer"
-            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.HomeDrawerSettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.HomeDrawerSettings" />
 
         <Preference
             android:key="prefs_key_home_title"
             android:title="@string/home_title"
-            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.HomeTitleSettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.HomeTitleSettings" />
 
         <Preference
             android:key="prefs_key_home_recent"
             android:title="@string/home_recent"
-            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.HomeRecentSettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.HomeRecentSettings" />
 
         <Preference
             android:key="prefs_key_home_widget"
             android:title="@string/home_widget"
-            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.HomeWidgetSettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.HomeWidgetSettings" />
 
         <Preference
             android:key="prefs_key_home_dock"
             android:title="@string/home_dock"
-            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.HomeDockSettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.HomeDockSettings" />
 
         <Preference
             android:key="prefs_key_home_other"
             android:title="@string/home_other"
-            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.home.HomeOtherSettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.HomeOtherSettings" />
 
     </PreferenceCategory>
 

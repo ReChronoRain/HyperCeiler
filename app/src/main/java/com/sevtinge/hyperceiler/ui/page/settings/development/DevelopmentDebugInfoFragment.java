@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.ui.page.settings.development;
 
+import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
 import static com.sevtinge.hyperceiler.utils.XposedActivateHelper.isModuleActive;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getBoard;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getBrand;
@@ -41,7 +42,6 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getCurre
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getWhoAmI;
-import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.LOGGER_CHECKER_ERR_CODE;
 
 import androidx.preference.Preference;

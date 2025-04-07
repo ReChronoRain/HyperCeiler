@@ -17,7 +17,7 @@
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
 
-package com.sevtinge.hyperceiler.common.utils;
+package com.sevtinge.hyperceiler.utils;
 
 import android.Manifest;
 import android.app.Activity;
@@ -32,6 +32,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PermissionUtils {
+
+    // 权限申请
+    public static void init(Activity activity) {
+        requestPermissions(activity, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1,
+            // 实现接口方法
+            new OnPermissionListener() {
+                @Override
+                public void onPermissionGranted(Context context) {
+                    // 获取权限成功
+                }
+
+                @Override
+                public void onPermissionDenied() {
+                    // 获取权限失败
+                    activity.finish();
+                }
+            }
+        );
+    }
 
     //权限项数组
     public static final String[] PERMISSIONS = {

@@ -21,11 +21,16 @@ package com.sevtinge.hyperceiler.hook.utils.log;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getSerial;
 import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mPrefsMap;
+import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mSharedPreferences;
 import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.hook.BuildConfig;
+import com.sevtinge.hyperceiler.hook.utils.PropUtils;
+import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
+import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -38,10 +43,21 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class LogManager {
-    public static final int logLevel = getLogLevel();
 
     public static boolean IS_LOGGER_ALIVE;
+    public static final int logLevel = getLogLevel();
     public static String LOGGER_CHECKER_ERR_CODE;
+    private static String PROP_HYPERCEILER_LOG_LEVEL = "persist.hyperceiler.log.level";
+
+    public static void init() {
+        IS_LOGGER_ALIVE = isLoggerAlive();
+    }
+
+    public static void setLogLevel() {
+        int logLevel = Integer.parseInt(mSharedPreferences.getString("prefs_key_log_level", "3"));
+        int effectiveLogLevel = ProjectApi.isCanary() ? (logLevel != 3 && logLevel != 4 ? 3 : logLevel) : logLevel;
+        PropUtils.setProp(PROP_HYPERCEILER_LOG_LEVEL, effectiveLogLevel);
+    }
 
     public static int getLogLevel() {
         int level = mPrefsMap.getStringAsInt("log_level", 3);
