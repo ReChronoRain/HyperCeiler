@@ -106,7 +106,7 @@
 
     <PreferenceCategory>
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.main.page.main.hooker.systemui.CardTileSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.CardTileSettings"
             android:key="prefs_key_card_tile"
             android:title="@string/system_ui_control_center_card_tiles_customization" />
 

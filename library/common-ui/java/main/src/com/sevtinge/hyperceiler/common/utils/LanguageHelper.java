@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.common.utils;
 
+import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mSharedPreferences;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -31,6 +33,13 @@ public class LanguageHelper {
     public static final String[] appLanguages = {
             "en", "zh_CN", "zh_TW", "zh_HK", "ja_JP", "pl_PL", "ru_RU", "ar_SA", "es_ES", "pt_BR", "id_ID", "tr_TR", "vi_VN", "it_IT", "zh_ME"
     };
+
+    public static void init(Activity activity) {
+        String languageSetting = mSharedPreferences.getString("prefs_key_settings_app_language", "-1");
+        if (!"-1".equals(languageSetting)) {
+            LanguageHelper.setIndexLanguage(activity, Integer.parseInt(languageSetting), false);
+        }
+    }
 
     public static void setLanguage(Context context, String language) {
         Resources resources = context.getResources();

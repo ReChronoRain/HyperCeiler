@@ -75,7 +75,7 @@
         </Preference>
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.app.about.AboutContributerFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.page.about.AboutContributerFragment"
             android:key="prefs_key_about_contributer"
             android:title="@string/about_contributer" />
 
@@ -133,7 +133,7 @@
         </Preference>
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.app.about.AboutUseFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.page.about.AboutUseFragment"
             android:key="prefs_key_about_use"
             android:title="@string/about_use" />
 
@@ -146,7 +146,7 @@
         </Preference>
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.app.helper.HelpFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.page.settings.helper.HelpFragment"
             android:key="prefs_key_help"
             android:title="@string/help" />
 

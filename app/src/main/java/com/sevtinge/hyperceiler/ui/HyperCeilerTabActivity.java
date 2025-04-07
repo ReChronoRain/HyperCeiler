@@ -1,19 +1,13 @@
 package com.sevtinge.hyperceiler.ui;
 
-import static com.sevtinge.hyperceiler.safemode.CrashHandlerDialog.CrashHandlerBroadcastReceiver.CRASH_HANDLER;
 import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
 import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isNeedGrayView;
-import static com.sevtinge.hyperceiler.utils.XposedActivateHelper.isModuleActive;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isTablet;
-import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.isLoggerAlive;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
@@ -27,24 +21,21 @@ import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.common.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.common.prefs.XmlPreference;
-import com.sevtinge.hyperceiler.common.utils.CtaUtils;
-import com.sevtinge.hyperceiler.common.utils.PermissionUtils;
+import com.sevtinge.hyperceiler.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.dashboard.SubSettings;
 import com.sevtinge.hyperceiler.hook.callback.IResult;
-import com.sevtinge.hyperceiler.safemode.CrashHandlerDialog;
+import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
+import com.sevtinge.hyperceiler.safemode.CrashHandlerReceiver;
 import com.sevtinge.hyperceiler.ui.holiday.HolidayHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
-import com.sevtinge.hyperceiler.hook.utils.PropUtils;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
+import com.sevtinge.hyperceiler.utils.LogServiceUtils;
 import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
-import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.common.utils.search.SearchHelper;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 
@@ -61,52 +52,29 @@ import fan.preference.PreferenceFragment;
 public class HyperCeilerTabActivity extends NaviBaseActivity
     implements PreferenceFragment.OnPreferenceStartFragmentCallback, IResult {
 
-    private Handler handler;
-    private Context context;
-    private CrashHandlerDialog.CrashHandlerBroadcastReceiver mCrashHandlerBroadcastReceiver;
+    private Handler mHandler;
     private ArrayList<String> appCrash = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        IS_LOGGER_ALIVE = isLoggerAlive();
+        mHandler = new Handler(getMainLooper());
+        LogManager.init();
         if (isNeedGrayView) {
             applyGrayScaleFilter();
         }
-
-        if (isLunarNewYearThemeView) {
-            new HolidayHelper(this);
-        }
-
-        mCrashHandlerBroadcastReceiver = new CrashHandlerDialog.CrashHandlerBroadcastReceiver();
-        IntentFilter intentFilter = new IntentFilter(CRASH_HANDLER);
-        registerReceiver(mCrashHandlerBroadcastReceiver, intentFilter, RECEIVER_EXPORTED);
-
-        SharedPreferences mPrefs = PrefsUtils.mSharedPreferences;
-        String languageSetting = mPrefs.getString("prefs_key_settings_app_language", "-1");
-        if (!"-1".equals(languageSetting)) {
-            LanguageHelper.setIndexLanguage(this, Integer.parseInt(languageSetting), false);
-        }
-
-        handler = new Handler(this.getMainLooper());
-        context = this;
-        requestPermissions();
-
-        int logLevel = Integer.parseInt(mPrefs.getString("prefs_key_log_level", "3"));
+        HolidayHelper.init(this);
+        CrashHandlerReceiver.register(this);
+        LanguageHelper.init(this);
+        PermissionUtils.init(this);
         super.onCreate(savedInstanceState);
-        ThreadPoolManager.getInstance().submit(() -> SearchHelper.getAllMods(context, savedInstanceState != null));
-
-        XposedActivateHelper.checkActivateState(this);
-
-        if (shouldShowLogServiceWarnDialog()) {
-            handler.post(() -> DialogHelper.showLogServiceWarnDialog(context));
-        }
-
+        SearchHelper.init(this, savedInstanceState != null);
+        XposedActivateHelper.init(this);
         ShellInit.init(this);
-        int effectiveLogLevel = ProjectApi.isCanary() ? (logLevel != 3 && logLevel != 4 ? 3 : logLevel) : logLevel;
-        PropUtils.setProp("persist.hyperceiler.log.level", effectiveLogLevel);
+        LogServiceUtils.init(this);
+        LogManager.setLogLevel();
 
         appCrash = CrashData.toPkgList();
-        handler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
+        mHandler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
     }
 
     private void applyGrayScaleFilter() {
@@ -118,10 +86,6 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
     }
 
-    private boolean shouldShowLogServiceWarnDialog() {
-        return !IS_LOGGER_ALIVE && isModuleActive && BuildConfig.BUILD_TYPE != "release" && !PrefsUtils.mSharedPreferences.getBoolean("prefs_key_development_close_log_alert_dialog", false);
-    }
-
     @SuppressLint("StringFormatInvalid")
     private void showSafeModeDialogIfNeeded() {
         if (haveCrashReport()) {
@@ -130,7 +94,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
             String appName = String.join(", ", appList);
             String msg = getString(com.sevtinge.hyperceiler.ui.R.string.safe_mode_later_desc, appName);
             msg = cleanUpMessage(msg);
-            DialogHelper.showSafeModeDialog(context, msg);
+            DialogHelper.showSafeModeDialog(this, msg);
         }
     }
 
@@ -171,7 +135,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
     @Override
     public void error(String reason) {
-        handler.post(() -> DialogHelper.showNoRootPermissionDialog(this));
+        mHandler.post(() -> DialogHelper.showNoRootPermissionDialog(this));
     }
 
     @Override
@@ -289,29 +253,10 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mCrashHandlerBroadcastReceiver);
+        CrashHandlerReceiver.unregister(this);
         ShellInit.destroy();
         ThreadPoolManager.shutdown();
         PreferenceHeader.mUninstallApp.clear();
         PreferenceHeader.mDisableOrHiddenApp.clear();
-    }
-
-    // 权限申请
-    public void requestPermissions() {
-        PermissionUtils.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1,
-            // 实现接口方法
-            new PermissionUtils.OnPermissionListener() {
-                @Override
-                public void onPermissionGranted(Context context) {
-                    // 获取权限成功
-                }
-
-                @Override
-                public void onPermissionDenied() {
-                    // 获取权限失败
-                    finish();
-                }
-            }
-        );
     }
 }

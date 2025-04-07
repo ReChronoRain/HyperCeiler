@@ -26,6 +26,7 @@ import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.text.TextUtils;
 
+import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.ui.hooker.securitycenter.OtherSettings;
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.common.model.data.ModData;
@@ -107,6 +108,10 @@ public class SearchHelper {
 
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
     public static final String APP_NS = "http://schemas.android.com/apk/res-auto";
+
+    public static void init(Context context, boolean force) {
+        ThreadPoolManager.getInstance().submit(() -> SearchHelper.getAllMods(context, force));
+    }
 
     public static void getAllMods(Context context, boolean force) {
         if (force) {

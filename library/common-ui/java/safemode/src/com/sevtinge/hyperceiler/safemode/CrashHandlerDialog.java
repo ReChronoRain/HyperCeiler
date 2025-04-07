@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -52,16 +53,5 @@ public class CrashHandlerDialog {
             .setCancelable(false)
             .setHapticFeedbackEnabled(true)
             .show();
-    }
-
-    public static class CrashHandlerBroadcastReceiver extends BroadcastReceiver {
-        public static final String CRASH_HANDLER = "com.sevtinge.hyperceiler.CrashHandler";
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (CRASH_HANDLER.equals(intent.getAction())) {
-                new CrashHandlerDialog(context, intent);
-            }
-        }
     }
 }

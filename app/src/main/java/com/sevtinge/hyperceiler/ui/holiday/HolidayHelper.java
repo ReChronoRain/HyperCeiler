@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.ui.holiday;
 
+import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -34,6 +36,12 @@ public class HolidayHelper {
     static int opt = 2;
     private static WeakReference<WeatherView> weatherView;
     private static WeakReference<GravitySensor> angleListener;
+
+    public static void init(Activity activity) {
+        if (isLunarNewYearThemeView) {
+            new HolidayHelper(activity);
+        }
+    }
 
     public HolidayHelper(Activity activity) {
         mContext = activity;
