@@ -46,6 +46,7 @@ import com.sevtinge.hyperceiler.widget.ListContainerView;
 
 import java.util.List;
 
+import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.AppCompatActivity;
 import fan.navigator.NavigatorFragmentListener;
 import fan.preference.DropDownPreference;
@@ -185,12 +186,12 @@ public class SettingsPageFragment extends DashboardFragment
     }
 
     @Override
-    public void onEnter() {
+    public void onEnter(ActionBar actionBar) {
 
     }
 
     @Override
-    public void onLeave() {
+    public void onLeave(ActionBar actionBar) {
 
     }
 

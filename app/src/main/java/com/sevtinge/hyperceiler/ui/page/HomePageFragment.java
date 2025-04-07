@@ -39,6 +39,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.function.BiConsumer;
 
+import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
 import fan.navigator.NavigatorFragmentListener;
 import fan.nestedheader.widget.NestedHeaderLayout;
@@ -263,12 +264,12 @@ public class HomePageFragment extends DashboardFragment
     }
 
     @Override
-    public void onEnter() {
+    public void onEnter(ActionBar actionBar) {
 
     }
 
     @Override
-    public void onLeave() {
+    public void onLeave(ActionBar actionBar) {
 
     }
 }

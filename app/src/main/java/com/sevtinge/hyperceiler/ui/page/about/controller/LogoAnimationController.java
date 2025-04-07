@@ -57,13 +57,13 @@ public class LogoAnimationController {
         view.setAlpha(0.0f);
     }
 
-    public void startAnimation(int scrollY, View iconLogoView, View textLogoView, View iconLogoViewShade, View textLogoViewShade, HyperCardView updateTextView, View versionLayout, View bgEffectView) {
+    public void startAnimation(int scrollY, View iconLogoView, View textLogoView, View iconLogoViewShade, View textLogoViewShade, HyperCardView updateTextView, View versionLayout, View bgEffectView, View titleView) {
         float scroll = calculateScrollFactor(scrollY, actionBarPadding);
         float scale = 1.0f - scroll * SCALE_FACTOR;
 
         resetViewsAlphaAndScale(iconLogoView, textLogoView, iconLogoViewShade, textLogoViewShade);
 
-        applyAnimation(scroll, iconLogoView, textLogoView, iconLogoViewShade, textLogoViewShade, updateTextView, versionLayout, bgEffectView, scale, scrollY);
+        applyAnimation(scroll, iconLogoView, textLogoView, iconLogoViewShade, textLogoViewShade, updateTextView, versionLayout, bgEffectView, titleView, scale, scrollY);
     }
 
     private void resetViewsAlphaAndScale(View... views) {
@@ -74,7 +74,7 @@ public class LogoAnimationController {
         }
     }
 
-    private void applyAnimation(float scroll, View iconLogoView, View textLogoView, View iconLogoViewShade, View textLogoViewShade, HyperCardView updateTextView, View versionLayout, View bgEffectView, float scale, int scrollY) {
+    private void applyAnimation(float scroll, View iconLogoView, View textLogoView, View iconLogoViewShade, View textLogoViewShade, HyperCardView updateTextView, View versionLayout, View bgEffectView, View titleView, float scale, int scrollY) {
         if (scrollY >= logoPadding) {
             float scroll2 = calculateScrollFactor(scrollY - logoPadding, logoHeight);
             float scale2 = 1.0f - SCALE_FACTOR * scroll2;
@@ -82,8 +82,14 @@ public class LogoAnimationController {
             setViewAlphaAndScale(textLogoView, 1.0f - scroll2, scale2);
             setViewAlphaAndScale(iconLogoViewShade, 1.0f - scroll2, scale2);
             setViewAlphaAndScale(textLogoViewShade, 1.0f - scroll2, scale2);
+            if (scroll2 == 1.0f) {
+                titleView.setAlpha(scroll2);
+            } else {
+                titleView.setAlpha(0.0f);
+            }
         } else {
             resetViewsAlphaAndScale(iconLogoViewShade, textLogoViewShade);
+            titleView.setAlpha(0.0f);
         }
 
         versionLayout.setAlpha(1.0f - scroll * (actionBarPadding / (float) logoPadding));
