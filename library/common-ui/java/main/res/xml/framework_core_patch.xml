@@ -21,7 +21,6 @@
     app:myLocation="@string/system_framework_corepatch_title"
     app:quick_restart="system">
     <PreferenceCategory>
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_core_patch_downgr"
@@ -58,12 +57,6 @@
             android:key="prefs_key_system_framework_core_patch_use_pre_signature"
             android:summary="@string/system_framework_core_patch_use_pre_signature_desc"
             android:title="@string/system_framework_core_patch_use_pre_signature" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_framework_core_patch_enhanced_mode"
-            android:summary="@string/system_framework_core_patch_enhanced_mode_desc"
-            android:title="@string/system_framework_core_patch_enhanced_mode" />
 
         <SwitchPreference
             android:defaultValue="false"

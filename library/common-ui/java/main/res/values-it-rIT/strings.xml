@@ -402,8 +402,6 @@
     <string name="system_framework_core_patch_digest_creak_desc">Consenti la reinstallazione dell\'app con firma diversa</string>
     <string name="system_framework_core_patch_use_pre_signature">Usa firme installate</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">Questa caratteristica è estremamente pericolosa e dovrebbe essere attivata solo quando assolutamente necessario</string>
-    <string name="system_framework_core_patch_enhanced_mode">Modalità migliorata</string>
-    <string name="system_framework_core_patch_enhanced_mode_desc">Passa qualche convalida nell\'applicazione</string>
     <string name="system_framework_disable_low_api_check">Disabilita controllo API di basso livello</string>
     <string name="system_framework_disable_low_api_check_desc">Sono consentite applicazioni con API inferiori a 23</string>
     <!--Browser-->

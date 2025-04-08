@@ -408,8 +408,6 @@
     <string name="system_framework_core_patch_digest_creak_desc">Izinkan menginstal ulang aplikasi dengan tanda tangan berbeda</string>
     <string name="system_framework_core_patch_use_pre_signature">Gunakan tanda tangan yang terpasang</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">Fitur ini sangat berbahaya dan hanya boleh diaktifkan bila benar-benar diperlukan</string>
-    <string name="system_framework_core_patch_enhanced_mode">Modus yang ditingkatkan</string>
-    <string name="system_framework_core_patch_enhanced_mode_desc">Lulus beberapa validasi dalam aplikasi</string>
     <string name="system_framework_disable_low_api_check">Nonaktifkan pemeriksaan API rendah</string>
     <string name="system_framework_disable_low_api_check_desc">Aplikasi dengan API lebih rendah dari 23 diperbolehkan</string>
     <!--Browser-->

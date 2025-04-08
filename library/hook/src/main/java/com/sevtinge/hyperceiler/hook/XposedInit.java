@@ -36,7 +36,6 @@ import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.hchen.hooktool.HCInit;
 import com.sevtinge.hyperceiler.hook.module.app.VariousThirdApps;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.DataBase;
 import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowUninstall;
@@ -51,6 +50,7 @@ import com.sevtinge.hyperceiler.hook.safe.CrashHook;
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.module.base.DataBase;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -96,9 +96,6 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         );
         HCInit.initStartupParam(startupParam);
 
-
-        // load CorePatch
-        new SystemFrameworkForCorePatch().initZygote(startupParam);
         // load ZygoteHook
         loadZygoteHook(startupParam);
     }

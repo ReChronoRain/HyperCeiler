@@ -47,15 +47,13 @@ import java.util.Objects;
 import java.util.zip.ZipEntry;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackage, IXposedHookZygoteInit {
+public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackage {
     private final static Method deoptimizeMethod;
     private static final boolean isNotReleaseVersion = !ProjectApi.isRelease();
     public static final String TAG = "[CorePatchForR]";
@@ -89,7 +87,6 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
             XposedBridge.log("[HyperCeiler][D][android]" + TAG + ": authcreak=" + prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", true));
             XposedBridge.log("[HyperCeiler][D][android]" + TAG + ": digestCreak=" + prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true));
             XposedBridge.log("[HyperCeiler][D][android]" + TAG + ": UsePreSig=" + prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false));
-            XposedBridge.log("[HyperCeiler][D][android]" + TAG + ": enhancedMode=" + prefs.getBoolean("prefs_key_system_framework_core_patch_enhanced_mode", false));
             XposedBridge.log("[HyperCeiler][D][android]" + TAG + " sharedUser=" + prefs.getBoolean("prefs_key_system_framework_core_patch_shared_user", false));
             XposedBridge.log("[HyperCeiler][D][android]" + TAG + "disableVerificationAgent=" + prefs.getBoolean("prefs_key_system_framework_disable_verification_agent", true));
         }
@@ -158,6 +155,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                         final Object block = constructor.newInstance(param.args[0]);
                         Object[] infos = (Object[]) XposedHelpers.callMethod(block, "getSignerInfos");
                         Object info = infos[0];
+                        @SuppressWarnings("unchecked")
                         List<X509Certificate> verifiedSignerCertChain = (List<X509Certificate>) XposedHelpers.callMethod(info, "getCertificateChain", block);
                         param.setResult(verifiedSignerCertChain.toArray(
                             new X509Certificate[0]));
@@ -429,20 +427,6 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
 
     Class<?> getSigningDetails(ClassLoader classLoader) {
         return XposedHelpers.findClass("android.content.pm.PackageParser.SigningDetails", classLoader);
-    }
-
-    @Override
-    public void initZygote(StartupParam startupParam) {
-        hookAllMethods("android.content.pm.PackageParser", null, "getApkSigningVersion", XC_MethodReplacement.returnConstant(1));
-        hookAllConstructors("android.util.jar.StrictJarVerifier", new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if (prefs.getBoolean("prefs_key_system_framework_core_patch_enhanced_mode", false)) {
-                    super.beforeHookedMethod(param);
-                    param.args[3] = Boolean.FALSE;
-                }
-            }
-        });
     }
 
     Object mPMS = null;

@@ -507,8 +507,6 @@
     <string name="system_framework_core_patch_digest_creak_desc">允許直接覆蓋安裝同包名且不同簽名的應用程式</string>
     <string name="system_framework_core_patch_use_pre_signature">安裝時始終使用已安裝應用程式的簽名</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">該功能極度危險，僅在絕對需要時啟用</string>
-    <string name="system_framework_core_patch_enhanced_mode">增強模式</string>
-    <string name="system_framework_core_patch_enhanced_mode_desc">可以解決一些應用程式內部的完整性校驗，一般不需要開啟</string>
     <string name="system_framework_disable_low_api_check">停用低版本 API 校驗</string>
     <string name="system_framework_disable_low_api_check_desc">允許安裝 API 低於 23 的應用程式</string>
     <string name="system_framework_disable_persistent">停用持久檢查</string>

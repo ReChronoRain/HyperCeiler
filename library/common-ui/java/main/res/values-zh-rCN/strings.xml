@@ -573,8 +573,6 @@
     <string name="system_framework_core_patch_digest_creak_desc">允许直接覆盖安装同包名不同签名的应用</string>
     <string name="system_framework_core_patch_use_pre_signature">安装时始终使用已安装应用的签名</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">此功能极度危险，仅在绝对需要时启用</string>
-    <string name="system_framework_core_patch_enhanced_mode">禁用应用内完整性校验增强</string>
-    <string name="system_framework_core_patch_enhanced_mode_desc">可以解决一些应用内部的完整性校验，一般无需开启</string>
     <string name="system_framework_disable_low_api_check">禁用低 API 校验</string>
     <string name="system_framework_disable_low_api_check_desc">允许安装 TargetSDK 低于 23 的应用</string>
     <string name="system_framework_disable_persistent">禁用持久性检查</string>

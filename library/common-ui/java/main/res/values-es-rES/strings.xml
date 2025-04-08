@@ -479,8 +479,6 @@ aplicaciones del sistema</string>
     <string name="system_framework_core_patch_digest_creak_desc">Permitir reinstalar apps con firmas diferentes</string>
     <string name="system_framework_core_patch_use_pre_signature">Usar firmas de aplicaciones instaladas</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">Esta característica es extrema peligrosa y solo debe activarse cuando sea necesario de verdad</string>
-    <string name="system_framework_core_patch_enhanced_mode">Modo avanzado</string>
-    <string name="system_framework_core_patch_enhanced_mode_desc">Puede resolver algunas comprobaciones internas de integridad de la aplicación, que generalmente no necesitan abrirse</string>
     <string name="system_framework_disable_low_api_check">Desactivar verificación de API baja</string>
     <string name="system_framework_disable_low_api_check_desc">Se permiten aplicaciones con APIs inferiores a 23</string>
     <string name="system_framework_disable_persistent">Desactivar comprobaciones persistentes</string>
