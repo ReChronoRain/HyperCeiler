@@ -1,7 +1,6 @@
 // file:noinspection DependencyNotationArgument
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import com.android.build.gradle.tasks.PackageAndroidArtifact
-import org.jetbrains.kotlin.tooling.core.withClosureSequence
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -209,6 +208,7 @@ java {
 kotlin.jvmToolchain(21)
 
 dependencies {
+    implementation(files("libs/hyperceiler_expansion_packs-debug.aar"))
 
     implementation(projects.library.commonUi)
 }

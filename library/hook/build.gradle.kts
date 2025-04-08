@@ -55,7 +55,6 @@ dependencies {
     api(libs.core.ktx)
     compileOnly(projects.library.hiddenApi)
     compileOnly(libs.xposed.api)
-    //api(files("libs/hyperceiler_expansion_packs-debug.aar"))
 
     api(libs.dexkit)
     api(libs.mmkv)
