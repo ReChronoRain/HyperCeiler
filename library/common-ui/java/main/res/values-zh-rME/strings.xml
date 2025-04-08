@@ -452,8 +452,6 @@
     <string name="system_framework_core_patch_digest_creak_desc">吃掉签名校验</string>
     <string name="system_framework_core_patch_use_pre_signature">继承老爸的签名</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">容易被打，但是如果真的需要可以试试</string>
-    <string name="system_framework_core_patch_enhanced_mode">增⚨强模式</string>
-    <string name="system_framework_core_patch_enhanced_mode_desc">可以解决一些小坏蛋内部的处女之身校验哦喵～</string>
     <string name="system_framework_disable_low_api_check">低版本API怎么你了</string>
     <string name="system_framework_disable_low_api_check_desc">TargetSDK 低于23也得干活</string>
     <string name="system_framework_disable_persistent">启用持久检查</string>

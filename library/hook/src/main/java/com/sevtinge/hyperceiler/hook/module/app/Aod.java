@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.hook.module.app;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
+
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.aod.UnlockAlwaysOnDisplay;
@@ -28,7 +30,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.aod.UnlockShortCuts;
 public class Aod extends BaseModule {
     @Override
     public void handleLoadPackage() {
-        initHook(UnlockShortCuts.INSTANCE, true);
+        initHook(UnlockShortCuts.INSTANCE, isMoreSmallVersion(200, 2f));
         initHook(UnlockAlwaysOnDisplay.INSTANCE, mPrefsMap.getBoolean("aod_unlock_always_on_display"));
         initHook(new UnlockAodAon(), mPrefsMap.getBoolean("aod_unlock_aon"));
     }

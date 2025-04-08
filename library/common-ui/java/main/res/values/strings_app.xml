@@ -530,8 +530,6 @@
     <string name="system_framework_core_patch_digest_creak_desc">Allow override app with different signatures</string>
     <string name="system_framework_core_patch_use_pre_signature">Use installed app signatures</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">This feature is extremely dangerous and should only be enabled when absolutely necessary</string>
-    <string name="system_framework_core_patch_enhanced_mode">Enhanced mode</string>
-    <string name="system_framework_core_patch_enhanced_mode_desc">Pass some integrity check in-app. It\'s usually not necessary to enable this feature.</string>
     <string name="system_framework_disable_low_api_check">Disable low API check</string>
     <string name="system_framework_disable_low_api_check_desc">Allow install apps with APIs lower than 23</string>
     <string name="system_framework_disable_persistent">Disable persistent checks</string>

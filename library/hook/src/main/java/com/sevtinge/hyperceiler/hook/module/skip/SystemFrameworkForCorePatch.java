@@ -22,6 +22,7 @@ import static com.sevtinge.hyperceiler.hook.BuildConfig.DEBUG;
 
 import android.os.Build;
 
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.CorePatchForB;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.CorePatchForR;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.CorePatchForS;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.CorePatchForT;
@@ -30,19 +31,21 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.CoreP
 import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXposedHookZygoteInit {
+public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage {
     public static final String TAG = "CorePatch";
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if (("android".equals(lpparam.packageName)) && (lpparam.processName.equals("android"))) {
-            if (DEBUG) XposedLogUtils.logD(TAG, "android", "handleLoadPackage: Current sdk version " + Build.VERSION.SDK_INT);
+            if (DEBUG)
+                XposedLogUtils.logD(TAG, "android", "handleLoadPackage: Current sdk version " + Build.VERSION.SDK_INT);
             switch (Build.VERSION.SDK_INT) {
+                case Build.VERSION_CODES.BAKLAVA -> // 36
+                        new CorePatchForB().handleLoadPackage(lpparam);
                 case Build.VERSION_CODES.VANILLA_ICE_CREAM -> // 35
-                    new CorePatchForV().handleLoadPackage(lpparam);
+                        new CorePatchForV().handleLoadPackage(lpparam);
                 case Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> // 34
                         new CorePatchForU().handleLoadPackage(lpparam);
                 case Build.VERSION_CODES.TIRAMISU -> // 33
@@ -59,26 +62,4 @@ public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXpo
         }
     }
 
-    @Override
-    public void initZygote(StartupParam startupParam) {
-        if (startupParam.startsSystemServer) {
-            if (DEBUG) XposedLogUtils.logD(TAG, "android", "initZygote: Current sdk version " + Build.VERSION.SDK_INT);
-            switch (Build.VERSION.SDK_INT) {
-                case Build.VERSION_CODES.VANILLA_ICE_CREAM -> // 35
-                        new CorePatchForV().initZygote(startupParam);
-                case Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> // 34
-                        new CorePatchForU().initZygote(startupParam);
-                case Build.VERSION_CODES.TIRAMISU -> // 33
-                        new CorePatchForT().initZygote(startupParam);
-                case Build.VERSION_CODES.S_V2 -> // 32
-                        new CorePatchForS().initZygote(startupParam);
-                case Build.VERSION_CODES.S -> // 31
-                        new CorePatchForS().initZygote(startupParam);
-                case Build.VERSION_CODES.R -> // 30
-                        new CorePatchForR().initZygote(startupParam);
-                default ->
-                        XposedLogUtils.logW(TAG, "android", "Unsupported Version of Android sdk version " + Build.VERSION.SDK_INT);
-            }
-        }
-    }
 }

@@ -501,8 +501,6 @@
     <string name="system_framework_core_patch_digest_creak_desc">異なる署名を持つアプリの再インストールを許可します</string>
     <string name="system_framework_core_patch_use_pre_signature">インストール済みの署名を使用</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">この機能は非常に危険です。必要なときにのみ有効にしてください</string>
-    <string name="system_framework_core_patch_enhanced_mode">エンハンスモード</string>
-    <string name="system_framework_core_patch_enhanced_mode_desc">アプリケーションのいくつかの検証に合格させます</string>
     <string name="system_framework_disable_low_api_check">低 API チェックを無効化</string>
     <string name="system_framework_disable_low_api_check_desc">API 23 未満のアプリを許可します</string>
     <string name="system_framework_disable_persistent">常に稼働するアプリのチェックを無効化</string>
