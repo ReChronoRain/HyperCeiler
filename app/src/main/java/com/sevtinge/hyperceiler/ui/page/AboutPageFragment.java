@@ -65,6 +65,7 @@ public class AboutPageFragment extends DashboardFragment
 
     private int scrollValue = 0;
 
+
     private ListContainerView mContainerView;
     private NestedScrollView mScrollView;
     private SpringBackLayout mSpringBackView;
@@ -112,10 +113,11 @@ public class AboutPageFragment extends DashboardFragment
                 listView.setPaddingRelative(listView.getPaddingStart(), 0, listView.getPaddingEnd(), 0);
             }
 
-            mContainerView.addContainerView(new VersionCardClickView(requireContext()));
+            VersionCardClickView clickView = new VersionCardClickView(requireContext());
+            mContainerView.addContainerView(clickView);
 
             mVersionCardView = new VersionCard(requireContext());
-            mContainerView.addContentView(mVersionCardView);
+            mContainerView.addView(mVersionCardView);
 
             mScrollView = mContainerView.getNestedScrollView();
             mSpringBackView = mContainerView.getSpringBackLayout();
@@ -144,7 +146,7 @@ public class AboutPageFragment extends DashboardFragment
     }
 
     private void setShaderBackground() {
-        setContentViewPadding();
+        //setContentViewPadding();
         if (mBgEffectView == null) {
             mBgEffectView = LayoutInflater.from(getContext()).inflate(R.layout.layout_effect_bg, mContainerView, false);
             mContainerView.addView(mBgEffectView, 0);
@@ -188,16 +190,6 @@ public class AboutPageFragment extends DashboardFragment
                 listView.getPaddingEnd(),
                 0)
             );
-        }
-    }
-
-    private void setContentViewPadding() {
-        if (mContainerView == null && getActivity() != null) {
-            //contentView = mContainerView.findViewById(R.id.fragment_container);
-            mContainerView.setOnApplyWindowInsetsListener((v, insets) -> {
-                v.setPadding(0, 0, 0, 0);
-                return insets;
-            });
         }
     }
 
@@ -288,28 +280,16 @@ public class AboutPageFragment extends DashboardFragment
         if (actionBar != null) {
             actionBar.getExpandTitle().setTitle("");
             actionBar.getActionBarView().requestFocus();
-            resetActionBar(actionBar, false);
+            setActionBarBlur(actionBar, false);
         }
     }
 
     @Override
     public void onLeave(ActionBar actionBar) {
-        resetActionBar(actionBar, true);
-    }
-
-    public void resetActionBar(ActionBar actionBar, boolean resizable) {
         if (actionBar != null) {
-            if (resizable) {
-                actionBar.setResizable(true);
-                actionBar.getTitleView(0).setAlpha(1.0f);
-                //setActionBarBlur(actionBar, true);
-            } else {
-                actionBar.setExpandState(0);
-                actionBar.setResizable(false);
-                mVersionCardView.setAnimation(mScrollView.getScrollY(), mBgEffectView, getAppCompatActionBar().getTitleView(0));
-                setActionBarBlur(actionBar, false);
-            }
+            actionBar.getTitleView(0).setAlpha(1.0f);
         }
+        //resetActionBar(actionBar, true);
     }
 
     private void setActionBarBlur(ActionBar actionBar, boolean blur) {

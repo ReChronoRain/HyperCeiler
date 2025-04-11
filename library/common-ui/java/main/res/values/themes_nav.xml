@@ -48,8 +48,6 @@
         <item name="miuixColorPrimary">@color/miuix_design_default_color_surface_variant_light</item>
         <item name="responsiveActionMenuViewStyle">@style/Widget.ResponsiveActionMenuView.Light</item>
 
-
-
         <item name="textColorDialogListItem">@color/miuix_appcompat_dialog_list_text_light</item>
         <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>
 
@@ -60,7 +58,6 @@
 
 
     <style name="Theme.Navigator.ContentChild" parent="Theme.AppCompat.DayNight.ContentChild">
-
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_light</item>
 

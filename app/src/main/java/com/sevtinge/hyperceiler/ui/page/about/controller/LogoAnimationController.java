@@ -30,7 +30,7 @@ public class LogoAnimationController {
 
     public void iniData(Context context, boolean needUpdate) {
         mContext = context;
-        actionBarPadding = getDimensionPixelSize(R.dimen.logo_area_height);
+        actionBarPadding = getDimensionPixelSize(R.dimen.logo_area_height) - getDimensionPixelSize(fan.appcompat.R.dimen.miuix_appcompat_action_bar_default_height);
         btnPadding = getDimensionPixelSize(R.dimen.update_btn_margin_bottom);
         startY = getDimensionPixelSize(R.dimen.screen_effect_actionbar_height);
         logoHeight = getDimensionPixelSize(R.dimen.logo_height);
@@ -43,7 +43,7 @@ public class LogoAnimationController {
     }
 
     private int calculateLogoPadding(Context context, boolean needUpdate) {
-        int basePadding = getDimensionPixelSize(R.dimen.logo_bottom) - btnPadding;
+        int basePadding = getDimensionPixelSize(R.dimen.logo_bottom) - btnPadding - getDimensionPixelSize(R.dimen.logo_margin_top);
         if (needUpdate) {
             return basePadding;
         } else if (SettingsFeatures.isSplitTabletDevice()) {

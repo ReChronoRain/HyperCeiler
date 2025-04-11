@@ -48,7 +48,7 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
 
     @Override
     public int getThemeRes() {
-        return R.style.AppTheme;
+        return R.style.Theme_Navigator_ContentChild_Home;
     }
 
     @Override
