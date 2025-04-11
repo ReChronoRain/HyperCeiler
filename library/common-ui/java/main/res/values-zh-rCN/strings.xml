@@ -29,8 +29,8 @@
     <!--HyperCeiler Tips-->
     <string name="error">错误</string>
     <string name="warn">警告</string>
-    <string name="app_error_desc">本模块发生了致命崩溃事件，无法继续运行！请携带以下报错信息进行反馈！\n\n</string>
-    <string name="app_exit">结束进程</string>
+    <string name="app_error_desc">HyperCeiler 异常终止，请携带以下信息进行有效反馈。\n\n</string>
+    <string name="app_exit">退出</string>
     <string name="safe_mode_desc">%1$s 由于多次崩溃，已进入安全模式，HyperCeiler 对其的功能已停用。\n您可以解除对其的安全模式，或稍后进入 HyperCeiler 处理。</string>
     <string name="safe_mode_history">查看异常记录</string>
     <string name="safe_mode_cancel">解除</string>
