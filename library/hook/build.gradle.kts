@@ -65,6 +65,8 @@ dependencies {
     api(libs.lyric.getter.api)
     api(libs.lunarcalendar)
 
+    implementation(files("libs/hyperceiler_expansion_packs-debug.aar"))
+
     api(projects.library.processor)
     annotationProcessor(projects.library.processor)
 }
