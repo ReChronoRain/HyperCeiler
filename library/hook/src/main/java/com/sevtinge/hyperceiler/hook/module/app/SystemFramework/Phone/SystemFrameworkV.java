@@ -46,7 +46,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisablePinVerif
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableThermal;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableVerifyCanBeDisabled;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.EffectBinderProxy;
-import com.sevtinge.hyperceiler.module.hook.systemframework.EnhanceRecentsVisibility;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.EnhanceRecentsVisibility;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.HookEntry;

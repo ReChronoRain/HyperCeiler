@@ -23,7 +23,7 @@
 -keep class com.sevtinge.hyperceiler.hook.XposedInit { *; }
 -keep class com.sevtinge.hyperceiler.hook.module.skip.SystemFrameworkForCorePatch { *; }
 
--keep class com.sevtinge.hyperceiler.hook.module.base.**{ *; }
+-keep class com.sevtinge.hyperceiler.hook.module.**{ *; }
 
 -keep class * extends com.sevtinge.hyperceiler.hook.module.base.BaseHook { <init>(); }
 

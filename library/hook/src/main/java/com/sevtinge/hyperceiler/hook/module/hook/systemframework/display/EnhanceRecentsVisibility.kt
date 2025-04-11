@@ -16,15 +16,14 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.systemframework
+package com.sevtinge.hyperceiler.hook.module.hook.systemframework.display
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 
 object EnhanceRecentsVisibility : BaseHook() {
     override fun init() {
         hookAllMethods("android.content.Intent", "setFlags",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     var flags = param.args[0] as Int
                     flags = flags and 0xFF7FFFFF.toInt()
