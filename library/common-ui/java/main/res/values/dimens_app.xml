@@ -71,12 +71,14 @@
     <dimen name="logo_bottom">250dp</dimen>
     <dimen name="logo_area_height">416dp</dimen>
     <dimen name="logo_margin_top">90dp</dimen>
+    <dimen name="logo_layout_height">478dp</dimen>
+    <dimen name="logo_padding_top">152dp</dimen>
 
     <dimen name="update_btn_margin_bottom">60dp</dimen>
 
     <dimen name="screen_effect_actionbar_height">480dp</dimen>
 
-    <dimen name="my_card_bottom">100dp</dimen>
+    <dimen name="my_card_bottom">128dp</dimen>
     <dimen name="my_card_shadow_dx">0dp</dimen>
     <dimen name="my_card_shadow_dy">20dp</dimen>
     <dimen name="my_card_shadow_radius">40dp</dimen>
