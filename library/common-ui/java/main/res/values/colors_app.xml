@@ -58,4 +58,8 @@
     <color name="update_text_border1">#29ffffff</color>
     <color name="update_text_border2">#ccffffff</color>
 
+    <color name="headtip_hyperceiler_color">#f9b5ca</color>
+    <color name="headtip_notice_color">#f2d392</color>
+    <color name="headtip_tip_color">#e1ebf7</color>
+    <color name="headtip_warn_color">#faa68f</color>
 </resources>
