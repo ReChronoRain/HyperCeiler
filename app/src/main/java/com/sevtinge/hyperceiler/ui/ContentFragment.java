@@ -156,15 +156,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
         if (getArguments() != null && getArguments().containsKey(ARG_PAGE)) {
             int position = getArguments().getInt(ARG_PAGE);
             mViewPager.setCurrentItem(position);
-            if (mActionBar != null) {
-                if (position == 0) {
-                    mActionBar.setTitle(mPage1Name);
-                } else if (position == 1) {
-                    mActionBar.setTitle(mPage2Name);
-                } else if (position == 2) {
-                    mActionBar.setTitle(mPage3Name);
-                }
-            }
+            switchTabState(position);
         }
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             String leftTab;
@@ -195,15 +187,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
             public void onPageSelected(int position) {
                 String tabAt = TabViewModel.getTabAt(position);
                 navigator.selectTab(position);
-                if (mActionBar != null) {
-                    if (position == 0) {
-                        mActionBar.setTitle(mPage1Name);
-                    } else if (position == 1) {
-                        mActionBar.setTitle(mPage2Name);
-                    } else if (position == 2) {
-                        mActionBar.setTitle(mPage3Name);
-                    }
-                }
+                switchTabState(position);
 
                 handleFragmentChange(mCurrTab, tabAt);
                 offSet = 1.0f;
@@ -240,11 +224,26 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
         }
     }
 
+    private void switchTabState(int position) {
+        Log.d("ContentFragment", "switchTabState:" + position);
+        if (mActionBar != null) {
+            setActionBarTitle(position);
+        }
+        if (mQuickRestartMenuItem != null) mQuickRestartMenuItem.setVisible(position == 0);
+    }
+
+    private void setActionBarTitle(int position) {
+        switch (position) {
+            case 0 -> mActionBar.setTitle(mPage1Name);
+            case 1 -> mActionBar.setTitle(mPage2Name);
+            case 2 -> mActionBar.setTitle(mPage3Name);
+        }
+    }
 
     public void resetActionBar() {
-        if (mActionBar != null /*&& PadAdapterUtil.IS_PAD*/) {
-            mActionBar.setExpandState(0);
-            mActionBar.setResizable(false);
+        if (mActionBar != null) {
+            mActionBar.setExpandState(1);
+            mActionBar.setResizable(true);
         }
     }
 
@@ -277,19 +276,6 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
         args.putInt(ARG_PAGE, ARG_PAGE_About);
         return new UpdateFragmentNavInfo(1002, getClass(), args);
     }
-
-    /*private void switchTabState(int page) {
-        if (page == 0) {
-            mViewPager.setCurrentItem(0);
-        } else if (page == 1) {
-            mViewPager.setCurrentItem(1);
-        } else {
-            mViewPager.setCurrentItem(2);
-        }
-        if (mQuickRestartMenuItem != null) {
-            mQuickRestartMenuItem.setVisible(page == 0);
-        }
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

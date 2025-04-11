@@ -16,8 +16,9 @@ import androidx.preference.PreferenceViewHolder;
 import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.FolmeAnimationController;
+import fan.preference.PreferenceStyle;
 
-public class LayoutPreference extends Preference implements FolmeAnimationController {
+public class LayoutPreference extends Preference implements PreferenceStyle {
 
     private View mRootView;
     private final View.OnClickListener mClickListener = view -> performClick(view);
@@ -76,5 +77,10 @@ public class LayoutPreference extends Preference implements FolmeAnimationContro
     @Override
     public boolean isTouchAnimationEnable() {
         return true;
+    }
+
+    @Override
+    public boolean isEnabledCardStyle() {
+        return false;
     }
 }
