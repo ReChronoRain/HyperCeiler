@@ -33,36 +33,28 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clipChildren="false"
+    android:gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
     android:layout_gravity="center_vertical"
-    android:paddingBottom="@dimen/miuix_theme_padding_horizontal_common">
+    android:background="@drawable/headtip_hyperceiler_background">
 
-    <FrameLayout
-        android:clipChildren="false"
+    <TextView
+        android:text="@string/headtip_tip_fuck_coolapk"
+        android:id="@android:id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/headtip_hyperceiler_background">
-
-        <TextView
-            android:text="@string/headtip_tip_fuck_coolapk"
-            android:id="@android:id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#fc5b8d"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:inputType="textMultiLine"
-            android:textIsSelectable="true"
-            android:enabled="false"
-            android:clickable="true"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:longClickable="true" />
-
-    </FrameLayout>
-
+        android:textColor="#fc5b8d"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:inputType="textMultiLine"
+        android:textIsSelectable="true"
+        android:enabled="false"
+        android:clickable="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:longClickable="true" />
 </FrameLayout>

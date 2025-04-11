@@ -36,34 +36,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:gravity="center_vertical"
-    android:paddingBottom="@dimen/miuix_theme_padding_horizontal_common">
+    android:background="@drawable/headtip_warn_background"
+    android:clipChildren="false"
+    android:gravity="center_vertical">
 
-    <FrameLayout
+    <TextView
+        android:id="@android:id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:background="@drawable/headtip_warn_background"
-        android:clipChildren="false"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@android:id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:enabled="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:inputType="textMultiLine"
-            android:longClickable="true"
-            android:paddingLeft="16dp"
-            android:paddingTop="14dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="14dp"
-            android:textColor="#FF0000"
-            android:textIsSelectable="true" />
-
-    </FrameLayout>
-
+        android:clickable="true"
+        android:enabled="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:inputType="textMultiLine"
+        android:longClickable="true"
+        android:paddingLeft="16dp"
+        android:paddingTop="14dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="14dp"
+        android:textColor="#FF0000"
+        android:textIsSelectable="true" />
 </FrameLayout>

@@ -36,45 +36,36 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:gravity="center_vertical"
-    android:paddingBottom="@dimen/miuix_theme_padding_horizontal_common">
+    android:background="@drawable/headtip_hyperceiler_background">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/image_left"
+        android:layout_width="92dp"
+        android:layout_height="66dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:paddingStart="16dp"
+        android:paddingEnd="7dp"
+        android:src="@drawable/ic_hyperceiler_cartoon" />
+
+    <TextView
+        android:id="@android:id/title"
+        android:text="@string/happy_birthday_hyperceiler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        android:background="@drawable/headtip_hyperceiler_background">
-
-        <ImageView
-            android:id="@+id/image_left"
-            android:layout_width="92dp"
-            android:layout_height="66dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:paddingStart="16dp"
-            android:paddingEnd="7dp"
-            android:src="@drawable/ic_hyperceiler_cartoon" />
-
-        <TextView
-            android:id="@android:id/title"
-            android:text="@string/happy_birthday_hyperceiler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/image_left"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:enabled="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:inputType="textMultiLine"
-            android:longClickable="true"
-            android:paddingStart="7dp"
-            android:paddingTop="14dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="14dp"
-            android:textColor="#fc5b8d"
-            android:textIsSelectable="true" />
-
-    </RelativeLayout>
+        android:layout_toEndOf="@id/image_left"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:enabled="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:inputType="textMultiLine"
+        android:longClickable="true"
+        android:paddingStart="7dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="14dp"
+        android:textColor="#fc5b8d"
+        android:textIsSelectable="true" />
 
 </RelativeLayout>
