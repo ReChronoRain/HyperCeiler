@@ -85,7 +85,7 @@ public class HomePageFragment extends DashboardFragment
 
     private void initSearchView() {
         mContainerView.showHeaderView();
-        mContainerView.setRefreshEnable(true);
+        mContainerView.setRefreshEnable(false);
         mSearchBar = mContainerView.getHeaderView();
         mSearchInputView = mSearchBar.findViewById(android.R.id.input);
         mSearchResultView = mContainerView.getRecyclerView();
@@ -129,7 +129,7 @@ public class HomePageFragment extends DashboardFragment
     public void onDestroySearchMode(ActionMode mode) {
         //mInSearchMode = false;
         mNestedHeaderLayout.setInSearchMode(false);
-        mContainerView.setRefreshEnable(true);
+        mContainerView.setRefreshEnable(false);
         mContainerView.showPrefsContainer();
     }
 
