@@ -111,6 +111,29 @@ public class HideDelimiter extends BaseHook {
 
             if (prefs == 3) {
                 if (isMoreAndroidVersion(35)) {
+
+                    findAndHookMethod("miui.stub.statusbar.StatusBarStub$registerMiuiCarrierTextController$1$addCallback$callback$1", "onCarrierTextChanged", String.class, new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) throws Throwable {
+                            param.args[0] = getProp("persist.sys.device_name");
+                        }
+                    });
+
+                    findAndHookMethod("miui.stub.statusbar.StatusBarStub$registerMiuiCarrierTextController$1$addCallback$callback$1", "onCarrierTextChanged", String.class, int.class, new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) throws Throwable {
+                            param.args[0] = getProp("persist.sys.device_name");
+                            param.args[1] = 1;
+                        }
+                    });
+
+                    findAndHookMethod("com.android.keyguard.CarrierText$$ExternalSyntheticLambda0", "onCarrierTextChanged", String.class, new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) throws Throwable {
+                            param.args[0] = getProp("persist.sys.device_name");
+                        }
+                    });
+
                     try {
                         findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl", "updateCarrierText", new MethodHook() {
                             @Override
