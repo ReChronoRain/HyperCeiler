@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fan.springback.view.SpringBackLayout
-        android:id="@+id/sbl_fragments"
+    <com.sevtinge.hyperceiler.common.view.DraggableViewPager
+        android:id="@+id/vp_fragments"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:scrollOrientation="angle"
-        app:scrollableView="@id/vp_fragments">
-
-        <com.sevtinge.hyperceiler.common.view.DraggableViewPager
-            android:id="@+id/vp_fragments"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </fan.springback.view.SpringBackLayout>
+        android:layout_height="match_parent" />
 
 </FrameLayout>
