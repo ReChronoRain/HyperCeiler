@@ -31,4 +31,9 @@
 
     <color name="update_text_border1">#00ffffff</color>
     <color name="update_text_border2">#30ffffff</color>
+
+    <color name="headtip_hyperceiler_color">#69263b</color>
+    <color name="headtip_notice_color">#634403</color>
+    <color name="headtip_tip_color">#0f274b</color>
+    <color name="headtip_warn_color">#280d00</color>
 </resources>

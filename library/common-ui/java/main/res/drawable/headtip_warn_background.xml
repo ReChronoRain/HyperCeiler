@@ -1,5 +1,6 @@
 <!-- rounded_corner.xml -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="#2AFF3600" />
+    <solid android:color="@color/headtip_warn_color" />
+    <corners android:radius="16dp" />
 </shape>

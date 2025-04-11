@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="provision_list_description_color">#80ffffff</color>
+
+    <color name="provision_list_item_text_unselected">#ffffffff</color>
+
+    <color name="provision_item_bg_color">#66e3e3e3</color>
+    <color name="provision_item_pressed_bg_color">#14ffffff</color>
+    <color name="provision_item_selected_bg_color">@color/miuix_color_blue_light_primary_default</color>
+
+
+    <color name="provision_title_text_color">#ffffff</color>
+    <color name="provision_subtitle_text_color">#99ffffff</color>
+
+    <color name="provision_complete_title_color">#ffffffff</color>
+    <color name="provision_slogan_text_color">#80ffffff</color>
+
+    <color name="provision_service_name_color">#ffffff</color>
+    <color name="provision_service_desc_color">#80ffffff</color>
+
+    <color name="provision_item_policy_text_color">#0d84ff</color>
+
+    <color name="provision_service_agree_color">#ffffff</color>
+
+    <color name="provision_button_text_high_color_light">#0d84ff</color>
+</resources>
