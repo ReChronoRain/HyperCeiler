@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pull_to_enter_private">Kéo xuống để vào không gian riêng tư</string>
+    <string name="release_enter_private">Thả ra để vào không gian riêng tư</string>
+</resources>
