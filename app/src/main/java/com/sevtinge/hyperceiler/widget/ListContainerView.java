@@ -5,16 +5,15 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.PullViewHelper;
 
-import fan.core.widget.NestedScrollView;
 import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.springback.view.SpringBackLayout;
 
@@ -62,6 +61,10 @@ public class ListContainerView extends FrameLayout {
 
     public ViewGroup getContentView() {
         return mContentView;
+    }
+
+    public ViewGroup getContainerView() {
+        return mContainerView;
     }
 
     public NestedHeaderLayout getNestedHeader() {

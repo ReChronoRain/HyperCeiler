@@ -76,7 +76,7 @@
 
     <dimen name="screen_effect_actionbar_height">480dp</dimen>
 
-    <dimen name="my_card_bottom">144dp</dimen>
+    <dimen name="my_card_bottom">100dp</dimen>
     <dimen name="my_card_shadow_dx">0dp</dimen>
     <dimen name="my_card_shadow_dy">20dp</dimen>
     <dimen name="my_card_shadow_radius">40dp</dimen>

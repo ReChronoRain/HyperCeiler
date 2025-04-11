@@ -22,6 +22,7 @@ import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getDeviceToken;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -31,6 +32,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,7 +53,7 @@ import java.util.Objects;
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
 import fan.appcompat.internal.app.widget.ActionBarImpl;
-import fan.core.widget.NestedScrollView;
+import fan.internal.utils.ViewUtils;
 import fan.navigator.NavigatorFragmentListener;
 import fan.springback.view.SpringBackLayout;
 
@@ -157,6 +159,36 @@ public class AboutPageFragment extends DashboardFragment
                 mHandler.post(runnableBgEffect);
             }
         });
+    }
+
+    @Override
+    public void onContentInsetChanged(Rect rect) {
+        super.onContentInsetChanged(rect);
+        if (mScrollView != null) {
+            mScrollView.setClipToPadding(false);
+            ViewUtils.RelativePadding relativePadding = new ViewUtils.RelativePadding(mScrollView);
+            boolean isLayoutRtl = ViewUtils.isLayoutRtl(mScrollView);
+            relativePadding.start += isLayoutRtl ? rect.right : rect.left;
+            relativePadding.end += isLayoutRtl ? rect.left : rect.right;
+            relativePadding.bottom = (int) (getResources().getDimension(R.dimen.my_card_bottom) + rect.bottom);
+            relativePadding.applyToView(mScrollView);
+            setRecyclerViewPadding();
+        }
+    }
+
+    private void setRecyclerViewPadding() {
+        RecyclerView listView = getListView();
+        if (listView == null) return;
+        View view = (View) listView.getParent();
+        if (view instanceof SpringBackLayout) {
+            view.setEnabled(false);
+            listView.post(() -> listView.setPaddingRelative(
+                listView.getPaddingStart(),
+                0,
+                listView.getPaddingEnd(),
+                0)
+            );
+        }
     }
 
     private void setContentViewPadding() {
