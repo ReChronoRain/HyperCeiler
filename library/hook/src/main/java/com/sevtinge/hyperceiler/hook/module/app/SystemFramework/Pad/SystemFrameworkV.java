@@ -63,18 +63,16 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.SystemLockApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UseAndroidPackageInstaller;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UseOriginalAnimation;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.VolumeDefaultStream;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.VolumeDisableSafe;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.VolumeFirstPress;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.VolumeMediaSteps;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.VolumeSteps;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDefaultStream;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDisableSafe;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeFirstPress;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassIsolationViolation;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassSignCheckForT;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.AllDarkMode;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.DisplayCutout;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.ThemeProvider;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.ToastTime;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.UseAOSPScreenShot;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.OpenAppInFreeForm;
@@ -142,17 +140,11 @@ public class SystemFrameworkV extends BaseModule {
 
         // 显示
         initHook(new BackgroundBlur(), mPrefsMap.getBoolean("system_framework_background_blur_supported"));
-        initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));
         initHook(EnhanceRecentsVisibility.INSTANCE, mPrefsMap.getBoolean("system_framework_enhance_recents_visibility"));
         initHook(UseAOSPScreenShot.INSTANCE, mPrefsMap.getBoolean("system_ui_display_use_aosp_screenshot_enable"));
-        initHook(new ToastTime(), mPrefsMap.getBoolean("system_ui_display_toast_times_enable"));
         initHook(new AllDarkMode(), mPrefsMap.getBoolean("system_framework_allow_all_dark_mode"));
         initHook(new ThemeProvider(), mPrefsMap.getBoolean("system_framework_allow_third_theme"));
-        // initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
-
-        // 位置模拟
-        // initHook(new LocationSimulation(), false);
-
+        
         // 小米/红米平板设置相关
         initHook(IgnoreStylusKeyGesture.INSTANCE, mPrefsMap.getBoolean("mipad_input_ingore_gesture"));
         initHook(NoMagicPointer.INSTANCE, mPrefsMap.getBoolean("mipad_input_close_magic"));

@@ -408,17 +408,8 @@
     <string name="system_framework_volume_media_steps">媒體音量階數</string>
     <string name="system_framework_volume_media_steps_desc">可能會導致音量條的滾動卡頓或藍牙音量異常</string>
     <string name="system_framework_volume_steps">音量級數倍增</string>
-    <string name="system_ui_display_cutout_title">顯示瀏海</string>
-    <string name="system_ui_display_hide_cutout">隱藏螢幕瀏海</string>
     <string name="system_ui_display_use_aosp_screenshot">使用原生截圖</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">將截圖指令重新導向到原生截圖，HyperOS 中的截圖應用程式不會回應截圖操作</string>
-    <string name="system_ui_display_brightness_title">亮度</string>
-    <string name="system_ui_display_auto_brightness">自動亮度範圍</string>
-    <string name="system_ui_display_auto_brightness_desc">自訂自動亮度的最小值和最大值</string>
-    <string name="system_ui_display_min_brightness">最小亮度</string>
-    <string name="system_ui_display_max_brightness">最大亮度</string>
-    <string name="system_ui_display_toast_times_title">顯示時長調整</string>
-    <string name="system_ui_display_toast_times_desc">修改 Toast 顯示時長，顯示時長始終大於 1 秒</string>
     <string name="system_framework_phone_network_title">網路設定</string>
     <string name="phone_double_5g_nr">雙卡 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">雙卡同時使用 5G 網路 (卡 2 僅支援 NSA)</string>
@@ -587,9 +578,6 @@
     <string name="system_ui_lockscreen_information_title">訊息</string>
     <string name="system_ui_lock_screen_scramble_pin">亂序 PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">隨機更改 PIN 鍵盤順序</string>
-    <string name="system_ui_lock_screen_password_free">開機免輸入密碼</string>
-    <string name="system_ui_lock_screen_password_free_desc">需要裝置未啟用加密才會生效</string>
-    <string name="system_ui_lock_screen_password_free_tip">當前裝置已加密，此功能不可用</string>
     <string name="system_ui_lock_screen_default_theme">僅支援預設主題</string>
     <string name="system_ui_lock_screen_show_charging_cv">鎖定螢幕底部顯示充電資訊</string>
     <string name="system_ui_lock_screen_show_charging_c_more">顯示詳細電流</string>

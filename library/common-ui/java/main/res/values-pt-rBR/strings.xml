@@ -412,17 +412,8 @@
     <string name="system_framework_volume_media_steps">Nível do volume de mídia</string>
     <string name="system_framework_volume_media_steps_desc">Isso pode fazer com que a rolagem da barra de volume congele ou o volume do Bluetooth fique anormal</string>
     <string name="system_framework_volume_steps">Multiplicador de nível de volume</string>
-    <string name="system_ui_display_cutout_title">Recorte de exibição</string>
-    <string name="system_ui_display_hide_cutout">Ocultar recorte de exibição</string>
     <string name="system_ui_display_use_aosp_screenshot">Usar captura de tela AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Redirecione o app de captura de tela para a captura de tela AOSP. O app de captura de tela no HyperOS não responderá à operação de captura de tela.</string>
-    <string name="system_ui_display_brightness_title">Brilho</string>
-    <string name="system_ui_display_auto_brightness">Alcance do brilho automático</string>
-    <string name="system_ui_display_auto_brightness_desc">Defina valores mínimos e máximos para o brilho automático</string>
-    <string name="system_ui_display_min_brightness">Brilho automático mínimo</string>
-    <string name="system_ui_display_max_brightness">Brilho automático máximo</string>
-    <string name="system_ui_display_toast_times_title">Exibir ajuste de duração</string>
-    <string name="system_ui_display_toast_times_desc">Modifique a duração de exibição da dica. A duração de exibição é sempre maior que 1 segundo.</string>
     <string name="system_framework_phone_network_title">Configurações de rede</string>
     <string name="phone_double_5g_nr">Uso de cartão duplo 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">O cartão SIM principal e secundário permite 5G ao mesmo tempo (O cartão SIM secundário suporta apenas NSA)</string>
@@ -593,9 +584,6 @@
     <string name="system_ui_lockscreen_information_title">Informação</string>
     <string name="system_ui_lock_screen_scramble_pin">PIN aleatório</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">Ordem aleatória do teclado PIN</string>
-    <string name="system_ui_lock_screen_password_free">Não é necessário digitar a senha quando inicializar</string>
-    <string name="system_ui_lock_screen_password_free_desc">Só terá efeito se o dispositivo não estiver ativado para criptografia</string>
-    <string name="system_ui_lock_screen_password_free_tip">O dispositivo atual está criptografado. Esta função não está disponível.</string>
     <string name="system_ui_lock_screen_default_theme">Suporta apenas o tema padrão</string>
     <string name="system_ui_lock_screen_show_charging_cv">Exibir informações de carregamento na parte inferior</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Exibir corrente detalhada</string>

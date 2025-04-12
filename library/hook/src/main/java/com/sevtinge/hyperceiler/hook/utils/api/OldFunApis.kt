@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.hook.utils.api
 
 import android.annotation.SuppressLint
-import android.app.admin.DevicePolicyManager
 import android.content.Context
 import android.content.res.Resources.getSystem
 import android.os.Bundle
@@ -198,36 +197,5 @@ fun Any.invokeMethod(
     }
 }
 
-/**
- * 检测设备是否加密，来源米客
- * @return 返回一个 Boolean 值，true 为已加密，false 为未加密
- * API 34 已弃用 DevicePolicyManager.ENCRYPTION_STATUS_ACTIVATING 属性值，官方说法如下
- * This result code has never actually been used, so there is no reason for apps to check for it.
- */
-fun isDeviceEncrypted(context: Context): Boolean {
-    val policyMgr = context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
-    val encryption = policyMgr.storageEncryptionStatus
-    return encryption == DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE ||
-        encryption == DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE_PER_USER
-}
-
 val Int.dp: Int get() = (this.toFloat().dp).toInt()
 val Float.dp: Float get() = this / getSystem().displayMetrics.density
-
-/**
- * 澎湃超简单免 root 重启系统界面
- * 原理是利用小米灵动额头传输的错误信息使其崩溃以达到重启系统界面的目的
- * author @YukongA
- */
-@SuppressLint("WrongConstant")
-fun restartXiaomiSystemUI(context: Context) {
-    val bundle = Bundle().apply {
-        putString("package_name", BuildConfig.APP_MODULE_ID)
-        putString("strong_toast_category", "text_bitmap")
-        putString("param", "{\"a\":{\"a\":{\"a\":\"a\"}}}") // 哎嘿，包崩溃的
-        putString("status_bar_strong_toast", "show_custom_strong_toast")
-    }
-    val service = context.getSystemService(Context.STATUS_BAR_SERVICE)
-    service.javaClass.getMethod("setStatus", Int::class.javaPrimitiveType, String::class.java, Bundle::class.java)
-        .invoke(service, 1, "strong_toast_action", bundle)
-}

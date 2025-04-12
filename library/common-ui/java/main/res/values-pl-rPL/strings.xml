@@ -412,17 +412,8 @@
     <string name="system_framework_volume_media_steps">Poziom głośności multimediów</string>
     <string name="system_framework_volume_media_steps_desc">Po włączeniu przewijanie paska głośności może się zawiesić lub głośność Bluetooth może działać nieprawidłowo</string>
     <string name="system_framework_volume_steps">Mnożnik poziomu głośności</string>
-    <string name="system_ui_display_cutout_title">Wcięcie ekranu</string>
-    <string name="system_ui_display_hide_cutout">Ukryj wcięcie ekranu</string>
     <string name="system_ui_display_use_aosp_screenshot">Użyj zrzutu ekranu AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Przekieruję aplikację do zrzutów ekranu, aby używała przechwytywania zrzutów ekranu AOSP. Aplikacja do zrzutów ekranu w HyperOS nie będzie reagować na operację zrzutu ekranu.</string>
-    <string name="system_ui_display_brightness_title">Jasność</string>
-    <string name="system_ui_display_auto_brightness">Automatyczny zakres jasności</string>
-    <string name="system_ui_display_auto_brightness_desc">Określa minimalne i maksymalne wartości dla automatycznej jasności</string>
-    <string name="system_ui_display_min_brightness">Min. jasność</string>
-    <string name="system_ui_display_max_brightness">Maks. jasność</string>
-    <string name="system_ui_display_toast_times_title">Dostosuj czas wyświetlania</string>
-    <string name="system_ui_display_toast_times_desc">Zmienia czas wyświetlania szybkiego powiadomienia, czas wyświetlania jest zawsze dłuższy niż 1 sekunda.</string>
     <string name="system_framework_phone_network_title">Ustawienia sieci</string>
     <string name="phone_double_5g_nr">Użycie 5G z obu kart SIM (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">Główna i wtórna karta SIM włączają 5G jednocześnie (wtórna karta SIM obsługuje tylko NSA)</string>
@@ -593,9 +584,6 @@
     <string name="system_ui_lockscreen_information_title">Informacje</string>
     <string name="system_ui_lock_screen_scramble_pin">Losowy PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">Zmienia losowo układ przyciskowy PIN</string>
-    <string name="system_ui_lock_screen_password_free">Wyłącz wpisywanie hasła podczas uruchomienia</string>
-    <string name="system_ui_lock_screen_password_free_desc">Zmiana ta będzie obowiązywać tylko wtedy, gdy w urządzeniu nie włączono szyfrowania.</string>
-    <string name="system_ui_lock_screen_password_free_tip">Obecne urządzenie jest zaszyfrowane. Ta funkcja jest niedostępna.</string>
     <string name="system_ui_lock_screen_default_theme">Obsługuje tylko domyślny motyw</string>
     <string name="system_ui_lock_screen_show_charging_cv">Pokaż informacje o ładowaniu na dole</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Pokaż szczegółowy przepływ</string>

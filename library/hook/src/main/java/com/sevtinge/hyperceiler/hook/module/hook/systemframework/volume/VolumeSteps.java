@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.hook.module.hook.systemframework;
+package com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 

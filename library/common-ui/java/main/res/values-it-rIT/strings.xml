@@ -320,17 +320,8 @@
     <string name="system_framework_volume_media_steps">Livello volume multimediale</string>
     <string name="system_framework_volume_media_steps_desc">Può causare il blocco dello scorrimento della barra del volume o l\'anomalia del volume del Bluetooth</string>
     <string name="system_framework_volume_steps">Moltiplicatore del livello volume</string>
-    <string name="system_ui_display_cutout_title">Ritaglio display</string>
-    <string name="system_ui_display_hide_cutout">Nascondi ritaglio display</string>
     <string name="system_ui_display_use_aosp_screenshot">Usa Screenshot AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Reindirizza l\'applicazione screenshot allo screenshot AOSP, l\'applicazione screenshot in HyperOS non risponderà all\'operazione screenshot</string>
-    <string name="system_ui_display_brightness_title">Luminosità</string>
-    <string name="system_ui_display_auto_brightness">Intervallo luminosità automatica</string>
-    <string name="system_ui_display_auto_brightness_desc">Definisci i valori minimi e massimi per la luminosità automatica</string>
-    <string name="system_ui_display_min_brightness">Luminosità Automatica Minima</string>
-    <string name="system_ui_display_max_brightness">Luminosità Automatica Massima</string>
-    <string name="system_ui_display_toast_times_title">Regolazione durata schermo</string>
-    <string name="system_ui_display_toast_times_desc">Modifica la durata della visualizzazione di Toast, la durata della visualizzazione è sempre maggiore di 1 secondo</string>
     <string name="system_framework_phone_network_title">Impostazioni di rete</string>
     <string name="phone_double_5g_nr">Doppia scheda 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">La scheda SIM principale e secondaria abilita 5G allo stesso tempo (La scheda SIM secondaria supporta solo NSA)</string>
@@ -454,9 +445,6 @@
     <string name="system_ui_lockscreen_information_title">Informazioni</string>
     <string name="system_ui_lock_screen_scramble_pin">Pin Casuale</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">Ordine tastiera PIN casuale</string>
-    <string name="system_ui_lock_screen_password_free">Non è necessario inserire la password all\'avvio</string>
-    <string name="system_ui_lock_screen_password_free_desc">Avrà effetto solo se il dispositivo non è abilitato per la crittografia</string>
-    <string name="system_ui_lock_screen_password_free_tip">Qusto dispositivo è crittografato, questa funzione non è disponibile</string>
     <string name="system_ui_lock_screen_default_theme">Supporta solo il tema predefinito</string>
     <string name="system_ui_lock_screen_show_charging_cv">Mostra le informazioni di ricarica nella parte inferiore della schermata di blocco</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Mostra corrente dettagliata</string>

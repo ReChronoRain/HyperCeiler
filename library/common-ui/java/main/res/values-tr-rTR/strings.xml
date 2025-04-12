@@ -326,17 +326,8 @@
     <string name="system_framework_volume_media_steps">Medya ses seviyesi</string>
     <string name="system_framework_volume_media_steps_desc">Ses çubuğunun kaydırılmasının donmasına veya Bluetooth ses seviyesinin anormal olmasına neden olabilir</string>
     <string name="system_framework_volume_steps">Ses seviyesi çarpanı</string>
-    <string name="system_ui_display_cutout_title">Ekran kesimi</string>
-    <string name="system_ui_display_hide_cutout">Ekran kesimini gizle</string>
     <string name="system_ui_display_use_aosp_screenshot">AOSP Ekran Görüntüsü kullanın</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Ekran görüntüsü uygulamasını AOSP ekran görüntüsüne yönlendirin, HyperOS\'taki ekran görüntüsü uygulaması ekran görüntüsü işlemine yanıt vermeyecektir.</string>
-    <string name="system_ui_display_brightness_title">Parlaklık</string>
-    <string name="system_ui_display_auto_brightness">Oto. parlaklık aralığı</string>
-    <string name="system_ui_display_auto_brightness_desc">Oto. parlaklık için minimum ve maksimum değerleri tanımlayın</string>
-    <string name="system_ui_display_min_brightness">Oto. Parlaklık Min.</string>
-    <string name="system_ui_display_max_brightness">Oto. Parlaklık Maks.</string>
-    <string name="system_ui_display_toast_times_title">Ekran süresi ayarı</string>
-    <string name="system_ui_display_toast_times_desc">Toast\'un görüntülenme süresini değiştirin, görüntülenme süresi her zaman 1 saniyeden fazladır.</string>
     <string name="system_framework_phone_network_title">Ağ ayarları</string>
     <string name="phone_double_5g_nr">Çift sim 5G kullansın (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">Ana ve ikincil SIM kart aynı anda 5G\'yi etkinleştirir (İkincil SIM kart yalnızca NSA\'yı destekler)</string>
@@ -492,9 +483,6 @@
     <string name="system_ui_lockscreen_information_title">Bilgi</string>
     <string name="system_ui_lock_screen_scramble_pin">Rastgele PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">PIN tuş takımı sırasını randomize etme</string>
-    <string name="system_ui_lock_screen_password_free">Önyükleme sırasında şifre girmeye gerek yok</string>
-    <string name="system_ui_lock_screen_password_free_desc">Bu, yalnızca cihaz şifreleme için etkinleştirilmemişse geçerli olacaktır</string>
-    <string name="system_ui_lock_screen_password_free_tip">Mevcut cihaz şifreli. Bu işlev kullanılamıyor.</string>
     <string name="system_ui_lock_screen_default_theme">Yalnızca varsayılan temayı destekleyin</string>
     <string name="system_ui_lock_screen_show_charging_cv">Kilit ekranının alt kısmında şarj bilgilerini göster</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Ayrıntılı akımı göster</string>

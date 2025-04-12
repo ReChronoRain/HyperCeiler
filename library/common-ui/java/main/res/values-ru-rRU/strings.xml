@@ -412,17 +412,9 @@
     <string name="system_framework_volume_media_steps">Уровень громкости мультимедиа</string>
     <string name="system_framework_volume_media_steps_desc">Это может привести к зависанию прокрутки панели громкости или неправильному уровню громкости Bluetooth</string>
     <string name="system_framework_volume_steps">Множитель уровня громкости</string>
-    <string name="system_ui_display_cutout_title">Вырез экрана</string>
-    <string name="system_ui_display_hide_cutout">Скрыть вырез экрана</string>
     <string name="system_ui_display_use_aosp_screenshot">Использовать скриншоты экрана AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Перенаправить приложение для создания скриншотов экрана на скриншоты экрана AOSP, приложение для создания скриншотов экрана в HyperOS не будет реагировать на операцию создания скриншота экрана</string>
     <string name="system_ui_display_brightness_title">Яркость</string>
-    <string name="system_ui_display_auto_brightness">Автоматический диапазон яркости</string>
-    <string name="system_ui_display_auto_brightness_desc">Определение минимальных и максимальных значений для автояркости</string>
-    <string name="system_ui_display_min_brightness">Минимальная автояркость</string>
-    <string name="system_ui_display_max_brightness">Максимальная автояркость</string>
-    <string name="system_ui_display_toast_times_title">Отображение регулировки продолжительности</string>
-    <string name="system_ui_display_toast_times_desc">Изменить продолжительность отображения всплывающих уведомлений, продолжительность отображения всегда больше 1 секунды</string>
     <string name="system_framework_phone_network_title">Настройки сети</string>
     <string name="phone_double_5g_nr">Обе SIM 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">Основная и дополнительная SIM-карты одновременно включают 5G (дополнительная SIM-карта поддерживает только NSA)</string>
@@ -593,9 +585,6 @@
     <string name="system_ui_lockscreen_information_title">Информация</string>
     <string name="system_ui_lock_screen_scramble_pin">Случайный PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">Случайный порядок ввода PIN с клавиатуры</string>
-    <string name="system_ui_lock_screen_password_free">Без ввода пароля при загрузке</string>
-    <string name="system_ui_lock_screen_password_free_desc">Эта опция будет работать только в том случае, если на устройстве не включено шифрование</string>
-    <string name="system_ui_lock_screen_password_free_tip">Текущее устройство зашифровано, эта функция недоступна</string>
     <string name="system_ui_lock_screen_default_theme">Поддерживает только тему по умолчанию</string>
     <string name="system_ui_lock_screen_show_charging_cv">Отображение информации о заряде в нижней части экрана блокировки</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Показывать подробную информацию о токах</string>

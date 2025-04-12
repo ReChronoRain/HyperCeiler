@@ -412,17 +412,8 @@
     <string name="system_framework_volume_media_steps">مستوى صوت الوسائط</string>
     <string name="system_framework_volume_media_steps_desc">قد تتسبب في تجميد شريط تمرير الصوت أو أن يكون مستوى صوت البلوتوث غير طبيعي</string>
     <string name="system_framework_volume_steps">مضاعف مستوى الصوت</string>
-    <string name="system_ui_display_cutout_title">قطع الشاشة</string>
-    <string name="system_ui_display_hide_cutout">إخفاء قطع الشاشة</string>
     <string name="system_ui_display_use_aosp_screenshot">استخدام لقطة الشاشة AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">إعادة توجيه تطبيق لقطة الشاشة لاستخدام وظيفة AOSP لالتقاط الصور. تطبيق لقطة الشاشة في HyperOS لن يستجيب لأوامر لقطة الشاشة.</string>
-    <string name="system_ui_display_brightness_title">السطوع</string>
-    <string name="system_ui_display_auto_brightness">نطاق السطوع التلقائي</string>
-    <string name="system_ui_display_auto_brightness_desc">تحديد قيم الحد الأدنى والحد الأقصى للسطوع التلقائي</string>
-    <string name="system_ui_display_min_brightness">الحد الأدنى للسطوع التلقائي</string>
-    <string name="system_ui_display_max_brightness">الحد الأقصى للسطوع التلقائي</string>
-    <string name="system_ui_display_toast_times_title">تعديل مدة العرض</string>
-    <string name="system_ui_display_toast_times_desc">تعديل مدة عرض الإشعارات المنبثقة، يجب ان تكون المدة اكبر من ثانية واحدة.</string>
     <string name="system_framework_phone_network_title">إعدادات الشبكة</string>
     <string name="phone_double_5g_nr">استخدام بطاقة مزدوجة 5G (SA+NSA )</string>
     <string name="phone_double_5g_nr_desc">تفعيل 5G في الشريحة الرئيسية والثانوية في نفس الوقت (الشريحة الثانوية تدعم NSA فقط)</string>
@@ -593,9 +584,6 @@
     <string name="system_ui_lockscreen_information_title">معلومات</string>
     <string name="system_ui_lock_screen_scramble_pin">رمز PIN عشوائي</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">ترتيب لوحة مفاتيح PIN عشوائيا</string>
-    <string name="system_ui_lock_screen_password_free">لا حاجة لإدخال كلمة المرور عند التشغيل</string>
-    <string name="system_ui_lock_screen_password_free_desc">سيتم تفعيله فقط إذا لم يكن الجهاز مفعلًا للتشفير</string>
-    <string name="system_ui_lock_screen_password_free_tip">الجهاز الحالي مشفر. هذه الوظيفة غير متاحة.</string>
     <string name="system_ui_lock_screen_default_theme">يدعم الثيم الافتراضي فقط</string>
     <string name="system_ui_lock_screen_show_charging_cv">عرض معلومات الشحن في الأسفل</string>
     <string name="system_ui_lock_screen_show_charging_c_more">عرض تفاصيل التيار</string>

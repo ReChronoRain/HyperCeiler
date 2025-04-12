@@ -30,11 +30,8 @@
     <string name="provision_service_policy_download"><Data>请您阅读并同意&lt;a href=%1$s&gt;《迅雷隐私政策》&lt;/a &gt;与&lt;a href=%1$s&gt;《迅雷公司网络服务使用协议》&lt;/a &gt;</Data></string>
 
     <string name="provision_congratulation_title">设置完毕</string>
-    <string name="provision_congratulation_label">体验激动人心的MIUI吧！</string>
+    <string name="provision_congratulation_label">体验激动人心的 HyperOS 吧！</string>
     <string name="provision_complete_text">进入系统</string>
-
-
-
 
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Select all</string>

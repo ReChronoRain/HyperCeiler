@@ -413,17 +413,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_volume_media_steps">Mức âm lượng</string>
     <string name="system_framework_volume_media_steps_desc">Nó có thể khiến cuộn thanh âm lượng bị đơ hoặc âm lượng Bluetooth bất thường</string>
     <string name="system_framework_volume_steps">Hệ số bước âm lượng</string>
-    <string name="system_ui_display_cutout_title">Màn hình khuyết</string>
-    <string name="system_ui_display_hide_cutout">Ẩn màn hình khuyết</string>
     <string name="system_ui_display_use_aosp_screenshot">Sử dụng trình chụp ảnh màn hình AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Chuyển ứng dụng chụp ảnh màn hình sang chụp ảnh màn hình AOSP, ứng dụng chụp màn hình trong HyperOS sẽ không phản hồi thao tác chụp màn hình</string>
-    <string name="system_ui_display_brightness_title">Độ sáng</string>
-    <string name="system_ui_display_auto_brightness">Phạm vi cho độ sáng tự động</string>
-    <string name="system_ui_display_auto_brightness_desc">Xác định giá trị tối thiểu và tối đa cho độ sáng tự động</string>
-    <string name="system_ui_display_min_brightness">Độ sáng tự động tối thiểu</string>
-    <string name="system_ui_display_max_brightness">Độ sáng tự động tối đa</string>
-    <string name="system_ui_display_toast_times_title">Điều chỉnh thời lượng hiển thị</string>
-    <string name="system_ui_display_toast_times_desc">Điều chỉnh thời lượng hiển thị của hộp thông báo nhanh, thời lượng hiển thị phải lớn hơn 1 giây</string>
     <string name="system_framework_phone_network_title">Cài đặt mạng</string>
     <string name="phone_double_5g_nr">Sử dụng 5G kép (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">SIM chính và phụ hỗ trợ 5G cùng lúc (SIM phụ chỉ hỗ trợ NSA)</string>
@@ -595,9 +586,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_lockscreen_information_title">Thông tin</string>
     <string name="system_ui_lock_screen_scramble_pin">Mã PIN ngẫu nhiên</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">Sắp xếp Mã PIN ngẫu nhiên</string>
-    <string name="system_ui_lock_screen_password_free">Không cần nhập mật khẩu khi khởi động lại</string>
-    <string name="system_ui_lock_screen_password_free_desc">Nó sẽ chỉ có hiệu lực nếu thiết bị không được kích hoạt mã hóa</string>
-    <string name="system_ui_lock_screen_password_free_tip">Thiết bị được được mã hóa, chức năng này không khả dụng</string>
     <string name="system_ui_lock_screen_default_theme">Chỉ hỗ trợ chủ đề mặc định</string>
     <string name="system_ui_lock_screen_show_charging_cv">Hiển thị thông tin sạc ở dưới cùng màn hình khóa</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Hiển thị chi tiết mA</string>
