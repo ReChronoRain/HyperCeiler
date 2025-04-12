@@ -23,7 +23,7 @@
 -keep class androidx.preference.**{ *; }
 
 -keep class com.sevtinge.hyperceiler.ui.**{ *; }
--keep class com.sevtinge.hyperceiler.utils.XposedActivateHelper{ *; }
+-keep class com.sevtinge.hyperceiler.utils.XposedActivateHelper { *; }
 -keep class * extends com.sevtinge.hyperceiler.dashboard.base.fragment.BasePreferenceFragment
 
 

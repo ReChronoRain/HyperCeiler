@@ -19,11 +19,12 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class cn.lyric.getter.api.**{ *; }
+-keep class org.luckypray.dexkit.**{ *; }
+-keep class org.lsposed.**{ *; }
 
 -keep class com.sevtinge.hyperceiler.hook.XposedInit { *; }
--keep class com.sevtinge.hyperceiler.hook.module.skip.SystemFrameworkForCorePatch { *; }
-
--keep class com.sevtinge.hyperceiler.hook.module.**{ *; }
+-keep class com.sevtinge.hyperceiler.hook.module.** { *; }
 
 -keep class * extends com.sevtinge.hyperceiler.hook.module.base.BaseHook { <init>(); }
 

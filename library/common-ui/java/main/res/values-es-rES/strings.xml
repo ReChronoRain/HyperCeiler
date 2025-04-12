@@ -394,16 +394,7 @@ aplicaciones del sistema</string>
     <string name="system_framework_volume_media_steps">Nivel de volumen de media</string>
     <string name="system_framework_volume_media_steps_desc">Puede causar que el desplazamiento de la barra de volumen se congele o que el volumen de Bluetooth sea anormal</string>
     <string name="system_framework_volume_steps">Ajustar el volumen de media con niveles</string>
-    <string name="system_ui_display_cutout_title">Mostrar recorte de la pantalla</string>
-    <string name="system_ui_display_hide_cutout">Ocultar recorte de la pantalla</string>
     <string name="system_ui_display_use_aosp_screenshot">Usar captura de pantalla AOSP</string>
-    <string name="system_ui_display_brightness_title">Brillo</string>
-    <string name="system_ui_display_auto_brightness">Rango del brillo automático</string>
-    <string name="system_ui_display_auto_brightness_desc">Definir valores mínimo y máximo para el brillo automático</string>
-    <string name="system_ui_display_min_brightness">Mínimo del brillo automático</string>
-    <string name="system_ui_display_max_brightness">Máximo del brillo automático</string>
-    <string name="system_ui_display_toast_times_title">Ajuste de duración de muestra</string>
-    <string name="system_ui_display_toast_times_desc">Modificar la duración en la pantalla de la tostada, que es siempre mayor que 1 segundo</string>
     <string name="system_framework_phone_network_title">Configuraciones de red</string>
     <string name="phone_double_5g_nr">Usar 5G con tarjetas dobles (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">Activar 5G al mismo tiempo para la tarjeta SIM principal y secundaria (la secundaria solo soporta NSA)</string>
@@ -540,9 +531,6 @@ aplicaciones del sistema</string>
     <string name="system_ui_lockscreen_information_title">Información</string>
     <string name="system_ui_lock_screen_scramble_pin">PIN aleatorio</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">Orden aleatorio del teclado PIN</string>
-    <string name="system_ui_lock_screen_password_free">No introducir la contraseña al iniciar</string>
-    <string name="system_ui_lock_screen_password_free_desc">Solo se activa cuando en el dispositivo no se ajusta la contraseña</string>
-    <string name="system_ui_lock_screen_password_free_tip">El dispositivo ahora está cifrado, por eso la función no está disponible</string>
     <string name="system_ui_lock_screen_default_theme">Soporte solo tema predeterminado</string>
     <string name="system_ui_lock_screen_show_charging_cv">Mostrar información de carga en el fondo de la pantalla de bloqueo</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Mostrar corriente precisa</string>

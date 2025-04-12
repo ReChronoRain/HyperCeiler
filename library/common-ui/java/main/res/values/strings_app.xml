@@ -427,17 +427,8 @@
     <string name="system_framework_volume_media_steps">Media volume level</string>
     <string name="system_framework_volume_media_steps_desc">It may cause the scrolling of the volume bar to freeze or the Bluetooth volume to be abnormal</string>
     <string name="system_framework_volume_steps">Volume level multiplier</string>
-    <string name="system_ui_display_cutout_title">Display cutout</string>
-    <string name="system_ui_display_hide_cutout">Hide display cutout</string>
     <string name="system_ui_display_use_aosp_screenshot">Use AOSP screenshot</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Redirect the screenshot app to use the AOSP screenshot capture. The screenshot app in HyperOS won\'t respond to the screenshot operation.</string>
-    <string name="system_ui_display_brightness_title">Brightness</string>
-    <string name="system_ui_display_auto_brightness">Auto brightness range</string>
-    <string name="system_ui_display_auto_brightness_desc">Define minimum and maximum values for automatic brightness</string>
-    <string name="system_ui_display_min_brightness">Auto brightness min</string>
-    <string name="system_ui_display_max_brightness">Auto brightness max</string>
-    <string name="system_ui_display_toast_times_title">Display duration adjustment</string>
-    <string name="system_ui_display_toast_times_desc">Modify the display duration of toast, the display duration is always greater than 1 second.</string>
 
     <string name="phone_double_5g_nr">Dual SIM use 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">Main and secondary SIM-card enable 5G at the same time (Secondary SIM-card only support NSA)</string>
@@ -612,9 +603,6 @@
     <string name="system_ui_lockscreen_information_title">Information</string>
     <string name="system_ui_lock_screen_scramble_pin">Random PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">Randomize PIN keypad order</string>
-    <string name="system_ui_lock_screen_password_free">No need to enter password when booted</string>
-    <string name="system_ui_lock_screen_password_free_desc">Only take effect if the device isn\'t encrypted</string>
-    <string name="system_ui_lock_screen_password_free_tip">The current device is encrypted. This function isn\'t available.</string>
     <string name="system_ui_lock_screen_default_theme">Support default theme only</string>
     <string name="system_ui_lock_screen_show_charging_cv">Show charging information at the bottom</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Show detailed current</string>

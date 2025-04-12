@@ -403,17 +403,8 @@
     <string name="system_framework_volume_media_steps">メディアの音量レベル</string>
     <string name="system_framework_volume_media_steps_desc">オンにすると、音量バーのスクロールがフリーズしたり、Bluetooth の音量が異常になったりする場合があります</string>
     <string name="system_framework_volume_steps">音量のステップ数</string>
-    <string name="system_ui_display_cutout_title">画面のノッチ</string>
-    <string name="system_ui_display_hide_cutout">画面のノッチを隠す</string>
     <string name="system_ui_display_use_aosp_screenshot">AOSP スクリーンショットを使用</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">スクリーンショットアプリを AOSP スクリーンショットにリダイレクトします。HyperOS のスクリーンショットアプリはスクリーンショット操作に応答しなくなります</string>
-    <string name="system_ui_display_brightness_title">明るさ</string>
-    <string name="system_ui_display_auto_brightness">明るさの自動調整範囲</string>
-    <string name="system_ui_display_auto_brightness_desc">明るさの自動調整での最小値と最大値を設定します</string>
-    <string name="system_ui_display_min_brightness">明るさの最小値</string>
-    <string name="system_ui_display_max_brightness">明るさの最大値</string>
-    <string name="system_ui_display_toast_times_title">表示時間の調整</string>
-    <string name="system_ui_display_toast_times_desc">トーストの表示時間を変更します。表示時間は最小でも1秒です</string>
     <string name="system_framework_phone_network_title">ネットワーク設定</string>
     <string name="phone_double_5g_nr">2枚の SIM で 5G を使用 (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">メインとセカンダリの SIM カードで同時に 5G を有効にします (セカンダリ SIM カードは NSA にのみ対応しています)</string>
@@ -578,9 +569,6 @@
     <string name="system_ui_lockscreen_information_title">情報</string>
     <string name="system_ui_lock_screen_scramble_pin">ランダム PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">PIN キーパッドの順序をランダムにします</string>
-    <string name="system_ui_lock_screen_password_free">起動時にパスワードを入力する必要はありません</string>
-    <string name="system_ui_lock_screen_password_free_desc">デバイスの暗号化が有効になっていない場合にのみ効果があります</string>
-    <string name="system_ui_lock_screen_password_free_tip">デバイスは暗号化されています。この機能は利用できません</string>
     <string name="system_ui_lock_screen_default_theme">デフォルトのテーマのみをサポートします</string>
     <string name="system_ui_lock_screen_show_charging_cv">ロック画面の下部に「充電中」の表示をする</string>
     <string name="system_ui_lock_screen_show_charging_c_more">電流の詳細を表示</string>

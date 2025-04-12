@@ -18,19 +18,17 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker.systemui;
 
-import static com.sevtinge.hyperceiler.hook.utils.api.OldFunApisKt.isDeviceEncrypted;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.DropDownPreference;
 
 public class LockScreenSettings extends DashboardFragment {
     SwitchPreference mHideLeftButton; // 隐藏左侧按钮
-    SwitchPreference mPasswordFree; // 开机免输入密码
     SwitchPreference mBlockEditor; // 禁用长按进入锁屏编辑
     DropDownPreference mHideLeftButtonNew; // 左侧按钮自定义
 
@@ -42,7 +40,6 @@ public class LockScreenSettings extends DashboardFragment {
     @Override
     public void initPrefs() {
         final boolean moreAndroidVersion = isMoreAndroidVersion(35);
-        mPasswordFree = findPreference("prefs_key_system_ui_lock_screen_password_free");
         mBlockEditor = findPreference("prefs_key_system_ui_lock_screen_block_editor");
 
         mHideLeftButton = findPreference("prefs_key_system_ui_lock_screen_hide_smart_screen");
@@ -51,11 +48,5 @@ public class LockScreenSettings extends DashboardFragment {
         mBlockEditor.setVisible(!moreAndroidVersion);
         mHideLeftButton.setVisible(!moreAndroidVersion);
         mHideLeftButtonNew.setVisible(moreAndroidVersion);
-
-        if (isDeviceEncrypted(requireContext())) {
-            mPasswordFree.setChecked(false);
-            mPasswordFree.setEnabled(false);
-            mPasswordFree.setSummary(R.string.system_ui_lock_screen_password_free_tip);
-        }
     }
 }

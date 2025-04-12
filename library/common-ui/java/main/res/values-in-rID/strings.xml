@@ -325,17 +325,8 @@
     <string name="system_framework_volume_media_steps">Tingkat volume media</string>
     <string name="system_framework_volume_media_steps_desc">Hal ini dapat menyebabkan pengguliran bilah volume terhenti atau volume Bluetooth menjadi tidak normal</string>
     <string name="system_framework_volume_steps">Pengganda tingkat volume</string>
-    <string name="system_ui_display_cutout_title">Potongan Tampilan</string>
-    <string name="system_ui_display_hide_cutout">Sembunyikan Potongan Tampilan</string>
     <string name="system_ui_display_use_aosp_screenshot">Gunakan Tangkapan Layar AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Arahkan ulang aplikasi tangkapan layar ke tangkapan layar AOSP, aplikasi tangkapan layar di HyperOS tidak akan merespons operasi tangkapan layar</string>
-    <string name="system_ui_display_brightness_title">Kecerahan</string>
-    <string name="system_ui_display_auto_brightness">Rentang kecerahan otomatis</string>
-    <string name="system_ui_display_auto_brightness_desc">Tentukan nilai minimum dan maksimum untuk kecerahan otomatis</string>
-    <string name="system_ui_display_min_brightness">Kecerahan Otomatis Min</string>
-    <string name="system_ui_display_max_brightness">Kecerahan Otomatis Maks</string>
-    <string name="system_ui_display_toast_times_title">Penyesuaian durasi tampilan</string>
-    <string name="system_ui_display_toast_times_desc">Ubah durasi tampilan Toast, durasi tampilan selalu lebih dari 1 detik</string>
     <string name="system_framework_phone_network_title">Pengaturan jaringan</string>
     <string name="phone_double_5g_nr">Kartu ganda menggunakan 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">Kartu SIM utama dan sekunder mengaktifkan 5G secara bersamaan (Kartu SIM sekunder hanya mendukung NSA)</string>
@@ -460,9 +451,6 @@
     <string name="system_ui_lockscreen_information_title">Informasi</string>
     <string name="system_ui_lock_screen_scramble_pin">PIN acak</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">Acak urutan papan tombol PIN</string>
-    <string name="system_ui_lock_screen_password_free">Tidak perlu memasukkan kata sandi saat booting</string>
-    <string name="system_ui_lock_screen_password_free_desc">Ini akan berlaku hanya jika perangkat tidak diaktifkan untuk enkripsi</string>
-    <string name="system_ui_lock_screen_password_free_tip">Perangkat saat ini dienkripsi, fungsi ini tidak tersedia</string>
     <string name="system_ui_lock_screen_default_theme">Hanya mendukung tema default</string>
     <string name="system_ui_lock_screen_show_charging_cv">Tampilkan informasi pengisian daya di bagian bawah layar kunci</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Tampilkan detail saat ini</string>

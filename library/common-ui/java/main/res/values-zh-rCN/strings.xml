@@ -467,17 +467,8 @@
     <string name="system_framework_volume_media_steps_desc">可能会导致音量条的滚动卡顿或蓝牙音量异常</string>
     <string name="system_framework_volume_steps">音量级数倍增</string>
 
-    <string name="system_ui_display_cutout_title">屏幕缺口</string>
-    <string name="system_ui_display_hide_cutout">隐藏屏幕缺口</string>
     <string name="system_ui_display_use_aosp_screenshot">使用原生截屏</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">将截屏应用重定向至原生截屏，HyperOS 中的截屏应用将不会对截屏操作响应</string>
-    <string name="system_ui_display_brightness_title">亮度</string>
-    <string name="system_ui_display_auto_brightness">自动亮度范围</string>
-    <string name="system_ui_display_auto_brightness_desc">定义自动亮度的最小值和最大值</string>
-    <string name="system_ui_display_min_brightness">最小亮度</string>
-    <string name="system_ui_display_max_brightness">最大亮度</string>
-    <string name="system_ui_display_toast_times_title">显示时长调整</string>
-    <string name="system_ui_display_toast_times_desc">修改 Toast 显示时长，显示时长始终大于 1 秒</string>
 
     <string name="system_framework_phone_network_title">网络设置</string>
     <string name="phone_additional_network_settings">网络功能辅助菜单</string>
@@ -655,9 +646,6 @@
     <string name="system_ui_lockscreen_information_title">信息</string>
     <string name="system_ui_lock_screen_scramble_pin">乱序 PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">随机更改 PIN 键盘顺序</string>
-    <string name="system_ui_lock_screen_password_free">开机免输入密码</string>
-    <string name="system_ui_lock_screen_password_free_desc">需要设备未启用加密才会生效</string>
-    <string name="system_ui_lock_screen_password_free_tip">当前设备已加密，此功能不可用</string>
     <string name="system_ui_lock_screen_default_theme">仅支持默认主题</string>
     <string name="system_ui_lock_screen_show_charging_cv">锁屏底部显示充电信息</string>
     <string name="system_ui_lock_screen_show_charging_c_more">显示详细电流</string>

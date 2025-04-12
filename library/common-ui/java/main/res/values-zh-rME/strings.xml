@@ -349,17 +349,8 @@
     <string name="system_framework_volume_media_steps">媒体体积关卡</string>
     <string name="system_framework_volume_media_steps_desc">它可能会导致系统的音量栏冻结或蓝牙音量丸啦！</string>
     <string name="system_framework_volume_steps">音量电平乘法器</string>
-    <string name="system_ui_display_cutout_title">显示保险开关</string>
-    <string name="system_ui_display_hide_cutout">隐藏显示保险开关</string>
     <string name="system_ui_display_use_aosp_screenshot">不使用HyperOS自带的垃圾截屏</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">重定向截图应用以解封 AOSP 截图。HyperOS 中截图功能将被封印。</string>
-    <string name="system_ui_display_brightness_title">光光</string>
-    <string name="system_ui_display_auto_brightness">自动调整明亮度之上下限</string>
-    <string name="system_ui_display_auto_brightness_desc">定义自动调整明亮度之上下限</string>
-    <string name="system_ui_display_min_brightness">自动最小亮度（物理防窥屏模式）</string>
-    <string name="system_ui_display_max_brightness">自动最大亮度（适用于在游玩原神前开启该功能以获得沉浸式启动体验）</string>
-    <string name="system_ui_display_toast_times_title">烧屏持续时间调整</string>
-    <string name="system_ui_display_toast_times_desc">修改烤面包的显示时间，显示时间总是大于1秒。</string>
     <string name="system_framework_phone_network_title">van♂络设置</string>
     <string name="phone_double_5g_nr">双卡 5只因（SA+NSA）</string>
     <string name="phone_double_5g_nr_desc">双卡同时使用 5只因 网络 (卡 2 仅支持 NSA)</string>
@@ -529,9 +520,6 @@
     <string name="system_ui_lockscreen_information_title">信不了一点的息</string>
     <string name="system_ui_lock_screen_scramble_pin">不随机PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">随机更改 PIN 键盘顺序</string>
-    <string name="system_ui_lock_screen_password_free">阻止王腾开机时问我锁屏密码</string>
-    <string name="system_ui_lock_screen_password_free_desc">需要设备未启用加密才会生效</string>
-    <string name="system_ui_lock_screen_password_free_tip">不能既安全又不安全</string>
     <string name="system_ui_lock_screen_default_theme">还是默认主题</string>
     <string name="system_ui_lock_screen_show_charging_cv">在底部显示爆炸充能百分比信息</string>
     <string name="system_ui_lock_screen_show_charging_c_more">想要详细电流？唉，不给</string>

@@ -9,6 +9,7 @@ core = "1.16.0"
 fragment = "1.8.6"
 lunarcalendar = "latest.release"
 miuix = "1.0.5"
+expansions = "1.0.0"
 recyclerview = "1.4.0"
 coordinatorlayout = "1.3.0"
 constraintlayout = "2.2.1"
@@ -56,6 +57,7 @@ miuix-stretchablewidget = { module = "fan.miuix:stretchablewidget", version.ref 
 miuix-theme = { module = "fan.miuix:theme", version.ref = "miuix" }
 miuix-viewpager = { module = "fan.miuix:viewpager", version.ref = "miuix" }
 miuix-visualcheck = { module = "fan.miuix:visualcheck", version.ref = "miuix" }
+expansion = { module = "com.sevtinge.hyperceiler:hyperceiler-expansion", version.ref = "expansions"}
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
 auto-service = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }

@@ -208,7 +208,6 @@ java {
 kotlin.jvmToolchain(21)
 
 dependencies {
-    implementation(files("libs/hyperceiler_expansion_packs-debug.aar"))
-
+    implementation(libs.expansion)
     implementation(projects.library.commonUi)
 }
