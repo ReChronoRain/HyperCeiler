@@ -69,7 +69,7 @@ public class HyperCeilerSettings extends BaseHook {
 
                 Intent mIntent = new Intent();
                 mIntent.putExtra("isDisplayHomeAsUpEnabled", true);
-                mIntent.setClassName(ProjectApi.mAppModulePkg, "com.sevtinge.hyperceiler.ui.app.main.HyperCeilerTabActivity");
+                mIntent.setClassName(ProjectApi.mAppModulePkg, "com.sevtinge.hyperceiler.ui.HyperCeilerTabActivity");
 
                 Object header = XposedHelpers.newInstance(mPreferenceHeader);
                 XposedHelpers.setLongField(header, "id", 666);
