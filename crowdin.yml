@@ -7,6 +7,10 @@ files:
     translation: /app/src/main/assets/tips/tips-%locale_with_underscore%
     type: hyper_ceiler_tips
 
-  - source: /app/src/main/res/values/strings.xml
-    translation: /app/src/main/res/values-%two_letters_code%/%original_file_name%
+  - source: /library/common-ui/java/main/res/values/strings.xml
+    translation: /library/common-ui/java/main/res/values-%two_letters_code%/%original_file_name%
+    type: android
+    
+  - source: /library/common-ui/java/main/res/values/strings_app.xml
+    translation: /library/common-ui/java/main/res/values-%two_letters_code%/%original_file_name%
     type: android

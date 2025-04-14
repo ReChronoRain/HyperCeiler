@@ -5,7 +5,9 @@ on:
    push:
      branches: [ main ]
      paths:
-       - app/src/main/res/values/strings.xml
+       - app/src/main/assets/tips/tips
+       - library/common-ui/java/main/res/values/strings.xml
+       - library/common-ui/java/main/res/values/strings_app.xml
    schedule:
      - cron: '0 0 * * *'
 
