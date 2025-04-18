@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -70,7 +71,7 @@ public class LayoutPreference extends Preference implements PreferenceStyle {
 
     private void setLayoutTitle(CharSequence title) {
         TextView titleView = findViewById(android.R.id.title);
-        if (titleView != null) {
+        if (titleView != null && TextUtils.isEmpty(title)) {
             titleView.setText(title);
             titleView.setVisibility(View.VISIBLE);
         }
