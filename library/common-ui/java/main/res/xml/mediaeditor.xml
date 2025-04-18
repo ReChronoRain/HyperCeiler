@@ -21,7 +21,7 @@
     app:myLocation="@string/mediaeditor"
     app:quick_restart="com.miui.mediaeditor">
 
-    <Preference
+    <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
         android:enabled="false"
         android:layout="@layout/headtip_tip"
         android:title="@string/mediaeditor_tip" />
