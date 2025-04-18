@@ -20,7 +20,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/system_ui_statusbar_music_title"
     app:quick_restart="com.android.systemui">
-    <Preference
+    <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
         android:enabled="false"
         android:key="prefs_key_system_ui_statusbar_music_tip"
         android:layout="@layout/headtip_tip"
