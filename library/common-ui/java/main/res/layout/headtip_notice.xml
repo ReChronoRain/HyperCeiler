@@ -33,30 +33,39 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:clickable="false"
-    android:clipChildren="false"
     android:gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:background="@drawable/headtip_notice_background">
+    android:paddingBottom="@dimen/miuix_theme_padding_horizontal_common">
 
-    <TextView
-        android:text="@string/headtip_notice_dead_logger"
-        android:id="@android:id/title"
+    <FrameLayout
+        android:clickable="false"
+        android:clipChildren="false"
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#EDA306"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="14dp"
-        android:paddingBottom="14dp"
-        android:inputType="textMultiLine"
-        android:textIsSelectable="true"
-        android:enabled="false"
-        android:clickable="true"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:longClickable="true" />
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/headtip_notice_background">
+
+        <TextView
+            android:text="@string/headtip_notice_dead_logger"
+            android:id="@android:id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#EDA306"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:inputType="textMultiLine"
+            android:textIsSelectable="true"
+            android:enabled="false"
+            android:clickable="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="true" />
+
+    </FrameLayout>
 
 </FrameLayout>
