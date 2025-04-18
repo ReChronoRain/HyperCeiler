@@ -22,6 +22,12 @@
         <attr name="inflatedXml" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="LayoutPreference">
+        <attr name="android:layout" />
+        <attr name="android:title" />
+        <attr name="android:background" />
+    </declare-styleable>
+
     <attr name="rebootIconColor" format="color" />
 
     <!--<declare-styleable name="SeekBarPreference">
