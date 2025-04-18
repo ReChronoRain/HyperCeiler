@@ -18,7 +18,7 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference
+    <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
         android:layout="@layout/headtip_tip"
         android:key="prefs_key_headtip_tip"
         android:enabled="false"
