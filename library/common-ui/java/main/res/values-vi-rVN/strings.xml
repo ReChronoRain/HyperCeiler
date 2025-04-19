@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="provision_back_description">Quay lại</string>
+    <string name="provision_start_content_description">Bắt đầu</string>
+    <string name="provision_next">Tiếp tục</string>
+    <string name="provision_skip_underline">Bỏ qua</string>
+    <string name="provision_permission_settings_title">Thiết lập quyền</string>
+    <string name="provision_terms_and_statement_title">Thỏa thuận và Tuyên bố</string>
+    <string name="provision_basic_settings_title">Cài đặt cơ bản</string>
+    <string name="provision_agree_and_next">Đồng ý và Tiếp tục</string>
+    <string name="provision_agree_terms">Tôi đã đọc kỹ và đồng ý với các điều khoản trên</string>
+    <string name="provision_user_agreement">Thỏa thuận người dùng</string>
+    <string name="provision_privacy_policy">Chính sách bảo mật</string>
+    <string name="provision_terms_of_use">Điều khoản sử dụng</string>
+    <string name="provision_terms_of_use_label_use_network_china">Để cung cấp cho bạn những dịch vụ tốt hơn, bạn cần phải đọc và đồng ý với &lt;a href=\"%1$s\"&gt;Thỏa thuận người dùng&lt;/a&gt; và &lt;a href=\"%2$s\"&gt;Chính sách bảo mật&lt;/a&gt; trước khi bạn có thể tiếp tục sử dụng hệ thống. Chúng tôi sẽ tuân thủ nghiêm ngặt các luật, quy định và chính sách bảo mật có liên quan để bảo vệ thông tin cá nhân của bạn.</string>
+    <string name="provision_terms_of_label_period">.</string>
+    <string name="provision_protect_persoanl_info_statement">Chúng tôi sẽ tuân thủ nghiêm ngặt các luật, quy định và chính sách bảo mật có liên quan để bảo vệ thông tin cá nhân của bạn.</string>
+    <string name="provision_service_agreement">Tôi đã đọc kỹ và đồng ý với các điều khoản trên</string>
+    <string name="provision_service_name_download">Quản lý tải xuống</string>
+    <string name="provision_service_policy_download"><Data>Vui lòng đọc và đồng ý với &lt;a href=%1$s&gt;Chính sách bảo mật của Xunlei&lt;/a &gt;và &lt;a href=%1$s&gt;Thỏa thuận dịch vụ mạng Xunlei&lt;/a &gt;</Data></string>
+    <string name="provision_congratulation_title">Cài đặt</string>
+    <string name="provision_congratulation_label">Hãy đến và trải nghiệm sự thú vị của HyperOS!</string>
+    <string name="provision_complete_text">Nhập hệ thống</string>
+    <!--Pop-up window/miuix part-->
+    <string name="miuix_appcompat_action_mode_select_all">Chọn tất cả</string>
+    <string name="miuix_appcompat_cancel_description">Hủy</string>
+    <string name="miuix_appcompat_confirm_description">OK</string>
+    <string name="miuix_appcompat_select_all_description">Chọn tất cả</string>
+    <string name="miuix_appcompat_deselect_all_description">Bỏ chọn</string>
+    <string name="miuix_appcompat_delete_description">Xóa</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">Hủy</string>
+    <string name="miuix_appcompat_search_input_description">Tìm kiếm</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Xem thêm</string>
+    <string name="miuix_appcompat_action_mode_inverse">Đảo ngược</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="tip">Mẹo</string>
+    <string name="root">Một số tính năng không khả dụng nếu không có quyền Root/Su</string>
+    <string name="soft_reboot">Khởi động lại </string>
+    <string name="restart_app_desc">Bạn có chắc chắn muốn khởi động lại ngay bây giờ không %1$s?</string>
+    <string name="hyperceiler_restart_quick">Ứng dụng khởi động lại nhanh</string>
+    <string name="hook_failed">Module chưa được kích hoạt. Vui lòng kiểm tra xem LSPosed có được bật không. Nếu có, vui lòng khởi động lại hoặc tối ưu hóa lại module.</string>
+    <string name="kill_failed">Không thể kết thúc tiến trình. Vui lòng kiểm tra xem HyperCeiler đã được cấp quyền Root/Su chưa.</string>
+    <string name="start_failed">Không thể bắt đầu hoạt động. Vui lòng kiểm tra xem HyperCeiler đã được cấp quyền Root/Su chưa.</string>
+    <string name="pid_failed">Ứng dụng mục tiêu không chạy và không cần phải khởi động lại.</string>
+    <string name="reboot_failed">Khởi động lại không thành công. Vui lòng kiểm tra xem HyperCeiler đã được cấp quyền Root/Su chưa.</string>
+    <!--HyperCeiler Tips-->
+    <string name="error">Lỗi</string>
+    <string name="warn">Cảnh báo</string>
+    <string name="app_error_desc">Mô-đun này đã gặp lỗi nghiêm trọng và không thể tiếp tục chạy! Vui lòng cung cấp thông tin lỗi sau để phản hồi! \n\n</string>
+    <string name="app_exit">OK</string>
+    <string name="safe_mode_desc">%1$s đã vào chế độ An toàn do gặp nhiều sự cố và tính năng HyperCeiler đã bị vô hiệu hóa tạm thời.</string>
+    <string name="safe_mode_history">Xem hồ sơ ngoại lệ</string>
+    <string name="safe_mode_cancel">Tắt chế độ an toàn</string>
+    <string name="safe_mode_ok">Hủy</string>
+    <string name="safe_mode_later_title">Mẹo</string>
+    <string name="safe_mode_later_desc">%1$s vẫn đang ở chế độ An toàn và tính năng HyperCeiler đã bị vô hiệu hóa. Tắt chế độ An toàn?</string>
+    <string name="safe_mode_recorder_title">Hồ sơ ngoại lệ</string>
+    <string name="safe_mode_recorder_file">Tệp</string>
+    <string name="safe_mode_recorder_class">Lớp</string>
+    <string name="safe_mode_recorder_method">Phương thức</string>
+    <string name="safe_mode_recorder_line">Hàng</string>
+    <string name="safe_mode_recorder_msg">Thông báo ngoại lệ</string>
+    <string name="safe_mode_recorder_st">Dấu vết ngăn xếp</string>
+    <string name="notification_channel_app_crash_name">Ứng dụng đang chạy bất thường</string>
+    <string name="notification_title_message_emergency_crash">%s đã bị văng nhiều lần</string>
+    <string name="notification_content_message">Nhấp để xem chi tiết</string>
+    <string name="notification_view">Xem</string>
+    <string name="tip_default">Mẹo: Đây là mẹo mặc định. Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler. Vui lòng báo cáo cho nhà phát triển kịp thời và hiệu quả.</string>
+    <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải là ROM chính thức của Xiaomi và một số tính năng có thể không hoạt động. Vui lòng liên hệ với nhà cung cấp của bạn để biết thêm chi tiết.</string>
+    <string name="headtip_warn_unsupport_sysver">Thiết bị hiện tại đang chạy trên phiên bản hệ thống chưa được điều chỉnh (hoàn toàn), điều này có thể dẫn đến những bất thường trong chức năng của HyperCeiler.</string>
+    <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của HyperCeiler và có thể chứa mã độc hại.</string>
+    <string name="headtip_tip_auto_safe_mode">Chế độ an toàn có thể gỡ bỏ một số ứng dụng kịp thời khi chúng bị sập nhiều lần để đảm bảo an toàn. Tính năng này yêu cầu phạm vi hook của System Framework để chạy. Chúng tôi đặc biệt khuyên bạn nên kiểm tra phạm vi System Framework để bật Chế độ an toàn.</string>
+    <string name="headtip_tip_long_press_to_copy">Bạn có thể chọn văn bản sau khi nhấn lâu hoặc nhấn đúp, hoặc sao chép và gửi lại cho nhà phát triển.</string>
+    <string name="happy_birthday_hyperceiler">Hôm nay là sinh nhật của HyperCeiler!\nCảm ơn sự ủng hộ của bạn trong năm qua và chúng ta hãy tiếp tục hợp tác trong năm nay nhé!</string>
+    <string name="headtip_tip_fuck_coolapk">Ngày này trong lịch sử: Sevtinge đã có bài phát biểu quan trọng vào ngày 14 tháng 7 năm 2022.</string>
+    <string name="headtip_notice_dead_logger_errcode">Dịch vụ nhật ký thiết bị hiện tại không bình thường và các tính năng HyperCeiler sẽ bị hạn chế. Vui lòng khôi phục dịch vụ nhật ký để nó có thể chạy bình thường.\nMã lỗi: %1$s</string>
+    <string name="headtip_notice_dead_logger">Dịch vụ nhật ký thiết bị hiện tại không bình thường và các tính năng của HyperCeiler sẽ bị hạn chế. Vui lòng khôi phục dịch vụ nhật ký để có thể chạy bình thường.</string>
+    <!--System UI-->
+    <string name="system_ui">Giao diện hệ thống</string>
+    <!--System launcher-->
+    <string name="mihome">Trình khởi chạy hệ thống</string>
+    <!--Settings-->
+    <string name="system_settings">Cài đặt</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center_hyperos">Bảo mật</string>
+    <!--Other-->
+    <string name="exit">Thoát</string>
+    <string name="ignore">Bỏ qua</string>
+    <string name="log_level">Mức độ nhật ký</string>
+    <string name="log_level_none">Tắt</string>
+    <string name="disable_suggest">Tắt đề xuất</string>
+    <string name="enable_suggest">Bật đề xuất</string>
+</resources>

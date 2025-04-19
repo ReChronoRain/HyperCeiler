@@ -21,37 +21,11 @@
     <string name="version_update">Có phiên bản mới</string>
     <string name="about_copy_right">© 2023-2025 Người đóng góp Sevtinge &amp; HyperCeiler.</string>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Làm cho HyperOS trở nên vĩ đại!</string>
     <string name="new_permission_wifi_state_desc">thêm và xóa tập tin trên bộ nhớ trong thiết bị</string>
     <string name="new_permission_location_desc">được sử dụng để cung cấp các dịch vụ như vĩ độ và kinh độ</string>
     <string name="new_cta_agree_desc">Trong quá trình sử dụng, để cung cấp cho bạn nhiều tính năng hơn, chúng tôi có thể xin quyền Root/Su. Bạn có thể truy cập Quản lý quyền bất kỳ lúc nào để điều chỉnh trạng thái ủy quyền của tất cả các quyền và vui lòng truy cập trình quản lý Root/Su của bạn để cấp quyền Root/Su.</string>
     <string name="new_cta_app_main_purpose">sửa đổi ứng dụng hệ thống</string>
     <string name="new_cta_app_all_purpose_title">Chào mừng đến với HyperCeiler. Ứng dụng này dựa trên khung Xpose để chạy. Bạn có thể sử dụng ứng dụng này để chiếm quyền điều khiển và sửa đổi các ứng dụng được hỗ trợ khác nhằm nâng cao hệ thống.  Trong quá trình sử dụng, để cung cấp cho bạn nhiều chức năng hơn, chúng tôi có thể xin quyền Root/Su từ bạn. Bạn có thể quản lý nó bất kỳ lúc nào bằng cách đi tới Trình quản lý Root/Su.</string>
-    <!--HyperCeiler Tips-->
-    <string name="warn">Cảnh báo</string>
-    <string name="safe_mode_desc">%1$s bạn đã vào Chế độ an toàn do một số sự cố và các tính năng của HyperCeiler đã tạm thời bị tắt.\nNhấp OK để hủy hoặc nhấp Hủy để tiếp tục sau.</string>
-    <string name="safe_mode_history">Xem nhật ký ngoại lệ</string>
-    <string name="safe_mode_cancel">Tắt chế độ an toàn</string>
-    <string name="safe_mode_ok">Xử lý sau</string>
-    <string name="safe_mode_later_title">Mẹo</string>
-    <string name="safe_mode_later_desc">%1$s Bạn vẫn đang ở Chế độ an toàn và các tính năng HyperCeiler bị tắt. Bạn có muốn tắt Chế độ an toàn không?</string>
-    <string name="safe_mode_recorder_title">Bản ghi ngoại lệ</string>
-    <string name="safe_mode_recorder_file">Tệp tin</string>
-    <string name="safe_mode_recorder_class">Lớp</string>
-    <string name="safe_mode_recorder_method">Phương thức</string>
-    <string name="safe_mode_recorder_line">Hàng</string>
-    <string name="safe_mode_recorder_msg">Thông báo ngoại lệ</string>
-    <string name="safe_mode_recorder_st">Dấu vết ngăn xếp</string>
-    <string name="tip_default">Mẹo: Đây là mẹo mặc định. Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là HyperCeiler có vấn đề. Vui lòng báo cáo cho nhà phát triển một cách kịp thời và hiệu quả.</string>
-    <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
-    <string name="headtip_warn_unsupport_sysver">Thiết bị hiện tại đang chạy trên phiên bản hệ thống chưa được điều chỉnh (hoàn toàn), điều này có thể dẫn đến những bất thường trong chức năng của HyperCeiler.</string>
-    <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của HyperCeiler và có thể chứa mã độc.</string>
-    <string name="headtip_tip_auto_safe_mode">Chế độ an toàn tự động có thể ngắt kết nối một số ứng dụng kịp thời khi chúng gặp sự cố nhiều lần để đảm bảo an toàn. Tính năng này yêu cầu phạm vi hook của System Framework để chạy. Chúng tôi đặc biệt khuyên bạn nên kiểm tra phạm vi System Framework để bật chế độ an toàn tự động.</string>
-    <string name="headtip_tip_long_press_to_copy">Bạn có thể chọn văn bản sau khi nhấn và nhấp đúp vào văn bản đó hoặc sao chép văn bản đó và gửi lại cho nhà phát triển.</string>
-    <string name="happy_birthday_hyperceiler">Hôm nay là sinh nhật của HyperCeiler!\nCảm ơn sự hỗ trợ của bạn trong năm qua và chúng ta hãy tiếp tục làm việc cùng nhau trong năm nay!</string>
-    <string name="headtip_tip_fuck_coolapk">Ngày hôm nay trong lịch sử:\nSevtinge đã có bài phát biểu quan trọng vào ngày 14 tháng 7 năm 2022.</string>
-    <string name="headtip_notice_dead_logger_errcode">Dịch vụ Nhật ký của thiết bị hiện tại không bình thường và các chức năng HyperCeiler sẽ bị hạn chế.\nVui lòng khôi phục dịch vụ Nhật ký để nó có thể chạy bình thường.\nMã lỗi: %1$s</string>
-    <string name="headtip_notice_dead_logger">Dịch vụ Nhật ký thiết bị hiện tại không bình thường và các chức năng HyperCeiler sẽ bị hạn chế. Vui lòng khôi phục dịch vụ nhật ký để nó có thể chạy bình thường.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Tiếng Việt</string>
     <string name="translator">MiuiVN &amp; MiuiTN</string>
@@ -70,7 +44,6 @@
     <string name="about_device_info_android">Phiên bản Android</string>
     <string name="about_device_info_os">Phiên bản hệ thống</string>
     <string name="hyperceiler_notice">Kéo thanh trạng thái xuống để hiển thị đồng thời các công tắc phím tắt và thông báo hệ thống</string>
-    <string name="hyperceiler_restart_quick">Chọn ứng dụng cần khởi động lại</string>
     <string name="delete_all_dexkit_cache_desc">Bạn có chắc chắn muốn xóa tất cả bộ đệm DexKit không?</string>
     <string name="delete_all_dexkit_cache_success">Đã xóa thành công tất cả bộ đệm DexKit</string>
     <string name="set_homepage_entrance">Thiết lập lối vào trang chủ</string>
@@ -166,15 +139,6 @@
     <string name="about_privacy">Chính sách bảo mật</string>
     <string name="about_protocol">Thoả thuận người dùng</string>
     <!--Pop-up window/miuix part-->
-    <string name="soft_reboot">Khởi động lại nhanh</string>
-    <string name="restart_app_desc">Bạn có muốn khởi động lại máy bây giờ %1$s?</string>
-    <string name="tip">Mẹo</string>
-    <string name="root">Một số tính năng không khả dụng nếu không được cấp quyền Root/Su</string>
-    <string name="hook_failed">Mô-đun này chưa được kích hoạt.\nVui lòng kiểm tra xem trình quản lý Xpose có được bật hay không. Nếu vậy, vui lòng khởi động lại hoặc tối ưu hóa lại mô-đun.</string>
-    <string name="kill_failed">Không thể kết thúc quá trình, kiểm tra HyperCeiler đã được cấp quyền Root?</string>
-    <string name="start_failed">Không thể bắt đầu hoạt động, vui lòng kiểm tra xem HyperCeiler đã được cấp quyền Root/Su chưa?</string>
-    <string name="pid_failed">Ứng dụng đích không chạy và không cần khởi động lại.</string>
-    <string name="reboot_failed">Reboot không thành công, kiểm tra HyperCeiler đã được cấp quyền Root?</string>
     <string name="expand_button_title">Cấp độ cao</string>
     <string name="not_set">Chưa đặt</string>
     <string name="copy">Sao Chép</string>
@@ -182,6 +146,7 @@
     <string name="clearable_edittext_clear_description">Xoá hết</string>
     <string name="preference_on">Bật</string>
     <string name="preference_off">Tắt</string>
+    <string name="preference_enable_failed">Không thể bật %s</string>
     <string name="preference_copied">Sao chép vào clipboard.</string>
     <string name="preference_default_value_text">Mặc định</string>
     <string name="preference_dialog_color_picker_default_title">Lựa chọn màu</string>
@@ -193,16 +158,6 @@
     <string name="abc_action_bar_home_description">Chỉ đường về nhà</string>
     <string name="abc_action_bar_up_description">Di chuyển lên</string>
     <string name="actionbar_button_up_description">Quay Lại</string>
-    <string name="miuix_appcompat_action_mode_select_all">Chọn tất cả</string>
-    <string name="miuix_appcompat_cancel_description">Hủy bỏ</string>
-    <string name="miuix_appcompat_confirm_description">OK</string>
-    <string name="miuix_appcompat_select_all_description">Chọn tất cả</string>
-    <string name="miuix_appcompat_deselect_all_description">Bỏ chọn tất cả</string>
-    <string name="miuix_appcompat_delete_description">Xóa</string>
-    <string name="miuix_appcompat_search_action_mode_cancel">Hủy</string>
-    <string name="miuix_appcompat_search_input_description">Tìm kiếm</string>
-    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Thêm</string>
-    <string name="miuix_appcompat_action_mode_inverse">Đảo ngược</string>
     <string name="color_picker_alpha_text_transparent">Độ mờ</string>
     <string name="color_picker_tab_grid">Lưới</string>
     <string name="color_picker_tab_slider">Thanh trượt</string>
@@ -263,7 +218,6 @@
     <string name="device">Thiết bị</string>
     <string name="manufacturer">Nhà sản xuất</string>
     <string name="search">Tìm kiếm</string>
-    <string name="floating_window">Cửa sổ nổi</string>
     <string name="save_to_screen_title">Lưu thông tin vị trí</string>
     <string name="only_new_version_can_do">Chỉ hỗ trợ các phiên bản mới hơn</string>
     <string name="use_hyper_blur">Sử dụng họa tiết nâng cao</string>
@@ -274,6 +228,7 @@
     <string name="system_ui_statusbar_indicator_bold">Chữ đậm</string>
     <!--Multi-list Array-->
     <string name="array_close">Đóng</string>
+    <string name="array_hide">Ẩn</string>
     <string name="array_default">Mặc định</string>
     <string name="array_align_left">Bên trái</string>
     <string name="array_align_right">Bên phải</string>
@@ -319,10 +274,6 @@
     <string name="array_discrete">Riêng lẻ</string>
     <string name="array_gradual">Chậm</string>
     <string name="array_rainbow">Cầu vòng</string>
-    <string name="various_install_app_info_version_name">Tên phiên bản</string>
-    <string name="various_install_app_info_version_code">Mã phiên bản</string>
-    <string name="various_install_app_info_sdk">Hỗ trợ SDK</string>
-    <string name="various_install_app_size">Kích thước</string>
     <string name="status_bar_icon_mode_default">Mặc định</string>
     <string name="status_bar_icon_mode_on">Luôn hiện</string>
     <string name="status_bar_icon_mode_on_non_wifi">Luôn hiển thị khi không có WiFi</string>
@@ -380,12 +331,6 @@
     <string name="mediaeditor_mickey">Chuột Mickey</string>
     <string name="mediaeditor_strawberry_bear">Gấu dâu</string>
     <string name="mediaeditor_disney_princess">Công chúa Disney</string>
-    <string name="tiles_gms">Dịch vụ Google Play</string>
-    <string name="tiles_snow_leopard_mode">Chế độ S-Leo</string>
-    <string name="tiles_taplus">Taplus</string>
-    <string name="tiles_5g">5G</string>
-    <string name="dashboard_5g">Dùng 5G</string>
-    <string name="tiles_sunshine_mode">Chế độ ngoài trời</string>
     <!--System Framework-->
     <string name="system_framework">Framework hệ thống</string>
     <string name="system_framework_volume_title">Âm lượng</string>
@@ -415,7 +360,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_volume_steps">Hệ số bước âm lượng</string>
     <string name="system_ui_display_use_aosp_screenshot">Sử dụng trình chụp ảnh màn hình AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Chuyển ứng dụng chụp ảnh màn hình sang chụp ảnh màn hình AOSP, ứng dụng chụp màn hình trong HyperOS sẽ không phản hồi thao tác chụp màn hình</string>
-    <string name="system_framework_phone_network_title">Cài đặt mạng</string>
     <string name="phone_double_5g_nr">Sử dụng 5G kép (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">SIM chính và phụ hỗ trợ 5G cùng lúc (SIM phụ chỉ hỗ trợ NSA)</string>
     <string name="phone_double_5g_sa">Sử dụng 5G kép (SA+SA)</string>
@@ -471,6 +415,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_other_thermal_brightness_more">Chỉ tự động giảm độ sáng khi độ sáng tự động bật không phải do kiểm soát nhiệt</string>
     <string name="system_framework_other_disable_cleaner">Ngăn chặn tắt ứng dụng nền</string>
     <string name="system_framework_other_disable_cleaner_desc">Tính năng thử nghiệm, có thể gây ra việc sử dụng bộ nhớ bất thường</string>
+    <string name="system_framework_other_disable_thermal_desc">Tắt giới hạn tốc độ làm mới và hiệu ứng làm mờ</string>
+    <string name="system_framework_other_disable_thermal">Tắt nhiệt độ</string>
+    <string name="system_framework_enhance_recents_visibility_desc">Làm cho các mục gần đây bị ẩn của hệ thống hiển thị lại</string>
+    <string name="system_framework_enhance_recents_visibility">Tăng cường khả năng hiển thị gần đây</string>
     <string name="system_framework_other_disable_gesture_monitor">Tắt giám sát cử chỉ</string>
     <string name="system_framework_other_disable_gesture_monitor_desc">Giảm tải CPU nhưng làm hỏng các chức năng liên quan đến đầu vào như chụp ảnh màn hình bằng ba ngón tay</string>
     <string name="system_framework_disable_72h_verify">Tắt xác minh khóa màn hình sau 72 giờ</string>
@@ -579,7 +527,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="downloads_ui_always_show_link">Luôn hiện liên kết tải xuống đầy đủ</string>
     <string name="downloads_ui_always_show_link_desc">Đồng thời cũng khắc phục vấn đề một số tác vụ tải xuống không thể sao chép</string>
     <!--System UI-->
-    <string name="system_ui">Giao diện người dùng hệ thống</string>
     <string name="system_ui_lockscreen_title">Màn hình khóa</string>
     <string name="system_ui_lockscreen_safe_title">Bảo mật</string>
     <string name="system_ui_lockscreen_ui_title">Giao diện</string>
@@ -593,6 +540,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_lock_screen_show_spacing">Thời gian làm mới</string>
     <string name="system_ui_lock_screen_hide_camera">Ẩn Camera</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Ẩn Khoá tạp chí</string>
+    <string name="system_ui_lock_screen_bottom_left_button">Nút bên trái ở phía dưới</string>
     <string name="system_ui_lock_screen_current">Hiện tại</string>
     <string name="system_ui_lock_screen_blur_button">Làm mờ phím tắt và thông báo</string>
     <string name="system_ui_lock_screen_blur_button_desc">Sau khi bật, nền của camera và nút màn hình điều hướng trên Màn hình khóa sẽ bị mờ, có thể gây tốn điện năng.\nChỉ hỗ trợ chủ đề mặc định.</string>
@@ -614,10 +562,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_lock_screen_linkage_anim_off">Tốc độ hoạt ảnh tắt màn hình</string>
     <string name="system_ui_navigation_title">Phím điều hướng</string>
     <string name="system_ui_navigation_handle_title">Thanh ngang</string>
-    <string name="system_ui_hide_navigation_bar">Ẩn thanh ngang</string>
-    <string name="system_ui_hide_navigation_bar_toast">Không chuyển đổi phím điều hướng</string>
-    <string name="system_ui_hide_navigation_bar_toast_2">Không ẩn dòng nhắc cử chỉ</string>
-    <string name="system_ui_hide_navigation_bar_more">Vui lòng khởi động lại Miui Home và SystemUi</string>
     <string name="system_ui_navigation_handle_custom">Tùy chỉnh thanh ngang</string>
     <string name="system_ui_navigation_handle_custom_height">Chiều cao</string>
     <string name="system_ui_navigation_handle_custom_width">Độ rộng chiều dọc</string>
@@ -737,6 +681,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_clock_size">Kích thước đồng hồ (0 là giá trị gốc)</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Chỉ hợp lệ khi hiển thị ở hai hàng</string>
     <string name="system_ui_statusbar_clock_fix_color">Cố định màu</string>
+    <string name="system_ui_statusbar_clock_pad_show">Máy tính bảng</string>
+    <string name="system_ui_statusbar_clock_pad_hide">Ẩn đồng hồ ngày thanh trạng thái</string>
+    <string name="system_ui_statusbar_clock_layout_p">Đồng hồ ngày thanh trạng thái</string>
+    <string name="system_ui_statusbar_clock_editor_p">Định dạng đồng hồ ngày thanh trạng thái</string>
     <string name="system_ui_disable_clock_anim">Tắt hoạt ảnh chuyển tiếp đồng hồ trong trung tâm thông báo</string>
     <string name="system_ui_disable_clock_synch">Cài đặt đồng hồ trên thanh trạng thái không được đồng bộ hóa</string>
     <string name="system_ui_disable_clock_synch_desc">Đồng hồ trên thanh thông báo lớn không còn đồng bộ với định dạng đồng hồ trên thanh trạng thái</string>
@@ -745,6 +693,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_clock_layout_b">Đồng hồ lớn trên thanh thông báo</string>
     <string name="system_ui_statusbar_clock_layout_n">Đồng hồ nhỏ trên thanh thông báo</string>
     <string name="system_ui_statusbar_clock_editor_s">Định dạng đồng hồ trên thanh trạng thái</string>
+    <string name="system_ui_statusbar_clock_editor_b">Thanh thông báo dạng đồng hồ lớn</string>
     <string name="system_ui_statusbar_clock_editor_n">Định dạng đồng hồ nhỏ trên thanh thông báo</string>
     <string name="system_ui_statusbar_clock_style_f">Sắp xếp đồng hồ trên thanh trạng thái</string>
     <string name="system_ui_status_bar_strong_toast_layout">Bố cục</string>
@@ -770,15 +719,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_controlcenter_media_card_title">Thẻ thông báo phương tiện</string>
     <string name="system_ui_control_center_magnet_tile_settings">Bảng điều khiển</string>
     <string name="system_ui_control_center_notification_title">Thông báo</string>
-    <string name="quick_settings_state_change_message_on_my">%1$s đang bật</string>
-    <string name="quick_settings_state_change_message_off_my">%1$s đang tắt</string>
     <string name="system_control_center_5g_tile">Nút bật 5G nhanh</string>
     <string name="system_ui_control_center_snow_leopard_mode">Chế độ S-Leo</string>
     <string name="system_ui_control_center_snow_leopard_mode_desc">Tính năng thử nghiệm. Vô hiệu hóa tất cả đầu ra âm thanh.</string>
-    <string name="system_control_center_reduce_bright_colors_tile">Siêu tối</string>
-    <string name="system_control_center_sunshine_mode">Chế độ ngoài trời</string>
-    <string name="system_control_center_sunshine_mode_brightness">Độ sáng chế độ ánh sáng mặt trời</string>
-    <string name="system_control_center_sunshine_mode_brightness_desc">Độ sáng quá cao có thể gây ra tình trạng lão hóa màn hình, hiện tượng lưu ảnh màn hình và các hậu quả không thể khắc phục khác. Nên chọn độ sáng và sử dụng hợp lý.</string>
     <string name="system_ui_control_auto_close">Tự Động Thu Gọn</string>
     <string name="system_ui_control_center_qs_bg_color">Màu nền</string>
     <string name="system_ui_control_center_qs_color">Màu biểu tượng</string>
@@ -855,6 +798,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">Quay lại kiểu trộn màu thông báo bình thường</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">Hiện giá trị độ sáng</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">Hiện giá trị âm lượng</string>
+    <string name="system_ui_control_center_zen_fix">Sửa chế độ DND</string>
+    <string name="system_ui_control_center_zen_fix_desc">Sửa một số thiết bị vẫn đổ chuông khi ở chế độ DND</string>
     <string name="system_ui_other_title">Khác</string>
     <string name="system_ui_disable_volume">Thanh âm lượng gốc</string>
     <string name="system_ui_disable_power">Menu tắt nguồn mặc định</string>
@@ -869,6 +814,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_disable_infinitymode_gesture_sum">Chỉ sử dụng cho máy tính bảng</string>
     <string name="system_ui_disable_bottombar">Ẩn cử chỉ dưới cùng của cửa sổ nhỏ</string>
     <string name="system_ui_others_pct_title">Hiển thị dữ liệu</string>
+    <string name="system_cc_showpct_style">Kiểu hiển thị phần trăm dữ liệu</string>
     <string name="system_showpct_title">Hiển thị phần trăm độ sáng</string>
     <string name="system_cc_volume_showpct_title">Hiển thị phần trăm âm thanh</string>
     <string name="system_ui_others_showpct_top">Phần trăm cao nhất</string>
@@ -898,14 +844,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="scam_reminder_bypass_caption">Cho phép quay số trực tiếp tới mã MMI</string>
     <string name="scam_reminder_bypass_description">Cho phép quay số trực tiếp mã MMI, ví dụ: **21*8# để bật chuyển tiếp cuộc gọi.</string>
     <!--Settings-->
-    <string name="system_settings">Cài đặt</string>
     <string name="system_settings_linkturbo">Loại bỏ các hạn chế trên các ứng dụng tăng tốc mạng</string>
     <string name="system_settings_international_build">Cài đặt kiểu quốc tế</string>
     <string name="system_settings_safe_wifi">Xem mật khẩu WiFi đã lưu</string>
     <string name="system_settings_safe_wifi_desc">Xem tại: Cài đặt - WI-FI - Cài đặt nâng cao - Quản lý mạng đã lưu</string>
-    <string name="system_settings_wifipassword_btn_title">Kiểm tra</string>
-    <string name="system_settings_wifi_password_label">Mật khẩu</string>
-    <string name="system_settings_wifi_password_dlgtitle">Chi tiết Wi-Fi</string>
     <string name="system_settings_novelty_haptic_title">Mở khóa phiên bản mới của Tab Chạm</string>
     <string name="system_settings_novelty_haptic_desc">Chỉ dành cho các thiết bị có Âm thanh &amp; Chạm - Tab Chạm</string>
     <string name="system_settings_enable_pad_area">Mở khóa khu vực máy tính bảng</string>
@@ -999,6 +941,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Sound Recorder-->
     <string name="sound_recorder">Ghi âm</string>
     <string name="sound_recorder_disable_ai_watermark">Tắt hình mờ AI</string>
+    <string name="sound_recorder_unlock_recording_scene">Mở khóa cảnh ghi âm</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Trình chỉnh sửa màn hình khóa và AOD</string>
     <string name="aod_unlock_always_on_display">Mở khóa Giới hạn thời gian</string>
@@ -1055,7 +998,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="guard_provider_disable_upload_applist">Ngăn tự động tải lên danh sách ứng dụng đã cài đặt</string>
     <string name="guard_provider_disable_root_check">Tắt kiểm tra root</string>
     <!--System launcher-->
-    <string name="mihome">Trình khởi chạy hệ thống</string>
     <string name="home_gesture">Cử chỉ</string>
     <string name="home_navigation_title">Điều hướng</string>
     <string name="home_navigation_quick_back">Quay lại ứng dụng trước</string>
@@ -1090,7 +1032,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_gesture_swipe_and_stop">Vuốt và dừng</string>
     <string name="home_gesture_swipe_and_stop_desc">Vuốt và dừng trên màn hình không phải màn hình chính</string>
     <string name="home_gesture_multi_choose_app">Chọn ứng dụng</string>
-    <string name="home_gesture_multi_choose_app_none">None</string>
+    <string name="home_gesture_multi_choose_app_none">Không</string>
     <string name="home_layout">Bố cục</string>
     <string name="home_layout_home_title">Màn hình chính</string>
     <string name="home_layout_indicator_title">Chỉ báo</string>
@@ -1248,6 +1190,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_widget_allow_moved_to_minus_one_screen">Cho phép di chuyển tiện ích Android sang màn hình -1</string>
     <string name="home_widget_hide_title">Ẩn tiêu đề widget</string>
     <string name="home_widget_resizable">Xóa giới hạn kích thước tiện ích</string>
+    <string name="home_widget_widget_blur_opt">Tối ưu hóa làm mờ tiện ích</string>
     <string name="home_dock">Thanh dock</string>
     <string name="home_dock_bg_enable">Thêm nền thanh Dock</string>
     <string name="home_dock_bg_all_app">Chế độ ngăn kéo tương thích</string>
@@ -1296,18 +1239,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_large_icon_corner_radius">Các biểu tượng lớn với các góc tròn</string>
     <string name="home_other_app_icon_hide">Quản lý phím tắt trên màn hình</string>
     <string name="home_other_toast_slide_again">Cấm thông báo nhắc nhở \"Vui lòng chạm lại\"</string>
-    <string name="system_framework_guided_access_status">Ẩn thanh trạng thái khi ứng dụng bị khóa</string>
-    <string name="system_framework_guided_access_status_more">Hình dạng đầu ra sẽ thay đổi khi nhấn và giữ nút nguồn. Thanh trạng thái sẽ bị ẩn cho đến khi bạn thoát khỏi chế độ khóa</string>
-    <string name="system_framework_guided_access_sc">Cấm gọi ra thanh bên khi được ghim</string>
-    <string name="system_framework_guided_access_screen">Chuyển tới màn hình khóa khi được bỏ ghim</string>
-    <string name="system_framework_guided_access">Cố định ứng dụng</string>
-    <string name="system_framework_guided_access_will_lock">Ứng dụng sẽ bị khóa</string>
-    <string name="system_framework_guided_access_lock">Khóa ứng dụng</string>
-    <string name="system_framework_guided_access_unlock">Mở khóa ứng dụng</string>
-    <string name="system_framework_guided_access_will_unlock">Sẽ khóa ứng dụng</string>
-    <string name="system_framework_guided_access_r">Khôi phục</string>
-    <string name="system_framework_guided_access_e">Vui lòng mở khóa trong giao diện ứng dụng bị khóa</string>
-    <string name="system_framework_guided_access_more">Nhấn và giữ phía dưới màn hình để vào, thoát lại và khởi động lại hệ thống ở lần đầu tiên</string>
     <string name="home_other_shortcut_remove_restrictions">Loại bỏ giới hạn phím tắt</string>
     <string name="home_other_shortcut_background_blur_custom">Giá trị làm mờ menu phím tắt</string>
     <string name="home_other_high_models">Giả dạng thiết bị cao cấp</string>
@@ -1342,11 +1273,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="mediaeditor_unlock_leica_filter_desc">Chỉ hỗ trợ một số phiên bản</string>
     <string name="mediaeditor_unlock_aigc">Mở khóa AIGC</string>
     <!--Mi Share-->
-    <string name="mishare">Mi Share</string>
-    <string name="mishare_disable_mishare_auto_off">Tắt tự động đóng Mi Share</string>
-    <string name="mishare_disable_auto_on_location">Bật dịch vụ vị trí khi tắt chia sẻ tệp</string>
-    <string name="mishare_unlock_turbo_mode">Mở khóa Gửi siêu nhanh</string>
-    <string name="mishare_hook_switch_mode_all">Mọi người</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Hình nền</string>
     <string name="miwallpaper_unlock_super_wallpaper">Mở khoá Siêu hình nền</string>
@@ -1385,6 +1311,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="personal_assistant_set_tv_notif_info_max_width">Đặt tiêu điểm thông báo du lịch ở độ rộng tối đa của thanh trạng thái</string>
     <string name="personal_assistant_set_tv_notif_info_max_width_desc">Điều chỉnh giá trị này một cách thích hợp để giải quyết vấn đề bỏ sót nội dung hiển thị</string>
     <string name="personal_assistant_disable_lite_version">Tắt phiên bản lite</string>
+    <string name="personal_assistant_widget_widget_blur_opt">Tối ưu hóa làm mờ tiện ích</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Pin và hiệu suất</string>
     <string name="powerkeeper_custom_refresh_rate">Tùy chỉnh tốc độ làm mới cao</string>
@@ -1416,7 +1343,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="securityadd_disable_gb_ads">Tắt quảng cáo trong trung tâm trò chơi</string>
     <string name="securityadd_disable_gb_ads_desc">Điều này có thể khiến các chức năng khác trở nên bất thường</string>
     <!--Security/Tablet security center-->
-    <string name="security_center_hyperos">Công cụ bảo mật</string>
     <string name="security_center_app_title">Quản lý ứng dụng</string>
     <string name="security_center_battery_title">Pin và hiệu suất</string>
     <string name="security_center_privacy_title">Bảo vệ riêng tư</string>
@@ -1470,9 +1396,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_disable_app_summary">Cho phép tắt bất kỳ ứng dụng nào từ trang thông tin ứng dụng</string>
     <string name="security_disable_app_url_title">Áp dụng quản lý mở liên kết</string>
     <string name="security_disable_app_url_summary">Thay đổi \"Xóa mặc định\" thành \"Mở theo mặc định\" trong chi tiết ứng dụng</string>
-    <string name="app_link_open_always">Cho phép ứng dụng mở đường liên kết được hỗ trợ</string>
-    <string name="app_link_open_never">Không cho phép ứng dụng mở liên kết</string>
-    <string name="open_by_default">Mở theo mặc định</string>
     <string name="security_score">Tắt tối ưu hóa kiểm tra sức khỏe</string>
     <string name="security_score_summary">Sửa thành 100 điểm bảo mật để tắt tối ưu hóa</string>
     <string name="security_center_skip_waiting_time">Bỏ qua giới hạn đếm ngược</string>
@@ -1524,25 +1447,17 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_bypass_simlock_miaccount_auth_desc">Không cần đăng nhập tài khoản Xiaomi khi bật bảo mật thẻ SIM</string>
     <string name="security_center_remove_simlock_success_dialog">Xóa hộp thoại xác minh bảo mật thẻ SIM thành công</string>
     <string name="security_center_remove_simlock_success_dialog_desc">Không còn hộp thoại nào nữa sau khi bật điện thoại để báo hiệu rằng bảo vệ bảo mật thẻ SIM đã được xác minh thành công.</string>
-    <string name="security_center_aosp_app_info_label">Thông tin ứng dụng AOSP</string>
-    <string name="security_center_aosp_app_info">Thêm mục nhập Thông tin ứng dụng AOSP</string>
-    <string name="security_center_aosp_app_manager_label">Trình quản lý ứng dụng AOSP</string>
-    <string name="security_center_aosp_app_manager">Thêm mục nhập Trình quản lý ứng dụng AOSP</string>
     <string name="security_center_power_consumption_ranking">Hiển thị mức tiêu thụ điện năng</string>
     <string name="security_center_hide_xopt_mode_tip">Ẩn mẹo để sử dụng quyền ẩn</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Mở khóa chế độ kháng lạnh</string>
     <string name="secutity_center_unlock_app_sandbox">Mở khóa lưu trữ độc lập</string>
+    <string name="secutity_center_battery_show_more_info">Hiện thêm thông tin về pin</string>
+    <string name="secutity_center_battery_show_more_info_desc">Tính năng thử nghiệm. Thông tin bổ sung về pin hiển thị có thể khác nhau tùy theo thiết bị.</string>
     <!--MiTrustService-->
     <string name="trustservice">Dịch vụ MiTrust</string>
     <string name="trustservice_disable_mrm">Tắt phát hiện rủi ro</string>
     <string name="trustservice_disable_mrm_desc">Tính năng thử nghiệm. Bạn có thể không sử dụng được tính năng này vì vi phạm luật pháp địa phương hoặc quốc gia.</string>
     <!--Smart cards-->
-    <string name="tsmclient">Thẻ thông minh</string>
-    <string name="tsmclient_auto_nfc">NFC tự động</string>
-    <string name="tsmclient_auto_nfc_desc">NFCtự động kích hoạt khi mà thẻ đang được chạm, và tự động tắt khi kết thúc</string>
-    <string name="tsmclient_nfc_turning_on">Tự động bật NFC……</string>
-    <string name="tsmclient_nfc_turn_on_manually">Bật NFC theo cách thủ công</string>
-    <string name="tsmclient_nfc_turn_on_failed">Tự động bật NFC không thành công</string>
     <!--Weather-->
     <string name="weather">Thời tiết</string>
     <string name="weather_device_level_title">Tốc độ của hoạt ảnh</string>
@@ -1561,7 +1476,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="aiasst_all_captions">Mở khóa phụ đề trực tuyến đa ngôn ngữ</string>
     <string name="aiasst_disable_watermark">Tắt hình mờ</string>
     <!--Barrage-->
-    <string name="barrage">Barrage</string>
+    <string name="barrage">Rào cản</string>
     <string name="barrage_any_barrage">Cho phép tất cả ứng dụng sử dụng barrage</string>
     <string name="barrage_custom_barrage_length">Tùy chỉnh độ dài barrage</string>
     <!--Joyose-->
@@ -1588,7 +1503,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="misound_increase_sampling_rate">Tăng tốc độ lấy mẫu</string>
     <!--Mi Settings-->
     <string name="mi_settings">Cài đặt Mi</string>
-    <string name="mi_input_settings">Input settings</string>
+    <string name="mi_input_settings">Thiết lập đầu vào</string>
     <string name="mi_settings_show_fps">Thêm tùy chọn tần số quét</string>
     <string name="mi_settings_show_fps_desc">Module mở khóa tất cả tốc độ làm mới theo mặc định, không đảm bảo hoạt động</string>
     <!--MTB-->
@@ -1624,9 +1539,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="voicetrigger_accuracy_percent_description">Giá trị lớn hơn có nghĩa là khó phát hiện hơn. Đối với \"XiaoAI\", giá trị mặc định của nó là 0%. Sau khi thiết lập xong cần nhập lại từ đánh thức</string>
     <!--Other-->
     <string name="various">Khác</string>
-    <string name="share_center">Mi Smart Hub</string>
-    <string name="new_task">Tác vụ mới</string>
-    <string name="custom_hook">Tùy chỉnh</string>
     <string name="app_version_not_supported">Phiên bản không hỗ trợ</string>
     <string name="various_location_simulation_title">Giả vị trí</string>
     <string name="various_dialog_title">Hộp thoại</string>
@@ -1643,7 +1555,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="various_collapse_miui_title">Kiểu tiêu đề hệ thống</string>
     <string name="various_collapse_miui_title_desc">Điều chỉnh tiêu đề thanh trên cùng trong ứng dụng MIUI</string>
     <string name="various_disable_folder_cantuse">Xóa hạn chế một số thư mục không chọn được</string>
-    <string name="various_super_clipboard_title">Super Clipboard</string>
+    <string name="various_super_clipboard_title">Siêu bảng ghi tạm</string>
     <string name="various_unlock_super_clipboard">Mở khoá Super Clipboard</string>
     <string name="various_super_clipboard_summary">Super clipboard là clipboard hỗ trợ sao chép tập tin/văn bản
 Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is_support_miui_super_clipboard, tính năng này sẽ không khả dụng nếu không có</string>
@@ -1708,28 +1620,12 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="location_simulation_work_base_station">Trạm cơ sở</string>
     <string name="location_simulation_work_longitude_latitude">Vĩ độ và kinh độ</string>
     <string name="location_simulation_work_remarks">Nhận xét</string>
-    <string name="app_details_playstore">Mở bằng cửa hàng ứng dụng</string>
-    <string name="app_details_launch">Khởi chạy</string>
-    <string name="app_details_nolaunch">Ứng dụng chưa đặt khởi chạy mặc định</string>
-    <string name="app_details_apk_file">Đường dẫn APK</string>
-    <string name="app_details_apk_version_code">Số phiên bản ứng dụng</string>
-    <string name="app_details_data_path">Đường dẫn dữ liệu</string>
-    <string name="app_details_app_uid">ID người dùng</string>
-    <string name="app_details_sdk">Phiên bản đích SDK</string>
-    <string name="app_details_min_sdk">Phiên bản tối thiểu SDK</string>
-    <string name="disable_app_settings">Đây là một ý tưởng tệ!</string>
-    <string name="disable_app_title">Bạn có chắc muốn tắt ứng dụng này?</string>
-    <string name="disable_app_text">Nếu đây là ứng dụng hệ thống cần thiết, tắt nó có thể gây ra nguy hiểm</string>
-    <string name="disable_app_fail">Thất bại khi đổi trạng thái ứng dụng</string>
     <string name="unlimited">Không giới hạn</string>
     <string name="calls">Cuộc gọi</string>
     <string name="system_volume">Hệ thống</string>
     <string name="notification_volume">Thông báo</string>
     <string name="freeform_notification">Thông báo cửa sổ nổi</string>
     <string name="share_app">Chia sẻ với các ứng dụng bên thứ ba</string>
-    <string name="system_notifrowmenu_appinfo">Thông tin ứng dụng</string>
-    <string name="system_notifrowmenu_openinfw">Cửa sổ nổi</string>
-    <string name="system_notifrowmenu_forceclose">Buộc đóng</string>
     <string name="show_newmods_title">Đánh dấu module mới</string>
     <string name="default_volume_stream_ring">Nhạc chuông</string>
     <string name="default_volume_stream_media">Đa phương tiện</string>
@@ -1760,14 +1656,4 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="custom_hook_mode">Chọn chế độ</string>
     <string name="open_source">Dự án mã nguồn mở</string>
     <string name="close_source">Dự án mã nguồn đóng</string>
-    <string name="exit">Thoát</string>
-    <string name="ignore">Bỏ qua</string>
-    <string name="log_level">Mức độ nhật ký</string>
-    <string name="log_level_none">Tắt nhật ký đầu ra</string>
-    <string name="disable_suggest">Tắt đề xuất</string>
-    <string name="enable_suggest">Bật đề xuất</string>
-    <string name="notification_channel_app_crash_name">Ứng dụng đang chạy bất thường</string>
-    <string name="notification_title_message_emergency_crash">%s lần crash</string>
-    <string name="notification_content_message">Nhấp để xem chi tiết</string>
-    <string name="notification_view">Xem</string>
 </resources>
