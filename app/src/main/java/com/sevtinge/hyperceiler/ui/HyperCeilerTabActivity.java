@@ -4,9 +4,7 @@ import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYear
 import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isNeedGrayView;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isTablet;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
@@ -23,21 +21,20 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.sevtinge.hyperceiler.common.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.common.prefs.XmlPreference;
-import com.sevtinge.hyperceiler.utils.PermissionUtils;
+import com.sevtinge.hyperceiler.common.utils.DialogHelper;
+import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
+import com.sevtinge.hyperceiler.common.utils.search.SearchHelper;
 import com.sevtinge.hyperceiler.dashboard.SubSettings;
 import com.sevtinge.hyperceiler.hook.callback.IResult;
-import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
-import com.sevtinge.hyperceiler.safemode.CrashHandlerReceiver;
-import com.sevtinge.hyperceiler.ui.holiday.HolidayHelper;
-import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
-import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
-import com.sevtinge.hyperceiler.utils.LogServiceUtils;
-import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
-import com.sevtinge.hyperceiler.common.utils.search.SearchHelper;
+import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.ui.holiday.HolidayHelper;
+import com.sevtinge.hyperceiler.utils.LogServiceUtils;
+import com.sevtinge.hyperceiler.utils.PermissionUtils;
+import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,7 +60,6 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
             applyGrayScaleFilter();
         }
         HolidayHelper.init(this);
-        CrashHandlerReceiver.register(this);
         LanguageHelper.init(this);
         PermissionUtils.init(this);
         super.onCreate(savedInstanceState);
@@ -253,7 +249,6 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     @Override
     public void onDestroy() {
         super.onDestroy();
-        CrashHandlerReceiver.unregister(this);
         ShellInit.destroy();
         ThreadPoolManager.shutdown();
         PreferenceHeader.mUninstallApp.clear();

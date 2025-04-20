@@ -18,10 +18,6 @@
  */
 package com.sevtinge.hyperceiler.dashboard;
 
-import static com.sevtinge.hyperceiler.safemode.CrashHandlerReceiver.CRASH_HANDLER;
-
-import android.content.Context;
-import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,9 +25,6 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.sevtinge.hyperceiler.dashboard.base.activity.BaseSettingsActivity;
-
-import com.sevtinge.hyperceiler.safemode.CrashHandlerDialog;
-import com.sevtinge.hyperceiler.safemode.CrashHandlerReceiver;
 import com.sevtinge.hyperceiler.ui.hooker.framework.OtherSettings;
 import com.sevtinge.hyperceiler.ui.hooker.home.HomeDockSettings;
 import com.sevtinge.hyperceiler.ui.hooker.home.HomeFolderSettings;
@@ -42,16 +35,10 @@ import com.sevtinge.hyperceiler.ui.sub.MultiActionSettings;
 import fan.preference.PreferenceFragment;
 
 public abstract class SettingsActivity extends BaseSettingsActivity implements PreferenceFragment.OnPreferenceStartFragmentCallback {
-    private CrashHandlerReceiver mCrashHandlerBroadcastReceiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mCrashHandlerBroadcastReceiver = new CrashHandlerReceiver();
-        IntentFilter intentFilter = new IntentFilter(CRASH_HANDLER);
-        registerReceiver(mCrashHandlerBroadcastReceiver, intentFilter, Context.RECEIVER_EXPORTED);
-
         initCreate();
     }
 
@@ -78,6 +65,5 @@ public abstract class SettingsActivity extends BaseSettingsActivity implements P
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mCrashHandlerBroadcastReceiver);
     }
 }
