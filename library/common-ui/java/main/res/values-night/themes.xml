@@ -7,6 +7,13 @@
         <item name="endActionMenuEnabled">true</item>
     </style>
 
+    <style name="CrashTheme" parent="Base.Theme.HyperCeiler.DayNight">
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:colorBackground">@color/black</item>
+        <item name="miuixColorPrimary">@color/black</item>
+        <item name="actionBarBackground">@color/black</item>
+    </style>
+
     <style name="Base.Theme.HyperCeiler" parent="Theme.AppCompat.DayNight">
         <item name="android:forceDarkAllowed">false</item>
         <item name="rebootIconColor">@color/white</item>

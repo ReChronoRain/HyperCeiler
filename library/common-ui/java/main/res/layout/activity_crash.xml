@@ -21,61 +21,94 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/waring"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="25dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_error"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/waring_views"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="13dp"
+                    android:background="@drawable/rounded_background_r_l"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/tip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="模块发生致命错误"
-                    android:textColor="@color/textview_black_title"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    <ImageView
+                        android:id="@+id/waring"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_error"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="模块发生致命错误"
+                        android:textColor="@color/textview_black_title"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/waring" />
+
+                    <TextView
+                        android:id="@+id/tip_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="长按内容即可复制"
+                        android:textColor="@color/textview_black_summary"
+                        android:textSize="15sp"
+                        app:layout_constraintLeft_toLeftOf="@id/tip"
+                        app:layout_constraintRight_toRightOf="@+id/tip"
+                        app:layout_constraintTop_toBottomOf="@id/tip" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/message_views"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="13dp"
+                    android:background="@drawable/rounded_background_r_l"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/waring" />
+                    app:layout_constraintTop_toBottomOf="@id/waring_views">
 
-                <TextView
-                    android:id="@+id/tip_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="长按内容即可复制"
-                    android:textColor="@color/textview_black_summary"
-                    android:textSize="15sp"
-                    app:layout_constraintRight_toRightOf="@+id/tip"
-                    app:layout_constraintTop_toBottomOf="@id/tip" />
+                    <TextView
+                        android:id="@+id/message"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="none"
+                        android:longClickable="true"
+                        android:overScrollMode="never"
+                        android:scrollbars="none"
+                        android:text="Test"
+                        android:textColor="@color/textview_black_title"
+                        android:textSize="17sp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/message"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginEnd="25dp"
-                    android:ellipsize="none"
-                    android:longClickable="true"
-                    android:overScrollMode="never"
-                    android:scrollbars="none"
-                    android:text="Test"
-                    android:textColor="@color/textview_black_title"
-                    android:textSize="17sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tip_2" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.core.widget.NestedScrollView>
+
     </fan.springback.view.SpringBackLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

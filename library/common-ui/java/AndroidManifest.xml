@@ -19,6 +19,7 @@
 
         <activity
             android:name="com.sevtinge.hyperceiler.safemode.ExceptionCrashActivity"
+            android:theme="@style/CrashTheme"
             android:exported="true" />
 
         <activity

@@ -20,6 +20,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="pref_card">@color/white</color>
+
     <color name="navigation_divider">#1A000000</color>
     <color name="navigation_icon_dark">#FF000000</color>
     <color name="navigation_icon_light">#FFFFFFFF</color>
