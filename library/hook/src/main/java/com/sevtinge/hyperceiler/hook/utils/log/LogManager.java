@@ -24,13 +24,11 @@ import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mPrefsMap;
 import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mSharedPreferences;
 import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.hook.BuildConfig;
 import com.sevtinge.hyperceiler.hook.utils.PropUtils;
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -47,7 +45,7 @@ public class LogManager {
     public static boolean IS_LOGGER_ALIVE;
     public static final int logLevel = getLogLevel();
     public static String LOGGER_CHECKER_ERR_CODE;
-    private static String PROP_HYPERCEILER_LOG_LEVEL = "persist.hyperceiler.log.level";
+    private static final String PROP_HYPERCEILER_LOG_LEVEL = "persist.hyperceiler.log.level";
 
     public static void init() {
         IS_LOGGER_ALIVE = isLoggerAlive();

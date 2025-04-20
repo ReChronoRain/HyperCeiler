@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fan.springback.view.SpringBackLayout
+        android:id="@+id/scrollable_view_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:scrollOrientation="vertical|angle"
+        app:scrollableView="@id/scrollview">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/waring"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="25dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_error"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="模块发生致命错误"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/waring" />
+
+                <TextView
+                    android:id="@+id/tip_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="长按内容即可复制"
+                    android:textColor="@color/textview_black_summary"
+                    android:textSize="15sp"
+                    app:layout_constraintRight_toRightOf="@+id/tip"
+                    app:layout_constraintTop_toBottomOf="@id/tip" />
+
+                <TextView
+                    android:id="@+id/message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:ellipsize="none"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:text="Test"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="17sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tip_2" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </fan.springback.view.SpringBackLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
