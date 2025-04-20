@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
 <resources>
     <string name="provision_back_description">返回</string>
 
@@ -21,7 +39,6 @@
     <string name="provision_terms_of_use_label_use_network_china">为了给您提供更好的服务，您需要阅读并同意&lt;a href="%1$s"&gt;用户协议&lt;/a&gt;与&lt;a href="%2$s"&gt;隐私政策&lt;/a&gt;才可继续使用系统，我们将严格遵守相关法律法规和隐私政策以保护您的个人信息。</string>
     <string name="provision_terms_of_label_period">。</string>
 
-
     <string name="provision_protect_persoanl_info_statement">我们将严格遵守相关法律法规和隐私政策以保护您的个人信息。</string>
 
     <string name="provision_service_agreement">我已仔细阅读并同意上述条款</string>
@@ -32,7 +49,6 @@
     <string name="provision_congratulation_title">设置完毕</string>
     <string name="provision_congratulation_label">体验激动人心的 HyperOS 吧！</string>
     <string name="provision_complete_text">进入系统</string>
-
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Select all</string>
     <string name="miuix_appcompat_cancel_description">Cancel</string>
@@ -44,24 +60,21 @@
     <string name="miuix_appcompat_search_input_description">Search</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">More</string>
     <string name="miuix_appcompat_action_mode_inverse">Inverse</string>
-
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Tip</string>
     <string name="root">Some features aren\'t available without Root/Su permission</string>
     <string name="soft_reboot">Reboot </string>
     <string name="restart_app_desc">Are you sure you want to restart now %1$s?</string>
-
     <string name="hyperceiler_restart_quick">Quickly restart apps</string>
     <string name="hook_failed">The module isn\'t activated yet. Please check if LSPosed is enabled. If so, please restart or re-optimize the module.</string>
     <string name="kill_failed">Failed to end process. Please check if HyperCeiler has been granted Root/Su permissions.</string>
     <string name="start_failed">Failed to start activity. Please check if HyperCeiler has been granted Root/Su permissions.</string>
     <string name="pid_failed">The target app isn\'t running and doesn\'t need to be restarted.</string>
     <string name="reboot_failed">Reboot failed. Please check if HyperCeiler has been granted Root/Su permission.</string>
-
     <!--HyperCeiler Tips-->
     <string name="error">Error</string>
     <string name="warn">Attention</string>
-    <string name="app_error_desc">This module has encountered a critical failure and cannot continue to run! Please provide the following error information for feedback! \n\n</string>
+    <string name="app_error_desc">HyperCeiler was unexpectedly closed. To help us fix this, provide the information below:\n\n</string>
     <string name="app_exit">OK</string>
     <string name="safe_mode_desc">%1$s has entered Safe mode due to multiple crashes, and HyperCeiler features has been temporarily disabled.</string>
     <string name="safe_mode_history">View exception records</string>
@@ -90,20 +103,14 @@
     <string name="headtip_tip_fuck_coolapk">Today in history: Sevtinge delivered an important speech on July 14, 2022.</string>
     <string name="headtip_notice_dead_logger_errcode">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.\nError code: %1$s</string>
     <string name="headtip_notice_dead_logger">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.</string>
-
-
     <!--System UI-->
     <string name="system_ui">System UI</string>
-
     <!--System launcher-->
     <string name="mihome">System launcher</string>
-
     <!--Settings-->
     <string name="system_settings">Settings</string>
-
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Security</string>
-
     <!--Other-->
     <string name="demo" translatable="false">Demo</string>
     <string name="exit">Exit</string>
