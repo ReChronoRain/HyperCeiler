@@ -32,7 +32,6 @@ import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import de.robv.android.xposed.XposedHelpers
 import androidx.core.view.isGone
 import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isHyperOSVersion
 
 object MobilePublicHook : BaseHook() {
     private val statusBarMobileClass by lazy {
@@ -66,9 +65,7 @@ object MobilePublicHook : BaseHook() {
             "updateState",
             object : HookTool.MethodHook() {
                 override fun before(param: MethodHookParam) {
-                    if (isHyperOSVersion(1f)) {
-                        hideSimCard(param)
-                    }
+                    hideSimCard(param)              
                 }
 
                 override fun after(param: MethodHookParam) {
@@ -89,9 +86,7 @@ object MobilePublicHook : BaseHook() {
                     if (singleMobileType) {
                         showMobileTypeSingle(param) // 使网络类型单独显示
                     }
-                    if (isHyperOSVersion(1f)) {
-                        hideSimCard(param)
-                    }
+                    hideSimCard(param)
                 }
 
                 override fun after(param: MethodHookParam) {
