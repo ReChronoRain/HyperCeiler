@@ -24,12 +24,13 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.NewStrongToast
 import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.StrongToast
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 
 
 object HideStrongToast : BaseHook() {
     override fun init() {
-        if (isMoreHyperOSVersion(2f)) {
+        if (isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35)) {
             NewStrongToast!!.methodFinder()
         } else {
             StrongToast!!.methodFinder()
