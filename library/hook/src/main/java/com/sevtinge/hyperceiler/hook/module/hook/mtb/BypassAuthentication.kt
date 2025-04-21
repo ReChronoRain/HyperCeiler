@@ -30,31 +30,11 @@ object BypassAuthentication : BaseHook() {
 
         // 在HyperOS上
         runCatching {
-            loadClass("com.xiaomi.mtb.XiaoMiServerPermissionCheck").methodFinder()
-                .filterByName("getClassErrorString")
-                .single().createHook {
-                    after {
-                        it.result = null
-                    }
-                }
-        }
-
-        runCatching {
-            loadClass("com.xiaomi.mtb.XiaoMiServerPermissionCheck").methodFinder()
-                .filterByName("updatePermissionClass")
+            loadClass("com.xiaomi.mtb.MtbApp").methodFinder()
+                .filterByName("getMiServerPermissionClass")
                 .single().createHook {
                     after {
                         it.result = 0L
-                    }
-                }
-        }
-
-        runCatching {
-            loadClass("com.xiaomi.mtb.MtbApp").methodFinder()
-                .filterByName("setMiServerPermissionClass")
-                .single().createHook {
-                    before {
-                        it.args[0] = 0
                     }
                 }
         }
