@@ -26,59 +26,15 @@ import com.sevtinge.hyperceiler.hook.utils.setObjectField
 
 object BypassAuthentication : BaseHook() {
     override fun init() {
-        val mModemTestBoxClass = loadClass("com.xiaomi.mtb.activity.ModemTestBoxMainActivity")
-
-        // 在HyperOS上
+        // 在HyperOS2上
         runCatching {
-            loadClass("com.xiaomi.mtb.XiaoMiServerPermissionCheck").methodFinder()
-                .filterByName("getClassErrorString")
-                .single().createHook {
-                    after {
-                        it.result = null
-                    }
-                }
-        }
-
-        runCatching {
-            loadClass("com.xiaomi.mtb.XiaoMiServerPermissionCheck").methodFinder()
-                .filterByName("updatePermissionClass")
+            loadClass("com.xiaomi.mtb.MtbApp").methodFinder()
+                .filterByName("getMiServerPermissionClass")
                 .single().createHook {
                     after {
                         it.result = 0L
                     }
                 }
         }
-
-        runCatching {
-            loadClass("com.xiaomi.mtb.MtbApp").methodFinder()
-                .filterByName("setMiServerPermissionClass")
-                .single().createHook {
-                    before {
-                        it.args[0] = 0
-                    }
-                }
-        }
-
-        runCatching {
-            mModemTestBoxClass.methodFinder()
-                .filterByName("updateClass")
-                .single().createHook {
-                    before {
-                        it.args[0] = 0
-                        it.thisObject.setObjectField("mClassNet", 0)
-                    }
-                }
-        }
-
-        runCatching {
-            mModemTestBoxClass.methodFinder()
-                .filterByName("initClassProduct")
-                .single().createHook {
-                    after {
-                        it.thisObject.setObjectField("mClassProduct", 0)
-                    }
-                }
-        }
     }
-
 }
