@@ -19,15 +19,16 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="13dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/waring_views"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="13dp"
-                    android:layout_marginEnd="13dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/rounded_background_r_l"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
@@ -72,13 +73,25 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <TextView
+                    android:id="@+id/message_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="13dp"
+                    android:enabled="false"
+                    android:text="基本信息"
+                    android:textColor="@color/category_tip"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/waring_views" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/message_views"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="13dp"
-                    android:layout_marginEnd="13dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/rounded_background_r_l"
                     android:paddingStart="15dp"
                     android:paddingTop="10dp"
@@ -86,7 +99,7 @@
                     android:paddingBottom="10dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/waring_views">
+                    app:layout_constraintTop_toBottomOf="@id/message_tip">
 
                     <TextView
                         android:id="@+id/message"
@@ -103,6 +116,51 @@
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/stack_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="13dp"
+                    android:enabled="false"
+                    android:text="堆栈信息"
+                    android:textColor="@color/category_tip"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/message_views" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/stack_views"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_background_r_l"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/stack_tip">
+
+                    <TextView
+                        android:id="@+id/stack"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="none"
+                        android:longClickable="true"
+                        android:overScrollMode="never"
+                        android:scrollbars="none"
+                        android:text="Test"
+                        android:textColor="@color/textview_black_title"
+                        android:textSize="17sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

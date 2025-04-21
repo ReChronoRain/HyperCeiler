@@ -37,11 +37,15 @@ import java.util.Date;
 
 import fan.appcompat.app.AppCompatActivity;
 
-public class ExceptionCrashActivity extends AppCompatActivity {
+public class ExceptionCrashActivity extends AppCompatActivity implements View.OnLongClickListener {
+    private String fullMsg;
+    private String stackMsg;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crash);
+        getAppCompatActionBar().setTitle("Ah？出错了");
 
         Intent intent = getIntent();
         Throwable throwable = intent.getSerializableExtra("crashInfo", Throwable.class);
@@ -62,26 +66,30 @@ public class ExceptionCrashActivity extends AppCompatActivity {
         String fullDetail = sw.toString();
 
         TextView msgView = findViewById(R.id.message);
-        String fullMsg = "异常信息：" + message +
-            "\n\n异常类型：" + exceptionType +
-            "\n\n文件名：" + fileName +
-            "\n\n抛出类：" + className +
-            "\n\n抛出方法：" + methodName +
-            "\n\n行号：" + lineNumber +
-            "\n\n记录时间：" + timestamp +
-            "\n\n详细信息：\n" + fullDetail;
+        fullMsg = "异常信息：" + message +
+            "\n异常类型：" + exceptionType +
+            "\n文件名：" + fileName +
+            "\n抛出类：" + className +
+            "\n抛出方法：" + methodName +
+            "\n行号：" + lineNumber +
+            "\n记录时间：" + timestamp;
         msgView.setText(fullMsg);
 
-        msgView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("text", msgView.getText());
-                cm.setPrimaryClip(clip);
-                Toast.makeText(v.getContext(), "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+        TextView stackView = findViewById(R.id.stack);
+        stackMsg = "详细信息：\n" + fullDetail;
+        stackView.setText(stackMsg);
 
-                return true;
-            }
-        });
+        msgView.setOnLongClickListener(this);
+        stackView.setOnLongClickListener(this);
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("text", fullMsg + "\n" + stackMsg);
+        cm.setPrimaryClip(clip);
+        Toast.makeText(v.getContext(), "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+
+        return true;
     }
 }
