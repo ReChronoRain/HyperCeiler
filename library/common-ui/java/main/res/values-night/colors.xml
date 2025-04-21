@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="pref_card">#242424</color>
+    <color name="category_tip">#797E94</color>
 
     <color name="textview_white">#FF000000</color>
     <color name="textview_black">#BEFFFFFF</color>
