@@ -30,5 +30,10 @@ object IsUserBuild : BaseHook() {
             .single().createHook {
                 returnConstant(false)
         }
+        loadClass("com.xiaomi.mtb.MtbApp").methodFinder()
+            .filterByName("isFactoryBuild")
+            .single().createHook {
+                returnConstant(true)
+        }
     }
 }
