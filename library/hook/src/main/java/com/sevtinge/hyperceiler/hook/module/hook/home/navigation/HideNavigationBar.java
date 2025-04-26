@@ -22,7 +22,6 @@ import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.setBooleanField;
 
-import android.content.res.Configuration;
 import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,12 +31,11 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 public class HideNavigationBar extends BaseHook {
     @Override
     public void init() {
-
         findAndHookMethod("com.miui.home.recents.views.RecentsContainer", "showLandscapeOverviewGestureView", boolean.class,
                 new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
-                        param.setResult(false);
+                        param.setResult(null);
                     }
                 });
 
@@ -65,13 +63,6 @@ public class HideNavigationBar extends BaseHook {
         });
 
         findAndHookMethod("com.miui.home.recents.NavStubView", "updateScreenSize", new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                setBooleanField(param.thisObject, "mHideGestureLine", false);
-            }
-        });
-
-        findAndHookMethod("com.miui.home.recents.NavStubView", "onConfigurationChanged", Configuration.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 setBooleanField(param.thisObject, "mHideGestureLine", false);
