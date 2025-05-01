@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.camera.CustomCameraColor;
 import com.sevtinge.hyperceiler.hook.module.hook.camera.CustomWatermark;
 import com.sevtinge.hyperceiler.hook.module.hook.camera.EnableLabOptions;
 import com.sevtinge.hyperceiler.hook.module.hook.camera.MaxScreenBrightness;
+import com.sevtinge.hyperceiler.hook.module.hook.camera.UnlockLeica;
 import com.sevtinge.hyperceiler.hook.module.hook.camera.UnlockSuperHighQuality;
 import com.sevtinge.hyperceiler.hook.module.hook.camera.UnlockTrackEyes;
 
@@ -45,5 +46,6 @@ public class Camera extends BaseModule {
         initHook(new CustomCameraColor(), mPrefsMap.getBoolean("camera_custom_theme_color"));
 
         initHook(UnlockSuperHighQuality.INSTANCE, mPrefsMap.getBoolean("camera_super_high_quality"));
+        initHook(UnlockLeica.INSTANCE, mPrefsMap.getBoolean("camera_unlock_leica"));
     }
 }
