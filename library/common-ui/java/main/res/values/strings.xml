@@ -63,8 +63,8 @@
     <string name="warn">Attention</string>
     <string name="module_app_failed">Fatal error occurred in the module</string>
     <string name="module_app_copy_desc">Press and hold the content to copy</string>
-    <string name="module_title_1">Basic information</string>
-    <string name="module_title_2">Stack Information</string>
+    <string name="module_title_1">Basic message</string>
+    <string name="module_title_2">Stack message</string>
     <string name="app_error_desc">This module has encountered a critical failure and cannot continue to run! Please provide the following error information for feedback! \n\n</string>
     <string name="app_exit">OK</string>
     <string name="safe_mode_desc">%1$s has entered Safe mode due to multiple crashes, and HyperCeiler features has been temporarily disabled.</string>
@@ -80,6 +80,11 @@
     <string name="safe_mode_recorder_line">Line</string>
     <string name="safe_mode_recorder_msg">Exception message</string>
     <string name="safe_mode_recorder_st">Stack trace</string>
+    <string name="error_message">Exception message</string>
+    <string name="error_type">Exception type</string>
+    <string name="error_file_name">File name</string>
+    <string name="error_time">Record time</string>
+    <string name="copy_ok">Copied to clipboard</string>
     <string name="notification_channel_app_crash_name">The app is running abnormally</string>
     <string name="notification_title_message_emergency_crash">%s has crashed multiple times</string>
     <string name="notification_content_message">Click to view details</string>

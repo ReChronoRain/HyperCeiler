@@ -106,7 +106,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:ellipsize="none"
-                        android:hint="Text"
+                        android:text="Text"
                         android:longClickable="true"
                         android:overScrollMode="never"
                         android:scrollbars="none"

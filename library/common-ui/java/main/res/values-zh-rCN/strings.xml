@@ -58,7 +58,7 @@
     <string name="start_failed">启动 Activity 失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限</string>
 
     <!--HyperCeiler Tips-->
-    <string name="error">错误</string>
+    <string name="error">Ah？出错了</string>
     <string name="warn">警告</string>
     <string name="module_app_failed">模块发生致命错误</string>
     <string name="module_app_copy_desc">长按内容即可复制</string>
@@ -79,6 +79,11 @@
     <string name="safe_mode_recorder_line">行号</string>
     <string name="safe_mode_recorder_msg">异常类型及信息</string>
     <string name="safe_mode_recorder_st">异常堆栈内容</string>
+    <string name="error_message">异常信息</string>
+    <string name="error_type">异常类型</string>
+    <string name="error_file_name">文件名</string>
+    <string name="error_time">记录时间</string>
+    <string name="copy_ok">已复制到剪贴板</string>
 
     <string name="notification_channel_app_crash_name">应用运行异常</string>
     <string name="notification_title_message_emergency_crash">%s 多次崩溃</string>
