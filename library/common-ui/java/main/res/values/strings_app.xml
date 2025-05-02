@@ -57,9 +57,6 @@
     <string name="home_title_custom_anim_param_RECT_RATIO_title" translatable="false">RECT_RATIO</string>
     <string name="home_title_custom_anim_param_RADIUS_title" translatable="false">RADIUS</string>
     <string name="home_title_custom_anim_param_ALPHA_title" translatable="false">ALPHA</string>
-
-
-
     <string name="security_center" translatable="false">Security Center</string>
 
     <string name="settings_app_en" translatable="false">English</string>
@@ -84,7 +81,6 @@
     <string name="new_cta_agree_desc">During usage, in order to provide you with more features, we may apply for Root/Su permission from you. You can go to Permission Management at any time to adjust the authorization status of all permissions, and please go to your Root/Su manager to grant Root/Su permissions.</string>
     <string name="new_cta_app_main_purpose">modify system apps</string>
     <string name="new_cta_app_all_purpose_title">Welcome to HyperCeiler! This app relies on the Xposed framework to run. You can use this app to hijack and modify other supported apps to enhance the system. During usage, in order to provide you with more functions, we may apply for Root/Su permissions from you. You can manage it at any time by going to your Root/Su Manager.</string>
-
     <!--HyperCeiler Settings/About Page-->
     <string name="language">English</string>
     <string name="translator">HyperCeiler Official</string>
@@ -200,10 +196,6 @@
     <string name="about_privacy">Privacy Policy</string>
     <string name="about_protocol">User Agreement</string>
     <!--Pop-up window/miuix part-->
-
-
-
-
     <string name="expand_button_title">High level</string>
     <string name="not_set">Not set</string>
     <string name="copy">Copy</string>
@@ -545,6 +537,7 @@
     <string name="camera_custom_watermark">Custom device watermark</string>
     <string name="camera_custom_watermark_manufacturer">Manufacturer information</string>
     <string name="camera_custom_watermark_device">Device information</string>
+    <string name="camera_unlock_4k60">Unlock 4K 60fps</string>
     <string name="camera_unlock_leica">Unlock Leica custom interface and features</string>
     <string name="camera_super_high_quality">Unlock super high photo quality</string>
     <string name="camera_shot_hand_gesture">Unlock Palm shutter</string>
