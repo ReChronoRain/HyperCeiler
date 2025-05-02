@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="provision_back_description">返回</string>
+    <string name="provision_back_description">Back</string>
 
-    <string name="provision_start_content_description">开始</string>
+    <string name="provision_start_content_description">Start</string>
 
-    <string name="provision_next">继续</string>
-    <string name="provision_skip_underline">跳过</string>
+    <string name="provision_next">Next</string>
+    <string name="provision_skip_underline">Skip</string>
 
-    <string name="provision_permission_settings_title">权限设置</string>
-    <string name="provision_terms_and_statement_title">协议与声明</string>
-    <string name="provision_basic_settings_title">基础设置</string>
+    <string name="provision_permission_settings_title">Permission settings</string>
+    <string name="provision_terms_and_statement_title">Agreement and Statement</string>
+    <string name="provision_basic_settings_title">Basic settings</string>
 
-    <string name="provision_agree_and_next">同意并继续</string>
-    <string name="provision_agree_terms">我已仔细阅读并同意上述条款</string>
+    <string name="provision_agree_and_next">Agree and continue</string>
+    <string name="provision_agree_terms">I have read and agreed to the above terms carefully</string>
 
-    <string name="provision_user_agreement">用户协议</string>
-    <string name="provision_privacy_policy">隐私政策</string>
+    <string name="provision_user_agreement">User Agreement</string>
+    <string name="provision_privacy_policy">Privacy Policy</string>
 
-    <string name="provision_terms_of_use">使用条款</string>
-    <string name="provision_terms_of_use_label_use_network_china">为了给您提供更好的服务，您需要阅读并同意&lt;a href="%1$s"&gt;用户协议&lt;/a&gt;与&lt;a href="%2$s"&gt;隐私政策&lt;/a&gt;才可继续使用系统，我们将严格遵守相关法律法规和隐私政策以保护您的个人信息。</string>
-    <string name="provision_terms_of_label_period">。</string>
+    <string name="provision_terms_of_use">Terms of use</string>
+    <string name="provision_terms_of_use_label_use_network_china">In order to provide you with better services, you need to read and agree to the <a href="%1$s">User Agreement</a> and <a href="%2$s">Privacy Policy</a> before you can continue to use the system. We will strictly abide by relevant laws, regulations and privacy policies to protect your personal information.</string>
+    <string name="provision_terms_of_label_period">.</string>
 
 
-    <string name="provision_protect_persoanl_info_statement">我们将严格遵守相关法律法规和隐私政策以保护您的个人信息。</string>
+    <string name="provision_protect_persoanl_info_statement">We will strictly abide by relevant laws, regulations and privacy policies to protect your personal information.</string>
 
-    <string name="provision_service_agreement">我已仔细阅读并同意上述条款</string>
+    <string name="provision_service_agreement">I have read and agreed to the above terms carefully</string>
 
-    <string name="provision_service_name_download">下载管理</string>
-    <string name="provision_service_policy_download"><Data>请您阅读并同意&lt;a href=%1$s&gt;《迅雷隐私政策》&lt;/a &gt;与&lt;a href=%1$s&gt;《迅雷公司网络服务使用协议》&lt;/a &gt;</Data></string>
+    <string name="provision_service_name_download">Download Manager</string>
+    <string name="provision_service_policy_download"><Data>Please read and agree to the &lt;a href=%1$s&gt; "Thunder Privacy Policy" and &lt;a href=%1$s&gt; "Thunder Company Network Service Usage Agreement"</Data >/Data></string>
 
-    <string name="provision_congratulation_title">设置完毕</string>
-    <string name="provision_congratulation_label">体验激动人心的 HyperOS 吧！</string>
-    <string name="provision_complete_text">进入系统</string>
+    <string name="provision_congratulation_title">Setup is complete</string>
+    <string name="provision_congratulation_label">Experience the exciting HyperOS!</string>
+    <string name="provision_complete_text">Enter the system</string>
 
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Select all</string>
@@ -61,6 +61,10 @@
     <!--HyperCeiler Tips-->
     <string name="error">Error</string>
     <string name="warn">Attention</string>
+    <string name="module_app_failed">Fatal error occurred in the module</string>
+    <string name="module_app_copy_desc">Press and hold the content to copy</string>
+    <string name="module_title_1">Basic information</string>
+    <string name="module_title_2">Stack Information</string>
     <string name="app_error_desc">This module has encountered a critical failure and cannot continue to run! Please provide the following error information for feedback! \n\n</string>
     <string name="app_exit">OK</string>
     <string name="safe_mode_desc">%1$s has entered Safe mode due to multiple crashes, and HyperCeiler features has been temporarily disabled.</string>

@@ -26,41 +26,6 @@
     <string name="new_cta_agree_desc">在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往权限管理调整所有权限的授权情况，Root/Su 权限请前往您的 Root/Su 管理器进行管理.</string>
     <string name="new_cta_app_main_purpose">修改系统应用</string>
     <string name="new_cta_app_all_purpose_title">欢迎使用 HyperCeiler，本应用依赖 Xposed 框架运行，你可以使用本应用劫持并修改其他受支持的应用以实现对系统的增强功能。在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往您的 Root/Su 管理器进行管理。</string>
-    <!--HyperCeiler Tips-->
-    <string name="error">错误</string>
-    <string name="warn">警告</string>
-    <string name="app_error_desc">HyperCeiler 异常终止，请携带以下信息进行有效反馈。\n\n</string>
-    <string name="app_exit">退出</string>
-    <string name="safe_mode_desc">%1$s 由于多次崩溃，已进入安全模式，HyperCeiler 对其的功能已停用。\n您可以解除对其的安全模式，或稍后进入 HyperCeiler 处理。</string>
-    <string name="safe_mode_history">查看异常记录</string>
-    <string name="safe_mode_cancel">解除</string>
-    <string name="safe_mode_ok">稍后处理</string>
-    <string name="safe_mode_later_title">提示</string>
-    <string name="safe_mode_later_desc">%1$s 目前处于安全模式中，HyperCeiler 对其的功能已停用。\n您可以解除对其的安全模式，或稍后处理。</string>
-    <string name="safe_mode_recorder_title">异常记录</string>
-    <string name="safe_mode_recorder_file">文件名</string>
-    <string name="safe_mode_recorder_class">抛出类</string>
-    <string name="safe_mode_recorder_method">抛出方法</string>
-    <string name="safe_mode_recorder_line">行号</string>
-    <string name="safe_mode_recorder_msg">异常类型及信息</string>
-    <string name="safe_mode_recorder_st">异常堆栈内容</string>
-
-    <string name="notification_channel_app_crash_name">应用运行异常</string>
-    <string name="notification_title_message_emergency_crash">%s 多次崩溃</string>
-    <string name="notification_content_message">点击查看详细信息</string>
-    <string name="notification_view">查看</string>
-
-    <string name="tip_default">Tip: 这里是默认 tip ~ 如果你能看见我，就说明 HyperCeiler 出现了问题，请及时且有效的反馈给开发者。</string>
-
-    <string name="headtip_warn_not_offical_rom">您正在使用的 ROM 来源可能并不是 Xiaomi 官方，部分功能可能会失效，详情请咨询您正在使用 ROM 的提供者。</string>
-    <string name="headtip_warn_unsupport_sysver">当前设备运行的系统版本未 (完全) 适配，HyperCeiler 功能可能存在异常。</string>
-    <string name="headtip_warn_sign_verification_failed">签名校验失败，您当前使用的版本可能并非来自于 HyperCeiler 官方的版本，可能包含恶意代码，请注意使用安全。</string>
-    <string name="headtip_tip_auto_safe_mode">主动安全模式可以在部分应用多次崩溃时及时取消 hook 以确保安全。该功能需要 hook 作用域 \"系统框架\" 来运行，我们十分建议您勾选作用域 \"系统框架\" 以激活和运行主动安全模式。</string>
-    <string name="headtip_tip_long_press_to_copy">您可以长按或双击后选择文本进行操作，或者复制并反馈给开发者。</string>
-    <string name="happy_birthday_hyperceiler">今天是 HyperCeiler 的生日！\n感谢与您岁月相伴之恩，愿来年再续前缘，共赴风雨，携手并进！</string>
-    <string name="headtip_tip_fuck_coolapk">历史上的今天：2022 年 7 月 14 日，绀漓发表重要讲话。</string>
-    <string name="headtip_notice_dead_logger_errcode">当前设备 Log 服务异常，HyperCeiler 功能将被限制。\n请恢复 Log 服务，使其可以正常运行。\n错误代码: %1$s</string>
-    <string name="headtip_notice_dead_logger">当前设备 Log 服务异常，HyperCeiler 功能将被限制。请恢复 Log 服务，使其可以正常运行。</string>
     <!--HyperCeiler 设置/关于页-->
     <string name="language">简体中文</string>
     <string name="translator">HyperCeiler 官方</string>
@@ -81,7 +46,6 @@
     <string name="about_device_info_os">系统版本</string>
 
     <string name="hyperceiler_notice">下拉状态栏，同时展示快捷开关和系统通知</string>
-    <string name="hyperceiler_restart_quick">快速重启作用域</string>
 
     <string name="delete_all_dexkit_cache_desc">确定要删除全部 DexKit 缓存吗？</string>
     <string name="delete_all_dexkit_cache_success">已删除全部 DexKit 缓存</string>
@@ -184,22 +148,6 @@
     <string name="about_privacy">隐私政策</string>
     <string name="about_protocol">用户协议</string>
     <!--弹窗/miuix 部分-->
-    <string name="soft_reboot">重启 </string>
-    <string name="restart_app_desc">确定要立即重启%1$s吗？</string>
-    <string name="tip">提示</string>
-    <string name="root">未授予Root/Su权限部分功能不可用</string>
-    <string name="hook_failed">模块暂未激活，请检查 Xposed 管理器是否启用，如有请重启或重新优化模块</string>
-    <string name="kill_failed">结束进程失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限</string>
-    <string name="pid_failed">目标应用未运行，不需要重启。</string>
-    <string name="reboot_failed">重启失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限</string>
-    <string name="start_failed">启动 Activity 失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限</string>
-
-    <string name="expand_button_title">高级</string>
-    <string name="not_set">未设置</string>
-    <string name="copy">复制</string>
-    <string name="more">更多</string>
-    <string name="clearable_edittext_clear_description">清空</string>
-
     <string name="preference_on">已开启</string>
     <string name="preference_off">已关闭</string>
     <string name="preference_enable_failed">启用 %s 失败</string>
@@ -215,16 +163,6 @@
     <string name="abc_action_bar_home_description">转到首页</string>
     <string name="abc_action_bar_up_description">转到上一层级</string>
     <string name="actionbar_button_up_description">返回</string>
-    <string name="miuix_appcompat_action_mode_select_all">全选</string>
-    <string name="miuix_appcompat_action_mode_inverse">反选</string>
-    <string name="miuix_appcompat_cancel_description">取消</string>
-    <string name="miuix_appcompat_confirm_description">确认</string>
-    <string name="miuix_appcompat_select_all_description">全选</string>
-    <string name="miuix_appcompat_deselect_all_description">全不选</string>
-    <string name="miuix_appcompat_delete_description">删除</string>
-    <string name="miuix_appcompat_search_action_mode_cancel">取消</string>
-    <string name="miuix_appcompat_search_input_description">搜索</string>
-    <string name="miuix_appcompat_actionbar_immersion_button_more_description">更多</string>
     <string name="bottomsheet_action_collapse">收起底部动作条</string>
     <string name="bottomsheet_action_expand">展开底部动作条</string>
     <string name="bottomsheet_action_expand_halfway">展开到一半高度</string>
@@ -588,6 +526,7 @@
     <string name="camera_custom_watermark">自定义机型水印</string>
     <string name="camera_custom_watermark_manufacturer">厂商信息</string>
     <string name="camera_custom_watermark_device">机型信息</string>
+    <string name="camera_unlock_4k60">解锁 4K 60fps</string>
     <string name="camera_unlock_leica">解锁徕卡定制界面和功能</string>
     <string name="camera_super_high_quality">解锁超高照片质量</string>
     <string name="camera_shot_hand_gesture">解锁手势拍照</string>
@@ -641,7 +580,6 @@
     <string name="downloads_ui_always_show_link">总是显示完整下载链接</string>
     <string name="downloads_ui_always_show_link_desc">同时修复部分下载任务无法复制的问题</string>
     <!--系统界面-->
-    <string name="system_ui">系统界面</string>
     <string name="system_ui_lockscreen_title">锁屏</string>
     <string name="system_ui_lockscreen_safe_title">安全</string>
     <string name="system_ui_lockscreen_ui_title">界面</string>
@@ -980,7 +918,6 @@
     <string name="system_ui_plugin_enable_volume_blur_desc">可能存在 GPU 负载较高的情况</string>
     <string name="system_ui_move_log_to_miui">将 statusbar_gestures.dat 移动到 MIUI 目录</string>
     <!--设置-->
-    <string name="system_settings">设置</string>
     <string name="system_settings_international_build">国际版本设置页面</string>
     <string name="system_settings_novelty_haptic_title">解锁新版触感调节页面</string>
     <string name="system_settings_novelty_haptic_desc">仅支持有 \"声音与触感-触感\" 页面的设备</string>
@@ -1136,7 +1073,6 @@
     <string name="guard_provider_disable_upload_applist">阻止自动上传已安装应用列表</string>
     <string name="guard_provider_disable_root_check">禁用环境检查</string>
     <!--系统桌面-->
-    <string name="mihome">系统桌面</string>
     <string name="home_gesture">手势与导航</string>
     <string name="home_navigation_title">导航</string>
     <string name="home_navigation_quick_back">切换上一个应用</string>
@@ -1512,7 +1448,6 @@
     <string name="securityadd_disable_gb_ads">禁用游戏中心广告</string>
     <string name="securityadd_disable_gb_ads_desc">可能导致其他功能出现异常</string>
     <!--手机管家/平板管家-->
-    <string name="security_center_hyperos">安全服务</string>
     <string name="security_center_app_title">应用管理</string>
     <string name="security_center_battery_title">省电与电池</string>
     <string name="security_center_privacy_title">隐私保护</string>
@@ -1877,13 +1812,4 @@
 
     <string name="open_source">开源项目</string>
     <string name="close_source">闭源项目</string>
-
-    <string name="exit">退出</string>
-    <string name="ignore">忽略</string>
-
-    <string name="log_level">日志输出等级</string>
-    <string name="log_level_none">禁用日志输出</string>
-
-    <string name="disable_suggest">禁用推荐</string>
-    <string name="enable_suggest">启用推荐</string>
 </resources>
