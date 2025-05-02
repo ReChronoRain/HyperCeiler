@@ -45,7 +45,7 @@ public class ExceptionCrashActivity extends AppCompatActivity implements View.On
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crash);
-        getAppCompatActionBar().setTitle("Ah？出错了");
+        getAppCompatActionBar().setTitle(getString(R.string.error));
 
         Intent intent = getIntent();
         Throwable throwable = intent.getSerializableExtra("crashInfo", Throwable.class);
@@ -66,17 +66,17 @@ public class ExceptionCrashActivity extends AppCompatActivity implements View.On
         String fullDetail = sw.toString();
 
         TextView msgView = findViewById(R.id.message);
-        fullMsg = "异常信息：" + message +
-            "\n异常类型：" + exceptionType +
-            "\n文件名：" + fileName +
-            "\n抛出类：" + className +
-            "\n抛出方法：" + methodName +
-            "\n行号：" + lineNumber +
-            "\n记录时间：" + timestamp;
+        fullMsg = getString(R.string.error_message) + ": "  + message +
+            "\n\n" + getString(R.string.error_type) + ": "  + exceptionType +
+            "\n\n" + getString(R.string.error_file_name) + ": "  + fileName +
+            "\n\n" + getString(R.string.safe_mode_recorder_class) + ": "  + className +
+            "\n\n" + getString(R.string.safe_mode_recorder_method) + ": "  + methodName +
+            "\n\n" + getString(R.string.safe_mode_recorder_line) + ": "  + lineNumber +
+            "\n\n" + getString(R.string.error_time) + ": " + timestamp;
         msgView.setText(fullMsg);
 
         TextView stackView = findViewById(R.id.stack);
-        stackMsg = "详细信息：\n" + fullDetail;
+        stackMsg = fullDetail;
         stackView.setText(stackMsg);
 
         msgView.setOnLongClickListener(this);
@@ -86,9 +86,9 @@ public class ExceptionCrashActivity extends AppCompatActivity implements View.On
     @Override
     public boolean onLongClick(View v) {
         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("text", fullMsg + "\n" + stackMsg);
+        ClipData clip = ClipData.newPlainText("text", fullMsg + "\n---------------------------------------\n" + stackMsg);
         cm.setPrimaryClip(clip);
-        Toast.makeText(v.getContext(), "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+        Toast.makeText(v.getContext(), getString(R.string.copy_ok), Toast.LENGTH_SHORT).show();
 
         return true;
     }
