@@ -19,7 +19,7 @@
 
 package com.sevtinge.hyperceiler.hook.utils;
 
-import com.hchen.hooktool.tool.CoreTool;
+import com.hchen.hooktool.core.CoreTool;
 
 public class ContentModel {
     public static ClassLoader classLoader;
@@ -45,16 +45,16 @@ public class ContentModel {
                 content, type, time);
     }
 
-    public static boolean putContent(Object data, String content) {
-        return CoreTool.setField(data, "content", content);
+    public static void putContent(Object data, String content) {
+        CoreTool.setField(data, "content", content);
     }
 
-    public static boolean putType(Object data, int type) {
-        return CoreTool.setField(data, "type", type);
+    public static void putType(Object data, int type) {
+        CoreTool.setField(data, "type", type);
     }
 
-    public static boolean putTime(Object data, long time) {
-        return CoreTool.setField(data, "time", time);
+    public static void putTime(Object data, long time) {
+        CoreTool.setField(data, "time", time);
     }
 
     public static String getContent(Object data) {
