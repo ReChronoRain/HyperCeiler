@@ -19,14 +19,13 @@
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework;
 
 import static com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitchForSystem.mEffectInfoService;
-import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logI;
 
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.IBinder;
 
-import com.hchen.hooktool.BaseHC;
+import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.hook.IHook;
 
 /**
@@ -34,7 +33,7 @@ import com.hchen.hooktool.hook.IHook;
  *
  * @author 焕晨HChen
  */
-public class EffectBinderProxy extends BaseHC {
+public class EffectBinderProxy extends HCBase {
 
     @Override
     protected void init() {
@@ -46,7 +45,7 @@ public class EffectBinderProxy extends BaseHC {
                     @Override
                     public void after() {
                         Intent intent = (Intent) getResult();
-                        String callerPackage = (String) getArgs(1);
+                        String callerPackage = (String) getArg(1);
                         if (intent == null) return;
                         if ("com.miui.misound".equals(callerPackage) || "com.android.systemui".equals(callerPackage)) {
                             logI(TAG, "caller package: " + callerPackage + " mEffectInfoService: " + mEffectInfoService);

@@ -18,14 +18,11 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.home.gesture;
 
-import static com.hchen.hooktool.log.XposedLog.logE;
-import static com.hchen.hooktool.log.XposedLog.logI;
-
 import android.app.ActivityManager;
 import android.app.ActivityOptions;
 import android.content.Context;
 
-import com.hchen.hooktool.BaseHC;
+import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.hook.IHook;
 
 import java.util.ArrayList;
@@ -36,7 +33,7 @@ import java.util.HashMap;
  *
  * @noinspection DataFlowIssue
  */
-public class QuickBack extends BaseHC {
+public class QuickBack extends HCBase {
     private static final HashMap<String, Integer> mResMap = new HashMap<>();
     private static int[] values = null;
 
@@ -67,7 +64,7 @@ public class QuickBack extends BaseHC {
 
                     @Override
                     public void before() {
-                        boolean isFinish = (boolean) getArgs(0);
+                        boolean isFinish = (boolean) getArg(0);
                         if (isFinish) {
                             Object mGestureStubView = getThisField("this$0");
                             Object mGestureBackArrowView = getField(mGestureStubView, "mGestureBackArrowView");
@@ -99,7 +96,7 @@ public class QuickBack extends BaseHC {
                 new IHook() {
                     @Override
                     public void before() {
-                        Context context = (Context) getArgs(0);
+                        Context context = (Context) getArg(0);
                         ActivityManager.RunningTaskInfo runningTask;
                         Object recentsModel = callStaticMethod("com.miui.home.recents.RecentsModel", "getInstance", context);
                         Object taskLoader = callMethod(recentsModel, "getTaskLoader");
@@ -136,13 +133,13 @@ public class QuickBack extends BaseHC {
                                     )
                             );
                         }
-                        if (!(boolean) getArgs(1) || task == null) {
+                        if (!(boolean) getArg(1) || task == null) {
                             setResult(task);
                             return;
                         }
 
                         ActivityOptions activityOptions = null;
-                        int mGestureStubPos = (int) getArgs(2);
+                        int mGestureStubPos = (int) getArg(2);
                         if (mGestureStubPos == 0) {
                             activityOptions = ActivityOptions.makeCustomAnimation(context,
                                     getAnimId(context, "recents_quick_switch_left_enter"),
