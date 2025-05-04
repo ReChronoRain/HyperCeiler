@@ -19,13 +19,8 @@
 package com.sevtinge.hyperceiler.hook.utils.api.effect.control;
 
 import static com.hchen.hooktool.log.XposedLog.logI;
-import static com.hchen.hooktool.tool.CoreTool.callMethod;
-import static com.hchen.hooktool.tool.CoreTool.callStaticMethod;
-import static com.hchen.hooktool.tool.CoreTool.callSuperPrivateMethod;
-import static com.hchen.hooktool.tool.CoreTool.existsClass;
-import static com.hchen.hooktool.tool.CoreTool.findClass;
-import static com.hchen.hooktool.tool.CoreTool.hookMethod;
-import static com.hchen.hooktool.tool.CoreTool.newInstance;
+import static com.hchen.hooktool.core.CoreTool.*;
+import static com.hchen.hooktool.helper.MethodHelper.*;
 import static com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitchForSystem.getEarPhoneStateFinal;
 import static com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem.EFFECT_DOLBY;
 import static com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem.EFFECT_DOLBY_CONTROL;
@@ -38,6 +33,9 @@ import android.content.Context;
 
 import com.hchen.hooktool.hook.IHook;
 import com.sevtinge.hyperceiler.hook.utils.api.effect.callback.IControlForSystem;
+
+import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XC_MethodReplacement;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -145,7 +143,7 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
     private void setEnableEffect(Object instance, boolean enable) {
         if (instance == null || instance.getClass().getSuperclass() == null) return;
         callMethod(instance, "checkState", "setEnabled()");
-        callSuperPrivateMethod(instance, "native_setEnabled", enable); // super private
+        XposedBridge.hookMethod(findMethodPro(instance.getClass()).withSuper(true).withMethodName("native_setEnabled").single(), XC_MethodReplacement.returnConstant(enable)); // super private
     }
 
     // -------- Dolby --------

@@ -33,7 +33,27 @@
 
     <PreferenceCategory
         android:dependency="prefs_key_system_ui_statusbar_music_switch"
-        android:title="@string/system_ui_statusbar_music_cusiom_title">
+        android:title="@string/system_ui_statusbar_music_cusiom_notific_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_music_show_notific"
+            android:title="@string/system_ui_statusbar_music_show_notific_title" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="15"
+            android:key="prefs_key_system_ui_statusbar_music_size_n"
+            android:title="@string/system_ui_statusbar_mobile_type_font_size"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="32"
+            app:minValue="8"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="prefs_key_system_ui_statusbar_music_switch"
+        android:title="@string/system_ui_statusbar_music_cusiom_statusbar_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_statusbar_music_hide_clock"

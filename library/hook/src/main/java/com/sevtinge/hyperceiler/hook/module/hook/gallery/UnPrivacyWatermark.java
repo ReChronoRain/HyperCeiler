@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.gallery;
 
-import static com.hchen.hooktool.tool.CoreTool.callStaticMethod;
+import static com.hchen.hooktool.core.CoreTool.callStaticMethod;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

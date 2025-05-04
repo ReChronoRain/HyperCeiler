@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.various.clipboard;
 
-import static com.hchen.hooktool.tool.CoreTool.getStaticField;
+import static com.hchen.hooktool.core.CoreTool.getStaticField;
 import static com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.getPackageVersionCode;
 
 import android.annotation.SuppressLint;

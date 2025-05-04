@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.various
 
-import cn.lyric.getter.api.data.*
-import cn.lyric.getter.api.data.type.*
+import cn.lyric.getter.api.data.LyricData
+import cn.lyric.getter.api.data.type.OperateType
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
@@ -54,10 +54,10 @@ object MusicHooks : MusicBaseHook() {
         if (lyricData.type == OperateType.UPDATE){
             val pkgName = lyricData.extraData.packageName
             if (pkgName == context.packageName) {
-                try {
+                runCatching {
                     sendNotification(lyricData.lyric, lyricData.extraData)
-                } catch (e: Throwable) {
-                    logE(TAG, lpparam.packageName, e)
+                }.onFailure {
+                    logE(TAG, lpparam.packageName, it.message)
                 }
             }
         }
