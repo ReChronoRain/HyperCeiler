@@ -46,6 +46,10 @@
     <!--HyperCeiler Tips-->
     <string name="error">Lỗi</string>
     <string name="warn">Cảnh báo</string>
+    <string name="module_app_failed">Đã xảy ra lỗi nghiêm trọng trong mô-đun</string>
+    <string name="module_app_copy_desc">Nhấn và giữ nội dung để sao chép</string>
+    <string name="module_title_1">Tin nhắn cơ bản</string>
+    <string name="module_title_2">Tin nhắn ngăn xếp</string>
     <string name="app_error_desc">Mô-đun này đã gặp lỗi nghiêm trọng và không thể tiếp tục chạy! Vui lòng cung cấp thông tin lỗi sau để phản hồi! \n\n</string>
     <string name="app_exit">OK</string>
     <string name="safe_mode_desc">%1$s đã vào chế độ An toàn do gặp nhiều sự cố và tính năng HyperCeiler đã bị vô hiệu hóa tạm thời.</string>
@@ -61,6 +65,11 @@
     <string name="safe_mode_recorder_line">Hàng</string>
     <string name="safe_mode_recorder_msg">Thông báo ngoại lệ</string>
     <string name="safe_mode_recorder_st">Dấu vết ngăn xếp</string>
+    <string name="error_message">Tin nhắn ngoại lệ</string>
+    <string name="error_type">Loại ngoại lệ</string>
+    <string name="error_file_name">Tên tập tin</string>
+    <string name="error_time">Thời gian ghi âm</string>
+    <string name="copy_ok">Đã sao chép vào clipboard</string>
     <string name="notification_channel_app_crash_name">Ứng dụng đang chạy bất thường</string>
     <string name="notification_title_message_emergency_crash">%s đã bị văng nhiều lần</string>
     <string name="notification_content_message">Nhấp để xem chi tiết</string>
