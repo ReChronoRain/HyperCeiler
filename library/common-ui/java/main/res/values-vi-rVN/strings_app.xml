@@ -476,6 +476,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="camera_custom_watermark">Tùy chỉnh hình mờ thiết bị</string>
     <string name="camera_custom_watermark_manufacturer">Thông tin nhà sản xuất</string>
     <string name="camera_custom_watermark_device">Thông tin thiết bị</string>
+    <string name="camera_unlock_4k60">Mở khóa 4K 60fps</string>
+    <string name="camera_unlock_leica">Mở khóa giao diện và tính năng tùy chỉnh của Leica</string>
+    <string name="camera_super_high_quality">Mở khóa chất lượng ảnh siêu cao</string>
     <string name="camera_shot_hand_gesture">Mở khóa Cử chỉ chụp ảnh</string>
     <string name="camera_settings_lab_options">Mở khóa Tính năng thử nghiệm</string>
     <string name="camera_settings_track_eyes">Mở khóa Theo dõi mắt người</string>
