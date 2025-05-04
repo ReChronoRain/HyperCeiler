@@ -21,16 +21,16 @@ package com.sevtinge.hyperceiler.hook.module.hook;
 import android.app.Application;
 import android.content.Context;
 
-import com.hchen.hooktool.BaseHC;
+import com.hchen.hooktool.HCBase;
+import com.hchen.hooktool.core.ParamTool;
 import com.hchen.hooktool.hook.IHook;
-import com.hchen.hooktool.tool.ParamTool;
 import com.sevtinge.hyperceiler.hook.callback.IAttachBaseContext;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
-public class ApplicationHook extends BaseHC {
+public class ApplicationHook extends HCBase {
     public static IAttachBaseContext[] iAttachBaseContexts;
 
     public ApplicationHook(IAttachBaseContext... attachBaseContexts) {
@@ -53,12 +53,12 @@ public class ApplicationHook extends BaseHC {
         hookMethod(Application.class, "attach", Context.class, new IHook() {
             @Override
             public void before() {
-                callBackBefore(this, (Context) getArgs(0));
+                callBackBefore(this, (Context) getArg(0));
             }
 
             @Override
             public void after() {
-                callBackAfter(this, (Context) getArgs(0));
+                callBackAfter(this, (Context) getArg(0));
             }
         });
     }

@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.callback;
 
 import android.content.Context;
 
-import com.hchen.hooktool.tool.ParamTool;
+import com.hchen.hooktool.core.ParamTool;
 
 public interface IAttachBaseContext {
     default void onAttachBaseContextCreateBefore(ParamTool param, Context context) {

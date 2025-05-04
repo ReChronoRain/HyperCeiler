@@ -1,26 +1,20 @@
 package com.sevtinge.hyperceiler.hook.module.hook.systemui;
 
-import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logW;
-import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
-import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logI;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.RemoteException;
 
-import com.sevtinge.hyperceiler.hook.IEffectInfo;
-
-import com.hchen.hooktool.BaseHC;
+import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.hook.IHook;
-import com.hchen.hooktool.tool.additional.SystemPropTool;
+import com.hchen.hooktool.utils.SystemPropTool;
+import com.sevtinge.hyperceiler.hook.IEffectInfo;
 
 import java.util.function.Supplier;
 
-public class AutoSEffSwitchForSystemUi extends BaseHC {
+public class AutoSEffSwitchForSystemUi extends HCBase {
     private static final String TAG = "AutoSEffSwitchForSystemUi";
-    private Context mContext;
     private boolean isInit = false;
     private static IEffectInfo mIEffectInfo;
 
@@ -37,15 +31,14 @@ public class AutoSEffSwitchForSystemUi extends BaseHC {
     }
 
     @Override
-    protected void onApplicationAfter(Context context) {
-        mContext = context;
+    protected void onApplication(Context context) {
 
-        Intent intent = mContext.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        Intent intent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         if (intent == null) return;
         Bundle bundle = intent.getBundleExtra("effect_info");
         if (bundle == null) return;
         mIEffectInfo = IEffectInfo.Stub.asInterface(bundle.getBinder("effect_info"));
-        logI(TAG, "onApplicationAfter: EffectInfoService: " + mIEffectInfo);
+        logI(TAG, "onApplication: EffectInfoService: " + mIEffectInfo);
     }
 
     public static boolean getEarPhoneStateFinal() {
@@ -69,7 +62,7 @@ public class AutoSEffSwitchForSystemUi extends BaseHC {
                     @Override
                     public void before() {
                         if (getEarPhoneStateFinal()) {
-                            logI(TAG, "earphone is connection, skip set effect: " + getArgs(0) + "!!");
+                            logI(TAG, "earphone is connection, skip set effect: " + getArg(0) + "!!");
                             returnNull();
                         }
                     }
@@ -100,7 +93,7 @@ public class AutoSEffSwitchForSystemUi extends BaseHC {
                     @Override
                     public void before() {
                         if (getEarPhoneStateFinal()) {
-                            logI(TAG, "earphone is connection, skip set effect: " + getArgs(0) + "!!");
+                            logI(TAG, "earphone is connection, skip set effect: " + getArg(0) + "!!");
                             returnNull();
                         }
                     }

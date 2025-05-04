@@ -19,8 +19,6 @@
 
 package com.sevtinge.hyperceiler.hook.module.hook.various.clipboard;
 
-import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +26,7 @@ import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 
-import com.hchen.hooktool.BaseHC;
+import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.hook.IHook;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -48,7 +46,7 @@ import java.lang.reflect.Field;
  *
  * @author 焕晨HChen
  */
-public class NewUnPhraseLimit extends BaseHC {
+public class NewUnPhraseLimit extends HCBase {
     private final DexKitBridge dexKitBridge;
 
     public NewUnPhraseLimit(DexKitBridge dexKitBridge) {
@@ -73,7 +71,7 @@ public class NewUnPhraseLimit extends BaseHC {
                 @Override
                 public void before() {
                     Activity activity = (Activity) thisObject();
-                    View view = (View) getArgs(0);
+                    View view = (View) getArg(0);
                     int id = activity.getResources().getIdentifier("fab", "id", "com.miui.phrase");
                     if (view.getId() == id) {
                         Intent intent = new Intent(activity, AddPhraseActivity);
@@ -101,8 +99,8 @@ public class NewUnPhraseLimit extends BaseHC {
                             .type(EditText.class)
                     )
             ).singleOrThrow(() -> new RuntimeException("field is null!!"));
-            Field f = fieldData.getFieldInstance(lpparam.classLoader);
-            hook(methodData1.getMethodInstance(lpparam.classLoader), new IHook() {
+            Field f = fieldData.getFieldInstance(loadPackageParam.classLoader);
+            hook(methodData1.getMethodInstance(loadPackageParam.classLoader), new IHook() {
                 @Override
                 public void after() {
                     EditText editText = (EditText) getField(thisObject(), f);

@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework;
 
-import static com.hchen.hooktool.log.XposedLog.logI;
-
 import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothLeAudio;
 import android.content.BroadcastReceiver;
@@ -36,9 +34,9 @@ import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 
-import com.hchen.hooktool.BaseHC;
+import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.hook.IHook;
-import com.hchen.hooktool.tool.additional.SystemPropTool;
+import com.hchen.hooktool.utils.SystemPropTool;
 import com.sevtinge.hyperceiler.hook.utils.api.effect.binder.EffectInfoService;
 import com.sevtinge.hyperceiler.hook.utils.api.effect.callback.IControlForSystem;
 import com.sevtinge.hyperceiler.hook.utils.api.effect.control.AudioEffectControlForSystem;
@@ -49,7 +47,7 @@ import com.sevtinge.hyperceiler.hook.utils.api.effect.control.FWAudioEffectContr
  *
  * @author 焕晨HChen
  */
-public class AutoEffectSwitchForSystem extends BaseHC {
+public class AutoEffectSwitchForSystem extends HCBase {
     public static final String TAG = "AutoEffectSwitchForSystem";
     public Context mContext;
     private static Handler mHandler;

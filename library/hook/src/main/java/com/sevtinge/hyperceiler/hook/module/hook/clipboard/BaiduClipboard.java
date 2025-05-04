@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.clipboard;
 
-import com.hchen.hooktool.BaseHC;
+import com.hchen.hooktool.HCBase;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.IDexKitList;
@@ -39,10 +39,10 @@ import java.util.Arrays;
 /**
  * @author 焕晨HChen
  */
-public class BaiduClipboard extends BaseHC {
+public class BaiduClipboard extends HCBase {
     @Override
     public void init() {
-        if ("com.baidu.input".equals(lpparam.packageName)) {
+        if ("com.baidu.input".equals(loadPackageParam.packageName)) {
             Class<?> ClipboardConfig = DexKit.findMember("NewGetMaxQueryCount", new IDexKit() {
                 @Override
                 public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
@@ -61,7 +61,7 @@ public class BaiduClipboard extends BaseHC {
                     }
                 });
             }
-        } else if ("com.baidu.input_mi".equals(lpparam.packageName)) {
+        } else if ("com.baidu.input_mi".equals(loadPackageParam.packageName)) {
             DexKit.findMemberList("GetMaxQueryCountList", new IDexKitList() {
                 @Override
                 public BaseDataList<?> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {

@@ -18,10 +18,6 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.misound;
 
-import static com.hchen.hooktool.log.XposedLog.logE;
-import static com.hchen.hooktool.log.XposedLog.logI;
-import static com.hchen.hooktool.log.XposedLog.logW;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -32,9 +28,8 @@ import android.os.Handler;
 import android.os.RemoteException;
 import android.provider.Settings;
 
-import com.hchen.hooktool.BaseHC;
-import com.hchen.hooktool.tool.additional.SystemPropTool;
-
+import com.hchen.hooktool.HCBase;
+import com.hchen.hooktool.utils.SystemPropTool;
 import com.sevtinge.hyperceiler.hook.IEffectInfo;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -44,7 +39,7 @@ import org.luckypray.dexkit.DexKitBridge;
  *
  * @author 焕晨HChen
  */
-public class NewAutoSEffSwitch extends BaseHC {
+public class NewAutoSEffSwitch extends HCBase {
     public static final String TAG = "NewAutoSEffSwitch";
     private Context mContext;
     public static DexKitBridge mDexKit;
@@ -69,14 +64,14 @@ public class NewAutoSEffSwitch extends BaseHC {
     }
 
     @Override
-    protected void onApplicationAfter(Context context) {
+    protected void onApplication(Context context) {
         mContext = context;
         Intent intent = mContext.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         if (intent == null) return;
         Bundle bundle = intent.getBundleExtra("effect_info");
         if (bundle == null) return;
         mIEffectInfo = IEffectInfo.Stub.asInterface(bundle.getBinder("effect_info"));
-        logI(TAG, "onApplicationAfter: EffectInfoService: " + mIEffectInfo);
+        logI(TAG, "onApplication: EffectInfoService: " + mIEffectInfo);
         if (mIEffectInfo == null) return;
         if (mNewFWAudioEffectControl != null)
             mNewFWAudioEffectControl.mIEffectInfo = mIEffectInfo;

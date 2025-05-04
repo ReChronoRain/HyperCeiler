@@ -18,14 +18,14 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.misound;
 
-import static com.hchen.hooktool.BaseHC.classLoader;
-import static com.hchen.hooktool.tool.CoreTool.callMethod;
-import static com.hchen.hooktool.tool.CoreTool.findClass;
-import static com.hchen.hooktool.tool.CoreTool.getField;
-import static com.hchen.hooktool.tool.CoreTool.hook;
-import static com.hchen.hooktool.tool.CoreTool.hookAll;
-import static com.hchen.hooktool.tool.CoreTool.hookMethod;
-import static com.hchen.hooktool.tool.CoreTool.newInstance;
+import static com.hchen.hooktool.HCBase.classLoader;
+import static com.hchen.hooktool.core.CoreTool.callMethod;
+import static com.hchen.hooktool.core.CoreTool.findClass;
+import static com.hchen.hooktool.core.CoreTool.getField;
+import static com.hchen.hooktool.core.CoreTool.hook;
+import static com.hchen.hooktool.core.CoreTool.hookAll;
+import static com.hchen.hooktool.core.CoreTool.hookMethod;
+import static com.hchen.hooktool.core.CoreTool.newInstance;
 import static com.sevtinge.hyperceiler.hook.module.hook.misound.NewAutoSEffSwitch.getEarPhoneStateFinal;
 import static com.sevtinge.hyperceiler.hook.module.hook.misound.NewAutoSEffSwitch.isSupportFW;
 import static com.sevtinge.hyperceiler.hook.module.hook.misound.NewAutoSEffSwitch.mDexKit;
@@ -67,7 +67,7 @@ public class NewFWAudioEffectControl {
                     @Override
                     public void before() {
                         if (getEarPhoneStateFinal()) {
-                            logI(TAG, "earphone is connection, skip set effect: " + getArgs(0) + "!!");
+                            logI(TAG, "earphone is connection, skip set effect: " + getArg(0) + "!!");
                             returnNull();
                         }
                     }

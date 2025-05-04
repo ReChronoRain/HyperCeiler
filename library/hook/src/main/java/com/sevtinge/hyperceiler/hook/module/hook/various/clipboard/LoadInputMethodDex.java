@@ -19,7 +19,7 @@
 
 package com.sevtinge.hyperceiler.hook.module.hook.various.clipboard;
 
-import com.hchen.hooktool.BaseHC;
+import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.hook.IHook;
 
 import java.util.Arrays;
@@ -30,7 +30,7 @@ import java.util.Arrays;
  *
  * @author 焕晨HChen
  */
-public class LoadInputMethodDex extends BaseHC {
+public class LoadInputMethodDex extends HCBase {
     private final OnInputMethodDexLoad[] mOnInputMethodDexLoad;
     private boolean isHooked;
 
@@ -46,7 +46,7 @@ public class LoadInputMethodDex extends BaseHC {
                     @Override
                     public void after() {
                         if (isHooked) return;
-                        Arrays.stream(mOnInputMethodDexLoad).forEach(load -> load.load((ClassLoader) getArgs(0)));
+                        Arrays.stream(mOnInputMethodDexLoad).forEach(load -> load.load((ClassLoader) getArg(0)));
                         isHooked = true;
                     }
                 }

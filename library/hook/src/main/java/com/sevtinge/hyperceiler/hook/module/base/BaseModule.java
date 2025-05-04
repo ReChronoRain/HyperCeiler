@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hook.module.base;
 
-import com.hchen.hooktool.BaseHC;
+import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.HCInit;
 import com.sevtinge.hyperceiler.hook.XposedInit;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
@@ -127,7 +127,7 @@ public abstract class BaseModule {
 
     private void onCreate(Object hook) {
         if (hook instanceof BaseHook baseHook) baseHook.onCreate(mLoadPackageParam);
-        else if (hook instanceof BaseHC baseHC) baseHC.onLoadPackage();
+        else if (hook instanceof HCBase HCBase) HCBase.onLoadPackage();
         else throw new RuntimeException("Unknown hook!");
     }
 }
