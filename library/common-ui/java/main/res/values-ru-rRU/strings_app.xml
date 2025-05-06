@@ -1523,7 +1523,7 @@
     <string name="bypass_udk_word_legal_check_caption">Разрешить пробуждение при записи голосом без интернета</string>
     <string name="bypass_udk_word_legal_check_description">Позволяет записывать слова голосом при пробуждении в автономном режиме</string>
     <string name="voicetrigger_accuracy_percent_caption">Установить точность для пробуждения с распознаванием голоса</string>
-    <string name="voicetrigger_accuracy_percent_description">Более высокие значения сложнее обнаружить. Значение по умолчанию - 70%, для ключевого слова XATX - 0%. После настройки вам необходимо перезапустить целевое приложение и повторно зарегистрировать слово активации.</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">Более высокие значения сложнее обнаружить. Значение по умолчанию - 70%, для ключевого слова XATX - 0%. После настройки вам необходимо перезапустить целевое приложение и повторно зарегистрировать слово активации.</string>
     <!--Other-->
     <string name="various">Прочее</string>
     <string name="app_version_not_supported">Неподдерживаемая версия</string>

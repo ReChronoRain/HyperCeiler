@@ -1421,7 +1421,7 @@ aplicaciones del sistema</string>
     <string name="bypass_udk_word_legal_check_caption">Permitir la grabación del despertador con voz sin internet</string>
     <string name="bypass_udk_word_legal_check_description">Permite la grabación de palabras desde el despertador con voz cuando esté desconectado</string>
     <string name="voicetrigger_accuracy_percent_caption">Establecer precisión para despertador con detección de voz</string>
-    <string name="voicetrigger_accuracy_percent_description">Los valores más altos son más difíciles de detectar. El valor por defecto es 70%, para la palabra clave XATX es 0%. Después de ajustar, necesita reiniciar la aplicación de destino y volver a inscribir su palabra de activación.</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">Los valores más altos son más difíciles de detectar. El valor por defecto es 70%, para la palabra clave XATX es 0%. Después de ajustar, necesita reiniciar la aplicación de destino y volver a inscribir su palabra de activación.</string>
     <!--Other-->
     <string name="various">Otro</string>
     <string name="share_center">Mi Hub Inteligente</string>
