@@ -18,9 +18,14 @@
  */
 package com.sevtinge.hyperceiler.hook.utils.api.effect.control;
 
+import static com.hchen.hooktool.core.CoreTool.callMethod;
+import static com.hchen.hooktool.core.CoreTool.callStaticMethod;
+import static com.hchen.hooktool.core.CoreTool.existsClass;
+import static com.hchen.hooktool.core.CoreTool.findClass;
+import static com.hchen.hooktool.core.CoreTool.findMethodPro;
+import static com.hchen.hooktool.core.CoreTool.hookMethod;
+import static com.hchen.hooktool.core.CoreTool.newInstance;
 import static com.hchen.hooktool.log.XposedLog.logI;
-import static com.hchen.hooktool.core.CoreTool.*;
-import static com.hchen.hooktool.helper.MethodHelper.*;
 import static com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitchForSystem.getEarPhoneStateFinal;
 import static com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem.EFFECT_DOLBY;
 import static com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem.EFFECT_DOLBY_CONTROL;
@@ -33,9 +38,6 @@ import android.content.Context;
 
 import com.hchen.hooktool.hook.IHook;
 import com.sevtinge.hyperceiler.hook.utils.api.effect.callback.IControlForSystem;
-
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XC_MethodReplacement;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -70,58 +72,58 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
             mDolbyClass = findClass("com.android.server.audio.dolbyeffect.DolbyEffectController$DolbyAudioEffectHelper");
 
         hookMethod("android.media.audiofx.AudioEffect",
-                "setEnabled",
-                boolean.class,
-                new IHook() {
-                    @Override
-                    public void before() {
-                        observeCall();
-                        if (!getEarPhoneStateFinal()) return;
+            "setEnabled",
+            boolean.class,
+            new IHook() {
+                @Override
+                public void before() {
+                    observeCall();
+                    if (!getEarPhoneStateFinal()) return;
 
-                        if (mDolbyInstance != null) {
-                            if (Objects.equals(mDolbyInstance, thisObject())) {
-                                logI(TAG, "earphone is connection, skip set dolby effect!!");
-                                setResult(0); // SUCCESS
-                                return;
-                            }
+                    if (mDolbyInstance != null) {
+                        if (Objects.equals(mDolbyInstance, thisObject())) {
+                            logI(TAG, "earphone is connection, skip set dolby effect!!");
+                            setResult(0); // SUCCESS
+                            return;
                         }
+                    }
 
-                        if (mMiSoundInstance != null) {
-                            if (Objects.equals(mMiSoundInstance, thisObject())) {
-                                logI(TAG, "earphone is connection, skip set misound effect!!");
-                                setResult(0); // SUCCESS
-                            }
+                    if (mMiSoundInstance != null) {
+                        if (Objects.equals(mMiSoundInstance, thisObject())) {
+                            logI(TAG, "earphone is connection, skip set misound effect!!");
+                            setResult(0); // SUCCESS
                         }
                     }
                 }
+            }
         );
 
         hookMethod("android.media.Spatializer",
-                "setEnabled",
-                boolean.class,
-                new IHook() {
-                    @Override
-                    public void before() {
-                        if (getEarPhoneStateFinal()) {
-                            logI(TAG, "earphone is connection, skip set spatializer effect!!");
-                            returnNull();
-                        }
+            "setEnabled",
+            boolean.class,
+            new IHook() {
+                @Override
+                public void before() {
+                    if (getEarPhoneStateFinal()) {
+                        logI(TAG, "earphone is connection, skip set spatializer effect!!");
+                        returnNull();
                     }
                 }
+            }
         );
 
         hookMethod("android.media.audiofx.MiSound",
-                "set3dSurround",
-                int.class,
-                new IHook() {
-                    @Override
-                    public void before() {
-                        if (getEarPhoneStateFinal()) {
-                            logI(TAG, "earphone is connection, skip set 3dSurround effect!!");
-                            returnNull();
-                        }
+            "set3dSurround",
+            int.class,
+            new IHook() {
+                @Override
+                public void before() {
+                    if (getEarPhoneStateFinal()) {
+                        logI(TAG, "earphone is connection, skip set 3dSurround effect!!");
+                        returnNull();
                     }
                 }
+            }
         );
     }
 
@@ -143,7 +145,12 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
     private void setEnableEffect(Object instance, boolean enable) {
         if (instance == null || instance.getClass().getSuperclass() == null) return;
         callMethod(instance, "checkState", "setEnabled()");
-        XposedBridge.hookMethod(findMethodPro(instance.getClass()).withSuper(true).withMethodName("native_setEnabled").single(), XC_MethodReplacement.returnConstant(enable)); // super private
+        findMethodPro(instance.getClass())
+            .withSuper(true)
+            .withMethodName("native_setEnabled")
+            .single()
+            .returnResult(enable);
+        // super private
     }
 
     // -------- Dolby --------
@@ -257,7 +264,7 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
         mLast3dSurroundEnable = isEnabled3dSurround();
 
         logI(TAG, "updateLastEffectState: mLastDolbyEnable: " + mLastDolbyEnable + ", mLastMiSoundEnable: " + mLastMiSoundEnable
-                + ", mLastSpatializerEnable: " + mLastSpatializerEnable + ", mLast3dSurroundEnable: " + mLast3dSurroundEnable);
+            + ", mLastSpatializerEnable: " + mLastSpatializerEnable + ", mLast3dSurroundEnable: " + mLast3dSurroundEnable);
     }
 
     @Override
@@ -284,7 +291,7 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
     @Override
     public void dumpAudioEffectState() {
         logI(TAG, "dolby: " + isEnabledDolbyEffect() + ", misound: " + isEnabledMiSound() +
-                ", spatializer: " + isEnabledSpatializer() + ", 3dSurround: " + isEnabled3dSurround());
+            ", spatializer: " + isEnabledSpatializer() + ", 3dSurround: " + isEnabled3dSurround());
     }
 }
 
