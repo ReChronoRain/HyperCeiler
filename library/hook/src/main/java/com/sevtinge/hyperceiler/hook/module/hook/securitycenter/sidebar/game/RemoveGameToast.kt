@@ -16,37 +16,42 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.hook.camera
+package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.game
 
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
 import java.lang.reflect.Method
-import java.lang.reflect.Modifier
 
-object UnlockSuperHighQuality : BaseHook() {
-    private val unlockMethod by lazy<Method> {
-        DexKit.findMember("SuperHighQuality") {
+// by YifePlayte
+object RemoveGameToast : BaseHook() {
+    private val removeMethod1 by lazy<Method> {
+        DexKit.findMember("gameToast1") {
             it.findMethod {
                 matcher {
-                    addCaller {
-                        declaredClass {
-                            usingEqStrings("pref_camera_jpegquality_key")
-                        }
-                        modifiers = Modifier.STATIC or Modifier.PUBLIC
-                        addInvoke("Landroid/content/res/Resources;->getString(I)Ljava/lang/String;")
-                    }
+                    usingStrings = listOf("showWildModeToastView: ")
+                }
+            }.single()
+        }
+    }
 
-                    paramCount = 0
-                    returnType = "boolean"
+    private val removeMethod2 by lazy<Method> {
+        DexKit.findMember("gameToast2") {
+            it.findMethod {
+                matcher {
+                    usingStrings = listOf("cancel game toast , isCanceled : ")
                 }
             }.single()
         }
     }
 
     override fun init() {
-        unlockMethod.createHook {
-            returnConstant(true)
+        removeMethod1.createHook {
+            returnConstant(null)
+        }
+
+        removeMethod2.createHook {
+            returnConstant(null)
         }
     }
 }

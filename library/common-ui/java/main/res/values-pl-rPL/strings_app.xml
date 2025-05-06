@@ -1608,7 +1608,7 @@
     <string name="bypass_udk_word_legal_check_caption">Zezwalaj na nagrywanie wybudzenia głosem bez internetu</string>
     <string name="bypass_udk_word_legal_check_description">Umożliwia nagrywanie słów z funkcji wybudzenia głosem w trybie offline</string>
     <string name="voicetrigger_accuracy_percent_caption">Ustaw dokładność wybudzenia z wykrywaniem głosu</string>
-    <string name="voicetrigger_accuracy_percent_description">Wyższe wartości są trudniejsze do wykrycia. Wartość domyślna to 70%, dla słowa kluczowego XATX to 0%. Po ustawieniu musisz zrestartować aplikację docelową i ponownie zapisać słowo aktywacji.</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">Wyższe wartości są trudniejsze do wykrycia. Wartość domyślna to 70%, dla słowa kluczowego XATX to 0%. Po ustawieniu musisz zrestartować aplikację docelową i ponownie zapisać słowo aktywacji.</string>
     <!--Other-->
     <string name="various">Pozostałe</string>
     <string name="share_center">Inteligentne Centrum Xiaomi</string>

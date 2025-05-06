@@ -1608,7 +1608,7 @@
     <string name="bypass_udk_word_legal_check_caption">السماح بتسجيل كلمة الاستيقاظ بالصوت بدون إنترنت</string>
     <string name="bypass_udk_word_legal_check_description">يسمح بتسجيل الكلمات من كلمة الاستيقاظ بالصوت عند عدم الاتصال بالإنترنت</string>
     <string name="voicetrigger_accuracy_percent_caption">تحديد دقة اكتشاف كلمة الاستيقاظ بالصوت</string>
-    <string name="voicetrigger_accuracy_percent_description">القيم الأعلى تجعل الاكتشاف أكثر صعوبة. القيمة الافتراضية هي 70%، وللكلمة المفتاحية XATX هي 0%. بعد الإعداد، يجب إعادة تشغيل التطبيق المستهدف وإعادة تسجيل كلمة التنشيط.</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">القيم الأعلى تجعل الاكتشاف أكثر صعوبة. القيمة الافتراضية هي 70%، وللكلمة المفتاحية XATX هي 0%. بعد الإعداد، يجب إعادة تشغيل التطبيق المستهدف وإعادة تسجيل كلمة التنشيط.</string>
     <!--Other-->
     <string name="various">أخرى</string>
     <string name="share_center">Xiaomi Smart Hub</string>

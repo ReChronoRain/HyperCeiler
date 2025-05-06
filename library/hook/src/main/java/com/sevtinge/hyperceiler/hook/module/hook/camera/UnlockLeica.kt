@@ -1,3 +1,21 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2025 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.hook.module.hook.camera
 
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
@@ -20,7 +38,7 @@ object UnlockLeica : BaseHook() {
     }
 
     // 想单独开启 6.x 的红色就这么匹配
-    /*private val unlockMethod1 by lazy<Method> {
+    private val unlockMethod1 by lazy<Method> {
         DexKit.findMember("uM1") {
             it.findMethod {
                 matcher {
@@ -36,7 +54,7 @@ object UnlockLeica : BaseHook() {
                 methodData.returnType?.name == "boolean" && methodData.paramCount == 0
             }
         }
-    }*/
+    }
 
     private val unlockMethod2 by lazy<Method> {
         DexKit.findMember("uM2") {
@@ -137,14 +155,16 @@ object UnlockLeica : BaseHook() {
     }
 
     override fun init() {
-        /*if (unlockMethod1.declaringClass != null) {
+        if (isNewCamera) {
             unlockMethod1.createHook {
                 returnConstant(true)
             }
-        }*/
+        }
 
         unlockMethod2.createHook {
-            returnConstant(0)
+            returnConstant(
+               if (isNewCamera) 4 else 0
+            )
         }
 
         unlockMethod3.createHook {
@@ -154,6 +174,7 @@ object UnlockLeica : BaseHook() {
         unlockMethod3.declaringClass.methodFinder()
             .filterByName(unlockMethod3.name.decrementLetters())
             .single().createHook {
+                logD(TAG, lpparam.packageName, "uM3: ${unlockMethod3.name}, uM3-1: ${unlockMethod3.name.decrementLetters()}")
                 returnConstant(true)
             }
 

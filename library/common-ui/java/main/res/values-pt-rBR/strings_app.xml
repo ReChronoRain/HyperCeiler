@@ -1598,7 +1598,7 @@
     <string name="bypass_udk_word_legal_check_caption">Permitir gravação do Acorde com voz sem internet</string>
     <string name="bypass_udk_word_legal_check_description">Permite a gravação de palavras do Acorde com voz quando estiver offline</string>
     <string name="voicetrigger_accuracy_percent_caption">Definir precisão da detecção do Acorde com voz</string>
-    <string name="voicetrigger_accuracy_percent_description">Valores maiores são mais difíceis de detectar. O valor padrão é 70%, para a palavra-chave XATX é 0%. Após a configuração, você precisa reiniciar o app de destino e registrar novamente sua palavra de ativação.</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">Valores maiores são mais difíceis de detectar. O valor padrão é 70%, para a palavra-chave XATX é 0%. Após a configuração, você precisa reiniciar o app de destino e registrar novamente sua palavra de ativação.</string>
     <!--Other-->
     <string name="various">Outros</string>
     <string name="share_center">Xiaomi Smart Hub</string>

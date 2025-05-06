@@ -1539,7 +1539,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="bypass_udk_word_legal_check_caption">Đăng ký ASR mà không có Internet</string>
     <string name="bypass_udk_word_legal_check_description">Cho phép đăng ký ASR mà không cần internet</string>
     <string name="voicetrigger_accuracy_percent_caption">Đặt độ chính xác ASR</string>
-    <string name="voicetrigger_accuracy_percent_description">Giá trị lớn hơn có nghĩa là khó phát hiện hơn. Đối với \"XiaoAI\", giá trị mặc định của nó là 0%. Sau khi thiết lập xong cần nhập lại từ đánh thức</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">Giá trị lớn hơn có nghĩa là khó phát hiện hơn. Đối với \"XiaoAI\", giá trị mặc định của nó là 0%. Sau khi thiết lập xong cần nhập lại từ đánh thức</string>
     <!--Other-->
     <string name="various">Khác</string>
     <string name="app_version_not_supported">Phiên bản không hỗ trợ</string>

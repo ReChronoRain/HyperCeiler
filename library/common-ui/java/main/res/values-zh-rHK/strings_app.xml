@@ -1420,7 +1420,7 @@
     <string name="bypass_udk_word_legal_check_caption">允許無網錄入喚醒詞</string>
     <string name="bypass_udk_word_legal_check_description">允許喺無網狀態下錄入語音喚醒詞</string>
     <string name="voicetrigger_accuracy_percent_caption">設置喚醒詞檢測精度</string>
-    <string name="voicetrigger_accuracy_percent_description">更大嘅值意味住更難被檢測到。對於 \"小愛同學\"，其默認值係 0%。設置完畢後，需要重新錄入喚醒詞</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">更大嘅值意味住更難被檢測到。對於 \"小愛同學\"，其默認值係 0%。設置完畢後，需要重新錄入喚醒詞</string>
     <!--Other-->
     <string name="various">其他</string>
     <string name="share_center">小米妙享中心</string>
