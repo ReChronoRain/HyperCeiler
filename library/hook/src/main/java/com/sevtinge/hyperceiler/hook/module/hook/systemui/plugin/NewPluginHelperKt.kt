@@ -165,7 +165,7 @@ object NewPluginHelperKt : BaseHook() {
                 val loaders = listOf(
                     Triple(
                         "FocusNotifLyric",
-                        mPrefsMap.getBoolean("system_ui_statusbar_music_switch"),
+                        mPrefsMap.getBoolean("system_ui_statusbar_music_switch") || mPrefsMap.getBoolean("system_ui_unlock_all_focus"),
                         FocusNotifLyric::initLoader
                     ),
                 )
@@ -177,13 +177,8 @@ object NewPluginHelperKt : BaseHook() {
                 val loaders = listOf(
                     Triple(
                         "ShowDeviceName",
-                        mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3,
+                        mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3 && isHyperOSVersion(1f),
                         ShowDeviceName::initShowDeviceName
-                    ),
-                    Triple(
-                        "DefaultPluginTheme",
-                        mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"),
-                        DefaultPluginTheme::initDefaultPluginTheme
                     ),
                 )
                 loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
