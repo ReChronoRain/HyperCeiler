@@ -862,6 +862,7 @@
     <string name="system_ui_control_center_card_tiles_customization_not_add">Not added</string>
     <string name="system_ui_control_center_unlock_blur_supported">Remove notification blur restriction</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">To remove the restrictions of no Advanced textures background blur on third-party theme only</string>
+    <string name="system_ui_control_center_unlock_all_focus">Remove focus notification whitelist</string>
     <string name="system_ui_control_center_remove_notif_num_limit">Remove notification count limit</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Allow display 10, 17 or more notifications.</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">Optimize focus notification background color mixing</string>
