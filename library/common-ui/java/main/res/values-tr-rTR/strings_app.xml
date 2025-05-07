@@ -661,8 +661,6 @@
     <string name="system_ui_control_center_remove_media_control_panel_background">Karttan karışık renkli arka planı kaldırma</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Arka plan bulanıklaştırma yarıçapı</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Arka plan kaplama katmanının opaklığı</string>
-    <string name="system_ui_control_center_compact_notice">Kompakt bildirimler</string>
-    <string name="system_ui_control_center_compact_notice_desc">Bildirimlerin dikey dolgularını azalt</string>
     <string name="system_ui_control_center_redirect_notice">Yönlendirme bildirimi ayarları</string>
     <string name="system_ui_control_center_show_weather">Hava durumunu göster</string>
     <string name="system_ui_control_center_show_weather_city">Şehri göster</string>

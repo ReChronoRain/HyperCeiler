@@ -826,8 +826,6 @@
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacity of the background overlay layer</string>
     <string name="system_ui_control_center_media_control_media_button_title">Media button</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">Media seekbar</string>
-    <string name="system_ui_control_center_compact_notice">Compact notifications</string>
-    <string name="system_ui_control_center_compact_notice_desc">Reduce notifications\' vertical paddings</string>
     <string name="system_ui_control_center_redirect_notice">Redirect notification settings</string>
     <string name="system_ui_control_center_redirect_notice_desc">When opening the notification settings menu, it navigates to the destination app notification channel instead of app notification settings.</string>
     <string name="system_ui_control_center_show_weather">Show weather</string>

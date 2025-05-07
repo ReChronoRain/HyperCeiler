@@ -811,8 +811,6 @@
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Przezroczystość warstwy tła nakładki</string>
     <string name="system_ui_control_center_media_control_media_button_title">Przycisk multimedialny</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">Suwak multimediów</string>
-    <string name="system_ui_control_center_compact_notice">Kompaktowe powiadomienia</string>
-    <string name="system_ui_control_center_compact_notice_desc">Zmniejsza pionowe odstępy powiadomień</string>
     <string name="system_ui_control_center_redirect_notice">Przekieruj ustawienia powiadomień</string>
     <string name="system_ui_control_center_redirect_notice_desc">Gdy otwierasz menu ustawień powiadomień, nawigacja prowadzi do ustawień aplikacji docelowej, zamiast zastosować ustawienia powiadomień.</string>
     <string name="system_ui_control_center_show_weather">Pokaż pogodę</string>

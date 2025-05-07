@@ -37,7 +37,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.ZenModeFix;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.lockscreen.Keyguard;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.AllowAllThemesNotificationBlur;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.CompactNotificationsHook;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ControlCenterStyle;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.DisableDeviceManaged;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ExpandNotificationKt;
@@ -240,7 +239,6 @@ public class SystemUiV extends BaseModule {
         initHook(new SwitchCCAndNotification(), mPrefsMap.getBoolean("system_ui_control_center_switch_cc_and_notification"));
         initHook(OldWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
-        initHook(CompactNotificationsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_compact_notice"));
         initHook(new QSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
         initHook(new QQSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));

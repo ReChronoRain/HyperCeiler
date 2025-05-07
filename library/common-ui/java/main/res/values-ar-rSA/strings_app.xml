@@ -811,8 +811,6 @@
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">التعتيم في طبقة التراكب الخلفية</string>
     <string name="system_ui_control_center_media_control_media_button_title">زر الوسائط</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">شريط البحث عن الوسائط</string>
-    <string name="system_ui_control_center_compact_notice">الإشعارات المدمجة</string>
-    <string name="system_ui_control_center_compact_notice_desc">تقليل المسافات الرأسية للإشعارات</string>
     <string name="system_ui_control_center_redirect_notice">إعادة توجيه إعدادات الإشعارات</string>
     <string name="system_ui_control_center_redirect_notice_desc">عند فتح قائمة إعدادات الإشعارات، يتم التوجيه إلى إعدادات التطبيق الوجهة بدلاً من تطبيق إعدادات الإشعارات.</string>
     <string name="system_ui_control_center_show_weather">عرض الطقس</string>
