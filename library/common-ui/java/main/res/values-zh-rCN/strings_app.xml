@@ -834,8 +834,6 @@
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景叠加层透明度</string>
     <string name="system_ui_control_center_media_control_media_button_title">媒体按钮</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">媒体进度条</string>
-    <string name="system_ui_control_center_compact_notice">紧凑通知</string>
-    <string name="system_ui_control_center_compact_notice_desc">减小通知垂直边框</string>
     <string name="system_ui_control_center_redirect_notice">重定向通知设置</string>
     <string name="system_ui_control_center_redirect_notice_desc">打开通知菜单的设置会重新跳转到目标应用的通知频道设置，而不是应用通知设置</string>
     <string name="system_ui_control_center_show_weather">显示天气</string>

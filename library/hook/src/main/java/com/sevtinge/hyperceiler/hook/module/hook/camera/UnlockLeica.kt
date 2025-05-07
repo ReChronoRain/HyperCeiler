@@ -38,7 +38,7 @@ object UnlockLeica : BaseHook() {
     }
 
     // 想单独开启 6.x 的红色就这么匹配
-    private val unlockMethod1 by lazy<Method> {
+    /*private val unlockMethod1 by lazy<Method> {
         DexKit.findMember("uM1") {
             it.findMethod {
                 matcher {
@@ -54,7 +54,7 @@ object UnlockLeica : BaseHook() {
                 methodData.returnType?.name == "boolean" && methodData.paramCount == 0
             }
         }
-    }
+    }*/
 
     private val unlockMethod2 by lazy<Method> {
         DexKit.findMember("uM2") {
@@ -155,16 +155,14 @@ object UnlockLeica : BaseHook() {
     }
 
     override fun init() {
-        if (isNewCamera) {
+        /*if (isNewCamera) {
             unlockMethod1.createHook {
                 returnConstant(true)
             }
-        }
+        }*/
 
         unlockMethod2.createHook {
-            returnConstant(
-               if (isNewCamera) 4 else 0
-            )
+            returnConstant(0)
         }
 
         unlockMethod3.createHook {

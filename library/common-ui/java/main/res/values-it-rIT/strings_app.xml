@@ -637,8 +637,6 @@
     <string name="system_ui_control_center_remove_media_control_panel_background">Rimuovi lo sfondo a colori misti dalla carta</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Raggio di sfocatura dello sfondo</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacità della sovrapposizione dello sfondo layer</string>
-    <string name="system_ui_control_center_compact_notice">Notifiche compatte</string>
-    <string name="system_ui_control_center_compact_notice_desc">Riduci il riempimento verticale delle notifiche</string>
     <string name="system_ui_control_center_redirect_notice">Reindirizza le impostazioni di notifica</string>
     <string name="system_ui_control_center_redirect_notice_desc">L\'apertura delle impostazioni del menu di notifica ti reindirizza alle impostazioni del canale di notifica dell\'app di destinazione invece di applicare le impostazioni di notifica</string>
     <string name="system_ui_control_center_show_weather">Mostra meteo</string>

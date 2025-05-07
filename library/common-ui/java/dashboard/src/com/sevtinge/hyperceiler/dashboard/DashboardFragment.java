@@ -12,11 +12,12 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.XmlRes;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceScreen;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -87,5 +88,15 @@ public class DashboardFragment extends SettingsPreferenceFragment {
         } catch (Exception e) {
             Log.e("AboutFragment", "declaredField", e);
         }
+    }
+
+    public void setFuncHint(Preference p, int value) {
+        p.setEnabled(false);
+        switch (value) {
+            case 1 -> p.setSummary(R.string.unsupported_system_func);
+            case 2 -> p.setSummary(R.string.supported_system_func);
+            case 3 -> p.setSummary(R.string.feature_doing_func);
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

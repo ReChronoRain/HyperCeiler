@@ -754,8 +754,6 @@
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景覆蓋層的不透明度</string>
     <string name="system_ui_control_center_media_control_media_button_title">媒體按鈕</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">媒體搜尋欄</string>
-    <string name="system_ui_control_center_compact_notice">緊湊通知</string>
-    <string name="system_ui_control_center_compact_notice_desc">減小通知垂直邊框</string>
     <string name="system_ui_control_center_redirect_notice">重定向通知設定</string>
     <string name="system_ui_control_center_redirect_notice_desc">打開通知選單的設定將導航到目標頻道設定，而不是應用程式通知設定</string>
     <string name="system_ui_control_center_show_weather">顯示天氣</string>

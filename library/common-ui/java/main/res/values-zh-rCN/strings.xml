@@ -102,6 +102,9 @@
     <string name="headtip_notice_dead_logger_errcode">当前设备 Log 服务异常，HyperCeiler 功能将被限制。\n请恢复 Log 服务，使其可以正常运行。\n错误代码: %1$s</string>
     <string name="headtip_notice_dead_logger">当前设备 Log 服务异常，HyperCeiler 功能将被限制。请恢复 Log 服务，使其可以正常运行。</string>
 
+    <string name="unsupported_system_func">当前系统版本不支持此功能</string>
+    <string name="supported_system_func">当前系统版本官方已支持此功能</string>
+    <string name="feature_doing_func">当前功能正在制作中，敬请期待</string>
 
     <!--System UI-->
     <string name="system_ui">系统界面</string>

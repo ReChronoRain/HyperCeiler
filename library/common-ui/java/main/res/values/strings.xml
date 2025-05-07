@@ -100,6 +100,9 @@
     <string name="headtip_notice_dead_logger_errcode">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.\nError code: %1$s</string>
     <string name="headtip_notice_dead_logger">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.</string>
 
+    <string name="unsupported_system_func">This feature is not supported in the current system version</string>
+    <string name="supported_system_func">This function is officially supported by the current system version</string>
+    <string name="feature_doing_func">The current function is being produced, please stay tuned</string>
 
     <!--System UI-->
     <string name="system_ui">System UI</string>

@@ -642,8 +642,6 @@
     <string name="system_ui_control_center_remove_media_control_panel_background">Hapus latar belakang warna campuran dari kartu</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Radius keburaman latar belakang gambar</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opasitas lapisan overlay latar belakang</string>
-    <string name="system_ui_control_center_compact_notice">Notifikasi ringkas</string>
-    <string name="system_ui_control_center_compact_notice_desc">Mengurangi padding vertikal notifikasi</string>
     <string name="system_ui_control_center_redirect_notice">Pengaturan pemberitahuan pengalihan</string>
     <string name="system_ui_control_center_redirect_notice_desc">Membuka pengaturan menu notifikasi akan menavigasi ke pengaturan saluran target alih-alih menerapkan pengaturan notifikasi</string>
     <string name="system_ui_control_center_show_weather">Tunjukkan cuaca</string>
