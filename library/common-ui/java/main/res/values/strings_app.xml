@@ -832,6 +832,7 @@
     <string name="system_ui_control_center_show_weather_city">Show city</string>
     <string name="system_ui_control_center_disable_device_managed">Hide network monitoring prompts</string>
     <string name="system_ui_control_center_hide_edit_botton">Hide Edit button</string>
+    <string name="system_ui_control_center_tile_super_blur">Tile Super Blur</string>
     <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
     <string name="system_ui_control_center_unimportant_notification">Block unimportant notifications automatically</string>
     <string name="system_ui_control_center_expand_notification">Expand notifications</string>
