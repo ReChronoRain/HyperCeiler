@@ -21,47 +21,45 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.navigation;
 import android.view.WindowManager;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+
 import de.robv.android.xposed.XposedHelpers;
 
 public class BackGestureAreaHeight extends BaseHook {
     @Override
     public void init() {
-        try {   //适用于5.39.10929+
+        try {   // 适用于5.39.10929+
             findAndHookMethod("com.miui.home.recents.GestureStubView", "updateGestureTouchHeight", new replaceHookedMethod() {
                 @Override
                 protected Object replace(MethodHookParam param) throws Throwable {
-                    Object thiz = param.thisObject;
+                    Object obj = param.thisObject;
 
-                    int mRotation = XposedHelpers.getIntField(thiz, "mRotation");
-                    boolean mIsInMultiWindowMode = XposedHelpers.getBooleanField(thiz, "mIsInMultiWindowMode");
-                    boolean mIsInMinimizedMultiWindowMode = XposedHelpers.getBooleanField(thiz, "mIsInMinimizedMultiWindowMode");
-                    int mScreenHeight = XposedHelpers.getIntField(thiz, "mScreenHeight");
-                    int mScreenWidth = XposedHelpers.getIntField(thiz, "mScreenWidth");
+                    int mRotation = XposedHelpers.getIntField(obj, "mRotation");
+                    int mScreenHeight = XposedHelpers.getIntField(obj, "mScreenHeight");
+                    int mScreenWidth = XposedHelpers.getIntField(obj, "mScreenWidth");
 
                     float f = (float) mPrefsMap.getInt("home_navigation_back_area_height", 60) / 100;
 
+                    int gestureTouchHeight;
                     if (mRotation == 0 || mRotation == 2) {
-                        if (mIsInMultiWindowMode && !mIsInMinimizedMultiWindowMode) { f = 1.0f; }
-                        int gestureTouchHeight = (int) (mScreenHeight * f);
-                        XposedHelpers.setIntField(thiz, "mGestureTouchHeight", gestureTouchHeight);
+                        gestureTouchHeight = (int) (mScreenHeight * f);
                     } else {
-                        int gestureTouchHeight = (int) (mScreenWidth * f);
-                        XposedHelpers.setIntField(thiz, "mGestureTouchHeight", gestureTouchHeight);
+                        gestureTouchHeight = (int) (mScreenWidth * f);
                     }
+                    XposedHelpers.setIntField(obj, "mGestureTouchHeight", gestureTouchHeight);
 
                     return null;
                 }
             });
-        } catch (NoSuchMethodError e) { //旧版
-            findAndHookMethodSilently("com.miui.home.recents.GestureStubView",  "getGestureStubWindowParam", new MethodHook() {
-            @Override
-            protected void after(final MethodHookParam param) throws Throwable {
-                WindowManager.LayoutParams lp = (WindowManager.LayoutParams)param.getResult();
-                int pct = mPrefsMap.getInt("home_navigation_back_area_height", 60);  //记得改key
-                lp.height = Math.round(lp.height / 60.0f * pct);
-                param.setResult(lp);
-            }
-        });
+        } catch (NoSuchMethodError e) { // 旧版
+            findAndHookMethodSilently("com.miui.home.recents.GestureStubView", "getGestureStubWindowParam", new MethodHook() {
+                @Override
+                protected void after(final MethodHookParam param) throws Throwable {
+                    WindowManager.LayoutParams lp = (WindowManager.LayoutParams) param.getResult();
+                    int pct = mPrefsMap.getInt("home_navigation_back_area_height", 60);  // 记得改key
+                    lp.height = Math.round(lp.height / 60.0f * pct);
+                    param.setResult(lp);
+                }
+            });
         }
     }
 }
