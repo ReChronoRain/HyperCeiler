@@ -70,7 +70,7 @@ dependencies {
     api(libs.gson)
     api(libs.hooktool)
     api(libs.hyperfocusapi)
-    api(libs.lyric.getter.api)
+    api(libs.superlyricapi)
     api(libs.lunarcalendar)
 
     api(projects.library.processor)

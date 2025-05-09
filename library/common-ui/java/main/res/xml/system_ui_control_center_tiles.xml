@@ -129,6 +129,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_tile_super_blur"
+            android:title="@string/system_ui_control_center_tile_super_blur" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_control_center_qs_open_color"
             android:title="@string/system_ui_control_center_qs_open_color" />
 

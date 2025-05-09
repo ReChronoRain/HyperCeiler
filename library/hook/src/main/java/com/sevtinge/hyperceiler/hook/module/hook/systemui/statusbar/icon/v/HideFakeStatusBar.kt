@@ -28,12 +28,12 @@ import android.graphics.Rect
 import android.service.notification.StatusBarNotification
 import android.view.View
 import android.widget.TextView
-import cn.lyric.getter.api.data.LyricData
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.hchen.superlyricapi.SuperLyricData
 import com.sevtinge.hyperceiler.hook.module.base.MusicBaseHook
 import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.miuiConfigs
 import com.sevtinge.hyperceiler.hook.utils.callMethod
@@ -91,7 +91,7 @@ object HideFakeStatusBar : MusicBaseHook() {
 
     }
 
-    override fun onUpdate(lyricData: LyricData) {
+    override fun onSuperLyric(data: SuperLyricData) {
     }
 
     override fun onStop() {
@@ -200,7 +200,7 @@ object HideFakeStatusBar : MusicBaseHook() {
                     if (isShowingFocusedLyric) {
                         // 显示歌词的时候手动调用动画,防止大时钟突然出现
                         val notificationHeaderExpandController =
-                            it.thisObject.getObjectField("this\$0")
+                            it.thisObject.getObjectField("this$0")
                         val combinedHeaderController =
                             notificationHeaderExpandController?.getObjectField("headerController")!!
                                 .callMethod("get")

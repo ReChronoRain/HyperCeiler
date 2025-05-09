@@ -19,7 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class cn.lyric.getter.api.**{ *; }
+-keep class com.hchen.superlyricapi.** {*;}
 -keep class org.luckypray.dexkit.**{ *; }
 -keep class org.lsposed.**{ *; }
 
