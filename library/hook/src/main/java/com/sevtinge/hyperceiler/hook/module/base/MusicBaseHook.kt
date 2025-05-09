@@ -29,21 +29,19 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.Icon
+import android.media.session.PlaybackState
 import android.util.Base64
 import android.util.TypedValue
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.graphics.drawable.toBitmap
-import cn.lyric.getter.api.API
-import cn.lyric.getter.api.data.ExtraData
-import cn.lyric.getter.api.data.LyricData
-import cn.lyric.getter.api.listener.LyricListener
-import cn.lyric.getter.api.listener.LyricReceiver
-import cn.lyric.getter.api.tools.Tools.registerLyricListener
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.hchen.superlyricapi.ISuperLyric
+import com.hchen.superlyricapi.SuperLyricData
+import com.hchen.superlyricapi.SuperLyricTool.registerSuperLyric
 import com.hyperfocus.api.FocusApi
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes
@@ -51,21 +49,22 @@ import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi
 
 abstract class MusicBaseHook : BaseHook() {
     val context: Application by lazy { currentApplication() }
-    val nSize by lazy {
+    private val nSize by lazy {
         mPrefsMap.getInt("system_ui_statusbar_music_size_n", 15).toFloat()
     }
 
-    private val receiver = LyricReceiver(object : LyricListener() {
-        override fun onUpdate(lyricData: LyricData) {
+    private val receiver = (object : ISuperLyric.Stub() {
+        override fun onSuperLyric(data: SuperLyricData) {
             runCatching {
-                this@MusicBaseHook.onUpdate(lyricData)
+                this@MusicBaseHook.onSuperLyric(data)
             }.onFailure {
                 logE(TAG, lpparam.packageName, it)
             }
         }
 
-        override fun onStop(lyricData: LyricData) {
+        override fun onStop(data: SuperLyricData) {
             runCatching {
+                if (data.playbackState?.state == PlaybackState.STATE_BUFFERING) return
                 this@MusicBaseHook.onStop()
             }.onFailure {
                 logE(TAG, lpparam.packageName, it)
@@ -77,7 +76,7 @@ abstract class MusicBaseHook : BaseHook() {
         loadClass("android.app.Application").methodFinder().filterByName("onCreate").first()
             .createAfterHook {
                 runCatching {
-                    registerLyricListener(context, API.API_VERSION, receiver)
+                    registerSuperLyric(context, receiver)
                     // if (isDebug()) logD(TAG, lpparam.packageName, "registerLyricListener")
                 }.onFailure {
                     logE(TAG, "registerLyricListener is no found")
@@ -85,11 +84,11 @@ abstract class MusicBaseHook : BaseHook() {
             }
     }
 
-    abstract fun onUpdate(lyricData: LyricData)
+    abstract fun onSuperLyric(data: SuperLyricData)
     abstract fun onStop()
 
     @SuppressLint("NotificationPermission", "LaunchActivityFromNotification")
-    fun sendNotification(text: String, extraData: ExtraData) {
+    fun sendNotification(text: String, extraData: SuperLyricData) {
         //  logE("sendNotification: " + context.packageName + ": " + text)
         createNotificationChannel()
         val modRes = getModuleRes(context)
@@ -192,6 +191,8 @@ abstract class MusicBaseHook : BaseHook() {
             null
         }
     }
+
+    fun Any?.isNotNull() = this != null
 
     companion object {
         const val CHANNEL_ID: String = "channel_id_focusNotifLyrics"

@@ -753,7 +753,7 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">Saída de texto longo</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Texto</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Este é um longo pedaço de texto que será exibido em formato de rolagem</string>
-    <string name="system_ui_statusbar_music_tip">Observações antes de usar:\n• Após ativar este recurso, verifique e reinicie a UI do Sistema e o escopo de música correspondente.\n• Este recurso precisa ser usado com o módulo \"Lyric Getter\".\n• Certifique-se de que a notificação \"Letras de notificação de foco\" esteja ativada na categoria de notificação do app de música correspondente e nas configurações de notificações de foco do app.</string>
+    <string name="system_ui_statusbar_music_tip">Observações antes de usar:\n• Após ativar este recurso, verifique e reinicie a UI do Sistema e o escopo de música correspondente.\n• Este recurso precisa ser usado com o módulo \"SuperLyric\".\n• Certifique-se de que a notificação \"Letras de notificação de foco\" esteja ativada na categoria de notificação do app de música correspondente e nas configurações de notificações de foco do app.</string>
     <string name="system_ui_statusbar_music_notification">Letras de notificação de foco</string>
     <string name="system_ui_statusbar_music_cusiom_notific_title">Configurações de exibição</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Ocultar relógio da barra de status</string>

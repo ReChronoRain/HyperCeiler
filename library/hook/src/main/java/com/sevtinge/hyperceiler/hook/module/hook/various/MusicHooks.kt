@@ -18,18 +18,12 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.various
 
-import cn.lyric.getter.api.data.LyricData
-import cn.lyric.getter.api.data.type.OperateType
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
-import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.hchen.superlyricapi.SuperLyricData
 import com.sevtinge.hyperceiler.hook.module.base.MusicBaseHook
 
 object MusicHooks : MusicBaseHook() {
     override fun init() {
-        if (lpparam.packageName == "com.salt.music") {
+        /*if (lpparam.packageName == "com.salt.music") {
             val clazz = loadClassOrNull("cn.lyric.getter.api.API")
             clazz?.constructorFinder()?.first()?.createHook {
                 before { hookParam ->
@@ -47,18 +41,16 @@ object MusicHooks : MusicBaseHook() {
                 }
             }
             logI(TAG, lpparam.packageName, "LyricGetter API6 Fixed")
-        }
+        }*/
     }
 
-    override fun onUpdate(lyricData: LyricData) {
-        if (lyricData.type == OperateType.UPDATE){
-            val pkgName = lyricData.extraData.packageName
-            if (pkgName == context.packageName) {
-                runCatching {
-                    sendNotification(lyricData.lyric, lyricData.extraData)
-                }.onFailure {
-                    logE(TAG, lpparam.packageName, it.message)
-                }
+    override fun onSuperLyric(data: SuperLyricData) {
+        val pkgName = data.packageName
+        if (pkgName == context.packageName) {
+            runCatching {
+                sendNotification(data.lyric, data)
+            }.onFailure {
+                logE(TAG, lpparam.packageName, it.message)
             }
         }
     }

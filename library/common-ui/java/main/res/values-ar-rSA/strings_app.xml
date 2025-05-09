@@ -753,7 +753,7 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">الإخراج النصي الطويل</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">النص</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">هذا جزء طويل من النص سيتم إخراجه في شكل تمرير</string>
-    <string name="system_ui_statusbar_music_tip">ملاحظات قبل الاستخدام:\n• بعد تفعيل هذه الميزة، تحقق من إعادة تشغيل واجهة النظام والنطاق الموسيقي المعني.\n• يجب استخدام هذه الميزة مع وحدة \"Lyric Getter\".\n• تأكد من تمكين إشعار \"كلمات الأغاني في الإشعارات\" في فئة الإشعارات لتطبيق الموسيقى المعني وفي إعدادات الإشعارات الخاصة بالتطبيق.</string>
+    <string name="system_ui_statusbar_music_tip">ملاحظات قبل الاستخدام:\n• بعد تفعيل هذه الميزة، تحقق من إعادة تشغيل واجهة النظام والنطاق الموسيقي المعني.\n• يجب استخدام هذه الميزة مع وحدة \"SuperLyric\".\n• تأكد من تمكين إشعار \"كلمات الأغاني في الإشعارات\" في فئة الإشعارات لتطبيق الموسيقى المعني وفي إعدادات الإشعارات الخاصة بالتطبيق.</string>
     <string name="system_ui_statusbar_music_notification">إشعار كلمات الأغاني في الإشعارات</string>
     <string name="system_ui_statusbar_music_cusiom_notific_title">إعدادات العرض</string>
     <string name="system_ui_statusbar_music_hide_clock_title">إخفاء ساعة شريط الحالة</string>

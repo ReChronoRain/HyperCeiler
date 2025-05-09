@@ -753,7 +753,7 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">Długi tekst wyjściowy</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Tekst</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">To jest długi fragment tekstu, który będzie wyświetlany w formie przewijania</string>
-    <string name="system_ui_statusbar_music_tip">Notatki przed użyciem:\n• Po włączeniu tej funkcji sprawdź i uruchom ponownie interfejs System UI oraz odpowiedni zakres muzyczny.\n• Ta funkcja wymaga użycia modułu \"Lyric Getter\".\n• Upewnij się, że ustawienie \"Skoncentruj powiadomienie na tekstach piosenek\" jest włączone w kategorii powiadomień odpowiedniej aplikacji muzycznej i w ustawieniach powiadomień skupienia aplikacji.</string>
+    <string name="system_ui_statusbar_music_tip">Notatki przed użyciem:\n• Po włączeniu tej funkcji sprawdź i uruchom ponownie interfejs System UI oraz odpowiedni zakres muzyczny.\n• Ta funkcja wymaga użycia modułu \"SuperLyric\".\n• Upewnij się, że ustawienie \"Skoncentruj powiadomienie na tekstach piosenek\" jest włączone w kategorii powiadomień odpowiedniej aplikacji muzycznej i w ustawieniach powiadomień skupienia aplikacji.</string>
     <string name="system_ui_statusbar_music_notification">Skoncentruj powiadomienie na tekstach piosenek</string>
     <string name="system_ui_statusbar_music_cusiom_notific_title">Ustawienia wyświetlania</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Ukryj zegar na pasku statusu</string>
