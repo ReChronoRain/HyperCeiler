@@ -46,6 +46,10 @@
     <!--HyperCeiler Tips-->
     <string name="error">Ошибка</string>
     <string name="warn">Предупреждение</string>
+    <string name="module_app_failed">В модуле произошла некорректная ошибка</string>
+    <string name="module_app_copy_desc">Нажмите и удерживайте содержимое для копирования</string>
+    <string name="module_title_1">Основное сообщение</string>
+    <string name="module_title_2">Стек сообщения</string>
     <string name="app_error_desc">Этот модуль столкнулся с фатальным сбоем и не при каких условиях не может продолжать работу! Пожалуйста, предоставьте следующую информацию об ошибке для обратной связи! \n\n</string>
     <string name="app_exit">ОК</string>
     <string name="safe_mode_desc">%1$s Перешел в безопасный режим из-за большого количества сбоев, а функции HyperCeiler временно отключены.</string>
@@ -61,6 +65,11 @@
     <string name="safe_mode_recorder_line">Линия</string>
     <string name="safe_mode_recorder_msg">Сообщение об исключении</string>
     <string name="safe_mode_recorder_st">Трассировка стека</string>
+    <string name="error_message">Сообщение об исключении</string>
+    <string name="error_type">Тип исключения</string>
+    <string name="error_file_name">Имя файла</string>
+    <string name="error_time">Время записи</string>
+    <string name="copy_ok">Скопировано в буфер обмена</string>
     <string name="notification_channel_app_crash_name">Приложение работает неправильно</string>
     <string name="notification_title_message_emergency_crash">%s  Часто вылетал</string>
     <string name="notification_content_message">Нажмите что бы посмотреть детально</string>
@@ -75,6 +84,9 @@
     <string name="headtip_tip_fuck_coolapk">Этот день в истории: 14 июля 2022 года Sevtinge выступил с важной речью.</string>
     <string name="headtip_notice_dead_logger_errcode">Текущая служба журнала устройства ненормальна, и функции HyperCeiler будут ограничены. Пожалуйста, восстановите службу журнала, чтобы она могла работать нормально.\nКод ошибки: %1$s</string>
     <string name="headtip_notice_dead_logger">Текущая служба журнала устройства ненормальна, и функции HyperCeiler будут ограничены. Пожалуйста, восстановите службу журнала, чтобы она могла работать нормально.</string>
+    <string name="unsupported_system_func">Эта функция не поддерживается в текущей версии системы</string>
+    <string name="supported_system_func">Эта функция официально поддерживается текущей версией системы</string>
+    <string name="feature_doing_func">Текущая функция находится в разработке, следите за обновлениями.</string>
     <!--System UI-->
     <string name="system_ui">Системная оболочка</string>
     <!--System launcher-->
