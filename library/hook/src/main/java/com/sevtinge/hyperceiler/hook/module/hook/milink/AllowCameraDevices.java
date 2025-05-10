@@ -33,9 +33,13 @@ public class AllowCameraDevices extends BaseHook {
         };
 
         try {
-            findAndHookMethod("com.xiaomi.vtcamera.cloud.RulesConfig", "isDeviceAllowedToBeDiscoverable", Context.class, String.class, String.class, hook);
+            findAndHookMethod("com.xiaomi.vtcamera.cloud.RulesConfig", "isDeviceInAllowList", Context.class, String.class, hook);
         } catch(Throwable t) {
-            findAndHookMethod("com.xiaomi.vtcamera.cloud.RulesConfig", "isDeviceAllowed", String.class, hook);
+            try {
+                findAndHookMethod("com.xiaomi.vtcamera.cloud.RulesConfig", "isDeviceAllowedToBeDiscoverable", Context.class, String.class, String.class, hook);
+            } catch(Throwable ignore) {
+                findAndHookMethod("com.xiaomi.vtcamera.cloud.RulesConfig", "isDeviceAllowed", String.class, hook);
+            }
         }
     }
 }

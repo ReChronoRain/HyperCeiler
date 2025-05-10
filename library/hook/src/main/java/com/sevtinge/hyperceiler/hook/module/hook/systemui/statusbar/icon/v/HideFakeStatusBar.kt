@@ -38,6 +38,7 @@ import com.sevtinge.hyperceiler.hook.module.base.MusicBaseHook
 import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.miuiConfigs
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.getBooleanFieldOrNull
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
@@ -122,10 +123,15 @@ object HideFakeStatusBar : MusicBaseHook() {
             }
         loadClass("com.android.systemui.statusbar.phone.fragment.CollapsedStatusBarFragment").methodFinder()
             .filterByName("onViewCreated").first().createAfterHook {
+                val isObj = if (isAndroidVersion(34)) {
+                    loadClass("com.android.systemui.statusbar.phone.fragment.CollapsedStatusBarFragment")
+                } else {
+                    it.thisObject
+                }
                 // 焦点通知左边竖线
-                mFocusedNotLine = it.thisObject.getObjectFieldOrNullAs<View>("mFocusedNotLine") ?: return@createAfterHook
+                mFocusedNotLine = isObj.getObjectFieldOrNullAs<View>("mFocusedNotLine") ?: return@createAfterHook
                 // 焦点通知左边占位布局
-                mClockSeat = it.thisObject.getObjectFieldOrNullAs<View>("mClockSeat") ?: return@createAfterHook
+                mClockSeat = isObj.getObjectFieldOrNullAs<View>("mClockSeat") ?: return@createAfterHook
             }
 
         miuiNotificationClass.methodFinder()
@@ -147,7 +153,7 @@ object HideFakeStatusBar : MusicBaseHook() {
         }
 
         var unhook0: XC_MethodHook.Unhook? = null
-        loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController\$notificationCallback\$1").methodFinder()
+        loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController\$notificationCallback$1").methodFinder()
             .filterByName("onExpansionChanged").first().createHook {
                 before {
                     unhook0 = miuiConfigs.methodFinder()
@@ -164,7 +170,7 @@ object HideFakeStatusBar : MusicBaseHook() {
                     if (isShowingFocusedLyric) {
                         // 在显示歌词的时候固定通知栏顶部时间和日期的位置和缩放
                         val notificationHeaderExpandController =
-                            it.thisObject.getObjectField("this\$0")
+                            it.thisObject.getObjectField("this$0")
                         val combinedHeaderController =
                             notificationHeaderExpandController?.getObjectFieldOrNull("headerController")!!
                                 .callMethod("get")

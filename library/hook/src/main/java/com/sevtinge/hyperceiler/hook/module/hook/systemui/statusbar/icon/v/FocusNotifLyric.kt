@@ -58,6 +58,9 @@ object FocusNotifLyric : MusicBaseHook() {
     private val isShowNotific by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_music_show_notific")
     }
+    private val isShowApp by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_music_show_app")
+    }
 
     override fun init() {
         // 拦截构建通知的函数
@@ -152,6 +155,16 @@ object FocusNotifLyric : MusicBaseHook() {
                 textView.postDelayed(startScroll, MARQUEE_DELAY)
             }
         }
+
+        if (!isShowApp) {
+            runCatching {
+                if (data.lyric != "") {
+                    sendNotification(data.lyric, data)
+                }
+            }.onFailure {
+                logE(TAG, lpparam.packageName, it.message)
+            }
+        }
     }
 
     private fun startScroll(textView: TextView) {
@@ -183,5 +196,6 @@ object FocusNotifLyric : MusicBaseHook() {
     }
 
     override fun onStop() {
+        if (!isShowApp) cancelNotification()
     }
 }
