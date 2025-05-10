@@ -22,6 +22,7 @@ import com.hchen.superlyricapi.SuperLyricData
 import com.sevtinge.hyperceiler.hook.module.base.MusicBaseHook
 
 object MusicHooks : MusicBaseHook() {
+
     override fun init() {
         /*if (lpparam.packageName == "com.salt.music") {
             val clazz = loadClassOrNull("cn.lyric.getter.api.API")
@@ -48,7 +49,9 @@ object MusicHooks : MusicBaseHook() {
         val pkgName = data.packageName
         if (pkgName == context.packageName) {
             runCatching {
-                sendNotification(data.lyric, data)
+                if (data.lyric != "") {
+                    sendNotification(data.lyric, data)
+                }                
             }.onFailure {
                 logE(TAG, lpparam.packageName, it.message)
             }
