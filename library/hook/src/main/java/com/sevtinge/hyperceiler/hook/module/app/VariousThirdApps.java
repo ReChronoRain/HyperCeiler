@@ -27,9 +27,9 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool;
 import com.sevtinge.hyperceiler.hook.module.hook.clipboard.BaiduClipboard;
 import com.sevtinge.hyperceiler.hook.module.hook.clipboard.SoGouClipboard;
+import com.sevtinge.hyperceiler.hook.module.hook.various.MusicHooks;
 import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.ClearClipboard;
 import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.LoadInputMethodDex;
-import com.sevtinge.hyperceiler.hook.module.hook.various.MusicHooks;
 import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.NewClipboardList;
 import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.UnlockIme;
 import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
@@ -64,7 +64,7 @@ public class VariousThirdApps extends BaseModule {
         initHook(new ClearClipboard(), mPrefsMap.getBoolean("add_clipboard_clear") && isInputMethod(mPackageName));
 
         // 焦点歌词（音乐软件相关）
-        initHook(MusicHooks.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch"));
+        initHook(MusicHooks.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch") && mPrefsMap.getBoolean("system_ui_statusbar_music_show_app"));
     }
 
     private List<String> getAppsUsingInputMethod(Context context) {

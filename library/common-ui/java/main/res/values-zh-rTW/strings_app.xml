@@ -702,13 +702,13 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">長文字輸出</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">測試</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">這是一條長文本，將以滾動形式輸出</string>
-    <string name="system_ui_statusbar_music_tip">使用前注意事項：\n• 開啟此功能後，請檢查並重新啟動系統介面和對應的音樂應用程式作用域。 \n• 此功能需要與「SuperLyric」模組搭配使用。 \n• 確保「焦點通知歌詞」已開啟，並且在對應的音樂應用程式的通知類別和應用程式的焦點通知設定中已經啟用。</string>
+    <string name="system_ui_statusbar_music_tip">使用前注意事項：\n• 開啟此功能後，請檢查並重新啟動系統介面作用域。 \n• 此功能需要與「SuperLyric」模組搭配使用。</string>
     <string name="system_ui_statusbar_music_notification">焦點通知歌詞</string>
     <string name="system_ui_statusbar_music_cusiom_notific_title">顯示設定</string>
     <string name="system_ui_statusbar_music_hide_clock_title">隱藏狀態欄時鐘</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">顯示焦點歌詞時隱藏狀態欄時鐘，並調整下拉通知中心時的動畫。</string>
     <string name="system_ui_statusbar_music_click_clock_title">點擊顯示時鐘</string>
-    <string name="system_ui_statusbar_music_click_clock_desc">點選焦點歌詞事件變更為顯示狀態欄時鐘，反之隱藏。該功能需要重新啟動對應的音樂應用程式才能生效。</string>
+    <string name="system_ui_statusbar_music_click_clock_desc">點選焦點歌詞事件變更為顯示狀態欄時鐘，反之隱藏。</string>
     <string name="system_ui_statusbar_music_speed_title">歌詞滾動速度</string>
     <string name="system_ui_statusbar_music_scroll_delay_title">歌詞滾動延遲</string>
     <string name="system_ui_statusbar_music_width_title">在歌詞末尾加入空格</string>
