@@ -19,18 +19,16 @@
 
 package com.sevtinge.hyperceiler.hook.module.hook.various.clipboard;
 
-import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
-
 import android.content.Context;
 
-import com.hchen.hooktool.BaseHC;
+import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.hook.IHook;
-import com.hchen.hooktool.tool.additional.SystemPropTool;
+import com.hchen.hooktool.utils.SystemPropTool;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class NewUnlockIme extends BaseHC implements LoadInputMethodDex.OnInputMethodDexLoad {
+public class NewUnlockIme extends HCBase implements LoadInputMethodDex.OnInputMethodDexLoad {
     private boolean shouldHook = false;
 
     private static final String[] miuiImeList = new String[]{
@@ -65,7 +63,7 @@ public class NewUnlockIme extends BaseHC implements LoadInputMethodDex.OnInputMe
 
     private void startHook() {
         // 检查是否为小米定制输入法
-        if (Arrays.stream(miuiImeList).anyMatch(s -> s.equals(lpparam.packageName))) return;
+        if (Arrays.stream(miuiImeList).anyMatch(s -> s.equals(loadPackageParam.packageName))) return;
         shouldHook = true;
         Class<?> sInputMethodServiceInjector = findClass("android.inputmethodservice.InputMethodServiceInjector");
         if (sInputMethodServiceInjector == null)
@@ -105,8 +103,8 @@ public class NewUnlockIme extends BaseHC implements LoadInputMethodDex.OnInputMe
                 new IHook() {
                     @Override
                     public void after() {
-                        if ((int) getArgs(0) == 0) return;
-                        navBarColor = (int) getArgs(0);
+                        if ((int) getArg(0) == 0) return;
+                        navBarColor = (int) getArg(0);
                         customizeBottomViewColor(clazz);
                     }
                 }

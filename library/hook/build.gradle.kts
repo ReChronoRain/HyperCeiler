@@ -29,6 +29,12 @@ android {
     }
 
     buildTypes {
+        release {
+            consumerProguardFiles(libs.versions.proguard.rules.get())
+        }
+        create("beta") {
+            consumerProguardFiles(libs.versions.proguard.rules.get())
+        }
         create("canary") {
             consumerProguardFiles(libs.versions.proguard.rules.get())
         }
@@ -63,7 +69,8 @@ dependencies {
     api(libs.hiddenapibypass)
     api(libs.gson)
     api(libs.hooktool)
-    api(libs.lyric.getter.api)
+    api(libs.hyperfocusapi)
+    api(libs.superlyricapi)
     api(libs.lunarcalendar)
 
     api(projects.library.processor)

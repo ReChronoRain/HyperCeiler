@@ -18,14 +18,14 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.misound;
 
-import static com.hchen.hooktool.BaseHC.classLoader;
+import static com.hchen.hooktool.HCBase.classLoader;
+import static com.hchen.hooktool.core.CoreTool.callMethod;
+import static com.hchen.hooktool.core.CoreTool.findClass;
+import static com.hchen.hooktool.core.CoreTool.getField;
+import static com.hchen.hooktool.core.CoreTool.hook;
+import static com.hchen.hooktool.core.CoreTool.newInstance;
 import static com.hchen.hooktool.log.XposedLog.logE;
 import static com.hchen.hooktool.log.XposedLog.logI;
-import static com.hchen.hooktool.tool.CoreTool.callMethod;
-import static com.hchen.hooktool.tool.CoreTool.findClass;
-import static com.hchen.hooktool.tool.CoreTool.getField;
-import static com.hchen.hooktool.tool.CoreTool.hook;
-import static com.hchen.hooktool.tool.CoreTool.newInstance;
 import static com.sevtinge.hyperceiler.hook.module.hook.misound.NewAutoSEffSwitch.getEarPhoneStateFinal;
 import static com.sevtinge.hyperceiler.hook.module.hook.misound.NewAutoSEffSwitch.isSupportFW;
 import static com.sevtinge.hyperceiler.hook.module.hook.misound.NewAutoSEffSwitch.mDexKit;

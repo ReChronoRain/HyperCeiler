@@ -718,8 +718,6 @@ aplicaciones del sistema</string>
     <string name="system_ui_control_center_remove_media_control_panel_background">Remueve el fondo de color mixto de la tarjeta</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Radio de borrosidad de imagen de fondo</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacidad de la capa de fondo</string>
-    <string name="system_ui_control_center_compact_notice">Notificación compacta</string>
-    <string name="system_ui_control_center_compact_notice_desc">Reducir el espacio vertical de notificaciones</string>
     <string name="system_ui_control_center_redirect_notice">Redirigir configuraciones de notificación</string>
     <string name="system_ui_control_center_redirect_notice_desc">Cuando se abre la configuración del menú de notificación, se desplaza al canal de destino</string>
     <string name="system_ui_control_center_show_weather">Mostrar el tiempo</string>
@@ -1421,7 +1419,7 @@ aplicaciones del sistema</string>
     <string name="bypass_udk_word_legal_check_caption">Permitir la grabación del despertador con voz sin internet</string>
     <string name="bypass_udk_word_legal_check_description">Permite la grabación de palabras desde el despertador con voz cuando esté desconectado</string>
     <string name="voicetrigger_accuracy_percent_caption">Establecer precisión para despertador con detección de voz</string>
-    <string name="voicetrigger_accuracy_percent_description">Los valores más altos son más difíciles de detectar. El valor por defecto es 70%, para la palabra clave XATX es 0%. Después de ajustar, necesita reiniciar la aplicación de destino y volver a inscribir su palabra de activación.</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">Los valores más altos son más difíciles de detectar. El valor por defecto es 70%, para la palabra clave XATX es 0%. Después de ajustar, necesita reiniciar la aplicación de destino y volver a inscribir su palabra de activación.</string>
     <!--Other-->
     <string name="various">Otro</string>
     <string name="share_center">Mi Hub Inteligente</string>

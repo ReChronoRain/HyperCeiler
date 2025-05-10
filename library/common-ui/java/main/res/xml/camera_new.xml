@@ -33,44 +33,67 @@
             android:title="@string/camera_custom_theme_color_picker" />
 
         <SwitchPreference
-            android:title="@string/camera_max_brightness"
+            android:defaultValue="false"
             android:key="prefs_key_camera_max_brightness"
-            android:defaultValue="false" />
+            android:title="@string/camera_max_brightness" />
 
         <SwitchPreference
-            android:title="@string/camera_custom_watermark"
-            android:key="prefs_key_camera_custom_watermark"
-            android:defaultValue="false" />
-
-        <EditTextPreference
-            android:title="@string/camera_custom_watermark_manufacturer"
-            android:key="prefs_key_camera_custom_watermark_manufacturer"
-            android:defaultValue=""
-            android:dependency="prefs_key_camera_custom_watermark"/>
-
-        <EditTextPreference
-            android:title="@string/camera_custom_watermark_device"
-            android:key="prefs_key_camera_custom_watermark_device"
-            android:defaultValue=""
-            android:dependency="prefs_key_camera_custom_watermark"/>
-
-        <SwitchPreference
-            android:title="@string/camera_black_leica"
-            android:summary="@string/camera_black_leica_desc"
-            android:key="prefs_key_camera_black_leica"
-            android:defaultValue="false" />
-
-        <SwitchPreference
-            android:title="@string/camera_settings_lab_options"
-            android:key="prefs_key_camera_settings_lab_options"
-            android:defaultValue="false" />
-
-        <SwitchPreference
-            android:title="@string/camera_settings_track_eyes"
-            android:key="prefs_key_camera_settings_track_eyes"
-            android:dependency="prefs_key_camera_settings_lab_options"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            android:key="prefs_key_camera_unlock_4k60"
+            android:summary="@string/only_new_version_can_do"
+            android:title="@string/camera_unlock_4k60" />
 
     </PreferenceCategory>
 
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_camera_custom_watermark"
+            android:title="@string/camera_custom_watermark" />
+
+        <EditTextPreference
+            android:defaultValue=""
+            android:dependency="prefs_key_camera_custom_watermark"
+            android:key="prefs_key_camera_custom_watermark_manufacturer"
+            android:title="@string/camera_custom_watermark_manufacturer" />
+
+        <EditTextPreference
+            android:defaultValue=""
+            android:dependency="prefs_key_camera_custom_watermark"
+            android:key="prefs_key_camera_custom_watermark_device"
+            android:title="@string/camera_custom_watermark_device" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_camera_black_leica"
+            android:summary="@string/camera_black_leica_desc"
+            android:title="@string/camera_black_leica" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_camera_unlock_leica"
+            android:summary="@string/only_new_version_can_do"
+            android:title="@string/camera_unlock_leica" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_camera_super_high_quality"
+            android:summary="@string/only_new_version_can_do"
+            android:title="@string/camera_super_high_quality" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_camera_settings_lab_options"
+            android:title="@string/camera_settings_lab_options" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_camera_settings_lab_options"
+            android:key="prefs_key_camera_settings_track_eyes"
+            android:title="@string/camera_settings_track_eyes" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

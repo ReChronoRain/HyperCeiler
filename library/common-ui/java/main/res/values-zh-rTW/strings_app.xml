@@ -702,9 +702,9 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">長文字輸出</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">測試</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">這是一條長文本，將以滾動形式輸出</string>
-    <string name="system_ui_statusbar_music_tip">使用前注意事項：\n• 開啟此功能後，請檢查並重新啟動系統介面和對應的音樂應用程式作用域。 \n• 此功能需要與「酒域-歌詞獲取（Lyric Getter）」模組搭配使用。 \n• 確保「焦點通知歌詞」已開啟，並且在對應的音樂應用程式的通知類別和應用程式的焦點通知設定中已經啟用。</string>
+    <string name="system_ui_statusbar_music_tip">使用前注意事項：\n• 開啟此功能後，請檢查並重新啟動系統介面和對應的音樂應用程式作用域。 \n• 此功能需要與「SuperLyric」模組搭配使用。 \n• 確保「焦點通知歌詞」已開啟，並且在對應的音樂應用程式的通知類別和應用程式的焦點通知設定中已經啟用。</string>
     <string name="system_ui_statusbar_music_notification">焦點通知歌詞</string>
-    <string name="system_ui_statusbar_music_cusiom_title">顯示設定</string>
+    <string name="system_ui_statusbar_music_cusiom_notific_title">顯示設定</string>
     <string name="system_ui_statusbar_music_hide_clock_title">隱藏狀態欄時鐘</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">顯示焦點歌詞時隱藏狀態欄時鐘，並調整下拉通知中心時的動畫。</string>
     <string name="system_ui_statusbar_music_click_clock_title">點擊顯示時鐘</string>
@@ -754,8 +754,6 @@
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景覆蓋層的不透明度</string>
     <string name="system_ui_control_center_media_control_media_button_title">媒體按鈕</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">媒體搜尋欄</string>
-    <string name="system_ui_control_center_compact_notice">緊湊通知</string>
-    <string name="system_ui_control_center_compact_notice_desc">減小通知垂直邊框</string>
     <string name="system_ui_control_center_redirect_notice">重定向通知設定</string>
     <string name="system_ui_control_center_redirect_notice_desc">打開通知選單的設定將導航到目標頻道設定，而不是應用程式通知設定</string>
     <string name="system_ui_control_center_show_weather">顯示天氣</string>
@@ -1523,7 +1521,7 @@
     <string name="bypass_udk_word_legal_check_caption">允許無網錄入喚醒詞</string>
     <string name="bypass_udk_word_legal_check_description">允許在無網狀態下錄入語音喚醒詞</string>
     <string name="voicetrigger_accuracy_percent_caption">設定喚醒詞檢測精準度</string>
-    <string name="voicetrigger_accuracy_percent_description">數值越高越難以被偵測。預設值為 70%，對於「小愛同學」為 0%。設定完成後，您需要重新啟動目標應用程式並重新錄入您的喚醒詞。</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">數值越高越難以被偵測。預設值為 70%，對於「小愛同學」為 0%。設定完成後，您需要重新啟動目標應用程式並重新錄入您的喚醒詞。</string>
     <!--Other-->
     <string name="various">其他</string>
     <string name="app_version_not_supported">不受支援的版本</string>

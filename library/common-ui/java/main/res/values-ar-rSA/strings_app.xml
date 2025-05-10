@@ -753,9 +753,9 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">الإخراج النصي الطويل</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">النص</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">هذا جزء طويل من النص سيتم إخراجه في شكل تمرير</string>
-    <string name="system_ui_statusbar_music_tip">ملاحظات قبل الاستخدام:\n• بعد تفعيل هذه الميزة، تحقق من إعادة تشغيل واجهة النظام والنطاق الموسيقي المعني.\n• يجب استخدام هذه الميزة مع وحدة \"Lyric Getter\".\n• تأكد من تمكين إشعار \"كلمات الأغاني في الإشعارات\" في فئة الإشعارات لتطبيق الموسيقى المعني وفي إعدادات الإشعارات الخاصة بالتطبيق.</string>
+    <string name="system_ui_statusbar_music_tip">ملاحظات قبل الاستخدام:\n• بعد تفعيل هذه الميزة، تحقق من إعادة تشغيل واجهة النظام والنطاق الموسيقي المعني.\n• يجب استخدام هذه الميزة مع وحدة \"SuperLyric\".\n• تأكد من تمكين إشعار \"كلمات الأغاني في الإشعارات\" في فئة الإشعارات لتطبيق الموسيقى المعني وفي إعدادات الإشعارات الخاصة بالتطبيق.</string>
     <string name="system_ui_statusbar_music_notification">إشعار كلمات الأغاني في الإشعارات</string>
-    <string name="system_ui_statusbar_music_cusiom_title">إعدادات العرض</string>
+    <string name="system_ui_statusbar_music_cusiom_notific_title">إعدادات العرض</string>
     <string name="system_ui_statusbar_music_hide_clock_title">إخفاء ساعة شريط الحالة</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">إخفاء ساعة شريط الحالة عند عرض كلمات الأغاني المركزة، وضبط حركة الرسوم المتحركة في شريط الإشعارات المنسدل.</string>
     <string name="system_ui_statusbar_music_click_clock_title">انقر لإظهار الساعة</string>
@@ -811,8 +811,6 @@
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">التعتيم في طبقة التراكب الخلفية</string>
     <string name="system_ui_control_center_media_control_media_button_title">زر الوسائط</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">شريط البحث عن الوسائط</string>
-    <string name="system_ui_control_center_compact_notice">الإشعارات المدمجة</string>
-    <string name="system_ui_control_center_compact_notice_desc">تقليل المسافات الرأسية للإشعارات</string>
     <string name="system_ui_control_center_redirect_notice">إعادة توجيه إعدادات الإشعارات</string>
     <string name="system_ui_control_center_redirect_notice_desc">عند فتح قائمة إعدادات الإشعارات، يتم التوجيه إلى إعدادات التطبيق الوجهة بدلاً من تطبيق إعدادات الإشعارات.</string>
     <string name="system_ui_control_center_show_weather">عرض الطقس</string>
@@ -1608,7 +1606,7 @@
     <string name="bypass_udk_word_legal_check_caption">السماح بتسجيل كلمة الاستيقاظ بالصوت بدون إنترنت</string>
     <string name="bypass_udk_word_legal_check_description">يسمح بتسجيل الكلمات من كلمة الاستيقاظ بالصوت عند عدم الاتصال بالإنترنت</string>
     <string name="voicetrigger_accuracy_percent_caption">تحديد دقة اكتشاف كلمة الاستيقاظ بالصوت</string>
-    <string name="voicetrigger_accuracy_percent_description">القيم الأعلى تجعل الاكتشاف أكثر صعوبة. القيمة الافتراضية هي 70%، وللكلمة المفتاحية XATX هي 0%. بعد الإعداد، يجب إعادة تشغيل التطبيق المستهدف وإعادة تسجيل كلمة التنشيط.</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">القيم الأعلى تجعل الاكتشاف أكثر صعوبة. القيمة الافتراضية هي 70%، وللكلمة المفتاحية XATX هي 0%. بعد الإعداد، يجب إعادة تشغيل التطبيق المستهدف وإعادة تسجيل كلمة التنشيط.</string>
     <!--Other-->
     <string name="various">أخرى</string>
     <string name="share_center">Xiaomi Smart Hub</string>

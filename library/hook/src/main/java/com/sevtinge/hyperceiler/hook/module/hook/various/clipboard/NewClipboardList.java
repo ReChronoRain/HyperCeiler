@@ -28,9 +28,9 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.hchen.hooktool.BaseHC;
+import com.hchen.hooktool.HCBase;
+import com.hchen.hooktool.core.ParamTool;
 import com.hchen.hooktool.hook.IHook;
-import com.hchen.hooktool.tool.ParamTool;
 import com.sevtinge.hyperceiler.hook.utils.ContentModel;
 import com.sevtinge.hyperceiler.hook.utils.FileHelper;
 import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
@@ -49,7 +49,7 @@ import de.robv.android.xposed.XposedHelpers;
  *
  * @author 焕晨HChen
  */
-public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInputMethodDexLoad {
+public class NewClipboardList extends HCBase implements LoadInputMethodDex.OnInputMethodDexLoad {
     private Gson mGson;
     private static String mDataPath;
     private boolean isNewMode = false;
@@ -61,7 +61,7 @@ public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInp
     @Override
     public void load(ClassLoader classLoader) {
         mGson = new GsonBuilder().setPrettyPrinting().create();
-        mDataPath = lpparam.appInfo.dataDir + "/files/clipboard_data.dat";
+        mDataPath = loadPackageParam.appInfo.dataDir + "/files/clipboard_data.dat";
         XposedLogUtils.logI(TAG, "class loader: " + classLoader);
 
         FileHelper.TAG = TAG;
@@ -86,34 +86,33 @@ public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInp
     }
 
     private void oldMethod(ClassLoader classLoader) {
-        chain("com.miui.inputmethod.InputMethodUtil", classLoader,
-                method("getClipboardData", Context.class) // 读取剪贴板数据
-                        .hook(new IHook() {
-                            @Override
-                            public void before() {
-                                getClipboardData(this);
-                            }
-                        })
+        buildChain("com.miui.inputmethod.InputMethodUtil", classLoader)
+                .findMethod("getClipboardData", Context.class) // 读取剪贴板数据
+                .hook(new IHook() {
+                    @Override
+                    public void before() {
+                        getClipboardData(this);
+                    }
+                })
 
-                        .method("addClipboard", String.class, String.class, int.class, Context.class) // 添加剪贴板条目
-                        .hook(new IHook() {
-                            @Override
-                            public void before() {
-                                addClipboard((String) getArgs(1), (int) getArgs(2), (Context) getArgs(3));
-                                returnNull();
-                            }
-                        })
+                .findMethod("addClipboard", String.class, String.class, int.class, Context.class) // 添加剪贴板条目
+                .hook(new IHook() {
+                    @Override
+                    public void before() {
+                        addClipboard((String) getArg(1), (int) getArg(2), (Context) getArg(3));
+                        returnNull();
+                    }
+                })
 
-                        .method("setClipboardModelList", Context.class, ArrayList.class) // 保存剪贴板数据
-                        .hook(new IHook() {
-                            @Override
-                            public void before() {
-                                ArrayList<?> dataList = (ArrayList<?>) getArgs(1);
-                                FileHelper.write(mDataPath, mGson.toJson(dataList));
-                                if (!dataList.isEmpty()) returnNull();
-                            }
-                        })
-        );
+                .findMethod("setClipboardModelList", Context.class, ArrayList.class) // 保存剪贴板数据
+                .hook(new IHook() {
+                    @Override
+                    public void before() {
+                        ArrayList<?> dataList = (ArrayList<?>) getArg(1);
+                        FileHelper.write(mDataPath, mGson.toJson(dataList));
+                        if (!dataList.isEmpty()) returnNull();
+                    }
+                });
     }
 
     private String mText = null;
@@ -122,86 +121,85 @@ public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInp
     private void newMethod(ClassLoader classLoader) {
         isNewMode = true;
         setStaticField("com.miui.inputmethod.MiuiClipboardManager", classLoader, "MAX_CLIP_DATA_ITEM_SIZE", Integer.MAX_VALUE);
-        chain("com.miui.inputmethod.MiuiClipboardManager", classLoader,
-                anyMethod("addClipDataToPhrase") // 添加剪贴板条目
-                        .hook(new IHook() {
-                            @Override
-                            public void before() {
-                                Object clipboardContentModel = getArgs(2);
-                                content = ContentModel.getContent(clipboardContentModel);
-                                int type = ContentModel.getType(clipboardContentModel);
-                                // long time = ContentModel.getTime(clipboardContentModel);
-                                addClipboard(content, type, (Context) getArgs(0));
-                                returnNull();
-                            }
-                        })
+        buildChain("com.miui.inputmethod.MiuiClipboardManager", classLoader)
+                .findAllMethod("addClipDataToPhrase") // 添加剪贴板条目
+                .hook(new IHook() {
+                    @Override
+                    public void before() {
+                        Object clipboardContentModel = getArg(2);
+                        content = ContentModel.getContent(clipboardContentModel);
+                        int type = ContentModel.getType(clipboardContentModel);
+                        // long time = ContentModel.getTime(clipboardContentModel);
+                        addClipboard(content, type, (Context) getArg(0));
+                        returnNull();
+                    }
+                })
 
-                        .method("getClipboardData", Context.class) // 获取剪贴板数据
-                        .hook(new IHook() {
-                            @Override
-                            public void before() {
-                                getClipboardData(this);
-                            }
-                        })
+                .findMethod("getClipboardData", Context.class) // 获取剪贴板数据
+                .hook(new IHook() {
+                    @Override
+                    public void before() {
+                        getClipboardData(this);
+                    }
+                })
 
-                        .anyMethod("setClipboardModelList") // 保存剪贴板数据
-                        .hook(new IHook() {
-                            @Override
-                            public void before() {
-                                ArrayList<?> dataList = (ArrayList<?>) getArgs(1);
-                                FileHelper.write(mDataPath, mGson.toJson(dataList));
-                                if (!dataList.isEmpty()) returnNull();
-                            }
-                        })
+                .findMethod("setClipboardModelList") // 保存剪贴板数据
+                .hook(new IHook() {
+                    @Override
+                    public void before() {
+                        ArrayList<?> dataList = (ArrayList<?>) getArg(1);
+                        FileHelper.write(mDataPath, mGson.toJson(dataList));
+                        if (!dataList.isEmpty()) returnNull();
+                    }
+                })
 
-                        .anyMethod("commitClipDataAndTrack") // 修复小米的 BUG
-                        .hook(new IHook() {
-                            @Override
-                            public void before() {
-                                int type = (int) getArgs(3);
-                                if (type == 3 || type == 2) {
-                                    setArgs(3, 10);
-                                }
-                            }
-                        })
+                .findAllMethod("commitClipDataAndTrack") // 修复小米的 BUG
+                .hook(new IHook() {
+                    @Override
+                    public void before() {
+                        int type = (int) getArg(3);
+                        if (type == 3 || type == 2) {
+                            setArg(3, 10);
+                        }
+                    }
+                })
 
-                        .method("processSingleItemOfClipData", ClipData.class, String.class) // 解除 5000 字限制
-                        .hook(new IHook() {
-                            @Override
-                            public void before() {
-                                ClipData clipData = (ClipData) getArgs(0);
-                                ClipData.Item item = clipData.getItemAt(0);
-                                if (item.getText() != null && !TextUtils.isEmpty(item.getText().toString())) {
-                                    mText = item.getText().toString();
-                                }
-                            }
-                        })
+                .findMethod("processSingleItemOfClipData", ClipData.class, String.class) // 解除 5000 字限制
+                .hook(new IHook() {
+                    @Override
+                    public void before() {
+                        ClipData clipData = (ClipData) getArg(0);
+                        ClipData.Item item = clipData.getItemAt(0);
+                        if (item.getText() != null && !TextUtils.isEmpty(item.getText().toString())) {
+                            mText = item.getText().toString();
+                        }
+                    }
+                })
 
-                        .method("buildClipDataItemModelBasedTextData", String.class) // 解除 5000 字限制
-                        .hook(new IHook() {
-                            @Override
-                            public void before() {
-                                if (mMax == -1)
-                                    mMax = (int) getStaticField("com.miui.inputmethod.MiuiClipboardManager", classLoader,
-                                            "MAX_CLIP_CONTENT_SIZE");
-                                if (mMax == -1) mMax = 5000;
-                                String string = (String) getArgs(0);
-                                if (string != null && !string.isEmpty()) {
-                                    if (string.length() == mMax) {
-                                        if (mText != null && !mText.isEmpty()) setArgs(0, mText);
-                                    }
-                                }
-                                mText = null;
+                .findMethod("buildClipDataItemModelBasedTextData", String.class) // 解除 5000 字限制
+                .hook(new IHook() {
+                    @Override
+                    public void before() {
+                        if (mMax == -1)
+                            mMax = (int) getStaticField("com.miui.inputmethod.MiuiClipboardManager", classLoader,
+                                    "MAX_CLIP_CONTENT_SIZE");
+                        if (mMax == -1) mMax = 5000;
+                        String string = (String) getArg(0);
+                        if (string != null && !string.isEmpty()) {
+                            if (string.length() == mMax) {
+                                if (mText != null && !mText.isEmpty()) setArg(0, mText);
                             }
-                        })
-        );
+                        }
+                        mText = null;
+                    }
+                });
         XposedHelpers.findAndHookMethod("com.miui.inputmethod.MiuiClipboardManager", classLoader, "buildClipboardModelDataType", "com.miui.inputmethod.ClipboardContentModel", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 String json = (String) XposedHelpers.callMethod(param.args[0], "getContent");
                 if (TextUtils.isEmpty(json) || json == null) {
                     param.setResult(null);
-                    XposedLogUtils.logW(TAG, lpparam.packageName, "Got null string, skip run. String = " + json);
+                    XposedLogUtils.logW(TAG, loadPackageParam.packageName, "Got null string, skip run. String = " + json);
                 }
                 XposedHelpers.findAndHookConstructor(JSONArray.class, String.class, new XC_MethodHook() {
                     @Override
@@ -210,7 +208,7 @@ public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInp
                         if (TextUtils.isEmpty(json) || json == null) {
                             if (!TextUtils.isEmpty(content) && content != null) {
                                 param.args[0] = content;
-                                XposedLogUtils.logW(TAG, lpparam.packageName, "Got null string, overwrite param. String = " + param.args[0]);
+                                XposedLogUtils.logW(TAG, loadPackageParam.packageName, "Got null string, overwrite param. String = " + param.args[0]);
                             }
                         }
                     }
@@ -223,7 +221,7 @@ public class NewClipboardList extends BaseHC implements LoadInputMethodDex.OnInp
     private void getClipboardData(ParamTool param) {
         ArrayList<ContentModel> readData = toContentModelList(FileHelper.read(mDataPath));
         if (readData.isEmpty()) {
-            String data = getData((Context) param.getArgs(0));
+            String data = getData((Context) param.getArg(0));
             if (data.isEmpty()) param.setResult(new ArrayList<>());
             ArrayList<ContentModel> contentModels = toContentModelList(data);
             FileHelper.write(mDataPath, mGson.toJson(contentModels));

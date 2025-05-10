@@ -18,16 +18,16 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v
 
-import android.service.notification.*
-import android.view.*
-import android.widget.*
-import cn.lyric.getter.api.data.*
+import android.service.notification.StatusBarNotification
+import android.view.Choreographer
+import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.hchen.superlyricapi.SuperLyricData
 import com.sevtinge.hyperceiler.hook.module.base.MusicBaseHook
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.getFloatField
@@ -36,7 +36,8 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.hook.utils.setFloatField
 import com.sevtinge.hyperceiler.hook.utils.setLongField
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
-import de.robv.android.xposed.*
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedHelpers
 
 // author git@wuyou-123
 // co-author git@lingqiqi5211
@@ -54,17 +55,22 @@ object FocusNotifLyric : MusicBaseHook() {
     private val SPEED_INCREASE by lazy {
         mPrefsMap.getInt("system_ui_statusbar_music_speed", 18) * 0.1f
     }
+    private val isShowNotific by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_music_show_notific")
+    }
 
     override fun init() {
         // 拦截构建通知的函数
-        loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").methodFinder()
-            .filterByName("requestPipelineRun").first().createBeforeHook {
-                val statusBarNotification =
-                    it.args[0].getObjectFieldOrNullAs<StatusBarNotification>("mSbn")
-                if (statusBarNotification!!.notification.channelId == CHANNEL_ID) {
-                    it.result = null
+        if (!isShowNotific) {
+            loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").methodFinder()
+                .filterByName("requestPipelineRun").first().createBeforeHook {
+                    val statusBarNotification =
+                        it.args[0].getObjectFieldOrNullAs<StatusBarNotification>("mSbn")
+                    if (statusBarNotification!!.notification.channelId == CHANNEL_ID) {
+                        it.result = null
+                    }
                 }
-            }
+        }
 
         // 拦截初始化状态栏焦点通知文本布局
         var unhook: XC_MethodHook.Unhook? = null
@@ -106,7 +112,7 @@ object FocusNotifLyric : MusicBaseHook() {
                 }
 
         }.onFailure {
-            return
+            logE(TAG, "canShowFocus failed, ${it.message}")
         }
         runCatching {
             loadClass("miui.systemui.notification.NotificationSettingsManager", classLoader)
@@ -117,32 +123,34 @@ object FocusNotifLyric : MusicBaseHook() {
                 }
 
         }.onFailure {
-            return
+            logE(TAG, "canCustomFocus failed, ${it.message}")
         }
         // 启用debug日志
         // setStaticObject(loadClass("miui.systemui.notification.NotificationUtil", classLoader), "DEBUG", true)
     }
 
-    override fun onUpdate(lyricData: LyricData) {
-        val lyric = lyricData.lyric
-        focusTextViewList.forEach {
-            if (lastLyric == it.text) {
-                it.text = lyric
-                lastLyric = lyric
-            }
-            if (XposedHelpers.getAdditionalStaticField(it, "is_scrolling") == 1) {
-                val m0 = it.getObjectFieldOrNull("mMarquee")
-                if (m0 != null) {
-                    // 设置速度并且调用停止函数,重置歌词位置
-                    m0.setFloatField("mPixelsPerMs", 0f)
-                    m0.callMethod("stop")
+    override fun onSuperLyric(data: SuperLyricData) {
+        val lyric = data.lyric
+        focusTextViewList.forEach { textView ->
+            textView.post {
+                if (lastLyric == textView.text) {
+                    textView.text = lyric
+                    lastLyric = lyric
                 }
+                if (XposedHelpers.getAdditionalStaticField(textView, "is_scrolling") == 1) {
+                    val m0 = textView.getObjectFieldOrNull("mMarquee")
+                    if (m0 != null) {
+                        // 设置速度并且调用停止函数,重置歌词位置
+                        m0.setFloatField("mPixelsPerMs", 0f)
+                        m0.callMethod("stop")
+                    }
+                }
+                val startScroll = runnablePool.getOrPut(textView.hashCode()) {
+                    Runnable { startScroll(textView) }
+                }
+                textView.handler?.removeCallbacks(startScroll)
+                textView.postDelayed(startScroll, MARQUEE_DELAY)
             }
-            val startScroll = runnablePool.getOrPut(it.hashCode()) {
-                Runnable { startScroll(it) }
-            }
-            it.handler?.removeCallbacks(startScroll)
-            it.postDelayed(startScroll, MARQUEE_DELAY)
         }
     }
 
@@ -170,7 +178,7 @@ object FocusNotifLyric : MusicBaseHook() {
                 XposedHelpers.setAdditionalStaticField(textView, "is_scrolling", 1)
             }
         }.onFailure {
-            logE(TAG, lpparam.packageName, "error: $it")
+            logE(TAG, lpparam.packageName, "error: ${it.message}")
         }
     }
 

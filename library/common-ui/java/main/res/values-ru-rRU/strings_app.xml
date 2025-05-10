@@ -474,6 +474,9 @@
     <string name="camera_custom_watermark">Пользовательский водяной знак</string>
     <string name="camera_custom_watermark_manufacturer">Информация о производителе</string>
     <string name="camera_custom_watermark_device">Информация об устройстве</string>
+    <string name="camera_unlock_4k60">Разблокировать 4K 60 fps</string>
+    <string name="camera_unlock_leica">Разблокировать пользовательский интерфейс Leica и функции</string>
+    <string name="camera_super_high_quality">Разблокировать супервысокое качество фото</string>
     <string name="camera_shot_hand_gesture">Снимок ладонью</string>
     <string name="camera_settings_lab_options">Тестовые функции</string>
     <string name="camera_settings_track_eyes">Следить за глазами</string>
@@ -702,9 +705,11 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">Вывод длинного текста</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Текст</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Это длинный фрагмент текста, который будет выводиться в виде прокрутки</string>
-    <string name="system_ui_statusbar_music_tip">Примечания перед использованием:\n• После включения этой функции проверьте и перезапустите системный пользовательский интерфейс и соответствующую музыкальную область.\n• Эту функцию необходимо использовать с модулем \"Lyric Getter\".\n• Убедитесь, что уведомление \"Сфокусировать уведомления на тексте\" включено в категории уведомлений соответствующего музыкального приложения и в настройках уведомлений фокуса приложения.</string>
+    <string name="system_ui_statusbar_music_tip">Примечания перед использованием:\n• После включения этой функции проверьте и перезапустите системный пользовательский интерфейс и соответствующую музыкальную область.\n• Эту функцию необходимо использовать с модулем \"SuperLyric\".\n• Убедитесь, что уведомление \"Сфокусировать уведомления на тексте\" включено в категории уведомлений соответствующего музыкального приложения и в настройках уведомлений фокуса приложения.</string>
     <string name="system_ui_statusbar_music_notification">Сфокусировать уведомления на тексте</string>
-    <string name="system_ui_statusbar_music_cusiom_title">Настройки экрана</string>
+    <string name="system_ui_statusbar_music_cusiom_notific_title">Настройки экрана</string>
+    <string name="system_ui_statusbar_music_show_notific_title">Показывать текст уведомления</string>
+    <string name="system_ui_statusbar_music_cusiom_statusbar_title">Настройки отображения строки состояния</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Скрыть часы в строке состояния</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">Скройте часы в строке состояния при отображении выделенного текста и настройте анимацию раскрывающейся панели уведомлений</string>
     <string name="system_ui_statusbar_music_click_clock_title">Нажмите, чтобы показать часы</string>
@@ -754,14 +759,13 @@
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Непрозрачность слоя наложения фона</string>
     <string name="system_ui_control_center_media_control_media_button_title">Кнопка \"Медиа\"</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">Панель поиска медиа</string>
-    <string name="system_ui_control_center_compact_notice">Компактные уведомления</string>
-    <string name="system_ui_control_center_compact_notice_desc">Уменьшить вертикальные отступы уведомлений</string>
     <string name="system_ui_control_center_redirect_notice">Перенаправить настройки уведомлений</string>
     <string name="system_ui_control_center_redirect_notice_desc">Открытие настроек меню уведомлений позволяет перейти к настройкам целевого канала вместо применения настроек уведомлений</string>
     <string name="system_ui_control_center_show_weather">Показать погоду</string>
     <string name="system_ui_control_center_show_weather_city">Показать город</string>
     <string name="system_ui_control_center_disable_device_managed">Скрыть запросы мониторинга сети</string>
     <string name="system_ui_control_center_hide_edit_botton">Скрыть кнопку редактирования</string>
+    <string name="system_ui_control_center_tile_super_blur">Супер размытие плитки</string>
     <string name="system_ui_control_center_mute_visible_notice">Без звука при включенном экране</string>
     <string name="system_ui_control_center_unimportant_notification">Сворачивание уведомлений в историю запрещено</string>
     <string name="system_ui_control_center_expand_notification">Развернуть уведомления</string>
@@ -790,6 +794,7 @@
     <string name="system_ui_control_center_card_tiles_customization_not_add">Не добавлено</string>
     <string name="system_ui_control_center_unlock_blur_supported">Удалить ограничение на размытие уведомлений</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">Ограничений на размытие фона для официальных премиум-материалов нет, только при удалении сторонних тем</string>
+    <string name="system_ui_control_center_unlock_all_focus">Удалить белый список уведомлений о фокусе</string>
     <string name="system_ui_control_center_remove_notif_num_limit">Удалить ограничение на количество уведомлений</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Разрешить отображение 10, 17 или более уведомлений.</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">Оптимизация смешивания цветов фона подсветки уведомлений</string>
@@ -1415,6 +1420,7 @@
     <string name="security_center_unlock_screen_time">Отображает подробные данные о потреблении энергии</string>
     <string name="security_center_unlock_screen_time_desc">Показывать информацию об энергопотреблении экрана в верхней части экрана и возобновлять показ энергопотребления и времени всех других приложений</string>
     <string name="security_center_unlock_gun_service">Разблокировать сервис Gun</string>
+    <string name="security_center_remove_game_toast">Удалить всплывающее окно игрового режима</string>
     <string name="security_center_disable_remove_screen_hold_on">Отключить удержание экрана</string>
     <string name="security_center_unlock_memc">Разблокировать МEMC</string>
     <string name="security_center_unlock_enhance_contours">Разблокировать улучшение контуров</string>
@@ -1523,7 +1529,7 @@
     <string name="bypass_udk_word_legal_check_caption">Разрешить пробуждение при записи голосом без интернета</string>
     <string name="bypass_udk_word_legal_check_description">Позволяет записывать слова голосом при пробуждении в автономном режиме</string>
     <string name="voicetrigger_accuracy_percent_caption">Установить точность для пробуждения с распознаванием голоса</string>
-    <string name="voicetrigger_accuracy_percent_description">Более высокие значения сложнее обнаружить. Значение по умолчанию - 70%, для ключевого слова XATX - 0%. После настройки вам необходимо перезапустить целевое приложение и повторно зарегистрировать слово активации.</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">Более высокие значения сложнее обнаружить. Значение по умолчанию - 70%, для ключевого слова XATX - 0%. После настройки вам необходимо перезапустить целевое приложение и повторно зарегистрировать слово активации.</string>
     <!--Other-->
     <string name="various">Прочее</string>
     <string name="app_version_not_supported">Неподдерживаемая версия</string>

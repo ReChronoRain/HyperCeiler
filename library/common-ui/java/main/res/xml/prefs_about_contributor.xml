@@ -37,6 +37,13 @@
                 android:data="https://github.com/CC0126" />
         </Preference>
         <Preference
+            android:summary="GitHub@CECoffee"
+            android:title="CECoffee">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/CECoffee" />
+        </Preference>
+        <Preference
             android:summary="GitHub@CLOUDERHEM"
             android:title="CLOUDERHEM">
             <intent
@@ -91,6 +98,13 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://www.coolapk.com/u/666190" />
+        </Preference>
+        <Preference
+            android:summary="GitHub@ghhccghk"
+            android:title="ghhccghk">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/ghhccghk" />
         </Preference>
         <Preference
             android:summary="GitHub@GSWXXN / CoolApk@迷璐"

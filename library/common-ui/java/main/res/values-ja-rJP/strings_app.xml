@@ -778,8 +778,6 @@
     <string name="system_ui_control_center_remove_media_control_panel_background">カードから混在色の背景を削除</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景画像のぼかし半径</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景オーバーレイレイヤーの不透明度</string>
-    <string name="system_ui_control_center_compact_notice">コンパクトな通知</string>
-    <string name="system_ui_control_center_compact_notice_desc">通知の縦方向の余白を減らします</string>
     <string name="system_ui_control_center_redirect_notice">通知設定をリダイレクト</string>
     <string name="system_ui_control_center_redirect_notice_desc">通知メニューの設定を開いたとき、通知設定を適用するのではなくターゲットアプリの通知チャンネル設定に移動します</string>
     <string name="system_ui_control_center_show_weather">天気を表示</string>
@@ -1532,7 +1530,7 @@
     <string name="bypass_udk_word_legal_check_caption">インターネットなしで音声での起動の録音を許可する</string>
     <string name="bypass_udk_word_legal_check_description">オフライン時でも、音声で起動に使う単語を録音できます</string>
     <string name="voicetrigger_accuracy_percent_caption">音声での起動を検出する精度を設定する</string>
-    <string name="voicetrigger_accuracy_percent_description">値が高いほど検出が困難になります。キーワード「小愛同學」はデフォルトで0%です。 設定後、ターゲットアプリを再起動し、起動ワードを再度登録する必要があります。</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">値が高いほど検出が困難になります。キーワード「小愛同學」はデフォルトで0%です。 設定後、ターゲットアプリを再起動し、起動ワードを再度登録する必要があります。</string>
     <!--Other-->
     <string name="various">その他</string>
     <string name="share_center">Mi スマートハブ</string>

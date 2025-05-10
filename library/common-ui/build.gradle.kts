@@ -37,6 +37,12 @@ android {
     }
 
     buildTypes {
+        release {
+            consumerProguardFiles(libs.versions.proguard.rules.get())
+        }
+        create("beta") {
+            consumerProguardFiles(libs.versions.proguard.rules.get())
+        }
         create("canary") {
             consumerProguardFiles(libs.versions.proguard.rules.get())
         }

@@ -66,6 +66,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.other.SkipCountD
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.AddSideBarExpandReceiver;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.BlurSecurity;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.game.GamePerformanceWildMode;
+import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.game.RemoveGameToast;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.game.UnlockGunService;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.video.DisableRemoveScreenHoldOn;
@@ -143,6 +144,7 @@ public class SecurityCenterU extends BaseModule {
         initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
         initHook(new ScLockApp(), mPrefsMap.getBoolean("system_framework_guided_access_sc"));
         initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
+        initHook(RemoveGameToast.INSTANCE, mPrefsMap.getBoolean("security_center_remove_game_toast"));
         initHook(UnlockGunService.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_gun_service"));
         initHook(DisableRemoveScreenHoldOn.INSTANCE, mPrefsMap.getBoolean("security_center_disable_remove_screen_hold_on"));
         initHook(UnlockVideoSomeFunc.INSTANCE, isVideoFunc);

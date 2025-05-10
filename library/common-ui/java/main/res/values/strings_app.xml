@@ -57,9 +57,6 @@
     <string name="home_title_custom_anim_param_RECT_RATIO_title" translatable="false">RECT_RATIO</string>
     <string name="home_title_custom_anim_param_RADIUS_title" translatable="false">RADIUS</string>
     <string name="home_title_custom_anim_param_ALPHA_title" translatable="false">ALPHA</string>
-
-
-
     <string name="security_center" translatable="false">Security Center</string>
 
     <string name="settings_app_en" translatable="false">English</string>
@@ -84,7 +81,6 @@
     <string name="new_cta_agree_desc">During usage, in order to provide you with more features, we may apply for Root/Su permission from you. You can go to Permission Management at any time to adjust the authorization status of all permissions, and please go to your Root/Su manager to grant Root/Su permissions.</string>
     <string name="new_cta_app_main_purpose">modify system apps</string>
     <string name="new_cta_app_all_purpose_title">Welcome to HyperCeiler! This app relies on the Xposed framework to run. You can use this app to hijack and modify other supported apps to enhance the system. During usage, in order to provide you with more functions, we may apply for Root/Su permissions from you. You can manage it at any time by going to your Root/Su Manager.</string>
-
     <!--HyperCeiler Settings/About Page-->
     <string name="language">English</string>
     <string name="translator">HyperCeiler Official</string>
@@ -200,10 +196,6 @@
     <string name="about_privacy">Privacy Policy</string>
     <string name="about_protocol">User Agreement</string>
     <!--Pop-up window/miuix part-->
-
-
-
-
     <string name="expand_button_title">High level</string>
     <string name="not_set">Not set</string>
     <string name="copy">Copy</string>
@@ -545,6 +537,9 @@
     <string name="camera_custom_watermark">Custom device watermark</string>
     <string name="camera_custom_watermark_manufacturer">Manufacturer information</string>
     <string name="camera_custom_watermark_device">Device information</string>
+    <string name="camera_unlock_4k60">Unlock 4K 60fps</string>
+    <string name="camera_unlock_leica">Unlock Leica custom interface and features</string>
+    <string name="camera_super_high_quality">Unlock super high photo quality</string>
     <string name="camera_shot_hand_gesture">Unlock Palm shutter</string>
     <string name="camera_settings_lab_options">Enable Lab options</string>
     <string name="camera_settings_track_eyes">Unlock Eye tracking focus</string>
@@ -775,9 +770,11 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">Long text output</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Text</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">This is a long piece of text that will be output in scrolling form</string>
-    <string name="system_ui_statusbar_music_tip">Notes before using:\n• After turning on this feature, check and restart the System UI and the corresponding music scope.\n• This feature needs to be used with the \"Lyric Getter\" module.\n• Ensure that the \"Focus notification lyrics\" notification is enabled in the notification category of the corresponding music app and in the app\'s focus notifications settings.</string>
+    <string name="system_ui_statusbar_music_tip">Notes before using: • After turning on this feature, check and restart the System UI and the corresponding music scope. • This feature needs to be used with the \"Lyric Getter\" module. • Ensure that the \"Focus notification lyrics\" notification is enabled in the notification category of the corresponding music app and in the app\'s focus notifications settings.</string>
     <string name="system_ui_statusbar_music_notification">Focus notification lyrics</string>
-    <string name="system_ui_statusbar_music_cusiom_title">Display settings</string>
+    <string name="system_ui_statusbar_music_cusiom_notific_title">Notification bar display settings</string>
+    <string name="system_ui_statusbar_music_show_notific_title">Show notification lyrics</string>
+    <string name="system_ui_statusbar_music_cusiom_statusbar_title">Status bar display settings</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Hide status bar clock</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">Hide the status bar clock when showing focused lyrics, and adjust the animation of the dropdown Notification shade.</string>
     <string name="system_ui_statusbar_music_click_clock_title">Click to show clock</string>
@@ -829,14 +826,13 @@
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacity of the background overlay layer</string>
     <string name="system_ui_control_center_media_control_media_button_title">Media button</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">Media seekbar</string>
-    <string name="system_ui_control_center_compact_notice">Compact notifications</string>
-    <string name="system_ui_control_center_compact_notice_desc">Reduce notifications\' vertical paddings</string>
     <string name="system_ui_control_center_redirect_notice">Redirect notification settings</string>
     <string name="system_ui_control_center_redirect_notice_desc">When opening the notification settings menu, it navigates to the destination app notification channel instead of app notification settings.</string>
     <string name="system_ui_control_center_show_weather">Show weather</string>
     <string name="system_ui_control_center_show_weather_city">Show city</string>
     <string name="system_ui_control_center_disable_device_managed">Hide network monitoring prompts</string>
     <string name="system_ui_control_center_hide_edit_botton">Hide Edit button</string>
+    <string name="system_ui_control_center_tile_super_blur">Tile Super Blur</string>
     <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
     <string name="system_ui_control_center_unimportant_notification">Block unimportant notifications automatically</string>
     <string name="system_ui_control_center_expand_notification">Expand notifications</string>
@@ -865,6 +861,7 @@
     <string name="system_ui_control_center_card_tiles_customization_not_add">Not added</string>
     <string name="system_ui_control_center_unlock_blur_supported">Remove notification blur restriction</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">To remove the restrictions of no Advanced textures background blur on third-party theme only</string>
+    <string name="system_ui_control_center_unlock_all_focus">Remove focus notification whitelist</string>
     <string name="system_ui_control_center_remove_notif_num_limit">Remove notification count limit</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Allow display 10, 17 or more notifications.</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">Optimize focus notification background color mixing</string>
@@ -1498,6 +1495,7 @@
     <string name="security_center_unlock_screen_time">Displays detailed power consumption data</string>
     <string name="security_center_unlock_screen_time_desc">Show screen power usage information at the top of the battery section and resume showing power consumption and time for all other apps.</string>
     <string name="security_center_unlock_gun_service">Unlock Gun sight service</string>
+    <string name="security_center_remove_game_toast">Remove the game mode Toast pop-up window</string>
     <string name="security_center_disable_remove_screen_hold_on">Disable media removal from the Lock screen</string>
     <string name="security_center_unlock_memc">Unlock MEMC</string>
     <string name="security_center_unlock_enhance_contours">Unlock Enhanced contours</string>
@@ -1610,7 +1608,7 @@
     <string name="bypass_udk_word_legal_check_caption">Allow recording of the Wake with voice without internet</string>
     <string name="bypass_udk_word_legal_check_description">Allows the recording of words from the Wake with voice when offline</string>
     <string name="voicetrigger_accuracy_percent_caption">Set accuracy for Wake with voice detection</string>
-    <string name="voicetrigger_accuracy_percent_description">Higher values are more difficult to detect. The default value is 70%, for the keyword XATX it\'s 0%. After setting, you need to restart the target app and re-enroll your activation word.</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">Higher values are more difficult to detect. The default value is 70%, for the keyword XATX it\'s 0%. After setting, you need to restart the target app and re-enroll your activation word.</string>
     <!--Other-->
     <string name="various">Others</string>
 

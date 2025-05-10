@@ -19,10 +19,10 @@
 package com.sevtinge.hyperceiler.hook.utils.api.effect.control;
 
 import static com.hchen.hooktool.log.XposedLog.logI;
-import static com.hchen.hooktool.tool.CoreTool.callMethod;
-import static com.hchen.hooktool.tool.CoreTool.callStaticMethod;
-import static com.hchen.hooktool.tool.CoreTool.getField;
-import static com.hchen.hooktool.tool.CoreTool.hookMethod;
+import static com.hchen.hooktool.core.CoreTool.callMethod;
+import static com.hchen.hooktool.core.CoreTool.callStaticMethod;
+import static com.hchen.hooktool.core.CoreTool.getField;
+import static com.hchen.hooktool.core.CoreTool.hookMethod;
 import static com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitchForSystem.getEarPhoneStateFinal;
 import static com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem.EFFECT_DOLBY;
 import static com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem.EFFECT_MISOUND;
@@ -72,7 +72,7 @@ public class FWAudioEffectControlForSystem extends BaseEffectControl implements 
                     @Override
                     public void before() {
                         if (getEarPhoneStateFinal()) {
-                            logI(TAG, "earphone is connection, skip set effect: " + getArgs(0) + "!!");
+                            logI(TAG, "earphone is connection, skip set effect: " + getArg(0) + "!!");
                             returnNull();
                         }
                     }

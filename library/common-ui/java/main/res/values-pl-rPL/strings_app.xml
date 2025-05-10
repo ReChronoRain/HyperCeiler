@@ -753,9 +753,9 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">Długi tekst wyjściowy</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Tekst</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">To jest długi fragment tekstu, który będzie wyświetlany w formie przewijania</string>
-    <string name="system_ui_statusbar_music_tip">Notatki przed użyciem:\n• Po włączeniu tej funkcji sprawdź i uruchom ponownie interfejs System UI oraz odpowiedni zakres muzyczny.\n• Ta funkcja wymaga użycia modułu \"Lyric Getter\".\n• Upewnij się, że ustawienie \"Skoncentruj powiadomienie na tekstach piosenek\" jest włączone w kategorii powiadomień odpowiedniej aplikacji muzycznej i w ustawieniach powiadomień skupienia aplikacji.</string>
+    <string name="system_ui_statusbar_music_tip">Notatki przed użyciem:\n• Po włączeniu tej funkcji sprawdź i uruchom ponownie interfejs System UI oraz odpowiedni zakres muzyczny.\n• Ta funkcja wymaga użycia modułu \"SuperLyric\".\n• Upewnij się, że ustawienie \"Skoncentruj powiadomienie na tekstach piosenek\" jest włączone w kategorii powiadomień odpowiedniej aplikacji muzycznej i w ustawieniach powiadomień skupienia aplikacji.</string>
     <string name="system_ui_statusbar_music_notification">Skoncentruj powiadomienie na tekstach piosenek</string>
-    <string name="system_ui_statusbar_music_cusiom_title">Ustawienia wyświetlania</string>
+    <string name="system_ui_statusbar_music_cusiom_notific_title">Ustawienia wyświetlania</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Ukryj zegar na pasku statusu</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">Ukrywa zegar paska statusu podczas wyświetlania tekstów piosenek i dostosowuje animacje rozwijanego centrum powiadomień.</string>
     <string name="system_ui_statusbar_music_click_clock_title">Kliknij, aby wyświetlić zegar</string>
@@ -811,8 +811,6 @@
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Przezroczystość warstwy tła nakładki</string>
     <string name="system_ui_control_center_media_control_media_button_title">Przycisk multimedialny</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">Suwak multimediów</string>
-    <string name="system_ui_control_center_compact_notice">Kompaktowe powiadomienia</string>
-    <string name="system_ui_control_center_compact_notice_desc">Zmniejsza pionowe odstępy powiadomień</string>
     <string name="system_ui_control_center_redirect_notice">Przekieruj ustawienia powiadomień</string>
     <string name="system_ui_control_center_redirect_notice_desc">Gdy otwierasz menu ustawień powiadomień, nawigacja prowadzi do ustawień aplikacji docelowej, zamiast zastosować ustawienia powiadomień.</string>
     <string name="system_ui_control_center_show_weather">Pokaż pogodę</string>
@@ -1608,7 +1606,7 @@
     <string name="bypass_udk_word_legal_check_caption">Zezwalaj na nagrywanie wybudzenia głosem bez internetu</string>
     <string name="bypass_udk_word_legal_check_description">Umożliwia nagrywanie słów z funkcji wybudzenia głosem w trybie offline</string>
     <string name="voicetrigger_accuracy_percent_caption">Ustaw dokładność wybudzenia z wykrywaniem głosu</string>
-    <string name="voicetrigger_accuracy_percent_description">Wyższe wartości są trudniejsze do wykrycia. Wartość domyślna to 70%, dla słowa kluczowego XATX to 0%. Po ustawieniu musisz zrestartować aplikację docelową i ponownie zapisać słowo aktywacji.</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">Wyższe wartości są trudniejsze do wykrycia. Wartość domyślna to 70%, dla słowa kluczowego XATX to 0%. Po ustawieniu musisz zrestartować aplikację docelową i ponownie zapisać słowo aktywacji.</string>
     <!--Other-->
     <string name="various">Pozostałe</string>
     <string name="share_center">Inteligentne Centrum Xiaomi</string>

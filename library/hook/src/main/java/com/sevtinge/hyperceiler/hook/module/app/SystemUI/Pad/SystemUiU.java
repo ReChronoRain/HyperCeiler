@@ -33,7 +33,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnlockClipboard;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnlockCustomActions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.ZenModeFix;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.AllowAllThemesNotificationBlur;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.CompactNotificationsHook;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ControlCenterStyle;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.DisableDeviceManaged;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ExpandNotificationKt;
@@ -253,11 +252,6 @@ public class SystemUiU extends BaseModule {
         initHook(new SwitchCCAndNotification(), mPrefsMap.getBoolean("system_ui_control_center_switch_cc_and_notification"));
         initHook(OldWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
-        initHook(CompactNotificationsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_compact_notice"));
-        /*initHook(CCGridOld.INSTANCE, mPrefsMap.getInt("system_control_center_cc_rows", 4) > 4 ||
-                mPrefsMap.getInt("system_control_center_cc_columns", 4) > 4 ||
-                (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") && !isMoreHyperOSVersion(1f)) ||
-                mPrefsMap.getBoolean("system_control_center_qs_tile_label"));*/
         initHook(new QSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
         initHook(new QQSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));
