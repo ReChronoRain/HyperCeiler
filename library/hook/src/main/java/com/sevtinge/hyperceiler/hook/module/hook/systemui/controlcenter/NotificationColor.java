@@ -46,5 +46,27 @@ public class NotificationColor extends BaseHook {
         mResHook.setResReplacement("com.android.systemui", "color", "notification_element_blend_keyguard_color_2", R.color.notification_element_blend_keyguard_color_2);
         mResHook.setResReplacement("com.android.systemui", "color", "notification_element_blend_shade_color_1", R.color.notification_element_blend_shade_color_1);
         mResHook.setResReplacement("com.android.systemui", "color", "notification_element_blend_shade_color_2", R.color.notification_element_blend_shade_color_2);
+
+        mResHook.setResReplacement("com.android.systemui", "color-night", "focus_notification_element_blend_headsUp_color_1", R.color-night.focus_notification_element_blend_headsUp_color_1);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "focus_notification_element_blend_headsUp_color_2", R.color-night.focus_notification_element_blend_headsUp_color_2);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "focus_notification_element_blend_headsUp_color_3", R.color-night.focus_notification_element_blend_headsUp_color_3);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "focus_notification_element_blend_keyguard_color_1", R.color-night.focus_notification_element_blend_keyguard_color_1);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "focus_notification_element_blend_keyguard_color_2", R.color-night.focus_notification_element_blend_keyguard_color_2);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "focus_notification_element_blend_keyguard_color_3", R.color-night.focus_notification_element_blend_keyguard_color_3);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "focus_notification_element_blend_shade_color_1", R.color-night.focus_notification_element_blend_shade_color_1);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "focus_notification_element_blend_shade_color_2", R.color-night.focus_notification_element_blend_shade_color_2);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "focus_notification_element_blend_shade_color_3", R.color-night.focus_notification_element_blend_shade_color_3);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "media_notification_element_blend_keyguard_color_1", R.color-night.media_notification_element_blend_keyguard_color_1);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "media_notification_element_blend_keyguard_color_2", R.color-night.media_notification_element_blend_keyguard_color_2);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "media_notification_element_blend_keyguard_color_3", R.color-night.media_notification_element_blend_keyguard_color_3);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "media_notification_element_blend_shade_color_1", R.color-night.media_notification_element_blend_shade_color_1);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "media_notification_element_blend_shade_color_2", R.color-night.media_notification_element_blend_shade_color_2);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "media_notification_element_blend_shade_color_3", R.color-night.media_notification_element_blend_shade_color_3);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "notification_element_blend_headsUp_color_1", R.color-night.notification_element_blend_headsUp_color_1);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "notification_element_blend_headsUp_color_2", R.color-night.notification_element_blend_headsUp_color_2);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "notification_element_blend_keyguard_color_1", R.color-night.notification_element_blend_keyguard_color_1);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "notification_element_blend_keyguard_color_2", R.color-night.notification_element_blend_keyguard_color_2);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "notification_element_blend_shade_color_1", R.color-night.notification_element_blend_shade_color_1);
+        mResHook.setResReplacement("com.android.systemui", "color-night", "notification_element_blend_shade_color_2", R.color-night.notification_element_blend_shade_color_2);
     }
 }
