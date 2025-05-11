@@ -47,7 +47,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.ShowAutoUIMode;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.UnlockMaxFps;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.UnlockNeverSleepScreen;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.UnlockTaplusForSettings;
-import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.UnlockXiaomiHyperAIEntrance;
+import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.UnlockXiaomiHyperAIEntranceKt;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.UsbModeChoose;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.ViewWifiPasswordHook;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.VoipAssistantController;
@@ -70,7 +70,7 @@ public class SystemSettingsV extends BaseModule {
         initHook(new ViewWifiPasswordHook(), mPrefsMap.getBoolean("system_settings_safe_wifi"));
         initHook(new VoipAssistantController(), mPrefsMap.getBoolean("system_settings_voip_assistant_controller"));
         initHook(new MoreVpnTypes(), mPrefsMap.getBoolean("system_settings_more_vpn_types"));
-        initHook(new UnlockXiaomiHyperAIEntrance(), mPrefsMap.getBoolean("system_settings_unlock_xiaomihyperai_entrance"));
+        initHook(UnlockXiaomiHyperAIEntranceKt.INSTANCE, mPrefsMap.getBoolean("system_settings_unlock_xiaomihyperai_entrance"));
         initHook(new AddMiuiPlusEntry(), mPrefsMap.getBoolean("mirror_unlock_miui_plus"));
         initHook(new EnableSpeedMode(), mPrefsMap.getBoolean("system_settings_develop_speed_mode"));
         initHook(new QuickManageOverlayPermission(), mPrefsMap.getBoolean("system_settings_permission_show_app_up"));

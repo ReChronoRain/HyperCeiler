@@ -18,13 +18,17 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen
 
-import android.annotation.*
-import android.app.*
-import android.content.*
-import android.os.*
-import android.util.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNull
+import android.annotation.SuppressLint
+import android.app.AndroidAppHelper
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.BatteryManager
+import android.os.Handler
+import android.os.PowerManager
+import android.util.ArrayMap
+import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.invokeStaticMethodBestMatch
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
@@ -36,14 +40,18 @@ import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.ObjectUtils.setObject
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.Dependency
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub
 import com.sevtinge.hyperceiler.hook.utils.callMethod
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull
-import de.robv.android.xposed.*
-import java.io.*
-import java.math.*
-import kotlin.collections.get
-import kotlin.math.*
+import de.robv.android.xposed.XC_MethodHook
+import java.io.BufferedReader
+import java.io.FileReader
+import java.math.BigDecimal
+import java.math.RoundingMode
+import kotlin.math.abs
 
 object ChargingCVP : BaseHook() {
     private val showSpacingValue by lazy {
@@ -102,31 +110,22 @@ object ChargingCVP : BaseHook() {
                     clazzDependency, "get", null, clazzKeyguardIndicationController
                 )!!
             }.getOrElse {
-                val clazzMiuiStub = loadClass("miui.stub.MiuiStub")
-                val instanceMiuiStub =
-                    getStaticObjectOrNull(clazzMiuiStub, "INSTANCE")!!
-                val mSysUIProvider =
-                    getObjectOrNull(instanceMiuiStub, "mSysUIProvider")!!
                 val mKeyguardIndicationController =
                     getObjectOrNull(
-                        mSysUIProvider,
+                        MiuiStub.sysUIProvider,
                         "mKeyguardIndicationController"
                     )!!
                 invokeMethodBestMatch(mKeyguardIndicationController, "get")!!
             }
             val handler = Handler((param.thisObject as TextView).context.mainLooper)
             val runnable = object : Runnable {
-                val clazzMiuiDependency =
-                    loadClass("com.miui.systemui.MiuiDependency")
                 val clazzMiuiChargeController =
                     loadClass("com.miui.charge.MiuiChargeController")
-                val sDependency =
-                    getStaticObjectOrNull(clazzMiuiDependency, "sDependency")!!
                 val mProviders =
-                    getObjectOrNull(sDependency, "mProviders") as ArrayMap<*, *>
+                    getObjectOrNull(Dependency.INSTANCE, "mProviders") as ArrayMap<*, *>
                 val mMiuiChargeControllerProvider =
                     mProviders[clazzMiuiChargeController]!!
-                val instanceMiuiChargeController = if (isMoreHyperOSVersion(2f)) {
+                val instanceMiuiChargeController = if (isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35)) {
                     mMiuiChargeControllerProvider
                         .getObjectFieldOrNull("f$0")!!
                         .callMethod("get")!!
@@ -138,7 +137,6 @@ object ChargingCVP : BaseHook() {
 
                 override fun run() {
                     doUpdateForHyperOS()
-
                     handler.postDelayed(
                         this,
                         mPrefsMap.getInt("system_ui_statusbar_lock_screen_show_spacing", 6) / 2 * 1000L

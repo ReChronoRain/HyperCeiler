@@ -17,7 +17,7 @@ constraintlayout = "2.2.1"
 xposed-api = "82"
 
 gson = "2.13.1"
-dexkit = "2.0.3"
+dexkit = "2.0.4"
 ezxhelper = "2.2.1"
 hiddenapibypass = "6.1"
 hyperfocusapi = "1.3"
