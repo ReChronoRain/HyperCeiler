@@ -112,4 +112,9 @@
         <attr name="android:title" />
         <attr name="android:value" />
     </declare-styleable>
+
+    <declare-styleable name="CrashInfoCard">
+        <attr name="android:title" />
+        <attr name="android:value" />
+    </declare-styleable>
 </resources>

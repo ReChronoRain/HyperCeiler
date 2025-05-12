@@ -58,13 +58,13 @@
     <string name="start_failed">启动 Activity 失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限</string>
 
     <!--HyperCeiler Tips-->
-    <string name="error">Ah？出错了</string>
+    <string name="error">异常终止</string>
     <string name="warn">警告</string>
     <string name="module_app_failed">模块发生致命错误</string>
     <string name="module_app_copy_desc">长按内容即可复制</string>
     <string name="module_title_1">基本信息</string>
     <string name="module_title_2">堆栈信息</string>
-    <string name="app_error_desc">HyperCeiler 异常终止，请携带以下信息进行有效反馈。\n\n</string>
+    <string name="app_error_desc">HyperCeiler 异常终止，请携带以下信息进行有效反馈。\n长按任意信息即可复制全部。</string>
     <string name="app_exit">退出</string>
     <string name="safe_mode_desc">%1$s 由于多次崩溃，已进入安全模式，HyperCeiler 对其的功能已停用。\n您可以解除对其的安全模式，或稍后进入 HyperCeiler 处理。</string>
     <string name="safe_mode_history">查看异常记录</string>
@@ -83,6 +83,9 @@
     <string name="error_type">异常类型</string>
     <string name="error_file_name">文件名</string>
     <string name="error_time">记录时间</string>
+    <string name="error_version_name">版本名</string>
+    <string name="error_git_hash">提交哈希</string>
+    <string name="error_build_time">构建时间</string>
     <string name="copy_ok">已复制到剪贴板</string>
 
     <string name="notification_channel_app_crash_name">应用运行异常</string>

@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  --><!--
+      ~ Copyright (C) 2015 The Android Open Source Project
+      ~
+      ~ Licensed under the Apache License, Version 2.0 (the "License");
+      ~ you may not use this file except in compliance with the License.
+      ~ You may obtain a copy of the License at
+      ~
+      ~      http://www.apache.org/licenses/LICENSE-2.0
+      ~
+      ~ Unless required by applicable law or agreed to in writing, software
+      ~ distributed under the License is distributed on an "AS IS" BASIS,
+      ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      ~ See the License for the specific language governing permissions and
+      ~ limitations under the License
+      -->
+<fan.springback.view.SpringBackLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollable_view_group"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:scrollOrientation="vertical|angle"
+    app:scrollableView="@id/scrollview">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="13dp">
+
+            <FrameLayout
+                android:id="@+id/waring_views"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/headtip_warn_background"
+                android:paddingStart="@dimen/miuix_preference_item_padding_start"
+                android:paddingEnd="@dimen/miuix_preference_item_padding_end"
+                android:paddingTop="@dimen/miuix_preference_item_padding_start"
+                android:paddingBottom="@dimen/miuix_preference_item_padding_end">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:text="@string/app_error_desc"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="textMultiLine"
+                    android:longClickable="false"
+                    android:textColor="#FF0000"
+                    android:textIsSelectable="false" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/build_views"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rounded_background_r_l"
+                android:paddingStart="@dimen/miuix_preference_item_padding_start"
+                android:paddingEnd="@dimen/miuix_preference_item_padding_end"
+                android:paddingTop="@dimen/miuix_preference_item_padding_start"
+                android:paddingBottom="@dimen/miuix_preference_item_padding_end">
+
+                <TextView
+                    android:id="@+id/version_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily = "sans-serif-medium"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="14dp"
+                    android:paddingBottom="2dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/version_name_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/error_version_name"
+                    android:fontFamily = "sans-serif"
+                    android:textColor="@color/textview_black_summary"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/version_name" />
+
+                <TextView
+                    android:id="@+id/git_hash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily = "sans-serif-medium"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="14dp"
+                    android:paddingBottom="2dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/version_name_title" />
+
+                <TextView
+                    android:id="@+id/git_hash_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/error_git_hash"
+                    android:fontFamily = "sans-serif"
+                    android:textColor="@color/textview_black_summary"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/git_hash" />
+
+                <TextView
+                    android:id="@+id/build_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily = "sans-serif-medium"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="14dp"
+                    android:paddingBottom="2dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/git_hash_title" />
+
+                <TextView
+                    android:id="@+id/build_time_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/error_build_time"
+                    android:fontFamily = "sans-serif"
+                    android:textColor="@color/textview_black_summary"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/build_time" />
+
+            </LinearLayout>
+
+            <!--<TextView
+                android:id="@+id/message_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:enabled="false"
+                android:text="@string/module_title_1"
+                android:textColor="@color/category_tip"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/waring_views" />-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/message_views"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rounded_background_r_l"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/build_views">
+
+                <TextView
+                    android:id="@+id/message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily = "sans-serif-medium"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="14dp"
+                    android:paddingBottom="2dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/message_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/error_message"
+                    android:fontFamily = "sans-serif"
+                    android:textColor="@color/textview_black_summary"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/message" />
+
+                <TextView
+                    android:id="@+id/e_type"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily = "sans-serif-medium"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="14dp"
+                    android:paddingBottom="2dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/message_title" />
+
+                <TextView
+                    android:id="@+id/e_type_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/error_type"
+                    android:fontFamily = "sans-serif"
+                    android:textColor="@color/textview_black_summary"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/e_type" />
+
+                <TextView
+                    android:id="@+id/filename"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily = "sans-serif-medium"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="14dp"
+                    android:paddingBottom="2dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/e_type_title" />
+
+                <TextView
+                    android:id="@+id/filename_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/error_file_name"
+                    android:fontFamily = "sans-serif"
+                    android:textColor="@color/textview_black_summary"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filename" />
+
+                <TextView
+                    android:id="@+id/classname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily = "sans-serif-medium"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="14dp"
+                    android:paddingBottom="2dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filename_title" />
+
+                <TextView
+                    android:id="@+id/classname_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/safe_mode_recorder_class"
+                    android:fontFamily = "sans-serif"
+                    android:textColor="@color/textview_black_summary"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/classname" />
+
+                <TextView
+                    android:id="@+id/methodname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily = "sans-serif-medium"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="14dp"
+                    android:paddingBottom="2dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/classname_title" />
+
+                <TextView
+                    android:id="@+id/methodname_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/safe_mode_recorder_method"
+                    android:fontFamily = "sans-serif"
+                    android:textColor="@color/textview_black_summary"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/methodname" />
+
+                <TextView
+                    android:id="@+id/e_line"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily = "sans-serif-medium"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="14dp"
+                    android:paddingBottom="2dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/methodname_title" />
+
+                <TextView
+                    android:id="@+id/e_line_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/safe_mode_recorder_line"
+                    android:fontFamily = "sans-serif"
+                    android:textColor="@color/textview_black_summary"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/e_line" />
+
+                <TextView
+                    android:id="@+id/e_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily = "sans-serif-medium"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="14dp"
+                    android:paddingBottom="2dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/e_line_title" />
+
+                <TextView
+                    android:id="@+id/e_time_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/error_time"
+                    android:fontFamily = "sans-serif"
+                    android:textColor="@color/textview_black_summary"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/e_time" />
+
+                <!--<TextView
+                    android:id="@+id/message_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:text="@string/error_message"
+                    android:textStyle="bold"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="16sp"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/message"
+                    android:clickable="false"
+                    android:inputType="none"
+                    android:textColor="@color/textview_black"
+                    android:textIsSelectable="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:text="Message"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/message_title" />
+
+                <TextView
+                    android:id="@+id/e_type_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:text="@string/error_type"
+                    android:textStyle="bold"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="16sp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/message" />
+
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/e_type"
+                    android:clickable="false"
+                    android:inputType="none"
+                    android:textColor="@color/textview_black"
+                    android:textIsSelectable="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:text="Type"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/e_type_title" />
+
+                <TextView
+                    android:id="@+id/filename_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:text="@string/error_file_name"
+                    android:textStyle="bold"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="16sp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/e_type" />
+
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/filename"
+                    android:clickable="false"
+                    android:inputType="none"
+                    android:textColor="@color/textview_black"
+                    android:textIsSelectable="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:text="FileName"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filename_title" />
+
+                <TextView
+                    android:id="@+id/classname_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:text="@string/safe_mode_recorder_class"
+                    android:textStyle="bold"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="16sp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filename" />
+
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/classname"
+                    android:clickable="false"
+                    android:inputType="none"
+                    android:textColor="@color/textview_black"
+                    android:textIsSelectable="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:text="ClassName"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/classname_title" />
+
+                <TextView
+                    android:id="@+id/methodname_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:text="@string/safe_mode_recorder_method"
+                    android:textStyle="bold"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="16sp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/classname" />
+
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/methodname"
+                    android:clickable="false"
+                    android:inputType="none"
+                    android:textColor="@color/textview_black"
+                    android:textIsSelectable="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:text="Method Name"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/methodname_title" />
+
+                <TextView
+                    android:id="@+id/e_line_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:text="@string/safe_mode_recorder_line"
+                    android:textStyle="bold"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="16sp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/methodname" />
+
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/e_line"
+                    android:clickable="false"
+                    android:inputType="none"
+                    android:textColor="@color/textview_black"
+                    android:textIsSelectable="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:text="Line"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/e_line_title" />
+
+                <TextView
+                    android:id="@+id/e_time_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:text="@string/error_time"
+                    android:textStyle="bold"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:textColor="@color/textview_black_title"
+                    android:textSize="16sp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/e_line" />
+
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/e_time"
+                    android:clickable="false"
+                    android:inputType="none"
+                    android:textColor="@color/textview_black"
+                    android:textIsSelectable="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:text="Time"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/e_time_title" />-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--<TextView
+                android:id="@+id/stack_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:enabled="false"
+                android:text="@string/module_title_2"
+                android:textColor="@color/category_tip"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/message_views" />-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/stack_views"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rounded_background_r_l"
+                android:paddingStart="@dimen/miuix_preference_item_padding_start"
+                android:paddingEnd="@dimen/miuix_preference_item_padding_end"
+                android:paddingTop="@dimen/miuix_preference_item_padding_start"
+                android:paddingBottom="@dimen/miuix_preference_item_padding_end"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/message_views">
+
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/stack"
+                    android:clickable="false"
+                    android:inputType="none"
+                    android:textColor="@color/textview_black"
+                    android:textIsSelectable="true"
+                    android:typeface="monospace"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:longClickable="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:text="Stack"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</fan.springback.view.SpringBackLayout>

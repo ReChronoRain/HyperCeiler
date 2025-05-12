@@ -1,172 +1,201 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
 
-    <fan.springback.view.SpringBackLayout
-        android:id="@+id/scrollable_view_group"
+<fan.springback.view.SpringBackLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollable_view_group"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:scrollOrientation="vertical|angle"
+    app:scrollableView="@id/scrollview">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:scrollOrientation="vertical|angle"
-        app:scrollableView="@id/scrollview">
+        android:fillViewport="true">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollview"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="13dp"
+            android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <FrameLayout
+                android:id="@+id/waring_views"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="13dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginEnd="13dp"
-                android:layout_marginBottom="13dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/waring_views"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_background_r_l"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/waring"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_error"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/module_app_failed"
-                        android:textColor="@color/textview_black_title"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/waring" />
-
-                    <TextView
-                        android:id="@+id/tip_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@string/module_app_copy_desc"
-                        android:textColor="@color/textview_black_summary"
-                        android:textSize="15sp"
-                        app:layout_constraintLeft_toLeftOf="@id/tip"
-                        app:layout_constraintRight_toRightOf="@+id/tip"
-                        app:layout_constraintTop_toBottomOf="@id/tip" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="wrap_content"
+                android:background="@drawable/headtip_warn_background"
+                android:padding="@dimen/miuix_theme_content_padding_horizontal_common">
 
                 <TextView
-                    android:id="@+id/message_tip"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="13dp"
+                    android:clickable="false"
+                    android:ellipsize="none"
                     android:enabled="false"
-                    android:text="@string/module_title_1"
-                    android:textColor="@color/category_tip"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/waring_views" />
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="textMultiLine"
+                    android:longClickable="false"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:text="@string/app_error_desc"
+                    android:textColor="#FF0000"
+                    android:textIsSelectable="false" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+            </FrameLayout>
+
+            <fan.cardview.widget.CardView
+                style="@style/CrashCardViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/miuix_theme_content_padding_horizontal_common">
+
+                <LinearLayout
+                    android:id="@+id/build_views"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingHorizontal="@dimen/miuix_theme_content_padding_horizontal_common">
+
+                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                        android:id="@+id/version_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:title="@string/error_version_name" />
+
+                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                        android:id="@+id/git_hash"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:title="@string/error_git_hash" />
+
+                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                        android:id="@+id/build_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:title="@string/error_build_time" />
+
+                </LinearLayout>
+
+            </fan.cardview.widget.CardView>
+
+            <fan.cardview.widget.CardView
+                style="@style/CrashCardViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/miuix_theme_content_padding_horizontal_common">
+
+                <LinearLayout
                     android:id="@+id/message_views"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/rounded_background_r_l"
-                    android:paddingStart="15dp"
-                    android:paddingTop="10dp"
-                    android:paddingEnd="15dp"
-                    android:paddingBottom="10dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/message_tip">
+                    android:orientation="vertical"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingHorizontal="@dimen/miuix_theme_content_padding_horizontal_common">
 
-                    <TextView
+                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
                         android:id="@+id/message"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ellipsize="none"
-                        android:text="Text"
-                        android:longClickable="true"
-                        android:overScrollMode="never"
-                        android:scrollbars="none"
-                        android:textColor="@color/textview_black_title"
-                        android:textSize="17sp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:title="@string/error_message" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                        android:id="@+id/e_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:title="@string/error_type" />
 
-                <TextView
-                    android:id="@+id/stack_tip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="13dp"
-                    android:enabled="false"
-                    android:text="@string/module_title_2"
-                    android:textColor="@color/category_tip"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/message_views" />
+                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                        android:id="@+id/filename"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:title="@string/error_file_name" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                        android:id="@+id/classname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:title="@string/safe_mode_recorder_class" />
+
+                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                        android:id="@+id/methodname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:title="@string/safe_mode_recorder_method" />
+
+                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                        android:id="@+id/e_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:title="@string/safe_mode_recorder_line" />
+
+                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                        android:id="@+id/e_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:title="@string/error_time" />
+                </LinearLayout>
+
+            </fan.cardview.widget.CardView>
+
+            <fan.cardview.widget.CardView
+                style="@style/CrashCardViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/miuix_theme_content_padding_horizontal_common">
+
+                <FrameLayout
                     android:id="@+id/stack_views"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/rounded_background_r_l"
-                    android:paddingStart="15dp"
-                    android:paddingTop="10dp"
-                    android:paddingEnd="15dp"
-                    android:paddingBottom="10dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/stack_tip">
+                    android:paddingTop="@dimen/miuix_theme_content_padding_horizontal_common"
+                    android:paddingBottom="@dimen/miuix_theme_content_padding_horizontal_common"
+                    android:paddingHorizontal="@dimen/miuix_theme_content_padding_horizontal_common">
 
                     <TextView
                         android:id="@+id/stack"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="false"
                         android:ellipsize="none"
+                        android:inputType="none"
                         android:longClickable="true"
                         android:overScrollMode="never"
                         android:scrollbars="none"
-                        android:text="Test"
-                        android:textColor="@color/textview_black_title"
-                        android:textSize="17sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:text="Stack"
+                        android:textColor="@color/textview_black"
+                        android:textIsSelectable="true"
+                        android:typeface="monospace" />
+                </FrameLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </fan.cardview.widget.CardView>
 
-        </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
 
-    </fan.springback.view.SpringBackLayout>
+    </androidx.core.widget.NestedScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</fan.springback.view.SpringBackLayout>

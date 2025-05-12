@@ -84,6 +84,9 @@
     <string name="error_type">Exception type</string>
     <string name="error_file_name">File name</string>
     <string name="error_time">Record time</string>
+    <string name="error_version_name">Version name</string>
+    <string name="error_git_hash">Git hash</string>
+    <string name="error_build_time">Build time</string>
     <string name="copy_ok">Copied to clipboard</string>
     <string name="notification_channel_app_crash_name">The app is running abnormally</string>
     <string name="notification_title_message_emergency_crash">%s has crashed multiple times</string>
