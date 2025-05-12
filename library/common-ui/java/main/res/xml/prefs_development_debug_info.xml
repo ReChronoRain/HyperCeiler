@@ -25,7 +25,7 @@
         android:title="@string/headtip_tip_long_press_to_copy" />
 
     <Preference
-        android:layout="@layout/development_debug_info"
+        android:layout="@layout/monospace_textview"
         android:key="prefs_key_debug_info"
         android:enabled="true"
         android:title="@string/debug_info" />
