@@ -83,6 +83,8 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.DualSAS
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N1Band;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N5N8Band;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassForceDownloadui;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassForceMiAppStore;
 import com.sevtinge.hyperceiler.hook.module.hook.various.NoAccessDeviceLogsRequest;
 
 @HookBase(targetPackage = "android", isPad = 1, targetSdk = 34)
@@ -133,6 +135,9 @@ public class SystemFrameworkU extends BaseModule {
         initHook(new ClipboardWhitelist(), mPrefsMap.getBoolean("system_framework_clipboard_whitelist"));
 
         initHook(new BypassUnknownSourcesRestrictions(), mPrefsMap.getBoolean("system_framework_bypass_unknown_sources_restrictions"));
+
+        initHook(new BypassForceMiAppStore(), mPrefsMap.getBoolean("system_framework_bypass_force_mi_appstore") || mPrefsMap.getBoolean("system_framework_market_use_detailmini"));
+        initHook(new BypassForceDownloadui(), mPrefsMap.getBoolean("system_framework_bypass_force_downloadui"));
 
         // 显示
         initHook(new BackgroundBlur(), mPrefsMap.getBoolean("system_framework_background_blur_supported"));

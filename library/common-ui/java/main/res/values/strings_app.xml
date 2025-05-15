@@ -499,6 +499,12 @@
     <string name="system_framework_allow_disable_protected_package">Allows to disable protected apps</string>
     <string name="system_framework_disable_miui_watermark">Disable full screen watermark</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">Allow all apps to install apps from unknown sources</string>
+    <string name="system_framework_bypass_force_mi_appstore">Allow to select third-party apps when jumping to the App Store</string>
+    <string name="system_framework_market_use_detailmini">Always open in a floating window when jumping to the Xiaomi GetApps</string>
+    <string name="system_framework_market_use_detailmini_desc">Bypass the restriction that a app can not redirect to the details page of another app in GetApps without appClientId</string>
+    <string name="system_framework_bypass_force_downloadui">Bypass forcing Download Manager when opening the download page</string>
+    <string name="system_framework_bypass_force_downloadui_desc">Solve the issue of incorrect jump when click "View downloads" in Quick Share</string>
+
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Package manager service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade apps</string>

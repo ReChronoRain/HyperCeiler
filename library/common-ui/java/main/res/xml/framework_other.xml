@@ -219,6 +219,23 @@
             android:key="prefs_key_system_framework_bypass_unknown_sources_restrictions"
             android:title="@string/system_framework_bypass_unknown_sources_restrictions" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_bypass_force_mi_appstore"
+            android:title="@string/system_framework_bypass_force_mi_appstore" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_market_use_detailmini"
+            android:summary="@string/system_framework_market_use_detailmini_desc"
+            android:title="@string/system_framework_market_use_detailmini" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_bypass_force_downloadui"
+            android:summary="@string/system_framework_bypass_force_downloadui_desc"
+            android:title="@string/system_framework_bypass_force_downloadui" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_framework_shortcut_title">
