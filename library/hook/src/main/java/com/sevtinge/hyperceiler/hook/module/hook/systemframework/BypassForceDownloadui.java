@@ -31,12 +31,12 @@ import java.lang.reflect.Method;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
+
 /**
  * 修复从快速分享查看下载的内容时跳转错误
  *
  * @author LuoYunXi0407
  */
-
 public class BypassForceDownloadui extends BaseHook {
 
     @Override
@@ -69,7 +69,7 @@ public class BypassForceDownloadui extends BaseHook {
                             Intent intent = (Intent) param.args[index];
                             if (intent == null) return;
 
-                            Uri data = intent.getData();
+                            // Uri data = intent.getData();  // ?
 
                             if (!"android.intent.action.VIEW_DOWNLOADS".equals(intent.getAction()))
                                 return;
