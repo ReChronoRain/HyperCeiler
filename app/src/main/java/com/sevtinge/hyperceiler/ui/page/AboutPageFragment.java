@@ -286,7 +286,7 @@ public class AboutPageFragment extends DashboardFragment
 
     @Override
     public void onLeave(ActionBar actionBar) {
-        if (actionBar != null) {
+        if (actionBar != null && actionBar.getTitleView(0) != null) {
             actionBar.getTitleView(0).setAlpha(1.0f);
         }
         //resetActionBar(actionBar, true);
