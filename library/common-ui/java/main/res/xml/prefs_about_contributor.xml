@@ -38,7 +38,7 @@
         </Preference>
         <Preference
             android:summary="GitHub@CECoffee"
-            android:title="CECoffee">
+            android:title="CECoffee0v0">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/CECoffee" />
@@ -98,13 +98,6 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://www.coolapk.com/u/666190" />
-        </Preference>
-        <Preference
-            android:summary="GitHub@ghhccghk"
-            android:title="ghhccghk">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/ghhccghk" />
         </Preference>
         <Preference
             android:summary="GitHub@GSWXXN / CoolApk@迷璐"
@@ -406,6 +399,13 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/klxiaoniu" />
+        </Preference>
+        <Preference
+            android:summary="GitHub@ghhccghk"
+            android:title="李太白">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/ghhccghk" />
         </Preference>
         <Preference
             android:summary="GitHub@lingqiqi5211"
