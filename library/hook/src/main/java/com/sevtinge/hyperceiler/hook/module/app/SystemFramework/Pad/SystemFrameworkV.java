@@ -87,6 +87,8 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.DualSAS
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N1Band;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N5N8Band;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassForceDownloadui;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassForceMiAppStore;
 import com.sevtinge.hyperceiler.hook.module.hook.various.NoAccessDeviceLogsRequest;
 
 @HookBase(targetPackage = "android", isPad = 1, targetSdk = 35)
@@ -138,13 +140,16 @@ public class SystemFrameworkV extends BaseModule {
 
         initHook(new BypassUnknownSourcesRestrictions(), mPrefsMap.getBoolean("system_framework_bypass_unknown_sources_restrictions"));
 
+        initHook(new BypassForceMiAppStore(), mPrefsMap.getBoolean("system_framework_bypass_force_mi_appstore") || mPrefsMap.getBoolean("system_framework_market_use_detailmini"));
+        initHook(new BypassForceDownloadui(), mPrefsMap.getBoolean("system_framework_bypass_force_downloadui"));
+
         // 显示
         initHook(new BackgroundBlur(), mPrefsMap.getBoolean("system_framework_background_blur_supported"));
         initHook(EnhanceRecentsVisibility.INSTANCE, mPrefsMap.getBoolean("system_framework_enhance_recents_visibility"));
         initHook(UseAOSPScreenShot.INSTANCE, mPrefsMap.getBoolean("system_ui_display_use_aosp_screenshot_enable"));
         initHook(new AllDarkMode(), mPrefsMap.getBoolean("system_framework_allow_all_dark_mode"));
         initHook(new ThemeProvider(), mPrefsMap.getBoolean("system_framework_allow_third_theme"));
-        
+
         // 小米/红米平板设置相关
         initHook(IgnoreStylusKeyGesture.INSTANCE, mPrefsMap.getBoolean("mipad_input_ingore_gesture"));
         initHook(NoMagicPointer.INSTANCE, mPrefsMap.getBoolean("mipad_input_close_magic"));

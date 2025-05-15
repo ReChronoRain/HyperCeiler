@@ -156,6 +156,13 @@
                 android:data="https://github.com/LiuBodong" />
         </Preference>
         <Preference
+            android:summary="GitHub@LuoYunXi0407"
+            android:title="LuoYunXi">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/LuoYunXi0407" />
+        </Preference>
+        <Preference
             android:summary="GitHub@Memory2314"
             android:title="Memory">
             <intent
