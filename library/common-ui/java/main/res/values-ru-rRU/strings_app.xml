@@ -19,7 +19,6 @@
   -->
 <resources>
     <string name="version_update">Есть новая версия</string>
-    <string name="about_copy_right">© 2023-2025 Sevtinge &amp; Вклад HyperCeiler.</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">добавление и удаление файлов в памяти устройства</string>
     <string name="new_permission_location_desc">используется для предоставления таких услуг, как широта и долгота</string>

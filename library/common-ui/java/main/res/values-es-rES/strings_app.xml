@@ -19,13 +19,12 @@
   -->
 <resources>
     <string name="version_update">Nueva versión encontrada</string>
-    <string name="about_copy_right">© 2023-2025 Sevtinge &amp; HyperCeiler Contributors.</string>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">¡Hagamos HyperOS grande otra vez!</string>
     <string name="new_permission_wifi_state_desc">añadir o eliminar archivos en el almacenamiento interno</string>
     <string name="new_permission_location_desc">se usa para proporcionar servicios como ajustar latitud y longitud</string>
     <string name="new_cta_agree_desc">En el uso, para proporcionarle más características, es posible que solicitemos permiso de Root/Su. Puede ir a administración de permisos en cualquier momento para ajustar el estado de autorización de todos los permisos, y por favor vaya a su administrador de Root/Su para obtener permisos.</string>
-    <string name="new_cta_app_main_purpose">modificar 
+    <string name="new_cta_app_main_purpose">modificar
 aplicaciones del sistema</string>
     <string name="new_cta_app_all_purpose_title">Bienvenido a HyperCeiler, que funciona en Xposed framework, por eso puede utilizarla para descifrar y modificar otras aplicaciones soportadas para obtener mejoras de HyperOS/MIUI. En el uso, para proporcionarle más características, es posible que le solicitemos permiso de Root/Su. Puede ir a su administrador de Root/Su para obtener permisos.</string>
     <!--HyperCeiler Tips-->
