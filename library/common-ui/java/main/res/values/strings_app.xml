@@ -27,7 +27,7 @@
 
     <string name="version_update">New version found</string>
 
-    <string name="about_copy_right">© 2023-2025 Sevtinge &amp; HyperCeiler Contributors.</string>
+    <string name="about_copy_right" translatable="false">© 2023-2025 Sevtinge &amp; HyperCeiler Contributors.</string>
 
     <string name="empty_lable" translatable="false" />
     <string name="system_ui_status_bar_icon_nfc" translatable="false">NFC</string>

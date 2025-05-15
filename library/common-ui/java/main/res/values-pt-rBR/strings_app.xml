@@ -19,7 +19,6 @@
   -->
 <resources>
     <string name="version_update">Nova versão encontrada</string>
-    <string name="about_copy_right">© 2023-2025 Sevtinge &amp; Contribuidores do HyperCeiler.</string>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Torne o HyperOS ótimo novamente!</string>
     <string name="new_permission_wifi_state_desc">adicionar e excluir arquivos no armazenamento interno do dispositivo</string>

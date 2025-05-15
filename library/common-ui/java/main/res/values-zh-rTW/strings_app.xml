@@ -19,7 +19,6 @@
   -->
 <resources>
     <string name="version_update">發現新版本</string>
-    <string name="about_copy_right">© 2023-2025 Sevtinge &amp; HyperCeiler 的建設者.</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">在裝置的內部儲存空間新增和刪除檔案</string>
     <string name="new_permission_location_desc">用於提供緯度和經度等服務</string>
