@@ -49,17 +49,22 @@ public class QsTileSuperBlur extends HCBase {
     private static Object EDIT;
     private static final ConcurrentHashMap<View, Boolean> standardBtn2StateMap = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<View, Boolean> icon2StateMap = new ConcurrentHashMap<>();
+    private static boolean isOS1 = false;
+    private static final String os2 = "MainPanelController$Mode";
+    private static final String os1 = "MainPanelModeController$MainPanelMode";
 
     @Override
     protected void init() {
     }
 
     public static void initQsTileSuperBlur(@NonNull ClassLoader classLoader) {
-        modeClass = findClass("miui.systemui.controlcenter.panel.main.MainPanelController$Mode", classLoader);
+        isOS1 = !existsClass("miui.systemui.controlcenter.panel.main.MainPanelController$Mode", classLoader);
+        modeClass = findClass("miui.systemui.controlcenter.panel.main." + (isOS1 ? os1 : os2), classLoader);
+
         miBlurCompatClass = findClass("miui.systemui.util.MiBlurCompat", classLoader);
-        NORMAL = getStaticField(modeClass, "NORMAL");
-        SORT = getStaticField(modeClass, "SORT");
-        EDIT = getStaticField(modeClass, "EDIT");
+        NORMAL = getStaticField(modeClass, (isOS1 ? "MODE_" : "") + "NORMAL");
+        SORT = getStaticField(modeClass, (isOS1 ? "MODE_" : "") + "SORT");
+        EDIT = getStaticField(modeClass, (isOS1 ? "MODE_" : "") + "EDIT");
 
         hookConstructor("miui.systemui.controlcenter.qs.tileview.QSTileItemView", classLoader,
             Context.class, AttributeSet.class, int.class, int.class,
@@ -82,7 +87,7 @@ public class QsTileSuperBlur extends HCBase {
 
         hookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemView", classLoader,
             "onModeChanged",
-            "miui.systemui.controlcenter.panel.main.MainPanelController$Mode", boolean.class,
+            "miui.systemui.controlcenter.panel.main." + (isOS1 ? os1 : os2), boolean.class,
             new IHook() {
                 @Override
                 public void before() {
@@ -107,8 +112,8 @@ public class QsTileSuperBlur extends HCBase {
                                 state,
                                 false
                             );
-                        callThisMethod("onStateUpdated", false);
                     }
+                    callThisMethod("onStateUpdated", false);
                     callThisMethod("changeExpand");
                     callThisMethod("showLabel", callThisMethod("getShowLabel"), getArg(1));
                     callThisMethod("updateMark", getArg(1));
@@ -268,7 +273,7 @@ public class QsTileSuperBlur extends HCBase {
 
     private static void initRes(Context context) {
         int listItemsBlendColorsId = -1, seekbarFgBlendColorsId = -1, ringerIconBlendColorsId = -1, seekbarAndRingerBgBlendColorsId = -1;
-        if (listItemsBlendColors == null || seekbarFgBlendColors == null || ringerIconBlendColors == null) {
+        if (listItemsBlendColors == null || seekbarFgBlendColors == null || ringerIconBlendColors == null || seekbarAndRingerBgBlendColors == null) {
             listItemsBlendColorsId = context.getResources().getIdentifier("control_center_list_items_blend_colors", "array", context.getPackageName());
             seekbarFgBlendColorsId = context.getResources().getIdentifier("miui_seekbar_fg_blend_colors_collapsed", "array", context.getPackageName());
             ringerIconBlendColorsId = context.getResources().getIdentifier("miui_ringer_icon_blend_colors_collapsed", "array", context.getPackageName());
@@ -294,7 +299,7 @@ public class QsTileSuperBlur extends HCBase {
     }
 
     private static void setMiBackgroundBlendColors(View view, int[] blendColors) {
-//        callStaticMethod(miBlurCompatClass, "setMiViewBlurModeCompat", view, 1);
+        // callStaticMethod(miBlurCompatClass, "setMiViewBlurModeCompat", view, 1);
         callStaticMethod(miBlurCompatClass, "setMiBackgroundBlendColors", view, blendColors);
     }
 }
