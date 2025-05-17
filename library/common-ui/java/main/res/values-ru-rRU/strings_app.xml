@@ -435,6 +435,11 @@
     <string name="system_framework_allow_disable_protected_package">Позволяет отключать защищенные приложения</string>
     <string name="system_framework_disable_miui_watermark">Отключить глобальный водяной знак</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">Обойти ограничения неизвестных источников</string>
+    <string name="system_framework_bypass_force_mi_appstore">Разрешить выбирать сторонние приложения при переходе в магазин приложений</string>
+    <string name="system_framework_market_use_detailmini">Всегда открывать в плавающем окне при переходе в GetApps</string>
+    <string name="system_framework_market_use_detailmini_desc">Обойти ограничение, согласно которому приложение не может перенаправлять на страницу сведений о другом приложении в GetApps без appClientId</string>
+    <string name="system_framework_bypass_force_downloadui">Обход принудительного запуска \"Менеджер загрузок\" при открытии страницы загрузки</string>
+    <string name="system_framework_bypass_force_downloadui_desc">Решить проблему неправильного перехода при нажатии \"Просмотреть загрузки\" в \"Быстрая передача\"</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Патч ядра</string>
     <string name="system_framework_core_patch_downgr">Разрешить понижение версии</string>
@@ -706,8 +711,11 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Это длинный фрагмент текста, который будет выводиться в виде прокрутки</string>
     <string name="system_ui_statusbar_music_tip">Примечания перед использованием:\n• После включения этой функции проверьте и перезапустите системный пользовательский интерфейс и соответствующую музыкальную область.\n• Эту функцию необходимо использовать с модулем \"SuperLyric\".\n• Убедитесь, что уведомление \"Сфокусировать уведомления на тексте\" включено в категории уведомлений соответствующего музыкального приложения и в настройках уведомлений фокуса приложения.</string>
     <string name="system_ui_statusbar_music_notification">Сфокусировать уведомления на тексте</string>
+    <string name="system_ui_statusbar_music_show_app_title">Уведомления о регистрации в приложении</string>
+    <string name="system_ui_statusbar_music_show_app_desc">После открытия необходимо проверить область действия музыкального приложения</string>
     <string name="system_ui_statusbar_music_cusiom_notific_title">Настройки экрана</string>
     <string name="system_ui_statusbar_music_show_notific_title">Показывать текст уведомления</string>
+    <string name="system_ui_statusbar_music_hide_aod_title">Не показывать уведомления о фокусе под экраном</string>
     <string name="system_ui_statusbar_music_cusiom_statusbar_title">Настройки отображения строки состояния</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Скрыть часы в строке состояния</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">Скройте часы в строке состояния при отображении выделенного текста и настройте анимацию раскрывающейся панели уведомлений</string>

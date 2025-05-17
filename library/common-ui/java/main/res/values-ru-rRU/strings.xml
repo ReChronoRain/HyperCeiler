@@ -69,6 +69,9 @@
     <string name="error_type">Тип исключения</string>
     <string name="error_file_name">Имя файла</string>
     <string name="error_time">Время записи</string>
+    <string name="error_version_name">Название версии</string>
+    <string name="error_git_hash">Git hash</string>
+    <string name="error_build_time">Время сборки</string>
     <string name="copy_ok">Скопировано в буфер обмена</string>
     <string name="notification_channel_app_crash_name">Приложение работает неправильно</string>
     <string name="notification_title_message_emergency_crash">%s  Часто вылетал</string>
