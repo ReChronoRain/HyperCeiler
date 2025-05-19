@@ -27,7 +27,7 @@
 
     <string name="version_update">New version found</string>
 
-    <string name="about_copy_right">© 2023-2025 Sevtinge &amp; HyperCeiler Contributors.</string>
+    <string name="about_copy_right" translatable="false">© 2023-2025 Sevtinge &amp; HyperCeiler Contributors.</string>
 
     <string name="empty_lable" translatable="false" />
     <string name="system_ui_status_bar_icon_nfc" translatable="false">NFC</string>
@@ -499,6 +499,12 @@
     <string name="system_framework_allow_disable_protected_package">Allows to disable protected apps</string>
     <string name="system_framework_disable_miui_watermark">Disable full screen watermark</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">Allow all apps to install apps from unknown sources</string>
+    <string name="system_framework_bypass_force_mi_appstore">Allow to select third-party apps when jumping to the App Store</string>
+    <string name="system_framework_market_use_detailmini">Always open in a floating window when jumping to the Xiaomi GetApps</string>
+    <string name="system_framework_market_use_detailmini_desc">Bypass the restriction that a app can not redirect to the details page of another app in GetApps without appClientId</string>
+    <string name="system_framework_bypass_force_downloadui">Bypass forcing Download Manager when opening the download page</string>
+    <string name="system_framework_bypass_force_downloadui_desc">Solve the issue of incorrect jump when click "View downloads" in Quick Share</string>
+
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Package manager service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade apps</string>
@@ -770,13 +776,16 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">Long text output</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Text</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">This is a long piece of text that will be output in scrolling form</string>
-    <string name="system_ui_statusbar_music_tip">Notes before using: • After turning on this feature, check and restart the System UI and the corresponding music scope. • This feature needs to be used with the \"Lyric Getter\" module. • Ensure that the \"Focus notification lyrics\" notification is enabled in the notification category of the corresponding music app and in the app\'s focus notifications settings.</string>
+    <string name="system_ui_statusbar_music_tip">Notes before using: • After turning on this feature, check and restart the System UI scope. • This feature needs to be used with the \"Lyric Getter\" module.</string>
     <string name="system_ui_statusbar_music_notification">Focus notification lyrics</string>
+    <string name="system_ui_statusbar_music_show_app_title">Notifications to register on the App</string>
+    <string name="system_ui_statusbar_music_show_app_desc">After opening, you need to check the scope of the music app</string>
     <string name="system_ui_statusbar_music_cusiom_notific_title">Notification bar display settings</string>
     <string name="system_ui_statusbar_music_show_notific_title">Show notification lyrics</string>
+    <string name="system_ui_statusbar_music_hide_aod_title">Not showing focus notifications under the screen</string>
     <string name="system_ui_statusbar_music_cusiom_statusbar_title">Status bar display settings</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Hide status bar clock</string>
-    <string name="system_ui_statusbar_music_hide_clock_desc">Hide the status bar clock when showing focused lyrics, and adjust the animation of the dropdown Notification shade.</string>
+    <string name="system_ui_statusbar_music_hide_clock_desc">Hide the status bar clock when showing focused lyrics.</string>
     <string name="system_ui_statusbar_music_click_clock_title">Click to show clock</string>
     <string name="system_ui_statusbar_music_click_clock_desc">Click the focus lyrics event to change to display the status bar clock, otherwise hide it. The switch needs to restart the corresponding music app to take effect.</string>
     <string name="system_ui_statusbar_music_speed_title">Lyrics scroll rate</string>

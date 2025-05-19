@@ -124,6 +124,25 @@
             android:name="miui_keyguard_shortcuts"
             android:resource="@xml/miui_keyguard_shortcuts" />
 
+        <activity
+            android:name="com.sevtinge.hyperceiler.safemode.CrashActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.HyperCeiler.Translucent.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.Crash" />
+                <category android:name="android.intent.category.CrashDailog" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.sevtinge.hyperceiler.safemode.ExceptionCrashActivity"
+            android:theme="@style/CrashTheme"
+            android:exported="true" />
+
         <service
             android:name="com.sevtinge.hyperceiler.safemode.CrashService"
             android:enabled="true"

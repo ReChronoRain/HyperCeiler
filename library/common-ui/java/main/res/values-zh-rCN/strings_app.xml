@@ -487,6 +487,12 @@
     <string name="system_framework_other_disable_gesture_monitor_desc">可适当降低 CPU 负载，但会破坏部分屏幕操作类的快捷手势功能及手势输入相关功能</string>
     <string name="system_framework_disable_miui_watermark">禁用全局水印</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">默认允许全部应用安装未知来源的应用</string>
+    <string name="system_framework_bypass_force_mi_appstore">跳转到应用商店时允许选择第三方应用商店</string>
+    <string name="system_framework_market_use_detailmini">跳转到小米应用商店时始终使用小窗口打开</string>
+    <string name="system_framework_market_use_detailmini_desc">解除应用在未使用 appClientId 的情况下跳转到小米应用商店其他应用的详情页会被拒绝展示的限制</string>
+    <string name="system_framework_bypass_force_downloadui">打开下载页面时不强制使用小米下载管理器</string>
+    <string name="system_framework_bypass_force_downloadui_desc">解决 Google 快速分享查看下载内容跳转错误的问题</string>
+
 
     <!--核心破解-->
     <string name="system_framework_corepatch_title">包管理服务</string>
@@ -773,15 +779,18 @@
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">测试</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">这是一条长文本，它将以滚动形式输出</string>
 
-    <string name="system_ui_statusbar_music_tip">使用前注意事项：\n- 开启此功能后，请勾选并重启系统界面及对应音乐作用域\n- 此功能需要搭配 \"SuperLyric\" 模块使用\n- 请确保对应音乐 App 的通知类别下有启用 \"焦点通知歌词\" 的通知和应用的焦点通知</string>
+    <string name="system_ui_statusbar_music_tip">使用前注意事项：\n- 开启此功能后，请勾选并重启系统界面作用域\n- 此功能需要搭配 \"SuperLyric\" 模块使用</string>
     <string name="system_ui_statusbar_music_notification">焦点通知歌词</string>
+    <string name="system_ui_statusbar_music_show_app_title">通知注册在 App 上</string>
+    <string name="system_ui_statusbar_music_show_app_desc">开启后需要额外勾选音乐 App 作用域</string>
     <string name="system_ui_statusbar_music_cusiom_notific_title">通知栏显示设置</string>
     <string name="system_ui_statusbar_music_show_notific_title">显示通知歌词</string>
+    <string name="system_ui_statusbar_music_hide_aod_title">不在息屏下显示焦点通知</string>
     <string name="system_ui_statusbar_music_cusiom_statusbar_title">状态栏显示设置</string>
     <string name="system_ui_statusbar_music_hide_clock_title">隐藏状态栏时钟</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">显示焦点歌词时隐藏状态栏时钟，并调整下拉通知中心的动画</string>
     <string name="system_ui_statusbar_music_click_clock_title">点按显示时钟</string>
-    <string name="system_ui_statusbar_music_click_clock_desc">单击焦点歌词事件变更为显示状态栏时钟，反之隐藏，开关需要重启音乐软件才能生效</string>
+    <string name="system_ui_statusbar_music_click_clock_desc">单击焦点歌词事件变更为显示状态栏时钟，反之隐藏</string>
     <string name="system_ui_statusbar_music_speed_title">歌词滚动速率</string>
     <string name="system_ui_statusbar_music_scroll_delay_title">歌词滚动延迟</string>
     <string name="system_ui_statusbar_music_width_title">歌词末尾垫宽</string>

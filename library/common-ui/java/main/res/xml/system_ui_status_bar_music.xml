@@ -31,6 +31,13 @@
         android:key="prefs_key_system_ui_statusbar_music_switch"
         android:title="@string/enable" />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:dependency="prefs_key_system_ui_statusbar_music_switch"
+        android:key="prefs_key_system_ui_statusbar_music_show_app"
+        android:summary="@string/system_ui_statusbar_music_show_app_desc"
+        android:title="@string/system_ui_statusbar_music_show_app_title" />
+
     <PreferenceCategory
         android:dependency="prefs_key_system_ui_statusbar_music_switch"
         android:title="@string/system_ui_statusbar_music_cusiom_notific_title">
@@ -38,6 +45,12 @@
             android:defaultValue="false"
             android:key="prefs_key_system_ui_statusbar_music_show_notific"
             android:title="@string/system_ui_statusbar_music_show_notific_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_music_show_notific"
+            android:key="prefs_key_system_ui_statusbar_music_hide_aod"
+            android:title="@string/system_ui_statusbar_music_hide_aod_title" />
 
         <SeekBarPreferenceCompat
             app:defaultValue="15"

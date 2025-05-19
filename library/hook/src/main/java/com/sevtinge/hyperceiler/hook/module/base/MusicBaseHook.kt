@@ -52,8 +52,11 @@ abstract class MusicBaseHook : BaseHook() {
     private val nSize by lazy {
         mPrefsMap.getInt("system_ui_statusbar_music_size_n", 15).toFloat()
     }
+    private val isAodShow by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_music_hide_aod")
+    }
 
-    private val receiver = (object : ISuperLyric.Stub() {
+    private val receiver = object : ISuperLyric.Stub() {
         override fun onSuperLyric(data: SuperLyricData) {
             runCatching {
                 this@MusicBaseHook.onSuperLyric(data)
@@ -70,7 +73,7 @@ abstract class MusicBaseHook : BaseHook() {
                 logE(TAG, lpparam.packageName, it)
             }
         }
-    })
+    }
 
     init {
         loadClass("android.app.Application").methodFinder().filterByName("onCreate").first()
@@ -93,7 +96,7 @@ abstract class MusicBaseHook : BaseHook() {
         createNotificationChannel()
         val modRes = getModuleRes(context)
         val isClickClock = mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
-        val launchIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+        val launchIntent = context.packageManager.getLaunchIntentForPackage(extraData.packageName)
         val base64icon = extraData.base64Icon
         val bitmap = context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
@@ -125,16 +128,29 @@ abstract class MusicBaseHook : BaseHook() {
             remoteViewsrv.setTextViewText(focuslyric, text)
             remoteViewsrv.setTextColor(focuslyric, Color.BLACK) // 字体颜色
             remoteViewsrv.setTextViewTextSize(focuslyric, TypedValue.COMPLEX_UNIT_SP, nSize) // 字体大小 为第三个
-            val api = FocusApi.senddiyFocus(
-                ticker = text,
-                updatable = true,
-                aodTitle = text,
-                aodPic = icon,
-                enableFloat = false,
-                rv = remoteViewsrv,
-                rvNight = remoteViews,
-                picticker = icon
-            )
+            val api = if (!isAodShow) {
+                FocusApi.senddiyFocus(
+                    ticker = text,
+                    updatable = true,
+                    aodTitle = text,
+                    aodPic = icon,
+                    enableFloat = false,
+                    rv = remoteViewsrv,
+                    rvNight = remoteViews,
+                    timeout = 999999,
+                    picticker = icon
+                )
+            } else {
+                FocusApi.senddiyFocus(
+                    ticker = text,
+                    updatable = true,
+                    enableFloat = false,
+                    rv = remoteViewsrv,
+                    rvNight = remoteViews,
+                    timeout = 999999,
+                    picticker = icon
+                )
+            }
             builder.addExtras(api)
             val notification = builder.build()
             (context.getSystemService("notification") as NotificationManager).notify(
@@ -145,15 +161,27 @@ abstract class MusicBaseHook : BaseHook() {
             val baseinfo = FocusApi.baseinfo(
                 basetype = 1,
                 title = text,)
-            val api = FocusApi.sendFocus(
-                ticker = text,
-                aodTitle = text,
-                aodPic = icon,
-                baseInfo = baseinfo,
-                updatable = true,
-                enableFloat = false,
-                picticker = icon
-            )
+            val api = if (!isAodShow) {
+                FocusApi.sendFocus(
+                    ticker = text,
+                    aodTitle = text,
+                    aodPic = icon,
+                    baseInfo = baseinfo,
+                    updatable = true,
+                    enableFloat = false,
+                    timeout = 999999,
+                    picticker = icon
+                )
+            } else {
+                FocusApi.sendFocus(
+                    ticker = text,
+                    baseInfo = baseinfo,
+                    updatable = true,
+                    enableFloat = false,
+                    timeout = 999999,
+                    picticker = icon
+                )
+            }
             builder.addExtras(api)
             val notification = builder.build()
             (context.getSystemService("notification") as NotificationManager).notify(
@@ -183,7 +211,7 @@ abstract class MusicBaseHook : BaseHook() {
      * @param [base64] 图片的 Base64
      * @return [Bitmap] 返回图片的 Bitmap?，传入 Base64 无法转换则为 null
      */
-    fun base64ToDrawable(base64: String): Bitmap? {
+    private fun base64ToDrawable(base64: String): Bitmap? {
         return try {
             val bitmapArray: ByteArray = Base64.decode(base64, Base64.DEFAULT)
             BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.size)
@@ -191,8 +219,6 @@ abstract class MusicBaseHook : BaseHook() {
             null
         }
     }
-
-    fun Any?.isNotNull() = this != null
 
     companion object {
         const val CHANNEL_ID: String = "channel_id_focusNotifLyrics"
