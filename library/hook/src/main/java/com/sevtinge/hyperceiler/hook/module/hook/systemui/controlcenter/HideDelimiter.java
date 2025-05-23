@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter;
 import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
 
 import android.telephony.SubscriptionInfo;
 import android.view.View;
@@ -113,7 +114,7 @@ public class HideDelimiter extends BaseHook {
             if (prefs == 3) {
                 if (isMoreAndroidVersion(35)) {
 
-                    if (!getSystemVersionIncremental().startsWith("OS2.0.20") && !getSystemVersionIncremental().startsWith("OS2.0.30")) {
+                    if (!isMoreSmallVersion(200, 2f)) {
                     findAndHookMethod("miui.stub.statusbar.StatusBarStub$registerMiuiCarrierTextController$1$addCallback$callback$1", "onCarrierTextChanged", String.class, new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
