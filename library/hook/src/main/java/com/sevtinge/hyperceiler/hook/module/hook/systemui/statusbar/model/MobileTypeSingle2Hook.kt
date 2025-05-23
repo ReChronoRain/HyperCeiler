@@ -145,6 +145,13 @@ object MobileTypeSingle2Hook : BaseHook() {
     }
 
     private fun hookMobileView() {
+        if (isMoreSmallVersion(200, 2f)) {
+            findAndHookMethod("com.android.systemui.statusbar.views.MobileTypeDrawable", "measure", object : MethodHook() {
+                override fun before(param: MethodHookParam?) {
+                    param!!.result = null
+                }
+            })
+        }
         modernStatusBarMobileView.methodFinder()
             .filterByName("constructAndBind")
             .filterByParamCount(5)
