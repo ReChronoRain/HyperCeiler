@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
 <resources>
     <style name="NavigatorActivityTheme" parent="@style/Theme.AppCompat.DayNight.Navigator">
         <item name="android:windowTranslucentStatus">true</item>
@@ -7,7 +25,6 @@
         <item name="miuixColorBottomSurface">@color/miuix_design_default_color_surface_variant_dark</item>
         <item name="navigationFragmentStyle">@style/NaviFragmentTheme</item>
         <item name="recyclerViewCardStyle">@style/RecyclerViewCardStyle.DayNight</item>
-
 
         <item name="actionBarTitleEnableEllipsis">true</item>
         <item name="arrowRightFillColor">@color/miuix_appcompat_arrow_right_fill_color_dark</item>
@@ -56,7 +73,6 @@
         <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_dark</item>
     </style>
 
-
     <style name="Theme.Navigator.ContentChild" parent="Theme.AppCompat.DayNight.ContentChild">
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_dark</item>
@@ -76,7 +92,6 @@
     </style>
 
     <style name="Theme.Navigator.ContentChild.Home">
-
         <item name="bgBlurOptions">splitActionBar</item>
 
         <item name="actionbarSearchMaskColor">@android:color/transparent</item>
@@ -92,7 +107,6 @@
         <item name="preferenceItemPaddingStart">@dimen/miuix_preference_item_padding_start</item>
         <item name="recyclerViewCardStyle">@style/RecyclerViewCardStyle.DayNight</item>
 
-
         <item name="actionBarTitleEnableEllipsis">true</item>
         <item name="arrowRightFillColor">@color/miuix_appcompat_arrow_right_fill_color_dark</item>
         <item name="colorPrimary">@*android:color/primary_material_dark</item>
@@ -104,7 +118,6 @@
         <item name="preferenceRightTextColor">@color/miuix_preference_right_text_color_dark</item>
         <item name="preferenceSecondaryTextColor">@color/miuix_preference_secondary_text_dark</item>
         <item name="seekBarPreferenceStyle">@style/Preference.SeekBarPreference</item>
-
     </style>
 
     <style name="Theme.Navigator.ContentChild.About">
