@@ -69,6 +69,9 @@
     <string name="error_type">Loại ngoại lệ</string>
     <string name="error_file_name">Tên tập tin</string>
     <string name="error_time">Thời gian ghi âm</string>
+    <string name="error_version_name">Tên phiên bản</string>
+    <string name="error_git_hash">Git hash</string>
+    <string name="error_build_time">Thời gian xây dựng</string>
     <string name="copy_ok">Đã sao chép vào clipboard</string>
     <string name="notification_channel_app_crash_name">Ứng dụng đang chạy bất thường</string>
     <string name="notification_title_message_emergency_crash">%s đã bị văng nhiều lần</string>
