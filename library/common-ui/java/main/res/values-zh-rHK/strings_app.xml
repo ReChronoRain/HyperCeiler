@@ -51,7 +51,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="language">繁體中文 (香港)</string>
     <string name="translator">HyperCeiler 官方</string>
-    <string name="translator_url">https://github.com/a406010503</string>
+    <string name="translator_url">https://github.com/HolyBearTW</string>
     <string name="home">首頁</string>
     <string name="help">幫助</string>
     <string name="settings">設定</string>
