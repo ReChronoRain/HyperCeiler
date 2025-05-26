@@ -40,7 +40,7 @@ public class GmsDozeFix extends BaseHook {
         });
 
         Class<?> Misc = XposedHelpers.findClassIfExists("com.miui.powerkeeper.provider.SimpleSettings.Misc", lpparam.classLoader);
-        findAndHookMethod(Misc, "getBoolean", new MethodHook() {
+        hookAllMethods(Misc, "getBoolean", new MethodHook() {
             @Override
             protected void after(MethodHookParam methodHookParam) throws Throwable {
                 if ("gms_control".equals((String) methodHookParam.args[1])) {
