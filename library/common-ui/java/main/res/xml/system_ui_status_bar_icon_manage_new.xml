@@ -113,10 +113,14 @@
             android:title="@string/system_ui_status_bar_big_mobile_network_type"
             app:isPreferenceVisible="false" />
 
-        <Preference android:title="@string/system_ui_status_bar_mobile_type_single_title"
+        <Preference
+            android:title="@string/system_ui_status_bar_mobile_type_single_title"
+            android:key="prefs_key_system_ui_status_bar_mobile_type"
             android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.MobileNetworkTypeSettings" />
 
-        <Preference android:title="@string/system_ui_statusbar_iconmanage_mobile_network_title"
+        <Preference
+            android:title="@string/system_ui_statusbar_iconmanage_mobile_network_title"
+            android:key="prefs_key_system_ui_statusbar_iconmanage_mobile_network"
             android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.DoubleLineNetworkSettings" />
     </PreferenceCategory>
 
