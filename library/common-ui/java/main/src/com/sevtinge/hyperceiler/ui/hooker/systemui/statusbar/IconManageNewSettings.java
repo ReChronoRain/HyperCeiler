@@ -19,7 +19,10 @@
 package com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isSupportTelephony;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isSupportWifi;
 
+import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.ui.R;
@@ -40,6 +43,19 @@ public class IconManageNewSettings extends DashboardFragment {
     SwitchPreference mBatteryNumber;
     SwitchPreference mBatteryPercentage;
 
+    SwitchPreference mHideWifiIndicator;
+    DropDownPreference mHideWifi;
+    DropDownPreference mHideWifiStandard;
+
+    DropDownPreference mHideNoSIM;
+    SwitchPreference mHideCard1;
+    SwitchPreference mHideCard2;
+    SwitchPreference mHideRoaming;
+    SwitchPreference mHideVoWiFi;
+    SwitchPreference mHideVoLTE;
+    Preference mMobileType;
+    Preference mIconMobileNetwork;
+
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar_icon_manage_new;
@@ -58,12 +74,49 @@ public class IconManageNewSettings extends DashboardFragment {
         mBatteryNumber = findPreference("prefs_key_system_ui_status_bar_battery_percent");
         mBatteryPercentage = findPreference("prefs_key_system_ui_status_bar_battery_percent_mark");
 
+        mHideWifiIndicator = findPreference("prefs_key_system_ui_status_bar_icon_wifi_network_indicator_new");
+        mHideWifi = findPreference("prefs_key_system_ui_status_bar_icon_wifi");
+        mHideWifiStandard = findPreference("prefs_key_system_ui_status_bar_icon_wifi_standard");
+
+        mHideNoSIM = findPreference("prefs_key_system_ui_status_bar_icon_mobile_network_signal_no_card");
+        mHideCard1 = findPreference("prefs_key_system_ui_status_bar_icon_mobile_network_hide_card_1");
+        mHideCard2 = findPreference("prefs_key_system_ui_status_bar_icon_mobile_network_hide_card_2");
+        mHideRoaming = findPreference("prefs_key_system_ui_status_bar_mobile_hide_roaming_icon");
+        mHideVoWiFi = findPreference("prefs_key_system_ui_status_bar_icon_vowifi");
+        mHideVoLTE = findPreference("prefs_key_system_ui_status_bar_icon_volte");
+        mMobileType = findPreference("prefs_key_system_ui_status_bar_mobile_type");
+        mIconMobileNetwork = findPreference("prefs_key_system_ui_statusbar_iconmanage_mobile_network");
+
         mAlarmClockIconN.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
 
         if (isMoreSmallVersion(200, 2f)) {
             mSmallHD.setVisible(false);
             mBigHD.setVisible(false);
             mNewHD.setVisible(false);
+        }
+
+        if (getContext() != null) {
+
+            if (!isSupportWifi(getContext())) {
+                mHideWifiIndicator.setVisible(false);
+                mHideWifi.setVisible(false);
+                mHideWifiStandard.setVisible(false);
+            }
+
+            if (!isSupportTelephony(getContext())) {
+                mSmallHD.setVisible(false);
+                mBigHD.setVisible(false);
+                mNewHD.setVisible(false);
+                mHideNoSIM.setVisible(false);
+                mHideCard1.setVisible(false);
+                mHideCard2.setVisible(false);
+                mHideRoaming.setVisible(false);
+                mHideVoWiFi.setVisible(false);
+                mHideVoLTE.setVisible(false);
+                mMobileType.setVisible(false);
+                mIconMobileNetwork.setVisible(false);
+            }
+
         }
 
         mAlarmClockIcon.setOnPreferenceChangeListener((preference, o) -> {
