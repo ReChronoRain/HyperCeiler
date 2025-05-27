@@ -76,15 +76,15 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="8"
+            app:defaultValue="40"
             android:key="prefs_key_system_ui_statusbar_mobile_network_icon_vertical_offset"
             android:title="@string/vertical_offset"
             app:defaultValueTitle="@string/array_default"
-            app:showDividerValue="2"
+            app:showDividerValue="10"
             app:format="%s dp"
-            app:maxValue="16"
+            app:maxValue="80"
             app:minValue="0"
-            app:negativeShift="8"
+            app:negativeShift="40"
             app:stepValue="1" />
 
     </PreferenceCategory>

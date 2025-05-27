@@ -68,7 +68,7 @@ class DualRowSignalHookV : BaseHook() {
         mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_size", 10)
     }
     private val verticalOffset by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_vertical_offset", 8)
+        mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_vertical_offset", 40)
     }
 
     private val selectedIconStyle by lazy {
@@ -199,9 +199,9 @@ class DualRowSignalHookV : BaseHook() {
                     adjustSmallXX(smallRoam)
                     adjustSmallXX(satellite)
 
-                    if (verticalOffset != 8) {
+                    if (verticalOffset != 40) {
                         signalGroup.translationY = DisplayUtils.dp2px(
-                            (verticalOffset - 8) * 0.5f
+                            (verticalOffset - 40) * 0.1f
                         ).toFloat()
                     }
                     val mobileSignalLp = mobileSignal.layoutParams as FrameLayout.LayoutParams
