@@ -209,7 +209,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                         val paddingLeft = if (dataConnected && !(showMobileType && hideIndicator)) {
                             0
                         } else {
-                            20
+                            if (isMoreSmallVersion(200, 2f)) 0 else 20
                         }
 
                         containerLeft.setPadding(paddingLeft, 0, 0, 0)
@@ -326,7 +326,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                                     }
                                 }
                                 val paddingLeft = if (isNoDataConnected || (showMobileType && hideIndicator)) {
-                                    20
+                                    if (isMoreSmallVersion(200, 2f)) 0 else 20
                                 } else {
                                     0
                                 }
@@ -337,8 +337,8 @@ object MobileTypeSingle2Hook : BaseHook() {
                                     val mobileType = view.findViewByIdName("mobile_type") as ImageView
                                     mobileType.visibility = View.GONE
                                 }
-                                containerLeft.setPadding(20, 0, 0, 0)
-                                containerRight.setPadding(20, 0, 0, 0)
+                                containerLeft.setPadding(if (isMoreSmallVersion(200, 2f)) 0 else 20, 0, 0, 0)
+                                containerRight.setPadding(if (isMoreSmallVersion(200, 2f)) 0 else 20, 0, 0, 0)
                             }
                         }
                     }
