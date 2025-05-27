@@ -193,8 +193,8 @@ object MobileTypeSingle2Hook : BaseHook() {
                         val marginLeft = dp2px(leftMargin * 0.5f)
                         val marginRight = dp2px(rightMargin * 0.5f)
                         var topMargin = 0
-                        if (verticalOffset != 8) {
-                            val marginTop = dp2px((verticalOffset - 8) * 0.5f)
+                        if (verticalOffset != 40) {
+                            val marginTop = dp2px((verticalOffset - 40) * 0.1f)
                             topMargin = marginTop
                         }
                         textView.setPadding(marginLeft, topMargin, marginRight, 0)

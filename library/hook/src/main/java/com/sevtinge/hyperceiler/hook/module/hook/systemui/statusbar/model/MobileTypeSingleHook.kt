@@ -85,9 +85,9 @@ object MobileTypeSingleHook : BaseHook() {
             dp2px(rightMargin * 0.5f)
 
         var topMargin = 0
-        if (verticalOffset != 8) {
+        if (verticalOffset != 40) {
             val marginTop =
-                dp2px((verticalOffset - 8) * 0.5f)
+                dp2px((verticalOffset - 40) * 0.1f)
             topMargin = marginTop
         }
 

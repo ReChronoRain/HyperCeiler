@@ -44,7 +44,7 @@ public class DualRowSignalHook extends BaseHook {
     private final int rightMargin = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_right_margin", 8) - 8;
     private final int leftMargin = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_left_margin", 8) - 8;
     private final int iconScale = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_size", 10); // 图标缩放
-    private final int verticalOffset = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_vertical_offset", 8);
+    private final int verticalOffset = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_vertical_offset", 40);
     private final boolean mobileTypeSingle = mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"); // 移动网络类型单独显示
     private final String selectedIconStyle = mPrefsMap.getString("system_ui_status_mobile_network_icon_style", ""); // 图标样式
     private final int selectedIconTheme = mPrefsMap.getStringAsInt("system_ui_statusbar_iconmanage_mobile_network_icon_theme", 1); // 图标主题
@@ -260,8 +260,8 @@ public class DualRowSignalHook extends BaseHook {
         int leftSpacing = dp2px(leftMargin * 0.5f);
         mView.setPadding(leftSpacing, 0, rightSpacing, 0);
 
-        if (verticalOffset != 8) {
-            float marginTop = dp2px((verticalOffset - 8) * 0.5f);
+        if (verticalOffset != 40) {
+            float marginTop = dp2px((verticalOffset - 40) * 0.1f);
             FrameLayout mobileIcon = (FrameLayout) mMobile.getParent();
             mobileIcon.setTranslationY(marginTop);
         }
@@ -302,7 +302,7 @@ public class DualRowSignalHook extends BaseHook {
     }
 
     private void setDualRowStyle() {
-        if (rightMargin != 0 || leftMargin != 0 || iconScale != 10 || verticalOffset != 8) {
+        if (rightMargin != 0 || leftMargin != 0 || iconScale != 10 || verticalOffset != 40) {
             MethodHook styleHook = new MethodHook() {
                 @Override
                 protected void after(final MethodHookParam param) {
