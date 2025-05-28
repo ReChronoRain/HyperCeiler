@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
 <resources>
     <color name="color_surface_variant">#DC2E2E30</color>
 
@@ -14,12 +32,14 @@
     <color name="focus_notification_element_blend_shade_color_1">#737373</color>
     <color name="focus_notification_element_blend_shade_color_2">#128f00</color>
     <color name="focus_notification_element_blend_shade_color_3">#00000000</color>
+
     <color name="media_notification_element_blend_keyguard_color_1">#777777</color>
     <color name="media_notification_element_blend_keyguard_color_2">#155900</color>
     <color name="media_notification_element_blend_keyguard_color_3">#00000000</color>
     <color name="media_notification_element_blend_shade_color_1">#737373</color>
     <color name="media_notification_element_blend_shade_color_2">#128f00</color>
     <color name="media_notification_element_blend_shade_color_3">#00000000</color>
+
     <color name="notification_element_blend_headsUp_color_1">#777777</color>
     <color name="notification_element_blend_headsUp_color_2">#1a7300</color>
     <color name="notification_element_blend_keyguard_color_1">#777777</color>

@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
 <resources>
-
     <color name="provision_list_description_color">#80000000</color>
 
     <color name="provision_list_item_text_unselected">#ff000000</color>
@@ -8,7 +25,6 @@
     <color name="provision_item_bg_color">#66e3e3e3</color>
     <color name="provision_item_pressed_bg_color">#14000000</color>
     <color name="provision_item_selected_bg_color">@color/miuix_color_blue_light_primary_default</color>
-
 
     <color name="provision_title_text_color">#000000</color>
     <color name="provision_subtitle_text_color">#99000000</color>
@@ -31,5 +47,4 @@
     <color name="textview_black_title">#000000</color>
     <color name="textview_black_summary">#80000000</color>
     <color name="textview_black_watermark">#03000000</color>
-
 </resources>

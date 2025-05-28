@@ -104,7 +104,6 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
         }
     }
 
-
     private Drawable getPackageIcon(String packageName) {
         try {
             return requireContext().getPackageManager().getApplicationIcon(packageName);
