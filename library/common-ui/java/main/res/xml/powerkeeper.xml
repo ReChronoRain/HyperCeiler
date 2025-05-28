@@ -43,8 +43,14 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:title="@string/powerkeeper_conservative_millet"
+            android:key="prefs_key_powerkeeper_conservative_millet"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:title="@string/powerkeeper_gms_doze_fix"
             android:key="prefs_key_powerkeeper_gms_doze_fix"
+            android:dependency="prefs_key_powerkeeper_conservative_millet"
             android:defaultValue="false" />
 
         <SwitchPreference
