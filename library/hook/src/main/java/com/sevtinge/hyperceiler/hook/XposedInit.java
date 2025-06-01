@@ -259,7 +259,6 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         XposedBridge.log("[HyperCeiler][I]: Log level is " + logLevelDesc());
     }
 
-
     private boolean isSafeModeEnable(String key) {
         return mPrefsMap.getBoolean(key);
     }

@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2025 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2025 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.hook.view;
 
 import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mPrefsMap;
@@ -48,7 +48,6 @@ public class BlurFrameLayout {
 
     Object mViewRootImpl;
     View mBlurView;
-
 
     public BlurFrameLayout(Context context, boolean blurEnable) {
         isBlurEnable = blurEnable;
@@ -90,7 +89,6 @@ public class BlurFrameLayout {
         });
     }
 
-
     private void setBackgroundDrawable(Context context, View view, boolean isBlurEnable, int color, int alpha, int cornerRadius, int blurRadius) {
         if (isBlurEnable) {
             setColor(color, alpha);
@@ -100,7 +98,6 @@ public class BlurFrameLayout {
             view.setBackground(createGradientDrawable(context, color, alpha, cornerRadius));
         }
     }
-
 
     public void setColor(int color, int alpha) {
         int mColorRed = (color & 0x00ff0000) >> 16;
