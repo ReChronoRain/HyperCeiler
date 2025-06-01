@@ -3,7 +3,7 @@
     <string name="provision_back_description">Вернуться </string>
     <string name="provision_start_content_description">Начать</string>
     <string name="provision_next">Продолжить</string>
-    <string name="provision_skip_underline">перепрыгни</string>
+    <string name="provision_skip_underline">Пропустить</string>
     <string name="provision_permission_settings_title">Настройки разрешений</string>
     <string name="provision_terms_and_statement_title">Согласия и заявления</string>
     <string name="provision_basic_settings_title">Основные настройки</string>
@@ -11,15 +11,15 @@
     <string name="provision_agree_terms">Я внимательно прочитал(а) и согласен(сна) с вышеуказанными условиями</string>
     <string name="provision_user_agreement">Пользовательское соглашение</string>
     <string name="provision_privacy_policy">Политика конфиденциальности</string>
-    <string name="provision_terms_of_use">Условия эксплуатации</string>
+    <string name="provision_terms_of_use">Условия пользования</string>
     <string name="provision_terms_of_use_label_use_network_china">Для предоставления вам более качественных услуг вам необходимо прочитать и согласиться с &lt;a href=\"%1$s\"&gt;Пользовательским соглашением&lt;/a&gt; и &lt;a href=\"%2$s\"&gt;Политика конфиденциальности&lt;/a&gt; прежде чем вы сможете продолжить использование системы. Мы будем строго соблюдать соответствующие законы и правила, а также политику конфиденциальности для защиты вашей личной информации.</string>
-    <string name="provision_terms_of_label_period">。</string>
+    <string name="provision_terms_of_label_period">.</string>
     <string name="provision_protect_persoanl_info_statement">Мы будем строго соблюдать соответствующие законы, правила и политику конфиденциальности для защиты вашей личной информации.</string>
     <string name="provision_service_agreement">Я внимательно прочитал(а) и согласен(сна) с вышеуказанными условиями</string>
     <string name="provision_service_name_download">Управление загрузкой</string>
     <string name="provision_service_policy_download"><Data>Пожалуйста, прочитайте и примите &lt;a href=%1$s&gt;Политику конфиденциальности Xunlei&lt;/a &gt;и &lt;a href=%1$s&gt;Соглашение о предоставлении сетевых услуг Xunlei&lt;/a &gt;</Data></string>
-    <string name="provision_congratulation_title">Настроить</string>
-    <string name="provision_congratulation_label">Приходите и испытайте волнение HyperOS!</string>
+    <string name="provision_congratulation_title">Настройка окончена</string>
+    <string name="provision_congratulation_label">Испытайте захватывающую HyperOS!</string>
     <string name="provision_complete_text">Войти в систему</string>
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Выбрать все</string>
@@ -33,12 +33,12 @@
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">Другое </string>
     <string name="miuix_appcompat_action_mode_inverse">Наоборот </string>
     <!--HyperCeiler Settings/About Page-->
-    <string name="tip">Тип</string>
-    <string name="root">Модули рут не активирован. Многие модули не активны</string>
-    <string name="soft_reboot">Перезагрузить </string>
-    <string name="restart_app_desc">Вы точно хотите перезагрузить сейчас %1$s?</string>
+    <string name="tip">Совет</string>
+    <string name="root">Некоторые функции недоступны без Root прав</string>
+    <string name="soft_reboot">Перезагрузка </string>
+    <string name="restart_app_desc">Вы точно хотите перезагрузить %1$s?</string>
     <string name="hyperceiler_restart_quick">Быстрый перезапуск приложений</string>
-    <string name="hook_failed">Этот модуль не активен. Пожалуйста, проверьте что hupercelicer в lsposed активирован. И перезапустите приложение</string>
+    <string name="hook_failed">Модуль не активирован. Пожалуйста, проверьте, что вы активировали модуль в LSPosed и перезапустите приложение.</string>
     <string name="kill_failed">Не удалось закончить процесс. Проверьте, предоставлены ли HyperCeiler разрешения Root/Su.</string>
     <string name="start_failed">Не удалось начать действие. Проверьте, предоставлены ли HyperCeiler разрешения Root/Su.</string>
     <string name="pid_failed">Целевое приложение не запущено и не требует перезапуска.</string>
@@ -46,19 +46,19 @@
     <!--HyperCeiler Tips-->
     <string name="error">Ошибка</string>
     <string name="warn">Предупреждение</string>
-    <string name="module_app_failed">В модуле произошла некорректная ошибка</string>
+    <string name="module_app_failed">В модуле произошла фатальная ошибка</string>
     <string name="module_app_copy_desc">Нажмите и удерживайте содержимое для копирования</string>
     <string name="module_title_1">Основное сообщение</string>
     <string name="module_title_2">Стек сообщения</string>
-    <string name="app_error_desc">Этот модуль столкнулся с фатальным сбоем и не при каких условиях не может продолжать работу! Пожалуйста, предоставьте следующую информацию об ошибке для обратной связи! \n\n</string>
+    <string name="app_error_desc">Этот модуль столкнулся с фатальным сбоем и не может продолжать работу! Пожалуйста, предоставьте нам следующую информацию об ошибке для обратной связи! \n\n</string>
     <string name="app_exit">ОК</string>
-    <string name="safe_mode_desc">%1$s Перешел в безопасный режим из-за большого количества сбоев, а функции HyperCeiler временно отключены.</string>
+    <string name="safe_mode_desc">%1$s перешёл в безопасный режим из-за большого количества сбоев, а функции HyperCeiler временно отключены.</string>
     <string name="safe_mode_history">Посмотреть записи</string>
     <string name="safe_mode_cancel">Отключить безопасный режим</string>
     <string name="safe_mode_ok">Отмена</string>
-    <string name="safe_mode_later_title">Тип</string>
-    <string name="safe_mode_later_desc">%1$s Все еще находится в безопасном режиме, а функции HyperCeiler были отключены. Выключить безопасный режим?</string>
-    <string name="safe_mode_recorder_title">Исключительные записи</string>
+    <string name="safe_mode_later_title">Совет</string>
+    <string name="safe_mode_later_desc">%1$s всё еще находится в безопасном режиме, а функции HyperCeiler были отключены. Выключить безопасный режим?</string>
+    <string name="safe_mode_recorder_title">Записи об исключениях</string>
     <string name="safe_mode_recorder_file">Файл</string>
     <string name="safe_mode_recorder_class">Класс</string>
     <string name="safe_mode_recorder_method">Метод</string>
@@ -69,18 +69,21 @@
     <string name="error_type">Тип исключения</string>
     <string name="error_file_name">Имя файла</string>
     <string name="error_time">Время записи</string>
+    <string name="error_version_name">Название версии</string>
+    <string name="error_git_hash">Git хэш</string>
+    <string name="error_build_time">Время сборки</string>
     <string name="copy_ok">Скопировано в буфер обмена</string>
     <string name="notification_channel_app_crash_name">Приложение работает неправильно</string>
-    <string name="notification_title_message_emergency_crash">%s  Часто вылетал</string>
-    <string name="notification_content_message">Нажмите что бы посмотреть детально</string>
+    <string name="notification_title_message_emergency_crash">%s вылетал несколько раз</string>
+    <string name="notification_content_message">Нажмите, что бы посмотреть подробности</string>
     <string name="notification_view">Посмотреть</string>
     <string name="tip_default">Совет: Вот совет по умолчанию. Если вы это видите, значит, есть проблема с HyperCeiler. Пожалуйста, сообщите об этом разработчику своевременно и эффективно.</string>
-    <string name="headtip_warn_not_offical_rom">Источник используемой вами прошивки может быть неофициальной прошивкой Xiaomi, и некоторые функции могут некорректно работать. Для получения более подробной информации обратитесь к вашему разработчику прошивки.</string>
+    <string name="headtip_warn_not_offical_rom">Источник используемой вами прошивки может быть неофициальной прошивкой Xiaomi, и некоторые функции могут некорректно работать. Для получения более подробной информации обратитесь к разработчику вашей прошивки.</string>
     <string name="headtip_warn_unsupport_sysver">Текущее устройство работает на версии системы, которая не (полностью) адаптирована, что может привести к проблемам при работе HyperCeiler.</string>
-    <string name="headtip_warn_sign_verification_failed">Проверка подписи не удалась, и текущая версия, которую вы используете, возможно, не является официальной версией HyperCeiler и может содержать вредоносный код.</string>
+    <string name="headtip_warn_sign_verification_failed">Проверка подписи не удалась. Текущая версия, которую вы используете, возможно, не является официальной версией HyperCeiler и может содержать вредоносный код.</string>
     <string name="headtip_tip_auto_safe_mode">Безопасный режим может отцепить некоторые приложения вовремя, когда они падают несколько раз, чтобы обеспечить безопасность. Эта функция требует для работы области хук System Framework. Мы настоятельно рекомендуем проверить System Framework область действия для включения безопасного режима.</string>
-    <string name="headtip_tip_long_press_to_copy">Вы можете выделить текст долгим или двойным нажатием,либо скопировать его и отправить обратно разработчику.</string>
-    <string name="happy_birthday_hyperceiler">Сегодня день рождения HyperCeiler!\nСпасибо за вашу поддержку в течение прошлого года, и давайте продолжим работать вместе в этом году!</string>
+    <string name="headtip_tip_long_press_to_copy">Вы можете выделить текст долгим или двойным нажатием, скопировать его и отправить разработчику.</string>
+    <string name="happy_birthday_hyperceiler">Сегодня день рождения HyperCeiler!\nСпасибо за вашу поддержку в течение прошлого года, давайте продолжим работать вместе в этом году!</string>
     <string name="headtip_tip_fuck_coolapk">Этот день в истории: 14 июля 2022 года Sevtinge выступил с важной речью.</string>
     <string name="headtip_notice_dead_logger_errcode">Текущая служба журнала устройства ненормальна, и функции HyperCeiler будут ограничены. Пожалуйста, восстановите службу журнала, чтобы она могла работать нормально.\nКод ошибки: %1$s</string>
     <string name="headtip_notice_dead_logger">Текущая служба журнала устройства ненормальна, и функции HyperCeiler будут ограничены. Пожалуйста, восстановите службу журнала, чтобы она могла работать нормально.</string>
@@ -99,7 +102,7 @@
     <string name="exit">Выход</string>
     <string name="ignore">Игнорировать</string>
     <string name="log_level">Уровень журнала</string>
-    <string name="log_level_none">Отменить</string>
+    <string name="log_level_none">Отключено</string>
     <string name="disable_suggest">Отключить предложение</string>
-    <string name="enable_suggest">Включить предложение </string>
+    <string name="enable_suggest">Включить предложение</string>
 </resources>

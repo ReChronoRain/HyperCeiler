@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="provision_back_description">رجوع</string>
+    <string name="provision_start_content_description">إبدأ</string>
+    <string name="provision_next">التالي</string>
+    <string name="provision_skip_underline">تخطي</string>
+    <string name="provision_permission_settings_title">إعدادات الأذونات</string>
+    <string name="provision_terms_and_statement_title">الاتفاقية والبيان</string>
+    <string name="provision_basic_settings_title">الإعدادات الأساسية</string>
+    <string name="provision_agree_and_next">الموافقة والمتابعة</string>
+    <string name="provision_agree_terms">لقد قرأت بعناية الشروط الواردة أعلاه ووافقت عليها</string>
+    <string name="provision_user_agreement">إتفاقية المستخدم</string>
+    <string name="provision_privacy_policy">سياسة الخصوصية</string>
+    <string name="provision_terms_of_use">شروط الاستخدام</string>
+    <string name="provision_terms_of_use_label_use_network_china">من أجل تقديم خدمات أفضل لك، تحتاج إلى قراءة والموافقة على <a href="%1$s">اتفاقية المستخدم</a> و<a href="%2$s">سياسة الخصوصية</a> قبل أن تتمكن من متابعة استخدام النظام. سنلتزم التزامًا صارمًا بالقوانين واللوائح وسياسات الخصوصية ذات الصلة لحماية معلوماتك الشخصية.</string>
+    <string name="provision_terms_of_label_period">.</string>
+    <string name="provision_protect_persoanl_info_statement">سوف نلتزم بشكل صارم بالقوانين واللوائح وسياسات الخصوصية ذات الصلة لحماية معلوماتك الشخصية.</string>
+    <string name="provision_service_agreement">لقد قرأت بعناية الشروط الواردة أعلاه ووافقت عليها</string>
+    <string name="provision_service_name_download">مدير التنزيل</string>
+    <string name="provision_service_policy_download"><Data>يرجى القراءة والموافقة على &lt;a href=%1$s&gt; \"سياسة الخصوصية لـ Thunder\" و &lt;a href=%1$s&gt; \"اتفاقية استخدام خدمة شبكة شركة Thunder\"</Data>/بيانات&gt;</string>
+    <string name="provision_congratulation_title">اكتمل الإعداد</string>
+    <string name="provision_congratulation_label">اختبر روعة HyperOS المثيرة!</string>
+    <string name="provision_complete_text">أدخل النظام</string>
+    <!--Pop-up window/miuix part-->
+    <string name="miuix_appcompat_action_mode_select_all">تحديد الكل</string>
+    <string name="miuix_appcompat_cancel_description">إلغاء</string>
+    <string name="miuix_appcompat_confirm_description">موافق</string>
+    <string name="miuix_appcompat_select_all_description">تحديد الكل</string>
+    <string name="miuix_appcompat_deselect_all_description">إلغاء تحديد الكل</string>
+    <string name="miuix_appcompat_delete_description">حذف</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">إلغاء</string>
+    <string name="miuix_appcompat_search_input_description">بحث</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">المزيد</string>
+    <string name="miuix_appcompat_action_mode_inverse">عكس</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="tip">نصيحة</string>
+    <string name="root">بعض الميزات غير متوفرة بدون صلاحيات الجذر/المستخدم الخارق</string>
+    <string name="soft_reboot">إعادة التشغيل </string>
+    <string name="restart_app_desc">هل أنت متأكد من أنك تريد إعادة تشغيل %1$s الآن؟</string>
+    <string name="hyperceiler_restart_quick">إعادة التشغيل السريع للتطبيقات</string>
+    <string name="hook_failed">لم يتم تفعيل الوحدة بعد. يُرجى التحقق من تفعيل LSPosed. في هذه الحالة، يُرجى إعادة تشغيل الوحدة أو إعادة تحسينها.</string>
+    <string name="kill_failed">فشل في إنهاء العملية. يرجى التحقق مما إذا تم منح HyperCeiler صلاحيات الجذر/المستخدم الخارق.</string>
+    <string name="start_failed">فشل في بدء النشاط. يرجى التحقق مما إذا تم منح HyperCeiler صلاحيات الجذر/المستخدم الخارق.</string>
+    <string name="pid_failed">التطبيق المستهدف ليس قيد التشغيل ولا يحتاج إلى إعادة تشغيله.</string>
+    <string name="reboot_failed">فشل إعادة التشغيل. يرجى التحقق مما إذا تم منح HyperCeiler صلاحيات الجذر/المستخدم الخارق.</string>
+    <!--HyperCeiler Tips-->
+    <string name="error">خطأ</string>
+    <string name="warn">تنبيه</string>
+    <string name="module_app_failed">حدث خطأ فادح في الوحدة</string>
+    <string name="module_app_copy_desc">اضغط مع الاستمرار على المحتوى للنسخ</string>
+    <string name="module_title_1">الرسالة الأساسية</string>
+    <string name="module_title_2">رسالة مكدسة</string>
+    <string name="app_error_desc">لقد واجهت هذه الوحدة فشلًا خطيرًا ولا يمكنها الاستمرار في العمل! يرجى تقديم معلومات الخطأ التالية لإرسال الملاحظات! \n\n</string>
+    <string name="app_exit">موافق</string>
+    <string name="safe_mode_desc">%1$s تم الدخول إلى الوضع الآمن بسبب الأعطال المتعددة، وتم تعطيل ميزات HyperCeiler مؤقتًا.</string>
+    <string name="safe_mode_history">عرض سجلات الاستثناء</string>
+    <string name="safe_mode_cancel">تعطيل وضع الأمان</string>
+    <string name="safe_mode_ok">إلغاء</string>
+    <string name="safe_mode_later_title">نصيحة</string>
+    <string name="safe_mode_later_desc">%1$s لا يزال في الوضع الآمن، وقد تم تعطيل ميزات HyperCeiler. هل تريد تعطيل الوضع الآمن؟</string>
+    <string name="safe_mode_recorder_title">سجلات الاستثناء</string>
+    <string name="safe_mode_recorder_file">الملف</string>
+    <string name="safe_mode_recorder_class">الفئة</string>
+    <string name="safe_mode_recorder_method">الطريقة</string>
+    <string name="safe_mode_recorder_line">السطر</string>
+    <string name="safe_mode_recorder_msg">رسالة الاستثناء</string>
+    <string name="safe_mode_recorder_st">تتبع المكدس</string>
+    <string name="error_message">رسالة الاستثناء</string>
+    <string name="error_type">نوع الاستثناء</string>
+    <string name="error_file_name">اسم الملف</string>
+    <string name="error_time">وقت التسجيل</string>
+    <string name="error_version_name">اسم الإصدار</string>
+    <string name="error_git_hash">Git hash</string>
+    <string name="error_build_time">وقت البناء</string>
+    <string name="copy_ok">تم نسخه إلى الحافظة</string>
+    <string name="notification_channel_app_crash_name">التطبيق يعمل بشكل غير طبيعي</string>
+    <string name="notification_title_message_emergency_crash">%s تعطل عدة مرات</string>
+    <string name="notification_content_message">انقر هنا لعرض التفاصيل</string>
+    <string name="notification_view">عرض</string>
+    <string name="tip_default">نصيحة: هذه هي النصيحة الافتراضية. إذا كنت ترى هذه الرسالة، فهذا يعني أن هناك مشكلة في HyperCeiler. يرجى إبلاغ المطوّر بها في الوقت المناسب وبطريقة فعّالة.</string>
+    <string name="headtip_warn_not_offical_rom">قد لا يكون مصدر الروم الذي تستخدمه إصدارًا رسميًا من شاومي، وقد لا تعمل بعض الميزات. يُرجى التواصل مع المورّد الخاص بك للحصول على مزيد من التفاصيل.</string>
+    <string name="headtip_warn_unsupport_sysver">الجهاز الحالي يعمل على إصدار نظام غير متوافق (تمامًا)، مما قد يؤدي إلى ظهور أخطاء في وظائف HyperCeiler.</string>
+    <string name="headtip_warn_sign_verification_failed">فشلت عملية التحقق من التوقيع، وقد لا يكون الإصدار الحالي الذي تستخدمه الإصدار الرسمي لـ HyperCeiler، وقد يحتوي على تعليمات برمجية ضارة.</string>
+    <string name="headtip_tip_auto_safe_mode">يمكن للوضع الآمن فصل بعض التطبيقات بسرعة عندما تتعطل عدة مرات لضمان الأمان. تتطلب هذه الميزة نطاق ربط إطار عمل النظام لتعمل. نوصي بشدة بالتحقق من نطاق إطار عمل النظام لتفعيل الوضع الآمن.</string>
+    <string name="headtip_tip_long_press_to_copy">يمكنك تحديد النص بعد الضغط عليه مطولاً أو مرتين، أو نسخه وإرساله مرة أخرى إلى المطور.</string>
+    <string name="happy_birthday_hyperceiler">اليوم هو عيد ميلاد HyperCeiler!\nشكرًا لدعمكم طوال العام الماضي، ولنستمر معًا في العمل هذا العام!</string>
+    <string name="headtip_tip_fuck_coolapk">اليوم في التاريخ: ألقى Sevtinge خطابًا مهمًا في 14 يوليو 2022.</string>
+    <string name="headtip_notice_dead_logger_errcode">خدمة سجل الجهاز الحالية غير طبيعية وستكون ميزات HyperCeiler محدودة. يرجى استعادة خدمة السجل لتعمل بشكل طبيعي.\nرمز الخطأ: %1$s</string>
+    <string name="headtip_notice_dead_logger">خدمة سجل الجهاز الحالية غير طبيعية، وستكون ميزات HyperCeiler محدودة. يُرجى استعادة خدمة السجل لتعمل بشكل طبيعي.</string>
+    <string name="unsupported_system_func">هذه الميزة غير مدعومة في إصدار النظام الحالي</string>
+    <string name="supported_system_func">هذه الوظيفة مدعومة رسميا من خلال إصدار النظام الحالي</string>
+    <string name="feature_doing_func">يتم إنتاج الوظيفة الحالية، يرجى التحلي بالصبر</string>
+    <!--System UI-->
+    <string name="system_ui">واجهة مستخدم النظام</string>
+    <!--System launcher-->
+    <string name="mihome">مشغل النظام</string>
+    <!--Settings-->
+    <string name="system_settings">الإعدادات</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center_hyperos">الحماية</string>
+    <!--Other-->
+    <string name="exit">خروج</string>
+    <string name="ignore">تجاهل</string>
+    <string name="log_level">مستوى السجل</string>
+    <string name="log_level_none">معطل</string>
+    <string name="disable_suggest">تعطيل الاقتراحات</string>
+    <string name="enable_suggest">تمكين الاقتراحات</string>
+</resources>

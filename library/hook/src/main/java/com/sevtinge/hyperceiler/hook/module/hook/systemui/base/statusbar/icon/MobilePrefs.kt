@@ -48,7 +48,7 @@ object MobilePrefs {
     }
     val verticalOffset by lazy {
         // 单独显示-上下偏移量
-        mPrefsMap.getInt("system_ui_statusbar_mobile_type_vertical_offset", 8)
+        mPrefsMap.getInt("system_ui_statusbar_mobile_type_vertical_offset", 40)
     }
     val mobileNetworkType by lazy {
         mPrefsMap.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0)

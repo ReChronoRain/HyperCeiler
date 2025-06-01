@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.hook.utils.devicesdk
 
+import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Process
 import com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp
@@ -36,6 +38,8 @@ fun getCurrentUserId(): Int = Process.myUserHandle().hashCode()
 // 仅获取设备信息，不要用于判断
 fun getAndroidVersion(): Int = androidSDK
 fun getHyperOSVersion(): Float = hyperOSSDK
+fun isSupportTelephony(context: Context): Boolean = context.packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
+fun isSupportWifi(context: Context): Boolean = context.packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI)
 
 private val androidSDK: Int by lazy {
     Build.VERSION.SDK_INT

@@ -19,7 +19,6 @@
   -->
 <resources>
     <string name="version_update">Có phiên bản mới</string>
-    <string name="about_copy_right">© 2023-2025 Người đóng góp Sevtinge &amp; HyperCeiler.</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">thêm và xóa tập tin trên bộ nhớ trong thiết bị</string>
     <string name="new_permission_location_desc">được sử dụng để cung cấp các dịch vụ như vĩ độ và kinh độ</string>
@@ -437,6 +436,11 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_allow_disable_protected_package">Cho phép tắt các ứng dụng được bảo vệ</string>
     <string name="system_framework_disable_miui_watermark">Tắt hình mờ bản quốc tế</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">Bỏ qua các hạn chế nguồn không xác định</string>
+    <string name="system_framework_bypass_force_mi_appstore">Cho phép chọn ứng dụng của bên thứ ba khi nhảy đến CH Play</string>
+    <string name="system_framework_market_use_detailmini">Luôn mở trong cửa sổ nổi khi chuyển đến Xiaomi GetApps</string>
+    <string name="system_framework_market_use_detailmini_desc">Bỏ qua hạn chế mà một ứng dụng không thể chuyển hướng đến trang chi tiết của ứng dụng khác trong GetApps mà không có appClientId</string>
+    <string name="system_framework_bypass_force_downloadui">Bỏ qua việc buộc dùng Download Manager khi mở trang tải xuống</string>
+    <string name="system_framework_bypass_force_downloadui_desc">Giải quyết vấn đề nhảy không đúng khi nhấp vào \"Xem tải xuống\" trong Chia sẻ nhanh</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Quản lý cài đặt gói</string>
     <string name="system_framework_core_patch_downgr">Cho phép hạ cấp</string>
@@ -709,8 +713,11 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Đây là một đoạn văn bản dài sẽ được xuất ra ở dạng cuộn</string>
     <string name="system_ui_statusbar_music_tip">Lưu ý trước khi sử dụng:\n• Sau khi bật tính năng này, hãy kiểm tra và khởi động lại Giao diện người dùng hệ thống và phạm vi âm nhạc tương ứng.\n• Tính năng này cần được sử dụng với mô-đun \"SuperLyric\".\n• Đảm bảo rằng thông báo \"Tập trung vào lời bài hát\" được bật trong danh mục thông báo của ứng dụng âm nhạc tương ứng và trong cài đặt thông báo Focus của ứng dụng.</string>
     <string name="system_ui_statusbar_music_notification">Thông báo lời bài hát Focus</string>
+    <string name="system_ui_statusbar_music_show_app_title">Thông báo đăng ký trên ứng dụng</string>
+    <string name="system_ui_statusbar_music_show_app_desc">Sau khi mở, bạn cần kiểm tra phạm vi của ứng dụng âm nhạc</string>
     <string name="system_ui_statusbar_music_cusiom_notific_title">Tùy chọn hiển thị</string>
     <string name="system_ui_statusbar_music_show_notific_title">Hiển thị thông báo lời bài hát</string>
+    <string name="system_ui_statusbar_music_hide_aod_title">Không hiển thị thông báo tập trung dưới màn hình</string>
     <string name="system_ui_statusbar_music_cusiom_statusbar_title">Cài đặt hiển thị thanh trạng thái</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Ẩn đồng hồ thanh trạng thái</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">Ẩn đồng hồ trên thanh trạng thái khi hiển thị lời bài hát focus và điều chỉnh hoạt ảnh của mục Thông báo thả xuống.</string>

@@ -19,7 +19,9 @@
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter;
 
 import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
 
 import android.telephony.SubscriptionInfo;
 import android.view.View;
@@ -112,6 +114,7 @@ public class HideDelimiter extends BaseHook {
             if (prefs == 3) {
                 if (isMoreAndroidVersion(35)) {
 
+                    if (!isMoreSmallVersion(200, 2f)) {
                     findAndHookMethod("miui.stub.statusbar.StatusBarStub$registerMiuiCarrierTextController$1$addCallback$callback$1", "onCarrierTextChanged", String.class, new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
@@ -134,6 +137,23 @@ public class HideDelimiter extends BaseHook {
                         }
                     });
 
+                    } else {
+                        findAndHookMethod("miui.stub.statusbar.StatusBarStub$registerMiuiCarrierTextController$1$addCallback$callback$1", "onCarrierTextChanged", int.class, String.class, new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) throws Throwable {
+                                param.args[0] = 1;
+                                param.args[1] = getProp("persist.sys.device_name");
+                            }
+                        });
+
+                        findAndHookMethod("com.android.keyguard.CarrierText$1", "onCarrierTextChanged", int.class, int.class, String.class, new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) throws Throwable {
+                                param.args[0] = 1;
+                                param.args[2] = getProp("persist.sys.device_name");
+                            }
+                        });
+                    }
                     try {
                         findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl", "updateCarrierText", new MethodHook() {
                             @Override

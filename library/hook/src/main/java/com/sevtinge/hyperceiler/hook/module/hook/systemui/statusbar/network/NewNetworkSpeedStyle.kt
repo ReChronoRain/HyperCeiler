@@ -171,9 +171,9 @@ object NewNetworkSpeedStyle : BaseHook() {
         // 上下偏移量
         var topMargin = 0
         val verticalOffset =
-            mPrefsMap.getInt("system_ui_statusbar_network_speed_vertical_offset", 8)
-        if (verticalOffset != 8) {
-            topMargin = dp2px((verticalOffset - 8) * 0.5f)
+            mPrefsMap.getInt("system_ui_statusbar_network_speed_vertical_offset", 40)
+        if (verticalOffset != 40) {
+            topMargin = dp2px((verticalOffset - 40) * 0.1f)
         }
         id.setPaddingRelative(leftMargin, topMargin, rightMargin, 0)
     }

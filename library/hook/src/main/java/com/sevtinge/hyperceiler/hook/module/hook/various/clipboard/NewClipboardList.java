@@ -143,7 +143,7 @@ public class NewClipboardList extends HCBase implements LoadInputMethodDex.OnInp
                     }
                 })
 
-                .findMethod("setClipboardModelList") // 保存剪贴板数据
+                .findAllMethod("setClipboardModelList") // 保存剪贴板数据
                 .hook(new IHook() {
                     @Override
                     public void before() {

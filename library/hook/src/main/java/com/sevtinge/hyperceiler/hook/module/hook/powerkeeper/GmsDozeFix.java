@@ -31,19 +31,16 @@ import de.robv.android.xposed.XposedHelpers;
 public class GmsDozeFix extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookMethod("com.miui.powerkeeper.utils.GmsObserver", "isGmsControlEnabled", new MethodHook(){
+        Class<?> GmsObserver = XposedHelpers.findClassIfExists("com.miui.powerkeeper.utils.GmsObserver", lpparam.classLoader);
+        findAndHookMethod(GmsObserver, "isGmsControlEnabled", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 param.setResult(false);
             }
         });
 
-        // from https://github.com/kooritea/fcmfix/blob/master/app/src/main/java/com/kooritea/fcmfix/xposed/PowerkeeperFix.java
-        Class<?> MilletConfig = XposedHelpers.findClassIfExists("com.miui.powerkeeper.millet.MilletConfig", lpparam.classLoader);
-        XposedHelpers.setStaticBooleanField(MilletConfig, "isGlobal", true);
-
-        Class<?> Misc = XposedHelpers.findClassIfExists("com.miui.powerkeeper.provider.SimpleSettings.Misc", lpparam.classLoader);
-        findAndHookMethod(Misc, "getBoolean", 3, new MethodHook() {
+        Class<?> Misc = XposedHelpers.findClassIfExists("com.miui.powerkeeper.provider.SimpleSettings$Misc", lpparam.classLoader);
+        findAndHookMethod(Misc, "getBoolean", Context.class, String.class, boolean.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam methodHookParam) throws Throwable {
                 if ("gms_control".equals((String) methodHookParam.args[1])) {

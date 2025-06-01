@@ -422,11 +422,11 @@
                 android:data="http://www.coolapk.com/u/12223114" />
         </Preference>
         <Preference
-            android:summary="GitHub@a406010503"
+            android:summary="GitHub@HolyBearTW"
             android:title="聖小熊">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/a406010503" />
+                android:data="https://github.com/HolyBearTW" />
         </Preference>
         <Preference
             android:summary="GitHub@Meetingfate / CoolApk@相见即是缘"

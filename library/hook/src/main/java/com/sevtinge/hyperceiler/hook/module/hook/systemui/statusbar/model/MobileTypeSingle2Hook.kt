@@ -145,6 +145,15 @@ object MobileTypeSingle2Hook : BaseHook() {
     }
 
     private fun hookMobileView() {
+        if (mobileNetworkType == 3 || mobileNetworkType == 4 || showMobileType) {
+            if (isMoreSmallVersion(200, 2f)) {
+                findAndHookMethod("com.android.systemui.statusbar.views.MobileTypeDrawable", "measure", object : MethodHook() {
+                    override fun before(param: MethodHookParam?) {
+                        param!!.result = null
+                    }
+                })
+            }
+        }
         modernStatusBarMobileView.methodFinder()
             .filterByName("constructAndBind")
             .filterByParamCount(5)
@@ -184,8 +193,8 @@ object MobileTypeSingle2Hook : BaseHook() {
                         val marginLeft = dp2px(leftMargin * 0.5f)
                         val marginRight = dp2px(rightMargin * 0.5f)
                         var topMargin = 0
-                        if (verticalOffset != 8) {
-                            val marginTop = dp2px((verticalOffset - 8) * 0.5f)
+                        if (verticalOffset != 40) {
+                            val marginTop = dp2px((verticalOffset - 40) * 0.1f)
                             topMargin = marginTop
                         }
                         textView.setPadding(marginLeft, topMargin, marginRight, 0)
@@ -200,7 +209,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                         val paddingLeft = if (dataConnected && !(showMobileType && hideIndicator)) {
                             0
                         } else {
-                            20
+                            if (isMoreSmallVersion(200, 2f)) 0 else 20
                         }
 
                         containerLeft.setPadding(paddingLeft, 0, 0, 0)
@@ -317,7 +326,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                                     }
                                 }
                                 val paddingLeft = if (isNoDataConnected || (showMobileType && hideIndicator)) {
-                                    20
+                                    if (isMoreSmallVersion(200, 2f)) 0 else 20
                                 } else {
                                     0
                                 }
@@ -328,8 +337,8 @@ object MobileTypeSingle2Hook : BaseHook() {
                                     val mobileType = view.findViewByIdName("mobile_type") as ImageView
                                     mobileType.visibility = View.GONE
                                 }
-                                containerLeft.setPadding(20, 0, 0, 0)
-                                containerRight.setPadding(20, 0, 0, 0)
+                                containerLeft.setPadding(if (isMoreSmallVersion(200, 2f)) 0 else 20, 0, 0, 0)
+                                containerRight.setPadding(if (isMoreSmallVersion(200, 2f)) 0 else 20, 0, 0, 0)
                             }
                         }
                     }
