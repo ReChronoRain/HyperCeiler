@@ -1327,6 +1327,7 @@
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">منع استعادة القائمة البيضاء لتحسين البطارية</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">إيقاف الحصول على رمز التحكم في العرض</string>
     <string name="powerkeeper_gms_doze_fix">السماح لـ GMS بالاتصال بالشبكة في أي وقت</string>
+    <string name="powerkeeper_conservative_millet">جعل ميليت محافظا</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">مسجل الشاشة</string>
     <string name="screen_recorder_force_support_playback_capture">تمكين دعم تسجيل الشاشة AOSP بالقوة</string>
