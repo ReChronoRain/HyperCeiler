@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.hook.utils.log;
 
-
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getSerial;
 import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mPrefsMap;
 import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mSharedPreferences;

@@ -22,7 +22,6 @@ import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.logLevel;
 
 import de.robv.android.xposed.XposedBridge;
 
-
 public class XposedLogUtils {
     public static void logI(String msg) {
         if (logLevel < 3) return;

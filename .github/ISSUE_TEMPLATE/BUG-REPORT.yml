@@ -1,5 +1,5 @@
 name: "🐛 Bug"
-description: Problem report. | 问题报告.
+description: Report issue | 问题报告
 title: "🐛 [BUG] <问题标题>"
 labels: [
   "bug"
@@ -8,38 +8,38 @@ body:
   - type: checkboxes
     id: check
     attributes:
-      label: Notice 须知
+      label: Notice | 须知
       description: |
-        Please make sure you have complied with all required options, otherwise the issue will be closed without any reason.
-        Before submitting an Issue, please confirm that it is the latest version of ci released by [cemiuiler_canary channel](https://t.me/cemiuiler_canary)
-        Or the latest debug version of the main branch under Github Actions of this project
+        Make sure that all necessary options have been followed; otherwise, the issue will be closed without any reason.
+        Before submitting an issue, confirm that the latest CI version released by [HyperCeiler | Canary Test](https://t.me/cemiuiler_canary) is currently available.
+        Or the latest debug version from the main branch in the GitHub Actions of this project.
         
         请确认已经遵守所有必选项，否则将被无理由直接关闭 Issue
-        提交 Issue 前请确认当前为[cemiuiler_canary频道](https://t.me/cemiuiler_canary)发布的最新版 ci
-        或者本项目 Github Actions 下 main 分支最新构建的 debug 版本
+        提交 Issue 前请确认当前为[HyperCeiler | Canary Test](https://t.me/cemiuiler_canary)发布的最新版 CI
+        或者本项目 Github Actions 下 main 分支最新构建的 Debug 版本
       options:
         - label: |
-            I confirm that this problem still exists in the latest version. 
-            我确认最新版依然存在此问题.
+            I confirm that this issue still exists in the latest version | 
+            我确认最新版依然存在此问题
           required: true
 
         - label: |
-            I have checked all installed modules for the possibility and confirmed that this module is the cause. 
-            我已排查已安装的所有模块的可能性，确认由本模块造成.
+            I checked all installed modules to verify the possibility and confirmed that this module is the cause | 
+            我已排查已安装的所有模块的可能性，确认由本模块造成
           required: true
 
         - label: |
-            I've searched the Issue Tracker and can't find an Issue that submitted the same issue. 
-            我已经搜索过 Issue Tracker，且并未查询到提交相同问题的 Issue.
+            I searched the Issue Tracker and couldn't find an issue that submitted the same issue | 
+            我已经搜索过 Issue Tracker，且并未查询到提交相同问题的 Issue
           required: true
 
   - type: textarea
     id: description
     attributes:
-      label: "Problem description | 问题描述"
+      label: "Issue description | 问题描述"
       description: |
-        Please enter a concise and clear description of the problem.   
-        请输入简洁且明确的问题描述。
+        Please enter a clear and concise description of the issue 
+        请输入简洁且明确的问题描述
       placeholder: ...的...功能出现...异常
     validations:
       required: true
@@ -48,8 +48,8 @@ body:
     attributes:
       label: "Module logs | 模块日志"
       description: |
-        LSPosed Manager - Log or Software Crash Log
-        LSPosed 管理器 - 日志 或 软件崩溃日志
+        LSPosed Manager - log or software crash log 
+        LSPosed 管理器 - 日志或软件崩溃日志
       placeholder: ...
     validations:
       required: true
@@ -58,8 +58,8 @@ body:
     attributes:
       label: "Reproduction steps | 复现步骤"
       description: |
-        Enter concise steps to reproduce the problem.
-        输入简明的问题复现步骤。
+        Enter concise steps to reproduce the issue 
+        输入简明的问题复现步骤
       value: |
         1. 前往 '...'
         2. 点击 '....'
@@ -72,10 +72,10 @@ body:
   - type: textarea
     id: screenshot
     attributes:
-      label: "Screenshot of problem | 问题截图"
+      label: "Screenshot of issue | 问题截图"
       description: |
-        Upload a screenshot of the problem so we can quickly locate it.
-        上传问题截图以便我们快速定位.
+        Upload a screenshot of the issue so we can quickly locate it 
+        上传问题截图以便我们快速定位
       value: |
         ![图片注释](图片链接)
     validations:
@@ -85,8 +85,8 @@ body:
     attributes:
       label: "HyperCeiler device information | HyperCeiler 设备信息"
       description: |
-        Please be sure to upload a screenshot of HyperCeiler Settings-Developer Options-Debug Information to diagnose the issue.
-        请务必上传 HyperCeiler 设置-开发者选项-调试信息 的截图，以便诊断问题.
+        Make sure to upload a screenshot to help diagnose the issue in HyperCeiler Settings > Developer options > Debug info 
+        请务必上传 HyperCeiler 设置-开发者选项-调试信息 的截图，以便诊断问题
       value: |
         ![图片注释](图片链接)
     validations:

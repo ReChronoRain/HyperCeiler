@@ -90,7 +90,6 @@ public class PrefsUtils {
         return mPrefsFileCurrent;
     }
 
-
     public static boolean contains(String key) {
         return mSharedPreferences.contains(key);
     }
@@ -147,7 +146,6 @@ public class PrefsUtils {
         }
     }
 
-
     public static int getSharedIntPrefs(Context context, String name, int defValue) {
         Uri uri = PrefToUri.intPrefToUri(name, defValue);
         try {
@@ -165,7 +163,6 @@ public class PrefsUtils {
             return (int) mPrefsMap.getObject(name, defValue);
         else return defValue;
     }
-
 
     public static boolean getSharedBoolPrefs(Context context, String name, boolean defValue) {
         Uri uri = PrefToUri.boolPrefToUri(name, defValue);
@@ -185,7 +182,6 @@ public class PrefsUtils {
         else
             return defValue;
     }
-
 
     public static void registerOnSharedPreferenceChangeListener(Context context) {
         mSharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {

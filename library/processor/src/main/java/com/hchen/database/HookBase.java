@@ -45,7 +45,7 @@ public @interface HookBase {
     float targetOSVersion() default -1F;
 
     /*
-     * 是否是 pad 专属
+     * 是否是 Pad 专属
      * 0 通用，1 Pad，2 手机
      * */
     int isPad() default 0;
