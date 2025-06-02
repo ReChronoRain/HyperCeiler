@@ -33,17 +33,14 @@ object MobileClass {
     val miuiCellularIconVM by lazy {
         loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.viewmodel.MiuiCellularIconVM")
     }
-    val hdController by lazy {
-        loadClass("com.android.systemui.statusbar.policy.HDController")
+    val mobileUiAdapter by lazy {
+        loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.MobileUiAdapter")
     }
     val networkController by lazy {
         loadClass("com.android.systemui.statusbar.connectivity.NetworkControllerImpl")
     }
     val mobileSignalController by lazy {
         loadClass("com.android.systemui.statusbar.connectivity.MobileSignalController")
-    }
-    val shadeHeaderController by lazy {
-        loadClass("com.android.systemui.shade.ShadeHeaderController")
     }
     val modernStatusBarMobileView by lazy {
         loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.view.ModernStatusBarMobileView")
