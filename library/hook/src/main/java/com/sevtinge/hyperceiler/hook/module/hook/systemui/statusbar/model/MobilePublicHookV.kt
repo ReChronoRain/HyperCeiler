@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model
 import android.telephony.SubscriptionManager
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.Dependency
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobileClass.miuiCellularIconVM
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.card1
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.card2
@@ -49,30 +50,27 @@ class MobilePublicHookV : BaseHook() {
                 val mobileIconInteractor = param.args[2]
                 val subId = mobileIconInteractor.getObjectFieldAs<Int>("subId")
 
-                val javaAdapter = Dependency.miuiLegacyDependency
-                    ?.getObjectField("mCentralSurfaces")
-                    ?.callMethod("get")
-                    ?.getObjectField("mJavaAdapter")
-
                 // 双排信号
                 if (isEnableDouble) {
                     val isVisible = newReadonlyStateFlow(false)
                     cellularIcon.setObjectField("isVisible", isVisible)
-                    if (!hideRoaming) cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(false))
+                    if (!hideRoaming) {
+                        cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(false))
+                    }
 
-                    val activeSubId = Dependency.miuiLegacyDependency
+                    Dependency.miuiLegacyDependency
                         ?.getObjectField("mOperatorCustomizedPolicy")
                         ?.callMethod("get")
                         ?.getObjectField("mobileIcons")
                         ?.getObjectField("activeMobileDataSubscriptionId")
-
-                    javaAdapter?.callMethod(
-                        "alwaysCollectFlow",
-                        activeSubId,
-                        Consumer<Int> {
-                            setStateFlowValue(isVisible, subId == it)
+                        ?.let { activeSubId ->
+                            MiuiStub.javaAdapter.alwaysCollectFlow(
+                                activeSubId,
+                                Consumer<Int> {
+                                    setStateFlowValue(isVisible, subId == it)
+                                }
+                            )
                         }
-                    )
                 } else {
                     val getSlotIndex = SubscriptionManager.getSlotIndex(subId)
                     if ((card1 && getSlotIndex == 0) || (card2 && getSlotIndex == 1)) {

@@ -27,18 +27,20 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
+import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.Dependency
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobileClass.hdController
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobileClass.mOperatorConfig
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobileClass.miuiCellularIconVM
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobileClass.mobileUiAdapter
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobileClass.modernStatusBarMobileView
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobileClass.shadeHeaderController
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.bold
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.fontSize
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.getLocation
@@ -49,23 +51,28 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.Mo
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.rightMargin
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.showMobileType
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.verticalOffset
+import com.sevtinge.hyperceiler.hook.utils.StateFlowHelper.getStateFlowValue
 import com.sevtinge.hyperceiler.hook.utils.StateFlowHelper.newReadonlyStateFlow
+import com.sevtinge.hyperceiler.hook.utils.StateFlowHelper.setStateFlowValue
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isDebug
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callMethodAs
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.SubscriptionManagerProvider
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreSmallVersion
+import com.sevtinge.hyperceiler.hook.utils.getAdditionalInstanceFieldAs
 import com.sevtinge.hyperceiler.hook.utils.getBooleanField
 import com.sevtinge.hyperceiler.hook.utils.getIntField
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
-import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull
+import com.sevtinge.hyperceiler.hook.utils.setAdditionalInstanceField
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
 import java.lang.reflect.Method
 import java.util.function.Consumer
 
 object MobileTypeSingle2Hook : BaseHook() {
+    private val isMore200SmallVersion = isMoreSmallVersion(200, 2f)
+
     private val DarkIconDispatcherClass by lazy {
         loadClass("com.android.systemui.plugins.DarkIconDispatcher", lpparam.classLoader)
     }
@@ -74,10 +81,9 @@ object MobileTypeSingle2Hook : BaseHook() {
     private var get0: Float = 0.0f
     private var get1: Int = 0
     private var get2: Int = 0
-    private val simDataConnected = booleanArrayOf(false, false)
 
     override fun init() {
-        hookMobileView()
+        hookMobileViewAndVM()
         if (!showMobileType) return
 
         try {
@@ -144,231 +150,203 @@ object MobileTypeSingle2Hook : BaseHook() {
             })
     }
 
-    private fun hookMobileView() {
-        if (mobileNetworkType == 3 || mobileNetworkType == 4 || showMobileType) {
-            if (isMoreSmallVersion(200, 2f)) {
-                findAndHookMethod("com.android.systemui.statusbar.views.MobileTypeDrawable", "measure", object : MethodHook() {
-                    override fun before(param: MethodHookParam?) {
-                        param!!.result = null
-                    }
-                })
-            }
+    private fun hookMobileViewAndVM() {
+        miuiCellularIconVM.constructorFinder().first().createAfterHook { param ->
+            val viewModel = param.thisObject
+            viewModel.setAdditionalInstanceField("interactor", param.args[1])
+            viewModel.setObjectField("wifiAvailable", param.args[2].getObjectField("wifiAvailable"))
         }
+
         modernStatusBarMobileView.methodFinder()
             .filterByName("constructAndBind")
             .filterByParamCount(5)
-            .single().createHook {
-                after { param ->
-                    val viewModel = param.args[4]
-                    val rootView = param.result as ViewGroup
-                    val subId = rootView.getIntField("subId")
+            .single().createAfterHook { param ->
+                var viewModel = param.args.last()
+                if (viewModel.javaClass.simpleName == "MiuiMobileIconVMImpl") {
+                    viewModel = viewModel.callMethodAs("getCellProvider")
+                }
+                val interactor = viewModel.getAdditionalInstanceFieldAs<Any>("interactor")
 
-                    val slotIndex = SubscriptionManager.getSlotIndex(subId)
-                    if (slotIndex == -1) {
-                        return@after
+                val rootView = param.result as ViewGroup
+                val subId = rootView.getIntField("subId")
+
+                val slotIndex = SubscriptionManager.getSlotIndex(subId)
+                if (slotIndex == -1) {
+                    return@createAfterHook
+                }
+
+                val mobileGroup = rootView.findViewByIdName("mobile_group") as LinearLayout
+                val containerLeft =
+                    mobileGroup.findViewByIdName("mobile_container_left") as ViewGroup
+                val containerRight =
+                    mobileGroup.findViewByIdName("mobile_container_right") as ViewGroup
+
+                // 添加大 5G 并设置样式
+                if (showMobileType) {
+                    val mobileType = containerLeft.findViewByIdName("mobile_type") as? ImageView
+                    val textView = mobileGroup.findViewByIdName("mobile_type_single") as TextView
+                    if (!getLocation) {
+                        mobileGroup.removeView(textView)
+                        mobileGroup.addView(textView)
+                    }
+                    if (fontSize != 27) {
+                        textView.textSize = fontSize * 0.5f
+                    }
+                    if (bold) {
+                        textView.typeface = Typeface.DEFAULT_BOLD
+                    }
+                    val marginLeft = dp2px(leftMargin * 0.5f)
+                    val marginRight = dp2px(rightMargin * 0.5f)
+                    var topMargin = 0
+                    if (verticalOffset != 40) {
+                        val marginTop = dp2px((verticalOffset - 40) * 0.1f)
+                        topMargin = marginTop
+                    }
+                    textView.setPadding(marginLeft, topMargin, marginRight, 0)
+
+                    // 大 5G 始终删除小 5G
+                    containerLeft.removeView(mobileType)
+                }
+
+                // 调整初始样式
+                val isDataConnectedFlow = interactor.getObjectFieldAs<Any>("isDataConnected")
+                // 在 200 版本 isDataConnected 初始总为 false
+                val isDataConnected = getStateFlowValue(isDataConnectedFlow) as Boolean
+                if (mobileNetworkType == 3 || mobileNetworkType == 4 || showMobileType) {
+                    val paddingLeft = if (isDataConnected && !(showMobileType && hideIndicator)) {
+                        0
+                    } else {
+                        20
                     }
 
-                    val mobileGroup = rootView.findViewByIdName("mobile_group") as LinearLayout
-                    val containerLeft =
-                        mobileGroup.findViewByIdName("mobile_container_left") as ViewGroup
-                    val containerRight =
-                        mobileGroup.findViewByIdName("mobile_container_right") as ViewGroup
+                    containerLeft.setPadding(paddingLeft, 0, 0, 0)
+                    containerRight.setPadding(paddingLeft, 0, 0, 0)
+                }
 
-                    // 添加大 5G 并设置样式
-                    if (showMobileType) {
-                        val mobileType =
-                            containerLeft.findViewByIdName("mobile_type") as? ImageView?
-                        val textView =
-                            mobileGroup.findViewByIdName("mobile_type_single") as TextView
-                        if (!getLocation) {
-                            mobileGroup.removeView(textView)
-                            mobileGroup.addView(textView)
-                        }
-                        if (fontSize != 27) {
-                            textView.textSize = fontSize * 0.5f
-                        }
-                        if (bold) {
-                            textView.typeface = Typeface.DEFAULT_BOLD
-                        }
-                        val marginLeft = dp2px(leftMargin * 0.5f)
-                        val marginRight = dp2px(rightMargin * 0.5f)
-                        var topMargin = 0
-                        if (verticalOffset != 40) {
-                            val marginTop = dp2px((verticalOffset - 40) * 0.1f)
-                            topMargin = marginTop
-                        }
-                        textView.setPadding(marginLeft, topMargin, marginRight, 0)
+                if (showMobileType && mobileNetworkType != 4) {
+                    // 大 5G 显示逻辑
+                    if (mobileNetworkType == 0 || mobileNetworkType == 2) {
+                        viewModel.setObjectField(
+                            "mobileTypeSingleVisible",
+                            newReadonlyStateFlow(false)
+                        )
 
-                        // 大 5G 始终删除小 5G
-                        containerLeft.removeView(mobileType)
+                        MiuiStub.javaAdapter.alwaysCollectFlow(
+                            viewModel.getObjectFieldAs("wifiAvailable"),
+                            Consumer<Boolean> {
+                                if (subId == SubscriptionManager.getDefaultDataSubscriptionId()) {
+                                    containerLeft.setPadding(if (it) 20 else 0, 0, 0, 0)
+                                }
+
+                                setStateFlowValue(
+                                    viewModel.getObjectField("mobileTypeSingleVisible"), !it
+                                )
+                            }
+                        )
                     }
 
-                    // 调整初始样式
-                    val dataConnected = simDataConnected[slotIndex]
-                    if (mobileNetworkType == 3 || mobileNetworkType == 4 || showMobileType) {
-                        val paddingLeft = if (dataConnected && !(showMobileType && hideIndicator)) {
-                            0
-                        } else {
-                            if (isMoreSmallVersion(200, 2f)) 0 else 20
-                        }
-
-                        containerLeft.setPadding(paddingLeft, 0, 0, 0)
-                        containerRight.setPadding(paddingLeft, 0, 0, 0)
-                    }
-
-                    if (showMobileType && mobileNetworkType != 4) {
-                        // 大 5G 显示逻辑
+                    if (mobileNetworkType != 4) {
                         viewModel.setObjectField(
                             "mobileTypeSingleVisible",
                             newReadonlyStateFlow(true)
                         )
-                    } else if (!showMobileType) {
-                        // 小 5G 显示逻辑
-                        viewModel.setObjectField(
-                            "mobileTypeVisible",
-                            newReadonlyStateFlow(
-                                when (mobileNetworkType) {
-                                    1, 2 -> true
-                                    3 -> false
-                                    else -> dataConnected
-                                }
-                            )
-                        )
                     }
+                } else {
+                    // 小 5G 显示逻辑
+                    viewModel.setObjectField(
+                        "mobileTypeVisible",
+                        when (mobileNetworkType) {
+                            1, 2 -> newReadonlyStateFlow(true)
+                            3 -> newReadonlyStateFlow(false)
+                            else -> if (isMore200SmallVersion) {
+                                isDataConnectedFlow
+                            } else {
+                                newReadonlyStateFlow(isDataConnected)
+                            }
+                        }
+                    )
                 }
             }
 
-        shadeHeaderController.methodFinder()
-            .filterByName("onViewAttached")
-            .single()
-            .createHook {
-                after {
-                    if ((!hideIndicator && (showMobileType || mobileNetworkType == 3)) || mobileNetworkType == 4) {
-                        setOnDataChangedListener()
-                    }
-                }
+        if ((!hideIndicator && (showMobileType || mobileNetworkType == 3)) || mobileNetworkType == 4) {
+            mobileUiAdapter.constructorFinder().first().createAfterHook {
+                setOnDataChangedListener(it.thisObject)
             }
+        }
 
         if (showMobileType && mobileNetworkType == 4) {
             showMobileTypeSingle()
         }
-
-        if (showMobileType && (mobileNetworkType == 0 || mobileNetworkType == 2) && !isMoreSmallVersion(200, 2f)) {
-            setOnWiFiChangedListener()
-        }
     }
 
     private fun showMobileTypeSingle() {
-        mOperatorConfig.constructors[0].createHook {
-            after {
-                // 启用系统的网络类型单独显示
-                // 系统的单独显示只有一个大 5G
-                it.thisObject.setObjectField("showMobileDataTypeSingle", true)
-            }
+        mOperatorConfig.constructors[0].createAfterHook {
+            // 启用系统的网络类型单独显示
+            // 系统的单独显示只有一个大 5G
+            it.thisObject.setObjectField("showMobileDataTypeSingle", true)
         }
     }
 
     @SuppressLint("NewApi")
-    private fun setOnDataChangedListener() {
-        val hdController = Dependency.miuiLegacyDependency
-            ?.getObjectField("mMiuiIconManagerFactory")
-            ?.callMethod("get")
-            ?.getObjectField("mMobileUiAdapter")
-            ?.getObjectField("hdController")
-
-
-        val dataConnected =
-            hdController?.getObjectFieldOrNull("mMiuiMobileIconsInt")?.getObjectField("dataConnected") ?:
-            hdController?.getObjectFieldOrNull("miuiMobileIconsInt")?.getObjectField("dataConnected")
+    private fun setOnDataChangedListener(mobileUiAdapter: Any) {
+        val miuiInt = mobileUiAdapter.getObjectFieldAs<Any>("mobileIconsViewModel")
+            .getObjectFieldAs<Any>("miuiInt")
+        val defaultConnections = miuiInt.getObjectFieldAs<Any>("connectRepo")
+            .getObjectFieldAs<Any>("defaultConnections")
+        val dataConnected = miuiInt.getObjectFieldAs<Any>("dataConnected")
 
         // 监听移动网络
-        MiuiStub.javaAdapter.callMethod(
-            "alwaysCollectFlow",
-            dataConnected,
-            Consumer<BooleanArray> {
-                if (isDebug()) logD(TAG, lpparam.packageName, "MobileDataConnected -> ${it.contentToString()}")
+        MiuiStub.javaAdapter.alwaysCollectFlow(dataConnected, Consumer<BooleanArray> {
+            if (isDebug()) {
+                logD(TAG, lpparam.packageName, "MobileDataConnected -> ${it.contentToString()}")
+            }
 
-                val simCount = it.size
-                val isNoDataConnected = when (simCount) {
-                    1 -> {
-                        simDataConnected[0] = it[0]
-                        !it[0]
-                    }
+            val simCount = it.size
+            val isNoDataConnected = when (simCount) {
+                1 -> !it[0]
+                2 -> !it[0] && !it[1]
+                else -> false
+            }
+            SubscriptionManagerProvider(EzXHelper.appContext).getActiveSubscriptionIdList(true)
+                .forEach { subId ->
+                    getMobileViewBySubId(subId) { view ->
+                        val containerLeft =
+                            view.findViewByIdName("mobile_container_left") as ViewGroup
+                        val containerRight =
+                            view.findViewByIdName("mobile_container_right") as ViewGroup
 
-                    2 -> {
-                        simDataConnected[0] = it[0]
-                        simDataConnected[1] = it[1]
-                        !it[0] && !it[1]
-                    }
+                        val b = !showMobileType && mobileNetworkType == 4 && !isMore200SmallVersion
+                        if (subId == SubscriptionManager.getDefaultDataSubscriptionId()) {
+                            if (b) {
+                                val mobileType = view.findViewByIdName("mobile_type") as ImageView
+                                mobileType.isVisible = !(isNoDataConnected || showMobileType)
+                            }
 
-                    else -> {
-                        simDataConnected[0] = false
-                        simDataConnected[1] = false
-                        false
-                    }
-                }
-                SubscriptionManagerProvider(EzXHelper.appContext).getActiveSubscriptionIdList(true)
-                    .forEach { subId ->
-                        getMobileViewBySubId(subId) { view ->
-                            val containerLeft =
-                                view.findViewByIdName("mobile_container_left") as ViewGroup
-                            val containerRight =
-                                view.findViewByIdName("mobile_container_right") as ViewGroup
+                            val defaultConnections = getStateFlowValue(defaultConnections)
+                                ?.getObjectField("wifi")
+                                ?.getBooleanField("isDefault")
 
-                            val b = (!showMobileType && mobileNetworkType == 4)
-                            if (subId == SubscriptionManager.getDefaultDataSubscriptionId()) {
-                                if (b) {
-                                    val mobileType = view.findViewByIdName("mobile_type") as ImageView
-                                    mobileType.visibility = if (isNoDataConnected || showMobileType) {
-                                        View.GONE
-                                    } else {
-                                        View.VISIBLE
-                                    }
-                                }
-                                val paddingLeft = if (isNoDataConnected || (showMobileType && hideIndicator)) {
-                                    if (isMoreSmallVersion(200, 2f)) 0 else 20
+                            val paddingLeft =
+                                if (isNoDataConnected || (showMobileType && hideIndicator) ||
+                                    defaultConnections == true
+                                ) {
+                                    20
                                 } else {
                                     0
                                 }
-                                containerLeft.setPadding(paddingLeft, 0, 0, 0)
-                                containerRight.setPadding(paddingLeft, 0, 0, 0)
-                            } else if (!isEnableDouble) {
-                                if (b) {
-                                    val mobileType = view.findViewByIdName("mobile_type") as ImageView
-                                    mobileType.visibility = View.GONE
-                                }
-                                containerLeft.setPadding(if (isMoreSmallVersion(200, 2f)) 0 else 20, 0, 0, 0)
-                                containerRight.setPadding(if (isMoreSmallVersion(200, 2f)) 0 else 20, 0, 0, 0)
+                            containerLeft.setPadding(paddingLeft, 0, 0, 0)
+                            containerRight.setPadding(paddingLeft, 0, 0, 0)
+                        } else if (!isEnableDouble) {
+                            if (b) {
+                                val mobileType = view.findViewByIdName("mobile_type") as ImageView
+                                mobileType.isVisible = false
                             }
+                            containerLeft.setPadding(20, 0, 0, 0)
+                            containerRight.setPadding(0, 0, 0, 0)
                         }
                     }
-            }
-        )
-    }
-
-    private fun setOnWiFiChangedListener() {
-        hdController.methodFinder().filterByName("update")
-            .single().createHook {
-                after {
-                    val mWifiAvailable = it.thisObject.getBooleanField("mWifiAvailable")
-
-                    if (mWifiAvailable) {
-                        setViewVisibility("mobile_type_single", View.GONE)
-                    } else {
-                        setViewVisibility("mobile_type_single", View.VISIBLE)
-                    }
                 }
-            }
-    }
-
-    private fun setViewVisibility(getId: String, visibility: Int) {
-        SubscriptionManagerProvider(EzXHelper.appContext).getActiveSubscriptionIdList(true)
-            .forEach { subId ->
-                getMobileViewBySubId(subId) { view: View ->
-                    val mMobileType = view.findViewByIdName(getId) as View
-                    mMobileType.visibility = visibility
-                }
-            }
+        })
     }
 
     private fun getMobileViewBySubId(subId: Int, callback: (View) -> Unit) {
