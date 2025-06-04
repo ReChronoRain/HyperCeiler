@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -46,7 +47,6 @@
     <color name="preference_recommend_item_link_pressed">#990d84ff</color>
 
     <color name="card_tile_disabled_color_legacy">#9E9E9E</color>
-
 
     <color name="logo_color1">#cc4a4a4a</color>
     <color name="logo_color2">#4f4f4f</color>
