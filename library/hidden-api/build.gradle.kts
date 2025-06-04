@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
-
 android {
     namespace = "com.android.internal"
     compileSdk = 36

@@ -1,38 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="provision_back_description">Back</string>
-
     <string name="provision_start_content_description">Start</string>
-
     <string name="provision_next">Next</string>
     <string name="provision_skip_underline">Skip</string>
-
     <string name="provision_permission_settings_title">Permission settings</string>
-    <string name="provision_terms_and_statement_title">Agreement and Statement</string>
+    <string name="provision_terms_and_statement_title">Terms and conditions</string>
     <string name="provision_basic_settings_title">Basic settings</string>
-
-    <string name="provision_agree_and_next">Agree and continue</string>
-    <string name="provision_agree_terms">I have read and agreed to the above terms carefully</string>
-
+    <string name="provision_agree_and_next">Agree</string>
+    <string name="provision_agree_terms">I\'ve read and agree to the User Agreement and Privacy Policy.</string>
     <string name="provision_user_agreement">User Agreement</string>
     <string name="provision_privacy_policy">Privacy Policy</string>
-
-    <string name="provision_terms_of_use">Terms of use</string>
-    <string name="provision_terms_of_use_label_use_network_china">In order to provide you with better services, you need to read and agree to the <a href="%1$s">User Agreement</a> and <a href="%2$s">Privacy Policy</a> before you can continue to use the system. We will strictly abide by relevant laws, regulations and privacy policies to protect your personal information.</string>
+    <string name="provision_terms_of_use">Terms and conditions</string>
+    <string name="provision_terms_of_use_label_use_network_china">In order to provide you with better services, you must read and agree to our <a href="%1$s">User Agreement</a> and <a href="%2$s">Privacy Policy</a> before you can continue using the system. We shall protect your personal information in accordance with the relevant laws, regulations, and privacy policies.</string>
     <string name="provision_terms_of_label_period">.</string>
-
-
-    <string name="provision_protect_persoanl_info_statement">We will strictly abide by relevant laws, regulations and privacy policies to protect your personal information.</string>
-
-    <string name="provision_service_agreement">I have read and agreed to the above terms carefully</string>
-
-    <string name="provision_service_name_download">Download Manager</string>
-    <string name="provision_service_policy_download"><Data>Please read and agree to the &lt;a href=%1$s&gt; "Thunder Privacy Policy" and &lt;a href=%1$s&gt; "Thunder Company Network Service Usage Agreement"</Data >/Data></string>
-
-    <string name="provision_congratulation_title">Setup is complete</string>
+    <string name="provision_protect_persoanl_info_statement">We shall protect your personal information in accordance with the relevant laws, regulations, and privacy policies.</string>
+    <string name="provision_service_agreement">I\'ve read and agreed to the terms and conditions.</string>
+    <string name="provision_service_name_download">Downloads</string>
+    <string name="provision_service_policy_download"><Data>Read and agree to the &lt;a href=%1$s&gt;"Thunder Privacy Policy" and &lt;a href=%1$s&gt;"Thunder Company Network Service Usage Agreement"&lt;/a &gt;</Data></string>
+    <string name="provision_congratulation_title">Setup complete</string>
     <string name="provision_congratulation_label">Experience the exciting HyperOS!</string>
     <string name="provision_complete_text">Enter the system</string>
-
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Select all</string>
     <string name="miuix_appcompat_cancel_description">Cancel</string>
@@ -44,28 +32,25 @@
     <string name="miuix_appcompat_search_input_description">Search</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">More</string>
     <string name="miuix_appcompat_action_mode_inverse">Inverse</string>
-
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Tip</string>
     <string name="root">Some features aren\'t available without Root/Su permission</string>
     <string name="soft_reboot">Reboot </string>
     <string name="restart_app_desc">Are you sure you want to restart now %1$s?</string>
-
     <string name="hyperceiler_restart_quick">Quickly restart apps</string>
     <string name="hook_failed">The module isn\'t activated yet. Please check if LSPosed is enabled. If so, please restart or re-optimize the module.</string>
     <string name="kill_failed">Failed to end process. Please check if HyperCeiler has been granted Root/Su permissions.</string>
     <string name="start_failed">Failed to start activity. Please check if HyperCeiler has been granted Root/Su permissions.</string>
     <string name="pid_failed">The target app isn\'t running and doesn\'t need to be restarted.</string>
     <string name="reboot_failed">Reboot failed. Please check if HyperCeiler has been granted Root/Su permission.</string>
-
     <!--HyperCeiler Tips-->
     <string name="error">Error</string>
     <string name="warn">Attention</string>
-    <string name="module_app_failed">Fatal error occurred in the module</string>
+    <string name="module_app_failed">A fatal error occurred in the module</string>
     <string name="module_app_copy_desc">Press and hold the content to copy</string>
     <string name="module_title_1">Basic message</string>
     <string name="module_title_2">Stack message</string>
-    <string name="app_error_desc">This module has encountered a critical failure and cannot continue to run! Please provide the following error information for feedback! \n\n</string>
+    <string name="app_error_desc">HyperCeiler was unexpectedly closed. To help us fix this, provide the information below:\nPress and hold any message to copy everything.</string>
     <string name="app_exit">OK</string>
     <string name="safe_mode_desc">%1$s has entered Safe mode due to multiple crashes, and HyperCeiler features has been temporarily disabled.</string>
     <string name="safe_mode_history">View exception records</string>
@@ -102,23 +87,17 @@
     <string name="headtip_tip_fuck_coolapk">Today in history: Sevtinge delivered an important speech on July 14, 2022.</string>
     <string name="headtip_notice_dead_logger_errcode">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.\nError code: %1$s</string>
     <string name="headtip_notice_dead_logger">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.</string>
-
-    <string name="unsupported_system_func">This feature is not supported in the current system version</string>
-    <string name="supported_system_func">This function is officially supported by the current system version</string>
-    <string name="feature_doing_func">The current function is being produced, please stay tuned</string>
-
+    <string name="unsupported_system_func">This feature isn\'t supported in the current system version</string>
+    <string name="supported_system_func">This feature is officially supported in the current system version</string>
+    <string name="feature_doing_func">The current feature is under development, stay tuned.</string>
     <!--System UI-->
     <string name="system_ui">System UI</string>
-
     <!--System launcher-->
     <string name="mihome">System launcher</string>
-
     <!--Settings-->
     <string name="system_settings">Settings</string>
-
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Security</string>
-
     <!--Other-->
     <string name="demo" translatable="false">Demo</string>
     <string name="exit">Exit</string>
