@@ -223,7 +223,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                     containerRight.setPadding(paddingLeft, 0, 0, 0)
                 }
 
-                if (showMobileType && mobileNetworkType != 4) {
+                if (showMobileType) {
                     // 大 5G 显示逻辑
                     if (mobileNetworkType == 0 || mobileNetworkType == 2) {
                         viewModel.setObjectField(
@@ -235,7 +235,9 @@ object MobileTypeSingle2Hook : BaseHook() {
                             viewModel.getObjectFieldAs("wifiAvailable"),
                             Consumer<Boolean> {
                                 if (subId == SubscriptionManager.getDefaultDataSubscriptionId()) {
-                                    containerLeft.setPadding(if (it) 20 else 0, 0, 0, 0)
+                                    val paddingLeft = if (it || hideIndicator) 20 else 0
+                                    containerLeft.setPadding(paddingLeft, 0, 0, 0)
+                                    containerRight.setPadding(paddingLeft, 0, 0, 0)
                                 }
 
                                 setStateFlowValue(
@@ -243,9 +245,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                                 )
                             }
                         )
-                    }
-
-                    if (mobileNetworkType != 4) {
+                    } else if (mobileNetworkType != 4) {
                         viewModel.setObjectField(
                             "mobileTypeSingleVisible",
                             newReadonlyStateFlow(true)
@@ -315,7 +315,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                         val containerRight =
                             view.findViewByIdName("mobile_container_right") as ViewGroup
 
-                        val b = !showMobileType && mobileNetworkType == 4 && !isMore200SmallVersion
+                        val b = !showMobileType && mobileNetworkType == 4
                         if (subId == SubscriptionManager.getDefaultDataSubscriptionId()) {
                             if (b) {
                                 val mobileType = view.findViewByIdName("mobile_type") as ImageView
@@ -328,7 +328,8 @@ object MobileTypeSingle2Hook : BaseHook() {
 
                             val paddingLeft =
                                 if (isNoDataConnected || (showMobileType && hideIndicator) ||
-                                    defaultConnections == true
+                                    (defaultConnections == true && !isEnableDouble &&
+                                        !it[SubscriptionManager.getSlotIndex(subId)])
                                 ) {
                                     20
                                 } else {
