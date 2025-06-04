@@ -166,7 +166,7 @@ You can provide translations for the HyperCeiler project [here](https://crwd.in/
 - [「RemoveMiuiSystemSelfProtection」 by gfbjngjibn](https://github.com/gfbjngjibn/RemoveMiuiSystemSelfProtection)
 - [「SettingsDontThroughTheList」 by weixiansen574](https://github.com/weixiansen574/settingsdontthroughthelist)
 - [「StarVoyager」 by hosizoraru](https://github.com/hosizoraru/StarVoyager)
-- [「SuperLyric」 by HChenX](https://github.com/HChenX/SuperLyric)
+- [「SuperLyric」 by 焕晨HChen](https://github.com/HChenX/SuperLyric)
 - [「WINI」 by ouhoukyo](https://github.com/ouhoukyo/WINI)
 - [「WOMMO」 by YifePlayte](https://github.com/YifePlayte/WOMMO)
 - [「Woobox For MIUI」 by hosizoraru](https://github.com/hosizoraru/WooBoxForMIUI)

@@ -10,7 +10,7 @@ body:
     attributes:
       label: "Requirement content | 需求内容"
       description: |
-        Please briefly describe your needs.
+        Briefly describe your needs 
         请简单说明你的需求
       placeholder: 请添加...
     validations:
@@ -20,7 +20,7 @@ body:
     attributes:
       label: "Implementation ideas & screenshots | 实现思路 & 截图"
       description: |
-        If possible, please provide an implementation idea or related images.
+        If possible, provide relevant implementation ideas or pictures 
         如果可能，请提供实现思路或者相关图片
       placeholder: "![图片描述](图片链接)"
     validations:
@@ -30,7 +30,7 @@ body:
     attributes:
       label: "Simple example | 简单例子"
       description: |
-        Please provide a basic example to illustrate the function.
+        Provide a basic example illustrating the functionality 
         说明该功能的基本示例
       placeholder: 为...添加...以便...
     validations:

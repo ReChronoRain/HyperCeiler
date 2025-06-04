@@ -20,20 +20,15 @@
 <resources>
     <string name="app_name" translatable="false">HyperCeiler</string>
     <string name="app_name_sp" translatable="false">HappyCeiler</string>
-
     <string name="navigation_home_title" translatable="false">@string/home</string>
     <string name="navigation_settings_title" translatable="false">@string/settings</string>
     <string name="navigation_about_title" translatable="false">@string/about</string>
-
     <string name="version_update">New version found</string>
-
     <string name="about_copy_right" translatable="false">© 2023-2025 Sevtinge &amp; HyperCeiler Contributors.</string>
-
     <string name="empty_lable" translatable="false" />
     <string name="system_ui_status_bar_icon_nfc" translatable="false">NFC</string>
     <string name="system_ui_status_bar_icon_vpn" translatable="false">VPN</string>
     <string name="location_simulation_gps" translatable="false">GPS</string>
-
     <string name="array_netspeedicons_arrows" translatable="false">△▽ (▲▼)</string>
     <string name="array_netspeedicons_bullets" translatable="false">☖ ⛉ ( ☗ ⛊ )</string>
     <string name="array_netspeedicons_arrows_small" translatable="false">▵ ▿ ( ▴ ▾ )</string>
@@ -58,7 +53,6 @@
     <string name="home_title_custom_anim_param_RADIUS_title" translatable="false">RADIUS</string>
     <string name="home_title_custom_anim_param_ALPHA_title" translatable="false">ALPHA</string>
     <string name="security_center" translatable="false">Security Center</string>
-
     <string name="settings_app_en" translatable="false">English</string>
     <string name="settings_app_zh_cn" translatable="false">简体中文</string>
     <string name="settings_app_zh_tw" translatable="false">繁體中文 (台灣)</string>
@@ -99,7 +93,6 @@
     <string name="about_device_info_android">Android version</string>
     <string name="about_device_info_os">OS version</string>
     <string name="hyperceiler_notice">Pull down the status bar to display shortcut switches and system notifications</string>
-
     <string name="debug_info" translatable="false">Cannot get debug info.</string>
     <string name="delete_all_dexkit_cache_desc">Are you sure you want to clear all DexKit cache?</string>
     <string name="delete_all_dexkit_cache_success">Successfully cleared all DexKit cache</string>
@@ -107,11 +100,11 @@
     <string name="set_homepage_entrance_about">Note: Modifying this setting only hides the visibility of the feature on the homepage, and features that have been turned on won\'t be turned off!\nHiding the feature on the homepage will take effect immediately, and the app will need to be restarted to reappear.</string>
     <string name="help_cant_see_apps_guide">Can\'t find the app features?</string>
     <string name="help_cant_see_apps_title">Can\'t find the app features on the homepage?</string>
-    <string name="help_cant_see_apps_desc">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app features:\n\n • Those currently disabled or hidden\n • Those not found in your device\n • Those incompatible with the current version of the system or the app\n • Not selected as scoped\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nCurrently hidden app features:</string>
+    <string name="help_cant_see_apps_desc">To maintain the simplicity and usability of the homepage, we\'ve hidden access to the following types of app features:\n\n • Those currently disabled or hidden\n • Those not found in your device\n • Those incompatible with the current version of the system or the app\n • Not selected as scoped\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nCurrently hidden app features:</string>
     <string name="help_cant_see_apps_uninstall">Uninstalled apps:\n</string>
     <string name="help_cant_see_apps_disable">Disabled or hidden apps:\n</string>
     <string name="help_cant_see_apps_scope">Not selected as scoped:\n</string>
-    <string name="help_cant_see_apps_desc_no_hidden">To maintain the simplicity and usability of the homepage, we have hidden access to the following types of app features:\n\n • Those currently disabled or hidden\n • Those not found in your device\n • Those incompatible with the current version of the system or the app\n • Not selected as scoped\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nThere are currently no hidden features!</string>
+    <string name="help_cant_see_apps_desc_no_hidden">To maintain the simplicity and usability of the homepage, we\'ve hidden access to the following types of app features:\n\n • Those currently disabled or hidden\n • Those not found in your device\n • Those incompatible with the current version of the system or the app\n • Not selected as scoped\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nThere are currently no hidden features!</string>
     <string name="help_cant_see_apps_switch">Hide this help in homepage</string>
     <string name="help_cant_see_apps_switch_desc">You can still find this page in About > Help. Reboot app to apply.</string>
     <string name="help_support_version_title">Current app version support system version list</string>
@@ -186,8 +179,8 @@
     <string name="about_translator_title">Translator</string>
     <string name="about_chat_title">Discussion</string>
     <string name="about_other_title">Others</string>
-    <string name="about_tg_group">Telegram Group</string>
-    <string name="about_tg_channel">Telegram Channel</string>
+    <string name="about_tg_group">Telegram group</string>
+    <string name="about_tg_channel">Telegram channel</string>
     <string name="about_github">Source code</string>
     <string name="about_github_desc">This project is open source based on the AGPL-3.0 license</string>
     <string name="about_offical">Official website</string>
@@ -215,7 +208,6 @@
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_up_description">Navigate up</string>
     <string name="actionbar_button_up_description">Back</string>
-
     <string name="color_picker_alpha_text_transparent">Opacity</string>
     <string name="color_picker_tab_grid">Grid</string>
     <string name="color_picker_tab_slider">Slider</string>
@@ -276,7 +268,6 @@
     <string name="device">Device</string>
     <string name="manufacturer">Manufacture</string>
     <string name="search">Search</string>
-
     <string name="save_to_screen_title">Specification save location</string>
     <string name="only_new_version_can_do">Only newer versions supported</string>
     <string name="use_hyper_blur">Use Advanced textures</string>
@@ -333,7 +324,6 @@
     <string name="array_discrete">Separate</string>
     <string name="array_gradual">Slow</string>
     <string name="array_rainbow">Rainbow</string>
-
     <string name="status_bar_icon_mode_default">Default</string>
     <string name="status_bar_icon_mode_on">Always show</string>
     <string name="status_bar_icon_mode_on_non_wifi">Always shown when not on Wi-Fi</string>
@@ -391,8 +381,6 @@
     <string name="mediaeditor_mickey">Mickey Mouse</string>
     <string name="mediaeditor_strawberry_bear">Strawberry Bear</string>
     <string name="mediaeditor_disney_princess">Disney Princess</string>
-
-
     <!--System Framework-->
     <string name="system_framework">System Framework</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -421,7 +409,6 @@
     <string name="system_framework_volume_steps">Volume level multiplier</string>
     <string name="system_ui_display_use_aosp_screenshot">Use AOSP screenshot</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Redirect the screenshot app to use the AOSP screenshot capture. The screenshot app in HyperOS won\'t respond to the screenshot operation.</string>
-
     <string name="phone_double_5g_nr">Dual SIM use 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">Main and secondary SIM-card enable 5G at the same time (Secondary SIM-card only support NSA)</string>
     <string name="phone_double_5g_sa">Dual SIM use SA (SA+SA)</string>
@@ -499,12 +486,11 @@
     <string name="system_framework_allow_disable_protected_package">Allows to disable protected apps</string>
     <string name="system_framework_disable_miui_watermark">Disable full screen watermark</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">Allow all apps to install apps from unknown sources</string>
-    <string name="system_framework_bypass_force_mi_appstore">Allow to select third-party apps when jumping to the App Store</string>
-    <string name="system_framework_market_use_detailmini">Always open in a floating window when jumping to the Xiaomi GetApps</string>
-    <string name="system_framework_market_use_detailmini_desc">Bypass the restriction that a app can not redirect to the details page of another app in GetApps without appClientId</string>
-    <string name="system_framework_bypass_force_downloadui">Bypass forcing Download Manager when opening the download page</string>
-    <string name="system_framework_bypass_force_downloadui_desc">Solve the issue of incorrect jump when click "View downloads" in Quick Share</string>
-
+    <string name="system_framework_bypass_force_mi_appstore">Allow to select third-party apps when accessing the App Store</string>
+    <string name="system_framework_market_use_detailmini">Always open a floating window when entering GetApps</string>
+    <string name="system_framework_market_use_detailmini_desc">Bypass the restriction that prevents an app from redirecting to another app\'s details page in GetApps without the appClientId</string>
+    <string name="system_framework_bypass_force_downloadui">Fix download redirection</string>
+    <string name="system_framework_bypass_force_downloadui_desc">Fixes the incorrect redirection issue when clicking \"View downloads\" in Quick Share</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Package manager service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade apps</string>
@@ -543,9 +529,9 @@
     <string name="camera_custom_watermark">Custom device watermark</string>
     <string name="camera_custom_watermark_manufacturer">Manufacturer information</string>
     <string name="camera_custom_watermark_device">Device information</string>
-    <string name="camera_unlock_4k60">Unlock 4K 60fps</string>
+    <string name="camera_unlock_4k60">Unlock 4K 60FPS</string>
     <string name="camera_unlock_leica">Unlock Leica custom interface and features</string>
-    <string name="camera_super_high_quality">Unlock super high photo quality</string>
+    <string name="camera_super_high_quality">Unlock Picture quality</string>
     <string name="camera_shot_hand_gesture">Unlock Palm shutter</string>
     <string name="camera_settings_lab_options">Enable Lab options</string>
     <string name="camera_settings_track_eyes">Unlock Eye tracking focus</string>
@@ -597,7 +583,6 @@
     <string name="downloads_ui_always_show_link">Always show full download link</string>
     <string name="downloads_ui_always_show_link_desc">Also fix some download tasks cannot be copied</string>
     <!--System UI-->
-
     <string name="system_ui_lockscreen_title">Lock screen</string>
     <string name="system_ui_lockscreen_safe_title">Security</string>
     <string name="system_ui_lockscreen_ui_title">Lock screen</string>
@@ -633,7 +618,6 @@
     <string name="system_ui_lock_screen_linkage_anim_off">Screen off animation rate</string>
     <string name="system_ui_navigation_title">Navigation</string>
     <string name="system_ui_navigation_handle_title">Gesture line</string>
-
     <string name="system_ui_navigation_handle_custom">Customize gesture line</string>
     <string name="system_ui_navigation_handle_custom_height">Height</string>
     <string name="system_ui_navigation_handle_custom_width">Vertical width</string>
@@ -776,16 +760,16 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">Long text output</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Text</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">This is a long piece of text that will be output in scrolling form</string>
-    <string name="system_ui_statusbar_music_tip">Notes before using: • After turning on this feature, check and restart the System UI scope. • This feature needs to be used with the \"Lyric Getter\" module.</string>
+    <string name="system_ui_statusbar_music_tip">Notes before using: • After turning on this feature, check and restart the System UI scope. • This feature needs to be used with the \"SuperLyric\" module.</string>
     <string name="system_ui_statusbar_music_notification">Focus notification lyrics</string>
-    <string name="system_ui_statusbar_music_show_app_title">Notifications to register on the App</string>
-    <string name="system_ui_statusbar_music_show_app_desc">After opening, you need to check the scope of the music app</string>
+    <string name="system_ui_statusbar_music_show_app_title">Notification to register in the app</string>
+    <string name="system_ui_statusbar_music_show_app_desc">After turning it on, you need to check the scope of the music app.</string>
     <string name="system_ui_statusbar_music_cusiom_notific_title">Notification bar display settings</string>
     <string name="system_ui_statusbar_music_show_notific_title">Show notification lyrics</string>
-    <string name="system_ui_statusbar_music_hide_aod_title">Not showing focus notifications under the screen</string>
+    <string name="system_ui_statusbar_music_hide_aod_title">Don\'t show focus notifications on the locked screen</string>
     <string name="system_ui_statusbar_music_cusiom_statusbar_title">Status bar display settings</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Hide status bar clock</string>
-    <string name="system_ui_statusbar_music_hide_clock_desc">Hide the status bar clock when showing focused lyrics.</string>
+    <string name="system_ui_statusbar_music_hide_clock_desc">Hide the status bar clock when showing focused lyrics</string>
     <string name="system_ui_statusbar_music_click_clock_title">Click to show clock</string>
     <string name="system_ui_statusbar_music_click_clock_desc">Click the focus lyrics event to change to display the status bar clock, otherwise hide it. The switch needs to restart the corresponding music app to take effect.</string>
     <string name="system_ui_statusbar_music_speed_title">Lyrics scroll rate</string>
@@ -796,11 +780,9 @@
     <string name="system_ui_controlcenter_media_card_title">Media notification card</string>
     <string name="system_ui_control_center_magnet_tile_settings">QS tile</string>
     <string name="system_ui_control_center_notification_title">Notification shade</string>
-
     <string name="system_control_center_5g_tile">5G network switch</string>
     <string name="system_ui_control_center_snow_leopard_mode">S-Leo mode</string>
     <string name="system_ui_control_center_snow_leopard_mode_desc">Experimental feature. Disables all audio output.</string>
-
     <string name="system_ui_control_auto_close">Close after tapping</string>
     <string name="system_ui_control_center_qs_bg_color">Background color</string>
     <string name="system_ui_control_center_qs_color">Icon color</string>
@@ -841,7 +823,7 @@
     <string name="system_ui_control_center_show_weather_city">Show city</string>
     <string name="system_ui_control_center_disable_device_managed">Hide network monitoring prompts</string>
     <string name="system_ui_control_center_hide_edit_botton">Hide Edit button</string>
-    <string name="system_ui_control_center_tile_super_blur">Tile Super Blur</string>
+    <string name="system_ui_control_center_tile_super_blur">Advanced textures on tile</string>
     <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
     <string name="system_ui_control_center_unimportant_notification">Block unimportant notifications automatically</string>
     <string name="system_ui_control_center_expand_notification">Expand notifications</string>
@@ -923,12 +905,10 @@
     <string name="scam_reminder_bypass_caption">Allow call forwarding via MMI code</string>
     <string name="scam_reminder_bypass_description">Allows direct dialing of MMI codes, such as **21*8#, to activate call forwarding.</string>
     <!--Settings-->
-
     <string name="system_settings_linkturbo">Remove restrictions of network acceleration apps</string>
     <string name="system_settings_international_build">International version of settings</string>
     <string name="system_settings_safe_wifi">View saved Wi-Fi passwords</string>
     <string name="system_settings_safe_wifi_desc">Unlock Manage saved networks\nPath: Settings > Wi-Fi > Additional settings > Manage saved networks</string>
-
     <string name="system_settings_novelty_haptic_title">Unlock new version of haptic feedback page</string>
     <string name="system_settings_novelty_haptic_desc">Only for devices with the Sounds &amp; Haptic feedback - Haptics page</string>
     <string name="system_settings_enable_pad_area">Unlock Pad settings</string>
@@ -1075,7 +1055,6 @@
     <string name="guard_provider_disable_upload_applist">Prevent automatic upload of installed app list</string>
     <string name="guard_provider_disable_root_check">Disable environment check</string>
     <!--System launcher-->
-
     <string name="home_gesture">Gesture and navigation</string>
     <string name="home_navigation_title">Navigation</string>
     <string name="home_navigation_quick_back">Go back to previous app</string>
@@ -1317,7 +1296,6 @@
     <string name="home_large_icon_corner_radius">Large icons with rounded corners</string>
     <string name="home_other_app_icon_hide">Manage Home screen shortcuts</string>
     <string name="home_other_toast_slide_again">Disable \"Slide again\" toast</string>
-
     <string name="home_other_shortcut_remove_restrictions">Remove shortcut restrictions</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut menu blur value</string>
     <string name="home_other_high_models">Spoof launcher as high-end model</string>
@@ -1351,8 +1329,6 @@
     <string name="mediaeditor_unlock_leica_filter_title">Unlock Leica filter</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Only some versions are supported</string>
     <string name="mediaeditor_unlock_aigc">Unlock AIGC</string>
-    <!--Mi Share-->
-
     <!--Wallpaper-->
     <string name="miwallpaper">Wallpaper</string>
     <string name="miwallpaper_unlock_super_wallpaper">Unlock Super wallpaper</string>
@@ -1424,7 +1400,6 @@
     <string name="securityadd_disable_gb_ads">Disable Game Center ads</string>
     <string name="securityadd_disable_gb_ads_desc">This may cause other functions to be abnormal</string>
     <!--Security/Tablet security center-->
-
     <string name="security_center_app_title">Manage apps</string>
     <string name="security_center_battery_title">Battery</string>
     <string name="security_center_privacy_title">Privacy protection</string>
@@ -1471,8 +1446,6 @@
     <string name="security_disable_app_summary">Allows disabling any app from app info page</string>
     <string name="security_disable_app_url_title">Apply open link management</string>
     <string name="security_disable_app_url_summary">Change the \"Clear defaults\" setting to \"Open by default\" in the app info.</string>
-
-
     <string name="security_score">Disable health check optimization</string>
     <string name="security_score_summary">Lock 100 points and disable optimization</string>
     <string name="security_center_skip_waiting_time">Skip countdown limit</string>
@@ -1505,7 +1478,7 @@
     <string name="security_center_unlock_screen_time">Displays detailed power consumption data</string>
     <string name="security_center_unlock_screen_time_desc">Show screen power usage information at the top of the battery section and resume showing power consumption and time for all other apps.</string>
     <string name="security_center_unlock_gun_service">Unlock Gun sight service</string>
-    <string name="security_center_remove_game_toast">Remove the game mode Toast pop-up window</string>
+    <string name="security_center_remove_game_toast">Remove game mode pop-up</string>
     <string name="security_center_disable_remove_screen_hold_on">Disable media removal from the Lock screen</string>
     <string name="security_center_unlock_memc">Unlock MEMC</string>
     <string name="security_center_unlock_enhance_contours">Unlock Enhanced contours</string>
@@ -1525,9 +1498,6 @@
     <string name="security_center_bypass_simlock_miaccount_auth_desc">You can use this feature even without logging into your Xiaomi Account</string>
     <string name="security_center_remove_simlock_success_dialog">Remove SIM security verification warning</string>
     <string name="security_center_remove_simlock_success_dialog_desc">Remove the dialog after turning on the device to indicate that the SIM security verification has been successfully completed</string>
-
-
-
     <string name="security_center_power_consumption_ranking">Show power consumption ranking</string>
     <string name="security_center_hide_xopt_mode_tip">Hide tip for hidden permission usage</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Unlock Cold endurance mode</string>
@@ -1538,8 +1508,6 @@
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Disable risk detections</string>
     <string name="trustservice_disable_mrm_desc">Experimental feature. You may not use this feature in violation of local or national laws.</string>
-    <!--Smart cards-->
-
     <!--Weather-->
     <string name="weather">Weather</string>
     <string name="weather_device_level_title">Animation level</string>
@@ -1621,7 +1589,6 @@
     <string name="voicetrigger_accuracy_percent_description" formatted="false">Higher values are more difficult to detect. The default value is 70%, for the keyword XATX it\'s 0%. After setting, you need to restart the target app and re-enroll your activation word.</string>
     <!--Other-->
     <string name="various">Others</string>
-
     <string name="app_version_not_supported">Unsupported version</string>
     <string name="various_location_simulation_title">Fake location</string>
     <string name="various_dialog_title">Dialog</string>
@@ -1684,7 +1651,6 @@
     <string name="various_dialog_margin_bottom_desc">The distance from the pop-up window to the bottom of the screen</string>
     <string name="various_dialog_window_blur">Window blur</string>
     <string name="various_dialog_window_blur_radius">Window blur radius</string>
-
     <string name="location_data_title">Database</string>
     <string name="various_location_simulation_1_title">Task 1</string>
     <string name="various_location_simulation_2_title">Task 2</string>
@@ -1703,15 +1669,12 @@
     <string name="location_simulation_work_base_station">Base station</string>
     <string name="location_simulation_work_longitude_latitude">Longitude and latitude</string>
     <string name="location_simulation_work_remarks">Mark</string>
-
-
     <string name="unlimited">Unlimited</string>
     <string name="calls">Call</string>
     <string name="system_volume">System</string>
     <string name="notification_volume">Notification</string>
     <string name="freeform_notification">Notification floating window</string>
     <string name="share_app">Share to third-party apps</string>
-
     <string name="show_newmods_title">Mark new module</string>
     <string name="default_volume_stream_ring">Ring</string>
     <string name="default_volume_stream_media">Media</string>
@@ -1742,5 +1705,4 @@
     <string name="custom_hook_mode">Select mode</string>
     <string name="open_source">Open source projects</string>
     <string name="close_source">Close source projects</string>
-
 </resources>

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: GPL-3.0-or-later
- *
+
  * This file is part of XiaomiHelper project
  * Copyright (C) 2023 HowieHChen, howie.dev@outlook.com
 
@@ -47,7 +47,7 @@ class MiBlurView(context: Context): View(context) {
     private var animCount = 0
     private var allowRestoreDirectly = false
     private var isBlurInitialized = false
-    // Personalized Configurations
+    // Personalized configurations
     private var blurEnabled = DEFAULT_BLUR_ENABLED
     private var blurMaxRadius = DEFAULT_BLUR_MAX_RADIUS
     private var dimEnabled = DEFAULT_DIM_ENABLED
