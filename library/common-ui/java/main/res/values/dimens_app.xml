@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -17,7 +18,6 @@
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
   -->
 <resources>
-
     <dimen name="header_icon_size">30dp</dimen>
 
     <dimen name="magic_px_50">18.179993dp</dimen>
@@ -41,11 +41,8 @@
     <dimen name="preference_checkbox_desc_margin_top">2.9089966dp</dimen>
     <dimen name="preference_checkbox_desc_line_height">17.454498sp</dimen>
 
-
     <!-- Default screen margins, per the Android Design guidelines. -->
-
     <dimen name="miuix_appcompat_searchbar_result_margin_top">54dp</dimen>
-
     <dimen name="preference_recommend_radius">13.089998dp</dimen>
     <dimen name="preference_recommend_region_margin">12dp</dimen>
     <dimen name="preference_recommend_region_padding_bottom">4dp</dimen>
@@ -55,7 +52,6 @@
 
     <dimen name="preference_recommend_item_margin_horizontal">16dp</dimen>
     <dimen name="preference_recommend_item_margin_vertical">10.179993dp</dimen>
-
 
     <dimen name="divider_margin_top">21.819977dp</dimen>
     <dimen name="divider_margin_bottom">21.819977dp</dimen>

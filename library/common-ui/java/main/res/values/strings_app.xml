@@ -1478,7 +1478,7 @@
     <string name="security_center_unlock_screen_time">Displays detailed power consumption data</string>
     <string name="security_center_unlock_screen_time_desc">Show screen power usage information at the top of the battery section and resume showing power consumption and time for all other apps.</string>
     <string name="security_center_unlock_gun_service">Unlock Gun sight service</string>
-    <string name="security_center_remove_game_toast">Remove game mode pop-up</string>
+    <string name="security_center_remove_game_toast">Remove game mode pop-up window</string>
     <string name="security_center_disable_remove_screen_hold_on">Disable media removal from the Lock screen</string>
     <string name="security_center_unlock_memc">Unlock MEMC</string>
     <string name="security_center_unlock_enhance_contours">Unlock Enhanced contours</string>

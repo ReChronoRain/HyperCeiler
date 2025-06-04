@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -17,7 +18,6 @@
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
   -->
 <resources>
-
     <string-array name="app_module_support">
         <item>@string/system_framework</item>
         <item>@string/system_ui</item>
@@ -98,8 +98,6 @@
         <item>13</item>
         <item>14</item>
     </string-array>
-
-
 
     <string-array name="default_volume_stream">
         <item>@string/array_default</item>
@@ -356,7 +354,6 @@
         <item>1</item>
     </string-array>
 
-
     <string-array name="app_sort">
         <item>@string/app_sort_running</item>
         <item>@string/app_sort_name</item>
@@ -410,7 +407,6 @@
         <item>3</item>
         <item>4</item>
     </string-array>
-
 
     <string-array name="location">
         <item>@string/array_default</item>

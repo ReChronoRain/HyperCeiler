@@ -10,7 +10,7 @@ body:
     attributes:
       label: "Repository address | 仓库地址"
       description: |
-        Provide the address of the open source repository so that we can refer to how to integrate it 
+        Provide the address of the open source repository so that we can refer to how to integrate it  
         提供开源仓库地址以便我们参考如何移植
       placeholder: "https://github.com/"
     validations:
@@ -20,7 +20,7 @@ body:
     attributes:
       label: "Port content | 移植内容"
       description: |
-        Briefly describe the features that need to be ported 
+        Briefly describe the features that need to be ported  
         简单说明需要移植的功能
       placeholder: 移植...软件的...功能
     validations:
@@ -30,7 +30,7 @@ body:
     attributes:
       label: "Feature description & screenshots | 功能描述 & 截图"
       description: |
-        If possible, provide relevant functional descriptions and pictures 
+        If possible, provide relevant functional descriptions and pictures  
         如果可能，请提供相关功能描述及图片
       placeholder: "![图片描述](图片链接)"
     validations:
