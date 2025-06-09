@@ -66,7 +66,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
     private val methodA by lazy<List<Method>> {
         DexKit.findMemberList("MA") { bridge ->
             // 改动日志:
-            // 现在这个查找方式直接兼容 1.5 - 1.10
+            // 现在这个查找方式直接兼容 1.5 - 2.0
             // 1.6.5.10.2 之后迪斯尼定制画框解锁的地方和现在的不一样
             // 1.7.5.0.4 之后，类名迁移，内部文件改动较大
             // 合并缓存，现在只需查询一次即可获取全部 6 个需要 Hook 的方法，且不会出现多余的方法 (2025.1.8)
@@ -78,9 +78,9 @@ object UnlockCustomPhotoFrames : BaseHook() {
                 bridge.findMethod {
                     matcher {
                         addCaller {
-                            // paramCount = 2
+                            paramCount = 2
                             returnType = "java.util.LinkedHashMap"
-                            modifiers = Modifier.STATIC or Modifier.FINAL
+                            modifiers = Modifier.STATIC // or Modifier.FINAL 2.0.0.1.8 取消了 FINAL 设定
                         }
                         addUsingField {
                             type = "java.util.List"
@@ -115,7 +115,11 @@ object UnlockCustomPhotoFrames : BaseHook() {
                 matcher {
                     paramCount = 2
                     returnType = "java.util.LinkedHashMap"
-                    modifiers = Modifier.STATIC or Modifier.FINAL
+                    modifiers = Modifier.STATIC // or Modifier.FINAL 2.0.0.1.8 取消了 FINAL 设定
+                    addInvoke {
+                        paramCount = 0
+                        returnType = "boolean"
+                    }
                 }
             }.single()
         }
