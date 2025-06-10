@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
 <resources>
     <string name="provision_back_description">Back</string>
     <string name="provision_start_content_description">Start</string>
@@ -17,7 +35,7 @@
     <string name="provision_protect_persoanl_info_statement">We shall protect your personal information in accordance with the relevant laws, regulations, and privacy policies.</string>
     <string name="provision_service_agreement">I\'ve read and agreed to the terms and conditions.</string>
     <string name="provision_service_name_download">Downloads</string>
-    <string name="provision_service_policy_download"><Data>Read and agree to the &lt;a href=%1$s&gt;"Thunder Privacy Policy" and &lt;a href=%1$s&gt;"Thunder Company Network Service Usage Agreement"&lt;/a &gt;</Data></string>
+    <string name="provision_service_policy_download"><Data>Read and agree to the <a href="%1$s">Thunder Privacy Policy</a> and <a href="%2$s">Thunder Company Network Service Usage Agreement</a></Data></string>
     <string name="provision_congratulation_title">Setup complete</string>
     <string name="provision_congratulation_label">Experience the exciting HyperOS!</string>
     <string name="provision_complete_text">Enter the system</string>
@@ -31,7 +49,7 @@
     <string name="miuix_appcompat_search_action_mode_cancel">Cancel</string>
     <string name="miuix_appcompat_search_input_description">Search</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">More</string>
-    <string name="miuix_appcompat_action_mode_inverse">Inverse</string>
+    <string name="miuix_appcompat_action_mode_inverse">Deselect all</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Tip</string>
     <string name="root">Some features aren\'t available without Root/Su permission</string>
@@ -50,7 +68,7 @@
     <string name="module_app_copy_desc">Press and hold the content to copy</string>
     <string name="module_title_1">Basic message</string>
     <string name="module_title_2">Stack message</string>
-    <string name="app_error_desc">HyperCeiler was unexpectedly closed. To help us fix this, provide the information below:\nPress and hold any message to copy everything.</string>
+    <string name="app_error_desc">HyperCeiler was unexpectedly closed. To help us fix this, provide the information below:\n\nPress and hold any message to copy everything.</string>
     <string name="app_exit">OK</string>
     <string name="safe_mode_desc">%1$s has entered Safe mode due to multiple crashes, and HyperCeiler features has been temporarily disabled.</string>
     <string name="safe_mode_history">View exception records</string>
