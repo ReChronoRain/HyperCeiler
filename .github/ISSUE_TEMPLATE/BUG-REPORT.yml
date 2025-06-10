@@ -38,7 +38,7 @@ body:
     attributes:
       label: "Issue description | 问题描述"
       description: |
-        Please enter a clear and concise description of the issue 
+        Please enter a clear and concise description of the issue  
         请输入简洁且明确的问题描述
       placeholder: ...的...功能出现...异常
     validations:
@@ -48,7 +48,7 @@ body:
     attributes:
       label: "Module logs | 模块日志"
       description: |
-        LSPosed Manager - log or software crash log 
+        LSPosed Manager - log or software crash log  
         LSPosed 管理器 - 日志或软件崩溃日志
       placeholder: ...
     validations:
@@ -58,7 +58,7 @@ body:
     attributes:
       label: "Reproduction steps | 复现步骤"
       description: |
-        Enter concise steps to reproduce the issue 
+        Enter concise steps to reproduce the issue  
         输入简明的问题复现步骤
       value: |
         1. 前往 '...'
@@ -74,7 +74,7 @@ body:
     attributes:
       label: "Screenshot of issue | 问题截图"
       description: |
-        Upload a screenshot of the issue so we can quickly locate it 
+        Upload a screenshot of the issue so we can quickly locate it  
         上传问题截图以便我们快速定位
       value: |
         ![图片注释](图片链接)
@@ -85,7 +85,7 @@ body:
     attributes:
       label: "HyperCeiler device information | HyperCeiler 设备信息"
       description: |
-        Make sure to upload a screenshot to help diagnose the issue in HyperCeiler Settings > Developer options > Debug info 
+        Make sure to upload a screenshot to help diagnose the issue in HyperCeiler Settings > Developer options > Debug info  
         请务必上传 HyperCeiler 设置-开发者选项-调试信息 的截图，以便诊断问题
       value: |
         ![图片注释](图片链接)
