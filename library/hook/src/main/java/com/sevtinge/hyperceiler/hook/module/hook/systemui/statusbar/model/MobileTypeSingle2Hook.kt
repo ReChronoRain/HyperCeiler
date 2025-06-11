@@ -151,6 +151,17 @@ object MobileTypeSingle2Hook : BaseHook() {
     }
 
     private fun hookMobileViewAndVM() {
+
+        if (mobileNetworkType == 3 || mobileNetworkType == 4 || showMobileType) {
+            if (isMoreSmallVersion(200, 2f)) {
+                findAndHookMethod("com.android.systemui.statusbar.views.MobileTypeDrawable", "measure", object : MethodHook() {
+                    override fun before(param: MethodHookParam?) {
+                        param!!.result = null
+                    }
+                })
+            }
+        }
+
         miuiCellularIconVM.constructorFinder().first().createAfterHook { param ->
             val viewModel = param.thisObject
             viewModel.setAdditionalInstanceField("interactor", param.args[1])
