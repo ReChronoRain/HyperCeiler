@@ -1278,7 +1278,6 @@
     <string name="mediaeditor_unlock_leica_filter_title">فتح فلتر لايكا</string>
     <string name="mediaeditor_unlock_leica_filter_desc">يتم دعم بعض الإصدارات فقط</string>
     <string name="mediaeditor_unlock_aigc">فتح AIGC</string>
-    <!--Mi Share-->
     <!--Wallpaper-->
     <string name="miwallpaper">خلفية الشاشة</string>
     <string name="miwallpaper_unlock_super_wallpaper">فتح خلفية الشاشة الفائقة</string>
@@ -1458,7 +1457,6 @@
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">تعطيل اكتشاف المخاطر</string>
     <string name="trustservice_disable_mrm_desc">ميزة تجريبية. قد لا تستخدم هذه الميزة في انتهاك للقوانين المحلية أو الوطنية.</string>
-    <!--Smart cards-->
     <!--Weather-->
     <string name="weather">الطقس</string>
     <string name="weather_device_level_title">مستوى الرسوم المتحركة</string>
