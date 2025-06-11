@@ -1284,7 +1284,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="mediaeditor_unlock_leica_filter_title">Mở khóa bộ lọc Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Chỉ hỗ trợ một số phiên bản</string>
     <string name="mediaeditor_unlock_aigc">Mở khóa AIGC</string>
-    <!--Mi Share-->
     <!--Wallpaper-->
     <string name="miwallpaper">Hình nền</string>
     <string name="miwallpaper_unlock_super_wallpaper">Mở khoá Siêu hình nền</string>
@@ -1471,7 +1470,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="trustservice">Dịch vụ MiTrust</string>
     <string name="trustservice_disable_mrm">Tắt phát hiện rủi ro</string>
     <string name="trustservice_disable_mrm_desc">Tính năng thử nghiệm. Bạn có thể không sử dụng được tính năng này vì vi phạm luật pháp địa phương hoặc quốc gia.</string>
-    <!--Smart cards-->
     <!--Weather-->
     <string name="weather">Thời tiết</string>
     <string name="weather_device_level_title">Tốc độ của hoạt ảnh</string>

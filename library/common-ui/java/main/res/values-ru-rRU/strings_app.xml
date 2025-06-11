@@ -1278,7 +1278,6 @@
     <string name="mediaeditor_unlock_leica_filter_title">Разблокировать фильтр Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Поддерживаются только некоторые версии</string>
     <string name="mediaeditor_unlock_aigc">Разблокировать AIGC</string>
-    <!--Mi Share-->
     <!--Wallpaper-->
     <string name="miwallpaper">Обои</string>
     <string name="miwallpaper_unlock_super_wallpaper">Супер-обои</string>
@@ -1458,7 +1457,6 @@
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Отключить отслеживание рисков</string>
     <string name="trustservice_disable_mrm_desc">Экспериментальные функции. Вы не можете использовать эту функцию в нарушение местных или национальных законов.</string>
-    <!--Smart cards-->
     <!--Weather-->
     <string name="weather">Погода</string>
     <string name="weather_device_level_title">Уровень анимации</string>
