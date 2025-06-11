@@ -73,13 +73,15 @@ object ChargingCVP : BaseHook() {
 
         loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.createHooks {
             after { param ->
-                (param.thisObject as TextView).let {
-                    it.isSingleLine = false
-                    it.textSize = 8.2f
+                (param.thisObject as TextView).apply {
+                    isSingleLine = false
+                    textSize = 8.2f
                 }
                 if (showSpacingValue) {
                     // 是否更改刷新频率
-                    setShowSpacing(clazzDependency, clazzKeyguardIndicationController, param)
+                    runCatching {
+                        setShowSpacing(clazzDependency, clazzKeyguardIndicationController, param)
+                    }
                 }
             }
         }
@@ -148,7 +150,7 @@ object ChargingCVP : BaseHook() {
                         getObjectOrNull(instanceMiuiChargeController, "mBatteryStatus")!!
                     val level = getObjectOrNull(mBatteryStatus, "level")
                     val plugged = getObjectOrNull(mBatteryStatus, "plugged") as Int
-                    val isPluggedIn = if (isMoreHyperOSVersion(2f)) {
+                    val isPluggedIn = if (isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35)) {
                         mBatteryStatus.callMethod("isPluggedIn", plugged)
                     } else {
                         invokeMethodBestMatch(mBatteryStatus, "isPluggedIn")
