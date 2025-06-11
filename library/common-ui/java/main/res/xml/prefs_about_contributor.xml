@@ -275,7 +275,7 @@
                 android:data="https://github.com/tehcneko" />
         </Preference>
         <Preference
-            android:summary="GitHub@v5u871 / CoolApk@v5u87"
+            android:summary="GitHub@v5u871"
             android:title="v5u87">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -310,7 +310,7 @@
                 android:data="https://github.com/weigui404" />
         </Preference>
         <Preference
-            android:summary="GitHub@Weverses / CoolApk@Weverse"
+            android:summary="GitHub@Weverses"
             android:title="Weverse">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -429,7 +429,7 @@
                 android:data="https://github.com/HolyBearTW" />
         </Preference>
         <Preference
-            android:summary="GitHub@Meetingfate / CoolApk@相见即是缘"
+            android:summary="GitHub@Meetingfate"
             android:title="相见即是缘">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -443,15 +443,15 @@
                 android:data="https://github.com/xing0meng" />
         </Preference>
         <Preference
-            android:summary="GitHub@lswlc33 / CoolApk@雪中明月_Official"
+            android:summary="GitHub@lswlc33"
             android:title="雪中明月">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/lswlc33" />
         </Preference>
         <Preference
-            android:summary="GitHub@zjw2017 / CoolApk@柚稚的孩纸"
-            android:title="柚稚的孩纸">
+            android:summary="GitHub@zjw2017"
+            android:title="柚稚">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/zjw2017" />
