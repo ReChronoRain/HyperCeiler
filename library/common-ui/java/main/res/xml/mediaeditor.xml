@@ -39,6 +39,11 @@
             android:key="prefs_key_mediaeditor_unlock_aigc"
             android:title="@string/mediaeditor_unlock_aigc" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_mediaeditor_disable_add_aigc_watermark"
+            android:title="@string/mediaeditor_disable_add_aigc_watermark" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/mediaeditor_foundation">

@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.mediaeditor.CustomWatermark;
+import com.sevtinge.hyperceiler.hook.module.hook.mediaeditor.DisableAddAigcWatermark;
 import com.sevtinge.hyperceiler.hook.module.hook.mediaeditor.UnlockAigc;
 import com.sevtinge.hyperceiler.hook.module.hook.mediaeditor.UnlockCustomPhotoFrames;
 import com.sevtinge.hyperceiler.hook.module.hook.mediaeditor.UnlockDisney;
@@ -36,6 +37,7 @@ public class MediaEditor extends BaseModule {
     public void handleLoadPackage() {
         // AI
         initHook(new UnlockAigc(), mPrefsMap.getBoolean("mediaeditor_unlock_aigc"));
+        initHook(new DisableAddAigcWatermark(), mPrefsMap.getBoolean("mediaeditor_disable_add_aigc_watermark"));
         // 基础
         initHook(UnlockMinimumCropLimit2.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_minimum_crop_limit"));
         initHook(UnlockLeicaFilter.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_leica_filter"));
