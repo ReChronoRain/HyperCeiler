@@ -111,7 +111,7 @@ public class DexKit {
         if (mMMKV.containsKey("pkgVersion")) {
             String oldPkgVersion = mMMKV.getString("pkgVersion", "null");
             if (!Objects.equals(pkgVersion, oldPkgVersion)) {
-                mMMKV.clearAll();
+                mMMKV.clear();
                 mMMKV.putString("pkgVersion", pkgVersion + "\n");
             }
         } else
@@ -122,7 +122,7 @@ public class DexKit {
             if (mMMKV.containsKey("osVersion")) {
                 String oldOSVersion = mMMKV.getString("osVersion", "null");
                 if (!Objects.equals(osVersion, oldOSVersion)) {
-                    mMMKV.clearAll();
+                    mMMKV.clear();
                     mMMKV.putString("osVersion", osVersion + "\n");
                 }
             } else

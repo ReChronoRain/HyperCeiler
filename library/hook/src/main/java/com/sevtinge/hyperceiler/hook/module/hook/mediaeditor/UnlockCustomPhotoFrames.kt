@@ -160,8 +160,12 @@ object UnlockCustomPhotoFrames : BaseHook() {
             }
         }
 
-        if (isOpenSpring && springA != null) {
-            springA!!.setBoolean(null, true)
+        runCatching {
+            if (isOpenSpring && springA != null) {
+                springA!!.setBoolean(null, true)
+            }
+        }.onFailure {
+            logE(TAG, lpparam.packageName, "Spring field not found, maybe not supported")
         }
 
         if (isLeica && methodB != null) {
