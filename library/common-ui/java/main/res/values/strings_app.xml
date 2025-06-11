@@ -1329,6 +1329,7 @@
     <string name="mediaeditor_unlock_leica_filter_title">Unlock Leica filter</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Only some versions are supported</string>
     <string name="mediaeditor_unlock_aigc">Unlock AIGC</string>
+    <string name="mediaeditor_disable_add_aigc_watermark">Disable add AIGC watermark</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Wallpaper</string>
     <string name="miwallpaper_unlock_super_wallpaper">Unlock Super wallpaper</string>
