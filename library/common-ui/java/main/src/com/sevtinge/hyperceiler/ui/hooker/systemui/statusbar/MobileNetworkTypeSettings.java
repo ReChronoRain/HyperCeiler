@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
+
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
@@ -35,6 +37,7 @@ public class MobileNetworkTypeSettings extends DashboardFragment
     DropDownPreference mMobileMode;
     PreferenceCategory mMobileTypeGroup;
     SwitchPreference mMobileType;
+    SwitchPreference mCompatibility;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -47,6 +50,11 @@ public class MobileNetworkTypeSettings extends DashboardFragment
         mMobileMode = findPreference("prefs_key_system_ui_status_bar_icon_show_mobile_network_type");
         mMobileType = findPreference("prefs_key_system_ui_statusbar_mobile_type_enable");
         mMobileTypeGroup = findPreference("prefs_key_system_ui_statusbar_mobile_type_group");
+        mCompatibility = findPreference("prefs_key_system_ui_status_bar_mobile_network_type");
+
+        if (!isMoreSmallVersion(200, 2f)) {
+            mCompatibility.setVisible(false);
+        }
 
         setMobileMode(mobileMode);
         mMobileMode.setOnPreferenceChangeListener(this);

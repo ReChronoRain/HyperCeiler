@@ -152,13 +152,15 @@ object MobileTypeSingle2Hook : BaseHook() {
 
     private fun hookMobileViewAndVM() {
 
-        if (mobileNetworkType == 3 || mobileNetworkType == 4 || showMobileType) {
-            if (isMoreSmallVersion(200, 2f)) {
-                findAndHookMethod("com.android.systemui.statusbar.views.MobileTypeDrawable", "measure", object : MethodHook() {
-                    override fun before(param: MethodHookParam?) {
-                        param!!.result = null
-                    }
-                })
+        if (mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_type_compatibility")) {
+            if (mobileNetworkType == 3 || mobileNetworkType == 4 || showMobileType) {
+                if (isMoreSmallVersion(200, 2f)) {
+                    findAndHookMethod("com.android.systemui.statusbar.views.MobileTypeDrawable", "measure", object : MethodHook() {
+                        override fun before(param: MethodHookParam?) {
+                            param!!.result = null
+                        }
+                    })
+                }
             }
         }
 
