@@ -1224,6 +1224,7 @@
     <string name="home_recent_modify_animation">Modify animation when removing apps from Recents</string>
     <string name="home_recent_text">Text displayed when no recent task</string>
     <string name="home_recent_app_name_distance_task_view_card">App name distance task view card</string>
+    <string name="home_recent_card_header_horizontal_position">App card header horizontal position</string>
     <string name="home_recent_task_view_card_rounded_corners">Task view card rounded corners</string>
     <string name="home_recent_horizontal_task_view_card_size1">Thumbnail size for Horizontally-Vertical</string>
     <string name="home_recent_horizontal_task_view_card_size2">Thumbnail size for Horizontally-Horizontal</string>

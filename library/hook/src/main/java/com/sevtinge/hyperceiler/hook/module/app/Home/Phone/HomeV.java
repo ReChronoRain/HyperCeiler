@@ -105,6 +105,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.recent.RemoveCardAnim;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.RemoveIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.RemoveLeftShare;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.ShowLaunch;
+import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewHeaderOffset;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewVertical;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.UnlockPin;
@@ -224,6 +225,7 @@ public class HomeV extends BaseModule {
         initHook(RemoveLeftShare.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_world_circulate"));
         initHook(RecentResource.INSTANCE, mPrefsMap.getInt("task_view_corners", 20) != 20 ||
                 mPrefsMap.getInt("task_view_header_height", 40) != 40);
+        initHook(TaskViewHeaderOffset.INSTANCE, mPrefsMap.getInt("task_view_header_horizontal_offset", 30) != 30);
         initHook(RealMemory.INSTANCE, mPrefsMap.getBoolean("home_recent_show_real_memory"));
         initHook(AlwaysShowCleanUp.INSTANCE, mPrefsMap.getBoolean("always_show_clean_up"));
         initHook(new BackgroundBlur(), mPrefsMap.getBoolean("home_recent_blur"));
