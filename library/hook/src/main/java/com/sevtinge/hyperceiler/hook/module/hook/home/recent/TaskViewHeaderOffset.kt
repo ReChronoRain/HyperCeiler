@@ -9,7 +9,9 @@ import com.sevtinge.hyperceiler.hook.utils.setIntField
 
 object TaskViewHeaderOffset : BaseHook() {
     override fun init() {
-        var horizontalOffsetValue = mPrefsMap.getInt("task_view_header_horizontal_offset", 30)
+        val horizontalOffsetValue by lazy {
+            mPrefsMap.getInt("task_view_header_horizontal_offset", 30)
+        }
 
         loadClass("com.miui.home.recents.views.TaskViewHeader")
             .methodFinder()
