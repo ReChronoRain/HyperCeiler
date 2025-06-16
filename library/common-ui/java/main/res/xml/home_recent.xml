@@ -145,6 +145,15 @@
             app:format="%d dp" />
 
         <SeekBarPreferenceCompat
+            android:key="prefs_key_task_view_header_horizontal_offset"
+            android:title="@string/home_recent_card_header_horizontal_position"
+            android:defaultValue="30"
+            app:defaultValueTitle="@string/array_default"
+            app:maxValue="150"
+            app:stepValue="1"
+            app:format="%d dp" />
+
+        <SeekBarPreferenceCompat
             android:key="prefs_key_home_recent_animation_speed"
             android:title="@string/home_recent_animation_speed"
             android:defaultValue="100"
