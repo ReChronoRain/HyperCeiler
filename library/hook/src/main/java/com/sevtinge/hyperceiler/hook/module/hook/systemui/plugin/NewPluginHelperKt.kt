@@ -164,6 +164,10 @@ object NewPluginHelperKt : BaseHook() {
                         mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"),
                         DisableDeviceManagedNew::initDisableDeviceManaged
                     ),
+                    Triple(
+                        "UnlockCarSicknessTile",
+                        mPrefsMap.getBoolean("security_center_unlock_car_sickness")
+                    ) { cl -> UnlockCarSicknessTile.initUnlockCarSicknessTile(cl) },
                 )
                 loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
             }
