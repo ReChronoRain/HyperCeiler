@@ -1508,7 +1508,7 @@
     <string name="secutity_center_unlock_app_sandbox">Unlock Independent storage</string>
     <string name="secutity_center_battery_show_more_info">Show more battery info</string>
     <string name="secutity_center_battery_show_more_info_desc">Experimental feature. The additional battery information displayed may vary depending on the device.</string>
-    <string name="security_center_unlock_car_sickness">Unlock Car sickness</string>
+    <string name="security_center_unlock_car_sickness">Unlock Car sickness relief</string>
     <string name="security_center_unlock_car_sickness_desc">Needs \"Barrage\" support</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
