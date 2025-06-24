@@ -57,9 +57,9 @@ public class DeviceModify extends BaseHook {
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .declaredClass("com.xiaomi.vipbase.utils.SystemProperties")
-                                .paramCount(1)
-                                .returnType(String.class)
+                            .declaredClass("com.xiaomi.vipbase.utils.SystemProperties")
+                            .paramCount(1)
+                            .returnType(String.class)
                         )).singleOrNull();
                 return methodData;
             }
@@ -69,7 +69,9 @@ public class DeviceModify extends BaseHook {
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .usingStrings("ro.product.device")
+                            .usingStrings("ro.product.mod_device")
+                            .returnType(String.class)
+                            .paramCount(0)
                         )).singleOrNull();
                 return methodData;
             }
@@ -79,7 +81,7 @@ public class DeviceModify extends BaseHook {
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .usingStrings("ro.product.model")
+                            .usingStrings("ro.product.model")
                         )).singleOrNull();
                 return methodData;
             }
@@ -100,6 +102,8 @@ public class DeviceModify extends BaseHook {
             protected void before(MethodHookParam param) throws Throwable {
                 if (param.args[0] == "ro.product.model") {
                     param.setResult(mModel);
+                } else if (param.args[0] == "ro.product.mod_device") {
+                    param.setResult(mDevice);
                 } else if (param.args[0] == "ro.product.device") {
                     param.setResult(mDevice);
                 } else if (param.args[0] == "ro.product.manufacturer") {
