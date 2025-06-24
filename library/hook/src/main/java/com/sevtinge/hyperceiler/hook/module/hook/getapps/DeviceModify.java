@@ -52,20 +52,10 @@ public class DeviceModify extends BaseHook {
             mDevice = "dada"; // O3
             mModel = "24129PN74C";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 104) {
-            // 14u
-            mDevice = "aurora"; // N1
-            mModel = "24031PN0DC";
-            mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 102) {
-            // 14p
-            mDevice = "shennong"; // N2
-            mModel = "23116PN5BC";
-            mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 155) {
-            // civi4p
-            mDevice = "chenfeng"; // N9
-            mModel = "24053PY09C";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 156) {
+            // civi5p
+            mDevice = "luming";
+            mModel = "25067PYE3C";
             mManufacturer = "Xiaomi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 202) {
             // flip2
@@ -92,20 +82,35 @@ public class DeviceModify extends BaseHook {
             mDevice = "muyu"; // O82
             mModel = "24091RPADC";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 209) {
-            // pad6sp
-            mDevice = "sheng";
-            mModel = "24018RPACC";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 212) {
+            // pad7u
+            mDevice = "jinghu";
+            mModel = "25032RP42C";
+            mManufacturer = "Xiaomi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 213) {
+            // pad7sp
+            mDevice = "violin";
+            mModel = "25053RP5CC";
             mManufacturer = "Xiaomi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 354) {
             // n14pp
             mDevice = "amethyst";
             mModel = "24090RA29C"; // O16U
             mManufacturer = "Redmi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 314) {
+            // k80u
+            mDevice = "dali";
+            mModel = "25060RK16C";
+            mManufacturer = "Redmi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 313) {
+            // k80pc
+            mDevice = "miro";
+            mModel = "24127RK2CC";
+            mManufacturer = "Redmi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 312) {
             // k80p
             mDevice = "miro";
-            mModel = "24122RKC7C"; // 24127RK2CC Champion Edition
+            mModel = "24122RKC7C";
             mManufacturer = "Redmi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 311) {
             // k80
@@ -117,25 +122,15 @@ public class DeviceModify extends BaseHook {
             mDevice = "rothko";
             mModel = "2407FRK8EC";
             mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 309) {
-            // k70p
-            mDevice = "manet";
-            mModel = "23117RK66C";
-            mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 351) {
-            // k70e
-            mDevice = "duchamp";
-            mModel = "23113RKC6C";
-            mManufacturer = "Redmi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 335) {
-            // t3
-            mDevice = "peridot";
-            mModel = "24069PC21C";
+            // t4p
+            mDevice = "onyx";
+            mModel = "25053RT47C";
             mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 402) {
-            // 13c or 13r
-            mDevice = "air";
-            mModel = "23124RN87C";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 403) {
+            // 14c
+            mDevice = "lake";
+            mModel = "2409BRN2CC";
             mManufacturer = "Redmi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 1) {
             // customization

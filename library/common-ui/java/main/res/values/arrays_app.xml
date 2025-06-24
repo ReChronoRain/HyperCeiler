@@ -550,23 +550,23 @@
         <item>Xiaomi 15 Ultra</item>
         <item>Xiaomi 15 Pro</item>
         <item>Xiaomi 15</item>
-        <item>Xiaomi 14 Ultra</item>
-        <item>Xiaomi 14 Pro</item>
-        <item>Xiaomi CIVI 4 Pro</item>
+        <item>Xiaomi CIVI 5 Pro</item>
         <item>Xiaomi MIX Flip 2</item>
         <item>Xiaomi MIX Fold 4</item>
         <item>Xiaomi MIX Alpha</item>
+        <item>Xiaomi Pad 7S Pro 12.4</item>
+        <item>Xiaomi Pad 7 Ultra</item>
         <item>Xiaomi Pad 7 Pro</item>
         <item>Xiaomi Pad 7</item>
-        <item>Xiaomi Pad 6S Pro 12.4</item>
-        <item>Redmi K80 Pro</item>
-        <item>Redmi K80</item>
+        <item>REDMI K80 Ultra</item>
+        <item>REDMI K80 Pro Champion Edition</item>
+        <item>REDMI K80 Pro</item>
+        <item>REDMI K80</item>
         <item>Redmi K70 Ultra</item>
-        <item>Redmi K70 Pro</item>
-        <item>Redmi K70E</item>
-        <item>Redmi Turbo 3</item>
+        <item>Redmi Turbo 4 Pro</item>
         <item>Redmi Note 14 Pro+</item>
-        <item>Redmi 13C / Redmi 13R</item>
+        <item>Redmi 14C</item>
+        <item>REDMI K Pad</item>
         <item>@string/customization</item>
     </string-array>
 
@@ -576,23 +576,23 @@
         <item>107</item>
         <item>106</item>
         <item>105</item>
-        <item>104</item>
-        <item>102</item>
-        <item>155</item>
+        <item>156</item>
         <item>202</item>
         <item>224</item>
         <item>190</item>
+        <item>213</item>
+        <item>212</item>
         <item>211</item>
         <item>210</item>
         <item>209</item>
+        <item>314</item>
+        <item>313</item>
         <item>312</item>
         <item>311</item>
         <item>310</item>
-        <item>309</item>
-        <item>351</item>
-        <item>335</item>
+        <item>337</item>
         <item>354</item>
-        <item>402</item>
+        <item>403</item>
         <item>1</item>
     </string-array>
 
