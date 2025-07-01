@@ -71,6 +71,15 @@ public class XposedHelper {
         }
     }
 
+    public static void setStaticBooleanField(Class<?> hookClass, String fieldName, boolean value) {
+        try {
+            XposedHelpers.setStaticBooleanField(hookClass, fieldName, value);
+        } catch (Throwable e) {
+            if (BuildConfig.DEBUG)
+                XposedBridge.log("[HyperCeiler][E][android]" + TAG + ": " + Log.getStackTraceString(e));
+        }
+    }
+
     public static Class<?> findClass(String className, ClassLoader classLoader) {
         try {
             return Class.forName(className, false, classLoader);

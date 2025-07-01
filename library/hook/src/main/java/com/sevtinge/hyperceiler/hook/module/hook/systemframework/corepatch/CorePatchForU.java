@@ -43,6 +43,11 @@ public class CorePatchForU extends CorePatchForT {
             }
         }
 
+        // https://cs.android.com/android/platform/superproject/+/android-14.0.0_r60:frameworks/base/services/core/java/com/android/server/pm/ReconcilePackageUtils.java;l=61;bpv=1;bpt=0
+        if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && prefs.getBoolean("prefs_key_system_framework_core_patch_shared_user", false)) {
+            setStaticBooleanField(utilClass, "ALLOW_NON_PRELOADS_SYSTEM_SHAREDUIDS", true);
+        }
+
         // ee11a9c (Rename AndroidPackageApi to AndroidPackage)
         findAndHookMethod("com.android.server.pm.PackageManagerServiceUtils", loadPackageParam.classLoader,
             "checkDowngrade",
@@ -79,6 +84,12 @@ public class CorePatchForU extends CorePatchForT {
                     }
                 });
 
+    }
+
+    @Override
+    Class<?> getParsedPackage(ClassLoader classLoader) {
+        var clazz = XposedHelpers.findClassIfExists("com.android.internal.pm.parsing.pkg.ParsedPackage", classLoader);
+        return clazz != null ? clazz : XposedHelpers.findClassIfExists("com.android.server.pm.parsing.pkg.ParsedPackage", classLoader);
     }
 
     @Override
