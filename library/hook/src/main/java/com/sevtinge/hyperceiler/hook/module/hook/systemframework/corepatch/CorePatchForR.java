@@ -277,7 +277,15 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
             hookAllMethods(keySetManagerClass, "shouldCheckUpgradeKeySetLocked", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && Arrays.stream(Thread.currentThread().getStackTrace()).anyMatch((o) -> "preparePackageLI".equals(o.getMethodName()))) {
+                    // 检查权限定义的签名的时候，如果定义包名相同，会使用 KeySetManagerService
+                    // 我们利用这一点让它通过检查，也就是同包不同签名权限可覆盖
+                    // R-Sv2: PackageManagerService#preparePackageLI
+                    // https://cs.android.com/android/platform/superproject/+/android-11.0.0_r21:frameworks/base/services/core/java/com/android/server/pm/PackageManagerService.java;l=17188;drc=960ffca13a519b0fb9e0942665577c62f97d0eea
+                    // T-V: InstallPackageHelper#preparePackageLI
+                    // https://cs.android.com/android/platform/superproject/+/android-14.0.0_r2:frameworks/base/services/core/java/com/android/server/pm/InstallPackageHelper.java;l=1097;drc=5ea7e53c3a787e25af86b0f31933ddd68ae3514e
+                    // 16: InstallPackageHelper#preparePackage
+                    // https://cs.android.com/android/platform/superproject/+/android-16.0.0_r2:frameworks/base/services/core/java/com/android/server/pm/InstallPackageHelper.java;l=1459;drc=d14620262929e39a409b55d11cb542c1d1c4d2f6
+                    if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && Arrays.stream(Thread.currentThread().getStackTrace()).anyMatch((o) -> o.getMethodName().startsWith("preparePackage"))) {
                         shouldBypass.set(true);
                         param.setResult(true);
                     } else {
