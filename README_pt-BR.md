@@ -20,14 +20,14 @@ Por favor, ative o HyperCeiler no [LSPosed](https://github.com/LSPosed/LSPosed/r
 
 Este módulo <b>não suporta</b> `ROM Xiaomi HyperOS de terceiros com muitas modificações`, `software de sistema com muitas modificações` e algumas `ROM Xiaomi HyperOS internacionais`.
 
-Atualmente, o HyperCeiler está adaptado para dispositivos móveis Xiaomi HyperOS 2.0 baseados em Android 15. A cobertura não é muito abrangente e requer testes e melhorias contínuas.
+Atualmente, o HyperCeiler está adaptado para dispositivos móveis Xiaomi HyperOS 2.0.200 baseados em Android 15. A cobertura não é muito abrangente e requer testes e melhorias contínuas.
 
 Antes de enviar feedback, preste atenção se já existe o mesmo feedback para evitar problemas aos desenvolvedores. Gastar a mesma energia lendo o mesmo feedback é uma perda de tempo.
 
 O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13 e ROM HyperOS 1.0 para Android 13.
 
 > Para ROM MIUI no Android 11-12, use [esta versão](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
-> 
+>
 > Para ROM MIUI no Android 13 e ROM HyperOS 1.0, use [esta versão](https://github.com/Xposed-Modules-Repo/com.sevtinge.hyperceiler/releases/download/3866-2.5.156_20250118/HyperCeiler_2.5.156_20250118_3866_release_miui.apk).
 
 ## Apps suportados
