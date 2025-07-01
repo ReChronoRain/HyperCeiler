@@ -28,7 +28,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.hchen.superlyricapi.SuperLyricData
-import com.sevtinge.hyperceiler.hook.module.base.MusicBaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.systemui.MusicBaseHook
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.getFloatField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull

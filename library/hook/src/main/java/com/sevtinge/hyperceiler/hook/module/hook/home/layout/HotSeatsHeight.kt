@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.layout
 
-import com.sevtinge.hyperceiler.hook.module.hook.home.HomeBaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook
 
 class HotSeatsHeight : HomeBaseHook() {
     override fun init() {
