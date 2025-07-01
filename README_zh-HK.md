@@ -20,15 +20,23 @@ Android 14-15 的 HyperOS
 
 本模組<b>不支持</b> `修改較多的第三方 Xiaomi HyperOS ROM`、`修改較多的系統軟件`，以及`部分國際 Xiaomi HyperOS ROM`；
 
-目前 HyperCeiler 是基於 Android 15 的 Xiaomi HyperOS 2.0 的手機端設備進行適配，覆蓋範圍不是很完整，需要不斷測試和改進
+目前 HyperCeiler 是基於 Android 15 的 Xiaomi HyperOS 2.0.200 的手機端設備進行適配，覆蓋範圍不是很完整，需要不斷測試和改進
 
 提交反饋前請注意是否已有相同反饋，避免給開發者造成困擾。花相同精力看相同反饋是一件很浪費時間的事情
 
 HyperCeiler 已停止維護 Android 11-13 的 MIUI ROM 和 Android 13 的 HyperOS 1.0 ROM
 
 > Android 11-12 的 MIUI ROM 請使用 [此版本](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130)
-> 
+>
 > Android 13 的 MIUI ROM 和 HyperOS 1.0 ROM 請使用 [此版本](https://github.com/Xposed-Modules-Repo/com.sevtinge.hyperceiler/releases/download/3866-2.5.156_20250118/HyperCeiler_2.5.156_20250118_3866_release_miui.apk)
+>
+> Android 14 的 HyperOS 1.0/2.0 已歸檔，2.6.160 發佈之後不再接收反饋和修復
+
+## 項目規劃
+
+Android 16 預期會在 Xiaomi HyperOS 3.0 大部分設備發佈後逐步適配，但由於 Xiaomi HyperOS 的解鎖規則，仍然有 root 的設備相比之前會大幅減少。
+
+開發者所擁有的設備也只能勉強適配，無法保證所有功能都能正常使用，或者也有可能會將項目歸檔，不再繼續開發。
 
 ## 作用域包含的應用
 
