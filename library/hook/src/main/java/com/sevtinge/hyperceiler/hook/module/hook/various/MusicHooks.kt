@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.hook.module.hook.various
 
 import com.hchen.superlyricapi.SuperLyricData
-import com.sevtinge.hyperceiler.hook.module.base.MusicBaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.systemui.MusicBaseHook
 
 object MusicHooks : MusicBaseHook() {
 
@@ -51,7 +51,7 @@ object MusicHooks : MusicBaseHook() {
             runCatching {
                 if (data.lyric != "") {
                     sendNotification(data.lyric, data)
-                }                
+                }
             }.onFailure {
                 logE(TAG, lpparam.packageName, it.message)
             }

@@ -18,12 +18,13 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.home.title
 
-import android.util.*
-import android.widget.*
+import android.util.TypedValue
+import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.*
-import com.sevtinge.hyperceiler.hook.module.hook.home.HomeBaseHook
+import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook
 import com.sevtinge.hyperceiler.hook.utils.replaceMethod
 
 class TitleFontSize : HomeBaseHook() {

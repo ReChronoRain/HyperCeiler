@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.layout;
 
 import android.content.Context;
 
-import com.sevtinge.hyperceiler.hook.module.hook.home.HomeBaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils;
 
 public class WorkspacePadding extends HomeBaseHook {
