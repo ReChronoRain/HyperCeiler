@@ -69,15 +69,12 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.Me
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaSeekBarColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.SquigglyProgress;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.AllowThirdLockScreenUseFace;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.BlurButton;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.ChargingCVP;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.DisableUnlockByBleToast;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.HideLockScreenHint;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.HideLockScreenStatusBar;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.HideLockscreenZenMode;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.LinkageAnimCustomer;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.LockScreenDoubleTapToSleep;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.RemoveCamera;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.ScramblePIN;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.navigation.HandleLineCustom;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.navigation.HideNavigationBar;
@@ -254,16 +251,13 @@ public class SystemUiV extends BaseModule {
         // 锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
         initHook(ChargingCVP.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_cv"));
-        initHook(RemoveCamera.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera"));
         initHook(LockScreenDoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_double_lock"));
         initHook(HideLockscreenZenMode.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_not_disturb_mode"));
-        initHook(HideLockScreenHint.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_unlock_tip"));
         initHook(HideLockScreenStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_status_bar"));
         // initHook(new BlockEditor(), mPrefsMap.getBoolean("system_ui_lock_screen_block_editor"));
         initHook(AllowThirdLockScreenUseFace.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_allow_third_face"));
         initHook(new DisableUnlockByBleToast(), mPrefsMap.getBoolean("system_ui_lock_screen_disable_unlock_by_ble_toast"));
         initHook(new LinkageAnimCustomer(), mPrefsMap.getBoolean("system_ui_lock_screen_linkage_anim"));
-        initHook(BlurButton.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));
 
         initHook(DoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_double_tap_to_sleep"));
 
