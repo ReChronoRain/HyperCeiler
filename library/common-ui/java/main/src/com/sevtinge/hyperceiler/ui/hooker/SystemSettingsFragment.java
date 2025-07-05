@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.ui.hooker;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.os.Bundle;
 import android.provider.Settings;
@@ -27,15 +28,16 @@ import android.widget.SeekBar;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.SeekBarPreferenceCompat;
 
 public class SystemSettingsFragment extends DashboardFragment {
     SwitchPreference mPad; // 解锁平板分区
     SwitchPreference mUiMode;
+    SwitchPreference mLangShow; // 显示所有应用语言菜单
     RecommendPreference mRecommend;
 
     @Override
@@ -47,9 +49,14 @@ public class SystemSettingsFragment extends DashboardFragment {
     public void initPrefs() {
         mPad = findPreference("prefs_key_system_settings_enable_pad_area");
         mUiMode = findPreference("prefs_key_system_settings_unlock_ui_mode");
+        mLangShow = findPreference("prefs_key_system_settings_lang_menu_shouw_all_app");
 
         mUiMode.setVisible(isPad());
         mPad.setVisible(isPad());
+
+        if (isMoreHyperOSVersion(2f)) {
+            setFuncHint(mLangShow, 1);
+        }
 
         Bundle args1 = new Bundle();
         mRecommend = new RecommendPreference(getContext());
