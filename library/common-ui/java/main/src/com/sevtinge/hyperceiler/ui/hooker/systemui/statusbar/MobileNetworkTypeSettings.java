@@ -25,9 +25,9 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.DropDownPreference;
 
@@ -53,7 +53,7 @@ public class MobileNetworkTypeSettings extends DashboardFragment
         mCompatibility = findPreference("prefs_key_system_ui_status_bar_mobile_network_type");
 
         if (!isMoreSmallVersion(200, 2f)) {
-            mCompatibility.setVisible(false);
+            setFuncHint(mCompatibility, 1);
         }
 
         setMobileMode(mobileMode);

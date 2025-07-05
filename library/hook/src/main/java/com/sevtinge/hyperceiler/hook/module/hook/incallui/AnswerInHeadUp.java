@@ -36,9 +36,9 @@ public class AnswerInHeadUp extends BaseHook {
                             "getForegroundInfo");
                     if (foregroundInfo != null) {
                         String topPackage = (String) XposedHelpers.getObjectField(foregroundInfo, "mForegroundPackageName");
-                        /*if (!"com.miui.home".equals(topPackage)) {
+                        if (!"com.miui.home".equals(topPackage)) {
                             param.args[3] = false;
-                        }*/
+                        }
                     }
                 }
             }
