@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.ui.hooker.systemui;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
 
 import androidx.preference.SwitchPreference;
 
@@ -29,6 +30,7 @@ import fan.preference.DropDownPreference;
 
 public class LockScreenSettings extends DashboardFragment {
     SwitchPreference mHideLeftButton; // 隐藏左侧按钮
+    SwitchPreference mHideRightButton; // 隐藏右侧按钮
     SwitchPreference mBlockEditor; // 禁用长按进入锁屏编辑
     DropDownPreference mHideLeftButtonNew; // 左侧按钮自定义
 
@@ -43,10 +45,16 @@ public class LockScreenSettings extends DashboardFragment {
         mBlockEditor = findPreference("prefs_key_system_ui_lock_screen_block_editor");
 
         mHideLeftButton = findPreference("prefs_key_system_ui_lock_screen_hide_smart_screen");
+        mHideRightButton = findPreference("prefs_key_system_ui_lock_screen_hide_camera");
         mHideLeftButtonNew = findPreference("prefs_key_system_ui_lock_screen_bottom_left_button");
 
         mBlockEditor.setVisible(!moreAndroidVersion);
         mHideLeftButton.setVisible(!moreAndroidVersion);
         mHideLeftButtonNew.setVisible(moreAndroidVersion);
+
+        if (isMoreSmallVersion(200, 2f)) {
+            setFuncHint(mHideLeftButtonNew, 2);
+            setFuncHint(mHideRightButton, 2);
+        }
     }
 }

@@ -18,16 +18,26 @@
  */
 package com.sevtinge.hyperceiler.hook.utils.api
 
-import android.content.*
-import de.robv.android.xposed.*
-import java.lang.ref.*
+import android.content.ComponentName
+import android.content.Context
+import de.robv.android.xposed.XposedHelpers
+import java.lang.ref.WeakReference
 
 // https://github.com/buffcow/Hyper5GSwitch/blob/master/app/src/main/kotlin/cn/buffcow/hyper5g/hooker/PluginLoader.kt
 internal class PluginFactory(obj: Any) {
+
+    companion object {
+        const val PLUGIN_COMPONENT_MIUI_SYSTEMUI = "miui.systemui.plugin"
+        const val PLUGIN_COMPONENT_MIUI_AOD = "com.miui.aod"
+    }
+
     lateinit var pluginCtxRef: WeakReference<Context>
     val mComponentName: Any? = XposedHelpers.getObjectField(obj , "mComponentName")
 
-    fun componentNames(str: String): ComponentName {
-        return ComponentName("miui.systemui.plugin", str)
+    fun componentNames(type: Int, str: String): ComponentName {
+        return when (type) {
+            0 ->  ComponentName(PLUGIN_COMPONENT_MIUI_AOD, str)
+            else ->  ComponentName(PLUGIN_COMPONENT_MIUI_SYSTEMUI, str)
+        }
     }
 }
