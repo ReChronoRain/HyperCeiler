@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <!--Pop-up window/miuix part-->
+    <string name="miuix_appcompat_action_mode_select_all">Seleziona tutto</string>
+    <string name="miuix_appcompat_cancel_description">Cancella</string>
+    <string name="miuix_appcompat_confirm_description">Ok</string>
+    <string name="miuix_appcompat_select_all_description">Seleziona tutto</string>
+    <string name="miuix_appcompat_deselect_all_description">Deseleziona tutto</string>
+    <string name="miuix_appcompat_delete_description">Cancella</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">Cancella</string>
+    <string name="miuix_appcompat_search_input_description">Cerca</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Altro</string>
+    <string name="miuix_appcompat_action_mode_inverse">Inverso</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="tip">Suggerimento</string>
+    <string name="root">Alcune funzioni non sono disponibili senza l\'autorizzazione Root/Su</string>
+    <string name="soft_reboot">Riavvia </string>
+    <string name="restart_app_desc">Sei sicuro di voler riavviare ora %1$s?</string>
+    <string name="hyperceiler_restart_quick">Riavvia rapidamente le app</string>
+    <string name="hook_failed">Il modulo non è ancora attivato.\nVerifica se il gestore Xposed è abilitato. In tal caso, riavvia o riottimizza il modulo.</string>
+    <string name="kill_failed">Impossibile terminare il processo, si prega di controllare se HyperCeiler ha ottenuto permessi di Root/Su.</string>
+    <string name="start_failed">Impossibile terminare il processo, si prega di controllare se HyperCeiler ha ottenuto permessi di Root/Su.</string>
+    <string name="pid_failed">L\'applicazione selezionata non è in esecuzione e non è necessario riavviarla.</string>
+    <string name="reboot_failed">Impossibile terminare il processo, si prega di controllare se HyperCeiler ha ottenuto permessi di Root/Su.</string>
+    <!--HyperCeiler Tips-->
+    <string name="tip_default">Suggerimento: ecco il suggerimento predefinito. Se riesci a vedermi significa che c\'è un problema con HyperCeiler, segnalalo allo sviluppatore in modo tempestivo ed efficace.</string>
+    <string name="headtip_warn_not_offical_rom">La fonte della ROM che stai utilizzando potrebbe non essere ufficiale di Xiaomi e alcune funzioni potrebbero non funzionare, contatta il provider che stai utilizzando per i dettagli.</string>
+    <string name="headtip_warn_sign_verification_failed">La verifica della firma non è riuscita e il la versione corrente che stai utilizzando potrebbe non provenire dalla versione ufficiale di Re.chronoRain e potrebbe contenere codice dannoso.</string>
+    <!--System UI-->
+    <string name="system_ui">UI sistema</string>
+    <!--System launcher-->
+    <string name="mihome">Avvio del sistema</string>
+    <!--Settings-->
+    <string name="system_settings">Impostazioni</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center_hyperos">Strumenti di sicurezza</string>
+    <!--Other-->
+    <string name="exit">Esci</string>
+    <string name="ignore">Ignora</string>
+    <string name="log_level">Livello di registro</string>
+    <string name="log_level_none">Disabilita registro</string>
+    <string name="disable_suggest">Disabilita suggerimento</string>
+    <string name="enable_suggest">Abilita suggerimento</string>
+</resources>

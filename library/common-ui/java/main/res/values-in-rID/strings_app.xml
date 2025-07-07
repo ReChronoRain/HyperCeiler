@@ -19,23 +19,11 @@
   -->
 <resources>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Jadikan HyperOS Hebat Lagi!</string>
     <string name="new_permission_wifi_state_desc">menambah dan menghapus file pada penyimpanan internal perangkat</string>
     <string name="new_permission_location_desc">digunakan untuk menyediakan layanan latitude dan longitude</string>
     <string name="new_cta_agree_desc">Selama penggunaan, untuk memberi Anda lebih banyak fitur, kami mungkin meminta izin Root/Su dari Anda. Anda dapat membuka Manajemen Izin kapan saja untuk menyesuaikan status otorisasi semua izin, dan silakan buka manajer Root/Su Anda untuk meng-izinkan.</string>
     <string name="new_cta_app_main_purpose">midifikasi sistem aplikasi</string>
     <string name="new_cta_app_all_purpose_title">Selamat datang di HyperCeiler. Aplikasi ini mengandalkan framework Xpose untuk dijalankan. Anda dapat menggunakan aplikasi ini untuk merombak dan memodifikasi aplikasi lain yang didukung untuk menyempurnakan sistem. Selama penggunaan, untuk memberi Anda lebih banyak fungsi, kami mungkin meminta izin Root/Su dari Anda. Anda dapat mengelolanya kapan saja dengan membuka Root/Su Manager Anda.</string>
-    <!--HyperCeiler Tips-->
-    <string name="safe_mode_history">Lihat catatan pengecualian</string>
-    <string name="safe_mode_recorder_title">Catatan pengecualian</string>
-    <string name="safe_mode_recorder_file">Mengajukan</string>
-    <string name="safe_mode_recorder_class">Kelas</string>
-    <string name="safe_mode_recorder_method">metode</string>
-    <string name="safe_mode_recorder_line">Garis</string>
-    <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan kepada pengembang secara tepat waktu dan sopan.</string>
-    <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
-    <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi HyperCeiler, dan mungkin berisi kode berbahaya.</string>
-    <string name="happy_birthday_hyperceiler">Hari ini adalah hari ulang tahun HyperCeiler!\nTerima kasih atas dukungan Anda selama setahun terakhir, dan mari terus bekerja sama tahun ini!</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Bahasa Indonesia</string>
     <string name="translator">Local Lion</string>
@@ -48,10 +36,8 @@
     <string name="about_use_desc">HyperCeiler menggunakan beberapa atau semua proyek berikut, terima kasih kepada pengembang proyek ini atas dukungan mereka (tanpa urutan tertentu)</string>
     <string name="about_contributer">Kontributor</string>
     <string name="about_contributer_desc">Terima kasih kepada kontributor berikut atas bantuannya dalam pengembangan HyperCeiler (tanpa urutan tertentu)</string>
-    <string name="about_donation">Sponsor</string>
     <string name="about_donation_desc">Anda bisa mendukung kami dengan donasi di sini</string>
     <string name="hyperceiler_notice">Tarik bilah status ke bawah untuk menampilkan sakelar pintasan dan pemberitahuan sistem</string>
-    <string name="hyperceiler_restart_quick">Mulai ulang aplikasi dengan cepat</string>
     <string name="set_homepage_entrance">Siapkan entri beranda</string>
     <string name="help_cant_see_apps_guide">Tidak dapat menemukan fungsi aplikasi?</string>
     <string name="help_cant_see_apps_title">Tidak dapat menemukan fungsi aplikasi di beranda?</string>
@@ -84,7 +70,6 @@
     <string name="settings_show_title">Menunjukkan</string>
     <string name="settings_data_title">Cadangkan dan Pulihkan</string>
     <string name="settings_bug_title">Penyelesaian masalah</string>
-    <string name="settings_debug_title">Debug</string>
     <string name="settings_hide_app_icon">Ikon desktop</string>
     <string name="settings_icon">Pengaturan Ikon</string>
     <string name="settings_icon_desc">Atur lokasi entri modul dalam pengaturan sistem</string>
@@ -126,20 +111,10 @@
     <string name="about_github">Kode sumber</string>
     <string name="about_github_desc">Proyek ini adalah sumber terbuka berdasarkan lisensi AGPL-3.0</string>
     <string name="about_offical">Website resmi</string>
-    <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">Bantu kami menerjemahkan HyperCeiler ke dalam bahasa Anda</string>
     <string name="about_privacy">Kebijakan Privasi</string>
     <string name="about_protocol">Perjanjian Pengguna</string>
     <!--Pop-up window/miuix part-->
-    <string name="soft_reboot">Reboot </string>
-    <string name="restart_app_desc">Apakah Anda yakin untuk memulai ulang sekarang %1$s?</string>
-    <string name="tip">Tip</string>
-    <string name="root">Beberapa fitur tidak tersedia tanpa izin Root/Su</string>
-    <string name="hook_failed">Modul belum diaktifkan.\nSilakan periksa apakah manajer Xposed telah diaktifkan. Jika sudah, silakan mulai ulang atau optimalkan kembali modul.</string>
-    <string name="kill_failed">Gagal mengakhiri proses, periksa apakah HyperCeiler telah diberikan izin Root/Su?</string>
-    <string name="start_failed">Gagal memulai aktivitas, periksa apakah HyperCeiler telah diberikan izin Root/SU.</string>
-    <string name="pid_failed">Aplikasi target tidak berjalan dan tidak perlu di-restart.</string>
-    <string name="reboot_failed">Reboot gagal, periksa apakah HyperCeiler diberikan izin Root/Su?</string>
     <string name="expand_button_title">Level tinggi</string>
     <string name="not_set">Tidak diatur</string>
     <string name="copy">Menyalin</string>
@@ -157,20 +132,9 @@
     <string name="abc_action_bar_home_description">Kembali ke beranda</string>
     <string name="abc_action_bar_up_description">Kembali ke level sebelumnya</string>
     <string name="actionbar_button_up_description">Kembali</string>
-    <string name="miuix_appcompat_action_mode_select_all">Pilih semua</string>
-    <string name="miuix_appcompat_cancel_description">Membatalkan</string>
-    <string name="miuix_appcompat_confirm_description">Oke</string>
-    <string name="miuix_appcompat_select_all_description">Pilih Semua</string>
-    <string name="miuix_appcompat_deselect_all_description">Batalkan pilihan semua</string>
-    <string name="miuix_appcompat_delete_description">Menghapus</string>
-    <string name="miuix_appcompat_search_action_mode_cancel">Membatalkan</string>
-    <string name="miuix_appcompat_search_input_description">Mencari</string>
-    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Lagi</string>
-    <string name="miuix_appcompat_action_mode_inverse">Terbalik</string>
     <string name="color_picker_alpha_text_transparent">Kegelapan</string>
     <string name="color_picker_tab_grid">jaringan</string>
     <string name="color_picker_tab_slider">Penggeser</string>
-    <string name="color_picker_view_page_text_hue">Hue</string>
     <string name="color_picker_view_page_text_lightness">Keringanan</string>
     <string name="color_picker_view_page_text_saturation">Kejenuhan</string>
     <!--String reuse-->
@@ -184,12 +148,10 @@
     <string name="horizontal_alignment">Penjajaran Horisontal</string>
     <string name="feature">Fungsi</string>
     <string name="recommend">Menyarankan</string>
-    <string name="editor">Editor</string>
     <string name="enable">Mengaktifkan</string>
     <string name="disable">Cacat</string>
     <string name="custom_enable">Pengaktifan khusus</string>
     <string name="search">Cari</string>
-    <string name="floating_window">Freeform</string>
     <string name="save_to_screen_title">Lokasi penyimpanan khusus</string>
     <string name="only_new_version_can_do">Hanya versi yang lebih baru yang didukung</string>
     <string name="system_ui_statusbar_indicator_default_title">Bawaan</string>
@@ -244,10 +206,6 @@
     <string name="array_discrete">Memisahkan</string>
     <string name="array_gradual">Lambat</string>
     <string name="array_rainbow">Pelangi</string>
-    <string name="various_install_app_info_version_name">Nama versi</string>
-    <string name="various_install_app_info_version_code">Kode versi</string>
-    <string name="various_install_app_info_sdk">Dukungan SDK</string>
-    <string name="various_install_app_size">Ukuran</string>
     <string name="status_bar_icon_mode_default">Bawaan</string>
     <string name="status_bar_icon_mode_on">Selalu tunjukkan</string>
     <string name="status_bar_icon_mode_on_non_wifi">Selalu ditampilkan saat tidak menggunakan WiFi</string>
@@ -296,14 +254,9 @@
     <string name="system_ui_statusbar_clock_style_1">Jam bilah status satu baris</string>
     <string name="system_ui_statusbar_clock_style_2">Jam bilah status\nJam mini bilah notifikasi</string>
     <string name="system_ui_statusbar_clock_style_3">Jam mini bilah notifikasi\nJam bilah status</string>
-    <string name="mediaeditor_mickey">Mickey Mouse</string>
     <string name="mediaeditor_strawberry_bear">Beruang Stroberi</string>
-    <string name="tiles_gms">Layanan Google Play</string>
-    <string name="tiles_taplus">Sakelar Taplus</string>
-    <string name="tiles_5g">Jaringan 5G</string>
     <!--System Framework-->
     <string name="system_framework">Kerangka Sistem</string>
-    <string name="system_framework_volume_title">Volume</string>
     <string name="system_framework_other_title">Lainnya</string>
     <string name="system_framework_display_title">Menampilkan</string>
     <string name="system_framework_phone_title">Jaringan</string>
@@ -327,7 +280,6 @@
     <string name="system_framework_volume_steps">Pengganda tingkat volume</string>
     <string name="system_ui_display_use_aosp_screenshot">Gunakan Tangkapan Layar AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Arahkan ulang aplikasi tangkapan layar ke tangkapan layar AOSP, aplikasi tangkapan layar di HyperOS tidak akan merespons operasi tangkapan layar</string>
-    <string name="system_framework_phone_network_title">Pengaturan jaringan</string>
     <string name="phone_double_5g_nr">Kartu ganda menggunakan 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">Kartu SIM utama dan sekunder mengaktifkan 5G secara bersamaan (Kartu SIM sekunder hanya mendukung NSA)</string>
     <string name="phone_double_5g_sa">Kartu ganda menggunakan SA (SA+SA)</string>
@@ -444,7 +396,6 @@
     <string name="various_fuck_xlDownload_desc">Cegah pengelola unduhan membuat folder .xlDownload di root penyimpanan internal</string>
     <!--Download UI-->
     <!--System UI-->
-    <string name="system_ui">UI Sistem</string>
     <string name="system_ui_lockscreen_title">Layar kunci</string>
     <string name="system_ui_lockscreen_safe_title">Keamanan</string>
     <string name="system_ui_lockscreen_ui_title">Antarmuka Pengguna</string>
@@ -470,10 +421,6 @@
     <string name="system_ui_lock_screen_allow_third_face_desc">Izinkan pengenalan wajah dan sidik jari digunakan secara normal pada layar kunci yang ditampilkan oleh aplikasi pihak ketiga</string>
     <string name="system_ui_navigation_title">Navigasi</string>
     <string name="system_ui_navigation_handle_title">Tangani garis</string>
-    <string name="system_ui_hide_navigation_bar">Sembunyikan Bilah Navigasi</string>
-    <string name="system_ui_hide_navigation_bar_toast">Jangan mengganti tombol navigasi</string>
-    <string name="system_ui_hide_navigation_bar_toast_2">Jangan sembunyikan garis navigasi</string>
-    <string name="system_ui_hide_navigation_bar_more">Silakan mulai ulang cakupan Miui Home dan SystemUi</string>
     <string name="system_ui_navigation_handle_custom">Garis pegangan khusus</string>
     <string name="system_ui_navigation_handle_custom_height">Tinggi</string>
     <string name="system_ui_navigation_handle_custom_width">Lebar potret</string>
@@ -508,7 +455,6 @@
     <string name="system_ui_status_bar_battery_style_font_mark_size">Ukuran font simbol persentase baterai</string>
     <string name="system_ui_status_bar_battery_style_vertical_offset">Offset atas dan bawah simbol persentase baterai</string>
     <string name="system_ui_statusbar_iconmanage_wifi_title">Wifi</string>
-    <string name="system_ui_statusbar_iconmanage_bluetooth_title">Bluetooth</string>
     <string name="system_ui_statusbar_iconmanage_mobile_title">Jaringan seluler</string>
     <string name="system_ui_statusbar_iconmanage_location_title">Lokasi</string>
     <string name="system_ui_statusbar_iconmanage_status_title">Ikon Status</string>
@@ -523,7 +469,6 @@
     <string name="system_ui_status_bar_icon_wifi_standard">Standar Wi-Fi</string>
     <string name="system_ui_status_bar_icon_hotspot">Wi-Fi titik panas</string>
     <string name="system_ui_status_bar_icon_wifi_network_indicator">Indikator Aktivitas Jaringan</string>
-    <string name="system_ui_status_bar_icon_bluetooth">Bluetooth</string>
     <string name="system_ui_status_bar_icon_bluetooth_battery">baterai Bluetooth</string>
     <string name="system_ui_status_bar_icon_new_hd">Ikon HD baru</string>
     <string name="system_ui_status_bar_icon_small_hd">Ikon HD kecil</string>
@@ -551,8 +496,6 @@
     <string name="system_ui_status_bar_icon_speakerphone">Sembunyikan ikon speaker ponsel</string>
     <string name="system_ui_status_bar_icon_call_record">Sembunyikan ikon rekaman</string>
     <string name="system_ui_status_bar_icon_car">Mobil</string>
-    <string name="system_ui_status_bar_icon_pad">Pad</string>
-    <string name="system_ui_status_bar_icon_pc">PC</string>
     <string name="system_ui_status_bar_icon_phone">Telepon</string>
     <string name="system_ui_status_bar_icon_soundbox">Kotak Suara</string>
     <string name="system_ui_status_bar_icon_soundbox_screen">Kotak Suara Dengan Layar</string>
@@ -613,11 +556,7 @@
     <string name="system_ui_controlcenter_media_card_title">Kartu Pemberitahuan Media</string>
     <string name="system_ui_control_center_magnet_tile_settings">magnet</string>
     <string name="system_ui_control_center_notification_title">Pemberitahuan</string>
-    <string name="quick_settings_state_change_message_on_my">%1$s aktif</string>
-    <string name="quick_settings_state_change_message_off_my">%1$s tidak aktif</string>
     <string name="system_control_center_5g_tile">Sakelar jaringan 5G</string>
-    <string name="system_control_center_reduce_bright_colors_tile">Sangat gelap</string>
-    <string name="system_control_center_sunshine_mode">Mode Sinar Matahari</string>
     <string name="system_ui_control_auto_close">Ubin magnetik ditarik secara otomatis</string>
     <string name="system_ui_control_center_qs_bg_color">Warna latar belakang</string>
     <string name="system_ui_control_center_qs_color">Warna ikon</string>
@@ -689,7 +628,6 @@
     <string name="system_showpct_use_blur">Gunakan blur</string>
     <string name="system_ui_notification_freeform">Tarik ke bawah bilah notifikasi aplikasi lainnya untuk membuka bentuk bebas</string>
     <string name="system_ui_notification_freeform_desc">Notifikasi dari Mi Push mungkin tidak didukung</string>
-    <string name="system_ui_monet_title">Monet</string>
     <string name="system_ui_monet_overlay_custom">Sesuaikan warna tema</string>
     <string name="system_ui_monet_overlay_custom_desc">Sesuaikan warna tema alih-alih mengambil warna dari wallpaper sistem</string>
     <string name="system_ui_monet_overlay_custom_color">Pilih warna tema</string>
@@ -701,14 +639,10 @@
     <string name="system_ui_plugin_enable_volume_blur_desc">Hanya untuk model Android12+ MTK, mungkin terdapat beban GPU yang tinggi</string>
     <!--Telecom-->
     <!--Settings-->
-    <string name="system_settings">Pengaturan</string>
     <string name="system_settings_linkturbo">Hapus batasan pada aplikasi akselerasi jaringan</string>
     <string name="system_settings_international_build">Pengaturan versi internasional</string>
     <string name="system_settings_safe_wifi">Lihat kata sandi WiFi Anda yang tersimpan</string>
     <string name="system_settings_safe_wifi_desc">Buka Kunci Kelola Jaringan Tersimpan\nJalur: Setelan - WLAN - Setelan Lanjutan - Kelola Jaringan Tersimpan</string>
-    <string name="system_settings_wifipassword_btn_title">Memeriksa</string>
-    <string name="system_settings_wifi_password_label">Kata sandi</string>
-    <string name="system_settings_wifi_password_dlgtitle">Detail Wi-Fi</string>
     <string name="system_settings_novelty_haptic_title">Buka kunci versi baru halaman penyesuaian sentuhan</string>
     <string name="system_settings_novelty_haptic_desc">Hanya untuk perangkat dengan halaman Suara &amp; Haptik - Haptik</string>
     <string name="system_settings_enable_pad_area">Buka kunci area Pad</string>
@@ -798,7 +732,6 @@
     <string name="aod_unlock_always_on_display_more">Mulai ulang UI Sistem untuk mengaktifkan fitur sepenuhnya</string>
     <string name="aod_unlock_aon">Buka kunci Aod Aon</string>
     <!--Taplus-->
-    <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Gunakan browser pihak ketiga</string>
     <string name="content_extension_browser_desc">Jadikan Taplus tidak wajib menggunakan browser sistem untuk pencarian, Anda harus memilih sendiri browser default</string>
     <string name="content_extension_unlock_taplus_title">Buka kunci Taplus</string>
@@ -813,7 +746,6 @@
     <string name="micloud_service_list">Terapkan penyelesaian sinkronisasi cloud data</string>
     <string name="micloud_service_list_summary">Fungsi penyelesaiannya adalah sebagai berikut:\n- Ponsel dapat disinkronkan dengan Mi Creation\n- Mi Browser versi domestik dan internasional dapat disinkronkan secara bersamaan\n\nCatatan: Sinkronisasi pertama Mi Creation harus dilakukan diaktifkan dari pengaturan Mi Creation, jika tidak maka akan muncul pesan bahwa jaringan tidak tersedia atau sistem sedang sibuk, silakan coba lagi nanti</string>
     <!--Mi Mover-->
-    <string name="huanji">Mi Mover</string>
     <string name="huanji_allow_all_apps">Izinkan pindahkan semua aplikasi</string>
     <!--Backup-->
     <string name="backup">Pencadangan</string>
@@ -838,13 +770,10 @@
     <string name="gallery_enable_magic_matting">Buka Kunci Potong</string>
     <string name="gallery_backup_server">Server cadangan</string>
     <string name="gallery_backup_server_xiaomi">Layanan Xiaomi Cloud</string>
-    <string name="gallery_backup_server_google">Google</string>
-    <string name="gallery_backup_server_onedrive">Google &amp; OneDrive</string>
     <!--System security components-->
     <string name="guard_provider_hyperos">Komponen Keamanan Sistem</string>
     <string name="guard_provider_disable_upload_applist">Cegah pengunggahan otomatis daftar aplikasi yang diinstal</string>
     <!--System launcher-->
-    <string name="mihome">Peluncur sistem</string>
     <string name="home_gesture">Gerakan dan Navigasi</string>
     <string name="home_navigation_title">Navigasi</string>
     <string name="home_navigation_quick_back">Kembali ke aplikasi sebelumnya</string>
@@ -958,12 +887,10 @@
     <string name="home_title">Ikon dan Judul</string>
     <string name="home_title_icon_title">Ikon</string>
     <string name="home_title_icon_animation_title">Animasi Ikon</string>
-    <string name="home_title_app_blur_title">App blur</string>
     <string name="home_title_app_blur_enable">Aktifkan animasi blur di latar belakang aplikasi</string>
     <string name="home_title_app_blur_radius">App animasi latar belakang blur radius</string>
     <string name="home_title_app_dim_alpha">App animasi latar belakang mask transparency</string>
     <string name="home_title_wallpaper_blur_radius">Wallpaper radius blur</string>
-    <string name="home_title_wallpaper_dim_alpha">Wallpaper mask transparency</string>
     <string name="home_title_fix_small_window">Perbaikan tambahan untuk animasi jendela kecil</string>
     <string name="home_title_fix_small_window_desc">Fitur eksperimental. Paksa penggunaan animasi untuk menghindari kedipan saat menyeret aplikasi ke jendela kecil. Jangan gunakan fitur ini jika Anda tidak keberatan.</string>
     <string name="home_title_title_title">Judul</string>
@@ -1013,7 +940,6 @@
     <string name="home_recent_show_memory_info">Tampilkan info memori</string>
     <string name="home_recent_always_show_clean_up">Larang menyembunyikan ikon pembersihan saat tidak ada kartu</string>
     <string name="home_recent_blur">Latar belakang buram</string>
-    <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Animasi widget</string>
     <string name="home_widget_show_miui_widget">Tampilkan Widget Sistem</string>
     <string name="home_widget_show_miui_widget_desc">Tampilkan widget HyperOS di halaman widget AOSP</string>
@@ -1062,16 +988,6 @@
     <string name="home_large_icon_corner_radius">Ikon besar dengan sudut membulat</string>
     <string name="home_other_app_icon_hide">Manajemen pintasan desktop</string>
     <string name="home_other_toast_slide_again">Melarang perintah \"tolong usap lagi\" Roti Bakar</string>
-    <string name="system_framework_guided_access_sc">Dilarang membuka sidebar saat disematkan</string>
-    <string name="system_framework_guided_access_screen">Lompat ke layar kunci saat pin dilepas</string>
-    <string name="system_framework_guided_access">Aplikasi yang ditetapkan</string>
-    <string name="system_framework_guided_access_will_lock">Akan mengunci Aplikasi</string>
-    <string name="system_framework_guided_access_lock">Kunci Aplikasi</string>
-    <string name="system_framework_guided_access_unlock">Buka kunci Aplikasi</string>
-    <string name="system_framework_guided_access_will_unlock">Akan Membuka Kunci Aplikasi</string>
-    <string name="system_framework_guided_access_r">Pulihkan</string>
-    <string name="system_framework_guided_access_e">Silakan buka kuncinya di antarmuka aplikasi yang terkunci</string>
-    <string name="system_framework_guided_access_more">Akses Terpandu seperti iOS yang menyematkan aplikasi saat ini ke layar\nUntuk menggunakan, tekan dan tahan bilah status atas, dan jika Anda ingin keluar, tekan dan tahan lagi bilah status atas\nPertama kali Anda menggunakannya, Anda perlu me-restart perangkat.</string>
     <string name="home_other_shortcut_remove_restrictions">Hapus batasan pada pintasan</string>
     <string name="home_other_shortcut_background_blur_custom">Nilai blur menu pintasan</string>
     <string name="home_other_high_models">Pengakuan wajib sebagai model kelas atas</string>
@@ -1096,10 +1012,6 @@
     <string name="mediaeditor_unlock_custom_photo_frames_title">Sesuaikan jenis bingkai</string>
     <string name="mediaeditor_unlock_leica_filter_title">Buka kunci filter Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Hanya beberapa versi yang didukung</string>
-    <!--Mi Share-->
-    <string name="mishare">Mi Share</string>
-    <string name="mishare_disable_mishare_auto_off">Nonaktifkan penutupan otomatis Mi Share</string>
-    <string name="mishare_unlock_turbo_mode">Buka kunci transfer turbo</string>
     <!--Wallpaper-->
     <string name="miwallpaper">kertas dinding</string>
     <string name="miwallpaper_unlock_super_wallpaper">Buka kunci wallpaper Super</string>
@@ -1158,7 +1070,6 @@
     <string name="screenshot_device_customize_desc">Silakan masukkan kode model</string>
     <!--System Service Plugin-->
     <!--Security/Tablet security center-->
-    <string name="security_center_hyperos">Alat Keamanan</string>
     <string name="security_center_app_title">Manajemen aplikasi</string>
     <string name="security_center_battery_title">Penghemat Baterai dan Baterai</string>
     <string name="security_center_privacy_title">Perlindungan privasi</string>
@@ -1198,9 +1109,6 @@
     <string name="security_disable_app_summary">Izinkan menonaktifkan aplikasi apa pun dari halaman info aplikasi</string>
     <string name="security_disable_app_url_title">Terapkan manajemen tautan terbuka</string>
     <string name="security_disable_app_url_summary">Ubah pengaturan \"Hapus tindakan default\" menjadi \"Buka secara default\" di detail aplikasi</string>
-    <string name="app_link_open_always">Mengizinkan aplikasi membuka tautan yang didukung</string>
-    <string name="app_link_open_never">Jangan izinkan aplikasi membuka tautan</string>
-    <string name="open_by_default">Buka secara default</string>
     <string name="security_score">Nonaktifkan pengoptimalan pemeriksaan kesehatan</string>
     <string name="security_score_summary">Kunci 100 poin dan nonaktifkan pengoptimalan</string>
     <string name="security_center_skip_waiting_time">Lewati batas hitung mundur</string>
@@ -1248,22 +1156,11 @@
     <string name="security_center_game_speed_desc">Saat meluncurkan game, animasi layar pembuka diputar dengan kecepatan 3x, yang hanya didukung oleh beberapa game</string>
     <string name="security_center_bypass_simlock_miaccount_auth">Keamanan SIM tidak memerlukan Akun</string>
     <string name="security_center_bypass_simlock_miaccount_auth_desc">Lewati keamanan SIM Mi Account yang diperlukan, Anda dapat membuka fungsi ini bahkan tanpa masuk ke Akun XiaoMi</string>
-    <string name="security_center_aosp_app_info_label">Info Aplikasi AOSP</string>
-    <string name="security_center_aosp_app_info">Tambahkan entri Info Aplikasi AOSP</string>
-    <string name="security_center_aosp_app_manager_label">Manajer Aplikasi AOSP</string>
-    <string name="security_center_aosp_app_manager">Tambahkan entri AOSP App Manager</string>
     <string name="security_center_power_consumption_ranking">Tampilkan Peringkat Konsumsi Daya</string>
     <!--MiTrustService-->
     <string name="trustservice">Layanan MiTrust</string>
     <string name="trustservice_disable_mrm">Nonaktifkan deteksi risiko</string>
     <string name="trustservice_disable_mrm_desc">Fitur eksperimental. Anda tidak boleh menggunakan fitur ini dengan melanggar hukum lokal atau nasional.</string>
-    <!--Smart cards-->
-    <string name="tsmclient">Kartu pintar</string>
-    <string name="tsmclient_auto_nfc">Kelola NFC secara otomatis</string>
-    <string name="tsmclient_auto_nfc_desc">NFC diaktifkan secara otomatis saat memasuki halaman gesek kartu, dan otomatis dimatikan saat keluar</string>
-    <string name="tsmclient_nfc_turning_on">Mengaktifkan NFC secara otomatis……</string>
-    <string name="tsmclient_nfc_turn_on_manually">Aktifkan NFC secara manual</string>
-    <string name="tsmclient_nfc_turn_on_failed">Gagal mengaktifkan NFC secara otomatis</string>
     <!--Weather-->
     <string name="weather">Cuaca</string>
     <string name="weather_device_level_title">Tingkat Animasi</string>
@@ -1281,14 +1178,12 @@
     <string name="barrage_any_barrage">Izinkan semua aplikasi menggunakan rentetan</string>
     <string name="barrage_custom_barrage_length">Panjang rentetan khusus</string>
     <!--Joyose-->
-    <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">Kontrol Awan</string>
     <string name="joyose_disable_cloud_control">Nonaktifkan kontrol Cloud</string>
     <string name="joyose_game_title">Ruang Permainan</string>
     <string name="joyose_enable_gpu_tuner">Penjadwalan kinerja</string>
     <string name="joyose_enable_gpu_tuner_desc">Setelah dibuka, tambahkan pengaturan terkait GPU game di tengah bawah [Game Space]</string>
     <!--GetApps-->
-    <string name="market">GetApps</string>
     <string name="market_device_modify">Kedok model</string>
     <string name="market_device_modify_desc">Terima pembaruan dari perangkat terkait dengan menyamarkan model sebagai perangkat lain</string>
     <string name="market_disable_new_icon">Melarang penggunaan ikon pihak ketiga</string>
@@ -1304,7 +1199,6 @@
     <string name="mi_settings_show_fps">Tampilkan lebih banyak daftar FPS</string>
     <string name="mi_settings_show_fps_desc">Modul ini membuka semua frame rate secara default, tidak dijamin tersedia</string>
     <!--MTB-->
-    <string name="mtb">MTB</string>
     <string name="mtb_auth">Lewati otentikasi MTB</string>
     <string name="mtb_auth_desc">Ini adalah fitur berisiko tinggi, masalah apa pun yang timbul karenanya akan ditanggung oleh pengguna, harap berhati-hati dalam mencadangkan baseband Anda. Masukkan *#*#MODEMTEST#*#* pada antarmuka dial untuk membuka Pengaturan MTB</string>
     <!--Sogou input method-->
@@ -1324,12 +1218,8 @@
     <!--Voice Trigger-->
     <!--Other-->
     <string name="various">Lainnya</string>
-    <string name="share_center">Mi Hub Cerdas</string>
-    <string name="new_task">Tugas Baru</string>
-    <string name="custom_hook">Kebiasaan</string>
     <string name="app_version_not_supported">Versi tidak didukung</string>
     <string name="various_location_simulation_title">Lokasi palsu</string>
-    <string name="various_dialog_title">Dialog</string>
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">Sembunyikan Properti</string>
     <string name="various_open_aosp_something_desc">Buka antarmuka AOSP yang tersembunyi dengan mudah</string>
@@ -1390,7 +1280,6 @@
     <string name="various_location_simulation_1_title">Tugas 1</string>
     <string name="various_location_simulation_2_title">Tugas 2</string>
     <string name="various_location_simulation_3_title">Tugas 3</string>
-    <string name="various_location_simulation_all_title">Universal</string>
     <string name="location_simulation_package_name">Nama paket</string>
     <string name="location_simulation_location">Lokasi</string>
     <string name="location_simulation_location_custom">Pilih lokasi</string>
@@ -1400,39 +1289,20 @@
     <string name="location_simulation_wifi">Wifi</string>
     <string name="location_simulation_router_mac">Alamat Mac Perute</string>
     <string name="location_simulation_work_title">Judul</string>
-    <string name="location_simulation_work_offset">Offset</string>
     <string name="location_simulation_work_base_station">Stasiun pangkalan</string>
     <string name="location_simulation_work_longitude_latitude">Bujur dan lintang</string>
     <string name="location_simulation_work_remarks">Tanda</string>
-    <string name="app_details_playstore">Buka dengan toko aplikasi</string>
-    <string name="app_details_launch">Meluncurkan</string>
-    <string name="app_details_nolaunch">Aplikasi tidak memiliki aktivitas default yang dapat diluncurkan</string>
-    <string name="app_details_apk_file">Direktori APK</string>
-    <string name="app_details_apk_version_code">Nomor versi aplikasi</string>
-    <string name="app_details_data_path">Direktori data</string>
-    <string name="app_details_app_uid">identitas pengguna</string>
-    <string name="app_details_sdk">Versi SDK target</string>
-    <string name="app_details_min_sdk">Versi minimal SDK</string>
-    <string name="disable_app_settings">Itu ide yang buruk!</string>
-    <string name="disable_app_title">Apakah Anda yakin ingin menonaktifkan aplikasi?</string>
-    <string name="disable_app_text">Jika ini adalah aplikasi sistem yang diperlukan, menonaktifkannya dapat menyebabkan kerusakan</string>
-    <string name="disable_app_fail">Gagal mengubah status aplikasi</string>
     <string name="unlimited">Tak terbatas</string>
     <string name="calls">Panggilan</string>
     <string name="system_volume">Sistem</string>
     <string name="notification_volume">Pemberitahuan</string>
     <string name="freeform_notification">Jendela pemberitahuan mengambang</string>
     <string name="share_app">Bagikan ke aplikasi pihak ketiga</string>
-    <string name="system_notifrowmenu_appinfo">Informasi aplikasi</string>
-    <string name="system_notifrowmenu_openinfw">Jendela mengambang</string>
-    <string name="system_notifrowmenu_forceclose">Tutup paksa</string>
     <string name="show_newmods_title">Tandai modul baru</string>
     <string name="default_volume_stream_ring">Cincin</string>
-    <string name="default_volume_stream_media">Media</string>
     <string name="default_volume_stream_tip">Pemberitahuan</string>
     <string name="open_with_test_picture">Gambar</string>
     <string name="open_with_test_audio">Suara</string>
-    <string name="open_with_test_media">Video</string>
     <string name="open_with_test_doc">Dokumen</string>
     <string name="open_with_test_zip">Mengajukan</string>
     <string name="open_with_test_all">Semua</string>
@@ -1447,10 +1317,4 @@
     <string name="custom_hook_mode">Pilih modus</string>
     <string name="open_source">Proyek Sumber Terbuka</string>
     <string name="close_source">Proyek Sumber Dekat</string>
-    <string name="exit">KELUAR</string>
-    <string name="ignore">Mengabaikan</string>
-    <string name="log_level">tingkat log</string>
-    <string name="log_level_none">Nonaktifkan catatan</string>
-    <string name="disable_suggest">Nonaktifkan Saran</string>
-    <string name="enable_suggest">Aktifkan Saran</string>
 </resources>

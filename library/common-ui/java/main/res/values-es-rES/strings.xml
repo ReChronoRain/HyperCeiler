@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <!--Pop-up window/miuix part-->
+    <string name="miuix_appcompat_action_mode_select_all">Seleccionar todo</string>
+    <string name="miuix_appcompat_cancel_description">Cancelar</string>
+    <string name="miuix_appcompat_confirm_description">Sí</string>
+    <string name="miuix_appcompat_select_all_description">Seleccionar todo</string>
+    <string name="miuix_appcompat_deselect_all_description">Deseleccionar todo</string>
+    <string name="miuix_appcompat_delete_description">Eliminar</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">Cancelar</string>
+    <string name="miuix_appcompat_search_input_description">Buscar</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Más</string>
+    <string name="miuix_appcompat_action_mode_inverse">Inverso</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="tip">Sugerencia</string>
+    <string name="root">Algunas características no están disponibles sin permiso de Root/Su</string>
+    <string name="soft_reboot">Reiniciar </string>
+    <string name="restart_app_desc">¿Está seguro de reiniciar ahora %1$s?</string>
+    <string name="hyperceiler_restart_quick">Reiniciar las aplicaciones marcadas fácilmente</string>
+    <string name="hook_failed">El módulo aún no está activado.\nCompruebe si el administrador de Xposed está habilitado. Si es así, reinicie o vuelva a optimizar el módulo.</string>
+    <string name="kill_failed">No puede finalizarse el proceso, por favor comprueba si HyperCeiler ha obtenido permisos de Root/Su?</string>
+    <string name="start_failed">No puede iniciarse la actividad, comprueba si HyperCeiler ha obtenido permisos de Root/Su?</string>
+    <string name="pid_failed">La aplicación de destino no se está ejecutando y no necesita ser reiniciada.</string>
+    <string name="reboot_failed">No puede reiniciarse, por favor comprueba si HyperCeiler ha obtenido permisos de Root/Su?</string>
+    <!--HyperCeiler Tips-->
+    <string name="warn">Atención</string>
+    <string name="safe_mode_desc">%1$s ha entrado en modo seguro debido a múltiples bloqueos, y las características de HyperCeiler se han desactivado temporalmente.</string>
+    <string name="safe_mode_history">Ver registros de excepciones</string>
+    <string name="safe_mode_cancel">Desactivar modo seguro</string>
+    <string name="safe_mode_ok">Cancelar</string>
+    <string name="safe_mode_later_title">Sugerencia</string>
+    <string name="safe_mode_later_desc">%1$s todavía está en modo seguro y las funciones de HyperCeiler han sido desactivadas. ¿Deshabilitar el modo seguro?</string>
+    <string name="safe_mode_recorder_title">Registros de excepciones</string>
+    <string name="safe_mode_recorder_file">Archivo</string>
+    <string name="safe_mode_recorder_class">Clase</string>
+    <string name="safe_mode_recorder_method">Método</string>
+    <string name="safe_mode_recorder_line">Línea</string>
+    <string name="safe_mode_recorder_msg">Mensaje de excepción</string>
+    <string name="safe_mode_recorder_st">Seguimiento de la pila</string>
+    <string name="notification_channel_app_crash_name">La aplicación se está ejecutando anormalmente</string>
+    <string name="notification_title_message_emergency_crash">%s bloqueos múltiples</string>
+    <string name="notification_content_message">Haga clic para ver los detalles</string>
+    <string name="notification_view">Ver</string>
+    <string name="tip_default">Consejo: Aquí está el consejo predeterminado. Si puede verlo, significa que hay un problema con HyperCeiler, por favor envíelo al desarrollador a tiempo de manera efectiva.</string>
+    <string name="headtip_warn_not_offical_rom">La fuente de ROM puede no ser oficial de Xiaomi, pero tal vez algunas funciones no funcionen. Póngase en contacto con el proveedor de ROM para obtener más información.</string>
+    <string name="headtip_warn_unsupport_sysver">El dispositivo actual se está ejecutando en una versión del sistema que no está (completamente) adaptada, lo que puede resultar en anomalías en la funcionalidad de HyperCeiler.</string>
+    <string name="headtip_warn_sign_verification_failed">La verificación de la firma falló, y la versión actual que está utilizando puede no ser de la versión oficial de HyperCeiler, que puede contener código malicioso.</string>
+    <string name="headtip_tip_auto_safe_mode">El modo seguro automático puede desconectar algunas aplicaciones a tiempo cuando fallan varias veces para garantizar la seguridad. Esta función requiere el alcance del gancho del marco del sistema para ejecutarse. Recomendamos encender el ámbito del marco del sistema para activar el modo de seguridad automática.</string>
+    <string name="headtip_tip_long_press_to_copy">Puede seleccionar texto después de una pulsación larga o doble, o copiarlo y retroalimentarlo al desarrollador.</string>
+    <string name="happy_birthday_hyperceiler">¡Hoy es el cumpleaños de HyperCeiler!\n¡Gracias por tu apoyo durante el año pasado, y sigamos trabajando juntos este año!</string>
+    <string name="headtip_tip_fuck_coolapk">Hoy en la historia: Sevtinge pronunció un discurso importante el 14 de julio de 2022.</string>
+    <string name="headtip_notice_dead_logger_errcode">El servicio de registro de dispositivo actual es anormal y las características de HyperCeiler serán limitadas. Por favor, restaure el servicio de registro para que se pueda ejecutar normalmente.\nCódigo de error: %1$s</string>
+    <string name="headtip_notice_dead_logger">El servicio de registro del dispositivo actual es anormal y las características de HyperCeiler serán limitadas. Por favor, restaure el servicio de registro para que se pueda ejecutar normalmente.</string>
+    <!--System UI-->
+    <string name="system_ui">Interfaz del sistema</string>
+    <!--System launcher-->
+    <string name="mihome">Lanzador del sistema</string>
+    <!--Settings-->
+    <string name="system_settings">Ajustes</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center_hyperos">Herramientas de seguridad</string>
+    <!--Other-->
+    <string name="exit">Salir</string>
+    <string name="ignore">Ignorar</string>
+    <string name="log_level">Nivel de registro</string>
+    <string name="log_level_none">Desactivar registro</string>
+    <string name="disable_suggest">Desactivar sugerencias</string>
+    <string name="enable_suggest">Activar sugerencias</string>
+</resources>

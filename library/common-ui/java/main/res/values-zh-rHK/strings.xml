@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <!--Pop-up window/miuix part-->
+    <string name="miuix_appcompat_action_mode_select_all">全選</string>
+    <string name="miuix_appcompat_cancel_description">取消</string>
+    <string name="miuix_appcompat_confirm_description">確認</string>
+    <string name="miuix_appcompat_select_all_description">全選</string>
+    <string name="miuix_appcompat_deselect_all_description">全唔選</string>
+    <string name="miuix_appcompat_delete_description">刪除</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">取消</string>
+    <string name="miuix_appcompat_search_input_description">搜索</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">更多</string>
+    <string name="miuix_appcompat_action_mode_inverse">反選</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="tip">提示</string>
+    <string name="root">未授予Root/Su權限部分功能不可用</string>
+    <string name="soft_reboot">重啟 </string>
+    <string name="restart_app_desc">確定要立即重啟%1$s嗎？</string>
+    <string name="hyperceiler_restart_quick">快速重啟作用域</string>
+    <string name="hook_failed">模塊暫未激活，請檢查 Xposed 管理器是否啟用，如有請重啟或重新優化模塊</string>
+    <string name="kill_failed">結束進程失敗，請檢查是否為 HyperCeiler 授予咗 Root/Su 權限</string>
+    <string name="start_failed">啟動 Activity 失敗，請檢查是否為 HyperCeiler 授予咗 Root/Su 權限</string>
+    <string name="pid_failed">目標應用未運行，唔需要重啟。</string>
+    <string name="reboot_failed">重啟失敗，請檢查是否為 HyperCeiler 授予咗 Root/Su 權限</string>
+    <!--HyperCeiler Tips-->
+    <string name="warn">警告</string>
+    <string name="safe_mode_desc">%1$s由於多次崩潰，已進入安全模式，HyperCeiler 對其的功能已停用。\n您可以解除對其的安全模式，或稍後進入 HyperCeiler 處理。</string>
+    <string name="safe_mode_history">查看異常記錄</string>
+    <string name="safe_mode_cancel">解除</string>
+    <string name="safe_mode_ok">稍後處理</string>
+    <string name="safe_mode_later_title">提示</string>
+    <string name="safe_mode_later_desc">%1$s目前處於安全模式中，HyperCeiler 對其的功能已停用。\n您可以解除對其的安全模式，或稍後處理。</string>
+    <string name="safe_mode_recorder_title">異常記錄</string>
+    <string name="safe_mode_recorder_file">檔案</string>
+    <string name="safe_mode_recorder_class">種類</string>
+    <string name="safe_mode_recorder_method">方法</string>
+    <string name="safe_mode_recorder_line">行</string>
+    <string name="safe_mode_recorder_msg">異常類型及信息</string>
+    <string name="safe_mode_recorder_st">異常堆棧內容</string>
+    <string name="tip_default">Tip: 呢度係默認 tip ~ 如果你能睇見我，就說明 HyperCeiler 出現咗問題，請及時且有效嘅反饋俾開發者。</string>
+    <string name="headtip_warn_not_offical_rom">您正喺使用嘅 ROM 來源可能並唔係 Xiaomi 官方，部分功能可能會失效，詳情請咨詢您正喺使用 ROM 嘅提供者。</string>
+    <string name="headtip_warn_sign_verification_failed">簽名校驗失敗，您當前使用嘅版本可能並非來自於 HyperCeiler 官方嘅版本，可能包含惡意代碼，請注意使用安全。</string>
+    <string name="headtip_tip_long_press_to_copy">您可以長按或雙擊後選擇文本進行操作，或者複製並反饋俾開發者。</string>
+    <string name="happy_birthday_hyperceiler">今天是 HyperCeiler 的生日！ \n感謝您過去一年來的支持，今年讓我們繼續共同努力！</string>
+    <string name="headtip_tip_fuck_coolapk">歷史上的今日：\n2022 年 7 月 14 日，紺漓發表重要講話。</string>
+    <string name="headtip_notice_dead_logger_errcode">當前設備 Log 服務異常，HyperCeiler 功能將被限制。\n請恢復 Log 服務，使其可以正常運行。\n錯誤代碼: %1$s</string>
+    <string name="headtip_notice_dead_logger">當前設備 Log 服務異常，HyperCeiler 功能將被限制。請恢復 Log 服務，使其可以正常運行。</string>
+    <!--System UI-->
+    <string name="system_ui">系统介面</string>
+    <!--System launcher-->
+    <string name="mihome">系统桌面</string>
+    <!--Settings-->
+    <string name="system_settings">設定</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center_hyperos">安全服務</string>
+    <!--Other-->
+    <string name="exit">退出</string>
+    <string name="ignore">忽略</string>
+    <string name="log_level">日誌等級</string>
+    <string name="log_level_none">禁用日誌輸出</string>
+    <string name="disable_suggest">禁用推薦</string>
+    <string name="enable_suggest">啟用推薦</string>
+</resources>
