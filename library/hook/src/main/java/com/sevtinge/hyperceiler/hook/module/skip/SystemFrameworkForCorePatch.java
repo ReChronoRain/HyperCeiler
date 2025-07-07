@@ -56,8 +56,10 @@ public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage {
                         new CorePatchForS().handleLoadPackage(lpparam);
                 case Build.VERSION_CODES.R -> // 30
                         new CorePatchForR().handleLoadPackage(lpparam);
-                default ->
-                        XposedLogUtils.logW(TAG, "android", "Unsupported Version of Android sdk version " + Build.VERSION.SDK_INT);
+                default -> {
+                    new CorePatchForB().handleLoadPackage(lpparam);
+                    XposedLogUtils.logW(TAG, "android", "Unsupported Version of Android sdk version " + Build.VERSION.SDK_INT);
+                }
             }
         }
     }

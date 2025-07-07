@@ -35,6 +35,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.RemoveConversati
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.RemoveOpenAppConfirmationPopup;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.ScLockApp;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.SidebarLineCustom;
+import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.UnlockCarSicknessRelief;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.UnlockFbo;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.app.AddAppInfoEntry;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.app.AddAppManagerEntry;
@@ -123,6 +124,7 @@ public class SecurityCenterU extends BaseModule {
         initHook(new UnlockFbo(), mPrefsMap.getBoolean("security_center_unlock_fbo"));
         initHook(BypassSimLockMiAccountAuth.INSTANCE, mPrefsMap.getBoolean("security_center_bypass_simlock_miaccount_auth"));
         initHook(new BypassAdbInstallVerify(), mPrefsMap.getBoolean("security_center_adb_install_verify"));
+        initHook(new UnlockCarSicknessRelief(), mPrefsMap.getBoolean("security_center_unlock_car_sickness"));
 
         // 小窗和气泡通知
         initHook(new RemoveConversationBubbleSettingsRestriction(), mPrefsMap.getBoolean("security_center_remove_conversation_bubble_settings_restriction"));

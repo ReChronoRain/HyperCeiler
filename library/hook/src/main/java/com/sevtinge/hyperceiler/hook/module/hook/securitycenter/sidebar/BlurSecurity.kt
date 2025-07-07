@@ -18,27 +18,35 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar
 
-import android.content.*
-import android.graphics.*
-import android.graphics.drawable.*
-import android.util.*
-import android.view.*
-import android.widget.*
+import android.content.Context
+import android.graphics.Color
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.RenderEffect
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.VectorDrawable
+import android.util.AttributeSet
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.ListView
+import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.*
-import com.sevtinge.hyperceiler.hook.utils.blur.BlurUtils.*
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
+import com.sevtinge.hyperceiler.hook.utils.blur.BlurUtils.createBlurDrawable
+import com.sevtinge.hyperceiler.hook.utils.blur.BlurUtils.isBlurDrawable
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setBlurRoundRect
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
 import com.sevtinge.hyperceiler.hook.utils.color.ColorUtils
 import com.sevtinge.hyperceiler.hook.utils.getValueByField
-import de.robv.android.xposed.*
-import java.lang.reflect.*
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
+import de.robv.android.xposed.XposedHelpers
+import java.lang.reflect.Method
 
 object BlurSecurity : BaseHook() {
     private val blurRadius by lazy {
@@ -54,8 +62,6 @@ object BlurSecurity : BaseHook() {
         mPrefsMap.getBoolean("security_center_invert_color")
     }
     private val shouldInvertColor = !ColorUtils.isDarkColor(backgroundColor)
-
-    private val appVersionCode = getPackageVersionCode(lpparam)
 
     // 反色 同时保持红蓝色变化不大
     private val invertColorRenderEffect = RenderEffect.createColorFilterEffect(
@@ -331,7 +337,7 @@ object BlurSecurity : BaseHook() {
 
             XposedHelpers.findAndHookMethod(
                 srsLevelSeekBarProClass,
-                if (appVersionCode >= 40000749) "b" else "a", Context::class.java,
+                "b", Context::class.java,
                 AttributeSet::class.java, Int::class.java, object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         val bgColorField = srsLevelSeekBarProClass.getDeclaredField("j")
@@ -376,7 +382,7 @@ object BlurSecurity : BaseHook() {
             // 让图标颜色更深一点
             XposedHelpers.findAndHookMethod(
                 auditionViewClass,
-                if (appVersionCode >= 40000749) "M" else "a",
+                "M",
                 Context::class.java,
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {

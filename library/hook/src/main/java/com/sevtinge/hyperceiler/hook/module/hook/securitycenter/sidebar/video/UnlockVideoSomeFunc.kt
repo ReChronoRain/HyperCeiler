@@ -22,19 +22,26 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.*
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.*
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
 import org.luckypray.dexkit.query.enums.*
 import java.lang.reflect.*
 
 object UnlockVideoSomeFunc : BaseHook() {
+
+    private val findFrcClass by lazy<Class<*>> {
+        DexKit.findMember("findFrcClass") {
+            it.findClass {
+                matcher {
+                    addUsingString("ro.vendor.media.video.frc.support", StringMatchType.Equals)
+                }
+            }.single()
+        }
+    }
+
     private val findFrc by lazy<List<Method>> {
         DexKit.findMemberList("findFrcA") {
             it.findMethod {
                 matcher {
-                    declaredClass {
-                        addUsingString("ro.vendor.media.video.frc.support", StringMatchType.Equals)
-                    }
+                    declaredClass = findFrcClass.name
                     returnType = "boolean"
                     paramTypes("java.lang.String")
                 }
@@ -46,9 +53,7 @@ object UnlockVideoSomeFunc : BaseHook() {
         DexKit.findMember("findTat") {
             it.findMethod {
                 matcher {
-                    declaredClass {
-                        addUsingString("ro.vendor.media.video.frc.support", StringMatchType.Equals)
-                    }
+                    declaredClass = findFrcClass.name
                     addUsingString("debug.config.media.video.ais.support", StringMatchType.Equals)
                 }
             }.single()
@@ -72,13 +77,14 @@ object UnlockVideoSomeFunc : BaseHook() {
         val ordered = DexKit.findMemberList<Method>("findFrcB") {
             it.findMethod {
                 matcher {
-                    findFrc.forEach { a ->
-                        name = a.name
-                    }
-                    usingFields {
-                        add {
-                            type = "java.util.List"
-                        }
+                    declaredClass = findFrcClass.name
+                    returnType = "boolean"
+                    paramTypes("java.lang.String")
+                }
+            }.findMethod {
+                matcher {
+                    addUsingField {
+                        type = "java.util.List"
                     }
                 }
             }
@@ -105,7 +111,6 @@ object UnlockVideoSomeFunc : BaseHook() {
                 hook(methods)
                 hook(findTat)
             } else if (counter == 3 && enhance) {
-                logD(TAG, lpparam.packageName, "find EnhanceContours Method is $methods")
                 hook(methods)
 
                 val newChar = findTat.name.toCharArray()
@@ -113,6 +118,7 @@ object UnlockVideoSomeFunc : BaseHook() {
                     newChar[i]++
                 }
                 val newName = String(newChar)
+                logD(TAG, lpparam.packageName, "find EnhanceContours Method(${methods.declaringClass}) is $newName")
                 findTat.declaringClass.methodFinder()
                     .filterByName(newName)
                     .first().createHook {

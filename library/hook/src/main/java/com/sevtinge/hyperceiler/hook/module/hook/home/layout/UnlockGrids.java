@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.layout;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.sevtinge.hyperceiler.hook.module.hook.home.HomeBaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook;
 
 import java.util.ArrayList;
 

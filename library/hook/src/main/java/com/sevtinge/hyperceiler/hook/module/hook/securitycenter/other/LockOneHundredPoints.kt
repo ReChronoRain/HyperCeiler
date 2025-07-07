@@ -18,21 +18,24 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.other
 
-import android.view.*
+import android.view.View
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import org.luckypray.dexkit.query.enums.*
-import java.lang.reflect.*
+import org.luckypray.dexkit.query.enums.StringMatchType
+import java.lang.reflect.Method
 
 object LockOneHundredPoints : BaseHook() {
     private val score by lazy<Method> {
-        DexKit.findMember("LockOneHundredPoints1N") {
-            it.findMethod {
+        DexKit.findMember("LockOneHundredPoints1") {
+            it.findClass {
                 matcher {
-                    declaredClass = "com.miui.securityscan.scanner.ScoreManager"
+                    className = "com.miui.securityscan.scanner.ScoreManager"
+                }
+            }.findMethod {
+                matcher {
                     addUsingString("getMinusPredictScore", StringMatchType.Contains)
                     returnType = "int"
                 }
@@ -42,9 +45,12 @@ object LockOneHundredPoints : BaseHook() {
 
     private val scoreOld by lazy<Method> {
         DexKit.findMember("LockOneHundredPoints2") {
-            it.findMethod {
+            it.findClass {
                 matcher {
-                    declaredClass = "com.miui.securityscan.scanner.ScoreManager"
+                    className = "com.miui.securityscan.scanner.ScoreManager"
+                }
+            }.findMethod {
+                matcher {
                     usingNumbers(41, 100)
                     returnType = "int"
                 }
@@ -54,9 +60,12 @@ object LockOneHundredPoints : BaseHook() {
 
     private val score3 by lazy<Method> {
         DexKit.findMember("LockOneHundredPointsField") {
-            it.findMethod {
+            it.findClass {
                 matcher {
-                    declaredClass = "com.miui.securityscan.scanner.ScoreManager"
+                    className = "com.miui.securityscan.scanner.ScoreManager"
+                }
+            }.findMethod {
+                matcher {
                     addUsingField {
                         type = "java.util.Map"
                     }

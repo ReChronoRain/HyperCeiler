@@ -18,11 +18,13 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
+
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.api.miuiStringToast.MiuiStringToast;
+import com.sevtinge.hyperceiler.ui.R;
 
 public class StrongToastSettings extends DashboardFragment {
     Preference mShortToast;
@@ -35,6 +37,11 @@ public class StrongToastSettings extends DashboardFragment {
     public void initPrefs() {
         mShortToast = findPreference("prefs_key_system_ui_status_bar_strong_toast_test_short_text");
         mLongToast = findPreference("prefs_key_system_ui_status_bar_strong_toast_test_long_text");
+
+        if (isMoreSmallVersion(200, 2f)) {
+            setFuncHint(mShortToast, 1);
+            setFuncHint(mLongToast, 1);
+        }
 
         mShortToast.setOnPreferenceClickListener(preference -> {
             MiuiStringToast.INSTANCE.showStringToast(requireActivity(), getResources().getString(R.string.system_ui_status_bar_strong_toast_test_short_text_0), 1);

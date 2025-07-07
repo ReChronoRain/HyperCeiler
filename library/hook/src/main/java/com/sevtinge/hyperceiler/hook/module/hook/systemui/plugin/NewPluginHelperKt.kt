@@ -24,6 +24,7 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.hook.aod.AodBlurButton
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.CCGridForHyperOSKt
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.CustomCardTiles
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSColor
@@ -31,6 +32,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DefaultPluginThe
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.FocusNotifLyric
 import com.sevtinge.hyperceiler.hook.utils.api.PluginFactory
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isHyperOSVersion
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreSmallVersion
 import com.sevtinge.hyperceiler.hook.utils.log.LogManager.logLevel
 import java.lang.ref.WeakReference
 
@@ -72,14 +74,14 @@ object NewPluginHelperKt : BaseHook() {
         val mCardStyleTiles = getTileList()
 
         when (factory.mComponentName) {
-            factory.componentNames("miui.systemui.volume.VolumeDialogPlugin") -> {
+            factory.componentNames(1, "miui.systemui.volume.VolumeDialogPlugin") -> {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 logD(TAG, lpparam.packageName, "Plugin for sysui volume loaded.")
 
                 val loaders = listOf(
                     Triple(
                         "VolumeTimerValuesHook",
-                        mPrefsMap.getBoolean("system_ui_volume_timer"),
+                        mPrefsMap.getBoolean("system_ui_volume_timer") && isHyperOSVersion(1f),
                         VolumeTimerValuesHook::initVolumeTimerValuesHook
                     ),
                     Triple(
@@ -111,8 +113,8 @@ object NewPluginHelperKt : BaseHook() {
                 loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
             }
 
-            factory.componentNames("miui.systemui.quicksettings.LocalMiuiQSTilePlugin"),
-            factory.componentNames("miui.systemui.controlcenter.MiuiControlCenter") -> {
+            factory.componentNames(1, "miui.systemui.quicksettings.LocalMiuiQSTilePlugin"),
+            factory.componentNames(1, "miui.systemui.controlcenter.MiuiControlCenter") -> {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 logD(
                     TAG,
@@ -164,12 +166,16 @@ object NewPluginHelperKt : BaseHook() {
                         mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"),
                         DisableDeviceManagedNew::initDisableDeviceManaged
                     ),
+                    Triple(
+                        "UnlockCarSicknessTile",
+                        mPrefsMap.getBoolean("security_center_unlock_car_sickness")
+                    ) { cl -> UnlockCarSicknessTile.initUnlockCarSicknessTile(cl) },
                 )
                 loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
             }
 
-            factory.componentNames("miui.systemui.notification.NotificationStatPluginImpl"),
-            factory.componentNames("miui.systemui.notification.FocusNotificationPluginImpl") -> {
+            factory.componentNames(1, "miui.systemui.notification.NotificationStatPluginImpl"),
+            factory.componentNames(1, "miui.systemui.notification.FocusNotificationPluginImpl") -> {
                 val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 logD(
                     TAG,
@@ -182,6 +188,20 @@ object NewPluginHelperKt : BaseHook() {
                         "FocusNotifLyric",
                         mPrefsMap.getBoolean("system_ui_statusbar_music_switch") || mPrefsMap.getBoolean("system_ui_unlock_all_focus"),
                         FocusNotifLyric::initLoader
+                    ),
+                )
+                loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
+            }
+
+            factory.componentNames(0, "com.miui.keyguard.shortcuts.ShortcutPluginImpl") -> {
+                val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
+                logD(TAG, lpparam.packageName, "Plugin for aod ShortcutPluginImpl loaded.")
+
+                val loaders = listOf(
+                    Triple(
+                        "AodBlurButton",
+                        mPrefsMap.getBoolean("system_ui_lock_screen_blur_button") && isMoreSmallVersion(200, 2f),
+                        AodBlurButton::initLoader
                     ),
                 )
                 loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
@@ -200,6 +220,7 @@ object NewPluginHelperKt : BaseHook() {
 
                 // logD(TAG, lpparam.packageName, "Plugin is ${factory.mComponentName}")
                 // 仅备份当前可用注入 ClassLoader
+                // Plugin
                 // miui.systemui.volume.VolumeDialogPlugin
                 // miui.systemui.miplay.MiPlayPluginImpl
                 // miui.systemui.quicksettings.LocalMiuiQSTilePlugin
@@ -209,6 +230,10 @@ object NewPluginHelperKt : BaseHook() {
                 // miui.systemui.globalactions.GlobalActionsPlugin
                 // miui.systemui.notification.FocusNotificationPluginImpl
                 // miui.systemui.notification.unimportant.UnimportantSdkPluginImpl
+
+                // Aod
+                // com.miui.keyguard.shortcuts.ShortcutPluginImpl
+                // com.miui.aod.doze.DozeServicePluginImpl
             }
         }
     }
@@ -225,11 +250,7 @@ object NewPluginHelperKt : BaseHook() {
                 }
                 if (logLevel >= 3) logI(TAG, lpparam.packageName, "$name is loaded success.")
             }.onFailure {
-                if (logLevel >= 1) logE(
-                    TAG,
-                    lpparam.packageName,
-                    "[$tag] $name is fail loaded, log: $it"
-                )
+                if (logLevel >= 1) logE(TAG, lpparam.packageName, "[$tag] $name is fail loaded, log: $it")
             }
         }
     }

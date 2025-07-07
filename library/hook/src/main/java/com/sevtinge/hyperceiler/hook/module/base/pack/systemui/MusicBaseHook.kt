@@ -1,25 +1,25 @@
 /*
- * This file is part of HyperCeiler.
+  * This file is part of HyperCeiler.
 
- * HyperCeiler is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License.
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
- * Copyright (C) 2023-2025 HyperCeiler Contributions
- */
-package com.sevtinge.hyperceiler.hook.module.base
+  * Copyright (C) 2023-2025 HyperCeiler Contributions
+*/
+package com.sevtinge.hyperceiler.hook.module.base.pack.systemui
 
 import android.annotation.SuppressLint
-import android.app.AndroidAppHelper.currentApplication
+import android.app.AndroidAppHelper
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -36,19 +36,20 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.graphics.drawable.toBitmap
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.ClassUtils
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.hchen.superlyricapi.ISuperLyric
 import com.hchen.superlyricapi.SuperLyricData
-import com.hchen.superlyricapi.SuperLyricTool.registerSuperLyric
+import com.hchen.superlyricapi.SuperLyricTool
 import com.hyperfocus.api.FocusApi
 import com.sevtinge.hyperceiler.hook.R
-import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi
 
 abstract class MusicBaseHook : BaseHook() {
-    val context: Application by lazy { currentApplication() }
+    val context: Application by lazy { AndroidAppHelper.currentApplication() }
     private val nSize by lazy {
         mPrefsMap.getInt("system_ui_statusbar_music_size_n", 15).toFloat()
     }
@@ -76,10 +77,10 @@ abstract class MusicBaseHook : BaseHook() {
     }
 
     init {
-        loadClass("android.app.Application").methodFinder().filterByName("onCreate").first()
+        ClassUtils.loadClass("android.app.Application").methodFinder().filterByName("onCreate").first()
             .createAfterHook {
                 runCatching {
-                    registerSuperLyric(context, receiver)
+                    SuperLyricTool.registerSuperLyric(context, receiver)
                     // if (isDebug()) logD(TAG, lpparam.packageName, "registerLyricListener")
                 }.onFailure {
                     logE(TAG, "registerLyricListener is no found")
@@ -94,7 +95,7 @@ abstract class MusicBaseHook : BaseHook() {
     fun sendNotification(text: String, extraData: SuperLyricData) {
         //  logE("sendNotification: " + context.packageName + ": " + text)
         createNotificationChannel()
-        val modRes = getModuleRes(context)
+        val modRes = OtherTool.getModuleRes(context)
         val isClickClock = mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
         val launchIntent = context.packageManager.getLaunchIntentForPackage(extraData.packageName)
         val base64icon = extraData.base64Icon
@@ -191,10 +192,12 @@ abstract class MusicBaseHook : BaseHook() {
     }
 
     private fun createNotificationChannel() {
-        val modRes = getModuleRes(context)
+        val modRes = OtherTool.getModuleRes(context)
         val notificationManager = context.getSystemService("notification") as NotificationManager
         val notificationChannel = NotificationChannel(
-            CHANNEL_ID, modRes.getString(R.string.system_ui_statusbar_music_notification), NotificationManager.IMPORTANCE_DEFAULT
+            CHANNEL_ID,
+            modRes.getString(R.string.system_ui_statusbar_music_notification),
+            NotificationManager.IMPORTANCE_DEFAULT
         )
         notificationChannel.setSound(null, null)
         notificationManager.createNotificationChannel(notificationChannel)
@@ -209,7 +212,7 @@ abstract class MusicBaseHook : BaseHook() {
     /**
      *
      * @param [base64] 图片的 Base64
-     * @return [Bitmap] 返回图片的 Bitmap?，传入 Base64 无法转换则为 null
+     * @return [android.graphics.Bitmap] 返回图片的 Bitmap?，传入 Base64 无法转换则为 null
      */
     private fun base64ToDrawable(base64: String): Bitmap? {
         return try {

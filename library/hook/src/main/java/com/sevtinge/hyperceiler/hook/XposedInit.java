@@ -227,13 +227,13 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
     private boolean isInSafeMode(String pkg) {
         switch (pkg) {
             case "com.android.systemui" -> {
-                return isSystemUIModuleEnable();
+                return isSafeModeEnable("system_ui_safe_mode_enable");
             }
             case "com.miui.home" -> {
-                return isHomeModuleEnable();
+                return isSafeModeEnable("home_safe_mode_enable");
             }
             case "com.miui.securitycenter" -> {
-                return isSecurityCenterModuleEnable();
+                return isSafeModeEnable("security_center_safe_mode_enable");
             }
         }
         return false;
@@ -263,15 +263,4 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         return mPrefsMap.getBoolean(key);
     }
 
-    private boolean isSystemUIModuleEnable() {
-        return isSafeModeEnable("system_ui_safe_mode_enable");
-    }
-
-    private boolean isHomeModuleEnable() {
-        return isSafeModeEnable("home_safe_mode_enable");
-    }
-
-    private boolean isSecurityCenterModuleEnable() {
-        return isSafeModeEnable("security_center_safe_mode_enable");
-    }
 }

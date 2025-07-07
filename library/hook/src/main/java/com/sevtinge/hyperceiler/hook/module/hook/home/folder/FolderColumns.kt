@@ -18,12 +18,16 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.folder
 
-import android.graphics.*
-import android.text.*
-import android.view.*
-import android.view.ViewTreeObserver.*
-import android.widget.*
-import com.sevtinge.hyperceiler.hook.module.hook.home.HomeBaseHook
+import android.graphics.Rect
+import android.text.TextUtils
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.GridView
+import android.widget.TextView
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook
 import com.sevtinge.hyperceiler.hook.utils.callMethodAs
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethodAs
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils
@@ -34,7 +38,7 @@ import com.sevtinge.hyperceiler.hook.utils.findClass
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.hookAfterAllMethods
 import com.sevtinge.hyperceiler.hook.utils.setIntField
-import de.robv.android.xposed.*
+import de.robv.android.xposed.XposedHelpers
 
 object FolderColumns : HomeBaseHook() {
     private const val FOLDER = "com.miui.home.launcher.Folder"

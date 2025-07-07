@@ -18,7 +18,8 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home
 
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool.MethodHook.*
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook
+import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool.MethodHook.returnConstant
 
 class UnlockHotseatIcon : HomeBaseHook() {
     override fun init() {

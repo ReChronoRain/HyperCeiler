@@ -18,12 +18,13 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.title
 
-import android.annotation.*
-import android.content.*
-import android.view.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.*
-import com.sevtinge.hyperceiler.hook.module.hook.home.HomeBaseHook
+import android.annotation.SuppressLint
+import android.content.Context
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import com.github.kyuubiran.ezxhelper.Log
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.findClass
 import com.sevtinge.hyperceiler.hook.utils.getObjectField

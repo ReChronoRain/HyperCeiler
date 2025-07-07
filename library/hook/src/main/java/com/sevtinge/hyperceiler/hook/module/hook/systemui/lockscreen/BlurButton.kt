@@ -68,25 +68,15 @@ object BlurButton : BaseHook() {
                 )
             }.toList().createHooks {
                 after { param ->
-                    try {
+                    runCatching {
                         if (hyperBlur) hyperBlur(param) else systemBlur(param)
                         if (blurBotton) param.thisObject.setBooleanField(
                             "mBottomIconRectIsDeep",
                             isColorDark(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0))
                         )
-                    } catch (_: Throwable) {
                     }
                 }
             }
-    }
-
-    private fun setNewBackgroundBlur(imageView: ImageView): LayerDrawable {
-        val blurDrawable = createBlurDrawable(
-            imageView, 40, 100, Color.argb(60, 255, 255, 255)
-        )
-        val layoutDrawable = LayerDrawable(arrayOf(blurDrawable))
-        layoutDrawable.setLayerInset(0, radius, radius, radius, radius)
-        return layoutDrawable
     }
 
     private fun systemBlur(param: XC_MethodHook.MethodHookParam) {
@@ -135,7 +125,16 @@ object BlurButton : BaseHook() {
         }
     }
 
-    private fun addHyBlur(view: ImageView) {
+    fun setNewBackgroundBlur(imageView: ImageView): LayerDrawable {
+        val blurDrawable = createBlurDrawable(
+            imageView, 40, 100, Color.argb(60, 255, 255, 255)
+        )
+        val layoutDrawable = LayerDrawable(arrayOf(blurDrawable))
+        layoutDrawable.setLayerInset(0, radius, radius, radius, radius)
+        return layoutDrawable
+    }
+
+    fun addHyBlur(view: ImageView) {
         val hyRadius = mapValueToRange(radius)
 
         view.outlineProvider = object : ViewOutlineProvider() {
@@ -163,12 +162,12 @@ object BlurButton : BaseHook() {
         return 60 + ((dynamicValue - 10) * 60 / 50)
     }
 
-    private fun isTransparencyLow(color: Int): Boolean {
+    fun isTransparencyLow(color: Int): Boolean {
         val alpha = (color shr 24) and 0xFF
         return alpha > 92
     }
 
-    private fun isColorDark(color: Int): Boolean {
+    fun isColorDark(color: Int): Boolean {
         val red = (color shr 16) and 0xFF
         val green = (color shr 8) and 0xFF
         val blue = color and 0xFF

@@ -22,43 +22,42 @@
     app:quick_restart="com.android.systemui">
 
     <PreferenceCategory>
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_icon_show_mobile_network_type"
+            android:title="@string/system_ui_status_bar_icon_mobile_network_type"
+            app:entries="@array/status_bar_icon_mobile_network_type"
+            app:entryValues="@array/status_bar_icon_mobile_network_type_value" />
 
-    <fan.preference.DropDownPreference
-        android:defaultValue="0"
-        android:key="prefs_key_system_ui_status_bar_icon_show_mobile_network_type"
-        android:title="@string/system_ui_status_bar_icon_mobile_network_type"
-        app:entries="@array/status_bar_icon_mobile_network_type"
-        app:entryValues="@array/status_bar_icon_mobile_network_type_value" />
-
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_system_ui_status_bar_icon_mobile_network_type_compatibility"
-        android:title="@string/system_ui_status_bar_icon_mobile_network_type_compatibility"
-        android:summary="@string/system_ui_status_bar_icon_mobile_network_type_compatibility_desc"/>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_type_compatibility"
+            android:summary="@string/system_ui_status_bar_icon_mobile_network_type_compatibility_desc"
+            android:title="@string/system_ui_status_bar_icon_mobile_network_type_compatibility" />
 
     </PreferenceCategory>
+
     <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_mobile_indicator"
+            android:title="@string/system_ui_status_bar_mobile_indicator" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_system_ui_status_bar_mobile_indicator"
-        android:title="@string/system_ui_status_bar_mobile_indicator" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="prefs_key_system_ui_status_bar_mobile_type_custom"
+            android:title="@string/system_ui_status_bar_mobile_type_custom" />
 
-    <EditTextPreference
-        android:defaultValue=""
-        android:key="prefs_key_system_ui_status_bar_mobile_type_custom"
-        android:title="@string/system_ui_status_bar_mobile_type_custom" />
-
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_system_ui_statusbar_mobile_type_enable"
-        android:title="@string/system_ui_status_bar_mobile_type_single" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_mobile_type_enable"
+            android:title="@string/system_ui_status_bar_mobile_type_single" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="prefs_key_system_ui_statusbar_mobile_type_group"
-        android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable">
+        android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable"
+        android:key="prefs_key_system_ui_statusbar_mobile_type_group">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_statusbar_mobile_type_left"
@@ -70,48 +69,48 @@
             android:title="@string/system_ui_statusbar_indicator_bold" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="27"
             android:key="prefs_key_system_ui_statusbar_mobile_type_font_size"
             android:title="@string/system_ui_statusbar_mobile_type_font_size"
+            app:defaultValue="27"
             app:defaultValueTitle="@string/array_default"
-            app:showDividerValue="2"
             app:format="%s dp"
             app:maxValue="40"
             app:minValue="18"
+            app:showDividerValue="2"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_mobile_type_left_margin"
             android:title="@string/left_margin"
+            app:defaultValue="0"
             app:defaultValueTitle="@string/array_default"
-            app:showDividerValue="2"
             app:format="%s dp"
             app:maxValue="16"
             app:minValue="0"
+            app:showDividerValue="2"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_mobile_type_right_margin"
             android:title="@string/right_margin"
+            app:defaultValue="0"
             app:defaultValueTitle="@string/array_default"
-            app:showDividerValue="2"
             app:format="%s dp"
             app:maxValue="16"
             app:minValue="0"
+            app:showDividerValue="2"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="40"
             android:key="prefs_key_system_ui_statusbar_mobile_type_vertical_offset"
             android:title="@string/vertical_offset"
+            app:defaultValue="40"
             app:defaultValueTitle="@string/array_default"
-            app:showDividerValue="10"
             app:format="%s dp"
             app:maxValue="80"
             app:minValue="0"
             app:negativeShift="40"
+            app:showDividerValue="10"
             app:stepValue="1" />
 
     </PreferenceCategory>

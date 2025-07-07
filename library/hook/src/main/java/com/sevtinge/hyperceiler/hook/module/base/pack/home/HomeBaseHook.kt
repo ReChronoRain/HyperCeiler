@@ -16,14 +16,14 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.hook.module.hook.home
+package com.sevtinge.hyperceiler.hook.module.base.pack.home
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
-import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.*
+import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.getPackageVersionCode
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils
 
 abstract class HomeBaseHook : BaseHook() {
+
     private val isNewHome by lazy {
         // 最低版本未知
         getPackageVersionCode(lpparam) >= 539309777
@@ -43,7 +43,7 @@ abstract class HomeBaseHook : BaseHook() {
 
     @JvmOverloads
     protected fun setDimensionPixelSizeFormPrefs(key: String, defaultValue: Int = 0): MethodHook {
-        return object : HookTool.MethodHook() {
+        return object : MethodHook() {
             override fun before(param: MethodHookParam) {
                 param.result = DisplayUtils.dp2px(
                     mPrefsMap.getInt(key, defaultValue).toFloat()
@@ -56,4 +56,5 @@ abstract class HomeBaseHook : BaseHook() {
         const val DEVICE_CONFIG = "com.miui.home.launcher.DeviceConfig"
         const val GRID_CONFIG = "com.miui.home.launcher.GridConfig"
     }
+
 }

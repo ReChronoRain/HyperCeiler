@@ -22,102 +22,102 @@
     app:quick_restart="com.miui.home">
     <PreferenceCategory>
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_recent_blur"
-            android:title="@string/home_recent_blur"
-            android:defaultValue="false" />
+            android:title="@string/home_recent_blur" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_recent_show_launch"
-            android:title="@string/home_recent_show_launch"
-            android:defaultValue="false" />
+            android:title="@string/home_recent_show_launch" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="95"
             android:dependency="prefs_key_home_recent_show_launch"
             android:key="prefs_key_home_recent_show_launch_size"
             android:title="@string/home_recent_show_launch_size"
+            app:defaultValue="95"
             app:defaultValueTitle="@string/array_default"
             app:format="%s f"
             app:maxValue="100"
             app:minValue="20"
-            app:stepValue="1"
             app:showDividerValue="100"
-            app:showSeekBarValue="true" />
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="100"
             android:dependency="prefs_key_home_recent_show_launch"
             android:key="prefs_key_home_recent_show_launch_alpha"
             android:title="@string/home_recent_show_launch_alpha"
+            app:defaultValue="100"
             app:defaultValueTitle="@string/array_default"
             app:format="%s f"
             app:maxValue="100"
             app:minValue="0"
-            app:stepValue="1"
             app:showDividerValue="100"
-            app:showSeekBarValue="true" />
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_recent_show_memory_info"
-            android:title="@string/home_recent_show_memory_info"
             android:summary="@string/home_recent_show_memory_info_sum"
-            android:defaultValue="false" />
+            android:title="@string/home_recent_show_memory_info" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_recent_show_real_memory"
-            android:title="@string/home_recent_show_real_memory"
-            android:defaultValue="false" />
+            android:title="@string/home_recent_show_real_memory" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_recent_modify_animation"
-            android:title="@string/home_recent_modify_animation"
-            android:defaultValue="false" />
+            android:title="@string/home_recent_modify_animation" />
 
     </PreferenceCategory>
 
     <PreferenceCategory>
         <Preference
             android:key="prefs_key_home_recent_hide_card"
-            android:title="@string/home_recent_hide_card"
-            android:summary="@string/home_recent_hide_card_desc" />
+            android:summary="@string/home_recent_hide_card_desc"
+            android:title="@string/home_recent_hide_card" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_recent_hide_status_bar_in_task_view"
-            android:title="@string/home_recent_hide_status_bar_in_task_view"
-            android:defaultValue="false" />
+            android:title="@string/home_recent_hide_status_bar_in_task_view" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_recent_hide_world_circulate"
-            android:title="@string/home_recent_hide_world_circulate"
-            android:defaultValue="false" />
+            android:title="@string/home_recent_hide_world_circulate" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_recent_hide_freeform"
-            android:title="@string/home_recent_hide_freeform"
-            android:defaultValue="false" />
+            android:title="@string/home_recent_hide_freeform" />
 
         <SwitchPreference
-            android:key="prefs_key_home_recent_hide_clean_up"
+            android:defaultValue="false"
             android:disableDependentsState="true"
-            android:title="@string/home_recent_hide_clean_up"
-            android:defaultValue="false" />
+            android:key="prefs_key_home_recent_hide_clean_up"
+            android:title="@string/home_recent_hide_clean_up" />
 
         <SwitchPreference
-            android:key="prefs_key_always_show_clean_up"
+            android:defaultValue="false"
             android:dependency="prefs_key_home_recent_hide_clean_up"
-            android:title="@string/home_recent_always_show_clean_up"
-            android:defaultValue="false" />
+            android:key="prefs_key_always_show_clean_up"
+            android:title="@string/home_recent_always_show_clean_up" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_recent_remove_icon"
-            android:title="@string/home_recent_remove_icon"
-            android:defaultValue="false" />
+            android:title="@string/home_recent_remove_icon" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_recent_unlock_pin"
             android:summary="@string/only_new_version_can_do"
-            android:title="@string/home_recent_unlock_pin"
-            android:defaultValue="false" />
+            android:title="@string/home_recent_unlock_pin" />
 
     </PreferenceCategory>
 
@@ -129,39 +129,39 @@
         <SeekBarPreferenceCompat
             android:key="prefs_key_task_view_corners"
             android:title="@string/home_recent_task_view_card_rounded_corners"
-            android:defaultValue="20"
+            app:defaultValue="20"
             app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
             app:maxValue="180"
-            app:stepValue="1"
-            app:format="%d dp" />
+            app:stepValue="1" />
 
         <SeekBarPreferenceCompat
             android:key="prefs_key_task_view_header_height"
             android:title="@string/home_recent_app_name_distance_task_view_card"
-            android:defaultValue="40"
+            app:defaultValue="40"
             app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
             app:maxValue="150"
-            app:stepValue="1"
-            app:format="%d dp" />
+            app:stepValue="1" />
 
         <SeekBarPreferenceCompat
             android:key="prefs_key_task_view_header_horizontal_offset"
             android:title="@string/home_recent_card_header_horizontal_position"
-            android:defaultValue="30"
+            app:defaultValue="30"
             app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
             app:maxValue="150"
-            app:stepValue="1"
-            app:format="%d dp" />
+            app:stepValue="1" />
 
         <SeekBarPreferenceCompat
             android:key="prefs_key_home_recent_animation_speed"
             android:title="@string/home_recent_animation_speed"
-            android:defaultValue="100"
+            app:defaultValue="100"
             app:defaultValueTitle="@string/array_default"
+            app:format="%s / 100 f"
             app:maxValue="500"
             app:minValue="10"
-            app:stepValue="1"
-            app:format="%d / 100 f" />
+            app:stepValue="1" />
 
         <SeekBarPreferenceCompat
             android:key="prefs_key_home_recent_task_view_height"
@@ -176,29 +176,29 @@
         <SeekBarPreferenceCompat
             android:key="prefs_key_task_view_horizontal1"
             android:title="@string/home_recent_horizontal_task_view_card_size1"
-            android:defaultValue="100"
+            app:defaultValue="100"
             app:defaultValueTitle="@string/array_default"
+            app:format="%s / 100 f"
             app:maxValue="150"
             app:minValue="50"
-            app:stepValue="1"
-            app:format="%d / 100 f" />
+            app:stepValue="1" />
 
         <SeekBarPreferenceCompat
             android:key="prefs_key_task_view_horizontal2"
             android:title="@string/home_recent_horizontal_task_view_card_size2"
-            android:defaultValue="100"
+            app:defaultValue="100"
             app:defaultValueTitle="@string/array_default"
+            app:format="%s / 100 f"
             app:maxValue="150"
             app:minValue="50"
-            app:format="%d / 100 f"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="100"
             android:key="prefs_key_home_recent_vertical_task_view_card_size"
             android:title="@string/home_recent_vertical_task_view_card_size"
-            app:format="%d / 100 f"
+            app:defaultValue="100"
             app:defaultValueTitle="@string/array_default"
+            app:format="%s / 100 f"
             app:maxValue="150"
             app:minValue="50"
             app:stepValue="1" />
@@ -206,22 +206,21 @@
         <SeekBarPreferenceCompat
             android:key="prefs_key_home_recent_text_size"
             android:title="@string/home_recent_text_size"
-            android:defaultValue="14"
+            app:defaultValue="14"
             app:defaultValueTitle="@string/array_default"
+            app:format="%s f"
             app:maxValue="30"
-            app:minValue="0"
-            app:format="%d f"
             app:stepValue="1" />
 
         <ColorPickerPreference
-            android:title="@string/home_recent_text_color"
+            android:defaultValue="-1"
             android:key="prefs_key_home_recent_text_color"
-            android:defaultValue="-1" />
+            android:title="@string/home_recent_text_color" />
 
         <ColorPickerPreference
-            android:title="@string/home_recent_freeform_background_color"
+            android:defaultValue="-1"
             android:key="prefs_key_home_recent_freeform_background_color"
-            android:defaultValue="-1" />
+            android:title="@string/home_recent_freeform_background_color" />
 
     </PreferenceCategory>
 </PreferenceScreen>

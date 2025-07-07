@@ -30,11 +30,22 @@ public class RemoveNotifNumLimit extends BaseHook {
                 return null;
             }
         });
-        findAndHookMethod("com.android.systemui.statusbar.notification.collection.coordinator.CountLimitCoordinator$$ExternalSyntheticLambda0", "onViewBound", "com.android.systemui.statusbar.notification.collection.NotificationEntry", new replaceHookedMethod() {
-            @Override
-            protected Object replace(MethodHookParam param) throws Throwable {
-                return null;
-            }
-        });
+
+        try {
+            findAndHookMethod("com.android.systemui.statusbar.notification.collection.coordinator.CountLimitCoordinator$$ExternalSyntheticLambda0", "onViewBound", "com.android.systemui.statusbar.notification.collection.NotificationEntry", new replaceHookedMethod() {
+                @Override
+                protected Object replace(MethodHookParam param) throws Throwable {
+                    return null;
+                }
+            });
+        } catch (Throwable t) {
+            findAndHookMethod("com.android.systemui.statusbar.notification.collection.coordinator.CountLimitCoordinator$$ExternalSyntheticLambda0", "onViewBound$1", "com.android.systemui.statusbar.notification.collection.NotificationEntry", new replaceHookedMethod() {
+                @Override
+                protected Object replace(MethodHookParam param) throws Throwable {
+                    return null;
+                }
+            });
+        }
+
     }
 }

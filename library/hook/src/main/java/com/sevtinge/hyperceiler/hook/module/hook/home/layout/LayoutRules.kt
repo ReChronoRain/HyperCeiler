@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.layout
 
-import android.content.*
-import com.sevtinge.hyperceiler.hook.module.hook.home.HomeBaseHook
+import android.content.Context
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callMethodAs
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils
@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.hook.utils.getIntField
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.setIntField
-import kotlin.math.*
+import kotlin.math.max
 
 object LayoutRules : HomeBaseHook() {
     private const val PHONE_RULES = "com.miui.home.launcher.compat.PhoneDeviceRules"
