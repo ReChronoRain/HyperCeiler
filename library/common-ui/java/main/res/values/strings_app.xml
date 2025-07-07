@@ -1066,7 +1066,6 @@
     <string name="home_navigation_assist_right_slide_desc">Slide inward from the bottom right corner of the screen</string>
     <string name="home_navigation_quick_back_more">Swipe across the screen starting from the edge to go back to previous app</string>
     <string name="home_navigation_disable_full_screen_back_gesture">Disable full screen back gesture</string>
-    <string name="home_navigation_disable_full_screen_back_gesture_note">May affect Xiaomi Notes</string>
     <string name="home_navigation_back_area_height">Back gesture area height</string>
     <string name="home_navigation_back_area_width">Back gesture area width</string>
     <string name="home_gesture_title2">Gesture</string>
