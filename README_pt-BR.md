@@ -29,6 +29,14 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13 e ROM Hyper
 > Para ROM MIUI no Android 11-12, use [esta versão](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
 >
 > Para ROM MIUI no Android 13 e ROM HyperOS 1.0, use [esta versão](https://github.com/Xposed-Modules-Repo/com.sevtinge.hyperceiler/releases/download/3866-2.5.156_20250118/HyperCeiler_2.5.156_20250118_3866_release_miui.apk).
+>
+> O HyperOS 1.0/2.0 do Android 14 foi arquivado e, após o lançamento da versão 2.6.160, nenhum outro feedback ou correção será aceito.
+
+## Planejamento do projeto
+
+Espera-se que o Android 16 seja gradualmente adaptado à maioria dos dispositivos após o lançamento do Xiaomi HyperOS 3.0. No entanto, devido às políticas de desbloqueio do Xiaomi HyperOS, o número de dispositivos com root será significativamente reduzido em comparação com a versão anterior.
+
+Os dispositivos disponíveis para os desenvolvedores só podem ser parcialmente adaptados e não há garantia de que todos os recursos funcionarão corretamente. Existe também a possibilidade de o projeto ser arquivado e o desenvolvimento descontinuado.
 
 ## Apps suportados
 

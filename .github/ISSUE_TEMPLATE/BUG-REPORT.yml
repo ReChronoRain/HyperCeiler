@@ -1,9 +1,10 @@
 name: "🐛 Bug"
 description: Report issue | 问题报告
-title: "🐛 [BUG] <问题标题>"
+title: "🐛 [BUG] <标题>"
 labels: [
   "bug"
 ]
+
 body:
   - type: checkboxes
     id: check
@@ -14,9 +15,9 @@ body:
         Before submitting an issue, confirm that the latest CI version released by [HyperCeiler | Canary Test](https://t.me/cemiuiler_canary) is currently available.
         Or the latest debug version from the main branch in the GitHub Actions of this project.
         
-        请确认已经遵守所有必选项，否则将被无理由直接关闭 Issue
-        提交 Issue 前请确认当前为[HyperCeiler | Canary Test](https://t.me/cemiuiler_canary)发布的最新版 CI
-        或者本项目 Github Actions 下 main 分支最新构建的 Debug 版本
+        请确认已经遵守所有必选项，否则将被无理由直接关闭 Issue。
+        提交 Issue 前请确认当前为[HyperCeiler | Canary Test](https://t.me/cemiuiler_canary)发布的最新版 CI。
+        或者本项目 GitHub Actions 下 main 分支最新构建的 Debug 版本。
       options:
         - label: |
             I confirm that this issue still exists in the latest version | 
@@ -24,7 +25,7 @@ body:
           required: true
 
         - label: |
-            I checked all installed modules to verify the possibility and confirmed that this module is the cause | 
+            I checked all installed modules and confirmed that this module is the cause | 
             我已排查已安装的所有模块的可能性，确认由本模块造成
           required: true
 
@@ -38,56 +39,53 @@ body:
     attributes:
       label: "Issue description | 问题描述"
       description: |
-        Please enter a clear and concise description of the issue  
-        请输入简洁且明确的问题描述
-      placeholder: ...的...功能出现...异常
+        Enter a clear and concise description of the issue.  
+        请输入简洁且明确的问题描述。
+      placeholder: e.g., The X feature isn't working properly
     validations:
       required: true
+
   - type: textarea
     id: log
     attributes:
       label: "Module logs | 模块日志"
       description: |
-        LSPosed Manager - log or software crash log  
-        LSPosed 管理器 - 日志或软件崩溃日志
-      placeholder: ...
+        Provide relevant logs from LSPosed Manager. These logs are essential for identifying the issue.  
+        请提供来自 LSPosed 管理器的相关日志。这些日志对于定位问题至关重要。
+      placeholder: Paste logs from LSPosed Manager or crash logs here
     validations:
       required: true
+
   - type: textarea
-    id: repord
+    id: reprod
     attributes:
       label: "Reproduction steps | 复现步骤"
       description: |
-        Enter concise steps to reproduce the issue  
-        输入简明的问题复现步骤
+        Enter concise steps to reproduce the issue.  
+        输入简明的问题复现步骤。
       value: |
-        1. 前往 '...'
-        2. 点击 '....'
-
-        ....
-        出现问题
-      render: bash
+        1. Go to...
+        2. Click on...
+        3. Scroll down to...
     validations:
       required: false
+
   - type: textarea
     id: screenshot
     attributes:
       label: "Screenshot of issue | 问题截图"
       description: |
-        Upload a screenshot of the issue so we can quickly locate it  
-        上传问题截图以便我们快速定位
-      value: |
-        ![图片注释](图片链接)
+        Upload a screenshot of the issue so we can quickly locate it.  
+        上传问题截图以便我们快速定位。
     validations:
       required: false
+
   - type: textarea
     id: device
     attributes:
       label: "HyperCeiler device information | HyperCeiler 设备信息"
       description: |
-        Make sure to upload a screenshot to help diagnose the issue in HyperCeiler Settings > Developer options > Debug info  
-        请务必上传 HyperCeiler 设置-开发者选项-调试信息 的截图，以便诊断问题
-      value: |
-        ![图片注释](图片链接)
+        Make sure to upload a screenshot to help diagnose the issue in HyperCeiler Settings > Developer options > Debug info.  
+        请务必上传 HyperCeiler 设置 > 开发者选项 > 调试信息 的截图，以便诊断问题。
     validations:
       required: false
