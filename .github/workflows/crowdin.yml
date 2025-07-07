@@ -6,8 +6,10 @@ on:
      branches: [ main ]
      paths:
        - app/src/main/assets/tips/tips
+       - app/src/main/res/values/strings.xml
        - library/common-ui/java/main/res/values/strings.xml
        - library/common-ui/java/main/res/values/strings_app.xml
+       - library/hook/src/main/res/values/strings.xml
    schedule:
      - cron: '0 0 * * *'
 
