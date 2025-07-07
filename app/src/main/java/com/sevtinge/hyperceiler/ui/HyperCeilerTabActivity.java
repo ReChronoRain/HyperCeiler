@@ -74,29 +74,22 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         mHandler = new Handler(getMainLooper());
         LogManager.init();
-
         if (isNeedGrayView) {
             applyGrayScaleFilter();
         }
-
+        HolidayHelper.init(this);
+        LanguageHelper.init(this);
+        PermissionUtils.init(this);
         super.onCreate(savedInstanceState);
+        SearchHelper.init(this, savedInstanceState != null);
+        XposedActivateHelper.init(this);
+        ShellInit.init(this);
+        LogServiceUtils.init(this);
+        LogManager.setLogLevel();
 
-        new Thread(() -> {
-            HolidayHelper.init(this);
-            LanguageHelper.init(this);
-            PermissionUtils.init(this);
-            SearchHelper.init(this, savedInstanceState != null);
-            XposedActivateHelper.init(this);
-            ShellInit.init(this);
-            LogServiceUtils.init(this);
-            LogManager.setLogLevel();
-
-            appCrash = CrashData.toPkgList();
-
-            mHandler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
-        }).start();
+        appCrash = CrashData.toPkgList();
+        mHandler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
     }
-
 
     private void applyGrayScaleFilter() {
         View decorView = getWindow().getDecorView();
