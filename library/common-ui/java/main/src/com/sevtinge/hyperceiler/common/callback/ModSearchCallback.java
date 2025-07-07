@@ -43,6 +43,7 @@ public class ModSearchCallback implements SearchActionMode.Callback {
     private ActionMode mActionMode;
     private View mAnchorView;
     private View mAnimView;
+    private View mSearchResultLayout;
     private Context mContext;
     private RecyclerView mSearchResultView;
     private SearchView.OnQueryTextListener mOnQueryTextListener;
@@ -85,9 +86,10 @@ public class ModSearchCallback implements SearchActionMode.Callback {
         mOnSearchListener = onSearchListener;
     }
 
-    public void setup(View anchor, View anim) {
+    public void setup(View anchor, View anim, View searchResultLayout) {
         mAnchorView = anchor;
         mAnimView = anim;
+        mSearchResultLayout = searchResultLayout;
     }
 
     public boolean isSearchOn() {
@@ -122,6 +124,7 @@ public class ModSearchCallback implements SearchActionMode.Callback {
         SearchActionMode searchActionMode = (SearchActionMode) mode;
         searchActionMode.setAnchorView(mAnchorView);
         searchActionMode.setAnimateView(mAnimView);
+        searchActionMode.setResultView(mSearchResultLayout);
         mSearchInput = searchActionMode.getSearchInput();
         mSearchInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_SEARCH_LENGTH)});
         //mSearchInput.setHint("");
