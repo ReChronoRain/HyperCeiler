@@ -61,15 +61,6 @@
     <string name="help_support_version_desc_2">適配目前應用程式版本的系統版本如下：</string>
     <string name="help_support_version_desc_3">目前系統版本已全面適配。</string>
     <string name="help_support_version_desc_4">目前的系統版本尚未（完全）適配。</string>
-    <string name="headtip_warn_not_offical_rom">您正在使用的 ROM 來源可能並不是 Xiaomi 官方，部分功能可能會失效，詳情請諮詢您正在使用 ROM 的提供者。</string>
-    <string name="headtip_warn_unsupport_sysver">當前設備運行的系統版本未 （完全） 適配，HyperCeiler 功能可能存在異常。</string>
-    <string name="headtip_warn_sign_verification_failed">簽名校驗失敗，您當前使用的版本可能並非來自於 HyperCeiler 官方的版本，可能包含惡意代碼，請注意使用安全。</string>
-    <string name="headtip_tip_auto_safe_mode">主動安全模式可以在部分應用多次崩潰時及時取消 hook 以確保安全。 該功能需要 hook 作用域「系統框架」來運行，我們十分建議您勾選作用域「系統框架」以啟動和運行主動安全模式。 </string>
-    <string name="headtip_tip_long_press_to_copy">您可以長按或按兩下後選擇文字進行操作，或者複製並反饋給開發者。 </string>
-    <string name="happy_birthday_hyperceiler">今天是 HyperCeiler 的生日！\n感謝與您歲月相伴之恩，願來年再續前緣，共赴風雨，攜手並進！</string>
-    <string name="headtip_tip_fuck_coolapk">歷史上的今天：2022 年 7 月 14 日，绀漓發表重要講話。</string>
-    <string name="headtip_notice_dead_logger_errcode">當前設備Log服務異常，HyperCeiler 功能將被限制。\n請恢復 Log 服務，使其可以正常運行。 n錯誤代碼： %1$s</string>
-    <string name="headtip_notice_dead_logger">當前設備 Log 服務異常，HyperCeiler 功能將被限制。 請恢復 Log 服務，使其可以正常運行。</string>
     <string name="location_add">增加</string>
     <string name="location_delete">刪除</string>
     <string name="edit">請輸入文字</string>
@@ -444,6 +435,11 @@
     <string name="system_framework_allow_disable_protected_package">允許停用受保護的應用程式</string>
     <string name="system_framework_disable_miui_watermark">停用全域浮水印</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">繞過未知來源限制</string>
+    <string name="system_framework_bypass_force_mi_appstore">允許在存取應用商店時，選擇第三方應用程式</string>
+    <string name="system_framework_market_use_detailmini">進入應用程式商店時，一律以浮動視窗開啟</string>
+    <string name="system_framework_market_use_detailmini_desc">繞過應用程式商店的限制，防止應用程式在缺少 appClientId 的情況下，跳轉至其他應用程式的詳情頁面。</string>
+    <string name="system_framework_bypass_force_downloadui">修復下載重新導向的問題</string>
+    <string name="system_framework_bypass_force_downloadui_desc">修復在「小米互傳」中點擊「查看下載內容」時的錯誤跳轉問題</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">包管理服務</string>
     <string name="system_framework_core_patch_downgr">允許降級安裝應用程式</string>
@@ -482,6 +478,9 @@
     <string name="camera_custom_watermark">自訂機型浮水印</string>
     <string name="camera_custom_watermark_manufacturer">廠商資訊</string>
     <string name="camera_custom_watermark_device">機型資訊</string>
+    <string name="camera_unlock_4k60">解鎖 4K 60FPS 錄影</string>
+    <string name="camera_unlock_leica">解鎖徠卡 (Leica) 自訂介面與功能</string>
+    <string name="camera_super_high_quality">解鎖畫質選項</string>
     <string name="camera_shot_hand_gesture">解鎖手勢拍照</string>
     <string name="camera_settings_lab_options">啟用實驗室選項</string>
     <string name="camera_settings_track_eyes">解鎖人眼追焦</string>
@@ -712,7 +711,12 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">這是一條長文本，將以滾動形式輸出</string>
     <string name="system_ui_statusbar_music_tip">使用前注意事項：\n• 開啟此功能後，請檢查並重新啟動系統介面作用域。 \n• 此功能需要與「SuperLyric」模組搭配使用。</string>
     <string name="system_ui_statusbar_music_notification">焦點通知歌詞</string>
+    <string name="system_ui_statusbar_music_show_app_title">應用程式內的註冊通知</string>
+    <string name="system_ui_statusbar_music_show_app_desc">開啟後，需檢查音樂 App 的權限範圍。</string>
     <string name="system_ui_statusbar_music_cusiom_notific_title">顯示設定</string>
+    <string name="system_ui_statusbar_music_show_notific_title">在通知欄顯示歌詞</string>
+    <string name="system_ui_statusbar_music_hide_aod_title">鎖定畫面上不顯示「專注模式」的通知</string>
+    <string name="system_ui_statusbar_music_cusiom_statusbar_title">狀態欄顯示設定</string>
     <string name="system_ui_statusbar_music_hide_clock_title">隱藏狀態欄時鐘</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">顯示焦點歌詞時隱藏狀態欄時鐘，並調整下拉通知中心時的動畫。</string>
     <string name="system_ui_statusbar_music_click_clock_title">點擊顯示時鐘</string>
@@ -768,6 +772,7 @@
     <string name="system_ui_control_center_show_weather_city">顯示地區</string>
     <string name="system_ui_control_center_disable_device_managed">隱藏網路監控提示</string>
     <string name="system_ui_control_center_hide_edit_botton">隱藏編輯按鈕</string>
+    <string name="system_ui_control_center_tile_super_blur">控制中心磁貼高級材質</string>
     <string name="system_ui_control_center_mute_visible_notice">開啟螢幕時靜音</string>
     <string name="system_ui_control_center_unimportant_notification">禁止折疊到歷史通知中</string>
     <string name="system_ui_control_center_expand_notification">展開通知</string>
@@ -796,6 +801,7 @@
     <string name="system_ui_control_center_card_tiles_customization_not_add">未新增</string>
     <string name="system_ui_control_center_unlock_blur_supported">解除通知背景模糊限制</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">僅對第三方主題解除沒有高級材質時背景模糊的限制</string>
+    <string name="system_ui_control_center_unlock_all_focus">移除專注模式的通知白名單</string>
     <string name="system_ui_control_center_remove_notif_num_limit">取消通知數量限制</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">允許顯示 10、17 或更多通知。</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">最佳化焦點通知背景混色效果</string>
@@ -1272,7 +1278,6 @@
     <string name="mediaeditor_unlock_leica_filter_title">解鎖 Leica 濾鏡</string>
     <string name="mediaeditor_unlock_leica_filter_desc">僅支援部分版本</string>
     <string name="mediaeditor_unlock_aigc">解鎖 AIGC</string>
-    <!--Mi Share-->
     <!--Wallpaper-->
     <string name="miwallpaper">桌布</string>
     <string name="miwallpaper_unlock_super_wallpaper">解鎖超級桌布</string>
@@ -1321,6 +1326,7 @@
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">停用恢復電池效能最佳化白名單</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">禁止獲取顯示控制碼</string>
     <string name="powerkeeper_gms_doze_fix">允許 Google Play 服務隨時連接網路</string>
+    <string name="powerkeeper_conservative_millet">啟用小米保守模式</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">螢幕錄製</string>
     <string name="screen_recorder_force_support_playback_capture">強制啟用原生螢幕錄製支援</string>
@@ -1450,7 +1456,6 @@
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">停用風險偵測</string>
     <string name="trustservice_disable_mrm_desc">實驗性功能。您不得在違反當地或國家法律的情況下使用此功能。</string>
-    <!--Smart cards-->
     <!--Weather-->
     <string name="weather">天氣</string>
     <string name="weather_device_level_title">動畫等級</string>

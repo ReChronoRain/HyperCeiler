@@ -20,37 +20,11 @@
 <resources>
     <string name="version_update">Znaleziono nową wersję</string>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Uczyńmy HyperOS znów wielkim!</string>
     <string name="new_permission_wifi_state_desc">dodawanie i usuwanie plików z pamięci wewnętrznej urządzenia</string>
     <string name="new_permission_location_desc">używane do świadczenia usług takich jak szerokość i długość geograficzna</string>
     <string name="new_cta_agree_desc">Podczas użytkowania, w celu zapewnienia Ci większej liczby funkcji, możemy poprosić o uprawnienia Root. Możesz w dowolnym momencie przejść do menedżera uprawnień, aby dostosować status autoryzacji wszystkich uprawnień, a także prosimy o przejście do swojego menedżera Root, aby przyznać uprawnienia Root.</string>
     <string name="new_cta_app_main_purpose">modyfikacja aplikacji systemowych</string>
     <string name="new_cta_app_all_purpose_title">Witaj w HyperCeiler! Ta aplikacja opiera się na frameworku Xposed do działania. Możesz używać tej aplikacji do modyfikowania innych obsługiwanych aplikacji w celu ulepszenia systemu. Podczas użytkowania, aby zapewnić Ci więcej funkcji, możemy poprosić o uprawnienia Root. Możesz nimi zarządzać w dowolnym momencie, przechodząc do swojego menedżera Root.</string>
-    <!--HyperCeiler Tips-->
-    <string name="warn">Uwaga</string>
-    <string name="safe_mode_desc">%1$s wszedł w tryb awaryjny z powodu wielu awarii, a funkcje HyperCeiler zostały tymczasowo wyłączone.</string>
-    <string name="safe_mode_history">Wyświetl zapisy wyjątków</string>
-    <string name="safe_mode_cancel">Wyłącz tryb awaryjny</string>
-    <string name="safe_mode_ok">Anuluj</string>
-    <string name="safe_mode_later_title">Rada</string>
-    <string name="safe_mode_later_desc">%1$s nadal znajduje się w trybie awaryjnym, a funkcje HyperCeiler zostały wyłączone. Wyłączyć tryb awaryjny?</string>
-    <string name="safe_mode_recorder_title">Zapisy wyjątków</string>
-    <string name="safe_mode_recorder_file">Archiwum</string>
-    <string name="safe_mode_recorder_class">Klasa</string>
-    <string name="safe_mode_recorder_method">Metoda</string>
-    <string name="safe_mode_recorder_line">Wiersz</string>
-    <string name="safe_mode_recorder_msg">Komunikat wyjątku</string>
-    <string name="safe_mode_recorder_st">Śledzenie błędów</string>
-    <string name="tip_default">Rada: Oto domyślna rada. Jeśli to widzisz, oznacza to, że wystąpił problem z HyperCeilerem. Prosimy o terminowe i skuteczne zgłoszenie tego deweloperowi.</string>
-    <string name="headtip_warn_not_offical_rom">Źródło ROM-u, którego używasz, może nie być oficjalnym ROM-em Xiaomi, a niektóre funkcje mogą nie działać. Skontaktuj się ze swoim dostawcą, aby uzyskać więcej informacji.</string>
-    <string name="headtip_warn_unsupport_sysver">Obecne urządzenie działa na wersji systemu, która nie jest (w pełni) dostosowana, co może powodować nieprawidłowości w funkcjonalności HyperCeiler.</string>
-    <string name="headtip_warn_sign_verification_failed">Weryfikacja podpisu się nie powiodła. Używana wersja HyperCeiler może nie być oficjalną wersją i może zawierać złośliwy kod.</string>
-    <string name="headtip_tip_auto_safe_mode">Automatyczny tryb awaryjny może tymczasowo odłączyć niektóre aplikacje, które wielokrotnie ulegają awarii, aby zapewnić bezpieczeństwo. Funkcja ta wymaga zakresu \"System Framework\" do działania, dlatego zdecydowanie zalecamy, aby sprawdzić zaznaczenie tego zakresu i aktywacje automatycznynego trybu awaryjnynego.</string>
-    <string name="headtip_tip_long_press_to_copy">Możesz wybrać tekst po długim lub podwójnym naciśnięciu lub skopiować go i odesłać do programisty.</string>
-    <string name="happy_birthday_hyperceiler">Dzisiaj są urodziny HyperCeilera!\nDziękujemy za wsparcie w ciągu ostatniego roku i zacznijmy współpracować w tym roku!</string>
-    <string name="headtip_tip_fuck_coolapk">Dzisiaj w historii: Sevtinge wygłosił ważne przemówienie 14 lipca 2022 r.</string>
-    <string name="headtip_notice_dead_logger_errcode">Obecna usługa dziennika urządzenia działa nieprawidłowo, co ograniczy funkcje HyperCeiler. Przywróć usługę dziennika, aby mogła działać poprawnie.\nKod błędu: %1$s</string>
-    <string name="headtip_notice_dead_logger">Obecna usługa dziennika urządzenia działa nieprawidłowo, co ograniczy funkcje HyperCeiler. Przywróć usługę dziennika, aby mogła działać poprawnie.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Polski</string>
     <string name="translator">xAzvest</string>
@@ -63,13 +37,11 @@
     <string name="about_use_desc">HyperCeiler korzysta z niektórych lub wszystkich z następujących projektów. Dziękujemy twórcom tych projektów za ich wsparcie (kolejność przypadkowa).</string>
     <string name="about_contributer">Współtwórcy</string>
     <string name="about_contributer_desc">Podziękowania dla poniższych współtwórców za ich pomoc w rozwoju HyperCeiler (kolejność przypadkowa).</string>
-    <string name="about_donation">Sponsor</string>
     <string name="about_donation_desc">Możesz nas wspierać poprzez darowizny</string>
     <string name="about_device_info_device">Urządzenie</string>
     <string name="about_device_info_android">Wersja Androida</string>
     <string name="about_device_info_os">Wersja systemu</string>
     <string name="hyperceiler_notice">Pociągnij w dół pasek stanu, aby wyświetlić skróty i powiadomienia systemowe</string>
-    <string name="hyperceiler_restart_quick">Szybki restart aplikacji</string>
     <string name="delete_all_dexkit_cache_desc">Czy na pewno chcesz wyczyścić pamięć podręczną DexKit?</string>
     <string name="delete_all_dexkit_cache_success">Pomyślnie wyczyszczono pamięć podręczną DexKit</string>
     <string name="set_homepage_entrance">Ustaw wpis strony głównej</string>
@@ -160,20 +132,10 @@
     <string name="about_github">Kod źródłowy</string>
     <string name="about_github_desc">Ten projekt jest otwartym źródłem opartym na licencji AGPL-3.0</string>
     <string name="about_offical">Oficjalna strona</string>
-    <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">Pomóż nam przetłumaczyć HyperCeilera na Twój język</string>
     <string name="about_privacy">Polityka prywatności</string>
     <string name="about_protocol">Umowa użytkownika</string>
     <!--Pop-up window/miuix part-->
-    <string name="soft_reboot">Zrestartuj </string>
-    <string name="restart_app_desc">Czy na pewno chcesz teraz zrestartować %1$s?</string>
-    <string name="tip">Rada</string>
-    <string name="root">Niektóre funkcje nie są dostępne bez uprawnień Root/SU</string>
-    <string name="hook_failed">Moduł nie jest jeszcze aktywny. Proszę sprawdzić, czy LSPosed jest włączony. Jeśli tak, proszę zrestartować lub ponownie zoptymalizować moduł.</string>
-    <string name="kill_failed">Nie udało się zakończyć procesu. Sprawdź, czy HyperCeiler otrzymał uprawnienia Root/SU.</string>
-    <string name="start_failed">Nie udało się rozpocząć aktywności. Sprawdź, czy HyperCeiler otrzymał uprawnienia Root/SU.</string>
-    <string name="pid_failed">Aplikacja docelowa nie jest uruchomiona i nie trzeba jej restartować.</string>
-    <string name="reboot_failed">Restart się nie powiódł. Sprawdź, czy HyperCeiler otrzymał uprawnienia Root/SU.</string>
     <string name="expand_button_title">Zaawansowany</string>
     <string name="not_set">Nieustawiony</string>
     <string name="copy">Kopiuj</string>
@@ -192,16 +154,6 @@
     <string name="abc_action_bar_home_description">Przejdź do strony głównej</string>
     <string name="abc_action_bar_up_description">Przejdź wyżej</string>
     <string name="actionbar_button_up_description">Powrót</string>
-    <string name="miuix_appcompat_action_mode_select_all">Zaznacz wszystko</string>
-    <string name="miuix_appcompat_cancel_description">Anuluj</string>
-    <string name="miuix_appcompat_confirm_description">OK</string>
-    <string name="miuix_appcompat_select_all_description">Zaznacz wszystko</string>
-    <string name="miuix_appcompat_deselect_all_description">Odznacz wszystko</string>
-    <string name="miuix_appcompat_delete_description">Usuń</string>
-    <string name="miuix_appcompat_search_action_mode_cancel">Anuluj</string>
-    <string name="miuix_appcompat_search_input_description">Szukaj</string>
-    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Więcej</string>
-    <string name="miuix_appcompat_action_mode_inverse">Odwróć</string>
     <string name="color_picker_alpha_text_transparent">Widoczność</string>
     <string name="color_picker_tab_grid">Siatka</string>
     <string name="color_picker_tab_slider">Suwak</string>
@@ -219,7 +171,6 @@
     <string name="miuix_appcompat_color_erro_entry">Nieprawidłowa wartość. Proszę sprawdzić ją i wprowadzić ponownie.</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">Przezroczystość</string>
     <string name="miuix_appcompat_color_picker_custom_color">Własny kolor</string>
-    <string name="miuix_appcompat_color_picker_tab_dynamic">Monet</string>
     <string name="miuix_appcompat_color_picker_tab_grid">Siatka</string>
     <string name="miuix_appcompat_color_picker_tab_slider">Suwak</string>
     <string name="miuix_appcompat_color_picker_view_page_text_hue">Odcień</string>
@@ -258,11 +209,9 @@
     <string name="disable">Wyłącz</string>
     <string name="custom_enable">Włącz niestandardowe</string>
     <string name="customization">Personalizacja</string>
-    <string name="model">Model</string>
     <string name="device">Urządzenie</string>
     <string name="manufacturer">Producent</string>
     <string name="search">Szukaj</string>
-    <string name="floating_window">Tryb dowolny</string>
     <string name="save_to_screen_title">Lokalizacja zapisu</string>
     <string name="only_new_version_can_do">Obsługiwane są tylko nowsze wersje</string>
     <string name="use_hyper_blur">Użyj zaawansowanych tekstur</string>
@@ -318,10 +267,6 @@
     <string name="array_discrete">Oddzielny</string>
     <string name="array_gradual">Powolny</string>
     <string name="array_rainbow">Tęcza</string>
-    <string name="various_install_app_info_version_name">Nazwa wersji</string>
-    <string name="various_install_app_info_version_code">Kod wersji</string>
-    <string name="various_install_app_info_sdk">Obsługiwane SDK</string>
-    <string name="various_install_app_size">Rozmiar</string>
     <string name="status_bar_icon_mode_default">Domyślny</string>
     <string name="status_bar_icon_mode_on">Zawsze pokazuj</string>
     <string name="status_bar_icon_mode_on_non_wifi">Zawsze widoczny, gdy nie ma Wi-Fi</string>
@@ -379,12 +324,6 @@
     <string name="mediaeditor_mickey">Myszka Miki</string>
     <string name="mediaeditor_strawberry_bear">Truskawkowy Miś</string>
     <string name="mediaeditor_disney_princess">Księżniczka Disney</string>
-    <string name="tiles_gms">Usługi Google Play</string>
-    <string name="tiles_snow_leopard_mode">Tryb S-Leo</string>
-    <string name="tiles_taplus">Taplus</string>
-    <string name="tiles_5g">Sieć 5G</string>
-    <string name="dashboard_5g">Używaj 5G</string>
-    <string name="tiles_sunshine_mode">Tryb słoneczny</string>
     <!--System Framework-->
     <string name="system_framework">System Android</string>
     <string name="system_framework_volume_title">Głośność</string>
@@ -413,7 +352,6 @@
     <string name="system_framework_volume_steps">Mnożnik poziomu głośności</string>
     <string name="system_ui_display_use_aosp_screenshot">Użyj zrzutu ekranu AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Przekieruję aplikację do zrzutów ekranu, aby używała przechwytywania zrzutów ekranu AOSP. Aplikacja do zrzutów ekranu w HyperOS nie będzie reagować na operację zrzutu ekranu.</string>
-    <string name="system_framework_phone_network_title">Ustawienia sieci</string>
     <string name="phone_double_5g_nr">Użycie 5G z obu kart SIM (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">Główna i wtórna karta SIM włączają 5G jednocześnie (wtórna karta SIM obsługuje tylko NSA)</string>
     <string name="phone_double_5g_sa">Użycie 5G z obu kart SIM (SA+SA)</string>
@@ -576,7 +514,6 @@
     <string name="downloads_ui_always_show_link">Zawsze pokazuj pełny link do pobrania</string>
     <string name="downloads_ui_always_show_link_desc">Naprawia także niektóre zadania pobierania, które nie mogą być skopiowane</string>
     <!--System UI-->
-    <string name="system_ui">Interfejs systemu</string>
     <string name="system_ui_lockscreen_title">Ekran blokady</string>
     <string name="system_ui_lockscreen_safe_title">Bezpieczeństwo</string>
     <string name="system_ui_lockscreen_ui_title">Ekran blokady</string>
@@ -611,10 +548,6 @@
     <string name="system_ui_lock_screen_linkage_anim_off">Szybkość animacji wyłączania ekranu</string>
     <string name="system_ui_navigation_title">Nawigacja</string>
     <string name="system_ui_navigation_handle_title">Linia uchwytu</string>
-    <string name="system_ui_hide_navigation_bar">Ukryj pasek nawigacyjny</string>
-    <string name="system_ui_hide_navigation_bar_toast">Nie przełączaj przycisków nawigacji</string>
-    <string name="system_ui_hide_navigation_bar_toast_2">Nie ukrywaj linii gestów</string>
-    <string name="system_ui_hide_navigation_bar_more">Proszę ponownie uruchomić zakresy Systemowego Launchera i Interfejsu</string>
     <string name="system_ui_navigation_handle_custom">Własna linia uchwytu</string>
     <string name="system_ui_navigation_handle_custom_height">Wysokość</string>
     <string name="system_ui_navigation_handle_custom_width">Szerokość pionowa</string>
@@ -650,8 +583,6 @@
     <string name="system_ui_status_bar_battery_style_font_size">Rozmiar czcionki procentu baterii</string>
     <string name="system_ui_status_bar_battery_style_font_mark_size">Rozmiar czcionki symbolu procentu baterii</string>
     <string name="system_ui_status_bar_battery_style_vertical_offset">Przesunięcie w górę i w dół symbolu procentu baterii</string>
-    <string name="system_ui_statusbar_iconmanage_wifi_title">Wi-Fi</string>
-    <string name="system_ui_statusbar_iconmanage_bluetooth_title">Bluetooth</string>
     <string name="system_ui_statusbar_iconmanage_mobile_title">Sieć komórkowa</string>
     <string name="system_ui_statusbar_iconmanage_location_title">Lokalizacja</string>
     <string name="system_ui_statusbar_iconmanage_status_title">Ikona statusu</string>
@@ -661,12 +592,9 @@
     <string name="system_ui_statusbar_iconmanage_devices_title">Urządzenia</string>
     <string name="system_ui_statusbar_iconmanage_internet_title">Sieć</string>
     <string name="system_ui_statusbar_iconmanage_privacy_title">Prywatność</string>
-    <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_slave">Dodatkowe Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Standard Wi-Fi</string>
-    <string name="system_ui_status_bar_icon_hotspot">Hotspot Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_network_indicator">Wskaźnik aktywności Wi-Fi</string>
-    <string name="system_ui_status_bar_icon_bluetooth">Bluetooth</string>
     <string name="system_ui_status_bar_icon_bluetooth_battery">Bateria Bluetooth</string>
     <string name="system_ui_status_bar_icon_new_hd">Nowa ikona HD</string>
     <string name="system_ui_status_bar_icon_small_hd">Mała ikona HD</string>
@@ -709,7 +637,6 @@
     <string name="system_ui_status_bar_battery_charging">Ukryj wskaźnik ładowania</string>
     <string name="system_ui_status_bar_battery_icon">Ukryj ikonę baterii</string>
     <string name="system_ui_status_bar_battery_style_title">Personalizacja baterii</string>
-    <string name="system_ui_status_bar_wifi_at_left">Wi-Fi</string>
     <string name="system_ui_status_bar_mobile_network_at_left">Sieć mobilna</string>
     <string name="system_ui_status_bar_swap_wifi_and_mobile_network">Zamień Wi-Fi i sieć mobilną</string>
     <string name="system_ui_status_bar_network_speed_at_right">Prędkość Internetu</string>
@@ -767,15 +694,9 @@
     <string name="system_ui_controlcenter_media_card_title">Karta powiadomienia multimedialnego</string>
     <string name="system_ui_control_center_magnet_tile_settings">Magnet</string>
     <string name="system_ui_control_center_notification_title">Powiadomienie</string>
-    <string name="quick_settings_state_change_message_on_my">%1$s jest wł.</string>
-    <string name="quick_settings_state_change_message_off_my">%1$s jest wył.</string>
     <string name="system_control_center_5g_tile">Przełącznik sieci 5G</string>
     <string name="system_ui_control_center_snow_leopard_mode">Tryb S-Leo</string>
     <string name="system_ui_control_center_snow_leopard_mode_desc">Funkcja eksperymentalna. Wyłącza cały dźwięk.</string>
-    <string name="system_control_center_reduce_bright_colors_tile">Dodatkowe przyciemnienie</string>
-    <string name="system_control_center_sunshine_mode">Tryb słoneczny</string>
-    <string name="system_control_center_sunshine_mode_brightness">Jasność trybu słonecznego</string>
-    <string name="system_control_center_sunshine_mode_brightness_desc">Bardzo duża jasność może spowodować starzenie się ekranu, wypalenie ekranu i inne nieodwracalne konsekwencje. Zaleca się wybranie odpowiedniego poziomu jasności i używanie go w sposób odpowiedni.</string>
     <string name="system_ui_control_auto_close">Zamknij po dotknięciu</string>
     <string name="system_ui_control_center_qs_bg_color">Kolor tła</string>
     <string name="system_ui_control_center_qs_color">Kolor ikony</string>
@@ -871,7 +792,6 @@
     <string name="system_showpct_use_blur">Użyj rozmycia</string>
     <string name="system_ui_notification_freeform">Przeciągnij w dół pasek powiadomień, aby otworzyć okno pływające</string>
     <string name="system_ui_notification_freeform_desc">Powiadomienia z Mi Push mogą nie być obsługiwane</string>
-    <string name="system_ui_monet_title">Monet</string>
     <string name="system_ui_monet_overlay_custom">Dostosuj kolor motywu</string>
     <string name="system_ui_monet_overlay_custom_desc">Dostosuje kolory motywu, zamiast pobierać je z tapety systemowej</string>
     <string name="system_ui_monet_overlay_custom_color">Wybierz kolor motywu</string>
@@ -893,14 +813,10 @@
     <string name="scam_reminder_bypass_caption">Zezwalaj na przekierowanie połączeń za pomocą kodu MMI</string>
     <string name="scam_reminder_bypass_description">Umożliwia bezpośrednie wybieranie kodów MMI, takich jak **21*8#, w celu aktywacji przekierowania połączeń.</string>
     <!--Settings-->
-    <string name="system_settings">Ustawienia</string>
     <string name="system_settings_linkturbo">Usuń ograniczenia dla aplikacji przyspieszających sieć</string>
     <string name="system_settings_international_build">Międzynarodowa wersja ustawień</string>
     <string name="system_settings_safe_wifi">Wyświetl zapisane hasła Wi-Fi</string>
     <string name="system_settings_safe_wifi_desc">Odblokuj zarządzanie zapisanymi sieciami\nŚcieżka: Ustawienia &gt; Wi-Fi &gt; Dodatkowe ustawienia &gt; Zarządzaj zapisanymi sieciami</string>
-    <string name="system_settings_wifipassword_btn_title">Sprawdź</string>
-    <string name="system_settings_wifi_password_label">Hasło</string>
-    <string name="system_settings_wifi_password_dlgtitle">Szczegóły Wi-Fi</string>
     <string name="system_settings_novelty_haptic_title">Odblokuj nową wersję strony wibracji</string>
     <string name="system_settings_novelty_haptic_desc">Tylko dla urządzeń z ustawieniami Dźwięki i wibracje - strona Haptyka</string>
     <string name="system_settings_enable_pad_area">Odblokuj obszar Pad</string>
@@ -914,14 +830,12 @@
     <string name="system_usb_use_charging_only">Tylko ładowanie</string>
     <string name="system_usb_use_file_transfers">Przesyłanie plików</string>
     <string name="system_usb_use_photo_transfers">Przesyłanie zdjęć</string>
-    <string name="system_usb_use_MIDI">MIDI</string>
     <string name="system_usb_reverse_charge">Ładowanie zwrotne</string>
     <string name="system_usb_tethering">Tethering przez USB</string>
     <string name="system_settings_connection_sharing_title">Połączenie i udostępnianie</string>
     <string name="system_settings_lang_menu_shouw_all_app">Pokaż wszystkie aplikacje w menu zarządzania językiem</string>
     <string name="system_settings_new_nfc_page">Nowa strona NFC</string>
     <string name="system_settings_new_nfc_page_desc">Po włączeniu tej opcji aplikacja domyślna do płatności dla nieobsługiwanych modeli nie będzie mogła wybrać portfela Xiaomi.</string>
-    <string name="system_settings_xiaomihyperai">Xiaomi HyperAI</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">Odblokuj Xiaomi HyperAI</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance_desc">Po włączeniu tej opcji w Ustawieniach zostanie wyświetlona opcja Xiaomi HyperAI. Wsparcie dla funkcji AI urządzenia jest określone przez Xiaomi.</string>
     <string name="system_settings_lab_title">Wyróżnione funkcje</string>
@@ -996,7 +910,6 @@
     <string name="aod_unlock_always_on_display_more">Uruchom ponownie interfejs systemu, aby w pełni włączyć funkcję</string>
     <string name="aod_unlock_aon">Odblokuj Aod Aon</string>
     <!--Taplus-->
-    <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Użyj zewnętrznej przeglądarki</string>
     <string name="content_extension_browser_desc">Spraw, by Taplus nie wymagało używania domyślnej przeglądarki systemowej do wyszukiwania, musisz wybrać domyślną przeglądarkę samodzielnie.</string>
     <string name="content_extension_unlock_taplus_title">Odblokuj Taplus</string>
@@ -1018,10 +931,8 @@
     <string name="backup_allow_all_apps">Zezwól na kopię wszystkich aplikacji</string>
     <string name="backup_unlock_broken_screen_backup">Odblokuj kopie zapasowe z uszkodzonym ekranem</string>
     <!--Mi Canvas-->
-    <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Usuń ograniczenia w korzystaniu z telefonu</string>
     <!--LPA-->
-    <string name="lpa">LPA</string>
     <string name="lpa_custom_imei">Niestandardowy IMEI</string>
     <string name="lpa_custom_imei_desc">Upewnij się, że poprawnie wprowadzono numer IMEI. Nieprawidłowy numer IMEI może spowodować, że eSIM będzie niedostępne lub będzie działało nieprawidłowo. Nie ponosimy odpowiedzialności za żadne konsekwencje wynikające z tego.</string>
     <!--Gallery-->
@@ -1039,14 +950,12 @@
     <string name="gallery_enable_magic_matting">Odblokuj wycięcie</string>
     <string name="gallery_backup_server">Zapasowy serwer</string>
     <string name="gallery_backup_server_xiaomi">Chmura Xiaomi</string>
-    <string name="gallery_backup_server_google">Google</string>
     <string name="gallery_backup_server_onedrive">Google i OneDrive</string>
     <!--System security components-->
     <string name="guard_provider_hyperos">Komponenty bezpieczeństwa systemu</string>
     <string name="guard_provider_disable_upload_applist">Zapobiegaj automatycznemu przesyłaniu listy zainstalowanych aplikacji</string>
     <string name="guard_provider_disable_root_check">Wyłącz sprawdzanie środowiska</string>
     <!--System launcher-->
-    <string name="mihome">Systemowy launcher</string>
     <string name="home_gesture">Gesty i nawigacja</string>
     <string name="home_navigation_title">Nawigacja</string>
     <string name="home_navigation_quick_back">Wróć do poprzedniej aplikacji</string>
@@ -1105,7 +1014,6 @@
     <string name="home_layout_hotseats_margin_top_desc">Odległość doku od marginesu wskaźnika strony</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Odległość doku od dolnego marginesu ekranu</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Odległość paska wyszukiwania od dolnego marginesu ekranu</string>
-    <string name="home_folder">Folder</string>
     <string name="home_small_folder_title">Mały folder</string>
     <string name="home_big_folder_title">Duży folder</string>
     <string name="home_small_folder_icon_bg">Tło ikony</string>
@@ -1287,18 +1195,6 @@
     <string name="home_large_icon_corner_radius">Duże ikony z zaokrąglonymi rogami</string>
     <string name="home_other_app_icon_hide">Zarządzaj skrótami na ekranie głównym</string>
     <string name="home_other_toast_slide_again">Wyłącz komunikat \"Przesuń ponownie\"</string>
-    <string name="system_framework_guided_access_status">Ukryj pasek stanu, gdy aplikacja jest blokowana</string>
-    <string name="system_framework_guided_access_status_more">Sposób wyjścia zmieni się na długie naciśnięcie przycisku zasilania, a pasek stanu zostanie ukryty do czasu wyjścia z trybu blokady</string>
-    <string name="system_framework_guided_access_sc">Zabronione jest wywoływanie paska bocznego po przypięciu</string>
-    <string name="system_framework_guided_access_screen">Przejdź do ekranu blokady po odpięciu</string>
-    <string name="system_framework_guided_access">Naprawione aplikacje</string>
-    <string name="system_framework_guided_access_will_lock">Zablokuje aplikację</string>
-    <string name="system_framework_guided_access_lock">Zablokuj aplikację</string>
-    <string name="system_framework_guided_access_unlock">Odblokuj aplikację</string>
-    <string name="system_framework_guided_access_will_unlock">Odblokuje aplikację</string>
-    <string name="system_framework_guided_access_r">Przywróć</string>
-    <string name="system_framework_guided_access_e">Proszę odblokować w zablokowanym interfejsie aplikacji</string>
-    <string name="system_framework_guided_access_more">Dostęp Nadzorowany podobny do iOS, który przypina aktualną aplikację do ekranu.\nAby skorzystać, naciśnij i przytrzymaj górny pasek stanu: aby wyjść, naciśnij i przytrzymaj górny pasek stanu ponownie.\nPrzy pierwszym użyciu konieczne jest ponowne uruchomienie urządzenia.</string>
     <string name="home_other_shortcut_remove_restrictions">Usuń ograniczenia skrótów</string>
     <string name="home_other_shortcut_background_blur_custom">Wartość rozmycia w menu skrótów</string>
     <string name="home_other_high_models">Obowiązkowe rozpoznanie jako model high-end</string>
@@ -1332,12 +1228,6 @@
     <string name="mediaeditor_unlock_leica_filter_title">Odblokuj filtr Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Obsługiwane są tylko niektóre wersje</string>
     <string name="mediaeditor_unlock_aigc">Odblokuj AIGC</string>
-    <!--Mi Share-->
-    <string name="mishare">Mi Share</string>
-    <string name="mishare_disable_mishare_auto_off">Wyłącz automatyczne zamykanie Mi Share</string>
-    <string name="mishare_disable_auto_on_location">Włącz usługi lokalizacji, gdy udostępnianie plików jest wyłączone</string>
-    <string name="mishare_unlock_turbo_mode">Odblokuj transfer Turbo</string>
-    <string name="mishare_hook_switch_mode_all">Każdy</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Tapeta</string>
     <string name="miwallpaper_unlock_super_wallpaper">Odblokuj Supertapety</string>
@@ -1407,7 +1297,6 @@
     <string name="securityadd_disable_gb_ads">Wyłącz reklamy Game Center</string>
     <string name="securityadd_disable_gb_ads_desc">Może to powodować nieprawidłowe działanie innych funkcji</string>
     <!--Security/Tablet security center-->
-    <string name="security_center_hyperos">Bezpieczeństwo</string>
     <string name="security_center_app_title">Zarządzaj aplikacjami</string>
     <string name="security_center_battery_title">Bateria</string>
     <string name="security_center_privacy_title">Ochrona prywatności</string>
@@ -1454,9 +1343,6 @@
     <string name="security_disable_app_summary">Zezwala na wyłączenie dowolnej aplikacji z poziomu strony informacji o aplikacji</string>
     <string name="security_disable_app_url_title">Zastosuj zarządzanie otwieraniem linków</string>
     <string name="security_disable_app_url_summary">Zmienia ustawienie \"Wyczyść domyślne\" na \"Otwórz domyślnie\" w informacji o aplikacji.</string>
-    <string name="app_link_open_always">Zezwól aplikacji na otwieranie obsługiwanych linków</string>
-    <string name="app_link_open_never">Nie zezwalaj aplikacjom na otwieranie linków</string>
-    <string name="open_by_default">Otwórz domyślnie</string>
     <string name="security_score">Wyłącz optymalizację kontroli zdrowia</string>
     <string name="security_score_summary">Zablokuj 100 punktów i wyłącz optymalizację</string>
     <string name="security_center_skip_waiting_time">Pomiń limit odliczania</string>
@@ -1500,7 +1386,6 @@
     <string name="security_center_game_performance_wild_mode">Odblokuj Wild Boost</string>
     <string name="security_center_unlock_fbo">Odblokuj FBO</string>
     <string name="security_center_sidebar_videobox_title">Pasek z narzędziami wideo</string>
-    <string name="security_center_sidebar_gamebox_title">Gamebox</string>
     <string name="security_center_sidebar_function_title">Funkcja paska bocznego</string>
     <string name="security_center_game_speed">Szybkie uruchomienie gry</string>
     <string name="security_center_game_speed_desc">Po uruchomieniu gry animacja ekranu początkowego jest odtwarzana z szybkością 3x większą niż w przypadku innych gier. Taka prędkość jest obsługiwana tylko przez niektóre gry.</string>
@@ -1508,25 +1393,13 @@
     <string name="security_center_bypass_simlock_miaccount_auth_desc">Możesz korzystać z tej funkcji nawet bez logowania się na swoje konto Xiaomi</string>
     <string name="security_center_remove_simlock_success_dialog">Usuń ostrzeżenie o weryfikacji bezpieczeństwa karty SIM</string>
     <string name="security_center_remove_simlock_success_dialog_desc">Usuwa dialog po włączeniu urządzenia wskazującą, że weryfikacja bezpieczeństwa karty SIM została pomyślnie zakończona</string>
-    <string name="security_center_aosp_app_info_label">Informacje o aplikacji AOSP</string>
-    <string name="security_center_aosp_app_info">Dodaj wpis informacji o aplikacji AOSP</string>
-    <string name="security_center_aosp_app_manager_label">Menedżer aplikacji AOSP</string>
-    <string name="security_center_aosp_app_manager">Dodaj wpis menedżera aplikacji AOSP</string>
     <string name="security_center_power_consumption_ranking">Pokaż ranking zużycia energii</string>
     <string name="security_center_hide_xopt_mode_tip">Ukryj radę dotyczącą ukrytego użycia uprawnień</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Odblokuj tryb wytrzymałości na zimno</string>
     <string name="secutity_center_unlock_app_sandbox">Odblokuj niezależną pamięć</string>
     <!--MiTrustService-->
-    <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Wyłącz wykrywanie ryzyka</string>
     <string name="trustservice_disable_mrm_desc">Funkcja eksperymentalna. Nie możesz używać tej funkcji z naruszeniem przepisów lokalnych lub krajowych.</string>
-    <!--Smart cards-->
-    <string name="tsmclient">Inteligentne karty</string>
-    <string name="tsmclient_auto_nfc">Automatyczne zarządzanie NFC</string>
-    <string name="tsmclient_auto_nfc_desc">NFC włącza się automatycznie po przyłożeniu karty i wyłącza się automatycznie po zakończeniu przykładania.</string>
-    <string name="tsmclient_nfc_turning_on">Automatyczne włączanie NFC…</string>
-    <string name="tsmclient_nfc_turn_on_manually">Włącz NFC ręcznie</string>
-    <string name="tsmclient_nfc_turn_on_failed">Nie udało się automatycznie włączyć NFC</string>
     <!--Weather-->
     <string name="weather">Pogoda</string>
     <string name="weather_device_level_title">Poziom animacji</string>
@@ -1549,14 +1422,11 @@
     <string name="barrage_any_barrage">Zezwalaj na korzystanie z zapory we wszystkich aplikacjach</string>
     <string name="barrage_custom_barrage_length">Niestandardowa długość zapory</string>
     <!--Joyose-->
-    <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">Kontrola chmury</string>
     <string name="joyose_disable_cloud_control">Wyłącz kontrolę chmury</string>
-    <string name="joyose_game_title">Game Space</string>
     <string name="joyose_enable_gpu_tuner">Harmonogram wydajności</string>
     <string name="joyose_enable_gpu_tuner_desc">Po włączeniu tej opcji ustawienia GPU dla gier zostaną dodane na dole Game Space.</string>
     <!--GetApps-->
-    <string name="market">GetApps</string>
     <string name="market_device_modify">Przebranie modelu</string>
     <string name="market_device_modify_desc">Odbieraj aktualizacje z odpowiedniego urządzenia, podając model jako inne urządzenie</string>
     <string name="market_disable_new_icon">Zabroń używania ikon innych firm</string>
@@ -1576,7 +1446,6 @@
     <string name="mi_settings_show_fps">Pokaż więcej FPS</string>
     <string name="mi_settings_show_fps_desc">Moduł domyślnie odblokowuje wszystkie częstotliwości klatek. Nie ma gwarancji, że wszystkie będą dostępne.</string>
     <!--MTB-->
-    <string name="mtb">MTB</string>
     <string name="mtb_auth">Omiń uwierzytelnianie MTB</string>
     <string name="mtb_auth_desc">Jest to funkcja wysokiego ryzyka, wszelkie problemy wynikające z tego będą odpowiedzialnością użytkownika. Zachowaj ostrożność i wykonaj kopię zapasową swojego pasma podstawowego. Wprowadź *#*#MODEMTEST#*#* w interfejsie dialera, aby otworzyć ustawienia MTB.</string>
     <!--Sogou input method-->
@@ -1608,13 +1477,9 @@
     <string name="voicetrigger_accuracy_percent_description" formatted="false">Wyższe wartości są trudniejsze do wykrycia. Wartość domyślna to 70%, dla słowa kluczowego XATX to 0%. Po ustawieniu musisz zrestartować aplikację docelową i ponownie zapisać słowo aktywacji.</string>
     <!--Other-->
     <string name="various">Pozostałe</string>
-    <string name="share_center">Inteligentne Centrum Xiaomi</string>
-    <string name="new_task">Nowe zadanie</string>
-    <string name="custom_hook">Niestandardowy</string>
     <string name="app_version_not_supported">Nieobsługiwana wersja</string>
     <string name="various_location_simulation_title">Fałszywa lokalizacja</string>
     <string name="various_dialog_title">Komunikat</string>
-    <string name="various_mipad_title">Mi Pad</string>
     <string name="various_open_aosp_something_title">Ukryte funkcje</string>
     <string name="various_open_aosp_something_desc">Daje dostęp do funkcji, które są domyślnie ukryte</string>
     <string name="various_nobrightness">Odrzuć wymuszoną jasność</string>
@@ -1684,35 +1549,17 @@
     <string name="location_simulation_network">Sieć</string>
     <string name="location_simulation_operator_fix">Poprawka maskarady operatora</string>
     <string name="location_simulation_mac">Adres MAC</string>
-    <string name="location_simulation_wifi">Wi-Fi</string>
     <string name="location_simulation_router_mac">Adres MAC routera</string>
     <string name="location_simulation_work_title">Tytuł</string>
     <string name="location_simulation_work_offset">Przesunięcie</string>
     <string name="location_simulation_work_base_station">Stacja bazowa</string>
     <string name="location_simulation_work_longitude_latitude">Długość i szerokość geograficzna</string>
     <string name="location_simulation_work_remarks">Ocena</string>
-    <string name="app_details_playstore">Otwórz w Sklepie Play</string>
-    <string name="app_details_launch">Uruchom</string>
-    <string name="app_details_nolaunch">Aplikacja nie ma domyślnej aktywności do uruchomienia</string>
-    <string name="app_details_apk_file">Katalog APK</string>
-    <string name="app_details_apk_version_code">Wersja aplikacji</string>
-    <string name="app_details_data_path">Katalog danych</string>
-    <string name="app_details_app_uid">ID użytkownika</string>
-    <string name="app_details_sdk">Docelowa wersja SDK</string>
-    <string name="app_details_min_sdk">Minimalna wersja SDK</string>
-    <string name="disable_app_settings">To zły pomysł!</string>
-    <string name="disable_app_title">Czy na pewno chcesz wyłączyć aplikację?</string>
-    <string name="disable_app_text">Jeśli jest to niezbędna aplikacja systemowa, wyłączenie jej może spowodować uszkodzenie.</string>
-    <string name="disable_app_fail">Nie udało się zmienić stanu aplikacji</string>
     <string name="unlimited">Nieograniczony</string>
     <string name="calls">Połączenia</string>
-    <string name="system_volume">System</string>
     <string name="notification_volume">Powiadomienie</string>
     <string name="freeform_notification">Pływające okno powiadomień</string>
     <string name="share_app">Udostępnij aplikacjom trzecim</string>
-    <string name="system_notifrowmenu_appinfo">O aplikacji</string>
-    <string name="system_notifrowmenu_openinfw">Pływające okno</string>
-    <string name="system_notifrowmenu_forceclose">Wymuś zatrzymanie</string>
     <string name="show_newmods_title">Zaznacz nowy moduł</string>
     <string name="default_volume_stream_ring">Dzwonek</string>
     <string name="default_volume_stream_media">Multimedia</string>
@@ -1727,12 +1574,7 @@
     <string name="operator_fix_none">Brak naprawy</string>
     <string name="operator_fix_1">Metoda 1</string>
     <string name="operator_fix_2">Metoda 2 (zalecana)</string>
-    <string name="ic_qs_title_wifi">Wi-Fi</string>
     <string name="ic_qs_title_cellular">Sieć mobilna</string>
-    <string name="ic_qs_title_bluetooth">Bluetooth</string>
-    <string name="ic_qs_title_gps">GPS</string>
-    <string name="ic_qs_title_nfc">NFC</string>
-    <string name="ic_qs_title_hotspot">Hotspot</string>
     <string name="ic_qs_title_flashlight">Latarka</string>
     <string name="ic_qs_title_settings">Ustawienia</string>
     <string name="ic_qs_title_airplane">Tryb samolotowy</string>
@@ -1743,14 +1585,4 @@
     <string name="custom_hook_mode">Tryb wyboru</string>
     <string name="open_source">Projekty otwartego źródła</string>
     <string name="close_source">Projekty zamkniętego źródła</string>
-    <string name="exit">Wyjdź</string>
-    <string name="ignore">Ignoruj</string>
-    <string name="log_level">Poziom dziennika</string>
-    <string name="log_level_none">Wyłączone</string>
-    <string name="disable_suggest">Wyłącz sugestie</string>
-    <string name="enable_suggest">Włącz sugestie</string>
-    <string name="notification_channel_app_crash_name">Aplikacja działa nieprawidłowo</string>
-    <string name="notification_title_message_emergency_crash">%s awarii(rie)</string>
-    <string name="notification_content_message">Kliknij, aby wyświetlić szczegóły</string>
-    <string name="notification_view">Wyświetl</string>
 </resources>

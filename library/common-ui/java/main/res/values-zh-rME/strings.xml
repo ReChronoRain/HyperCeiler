@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <!--Pop-up window/miuix part-->
+    <string name="miuix_appcompat_action_mode_select_all">我全都要！</string>
+    <string name="miuix_appcompat_cancel_description">不干辣！</string>
+    <string name="miuix_appcompat_confirm_description">要干辣！</string>
+    <string name="miuix_appcompat_select_all_description">我全都要！</string>
+    <string name="miuix_appcompat_deselect_all_description">我全不要！</string>
+    <string name="miuix_appcompat_delete_description">删</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">不干辣！</string>
+    <string name="miuix_appcompat_search_input_description">搜刮西米露酱</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">还... 还想要...</string>
+    <string name="miuix_appcompat_action_mode_inverse">两极反转！</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="tip">我可跟您说了</string>
+    <string name="root">杂鱼~♡，有些东西没有Root/Su许可，可不能让你这杂鱼用呢♡</string>
+    <string name="soft_reboot">还... 还会再见的吧？ </string>
+    <string name="restart_app_desc">确定要结束%1$s的这一生吗？</string>
+    <string name="hyperceiler_restart_quick">迅速重开</string>
+    <string name="hook_failed">你是不是忘记激活我啦杂鱼~♡。\n 去看看 Xposed 管理器有没有打开吧♡，要不试试重新优化或者重新开启手机吧杂鱼~♡</string>
+    <string name="kill_failed">钱不够 我很难帮你办事</string>
+    <string name="start_failed">嘿，小鬼，没有 Root/Su 权限，我可不会给你办事</string>
+    <string name="pid_failed">还没开呢，重开什么？</string>
+    <string name="reboot_failed">没法重启，你是不是又忘了给我 Root/Su 权限ヽ(`Д´) ﾉ</string>
+    <!--HyperCeiler Tips-->
+    <string name="tip_default">绀漓手持锟斤拷，口中直呼烫烫烫，如果你能看到这条 Tip，说明 HyperCeiler 又被玩坏了！请与绀漓联系并友好交流解决这个问题。</string>
+    <string name="happy_birthday_hyperceiler">今日无事可做？\n
+你可以选择为 HyperCeiler 点一支蜡烛并祝 HyperCeiler 生日快乐！</string>
+    <!--System UI-->
+    <string name="system_ui">进程\"System UI\"</string>
+    <!--System launcher-->
+    <!--Settings-->
+    <!--Security/Tablet security center-->
+    <!--Other-->
+</resources>

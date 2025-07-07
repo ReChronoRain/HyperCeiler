@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <!--Pop-up window/miuix part-->
+    <string name="miuix_appcompat_action_mode_select_all">Zaznacz wszystko</string>
+    <string name="miuix_appcompat_cancel_description">Anuluj</string>
+    <string name="miuix_appcompat_confirm_description">OK</string>
+    <string name="miuix_appcompat_select_all_description">Zaznacz wszystko</string>
+    <string name="miuix_appcompat_deselect_all_description">Odznacz wszystko</string>
+    <string name="miuix_appcompat_delete_description">Usuń</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">Anuluj</string>
+    <string name="miuix_appcompat_search_input_description">Szukaj</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Więcej</string>
+    <string name="miuix_appcompat_action_mode_inverse">Odwróć</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="tip">Rada</string>
+    <string name="root">Niektóre funkcje nie są dostępne bez uprawnień Root/SU</string>
+    <string name="soft_reboot">Zrestartuj </string>
+    <string name="restart_app_desc">Czy na pewno chcesz teraz zrestartować %1$s?</string>
+    <string name="hyperceiler_restart_quick">Szybki restart aplikacji</string>
+    <string name="hook_failed">Moduł nie jest jeszcze aktywny. Proszę sprawdzić, czy LSPosed jest włączony. Jeśli tak, proszę zrestartować lub ponownie zoptymalizować moduł.</string>
+    <string name="kill_failed">Nie udało się zakończyć procesu. Sprawdź, czy HyperCeiler otrzymał uprawnienia Root/SU.</string>
+    <string name="start_failed">Nie udało się rozpocząć aktywności. Sprawdź, czy HyperCeiler otrzymał uprawnienia Root/SU.</string>
+    <string name="pid_failed">Aplikacja docelowa nie jest uruchomiona i nie trzeba jej restartować.</string>
+    <string name="reboot_failed">Restart się nie powiódł. Sprawdź, czy HyperCeiler otrzymał uprawnienia Root/SU.</string>
+    <!--HyperCeiler Tips-->
+    <string name="warn">Uwaga</string>
+    <string name="safe_mode_desc">%1$s wszedł w tryb awaryjny z powodu wielu awarii, a funkcje HyperCeiler zostały tymczasowo wyłączone.</string>
+    <string name="safe_mode_history">Wyświetl zapisy wyjątków</string>
+    <string name="safe_mode_cancel">Wyłącz tryb awaryjny</string>
+    <string name="safe_mode_ok">Anuluj</string>
+    <string name="safe_mode_later_title">Rada</string>
+    <string name="safe_mode_later_desc">%1$s nadal znajduje się w trybie awaryjnym, a funkcje HyperCeiler zostały wyłączone. Wyłączyć tryb awaryjny?</string>
+    <string name="safe_mode_recorder_title">Zapisy wyjątków</string>
+    <string name="safe_mode_recorder_file">Archiwum</string>
+    <string name="safe_mode_recorder_class">Klasa</string>
+    <string name="safe_mode_recorder_method">Metoda</string>
+    <string name="safe_mode_recorder_line">Wiersz</string>
+    <string name="safe_mode_recorder_msg">Komunikat wyjątku</string>
+    <string name="safe_mode_recorder_st">Śledzenie błędów</string>
+    <string name="notification_channel_app_crash_name">Aplikacja działa nieprawidłowo</string>
+    <string name="notification_title_message_emergency_crash">%s awarii(rie)</string>
+    <string name="notification_content_message">Kliknij, aby wyświetlić szczegóły</string>
+    <string name="notification_view">Wyświetl</string>
+    <string name="tip_default">Rada: Oto domyślna rada. Jeśli to widzisz, oznacza to, że wystąpił problem z HyperCeilerem. Prosimy o terminowe i skuteczne zgłoszenie tego deweloperowi.</string>
+    <string name="headtip_warn_not_offical_rom">Źródło ROM-u, którego używasz, może nie być oficjalnym ROM-em Xiaomi, a niektóre funkcje mogą nie działać. Skontaktuj się ze swoim dostawcą, aby uzyskać więcej informacji.</string>
+    <string name="headtip_warn_unsupport_sysver">Obecne urządzenie działa na wersji systemu, która nie jest (w pełni) dostosowana, co może powodować nieprawidłowości w funkcjonalności HyperCeiler.</string>
+    <string name="headtip_warn_sign_verification_failed">Weryfikacja podpisu się nie powiodła. Używana wersja HyperCeiler może nie być oficjalną wersją i może zawierać złośliwy kod.</string>
+    <string name="headtip_tip_auto_safe_mode">Automatyczny tryb awaryjny może tymczasowo odłączyć niektóre aplikacje, które wielokrotnie ulegają awarii, aby zapewnić bezpieczeństwo. Funkcja ta wymaga zakresu \"System Framework\" do działania, dlatego zdecydowanie zalecamy, aby sprawdzić zaznaczenie tego zakresu i aktywacje automatycznynego trybu awaryjnynego.</string>
+    <string name="headtip_tip_long_press_to_copy">Możesz wybrać tekst po długim lub podwójnym naciśnięciu lub skopiować go i odesłać do programisty.</string>
+    <string name="happy_birthday_hyperceiler">Dzisiaj są urodziny HyperCeilera!\nDziękujemy za wsparcie w ciągu ostatniego roku i zacznijmy współpracować w tym roku!</string>
+    <string name="headtip_tip_fuck_coolapk">Dzisiaj w historii: Sevtinge wygłosił ważne przemówienie 14 lipca 2022 r.</string>
+    <string name="headtip_notice_dead_logger_errcode">Obecna usługa dziennika urządzenia działa nieprawidłowo, co ograniczy funkcje HyperCeiler. Przywróć usługę dziennika, aby mogła działać poprawnie.\nKod błędu: %1$s</string>
+    <string name="headtip_notice_dead_logger">Obecna usługa dziennika urządzenia działa nieprawidłowo, co ograniczy funkcje HyperCeiler. Przywróć usługę dziennika, aby mogła działać poprawnie.</string>
+    <!--System UI-->
+    <string name="system_ui">Interfejs systemu</string>
+    <!--System launcher-->
+    <string name="mihome">Systemowy launcher</string>
+    <!--Settings-->
+    <string name="system_settings">Ustawienia</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center_hyperos">Bezpieczeństwo</string>
+    <!--Other-->
+    <string name="exit">Wyjdź</string>
+    <string name="ignore">Ignoruj</string>
+    <string name="log_level">Poziom dziennika</string>
+    <string name="log_level_none">Wyłączone</string>
+    <string name="disable_suggest">Wyłącz sugestie</string>
+    <string name="enable_suggest">Włącz sugestie</string>
+</resources>

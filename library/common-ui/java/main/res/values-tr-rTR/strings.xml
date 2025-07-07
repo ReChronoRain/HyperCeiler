@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <!--Pop-up window/miuix part-->
+    <string name="miuix_appcompat_action_mode_select_all">Tümünü seç</string>
+    <string name="miuix_appcompat_cancel_description">İptal</string>
+    <string name="miuix_appcompat_confirm_description">Tamam</string>
+    <string name="miuix_appcompat_select_all_description">Tümünü seç</string>
+    <string name="miuix_appcompat_deselect_all_description">Tümünün seçimini kaldır</string>
+    <string name="miuix_appcompat_delete_description">Sil</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">İptal</string>
+    <string name="miuix_appcompat_search_input_description">Ara</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Dahası</string>
+    <string name="miuix_appcompat_action_mode_inverse">Ters</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="tip">Tip</string>
+    <string name="root">Bazı özellikler Root/Su izni olmadan kullanılamaz</string>
+    <string name="soft_reboot">Hızlı yeniden başlat</string>
+    <string name="restart_app_desc">Şimdi yeniden başlatmak istediğinize emin misiniz %1$s?</string>
+    <string name="hyperceiler_restart_quick">Hedef uygulamayı hızla yeniden başlatın</string>
+    <string name="hook_failed">Modül aktif değil. \nLütfen Xposed yöneticisinin etkin olup olmadığını kontrol edin. Öyleyse lütfen modülü yeniden başlatın veya yeniden optimize edin.</string>
+    <string name="kill_failed">İşlem sonlandırılamadı, lütfen HyperCeiler\'ın Root/Su izni olup olmadığını kontrol edin.</string>
+    <string name="start_failed">İşlem başlatılamadı, lütfen HyperCeiler\'in root/su izinleri olup olmadığını kontrol ediniz.</string>
+    <string name="pid_failed">Hedef uygulama çalışmıyor ve yeniden başlatılması gerekmiyor.</string>
+    <string name="reboot_failed">Yeniden başlatma başarısız, lütfen HyperCeiler\'ın Root/Su izni olup olmadığını kontrol edin.</string>
+    <!--HyperCeiler Tips-->
+    <!--System UI-->
+    <string name="system_ui">Sistem Arayüzü</string>
+    <!--System launcher-->
+    <string name="mihome">Sistem başlatıcı</string>
+    <!--Settings-->
+    <string name="system_settings">Ayarlar</string>
+    <!--Security/Tablet security center-->
+    <!--Other-->
+</resources>

@@ -19,17 +19,14 @@
   -->
 <resources>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">HyperOS\'yi Yeniden Harika Hale Getirin!</string>
     <string name="new_permission_wifi_state_desc">cihazın dahili depolama alanınındaki dosyaları ekle ve sil</string>
     <string name="new_permission_location_desc">enlem ve boylam gibi hizmetleri sağlamak için kullanılır</string>
     <string name="new_cta_agree_desc">Kullanım sırasında, size daha fazla özellik sunabilmek için sizden Root/Su izni talep edebiliriz. Tüm izinlerin yetki durumunu ayarlamak için istediğiniz zaman İzin Yönetimi\'ne gidebilirsiniz ve Root/Su izinlerini vermek için lütfen Root/Su yöneticinize gidin.</string>
     <string name="new_cta_app_main_purpose">sistem uygulamalarını değiştir</string>
     <string name="new_cta_app_all_purpose_title">HyperCeiler\'a hoş geldiniz! Bu uygulama çalışmak için Xposed çerçevesine dayanır. Bu uygulamayı, sistemi geliştirmek için desteklenen diğer uygulamaları değiştirmek için kullanabilirsiniz. Kullanım sırasında, size daha fazla işlev sağlamak için sizden Root izinleri talep edebiliriz. İstediğiniz zaman Root Yöneticinize giderek bunu yönetebilirsiniz.</string>
-    <!--HyperCeiler Tips-->
     <!--HyperCeiler Settings/About Page-->
     <string name="language">İngilizce</string>
     <string name="translator">can1gulle</string>
-    <string name="translator_url">https://github.com/ReChronoRain</string>
     <string name="home">Anasayfa</string>
     <string name="help">Yardım</string>
     <string name="settings">Ayarlar</string>
@@ -41,7 +38,6 @@
     <string name="about_donation">Katkıda Bulunanlar</string>
     <string name="about_donation_desc">Buradan bağış yaparak bize destek olabilirsiniz</string>
     <string name="hyperceiler_notice">Kısayol anahtarlarını ve sistem bildirimlerini görüntülemek için durum çubuğunu aşağı çekin</string>
-    <string name="hyperceiler_restart_quick">Hedef uygulamayı hızla yeniden başlatın</string>
     <string name="delete_all_dexkit_cache_desc">Tüm DexKit önbelleğini silmek istediğinize emin misiniz?</string>
     <string name="delete_all_dexkit_cache_success">Tüm DexKit önbelleği silindi</string>
     <string name="location_add">Ekle</string>
@@ -120,15 +116,6 @@
     <string name="about_privacy">Gizlilik Politikası</string>
     <string name="about_protocol">Kullanıcı Sözleşmesi</string>
     <!--Pop-up window/miuix part-->
-    <string name="soft_reboot">Hızlı yeniden başlat</string>
-    <string name="restart_app_desc">Şimdi yeniden başlatmak istediğinize emin misiniz %1$s?</string>
-    <string name="tip">Tip</string>
-    <string name="root">Bazı özellikler Root/Su izni olmadan kullanılamaz</string>
-    <string name="hook_failed">Modül aktif değil. \nLütfen Xposed yöneticisinin etkin olup olmadığını kontrol edin. Öyleyse lütfen modülü yeniden başlatın veya yeniden optimize edin.</string>
-    <string name="kill_failed">İşlem sonlandırılamadı, lütfen HyperCeiler\'ın Root/Su izni olup olmadığını kontrol edin.</string>
-    <string name="start_failed">İşlem başlatılamadı, lütfen HyperCeiler\'in root/su izinleri olup olmadığını kontrol ediniz.</string>
-    <string name="pid_failed">Hedef uygulama çalışmıyor ve yeniden başlatılması gerekmiyor.</string>
-    <string name="reboot_failed">Yeniden başlatma başarısız, lütfen HyperCeiler\'ın Root/Su izni olup olmadığını kontrol edin.</string>
     <string name="expand_button_title">Yüksek seviye</string>
     <string name="not_set">Belirlenmemiş</string>
     <string name="copy">Kopyala</string>
@@ -146,16 +133,6 @@
     <string name="abc_action_bar_home_description">Anasayfaya dön</string>
     <string name="abc_action_bar_up_description">Önceki sayfaya geri dön</string>
     <string name="actionbar_button_up_description">Geri</string>
-    <string name="miuix_appcompat_action_mode_select_all">Tümünü seç</string>
-    <string name="miuix_appcompat_cancel_description">İptal</string>
-    <string name="miuix_appcompat_confirm_description">Tamam</string>
-    <string name="miuix_appcompat_select_all_description">Tümünü seç</string>
-    <string name="miuix_appcompat_deselect_all_description">Tümünün seçimini kaldır</string>
-    <string name="miuix_appcompat_delete_description">Sil</string>
-    <string name="miuix_appcompat_search_action_mode_cancel">İptal</string>
-    <string name="miuix_appcompat_search_input_description">Ara</string>
-    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Dahası</string>
-    <string name="miuix_appcompat_action_mode_inverse">Ters</string>
     <string name="color_picker_alpha_text_transparent">Opaklık</string>
     <string name="color_picker_tab_grid">Izgara</string>
     <string name="color_picker_tab_slider">Kaydırıcı</string>
@@ -178,11 +155,9 @@
     <string name="disable">Kapat</string>
     <string name="custom_enable">Özelleştirmeyi aç</string>
     <string name="customization">Kişiselleştirme</string>
-    <string name="model">Model</string>
     <string name="device">Cihaz</string>
     <string name="manufacturer">Üretici</string>
     <string name="search">aramak</string>
-    <string name="floating_window">Serbest Form</string>
     <string name="save_to_screen_title">Kaydetme konumunu belirle</string>
     <string name="only_new_version_can_do">Yalnızca daha yeni sürümler desteklenir</string>
     <string name="use_hyper_blur">Gelişmiş dokular kullan</string>
@@ -238,10 +213,6 @@
     <string name="array_discrete">Ayrı</string>
     <string name="array_gradual">Yavaş</string>
     <string name="array_rainbow">Gökkuşağı</string>
-    <string name="various_install_app_info_version_name">Sürüm adı</string>
-    <string name="various_install_app_info_version_code">Sürüm kodu</string>
-    <string name="various_install_app_info_sdk">SDK desteği</string>
-    <string name="various_install_app_size">Boyut</string>
     <string name="status_bar_icon_mode_default">Varsayılan</string>
     <string name="status_bar_icon_mode_on">Her zaman göster</string>
     <string name="status_bar_icon_mode_on_non_wifi">WiFi açık değilken her zaman gösterilir</string>
@@ -256,7 +227,6 @@
     <string name="home_mode_dark">Karanlık modu</string>
     <string name="dialog_gravity_medium">Merkez</string>
     <string name="dialog_gravity_down">Alt</string>
-    <string name="collapse_miui_title_off">Fold</string>
     <string name="collapse_miui_title_on">Genişlet</string>
     <string name="collapse_miui_title_off_always">Her zaman katlanmış</string>
     <string name="collapse_miui_title_on_always">Her zaman genişlet</string>
@@ -294,12 +264,6 @@
     <string name="system_ui_statusbar_clock_style_1">\n\n Tek satırlı ekran, sadece durum çubuğu saati</string>
     <string name="system_ui_statusbar_clock_style_2">\n\n iki satırlı ekran. \n üstte durum çubuğu saati. Altta bildirim çubuğu mini saati</string>
     <string name="system_ui_statusbar_clock_style_3">İki satırlı ekran\n\n\nÜstte bildirim çubuğu mini saat\nAltta durum çubuğu saat</string>
-    <string name="mediaeditor_mickey">Mickey Mouse</string>
-    <string name="mediaeditor_strawberry_bear">Strawberry Bear</string>
-    <string name="tiles_gms">Google Play Hizmeti</string>
-    <string name="tiles_taplus">Taplus</string>
-    <string name="tiles_5g">5G ağı</string>
-    <string name="tiles_sunshine_mode">Günışığı modu</string>
     <!--System Framework-->
     <string name="system_framework">Sistem Çerçevesi</string>
     <string name="system_framework_volume_title">Ses</string>
@@ -328,7 +292,6 @@
     <string name="system_framework_volume_steps">Ses seviyesi çarpanı</string>
     <string name="system_ui_display_use_aosp_screenshot">AOSP Ekran Görüntüsü kullanın</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Ekran görüntüsü uygulamasını AOSP ekran görüntüsüne yönlendirin, HyperOS\'taki ekran görüntüsü uygulaması ekran görüntüsü işlemine yanıt vermeyecektir.</string>
-    <string name="system_framework_phone_network_title">Ağ ayarları</string>
     <string name="phone_double_5g_nr">Çift sim 5G kullansın (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">Ana ve ikincil SIM kart aynı anda 5G\'yi etkinleştirir (İkincil SIM kart yalnızca NSA\'yı destekler)</string>
     <string name="phone_double_5g_sa">Çift sim SA kullansın (SA+SA)</string>
@@ -476,7 +439,6 @@
     <string name="downloads_ui_always_show_link">Her zaman tam indirme bağlantısını göster</string>
     <string name="downloads_ui_always_show_link_desc">Ayrıca bazı kopyalanamayan indirme işlemlerini düzelt</string>
     <!--System UI-->
-    <string name="system_ui">Sistem Arayüzü</string>
     <string name="system_ui_lockscreen_title">Kilit ekranı</string>
     <string name="system_ui_lockscreen_safe_title">Güvenlik</string>
     <string name="system_ui_lockscreen_ui_title">Kilit ekranı</string>
@@ -506,9 +468,6 @@
     <string name="system_ui_lock_screen_linkage_anim_off">Ekran kapalıyken animasyon oranı</string>
     <string name="system_ui_navigation_title">Gezinme</string>
     <string name="system_ui_navigation_handle_title">Çubuk</string>
-    <string name="system_ui_hide_navigation_bar">Gezinme çubuğunu gizle</string>
-    <string name="system_ui_hide_navigation_bar_toast">Gezinme tuşlarını değiştirme</string>
-    <string name="system_ui_hide_navigation_bar_toast_2">Hareket çizgilerini gizleme</string>
     <string name="system_ui_navigation_handle_custom">Özel çubuk</string>
     <string name="system_ui_navigation_handle_custom_height">Yükseklik</string>
     <string name="system_ui_navigation_handle_custom_width">Dikey genişlik</string>
@@ -544,7 +503,6 @@
     <string name="system_ui_status_bar_battery_style_font_mark_size">Pil yüzdesi sembolü yazı tipi boyutu</string>
     <string name="system_ui_status_bar_battery_style_vertical_offset">Pil yüzdesi sembolünün aşağı ve yukarı ofseti</string>
     <string name="system_ui_statusbar_iconmanage_wifi_title">Wifi</string>
-    <string name="system_ui_statusbar_iconmanage_bluetooth_title">Bluetooth</string>
     <string name="system_ui_statusbar_iconmanage_mobile_title">Mobil ağ</string>
     <string name="system_ui_statusbar_iconmanage_location_title">Konum</string>
     <string name="system_ui_statusbar_iconmanage_status_title">Durum simgesi</string>
@@ -554,12 +512,10 @@
     <string name="system_ui_statusbar_iconmanage_devices_title">Cihazlar</string>
     <string name="system_ui_statusbar_iconmanage_internet_title">Ağ</string>
     <string name="system_ui_statusbar_iconmanage_privacy_title">Gizlilik</string>
-    <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_slave">Köle Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Wifi standardı</string>
     <string name="system_ui_status_bar_icon_hotspot">Sıcak nokta</string>
     <string name="system_ui_status_bar_icon_wifi_network_indicator">Ağ etkinlik göstergesi</string>
-    <string name="system_ui_status_bar_icon_bluetooth">Bluetooth</string>
     <string name="system_ui_status_bar_icon_bluetooth_battery">Bluetooth pili</string>
     <string name="system_ui_status_bar_icon_new_hd">Yeni HD simge</string>
     <string name="system_ui_status_bar_icon_small_hd">Küçük HD simge</string>
@@ -587,11 +543,8 @@
     <string name="system_ui_status_bar_icon_speakerphone">Hoparlör simgesini gizle</string>
     <string name="system_ui_status_bar_icon_call_record">Kaydediliyor simgesini gizle</string>
     <string name="system_ui_status_bar_icon_car">Araba</string>
-    <string name="system_ui_status_bar_icon_pad">Pad</string>
-    <string name="system_ui_status_bar_icon_pc">PC</string>
     <string name="system_ui_status_bar_icon_phone">Telefon</string>
     <string name="system_ui_status_bar_icon_soundbox">Ses kutusu</string>
-    <string name="system_ui_status_bar_icon_tv">TV</string>
     <string name="system_ui_status_bar_icon_wireless_headset">Kablosuz Kulaklık</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Maksimum bildirim simgesi sayısı</string>
     <string name="system_ui_status_bar_battery_percent">Pil yüzdesini gizle</string>
@@ -634,8 +587,6 @@
     <string name="system_ui_controlcenter_title">Kontrol merkezi</string>
     <string name="system_ui_control_center_magnet_tile_settings">Mıknatıs</string>
     <string name="system_ui_control_center_notification_title">Bildirim</string>
-    <string name="quick_settings_state_change_message_on_my">%1$s açık</string>
-    <string name="quick_settings_state_change_message_off_my">%1$s kapalı</string>
     <string name="system_control_center_5g_tile">5G ağ anahtarı</string>
     <string name="system_ui_control_auto_close">Magnetik karoları otomatik çekil</string>
     <string name="system_ui_control_center_qs_bg_color">Arka plan rengi</string>
@@ -709,7 +660,6 @@
     <string name="system_showpct_use_blur">Bulanıklık kullan</string>
     <string name="system_ui_notification_freeform">Ücretsiz bir form açmak için daha fazla uygulamanın bildirim çubuğunu aşağı çekin</string>
     <string name="system_ui_notification_freeform_desc">Mi Push\'tan gelen bildirimler desteklenmeyebilir</string>
-    <string name="system_ui_monet_title">Monet</string>
     <string name="system_ui_monet_overlay_custom">Tema rengini özelleştirme</string>
     <string name="system_ui_monet_overlay_custom_desc">Sistem duvar kağıdından renk çekmek yerine tema renklerini özelleştirin</string>
     <string name="system_ui_monet_overlay_custom_color">Tema rengini seçin</string>
@@ -721,14 +671,10 @@
     <string name="system_ui_plugin_enable_volume_blur_desc">Sadece Android12+ MTK modelleri için. Yüksek GPU yükü olabilir.</string>
     <!--Telecom-->
     <!--Settings-->
-    <string name="system_settings">Ayarlar</string>
     <string name="system_settings_linkturbo">Ağ hızlandırma uygulamalarındaki kısıtlamaları kaldırın</string>
     <string name="system_settings_international_build">Ayarların global versiyonu</string>
     <string name="system_settings_safe_wifi">Kaydedilmiş Wi-Fi parolalarınızı görüntüleyin</string>
     <string name="system_settings_safe_wifi_desc">Kayıtlı Ağları Yönetin Kilidini Açın\nYol: Ayarlar-WLAN-Gelişmiş Ayarlar-Kayıtlı Ağları Yönetin</string>
-    <string name="system_settings_wifipassword_btn_title">Kontrol et</string>
-    <string name="system_settings_wifi_password_label">Parola</string>
-    <string name="system_settings_wifi_password_dlgtitle">Wi-Fi ayrıntıları</string>
     <string name="system_settings_novelty_haptic_title">Dokunsal geribildirim sayfasının yeni sürümünün kilidini açın</string>
     <string name="system_settings_novelty_haptic_desc">Yalnızca Sesler ve Dokunsal Geri Bildirim özelliğine sahip cihazlar için - Dokunsal Geri Bildirim sayfası</string>
     <string name="system_settings_enable_pad_area">Pad alanının kilidini aç</string>
@@ -783,7 +729,6 @@
     <string name="theme_manager_enable_pad_theme">Ped temasını etkinleştir</string>
     <string name="theme_manager_enable_fold_theme">Katlama temasını etkinleştir</string>
     <!--remotecontroller-->
-    <string name="remotecontroller">Mi Remote</string>
     <string name="remotecontroller_disable_ad">Reklamları kapat</string>
     <!--Updater-->
     <string name="updater">Güncelleyici</string>
@@ -807,7 +752,6 @@
     <!--Always-on display-->
     <string name="aod_unlock_aon">Aod Aon\'un kilidini aç</string>
     <!--Taplus-->
-    <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Üçüncü taraf tarayıcıyı kullanma</string>
     <string name="content_extension_browser_desc">Arama için MIUI tarayıcısını kullanmak için Taplus\'u zorunlu kılmayın, varsayılan tarayıcıyı kendiniz seçmeniz gerekir</string>
     <string name="content_extension_unlock_taplus_title">Taplus kilidini aç</string>
@@ -817,7 +761,6 @@
     <string name="content_extension_link_open_mode">Bağlantı nasıl açılır</string>
     <string name="content_extension_link_open_mode_desc">Bağlantıyı açmak için bir tarayıcı seçin</string>
     <!--Xiaomi Cloud Service-->
-    <string name="micloud_service">Xiaomi Cloud</string>
     <!--Mi Mover-->
     <string name="huanji">Mi Taşıyıcı</string>
     <string name="huanji_allow_all_apps">Tüm uygulamaları taşımaya izin ver</string>
@@ -826,7 +769,6 @@
     <string name="backup_allow_all_apps">Tüm uygulamaların yedeklenmesine izin ver</string>
     <string name="backup_unlock_broken_screen_backup">Hasarlı ekrana yedeklemesinin kilidini aç</string>
     <!--Mi Canvas-->
-    <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Cep telefonu kullanımı üzerindeki kısıtlamaları kaldırın</string>
     <!--LPA-->
     <!--Gallery-->
@@ -843,12 +785,9 @@
     <string name="gallery_enable_un_privacy_watermark_more">Etkinleştirmek, daha uzun kelime sayılarına uyum sağlamak için filigran yoğunluğunu biraz artıracaktır</string>
     <string name="gallery_enable_magic_matting">Kesmenin Kilidini Aç</string>
     <string name="gallery_backup_server">Yedekleme sunucusu</string>
-    <string name="gallery_backup_server_google">Google</string>
-    <string name="gallery_backup_server_onedrive">Google &amp; OneDrive</string>
     <!--System security components-->
     <string name="guard_provider_disable_upload_applist">Yüklü uygulama listesinin otomatik olarak yüklenmesini engelle</string>
     <!--System launcher-->
-    <string name="mihome">Sistem başlatıcı</string>
     <string name="home_gesture">Hareket</string>
     <string name="home_navigation_title">Navigasyon</string>
     <string name="home_navigation_quick_back">Önceki uygulamaya geri dön</string>
@@ -1003,7 +942,6 @@
     <string name="home_recent_show_launch">Başlatıcıyı arka plan olarak göster</string>
     <string name="home_recent_show_launch_size">Başlatıcı arka plan boyutu</string>
     <string name="home_recent_show_launch_alpha">Başlatıcı arka plan alfası</string>
-    <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Widget animasyonu</string>
     <string name="home_widget_show_miui_widget">HyperOS widget\'larını göster</string>
     <string name="home_widget_show_miui_widget_desc">Android widget sayfasında HyperOS widget\'larını görüntüleme</string>
@@ -1054,18 +992,6 @@
     <string name="home_large_icon_corner_radius">Köşeleri yuvarlatılmış büyük simgeler</string>
     <string name="home_other_app_icon_hide">Masaüstü kısayol yönetimi</string>
     <string name="home_other_toast_slide_again">\"Tekrar kaydır\" tostunu devre dışı bırak</string>
-    <string name="system_framework_guided_access_status">Uygulama kilitlenirken durum çubuğunu gizleme</string>
-    <string name="system_framework_guided_access_status_more">Çıkış yolu güç düğmesine uzun basma olarak değişecek ve siz kilit modundan çıkana kadar durum çubuğu gizlenecektir.</string>
-    <string name="system_framework_guided_access_sc">Sabitlendiğinde kenar çubuğunu çağırmak yasaktır</string>
-    <string name="system_framework_guided_access_screen">Sabitleme kaldırıldığında Kilit ekranına atla</string>
-    <string name="system_framework_guided_access">Sabit uygulamalar</string>
-    <string name="system_framework_guided_access_will_lock">Uygulamayı kilitleyecek</string>
-    <string name="system_framework_guided_access_lock">Uygulamayı kilitle</string>
-    <string name="system_framework_guided_access_unlock">Uygulamanın kilidini aç</string>
-    <string name="system_framework_guided_access_will_unlock">Uygulamanın kilidi açılacak</string>
-    <string name="system_framework_guided_access_r">Eski haline getirme</string>
-    <string name="system_framework_guided_access_e">Lütfen kilitli uygulama arayüzünde kilidini açın</string>
-    <string name="system_framework_guided_access_more">iOS\'a benzer, geçerli uygulamayı ekrana sabitleyen Rehberli Erişim.\nKullanmak için üst durum çubuğuna basılı tutun; çıkmak için üst durum çubuğuna tekrar basılı tutun.\nİlk kez kullandığınızda cihazı yeniden başlatmanız gerekir.</string>
     <string name="home_other_shortcut_remove_restrictions">Kısayollardaki kısıtlamaları kaldırın</string>
     <string name="home_other_shortcut_background_blur_custom">Kısayol menüsü bulanıklık değeri</string>
     <string name="home_other_high_models">Üst düzey bir model olarak zorunlu tanınma</string>
@@ -1090,11 +1016,6 @@
     <string name="mediaeditor_unlock_custom_photo_frames_title">Çerçeve türünü özelleştirin</string>
     <string name="mediaeditor_unlock_leica_filter_title">Leica filtresinin kilidini açın</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Sadece bazı sürümler destekleniyor</string>
-    <!--Mi Share-->
-    <string name="mishare">Mi Paylaşım</string>
-    <string name="mishare_disable_mishare_auto_off">Mi Paylaşımının otomatik kapanmasını devre dışı bırak</string>
-    <string name="mishare_unlock_turbo_mode">Turbo transferinin kilidini aç</string>
-    <string name="mishare_hook_switch_mode_all">Herkes</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Duvar Kağıdı</string>
     <string name="miwallpaper_unlock_super_wallpaper">Süper duvar kağıdının kilidini aç</string>
@@ -1193,8 +1114,6 @@
     <string name="security_disable_app_title">Uygulama durumu kontrolü</string>
     <string name="security_disable_app_summary">Uygulama bilgisi sayfasından herhangi bir uygulamayı devre dışı bırakmaya izin ver</string>
     <string name="security_disable_app_url_title">Açık bağlantı yönetimini uygulayın</string>
-    <string name="app_link_open_always">Uygulamanın desteklenen bağlantıları açmasına izin verir</string>
-    <string name="open_by_default">Varsayılan olarak açık</string>
     <string name="security_score">Sağlık kontrolü optimizasyonunu devre dışı bırak</string>
     <string name="security_score_summary">100 noktayı kilitleyin ve optimizasyonu devre dışı bırakın</string>
     <string name="security_center_skip_waiting_time">Geri sayım sınırını atla</string>
@@ -1220,13 +1139,6 @@
     <string name="trustservice">MiTrust Hizmeti</string>
     <string name="trustservice_disable_mrm">Risk algılamalarını devre dışı bırak</string>
     <string name="trustservice_disable_mrm_desc">Deneysel özellik. Bu özelliği yerel veya ulusal yasaları ihlal ederek kullanamazsınız.</string>
-    <!--Smart cards-->
-    <string name="tsmclient">Akıllı kartlar</string>
-    <string name="tsmclient_auto_nfc">Nfc\'yi otomatik olarak yönet</string>
-    <string name="tsmclient_auto_nfc_desc">Kart kaydırma sayfasına girerken NFC otomatik olarak açılır ve çıkarken otomatik olarak kapanır</string>
-    <string name="tsmclient_nfc_turning_on">NFC otomatik olarak açılıyor</string>
-    <string name="tsmclient_nfc_turn_on_manually">NFC\'yi manuel olarak aç</string>
-    <string name="tsmclient_nfc_turn_on_failed">NFC otomatik olarak etkinleştirilemedi</string>
     <!--Weather-->
     <string name="weather">Hava durumu</string>
     <string name="weather_device_level_title">Animasyon hızı</string>
@@ -1256,7 +1168,6 @@
     <string name="joyose_enable_gpu_tuner">Performans planlaması</string>
     <string name="joyose_enable_gpu_tuner_desc">Açtıktan sonra, [Oyun Alanı] \'nın alt ortasına oyun GPU\'su ile ilgili ayarları ekleyin</string>
     <!--GetApps-->
-    <string name="market">GetApps</string>
     <string name="market_device_modify">Model kılığında</string>
     <string name="market_device_modify_desc">Gizlenmiş cihaz modeli Xiaomi 13 Ultra\'dır</string>
     <string name="market_disable_new_icon">Üçüncü taraf simgelerinin kullanımını yasakla</string>
@@ -1275,7 +1186,6 @@
     <string name="mi_settings_show_fps">Daha fazla FPS listesi göster</string>
     <string name="mi_settings_show_fps_desc">Modül varsayılan olarak tüm kare hızlarını açar. Hepsinin kullanılabilir olacağı garanti edilmez.</string>
     <!--MTB-->
-    <string name="mtb">MTB</string>
     <string name="mtb_auth">MTB kimlik doğrulamasını atla</string>
     <string name="mtb_auth_desc">Bu yüksek riskli bir özelliktir; bundan kaynaklanan herhangi bir sorun kullanıcının sorumluluğunda olacaktır. Lütfen dikkatli olun ve baseband\'inizi yedekleyin. MTB Ayarlarını açmak için çevirici arayüzüne *#*#MODEMTEST#*#* girin.</string>
     <!--Sogou input method-->
@@ -1295,13 +1205,9 @@
     <!--Voice Trigger-->
     <!--Other-->
     <string name="various">Diğer</string>
-    <string name="share_center">Xiaomi Smart Hub</string>
-    <string name="new_task">Yeni görev</string>
-    <string name="custom_hook">Özelleştir</string>
     <string name="app_version_not_supported">Desteklenmeyen sürüm</string>
     <string name="various_location_simulation_title">Sahte konum</string>
     <string name="various_dialog_title">Diyalog</string>
-    <string name="various_mipad_title">Mi Pad</string>
     <string name="various_open_aosp_something_title">Gizli özellikler</string>
     <string name="various_nobrightness">Zorlanmış parlaklığı reddet</string>
     <string name="various_no_overscroll">Sınır dışı sekmeyi devre dışı bırak</string>
@@ -1349,19 +1255,6 @@
     <string name="location_simulation_work_base_station">Baz istasyonu</string>
     <string name="location_simulation_work_longitude_latitude">Boylam ve enlem</string>
     <string name="location_simulation_work_remarks">İşaretle</string>
-    <string name="app_details_playstore">App store ile aç</string>
-    <string name="app_details_launch">Başlat</string>
-    <string name="app_details_nolaunch">Uygulamanın varsayılan başlatılabilir etkinliği yok</string>
-    <string name="app_details_apk_file">APK dizini</string>
-    <string name="app_details_apk_version_code">Uygulama sürüm numarası</string>
-    <string name="app_details_data_path">Veri dizini</string>
-    <string name="app_details_app_uid">User ID</string>
-    <string name="app_details_sdk">Hedef SDK sürümü</string>
-    <string name="app_details_min_sdk">En düşük SDK versiyonu</string>
-    <string name="disable_app_settings">Bu kötü bir fikir!</string>
-    <string name="disable_app_title">Uygulamayı devre dışı bırakmak istediğinizden emin misiniz?</string>
-    <string name="disable_app_text">Bu gerekli bir sistem uygulamasıysa, devre dışı bırakmak hasara neden olabilir</string>
-    <string name="disable_app_fail">Uygulama durumu değiştirilemedi</string>
     <string name="unlimited">Sınırsız</string>
     <string name="calls">Ara</string>
     <string name="system_volume">Sistem</string>
@@ -1374,7 +1267,6 @@
     <string name="default_volume_stream_tip">Bildirim</string>
     <string name="open_with_test_picture">Resim</string>
     <string name="open_with_test_audio">Ses</string>
-    <string name="open_with_test_media">Video</string>
     <string name="open_with_test_doc">Belge</string>
     <string name="open_with_test_zip">Dosya</string>
     <string name="open_with_test_all">Tümü</string>
