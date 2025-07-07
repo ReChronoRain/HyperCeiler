@@ -79,6 +79,23 @@
 
                 </androidx.core.widget.NestedScrollView>
 
+            </fan.springback.view.SpringBackLayout>
+
+
+        </fan.nestedheader.widget.NestedHeaderLayout>
+
+        <LinearLayout
+            android:id="@+id/search_result_ll"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <fan.springback.view.SpringBackLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:scrollOrientation="vertical|angle"
+                app:scrollableView="@android:id/list">
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@android:id/list"
                     android:layout_width="match_parent"
@@ -87,7 +104,7 @@
 
             </fan.springback.view.SpringBackLayout>
 
-        </fan.nestedheader.widget.NestedHeaderLayout>
+        </LinearLayout>
 
     </FrameLayout>
 </FrameLayout>

@@ -129,7 +129,7 @@ public class HomePageFragment extends DashboardFragment
         if (mSearchCallBack == null) {
             mSearchCallBack = new ModSearchCallback(getActivity(), mSearchResultView, this);
         }
-        mSearchCallBack.setup(view, mNestedHeaderLayout.getScrollableView());
+        mSearchCallBack.setup(view, mNestedHeaderLayout.getScrollableView(),mContainerView.findViewById(com.sevtinge.hyperceiler.R.id.search_result_ll));
     }
 
     @Override
