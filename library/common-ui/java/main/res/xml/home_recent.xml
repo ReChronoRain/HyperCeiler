@@ -166,12 +166,12 @@
         <SeekBarPreferenceCompat
             android:key="prefs_key_home_recent_task_view_height"
             android:title="@string/home_recent_task_view_height"
-            android:defaultValue="52"
+            app:defaultValue="52"
             app:defaultValueTitle="@string/array_default"
-            app:maxValue="100"
-            app:minValue="1"
-            app:stepValue="1"
-            app:format="%d / 100 f" />
+            app:format="%s dp"
+            app:maxValue="70"
+            app:minValue="30"
+            app:stepValue="1" />
 
         <SeekBarPreferenceCompat
             android:key="prefs_key_task_view_horizontal1"

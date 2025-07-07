@@ -25,14 +25,17 @@ import android.content.Intent;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.sub.AppPickerFragment;
 import com.sevtinge.hyperceiler.ui.sub.SubPickerActivity;
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+
+import fan.preference.SeekBarPreferenceCompat;
 
 public class HomeRecentSettings extends DashboardFragment {
 
     Preference mHideRecentCard;
+    SeekBarPreferenceCompat mTaskViewHeight;
     SwitchPreference mShowMenInfo;
     SwitchPreference mHideCleanIcon;
     SwitchPreference mNotHideCleanIcon;
@@ -45,9 +48,14 @@ public class HomeRecentSettings extends DashboardFragment {
     @Override
     public void initPrefs() {
         mHideRecentCard = findPreference("prefs_key_home_recent_hide_card");
+        mTaskViewHeight = findPreference("prefs_key_home_recent_task_view_height");
         mShowMenInfo = findPreference("prefs_key_home_recent_show_memory_info");
         mHideCleanIcon = findPreference("prefs_key_home_recent_hide_clean_up");
         mNotHideCleanIcon = findPreference("prefs_key_always_show_clean_up");
+
+        if (isPad()) {
+            mTaskViewHeight.setVisible(false);
+        }
 
         mHideRecentCard.setOnPreferenceClickListener(
                 preference -> {
