@@ -1,5 +1,3 @@
-package com.sevtinge.hyperceiler.hook.module.hook.securitycenter;
-
 /*
  * This file is part of HyperCeiler.
 
@@ -18,6 +16,8 @@ package com.sevtinge.hyperceiler.hook.module.hook.securitycenter;
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
+package com.sevtinge.hyperceiler.hook.module.hook.securitycenter;
+
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
