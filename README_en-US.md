@@ -32,11 +32,11 @@ HyperCeiler has stopped maintaining MIUI ROMs for Android 11-13 and HyperOS 1.0 
 >
 > Android 14's HyperOS 1.0/2.0 has been archived, and after version 2.6.160 is released, no further feedback or fixes will be accepted.
 
-## Project Planning
+## Project planning
 
-Android 16 is expected to be gradually adapted to most devices after the release of Xiaomi HyperOS 3.0. However, due to the unlocking policies of Xiaomi HyperOS, the number of rooted devices will be significantly reduced compared to before.
+Android 16 is expected to be gradually adapted to most devices after the release of Xiaomi HyperOS 3.0. However, due to Xiaomi HyperOS's unlocking policies, the number of rooted devices will be significantly reduced compared to the previous version.
 
-The devices available to developers can only be barely adapted, and there is no guarantee that all functions will work properly. There is also a possibility that the project may be archived and development discontinued.
+The devices available to developers can only be partially adapted, and there's no guarantee that all features will work properly. There's also a possibility that the project may be archived and development discontinued.
 
 ## Supported apps
 

@@ -77,7 +77,7 @@ HyperOS для Android 14-15
 | iFlytek IME для MIUI           | com.iflytek.inputmethod.miui       |
 | Інсталятор пакетів             | com.miui.packageinstaller          |
 | GetApps                        | com.xiaomi.market                  |
-| Віджет-стрічка                  | com.miui.personalassistant         |
+| Віджет-стрічка                 | com.miui.personalassistant         |
 | Теми                           | com.android.thememanager           |
 | Компоненти системної безпеки   | com.miui.guardprovider             |
 | Камера                         | com.android.camera                 |
