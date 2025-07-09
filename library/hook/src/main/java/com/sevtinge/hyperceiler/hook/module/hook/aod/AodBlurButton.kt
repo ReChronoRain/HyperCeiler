@@ -19,9 +19,6 @@
 package com.sevtinge.hyperceiler.hook.module.hook.aod
 
 import android.widget.ImageView
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool.mPrefsMap
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.ShortcutEntity
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.BlurButton.addHyBlur
@@ -30,6 +27,9 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.BlurButton.
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.BlurButton.setNewBackgroundBlur
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.setBooleanField
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 object AodBlurButton {
     private val hyperBlur by lazy {

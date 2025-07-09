@@ -23,9 +23,6 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.core.view.doOnAttach
 import androidx.core.view.doOnDetach
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool
@@ -37,6 +34,9 @@ import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import java.lang.reflect.Method
 import java.util.function.Consumer
 

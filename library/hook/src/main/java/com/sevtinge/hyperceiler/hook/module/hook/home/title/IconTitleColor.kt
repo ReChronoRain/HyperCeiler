@@ -23,7 +23,6 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.Log
 import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.findClass
@@ -117,7 +116,7 @@ object IconTitleColor : HomeBaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            Log.ex(e)
+            logE(TAG, e)
         }
 
     }

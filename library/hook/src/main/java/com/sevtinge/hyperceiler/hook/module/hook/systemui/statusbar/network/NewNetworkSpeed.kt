@@ -18,19 +18,24 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.network
 
-import android.annotation.*
-import android.content.*
-import android.net.*
-import android.util.*
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.TrafficStats
+import android.util.Pair
+import androidx.annotation.RequiresPermission
 import com.sevtinge.hyperceiler.hook.R
-import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.*
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isAndroidVersion
-import de.robv.android.xposed.*
-import java.net.*
-import kotlin.math.*
+import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes
+import com.sevtinge.hyperceiler.hook.utils.getObjectField
+import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import java.net.NetworkInterface
+import kotlin.math.pow
+import kotlin.math.roundToLong
 
 object NewNetworkSpeed : BaseHook() {
     private var measureTime: Long = 0
@@ -75,18 +80,15 @@ object NewNetworkSpeed : BaseHook() {
     private fun getTrafficBytes(): Pair<Long, Long> {
         var tx = -1L
         var rx = -1L
-        try {
+        runCatching {
             val list = NetworkInterface.getNetworkInterfaces()
-            while (list.hasMoreElements()) {
-                val iFace = list.nextElement()
-                if (iFace.isUp && !iFace.isVirtual && !iFace.isLoopback && !iFace.isPointToPoint && "" != iFace.name) {
-                    tx +=
-                        XposedHelpers.callStaticMethod(TrafficStats::class.java, "getTxBytes", iFace.name) as Long
-                    rx +=
-                        XposedHelpers.callStaticMethod(TrafficStats::class.java, "getRxBytes", iFace.name) as Long
+            list?.asSequence()
+                ?.filter { it.isUp && !it.isVirtual && !it.isLoopback && !it.isPointToPoint && it.name.isNotEmpty() }
+                ?.forEach { iFace ->
+                    tx += XposedHelpers.callStaticMethod(TrafficStats::class.java, "getTxBytes", iFace.name) as Long
+                    rx += XposedHelpers.callStaticMethod(TrafficStats::class.java, "getRxBytes", iFace.name) as Long
                 }
-            }
-        } catch (t: Throwable) {
+        }.onFailure { t ->
             logE(TAG, this.lpparam.packageName, t)
             tx = TrafficStats.getTotalTxBytes()
             rx = TrafficStats.getTotalRxBytes()
@@ -100,19 +102,18 @@ object NewNetworkSpeed : BaseHook() {
         return try {
             val modRes = getModuleRes(ctx)
             val hideSecUnit = mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit")
-            var unitSuffix = modRes.getString(R.string.system_ui_statusbar_network_speed_Bs)
-            if (hideSecUnit) unitSuffix = ""
+            val unitSuffix = if (hideSecUnit) "" else modRes.getString(R.string.system_ui_statusbar_network_speed_Bs)
             var f = bytes / 1024.0f
-            var expIndex = 0
-            if (f > 999.0f) {
-                expIndex = 1
+            val expIndex = if (f > 999.0f) {
                 f /= 1024.0f
-            }
+                1
+            } else 0
             val pre = modRes.getString(R.string.system_ui_statusbar_network_speed_speedunits)[expIndex]
+            val valueStr = if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)
             if (networkStyle == 2) {
-                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + "\n" + String.format("%s$unitSuffix", pre)
+                "$valueStr\n${pre}$unitSuffix"
             } else {
-                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format("%s$unitSuffix", pre)
+                "$valueStr${pre}$unitSuffix"
             }
         } catch (t: Throwable) {
             logE(TAG, this.lpparam.packageName, t)
@@ -124,147 +125,107 @@ object NewNetworkSpeed : BaseHook() {
         findClassIfExists("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader)
     }
 
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     override fun init() {
         if (nscCls == null) {
             logE(TAG, this.lpparam.packageName, "DetailedNetSpeedHook: No NetworkSpeed view or controller")
         } else {
-            if (isAndroidVersion(33)) {
-                nscCls.methodFinder().filterByName("formatSpeed").filterByParamCount(2).first()
-                    .createHook {
-                        before {
-                            val strArr = arrayOfNulls<String>(2)
-                            if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
+            nscCls.methodFinder().filterByName("updateText").filterByParamCount(1).first().createBeforeHook {
+                // 初始化字符串数组和获取该方法中的 Context
+                val strArr = arrayOfNulls<String>(2)
+                val mContext =
+                    it.thisObject.getObjectField("mContext") as Context
+
+                // 更新网速
+                updateNetworkSpeed(mContext)
+                // 设置上下行网速图标
+                val txLow = txSpeed < lowLevel
+                val rxLow = rxSpeed < lowLevel
+                txArrow = when (icons) {
+                    2 -> if (txLow) "△" else "▲"
+                    3 -> if (txLow) " ▵" else " ▴"
+                    4 -> if (txLow) " ☖" else " ☗"
+                    5 -> "↑"
+                    6 -> "⇧"
+                    else -> ""
+                }
+                rxArrow = when (icons) {
+                    2 -> if (rxLow) "▽" else "▼"
+                    3 -> if (rxLow) " ▿" else " ▾"
+                    4 -> if (rxLow) " ⛉" else " ⛊"
+                    5 -> "↓"
+                    6 -> "⇩"
+                    else -> ""
+                }
+
+                // 计算上/下行网速字符串
+                val tx = if (hideLow && !allHideLow && txLow) "" else {
+                    if (swapPlaces) "$txArrow${humanReadableByteCount(mContext, txSpeed)}"
+                    else "${humanReadableByteCount(mContext, txSpeed)}$txArrow"
+                }
+                val rx = if (hideLow && !allHideLow && rxLow) "" else {
+                    if (swapPlaces) "$rxArrow${humanReadableByteCount(mContext, rxSpeed)}"
+                    else "${humanReadableByteCount(mContext, rxSpeed)}$rxArrow"
+                }
+                // 计算总网速
+                val ax = humanReadableByteCount(mContext, txSpeed + rxSpeed)
+                // 存储是否隐藏慢速的条件的结果
+                val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
+                val isAllLowSpeed = hideLow && allHideLow && txLow && rxLow
+
+                runCatching {
+                    when (networkStyle) {
+                        // 如果开启值和单位单双排显示，返回总网速的字符串
+                        1, 2 -> {
+                            if (isLowSpeed) {
                                 strArr[0] = ""
                                 strArr[1] = ""
-                                it.result = strArr
+                            } else {
+                                strArr[0] = ax
+                                strArr[1] = ""
                             }
+                            it.args[0] = strArr
                         }
-                    }
-            }
-
-            nscCls.methodFinder().filterByName("updateText").filterByParamCount(1).first().createHook {
-                before {
-                    // 初始化字符串数组和获取该方法中的 Context
-                    val strArr = arrayOfNulls<String>(2)
-                    val mContext =
-                        XposedHelpers.getObjectField(it.thisObject, "mContext") as Context
-
-                    // 更新网速
-                    updateNetworkSpeed(mContext)
-                    // 设置上下行网速图标
-                    when (icons) {
-                        2 -> {
-                            txArrow = if (txSpeed < lowLevel) "△" else "▲"
-                            rxArrow = if (rxSpeed < lowLevel) "▽" else "▼"
-                        }
-
+                        // 如果显示上下行网速显示，返回上下行网速的字符串
                         3 -> {
-                            txArrow = if (txSpeed < lowLevel) " ▵" else " ▴"
-                            rxArrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
+                            if (isAllLowSpeed) {
+                                strArr[0] = ""
+                                strArr[1] = ""
+                            } else {
+                                strArr[0] = "$tx $rx"
+                                strArr[1] = ""
+                            }
+                            it.args[0] = strArr
                         }
-
                         4 -> {
-                            txArrow = if (txSpeed < lowLevel) " ☖" else " ☗"
-                            rxArrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
+                            if (isAllLowSpeed) {
+                                strArr[0] = ""
+                                strArr[1] = ""
+                            } else {
+                                strArr[0] = "$tx\n$rx"
+                                strArr[1] = ""
+                            }
+                            it.args[0] = strArr
                         }
-
-                        5 -> {
-                            txArrow = if (txSpeed < lowLevel) "↑" else "↑"
-                            rxArrow = if (rxSpeed < lowLevel) "↓" else "↓"
-                        }
-
-                        6 -> {
-                            txArrow = if (txSpeed < lowLevel) "⇧" else "⇧"
-                            rxArrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
+                        // 其他情况，对隐藏慢速判定，返回空字符串，其余不返回
+                        else -> {
+                            if (isLowSpeed) {
+                                strArr[0] = ""
+                                strArr[1] = ""
+                                it.args[0] = strArr
+                            }
                         }
                     }
-
-                    // 计算上行网速
-                    val tx =
-                        if (hideLow && !allHideLow && txSpeed < lowLevel)
-                            ""
-                        else {
-                            if (swapPlaces)
-                                "${txArrow}${humanReadableByteCount(mContext, txSpeed)}"
-                            else
-                                "${humanReadableByteCount(mContext, txSpeed)}${txArrow}"
-                        }
-                    // 计算下行网速
-                    val rx =
-                        if (hideLow && !allHideLow && rxSpeed < lowLevel)
-                            ""
-                        else {
-                            if (swapPlaces)
-                                "${rxArrow}${humanReadableByteCount(mContext, rxSpeed)}"
-                            else
-                                "${humanReadableByteCount(mContext, rxSpeed)}${rxArrow}"
-                        }
-                    // 计算总网速
-                    val ax =
-                        humanReadableByteCount(mContext, txSpeed + rxSpeed)
-                    // 存储是否隐藏慢速的条件的结果
-                    val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
-                    val isAllLowSpeed =
-                        hideLow && allHideLow && txSpeed < lowLevel && rxSpeed < lowLevel
-
-                    try {
-                        when {
-                            // 如果开启值和单位单双排显示，返回总网速的字符串
-                            (networkStyle == 1 || networkStyle == 2) -> {
-                                if (isLowSpeed) {
-                                    strArr[0] = ""
-                                    strArr[1] = ""
-                                    it.args[0] = strArr
-                                } else {
-                                    strArr[0] = ax
-                                    strArr[1] = ""
-                                    it.args[0] = strArr
-                                }
-                            }
-                            // 如果显示上下行网速显示，返回上下行网速的字符串
-                            networkStyle == 3 -> {
-                                if (isAllLowSpeed) {
-                                    strArr[0] = ""
-                                    strArr[1] = ""
-                                    it.args[0] = strArr
-                                } else {
-                                    strArr[0] = "$tx $rx"
-                                    strArr[1] = ""
-                                    it.args[0] = strArr
-                                }
-                            }
-                            networkStyle == 4 -> {
-                                if (isAllLowSpeed) {
-                                    strArr[0] = ""
-                                    strArr[1] = ""
-                                    it.args[0] = strArr
-                                } else {
-                                    strArr[0] = "$tx\n$rx"
-                                    strArr[1] = ""
-                                    it.args[0] = strArr
-                                }
-                            }
-                            // 其他情况，对隐藏慢速判定，返回空字符串，其余不返回
-                            else -> {
-                                if (isLowSpeed) {
-                                    strArr[0] = ""
-                                    strArr[1] = ""
-                                    it.args[0] = strArr
-                                }
-                            }
-                        }
-                    } catch (e: Exception) {
-                        logE(TAG, lpparam.packageName, "NetSpeedHook: hook failed by network speed, $e")
-                    }
+                }.onFailure { e ->
+                    logE(TAG, lpparam.packageName, "NetSpeedHook: hook failed by network speed, ${e.printStackTrace()}")
                 }
             }
         }
     }
 
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     private fun updateNetworkSpeed(mContext: Context) {
-        // 声明一个布尔变量，表示网络是否连接
         var isConnected = false
-        // 通过 mContext 获取一个 ConnectivityManager 对象，用来管理网络连接状态
         val mConnectivityManager =
             mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         // 通过 ConnectivityManager 获取当前活跃的网络对象

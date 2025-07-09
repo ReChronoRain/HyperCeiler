@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemsettings;
 
-import static com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull;
+import static io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.Activity;

@@ -18,14 +18,15 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.battery
 
-import android.os.*
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
+import android.os.Bundle
+import android.os.Message
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
 import com.sevtinge.hyperceiler.hook.utils.callMethod
-import de.robv.android.xposed.*
-import org.luckypray.dexkit.query.enums.*
-import java.lang.reflect.*
+import de.robv.android.xposed.XC_MethodHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import org.luckypray.dexkit.query.enums.StringMatchType
+import java.lang.reflect.Method
 
 
 object BatteryHealth : BaseHook() {

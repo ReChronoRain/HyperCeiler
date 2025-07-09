@@ -18,12 +18,12 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.various.clipboard
 
-import android.graphics.drawable.*
-import android.view.*
-import android.view.View.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.finders.*
+import android.graphics.drawable.Drawable
+import android.view.View
+import android.view.View.OnClickListener
+import android.widget.ImageView
+import android.widget.PopupWindow
+import android.widget.TextView
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool
@@ -33,7 +33,9 @@ import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
-import de.robv.android.xposed.*
+import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 class ClearClipboard : BaseHook() {
     override fun init() {

@@ -21,11 +21,10 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter
 import android.content.res.Configuration
 import android.view.ViewGroup
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 
 class QQSGrid : BaseHook() {
     override fun init() {
@@ -35,15 +34,13 @@ class QQSGrid : BaseHook() {
         loadClass("com.android.systemui.qs.MiuiQuickQSPanel").methodFinder()
             .filterByName("setMaxTiles")
             .filterByParamCount(1)
-            .single().createHook {
-                before {
-                    val viewGroup = it.thisObject as ViewGroup
-                    val mConfiguration: Configuration = viewGroup.context.resources.configuration
-                    if (mConfiguration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        it.args[0] = cols
-                    } else {
-                        it.args[0] = colsHorizontal
-                    }
+            .single().createBeforeHook {
+                val viewGroup = it.thisObject as ViewGroup
+                val mConfiguration: Configuration = viewGroup.context.resources.configuration
+                if (mConfiguration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    it.args[0] = cols
+                } else {
+                    it.args[0] = colsHorizontal
                 }
             }
     }

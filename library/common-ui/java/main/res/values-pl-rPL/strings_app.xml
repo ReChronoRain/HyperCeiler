@@ -1478,7 +1478,6 @@
     <!--Other-->
     <string name="various">Pozostałe</string>
     <string name="app_version_not_supported">Nieobsługiwana wersja</string>
-    <string name="various_location_simulation_title">Fałszywa lokalizacja</string>
     <string name="various_dialog_title">Komunikat</string>
     <string name="various_open_aosp_something_title">Ukryte funkcje</string>
     <string name="various_open_aosp_something_desc">Daje dostęp do funkcji, które są domyślnie ukryte</string>
@@ -1492,12 +1491,6 @@
     <string name="various_collapse_miui_title">Styl tytułu systemu</string>
     <string name="various_collapse_miui_title_desc">Dostosuj tytuł górnego paska w aplikacjach systemowych</string>
     <string name="various_disable_folder_cantuse">Usuń niedostępny limit folderów</string>
-    <string name="various_super_clipboard_title">Super schowek</string>
-    <string name="various_unlock_super_clipboard">Zachowanie super schowka</string>
-    <string name="various_super_clipboard_summary">Obsługiwane są tylko aplikacje zawierające metadane is_support_miui_super_clipboard</string>
-    <string name="various_super_clipboard_picture_desc">Zezwalaj na kopiowanie obrazu do schowka</string>
-    <string name="various_super_clipboard_files_desc">Zezwalaj na kopiowanie plików do schowka</string>
-    <string name="various_super_clipboard_picture_share_desc">Zezwalaj na kopiowanie i wklejanie obrazów do schowka</string>
     <string name="various_open_aosp_battery_title">Optymalizacja baterii</string>
     <string name="various_open_aosp_running_services">Uruchomione usługi</string>
     <string name="various_open_aosp_notification_title">Ustawienia powiadomień</string>

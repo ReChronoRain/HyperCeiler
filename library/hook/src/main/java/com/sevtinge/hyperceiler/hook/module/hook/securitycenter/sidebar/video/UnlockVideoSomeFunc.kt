@@ -18,10 +18,10 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.video
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.*
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.*
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.luckypray.dexkit.query.enums.*
 import java.lang.reflect.*
 

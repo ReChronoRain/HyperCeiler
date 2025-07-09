@@ -24,10 +24,10 @@ import android.os.Bundle;
 
 import androidx.preference.Preference;
 
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 
-public class AOSPSettings extends SettingsPreferenceFragment {
+public class AOSPSettings extends DashboardFragment {
     Preference mBattery;
 
     @Override

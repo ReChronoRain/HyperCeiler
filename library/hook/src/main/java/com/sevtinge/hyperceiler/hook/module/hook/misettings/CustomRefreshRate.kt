@@ -18,13 +18,13 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.misettings
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.MemberExtensions.isFinal
-import com.github.kyuubiran.ezxhelper.MemberExtensions.isStatic
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import java.lang.reflect.*
+import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.isFinal
+import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.isStatic
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import java.lang.reflect.Method
 
 object CustomRefreshRate : BaseHook() {
     private val resultMethod by lazy<Method> {

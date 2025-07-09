@@ -18,10 +18,10 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.beauty
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import java.lang.reflect.*
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import java.lang.reflect.Method
 
 object BeautyLightAuto : BaseHook() {
     private val beautyAuto by lazy<List<Method>> {

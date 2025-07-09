@@ -18,16 +18,20 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.mishare
 
-import android.content.*
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
+import android.content.Context
+import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
-import de.robv.android.xposed.*
-import java.lang.reflect.*
+import com.sevtinge.hyperceiler.hook.utils.setObjectField
+import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import java.lang.reflect.Field
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 
 object NoAutoTurnOff : BaseHook() {
     private val nullMethod by lazy<Method> {
@@ -181,11 +185,9 @@ object NoAutoTurnOff : BaseHook() {
 
         // 禁用小米互传功能自动关闭部分
         if (isMoreHyperOSVersion(2f)) {
-            hookMethod(stopAdvertAllMethod, object : MethodHook() {
-                override fun before(param: MethodHookParam?) {
-                    param!!.result = null
-                }
-            })
+            stopAdvertAllMethod.createHook {
+                returnConstant(null)
+            }
         } else {
             runCatching {
                 try {
@@ -215,25 +217,20 @@ object NoAutoTurnOff : BaseHook() {
             runCatching {
                 findAndHookConstructor(nullField.javaClass, object : MethodHook() {
                     override fun after(param: MethodHookParam) {
-                        XposedHelpers.setObjectField(param.thisObject, nullField.name, 2147483647)
+                        param.thisObject.setObjectField(nullField.name, 2147483647)
                         logI(TAG, lpparam.packageName, "nullField hook success, $nullField")
                     }
                 })
             }
 
-            try {
+            runCatching {
                 runCatching {
                     hookMethod(null2FieldMethod, object : MethodHook() {
                         override fun before(param: MethodHookParam) {
-                            XposedHelpers.setObjectField(
-                                param.thisObject,
-                                null2Field.name,
-                                2147483647
-                            )
+                            param.thisObject.setObjectField(null2Field.name, 2147483647)
                         }
                     })
                 }
-            } catch (_: Exception) {
             }
         }
 
@@ -241,51 +238,50 @@ object NoAutoTurnOff : BaseHook() {
         if (toastMethod.isNotEmpty()) {
             toastMethod.createHooks {
                 before { param ->
-                    findAndHookMethod(
-                        Context::class.java,
-                        "getString",
-                        Int::class.java,
-                        object : MethodHook() {
-                            override fun before(param: MethodHookParam) {
+                    Context::class.java.methodFinder()
+                        .filterByName("getString")
+                        .filterByParamTypes {
+                            it.size == 1 && it[0] == Int::class.java
+                        }.first().createHook {
+                            before { param ->
                                 val resName =
                                     (param.thisObject as Context).resources.getResourceName(param.args[0] as Int)
                                 if (resName == "com.miui.mishare.connectivity:string/toast_auto_close_in_minutes") param.result =
                                     "Modify by HyperCeiler"
                             }
-                        })
+                        }
                 }
             }
-            hookMethod(showToastMethod, object : MethodHook() {
-                @Throws(Throwable::class)
-                override fun before(param: MethodHookParam) {
+
+            showToastMethod.createHook {
+                before { param ->
                     if (param.args[1].toString() == "Modify by HyperCeiler") param.result =
                         null
                 }
-            })
+            }
         } else {
             toastMethodNew.createHooks {
                 before { param ->
-                    findAndHookMethod(
-                        Context::class.java,
-                        "getString",
-                        Int::class.java,
-                        object : MethodHook() {
-                            override fun before(param: MethodHookParam) {
+                    Context::class.java.methodFinder()
+                        .filterByName("getString")
+                        .filterByParamTypes {
+                            it.size == 1 && it[0] == Int::class.java
+                        }.first().createHook {
+                            before { param ->
                                 val resName =
                                     (param.thisObject as Context).resources.getResourceName(param.args[0] as Int)
                                 if (resName == "com.miui.mishare.connectivity:string/toast_or_desc_advert_all_open") param.result =
                                     "Modify by HyperCeiler"
                             }
-                        })
+                        }
                 }
             }
-            hookMethod(showToastMethod, object : MethodHook() {
-                @Throws(Throwable::class)
-                override fun before(param: MethodHookParam) {
+            showToastMethod.createHook {
+                before { param ->
                     if (param.args[1].toString() == "Modify by HyperCeiler") param.result =
                         null
                 }
-            })
+            }
             mResHook.setResReplacement("com.miui.mishare.connectivity", "string", "switch_mode_all", R.string.mishare_hook_switch_mode_all)
         }
     }

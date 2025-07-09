@@ -20,9 +20,6 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin
 
 import android.content.ContextWrapper
 import android.text.TextUtils
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.hook.aod.AodBlurButton
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.CCGridForHyperOSKt
@@ -34,6 +31,9 @@ import com.sevtinge.hyperceiler.hook.utils.api.PluginFactory
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreSmallVersion
 import com.sevtinge.hyperceiler.hook.utils.log.LogManager.logLevel
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import java.lang.ref.WeakReference
 
 object NewPluginHelperKt : BaseHook() {

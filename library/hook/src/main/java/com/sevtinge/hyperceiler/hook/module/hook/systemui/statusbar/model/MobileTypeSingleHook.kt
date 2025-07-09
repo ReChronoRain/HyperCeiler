@@ -18,11 +18,11 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model
 
-import android.graphics.*
-import android.view.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import android.graphics.Typeface
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobileClass.statusBarMobileClass
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.bold
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.fontSize
@@ -30,9 +30,10 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.Mo
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.leftMargin
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.rightMargin
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.verticalOffset
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.*
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import de.robv.android.xposed.*
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
+import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object MobileTypeSingleHook : BaseHook() {
     override fun init() {

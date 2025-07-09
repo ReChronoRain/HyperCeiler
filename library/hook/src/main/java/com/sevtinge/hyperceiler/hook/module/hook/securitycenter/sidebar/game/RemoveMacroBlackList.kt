@@ -18,12 +18,12 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.game
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import java.lang.reflect.*
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import java.lang.reflect.Method
 
 class RemoveMacroBlackList : BaseHook() {
     override fun init() {

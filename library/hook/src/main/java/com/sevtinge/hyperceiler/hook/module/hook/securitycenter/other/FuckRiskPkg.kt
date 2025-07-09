@@ -18,10 +18,10 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.other
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import java.lang.reflect.*
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import java.lang.reflect.Method
 
 object FuckRiskPkg : BaseHook() {
     private val pkg by lazy<List<Method>> {

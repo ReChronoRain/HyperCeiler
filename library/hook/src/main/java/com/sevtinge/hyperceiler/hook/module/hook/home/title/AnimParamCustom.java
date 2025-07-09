@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.title;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
+import static io.github.kyuubiran.ezxhelper.core.util.ClassUtil.getStaticObjectOrNull;
 
-import com.github.kyuubiran.ezxhelper.ClassUtils;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 
@@ -40,12 +40,12 @@ public class AnimParamCustom extends BaseHook {
         findAndHookMethod("com.miui.home.recents.util.RectFSpringAnim", "setAnimParamByType", "com.miui.home.recents.util.RectFSpringAnim$AnimType", new XC_MethodReplacement() {
             @Override
             protected Object replaceHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-                Object RECT_CENTERX = ClassUtils.getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "RECT_CENTER_X");
-                Object RECT_CENTERY = ClassUtils.getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "RECT_CENTER_Y");
-                Object RECT_WIDTH = ClassUtils.getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "RECT_WIDTH");
-                Object RECT_RATIO = ClassUtils.getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "RECT_RATIO");
-                Object RADIUS = ClassUtils.getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "RADIUS");
-                Object ALPHA = ClassUtils.getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "ALPHA");
+                Object RECT_CENTERX = getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "RECT_CENTER_X");
+                Object RECT_CENTERY = getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "RECT_CENTER_Y");
+                Object RECT_WIDTH = getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "RECT_WIDTH");
+                Object RECT_RATIO = getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "RECT_RATIO");
+                Object RADIUS = getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "RADIUS");
+                Object ALPHA = getStaticObjectOrNull(clazzRectFSpringAnimRectAnimType, "ALPHA");
                 Enum animType = (Enum) param.args[0];
                 AndroidLogUtils.logI(TAG, "setAnimParamByType = " + animType);
                 setObjectField(param.thisObject, "mLastAminType", param.args[0]);

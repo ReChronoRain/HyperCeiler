@@ -18,15 +18,18 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.voicetrigger
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import android.annotation.SuppressLint
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import java.lang.reflect.*
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 
 object BypassUDKWordLegalCheck : BaseHook() {
+    @SuppressLint("DefaultLocale")
     override fun init() {
-        try {
-            // Pangaea引擎录入时的联网检查
+        runCatching {
+            // Pangaea 引擎录入时的联网检查
             DexKit.findMember<Method>("BypassPangaeaWordCheck") {
                 it.findMethod {
                     matcher {
@@ -37,10 +40,9 @@ object BypassUDKWordLegalCheck : BaseHook() {
             }.createHook {
                 returnConstant(true)
             }
-        } catch (_: Throwable) {
         }
         // 默认引擎录入时的联网检查
-        try {
+        runCatching {
             DexKit.findMember<Method>("BypassLegacyTrainingCheck") {
                 it.findMethod {
                     matcher {
@@ -51,10 +53,9 @@ object BypassUDKWordLegalCheck : BaseHook() {
             }.createHook {
                 returnConstant(true)
             }
-        } catch (_: Throwable) {
         }
         // 判断唤醒词是否合规
-        try {
+        runCatching {
             DexKit.findMember<Method>("BypassDefineWordCheck") {
                 it.findMethod {
                     matcher {
@@ -69,11 +70,10 @@ object BypassUDKWordLegalCheck : BaseHook() {
             }.createHook {
                 returnConstant(true)
             }
-        } catch (_: Throwable) {
         }
         // 根据对应的唤醒词得到其精度，并返回其是否可用
         val accUser = mPrefsMap.getInt("voicetrigger_accuracy_percent", 70).toFloat() / 100
-        try {
+        runCatching {
             DexKit.findMember<Method>("BypassOnlineAccuracyResult") {
                 it.findMethod {
                     matcher {
@@ -93,9 +93,8 @@ object BypassUDKWordLegalCheck : BaseHook() {
                     ) + "\"}}"
                 )
             }
-        } catch (_: Throwable) {
         }
-        try {
+        runCatching {
             // 禁止判断当前系统网络状态
             DexKit.findMember<Method>("BypassNetworkStateCheckForUdkEnroll") {
                 it.findMethod {
@@ -121,7 +120,6 @@ object BypassUDKWordLegalCheck : BaseHook() {
             }.createHook {
                 returnConstant(true)
             }
-        } catch (_: Throwable) {
         }
     }
 }

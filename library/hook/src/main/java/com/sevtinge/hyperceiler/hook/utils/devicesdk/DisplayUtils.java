@@ -18,10 +18,11 @@
  */
 package com.sevtinge.hyperceiler.hook.utils.devicesdk;
 
+import static io.github.kyuubiran.ezxhelper.xposed.EzXposed.getAppContext;
+
 import android.content.Context;
 import android.util.DisplayMetrics;
 
-import com.github.kyuubiran.ezxhelper.EzXHelper;
 
 public class DisplayUtils {
 
@@ -50,7 +51,7 @@ public class DisplayUtils {
     }
 
     public static int dp2px(float dipValue) {
-        final float scale = EzXHelper.getAppContext().getResources().getDisplayMetrics().density;
+        final float scale = getAppContext().getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
     }
 
@@ -60,7 +61,7 @@ public class DisplayUtils {
     }
 
     public static int sp2px(float spValue) {
-        final float scale = EzXHelper.getAppContext().getResources().getDisplayMetrics().scaledDensity;
+        final float scale = getAppContext().getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * scale + 0.5f);
     }
 
@@ -70,7 +71,7 @@ public class DisplayUtils {
     }
 
     public static int px2dp(float pxValue) {
-        final float scale = EzXHelper.getAppContext().getResources().getDisplayMetrics().density;
+        final float scale = getAppContext().getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 }

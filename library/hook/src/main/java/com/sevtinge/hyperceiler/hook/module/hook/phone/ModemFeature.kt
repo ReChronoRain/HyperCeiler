@@ -18,42 +18,36 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.phone
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 object ModemFeature : BaseHook() {
     override fun init() {
         runCatching {
             loadClass("com.android.phone.FiveGManagerBase").methodFinder()
                 .filterByName("getModemFeatureMode")
-                .single().createHook {
-                    after {
-                        it.args[0] = -1
-                        it.result = true
-                    }
+                .single().createAfterHook {
+                    it.args[0] = -1
+                    it.result = true
                 }
         }
 
         runCatching {
             loadClass("com.android.phone.MiuiPhoneUtils").methodFinder()
                 .filterByName("isModemFeatureSupported")
-                .single().createHook {
-                    after {
-                        it.args[0] = -1
-                    }
+                .single().createAfterHook {
+                    it.args[0] = -1
                 }
         }
 
         runCatching {
             loadClass("com.android.phone.MiuiPhoneUtils").methodFinder()
                 .filterByName("getModemFeatureFromDb")
-                .single().createHook {
-                    after {
+                .single().createAfterHook {
                         it.args[0] = -1
                     }
-                }
         }
     }
 }

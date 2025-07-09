@@ -18,14 +18,14 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.strongtoast
 
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import android.widget.FrameLayout
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.NewStrongToast
 import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.StrongToast
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 
 object HideStrongToast : BaseHook() {
@@ -34,12 +34,10 @@ object HideStrongToast : BaseHook() {
             NewStrongToast!!.methodFinder()
         } else {
             StrongToast!!.methodFinder()
-        }.filterByName("onAttachedToWindow").single().createHook {
-            after {
-                val strongToastLayout = it.thisObject as FrameLayout
-                strongToastLayout.viewTreeObserver.addOnPreDrawListener {
-                    return@addOnPreDrawListener false
-                }
+        }.filterByName("onAttachedToWindow").single().createAfterHook {
+            val strongToastLayout = it.thisObject as FrameLayout
+            strongToastLayout.viewTreeObserver.addOnPreDrawListener {
+                return@addOnPreDrawListener false
             }
         }
     }

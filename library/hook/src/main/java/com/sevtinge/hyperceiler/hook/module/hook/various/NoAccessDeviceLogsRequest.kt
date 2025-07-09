@@ -18,11 +18,11 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.various
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 
 object NoAccessDeviceLogsRequest : BaseHook() {

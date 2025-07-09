@@ -18,28 +18,23 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.mipad
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object EnableHideGestureLine : BaseHook() {
     override fun init() {
-        loadClass("com.miui.home.recents.settings.NavigationBarTypePreferenceFragment").methodFinder().first{
-            name == "updatePreferenceVisibility"
-        }.createHook{
-            before{
-                it.result = true
-            }
-        }
+        loadClass("com.miui.home.recents.settings.NavigationBarTypePreferenceFragment").methodFinder()
+            .filterByName("updatePreferenceVisibility").first()
+            .createHook {
+                returnConstant(true)
+             }
 
 
-        loadClass("com.miui.home.recents.BaseRecentsImpl").methodFinder().first{
-            name == "initHideGestureLine"
-        }.createHook{
-            before{
-                it.result = null
+        loadClass("com.miui.home.recents.BaseRecentsImpl").methodFinder()
+            .filterByName("initHideGestureLine").first().createHook{
+                returnConstant(null)
             }
-        }
     }
 }

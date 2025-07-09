@@ -18,13 +18,13 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.packageinstaller
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
 import com.sevtinge.hyperceiler.hook.utils.findClassOrNull
 import com.sevtinge.hyperceiler.hook.utils.setBooleanField
-import java.lang.reflect.*
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import java.lang.reflect.Method
 
 object DisableSafeModelTip : BaseHook() {
     override fun init() {
@@ -66,7 +66,7 @@ object DisableSafeModelTip : BaseHook() {
                         }
                     }
                 }
-            } catch (t: Throwable) {
+            } catch (_: Throwable) {
                 letter++
             }
         }

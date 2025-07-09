@@ -20,8 +20,6 @@ package com.sevtinge.hyperceiler.hook.module.hook.powerkeeper;
 
 import androidx.annotation.NonNull;
 
-import com.github.kyuubiran.ezxhelper.HookFactory;
-import com.github.kyuubiran.ezxhelper.interfaces.IMethodHookCallback;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.IDexKit;
@@ -37,6 +35,8 @@ import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
 import de.robv.android.xposed.XC_MethodHook;
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory;
+import io.github.kyuubiran.ezxhelper.xposed.interfaces.IMethodHookCallback;
 
 public class PreventBatteryWitelist extends BaseHook {
     @Override

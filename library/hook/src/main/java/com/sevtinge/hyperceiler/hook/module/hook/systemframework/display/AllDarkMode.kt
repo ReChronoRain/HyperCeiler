@@ -18,16 +18,16 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework.display
 
-import android.content.pm.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.ClassUtils.setStaticObject
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.clazzMiuiBuild
+import android.content.pm.ApplicationInfo
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.clazzMiuiBuild
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isInternational
-import de.robv.android.xposed.*
+import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.setStaticObject
+import io.github.kyuubiran.ezxhelper.core.util.ObjectUtil.invokeMethodBestMatch
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 // from SetoHook by SetoSkins
 class AllDarkMode : BaseHook() {
@@ -52,10 +52,9 @@ class AllDarkMode : BaseHook() {
                 before { param ->
                     val info = param.args[0] as ApplicationInfo?
                     param.result =
-                        !(info == null || (invokeMethodBestMatch(
-                            info,
-                            "isSystemApp"
-                        ) as Boolean) || info.uid < 10000)
+                        !(info == null || (
+                            invokeMethodBestMatch(info, "isSystemApp") as Boolean
+                            ) || info.uid < 10000)
                 }
             }
     }

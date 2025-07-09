@@ -1299,7 +1299,6 @@ aplicaciones del sistema</string>
     <!--Other-->
     <string name="various">Otro</string>
     <string name="app_version_not_supported">Versión no soportada</string>
-    <string name="various_location_simulation_title">Ubicación falsa</string>
     <string name="various_dialog_title">Diálogo</string>
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">Ocultar propiedades</string>
@@ -1314,12 +1313,6 @@ aplicaciones del sistema</string>
     <string name="various_collapse_miui_title">Título MIUI</string>
     <string name="various_collapse_miui_title_desc">Ajustar el título de la barra superior en aplicaciones MIUI</string>
     <string name="various_disable_folder_cantuse">Eliminar el límite de carpetas no disponibles</string>
-    <string name="various_super_clipboard_title">Súper portapapeles</string>
-    <string name="various_unlock_super_clipboard">Comportamiento del súper portapapeles</string>
-    <string name="various_super_clipboard_summary">Solo se admiten aplicaciones que contienen metadatos is_support_miui_super_clipboard</string>
-    <string name="various_super_clipboard_picture_desc">Permitir copiar imagen al portapapeles</string>
-    <string name="various_super_clipboard_files_desc">Permitir copiar archivos al portapapeles</string>
-    <string name="various_super_clipboard_picture_share_desc">Permitir copiar y pegar imágenes en el portapapeles</string>
     <string name="various_open_aosp_battery_title">Optimización de batería</string>
     <string name="various_open_aosp_running_services">Servicios en ejecución</string>
     <string name="various_open_aosp_notification_title">Configuraciones de notificaciones</string>

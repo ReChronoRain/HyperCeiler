@@ -26,12 +26,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
-import com.github.kyuubiran.ezxhelper.misc.ViewUtils.getIdByName
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes
@@ -52,6 +46,13 @@ import com.sevtinge.hyperceiler.hook.utils.getIntField
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.findViewByIdName
+import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.getResourceIdByName
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 import java.util.function.Consumer
@@ -328,7 +329,7 @@ class DualRowSignalHookV : BaseHook() {
         setImageResWithTintLight.createHook {
             before { param ->
                 val icon = param.args[0] as ImageView
-                if (icon.id == getIdByName("mobile_signal")) {
+                if (icon.id == getResourceIdByName("mobile_signal", "id", EzXposed.appContext)) {
                     val pair = param.args[2]
 
                     setIconImageWithTintLightColor(
@@ -350,7 +351,7 @@ class DualRowSignalHookV : BaseHook() {
             resetImageWithTintLight.createHook {
                 before { param ->
                     val icon = param.args[0] as ImageView
-                    if (icon.id == getIdByName("mobile_signal")) {
+                    if (icon.id == getResourceIdByName("mobile_signal", "id", EzXposed.appContext)) {
                         setIconImageWithTintLightColor(
                             icon, Triple(
                                 param.args[1] as Boolean,

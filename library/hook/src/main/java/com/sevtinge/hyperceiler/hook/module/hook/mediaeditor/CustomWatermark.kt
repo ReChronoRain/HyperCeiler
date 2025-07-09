@@ -18,11 +18,11 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.mediaeditor
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import org.luckypray.dexkit.query.enums.*
-import java.lang.reflect.*
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import org.luckypray.dexkit.query.enums.StringMatchType
+import java.lang.reflect.Method
 
 object CustomWatermark : BaseHook() {
     private val name by lazy {

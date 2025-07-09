@@ -19,14 +19,14 @@
 package com.sevtinge.hyperceiler.hook.module.hook.home
 
 import android.util.ArraySet
-import com.github.kyuubiran.ezxhelper.ClassUtils
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
-import com.github.kyuubiran.ezxhelper.ObjectUtils
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.invokeStaticMethodBestMatch
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 class MaxFreeForm : BaseHook() {
     override fun init() {
@@ -44,7 +44,7 @@ class MaxFreeForm : BaseHook() {
             name == "canTaskEnterMiniSmallWindow"
         }.toList().createHooks {
             before {
-                it.result = ClassUtils.invokeStaticMethodBestMatch(
+                it.result = invokeStaticMethodBestMatch(
                     loadClass("com.miui.home.smallwindow.SmallWindowStateHelper"),
                     "getInstance"
                 )!!.objectHelper()
@@ -56,10 +56,8 @@ class MaxFreeForm : BaseHook() {
         loadClass("com.miui.home.smallwindow.SmallWindowStateHelperUseManager").methodFinder()
             .filterByName("canEnterMiniSmallWindow").first().createHook {
                 before {
-                    it.result = ObjectUtils.getObjectOrNullAs<ArraySet<*>>(
-                        it.thisObject,
-                        "mMiniSmallWindowInfoSet"
-                    )!!.isEmpty()
+                    it.result =
+                        it.thisObject.getObjectFieldOrNullAs<ArraySet<*>>("mMiniSmallWindowInfoSet")!!.isEmpty()
                 }
             }
         loadClass("miui.app.MiuiFreeFormManager").methodFinder()

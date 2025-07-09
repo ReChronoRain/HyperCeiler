@@ -23,7 +23,6 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.mms.DisableAd;
 import com.sevtinge.hyperceiler.hook.module.hook.mms.DisableRiskTip;
 import com.sevtinge.hyperceiler.hook.module.hook.mms.ImOldDevice;
-import com.sevtinge.hyperceiler.hook.module.hook.various.UnlockSuperClipboard;
 
 @HookBase(targetPackage = "com.android.mms")
 public class Mms extends BaseModule {
@@ -31,7 +30,6 @@ public class Mms extends BaseModule {
     public void handleLoadPackage() {
         initHook(new DisableRiskTip(), mPrefsMap.getBoolean("mms_disable_fraud_risk_tip") || mPrefsMap.getBoolean("mms_disable_overseas_risk_tip"));
         initHook(new DisableAd(), mPrefsMap.getBoolean("mms_disable_ad"));
-        initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getStringAsInt("various_super_clipboard_e", 0) != 0);
         initHook(new ImOldDevice(), mPrefsMap.getBoolean("mms_im_old_device"));
     }
 }

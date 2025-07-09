@@ -18,10 +18,11 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.screenshot
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import java.lang.reflect.*
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 
 object UnlockMinimumCropLimit2 : BaseHook() {
     override fun init() {

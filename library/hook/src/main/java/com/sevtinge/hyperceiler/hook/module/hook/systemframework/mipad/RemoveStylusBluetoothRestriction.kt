@@ -18,11 +18,11 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework.mipad
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.invokeStaticMethodBestMatch
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.invokeStaticMethodBestMatch
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.core.util.ObjectUtil.invokeMethodBestMatch
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 object RemoveStylusBluetoothRestriction : BaseHook() {
     override fun init() {
@@ -49,7 +49,7 @@ object RemoveStylusBluetoothRestriction : BaseHook() {
                 loadClass("miui.util.ITouchFeature"),
                 "getInstance"
             )!!
-        ObjectUtils.invokeMethodBestMatch(
+        invokeMethodBestMatch(
             instanceITouchFeature,
             "setTouchMode",
             null,

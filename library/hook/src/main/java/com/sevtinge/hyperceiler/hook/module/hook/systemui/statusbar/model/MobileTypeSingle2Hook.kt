@@ -28,12 +28,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.EzXHelper
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.Dependency
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub
@@ -67,6 +61,12 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.setAdditionalInstanceField
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
+import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.findViewByIdName
+import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import java.lang.reflect.Method
 import java.util.function.Consumer
 
@@ -320,7 +320,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                 2 -> !it[0] && !it[1]
                 else -> false
             }
-            SubscriptionManagerProvider(EzXHelper.appContext).getActiveSubscriptionIdList(true)
+            SubscriptionManagerProvider(EzXposed.appContext).getActiveSubscriptionIdList(true)
                 .forEach { subId ->
                     getMobileViewBySubId(subId) { view ->
                         val containerLeft =

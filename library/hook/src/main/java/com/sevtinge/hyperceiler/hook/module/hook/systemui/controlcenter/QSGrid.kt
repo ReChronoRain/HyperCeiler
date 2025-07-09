@@ -18,13 +18,13 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter
 
-import android.content.res.*
-import android.view.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import android.content.res.Configuration
+import android.view.ViewGroup
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import de.robv.android.xposed.*
+import com.sevtinge.hyperceiler.hook.utils.setObjectField
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 class QSGrid : BaseHook() {
     private val miuiTileClass by lazy {
@@ -40,17 +40,15 @@ class QSGrid : BaseHook() {
         hyperHooks(cols, colsHorizontal)
         miuiTileClass.methodFinder()
             .filterByName("updateResources")
-            .first().createHook {
-                after {
-                    val viewGroup = it.thisObject as ViewGroup
-                    val mConfiguration: Configuration = viewGroup.context.resources.configuration
-                    if (mConfiguration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        XposedHelpers.setObjectField(it.thisObject, "mMaxAllowedRows", rows)
-                    } else {
-                        XposedHelpers.setObjectField(it.thisObject, "mMaxAllowedRows", rowsHorizontal)
-                    }
-                    viewGroup.requestLayout()
+            .first().createAfterHook {
+                val viewGroup = it.thisObject as ViewGroup
+                val mConfiguration: Configuration = viewGroup.context.resources.configuration
+                if (mConfiguration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    it.thisObject.setObjectField("mMaxAllowedRows", rows)
+                } else {
+                    it.thisObject.setObjectField("mMaxAllowedRows", rowsHorizontal)
                 }
+                viewGroup.requestLayout()
             }
     }
 
@@ -61,15 +59,13 @@ class QSGrid : BaseHook() {
         miuiTileClass.methodFinder()
             .filterByName("layoutTileRecords")
             .filterByParamCount(1)
-            .first().createHook {
-                after {
-                    val viewGroup = it.thisObject as ViewGroup
-                    val mConfiguration: Configuration = viewGroup.context.resources.configuration
-                    if (mConfiguration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        XposedHelpers.setObjectField(it.thisObject, "mColumns", cols)
-                    } else {
-                        XposedHelpers.setObjectField(it.thisObject, "mColumns", colsHorizontal)
-                    }
+            .first().createAfterHook {
+                val viewGroup = it.thisObject as ViewGroup
+                val mConfiguration: Configuration = viewGroup.context.resources.configuration
+                if (mConfiguration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    it.thisObject.setObjectField("mColumns", cols)
+                } else {
+                    it.thisObject.setObjectField("mColumns", colsHorizontal)
                 }
             }
     }

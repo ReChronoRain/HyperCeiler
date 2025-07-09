@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.base.lockscreen
 
-import com.github.kyuubiran.ezxhelper.ClassUtils
 import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 object Keyguard {
     // 锁屏底部左侧按钮
@@ -29,6 +29,6 @@ object Keyguard {
     }
 
     val keyguardBottomAreaInjector by lazy {
-        ClassUtils.loadClass("com.android.keyguard.injector.KeyguardBottomAreaInjector")
+        loadClass("com.android.keyguard.injector.KeyguardBottomAreaInjector")
     }
 }

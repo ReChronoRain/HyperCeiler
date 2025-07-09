@@ -22,15 +22,43 @@ package com.sevtinge.hyperceiler.hook.utils
 
 import android.annotation.SuppressLint
 import android.content.res.XResources
-import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
-import com.github.kyuubiran.ezxhelper.Log
 import dalvik.system.BaseDexClassLoader
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import de.robv.android.xposed.XC_MethodReplacement
-import de.robv.android.xposed.XposedBridge.*
-import de.robv.android.xposed.XposedHelpers.*
+import de.robv.android.xposed.XposedBridge.hookAllConstructors
+import de.robv.android.xposed.XposedBridge.hookAllMethods
+import de.robv.android.xposed.XposedBridge.hookMethod
+import de.robv.android.xposed.XposedBridge.invokeOriginalMethod
+import de.robv.android.xposed.XposedHelpers.ClassNotFoundError
+import de.robv.android.xposed.XposedHelpers.callMethod
+import de.robv.android.xposed.XposedHelpers.callStaticMethod
+import de.robv.android.xposed.XposedHelpers.findAndHookConstructor
+import de.robv.android.xposed.XposedHelpers.findAndHookMethod
+import de.robv.android.xposed.XposedHelpers.findClass
+import de.robv.android.xposed.XposedHelpers.findClassIfExists
+import de.robv.android.xposed.XposedHelpers.findField
+import de.robv.android.xposed.XposedHelpers.findFieldIfExists
+import de.robv.android.xposed.XposedHelpers.findFirstFieldByExactType
+import de.robv.android.xposed.XposedHelpers.getAdditionalInstanceField
+import de.robv.android.xposed.XposedHelpers.getBooleanField
+import de.robv.android.xposed.XposedHelpers.getFloatField
+import de.robv.android.xposed.XposedHelpers.getIntField
+import de.robv.android.xposed.XposedHelpers.getLongField
+import de.robv.android.xposed.XposedHelpers.getObjectField
+import de.robv.android.xposed.XposedHelpers.getStaticObjectField
+import de.robv.android.xposed.XposedHelpers.newInstance
+import de.robv.android.xposed.XposedHelpers.removeAdditionalInstanceField
+import de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField
+import de.robv.android.xposed.XposedHelpers.setBooleanField
+import de.robv.android.xposed.XposedHelpers.setFloatField
+import de.robv.android.xposed.XposedHelpers.setIntField
+import de.robv.android.xposed.XposedHelpers.setLongField
+import de.robv.android.xposed.XposedHelpers.setObjectField
+import de.robv.android.xposed.XposedHelpers.setStaticObjectField
 import de.robv.android.xposed.callbacks.XC_LayoutInflated
+import io.github.kyuubiran.ezxhelper.android.logging.Logger
+import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.classLoader
 import java.lang.reflect.Field
 import java.lang.reflect.Member
 import java.lang.reflect.Modifier
@@ -43,35 +71,35 @@ typealias Hooker = (MethodHookParam) -> Unit
 fun Class<*>.hookMethod(method: String?, vararg args: Any?) = try {
     findAndHookMethod(this, method, *args)
 } catch (e: NoSuchMethodError) {
-    Log.e(e)
+    Logger.e(e)
     null
 } catch (e: ClassNotFoundError) {
-    Log.e(e)
+    Logger.e(e)
     null
 } catch (e: ClassNotFoundException) {
-    Log.e(e)
+    Logger.e(e)
     null
 }
 
 fun Member.hookMethod(callback: XC_MethodHook) = try {
     hookMethod(this, callback)
 } catch (e: Throwable) {
-    Log.e(e)
+    Logger.e(e)
     null
 }
 
 inline fun MethodHookParam.callHooker(crossinline hooker: Hooker) = try {
     hooker(this)
 } catch (e: Throwable) {
-    Log.e("Error occurred calling hooker on ${this.method}")
-    Log.e(e)
+    Logger.e("Error occurred calling hooker on ${this.method}")
+    Logger.e(e)
 }
 
 inline fun MethodHookParam.callReplacer(crossinline replacer: Replacer) = try {
     replacer(this)
 } catch (e: Throwable) {
-    Log.e("Error occurred calling replacer on ${this.method}")
-    Log.e(e)
+    Logger.e("Error occurred calling replacer on ${this.method}")
+    Logger.e(e)
     null
 }
 
@@ -112,13 +140,13 @@ fun Class<*>.hookAllMethods(methodName: String?, hooker: XC_MethodHook): Set<XC_
     try {
         hookAllMethods(this, methodName, hooker)
     } catch (e: NoSuchMethodError) {
-        Log.e(e)
+        Logger.e(e)
         emptySet()
     } catch (e: ClassNotFoundError) {
-        Log.e(e)
+        Logger.e(e)
         emptySet()
     } catch (e: ClassNotFoundException) {
-        Log.e(e)
+        Logger.e(e)
         emptySet()
     }
 
@@ -141,13 +169,13 @@ inline fun Class<*>.replaceAllMethods(methodName: String?, crossinline replacer:
 fun Class<*>.hookConstructor(vararg args: Any?) = try {
     findAndHookConstructor(this, *args)
 } catch (e: NoSuchMethodError) {
-    Log.e(e)
+    Logger.e(e)
     null
 } catch (e: ClassNotFoundError) {
-    Log.e(e)
+    Logger.e(e)
     null
 } catch (e: ClassNotFoundException) {
-    Log.e(e)
+    Logger.e(e)
     null
 }
 
@@ -169,13 +197,13 @@ inline fun Class<*>.replaceConstructor(vararg args: Any?, crossinline hooker: Ho
 fun Class<*>.hookAllConstructors(hooker: XC_MethodHook): Set<XC_MethodHook.Unhook> = try {
     hookAllConstructors(this, hooker)
 } catch (e: NoSuchMethodError) {
-    Log.e(e)
+    Logger.e(e)
     emptySet()
 } catch (e: ClassNotFoundError) {
-    Log.e(e)
+    Logger.e(e)
     emptySet()
 } catch (e: ClassNotFoundException) {
-    Log.e(e)
+    Logger.e(e)
     emptySet()
 }
 
@@ -199,10 +227,10 @@ fun String.hookMethod(
 ) = try {
     findClass().hookMethod(method, *args)
 } catch (e: ClassNotFoundError) {
-    Log.e(e)
+    Logger.e(e)
     null
 } catch (e: ClassNotFoundException) {
-    Log.e(e)
+    Logger.e(e)
     null
 }
 
@@ -211,10 +239,10 @@ inline fun String.hookBeforeMethod(
 ) = try {
     findClass().hookBeforeMethod(method, *args, hooker = hooker)
 } catch (e: ClassNotFoundError) {
-    Log.e(e)
+    Logger.e(e)
     null
 } catch (e: ClassNotFoundException) {
-    Log.e(e)
+    Logger.e(e)
     null
 }
 
@@ -223,10 +251,10 @@ inline fun String.hookAfterMethod(
 ) = try {
     findClass().hookAfterMethod(method, *args, hooker = hooker)
 } catch (e: ClassNotFoundError) {
-    Log.e(e)
+    Logger.e(e)
     null
 } catch (e: ClassNotFoundException) {
-    Log.e(e)
+    Logger.e(e)
     null
 }
 
@@ -235,10 +263,10 @@ inline fun String.replaceMethod(
 ) = try {
     findClass().replaceMethod(method, *args, replacer = replacer)
 } catch (e: ClassNotFoundError) {
-    Log.e(e)
+    Logger.e(e)
     null
 } catch (e: ClassNotFoundException) {
-    Log.e(e)
+    Logger.e(e)
     null
 }
 
@@ -442,12 +470,12 @@ inline fun XResources.hookLayout(
                 try {
                     hooker(liparam)
                 } catch (e: Throwable) {
-                    Log.e(e)
+                    Logger.e(e)
                 }
             }
         })
     } catch (e: Throwable) {
-        Log.e(e)
+        Logger.e(e)
     }
 }
 
@@ -462,7 +490,7 @@ inline fun XResources.hookLayout(
         val id = getIdentifier(name, type, pkg)
         hookLayout(id, hooker)
     } catch (e: Throwable) {
-        Log.e(e)
+        Logger.e(e)
     }
 }
 

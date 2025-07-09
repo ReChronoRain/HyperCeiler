@@ -27,9 +27,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.ObjectUtils.getObjectOrNullAs
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
@@ -42,7 +39,10 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.lockscreen.Keygua
 import com.sevtinge.hyperceiler.hook.utils.MethodHookParam
 import com.sevtinge.hyperceiler.hook.utils.getAdditionalInstanceFieldAs
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.hook.utils.setAdditionalInstanceField
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 object CustomizeBottomButton : BaseHook() {
     override fun init() {
@@ -59,7 +59,7 @@ object CustomizeBottomButton : BaseHook() {
             .filterByName("updateIcons")
             .single().createAfterHook {
                 val left =
-                    getObjectOrNullAs<LinearLayout>(it.thisObject, "mLeftAffordanceViewLayout") ?: return@createAfterHook
+                    it.thisObject.getObjectFieldOrNullAs<LinearLayout>("mLeftAffordanceViewLayout") ?: return@createAfterHook
                 left.visibility = View.GONE
             }
     }

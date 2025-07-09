@@ -1219,7 +1219,6 @@
     <!--Other-->
     <string name="various">Lainnya</string>
     <string name="app_version_not_supported">Versi tidak didukung</string>
-    <string name="various_location_simulation_title">Lokasi palsu</string>
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">Sembunyikan Properti</string>
     <string name="various_open_aosp_something_desc">Buka antarmuka AOSP yang tersembunyi dengan mudah</string>
@@ -1233,12 +1232,6 @@
     <string name="various_collapse_miui_title">Gaya Judul Sistem</string>
     <string name="various_collapse_miui_title_desc">Sesuaikan judul bilah atas di aplikasi sistem</string>
     <string name="various_disable_folder_cantuse">Hapus batas folder yang tidak tersedia</string>
-    <string name="various_super_clipboard_title">Papan Klip Super</string>
-    <string name="various_unlock_super_clipboard">Perilaku papan klip super</string>
-    <string name="various_super_clipboard_summary">Hanya aplikasi yang berisi metadata is_support_miui_super_clipboard yang didukung</string>
-    <string name="various_super_clipboard_picture_desc">Izinkan menyalin gambar ke clipboard</string>
-    <string name="various_super_clipboard_files_desc">Izinkan menyalin file ke clipboard</string>
-    <string name="various_super_clipboard_picture_share_desc">Izinkan menyalin dan menempelkan gambar ke clipboard</string>
     <string name="various_open_aosp_battery_title">Optimasi Baterai</string>
     <string name="various_open_aosp_running_services">Layanan yang sedang berjalan</string>
     <string name="various_open_aosp_notification_title">Pengaturan pemberitahuan</string>

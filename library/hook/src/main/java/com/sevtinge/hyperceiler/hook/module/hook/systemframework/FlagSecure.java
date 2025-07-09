@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework;
 
-import static com.github.kyuubiran.ezxhelper.ClassUtils.loadClass;
+import static io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass;
 
 import android.hardware.display.DisplayManager;
 import android.os.Build;

@@ -18,17 +18,17 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.recent
 
-import android.app.*
-import android.view.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import android.app.Activity
+import android.view.MotionEvent
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isPad
 import com.sevtinge.hyperceiler.hook.utils.hookAfterAllMethods
 import com.sevtinge.hyperceiler.hook.utils.hookBeforeMethod
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object BlurLevel : BaseHook() {
     private val blurLevel by lazy {

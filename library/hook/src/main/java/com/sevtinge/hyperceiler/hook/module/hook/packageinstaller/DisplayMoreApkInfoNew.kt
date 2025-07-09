@@ -18,25 +18,29 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.packageinstaller
 
-import android.annotation.*
-import android.content.pm.*
-import android.content.res.*
-import android.text.*
-import android.view.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.*
+import android.annotation.SuppressLint
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
+import android.content.res.Configuration
+import android.content.res.Resources
+import android.text.TextUtils
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.sevtinge.hyperceiler.hook.R
-import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.*
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.*
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callMethodOrNull
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
-import de.robv.android.xposed.*
-import java.io.*
-import java.lang.reflect.*
-import java.text.*
-import kotlin.math.*
+import de.robv.android.xposed.XposedHelpers
+import java.io.File
+import java.lang.reflect.Method
+import java.text.DecimalFormat
+import kotlin.math.roundToInt
 
 object DisplayMoreApkInfoNew : BaseHook() {
     private var mApkInfo: Class<*>? = null
@@ -178,7 +182,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
                 }
             }
         } else {
-            Log.ex("Cannot find appropriate method")
+            logE(TAG, "Cannot find appropriate method")
         }
     }
 }

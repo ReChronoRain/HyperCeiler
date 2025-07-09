@@ -18,16 +18,18 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all
 
-import android.graphics.*
-import android.util.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.*
+import android.graphics.Typeface
+import android.util.TypedValue
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
-import de.robv.android.xposed.*
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 object BatteryStyle : BaseHook() {
     private val fontSize by lazy {
@@ -69,10 +71,8 @@ object BatteryStyle : BaseHook() {
         } else {
             mBatteryMeterViewClass.methodFinder()
                 .filterByName("updateAll")
-        }.single().createHook {
-            after { param ->
-                hookStatusBattery(param)
-            }
+        }.single().createAfterHook { param ->
+            hookStatusBattery(param)
         }
     }
 

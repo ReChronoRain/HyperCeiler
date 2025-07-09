@@ -32,7 +32,6 @@ import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mPrefsMap;
 
 import android.os.Process;
 
-import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.hchen.hooktool.HCInit;
 import com.sevtinge.hyperceiler.hook.module.app.VariousThirdApps;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
@@ -65,6 +64,8 @@ import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import io.github.kyuubiran.ezxhelper.android.logging.Logger;
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
 
 public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     private static final String TAG = "HyperCeiler";
@@ -83,10 +84,9 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         // load New XSPrefs
         setXSharedPrefs();
 
-        // load EzXHelper and set log tag
-        EzXHelper.initZygote(startupParam);
-        EzXHelper.setLogTag(TAG);
-        EzXHelper.setToastTag(TAG);
+        // load EzXHelper
+        EzXposed.initZygote(startupParam);
+        Logger.INSTANCE.setTag(TAG);
 
         // load HCInit
         HCInit.initBasicData(new HCInit.BasicData()
@@ -105,9 +105,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         if (isInSafeMode(lpparam.packageName)) return;
 
         // load EzXHelper and set log tag
-        EzXHelper.initHandleLoadPackage(lpparam);
-        EzXHelper.setLogTag(TAG);
-        EzXHelper.setToastTag(TAG);
+        EzXposed.initHandleLoadPackage(lpparam);
 
         // load CorePatch
         new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
@@ -163,6 +161,11 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
     private void init(XC_LoadPackage.LoadPackageParam lpparam) {
         String packageName = lpparam.packageName;
+        if (ProjectApi.mAppModulePkg.equals(packageName)) {
+            moduleActiveHook(lpparam);
+            return;
+        }
+
         if (Objects.equals(packageName, "android"))
             logI(packageName, "androidVersion = " + getAndroidVersion() + ", hyperosVersion = " + getHyperOSVersion());
         else
@@ -175,12 +178,6 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
     private void invokeInit(XC_LoadPackage.LoadPackageParam lpparam) {
         String mPkgName = lpparam.packageName;
         if (mPkgName == null) return;
-
-        if (ProjectApi.mAppModulePkg.equals(mPkgName)) {
-            moduleActiveHook(lpparam);
-            return;
-        }
-
         if (isOtherRestrictions(mPkgName)) return;
 
         HashMap<String, DataBase> dataMap = DataBase.get();

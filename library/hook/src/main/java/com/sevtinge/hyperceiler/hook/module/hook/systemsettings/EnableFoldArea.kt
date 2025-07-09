@@ -18,11 +18,11 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemsettings
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.setStaticObject
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.SettingsFeaturesClass
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.setStaticObject
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 class EnableFoldArea : BaseHook() {
     override fun init() {

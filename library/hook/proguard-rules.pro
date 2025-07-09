@@ -37,7 +37,7 @@
 -keep class com.sevtinge.hyperceiler.hook.utils.ContentModel {*;}
 -keep class com.sevtinge.hyperceiler.hook.utils.FileHelper {*;}
 
--keep class com.github.kyuubiran.ezxhelper.** { *; }
+-keep class io.github.kyuubiran.ezxhelper.** { *; }
 -keep class com.hchen.hooktool.** { *; }
 
 -dontwarn de.robv.android.xposed.**

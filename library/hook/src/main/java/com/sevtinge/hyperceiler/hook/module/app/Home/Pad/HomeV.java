@@ -74,6 +74,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.layout.UnlockGrids;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.WorkspacePadding;
 import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.EnableHideGestureLine;
 import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.EnableMoreSetting;
+import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.SetGestureNeedFingerNum;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaWidth;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.HideNavigationBar;
@@ -87,7 +88,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.other.FreeformShortcutMenu
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.HomeMode;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.InfiniteScroll;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.OptAppLaunchDelay;
-import com.sevtinge.hyperceiler.hook.module.hook.home.other.OverlapMode;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.ShortcutItemCount;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.ShowAllHideApp;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.TasksShortcutMenu;
@@ -139,7 +139,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AlwaysShowMiuiWidge
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.HideWidgetTitles;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.ResizableWidgets;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.WidgetBlurOpt;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.mipad.SetGestureNeedFingerNum;
 
 import java.util.Objects;
 
@@ -308,9 +307,6 @@ public class HomeV extends BaseModule {
         // 多小窗
         initHook(new FreeFormCountForHome(), mPrefsMap.getBoolean("system_framework_freeform_count"));
         initHook(new MaxFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_count"));
-
-        // Fold2样式负一屏
-        initHook(new OverlapMode(), mPrefsMap.getBoolean("personal_assistant_overlap_mode"));
 
         // Other
         initHook(new ToastSlideAgain(), mPrefsMap.getBoolean("home_other_toast_slide_again"));

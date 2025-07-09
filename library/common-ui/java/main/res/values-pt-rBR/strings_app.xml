@@ -1540,7 +1540,6 @@
     <!--Other-->
     <string name="various">Outros</string>
     <string name="app_version_not_supported">Versão não suportada</string>
-    <string name="various_location_simulation_title">Localização falsa</string>
     <string name="various_dialog_title">Caixa de diálogo</string>
     <string name="various_mipad_title">Mi Pad</string>
     <string name="various_open_aosp_something_title">Recursos ocultos</string>
@@ -1555,12 +1554,6 @@
     <string name="various_collapse_miui_title">Estilo de título do sistema</string>
     <string name="various_collapse_miui_title_desc">Ajuste o título da barra superior em apps do sistema</string>
     <string name="various_disable_folder_cantuse">Remover limite de pastas indisponíveis</string>
-    <string name="various_super_clipboard_title">Super Área de Transferência</string>
-    <string name="various_unlock_super_clipboard">Comportamento da super área de transferência</string>
-    <string name="various_super_clipboard_summary">Somente apps que contêm metadados is_support_miui_super_clipboard são suportados</string>
-    <string name="various_super_clipboard_picture_desc">Permite copiar imagem para a área de transferência</string>
-    <string name="various_super_clipboard_files_desc">Permite copiar arquivos para a área de transferência</string>
-    <string name="various_super_clipboard_picture_share_desc">Permite copiar e colar imagens na área de transferência</string>
     <string name="various_open_aosp_battery_title">Otimização de bateria</string>
     <string name="various_open_aosp_running_services">Serviços em execução</string>
     <string name="various_open_aosp_notification_title">Notificações</string>

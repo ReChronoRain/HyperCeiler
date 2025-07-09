@@ -30,12 +30,6 @@ import android.widget.FrameLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.core.util.TypedValueCompat.dpToPx
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHooks
-import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.github.kyuubiran.ezxhelper.misc.ViewUtils.findViewByIdName
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.mSupportSV
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
@@ -44,6 +38,12 @@ import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mPrefsMap
 import com.sevtinge.hyperceiler.hook.utils.replaceMethod
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.XposedHelpers.getStaticBooleanField
+import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.findViewByIdName
+import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHooks
 
 object VolumeOrQSBrightnessValue {
     private const val plugin = "miui.systemui.plugin"
@@ -63,10 +63,8 @@ object VolumeOrQSBrightnessValue {
 
         if (volumeShow) {
             val volumeUtils = loadClass("miui.systemui.util.VolumeUtils", classLoader)
-            val volumeSliderController = loadClass(
-                "miui.systemui.controlcenter.panel.main.volume.VolumeSliderController",
-                classLoader
-            )
+            val volumeSliderController =
+                loadClass("miui.systemui.controlcenter.panel.main.volume.VolumeSliderController", classLoader)
 
             // 控制中心音量条百分比进度值计算
             volumeSliderController.methodFinder()

@@ -22,7 +22,6 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.fileexplorer.SelectName;
 import com.sevtinge.hyperceiler.hook.module.hook.fileexplorer.UnlockFileParse;
-import com.sevtinge.hyperceiler.hook.module.hook.various.UnlockSuperClipboard;
 
 @HookBase(targetPackage = "com.android.fileexplorer")
 public class FileExplorer extends BaseModule {
@@ -31,6 +30,5 @@ public class FileExplorer extends BaseModule {
     public void handleLoadPackage() {
         initHook(new UnlockFileParse(), mPrefsMap.getBoolean("file_explorer_unlock_file_parse"));
         initHook(SelectName.INSTANCE, mPrefsMap.getBoolean("file_explorer_can_selectable") || mPrefsMap.getBoolean("file_explorer_is_single_line"));
-        initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getStringAsInt("various_super_clipboard_e", 0) != 0);
     }
 }

@@ -18,27 +18,29 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.drawer
 
-import android.app.*
-import android.content.*
-import android.view.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import android.app.Application
+import android.content.Context
+import android.view.View
+import android.widget.FrameLayout
+import android.widget.RelativeLayout
+import android.widget.ViewSwitcher
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.blur.zhenxiang.BlurFrameLayout
 import com.sevtinge.hyperceiler.hook.utils.blur.zhenxiang.model.CornersRadius
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.getCornerRadiusTop
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.hookBeforeMethod
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 
 object AllAppsContainerViewBlur : BaseHook() {
     override fun init() {
         Application::class.java.hookBeforeMethod("attach", Context::class.java) {
-            EzXHelper.initHandleLoadPackage(lpparam)
-            EzXHelper.initAppContext(it.args[0] as Context)
+            EzXposed.initHandleLoadPackage(lpparam)
+            EzXposed.initAppContext(it.args[0] as Context)
 
             loadClass("com.miui.home.launcher.allapps.BaseAllAppsContainerView").methodFinder().filter {
                 name == "onFinishInflate"

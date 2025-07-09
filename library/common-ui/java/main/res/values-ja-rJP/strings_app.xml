@@ -1545,7 +1545,6 @@
     <!--Other-->
     <string name="various">その他</string>
     <string name="app_version_not_supported">非対応のバージョン</string>
-    <string name="various_location_simulation_title">位置情報を偽装</string>
     <string name="various_dialog_title">ダイアログ</string>
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">隠しオプション</string>
@@ -1560,12 +1559,6 @@
     <string name="various_collapse_miui_title">システムタイトルのスタイル</string>
     <string name="various_collapse_miui_title_desc">システムアプリのトップバーのタイトルを調整します</string>
     <string name="various_disable_folder_cantuse">利用できないフォルダの制限を無効化</string>
-    <string name="various_super_clipboard_title">スーパークリップボード</string>
-    <string name="various_unlock_super_clipboard">スーパークリップボードをアンロック</string>
-    <string name="various_super_clipboard_summary">is_support_miui_super_clipboard メタデータを含むアプリのみに対応しています</string>
-    <string name="various_super_clipboard_picture_desc">クリップボードへの画像のコピーを許可</string>
-    <string name="various_super_clipboard_files_desc">クリップボードへのファイルのコピーを許可</string>
-    <string name="various_super_clipboard_picture_share_desc">クリップボードに画像のコピーと貼り付けを許可します</string>
     <string name="various_open_aosp_battery_title">バッテリーの最適化</string>
     <string name="various_open_aosp_running_services">実行中のサービス</string>
     <string name="various_open_aosp_notification_title">通知設定</string>

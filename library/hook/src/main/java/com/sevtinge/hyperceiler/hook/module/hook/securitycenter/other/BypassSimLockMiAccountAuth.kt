@@ -18,11 +18,11 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.other
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import org.luckypray.dexkit.query.enums.*
-import java.lang.reflect.*
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import org.luckypray.dexkit.query.enums.StringMatchType
+import java.lang.reflect.Method
 
 object BypassSimLockMiAccountAuth : BaseHook() {
     private val findMethod by lazy<List<Method>> {

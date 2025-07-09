@@ -18,12 +18,21 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin
 
-import android.animation.*
-import android.os.*
-import android.view.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.*
-import de.robv.android.xposed.*
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.os.Handler
+import android.os.Looper
+import android.view.HapticFeedbackConstants
+import android.view.MotionEvent
+import android.view.View
+import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logD
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XC_MethodReplacement
+import de.robv.android.xposed.XposedBridge
+import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 object StartCollpasedColumnPress {
     fun initLoaderHook(classLoader: ClassLoader) {
