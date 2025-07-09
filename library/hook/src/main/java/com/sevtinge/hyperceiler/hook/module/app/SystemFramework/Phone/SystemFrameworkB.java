@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app.SystemFramework.Phone;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableMiuiWatermark;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassIsolationViolation;
@@ -36,7 +37,10 @@ public class SystemFrameworkB extends BaseModule {
         initHook(new BypassIsolationViolation(), mPrefsMap.getBoolean("system_framework_core_patch_bypass_isolation_violation"));
         initHook(new AllowUpdateSystemApp(), mPrefsMap.getBoolean("system_framework_core_patch_allow_update_system_app"));
 
-        // 其它
+        // 其它-显示与通知
         initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
+
+        // 其它-底层
+        initHook(new DisableMiuiWatermark(), mPrefsMap.getBoolean("system_framework_disable_miui_watermark"));
     }
 }
