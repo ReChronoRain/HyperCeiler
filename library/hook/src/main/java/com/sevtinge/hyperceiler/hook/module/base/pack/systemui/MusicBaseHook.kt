@@ -36,9 +36,6 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.graphics.drawable.toBitmap
-import com.github.kyuubiran.ezxhelper.ClassUtils
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.hchen.superlyricapi.ISuperLyric
 import com.hchen.superlyricapi.SuperLyricData
 import com.hchen.superlyricapi.SuperLyricTool
@@ -47,6 +44,9 @@ import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 abstract class MusicBaseHook : BaseHook() {
     val context: Application by lazy { AndroidAppHelper.currentApplication() }
@@ -77,7 +77,7 @@ abstract class MusicBaseHook : BaseHook() {
     }
 
     init {
-        ClassUtils.loadClass("android.app.Application").methodFinder().filterByName("onCreate").first()
+        loadClass("android.app.Application").methodFinder().filterByName("onCreate").first()
             .createAfterHook {
                 runCatching {
                     SuperLyricTool.registerSuperLyric(context, receiver)

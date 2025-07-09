@@ -18,16 +18,17 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin
 
-import android.view.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createBeforeHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils
+import android.view.View
+import android.view.ViewGroup
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
-import de.robv.android.xposed.*
+import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils
+import de.robv.android.xposed.XC_MethodHook
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 
 object NewBrightnessPct {
     fun initLoaderHook(classLoader: ClassLoader) {

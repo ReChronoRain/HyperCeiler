@@ -29,6 +29,8 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AntiQues;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AppLinkVerify;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitchForSystem;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BackgroundBlur;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassForceDownloadui;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassForceMiAppStore;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassUnknownSourcesRestrictions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.CleanOpenMenu;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.CleanProcessTextMenu;
@@ -46,7 +48,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisablePinVerif
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableThermal;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableVerifyCanBeDisabled;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.EffectBinderProxy;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.EnhanceRecentsVisibility;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.HookEntry;
@@ -63,22 +64,17 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.SystemLockApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UseAndroidPackageInstaller;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UseOriginalAnimation;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDefaultStream;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDisableSafe;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeFirstPress;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassIsolationViolation;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassSignCheckForT;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.AllDarkMode;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.EnhanceRecentsVisibility;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.ThemeProvider;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.UseAOSPScreenShot;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.OpenAppInFreeForm;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.UnForegroundPin;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.mipad.IgnoreStylusKeyGesture;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.mipad.NoMagicPointer;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.mipad.RemoveStylusBluetoothRestriction;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.mipad.RestoreEsc;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.mipad.SetGestureNeedFingerNum;
@@ -87,8 +83,11 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.DualSAS
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N1Band;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N5N8Band;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassForceDownloadui;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassForceMiAppStore;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDefaultStream;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDisableSafe;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeFirstPress;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.various.NoAccessDeviceLogsRequest;
 
 @HookBase(targetPackage = "android", isPad = 1, targetSdk = 35)
@@ -152,7 +151,6 @@ public class SystemFrameworkV extends BaseModule {
 
         // 小米/红米平板设置相关
         initHook(IgnoreStylusKeyGesture.INSTANCE, mPrefsMap.getBoolean("mipad_input_ingore_gesture"));
-        initHook(NoMagicPointer.INSTANCE, mPrefsMap.getBoolean("mipad_input_close_magic"));
         initHook(RemoveStylusBluetoothRestriction.INSTANCE, mPrefsMap.getBoolean("mipad_input_disable_bluetooth_new"));
         initHook(RestoreEsc.INSTANCE, mPrefsMap.getBoolean("mipad_input_restore_esc"));
         initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num"));

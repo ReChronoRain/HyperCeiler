@@ -18,21 +18,21 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.recent
 
-import android.annotation.*
-import android.app.*
-import android.content.*
-import android.text.format.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.hook.utils.PropUtils.*
+import android.annotation.SuppressLint
+import android.app.ActivityManager
+import android.content.Context
+import android.text.format.Formatter
+import android.widget.TextView
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isPad
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils
-import java.text.*
+import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import java.text.DecimalFormat
 
 object
 RealMemory : BaseHook() {

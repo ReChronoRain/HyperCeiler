@@ -18,12 +18,13 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.mediaeditor
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.AndroidBuildCls
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import de.robv.android.xposed.*
-import java.lang.reflect.*
+import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.AndroidBuildCls
+import com.sevtinge.hyperceiler.hook.utils.setStaticObjectField
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 
 object UnlockLeicaFilter : BaseHook() {
     private val leicaOld by lazy<List<Method>> {
@@ -65,11 +66,7 @@ object UnlockLeicaFilter : BaseHook() {
             logD(TAG, lpparam.packageName, "New Leica name is $leicaNew") // debug 用
             leicaNew.createHook {
                 before {
-                    XposedHelpers.setStaticObjectField(
-                        AndroidBuildCls,
-                        "DEVICE",
-                        "aurora"
-                    )
+                    AndroidBuildCls.setStaticObjectField("DEVICE", "aurora")
                 }
             }
         }

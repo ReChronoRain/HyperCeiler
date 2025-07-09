@@ -25,27 +25,27 @@ import android.os.Bundle
 import android.os.UserHandle
 import android.view.Menu
 import android.view.MenuItem
-import com.github.kyuubiran.ezxhelper.ClassUtils.invokeStaticMethodBestMatch
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
-import com.github.kyuubiran.ezxhelper.EzXHelper.hostPackageName
-import com.github.kyuubiran.ezxhelper.EzXHelper.initAppContext
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.invokeStaticMethodBestMatch
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed.initAppContext
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 @SuppressLint("DiscouragedApi")
 object AddAppInfoEntry : BaseHook() {
     //override val key = "add_aosp_app_info_entry"
     private val idIdMiuixActionEndMenuGroup by lazy {
-        appContext.resources.getIdentifier("miuix_action_end_menu_group", "id", hostPackageName)
+        appContext.resources.getIdentifier("miuix_action_end_menu_group", "id", EzXposed.hookedPackageName)
     }
     private val idDrawableIconSettings by lazy {
-        appContext.resources.getIdentifier("icon_settings", "drawable", hostPackageName)
+        appContext.resources.getIdentifier("icon_settings", "drawable", EzXposed.hookedPackageName)
     }
     private val idStringAppManagerAppInfoLabel by lazy {
-        appContext.resources.getIdentifier("app_manager_app_info_label", "string", hostPackageName)
+        appContext.resources.getIdentifier("app_manager_app_info_label", "string", EzXposed.hookedPackageName)
     }
 
     override fun init() {

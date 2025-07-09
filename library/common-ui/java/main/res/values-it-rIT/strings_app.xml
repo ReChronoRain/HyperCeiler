@@ -1182,7 +1182,6 @@
     <!--Other-->
     <string name="various">Altro</string>
     <string name="app_version_not_supported">Versione non supportata</string>
-    <string name="various_location_simulation_title">Posizione falsa</string>
     <string name="various_dialog_title">Finestra di dialogo</string>
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">Nascondi proprietà</string>
@@ -1197,12 +1196,6 @@
     <string name="various_collapse_miui_title">Stile titolo sistema</string>
     <string name="various_collapse_miui_title_desc">Regola in alto titolo della barra nelle app di sistema</string>
     <string name="various_disable_folder_cantuse">Rimuovi il limite delle cartelle non disponibili</string>
-    <string name="various_super_clipboard_title">Super Appunti</string>
-    <string name="various_unlock_super_clipboard">Comportamento dei Super Appunti</string>
-    <string name="various_super_clipboard_summary">Sono supportate solo le app contenenti metadati is_support_miui_super_clipboard</string>
-    <string name="various_super_clipboard_picture_desc">Consenti copia immagine negli appunti</string>
-    <string name="various_super_clipboard_files_desc">Consenti copia file negli appunti</string>
-    <string name="various_super_clipboard_picture_share_desc">Consenti copia e incolla immagini negli appunti</string>
     <string name="various_open_aosp_battery_title">Ottimizzazione batteria</string>
     <string name="various_open_aosp_running_services">Servizi in esecuzione</string>
     <string name="various_open_aosp_notification_title">Impostazioni notifiche</string>

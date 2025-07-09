@@ -18,17 +18,17 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter
 
-import android.animation.ValueAnimator.*
-import android.content.*
-import android.database.*
-import android.net.*
-import android.os.*
-import android.provider.Settings.*
-import android.util.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.FlashLight.FlashBrightness.*
+import android.animation.ValueAnimator.ofInt
+import android.content.Context
+import android.database.ContentObserver
+import android.net.Uri
+import android.os.Handler
+import android.provider.Settings.SettingNotFoundException
+import android.provider.Settings.System
+import android.util.ArrayMap
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.FlashLight.FlashBrightness.getBrightness
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.FlashLight.FlashBrightness.getSlider
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.FlashLight.FlashBrightness.restore
 import com.sevtinge.hyperceiler.hook.utils.MathUtils
 import com.sevtinge.hyperceiler.hook.utils.MethodHookParam
 import com.sevtinge.hyperceiler.hook.utils.TileUtils
@@ -38,8 +38,14 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.hook.utils.hookBeforeMethod
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils
-import de.robv.android.xposed.*
-import java.io.*
+import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.IOException
 
 
 object NewFlashLight : TileUtils() {
@@ -59,7 +65,7 @@ object NewFlashLight : TileUtils() {
 
     override fun init() {
         super.init()
-        mode = HookTool.mPrefsMap.getStringAsInt("security_flash_light_switch", 0)
+        mode = mPrefsMap.getStringAsInt("security_flash_light_switch", 0)
         setPermission(mtk)
         setPermission(torch)
         setPermission(other)

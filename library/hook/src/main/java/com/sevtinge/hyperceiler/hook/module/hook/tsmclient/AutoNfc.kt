@@ -18,20 +18,22 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.tsmclient
 
-import android.annotation.*
-import android.app.*
-import android.content.*
-import android.nfc.*
-import android.os.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.*
-import com.github.kyuubiran.ezxhelper.finders.FieldFinder.`-Static`.fieldFinder
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.nfc.NfcAdapter
+import android.os.Bundle
+import android.widget.Toast
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.MethodHookParam
 import com.sevtinge.hyperceiler.hook.utils.callMethod
-import kotlinx.coroutines.*
-import org.lsposed.hiddenapibypass.*
+import io.github.kyuubiran.ezxhelper.core.finder.FieldFinder.`-Static`.fieldFinder
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 
 object AutoNfc : BaseHook() {
@@ -97,15 +99,14 @@ object AutoNfc : BaseHook() {
         }*/
 
     private fun createHook (param: MethodHookParam) {
-        if (!EzXHelper.isHostPackageNameInited)
-            EzXHelper.initAppContext()
-        NfcAdapter.getDefaultAdapter(EzXHelper.appContext).let { nfcAdapter ->
+        EzXposed.initAppContext()
+        NfcAdapter.getDefaultAdapter(EzXposed.appContext).let { nfcAdapter ->
             if (nfcAdapter.isEnabled) return
             HiddenApiBypass.invoke(NfcAdapter::class.java, nfcAdapter, "enable")
             val activity = param.thisObject as Activity
             if (activity.javaClass.name != "com.miui.tsmclient.ui.quick.DoubleClickActivity") return
             MainScope().launch {
-                waitNFCEnable(EzXHelper.appContext, nfcAdapter)
+                waitNFCEnable(EzXposed.appContext, nfcAdapter)
                 param.thisObject.javaClass.fieldFinder().filter {
                     type == Boolean::class.java
                 }.last().setBoolean(param.thisObject, false)
@@ -117,7 +118,7 @@ object AutoNfc : BaseHook() {
     }
 
     private fun destroyHook (param: MethodHookParam) {
-        NfcAdapter.getDefaultAdapter(EzXHelper.appContext).let { nfcAdapter ->
+        NfcAdapter.getDefaultAdapter(EzXposed.appContext).let { nfcAdapter ->
             HiddenApiBypass.invoke(NfcAdapter::class.java, nfcAdapter, "disable")
         }
     }

@@ -18,25 +18,32 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.battery
 
-import android.annotation.*
-import android.app.*
-import android.content.*
-import android.content.res.*
-import android.graphics.*
-import android.util.*
-import android.view.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.*
+import android.annotation.SuppressLint
+import android.app.AndroidAppHelper
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.IntentFilter
+import android.content.res.Configuration
+import android.graphics.Color
+import android.graphics.Typeface
+import android.util.TypedValue
+import android.view.Gravity
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.findClassOrNull
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.isStatic
-import java.lang.reflect.*
+import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.paramCount
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 
 object ShowBatteryTemperatureNew : BaseHook() {
     private val smartChargeClazz by lazy<Method> {

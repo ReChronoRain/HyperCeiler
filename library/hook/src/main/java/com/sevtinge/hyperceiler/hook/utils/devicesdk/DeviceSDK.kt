@@ -18,15 +18,17 @@
  */
 package com.sevtinge.hyperceiler.hook.utils.devicesdk
 
-import android.annotation.*
-import android.content.res.*
-import android.graphics.*
+import android.annotation.SuppressLint
+import android.content.res.Configuration
+import android.content.res.Resources
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.os.Build
-import com.github.kyuubiran.ezxhelper.*
-import com.sevtinge.hyperceiler.hook.utils.PropUtils.*
-import com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.*
 import com.sevtinge.hyperceiler.expansion.utils.TokenUtils.getDeviceToken
-import java.util.*
+import com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp
+import com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
+import java.util.Locale
 
 fun getFingerPrint(): String = Build.FINGERPRINT
 fun getLocale(): String = getProp("ro.product.locale")
@@ -44,22 +46,22 @@ fun getSerial(): String = rootExecCmd("getprop ro.serialno").replace("\n", "")
 fun getCpuId(): String = removeLeadingZeros(rootExecCmd("getprop ro.boot.cpuid"))
 
 fun getDensityDpi(): Int =
-    (EzXHelper.appContext.resources.displayMetrics.widthPixels / EzXHelper.appContext.resources.displayMetrics.density).toInt()
+    (appContext.resources.displayMetrics.widthPixels / appContext.resources.displayMetrics.density).toInt()
 
 @SuppressLint("DiscouragedApi")
 fun getCornerRadiusTop(): Int {
-    val resourceId = EzXHelper.appContext.resources.getIdentifier(
+    val resourceId = appContext.resources.getIdentifier(
         "rounded_corner_radius_top", "dimen", "android"
     )
     return if (resourceId > 0) {
-        EzXHelper.appContext.resources.getDimensionPixelSize(resourceId)
+        appContext.resources.getDimensionPixelSize(resourceId)
     } else 100
 }
 
 fun isTablet(): Boolean = Resources.getSystem().configuration.smallestScreenWidthDp >= 600
 fun isPadDevice(): Boolean = isTablet() || DeviceType.isFoldable()
 fun isDarkMode(): Boolean =
-    EzXHelper.appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 fun colorFilter(colorInt: Int) = BlendModeColorFilter(colorInt, BlendMode.SRC_IN)
 
 fun getDeviceToken(androidId : String): String {

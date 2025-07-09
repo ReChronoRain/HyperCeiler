@@ -18,14 +18,12 @@
 */
 package com.sevtinge.hyperceiler.hook.utils.api
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.res.Resources.getSystem
-import android.os.Bundle
 import android.view.Window
-import com.github.kyuubiran.ezxhelper.MemberExtensions.isStatic
-import com.sevtinge.hyperceiler.hook.BuildConfig
+import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.isStatic
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.invokeStaticMethodBestMatch
 import java.lang.reflect.Field
+import java.lang.reflect.Member
 import java.lang.reflect.Method
 
 @JvmInline
@@ -199,3 +197,16 @@ fun Any.invokeMethod(
 
 val Int.dp: Int get() = (this.toFloat().dp).toInt()
 val Float.dp: Float get() = this / getSystem().displayMetrics.density
+
+/**
+ * 扩展函数 用于反射调用 XposedBridge 的 deoptimizeMethod 方法
+ * @param member 需要去优化的成员方法
+ */
+fun Member.deoptimizeMethod() {
+    invokeStaticMethodBestMatch(
+        de.robv.android.xposed.XposedBridge::class.java,
+        "deoptimizeMethod",
+        null,
+        this
+    )
+}

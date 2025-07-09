@@ -21,13 +21,13 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
 import com.sevtinge.hyperceiler.hook.view.WeatherView
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 // 经典控制中心添加天气信息
 object OldWeather : BaseHook() {
@@ -40,60 +40,58 @@ object OldWeather : BaseHook() {
         var mWeatherView: TextView?
         loadClass("com.android.systemui.qs.MiuiQSHeaderView").methodFinder()
             .filterByName("onFinishInflate")
-            .first().createHook {
-                after {
-                    val viewGroup = it.thisObject as ViewGroup
-                    val context = viewGroup.context
-                    val layoutParam =
-                        loadClass("androidx.constraintlayout.widget.ConstraintLayout\$LayoutParams")
-                            .getConstructor(Int::class.java, Int::class.java)
-                            .newInstance(
-                                ViewGroup.LayoutParams.WRAP_CONTENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT
-                            ) as ViewGroup.MarginLayoutParams
+            .first().createAfterHook {
+                val viewGroup = it.thisObject as ViewGroup
+                val context = viewGroup.context
+                val layoutParam =
+                    loadClass("androidx.constraintlayout.widget.ConstraintLayout\$LayoutParams")
+                        .getConstructor(Int::class.java, Int::class.java)
+                        .newInstance(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        ) as ViewGroup.MarginLayoutParams
 
-                    layoutParam.setObjectField(
-                        "endToStart",
+                layoutParam.setObjectField(
+                    "endToStart",
+                    context.resources.getIdentifier(
+                        "notification_shade_shortcut",
+                        "id",
+                        context.packageName
+                    )
+                )
+                layoutParam.setObjectField(
+                    "topToTop",
+                    context.resources.getIdentifier(
+                        "notification_shade_shortcut",
+                        "id",
+                        context.packageName
+                    )
+                )
+                layoutParam.setObjectField(
+                    "bottomToBottom",
+                    context.resources.getIdentifier(
+                        "notification_shade_shortcut",
+                        "id",
+                        context.packageName
+                    )
+                )
+
+                mWeatherView = WeatherView(context, isDisplayCity).apply {
+                    setTextAppearance(
                         context.resources.getIdentifier(
-                            "notification_shade_shortcut",
-                            "id",
+                            "TextAppearance.StatusBar.Expanded.Clock.QuickSettingDate",
+                            "style",
                             context.packageName
                         )
                     )
-                    layoutParam.setObjectField(
-                        "topToTop",
-                        context.resources.getIdentifier(
-                            "notification_shade_shortcut",
-                            "id",
-                            context.packageName
-                        )
-                    )
-                    layoutParam.setObjectField(
-                        "bottomToBottom",
-                        context.resources.getIdentifier(
-                            "notification_shade_shortcut",
-                            "id",
-                            context.packageName
-                        )
-                    )
+                    layoutParams = layoutParam
 
-                    mWeatherView = WeatherView(context, isDisplayCity).apply {
-                        setTextAppearance(
-                            context.resources.getIdentifier(
-                                "TextAppearance.StatusBar.Expanded.Clock.QuickSettingDate",
-                                "style",
-                                context.packageName
-                            )
-                        )
-                        layoutParams = layoutParam
-
-                        setOnClickListener {
-                            startWeatherApp()
-                        }
+                    setOnClickListener {
+                        startWeatherApp()
                     }
-                    viewGroup.addView(mWeatherView)
                 }
+                viewGroup.addView(mWeatherView)
             }
     }
-
 }
+

@@ -18,18 +18,18 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.recent
 
-import android.app.*
-import android.content.*
-import android.content.res.*
-import com.github.kyuubiran.ezxhelper.*
-import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.*
+import android.app.Application
+import android.content.Context
+import android.content.res.Resources
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 import com.sevtinge.hyperceiler.hook.utils.ResourcesHookData
 import com.sevtinge.hyperceiler.hook.utils.ResourcesHookMap
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.hookBeforeMethod
-import de.robv.android.xposed.*
+import de.robv.android.xposed.XC_MethodHook
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
 
 object RecentResource : BaseHook() {
     private val hookMap = ResourcesHookMap<String, ResourcesHookData>()
@@ -56,10 +56,8 @@ object RecentResource : BaseHook() {
             }
         })
         Application::class.java.hookBeforeMethod("attach", Context::class.java) { it ->
-            EzXHelper.initHandleLoadPackage(lpparam)
-            EzXHelper.setLogTag(TAG)
-            EzXHelper.setToastTag(TAG)
-            EzXHelper.initAppContext(it.args[0] as Context)
+            EzXposed.initHandleLoadPackage(lpparam)
+            EzXposed.initAppContext(it.args[0] as Context)
 
             Resources::class.java.hookBeforeMethod("getBoolean", Int::class.javaPrimitiveType) { hook(it) }
             Resources::class.java.hookBeforeMethod("getDimension", Int::class.javaPrimitiveType) { hook(it) }

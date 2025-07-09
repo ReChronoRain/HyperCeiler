@@ -18,20 +18,20 @@
  */
 package com.sevtinge.hyperceiler.hook.utils.devicesdk
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNullAs
 import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.clazzMiuiBuild
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.getStaticObjectOrNull
 
 val IS_TABLET by lazy {
-    getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_TABLET") ?: false
+    getStaticObjectOrNull(clazzMiuiBuild, "IS_TABLET") as? Boolean ?: false
 }
 val IS_PAD by lazy {
-    getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_PAD") ?: false
+    getStaticObjectOrNull(clazzMiuiBuild, "IS_PAD") as? Boolean ?: false
 }
 val IS_FOLD by lazy {
-    getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_FOLD") ?: false
+    getStaticObjectOrNull(clazzMiuiBuild, "IS_FOLD") as? Boolean ?: false
 }
 val IS_INTERNATIONAL_BUILD by lazy {
-    getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD") ?: false
+    getStaticObjectOrNull(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD") as? Boolean ?: false
 }
 
 /**

@@ -18,9 +18,9 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemsettings
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.setStaticObject
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.SettingsFeaturesClass
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.setStaticObject
 
 class EnablePadArea : BaseHook() {
     override fun init() {

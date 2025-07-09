@@ -1682,7 +1682,6 @@
 
     <string name="app_version_not_supported">不受支持的版本</string>
 
-    <string name="various_location_simulation_title">位置模拟</string>
     <string name="various_dialog_title">弹窗</string>
     <string name="various_mipad_title">Pad 相关</string>
     <string name="various_open_aosp_something_title">隐藏特性</string>
@@ -1698,13 +1697,6 @@
     <string name="various_collapse_miui_title">系统标题样式</string>
     <string name="various_collapse_miui_title_desc">调整系统应用中的顶栏标题</string>
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>
-
-    <string name="various_super_clipboard_title">超级剪切板</string>
-    <string name="various_unlock_super_clipboard">超级剪切板行为</string>
-    <string name="various_super_clipboard_summary">仅支持包含 is_support_miui_super_clipboard 元数据的应用</string>
-    <string name="various_super_clipboard_picture_desc">允许复制图片至剪贴板</string>
-    <string name="various_super_clipboard_files_desc">允许复制文件至剪贴板</string>
-    <string name="various_super_clipboard_picture_share_desc">允许复制和粘贴图片至剪贴板</string>
 
     <string name="various_open_aosp_battery_title">电池优化</string>
     <string name="various_open_aosp_running_services">正在运行的服务</string>

@@ -18,27 +18,22 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework.mipad
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.api.deoptimizeMethod
+import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.isNotAbstract
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 
 object RestoreEsc : BaseHook() {
     override fun init() {
-        loadClass("com.android.server.input.config.InputCommonConfig").methodFinder()
-            .filterByName("setPadMode")
-            .single().createHook {
-                before {
-                    it.args[0] = false
-                }
-            }
-
         loadClass("com.android.server.input.InputManagerServiceStubImpl").methodFinder()
-            .filterByName("switchPadMode")
-            .single().createHook {
-                before {
-                    it.args[0] = false
-                }
+            .filterByName("switchPadMode").single().deoptimizeMethod()
+        loadClass("com.android.server.input.InputManagerServiceStubImpl").methodFinder()
+            .filterByName("init").filter { this.isNotAbstract }.single().deoptimizeMethod()
+        loadClass("com.android.server.input.config.InputCommonConfig").methodFinder()
+            .filterByName("setPadMode").single().createBeforeHook {
+                it.args[0] = false
             }
     }
 }

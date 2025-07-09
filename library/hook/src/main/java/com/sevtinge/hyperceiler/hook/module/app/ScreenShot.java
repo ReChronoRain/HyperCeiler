@@ -26,7 +26,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.screenshot.DeviceShellCustomize
 import com.sevtinge.hyperceiler.hook.module.hook.screenshot.SaveToPictures;
 import com.sevtinge.hyperceiler.hook.module.hook.screenshot.UnlockMinimumCropLimit2;
 import com.sevtinge.hyperceiler.hook.module.hook.screenshot.UnlockPrivacyMarking;
-import com.sevtinge.hyperceiler.hook.module.hook.various.UnlockSuperClipboard;
 
 @HookBase(targetPackage = "com.miui.screenshot")
 public class ScreenShot extends BaseModule {
@@ -37,7 +36,5 @@ public class ScreenShot extends BaseModule {
         initHook(SaveToPictures.INSTANCE, mPrefsMap.getBoolean("screenshot_save_to_pictures"));
         initHook(DeviceShellCustomize.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("screenshot_device_customize", "")));
         initHook(UnlockPrivacyMarking.INSTANCE, mPrefsMap.getBoolean("screenshot_unlock_privacy_marking"));
-        // 超级剪切板
-        initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getStringAsInt("various_super_clipboard_e", 0) != 0);
     }
 }

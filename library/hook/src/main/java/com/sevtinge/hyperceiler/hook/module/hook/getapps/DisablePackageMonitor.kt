@@ -18,15 +18,18 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.getapps
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object DisablePackageMonitor : BaseHook() {
 
     override fun init() {
-        // 使用root, adb, packageinstaller安装应用后, 应用商店有后台时会上传检查应用更新信息
-        val initMethod = findClass("com.xiaomi.market.receiver.MyPackageMonitor").getMethod("init")
-        initMethod.createHook {
+        // 使用 root, adb, packageinstaller 安装应用后, 应用商店有后台时会上传检查应用更新信息
+        val initMethod = loadClass("com.xiaomi.market.receiver.MyPackageMonitor")
+
+        initMethod.methodFinder().filterByName("init").first().createHook {
             logD(TAG, lpparam.packageName, "FindAndHook 'init' method: $initMethod")
             replace { }
         }

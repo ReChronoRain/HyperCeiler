@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 object MobileClass {
     val statusBarMobileClass by lazy {

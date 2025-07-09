@@ -18,14 +18,15 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.packageinstaller
 
-import android.content.*
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import android.content.Context
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import org.luckypray.dexkit.query.matchers.base.*
-import java.lang.reflect.*
-import java.util.stream.*
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import org.luckypray.dexkit.query.matchers.base.AccessFlagsMatcher
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
+import java.util.stream.Collectors
 
 
 object DisableAppInfoUpload : BaseHook() {

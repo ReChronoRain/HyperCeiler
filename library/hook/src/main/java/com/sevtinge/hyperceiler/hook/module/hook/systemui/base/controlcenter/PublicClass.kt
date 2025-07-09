@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 
 object PublicClass {
     val miuiMediaControlPanel by lazy {

@@ -18,13 +18,13 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callMethodAs
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.getStaticObjectFieldAs
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 @Suppress("unused")
 object Dependency {

@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.powerkeeper;
 
-import com.github.kyuubiran.ezxhelper.ObjectUtils;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.IDexKit;
@@ -30,6 +29,8 @@ import org.luckypray.dexkit.result.MethodData;
 import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
+
+import io.github.kyuubiran.ezxhelper.core.util.ObjectUtil;
 
 public class CustomRefreshRate extends BaseHook {
     @Override
@@ -48,7 +49,7 @@ public class CustomRefreshRate extends BaseHook {
         hookMethod(method, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                ObjectUtils.setObject(param.thisObject, "mIsCustomFpsSwitch", "true");
+                ObjectUtil.setObject(param.thisObject, "mIsCustomFpsSwitch", "true");
             }
         });
     }

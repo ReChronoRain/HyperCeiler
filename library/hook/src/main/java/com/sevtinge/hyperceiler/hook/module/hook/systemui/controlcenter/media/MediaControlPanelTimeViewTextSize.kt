@@ -18,13 +18,14 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media
 
-import android.util.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.*
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import android.util.TypedValue
+import android.widget.TextView
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 class MediaControlPanelTimeViewTextSize : BaseHook() {
 
@@ -34,12 +35,8 @@ class MediaControlPanelTimeViewTextSize : BaseHook() {
 
     //from https://github.com/YuKongA/MediaControl-BlurBg
     override fun init() {
-        EzXHelper.initHandleLoadPackage(lpparam)
-        EzXHelper.setLogTag(TAG)
-        EzXHelper.setToastTag(TAG)
-
         val miuiMediaControlPanel =
-            ClassUtils.loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaControlPanel")
+            loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaControlPanel")
 
         miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()
             ?.createAfterHook {
@@ -47,9 +44,9 @@ class MediaControlPanelTimeViewTextSize : BaseHook() {
                     it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder")
                         ?: return@createAfterHook
                 val elapsedTimeView =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("elapsedTimeView")
+                    mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<TextView>("elapsedTimeView")
                 val totalTimeView =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("totalTimeView")
+                    mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<TextView>("totalTimeView")
 
                 elapsedTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
                 totalTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)

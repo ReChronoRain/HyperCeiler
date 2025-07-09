@@ -18,19 +18,20 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.home.title
 
-import android.app.*
-import android.view.*
-import android.view.animation.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import android.app.Activity
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurView
 import com.sevtinge.hyperceiler.hook.utils.getStaticObjectFieldOrNull
 import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
 import com.sevtinge.hyperceiler.hook.utils.hookBeforeMethod
 import com.sevtinge.hyperceiler.hook.utils.replaceMethod
-import de.robv.android.xposed.*
-import java.util.concurrent.*
+import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import java.util.concurrent.Executor
 
 object AppBlurAnim : BaseHook() {
     private val appsBlurRadius by lazy {

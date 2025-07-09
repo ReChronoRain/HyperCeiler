@@ -18,52 +18,41 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen
 
-import android.view.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import android.view.View
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
-import de.robv.android.xposed.*
+import com.sevtinge.hyperceiler.hook.utils.getObjectField
+import com.sevtinge.hyperceiler.hook.utils.setObjectField
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object HideLockScreenStatusBar : BaseHook() {
     override fun init() {
-        if (isMoreAndroidVersion(35)) {
-            loadClassOrNull("com.android.systemui.statusbar.phone.CentralSurfacesImpl")!!.methodFinder()
-                .filterByName("updateIsKeyguard")
-                .single().createHook {
-                    after { param ->
-                        val shadeControllerImpl =
-                            XposedHelpers.getObjectField(param.thisObject, "mShadeController")
-                        val getNpvc =
-                            XposedHelpers.getObjectField(shadeControllerImpl, "mNpvc")
-                        val mKeyguardStatusBar = XposedHelpers.getObjectField(
-                            XposedHelpers.callMethod(getNpvc, "get"),
-                            "mKeyguardStatusBarViewController"
-                        )
+        loadClassOrNull("com.android.systemui.statusbar.phone.CentralSurfacesImpl")!!.methodFinder()
+            .filterByName("updateIsKeyguard")
+            .single().createHook {
+                after { param ->
+                    val shadeControllerImpl =
+                        param.thisObject.getObjectField("mShadeController")
 
-                        XposedHelpers.setObjectField(mKeyguardStatusBar, "mKeyguardStatusBarAnimateAlpha", 0.0f)
-                    }
-                }
-        } else {
-            hookAllMethods(
-                "com.android.systemui.statusbar.phone.CentralSurfacesImpl", lpparam.classLoader,
-                "updateIsKeyguard",
-                object : MethodHook() {
-                    override fun after(param: MethodHookParam) {
-                        val shadeControllerImpl =
-                            XposedHelpers.getObjectField(param.thisObject, "mShadeController")
+                    if (isMoreAndroidVersion(35)) {
+                        val mKeyguardStatusBar =
+                            shadeControllerImpl!!.getObjectField("mNpvc")!!
+                                .callMethod("get")!!
+                                .getObjectField("mKeyguardStatusBarViewController")
 
-                        val mKeyguardStatusBar = XposedHelpers.getObjectField(
-                            XposedHelpers.getObjectField(
-                                shadeControllerImpl,
-                                "mNotificationPanelViewController"
-                            ), "mKeyguardStatusBar"
-                        ) as View
+                        mKeyguardStatusBar.setObjectField("mKeyguardStatusBarAnimateAlpha", 0.0f)
+                    } else {
+                        val mKeyguardStatusBar = shadeControllerImpl!!
+                            .getObjectField("mNotificationPanelViewController")!!
+                            .getObjectField("mKeyguardStatusBar") as View
+
                         mKeyguardStatusBar.translationY = -999f
                     }
                 }
-            )
-        }
+            }
+
     }
 }

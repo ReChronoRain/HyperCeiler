@@ -18,21 +18,19 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.updater
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 
 class VabUpdate : BaseHook() {
     override fun init() {
         loadClass("miui.util.FeatureParser").methodFinder()
             .filterByName("hasFeature")
             .filterByParamCount(2)
-            .single().createHook {
-                before {
-                    if (it.args[0] == "support_ota_validate") {
-                        it.result = false
-                    }
+            .single().createBeforeHook {
+                if (it.args[0] == "support_ota_validate") {
+                    it.result = false
                 }
             }
     }

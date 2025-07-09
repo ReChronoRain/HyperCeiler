@@ -20,38 +20,37 @@ package com.sevtinge.hyperceiler.hook.module.hook.thememanager
 
 import android.view.View
 import android.widget.FrameLayout
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.github.kyuubiran.ezxhelper.Log
-import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 import miui.drm.DrmManager
 
 class DisableThemeAdNew : BaseHook() {
     override fun init() {
-        try {
+        runCatching {
             DrmManager::class.java.methodFinder().filterByName("isSupportAd").toList().createHooks {
                 returnConstant(false)
             }
-        } catch (t: Throwable) {
-            Log.ex(t)
+        }.onFailure {
+            logE(TAG, it)
         }
-        try {
+        runCatching {
             DrmManager::class.java.methodFinder().filterByName("setSupportAd").toList().createHooks {
                 returnConstant(false)
             }
-        } catch (t: Throwable) {
-            Log.ex(t)
+        }.onFailure {
+            logE(TAG, it)
         }
-        try {
+        runCatching {
             loadClass("com.android.thememanager.basemodule.ad.model.AdInfoResponse").methodFinder().filterByName("isAdValid").filterByParamCount(1).first()
                 .createHook {
                     returnConstant(false)
                 }
-        } catch (t: Throwable) {
-            Log.ex(t)
+        }.onFailure {
+            logE(TAG, it)
         }
 
         removeAds(loadClass("com.android.thememanager.recommend.view.listview.viewholder.SelfFontItemAdViewHolder"))

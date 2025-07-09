@@ -22,16 +22,16 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model
 import android.telephony.SubscriptionManager
 import android.view.View
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import androidx.core.view.isGone
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.card1
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.statusbar.icon.MobilePrefs.card2
 import com.sevtinge.hyperceiler.hook.utils.getIntField
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import de.robv.android.xposed.XposedHelpers
-import androidx.core.view.isGone
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 object MobilePublicHook : BaseHook() {
     private val statusBarMobileClass by lazy {
@@ -65,7 +65,7 @@ object MobilePublicHook : BaseHook() {
             "updateState",
             object : HookTool.MethodHook() {
                 override fun before(param: MethodHookParam) {
-                    hideSimCard(param)              
+                    hideSimCard(param)
                 }
 
                 override fun after(param: MethodHookParam) {

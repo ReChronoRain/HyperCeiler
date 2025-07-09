@@ -30,15 +30,16 @@ import android.graphics.RectF
 import android.graphics.drawable.Icon
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.scale
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.miuiMediaControlPanel
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import de.robv.android.xposed.XC_MethodHook
-import androidx.core.graphics.createBitmap
-import androidx.core.graphics.scale
-import androidx.core.graphics.drawable.toDrawable
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 object MediaPicture : BaseHook() {
     private val albumPictureCorners by lazy {
@@ -53,7 +54,7 @@ object MediaPicture : BaseHook() {
             ?.createAfterHook {
                 val context =
                     it.thisObject.objectHelper()
-                        .getObjectOrNullUntilSuperclassAs<Context>("mContext")
+                        .getObjectOrNullUntilSuperclass("mContext") as? Context
                         ?: return@createAfterHook
                 val mMediaViewHolder =
                     it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder")
@@ -61,7 +62,7 @@ object MediaPicture : BaseHook() {
 
                 if (albumPictureIdentifier) {
                     val appIcon =
-                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("appIcon")
+                        mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageView>("appIcon")
                     (appIcon?.parent as ViewGroup?)?.removeView(appIcon)
                 }
 
@@ -76,8 +77,8 @@ object MediaPicture : BaseHook() {
         param: XC_MethodHook.MethodHookParam,
         context: Context
     ) {
-        val albumView = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("albumView")
-        val artwork = param.args[0].objectHelper().getObjectOrNullAs<Icon>("artwork") ?: return
+        val albumView = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageView>("albumView")
+        val artwork = param.args[0].objectHelper().getObjectFieldOrNullAs<Icon>("artwork") ?: return
         val artworkLayer = artwork.loadDrawable(context) ?: return
 
         val artworkBitmap = createBitmap(artworkLayer.intrinsicWidth, artworkLayer.intrinsicHeight)

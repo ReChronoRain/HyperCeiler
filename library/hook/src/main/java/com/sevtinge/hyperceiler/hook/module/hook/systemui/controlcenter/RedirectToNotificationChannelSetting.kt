@@ -18,23 +18,23 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter
 
+import android.content.Context
 import android.content.Intent
 import android.os.UserHandle
 import android.provider.Settings
 import android.service.notification.StatusBarNotification
 import android.widget.ImageView
-import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNullAs
-import com.github.kyuubiran.ezxhelper.ClassUtils.invokeStaticMethodBestMatch
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
-import com.github.kyuubiran.ezxhelper.EzXHelper.initAppContext
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
-import com.github.kyuubiran.ezxhelper.ObjectUtils.getObjectOrNull
-import com.github.kyuubiran.ezxhelper.ObjectUtils.getObjectOrNullAs
-import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.invokeStaticMethodBestMatch
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.core.util.ObjectUtil.invokeMethodBestMatch
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed.initAppContext
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object RedirectToNotificationChannelSetting : BaseHook() {
     // by starVoyager
@@ -56,11 +56,11 @@ object RedirectToNotificationChannelSetting : BaseHook() {
             .createHook {
                 after { param ->
                     val mSbn =
-                        getObjectOrNullAs<StatusBarNotification>(param.thisObject, "mSbn") ?: return@after
+                        param.thisObject.getObjectFieldOrNullAs<StatusBarNotification>("mSbn") ?: return@after
                     val mInfoItem =
-                        getObjectOrNull(param.thisObject, "mInfoItem") ?: return@after
-                    initAppContext(getObjectOrNullAs(param.thisObject, "mContext"))
-                    val mIcon = getObjectOrNullAs<ImageView>(mInfoItem, "mIcon") ?: return@after
+                        param.thisObject.getObjectFieldOrNull("mInfoItem") ?: return@after
+                    initAppContext(param.thisObject.getObjectFieldOrNullAs<Context>("mContext"))
+                    val mIcon = mInfoItem.getObjectFieldOrNullAs<ImageView>("mIcon") ?: return@after
                     mIcon.setOnClickListener {
                         startChannelNotificationSettings(mSbn)
                         val modalController = invokeStaticMethodBestMatch(
@@ -82,8 +82,8 @@ object RedirectToNotificationChannelSetting : BaseHook() {
             ?.createHook {
                 before { param ->
                     param.thisObject.objectHelper {
-                        initAppContext(getObjectOrNullAs("mContext"))
-                        statusBarNotification = getObjectOrNullAs("mSbn")
+                        initAppContext(getObjectFieldOrNullAs<Context>("mContext"))
+                        statusBarNotification = getObjectFieldOrNullAs("mSbn") as StatusBarNotification?
                     }
                 }
                 after {
@@ -126,9 +126,8 @@ object RedirectToNotificationChannelSetting : BaseHook() {
                 Settings.EXTRA_CONVERSATION_ID, statusBarNotification.notification.shortcutId
             )
         }
-        val userHandleCurrent = getStaticObjectOrNullAs<UserHandle>(
-            UserHandle::class.java, "CURRENT"
-        )
+        val userHandleCurrent =
+            UserHandle::class.java.getObjectFieldOrNullAs<UserHandle>("CURRENT")
         invokeMethodBestMatch(
             appContext, "startActivityAsUser", null, intent, userHandleCurrent
         )

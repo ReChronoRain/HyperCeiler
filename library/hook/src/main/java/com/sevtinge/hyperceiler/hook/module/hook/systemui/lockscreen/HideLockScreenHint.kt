@@ -18,14 +18,14 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen
 
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.*
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import android.widget.ImageView
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
-import de.robv.android.xposed.*
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
+import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object HideLockScreenHint : BaseHook() {
     private val keyguardIndicationController by lazy {
@@ -55,7 +55,7 @@ object HideLockScreenHint : BaseHook() {
                 .single().createHook {
                     after {
                         val image =
-                            ObjectUtils.getObjectOrNullAs<ImageView>(it.thisObject, "mUpArrow") ?: return@after
+                            it.thisObject.getObjectFieldOrNullAs<ImageView>("mUpArrow") ?: return@after
                         image.alpha = 0.0f
                     }
                 }

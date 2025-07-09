@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static io.github.kyuubiran.ezxhelper.xposed.EzXposed.getAppContext;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
@@ -36,7 +37,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.hook.R;
 import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.hook.utils.TileUtils;
@@ -78,7 +78,7 @@ public class FiveGTile extends TileUtils {
     }
 
     private void initStyle3() {
-        Resources modRes = ResourcesTool.loadModuleRes(EzXHelper.getAppContext());
+        Resources modRes = ResourcesTool.loadModuleRes(getAppContext());
         String fiveG = modRes.getString(customRes());
 
         String detailContentClzName = "com.android.systemui.qs.QSDetailContent";
@@ -90,7 +90,7 @@ public class FiveGTile extends TileUtils {
                 new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
-                        if (EzXHelper.getAppContext().getResources().getConfiguration()
+                        if (getAppContext().getResources().getConfiguration()
                                 .orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             return;
                         }

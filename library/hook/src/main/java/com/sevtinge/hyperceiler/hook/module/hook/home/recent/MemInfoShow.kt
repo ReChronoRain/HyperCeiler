@@ -18,22 +18,22 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.recent
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object MemInfoShow : BaseHook() {
     override fun init() {
         // hyperOS for Pad 修复方案来自 hyper helper
-        try {
+        runCatching {
             // 此方法调用会将内存显示 hide，需拦截
             loadClass("com.miui.home.recents.views.RecentsDecorations").methodFinder()
                 .filterByName("hideTxtMemoryInfoView")
                 .single().createHook {
                 returnConstant(null)
             }
-        } catch (t: Throwable) {
+        }.onFailure {
             logE(TAG, "hideTxtMemoryInfoView method is null")
         }
 
@@ -41,7 +41,7 @@ object MemInfoShow : BaseHook() {
             loadClass("com.miui.home.recents.views.RecentsDecorations").methodFinder()
                 .filterByName("isMemInfoShow")
                 .single()
-        } catch (t: Throwable) {
+        } catch (_: Throwable) {
             loadClass("com.miui.home.recents.views.RecentsDecorations").methodFinder()
                 .filterByName("canTxtMemInfoShow")
                 .single()

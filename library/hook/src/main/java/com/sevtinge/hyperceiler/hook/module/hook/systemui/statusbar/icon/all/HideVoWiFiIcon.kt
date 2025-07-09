@@ -18,22 +18,21 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.setBooleanField
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object HideVoWiFiIcon : BaseHook() {
+    private val hideVoWifi by lazy {
+        mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi")
+    }
+    private val hideVolte by lazy {
+        mPrefsMap.getBoolean("system_ui_status_bar_icon_volte")
+    }
+
     override fun init() {
-        val hideVoWifi by lazy {
-            mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi")
-        }
-        val hideVolte by lazy {
-            mPrefsMap.getBoolean("system_ui_status_bar_icon_volte")
-        }
         if (isMoreAndroidVersion(35)) {
             loadClass("com.miui.interfaces.IOperatorCustomizedPolicy\$OperatorConfig").constructors[0].createHook {
                 after {
@@ -41,17 +40,13 @@ object HideVoWiFiIcon : BaseHook() {
                     it.thisObject.setBooleanField("hideVolte", hideVolte)
                 }
             }
-        } else if (isAndroidVersion(34)) {
+        } else {
             loadClass("com.android.systemui.MiuiOperatorCustomizedPolicy\$MiuiOperatorConfig").constructors[0].createHook {
                 after {
                     it.thisObject.setBooleanField("hideVowifi", hideVoWifi)
                     it.thisObject.setBooleanField("hideVolte", hideVolte)
                 }
             }
-        } else if (hideVoWifi) {
-            loadClass("com.android.systemui.MiuiOperatorCustomizedPolicy\$MiuiOperatorConfig").methodFinder()
-                .filterByName("getHideVowifi")
-                .single().createHook { returnConstant(true) }
         }
     }
 }

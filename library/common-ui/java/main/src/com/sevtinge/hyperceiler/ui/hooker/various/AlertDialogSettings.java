@@ -18,14 +18,14 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker.various;
 
-import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
 
-public class AlertDialogSettings extends SettingsPreferenceFragment {
+public class AlertDialogSettings extends DashboardFragment {
 
     private DropDownPreference mDialogGravity;
     private SeekBarPreferenceCompat mDialogHorizontalMargin;

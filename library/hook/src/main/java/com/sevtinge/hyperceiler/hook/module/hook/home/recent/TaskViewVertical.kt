@@ -19,11 +19,11 @@
 package com.sevtinge.hyperceiler.hook.module.hook.home.recent
 
 import android.graphics.RectF
-import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
 import com.sevtinge.hyperceiler.hook.utils.findClass
 import com.sevtinge.hyperceiler.hook.utils.replaceMethod
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
 
 object TaskViewVertical : BaseHook() {
     override fun init() {

@@ -21,11 +21,6 @@
     app:myLocation="@string/various">
     <PreferenceCategory>
         <Preference
-            android:enabled="false"
-            android:title="@string/various_location_simulation_title"
-            app:isPreferenceVisible="false" />
-
-        <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.hooker.various.AlertDialogSettings"
             android:key="prefs_key_various_dialog"
             android:title="@string/various_dialog_title"
@@ -42,74 +37,6 @@
             android:key="prefs_key_various_mipad"
             android:title="@string/various_mipad_title"
             app:isPreferenceVisible="true" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_various_super_clipboard_e"
-            android:summary="@string/various_super_clipboard_summary"
-            android:title="@string/various_unlock_super_clipboard"
-            app:entries="@array/super_clipboard"
-            app:entryValues="@array/super_clipboard_value" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="prefs_key_various_super_clipboard_key"
-        android:title="@string/various_super_clipboard_title">
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_various_super_clipboard_gallery_int"
-            android:summary="@string/various_super_clipboard_picture_desc"
-            android:title="@string/gallery"
-            app:entries="@array/super_clipboard_switch"
-            app:entryValues="@array/super_clipboard_switch_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_various_super_clipboard_screenshot_int"
-            android:summary="@string/various_super_clipboard_picture_desc"
-            android:title="@string/screenshot"
-            app:entries="@array/super_clipboard_switch"
-            app:entryValues="@array/super_clipboard_switch_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_various_super_clipboard_fileexplorer_int"
-            android:summary="@string/various_super_clipboard_files_desc"
-            android:title="@string/fileexplorer"
-            app:entries="@array/super_clipboard_switch"
-            app:entryValues="@array/super_clipboard_switch_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_various_super_clipboard_browser_int"
-            android:summary="@string/various_super_clipboard_files_desc"
-            android:title="@string/browser"
-            app:entries="@array/super_clipboard_switch"
-            app:entryValues="@array/super_clipboard_switch_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_various_super_clipboard_notes_int"
-            android:summary="@string/various_super_clipboard_picture_share_desc"
-            android:title="@string/notes"
-            app:entries="@array/super_clipboard_switch"
-            app:entryValues="@array/super_clipboard_switch_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_various_super_clipboard_creation_int"
-            android:summary="@string/various_super_clipboard_picture_share_desc"
-            android:title="@string/creation"
-            app:entries="@array/super_clipboard_switch"
-            app:entryValues="@array/super_clipboard_switch_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_various_super_clipboard_mms_int"
-            android:title="@string/mms"
-            app:entries="@array/super_clipboard_switch"
-            app:entryValues="@array/super_clipboard_switch_value" />
 
     </PreferenceCategory>
 

@@ -18,10 +18,10 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.battery
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import java.lang.reflect.*
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import java.lang.reflect.Method
 
 object ScreenUsedTime : BaseHook() {
     private val method1 by lazy<Method> {

@@ -23,9 +23,6 @@ import android.annotation.SuppressLint
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.SeekBar
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.initPct
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.mPct
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.removePct
@@ -35,6 +32,9 @@ import com.sevtinge.hyperceiler.hook.utils.getIntField
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 object NewShowVolumePct {
     @JvmStatic

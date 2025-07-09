@@ -18,23 +18,30 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.app
 
-import android.annotation.*
-import android.app.*
-import android.content.*
-import android.content.pm.verify.domain.*
-import android.net.*
-import android.provider.*
-import android.view.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
-import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.pm.verify.domain.DomainVerificationManager
+import android.provider.Settings
+import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.net.toUri
 import com.sevtinge.hyperceiler.hook.BuildConfig
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import de.robv.android.xposed.*
-import de.robv.android.xposed.XposedHelpers.*
-import java.lang.reflect.*
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
+import de.robv.android.xposed.XposedHelpers
+import de.robv.android.xposed.XposedHelpers.callMethod
+import de.robv.android.xposed.XposedHelpers.getObjectField
+import de.robv.android.xposed.XposedHelpers.newInstance
+import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.classLoader
+import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
+import java.lang.reflect.Method
 
 
 @SuppressLint("DiscouragedApi")
@@ -99,7 +106,7 @@ class OpenByDefaultSetting : BaseHook() {
             val intent = Intent().apply {
                 action = Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS
                 addCategory(Intent.CATEGORY_DEFAULT)
-                data = Uri.parse("package:${pkgName}")
+                data = "package:${pkgName}".toUri()
                 addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
             }

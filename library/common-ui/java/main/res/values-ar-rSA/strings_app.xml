@@ -1539,7 +1539,6 @@
     <!--Other-->
     <string name="various">أخرى</string>
     <string name="app_version_not_supported">إصدار غير مدعوم</string>
-    <string name="various_location_simulation_title">الموقع الوهمي</string>
     <string name="various_dialog_title">الحوار</string>
     <string name="various_mipad_title">مي باد</string>
     <string name="various_open_aosp_something_title">الميزات المخفية</string>
@@ -1554,12 +1553,6 @@
     <string name="various_collapse_miui_title">أسلوب عنوان النظام</string>
     <string name="various_collapse_miui_title_desc">تعديل عنوان الشريط العلوي في تطبيقات النظام</string>
     <string name="various_disable_folder_cantuse">إزالة حد المجلد غير المتاح</string>
-    <string name="various_super_clipboard_title">الحافظة السوبر</string>
-    <string name="various_unlock_super_clipboard">سلوك الحافظة السوبر</string>
-    <string name="various_super_clipboard_summary">فقط التطبيقات التي تحتوي على بيانات is_support_miui_super_clipboard مدعومة</string>
-    <string name="various_super_clipboard_picture_desc">السماح بنسخ الصورة إلى الحافظة</string>
-    <string name="various_super_clipboard_files_desc">السماح بنسخ الملفات إلى الحافظة</string>
-    <string name="various_super_clipboard_picture_share_desc">السماح بنسخ الصور ولصقها في الحافظة</string>
     <string name="various_open_aosp_battery_title">تحسين البطارية</string>
     <string name="various_open_aosp_running_services">الخدمات الجارية</string>
     <string name="various_open_aosp_notification_title">إعدادات الإشعارات</string>

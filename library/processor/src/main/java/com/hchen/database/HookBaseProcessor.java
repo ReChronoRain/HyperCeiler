@@ -47,7 +47,6 @@ public class HookBaseProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         ++count;
         if (count > 1) return true;
-        delayedOutput();
         try (Writer writer = processingEnv.getFiler().createSourceFile("com.sevtinge.hyperceiler.module.base.DataBase").openWriter()) {
             writer.write("""
                     /*
@@ -139,16 +138,5 @@ public class HookBaseProcessor extends AbstractProcessor {
         \|__|     \|_______| \|__|\|__| \|__|\|__||\___/ /
                                                   \|___|/
     * */
-    private void delayedOutput() {
-        final String RESET = "\033[0m";  // Text Reset
-        final String RED = "\033[0;31m";    // RED
-        final String GREEN = "\033[0;32m";  // GREEN
-        final String YELLOW = "\033[0;33m"; // YELLOW
-        final String BLUE = "\033[0;34m";   // BLUE
-        final String PURPLE = "\033[0;35m"; // PURPLE
-        final String CYAN = "\033[0;36m";   // CYAN
-        final String WHITE = "\033[0;37m";  // WHITE
-        // 引起歧义了 请不要再写这类东西了
-    }
 
 }

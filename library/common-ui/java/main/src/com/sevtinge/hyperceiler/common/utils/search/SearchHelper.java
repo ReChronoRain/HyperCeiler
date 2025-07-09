@@ -26,10 +26,11 @@ import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.text.TextUtils;
 
-import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
-import com.sevtinge.hyperceiler.ui.hooker.securitycenter.OtherSettings;
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.common.model.data.ModData;
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.hooker.AodFragment;
 import com.sevtinge.hyperceiler.ui.hooker.CameraNewFragment;
 import com.sevtinge.hyperceiler.ui.hooker.ContentExtensionFragment;
@@ -44,7 +45,6 @@ import com.sevtinge.hyperceiler.ui.hooker.SystemSettingsFragment;
 import com.sevtinge.hyperceiler.ui.hooker.UpdaterFragment;
 import com.sevtinge.hyperceiler.ui.hooker.VariousFragment;
 import com.sevtinge.hyperceiler.ui.hooker.WeatherFragment;
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.hooker.framework.CorePatchSettings;
 import com.sevtinge.hyperceiler.ui.hooker.framework.DisplaySettings;
 import com.sevtinge.hyperceiler.ui.hooker.framework.FreeFormSettings;
@@ -68,6 +68,7 @@ import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim7Settings;
 import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim8Settings;
 import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim9Settings;
 import com.sevtinge.hyperceiler.ui.hooker.securitycenter.ApplicationsSettings;
+import com.sevtinge.hyperceiler.ui.hooker.securitycenter.OtherSettings;
 import com.sevtinge.hyperceiler.ui.hooker.securitycenter.PrivacySafetySettings;
 import com.sevtinge.hyperceiler.ui.hooker.securitycenter.SidebarSettings;
 import com.sevtinge.hyperceiler.ui.hooker.systemui.ControlCenterSettings;
@@ -83,7 +84,6 @@ import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.NetworkSpeedIndicat
 import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.NewClockIndicatorSettings;
 import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.StrongToastSettings;
 import com.sevtinge.hyperceiler.ui.hooker.various.AOSPSettings;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -101,11 +101,7 @@ public class SearchHelper {
 
     public static String TAG = "SearchHelper";
 
-    public static final HashSet<String> NEW_MODS = new HashSet<>(
-            Set.of(
-                    "pref_key_launcher_nozoomanim"
-            )
-    );
+    public static final HashSet<String> NEW_MODS = new HashSet<>(Set.of("pref_key_launcher_nozoomanim"));
 
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
     public static final String APP_NS = "http://schemas.android.com/apk/res-auto";

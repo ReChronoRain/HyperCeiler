@@ -18,20 +18,24 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media
 
-import android.content.res.*
-import android.graphics.*
-import android.graphics.drawable.*
-import android.view.*
-import android.widget.*
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createAfterHook
-import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ClipDrawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import android.view.Gravity
+import android.widget.SeekBar
+import androidx.core.graphics.toColorInt
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.mediaViewHolder
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.miuiMediaControlPanel
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.seekBarObserver
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.api.dp
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.colorFilter
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 object MediaSeekBar : BaseHook() {
     private val progress by lazy {
@@ -49,15 +53,16 @@ object MediaSeekBar : BaseHook() {
 
     override fun init() {
         mediaViewHolder?.constructors?.first()?.createAfterHook {
-            val seekBar = it.thisObject.objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
+            val seekBar = it.thisObject.objectHelper()
+                    .getObjectFieldOrNullAs<SeekBar>("seekBar")
 
             val backgroundDrawable = GradientDrawable().apply {
-                color = ColorStateList(arrayOf(intArrayOf()), intArrayOf(Color.parseColor("#20ffffff")))
+                color = ColorStateList(arrayOf(intArrayOf()), intArrayOf("#20ffffff".toColorInt()))
                 cornerRadius = cornerRadiusBar.dp.toFloat()
             }
 
             val onProgressDrawable = GradientDrawable().apply {
-                color = ColorStateList(arrayOf(intArrayOf()), intArrayOf(Color.parseColor("#ffffffff")))
+                color = ColorStateList(arrayOf(intArrayOf()), intArrayOf("#ffffffff".toColorInt()))
                 cornerRadius = cornerRadiusBar.dp.toFloat()
             }
 
@@ -90,7 +95,7 @@ object MediaSeekBar : BaseHook() {
             miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()?.createAfterHook {
                 val mMediaViewHolder = it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder") ?: return@createAfterHook
 
-                val seekBar = mMediaViewHolder.objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
+                val seekBar = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<SeekBar>("seekBar")
                 seekBar?.thumb?.colorFilter = colorFilter(Color.TRANSPARENT)
             }
         }

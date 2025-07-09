@@ -29,16 +29,6 @@ import android.os.Handler
 import android.os.PowerManager
 import android.util.ArrayMap
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.ClassUtils.invokeStaticMethodBestMatch
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadFirstClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.github.kyuubiran.ezxhelper.ObjectUtils.getObjectOrNull
-import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
-import com.github.kyuubiran.ezxhelper.ObjectUtils.setObject
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.Dependency
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub
@@ -46,7 +36,16 @@ import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull
+import com.sevtinge.hyperceiler.hook.utils.setObjectField
 import de.robv.android.xposed.XC_MethodHook
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.invokeStaticMethodBestMatch
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadFirstClass
+import io.github.kyuubiran.ezxhelper.core.util.ObjectUtil.invokeMethodBestMatch
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 import java.io.BufferedReader
 import java.io.FileReader
 import java.math.BigDecimal
@@ -108,15 +107,10 @@ object ChargingCVP : BaseHook() {
     ) {
         val screenOnOffReceiver = object : BroadcastReceiver() {
             val keyguardIndicationController = runCatching {
-                invokeStaticMethodBestMatch(
-                    clazzDependency, "get", null, clazzKeyguardIndicationController
-                )!!
+                invokeStaticMethodBestMatch(clazzDependency, "get", null, clazzKeyguardIndicationController)!!
             }.getOrElse {
                 val mKeyguardIndicationController =
-                    getObjectOrNull(
-                        MiuiStub.sysUIProvider,
-                        "mKeyguardIndicationController"
-                    )!!
+                    MiuiStub.sysUIProvider.getObjectFieldOrNull("mKeyguardIndicationController")!!
                 invokeMethodBestMatch(mKeyguardIndicationController, "get")!!
             }
             val handler = Handler((param.thisObject as TextView).context.mainLooper)
@@ -124,7 +118,7 @@ object ChargingCVP : BaseHook() {
                 val clazzMiuiChargeController =
                     loadClass("com.miui.charge.MiuiChargeController")
                 val mProviders =
-                    getObjectOrNull(Dependency.INSTANCE, "mProviders") as ArrayMap<*, *>
+                    Dependency.INSTANCE.getObjectFieldOrNull("mProviders") as ArrayMap<*, *>
                 val mMiuiChargeControllerProvider =
                     mProviders[clazzMiuiChargeController]!!
                 val instanceMiuiChargeController = if (isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35)) {
@@ -147,16 +141,16 @@ object ChargingCVP : BaseHook() {
 
                 fun doUpdateForHyperOS() {
                     val mBatteryStatus =
-                        getObjectOrNull(instanceMiuiChargeController, "mBatteryStatus")!!
-                    val level = getObjectOrNull(mBatteryStatus, "level")
-                    val plugged = getObjectOrNull(mBatteryStatus, "plugged") as Int
+                        instanceMiuiChargeController.getObjectFieldOrNull("mBatteryStatus")!!
+                    val level = mBatteryStatus.getObjectFieldOrNull("level")
+                    val plugged = mBatteryStatus.getObjectFieldOrNull("plugged") as Int
                     val isPluggedIn = if (isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35)) {
                         mBatteryStatus.callMethod("isPluggedIn", plugged)
                     } else {
                         invokeMethodBestMatch(mBatteryStatus, "isPluggedIn")
                     }
                     val mContext =
-                        getObjectOrNull(instanceMiuiChargeController, "mContext")
+                        instanceMiuiChargeController.getObjectFieldOrNull("mContext")
                     val clazzChargeUtils =
                         loadClass("com.miui.charge.ChargeUtils", lpparam.classLoader)
                     val chargingHintText =
@@ -168,11 +162,7 @@ object ChargingCVP : BaseHook() {
                             isPluggedIn,
                             mContext
                         )
-                    setObject(
-                        keyguardIndicationController,
-                        "mComputePowerIndication",
-                        chargingHintText
-                    )
+                    keyguardIndicationController.setObjectField("mComputePowerIndication", chargingHintText)
                     invokeMethodBestMatch(
                         keyguardIndicationController,
                         "updateDeviceEntryIndication",

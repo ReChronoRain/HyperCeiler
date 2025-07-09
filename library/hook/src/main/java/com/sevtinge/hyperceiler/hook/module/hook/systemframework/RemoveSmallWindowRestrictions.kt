@@ -19,12 +19,13 @@
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework
 
 import android.content.Context
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.api.field
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 
 object RemoveSmallWindowRestrictions : BaseHook() {
@@ -42,11 +43,9 @@ object RemoveSmallWindowRestrictions : BaseHook() {
         runCatching {
             loadClass("com.android.server.wm.ActivityTaskManagerService").methodFinder()
                 .filterByName("retrieveSettings")
-                .single().createHook {
-                    after { param ->
-                        param.thisObject.javaClass.field("mDevEnableNonResizableMultiWindow")
-                            .setBoolean(param.thisObject, true)
-                    }
+                .single().createAfterHook { param ->
+                    param.thisObject.javaClass.field("mDevEnableNonResizableMultiWindow")
+                        .setBoolean(param.thisObject, true)
                 }
         }.onFailure { e ->
             logE(TAG, this.lpparam.packageName, "Hook retrieveSettings failed by: $e")

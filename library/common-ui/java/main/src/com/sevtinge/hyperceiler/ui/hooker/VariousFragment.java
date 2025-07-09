@@ -18,28 +18,22 @@
  */
 package com.sevtinge.hyperceiler.ui.hooker;
 
+import static android.os.Looper.getMainLooper;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.os.Handler;
 
-import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.KillApp;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
-import fan.preference.DropDownPreference;
-
-public class VariousFragment extends SettingsPreferenceFragment
-    implements Preference.OnPreferenceChangeListener {
-
-    DropDownPreference mSuperModePreference;
+public class VariousFragment extends DashboardFragment {
     PreferenceCategory mDefault;
     SwitchPreference mClipboard;
     SwitchPreference mClipboardClear;
@@ -54,22 +48,18 @@ public class VariousFragment extends SettingsPreferenceFragment
 
     @Override
     public void initPrefs() {
-        int mode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_various_super_clipboard_e", "0"));
-        mSuperModePreference = findPreference("prefs_key_various_super_clipboard_e");
         mDefault = findPreference("prefs_key_various_super_clipboard_key");
         mMipad = findPreference("prefs_key_various_mipad");
         mClipboard = findPreference("prefs_key_sogou_xiaomi_clipboard");
         mClipboardClear = findPreference("prefs_key_add_clipboard_clear");
         mMipad.setVisible(isPad());
         mClipboardClear.setVisible(isMoreHyperOSVersion(2f));
-        handler = new Handler();
+        handler = new Handler(getMainLooper());
 
         mClipboard.setOnPreferenceChangeListener((preference, o) -> {
             initKill();
             return true;
         });
-        setSuperMode(mode);
-        mSuperModePreference.setOnPreferenceChangeListener(this);
     }
 
     private void initKill() {
@@ -78,17 +68,5 @@ public class VariousFragment extends SettingsPreferenceFragment
                 KillApp.killApps("com.sohu.inputmethod.sogou.xiaomi",
                     "com.sohu.inputmethod.sogou"));
         });
-    }
-
-    @Override
-    public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
-        if (preference == mSuperModePreference) {
-            setSuperMode(Integer.parseInt((String) o));
-        }
-        return true;
-    }
-
-    private void setSuperMode(int mode) {
-        mDefault.setVisible(mode == 1);
     }
 }

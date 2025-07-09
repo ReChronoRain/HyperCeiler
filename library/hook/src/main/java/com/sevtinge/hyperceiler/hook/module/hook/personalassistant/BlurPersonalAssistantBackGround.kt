@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.hook.module.hook.personalassistant
 
 import android.content.res.Configuration
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.getIntField
@@ -28,6 +27,7 @@ import com.sevtinge.hyperceiler.hook.utils.hookBeforeMethod
 import com.sevtinge.hyperceiler.hook.utils.new
 import com.sevtinge.hyperceiler.hook.utils.replaceMethod
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 object BlurPersonalAssistantBackGround : BaseHook() {
     private val deviceAdapter by lazy {

@@ -18,12 +18,11 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework.display
 
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.github.kyuubiran.ezxhelper.Log
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import de.robv.android.xposed.XC_MethodHook
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 import miui.drm.DrmManager
 import miui.drm.ThemeReceiver
 
@@ -42,7 +41,7 @@ class ThemeProvider : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            Log.ex(t)
+            logE(TAG, t)
         }
     }
 }

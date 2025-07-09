@@ -18,12 +18,12 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.home.recent
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
 import com.sevtinge.hyperceiler.hook.utils.setIntField
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 object TaskViewHeaderOffset : BaseHook() {
     override fun init() {

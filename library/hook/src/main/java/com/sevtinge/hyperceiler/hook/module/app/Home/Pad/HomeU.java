@@ -74,6 +74,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.layout.UnlockGrids;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.WorkspacePadding;
 import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.EnableHideGestureLine;
 import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.EnableMoreSetting;
+import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.SetGestureNeedFingerNum;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaWidth;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.HideNavigationBar;
@@ -139,7 +140,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AlwaysShowMiuiWidge
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.HideWidgetTitles;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.ResizableWidgets;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.WidgetBlurOpt;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.mipad.SetGestureNeedFingerNum;
 
 import java.util.Objects;
 

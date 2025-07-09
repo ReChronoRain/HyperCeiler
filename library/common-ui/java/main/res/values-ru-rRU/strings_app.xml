@@ -1543,7 +1543,6 @@
     <!--Other-->
     <string name="various">Прочее</string>
     <string name="app_version_not_supported">Неподдерживаемая версия</string>
-    <string name="various_location_simulation_title">Поддельное местоположение</string>
     <string name="various_dialog_title">Всплывающее окно</string>
     <string name="various_mipad_title">Mi Pad</string>
     <string name="various_open_aosp_something_title">Скрытые свойства</string>
@@ -1558,12 +1557,6 @@
     <string name="various_collapse_miui_title">Стиль заголовка</string>
     <string name="various_collapse_miui_title_desc">Изменяет заголовок верхней панели в приложениях MIUI</string>
     <string name="various_disable_folder_cantuse">Снять ограничение на доступ к запретной папке</string>
-    <string name="various_super_clipboard_title">Супер буфер обмена</string>
-    <string name="various_unlock_super_clipboard">Режим супер буфера обмена</string>
-    <string name="various_super_clipboard_summary">Поддерживаются только приложения, содержащие метаданные is_support_miui_super_clipboard</string>
-    <string name="various_super_clipboard_picture_desc">Разрешить копирование изображения в буфер обмена</string>
-    <string name="various_super_clipboard_files_desc">Копирование файлов в буфер обмена</string>
-    <string name="various_super_clipboard_picture_share_desc">Разрешить копирование и вставку изображений в буфер обмена</string>
     <string name="various_open_aosp_battery_title">Оптимизация батареи</string>
     <string name="various_open_aosp_running_services">Запуск служб</string>
     <string name="various_open_aosp_notification_title">Настройки уведомлений</string>

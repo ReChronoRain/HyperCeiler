@@ -627,7 +627,7 @@
     <string name="joyose_disable_cloud_control">才... 才不要别人指手画脚呢！</string>
     <string name="joyose_game_title">隐秘的角落</string>
     <string name="joyose_enable_gpu_tuner">解锁隐藏调教</string>
-    <string name="joyose_enable_gpu_tuner_desc">才... 才不能让你全看到呢</string>
+    <string name="joyose_enable_gpu_tuner_desc">才… 才不能让你全看到呢</string>
     <!--GetApps-->
     <string name="market_bypass_risk_check">我不入地狱谁入地狱</string>
     <string name="market_disable_start_push_dialog">禁用啟動推送對話框</string>
@@ -643,8 +643,6 @@
     <!--Other-->
     <string name="various_nobrightness">不自由，毋宁死</string>
     <string name="various_disable_folder_cantuse">让我看看</string>
-    <string name="various_super_clipboard_title">半NB的超坤剪切板</string>
-    <string name="various_super_clipboard_summary">Is_support_miui_super_clipboard数据？哈哈哈，丢啦</string>
     <string name="ic_qs_title_bluetooth">蓝色牙齿</string>
     <string name="ic_qs_title_flashlight">烫点</string>
 </resources>

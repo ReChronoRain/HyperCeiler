@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.hook.module.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.creation.UnlockCreation;
-import com.sevtinge.hyperceiler.hook.module.hook.various.UnlockSuperClipboard;
 
 @HookBase(targetPackage = "com.miui.creation")
 public class Creation extends BaseModule {
@@ -29,6 +28,5 @@ public class Creation extends BaseModule {
     @Override
     public void handleLoadPackage() {
         initHook(UnlockCreation.INSTANCE, mPrefsMap.getBoolean("creation_unlock_enable"));
-        initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getStringAsInt("various_super_clipboard_e", 0) != 0);
     }
 }

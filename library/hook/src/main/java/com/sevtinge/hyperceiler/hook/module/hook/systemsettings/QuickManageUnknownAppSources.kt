@@ -21,8 +21,8 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemsettings
 import android.app.Activity
 import android.os.Bundle
 import android.provider.Settings
-import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
 
 class QuickManageUnknownAppSources : BaseHook() {
     override fun init() {

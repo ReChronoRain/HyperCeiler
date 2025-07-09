@@ -18,14 +18,14 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.updater
 
-import android.os.*
-import android.text.*
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
+import android.os.Build
+import android.text.TextUtils
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import de.robv.android.xposed.*
-import java.lang.reflect.*
+import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import java.lang.reflect.Method
 
 object VersionCodeNew : BaseHook() {
     private val mBigMethod by lazy<Method> {
@@ -57,10 +57,10 @@ object VersionCodeNew : BaseHook() {
     }
 
     private val mOldVersionCode =
-        mPrefsMap.getString("various_updater_big_version", "V816")
+        mPrefsMap.getString("various_updater_big_version", "OS2")
 
     private val mVersionCode =
-        mPrefsMap.getString("various_updater_miui_version", "V14.0.22.11.26.DEV")
+        mPrefsMap.getString("various_updater_miui_version", "OS2.0.200.0.VOCCNXM")
 
 
     override fun init() {
@@ -80,11 +80,9 @@ object VersionCodeNew : BaseHook() {
         })
 
         // 大版本名字修改
-        mBigMethod.createHook {
-            before {
-                if (!TextUtils.isEmpty(mOldVersionCode)) {
-                    it.result = mOldVersionCode.substringAfter("V")
-                }
+        mBigMethod.createBeforeHook {
+            if (!TextUtils.isEmpty(mOldVersionCode)) {
+                it.result = mOldVersionCode.substringAfter("V")
             }
         }
 
@@ -98,12 +96,12 @@ object VersionCodeNew : BaseHook() {
         }
 
         // OS 版本修改
-        mOSCode.createHook {
-            before {
-                if (!TextUtils.isEmpty(mVersionCode)) {
-                    it.result =
-                        "${mVersionCode.split(".")[0]}.${mVersionCode.split(".")[1]}.${mVersionCode.split(".")[2]}"
-                }
+        mOSCode.createBeforeHook {
+            if (!TextUtils.isEmpty(mVersionCode)) {
+                it.result =
+                    "${mVersionCode.split(".")[0]}.${mVersionCode.split(".")[1]}.${
+                        mVersionCode.split(".")[2]
+                    }"
             }
         }
     }

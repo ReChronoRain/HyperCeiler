@@ -1558,7 +1558,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Other-->
     <string name="various">Khác</string>
     <string name="app_version_not_supported">Phiên bản không hỗ trợ</string>
-    <string name="various_location_simulation_title">Giả vị trí</string>
     <string name="various_dialog_title">Hộp thoại</string>
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">Tính năng ẩn</string>
@@ -1573,13 +1572,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="various_collapse_miui_title">Kiểu tiêu đề hệ thống</string>
     <string name="various_collapse_miui_title_desc">Điều chỉnh tiêu đề thanh trên cùng trong ứng dụng MIUI</string>
     <string name="various_disable_folder_cantuse">Xóa hạn chế một số thư mục không chọn được</string>
-    <string name="various_super_clipboard_title">Siêu bảng ghi tạm</string>
-    <string name="various_unlock_super_clipboard">Mở khoá Super Clipboard</string>
-    <string name="various_super_clipboard_summary">Super clipboard là clipboard hỗ trợ sao chép tập tin/văn bản
-Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is_support_miui_super_clipboard, tính năng này sẽ không khả dụng nếu không có</string>
-    <string name="various_super_clipboard_picture_desc">Cho phép sao chép ảnh vào clipboard</string>
-    <string name="various_super_clipboard_files_desc">Cho phép sao chép tập tin vào clipboard</string>
-    <string name="various_super_clipboard_picture_share_desc">Cho phép sao chép và dán hình ảnh vào clipboard</string>
     <string name="various_open_aosp_battery_title">Tối ưu hóa hiệu suất pin</string>
     <string name="various_open_aosp_running_services">Dịch vụ đang chạy</string>
     <string name="various_open_aosp_notification_title">Cài đặt thông báo</string>

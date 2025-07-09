@@ -65,7 +65,9 @@ dependencies {
 
     api(libs.dexkit)
     api(libs.mmkv)
-    api(libs.ezxhelper)
+    api(libs.ezxhelper.core)
+    api(libs.ezxhelper.xposed.api)
+    api(libs.ezxhelper.android.utils)
     api(libs.hiddenapibypass)
     api(libs.gson)
     api(libs.hooktool)

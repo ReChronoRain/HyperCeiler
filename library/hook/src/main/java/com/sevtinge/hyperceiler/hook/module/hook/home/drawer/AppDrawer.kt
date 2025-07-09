@@ -19,14 +19,14 @@
 package com.sevtinge.hyperceiler.hook.module.hook.home.drawer
 
 import android.view.View
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.callMethodAs
 import com.sevtinge.hyperceiler.hook.utils.findClass
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object AppDrawer : BaseHook() {
     override fun init() {
@@ -36,7 +36,7 @@ object AppDrawer : BaseHook() {
                     .methodFinder()
                     .filterByName("buildSortCategoryList")
                     .single()
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 loadClassOrNull("com.miui.home.launcher.allapps.category.AllAppsCategoryListContainer")!!
                     .methodFinder()
                     .filterByName("buildSortCategoryList")

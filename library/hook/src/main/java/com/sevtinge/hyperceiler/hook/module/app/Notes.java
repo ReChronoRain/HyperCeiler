@@ -21,14 +21,12 @@ package com.sevtinge.hyperceiler.hook.module.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.notes.DisableAiWatermark;
-import com.sevtinge.hyperceiler.hook.module.hook.various.UnlockSuperClipboard;
 
 @HookBase(targetPackage = "com.miui.notes")
 public class Notes extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getStringAsInt("various_super_clipboard_e", 0) != 0);
         initHook(new DisableAiWatermark(), mPrefsMap.getBoolean("notes_disable_ai_watermark"));
     }
 }

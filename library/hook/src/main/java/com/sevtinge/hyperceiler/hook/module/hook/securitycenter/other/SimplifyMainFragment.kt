@@ -19,10 +19,10 @@
 
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.other
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 
 object SimplifyMainFragment : BaseHook() {
     override fun init() {
@@ -30,21 +30,19 @@ object SimplifyMainFragment : BaseHook() {
             .filterByName("addAll")
             .filterByParamTypes(List::class.java)
             .single()
-            .createHook {
-                before { param ->
-                    val oldModelList = param.args[0] as List<*>
-                    val removedModel = listOf(
-                        // 功能推荐
-                        "com.miui.common.card.models.FuncListBannerCardModel",
-                        // 常用功能
-                        // "com.miui.common.card.models.CommonlyUsedFunctionCardModel",
-                        // 大家都在用
-                        "com.miui.common.card.models.PopularActionCardModel"
-                    )
+            .createBeforeHook { param ->
+                val oldModelList = param.args[0] as List<*>
+                val removedModel = listOf(
+                    // 功能推荐
+                    "com.miui.common.card.models.FuncListBannerCardModel",
+                    // 常用功能
+                    // "com.miui.common.card.models.CommonlyUsedFunctionCardModel",
+                    // 大家都在用
+                    "com.miui.common.card.models.PopularActionCardModel"
+                )
 
-                    param.args[0] = oldModelList.filterNot { model ->
-                        removedModel.contains(model!!.javaClass.name)
-                    }
+                param.args[0] = oldModelList.filterNot { model ->
+                    removedModel.contains(model!!.javaClass.name)
                 }
             }
     }

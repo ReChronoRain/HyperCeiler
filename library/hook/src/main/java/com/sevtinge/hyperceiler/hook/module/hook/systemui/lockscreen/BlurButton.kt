@@ -26,9 +26,6 @@ import android.graphics.drawable.LayerDrawable
 import android.view.View
 import android.view.ViewOutlineProvider
 import android.widget.ImageView
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.github.kyuubiran.ezxhelper.ObjectUtils
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.lockscreen.Keyguard.keyguardBottomAreaInjector
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.lockscreen.Keyguard.leftButtonType
@@ -38,8 +35,12 @@ import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.clearMiBackgroundB
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isHyperOSVersion
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.hook.utils.setBooleanField
 import de.robv.android.xposed.XC_MethodHook
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 object BlurButton : BaseHook() {
     private val removeLeft by lazy {
@@ -80,16 +81,12 @@ object BlurButton : BaseHook() {
     }
 
     private fun systemBlur(param: XC_MethodHook.MethodHookParam) {
-        val mLeftAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
-            param.thisObject,
-            "mLeftButton"
-        )!!
-        val mRightAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
-            param.thisObject,
-            "mRightButton"
-        )!!
+        val mLeftAffordanceView: ImageView =
+            param.thisObject.getObjectFieldOrNullAs<ImageView>("mLeftButton")!!
+        val mRightAffordanceView: ImageView =
+            param.thisObject.getObjectFieldOrNullAs<ImageView>("mRightButton")!!
         // Your blur logic
-        val context = ObjectUtils.getObjectOrNull(param.thisObject, "mContext") as Context
+        val context = param.thisObject.getObjectFieldAs("mContext") as Context
         val keyguardManager =
             context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
@@ -108,14 +105,10 @@ object BlurButton : BaseHook() {
     }
 
     private fun hyperBlur(param: XC_MethodHook.MethodHookParam) {
-        val mLeftAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
-            param.thisObject,
-            "mLeftButton"
-        )!!
-        val mRightAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
-            param.thisObject,
-            "mRightButton"
-        )!!
+        val mLeftAffordanceView: ImageView =
+            param.thisObject.getObjectFieldOrNullAs<ImageView>("mLeftButton")!!
+        val mRightAffordanceView: ImageView =
+            param.thisObject.getObjectFieldOrNullAs<ImageView>("mRightButton")!!
 
         if ((!removeLeft && isHyperOSVersion(1f)) || leftButtonType != 1) {
             addHyBlur(mLeftAffordanceView)
