@@ -36,18 +36,18 @@ object UnlockClipboard : BaseHook() {
             loadClass("com.android.systemui.clipboardoverlay.ClipboardListener")
         if (clazzClipboardListener.declaredFields.any { it.name == "sCtsTestPkgList" })
             clazzClipboardListener.methodFinder().filterByName("onPrimaryClipChanged")
-                .filterNonAbstract().single().createBeforeHook {
+                .filterNonAbstract().single().createBeforeHook { param ->
                     val mClipboardManager =
-                        it.thisObject.getObjectFieldOrNullAs<ClipboardManager>("mClipboardManager")!!
+                        param.thisObject.getObjectFieldOrNullAs<ClipboardManager>("mClipboardManager")!!
                     val primaryClipSource =
-                        invokeMethodBestMatch(mClipboardManager, "getPrimaryClipSource") as String
+                        invokeMethodBestMatch(mClipboardManager, "getPrimaryClipSource") as String?
                     val oldList =
-                        it.thisObject.getObjectFieldOrNullAs<List<String>>("sCtsTestPkgList")!!
+                        param.thisObject.getObjectFieldOrNullAs<List<String>>("sCtsTestPkgList")!!
                     val newList = mutableListOf<String>().apply {
                         addAll(oldList)
-                        if (!contains(primaryClipSource)) add(primaryClipSource)
+                        if (!contains(primaryClipSource)) primaryClipSource?.let { add(it) }
                     }
-                    it.thisObject.setObjectField("sCtsTestPkgList", newList)
+                    param.thisObject.setObjectField("sCtsTestPkgList", newList)
                 }
         else clazzClipboardListener.methodFinder().filterByName("start").filterNonAbstract()
             .single().createBeforeHook {
