@@ -19,93 +19,37 @@
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin
 
 import android.view.View
+import com.sevtinge.hyperceiler.hook.utils.callMethodAs
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
+import com.sevtinge.hyperceiler.hook.utils.replaceMethod
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 object HideCollpasedFootButton {
     fun initLoaderHook(classLoader: ClassLoader) {
-        val mRingerButtonHelper by lazy {
-            loadClass("com.android.systemui.miui.volume.MiuiRingerModeLayout\$RingerButtonHelper", classLoader)
-        }
-        val mTimerItem by lazy {
-            loadClass("com.android.systemui.miui.volume.TimerItem", classLoader)
-        }
 
-        XposedHelpers.findAndHookMethod(
-            mRingerButtonHelper, "updateState",
-            object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam?) {
-                    val thisObj = param?.thisObject
-                    val mIcon = XposedHelpers.getObjectField(thisObj, "mIcon") as View
-                    val mStandardView =
-                        XposedHelpers.getObjectField(thisObj, "mStandardView") as View
-                    val mExpanded = XposedHelpers.getBooleanField(thisObj, "mExpanded")
-                    if (mExpanded) {
-                        mIcon.visibility = View.VISIBLE
-                        mStandardView.visibility = View.VISIBLE
-                    } else {
-                        mIcon.visibility = View.GONE
-                        mStandardView.visibility = View.GONE
-
-                    }
-
+        loadClass(
+            "com.android.systemui.miui.volume.MiuiVolumeDialogView",
+            classLoader
+        ).methodFinder()
+            .filterByName("updateFooterVisibility")
+            .filterByParamTypes { it[0] == Boolean::class.java }
+            .first().replaceMethod {
+                val thisObj = it.thisObject
+                val mRingerModeLayout = thisObj.getObjectFieldAs<View>("mRingerModeLayout")
+                val mExpandButton = thisObj.getObjectFieldAs<View>("mExpandButton")
+                val mExpanded = thisObj.callMethodAs<Boolean>("isExpanded")
+                if (mExpanded){
+                    mRingerModeLayout.visibility = View.VISIBLE
+                    mExpandButton.visibility = View.GONE
+                }else{
+                    mRingerModeLayout.visibility = View.GONE
+                    mExpandButton.visibility = if (it.args[0] as Boolean) View.VISIBLE else View.GONE
                 }
-            })
+            }
 
-
-        if (isMoreHyperOSVersion(2f)) {
-            XposedHelpers.findAndHookMethod(
-                mRingerButtonHelper, "onExpanded", Boolean::class.java, Boolean::class.java,
-                object : XC_MethodHook() {
-                    override fun afterHookedMethod(param: MethodHookParam?) {
-                        val thisObj = param?.thisObject
-                        val z1 = param?.args?.get(0) as Boolean
-                        val z2 = param.args?.get(1) as Boolean
-
-                        val mStandardView =
-                            XposedHelpers.getObjectField(thisObj, "mStandardView") as View
-                        val mExpanded = XposedHelpers.getBooleanField(thisObj, "mExpanded")
-
-                        if (mExpanded != z1 || z2) {
-                            mStandardView.visibility = View.GONE
-                        } else {
-                            mStandardView.visibility = View.VISIBLE
-                        }
-
-                    }
-                })
-        } else {
-            XposedHelpers.findAndHookMethod(
-                mRingerButtonHelper, "onExpanded", Boolean::class.java,
-                object : XC_MethodHook() {
-                    override fun afterHookedMethod(param: MethodHookParam?) {
-                        val thisObj = param?.thisObject
-                        val z1 = param?.args?.get(0) as Boolean
-                        val mStandardView =
-                            XposedHelpers.getObjectField(thisObj, "mStandardView") as View
-                        val mExpanded = XposedHelpers.getBooleanField(thisObj, "mExpanded")
-
-                        if (mExpanded != z1) {
-                            mStandardView.visibility = View.GONE
-                        } else {
-                            mStandardView.visibility = View.VISIBLE
-                        }
-                    }
-                })
-        }
-
-        XposedHelpers.findAndHookMethod(
-            mTimerItem, "updateExpanded", Boolean::class.java,
-            object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam?) {
-                    val thisObj = param?.thisObject
-                    val mCountDownProgressBar =
-                        XposedHelpers.getObjectField(thisObj, "mCountDownProgressBar") as View
-
-                    mCountDownProgressBar.visibility = View.GONE
-                }
-            })
     }
 }
