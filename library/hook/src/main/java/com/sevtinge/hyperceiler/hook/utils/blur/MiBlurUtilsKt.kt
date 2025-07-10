@@ -23,6 +23,11 @@ import android.view.*
 
 object MiBlurUtilsKt {
 
+
+    private val chooseBackgroundBlurContainer by lazy {
+        View::class.java.getDeclaredMethod("chooseBackgroundBlurContainer", View::class.java)
+    }
+
     private val setMiViewBlurMode by lazy {
         View::class.java.getDeclaredMethod("setMiViewBlurMode", Integer.TYPE)
     }
@@ -53,6 +58,11 @@ object MiBlurUtilsKt {
 
     private val disableMiBackgroundContainBelow by lazy {
         View::class.java.getDeclaredMethod("disableMiBackgroundContainBelow", java.lang.Boolean.TYPE)
+    }
+
+
+    fun View.chooseBackgroundBlurContainer(container: View?) {
+        chooseBackgroundBlurContainer.invoke(this, container)
     }
 
     fun View.setMiBackgroundBlurMode(mode: Int) {
