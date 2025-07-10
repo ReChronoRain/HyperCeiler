@@ -91,13 +91,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Executors;
 
 public class SearchHelper {
 
     public static final int MARK_COLOR_VIBRANT = Color.rgb(255, 0, 0);
     public static final String NEW_MODS_SEARCH_QUERY = "\uD83C\uDD95";
-    public static List<ModData> allModsList = new ArrayList<>();
+    public static final List<ModData> allModsList = new ArrayList<>();
 
     public static String TAG = "SearchHelper";
 
@@ -360,100 +359,103 @@ public class SearchHelper {
         parsePrefXml(context, catPrefsFragment.getName(), xmlResId, internalId);
     }
 
-private static void parsePrefXml(Context context, String catPrefsFragment, int xmlResId, int... internalId) {
-    Executors.newSingleThreadExecutor().execute(() -> {
-        Resources res = context.getResources();
-        try (XmlResourceParser xml = res.getXml(xmlResId)) {
-            int order = 0;
-            String location = null, locationHyper = null, locationPad = null;
-            int locationId = 0, locationHyperId = 0, locationPadId = 0;
-            boolean isPad = isPad();
-            StringBuilder internalName = null;
-            int eventType = xml.getEventType();
+    private static void parsePrefXml(Context context, String catPrefsFragment, int xmlResId, int... internalId) {
+        ThreadPoolManager.getInstance().submit(() -> {
+            Resources res = context.getResources();
+            try (XmlResourceParser xml = res.getXml(xmlResId)) {
+                int order = 0;
+                String location = null, locationPad = null;
+                int locationId = 0, locationPadId = 0;
+                boolean isPadDevice = isPad();
+                StringBuilder internalName = null;
+                int eventType = xml.getEventType();
 
-            if (internalId.length != 0) {
-                internalName = new StringBuilder();
-                for (int id : internalId) {
-                    if (internalName.length() > 0) {
-                        internalName.append("/");
+                if (internalId.length != 0) {
+                    internalName = new StringBuilder();
+                    for (int id : internalId) {
+                        if (internalName.length() > 0) {
+                            internalName.append("/");
+                        }
+
+                        internalName.append(res.getString(id));
                     }
-                    internalName.append(res.getString(id));
                 }
-            }
 
-            List<ModData> localList = new ArrayList<>();
+                List<ModData> localList = new ArrayList<>(32);
 
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG && !xml.getName().equals("PreferenceCategory")) {
-                    try {
-                        ModData modData = new ModData();
-                        modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
-                        boolean isPreferenceVisible = Boolean.parseBoolean(xml.getAttributeValue(APP_NS, "isPreferenceVisible"));
+                while (eventType != XmlPullParser.END_DOCUMENT) {
+                    if (eventType == XmlPullParser.START_TAG && !"PreferenceCategory".equals(xml.getName())) {
+                        try {
+                            String titleAttr = xml.getAttributeValue(ANDROID_NS, "title");
+                            String keyAttr = xml.getAttributeValue(ANDROID_NS, "key");
+                            String isPrefVisibleAttr = xml.getAttributeValue(APP_NS, "isPreferenceVisible");
+                            String myLocationPadAttr = xml.getAttributeValue(APP_NS, "myLocationPad");
+                            String myLocationAttr = xml.getAttributeValue(APP_NS, "myLocation");
 
-                        if (locationPad == null) {
-                            locationPad = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocationPad"));
-                            locationPadId = getModId(xml.getAttributeValue(APP_NS, "myLocationPad"));
-                        }
-                        if (location == null) {
-                            location = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocation"));
-                            locationId = getModId(xml.getAttributeValue(APP_NS, "myLocation"));
-                        }
+                            String modTitle = getModTitle(res, titleAttr);
+                            boolean isPreferenceVisible = Boolean.parseBoolean(isPrefVisibleAttr);
 
-                        if (!TextUtils.isEmpty(modData.title) && !isPreferenceVisible) {
-                            String internalPad = internalName == null ? locationPad : internalName + "/" + locationPad;
-                            String internal = internalName == null ? location : internalName + "/" + location;
+                            if (locationPad == null && myLocationPadAttr != null) {
+                                locationPad = getModTitle(res, myLocationPadAttr);
+                                locationPadId = getModId(myLocationPadAttr);
+                            }
+                            if (location == null && myLocationAttr != null) {
+                                location = getModTitle(res, myLocationAttr);
+                                locationId = getModId(myLocationAttr);
+                            }
 
-                            if (locationHyper == null || location == null || (isPad && locationPad == null)) {
-                                if (location != null) {
+                            if (!TextUtils.isEmpty(modTitle) && !isPreferenceVisible) {
+                                String internalPad = internalName == null ? locationPad : internalName + "/" + locationPad;
+                                String internal = internalName == null ? location : internalName + "/" + location;
+
+                                ModData modData = new ModData();
+                                modData.title = modTitle;
+                                if (location != null && (!isPadDevice || locationPad == null)) {
                                     modData.breadcrumbs = internal;
                                     modData.catTitleResId = locationId;
                                 } else if (locationPad != null) {
                                     modData.breadcrumbs = internalPad;
                                     modData.catTitleResId = locationPadId;
                                 }
-                            } else {
-                                if (!isPad) {
-                                    modData.breadcrumbs = internal;
-                                    modData.catTitleResId = locationId;
-                                } else {
-                                    modData.breadcrumbs = internalPad;
-                                    modData.catTitleResId = locationPadId;
-                                }
+                                modData.xml = xmlResId;
+                                modData.key = keyAttr;
+                                modData.order = order;
+                                modData.fragment = catPrefsFragment;
+                                localList.add(modData);
                             }
-
-                            modData.xml = xmlResId;
-                            modData.key = xml.getAttributeValue(ANDROID_NS, "key");
-                            modData.order = order;
-                            modData.fragment = catPrefsFragment;
-                            localList.add(modData);
+                            order++;
+                        } catch (Throwable t) {
+                            AndroidLogUtils.logE(TAG, "Failed to get xml keyword object!", t);
                         }
-                        order++;
-                    } catch (Throwable t) {
-                        AndroidLogUtils.logE(TAG, "Failed to get xml keyword object!", t);
+                    }
+                    eventType = xml.next();
+                }
+
+                if (!localList.isEmpty()) {
+                    synchronized (allModsList) {
+                        allModsList.addAll(localList);
                     }
                 }
-                eventType = xml.next();
-            }
 
-            synchronized (allModsList) {
-                allModsList.addAll(localList);
+            } catch (Throwable t) {
+                AndroidLogUtils.logE(TAG, "Failed to access XML resource!", t);
             }
-
-        } catch (Throwable t) {
-            AndroidLogUtils.logE(TAG, "Failed to access XML resource!", t);
-        }
-    });
-}
+        });
+    }
 
     private static int getModId(String title) {
         if (title == null) {
             return -1;
         }
-        int titleResId = Integer.parseInt(title.substring(1));
-        if (titleResId <= 0) {
+        try {
+            int titleResId = Integer.parseInt(title.substring(1));
+            if (titleResId <= 0) {
+                return -1;
+            }
+            return titleResId;
+        } catch (NumberFormatException e) {
             return -1;
         }
-        return titleResId;
     }
 
     private static String getModTitle(Resources res, String title) {

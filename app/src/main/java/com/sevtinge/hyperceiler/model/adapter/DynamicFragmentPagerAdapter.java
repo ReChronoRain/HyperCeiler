@@ -43,16 +43,16 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
     private static final String TAG = "HC:DynamicFragmentPagerAdapter";
 
     private String mCurrTab;
-    private int mFragmentSize;
+    private final int mFragmentSize;
 
-    private AppCompatActivity mActivity;
+    private final AppCompatActivity mActivity;
     private FragmentManager mFragmentManager;
     private Fragment mCurrentPrimaryItem = null;
     private FragmentTransaction mCurTransaction = null;
 
     private final Map<String, FragmentInfo> mFragmentCache;
 
-    class FragmentInfo {
+    static class FragmentInfo {
 
         String tag;
         boolean lazyInit;
@@ -95,14 +95,14 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
             mCurTransaction = mFragmentManager.beginTransaction();
         }
         Fragment fragment = getFragment(tag, true);
-        if (fragment.getFragmentManager() != null) {
+        if (fragment.getParentFragment() != null) {
             mCurTransaction.attach(fragment);
         } else {
             mCurTransaction.add(container.getId(), fragment, tag);
         }
         if (fragment != mCurrentPrimaryItem) {
             fragment.setMenuVisibility(false);
-            fragment.setUserVisibleHint(false);
+            // fragment.setUserVisibleHint(false);
         }
         return fragment;
     }
@@ -132,11 +132,11 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         if (fragment != mCurrentPrimaryItem) {
             if (mCurrentPrimaryItem != null) {
                 mCurrentPrimaryItem.setMenuVisibility(false);
-                mCurrentPrimaryItem.setUserVisibleHint(false);
+                // mCurrentPrimaryItem.setUserVisibleHint(false);
             }
             if (fragment != null) {
                 fragment.setMenuVisibility(true);
-                fragment.setUserVisibleHint(true);
+                // fragment.setUserVisibleHint(true);
             }
             mCurrentPrimaryItem = fragment;
         }
@@ -169,7 +169,8 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
                 fragmentInfo.fragment = mFragmentManager.findFragmentByTag(fragmentInfo.tag);
             }
             if (z && fragmentInfo.fragment == null) {
-                fragmentInfo.fragment = Fragment.instantiate(mActivity, fragmentInfo.clazz.getName());
+                fragmentInfo.fragment = mFragmentManager.getFragmentFactory()
+                    .instantiate(mActivity.getClassLoader(), fragmentInfo.clazz.getName());
             }
             return fragmentInfo.fragment;
         }
@@ -180,7 +181,8 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
                 case TabViewModel.TAB_SETTINGS -> name = SettingsPageFragment.class.getName();
                 case TabViewModel.TAB_ABOUT -> name = AboutPageFragment.class.getName();
             }
-            return Fragment.instantiate(mActivity, name);
+            return mFragmentManager.getFragmentFactory()
+                .instantiate(mActivity.getClassLoader(), name);
         }
         return mFragmentManager.findFragmentByTag(tag);
     }
@@ -202,6 +204,8 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
     }
 
     private Fragment getNewFragment(String str) {
-        return Fragment.instantiate(mActivity, mFragmentCache.get(str).clazz.getName());
+        ClassLoader classLoader = mActivity.getClassLoader();
+        String className = mFragmentCache.get(str).clazz.getName();
+        return mFragmentManager.getFragmentFactory().instantiate(classLoader, className);
     }
 }

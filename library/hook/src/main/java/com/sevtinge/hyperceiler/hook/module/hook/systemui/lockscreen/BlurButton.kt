@@ -32,8 +32,10 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.lockscreen.Keygua
 import com.sevtinge.hyperceiler.hook.utils.blur.BlurUtils.createBlurDrawable
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
+import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurMode
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
+import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setPassWindowBlurEnabled
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
@@ -145,8 +147,10 @@ object BlurButton : BaseHook() {
         view.clipToOutline = true
         view.apply {
             clearMiBackgroundBlendColor()
+            setPassWindowBlurEnabled(true)
             setMiViewBlurMode(1)
-            setMiBackgroundBlurRadius(40)
+            setMiBackgroundBlurMode(1)
+            setMiBackgroundBlurRadius(100)
             addMiBackgroundBlendColor(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0), 101)
         }
     }
