@@ -36,6 +36,7 @@ import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mPrefsMap
 import com.sevtinge.hyperceiler.hook.utils.replaceMethod
 import de.robv.android.xposed.XposedHelpers
@@ -337,7 +338,10 @@ object VolumeOrQSBrightnessValue {
                     val inMirror = it.thisObject.getObjectField("inMirror") as Boolean
                     topValue.chooseBackgroundBlurContainer(
                         if (inMirror) {
-                            it.thisObject.getObjectField("mirrorBlendBackground") as View
+                            with(it.thisObject) {
+                                getObjectFieldOrNullAs<View>("mirrorBlendBackground")
+                                    ?: getObjectFieldOrNullAs<View>("mirrorBlurProvider")
+                            }
                         } else {
                             null
                         }
