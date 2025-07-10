@@ -27,12 +27,30 @@ import android.os.Looper
 import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import com.sevtinge.hyperceiler.hook.utils.callMethod
+import com.sevtinge.hyperceiler.hook.utils.getBooleanField
+import com.sevtinge.hyperceiler.hook.utils.getFloatField
+import com.sevtinge.hyperceiler.hook.utils.getObjectField
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logD
+import com.sevtinge.hyperceiler.hook.utils.replaceMethod
+import com.sevtinge.hyperceiler.hook.utils.setLongField
+import com.sevtinge.hyperceiler.hook.utils.setObjectField
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.collections.get
 
 object StartCollpasedColumnPress {
     fun initLoaderHook(classLoader: ClassLoader) {
@@ -46,122 +64,101 @@ object StartCollpasedColumnPress {
             loadClass("com.android.systemui.miui.volume.MiuiVolumeSeekBar", classLoader)
         }
 
-        XposedHelpers.findAndHookMethod(
-            miuiVolumeDialogView, "onFinishInflate",
-            object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam?) {
-                    val thisObj = param?.thisObject
-                    val mExpandButton =
-                        XposedHelpers.getObjectField(thisObj, "mExpandButton") as View
-                    mExpandButton.setOnClickListener(null)
-                    mExpandButton.alpha = 0f
-                    mExpandButton.isClickable = false
-                    mExpandButton.visibility = View.GONE
-                }
-            })
-
-        XposedHelpers.findAndHookMethod(
-            miuiVolumeDialogView, "notifyAccessibilityChanged", Boolean::class.java,
-            object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam?) {
-                    val thisObj = param?.thisObject
-                    val mExpandButton =
-                        XposedHelpers.getObjectField(thisObj, "mExpandButton") as View
-
-                    mExpandButton.setOnClickListener(null)
-                    mExpandButton.isClickable = false
-                    mExpandButton.visibility = View.GONE
-                }
-            })
-
-        XposedBridge.hookAllConstructors(miuiVolumeDialogMotion, object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam?) {
-                val thisObj = param?.thisObject
-                val mExpandButton = XposedHelpers.getObjectField(thisObj, "mExpandButton") as View
-
-                mExpandButton.setOnTouchListener(null)
-            }
-        })
-
-
         var longClick = false
-        XposedHelpers.findAndHookMethod(
-            miuiVolumeDialogMotion, "lambda\$processExpandTouch\$1",
-            object : XC_MethodReplacement() {
-                override fun replaceHookedMethod(param: MethodHookParam?): Any? {
-                    val thisObj = param?.thisObject
-                    if (XposedHelpers.getBooleanField(thisObj, "mExpanded") || !longClick) return null
-                    val mVolumeView = XposedHelpers.getObjectField(thisObj, "mVolumeView") as View
+        var longPressJob: Job? = null
 
-                    logD("StartCollpasedColumnPress", "miui.systemui.plugin", "processExpandTouch")
+        fun View.startScaleAnimation() {
+            longClick = true
+            animate()
+                .scaleX(0.92f)
+                .scaleY(0.92f)
+                .setDuration(300)
+                .start()
+        }
 
-                    with(AnimatorSet()) {
-                        playTogether(
-                            ObjectAnimator.ofFloat(mVolumeView, "scaleX", 0.95f),
-                            ObjectAnimator.ofFloat(mVolumeView, "scaleY", 0.95f)
-                        )
-                        duration = 100L
-                        addListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator) {
-                                super.onAnimationEnd(animation)
-                                mVolumeView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                                val mVolumeExpandCollapsedAnimator =
-                                    XposedHelpers.getObjectField(thisObj, "mVolumeExpandCollapsedAnimator")
-                                val mCallback = XposedHelpers.getObjectField(thisObj, "mCallback")
-                                XposedHelpers.callMethod(mVolumeExpandCollapsedAnimator, "calculateFromViewValues", true)
-                                XposedHelpers.callMethod(mCallback, "onExpandClicked")
+        fun View.stopScaleAnimation() {
+            longClick = false
+            animate()
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .setDuration(300)
+                .start()
+        }
 
-                                mVolumeView.scaleX = 1f
-                                mVolumeView.scaleY = 1f
-                            }
-                        })
-                        start()
+        miuiVolumeDialogView.methodFinder().apply {
+            filterByName("onFinishInflate")
+                .first().createAfterHook {
+                    it.thisObject.getObjectFieldAs<View>("mExpandButton").apply {
+                        alpha = 0f
+                        isClickable = false
+                        visibility = View.GONE
+                        setOnClickListener(null)
                     }
-                    return null
+
                 }
+            filterByName("notifyAccessibilityChanged")
+                .filterByParamTypes {
+                    it[0] == Boolean::class.java
+                }.first().createAfterHook {
+                    it.thisObject.getObjectFieldAs<View>("mExpandButton").apply {
+                        isClickable = false
+                        visibility = View.GONE
+                        setOnClickListener(null)
+                    }
+                }
+        }
 
-            })
+        miuiVolumeDialogMotion.methodFinder().apply {
+            filterByName("lambda\$processExpandTouch\$1")
+                .first().createBeforeHook {
+                    it.thisObject.setObjectField("mIsExpandButton",true)
+                }
+        }
+        miuiVolumeSeekBar.methodFinder()
+            .filterByName("onTouchEvent")
+            .filterByParamTypes {
+                it[0] == MotionEvent::class.java
+            }.first().createAfterHook {
+                val mSeekBarOnclickListener = it.thisObject.getObjectField("mSeekBarOnclickListener")
+                val mSeekBarAnimListener = it.thisObject.getObjectField("mSeekBarAnimListener")!!
+                val volumePanelViewController = mSeekBarAnimListener.getObjectField("this\$0")!!
+                val mVolumeView = volumePanelViewController.getObjectFieldAs<View>("mVolumeView")
 
-        XposedHelpers.findAndHookMethod(
-            miuiVolumeSeekBar, "onTouchEvent", MotionEvent::class.java,
-            object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam?) {
-                    super.afterHookedMethod(param)
-                    val thisObj = param?.thisObject
-                    val mSeekBarOnclickListener =
-                        XposedHelpers.getObjectField(thisObj, "mSeekBarOnclickListener")
+                it.thisObject.setLongField("mCurrentMS",0L)
+                if (mSeekBarOnclickListener != null) {
+                    val motionEvent = it.args?.get(0) as MotionEvent
+                    when (motionEvent.action) {
+                        MotionEvent.ACTION_DOWN -> {
+                            if ( !volumePanelViewController.getBooleanField("mExpanded") ){
+                                longPressJob = CoroutineScope(Dispatchers.Main).launch {
+                                    mVolumeView.startScaleAnimation()
+                                    delay(300)
+                                    val mMoveY = it.thisObject.getFloatField("mMoveY")
+                                    if (longClick && mMoveY < 10f){
+                                        mVolumeView.apply {
+                                            scaleY = 1f
+                                            scaleX = 1f
+                                            performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+                                        }
+                                        mSeekBarOnclickListener.callMethod( "onClick")
 
-                    val handler = Handler(Looper.getMainLooper())
-                    val mLongPressRunnable = Runnable {
-                        val mMoveY = XposedHelpers.getFloatField(thisObj, "mMoveY")
-                        if (longClick) {
-                            thisObj as View
-                            XposedHelpers.callMethod(mSeekBarOnclickListener, "onClick")
+                                    }
+
+                                }
+                            }
+                        }
+                        MotionEvent.ACTION_UP->{
+                            mVolumeView.stopScaleAnimation()
+                            longPressJob?.cancel()
+                        }
+                        MotionEvent.ACTION_CANCEL -> {
+                            mVolumeView.stopScaleAnimation()
+                            longPressJob?.cancel()
                         }
                     }
 
-                    if (mSeekBarOnclickListener != null) {
-                        val motionEvent = param?.args?.get(0) as MotionEvent
-
-                        val action = motionEvent.action
-                        when (action) {
-                            0 -> {
-                                longClick = true
-                                XposedHelpers.setLongField(thisObj, "mCurrentMS", 0L)
-                                handler.postDelayed(mLongPressRunnable, 300L)
-                            }
-
-                            1 -> {
-                                longClick = false
-                                XposedHelpers.setLongField(thisObj, "mCurrentMS", 0L)
-                            }
-
-                            2 -> {
-                                longClick = false
-                            }
-                        }
-                    }
                 }
-            })
+            }
+
     }
 }
