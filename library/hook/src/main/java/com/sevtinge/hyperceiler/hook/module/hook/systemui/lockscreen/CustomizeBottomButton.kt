@@ -27,11 +27,11 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.hchen.hooktool.utils.ResInjectTool
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool.MethodHook.returnConstant
-import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.FlashlightController
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.lockscreen.Keyguard.keyguardBottomAreaInjector
@@ -174,7 +174,7 @@ object CustomizeBottomButton : BaseHook() {
                 flashlightController = MiuiStub.sysUIProvider.flashlightController
 
                 val context = MiuiStub.baseProvider.context
-                ResourcesTool.loadModuleRes(context)
+                ResInjectTool.injectModuleRes(context.resources)
                 chargeImage(param, context)
             }
         })

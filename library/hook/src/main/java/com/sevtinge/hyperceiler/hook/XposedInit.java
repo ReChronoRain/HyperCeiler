@@ -35,7 +35,6 @@ import android.os.Process;
 import com.hchen.hooktool.HCInit;
 import com.sevtinge.hyperceiler.hook.module.app.VariousThirdApps;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowUninstall;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BackgroundBlurDrawable;
@@ -70,15 +69,11 @@ import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
 public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     private static final String TAG = "HyperCeiler";
     public static String mModulePath = null;
-    public static ResourcesTool mResHook;
-
     // public static XmlTool mXmlTool;
     public final VariousThirdApps mVariousThirdApps = new VariousThirdApps();
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
-        // load ResourcesTool
-        mResHook = new ResourcesTool(startupParam.modulePath);
         mModulePath = startupParam.modulePath;
         // mXmlTool = new XmlTool(startupParam);
         // load New XSPrefs

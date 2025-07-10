@@ -29,6 +29,7 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.R;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
@@ -48,10 +49,10 @@ public class NotificationRowMenu extends BaseHook {
         int appInfoDescId = R.string.system_notifrowmenu_appinfo;
         int forceCloseDescId = R.string.system_notifrowmenu_forceclose;
         int openInFwDescId = R.string.system_notifrowmenu_openinfw;
-        mResHook.setDensityReplacement("com.android.systemui", "dimen", "notification_menu_icon_padding", 0);
-        mResHook.setDensityReplacement("com.android.systemui", "dimen", "miui_notification_modal_menu_margin_left_right", 3);
-        mResHook.setResReplacement("com.android.systemui", "drawable", "miui_notification_menu_ic_bg_active", R.drawable.miui_notification_menu_ic_bg_active);
-        mResHook.setResReplacement("com.android.systemui", "drawable", "miui_notification_menu_ic_bg_inactive", R.drawable.miui_notification_menu_ic_bg_inactive);
+        ResInjectTool.setDensityReplacement("com.android.systemui", "dimen", "notification_menu_icon_padding", 0);
+        ResInjectTool.setDensityReplacement("com.android.systemui", "dimen", "miui_notification_modal_menu_margin_left_right", 3);
+        ResInjectTool.setResReplacement("com.android.systemui", "drawable", "miui_notification_menu_ic_bg_active", R.drawable.miui_notification_menu_ic_bg_active);
+        ResInjectTool.setResReplacement("com.android.systemui", "drawable", "miui_notification_menu_ic_bg_inactive", R.drawable.miui_notification_menu_ic_bg_inactive);
 
         Class<?> MiuiNotificationMenuItem = findClass("com.android.systemui.statusbar.notification.row.MiuiNotificationMenuRow.MiuiNotificationMenuItem", lpparam.classLoader);
         hookAllMethods("com.android.systemui.statusbar.notification.row.MiuiNotificationMenuRow", "createMenuViews", new MethodHook() {

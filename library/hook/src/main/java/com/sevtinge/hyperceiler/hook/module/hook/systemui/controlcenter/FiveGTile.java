@@ -37,8 +37,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
+import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.R;
-import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.hook.utils.TileUtils;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.TelephonyManager;
@@ -78,7 +78,7 @@ public class FiveGTile extends TileUtils {
     }
 
     private void initStyle3() {
-        Resources modRes = ResourcesTool.loadModuleRes(getAppContext());
+        Resources modRes = ResInjectTool.injectModuleRes(getAppContext().getResources());
         String fiveG = modRes.getString(customRes());
 
         String detailContentClzName = "com.android.systemui.qs.QSDetailContent";

@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework;
 
+import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.R;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
@@ -64,8 +65,8 @@ public class DisableFreeformBlackList extends BaseHook {
         // 强制所有活动设为可以调整大小
         /*findAndHookMethod(mTaskCls, "isResizeable", XC_MethodReplacement.returnConstant(true));*/
 
-        mResHook.setResReplacement("android", "array", "freeform_black_list", R.array.miui_freeform_black_list);
-        mResHook.setResReplacement("android.miui", "array", "freeform_black_list", R.array.miui_freeform_black_list);
-        mResHook.setResReplacement("com.miui.rom", "array", "freeform_black_list", R.array.miui_freeform_black_list);
+        ResInjectTool.setResReplacement("android", "array", "freeform_black_list", R.array.miui_freeform_black_list);
+        ResInjectTool.setResReplacement("android.miui", "array", "freeform_black_list", R.array.miui_freeform_black_list);
+        ResInjectTool.setResReplacement("com.miui.rom", "array", "freeform_black_list", R.array.miui_freeform_black_list);
     }
 }

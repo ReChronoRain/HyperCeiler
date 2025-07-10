@@ -28,6 +28,8 @@ import android.os.Handler;
 import android.os.RemoteException;
 import android.provider.Settings;
 
+import androidx.annotation.NonNull;
+
 import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.utils.SystemPropTool;
 import com.sevtinge.hyperceiler.hook.IEffectInfo;
@@ -64,7 +66,7 @@ public class NewAutoSEffSwitch extends HCBase {
     }
 
     @Override
-    protected void onApplication(Context context) {
+    protected void onApplicationAfter(@NonNull Context context) {
         mContext = context;
         Intent intent = mContext.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         if (intent == null) return;

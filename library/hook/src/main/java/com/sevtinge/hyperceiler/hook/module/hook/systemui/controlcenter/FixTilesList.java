@@ -18,13 +18,14 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter;
 
+import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.R;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 public class FixTilesList extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        mResHook.setResReplacement("com.android.systemui", "string", "miui_quick_settings_tiles_stock", R.string.miui_quick_settings_tiles_stock);
-        mResHook.setResReplacement("com.android.systemui", "string", "miui_quick_settings_tiles_stock_pad", R.string.miui_quick_settings_tiles_stock_pad);
+        ResInjectTool.setResReplacement("com.android.systemui", "string", "miui_quick_settings_tiles_stock", R.string.miui_quick_settings_tiles_stock);
+        ResInjectTool.setResReplacement("com.android.systemui", "string", "miui_quick_settings_tiles_stock_pad", R.string.miui_quick_settings_tiles_stock_pad);
     }
 }

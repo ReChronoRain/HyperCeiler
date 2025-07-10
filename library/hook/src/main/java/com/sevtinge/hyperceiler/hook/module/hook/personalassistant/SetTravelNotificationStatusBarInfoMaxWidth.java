@@ -19,11 +19,12 @@
 
 package com.sevtinge.hyperceiler.hook.module.hook.personalassistant;
 
+import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 public class SetTravelNotificationStatusBarInfoMaxWidth extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        mResHook.setDensityReplacement("com.miui.personalassistant", "dimen", "pa_travel_notification_statusbar_info_max_width", (float) mPrefsMap.getInt("personal_assistant_set_tv_notif_info_max_width", 60));
+        ResInjectTool.setDensityReplacement("com.miui.personalassistant", "dimen", "pa_travel_notification_statusbar_info_max_width", (float) mPrefsMap.getInt("personal_assistant_set_tv_notif_info_max_width", 60));
     }
 }
