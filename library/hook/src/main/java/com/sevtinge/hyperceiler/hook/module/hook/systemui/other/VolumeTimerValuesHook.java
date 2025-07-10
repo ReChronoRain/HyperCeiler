@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.other;
 
+import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.R;
-import com.sevtinge.hyperceiler.hook.XposedInit;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 public class VolumeTimerValuesHook extends BaseHook {
@@ -99,6 +99,6 @@ public class VolumeTimerValuesHook extends BaseHook {
     }
 
     public static void VolumeTimerValuesRes() {
-        XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "array", "miui_volume_timer_segments", R.array.miui_volume_timer_segments);
+        ResInjectTool.setResReplacement("miui.systemui.plugin", "array", "miui_volume_timer_segments", R.array.miui_volume_timer_segments);
     }
 }

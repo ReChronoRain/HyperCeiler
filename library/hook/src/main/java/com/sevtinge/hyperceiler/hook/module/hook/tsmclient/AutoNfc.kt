@@ -24,6 +24,7 @@ import android.content.Context
 import android.nfc.NfcAdapter
 import android.os.Bundle
 import android.widget.Toast
+import com.hchen.hooktool.utils.ResInjectTool
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.MethodHookParam
@@ -68,13 +69,13 @@ object AutoNfc : BaseHook() {
             }
         })
 
-        mResHook.setResReplacement(
+        ResInjectTool.setResReplacement(
             "com.miui.tsmclient",
             "string",
             "nfc_off_hint",
             R.string.tsmclient_nfc_turning_on
         )
-        mResHook.setResReplacement(
+        ResInjectTool.setResReplacement(
             "com.miui.tsmclient",
             "string",
             "immediately_open",

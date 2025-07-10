@@ -31,6 +31,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 
@@ -54,9 +55,9 @@ public class DualRowSignalHook extends BaseHook {
     @Override
     public void init() {
          if (!mobileTypeSingle) {
-            mResHook.setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_type_half_to_top_distance", 3);
-            mResHook.setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_left_inout_over_strength", 0);
-            mResHook.setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_type_middle_to_strength_start", -0.4f);
+             ResInjectTool.setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_type_half_to_top_distance", 3);
+             ResInjectTool.setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_left_inout_over_strength", 0);
+             ResInjectTool.setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_type_middle_to_strength_start", -0.4f);
         }
 
         HashMap<String, Integer> dualSignalResMap = new HashMap<>();

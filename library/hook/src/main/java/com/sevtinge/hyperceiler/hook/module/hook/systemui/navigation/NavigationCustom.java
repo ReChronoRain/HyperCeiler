@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.navigation;
 
+import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 
@@ -31,22 +32,22 @@ public class NavigationCustom extends BaseHook {
         float mNavigationFrameHeightLand = ((float) mPrefsMap.getInt("system_ui_navigation_frame_custom_height_land", 100) / 10);
 
         try {
-            mResHook.setDensityReplacement("*", "dimen", "navigation_bar_height", mNavigationHeight);
+            ResInjectTool.setDensityReplacement("*", "dimen", "navigation_bar_height", mNavigationHeight);
         } catch (Exception e) {
             logE(TAG, this.lpparam.packageName, "navigation_bar_height error", e);
         }
         try {
-            mResHook.setDensityReplacement("*", "dimen", "navigation_bar_height_landscape", mNavigationHeightLand);
+            ResInjectTool.setDensityReplacement("*", "dimen", "navigation_bar_height_landscape", mNavigationHeightLand);
         } catch (Exception e) {
             logE(TAG, this.lpparam.packageName, "navigation_bar_height_landscape error", e);
         }
         try {
-            mResHook.setDensityReplacement("*", "dimen", "navigation_bar_frame_height", mNavigationFrameHeight);
+            ResInjectTool.setDensityReplacement("*", "dimen", "navigation_bar_frame_height", mNavigationFrameHeight);
         } catch (Exception e) {
             logE(TAG, this.lpparam.packageName, "navigation_bar_frame_height error", e);
         }
         try {
-            mResHook.setDensityReplacement("*", "dimen", "navigation_bar_frame_height_landscape", mNavigationFrameHeightLand);
+            ResInjectTool.setDensityReplacement("*", "dimen", "navigation_bar_frame_height_landscape", mNavigationFrameHeightLand);
         } catch (Exception e) {
             logE(TAG, this.lpparam.packageName, "navigation_bar_frame_height_landscape error", e);
         }

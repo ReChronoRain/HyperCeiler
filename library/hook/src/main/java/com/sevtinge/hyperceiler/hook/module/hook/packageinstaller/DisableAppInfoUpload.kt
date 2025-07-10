@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hook.module.hook.packageinstaller
 
 import android.content.Context
+import com.hchen.hooktool.utils.ResInjectTool
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
@@ -143,8 +144,18 @@ object DisableAppInfoUpload : BaseHook() {
             }
         }
 
-        mResHook.setResReplacement("com.miui.packageinstaller", "layout", "layout_network_error", R.layout.replacement_empty)
-        mResHook.setResReplacement("com.miui.packageinstaller", "layout", "safe_mode_layout_network_error", R.layout.replacement_empty)
+        ResInjectTool.setResReplacement(
+            "com.miui.packageinstaller",
+            "layout",
+            "layout_network_error",
+            R.layout.replacement_empty
+        )
+        ResInjectTool.setResReplacement(
+            "com.miui.packageinstaller",
+            "layout",
+            "safe_mode_layout_network_error",
+            R.layout.replacement_empty
+        )
     }
 
     private fun logD(prefix: String, list:  List<Method>) {

@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemui;
 
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 
+import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.R;
-import com.sevtinge.hyperceiler.hook.XposedInit;
 import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -36,10 +36,10 @@ public class NotificationVolumeSeparateSlider {
         notifVolumeOnResId = R.drawable.ic_miui_volume_notification;
         notifVolumeOffResId = R.drawable.ic_miui_volume_notification_mute;
 
-        XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_content_width_expanded", R.dimen.miui_volume_content_width_expanded);
-        XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_ringer_layout_width_expanded", R.dimen.miui_volume_ringer_layout_width_expanded);
-        XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_width_expanded", R.dimen.miui_volume_column_width_expanded);
-        XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_margin_horizontal_expanded", R.dimen.miui_volume_column_margin_horizontal_expanded);
+        ResInjectTool.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_content_width_expanded", R.dimen.miui_volume_content_width_expanded);
+        ResInjectTool.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_ringer_layout_width_expanded", R.dimen.miui_volume_ringer_layout_width_expanded);
+        ResInjectTool.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_width_expanded", R.dimen.miui_volume_column_width_expanded);
+        ResInjectTool.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_margin_horizontal_expanded", R.dimen.miui_volume_column_margin_horizontal_expanded);
 
         HookTool.hookAllMethods(mMiuiVolumeDialogImpl, "addColumn", new HookTool.MethodHook() {
             @Override
