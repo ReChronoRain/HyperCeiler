@@ -48,7 +48,9 @@
                 android:targetPackage="com.android.settings" />
         </Preference>
 
-        <Preference android:title="@string/various_open_aosp_language_title">
+        <Preference
+            android:key="prefs_key_various_open_aosp_language"
+            android:title="@string/various_open_aosp_language_title">
             <intent
                 android:targetClass="com.android.settings.LanguageSettings"
                 android:targetPackage="com.android.settings" />

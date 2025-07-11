@@ -456,7 +456,6 @@
     <string name="system_other_delete_on_post_notification_desc">Remove \"This app is displaying over other apps\" notification</string>
     <string name="system_framework_share_menu_test">Share menu test</string>
     <string name="system_framework_open_with_menu_test">Open with menu test</string>
-    <string name="system_framework_other_use_original_animation">Transition animations use AOSP styles</string>
     <string name="system_framework_other_speed_install">Speed install</string>
     <string name="system_framework_other_speed_install_desc">Install with RAM to speed up installation. System core support is required.</string>
     <string name="system_framework_other_rotation_button">Rotation recommendations</string>
@@ -913,9 +912,6 @@
     <string name="system_settings_safe_wifi_desc">Unlock Manage saved networks\nPath: Settings > Wi-Fi > Additional settings > Manage saved networks</string>
     <string name="system_settings_novelty_haptic_title">Unlock new version of haptic feedback page</string>
     <string name="system_settings_novelty_haptic_desc">Only for devices with the Sounds &amp; Haptic feedback - Haptics page</string>
-    <string name="system_settings_enable_pad_area">Unlock Pad settings</string>
-    <string name="system_settings_enable_fold_area">Unlock Fold settings</string>
-    <string name="system_settings_enable_area_desc">Unsupported devices will cause the Settings crash after unlocking the options</string>
     <string name="system_settings_unlock_google_header">Unlock Google entry</string>
     <string name="system_settings_unlock_ui_mode">Unlock app layout optimizations</string>
     <string name="system_settings_usb_mode">Hide pop-up window when connecting to USB</string>
@@ -968,8 +964,6 @@
     <string name="theme_manager_version_code_modify_desc">Adjust the detected version to use some themes that aren\'t adapted to the new version</string>
     <string name="theme_manager_diable_ads">Disable ads</string>
     <string name="theme_manager_diable_ads_desc">Replace \"guess what you like\" ads with blank cards, and remove the rest of the ads completely.</string>
-    <string name="theme_manager_enable_pad_theme">Enable Pad theme</string>
-    <string name="theme_manager_enable_fold_theme">Enable Fold theme</string>
     <string name="theme_manager_allow_download_more">Allow more downloads without logging in</string>
     <string name="theme_manager_allow_download_more_desc">Allow downloading more than 10 items without logging in</string>
     <!--remotecontroller-->
@@ -1200,7 +1194,6 @@
     <string name="home_title_animation_speed">Animation speed</string>
     <string name="home_title_big_icon_corner">Medium icon round corner follow</string>
     <string name="home_title_download_animation">Download animation</string>
-    <string name="home_title_fix_animation">Optimize app interrupt animation</string>
     <string name="home_title_icon_scale">Icons scaling</string>
     <string name="home_title_disable_hide_file">Don\'t hide \"File Manager\" icon</string>
     <string name="home_title_disable_hide_theme">Don\'t hide \"Themes\" icon</string>
@@ -1269,7 +1262,6 @@
     <string name="home_dock_icon_bottom_margin">Icon distance from bottom margin</string>
     <string name="home_dock_margin_bottom">Margin of page indicator from bottom of screen</string>
     <string name="home_dock_unlock_hotseat">Remove icon number restriction from dock</string>
-    <string name="home_dock_fold">Dock Fold style</string>
     <string name="home_dock_icon_title">Show app name in dock</string>
     <string name="home_dock_disable_recents_icon">Hide recent app icons from the dock</string>
     <string name="home_dock_add_blur">Custom background display</string>
@@ -1288,9 +1280,7 @@
     <string name="home_other_tasks_shortcut_menu">More tasks mode</string>
     <string name="home_other_tasks_shortcut_menu_desc">Add More tasks mode to the shortcut menu</string>
     <string name="home_other_allow_share_apk">Allow share app</string>
-    <string name="home_other_user_present_animation">Optimize unlock animation</string>
     <string name="home_other_always_blur_launcher_wallpaper">Always blur launcher wallpaper</string>
-    <string name="home_other_perfect_icon">Perfect icon priority</string>
     <string name="home_other_icon_mono_chrome">Icon background color</string>
     <string name="home_other_icon_monet_color">Use monet color</string>
     <string name="home_other_use_edit_color">Edit color</string>
@@ -1494,7 +1484,6 @@
     <string name="security_center_sidebar_show_suggest">Disable show suggest apps</string>
     <string name="security_center_unlock_new_vb">Unlock new Video toolbox</string>
     <string name="security_center_game_performance_wild_mode">Unlock Wild Boost</string>
-    <string name="security_center_unlock_fbo">Unlock FBO</string>
     <string name="security_center_sidebar_videobox_title">Video toolbox</string>
     <string name="security_center_sidebar_gamebox_title">Gamebox</string>
     <string name="security_center_sidebar_function_title">Sidebar function</string>
@@ -1507,7 +1496,6 @@
     <string name="security_center_power_consumption_ranking">Show power consumption ranking</string>
     <string name="security_center_hide_xopt_mode_tip">Hide tip for hidden permission usage</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Unlock Cold endurance mode</string>
-    <string name="secutity_center_unlock_app_sandbox">Unlock Independent storage</string>
     <string name="secutity_center_battery_show_more_info">Show more battery info</string>
     <string name="secutity_center_battery_show_more_info_desc">Experimental feature. The additional battery information displayed may vary depending on the device.</string>
     <string name="security_center_unlock_car_sickness">Unlock Motion sickness relief</string>

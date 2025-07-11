@@ -399,7 +399,6 @@
     <string name="system_other_delete_on_post_notification_desc">Wyłącza powiadomienie \"Ta aplikacja wyświetla się nad innymi aplikacjami\"</string>
     <string name="system_framework_share_menu_test">Testuj menu udostępniania</string>
     <string name="system_framework_open_with_menu_test">Testuj menu \"Otwórz za pomocą\"</string>
-    <string name="system_framework_other_use_original_animation">Użyj animacji przejścia w stylu natywnym</string>
     <string name="system_framework_other_speed_install">Szybka instalacja</string>
     <string name="system_framework_other_speed_install_desc">Instaluje się w działającej pamięci, aby przyspieszyć instalację</string>
     <string name="system_framework_other_rotation_button">Zalecenia dotyczące obrotu</string>
@@ -819,9 +818,6 @@
     <string name="system_settings_safe_wifi_desc">Odblokuj zarządzanie zapisanymi sieciami\nŚcieżka: Ustawienia &gt; Wi-Fi &gt; Dodatkowe ustawienia &gt; Zarządzaj zapisanymi sieciami</string>
     <string name="system_settings_novelty_haptic_title">Odblokuj nową wersję strony wibracji</string>
     <string name="system_settings_novelty_haptic_desc">Tylko dla urządzeń z ustawieniami Dźwięki i wibracje - strona Haptyka</string>
-    <string name="system_settings_enable_pad_area">Odblokuj obszar Pad</string>
-    <string name="system_settings_enable_fold_area">Odblokuj obszar Fold</string>
-    <string name="system_settings_enable_area_desc">Urządzenia, które nie są obsługiwane, spowodują awarię Ustawień po odblokowaniu</string>
     <string name="system_settings_unlock_google_header">Odblokuj wpis Google</string>
     <string name="system_settings_unlock_ui_mode">Odblokuj optymalizację układu aplikacji</string>
     <string name="system_settings_usb_mode">Ukryj wyskakujące okno podczas połączenia z USB</string>
@@ -872,8 +868,6 @@
     <string name="theme_manager_version_code_modify_desc">Dostosuje wykrytą wersję, aby używać niektórych motywów, które nie są dostosowane w nowej wersji</string>
     <string name="theme_manager_diable_ads">Wyłącz reklamy</string>
     <string name="theme_manager_diable_ads_desc">Zastępuje reklamy z polecanymi motywami pustymi kartami i całkowicie usuwa pozostałe reklamy</string>
-    <string name="theme_manager_enable_pad_theme">Włącz motywy Pad</string>
-    <string name="theme_manager_enable_fold_theme">Włącz motywy Fold</string>
     <string name="theme_manager_allow_download_more">Zezwól na więcej pobrań bez logowania</string>
     <string name="theme_manager_allow_download_more_desc">Zezwala na pobranie więcej niż 10 przedmiotów bez logowania</string>
     <!--remotecontroller-->
@@ -1097,7 +1091,6 @@
     <string name="home_title_animation_speed">Prędkość animacji</string>
     <string name="home_title_big_icon_corner">Średnie ikony z zaokrąglonymi rogami</string>
     <string name="home_title_download_animation">Animacja pobierania</string>
-    <string name="home_title_fix_animation">Zoptymalizowana animacja przerwania</string>
     <string name="home_title_icon_scale">Skalowanie ikon</string>
     <string name="home_title_disable_hide_file">Nie ukrywaj ikony \"Menedżer plików\"</string>
     <string name="home_title_disable_hide_theme">Nie ukrywaj ikony \"Motywy\"</string>
@@ -1163,7 +1156,6 @@
     <string name="home_dock_icon_bottom_margin">Odległość ikony od dolnego marginesu</string>
     <string name="home_dock_margin_bottom">Margines wskaźnika strony od dołu ekranu</string>
     <string name="home_dock_unlock_hotseat">Usuń ograniczenie ilości ikon w doku</string>
-    <string name="home_dock_fold">Styl doku w trybie Fold</string>
     <string name="home_dock_icon_title">Pokaż nazwę aplikacji w doku</string>
     <string name="home_dock_disable_recents_icon">Ukryj ostatnie ikony aplikacji w doku</string>
     <string name="home_dock_add_blur">Niestandardowy ekran tła</string>
@@ -1182,9 +1174,7 @@
     <string name="home_other_tasks_shortcut_menu">Tryb zadań dodatkowych</string>
     <string name="home_other_tasks_shortcut_menu_desc">Dodaje więcej zadań do menu skrótów</string>
     <string name="home_other_allow_share_apk">Zezwól na udostępnianie aplikacji</string>
-    <string name="home_other_user_present_animation">Optymalizuj animację odblokowania</string>
     <string name="home_other_always_blur_launcher_wallpaper">Zawsze rozmyj tapetę launchera</string>
-    <string name="home_other_perfect_icon">Idealny priorytet ikon</string>
     <string name="home_other_icon_mono_chrome">Kolor tła ikony</string>
     <string name="home_other_icon_monet_color">Użyj koloru Monet</string>
     <string name="home_other_use_edit_color">Edytuj kolor</string>
@@ -1384,7 +1374,6 @@
     <string name="security_center_sidebar_show_suggest">Wyłącz wyświetlanie sugestii aplikacji</string>
     <string name="security_center_unlock_new_vb">Odblokuj nowy pasek z narzędziami wideo</string>
     <string name="security_center_game_performance_wild_mode">Odblokuj Wild Boost</string>
-    <string name="security_center_unlock_fbo">Odblokuj FBO</string>
     <string name="security_center_sidebar_videobox_title">Pasek z narzędziami wideo</string>
     <string name="security_center_sidebar_function_title">Funkcja paska bocznego</string>
     <string name="security_center_game_speed">Szybkie uruchomienie gry</string>
@@ -1396,7 +1385,6 @@
     <string name="security_center_power_consumption_ranking">Pokaż ranking zużycia energii</string>
     <string name="security_center_hide_xopt_mode_tip">Ukryj radę dotyczącą ukrytego użycia uprawnień</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Odblokuj tryb wytrzymałości na zimno</string>
-    <string name="secutity_center_unlock_app_sandbox">Odblokuj niezależną pamięć</string>
     <!--MiTrustService-->
     <string name="trustservice_disable_mrm">Wyłącz wykrywanie ryzyka</string>
     <string name="trustservice_disable_mrm_desc">Funkcja eksperymentalna. Nie możesz używać tej funkcji z naruszeniem przepisów lokalnych lub krajowych.</string>

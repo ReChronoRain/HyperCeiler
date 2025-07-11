@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.ui.hooker.systemui;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
 
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
@@ -28,16 +29,16 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellPackageManager;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
 
-public class SystemUIOtherSettings extends DashboardFragment
+public class OtherSettings extends DashboardFragment
         implements Preference.OnPreferenceChangeListener{
     SwitchPreference mDisableInfinitymodeGesture;
     SwitchPreference mVolume;
@@ -81,7 +82,10 @@ public class SystemUIOtherSettings extends DashboardFragment
         mDisableInfinitymodeGesture.setVisible(isPad());
 
         if (isMoreHyperOSVersion(2f)) {
-            mFuckSG.setVisible(true);
+            if (isMoreSmallVersion(200, 2f)) {
+                mFuckSG.setChecked(false);
+                setFuncHint(mFuckSG, 2);
+            }
             mTimer.setVisible(false);
             mCollpasedColumnPress.setVisible(true);
 

@@ -405,7 +405,6 @@
     <string name="system_other_delete_on_post_notification_desc">「他のアプリの上に表示されています」の通知を無効化します</string>
     <string name="system_framework_share_menu_test">共有メニューをテスト</string>
     <string name="system_framework_open_with_menu_test">「アプリで開く」メニューのテスト</string>
-    <string name="system_framework_other_use_original_animation">ネイティブスタイルの遷移アニメーションを使用する</string>
     <string name="system_framework_other_speed_install">スピードインストール</string>
     <string name="system_framework_other_speed_install_desc">インストール速度を上げるためにメモリへインストールします</string>
     <string name="system_framework_other_rotation_button">画面の回転の提案</string>
@@ -862,9 +861,6 @@
     <string name="system_settings_safe_wifi_desc">保存したネットワークの管理を有効化します\n場所: 設定 - Wi-Fi - 追加設定 - 保存したネットワークを管理</string>
     <string name="system_settings_novelty_haptic_title">新しいバージョンのタッチ調整ページをアンロック</string>
     <string name="system_settings_novelty_haptic_desc">サウンドとバイブレーション - 触覚フィードバックの設定があるデバイスのみ対応しています</string>
-    <string name="system_settings_enable_pad_area">タブレットの機能をアンロック</string>
-    <string name="system_settings_enable_fold_area">折りたたみ式デバイスの機能をアンロック</string>
-    <string name="system_settings_enable_area_desc">サポートされていないデバイスの場合、アンロック後に設定がクラッシュします</string>
     <string name="system_settings_unlock_google_header">Google 項目をアンロック</string>
     <string name="system_settings_unlock_ui_mode">アプリのレイアウト最適化をアンロック</string>
     <string name="system_settings_usb_mode">USB 接続時にポップアップウインドウを表示しません</string>
@@ -917,8 +913,6 @@
     <string name="theme_manager_version_code_modify_desc">新しいバージョンに適合していないテーマも使用できるように、検出されるバージョン情報を調整します</string>
     <string name="theme_manager_diable_ads">広告を無効化</string>
     <string name="theme_manager_diable_ads_desc">広告を空白のカードに置き換えて、残りの広告を完全に削除します</string>
-    <string name="theme_manager_enable_pad_theme">Pad テーマを有効化</string>
-    <string name="theme_manager_enable_fold_theme">Fold テーマを有効化</string>
     <string name="theme_manager_allow_download_more">ログインせずにダウンロードできるようにする</string>
     <string name="theme_manager_allow_download_more_desc">ログインせずに10個以上のアイテムをダウンロードできるようにします</string>
     <!--remotecontroller-->
@@ -1148,7 +1142,6 @@
     <string name="home_title_animation_speed">アニメーションの速度</string>
     <string name="home_title_big_icon_corner">中程度のアイコン角丸をフォロー</string>
     <string name="home_title_download_animation">ダウンロードアニメーション</string>
-    <string name="home_title_fix_animation">最適化した割込みアニメーション</string>
     <string name="home_title_icon_scale">アイコンの大きさ</string>
     <string name="home_title_disable_hide_file">「ファイル」アイコンの非表示を無効化</string>
     <string name="home_title_disable_hide_theme">テーママネージャーアイコンを非表示にしない</string>
@@ -1216,7 +1209,6 @@
     <string name="home_dock_icon_bottom_margin">画面下部余白からのアイコンの距離</string>
     <string name="home_dock_margin_bottom">画面下部とページインジケーターの間の余白</string>
     <string name="home_dock_unlock_hotseat">ドックのアイコン番号の制限を無効化</string>
-    <string name="home_dock_fold">Fold のドック</string>
     <string name="home_dock_icon_title">ドックにアイコンのタイトルを表示</string>
     <string name="home_dock_disable_recents_icon">最近使ったアプリのアイコンをドックに表示しない</string>
     <string name="home_dock_add_blur">カスタム背景ぼかし</string>
@@ -1235,9 +1227,7 @@
     <string name="home_other_tasks_shortcut_menu">更なるタスクモード</string>
     <string name="home_other_tasks_shortcut_menu_desc">新しいタスクメニューをショートカットメニューに追加</string>
     <string name="home_other_allow_share_apk">共有アプリを許可</string>
-    <string name="home_other_user_present_animation">ロック解除時のアニメーションを最適化</string>
     <string name="home_other_always_blur_launcher_wallpaper">常にデスクトップ壁紙をぼかす</string>
-    <string name="home_other_perfect_icon">完全なアイコンの優先度</string>
     <string name="home_other_icon_mono_chrome">アイコンの背景色</string>
     <string name="home_other_icon_monet_color">Monet カラーを使用</string>
     <string name="home_other_use_edit_color">カラーを編集</string>
@@ -1441,7 +1431,6 @@
     <string name="security_center_sidebar_show_suggest">アプリの提案の表示を無効化</string>
     <string name="security_center_unlock_new_vb">新しいビデオボックスをアンロック</string>
     <string name="security_center_game_performance_wild_mode">ゲームパフォーマンスのワイルドモードをアンロック</string>
-    <string name="security_center_unlock_fbo">FBO をアンロック</string>
     <string name="security_center_sidebar_videobox_title">ビデオボックス</string>
     <string name="security_center_sidebar_gamebox_title">ゲームボックス</string>
     <string name="security_center_sidebar_function_title">サイドバー機能</string>
@@ -1454,7 +1443,6 @@
     <string name="security_center_power_consumption_ranking">消費電力ランキングを表示</string>
     <string name="security_center_hide_xopt_mode_tip">隠し権限の使用のためのヒントを隠す</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">低温耐久モードをアンロック</string>
-    <string name="secutity_center_unlock_app_sandbox">独立ストレージをアンロック</string>
     <string name="secutity_center_battery_show_more_info">バッテリー情報をさらに表示する</string>
     <string name="secutity_center_battery_show_more_info_desc">実験的な機能です。追加のバッテリー情報はデバイスによって異なる場合があります。</string>
     <string name="security_center_unlock_car_sickness">乗り物酔いの軽減機能をアンロック</string>

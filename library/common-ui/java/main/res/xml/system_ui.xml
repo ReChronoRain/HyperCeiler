@@ -35,7 +35,7 @@
         android:title="@string/system_ui_controlcenter_title" />
 
     <Preference
-        android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.SystemUIOtherSettings"
+        android:fragment="com.sevtinge.hyperceiler.ui.hooker.systemui.OtherSettings"
         android:title="@string/system_ui_other_title" />
 
     </PreferenceCategory>

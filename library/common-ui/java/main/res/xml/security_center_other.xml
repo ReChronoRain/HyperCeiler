@@ -125,11 +125,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_security_center_unlock_fbo"
-            android:title="@string/security_center_unlock_fbo" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_security_center_remove_low_battery_reminder"
             android:summary="@string/security_center_remove_low_battery_reminder_summary"
             android:title="@string/security_center_remove_low_battery_reminder_title" />
@@ -144,6 +139,12 @@
             android:defaultValue="false"
             android:key="prefs_key_security_center_disable_send_malicious_app_notification"
             android:title="@string/security_center_disable_send_malicious_app_notification" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_unlock_car_sickness"
+            android:summary="@string/security_center_unlock_car_sickness_desc"
+            android:title="@string/security_center_unlock_car_sickness" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -163,12 +164,6 @@
             android:key="prefs_key_security_center_remove_simlock_success_dialog"
             android:summary="@string/security_center_remove_simlock_success_dialog_desc"
             android:title="@string/security_center_remove_simlock_success_dialog" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_unlock_car_sickness"
-            android:summary="@string/security_center_unlock_car_sickness_desc"
-            android:title="@string/security_center_unlock_car_sickness" />
 
     </PreferenceCategory>
 </PreferenceScreen>

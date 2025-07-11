@@ -319,7 +319,6 @@
     <string name="system_other_delete_on_post_notification_desc">Hapus notifikasi \"Aplikasi ini ditampilkan di atas aplikasi lain di layar\".</string>
     <string name="system_framework_share_menu_test">Bagikan tes menu</string>
     <string name="system_framework_open_with_menu_test">Buka dengan tes menu</string>
-    <string name="system_framework_other_use_original_animation">Animasi transisi menggunakan gaya asli</string>
     <string name="system_framework_other_speed_install">Instal Kecepatan</string>
     <string name="system_framework_other_speed_install_desc">Instal ke memori yang berjalan untuk mempercepat instalasi</string>
     <string name="system_framework_other_rotation_button">Rekomendasi rotasi</string>
@@ -645,9 +644,6 @@
     <string name="system_settings_safe_wifi_desc">Buka Kunci Kelola Jaringan Tersimpan\nJalur: Setelan - WLAN - Setelan Lanjutan - Kelola Jaringan Tersimpan</string>
     <string name="system_settings_novelty_haptic_title">Buka kunci versi baru halaman penyesuaian sentuhan</string>
     <string name="system_settings_novelty_haptic_desc">Hanya untuk perangkat dengan halaman Suara &amp; Haptik - Haptik</string>
-    <string name="system_settings_enable_pad_area">Buka kunci area Pad</string>
-    <string name="system_settings_enable_fold_area">Buka kunci area Lipat</string>
-    <string name="system_settings_enable_area_desc">Perangkat yang tidak didukung akan menyebabkan pengaturan macet setelah dibuka kuncinya</string>
     <string name="system_settings_unlock_google_header">Buka kunci Entri Google</string>
     <string name="system_settings_unlock_ui_mode">Buka pengoptimalan tata letak aplikasi</string>
     <string name="system_settings_usb_mode">Tidak ada jendela pop-up saat menghubungkan ke USB</string>
@@ -696,8 +692,6 @@
     <string name="theme_manager_version_code_modify_desc">Sesuaikan versi yang terdeteksi untuk menggunakan beberapa tema yang tidak disesuaikan dengan versi baru</string>
     <string name="theme_manager_diable_ads">Nonaktifkan iklan</string>
     <string name="theme_manager_diable_ads_desc">Ganti iklan \"tebak apa yang Anda suka\" dengan kartu kosong, dan hapus iklan lainnya sepenuhnya</string>
-    <string name="theme_manager_enable_pad_theme">Aktifkan tema Pad</string>
-    <string name="theme_manager_enable_fold_theme">Aktifkan tema Lipat</string>
     <string name="theme_manager_allow_download_more">Izinkan lebih banyak unduhan tanpa login</string>
     <string name="theme_manager_allow_download_more_desc">Izinkan mengunduh lebih dari 10 item tanpa login</string>
     <!--remotecontroller-->
@@ -907,7 +901,6 @@
     <string name="home_title_animation_speed">Kecepatan animasi</string>
     <string name="home_title_big_icon_corner">Ikuti sudut bundar ikon sedang</string>
     <string name="home_title_download_animation">Unduh animasi</string>
-    <string name="home_title_fix_animation">Animasi interupsi yang dioptimalkan</string>
     <string name="home_title_icon_scale">Penskalaan ikon</string>
     <string name="home_title_disable_hide_file">Nonaktifkan penyembunyian ikon \"File\".</string>
     <string name="home_title_disable_hide_theme">Jangan sembunyikan ikon \"Pengelola Tema\".</string>
@@ -961,7 +954,6 @@
     <string name="home_dock_icon_bottom_margin">Jarak ikon dari margin bawah</string>
     <string name="home_dock_margin_bottom">Indikator margin halaman dari bawah layar</string>
     <string name="home_dock_unlock_hotseat">Hapus batasan nomor ikon dari dok</string>
-    <string name="home_dock_fold">Dock Perangkat Fold</string>
     <string name="home_dock_icon_title">Tampilkan judul ikon di dok</string>
     <string name="home_dock_disable_recents_icon">Sembunyikan ikon aplikasi terkini dari Dock</string>
     <string name="home_dock_add_blur">Latar belakang khusus buram</string>
@@ -975,9 +967,7 @@
     <string name="home_other_tasks_shortcut_menu">Mode tugas lainnya</string>
     <string name="home_other_tasks_shortcut_menu_desc">Tambahkan menu tugas baru ke menu pintasan</string>
     <string name="home_other_allow_share_apk">Izinkan berbagi aplikasi</string>
-    <string name="home_other_user_present_animation">Optimalkan animasi buka kunci</string>
     <string name="home_other_always_blur_launcher_wallpaper">Selalu mengaburkan wallpaper peluncur</string>
-    <string name="home_other_perfect_icon">Prioritas Ikon Sempurna</string>
     <string name="home_other_icon_mono_chrome">Warna latar belakang ikon</string>
     <string name="home_other_icon_monet_color">Gunakan warna monet</string>
     <string name="home_other_use_edit_color">Sunting warna</string>
@@ -1148,7 +1138,6 @@
     <string name="security_center_sidebar_show_suggest">Nonaktifkan tampilkan saran aplikasi</string>
     <string name="security_center_unlock_new_vb">Buka kunci kotak Video Baru</string>
     <string name="security_center_game_performance_wild_mode">Buka Kunci Mode Liar Performa Game</string>
-    <string name="security_center_unlock_fbo">Buka kunci FBO</string>
     <string name="security_center_sidebar_videobox_title">Kotak Video</string>
     <string name="security_center_sidebar_gamebox_title">Kotak Permainan</string>
     <string name="security_center_sidebar_function_title">Fungsi Bilah Sisi</string>

@@ -406,7 +406,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_other_delete_on_post_notification_desc">Xóa thông báo \"Ứng dụng này đang hiển thị trên các ứng dụng khác\"</string>
     <string name="system_framework_share_menu_test">Chia sẻ menu thử nghiệm</string>
     <string name="system_framework_open_with_menu_test">Mở với menu thử nghiệm</string>
-    <string name="system_framework_other_use_original_animation">Hoạt ảnh chuyển tiếp sử dụng kiểu gốc</string>
     <string name="system_framework_other_speed_install">Tăng tốc bộ nhớ</string>
     <string name="system_framework_other_speed_install_desc">Cài đặt tăng tốc bộ nhớ</string>
     <string name="system_framework_other_rotation_button">Đề xuất xoay vòng</string>
@@ -864,9 +863,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_safe_wifi_desc">Xem tại: Cài đặt - WI-FI - Cài đặt nâng cao - Quản lý mạng đã lưu</string>
     <string name="system_settings_novelty_haptic_title">Mở khóa phiên bản mới của Tab Chạm</string>
     <string name="system_settings_novelty_haptic_desc">Chỉ dành cho các thiết bị có Âm thanh &amp; Chạm - Tab Chạm</string>
-    <string name="system_settings_enable_pad_area">Mở khóa khu vực máy tính bảng</string>
-    <string name="system_settings_enable_fold_area">Mở khoá khu vực điện thoại gập</string>
-    <string name="system_settings_enable_area_desc">Các thiết bị không được hỗ trợ sẽ khiến cài đặt bị lỗi sau khi được mở khóa</string>
     <string name="system_settings_unlock_google_header">Tắt các cổng Google ẩn</string>
     <string name="system_settings_unlock_ui_mode">Mở khóa tối ưu hóa bố cục ứng dụng</string>
     <string name="system_settings_usb_mode">Tắt cửa sổ nổi lên khi kết nối USB</string>
@@ -919,8 +915,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="theme_manager_version_code_modify_desc">Điều chỉnh phiên bản được phát hiện để sử dụng một số chủ đề không phù hợp với phiên bản mới</string>
     <string name="theme_manager_diable_ads">Tắt quảng cáo</string>
     <string name="theme_manager_diable_ads_desc">Thay thế \"Có thể bạn thích\" quảng cáo bằng thẻ trống và loại bỏ hoàn toàn phần còn lại của quảng cáo</string>
-    <string name="theme_manager_enable_pad_theme">Kích hoạt chủ đề Pad</string>
-    <string name="theme_manager_enable_fold_theme">Kích hoạt chủ đề FOLD</string>
     <string name="theme_manager_allow_download_more">Cho phép tải xuống nhiều hơn mà không cần đăng nhập</string>
     <string name="theme_manager_allow_download_more_desc">Cho phép tải hơn 10 mục mà không cần đăng nhập</string>
     <!--remotecontroller-->
@@ -1154,7 +1148,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_title_animation_speed">Tốc độ của hoạt ảnh</string>
     <string name="home_title_big_icon_corner">Bo tròn góc biểu tượng hình viên thuốc</string>
     <string name="home_title_download_animation">Hoạt ảnh tải về</string>
-    <string name="home_title_fix_animation">Tối ưu hiệu ứng chuyển cảnh</string>
     <string name="home_title_icon_scale">Tỷ lệ biểu tượng</string>
     <string name="home_title_disable_hide_file">Không ẩn biểu tượng \"Tệp\"</string>
     <string name="home_title_disable_hide_theme">Không ẩn biểu tượng \"Theme\"</string>
@@ -1222,7 +1215,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_dock_icon_bottom_margin">Khoảng cách biểu tượng từ lề dưới màn hình</string>
     <string name="home_dock_margin_bottom">Lề của chỉ báo trang từ cuối màn hình</string>
     <string name="home_dock_unlock_hotseat">Mở khóa giới hạn số biểu tượng thanh dock</string>
-    <string name="home_dock_fold">Thanh dưới cùng kiểu thu nhỏ</string>
     <string name="home_dock_icon_title">Hiển thị tiêu đề ứng dụng</string>
     <string name="home_dock_disable_recents_icon">Ẩn ứng dụng gần đây khỏi thanh Dock</string>
     <string name="home_dock_add_blur">Tùy chỉnh làm mờ nền</string>
@@ -1241,9 +1233,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_other_tasks_shortcut_menu">Thêm nút nhiệm vụ mới</string>
     <string name="home_other_tasks_shortcut_menu_desc">Thêm menu nhiệm vụ mới vào menu phím tắt</string>
     <string name="home_other_allow_share_apk">Đồng ý chia sẻ ứng dụng</string>
-    <string name="home_other_user_present_animation">Tối ưu hoạt ảnh mở khóa</string>
     <string name="home_other_always_blur_launcher_wallpaper">Luôn làm mờ hình nền</string>
-    <string name="home_other_perfect_icon">Ưu tiên biểu tượng hoàn hảo</string>
     <string name="home_other_icon_mono_chrome">Màu nền biểu tượng</string>
     <string name="home_other_icon_monet_color">Sử dụng Monet để chọn màu</string>
     <string name="home_other_use_edit_color">Sửa màu</string>
@@ -1454,7 +1444,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_sidebar_show_suggest">Tắt đề xuất ứng dụng</string>
     <string name="security_center_unlock_new_vb">Mở khóa hộp video mới</string>
     <string name="security_center_game_performance_wild_mode">Mở khóa chế độ siêu hiệu suất</string>
-    <string name="security_center_unlock_fbo">Mở khóa FBO</string>
     <string name="security_center_sidebar_videobox_title">Hộp công cụ video</string>
     <string name="security_center_sidebar_gamebox_title">Phím tắt trong trò chơi</string>
     <string name="security_center_sidebar_function_title">Chức năng thanh bên</string>
@@ -1467,7 +1456,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_power_consumption_ranking">Hiển thị mức tiêu thụ điện năng</string>
     <string name="security_center_hide_xopt_mode_tip">Ẩn mẹo để sử dụng quyền ẩn</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Mở khóa chế độ kháng lạnh</string>
-    <string name="secutity_center_unlock_app_sandbox">Mở khóa lưu trữ độc lập</string>
     <string name="secutity_center_battery_show_more_info">Hiện thêm thông tin về pin</string>
     <string name="secutity_center_battery_show_more_info_desc">Tính năng thử nghiệm. Thông tin bổ sung về pin hiển thị có thể khác nhau tùy theo thiết bị.</string>
     <string name="security_center_unlock_car_sickness">Mở khóa Giảm say xe</string>

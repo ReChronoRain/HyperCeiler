@@ -29,6 +29,8 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AntiQues;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AppLinkVerify;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitchForSystem;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BackgroundBlur;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassForceDownloadui;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassForceMiAppStore;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassUnknownSourcesRestrictions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.CleanOpenMenu;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.CleanProcessTextMenu;
@@ -60,12 +62,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.StickyFloatingW
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.SystemLockApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UseAndroidPackageInstaller;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UseOriginalAnimation;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDefaultStream;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDisableSafe;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeFirstPress;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassSignCheckForT;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.AllDarkMode;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.ThemeProvider;
@@ -78,8 +74,11 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.DualSAS
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N1Band;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N28Band;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N5N8Band;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassForceDownloadui;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BypassForceMiAppStore;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDefaultStream;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDisableSafe;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeFirstPress;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.various.NoAccessDeviceLogsRequest;
 
 @HookBase(targetPackage = "android", isPad = 2, targetSdk = 34)
@@ -118,7 +117,6 @@ public class SystemFrameworkU extends BaseModule {
         initHook(new AllowUntrustedTouchForU(), mPrefsMap.getBoolean("system_framework_allow_untrusted_touch"));
         initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
         initHook(new AppLinkVerify(), mPrefsMap.getBoolean("system_framework_disable_app_link_verify"));
-        initHook(new UseOriginalAnimation(), mPrefsMap.getBoolean("system_framework_other_use_original_animation"));
         initHook(new SpeedInstall(), mPrefsMap.getBoolean("system_framework_other_speed_install"));
         initHook(DeleteOnPostNotification.INSTANCE, mPrefsMap.getBoolean("system_other_delete_on_post_notification"));
         initHook(NoAccessDeviceLogsRequest.INSTANCE, mPrefsMap.getBoolean("various_disable_access_device_logs"));

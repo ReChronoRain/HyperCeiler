@@ -336,7 +336,6 @@
     <string name="system_other_delete_on_post_notification_desc">\"Bu uygulama ekrandaki diğer uygulamaların üstünde görüntüleniyor\" bildirimini kaldırın</string>
     <string name="system_framework_share_menu_test">Menü testini paylaş</string>
     <string name="system_framework_open_with_menu_test">Menü testi ile aç</string>
-    <string name="system_framework_other_use_original_animation">Geçiş animasyonları yerel stilleri kullanır</string>
     <string name="system_framework_other_speed_install">Hızlı Kurulum</string>
     <string name="system_framework_other_speed_install_desc">Kurulumu hızlandırmak için çalışan belleğe yükleyin</string>
     <string name="system_framework_other_rotation_button">Rotasyon önerileri</string>
@@ -677,9 +676,6 @@
     <string name="system_settings_safe_wifi_desc">Kayıtlı Ağları Yönetin Kilidini Açın\nYol: Ayarlar-WLAN-Gelişmiş Ayarlar-Kayıtlı Ağları Yönetin</string>
     <string name="system_settings_novelty_haptic_title">Dokunsal geribildirim sayfasının yeni sürümünün kilidini açın</string>
     <string name="system_settings_novelty_haptic_desc">Yalnızca Sesler ve Dokunsal Geri Bildirim özelliğine sahip cihazlar için - Dokunsal Geri Bildirim sayfası</string>
-    <string name="system_settings_enable_pad_area">Pad alanının kilidini aç</string>
-    <string name="system_settings_enable_fold_area">Katlama alanının kilidini aç</string>
-    <string name="system_settings_enable_area_desc">Desteklenmeyen cihazlar, Ayarlar\'ın kilidi açıldıktan sonra çökmesine neden olur</string>
     <string name="system_settings_unlock_google_header">Google girişinin kilidini aç</string>
     <string name="system_settings_unlock_ui_mode">Uygulama düzeni optimizasyonlarının kilidini açın</string>
     <string name="system_settings_usb_mode">USB\'ye bağlanırken açılan pencereyi gizle</string>
@@ -726,8 +722,6 @@
     <string name="theme_manager_version_code_modify">Algılama sürümünü ayarlayın</string>
     <string name="theme_manager_version_code_modify_desc">Algılanan sürümü, yeni sürüme uyarlanmamış bazı temaları kullanacak şekilde ayarlayın</string>
     <string name="theme_manager_diable_ads">Reklamları devre dışı bırak</string>
-    <string name="theme_manager_enable_pad_theme">Ped temasını etkinleştir</string>
-    <string name="theme_manager_enable_fold_theme">Katlama temasını etkinleştir</string>
     <!--remotecontroller-->
     <string name="remotecontroller_disable_ad">Reklamları kapat</string>
     <!--Updater-->
@@ -909,7 +903,6 @@
     <string name="home_title_animation_speed">Animasyon hızı</string>
     <string name="home_title_big_icon_corner">Orta simge yuvarlak köşeyi takip etsin</string>
     <string name="home_title_download_animation">Animasyonu indir</string>
-    <string name="home_title_fix_animation">Optimize edilmiş kesme animasyonu</string>
     <string name="home_title_icon_scale">Simgeleri ölçekle</string>
     <string name="home_title_disable_hide_google">Google\'ı gizlemeyi devre dışı bırak</string>
     <string name="home_title_fake_non_default_icon">Sahte varsayılan dışı simge</string>
@@ -963,7 +956,6 @@
     <string name="home_dock_icon_bottom_margin">Alt kenar boşluğundan simge mesafesi</string>
     <string name="home_dock_margin_bottom">Ekranın altından sayfa kenar boşluğu göstergesi</string>
     <string name="home_dock_unlock_hotseat">Simge numarası kısıtlamasını dock\'tan kaldırın</string>
-    <string name="home_dock_fold">Fold\'un İskelesi</string>
     <string name="home_dock_icon_title">Dock\'ta simge başlığını göster</string>
     <string name="home_dock_add_blur">Özel arka plan ekranı</string>
     <string name="home_dock_slide_up_only_show_dock_desc">İkinci kez yukarı kaydırın ve son göreve atlayın</string>
@@ -979,9 +971,7 @@
     <string name="home_other_tasks_shortcut_menu">Daha fazla görev modu</string>
     <string name="home_other_tasks_shortcut_menu_desc">Kısayol menüsüne Daha fazla görev modu ekleyin</string>
     <string name="home_other_allow_share_apk">Uygulama paylaşmasına izin ver</string>
-    <string name="home_other_user_present_animation">Kilit açma animasyonunu optimize edin</string>
     <string name="home_other_always_blur_launcher_wallpaper">Her zaman başlatıcı duvar kağıdını bulanıklaştır</string>
-    <string name="home_other_perfect_icon">Mükemmel Simge Önceliği</string>
     <string name="home_other_icon_mono_chrome">Simge arka plan rengi</string>
     <string name="home_other_icon_monet_color">Monet rengi kullan</string>
     <string name="home_other_use_edit_color">Rengi düzenle</string>
@@ -1134,7 +1124,6 @@
     <string name="security_center_color">Kenar çubuğu rengi</string>
     <string name="security_center_other_title">Diğer</string>
     <string name="security_center_unlock_memc">MEMC\'in kilidini aç</string>
-    <string name="secutity_center_unlock_app_sandbox">Bağımsız depolamanın kilidini açın</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrust Hizmeti</string>
     <string name="trustservice_disable_mrm">Risk algılamalarını devre dışı bırak</string>
@@ -1217,7 +1206,6 @@
     <string name="various_collapse_miui_title">MIUI başlığı</string>
     <string name="various_collapse_miui_title_desc">MIUI uygulamalarında üst çubuk başlığını ayarlayın</string>
     <string name="various_disable_folder_cantuse">Kullanılamayan klasör sınırını kaldırın</string>
-    <string name="various_super_clipboard_title">Süper Pano</string>
     <string name="custom_background_blur_enabled">Arka plan bulanıklığı</string>
     <string name="custom_background_blur_radius">Bulanıklık yarıçapı</string>
     <string name="custom_background_color">Arka plan rengi</string>

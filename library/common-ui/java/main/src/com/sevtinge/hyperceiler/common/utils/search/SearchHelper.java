@@ -68,14 +68,13 @@ import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim7Settings;
 import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim8Settings;
 import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim9Settings;
 import com.sevtinge.hyperceiler.ui.hooker.securitycenter.ApplicationsSettings;
-import com.sevtinge.hyperceiler.ui.hooker.securitycenter.OtherSettings;
 import com.sevtinge.hyperceiler.ui.hooker.securitycenter.PrivacySafetySettings;
 import com.sevtinge.hyperceiler.ui.hooker.securitycenter.SidebarSettings;
 import com.sevtinge.hyperceiler.ui.hooker.systemui.ControlCenterSettings;
 import com.sevtinge.hyperceiler.ui.hooker.systemui.LockScreenSettings;
 import com.sevtinge.hyperceiler.ui.hooker.systemui.NavigationSettings;
+import com.sevtinge.hyperceiler.ui.hooker.systemui.OtherSettings;
 import com.sevtinge.hyperceiler.ui.hooker.systemui.StatusBarSettings;
-import com.sevtinge.hyperceiler.ui.hooker.systemui.SystemUIOtherSettings;
 import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.BatteryStyleSettings;
 import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.DoubleLineNetworkSettings;
 import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.IconManageNewSettings;
@@ -183,7 +182,7 @@ public class SearchHelper {
                 R.string.system_ui
         );
 
-        parsePrefXml(context, SystemUIOtherSettings.class,
+        parsePrefXml(context, OtherSettings.class,
                 R.xml.system_ui_other,
                 R.string.system_ui);
 
@@ -297,7 +296,7 @@ public class SearchHelper {
         parsePrefXmlForDashboardFragment(context, R.xml.security_center_battery);
         parsePrefXmlForSecurityCenter(context, PrivacySafetySettings.class, R.xml.security_center_privacy_safety);
         parsePrefXmlForSecurityCenter(context, SidebarSettings.class, R.xml.security_center_sidebar);
-        parsePrefXmlForSecurityCenter(context, OtherSettings.class, R.xml.security_center_other);
+        parsePrefXmlForSecurityCenter(context, com.sevtinge.hyperceiler.ui.hooker.securitycenter.OtherSettings.class, R.xml.security_center_other);
 
         parsePrefXmlForDashboardFragment(context, R.xml.tsmclient);
         parsePrefXmlForDashboardFragment(context, R.xml.soundrecorder);

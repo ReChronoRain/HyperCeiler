@@ -35,7 +35,6 @@ import com.sevtinge.hyperceiler.ui.R;
 import fan.preference.SeekBarPreferenceCompat;
 
 public class SystemSettingsFragment extends DashboardFragment {
-    SwitchPreference mPad; // 解锁平板分区
     SwitchPreference mUiMode;
     SwitchPreference mLangShow; // 显示所有应用语言菜单
     RecommendPreference mRecommend;
@@ -47,19 +46,18 @@ public class SystemSettingsFragment extends DashboardFragment {
 
     @Override
     public void initPrefs() {
-        mPad = findPreference("prefs_key_system_settings_enable_pad_area");
         mUiMode = findPreference("prefs_key_system_settings_unlock_ui_mode");
         mLangShow = findPreference("prefs_key_system_settings_lang_menu_shouw_all_app");
 
         mUiMode.setVisible(isPad());
-        mPad.setVisible(isPad());
 
         if (isMoreHyperOSVersion(2f)) {
+            mLangShow.setChecked(false);
             setFuncHint(mLangShow, 1);
         }
 
         Bundle args1 = new Bundle();
-        mRecommend = new RecommendPreference(getContext());
+        mRecommend = new RecommendPreference(requireContext());
         getPreferenceScreen().addPreference(mRecommend);
 
         args1.putString(":settings:fragment_args_key", "prefs_key_mi_settings_show_fps");
@@ -105,7 +103,7 @@ public class SystemSettingsFragment extends DashboardFragment {
     public void setAnimator(int i, String name) {
         float mFloat = ((float) i) / 100;
         try {
-            Settings.Global.putFloat(getContext().getContentResolver(), name, mFloat);
+            Settings.Global.putFloat(requireContext().getContentResolver(), name, mFloat);
         } catch (Throwable e) {
             AndroidLogUtils.logE("setAnimator", "set: " + name + " float: " + mFloat, e);
         }

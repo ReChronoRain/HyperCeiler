@@ -58,11 +58,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_home_other_perfect_icon"
-            android:title="@string/home_other_perfect_icon" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_home_title_disable_hide_file"
             android:title="@string/home_title_disable_hide_file" />
 
@@ -122,11 +117,6 @@
             android:defaultValue="false"
             android:key="prefs_key_home_title_download_animation"
             android:title="@string/home_title_download_animation" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_home_title_fix_animation"
-            android:title="@string/home_title_fix_animation" />
 
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.hooker.home.HomeTitleAnimSettings"
