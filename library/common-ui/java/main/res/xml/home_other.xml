@@ -101,11 +101,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_home_other_user_present_animation"
-            android:title="@string/home_other_user_present_animation" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_home_other_high_models"
             android:title="@string/home_other_high_models" />
 

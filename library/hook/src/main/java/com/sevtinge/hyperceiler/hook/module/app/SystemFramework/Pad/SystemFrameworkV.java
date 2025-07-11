@@ -63,7 +63,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.StickyFloatingW
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.SystemLockApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UseAndroidPackageInstaller;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UseOriginalAnimation;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassIsolationViolation;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassSignCheckForT;
@@ -126,7 +125,6 @@ public class SystemFrameworkV extends BaseModule {
         initHook(new AllowUntrustedTouchForU(), mPrefsMap.getBoolean("system_framework_allow_untrusted_touch"));
         initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
         initHook(new AppLinkVerify(), mPrefsMap.getBoolean("system_framework_disable_app_link_verify"));
-        initHook(new UseOriginalAnimation(), mPrefsMap.getBoolean("system_framework_other_use_original_animation"));
         initHook(new SpeedInstall(), mPrefsMap.getBoolean("system_framework_other_speed_install"));
         initHook(DeleteOnPostNotification.INSTANCE, mPrefsMap.getBoolean("system_other_delete_on_post_notification"));
         initHook(NoAccessDeviceLogsRequest.INSTANCE, mPrefsMap.getBoolean("various_disable_access_device_logs"));

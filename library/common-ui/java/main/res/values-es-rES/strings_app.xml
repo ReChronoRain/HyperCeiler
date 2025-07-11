@@ -378,7 +378,6 @@ aplicaciones del sistema</string>
     <string name="system_other_delete_on_post_notification_desc">Eliminar la notificación \"Esta aplicación se muestra encima de otras aplicaciones en la pantalla\"</string>
     <string name="system_framework_share_menu_test">Probar el menú de compartir</string>
     <string name="system_framework_open_with_menu_test">Probar el menú de apertura</string>
-    <string name="system_framework_other_use_original_animation">Las animaciones de transición utilizan estilos predeterminados</string>
     <string name="system_framework_other_speed_install">Instalación rápida</string>
     <string name="system_framework_other_speed_install_desc">Instalar en la memoria de funcionamiento para acelerar la instalación</string>
     <string name="system_framework_other_rotation_button">Recomendaciones de rotación</string>
@@ -707,9 +706,6 @@ aplicaciones del sistema</string>
     <string name="system_settings_safe_wifi_desc">Desbloquear la administración de redes guardadas\nRuta: Ajustes - Wi-Fi - Configuraciones Avanzadas - Gestionar Redes Guardadas</string>
     <string name="system_settings_novelty_haptic_title">Desbloquear la nueva versión de la página de ajustes táctiles</string>
     <string name="system_settings_novelty_haptic_desc">Solo para dispositivos con sonidos &amp; Haptics - la página de Haptics</string>
-    <string name="system_settings_enable_pad_area">Desbloquear área de Pad</string>
-    <string name="system_settings_enable_fold_area">Desbloquear área de Fold</string>
-    <string name="system_settings_enable_area_desc">Causará configuraciones de los dispositivos no soportados colapso después de desbloquearse</string>
     <string name="system_settings_unlock_google_header">Desbloquear la entrada de Google</string>
     <string name="system_settings_usb_mode">No aparece ventana emergente cuando se conecta a USB</string>
     <string name="system_settings_usb_mode_choose">Opción predeterminada de USB</string>
@@ -754,8 +750,6 @@ aplicaciones del sistema</string>
     <string name="theme_manager_version_code_modify">Ajustar la versión de detección</string>
     <string name="theme_manager_diable_ads">Quitar publicidad</string>
     <string name="theme_manager_diable_ads_desc">Sustituir \"adivinar lo que quiere\" con tarjetas en blanco, y eliminar completamente el resto de los anuncios</string>
-    <string name="theme_manager_enable_pad_theme">Activar tema de Pad</string>
-    <string name="theme_manager_enable_fold_theme">Activar tema de Fold</string>
     <!--remotecontroller-->
     <string name="remotecontroller_disable_ad">Desactivar anuncios</string>
     <!--Updater-->
@@ -963,7 +957,6 @@ aplicaciones del sistema</string>
     <string name="home_title_animation_speed">Velocidad de animación</string>
     <string name="home_title_big_icon_corner">Sigue la esquina el icono medio</string>
     <string name="home_title_download_animation">Animación de descarga</string>
-    <string name="home_title_fix_animation">Animación de interrupción optimizada</string>
     <string name="home_title_icon_scale">Escalado de iconos</string>
     <string name="home_title_disable_hide_file">No se oculta el icono \"Archivo\"</string>
     <string name="home_title_disable_hide_theme">No se oculta el icono \"Administrador de temas\"</string>
@@ -1022,7 +1015,6 @@ aplicaciones del sistema</string>
     <string name="home_dock_icon_bottom_margin">Distancia desde el fondo de iconos en la base hasta el de la pantalla</string>
     <string name="home_dock_margin_bottom">Margen del indicador de página desde el fondo de la pantalla</string>
     <string name="home_dock_unlock_hotseat">Permitir que en la base se ponen iconos cuántos quiera</string>
-    <string name="home_dock_fold">Dock de Fold</string>
     <string name="home_dock_icon_title">Mostrar títulos de iconos en la base</string>
     <string name="home_dock_disable_recents_icon">Ocultar iconos de aplicaciones recientes en la base</string>
     <string name="home_dock_add_blur">Personalizar el desenfoque del fondo</string>
@@ -1037,9 +1029,7 @@ aplicaciones del sistema</string>
     <string name="home_other_tasks_shortcut_menu">Modo de más tareas</string>
     <string name="home_other_tasks_shortcut_menu_desc">Añadir \"más tareas\" al menú de atajos</string>
     <string name="home_other_allow_share_apk">Se permite compartir app</string>
-    <string name="home_other_user_present_animation">Optimizar animación de desbloqueo</string>
     <string name="home_other_always_blur_launcher_wallpaper">Desenfocar siempre el fondo de pantalla del lanzador</string>
-    <string name="home_other_perfect_icon">Prioridad de icono perfecto</string>
     <string name="home_other_icon_mono_chrome">Color del fondo de icono</string>
     <string name="home_other_icon_monet_color">Usar color de Monet</string>
     <string name="home_other_use_edit_color">Editar colores</string>
@@ -1218,7 +1208,6 @@ aplicaciones del sistema</string>
     <string name="security_center_sidebar_show_suggest">Desactivar ver aplicaciones sugeridas</string>
     <string name="security_center_unlock_new_vb">Desbloquear la nueva caja de video</string>
     <string name="security_center_game_performance_wild_mode">Desbloquear el modo desenfrenado de rendimiento del juego</string>
-    <string name="security_center_unlock_fbo">Desbloquear FBO</string>
     <string name="security_center_sidebar_videobox_title">Caja de vídeo</string>
     <string name="security_center_sidebar_gamebox_title">Caja de juegos</string>
     <string name="security_center_sidebar_function_title">Función de barra lateral</string>

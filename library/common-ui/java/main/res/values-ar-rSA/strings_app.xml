@@ -405,7 +405,6 @@
     <string name="system_other_delete_on_post_notification_desc">إزالة إشعارات \"هذا التطبيق يُعرض فوق التطبيقات الأخرى على الشاشة\"</string>
     <string name="system_framework_share_menu_test">اختبار القائمة المشاركة</string>
     <string name="system_framework_open_with_menu_test">اختبار قائمة فتح بواسطة</string>
-    <string name="system_framework_other_use_original_animation">استخدام الانماط الاصلية الخاصة بالرسوم المتحركة للانتقالات</string>
     <string name="system_framework_other_speed_install">سرعة التثبيت</string>
     <string name="system_framework_other_speed_install_desc">التثبيت في الذاكرة لتسريع التثبيت</string>
     <string name="system_framework_other_rotation_button">توصيات التدوير</string>
@@ -860,9 +859,6 @@
     <string name="system_settings_safe_wifi_desc">فتح إدارة الشبكات المحفوظة\nالمسار: الإعدادات &gt; الواي فاي &gt; الإعدادات الإضافية &gt; إدارة الشبكات المحفوظة</string>
     <string name="system_settings_novelty_haptic_title">فتح نسخة جديدة من صفحة ردود الفعل اللمسية</string>
     <string name="system_settings_novelty_haptic_desc">لأجهزة معينة تحتوي على صفحة الصوت وردود الفعل اللمسية</string>
-    <string name="system_settings_enable_pad_area">فتح منطقة الجهاز اللوحي</string>
-    <string name="system_settings_enable_fold_area">فتح منطقة الطيّات</string>
-    <string name="system_settings_enable_area_desc">الأجهزة غير المدعومة ستؤدي إلى تعطل الإعدادات بعد الفتح</string>
     <string name="system_settings_unlock_google_header">فتح إدخال Google</string>
     <string name="system_settings_unlock_ui_mode">فتح تحسينات تخطيط التطبيق</string>
     <string name="system_settings_usb_mode">إخفاء نافذة منبثقة عند الاتصال بالـ USB</string>
@@ -915,8 +911,6 @@
     <string name="theme_manager_version_code_modify_desc">تعديل الإصدار المكتشف لاستخدام بعض الثيمات التي لم يتم تكييفها مع الإصدار الجديد</string>
     <string name="theme_manager_diable_ads">تعطيل الإعلانات</string>
     <string name="theme_manager_diable_ads_desc">استبدال إعلانات \"تخمين ما يعجبك\" بكروت فارغة، وإزالة باقي الإعلانات بالكامل.</string>
-    <string name="theme_manager_enable_pad_theme">تمكين ثيم الجهاز اللوحي</string>
-    <string name="theme_manager_enable_fold_theme">تمكين ثيم الطيّات</string>
     <string name="theme_manager_allow_download_more">السماح بتنزيل المزيد دون تسجيل الدخول</string>
     <string name="theme_manager_allow_download_more_desc">السماح بتنزيل أكثر من 10 عناصر دون تسجيل الدخول</string>
     <!--remotecontroller-->
@@ -1146,7 +1140,6 @@
     <string name="home_title_animation_speed">سرعة الرسوم المتحركة</string>
     <string name="home_title_big_icon_corner">الزاوية المستديرة للأيقونات المتوسطة</string>
     <string name="home_title_download_animation">رسوم متحركة للتنزيل</string>
-    <string name="home_title_fix_animation">إصلاح الرسوم المتحركة المتقطعة</string>
     <string name="home_title_icon_scale">مقياس الأيقونات</string>
     <string name="home_title_disable_hide_file">عدم إخفاء أيقونة \"مدير الملفات\"</string>
     <string name="home_title_disable_hide_theme">عدم إخفاء أيقونة \"السمات\"</string>
@@ -1213,7 +1206,6 @@
     <string name="home_dock_icon_bottom_margin">المسافة بين الأيقونة والهامش السفلي</string>
     <string name="home_dock_margin_bottom">المسافة بين مؤشر الصفحة وأسفل الشاشة</string>
     <string name="home_dock_unlock_hotseat">إزالة قيود عدد الأيقونات في الرصيف</string>
-    <string name="home_dock_fold">نمط طي الرصيف</string>
     <string name="home_dock_icon_title">عرض اسم التطبيق في الرصيف</string>
     <string name="home_dock_disable_recents_icon">إخفاء أيقونات التطبيقات الأخيرة من الرصيف</string>
     <string name="home_dock_add_blur">عرض خلفية مخصصة</string>
@@ -1232,9 +1224,7 @@
     <string name="home_other_tasks_shortcut_menu">وضع المهام الإضافية</string>
     <string name="home_other_tasks_shortcut_menu_desc">إضافة وضع المهام الإضافية إلى قائمة الاختصارات</string>
     <string name="home_other_allow_share_apk">السماح بمشاركة التطبيقات</string>
-    <string name="home_other_user_present_animation">تحسين تأثيرات فتح القفل</string>
     <string name="home_other_always_blur_launcher_wallpaper">دائمًا ضبابية خلفية المشغل</string>
-    <string name="home_other_perfect_icon">أفضل أولوية للأيقونات</string>
     <string name="home_other_icon_mono_chrome">لون خلفية الأيقونات</string>
     <string name="home_other_icon_monet_color">استخدام لون مونيه</string>
     <string name="home_other_use_edit_color">تحرير اللون</string>
@@ -1437,7 +1427,6 @@
     <string name="security_center_sidebar_show_suggest">تعطيل عرض التطبيقات المقترحة</string>
     <string name="security_center_unlock_new_vb">فتح صندوق الأدوات الجديد للفيديو</string>
     <string name="security_center_game_performance_wild_mode">فتح وضع Wild Boost</string>
-    <string name="security_center_unlock_fbo">فتح FBO</string>
     <string name="security_center_sidebar_videobox_title">صندوق أدوات الفيديو</string>
     <string name="security_center_sidebar_gamebox_title">صندوق الألعاب</string>
     <string name="security_center_sidebar_function_title">وظائف الشريط الجانبي</string>
@@ -1450,7 +1439,6 @@
     <string name="security_center_power_consumption_ranking">عرض ترتيب استهلاك الطاقة</string>
     <string name="security_center_hide_xopt_mode_tip">إخفاء النصائح لاستخدام الأذونات المخفية</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">فتح وضع التحمل البارد</string>
-    <string name="secutity_center_unlock_app_sandbox">فتح التخزين المستقل</string>
     <string name="secutity_center_battery_show_more_info">عرض المزيد من معلومات البطارية</string>
     <string name="secutity_center_battery_show_more_info_desc">ميزة تجريبية. قد تختلف معلومات البطارية الإضافية المعروضة حسب الجهاز.</string>
     <!--MiTrustService-->

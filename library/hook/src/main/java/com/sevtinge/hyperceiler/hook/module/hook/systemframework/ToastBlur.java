@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework;
 
-import static com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.XposedHelper.findAndHookMethod;
+import static com.sevtinge.hyperceiler.hook.module.base.tool.HookTool.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 
 import android.content.Context;
@@ -35,7 +35,7 @@ public class ToastBlur implements IXposedHookZygoteInit {
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         ClassLoader classLoader = startupParam.getClass().getClassLoader();
-        findAndHookMethod("android.widget.ToastStubImpl", classLoader, "addBlur",
+        /*findAndHookMethod("android.widget.ToastStubImpl", classLoader, "addBlur",
                 View.class, Context.class, boolean.class,
                 new XC_MethodHook() {
                     @Override
@@ -43,7 +43,7 @@ public class ToastBlur implements IXposedHookZygoteInit {
                         // logE(TAG, "view: " + param.args[0] + " con: " + param.args[1] + " boo: " + param.args[2]);
                     }
                 }
-        );
+        );*/
 
         findAndHookMethod("android.widget.ToastPresenter", classLoader, "trySendAccessibilityEvent",
                 View.class, String.class,
@@ -56,7 +56,7 @@ public class ToastBlur implements IXposedHookZygoteInit {
                         if (mView != null) {
                             mCustomizeView = true;
                         }
-                        Object toastStub = null;
+                        Object toastStub;
                         Class<?> ToastStub = findClassIfExists("android.widget.ToastStub", classLoader);
                         Context mContext = mView.getContext();
                         if (ToastStub != null) {
@@ -67,7 +67,7 @@ public class ToastBlur implements IXposedHookZygoteInit {
                 }
         );
 
-        findAndHookMethod("android.widget.ToastStubImpl$1", classLoader,
+        /*findAndHookMethod("android.widget.ToastStubImpl$1", classLoader,
                 "onLayoutChange",
                 View.class, int.class, int.class, int.class,
                 int.class, int.class, int.class, int.class, int.class,
@@ -77,7 +77,7 @@ public class ToastBlur implements IXposedHookZygoteInit {
                         // logE(TAG, "change");
                     }
                 }
-        );
+        );*/
     }
 
     private void logE(String tag, String mag) {

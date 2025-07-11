@@ -36,7 +36,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.RemoveOpenAppCon
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.ScLockApp;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.SidebarLineCustom;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.UnlockCarSicknessRelief;
-import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.UnlockFbo;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.app.AddAppInfoEntry;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.app.AddAppManagerEntry;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.app.AppDefaultSort;
@@ -44,7 +43,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.app.AppDetails;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.app.AppDisable;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.app.AppRestrict;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.app.OpenByDefaultSetting;
-import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.app.UnlockAppSandbox;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.battery.BatteryHealth;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.battery.MoreBatteryInfo;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.battery.PowerConsumptionRanking;
@@ -88,7 +86,6 @@ public class SecurityCenterU extends BaseModule {
         initHook(new AppDetails(), mPrefsMap.getBoolean("security_center_app_details"));
         initHook(DisableReport.INSTANCE, mPrefsMap.getBoolean("security_center_disable_ban"));
         initHook(new OpenByDefaultSetting(), mPrefsMap.getBoolean("security_center_app_default_setting"));
-        initHook(new UnlockAppSandbox(), mPrefsMap.getBoolean("secutity_center_unlock_app_sandbox"));
         initHook(AddAppInfoEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_info"));
         initHook(AddAppManagerEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_manager"));
 
@@ -121,7 +118,6 @@ public class SecurityCenterU extends BaseModule {
         initHook(FuckRiskPkg.INSTANCE, mPrefsMap.getBoolean("security_center_disable_send_malicious_app_notification"));
         initHook(NoLowBatteryWarning.INSTANCE, mPrefsMap.getBoolean("security_center_remove_low_battery_reminder"));
         initHook(RemoveSIMLockSuccessDialog.INSTANCE, mPrefsMap.getBoolean("security_center_remove_simlock_success_dialog"));
-        initHook(new UnlockFbo(), mPrefsMap.getBoolean("security_center_unlock_fbo"));
         initHook(BypassSimLockMiAccountAuth.INSTANCE, mPrefsMap.getBoolean("security_center_bypass_simlock_miaccount_auth"));
         initHook(new BypassAdbInstallVerify(), mPrefsMap.getBoolean("security_center_adb_install_verify"));
         initHook(new UnlockCarSicknessRelief(), mPrefsMap.getBoolean("security_center_unlock_car_sickness"));

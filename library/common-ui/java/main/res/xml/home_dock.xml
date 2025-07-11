@@ -33,11 +33,6 @@
 
     <SwitchPreference
         android:defaultValue="false"
-        android:key="prefs_key_home_dock_fold"
-        android:title="@string/home_dock_fold" />
-
-    <SwitchPreference
-        android:defaultValue="false"
         android:key="prefs_key_home_dock_disable_recents_icon"
         android:title="@string/home_dock_disable_recents_icon" />
 

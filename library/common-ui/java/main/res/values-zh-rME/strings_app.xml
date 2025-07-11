@@ -363,7 +363,6 @@
     <string name="system_other_delete_on_post_notification_desc">我就在 Ta 上面，不用说也知道</string>
     <string name="system_framework_share_menu_test">分享界面测试</string>
     <string name="system_framework_open_with_menu_test">和考试卷一起启动</string>
-    <string name="system_framework_other_use_original_animation">我要原汁原味的过度动画！（这就是妈妈的味道！）</string>
     <string name="system_framework_other_speed_install">飞速装崽</string>
     <string name="system_framework_other_speed_install_desc">安装到内存，以增加跑路速度。</string>
     <string name="system_framework_other_rotation_button">轮班建议</string>
@@ -613,7 +612,6 @@
     <string name="security_center_other_title">还想... 看更多吗❤️</string>
     <string name="security_center_unlock_s_resolution">1080P想上2K？</string>
     <string name="security_center_game_performance_wild_mode">一键获得榨汁机</string>
-    <string name="security_center_unlock_fbo">桶自洁</string>
     <!--MiTrustService-->
     <string name="trustservice">小米内鬼服务</string>
     <string name="trustservice_disable_mrm_desc">塔会盯着你 直到永远</string>

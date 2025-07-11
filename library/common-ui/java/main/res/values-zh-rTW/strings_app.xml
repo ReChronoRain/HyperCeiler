@@ -405,7 +405,6 @@
     <string name="system_other_delete_on_post_notification_desc">移除「此應用程式正顯示在螢幕上其他應用程式的上層」通知</string>
     <string name="system_framework_share_menu_test">分享選單測試</string>
     <string name="system_framework_open_with_menu_test">打開方式選單測試</string>
-    <string name="system_framework_other_use_original_animation">過渡動畫使用原生樣式</string>
     <string name="system_framework_other_speed_install">快速安裝</string>
     <string name="system_framework_other_speed_install_desc">安裝至運行記憶體以提升安裝速度，需要系統底層支援</string>
     <string name="system_framework_other_rotation_button">輪換建議</string>
@@ -860,9 +859,6 @@
     <string name="system_settings_safe_wifi_desc">解鎖管理已保存網路\n路徑：設定-WLAN-進階設定-管理保存的網路</string>
     <string name="system_settings_novelty_haptic_title">解鎖新版觸感調節頁面</string>
     <string name="system_settings_novelty_haptic_desc">僅供有「聲音與觸感-觸感」頁面的裝置使用</string>
-    <string name="system_settings_enable_pad_area">解鎖平板（Pad）分區</string>
-    <string name="system_settings_enable_fold_area">解鎖折疊屏（Fold）分區</string>
-    <string name="system_settings_enable_area_desc">不受支援的設備在解鎖後將會導致崩潰</string>
     <string name="system_settings_unlock_google_header">禁止隱藏 Google 入口</string>
     <string name="system_settings_unlock_ui_mode">解鎖應用程式佈局最佳化</string>
     <string name="system_settings_usb_mode">接入 USB 時不彈跳視窗</string>
@@ -915,8 +911,6 @@
     <string name="theme_manager_version_code_modify_desc">調整偵測到的版本，使用一些不適應新版本的主題</string>
     <string name="theme_manager_diable_ads">停用廣告</string>
     <string name="theme_manager_diable_ads_desc">將「猜你喜歡」的廣告替換為空白卡片，其餘位置的廣告將完全移除</string>
-    <string name="theme_manager_enable_pad_theme">啟用 Pad 主題</string>
-    <string name="theme_manager_enable_fold_theme">啟用 Fold 主題</string>
     <string name="theme_manager_allow_download_more">無需登入即可允許更多下載</string>
     <string name="theme_manager_allow_download_more_desc">無需登入即可下載超過 10 個項目</string>
     <!--remotecontroller-->
@@ -1146,7 +1140,6 @@
     <string name="home_title_animation_speed">動畫速度</string>
     <string name="home_title_big_icon_corner">中等圖示圓角跟隨</string>
     <string name="home_title_download_animation">下載動畫</string>
-    <string name="home_title_fix_animation">最佳化打斷動畫</string>
     <string name="home_title_icon_scale">圖示縮放</string>
     <string name="home_title_disable_hide_file">停用隱藏「檔案」圖示</string>
     <string name="home_title_disable_hide_theme">停用隱藏「主題管理」圖示</string>
@@ -1213,7 +1206,6 @@
     <string name="home_dock_icon_bottom_margin">圖示距離底部邊距</string>
     <string name="home_dock_margin_bottom">頁面指示器距螢幕底部邊距</string>
     <string name="home_dock_unlock_hotseat">解鎖底欄圖示數量限制</string>
-    <string name="home_dock_fold">Fold 樣式底欄</string>
     <string name="home_dock_icon_title">顯示應用程式標題</string>
     <string name="home_dock_disable_recents_icon">在 Dock 欄中隱藏最近應用圖示</string>
     <string name="home_dock_add_blur">背景模糊自訂</string>
@@ -1232,9 +1224,7 @@
     <string name="home_other_tasks_shortcut_menu">多開模式</string>
     <string name="home_other_tasks_shortcut_menu_desc">在快捷選單中新增多開選單</string>
     <string name="home_other_allow_share_apk">允許分享應用程式</string>
-    <string name="home_other_user_present_animation">最佳化解鎖動畫</string>
     <string name="home_other_always_blur_launcher_wallpaper">始終模糊桌布</string>
-    <string name="home_other_perfect_icon">完美圖示優先度</string>
     <string name="home_other_icon_mono_chrome">圖示背景色</string>
     <string name="home_other_icon_monet_color">使用 Monet 取色</string>
     <string name="home_other_use_edit_color">使用自訂顏色</string>
@@ -1436,7 +1426,6 @@
     <string name="security_center_sidebar_show_suggest">禁止展示推薦應用程式</string>
     <string name="security_center_unlock_new_vb">解鎖新版影片工具箱</string>
     <string name="security_center_game_performance_wild_mode">解鎖遊戲加速狂暴模式</string>
-    <string name="security_center_unlock_fbo">解鎖 FBO 煥新儲存</string>
     <string name="security_center_sidebar_videobox_title">影片工具箱</string>
     <string name="security_center_sidebar_gamebox_title">遊戲工具箱</string>
     <string name="security_center_sidebar_function_title">側邊欄功能</string>
@@ -1449,7 +1438,6 @@
     <string name="security_center_power_consumption_ranking">顯示耗電量排行</string>
     <string name="security_center_hide_xopt_mode_tip">隱藏權限使用提示</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">解鎖低溫耐寒模式</string>
-    <string name="secutity_center_unlock_app_sandbox">解鎖獨立儲存空間</string>
     <string name="secutity_center_battery_show_more_info">顯示更多電池資訊</string>
     <string name="secutity_center_battery_show_more_info_desc">實驗性功能。顯示的附加電池資訊可能因裝置而異。</string>
     <!--MiTrustService-->

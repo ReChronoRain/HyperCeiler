@@ -53,6 +53,9 @@ public class LockScreenSettings extends DashboardFragment {
         mHideLeftButtonNew.setVisible(moreAndroidVersion);
 
         if (isMoreSmallVersion(200, 2f)) {
+            mHideLeftButtonNew.setValue("0");
+            mHideRightButton.setChecked(false);
+
             setFuncHint(mHideLeftButtonNew, 2);
             setFuncHint(mHideRightButton, 2);
         }

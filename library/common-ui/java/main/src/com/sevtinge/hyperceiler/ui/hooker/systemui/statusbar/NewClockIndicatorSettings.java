@@ -24,12 +24,13 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHy
 import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.R;
 
 public class NewClockIndicatorSettings extends DashboardFragment {
 
     SwitchPreference mClockAnim;
+    SwitchPreference mClockColor;
     PreferenceCategory mPadClock;
 
     @Override
@@ -40,9 +41,14 @@ public class NewClockIndicatorSettings extends DashboardFragment {
     @Override
     public void initPrefs() {
         mClockAnim = findPreference("prefs_key_system_ui_disable_clock_anim");
+        mClockColor = findPreference("prefs_key_system_ui_statusbar_clock_fix_color");
         mPadClock = findPreference("prefs_key_system_ui_statusbar_clock_pad_show");
 
-        mClockAnim.setVisible(!isMoreHyperOSVersion(2f));
+        if (isMoreHyperOSVersion(2f)) {
+            mClockAnim.setVisible(false);
+            mClockColor.setChecked(false);
+            setFuncHint(mClockColor, 1);
+        }
         mPadClock.setVisible(isPad());
     }
 }

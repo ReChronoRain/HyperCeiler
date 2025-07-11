@@ -318,7 +318,6 @@
     <string name="system_other_delete_on_post_notification_desc">Rimuovi notifica \"Questa app viene visualizzata sopra altre app sullo schermo\"</string>
     <string name="system_framework_share_menu_test">Prova menù condivisione</string>
     <string name="system_framework_open_with_menu_test">Apri con menu di prova</string>
-    <string name="system_framework_other_use_original_animation">Le animazioni di transizione usano stili nativi</string>
     <string name="system_framework_other_speed_install">Installa velocemente</string>
     <string name="system_framework_other_speed_install_desc">Installa sulla memoria in esecuzione per velocizzare l\'installazione</string>
     <string name="system_framework_other_rotation_button">Consigli di rotazione</string>
@@ -629,9 +628,6 @@
     <string name="system_settings_safe_wifi_desc">Sblocca Gestisci reti salvate\nPercorso: Impostazioni - WLAN - Impostazioni avanzate - Gestisci reti salvate</string>
     <string name="system_settings_novelty_haptic_title">Sblocca la nuova versione della pagina di regolazione touch</string>
     <string name="system_settings_novelty_haptic_desc">Solo per dispositivi con Suoni &amp; Haptics - Pagina Haptics</string>
-    <string name="system_settings_enable_pad_area">Sblocca area Pad</string>
-    <string name="system_settings_enable_fold_area">Sblocca area Fold</string>
-    <string name="system_settings_enable_area_desc">I dispositivi non supportati causeranno l\'arresto anomalo delle impostazioni dopo essere stati sbloccati</string>
     <string name="system_settings_unlock_google_header">Sblocca voce Google</string>
     <string name="system_settings_usb_mode">Non è presente alcuna finestra pop-up durante la connessione a USB</string>
     <string name="system_settings_usb_mode_choose">Opzione USB predefinita</string>
@@ -675,8 +671,6 @@
     <string name="theme_manager_version_code_modify_desc">Regola la versione rilevata per utilizzare alcuni temi che non sono adattati alla nuova versione</string>
     <string name="theme_manager_diable_ads">Disabilita annunci</string>
     <string name="theme_manager_diable_ads_desc">Sostituisci \"indovina cosa ti piace\" annunci con schede vuote e rimuovi completamente il resto degli annunci</string>
-    <string name="theme_manager_enable_pad_theme">Abilita tema Pad</string>
-    <string name="theme_manager_enable_fold_theme">Abilita tema Fold</string>
     <!--remotecontroller-->
     <!--Updater-->
     <string name="updater">Aggiornamento</string>
@@ -869,7 +863,6 @@
     <string name="home_title_animation_speed">Velocità animazione</string>
     <string name="home_title_big_icon_corner">Segui icona media angolo arrotondato</string>
     <string name="home_title_download_animation">Scarica animazione</string>
-    <string name="home_title_fix_animation">Ottimizzato interrompi l\'animazione</string>
     <string name="home_title_icon_scale">Ridimensionamento delle icone</string>
     <string name="home_title_disable_hide_file">Disabilita l\'occultamento dell\'icona \"File\"</string>
     <string name="home_title_disable_hide_theme">Non nascondere l\'icona \"Gestione temi\"</string>
@@ -921,7 +914,6 @@
     <string name="home_dock_icon_bottom_margin">Distanza dell\'icona dal margine inferiore</string>
     <string name="home_dock_margin_bottom">Indicatore del margine della pagina dalla parte inferiore dello schermo</string>
     <string name="home_dock_unlock_hotseat">Rimuovi limitazione del numero di icone dal dock</string>
-    <string name="home_dock_fold">Richiudi il Dock</string>
     <string name="home_dock_icon_title">Mostra il titolo dell\'icona nel dock</string>
     <string name="home_dock_disable_recents_icon">Nascondi le icone delle app recenti dal Dock</string>
     <string name="home_dock_add_blur">Sfocatura dello sfondo personalizzata</string>
@@ -939,9 +931,7 @@
     <string name="home_other_tasks_shortcut_menu">Modalità altre attività</string>
     <string name="home_other_tasks_shortcut_menu_desc">Aggiungi nuovo menu di attività al menu di scelta rapida</string>
     <string name="home_other_allow_share_apk">Consenti condivisione app</string>
-    <string name="home_other_user_present_animation">Ottimizza animazione di sblocco</string>
     <string name="home_other_always_blur_launcher_wallpaper">Sfoca sempre lo sfondo di avvio</string>
-    <string name="home_other_perfect_icon">Priorità icona perfetta</string>
     <string name="home_other_icon_mono_chrome">Colore sfondo icona</string>
     <string name="home_other_icon_monet_color">Usa colore Monet</string>
     <string name="home_other_use_edit_color">Modifica colore</string>
@@ -1111,7 +1101,6 @@
     <string name="security_center_sidebar_show_suggest">Disattiva mostra suggerisci app</string>
     <string name="security_center_unlock_new_vb">Sblocca nuovo riquadro video</string>
     <string name="security_center_game_performance_wild_mode">Sblocca prestazioni di gioco Modalità selvaggia</string>
-    <string name="security_center_unlock_fbo">Sblocca FBO</string>
     <string name="security_center_sidebar_videobox_title">Riquadro video</string>
     <string name="security_center_sidebar_gamebox_title">Riquadro giochi</string>
     <string name="security_center_sidebar_function_title">Funzione barra laterale</string>

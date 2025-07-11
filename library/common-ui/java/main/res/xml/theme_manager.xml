@@ -43,17 +43,4 @@
             app:isPreferenceVisible="false" />
 
     </PreferenceCategory>
-
-    <PreferenceCategory>
-        <SwitchPreference
-            android:title="@string/theme_manager_enable_pad_theme"
-            android:key="prefs_key_various_theme_enable_pad_theme"
-            android:defaultValue="false" />
-
-        <SwitchPreference
-            android:title="@string/theme_manager_enable_fold_theme"
-            android:key="prefs_key_various_theme_enable_fold_theme"
-            android:defaultValue="false" />
-
-    </PreferenceCategory>
 </PreferenceScreen>

@@ -405,7 +405,6 @@
     <string name="system_other_delete_on_post_notification_desc">Remova a notificação \"Este app está sendo exibido sobre outros apps\"</string>
     <string name="system_framework_share_menu_test">Testar menu de compartilhamento</string>
     <string name="system_framework_open_with_menu_test">Testar menu Abrir com</string>
-    <string name="system_framework_other_use_original_animation">Animações de transição usam estilos AOSP</string>
     <string name="system_framework_other_speed_install">Instalação rápida</string>
     <string name="system_framework_other_speed_install_desc">Instale com memória RAM para acelerar a instalação. O suporte ao núcleo do sistema é necessário.</string>
     <string name="system_framework_other_rotation_button">Recomendações de rotação</string>
@@ -861,9 +860,6 @@
     <string name="system_settings_safe_wifi_desc">Caminho: Configurações &gt; Wi-Fi &gt; Configurações adicionais &gt; Gerenciar redes salvas</string>
     <string name="system_settings_novelty_haptic_title">Desbloquear nova versão da página de retorno tátil</string>
     <string name="system_settings_novelty_haptic_desc">Apenas para dispositivos com Sons e Retorno tátil - Página de retorno tátil</string>
-    <string name="system_settings_enable_pad_area">Desbloquear configurações do Pad</string>
-    <string name="system_settings_enable_fold_area">Desbloquear configurações do Fold</string>
-    <string name="system_settings_enable_area_desc">Dispositivos não suportados causarão falha nas Configurações após desbloquear as opções</string>
     <string name="system_settings_unlock_google_header">Desbloquear entrada do Google</string>
     <string name="system_settings_unlock_ui_mode">Desbloquear otimizações de layout dos apps</string>
     <string name="system_settings_usb_mode">Ocultar janela pop-up ao conectar-se ao USB</string>
@@ -916,8 +912,6 @@
     <string name="theme_manager_version_code_modify_desc">Ajuste a versão detectada para usar alguns temas que não estão adaptados à nova versão</string>
     <string name="theme_manager_diable_ads">Desativar anúncios</string>
     <string name="theme_manager_diable_ads_desc">Substitua anúncios de \"adivinhe o que você gosta\" por cartões em branco e remova completamente o restante dos anúncios</string>
-    <string name="theme_manager_enable_pad_theme">Ativar tema Pad</string>
-    <string name="theme_manager_enable_fold_theme">Ativar tema Fold</string>
     <string name="theme_manager_allow_download_more">Permitir mais downloads sem fazer login</string>
     <string name="theme_manager_allow_download_more_desc">Permite baixar mais de 10 itens sem fazer login</string>
     <!--remotecontroller-->
@@ -1147,7 +1141,6 @@
     <string name="home_title_animation_speed">Velocidade da animação</string>
     <string name="home_title_big_icon_corner">Seguir canto redondo do ícone médio</string>
     <string name="home_title_download_animation">Baixar animação</string>
-    <string name="home_title_fix_animation">Otimizar animação de interrupção do app</string>
     <string name="home_title_icon_scale">Dimensionamento do ícone</string>
     <string name="home_title_disable_hide_file">Não ocultar o ícone Arquivos</string>
     <string name="home_title_disable_hide_theme">Não ocultar o ícone Temas</string>
@@ -1214,7 +1207,6 @@
     <string name="home_dock_icon_bottom_margin">Distância do ícone da margem inferior</string>
     <string name="home_dock_margin_bottom">Margem do indicador de página da parte inferior da tela</string>
     <string name="home_dock_unlock_hotseat">Remover restrição de ícones na dock</string>
-    <string name="home_dock_fold">Dock estilo Fold</string>
     <string name="home_dock_icon_title">Exibir nome do app na dock</string>
     <string name="home_dock_disable_recents_icon">Ocultar ícones de apps recentes da dock</string>
     <string name="home_dock_add_blur">Exibição do plano de fundo personalizado</string>
@@ -1233,9 +1225,7 @@
     <string name="home_other_tasks_shortcut_menu">Modo Nova tarefa</string>
     <string name="home_other_tasks_shortcut_menu_desc">Adicione o menu de Nova tarefa ao menu de atalho</string>
     <string name="home_other_allow_share_apk">Permitir compartilhar app</string>
-    <string name="home_other_user_present_animation">Otimizar animação de desbloqueio</string>
     <string name="home_other_always_blur_launcher_wallpaper">Desfocar plano de fundo na launcher</string>
-    <string name="home_other_perfect_icon">Forçar animações globais de ícone</string>
     <string name="home_other_icon_mono_chrome">Cor de fundo do ícone</string>
     <string name="home_other_icon_monet_color">Usar cor do monet</string>
     <string name="home_other_use_edit_color">Editar cor</string>
@@ -1438,7 +1428,6 @@
     <string name="security_center_sidebar_show_suggest">Desativar mostrar sugestões de apps</string>
     <string name="security_center_unlock_new_vb">Desbloquear nova Caixa de ferramentas de vídeo</string>
     <string name="security_center_game_performance_wild_mode">Desbloquear Wild Boost</string>
-    <string name="security_center_unlock_fbo">Desbloquear FBO</string>
     <string name="security_center_sidebar_videobox_title">Caixa de ferramentas de vídeo</string>
     <string name="security_center_sidebar_gamebox_title">Caixa de jogos</string>
     <string name="security_center_sidebar_function_title">Função da barra lateral</string>
@@ -1450,8 +1439,6 @@
     <string name="security_center_remove_simlock_success_dialog_desc">Remove a caixa de diálogo após ligar o dispositivo para indicar que a verificação de segurança do SIM foi concluída com sucesso</string>
     <string name="security_center_power_consumption_ranking">Exibir classificação do consumo de energia</string>
     <string name="security_center_hide_xopt_mode_tip">Ocultar dica de uso de permissões ocultas</string>
-    <string name="security_center_battery_unlock_low_temp_ext_endurance">Desbloquear Modo de resistência ao frio</string>
-    <string name="secutity_center_unlock_app_sandbox">Desbloquear Armazenamento independente</string>
     <string name="secutity_center_battery_show_more_info">Mostrar mais informações da bateria</string>
     <string name="secutity_center_battery_show_more_info_desc">Recurso experimental. As informações adicionais da bateria exibidas podem variar de acordo com o dispositivo.</string>
     <!--MiTrustService-->
