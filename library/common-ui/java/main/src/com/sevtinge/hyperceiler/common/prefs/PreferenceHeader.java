@@ -72,7 +72,7 @@ public class PreferenceHeader extends XmlPreference {
 
     private void init(Context context) {
         setLayoutResource(R.layout.preference_header);
-        if (!isScopeGet && !isScopeGetFailed) if (getWhoAmI().equals("root")) getScope();
+        if (!isScopeGet && !isScopeGetFailed) if (getWhoAmI().equals("root")) getScope(context);
         if (isUninstall(context)) {
             mUninstallApp.add(" - " + getTitle() + " (" + getSummary() + ")");
             setVisible(false);
@@ -104,16 +104,17 @@ public class PreferenceHeader extends XmlPreference {
     }
 
     @SuppressLint("Range")
-    private void getScope() {
+    private void getScope(Context context) {
+        String cachePath = context.getCacheDir().toString();
         int userId = getCurrentUserId();
         SQLiteDatabase db = null;
         Cursor cursor = null;
 
         try {
-            rootExecCmd("mkdir -p /data/local/tmp/HyperCeiler/cache/ && cp -r /data/adb/lspd/config /data/local/tmp/HyperCeiler/cache/ && chmod -R 777 /data/local/tmp/HyperCeiler/cache/config");
+            rootExecCmd("cp -r /data/adb/lspd/config " + cachePath + " && chmod -R 777 " + cachePath + "/config");
 
-            String dbPath = "/data/local/tmp/HyperCeiler/cache/config/modules_config.db";
-            db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+            String dbPath = cachePath + "/config/modules_config.db";
+            db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
 
             if (isDatabaseLocked(db)) {
                 AndroidLogUtils.logW("PreferenceHeader", "Database locked, skip get scope.");
