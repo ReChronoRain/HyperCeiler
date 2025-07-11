@@ -31,65 +31,69 @@ import de.robv.android.xposed.XposedHelpers;
 public class GmsDozeFix extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Class<?> GmsObserver = XposedHelpers.findClassIfExists("com.miui.powerkeeper.utils.GmsObserver", lpparam.classLoader);
-        findAndHookMethod(GmsObserver, "isGmsControlEnabled", new MethodHook() {
+        Class<?> GmsObserver = findClassIfExists("com.miui.powerkeeper.utils.GmsObserver", lpparam.classLoader);
+        findAndHookMethod(GmsObserver, "initGmsControl", new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
-                param.setResult(false);
+            protected void before(MethodHookParam param) {
+                param.setResult(null);
             }
         });
 
-        Class<?> Misc = XposedHelpers.findClassIfExists("com.miui.powerkeeper.provider.SimpleSettings$Misc", lpparam.classLoader);
-        findAndHookMethod(Misc, "getBoolean", Context.class, String.class, boolean.class, new MethodHook() {
+        findAndHookMethod(GmsObserver, "updateGmsNetWork", boolean.class, new MethodHook() {
             @Override
-            protected void after(MethodHookParam methodHookParam) throws Throwable {
-                if ("gms_control".equals((String) methodHookParam.args[1])) {
-                    methodHookParam.setResult(false);
-                }
+            protected void before(MethodHookParam param) {
+                param.setResult(null);
             }
         });
 
-        Class<?> MilletPolicy = XposedHelpers.findClassIfExists("com.miui.powerkeeper.millet.MilletPolicy", lpparam.classLoader);
+        findAndHookMethod(GmsObserver, "onGoogleReachabilityChanged", boolean.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                param.args[0] = true;
+            }
+        });
 
-        MethodHook methodHook = new MethodHook() {
-            protected void before(MethodHook.MethodHookParam methodHookParam) throws Throwable {
-                Field[] declaredFields = null;
-                super.after(methodHookParam);
-                boolean mSystemBlackList = false;
-                boolean whiteApps = false;
-                boolean mDataWhiteList = false;
+        try {
+            Class<?> MilletPolicy = findClass("com.miui.powerkeeper.millet.MilletPolicy", lpparam.classLoader);
+            findAndHookConstructor("com.miui.powerkeeper.millet.MilletPolicy", Context.class, new MethodHook() {
+                protected void before(MethodHookParam methodHookParam) throws Throwable {
+                    super.after(methodHookParam);
+                    boolean mSystemBlackList = false;
+                    boolean whiteApps = false;
+                    boolean mDataWhiteList = false;
 
-                for (Field field : MilletPolicy.getDeclaredFields()) {
-                    if (field.getName().equals("mSystemBlackList")) {
-                        mSystemBlackList = true;
-                    } else if (field.getName().equals("whiteApps")) {
-                        whiteApps = true;
-                    } else if (field.getName().equals("mDataWhiteList")) {
-                        mDataWhiteList = true;
+                    for (Field field : MilletPolicy.getDeclaredFields()) {
+                        if (field.getName().equals("mSystemBlackList")) {
+                            mSystemBlackList = true;
+                        } else if (field.getName().equals("whiteApps")) {
+                            whiteApps = true;
+                        } else if (field.getName().equals("mDataWhiteList")) {
+                            mDataWhiteList = true;
+                        }
                     }
-                }
 
-                if (mSystemBlackList) {
-                    List blackList = (List) XposedHelpers.getObjectField(methodHookParam.thisObject, "mSystemBlackList");
-                    blackList.remove("com.google.android.gms");
-                    XposedHelpers.setObjectField(methodHookParam.thisObject, "mSystemBlackList", blackList);
-                }
-                if (whiteApps) {
-                    List whiteAppList = (List) XposedHelpers.getObjectField(methodHookParam.thisObject, "whiteApps");
-                    whiteAppList.remove("com.google.android.gms");
-                    whiteAppList.remove("com.google.android.ext.services");
-                    XposedHelpers.setObjectField(methodHookParam.thisObject, "whiteApps", whiteAppList);
-                }
-                if (mDataWhiteList) {
-                    List dataWhiteList = (List) XposedHelpers.getObjectField(methodHookParam.thisObject, "mDataWhiteList");
-                    dataWhiteList.add("com.google.android.gms");
+                    if (mSystemBlackList) {
+                        List blackList = (List) XposedHelpers.getObjectField(methodHookParam.thisObject, "mSystemBlackList");
+                        blackList.remove("com.google.android.gms");
+                        XposedHelpers.setObjectField(methodHookParam.thisObject, "mSystemBlackList", blackList);
+                    }
+                    if (whiteApps) {
+                        List whiteAppList = (List) XposedHelpers.getObjectField(methodHookParam.thisObject, "whiteApps");
+                        whiteAppList.remove("com.google.android.gms");
+                        whiteAppList.remove("com.google.android.ext.services");
+                        XposedHelpers.setObjectField(methodHookParam.thisObject, "whiteApps", whiteAppList);
+                    }
+                    if (mDataWhiteList) {
+                        List dataWhiteList = (List) XposedHelpers.getObjectField(methodHookParam.thisObject, "mDataWhiteList");
+                        dataWhiteList.add("com.google.android.gms");
 
-                    XposedHelpers.setObjectField(methodHookParam.thisObject, "mDataWhiteList", dataWhiteList);
+                        XposedHelpers.setObjectField(methodHookParam.thisObject, "mDataWhiteList", dataWhiteList);
+                    }
+
                 }
-
-            }
-        };
-        XposedHelpers.findAndHookConstructor(MilletPolicy, new Object[]{Context.class, methodHook});
-
+            });
+        } catch (XposedHelpers.ClassNotFoundError e) {
+            logE(TAG, this.lpparam.packageName, "Hook failed: "+ e);
+        }
     }
 }

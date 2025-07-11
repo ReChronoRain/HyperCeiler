@@ -27,11 +27,13 @@ public class ThermalBrightness extends BaseHook {
     public final String automaticBrightnessControllerImpl = "com.android.server.display.AutomaticBrightnessControllerImpl";
     public final String thermalBrightnessController = "com.android.server.display.ThermalBrightnessController";
     public final String temperatureController = "com.android.server.display.TemperatureController";
+    public final String thermalObserver = "com.android.server.display.ThermalObserver";
+
 
     @Override
     public void init() {
         try {
-            XposedHelpers.findClass(displayPowerControllerImpl, lpparam.classLoader);
+            findClass(displayPowerControllerImpl, lpparam.classLoader);
             findAndHookConstructor(displayPowerControllerImpl,
                 new MethodHook() {
                     @Override
@@ -47,7 +49,7 @@ public class ThermalBrightness extends BaseHook {
         }
 
         try {
-            XposedHelpers.findClass(automaticBrightnessControllerImpl, lpparam.classLoader);
+            findClass(automaticBrightnessControllerImpl, lpparam.classLoader);
             findAndHookConstructor(automaticBrightnessControllerImpl,
                 new MethodHook() {
                     @Override
@@ -61,7 +63,7 @@ public class ThermalBrightness extends BaseHook {
         }
 
         try {
-            findClassIfExists(temperatureController).getDeclaredMethod("updateTemperature");
+            findClass(temperatureController, lpparam.classLoader).getDeclaredMethod("updateTemperature");
             findAndHookMethod(temperatureController,
                 "updateTemperature", new MethodHook() {
                     @Override
@@ -72,16 +74,34 @@ public class ThermalBrightness extends BaseHook {
             );
         } catch (NoSuchMethodException e) {
             logE(TAG, "android", "Don't Have updateTemperature: " + e);
+        } catch (XposedHelpers.ClassNotFoundError ne) {
+            logE(TAG, "android", "Class not found: " + ne);
         }
 
-        /*hookAllMethods("com.android.server.display.DisplayPowerControllerImpl",
+        try {
+            findClass(thermalObserver, lpparam.classLoader).getDeclaredMethod("updateTemperature");
+            findAndHookMethod(thermalObserver,
+                "updateTemperature", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        param.setResult(null);
+                    }
+                }
+            );
+        } catch (NoSuchMethodException e) {
+            logE(TAG, "android", "Don't Have updateTemperature: " + e);
+        } catch (XposedHelpers.ClassNotFoundError ne) {
+            logE(TAG, "android", "Class not found: " + ne);
+        }
+
+        hookAllMethods("com.android.server.display.DisplayPowerControllerImpl",
             "adjustBrightnessByThermal", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
                     param.setResult(param.args[0]);
                 }
             }
-        );*/
+        );
 
         try {
             findClassIfExists(displayPowerControllerImpl).getDeclaredMethod("updateThermalBrightness", float.class);
@@ -109,6 +129,18 @@ public class ThermalBrightness extends BaseHook {
             );
         } catch (NoSuchMethodException e) {
             logE(TAG, "android", "Don't Have updateThermalBrightnessIfNeeded: " + e);
+        }
+
+        try {
+            findClassIfExists(thermalBrightnessController).getDeclaredMethod("updateConditionState", int.class);
+            findAndHookMethod(thermalBrightnessController, "updateConditionState", int.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    param.setResult(null);
+                }
+            });
+        } catch (NoSuchMethodException e) {
+            logE(TAG, "android", "Don't Have updateConditionState: " + e);
         }
     }
 }
