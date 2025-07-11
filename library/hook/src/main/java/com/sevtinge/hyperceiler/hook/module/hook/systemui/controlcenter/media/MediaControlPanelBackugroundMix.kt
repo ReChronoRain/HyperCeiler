@@ -119,9 +119,8 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                             it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("holder")
                                 ?: return@createBeforeHook
                         val titleText =
-                            mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<TextView>("titleText")
-                        val artistText = mMediaViewHolder.objectHelper()
-                            .getObjectFieldOrNullAs<TextView>("artistText")
+                            mMediaViewHolder.getObjectFieldOrNullAs<TextView>("titleText")
+                        val artistText = mMediaViewHolder.getObjectFieldOrNullAs<TextView>("artistText")
                         val grey = if (isDarkMode()) Color.LTGRAY else Color.DKGRAY
                         val color = if (isDarkMode()) Color.WHITE else Color.BLACK
 
@@ -148,17 +147,17 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder")
                             ?: return@createAfterHook
 
-                    val action0 = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageButton>("action0")
-                    val action1 = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageButton>("action1")
-                    val action2 = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageButton>("action2")
-                    val action3 = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageButton>("action3")
-                    val action4 = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageButton>("action4")
-                    val titleText = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<TextView>("titleText")
-                    val artistText = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<TextView>("artistText")
-                    val seamlessIcon = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageView>("seamlessIcon")
-                    val seekBar = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<SeekBar>("seekBar")
-                    val elapsedTimeView = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<TextView>("elapsedTimeView")
-                    val totalTimeView = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<TextView>("totalTimeView")
+                    val action0 = mMediaViewHolder.getObjectFieldOrNullAs<ImageButton>("action0")
+                    val action1 = mMediaViewHolder.getObjectFieldOrNullAs<ImageButton>("action1")
+                    val action2 = mMediaViewHolder.getObjectFieldOrNullAs<ImageButton>("action2")
+                    val action3 = mMediaViewHolder.getObjectFieldOrNullAs<ImageButton>("action3")
+                    val action4 = mMediaViewHolder.getObjectFieldOrNullAs<ImageButton>("action4")
+                    val titleText = mMediaViewHolder.getObjectFieldOrNullAs<TextView>("titleText")
+                    val artistText = mMediaViewHolder.getObjectFieldOrNullAs<TextView>("artistText")
+                    val seamlessIcon = mMediaViewHolder.getObjectFieldOrNullAs<ImageView>("seamlessIcon")
+                    val seekBar = mMediaViewHolder.getObjectFieldOrNullAs<SeekBar>("seekBar")
+                    val elapsedTimeView = mMediaViewHolder.getObjectFieldOrNullAs<TextView>("elapsedTimeView")
+                    val totalTimeView = mMediaViewHolder.getObjectFieldOrNullAs<TextView>("totalTimeView")
 
                     val grey = if (isDarkMode()) Color.LTGRAY else Color.DKGRAY
                     val color = if (isDarkMode()) Color.WHITE else Color.BLACK
@@ -212,8 +211,8 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
                     if (!isBackgroundBlurOpened) return@createBeforeHook
 
-                    val mPaint1 = it.thisObject.objectHelper().getObjectFieldOrNullAs<Paint>("mPaint1")
-                    val mPaint2 = it.thisObject.objectHelper().getObjectFieldOrNullAs<Paint>("mPaint2")
+                    val mPaint1 = it.thisObject.getObjectFieldOrNullAs<Paint>("mPaint1")
+                    val mPaint2 = it.thisObject.getObjectFieldOrNullAs<Paint>("mPaint2")
                     if (mPaint1?.alpha == 0) return@createBeforeHook
 
                     mPaint1?.alpha = 0
@@ -258,17 +257,17 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                                     if (isBackgroundBlurOpened) {
                                         val mMediaViewHolder = mediaControlPanelInstance.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder")
                                         if (mMediaViewHolder != null) {
-                                            val action0 = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageButton>("action0")
-                                            val action1 = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageButton>("action1")
-                                            val action2 = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageButton>("action2")
-                                            val action3 = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageButton>("action3")
-                                            val action4 = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageButton>("action4")
-                                            val titleText = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<TextView>("titleText")
-                                            val artistText = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<TextView>("artistText")
-                                            val seamlessIcon = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageView>("seamlessIcon")
-                                            val seekBar = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<SeekBar>("seekBar")
-                                            val elapsedTimeView = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<TextView>("elapsedTimeView")
-                                            val totalTimeView = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<TextView>("totalTimeView")
+                                            val action0 = mMediaViewHolder.getObjectFieldOrNullAs<ImageButton>("action0")
+                                            val action1 = mMediaViewHolder.getObjectFieldOrNullAs<ImageButton>("action1")
+                                            val action2 = mMediaViewHolder.getObjectFieldOrNullAs<ImageButton>("action2")
+                                            val action3 = mMediaViewHolder.getObjectFieldOrNullAs<ImageButton>("action3")
+                                            val action4 = mMediaViewHolder.getObjectFieldOrNullAs<ImageButton>("action4")
+                                            val titleText = mMediaViewHolder.getObjectFieldOrNullAs<TextView>("titleText")
+                                            val artistText = mMediaViewHolder.getObjectFieldOrNullAs<TextView>("artistText")
+                                            val seamlessIcon = mMediaViewHolder.getObjectFieldOrNullAs<ImageView>("seamlessIcon")
+                                            val seekBar = mMediaViewHolder.getObjectFieldOrNullAs<SeekBar>("seekBar")
+                                            val elapsedTimeView = mMediaViewHolder.getObjectFieldOrNullAs<TextView>("elapsedTimeView")
+                                            val totalTimeView = mMediaViewHolder.getObjectFieldOrNullAs<TextView>("totalTimeView")
                                             val grey = if (isDarkMode()) Color.LTGRAY else Color.DKGRAY
                                             val color = if (isDarkMode()) Color.WHITE else Color.BLACK
                                             artistText?.setTextColor(grey)
@@ -312,14 +311,14 @@ class MediaControlPanelBackgroundMix : BaseHook() {
         runCatching {
             //  获取 Icon
             miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()?.createBeforeHook {
-                artwork = it.args[0].objectHelper().getObjectFieldOrNullAs<Icon>("artwork")
+                artwork = it.args[0].getObjectFieldOrNullAs<Icon>("artwork")
                     ?: return@createBeforeHook
             }
 
             // 重写 onDraw
             playerTwoCircleView?.methodFinder()?.filterByName("onDraw")?.first()?.createBeforeHook {
-                (it.thisObject.objectHelper().getObjectFieldOrNullAs<Paint>("mPaint1"))?.alpha = 0
-                (it.thisObject.objectHelper().getObjectFieldOrNullAs<Paint>("mPaint2"))?.alpha = 0
+                (it.thisObject.getObjectFieldOrNullAs<Paint>("mPaint1"))?.alpha = 0
+                (it.thisObject.getObjectFieldOrNullAs<Paint>("mPaint2"))?.alpha = 0
                 it.thisObject.objectHelper().setObject("mRadius", 0.0f)
             }
 

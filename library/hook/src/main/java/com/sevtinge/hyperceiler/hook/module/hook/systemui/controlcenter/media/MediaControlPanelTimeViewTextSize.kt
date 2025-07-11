@@ -44,9 +44,9 @@ class MediaControlPanelTimeViewTextSize : BaseHook() {
                     it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder")
                         ?: return@createAfterHook
                 val elapsedTimeView =
-                    mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<TextView>("elapsedTimeView")
+                    mMediaViewHolder.getObjectFieldOrNullAs<TextView>("elapsedTimeView")
                 val totalTimeView =
-                    mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<TextView>("totalTimeView")
+                    mMediaViewHolder.getObjectFieldOrNullAs<TextView>("totalTimeView")
 
                 elapsedTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
                 totalTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)

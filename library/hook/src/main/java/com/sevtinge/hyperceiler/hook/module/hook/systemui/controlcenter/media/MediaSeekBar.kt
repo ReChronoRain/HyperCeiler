@@ -53,8 +53,7 @@ object MediaSeekBar : BaseHook() {
 
     override fun init() {
         mediaViewHolder?.constructors?.first()?.createAfterHook {
-            val seekBar = it.thisObject.objectHelper()
-                    .getObjectFieldOrNullAs<SeekBar>("seekBar")
+            val seekBar = it.thisObject.getObjectFieldOrNullAs<SeekBar>("seekBar")
 
             val backgroundDrawable = GradientDrawable().apply {
                 color = ColorStateList(arrayOf(intArrayOf()), intArrayOf("#20ffffff".toColorInt()))
@@ -95,7 +94,7 @@ object MediaSeekBar : BaseHook() {
             miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()?.createAfterHook {
                 val mMediaViewHolder = it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder") ?: return@createAfterHook
 
-                val seekBar = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<SeekBar>("seekBar")
+                val seekBar = mMediaViewHolder.getObjectFieldOrNullAs<SeekBar>("seekBar")
                 seekBar?.thumb?.colorFilter = colorFilter(Color.TRANSPARENT)
             }
         }

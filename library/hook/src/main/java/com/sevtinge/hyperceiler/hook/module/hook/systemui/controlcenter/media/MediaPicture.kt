@@ -62,11 +62,9 @@ object MediaPicture : BaseHook() {
 
                 if (albumPictureIdentifier) {
                     val appIcon =
-                        mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageView>("appIcon")
+                        mMediaViewHolder.getObjectFieldOrNullAs<ImageView>("appIcon")
                     (appIcon?.parent as ViewGroup?)?.removeView(appIcon)
-                }
-
-                if (albumPictureCorners) {
+                } else if (albumPictureCorners) {
                     optPicture(mMediaViewHolder, it, context)
                 }
             }
@@ -77,8 +75,8 @@ object MediaPicture : BaseHook() {
         param: XC_MethodHook.MethodHookParam,
         context: Context
     ) {
-        val albumView = mMediaViewHolder.objectHelper().getObjectFieldOrNullAs<ImageView>("albumView")
-        val artwork = param.args[0].objectHelper().getObjectFieldOrNullAs<Icon>("artwork") ?: return
+        val albumView = mMediaViewHolder.getObjectFieldOrNullAs<ImageView>("albumView")
+        val artwork = param.args[0].getObjectFieldOrNullAs<Icon>("artwork") ?: return
         val artworkLayer = artwork.loadDrawable(context) ?: return
 
         val artworkBitmap = createBitmap(artworkLayer.intrinsicWidth, artworkLayer.intrinsicHeight)
