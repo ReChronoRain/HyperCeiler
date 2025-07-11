@@ -21,7 +21,9 @@ package com.sevtinge.hyperceiler.hook.module.app.SystemFramework.Pad;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableMiuiWatermark;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableThermal;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FlagSecure;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassIsolationViolation;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassSignCheckForT;
@@ -41,6 +43,8 @@ public class SystemFrameworkB extends BaseModule {
         initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
 
         // 其它-底层
+        initHook(DisableThermal.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_thermal"));
+        initHook(new ThermalBrightness(), mPrefsMap.getBoolean("system_framework_other_thermal_brightness"));
         initHook(new DisableMiuiWatermark(), mPrefsMap.getBoolean("system_framework_disable_miui_watermark"));
     }
 }
