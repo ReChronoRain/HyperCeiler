@@ -1014,6 +1014,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_navigation_assist_left_slide_desc">Vuốt màn hình từ góc dưới bên trái</string>
     <string name="home_navigation_assist_right_slide_desc">Vuốt màn hình từ góc dưới bên phải</string>
     <string name="home_navigation_quick_back_more">Vuốt từ cạnh màn hình để quay lại ứng dụng trước</string>
+    <string name="home_navigation_disable_full_screen_back_gesture">Tắt cử chỉ vuốt toàn màn hình để quay lại</string>
     <string name="home_navigation_back_area_height">Chiều cao khu vực cử chỉ quay lại</string>
     <string name="home_navigation_back_area_width">Chiều rộng khu vực cử chỉ quay lại</string>
     <string name="home_gesture_title2">Cử chỉ</string>
@@ -1173,6 +1174,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_recent_text">Văn bản hiển thị khi không có tác vụ gần đây</string>
     <string name="home_recent_app_name_distance_task_view_card">Khoảng cách tên thẻ tác vụ</string>
     <string name="home_recent_card_header_horizontal_position">Vị trí ngang của tiêu đề thẻ ứng dụng</string>
+    <string name="home_recent_task_view_height">Chiều cao của thẻ tác vụ gần đây</string>
     <string name="home_recent_task_view_card_rounded_corners">Bo góc thẻ tác vụ</string>
     <string name="home_recent_horizontal_task_view_card_size1">Kích thước thẻ tác vụ ở ngang \"xoay dọc\"</string>
     <string name="home_recent_horizontal_task_view_card_size2">Kích thước thẻ tác vụ ở ngang \"xoay ngang\"</string>
