@@ -49,8 +49,8 @@ public class NotificationRowMenu extends BaseHook {
         int appInfoDescId = R.string.system_notifrowmenu_appinfo;
         int forceCloseDescId = R.string.system_notifrowmenu_forceclose;
         int openInFwDescId = R.string.system_notifrowmenu_openinfw;
-        ResInjectTool.setDensityReplacement("com.android.systemui", "dimen", "notification_menu_icon_padding", 0);
-        ResInjectTool.setDensityReplacement("com.android.systemui", "dimen", "miui_notification_modal_menu_margin_left_right", 3);
+        ResInjectTool.setDensityReplacement("com.android.systemui", "dimen", "notification_menu_icon_padding", 0f);
+        ResInjectTool.setDensityReplacement("com.android.systemui", "dimen", "miui_notification_modal_menu_margin_left_right", 3f);
         ResInjectTool.setResReplacement("com.android.systemui", "drawable", "miui_notification_menu_ic_bg_active", R.drawable.miui_notification_menu_ic_bg_active);
         ResInjectTool.setResReplacement("com.android.systemui", "drawable", "miui_notification_menu_ic_bg_inactive", R.drawable.miui_notification_menu_ic_bg_inactive);
 
