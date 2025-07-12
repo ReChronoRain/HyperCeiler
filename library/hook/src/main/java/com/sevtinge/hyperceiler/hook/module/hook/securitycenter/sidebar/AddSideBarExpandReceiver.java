@@ -59,8 +59,8 @@ public class AddSideBarExpandReceiver extends BaseHook {
         final boolean[] isHooked = {false, false};
         boolean enableSideBar = mPrefsMap.getBoolean("security_center_leave_open");
         if (!enableSideBar) {
-            ResInjectTool.setDensityReplacement("com.miui.securitycenter", "dimen", "sidebar_height_default", 8);
-            ResInjectTool.setDensityReplacement("com.miui.securitycenter", "dimen", "sidebar_height_vertical", 8);
+            ResInjectTool.setDensityReplacement("com.miui.securitycenter", "dimen", "sidebar_height_default", 8f);
+            ResInjectTool.setDensityReplacement("com.miui.securitycenter", "dimen", "sidebar_height_vertical", 8f);
         }
         Class<?> RegionSamplingHelper = findClassIfExists("com.android.systemui.navigationbar.gestural.RegionSamplingHelper", lpparam.classLoader);
         if (RegionSamplingHelper == null) {

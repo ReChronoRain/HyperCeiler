@@ -37,19 +37,19 @@ object SidebarLineCustom : BaseHook() {
         )
         logI(TAG, "com.miui.securitycenter", "mSidebarLineColorDark is $mSidebarLineColorDark")
         logI(TAG, "com.miui.securitycenter", "mSidebarLineColorLight is $mSidebarLineColorLight")
-        ResInjectTool.setResReplacement(
+        ResInjectTool.setObjectReplacement(
             "com.miui.securitycenter",
             "color",
             "sidebar_line_color",
             mSidebarLineColorDefault
         )
-        ResInjectTool.setResReplacement(
+        ResInjectTool.setObjectReplacement(
             "com.miui.securitycenter",
             "color",
             "sidebar_line_color_dark",
             mSidebarLineColorLight
         )
-        ResInjectTool.setResReplacement(
+        ResInjectTool.setObjectReplacement(
             "com.miui.securitycenter",
             "color",
             "sidebar_line_color_light",
