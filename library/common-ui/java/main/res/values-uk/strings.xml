@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <string name="provision_back_description">Назад</string>
+    <string name="provision_start_content_description">Почати</string>
+    <string name="provision_next">Далі</string>
+    <string name="provision_skip_underline">Пропустити</string>
+    <string name="provision_permission_settings_title">Налаштування дозволів</string>
+    <string name="provision_terms_and_statement_title">Умови та положення</string>
+    <string name="provision_basic_settings_title">Основні налаштування</string>
+    <string name="provision_agree_and_next">Погоджуюсь</string>
+    <string name="provision_agree_terms">Я прочитав(-ла) та погоджуюся з Угодою користувача та Політикою конфіденційності.</string>
+    <string name="provision_user_agreement">Угода користувача</string>
+    <string name="provision_privacy_policy">Політика конфіденційності</string>
+    <string name="provision_terms_of_use">Умови та положення</string>
+    <string name="provision_terms_of_use_label_use_network_china">Щоб надавати вам кращі послуги, ви повинні прочитати та погодитися з нашою <a href="%1$s">Угодою користувача</a> та <a href="%2$s">Політикою конфіденційності</a>, перш ніж продовжити використання системи. Ми будемо захищати вашу особисту інформацію відповідно до чинного законодавства, нормативних актів та політики конфіденційності.</string>
+    <string name="provision_terms_of_label_period">.</string>
+    <string name="provision_protect_persoanl_info_statement">Ми будемо захищати вашу особисту інформацію відповідно до чинного законодавства, нормативних актів та політики конфіденційності.</string>
+    <string name="provision_service_agreement">Я прочитав(-ла) та погоджуюся з умовами та положеннями.</string>
+    <string name="provision_service_name_download">Завантаження</string>
+    <string name="provision_service_policy_download"><Data>Прочитайте та погодьтеся з <a href="%1$s">Політикою конфіденційності Thunder</a> та <a href="%2$s">Угодою про використання мережевих послуг компанії Thunder</a></Data></string>
+    <string name="provision_congratulation_title">Налаштування завершено</string>
+    <string name="provision_congratulation_label">Спробуйте захоплюючу HyperOS!</string>
+    <string name="provision_complete_text">Увійти до системи</string>
+    <!--Pop-up window/miuix part-->
+    <string name="miuix_appcompat_action_mode_select_all">Вибрати все</string>
+    <string name="miuix_appcompat_cancel_description">Скасувати</string>
+    <string name="miuix_appcompat_confirm_description">ОК</string>
+    <string name="miuix_appcompat_select_all_description">Вибрати все</string>
+    <string name="miuix_appcompat_deselect_all_description">Зняти виділення</string>
+    <string name="miuix_appcompat_delete_description">Видалити</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">Скасувати</string>
+    <string name="miuix_appcompat_search_input_description">Пошук</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Більше</string>
+    <string name="miuix_appcompat_action_mode_inverse">Зняти виділення</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="tip">Порада</string>
+    <string name="root">Деякі функції недоступні без Root/Su дозволів</string>
+    <string name="soft_reboot">Перезавантажити </string>
+    <string name="restart_app_desc">Ви впевнені, що хочете перезапустити %1$s зараз?</string>
+    <string name="hyperceiler_restart_quick">Швидкий перезапуск додатків</string>
+    <string name="hook_failed">Модуль ще не активовано. Перевірте, чи увімкнено LSPosed. Якщо так, будь ласка, перезавантажте або повторно оптимізуйте модуль.</string>
+    <string name="kill_failed">Не вдалося завершити процес. Перевірте, чи надано HyperCeiler Root/Su дозволи.</string>
+    <string name="start_failed">Не вдалося запустити активність. Перевірте, чи надано HyperCeiler Root/Su дозволи.</string>
+    <string name="pid_failed">Цільовий додаток не запущено і не потребує перезапуску.</string>
+    <string name="reboot_failed">Перезавантаження не вдалося. Перевірте, чи надано HyperCeiler Root/Su дозволи.</string>
+    <!--HyperCeiler Tips-->
+    <string name="error">Помилка</string>
+    <string name="warn">Увага</string>
+    <string name="module_app_failed">У модулі сталася фатальна помилка</string>
+    <string name="module_app_copy_desc">Натисніть і утримуйте вміст, щоб скопіювати</string>
+    <string name="module_title_1">Основна інформація</string>
+    <string name="module_title_2">Інформація стека</string>
+    <string name="app_error_desc">HyperCeiler несподівано закрився. Щоб допомогти нам це виправити, надайте наведену нижче інформацію:\n\nНатисніть і утримуйте будь-яке повідомлення, щоб скопіювати все.</string>
+    <string name="app_exit">ОК</string>
+    <string name="safe_mode_desc">%1$s увійшов у безпечний режим через численні збої, функції HyperCeiler тимчасово вимкнено.</string>
+    <string name="safe_mode_history">Переглянути записи винятків</string>
+    <string name="safe_mode_cancel">Вимкнути безпечний режим</string>
+    <string name="safe_mode_ok">Скасувати</string>
+    <string name="safe_mode_later_title">Порада</string>
+    <string name="safe_mode_later_desc">%1$s все ще в безпечному режимі, а функції HyperCeiler вимкнено. Вимкнути безпечний режим?</string>
+    <string name="safe_mode_recorder_title">Записи винятків</string>
+    <string name="safe_mode_recorder_file">Файл</string>
+    <string name="safe_mode_recorder_class">Клас</string>
+    <string name="safe_mode_recorder_method">Метод</string>
+    <string name="safe_mode_recorder_line">Рядок</string>
+    <string name="safe_mode_recorder_msg">Повідомлення про виняток</string>
+    <string name="safe_mode_recorder_st">Трасування стека</string>
+    <string name="error_message">Повідомлення про виняток</string>
+    <string name="error_type">Тип винятку</string>
+    <string name="error_file_name">Назва файлу</string>
+    <string name="error_time">Час запису</string>
+    <string name="error_version_name">Назва версії</string>
+    <string name="error_git_hash">Git-хеш</string>
+    <string name="error_build_time">Час збірки</string>
+    <string name="copy_ok">Скопійовано в буфер обміну</string>
+    <string name="notification_channel_app_crash_name">Додаток працює ненормально</string>
+    <string name="notification_title_message_emergency_crash">%s зазнав збою кілька разів</string>
+    <string name="notification_content_message">Натисніть, щоб переглянути деталі</string>
+    <string name="notification_view">Переглянути</string>
+    <string name="tip_default">Порада: Це стандартна порада. Якщо ви її бачите, це означає, що з HyperCeiler виникла проблема. Будь ласка, своєчасно та ефективно повідомте про це розробнику.</string>
+    <string name="headtip_warn_not_offical_rom">Джерело прошивки, яку ви використовуєте, може бути не офіційною прошивкою Xiaomi, і деякі функції можуть не працювати. Будь ласка, зв\'яжіться з вашим постачальником для отримання додаткової інформації.</string>
+    <string name="headtip_warn_unsupport_sysver">Поточний пристрій працює на версії системи, яка не (повністю) адаптована, що може призвести до аномалій у функціонуванні HyperCeiler.</string>
+    <string name="headtip_warn_sign_verification_failed">Перевірка підпису не вдалася, і поточна версія, яку ви використовуєте, може бути не офіційною версією HyperCeiler і може містити шкідливий код.</string>
+    <string name="headtip_tip_auto_safe_mode">Безпечний режим може вчасно відключати хуки для деяких додатків, коли вони зазнають збою кілька разів, для забезпечення безпеки. Ця функція вимагає, щоб область видимості хука системного фреймворку була увімкнена. Ми наполегливо рекомендуємо перевірити область видимості системного фреймворку, щоб увімкнути безпечний режим.</string>
+    <string name="headtip_tip_long_press_to_copy">Ви можете виділити текст після довгого або подвійного натискання, або скопіювати його та надіслати розробнику.</string>
+    <string name="happy_birthday_hyperceiler">Сьогодні день народження HyperCeiler!\nДякуємо за вашу підтримку протягом минулого року, і давайте продовжувати працювати разом і цього року!</string>
+    <string name="headtip_tip_fuck_coolapk">Сьогодні в історії: Sevtinge виголосив важливу промову 14 липня 2022 року.</string>
+    <string name="headtip_notice_dead_logger_errcode">Поточна служба логів пристрою працює ненормально, і функції HyperCeiler будуть обмежені. Будь ласка, відновіть службу логів, щоб вона могла працювати нормально.\nКод помилки: %1$s</string>
+    <string name="headtip_notice_dead_logger">Поточна служба логів пристрою працює ненормально, і функції HyperCeiler будуть обмежені. Будь ласка, відновіть службу логів, щоб вона могла працювати нормально.</string>
+    <string name="unsupported_system_func">Ця функція не підтримується у поточній версії системи</string>
+    <string name="supported_system_func">Ця функція офіційно підтримується у поточній версії системи</string>
+    <string name="feature_doing_func">Ця функція наразі в розробці, слідкуйте за оновленнями.</string>
+    <!--System UI-->
+    <string name="system_ui">Інтерфейс системи</string>
+    <!--System launcher-->
+    <string name="mihome">Системний лаунчер</string>
+    <!--Settings-->
+    <string name="system_settings">Налаштування</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center_hyperos">Безпека</string>
+    <!--Other-->
+    <string name="exit">Вихід</string>
+    <string name="ignore">Ігнорувати</string>
+    <string name="log_level">Рівень логування</string>
+    <string name="log_level_none">Вимкнено</string>
+    <string name="disable_suggest">Вимкнути пропозиції</string>
+    <string name="enable_suggest">Увімкнути пропозиції</string>
+</resources>

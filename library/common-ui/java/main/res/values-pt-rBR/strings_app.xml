@@ -20,10 +20,10 @@
 <resources>
     <string name="version_update">Nova versão encontrada</string>
     <!--Introduction to Xposed Modules-->
-    <string name="new_permission_wifi_state_desc">adicionar e excluir arquivos no armazenamento interno do dispositivo</string>
-    <string name="new_permission_location_desc">ser usado para fornecer serviços como latitude e longitude</string>
+    <string name="new_permission_wifi_state_desc">Adicionar e excluir arquivos no armazenamento interno do dispositivo</string>
+    <string name="new_permission_location_desc">Usado para fornecer serviços como latitude e longitude</string>
     <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciador de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
-    <string name="new_cta_app_main_purpose">modificar apps do sistema</string>
+    <string name="new_cta_app_main_purpose">Modificar apps do sistema</string>
     <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler! Este app depende do LSPosed para ser executado. Você pode usar este app para sequestrar e modificar outros apps suportados para aprimorar o sistema. Durante o uso, para fornecer mais funções, podemos solicitar suas permissões Root/Su. Você pode gerenciá-lo a qualquer momento acessando seu gerenciador Root/Su.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Português (Brasil)</string>
@@ -436,9 +436,9 @@
     <string name="system_framework_bypass_unknown_sources_restrictions">Permitir que todos os apps instalem apps de fontes desconhecidas</string>
     <string name="system_framework_bypass_force_mi_appstore">Permitir selecionar apps de terceiros ao acessar a App Store</string>
     <string name="system_framework_market_use_detailmini">Abrir sempre uma janela flutuante ao entrar no GetApps</string>
-    <string name="system_framework_market_use_detailmini_desc">Ignore a restrição que impede um app de redirecionar para a página de detalhes de outro app no GetApps sem o appClientId</string>
+    <string name="system_framework_market_use_detailmini_desc">Remove a restrição que impede que um app redirecione para a página de detalhes de outro app no GetApps sem usar o appClientId.</string>
     <string name="system_framework_bypass_force_downloadui">Corrigir redirecionamento de downloads</string>
-    <string name="system_framework_bypass_force_downloadui_desc">Resolve o problema de redirecionamento incorreto ao clicar em \"Exibir downloads\" no Quick Share</string>
+    <string name="system_framework_bypass_force_downloadui_desc">Corrige o problema de redirecionamento incorreto ao clicar em \"Ver downloads\" no Quick Share</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Serviço de gerenciador de pacotes</string>
     <string name="system_framework_core_patch_downgr">Permitir downgrade de apps</string>
@@ -627,6 +627,7 @@
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Ocultar ícone de sinal do SIM 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Lógica de exibição</string>
     <string name="system_ui_status_bar_icon_mobile_network_type_compatibility">Modo de compatibilidade</string>
+    <string name="system_ui_status_bar_icon_mobile_network_type_compatibility_desc">Corrige a exibição incorreta dos ícones da barra de status em alguns dispositivos</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Ícone do tipo de rede grande</string>
     <string name="system_ui_status_bar_icon_location">Localização</string>
     <string name="system_ui_status_bar_icon_mic">Microfone</string>
@@ -709,7 +710,7 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">Saída de texto longo</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Texto</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Este é um longo pedaço de texto que será exibido em formato de rolagem</string>
-    <string name="system_ui_statusbar_music_tip">Observações antes de usar:\n• Após ativar este recurso, verifique e reinicie a UI do Sistema e o escopo de música correspondente.\n• Este recurso precisa ser usado com o módulo \"SuperLyric\".\n• Certifique-se de que a notificação \"Letras de notificação de foco\" esteja ativada na categoria de notificação do app de música correspondente e nas configurações de notificações de foco do app.</string>
+    <string name="system_ui_statusbar_music_tip">Observações antes de usar:\n• Após ativar este recurso, verifique e reinicie a UI do Sistema e o escopo de música correspondente.\n• Este recurso precisa ser usado com o módulo \"SuperLyric\".</string>
     <string name="system_ui_statusbar_music_notification">Letras de notificação de foco</string>
     <string name="system_ui_statusbar_music_show_app_title">Notificação para se registrar no app</string>
     <string name="system_ui_statusbar_music_show_app_desc">Após ativar, você precisa verificar o escopo do app de música.</string>
@@ -772,7 +773,7 @@
     <string name="system_ui_control_center_show_weather_city">Exibir cidade</string>
     <string name="system_ui_control_center_disable_device_managed">Ocultar solicitações de monitoramento de rede</string>
     <string name="system_ui_control_center_hide_edit_botton">Ocultar botão Editar</string>
-    <string name="system_ui_control_center_tile_super_blur">Texturas avançadas no bloco</string>
+    <string name="system_ui_control_center_tile_super_blur">Texturas avançadas em blocos QS</string>
     <string name="system_ui_control_center_mute_visible_notice">Silenciar quando a tela estiver ligada</string>
     <string name="system_ui_control_center_unimportant_notification">Bloquear notificação sem importância automaticamente</string>
     <string name="system_ui_control_center_expand_notification">Expandir notificações</string>
@@ -960,7 +961,7 @@
     <string name="content_extension_link_open_mode">Abrir método de link</string>
     <string name="content_extension_link_open_mode_desc">Escolha um navegador para abrir o link</string>
     <!--Xiaomi Cloud Service-->
-    <string name="micloud_service">MiCloud</string>
+    <string name="micloud_service">Xiaomi Cloud</string>
     <string name="micloud_service_list">Desbloquear Sincronização da nuvem de dados</string>
     <string name="micloud_service_list_summary">Os recursos de conclusão são os seguintes:\n• O dispositivo pode ser sincronizado com o Mi Canvas.\n• As versões chinesa e internacional do Navegador Mi podem ser sincronizadas simultaneamente.\n\nObservação: A primeira sincronização do Mi Creation deve ser ativado nas configurações do Mi Creation, caso contrário, você será avisado que a rede está indisponível ou o sistema está ocupado.</string>
     <!--Mi Mover-->
@@ -991,7 +992,7 @@
     <string name="gallery_enable_un_privacy_watermark_more">Ao ativá-lo, aumentará ligeiramente a densidade da marca d\'água para acomodar contagens de palavras mais longas.</string>
     <string name="gallery_enable_magic_matting">Desbloquear Recorte</string>
     <string name="gallery_backup_server">Servidor de backup</string>
-    <string name="gallery_backup_server_xiaomi">MiCloud</string>
+    <string name="gallery_backup_server_xiaomi">Xiaomi Cloud</string>
     <string name="gallery_backup_server_google">Google</string>
     <string name="gallery_backup_server_onedrive">Google e OneDrive</string>
     <!--System security components-->
@@ -1007,6 +1008,7 @@
     <string name="home_navigation_assist_left_slide_desc">Deslize para dentro a partir do canto inferior esquerdo da tela</string>
     <string name="home_navigation_assist_right_slide_desc">Deslize para dentro a partir do canto inferior direito da tela</string>
     <string name="home_navigation_quick_back_more">Deslize pela tela começando pela borda para voltar ao app anterior</string>
+    <string name="home_navigation_disable_full_screen_back_gesture">Desativar gesto de retorno em tela cheia</string>
     <string name="home_navigation_back_area_height">Altura da área do gesto de retorno</string>
     <string name="home_navigation_back_area_width">Largura da área do gesto de retorno</string>
     <string name="home_gesture_title2">Gestos</string>
@@ -1165,6 +1167,8 @@
     <string name="home_recent_modify_animation">Modificar animação ao remover apps nos Recentes</string>
     <string name="home_recent_text">Texto exibido quando não há tarefas recentes</string>
     <string name="home_recent_app_name_distance_task_view_card">Distância do nome e ícone do app nos Recentes</string>
+    <string name="home_recent_card_header_horizontal_position">Posição horizontal do cabeçalho do cartão do app</string>
+    <string name="home_recent_task_view_height">Altura do cartão de visualização dos Recentes</string>
     <string name="home_recent_task_view_card_rounded_corners">Cantos arredondados do cartão nos Recentes</string>
     <string name="home_recent_horizontal_task_view_card_size1">Tamanho da miniatura para Horizontalmente-Vertical</string>
     <string name="home_recent_horizontal_task_view_card_size2">Tamanho da miniatura para Horizontalmente-Horizontal</string>
@@ -1269,6 +1273,7 @@
     <string name="mediaeditor_unlock_leica_filter_title">Desbloquear filtro Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Apenas algumas versões são suportadas</string>
     <string name="mediaeditor_unlock_aigc">Desbloquear AIGC</string>
+    <string name="mediaeditor_disable_add_aigc_watermark">Desativar a marca d\'água \"Gerado por IA\"</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Plano de fundo Mi</string>
     <string name="miwallpaper_unlock_super_wallpaper">Desbloquear Super plano de fundo</string>
@@ -1362,8 +1367,8 @@
     <string name="security_center_privacy_thumbnail_blur">Desativar pré-visualização em imagens desfocadas</string>
     <string name="security_center_power_saver_desc">Desative a Economia de bateria ao espelhar a tela via Xiaomi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Altere aleatoriamente a sequência do PIN do Bloqueio de apps</string>
-    <string name="security_center_beauty_light_auto">Desbloquear Luz de preenchimento dianteira</string>
-    <string name="security_center_beauty_face">Desbloquear Embelezar para videochamadas</string>
+    <string name="security_center_beauty_light_auto">Desbloquear Luz de preenchimento frontal</string>
+    <string name="security_center_beauty_face">Desbloquear Embelezador para chamadas de vídeo</string>
     <string name="security_center_beauty_privacy">Desbloquear Câmera de privacidade</string>
     <string name="security_center_beauty_pc">Desbloquear Mantenha os rostos centralizados</string>
     <string name="security_center_disable_root_check">Desativar detecção de root</string>
@@ -1418,7 +1423,7 @@
     <string name="security_center_unlock_screen_time">Exibir dados detalhados do consumo de energia</string>
     <string name="security_center_unlock_screen_time_desc">Exibe informações do uso de energia da tela na parte superior da bateria e retomar a exibição do consumo de energia e do tempo de todos os outros apps</string>
     <string name="security_center_unlock_gun_service">Desbloquear Serviço de armas</string>
-    <string name="security_center_remove_game_toast">Remover janela pop-up do modo de jogo</string>
+    <string name="security_center_remove_game_toast">Remover janela pop-up do Game Turbo</string>
     <string name="security_center_disable_remove_screen_hold_on">Desativar remoção da mídia de reprodução na Tela de bloqueio</string>
     <string name="security_center_unlock_memc">Desbloquear MEMC</string>
     <string name="security_center_unlock_enhance_contours">Desbloquear Contornos aprimorados</string>
@@ -1439,8 +1444,11 @@
     <string name="security_center_remove_simlock_success_dialog_desc">Remove a caixa de diálogo após ligar o dispositivo para indicar que a verificação de segurança do SIM foi concluída com sucesso</string>
     <string name="security_center_power_consumption_ranking">Exibir classificação do consumo de energia</string>
     <string name="security_center_hide_xopt_mode_tip">Ocultar dica de uso de permissões ocultas</string>
+    <string name="security_center_battery_unlock_low_temp_ext_endurance">Desbloquear Modo de resistência a frio</string>
     <string name="secutity_center_battery_show_more_info">Mostrar mais informações da bateria</string>
     <string name="secutity_center_battery_show_more_info_desc">Recurso experimental. As informações adicionais da bateria exibidas podem variar de acordo com o dispositivo.</string>
+    <string name="security_center_unlock_car_sickness">Desbloquear Alívio do enjoo</string>
+    <string name="security_center_unlock_car_sickness_desc">Precisa de suporte de \"Barragem\"</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Desativar detecções de risco</string>
@@ -1523,7 +1531,7 @@
     <string name="bypass_udk_word_legal_check_caption">Permitir gravação do Acorde com voz sem internet</string>
     <string name="bypass_udk_word_legal_check_description">Permite a gravação de palavras do Acorde com voz quando estiver offline</string>
     <string name="voicetrigger_accuracy_percent_caption">Definir precisão da detecção do Acorde com voz</string>
-    <string name="voicetrigger_accuracy_percent_description" formatted="false">Valores maiores são mais difíceis de detectar. O valor padrão é 70%, para a palavra-chave XATX é 0%. Após a configuração, você precisa reiniciar o app de destino e registrar novamente sua palavra de ativação.</string>
+    <string name="voicetrigger_accuracy_percent_description" formatted="false">Valores maiores são mais difíceis de detectar. O valor padrão é 70%, para a palavra-chave XATX é 0%. Após a configuração, você precisa gravar a frase de ativação novamente.</string>
     <!--Other-->
     <string name="various">Outros</string>
     <string name="app_version_not_supported">Versão não suportada</string>
@@ -1552,7 +1560,7 @@
     <string name="various_mipad_input_close_magic_title">Sem ponteiro mágico</string>
     <string name="various_mipad_input_close_magic_desc">Remove o ponteiro circular do mouse e reverte para o ponteiro do mouse nativo do Android</string>
     <string name="various_mipad_input_restore_esc_title">Restaurar função ESC</string>
-    <string name="various_mipad_input_restore_esc_desc">Restaure a função ESC que foi mapeada para a função \"voltar\" pelo sistema Xiaomi Pad.</string>
+    <string name="various_mipad_input_restore_esc_desc">Restaure a função ESC que foi mapeada para a função \"Voltar\" pelo sistema Xiaomi Pad.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Remover restrição da caneta Bluetooth</string>
     <string name="various_mipad_input_disable_bluetooth_desc">Faça com que todas as canetas compatíveis funcionem sem a necessidade da conexão Bluetooth com a caneta oficial.</string>
     <string name="various_mipad_input_bluetooth_version_title">Versão do driver</string>
