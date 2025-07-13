@@ -153,6 +153,7 @@ abstract class MusicBaseHook : BaseHook() {
                 )
             }
             builder.addExtras(api)
+            builder.extras.putString("app_package", extraData.packageName)
             val notification = builder.build()
             (context.getSystemService("notification") as NotificationManager).notify(
                 CHANNEL_ID.hashCode(), notification
@@ -184,6 +185,7 @@ abstract class MusicBaseHook : BaseHook() {
                 )
             }
             builder.addExtras(api)
+            builder.extras.putString("app_package", extraData.packageName)
             val notification = builder.build()
             (context.getSystemService("notification") as NotificationManager).notify(
                 CHANNEL_ID.hashCode(), notification
