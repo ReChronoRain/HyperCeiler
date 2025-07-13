@@ -46,7 +46,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.MuteVisi
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NewFlashLight;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationImportanceHyperOSFix;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationRowMenu;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationWeather;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.OldWeather;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QQSGrid;
@@ -213,7 +212,6 @@ public class SystemUiV extends BaseModule {
         // initHook(RedirectToNotificationChannelSetting.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_redirect_notice"));
         initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));
         initHook(NotificationImportanceHyperOSFix.INSTANCE, mPrefsMap.getBoolean("system_settings_more_notification_settings"));
-        initHook(new NotificationRowMenu(), mPrefsMap.getBoolean("system_ui_control_center_notifrowmenu"));
         initHook(new FixTilesList(), mPrefsMap.getBoolean("system_ui_control_center_fix_tiles_list"));
         initHook(new AllowAllThemesNotificationBlur(), mPrefsMap.getBoolean("system_ui_control_center_unlock_blur_supported"));
         initHook(new DisableTransparent(), mPrefsMap.getBoolean("system_ui_control_center_notification_disable_transparent"));
