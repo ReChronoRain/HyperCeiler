@@ -29,6 +29,8 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresPermission;
+
 import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.R;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
@@ -56,6 +58,7 @@ public class NotificationRowMenu extends BaseHook {
 
         Class<?> MiuiNotificationMenuItem = findClass("com.android.systemui.statusbar.notification.row.MiuiNotificationMenuRow.MiuiNotificationMenuItem", lpparam.classLoader);
         hookAllMethods("com.android.systemui.statusbar.notification.row.MiuiNotificationMenuRow", "createMenuViews", new MethodHook() {
+            @RequiresPermission("android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS")
             @Override
             @SuppressWarnings("unchecked")
             protected void after(final MethodHookParam param) {
