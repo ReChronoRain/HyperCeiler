@@ -23,6 +23,8 @@
 
     <PreferenceCategory>
         <Preference
+            android:icon="@drawable/contributor_adlyq"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@Adlyq"
             android:title="Adlyq">
             <intent
@@ -30,6 +32,8 @@
                 android:data="https://github.com/Adlyq" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_cc0126"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@CC0126"
             android:title="CC0126">
             <intent
@@ -37,6 +41,8 @@
                 android:data="https://github.com/CC0126" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_cecoffee"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@CECoffee"
             android:title="CECoffee0v0">
             <intent
@@ -44,6 +50,8 @@
                 android:data="https://github.com/CECoffee" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_clouderhem"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@CLOUDERHEM"
             android:title="CLOUDERHEM">
             <intent
@@ -51,6 +59,8 @@
                 android:data="https://github.com/CLOUDERHEM" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_deepchirp"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@DeepChirp"
             android:title="DeepChirp">
             <intent
@@ -58,6 +68,8 @@
                 android:data="https://github.com/DeepChirp" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_itzdfplayer"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@ItzDFPlayer"
             android:title="Denys Kovalevskyi">
             <intent
@@ -72,6 +84,8 @@
                 android:data="https://github.com/heinu123" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_fan095"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@Fan095"
             android:title="Fan">
             <intent
@@ -79,6 +93,8 @@
                 android:data="https://github.com/Fan095" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_frank_782"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@frank-782"
             android:title="frank-782">
             <intent
@@ -100,6 +116,8 @@
                 android:data="https://www.coolapk.com/u/666190" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_gswxxn"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@GSWXXN / CoolApk@迷璐"
             android:title="GSWXXN">
             <intent
@@ -107,6 +125,8 @@
                 android:data="https://github.com/GSWXXN" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_hamjin"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@hamjin / CoolApk@HamJin"
             android:title="hamjin">
             <intent
@@ -114,6 +134,8 @@
                 android:data="https://github.com/hamjin" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_horange321"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@Horange321"
             android:title="Horange321">
             <intent
@@ -121,6 +143,8 @@
                 android:data="https://github.com/Horange321" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_hrsthrt74"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@hrsthrt74"
             android:title="hrsthrt74">
             <intent
@@ -128,6 +152,8 @@
                 android:data="https://github.com/hrsthrt74" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_igormiguell"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@igormiguell"
             android:title="igor">
             <intent
@@ -142,6 +168,8 @@
                 android:data="https://4pda.to/forum/index.php?showuser=10789718" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_liubodong"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@LiuBodong"
             android:title="LiuBodong">
             <intent
@@ -149,6 +177,8 @@
                 android:data="https://github.com/LiuBodong" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_luoyunxi0407"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@LuoYunXi0407"
             android:title="LuoYunXi">
             <intent
@@ -156,6 +186,8 @@
                 android:data="https://github.com/LuoYunXi0407" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_memory2314"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@Memory2314"
             android:title="Memory">
             <intent
@@ -163,6 +195,8 @@
                 android:data="https://github.com/Memory2314" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_nahidabuer"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@NahidaBuer"
             android:title="Nahida">
             <intent
@@ -170,6 +204,8 @@
                 android:data="https://github.com/NahidaBuer" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_nakixii"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@nakixii / CoolApk@nakixii"
             android:title="nakixii">
             <intent
@@ -177,6 +213,8 @@
                 android:data="https://github.com/nakixii" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_henvy_mango"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@Henvy-Mango"
             android:title="Naomi">
             <intent
@@ -184,6 +222,8 @@
                 android:data="https://github.com/Henvy-Mango" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_nextalone"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@NextAlone"
             android:title="Next Alone">
             <intent
@@ -198,6 +238,8 @@
                 android:data="https://www.coolapk.com/u/9021855" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_nxibjzc"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@nxibjzC"
             android:title="nxibjz">
             <intent
@@ -205,6 +247,8 @@
                 android:data="https://github.com/nxibjzC" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_oufm"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@oufm"
             android:title="oufm">
             <intent
@@ -212,6 +256,8 @@
                 android:data="https://github.com/oufm" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_pzcn"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@pzcn"
             android:title="PedroZ">
             <intent
@@ -219,6 +265,8 @@
                 android:data="https://github.com/pzcn" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_qdsp6sw"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@qdsp6sw"
             android:title="qdsp6sw">
             <intent
@@ -233,6 +281,8 @@
                 android:data="http://www.coolapk.com/u/2919503" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_ri_char"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@ri-char"
             android:title="riChar">
             <intent
@@ -240,6 +290,8 @@
                 android:data="https://github.com/ri-char" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_furryrbl"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@FurryRbl"
             android:title="SharpIce 锐冰龙">
             <intent
@@ -247,6 +299,8 @@
                 android:data="https://github.com/FurryRbl" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_smartjq"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@SmartJQ"
             android:title="SmartJQ">
             <intent
@@ -254,6 +308,8 @@
                 android:data="https://github.com/SmartJQ" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_spacevector"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@SpaceVector"
             android:title="SpaceVector">
             <intent
@@ -261,6 +317,8 @@
                 android:data="https://github.com/SpaceVector" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_yxsra"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@yxsra"
             android:title="SUMUS">
             <intent
@@ -268,6 +326,8 @@
                 android:data="https://github.com/yxsra" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_tehcneko"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@tehcneko"
             android:title="tehcneko">
             <intent
@@ -275,6 +335,8 @@
                 android:data="https://github.com/tehcneko" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_v5u871"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@v5u871"
             android:title="v5u87">
             <intent
@@ -282,6 +344,8 @@
                 android:data="http://www.coolapk.com/u/5816741" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_voemp"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@Voemp"
             android:title="Voemp">
             <intent
@@ -289,6 +353,8 @@
                 android:data="https://github.com/Voemp" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_hosizoraru"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@hosizoraru"
             android:title="Voyager">
             <intent
@@ -303,6 +369,8 @@
                 android:data="https://github.com/Wansn-w" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_weigui404"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@weigui404"
             android:title="weigui404">
             <intent
@@ -310,6 +378,8 @@
                 android:data="https://github.com/weigui404" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_weverses"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@Weverses"
             android:title="Weverse">
             <intent
@@ -317,6 +387,8 @@
                 android:data="https://github.com/Weverses" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_wushidia"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@wushidia"
             android:title="wushidi">
             <intent
@@ -324,6 +396,8 @@
                 android:data="https://github.com/wushidia" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_xander_c"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@Xander-C"
             android:title="Xander-C">
             <intent
@@ -331,6 +405,8 @@
                 android:data="https://github.com/Xander-C" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_xiefei_github"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@xiefei-github"
             android:title="xiefei-github">
             <intent
@@ -338,6 +414,8 @@
                 android:data="https://github.com/xiefei-github" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_xueshiji"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@xueshiji"
             android:title="xueshiji">
             <intent
@@ -345,6 +423,8 @@
                 android:data="https://github.com/xueshiji" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_xzakota"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@xzakota"
             android:title="xzakota">
             <intent
@@ -352,6 +432,8 @@
                 android:data="https://github.com/xzakota" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_yifeplayte"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@YifePlayte"
             android:title="Yife Playte">
             <intent
@@ -359,6 +441,8 @@
                 android:data="https://github.com/YifePlayte" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_yunzia"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@YunZiA"
             android:title="YunZiA">
             <intent
@@ -366,6 +450,8 @@
                 android:data="https://github.com/YunZiA" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_nep_timeline"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@Nep-Timeline"
             android:title="YuSaki丶Kanade">
             <intent
@@ -373,6 +459,8 @@
                 android:data="https://github.com/Nep-Timeline" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_zcarroll4"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@zcarroll4"
             android:title="Zach Carroll">
             <intent
@@ -380,6 +468,8 @@
                 android:data="https://github.com/zcarroll4" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_lightsummer233"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@lightsummer233"
             android:title="淡い夏">
             <intent
@@ -387,6 +477,8 @@
                 android:data="https://github.com/lightsummer233" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_hchenx"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@HChenX"
             android:title="焕晨HChen">
             <intent
@@ -394,6 +486,8 @@
                 android:data="https://github.com/HChenX" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_klxiaoniu"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@klxiaoniu"
             android:title="快乐小牛">
             <intent
@@ -401,6 +495,8 @@
                 android:data="https://github.com/klxiaoniu" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_ghhccghk"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@ghhccghk"
             android:title="李太白">
             <intent
@@ -408,6 +504,8 @@
                 android:data="https://github.com/ghhccghk" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_lingqiqi5211"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@lingqiqi5211"
             android:title="铃柒柒">
             <intent
@@ -422,6 +520,8 @@
                 android:data="http://www.coolapk.com/u/12223114" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_holybeartw"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@HolyBearTW"
             android:title="聖小熊">
             <intent
@@ -429,6 +529,8 @@
                 android:data="https://github.com/HolyBearTW" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_meetingfate"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@Meetingfate"
             android:title="相见即是缘">
             <intent
@@ -436,6 +538,8 @@
                 android:data="https://github.com/Meetingfate" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_xing0meng"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@xing0meng"
             android:title="星夜萌">
             <intent
@@ -443,6 +547,8 @@
                 android:data="https://github.com/xing0meng" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_lswlc33"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@lswlc33"
             android:title="雪中明月">
             <intent
@@ -450,6 +556,8 @@
                 android:data="https://github.com/lswlc33" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_zjw2017"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@zjw2017"
             android:title="柚稚">
             <intent
@@ -457,6 +565,8 @@
                 android:data="https://github.com/zjw2017" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_yukonga"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@YuKongA"
             android:title="余空">
             <intent
@@ -464,6 +574,8 @@
                 android:data="https://github.com/YuKongA" />
         </Preference>
         <Preference
+            android:icon="@drawable/contributor_pomelohan"
+            android:layout="@layout/preference_round_layout"
             android:summary="GitHub@pomelohan"
             android:title="雨中走过">
             <intent
