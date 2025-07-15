@@ -50,7 +50,7 @@ public class MobileNetworkTypeSettings extends DashboardFragment
         mMobileMode = findPreference("prefs_key_system_ui_status_bar_icon_show_mobile_network_type");
         mMobileType = findPreference("prefs_key_system_ui_statusbar_mobile_type_enable");
         mMobileTypeGroup = findPreference("prefs_key_system_ui_statusbar_mobile_type_group");
-        mCompatibility = findPreference("prefs_key_system_ui_status_bar_mobile_network_type");
+        mCompatibility = findPreference("prefs_key_system_ui_status_bar_icon_mobile_network_type_compatibility");
 
         if (!isMoreSmallVersion(200, 2f)) {
             setFuncHint(mCompatibility, 1);
