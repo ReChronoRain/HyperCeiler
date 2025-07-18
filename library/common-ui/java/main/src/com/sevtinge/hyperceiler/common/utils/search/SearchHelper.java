@@ -309,7 +309,6 @@ public class SearchHelper {
         parsePrefXmlForDashboardFragment(context, R.xml.barrage);
         parsePrefXmlForDashboardFragment(context, R.xml.joyose);
         parsePrefXmlForDashboardFragment(context, R.xml.getapps);
-        parsePrefXmlForDashboardFragment(context, R.xml.notes);
         parsePrefXmlForDashboardFragment(context, R.xml.mtb);
         parsePrefXmlForDashboardFragment(context, R.xml.scanner);
         parsePrefXml(context, MiCloudServiceFragment.class, R.xml.micloud_service);

@@ -969,8 +969,6 @@
     <!--Wallpaper-->
     <string name="miwallpaper">Sfondo</string>
     <string name="miwallpaper_unlock_super_wallpaper">Sblocca Super sfondo</string>
-    <!--Notes-->
-    <string name="notes">Note</string>
     <!--Package installer-->
     <string name="package_installer">Installazione pacchetto</string>
     <string name="miui_package_installer_modify">Purifica la pagina</string>
@@ -1125,7 +1123,6 @@
     <!--AI Translate-->
     <string name="aiasst">Traduzione AI</string>
     <string name="aiasst_ai_captions">Forza didascalie AI abilitate</string>
-    <string name="aiasst_disable_watermark">Disabilita filigrana</string>
     <!--Barrage-->
     <string name="barrage_any_barrage">Consenti a tutte le app di utilizzare la barrage</string>
     <string name="barrage_custom_barrage_length">Lunghezza barrage personalizzata</string>
@@ -1165,8 +1162,6 @@
     <string name="scanner_excel">Sblocca scansiona tabella</string>
     <string name="scanner_ppt">Sblocca scansiona PPT</string>
     <string name="scanner_doc_ppt">Sblocca scansiona file</string>
-    <!--MI AI-->
-    <string name="voiceassist_disable_watermark">Disabilita filigrana chat</string>
     <!--Voice Trigger-->
     <!--Other-->
     <string name="various">Altro</string>

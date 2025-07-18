@@ -897,7 +897,6 @@
     <string name="milink_fuck_hpplay">Blokuj tworzenie folderów hpplay</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">Dyktafon</string>
-    <string name="sound_recorder_disable_ai_watermark">Wyłącz znak wodny SI</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Ekran zawsze włączony i edytor Ekranu blokady</string>
     <string name="aod_unlock_always_on_display">Odblokuj limit czasu wyświetlania</string>
@@ -1221,9 +1220,6 @@
     <!--Wallpaper-->
     <string name="miwallpaper">Tapeta</string>
     <string name="miwallpaper_unlock_super_wallpaper">Odblokuj Supertapety</string>
-    <!--Notes-->
-    <string name="notes">Notatki</string>
-    <string name="notes_disable_ai_watermark">Wyłącz znak wodny SI</string>
     <!--Package installer-->
     <string name="package_installer">Instalator pakietów</string>
     <string name="miui_package_installer_modify">Wyczyść stronę</string>
@@ -1404,7 +1400,6 @@
     <string name="aiasst">Tłumacz SI</string>
     <string name="aiasst_ai_captions">Wymuś włączone napisy SI</string>
     <string name="aiasst_all_captions">Odblokuj wielojęzyczne napisy online</string>
-    <string name="aiasst_disable_watermark">Wyłącz znak wodny</string>
     <!--Barrage-->
     <string name="barrage">Zapora</string>
     <string name="barrage_any_barrage">Zezwalaj na korzystanie z zapory we wszystkich aplikacjach</string>
@@ -1454,9 +1449,6 @@
     <string name="scanner_excel">Odblokuj skanowanie tabeli</string>
     <string name="scanner_ppt">Odblouj skanowanie prezentacji</string>
     <string name="scanner_doc_ppt">Odblokuj skanowanie plików</string>
-    <!--MI AI-->
-    <string name="voiceassist_hyper">Super SI</string>
-    <string name="voiceassist_disable_watermark">Wyłącz znak wodny czatu</string>
     <!--Voice Trigger-->
     <string name="voicetrigger">Aktywacja głosowa</string>
     <string name="bypass_udk_word_legal_check_caption">Zezwalaj na nagrywanie wybudzenia głosem bez internetu</string>

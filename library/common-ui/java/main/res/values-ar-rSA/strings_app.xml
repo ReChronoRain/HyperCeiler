@@ -940,7 +940,6 @@
     <string name="milink_fuck_hpplay">منع إنشاء مجلدات hpplay</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">مسجل الصوت</string>
-    <string name="sound_recorder_disable_ai_watermark">تعطيل العلامة المائية للذكاء الاصطناعي</string>
     <string name="sound_recorder_unlock_recording_scene">افتح موقع التسجيل</string>
     <!--Always-on display-->
     <string name="aod_hyperos">الشاشة الدائمة ومحرر قفل الشاشة</string>
@@ -1271,9 +1270,6 @@
     <!--Wallpaper-->
     <string name="miwallpaper">خلفية الشاشة</string>
     <string name="miwallpaper_unlock_super_wallpaper">فتح خلفية الشاشة الفائقة</string>
-    <!--Notes-->
-    <string name="notes">ملاحظات</string>
-    <string name="notes_disable_ai_watermark">تعطيل العلامة المائية للذكاء الاصطناعي</string>
     <!--Package installer-->
     <string name="package_installer">مثبّت الحزم</string>
     <string name="miui_package_installer_modify">تنظيف الصفحة</string>
@@ -1461,7 +1457,6 @@
     <string name="aiasst">ترجمة MI AI</string>
     <string name="aiasst_ai_captions">تفعيل الترجمة التلقائية بواسطة الذكاء الاصطناعي</string>
     <string name="aiasst_all_captions">فتح الترجمة متعددة اللغات عبر الإنترنت</string>
-    <string name="aiasst_disable_watermark">تعطيل العلامة المائية</string>
     <!--Barrage-->
     <string name="barrage">المقذوفات</string>
     <string name="barrage_any_barrage">السماح لجميع التطبيقات باستخدام المقذوفات</string>
@@ -1515,9 +1510,6 @@
     <string name="scanner_excel">فتح مسح الجدول</string>
     <string name="scanner_ppt">فتح مسح PPT</string>
     <string name="scanner_doc_ppt">فتح مسح الملفات</string>
-    <!--MI AI-->
-    <string name="voiceassist_hyper">Super AI</string>
-    <string name="voiceassist_disable_watermark">تعطيل العلامة المائية للمحادثة</string>
     <!--Voice Trigger-->
     <string name="voicetrigger">التنبيه الصوتي</string>
     <string name="bypass_udk_word_legal_check_caption">السماح بتسجيل كلمة الاستيقاظ بالصوت بدون إنترنت</string>

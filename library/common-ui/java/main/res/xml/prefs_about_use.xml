@@ -328,6 +328,13 @@
                 android:data="https://github.com/Weverses/ModemPro" />
         </Preference>
         <Preference
+            android:summary="HChenX | GPL-3.0"
+            android:title="HookTool">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/HChenX/HookTool" />
+        </Preference>
+        <Preference
             android:summary="DanGLES3 | GPL-3.0"
             android:title="NoStorageRestrict">
             <intent

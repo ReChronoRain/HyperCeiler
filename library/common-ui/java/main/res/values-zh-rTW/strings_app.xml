@@ -942,7 +942,6 @@
     <string name="milink_fuck_hpplay">阻止建立 hpplay 資料夾</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">錄音機</string>
-    <string name="sound_recorder_disable_ai_watermark">停用 AI 浮水印</string>
     <string name="sound_recorder_unlock_recording_scene">解鎖語音場景</string>
     <!--Always-on display-->
     <string name="aod_hyperos">待機與鎖定螢幕編輯</string>
@@ -1273,13 +1272,9 @@
     <string name="mediaeditor_unlock_leica_filter_title">解鎖 Leica 濾鏡</string>
     <string name="mediaeditor_unlock_leica_filter_desc">僅支援部分版本</string>
     <string name="mediaeditor_unlock_aigc">解鎖 AIGC</string>
-    <string name="mediaeditor_disable_add_aigc_watermark">關閉“AI生成”水印</string>
     <!--Wallpaper-->
     <string name="miwallpaper">桌布</string>
     <string name="miwallpaper_unlock_super_wallpaper">解鎖超級桌布</string>
-    <!--Notes-->
-    <string name="notes">筆記</string>
-    <string name="notes_disable_ai_watermark">停用 AI 浮水印</string>
     <!--Package installer-->
     <string name="package_installer">應用程式檔案管理元件</string>
     <string name="miui_package_installer_modify">淨化頁面</string>
@@ -1469,7 +1464,6 @@
     <string name="aiasst">小愛翻譯</string>
     <string name="aiasst_ai_captions">強制啟用即時字幕</string>
     <string name="aiasst_all_captions">解鎖多語言線上即時字幕</string>
-    <string name="aiasst_disable_watermark">停用浮水印</string>
     <!--Barrage-->
     <string name="barrage">彈幕通知</string>
     <string name="barrage_any_barrage">允許所有應用程式使用彈幕通知</string>
@@ -1523,9 +1517,6 @@
     <string name="scanner_excel">解鎖提取表格</string>
     <string name="scanner_ppt">解鎖提取 PPT</string>
     <string name="scanner_doc_ppt">解鎖掃文件</string>
-    <!--MI AI-->
-    <string name="voiceassist_hyper">超級小愛</string>
-    <string name="voiceassist_disable_watermark">停用聊天浮水印</string>
     <!--Voice Trigger-->
     <string name="voicetrigger">語音觸發器：</string>
     <string name="bypass_udk_word_legal_check_caption">允許無網錄入喚醒詞</string>

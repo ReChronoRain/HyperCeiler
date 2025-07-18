@@ -774,7 +774,6 @@ aplicaciones del sistema</string>
     <string name="milink_fuck_hpplay">Bloquear la creación de carpetas de hpplay</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">Grabador de sonido</string>
-    <string name="sound_recorder_disable_ai_watermark">Desactivar marca de agua de IA</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Editor de \"se muestra siempre\" y la pantalla de bloqueo</string>
     <string name="aod_unlock_always_on_display">Desbloquear el límite de tiempo de visualización de la pantalla siempre activada</string>
@@ -1069,9 +1068,6 @@ aplicaciones del sistema</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Fondo de pantalla</string>
     <string name="miwallpaper_unlock_super_wallpaper">Desbloquear súper fondo de pantalla</string>
-    <!--Notes-->
-    <string name="notes">Notas</string>
-    <string name="notes_disable_ai_watermark">Desactivar marca de agua de IA</string>
     <!--Package installer-->
     <string name="package_installer">Instalador de paquetes</string>
     <string name="miui_package_installer_modify">Purificar la página</string>
@@ -1232,7 +1228,6 @@ aplicaciones del sistema</string>
     <!--AI Translate-->
     <string name="aiasst">Traductor, IA</string>
     <string name="aiasst_ai_captions">Forzar subtítulos de IA habilitados</string>
-    <string name="aiasst_disable_watermark">Desactivar marca de agua</string>
     <!--Barrage-->
     <string name="barrage">Bombardeo</string>
     <string name="barrage_any_barrage">Permitir que todas las aplicaciones usen bombardeo</string>
@@ -1276,9 +1271,6 @@ aplicaciones del sistema</string>
     <string name="scanner_excel">Desbloquear escaneo de tabla</string>
     <string name="scanner_ppt">Desbloquear escaneo de PPT</string>
     <string name="scanner_doc_ppt">Desbloquear archivos escaneados</string>
-    <!--MI AI-->
-    <string name="voiceassist_hyper">Súper IA</string>
-    <string name="voiceassist_disable_watermark">Desactivar marca de agua en charlas</string>
     <!--Voice Trigger-->
     <string name="voicetrigger">Activador de voz</string>
     <string name="bypass_udk_word_legal_check_caption">Permitir la grabación del despertador con voz sin internet</string>
