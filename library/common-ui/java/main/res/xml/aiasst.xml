@@ -32,11 +32,6 @@
             android:summary="@string/only_new_version_can_do"
             android:title="@string/aiasst_all_captions" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_aiasst_disable_watermark"
-            android:title="@string/aiasst_disable_watermark" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>

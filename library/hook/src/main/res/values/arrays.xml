@@ -57,7 +57,7 @@
         <item>com.miui.mishare.connectivity</item> <!--小米互传-->
         <item>com.miui.misound</item> <!--音质音效-->
         <item>com.miui.miwallpaper</item> <!--壁纸-->
-        <item>com.miui.notes</item> <!--笔记-->
+        <!--<item>com.miui.notes</item>--> <!--笔记-->
         <item>com.miui.packageinstaller</item> <!--应用包管理组件-->
         <item>com.miui.personalassistant</item> <!--智能助理-->
         <item>com.miui.powerkeeper</item> <!--电量与性能-->
@@ -66,7 +66,7 @@
         <item>com.miui.securityadd</item> <!--系统服务组件-->
         <item>com.miui.securitycenter</item> <!--手机管家-->
         <item>com.miui.tsmclient</item> <!--小米智能卡-->
-        <item>com.miui.voiceassist</item> <!--超级小爱-->
+        <!--<item>com.miui.voiceassist</item>--> <!--超级小爱-->
         <item>com.miui.weather2</item> <!--天气-->
         <item>com.xiaomi.aiasst.vision</item> <!--小爱翻译-->
         <item>com.xiaomi.barrage</item> <!--弹幕通知-->

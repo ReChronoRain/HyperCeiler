@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.ui.page.settings.development;
 
-import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.utils.XposedActivateHelper.isModuleActive;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getBoard;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getBrand;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getCharacteristics;
@@ -42,17 +40,19 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getCurre
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getWhoAmI;
+import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.LOGGER_CHECKER_ERR_CODE;
+import static com.sevtinge.hyperceiler.utils.XposedActivateHelper.isModuleActive;
 
 import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.common.utils.MainActivityContextHelper;
+import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
+import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt;
 import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
-import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -106,7 +106,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesDevice.put("ModDevice", getModDevice());
             propertiesDevice.put("Characteristics", getCharacteristics());
             propertiesDevice.put("Pad", String.valueOf(isPad()));
-            propertiesDevice.put("Large Screen", String.valueOf(isLargeUI()));
+            propertiesDevice.put("LargeScreen", String.valueOf(isLargeUI()));
             propertiesDevice.put("FingerPrint", getFingerPrint());
             propertiesDevice.put("Locale", getLocale());
             propertiesDevice.put("Language", getLanguage());

@@ -281,13 +281,6 @@
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"
-            android:key="prefs_key_notes"
-            android:summary="com.miui.notes"
-            android:title="@string/notes"
-            app:inflatedXml="@xml/notes"/>
-
-        <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
-            android:icon="@drawable/ic_default"
             android:key="prefs_key_package_installer"
             android:summary="com.miui.packageinstaller"
             android:title="@string/package_installer"
@@ -341,13 +334,6 @@
             android:summary="com.miui.tsmclient"
             android:title="@string/tsmclient"
             app:inflatedXml="@xml/tsmclient"/>
-
-        <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
-            android:icon="@drawable/ic_default"
-            android:key="prefs_key_voiceassist"
-            android:summary="com.miui.voiceassist"
-            android:title="@string/voiceassist_hyper"
-            app:inflatedXml="@xml/voiceassist"/>
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"

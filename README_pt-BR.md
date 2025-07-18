@@ -52,7 +52,6 @@ Os dispositivos disponíveis para os desenvolvedores só podem ser parcialmente 
 | Joyose                                         | com.xiaomi.joyose                  |
 | Configurações Mi                               | com.xiaomi.misettings              |
 | Segurança                                      | com.miui.securitycenter            |
-| Notas                                          | com.miui.notes                     |
 | Plano de fundo Mi                              | com.miui.miwallpaper               |
 | Taplus                                         | com.miui.contentextension          |
 | Barragem                                       | com.xiaomi.barrage                 |
@@ -91,7 +90,6 @@ Os dispositivos disponíveis para os desenvolvedores só podem ser parcialmente 
 | Câmera                                         | com.android.camera                 |
 | Mi AI Translate                                | com.xiaomi.aiasst.vision           |
 | Scanner                                        | com.xiaomi.scanner                 |
-| Mi AI                                          | com.miui.voiceassist               |
 | Serviço NFC                                    | com.android.nfc                    |
 | Fones de ouvido                                | com.miui.misound                   |
 | Backup                                         | com.miui.backup                    |
@@ -168,6 +166,7 @@ Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler)
 - [「HyperOSXXL」 por YuKongA](https://github.com/YuKongA/HyperOS_XXL)
 - [「MIUI 通知修复」 por tehcneko](https://github.com/Xposed-Modules-Repo/io.github.tehcneko.miuinotificationfix)
 - [「ModemPro」 por Weverse](https://github.com/Weverses/ModemPro)
+- [「HookTool」 by 焕晨HChen](https://github.com/HChenX/HookTool)
 - [「NoStorageRestrict」 por DanGLES3](https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict)
 - [「PortalHook」 por Haocen2004](https://github.com/Haocen2004/PortalHook)
 - [「PinningApp」 por 焕晨HChen](https://github.com/HChenX/PinningApp)

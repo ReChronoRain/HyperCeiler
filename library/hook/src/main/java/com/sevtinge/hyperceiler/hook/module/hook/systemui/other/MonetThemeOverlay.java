@@ -47,11 +47,12 @@ public class MonetThemeOverlay extends BaseHook {
         hookAllMethods(THEME_CLASS_AOSP, "createOverlays", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
+                int color = mPrefsMap.getInt("system_ui_monet_overlay_custom_color", -1);
+                param.args[0] = color;
+
                 mHandler = new Handler(mContext.getMainLooper());
                 new PrefsChangeObserver(mContext, mHandler, true, PrefType.Integer,
                         "prefs_key_system_ui_monet_overlay_custom_color", -1);
-                int color = mPrefsMap.getInt("system_ui_monet_overlay_custom_color", -1);
-                param.args[0] = color;
             }
         });
     }

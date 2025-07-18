@@ -993,7 +993,6 @@
     <string name="milink_fuck_hpplay">Block generate of hpplay folders</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">Sound Recorder</string>
-    <string name="sound_recorder_disable_ai_watermark">Disable AI watermark</string>
     <string name="sound_recorder_unlock_recording_scene">Unlock the recording scene</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Always-on display and Lock screen editor</string>
@@ -1324,13 +1323,9 @@
     <string name="mediaeditor_unlock_leica_filter_title">Unlock Leica filter</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Only some versions are supported</string>
     <string name="mediaeditor_unlock_aigc">Unlock AIGC</string>
-    <string name="mediaeditor_disable_add_aigc_watermark">Disable the \"AI-generated\" watermark</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Wallpaper</string>
     <string name="miwallpaper_unlock_super_wallpaper">Unlock Super wallpaper</string>
-    <!--Notes-->
-    <string name="notes">Notes</string>
-    <string name="notes_disable_ai_watermark">Disable AI watermark</string>
     <!--Package installer-->
     <string name="package_installer">Package installer</string>
     <string name="miui_package_installer_modify">Clean page</string>
@@ -1520,7 +1515,6 @@
     <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Force enable AI captions</string>
     <string name="aiasst_all_captions">Unlock multi-language online captions</string>
-    <string name="aiasst_disable_watermark">Disable watermark</string>
     <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">Allow all apps to use barrage notification</string>
@@ -1574,9 +1568,6 @@
     <string name="scanner_excel">Unlock scan table</string>
     <string name="scanner_ppt">Unlock scan PPT</string>
     <string name="scanner_doc_ppt">Unlock scan files</string>
-    <!--MI AI-->
-    <string name="voiceassist_hyper">Super AI</string>
-    <string name="voiceassist_disable_watermark">Disable chat watermark</string>
     <!--Voice Trigger-->
     <string name="voicetrigger">Voice Trigger</string>
     <string name="bypass_udk_word_legal_check_caption">Allow recording of the Wake with voice without internet</string>

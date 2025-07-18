@@ -1009,8 +1009,6 @@
     <!--Wallpaper-->
     <string name="miwallpaper">Duvar Kağıdı</string>
     <string name="miwallpaper_unlock_super_wallpaper">Süper duvar kağıdının kilidini aç</string>
-    <!--Notes-->
-    <string name="notes">Notlar</string>
     <!--Package installer-->
     <string name="package_installer">Paket Yükleyicisi</string>
     <string name="miui_package_installer_modify">Sayfayı temizle</string>
@@ -1144,7 +1142,6 @@
     <string name="aiasst">Mi AI Çeviri</string>
     <string name="aiasst_ai_captions">Zorla etkinleştirilen AI altyazıları</string>
     <string name="aiasst_all_captions">Çok dilli çevrimiçi altyazıların kilidini açın</string>
-    <string name="aiasst_disable_watermark">Filigranı devre dışı bırak</string>
     <!--Barrage-->
     <string name="barrage">Baraj</string>
     <string name="barrage_any_barrage">Tüm uygulamaların barajı kullanmasına izin ver</string>
@@ -1189,8 +1186,6 @@
     <string name="scanner_excel">Tarama tablosunun kilidini aç</string>
     <string name="scanner_ppt">Tarama ppt\'sinin kilidini aç</string>
     <string name="scanner_doc_ppt">Tarama dosyalarının kilidini aç</string>
-    <!--MI AI-->
-    <string name="voiceassist_disable_watermark">Sohbet filigranını devre dışı bırak</string>
     <!--Voice Trigger-->
     <!--Other-->
     <string name="various">Diğer</string>

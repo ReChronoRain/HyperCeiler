@@ -44,7 +44,6 @@ HyperOS для Android 14-15
 | Joyose                         | com.xiaomi.joyose                  |
 | Mi Налаштування                | com.xiaomi.misettings              |
 | Безпека                        | com.miui.securitycenter            |
-| Нотатки                        | com.miui.notes                     |
 | Шпалери                        | com.miui.miwallpaper               |
 | Taplus                         | com.miui.contentextension          |
 | Сповіщення на екрані           | com.xiaomi.barrage                 |
@@ -83,7 +82,6 @@ HyperOS для Android 14-15
 | Камера                         | com.android.camera                 |
 | Mi AI Translate                | com.xiaomi.aiasst.vision           |
 | Сканер                         | com.xiaomi.scanner                 |
-| Mi AI                          | com.miui.voiceassist               |
 | Служба NFC                     | com.android.nfc                    |
 | Навушники                      | com.miui.misound                   |
 | Резервне копіювання            | com.miui.backup                    |
@@ -160,6 +158,7 @@ HyperOS для Android 14-15
 - [「HyperOSXXL」 by YuKongA](https://github.com/YuKongA/HyperOS_XXL)
 - [「MIUI 通知修复」 by tehcneko](https://github.com/Xposed-Modules-Repo/io.github.tehcneko.miuinotificationfix)
 - [「ModemPro」 by Weverse](https://github.com/Weverses/ModemPro)
+- [「HookTool」 by 焕晨HChen](https://github.com/HChenX/HookTool)
 - [「NoStorageRestrict」 by DanGLES3](https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict)
 - [「PortalHook」 by Haocen2004](https://github.com/Haocen2004/PortalHook)
 - [「PinningApp」 by 焕晨HChen](https://github.com/HChenX/PinningApp)

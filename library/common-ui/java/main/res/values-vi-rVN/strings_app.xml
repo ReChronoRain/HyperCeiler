@@ -948,7 +948,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="milink_fuck_hpplay">Chặn tạo thư mục hpplay</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">Ghi âm</string>
-    <string name="sound_recorder_disable_ai_watermark">Tắt hình mờ AI</string>
     <string name="sound_recorder_unlock_recording_scene">Mở khóa cảnh ghi âm</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Trình chỉnh sửa màn hình khóa và AOD</string>
@@ -1279,13 +1278,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="mediaeditor_unlock_leica_filter_title">Mở khóa bộ lọc Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Chỉ hỗ trợ một số phiên bản</string>
     <string name="mediaeditor_unlock_aigc">Mở khóa AIGC</string>
-    <string name="mediaeditor_disable_add_aigc_watermark">Tắt thêm hình mờ AIGC</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Hình nền</string>
     <string name="miwallpaper_unlock_super_wallpaper">Mở khoá Siêu hình nền</string>
-    <!--Notes-->
-    <string name="notes">Ghi chú</string>
-    <string name="notes_disable_ai_watermark">Tắt hình mờ AI</string>
     <!--Package installer-->
     <string name="package_installer">Trình cài đặt gói</string>
     <string name="miui_package_installer_modify">Lọc trang</string>
@@ -1482,7 +1477,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="aiasst">Mi AI dịch</string>
     <string name="aiasst_ai_captions">Mở khoá Phụ đề AI</string>
     <string name="aiasst_all_captions">Mở khóa phụ đề trực tuyến đa ngôn ngữ</string>
-    <string name="aiasst_disable_watermark">Tắt hình mờ</string>
     <!--Barrage-->
     <string name="barrage">Rào cản</string>
     <string name="barrage_any_barrage">Cho phép tất cả ứng dụng sử dụng barrage</string>
@@ -1536,9 +1530,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="scanner_excel">Mở khóa quét biểu mẫu</string>
     <string name="scanner_ppt">Mở khoá Scan tạo file PowerPoint PPT</string>
     <string name="scanner_doc_ppt">Mở khóa Scan chữ</string>
-    <!--MI AI-->
-    <string name="voiceassist_hyper">Siêu AI</string>
-    <string name="voiceassist_disable_watermark">Tắt hình mờ trò chuyện</string>
     <!--Voice Trigger-->
     <string name="voicetrigger">Kích hoạt bằng giọng </string>
     <string name="bypass_udk_word_legal_check_caption">Đăng ký ASR mà không có Internet</string>

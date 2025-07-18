@@ -1027,7 +1027,6 @@
     <string name="milink_fuck_hpplay">阻止生成乐播投屏相关文件</string>
     <!--录音机-->
     <string name="sound_recorder">录音机</string>
-    <string name="sound_recorder_disable_ai_watermark">禁用水印</string>
     <string name="sound_recorder_unlock_recording_scene">解锁选择录音场景</string>
     <!--万象息屏-->
     <string name="aod_hyperos">息屏与锁屏编辑</string>
@@ -1379,7 +1378,6 @@
     <string name="mediaeditor_unlock_leica_filter_title">解锁 Leica 滤镜</string>
     <string name="mediaeditor_unlock_leica_filter_desc">仅支持部分版本</string>
     <string name="mediaeditor_unlock_aigc">解锁 AIGC</string>
-    <string name="mediaeditor_disable_add_aigc_watermark">禁止添加 \"AI 生成\" 水印</string>
     <!--小米互传-->
     <string name="mishare">小米互传</string>
     <string name="mishare_disable_mishare_auto_off">禁用自动关闭小米互传</string>
@@ -1389,9 +1387,6 @@
     <!--壁纸-->
     <string name="miwallpaper">壁纸</string>
     <string name="miwallpaper_unlock_super_wallpaper">解锁超级壁纸</string>
-    <!--笔记-->
-    <string name="notes">笔记</string>
-    <string name="notes_disable_ai_watermark">禁用水印</string>
     <!--应用包管理组件-->
     <string name="package_installer">应用包管理组件</string>
     <string name="miui_package_installer_modify">净化页面</string>
@@ -1595,7 +1590,6 @@
     <string name="aiasst">小爱翻译</string>
     <string name="aiasst_ai_captions">强制启用实时字幕</string>
     <string name="aiasst_all_captions">解锁多语言在线字幕</string>
-    <string name="aiasst_disable_watermark">禁用水印</string>
     <!--弹幕通知-->
     <string name="barrage">弹幕通知</string>
     <string name="barrage_any_barrage">允许所有应用使用弹幕通知</string>
@@ -1644,9 +1638,6 @@
     <string name="scanner_excel">解锁提取表格</string>
     <string name="scanner_ppt">解锁提取 PPT</string>
     <string name="scanner_doc_ppt">解锁扫文件</string>
-    <!--小爱同学-->
-    <string name="voiceassist_hyper">超级小爱</string>
-    <string name="voiceassist_disable_watermark">禁用对话界面水印</string>
     <!--通话管理-->
     <string name="telecom">通话管理</string>
     <string name="scam_reminder_bypass_caption">允许直接拨打呼叫转移 MMI 码</string>

@@ -30,7 +30,7 @@ HyperCeiler 已停止维护 Android 11-13 的 MIUI ROM 和 Android 13 的 HyperO
 >
 > Android 13 的 MIUI ROM 和 HyperOS 1.0 ROM 请使用[此版本](https://github.com/Xposed-Modules-Repo/com.sevtinge.hyperceiler/releases/download/3866-2.5.156_20250118/HyperCeiler_2.5.156_20250118_3866_release_miui.apk)。
 >
-> Android 14 的 HyperOS 1.0/2.0 已归档，2.6.160 发布之后不再接收反馈和修复。
+> Android 14 的 HyperOS 1.0/2.0 已归档，从 2.6.162 版本开始将移除对 Android 14 的支持。
 
 ## 项目规划
 
@@ -43,69 +43,67 @@ Android 16 预期在 Xiaomi HyperOS 3.0 大部分设备发布后逐渐适配，�
 <details>
     <summary>点击展开折叠的内容</summary>
 
-| 应用名                   | 包名                                 |
-|:----------------------|:-----------------------------------|
-| 系统框架                  | system                             |
-| 系统界面                  | com.android.systemui               |
-| 系统桌面                  | com.miui.home                      |
-| 系统更新                  | com.android.updater                |
-| Joyose                | com.xiaomi.joyose                  |
-| 小米设置                  | com.xiaomi.misettings              |
-| 安全服务 (手机管家、平板管家)      | com.miui.securitycenter            |
-| 笔记                    | com.miui.notes                     |
-| 壁纸                    | com.miui.miwallpaper               |
-| 传送门                   | com.miui.contentextension          |
-| 弹幕通知                  | com.xiaomi.barrage                 |
-| 电话                    | com.android.incallui               |
-| 电话服务                  | com.android.phone                  |
-| 电量与性能                 | com.miui.powerkeeper               |
-| 短信                    | com.android.mms                    |
-| 截屏                    | com.miui.screenshot                |
-| 日历                    | com.android.calendar               |
-| 浏览器                   | com.android.browser                |
-| 鲁班（MTB）               | com.xiaomi.mtb                     |
-| 屏幕录制                  | com.miui.screenrecorder            |
-| 权限管理服务                | com.lbe.security.miui              |
-| 设置                    | com.android.settings               |
-| 搜狗输入法小米版              | com.sohu.inputmethod.sogou.xiaomi  |
-| 天气                    | com.miui.weather2                  |
-| 互联互通服务 (投屏)           | com.milink.service                 |
-| 外部存储设备                | com.android.externalstorage        |
-| 息屏与锁屏编辑 (万象息屏)        | com.miui.aod                       |
-| 文件管理                  | com.android.fileexplorer           |
-| 系统服务组件                | com.miui.securityadd               |
-| 下载管理                  | com.android.providers.downloads.ui |
-| 下载管理程序                | com.android.providers.downloads    |
-| 相册                    | com.miui.gallery                   |
-| 小米创作                  | com.miui.creation                  |
-| 小米互传                  | com.miui.mishare.connectivity      |
-| 小米相册-编辑             | com.miui.mediaeditor               |
-| 小米云服务                 | com.miui.cloudservice              |
-| 小米智能卡                 | com.miui.tsmclient                 |
-| 讯飞输入法小米版              | com.iflytek.inputmethod.miui       |
-| 应用包管理组件               | com.miui.packageinstaller          |
-| 应用商店                  | com.xiaomi.market                  |
-| 智能助理                  | com.miui.personalassistant         |
-| 主题商店 (主题壁纸、壁纸与个性化)    | com.android.thememanager           |
-| 系统安全组件                | com.miui.guardprovider             |
-| 相机                    | com.android.camera                 |
-| 小爱翻译                  | com.xiaomi.aiasst.vision           |
-| 小爱视觉                  | com.xiaomi.scanner                 |
-| 小爱同学                  | com.miui.voiceassist               |
-| NFC 服务                | com.android.nfc                    |
-| 音质音效                  | com.miui.misound                   |
-| 备份                    | com.miui.backup                    |
-| 小米换机                  | com.miui.huanji                    |
-| MiTrustService        | com.xiaomi.trustservice            |
-| HTML 查看器                | com.android.htmlviewer             |
+| 应用名                | 包名                                 |
+|:-------------------|:-----------------------------------|
+| 系统框架               | system                             |
+| 系统界面               | com.android.systemui               |
+| 系统桌面               | com.miui.home                      |
+| 系统更新               | com.android.updater                |
+| Joyose             | com.xiaomi.joyose                  |
+| 小米设置               | com.xiaomi.misettings              |
+| 安全服务 (手机管家、平板管家)   | com.miui.securitycenter            |
+| 壁纸                 | com.miui.miwallpaper               |
+| 传送门                | com.miui.contentextension          |
+| 弹幕通知               | com.xiaomi.barrage                 |
+| 电话                 | com.android.incallui               |
+| 电话服务               | com.android.phone                  |
+| 电量与性能              | com.miui.powerkeeper               |
+| 短信                 | com.android.mms                    |
+| 截屏                 | com.miui.screenshot                |
+| 日历                 | com.android.calendar               |
+| 浏览器                | com.android.browser                |
+| 鲁班（MTB）            | com.xiaomi.mtb                     |
+| 屏幕录制               | com.miui.screenrecorder            |
+| 权限管理服务             | com.lbe.security.miui              |
+| 设置                 | com.android.settings               |
+| 搜狗输入法小米版           | com.sohu.inputmethod.sogou.xiaomi  |
+| 天气                 | com.miui.weather2                  |
+| 互联互通服务 (投屏)        | com.milink.service                 |
+| 外部存储设备             | com.android.externalstorage        |
+| 息屏与锁屏编辑 (万象息屏)     | com.miui.aod                       |
+| 文件管理               | com.android.fileexplorer           |
+| 系统服务组件             | com.miui.securityadd               |
+| 下载管理               | com.android.providers.downloads.ui |
+| 下载管理程序             | com.android.providers.downloads    |
+| 相册                 | com.miui.gallery                   |
+| 小米创作               | com.miui.creation                  |
+| 小米互传               | com.miui.mishare.connectivity      |
+| 小米相册-编辑            | com.miui.mediaeditor               |
+| 小米云服务              | com.miui.cloudservice              |
+| 小米智能卡              | com.miui.tsmclient                 |
+| 讯飞输入法小米版           | com.iflytek.inputmethod.miui       |
+| 应用包管理组件            | com.miui.packageinstaller          |
+| 应用商店               | com.xiaomi.market                  |
+| 智能助理               | com.miui.personalassistant         |
+| 主题商店 (主题壁纸、壁纸与个性化) | com.android.thememanager           |
+| 系统安全组件             | com.miui.guardprovider             |
+| 相机                 | com.android.camera                 |
+| 小爱翻译               | com.xiaomi.aiasst.vision           |
+| 小爱视觉               | com.xiaomi.scanner                 |
+| NFC 服务             | com.android.nfc                    |
+| 音质音效               | com.miui.misound                   |
+| 备份                 | com.miui.backup                    |
+| 小米换机               | com.miui.huanji                    |
+| MiTrustService     | com.xiaomi.trustservice            |
+| HTML 查看器           | com.android.htmlviewer             |
 | 通话管理               | com.android.server.telecom         |
-| 万能遥控                  | com.duokan.phone.remotecontroller  |
-| Analytics                  | com.miui.analytics                 |
-| 小米社区                 | com.xiaomi.vipaccount              |
-| 语音唤醒              | com.miui.voicetrigger              |
-| 录音机                      | com.android.soundrecorder          |
-| LPA                        | com.miui.euicc                     |
-| 小米SIM卡激活服务             | com.xiaomi.simactivate.service |
+| 万能遥控               | com.duokan.phone.remotecontroller  |
+| Analytics          | com.miui.analytics                 |
+| 小米社区               | com.xiaomi.vipaccount              |
+| 语音唤醒               | com.miui.voicetrigger              |
+| 录音机                | com.android.soundrecorder          |
+| LPA                | com.miui.euicc                     |
+| 小米SIM卡激活服务         | com.xiaomi.simactivate.service     |
 
 </details>
 
@@ -168,6 +166,7 @@ Android 16 预期在 Xiaomi HyperOS 3.0 大部分设备发布后逐渐适配，�
 - [「HyperOSXXL」 by YuKongA](https://github.com/YuKongA/HyperOS_XXL)
 - [「MIUI 通知修复」 by tehcneko](https://github.com/Xposed-Modules-Repo/io.github.tehcneko.miuinotificationfix)
 - [「ModemPro」 by Weverse](https://github.com/Weverses/ModemPro)
+- [「HookTool」 by 焕晨HChen](https://github.com/HChenX/HookTool)
 - [「NoStorageRestrict」 by DanGLES3](https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict)
 - [「PortalHook」 by Haocen2004](https://github.com/Haocen2004/PortalHook)
 - [「PinningApp」 by 焕晨HChen](https://github.com/HChenX/PinningApp)

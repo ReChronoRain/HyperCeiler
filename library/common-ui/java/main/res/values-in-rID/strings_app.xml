@@ -1005,8 +1005,6 @@
     <!--Wallpaper-->
     <string name="miwallpaper">kertas dinding</string>
     <string name="miwallpaper_unlock_super_wallpaper">Buka kunci wallpaper Super</string>
-    <!--Notes-->
-    <string name="notes">Catatan</string>
     <!--Package installer-->
     <string name="package_installer">Pemasang paket</string>
     <string name="miui_package_installer_modify">Bersihkan halaman</string>
@@ -1161,7 +1159,6 @@
     <!--AI Translate-->
     <string name="aiasst">Terjemahan AI</string>
     <string name="aiasst_ai_captions">Teks AI yang diaktifkan secara paksa</string>
-    <string name="aiasst_disable_watermark">Nonaktifkan tanda air</string>
     <!--Barrage-->
     <string name="barrage">Notifikasi layar bulir</string>
     <string name="barrage_any_barrage">Izinkan semua aplikasi menggunakan rentetan</string>
@@ -1202,8 +1199,6 @@
     <string name="scanner_excel">Buka kunci tabel pemindaian</string>
     <string name="scanner_ppt">Buka kunci pemindaian PPT</string>
     <string name="scanner_doc_ppt">Buka kunci file pindaian</string>
-    <!--MI AI-->
-    <string name="voiceassist_disable_watermark">Nonaktifkan tanda air obrolan</string>
     <!--Voice Trigger-->
     <!--Other-->
     <string name="various">Lainnya</string>

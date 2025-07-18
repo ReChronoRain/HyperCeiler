@@ -942,7 +942,6 @@
     <string name="milink_fuck_hpplay">Блокировка создания папок hpplay</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">Запись звука</string>
-    <string name="sound_recorder_disable_ai_watermark">Отключить водяной знак AI</string>
     <string name="sound_recorder_unlock_recording_scene">Разблокировать сцену записи</string>
     <!--Always-on display-->
     <string name="aod_hyperos">AOD</string>
@@ -1273,13 +1272,9 @@
     <string name="mediaeditor_unlock_leica_filter_title">Разблокировать фильтр Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Поддерживаются только некоторые версии</string>
     <string name="mediaeditor_unlock_aigc">Разблокировать AIGC</string>
-    <string name="mediaeditor_disable_add_aigc_watermark">Отключить добавление водяного знака AIGC</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Обои</string>
     <string name="miwallpaper_unlock_super_wallpaper">Супер-обои</string>
-    <!--Notes-->
-    <string name="notes">Заметки</string>
-    <string name="notes_disable_ai_watermark">Отключить водяной знак</string>
     <!--Package installer-->
     <string name="package_installer">Установщик приложений</string>
     <string name="miui_package_installer_modify">Очистить страницу</string>
@@ -1469,7 +1464,6 @@
     <string name="aiasst">Переводчик AI</string>
     <string name="aiasst_ai_captions">Принудительно включить субтитры AI</string>
     <string name="aiasst_all_captions">Разблокировать многоязычные онлайн-субтитры</string>
-    <string name="aiasst_disable_watermark">Отключить водяной знак</string>
     <!--Barrage-->
     <string name="barrage">Защита</string>
     <string name="barrage_any_barrage">Разрешить всем приложениям использовать защиту</string>
@@ -1523,9 +1517,6 @@
     <string name="scanner_excel">Сканировать таблицы</string>
     <string name="scanner_ppt">Сканировать презентации</string>
     <string name="scanner_doc_ppt">Сканировать файлы</string>
-    <!--MI AI-->
-    <string name="voiceassist_hyper">Супер AI</string>
-    <string name="voiceassist_disable_watermark">Отключить водяной знак чата</string>
     <!--Voice Trigger-->
     <string name="voicetrigger">Голосовой триггер</string>
     <string name="bypass_udk_word_legal_check_caption">Разрешить пробуждение при записи голосом без интернета</string>

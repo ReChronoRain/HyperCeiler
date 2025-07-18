@@ -942,7 +942,6 @@
     <string name="milink_fuck_hpplay">hpplay フォルダの作成をブロック</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">サウンドレコーダー</string>
-    <string name="sound_recorder_disable_ai_watermark">AI のウォーターマークを無効化</string>
     <string name="sound_recorder_unlock_recording_scene">録音シーンのロックを解除</string>
     <!--Always-on display-->
     <string name="aod_hyperos">常時オンディスプレイとロック画面エディター</string>
@@ -1273,13 +1272,9 @@
     <string name="mediaeditor_unlock_leica_filter_title">Leica フィルターをアンロック</string>
     <string name="mediaeditor_unlock_leica_filter_desc">一部のバージョンにのみ対応しています</string>
     <string name="mediaeditor_unlock_aigc">AIGC をアンロック</string>
-    <string name="mediaeditor_disable_add_aigc_watermark">AI 生成の透かしの追加を無効にする</string>
     <!--Wallpaper-->
     <string name="miwallpaper">壁紙</string>
     <string name="miwallpaper_unlock_super_wallpaper">スーパー壁紙をアンロック</string>
-    <!--Notes-->
-    <string name="notes">Notes</string>
-    <string name="notes_disable_ai_watermark">AI のウォーターマークを無効化</string>
     <!--Package installer-->
     <string name="package_installer">パッケージインストーラー</string>
     <string name="miui_package_installer_modify">ページを簡潔にする</string>
@@ -1469,7 +1464,6 @@
     <string name="aiasst">AI 翻訳</string>
     <string name="aiasst_ai_captions">AI キャプションを強制的に有効化</string>
     <string name="aiasst_all_captions">多言語オンライン字幕をアンロック</string>
-    <string name="aiasst_disable_watermark">透かしを無効化</string>
     <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">すべてのアプリが弾幕通知を使用できるようにする</string>
@@ -1523,9 +1517,6 @@
     <string name="scanner_excel">表のスキャンをアンロック</string>
     <string name="scanner_ppt">PPT のスキャンをアンロック</string>
     <string name="scanner_doc_ppt">ファイルのスキャンをアンロック</string>
-    <!--MI AI-->
-    <string name="voiceassist_hyper">スーパー AI</string>
-    <string name="voiceassist_disable_watermark">チャットの透かしを無効化</string>
     <!--Voice Trigger-->
     <string name="voicetrigger">音声トリガー</string>
     <string name="bypass_udk_word_legal_check_caption">インターネットなしで音声での起動の録音を許可する</string>

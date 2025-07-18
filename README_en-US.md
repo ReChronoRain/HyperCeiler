@@ -30,7 +30,7 @@ HyperCeiler has stopped maintaining MIUI ROMs for Android 11-13 and HyperOS 1.0 
 >
 > For MIUI ROMs on Android 13 and HyperOS 1.0 ROM, please use [this version](https://github.com/Xposed-Modules-Repo/com.sevtinge.hyperceiler/releases/download/3866-2.5.156_20250118/HyperCeiler_2.5.156_20250118_3866_release_miui.apk).
 >
-> Android 14's HyperOS 1.0/2.0 has been archived, and after version 2.6.160 is released, no further feedback or fixes will be accepted.
+> Android 14's HyperOS 1.0/2.0 has been archived, and support for Android 14 will be removed starting from version 2.6.162.
 
 ## Project planning
 
@@ -52,7 +52,6 @@ The devices available to developers can only be partially adapted, and there's n
 | Joyose                        | com.xiaomi.joyose                  |
 | Mi Settings                   | com.xiaomi.misettings              |
 | Security                      | com.miui.securitycenter            |
-| Notes                         | com.miui.notes                     |
 | Wallpaper                     | com.miui.miwallpaper               |
 | Taplus                        | com.miui.contentextension          |
 | Bullet screen notification    | com.xiaomi.barrage                 |
@@ -91,7 +90,6 @@ The devices available to developers can only be partially adapted, and there's n
 | Camera                        | com.android.camera                 |
 | Mi AI Translate               | com.xiaomi.aiasst.vision           |
 | Scanner                       | com.xiaomi.scanner                 |
-| Mi AI                         | com.miui.voiceassist               |
 | NFC Service                   | com.android.nfc                    |
 | Earphones                     | com.miui.misound                   |
 | Backup                        | com.miui.backup                    |
@@ -168,6 +166,7 @@ You can provide translations for the HyperCeiler project [here](https://crwd.in/
 - [「HyperOSXXL」 by YuKongA](https://github.com/YuKongA/HyperOS_XXL)
 - [「MIUI 通知修复」 by tehcneko](https://github.com/Xposed-Modules-Repo/io.github.tehcneko.miuinotificationfix)
 - [「ModemPro」 by Weverse](https://github.com/Weverses/ModemPro)
+- [「HookTool」 by 焕晨HChen](https://github.com/HChenX/HookTool)
 - [「NoStorageRestrict」 by DanGLES3](https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict)
 - [「PortalHook」 by Haocen2004](https://github.com/Haocen2004/PortalHook)
 - [「PinningApp」 by 焕晨HChen](https://github.com/HChenX/PinningApp)
