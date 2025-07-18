@@ -25,7 +25,6 @@ import android.app.backup.BackupManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
@@ -68,22 +67,6 @@ public class AppsTool {
 
     public static synchronized Context getProtectedContext(Context context) {
         return context.createDeviceProtectedStorageContext();
-    }
-
-    public static synchronized Context getModuleContext(Context context) throws Throwable {
-        return getModuleContext(context, null);
-    }
-
-    public static synchronized Context getModuleContext(Context context, Configuration config) throws Throwable {
-        Context mModuleContext;
-        mModuleContext = context.createPackageContext(ProjectApi.mAppModulePkg, Context.CONTEXT_IGNORE_SECURITY).createDeviceProtectedStorageContext();
-        return config == null ? mModuleContext : mModuleContext.createConfigurationContext(config);
-    }
-
-    public static synchronized Resources getModuleRes(Context context) throws Throwable {
-        Configuration config = context.getResources().getConfiguration();
-        Context moduleContext = getModuleContext(context);
-        return (config == null ? moduleContext.getResources() : moduleContext.createConfigurationContext(config).getResources());
     }
 
     public static class MimeType {

@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.view
+package com.sevtinge.hyperceiler.hook.utils.view
 
 import android.annotation.SuppressLint
 import android.content.ComponentName

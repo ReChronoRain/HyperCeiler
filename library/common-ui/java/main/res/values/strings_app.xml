@@ -993,6 +993,7 @@
     <string name="milink_fuck_hpplay">Block generate of hpplay folders</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">Sound Recorder</string>
+    <string name="sound_recorder_disable_ai_watermark">Disable AI watermark</string>
     <string name="sound_recorder_unlock_recording_scene">Unlock the recording scene</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Always-on display and Lock screen editor</string>

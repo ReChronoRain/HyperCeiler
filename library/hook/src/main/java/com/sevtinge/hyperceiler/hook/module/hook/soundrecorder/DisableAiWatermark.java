@@ -17,19 +17,20 @@
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
 
-package com.sevtinge.hyperceiler.hook.module.app;
+package com.sevtinge.hyperceiler.hook.module.hook.soundrecorder;
 
-import com.hchen.database.HookBase;
-import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.soundrecorder.DisableAiWatermark;
-import com.sevtinge.hyperceiler.hook.module.hook.soundrecorder.UnlockRecordingScene;
+import android.graphics.Canvas;
 
-@HookBase(targetPackage = "com.android.soundrecorder")
-public class SoundRecorder extends BaseModule {
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
+public class DisableAiWatermark extends BaseHook {
     @Override
-    public void handleLoadPackage() {
-        initHook(new DisableAiWatermark(), mPrefsMap.getBoolean("sound_recorder_disable_ai_watermark"));
-        initHook(UnlockRecordingScene.INSTANCE, mPrefsMap.getBoolean("sound_recorder_unlock_recording_scene"));
+    public void init() throws NoSuchMethodException {
+        findAndHookMethod("com.android.soundrecorder.view.WaterMarkView", "onDraw", Canvas.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                param.setResult(null);
+            }
+        });
     }
 }

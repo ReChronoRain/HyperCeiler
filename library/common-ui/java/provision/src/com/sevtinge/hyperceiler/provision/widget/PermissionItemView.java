@@ -21,10 +21,8 @@ package com.sevtinge.hyperceiler.provision.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,7 +49,7 @@ public class PermissionItemView extends FrameLayout {
         mItemTitle = findViewById(R.id.item_title);
         mItemIcon = findViewById(R.id.item_icon);
 
-        mItemTitle.setTextColor(getResources().getColor(R.color.provision_list_item_text_unselected));
+        mItemTitle.setTextColor(getResources().getColor(R.color.provision_list_item_text_unselected, context.getTheme()));
         mItemIcon.setVisibility(mIsSelected ? VISIBLE : INVISIBLE);
         setClickable(true);
     }

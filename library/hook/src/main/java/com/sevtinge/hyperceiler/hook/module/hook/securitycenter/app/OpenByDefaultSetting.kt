@@ -29,10 +29,10 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.net.toUri
-import com.sevtinge.hyperceiler.hook.BuildConfig
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
+import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -52,10 +52,8 @@ class OpenByDefaultSetting : BaseHook() {
             DomainVerificationManager::class.java
         )
     }
-    private val moduleContext: Context by lazy(LazyThreadSafetyMode.NONE) {
-        appContext.createPackageContext(
-            BuildConfig.APP_MODULE_ID, 0
-        )
+    private val moduleContext by lazy {
+        OtherTool.getModuleRes(appContext)
     }
 
     private fun getOpenDefaultState(pkgName: String): String {
@@ -260,23 +258,23 @@ class OpenByDefaultSetting : BaseHook() {
         val sBootClassLoader: ClassLoader = Context::class.java.classLoader!!
 
         val fParent = ClassLoader::class.java.getDeclaredField("parent")
-        fParent.setAccessible(true)
+        fParent.isAccessible = true
         fParent.set(self, object : ClassLoader(sBootClassLoader) {
 
             override fun findClass(name: String?): Class<*> {
                 logD(TAG, lpparam.packageName, "OpenByDefaultSetting findClass $name")
                 try {
                     return sBootClassLoader.loadClass(name)
-                } catch (ignored: ClassNotFoundException) {
+                } catch (_: ClassNotFoundException) {
                 }
 
                 try {
                     return loader.loadClass(name)
-                } catch (ignored: ClassNotFoundException) {
+                } catch (_: ClassNotFoundException) {
                 }
                 try {
                     return host.loadClass(name)
-                } catch (ignored: ClassNotFoundException) {
+                } catch (_: ClassNotFoundException) {
                 }
 
                 throw ClassNotFoundException(name);

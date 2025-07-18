@@ -24,7 +24,7 @@ import android.widget.TextView
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
-import com.sevtinge.hyperceiler.hook.view.WeatherView
+import com.sevtinge.hyperceiler.hook.utils.view.WeatherView
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook

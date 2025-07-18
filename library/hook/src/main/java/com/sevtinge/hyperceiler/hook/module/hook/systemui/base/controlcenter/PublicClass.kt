@@ -43,11 +43,9 @@ object PublicClass {
     }
 
     val seekBarObserver by lazy {
-        if (isMoreAndroidVersion(35)) {
-            loadClassOrNull("com.android.systemui.media.controls.ui.binder.SeekBarObserver")
-        } else {
-            loadClassOrNull("com.android.systemui.media.controls.models.player.SeekBarObserver")
-        }
+        loadClassOrNull("com.android.systemui.media.controls.ui.binder.SeekBarObserver")
+            ?: loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewControllerImpl\$seekBarObserver$1")
+            ?: loadClassOrNull("com.android.systemui.media.controls.models.player.SeekBarObserver")
     }
 
     val playerTwoCircleView by lazy {

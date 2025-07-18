@@ -35,7 +35,7 @@ class BackgroundBlurDrawable : IXposedHookZygoteInit {
             )
         } ?: return
         // 为 BackgroundBlurDrawable 应当增加一个判断
-        // 此处应该可以为AOSP提交修复补丁
+        // 此处应该可以为 AOSP 提交修复补丁
         XposedBridge.hookAllMethods(
             mBackgroundBlurDrawableClass,
             "draw",

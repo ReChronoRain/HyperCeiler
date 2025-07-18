@@ -897,6 +897,7 @@
     <string name="milink_fuck_hpplay">Blokuj tworzenie folderów hpplay</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">Dyktafon</string>
+    <string name="sound_recorder_disable_ai_watermark">Wyłącz znak wodny SI</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Ekran zawsze włączony i edytor Ekranu blokady</string>
     <string name="aod_unlock_always_on_display">Odblokuj limit czasu wyświetlania</string>

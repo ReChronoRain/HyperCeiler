@@ -1027,6 +1027,7 @@
     <string name="milink_fuck_hpplay">阻止生成乐播投屏相关文件</string>
     <!--录音机-->
     <string name="sound_recorder">录音机</string>
+    <string name="sound_recorder_disable_ai_watermark">禁用水印</string>
     <string name="sound_recorder_unlock_recording_scene">解锁选择录音场景</string>
     <!--万象息屏-->
     <string name="aod_hyperos">息屏与锁屏编辑</string>

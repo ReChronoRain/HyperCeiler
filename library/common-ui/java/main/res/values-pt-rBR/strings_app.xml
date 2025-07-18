@@ -942,6 +942,7 @@
     <string name="milink_fuck_hpplay">Bloquear a geração de pastas hpplay</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">Gravador</string>
+    <string name="sound_recorder_disable_ai_watermark">Desativar marca d\'água IA</string>
     <string name="sound_recorder_unlock_recording_scene">Desbloquear cena de gravação</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Tela ambiente e editor da Tela de bloqueio</string>
