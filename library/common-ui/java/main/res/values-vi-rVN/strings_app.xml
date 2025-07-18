@@ -948,6 +948,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="milink_fuck_hpplay">Chặn tạo thư mục hpplay</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">Ghi âm</string>
+    <string name="sound_recorder_disable_ai_watermark">Tắt hình mờ AI</string>
     <string name="sound_recorder_unlock_recording_scene">Mở khóa cảnh ghi âm</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Trình chỉnh sửa màn hình khóa và AOD</string>

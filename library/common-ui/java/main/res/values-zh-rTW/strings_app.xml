@@ -942,6 +942,7 @@
     <string name="milink_fuck_hpplay">阻止建立 hpplay 資料夾</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">錄音機</string>
+    <string name="sound_recorder_disable_ai_watermark">停用 AI 浮水印</string>
     <string name="sound_recorder_unlock_recording_scene">解鎖語音場景</string>
     <!--Always-on display-->
     <string name="aod_hyperos">待機與鎖定螢幕編輯</string>

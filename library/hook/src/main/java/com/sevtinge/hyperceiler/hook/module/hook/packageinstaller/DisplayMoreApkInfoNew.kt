@@ -121,7 +121,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
                     linearLayout2.background =
                         modRes.getDrawable(
                             if (isDarkMode) R.drawable.ic_packageinstaller_background_dark else R.drawable.ic_packageinstaller_background_light,
-                            modRes.newTheme()
+                            mContext.theme
                         )
                     val mAppPackageNameView = TextView(mContext)
                     mContainerView.removeAllViews()

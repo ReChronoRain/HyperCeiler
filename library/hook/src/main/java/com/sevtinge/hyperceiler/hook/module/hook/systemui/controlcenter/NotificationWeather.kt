@@ -36,7 +36,7 @@ import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isLargeUI
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
-import com.sevtinge.hyperceiler.hook.view.WeatherView
+import com.sevtinge.hyperceiler.hook.utils.view.WeatherView
 import de.robv.android.xposed.XposedHelpers.findMethodExactIfExists
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass

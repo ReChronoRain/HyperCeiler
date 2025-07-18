@@ -940,6 +940,7 @@
     <string name="milink_fuck_hpplay">منع إنشاء مجلدات hpplay</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">مسجل الصوت</string>
+    <string name="sound_recorder_disable_ai_watermark">تعطيل العلامة المائية للذكاء الاصطناعي</string>
     <string name="sound_recorder_unlock_recording_scene">افتح موقع التسجيل</string>
     <!--Always-on display-->
     <string name="aod_hyperos">الشاشة الدائمة ومحرر قفل الشاشة</string>

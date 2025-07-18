@@ -20,9 +20,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/sound_recorder"
     app:quick_restart="com.android.soundrecorder">
-    <SwitchPreference
-        android:title="@string/sound_recorder_unlock_recording_scene"
-        android:key="prefs_key_sound_recorder_unlock_recording_scene"
-        android:defaultValue="false" />
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_sound_recorder_disable_ai_watermark"
+            android:title="@string/sound_recorder_disable_ai_watermark" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_sound_recorder_unlock_recording_scene"
+            android:title="@string/sound_recorder_unlock_recording_scene" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

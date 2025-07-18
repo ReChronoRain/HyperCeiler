@@ -55,7 +55,7 @@ public class TelephonyUtils {
             }
             return !isNeededPhoneNumber;
         }
-        mTelephonyManager = (TelephonyManager) context.getSystemService(TelephonyManager.class);
+        mTelephonyManager = context.getSystemService(TelephonyManager.class);
         assert subscriptionInfo != null;
         mTelephonyManager = getTelephonyManager().createForSubscriptionId(subscriptionInfo.getSubscriptionId());
         ServiceState serviceState = getTelephonyManager().getServiceState();
@@ -104,6 +104,7 @@ public class TelephonyUtils {
         }
     }
 
+    @SuppressLint({"publicApi", "PrivateApi", "BlockedpublicApi", "BlockedPrivateApi"})
     @RequiresPermission(anyOf = {Manifest.permission.READ_PHONE_NUMBERS, "carrier privileges", "android.permission.READ_PRIVILEGED_PHONE_STATE"})
     public static String getFormattedPhoneNumber(Context context, SubscriptionInfo subscriptionInfo) {
         String str;
@@ -123,8 +124,8 @@ public class TelephonyUtils {
         }
 
         try {
-            @SuppressLint("publicApi") Class<?> mccTableClass = Class.forName("com.android.internal.telephony.MccTable");
-            @SuppressLint({"BlockedpublicApi", "BlockedPrivateApi"}) Method countryCodeForMccMethod = mccTableClass.getDeclaredMethod("countryCodeForMcc", String.class);
+            Class<?> mccTableClass = Class.forName("com.android.internal.telephony.MccTable");
+            Method countryCodeForMccMethod = mccTableClass.getDeclaredMethod("countryCodeForMcc", String.class);
             countryCodeForMccMethod.setAccessible(true);
             String countryCode = (String) countryCodeForMccMethod.invoke(null, subscriptionInfo.getMccString());
             return PhoneNumberUtils.formatNumber(str, countryCode.toUpperCase(Locale.ROOT));

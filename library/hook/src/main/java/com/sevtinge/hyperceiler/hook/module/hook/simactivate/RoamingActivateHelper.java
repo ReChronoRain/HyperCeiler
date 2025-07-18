@@ -20,7 +20,6 @@
 package com.sevtinge.hyperceiler.hook.module.hook.simactivate;
 
 import static com.sevtinge.hyperceiler.hook.utils.TelephonyUtils.isRoaming;
-import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findMethodBestMatch;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;

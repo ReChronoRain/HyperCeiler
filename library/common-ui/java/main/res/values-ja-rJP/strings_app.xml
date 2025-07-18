@@ -942,6 +942,7 @@
     <string name="milink_fuck_hpplay">hpplay フォルダの作成をブロック</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">サウンドレコーダー</string>
+    <string name="sound_recorder_disable_ai_watermark">AI のウォーターマークを無効化</string>
     <string name="sound_recorder_unlock_recording_scene">録音シーンのロックを解除</string>
     <!--Always-on display-->
     <string name="aod_hyperos">常時オンディスプレイとロック画面エディター</string>

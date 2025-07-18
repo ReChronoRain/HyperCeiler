@@ -69,7 +69,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.Me
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaPicture;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaSeekBar;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaSeekBarColor;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.SquigglyProgress;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.UseSquigglyProgress;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.AllowThirdLockScreenUseFace;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.BlurButton;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.ChargingCVP;
@@ -260,7 +260,7 @@ public class SystemUiV extends BaseModule {
                 || mPrefsMap.getInt("system_ui_control_center_media_control_media_button_custom", 140) != 140);
         initHook(new MediaSeekBarColor(), mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_color", -1) != -1
                 || mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1) != -1);
-        initHook(new SquigglyProgress(), mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 1);
+        initHook(UseSquigglyProgress.INSTANCE, mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 1);
         initHook(new MediaControlPanelTimeViewTextSize(), mPrefsMap.getInt("system_ui_control_center_media_control_time_view_text_size", 13) != 13);
         initHook(MediaPicture.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_media_control_album_picture_rounded_corners") ||
                 mPrefsMap.getBoolean("system_ui_control_center_media_control_remove_album_audio_source_identifie"));

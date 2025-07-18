@@ -942,6 +942,7 @@
     <string name="milink_fuck_hpplay">Блокировка создания папок hpplay</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">Запись звука</string>
+    <string name="sound_recorder_disable_ai_watermark">Отключить водяной знак AI</string>
     <string name="sound_recorder_unlock_recording_scene">Разблокировать сцену записи</string>
     <!--Always-on display-->
     <string name="aod_hyperos">AOD</string>
