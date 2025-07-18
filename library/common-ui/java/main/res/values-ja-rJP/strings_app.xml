@@ -208,7 +208,7 @@
     <string name="horizontal_alignment">水平方向の配置</string>
     <string name="feature">機能</string>
     <string name="recommend">おすすめ</string>
-    <string name="editor">編集者</string>
+    <string name="editor">エディター</string>
     <string name="enable">有効化</string>
     <string name="disable">無効化</string>
     <string name="custom_enable">カスタムを有効化</string>
@@ -552,7 +552,7 @@
     <string name="system_ui_lock_screen_blur_button_bg_color">背景の色</string>
     <string name="system_ui_lock_screen_double_lock">ロック画面のダブルタップ</string>
     <string name="system_ui_lock_screen_double_lock_desc">空の場所をダブルタップすると画面をロックします</string>
-    <string name="system_ui_lock_screen_unlock_notification_restrict">通知制限を削除する</string>
+    <string name="system_ui_lock_screen_unlock_notification_restrict">通知制限を削除</string>
     <string name="system_ui_lock_screen_unlock_notification_restrict_desc">ロック画面にすべての通知を表示する</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">DND モードの通知を非表示</string>
     <string name="system_ui_lock_screen_unlock_tip_title">画面下部のロック解除プロンプトを非表示</string>
@@ -688,7 +688,7 @@
     <string name="system_ui_statusbar_clock_double_spacing_desc">2 行で表示されている場合にのみ有効です</string>
     <string name="system_ui_statusbar_clock_fix_color">時計の色が反転する際の異常な色を修正</string>
     <string name="system_ui_statusbar_clock_pad_show">Pad 関連</string>
-    <string name="system_ui_statusbar_clock_pad_hide">ステータスバーの日付と時計を非表示にする</string>
+    <string name="system_ui_statusbar_clock_pad_hide">ステータスバーの日付と時計を非表示</string>
     <string name="system_ui_statusbar_clock_layout_p">ステータスバーの日付と時計</string>
     <string name="system_ui_statusbar_clock_editor_p">ステータスバーの日付と時計の形式</string>
     <string name="system_ui_disable_clock_anim">通知シェードのスライド時計遷移アニメーションを無効化</string>
@@ -749,8 +749,8 @@
     <string name="system_ui_control_center_notification_disable_transparent">透明モードを無効化</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">通知の背景を透明にする設定を無効にします</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">メディアコントロールパネルの色混合効果を最適化</string>
-    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">アルバム画像の角丸トランジションを最適化する</string>
-    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">アルバムのオーディオソースの識別子を削除する</string>
+    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">アルバム画像の角丸トランジションを最適化</string>
+    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">アルバムのオーディオソースの識別子を削除</string>
     <string name="system_ui_control_center_media_control_progress">プログレスバー</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">一部の音楽アプリのカスタムアクション制限を削除</string>
     <string name="system_ui_control_center_media_control_progress_wavy">波状</string>
@@ -805,7 +805,7 @@
     <string name="system_ui_control_center_unlock_all_focus">フォーカス通知のホワイトリストを削除する</string>
     <string name="system_ui_control_center_remove_notif_num_limit">通知数の制限を削除する</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">10 件、17 件、またはそれ以上の通知を表示できます。</string>
-    <string name="system_ui_control_center_opt_notification_element_background_color">フォーカス通知の背景色の混合を最適化する</string>
+    <string name="system_ui_control_center_opt_notification_element_background_color">フォーカス通知の背景色の混合を最適化</string>
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">デフォルトの通知カラーの混合スタイルを復元し、同時に懐中電灯のフォーカス通知を確認します。</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">輝度の値を表示</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">音量の値を表示</string>
@@ -816,7 +816,7 @@
     <string name="system_ui_disable_power">ネイティブシャットダウンメニュー</string>
     <string name="system_ui_disable_volume_desc">HyperOS の音量バーへの変更は AOSP の音量バーには適用されません</string>
     <string name="system_ui_unlock_clipboard">AOSP クリップボードエディターをアンロック</string>
-    <string name="system_ui_unlock_clipboard_desc">アンロック後は HyperOS エディタと一緒にポップアップ表示されます。</string>
+    <string name="system_ui_unlock_clipboard_desc">アンロック後は HyperOS エディターと一緒にポップアップ表示されます。</string>
     <string name="system_ui_another_title">その他</string>
     <string name="system_ui_disable_miui_multi_win_switch">コンビニエンスウインドウボタンを非表示</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">三つのドットとスモールウィンドウの上部、HyperOS for Pad 横画面時の上部中央にあるボタンを非表示にします。機能には影響しません</string>
@@ -841,7 +841,7 @@
     <string name="system_ui_notification_title">通知</string>
     <string name="system_ui_other_notification_fix">通知のホワイトリストを無効化</string>
     <string name="system_ui_other_default_plugin_theme">高度なテクスチャからぼかし制限を削除する</string>
-    <string name="system_ui_other_default_plugin_theme_desc">System UI プラグインでサードパーティのテーマではデフォルトで無効になっている高度なテクスチャのぼかしをアンロックします。</string>
+    <string name="system_ui_other_default_plugin_theme_desc">システム UI プラグインでサードパーティのテーマではデフォルトで無効になっている高度なテクスチャのぼかしをアンロックします。</string>
     <string name="system_ui_plugin_volume_title">音量バー</string>
     <string name="system_ui_volume_collpased_column_press">長押しで二次音量バーを展開する</string>
     <string name="system_ui_volume_collpased_column_press_desc">この機能が有効な場合、展開ボタンはオフになります。</string>
@@ -998,7 +998,7 @@
     <!--System security components-->
     <string name="guard_provider_hyperos">システムセキュリティコンポーネント</string>
     <string name="guard_provider_disable_upload_applist">インストール済みアプリリストの自動アップロードを防止</string>
-    <string name="guard_provider_disable_root_check">環境チェックを無効にする</string>
+    <string name="guard_provider_disable_root_check">環境チェックを無効化</string>
     <!--System launcher-->
     <string name="home_gesture">ジェスチャーとナビゲーション</string>
     <string name="home_navigation_title">ナビゲーション</string>
@@ -1009,8 +1009,8 @@
     <string name="home_navigation_assist_right_slide_desc">画面の右下隅から内側にスライド</string>
     <string name="home_navigation_quick_back_more">画面の端から横にスワイプすると前のアプリに戻ります</string>
     <string name="home_navigation_disable_full_screen_back_gesture">全画面表示の戻るジェスチャーを無効にする</string>
-    <string name="home_navigation_back_area_height">背面ジェスチャー領域の高さ</string>
-    <string name="home_navigation_back_area_width">背面ジェスチャー領域の幅</string>
+    <string name="home_navigation_back_area_height">戻るジェスチャー領域の高さ</string>
+    <string name="home_navigation_back_area_width">戻るジェスチャー領域の幅</string>
     <string name="home_gesture_title2">ジェスチャー</string>
     <string name="home_gesture_mainscreen_title">メイン画面</string>
     <string name="home_gesture_gesture_title">フルスクリーンジェスチャー</string>
@@ -1050,7 +1050,7 @@
     <string name="home_layout_unlock_grids_desc">ホーム画面のアイコンのレイアウトサイズ制限を削除します</string>
     <string name="home_layout_unlock_grids_new_x">列</string>
     <string name="home_layout_unlock_grids_new_y">行</string>
-    <string name="home_layout_unlock_grids_no_words">レイアウトをアンロック(テキストなしモード)</string>
+    <string name="home_layout_unlock_grids_no_words">レイアウトをアンロック (テキストなしモード)</string>
     <string name="home_layout_unlock_grids_no_words_desc">ホーム画面のアイコンのレイアウトサイズ制限をアンロック</string>
     <string name="home_layout_workspace_padding_bottom_desc">画面下部余白からのホーム画面の距離</string>
     <string name="home_layout_workspace_padding_top_desc">画面上部余白からのホーム画面の距離</string>
@@ -1166,10 +1166,10 @@
     <string name="home_recent_remove_icon">アプリアイコンを削除</string>
     <string name="home_recent_modify_animation">最近のタスクからアプリを削除するときのアニメーションを変更する</string>
     <string name="home_recent_text">最近のタスクがないときに表示されるテキスト</string>
-    <string name="home_recent_app_name_distance_task_view_card">アプリ履歴のカードとアプリ名の距離</string>
+    <string name="home_recent_app_name_distance_task_view_card">アプリ名とアプリのプレビューカードの距離</string>
     <string name="home_recent_card_header_horizontal_position">アプリカードヘッダーの水平位置</string>
     <string name="home_recent_task_view_height">アプリ履歴のカードの高さ</string>
-    <string name="home_recent_task_view_card_rounded_corners">アプリ履歴のカードを角丸にする</string>
+    <string name="home_recent_task_view_card_rounded_corners">アプリのプレビューカードの角の丸み</string>
     <string name="home_recent_horizontal_task_view_card_size1">垂直方向のサムネイルサイズ</string>
     <string name="home_recent_horizontal_task_view_card_size2">横向き時の水平方向のサムネイルサイズ</string>
     <string name="home_recent_vertical_task_view_card_size">垂直方向のサムネイルサイズ</string>
@@ -1194,7 +1194,7 @@
     <string name="home_widget_allow_moved_to_minus_one_screen">Android ウィジェットを -1 画面に移動することを許可</string>
     <string name="home_widget_hide_title">ウィジェットのタイトルを非表示</string>
     <string name="home_widget_resizable">ウィジェットのリサイズ制限を無効化</string>
-    <string name="home_widget_widget_blur_opt">ウィジェットのぼかしを最適化する</string>
+    <string name="home_widget_widget_blur_opt">ウィジェットのぼかしを最適化</string>
     <string name="home_dock">ドック</string>
     <string name="home_dock_bg_enable">ドックバーの背景を追加</string>
     <string name="home_dock_bg_all_app">ドロワーモードとの互換性</string>
@@ -1312,7 +1312,7 @@
     <string name="personal_assistant_set_tv_notif_info_max_width">ステータスバーのトラベル通知の最大幅を設定</string>
     <string name="personal_assistant_set_tv_notif_info_max_width_desc">この値を適切に調整すると、コンテンツが省略される問題を解決できます</string>
     <string name="personal_assistant_disable_lite_version">Lite バージョンを無効化</string>
-    <string name="personal_assistant_widget_widget_blur_opt">ウィジェットのぼかしを最適化する</string>
+    <string name="personal_assistant_widget_widget_blur_opt">ウィジェットのぼかしを最適化</string>
     <!--Battery and performance-->
     <string name="powerkeeper">バッテリーとパフォーマンス</string>
     <string name="powerkeeper_custom_refresh_rate">高リフレッシュレートのアプリを指定</string>
@@ -1351,7 +1351,7 @@
     <string name="security_center_beauty_title">フロントカメラアシスタント</string>
     <string name="security_center_bubble_and_freeform_title">バブルとフリーフォーム</string>
     <string name="security_center_newbox_title">サイドバー</string>
-    <string name="security_center_disable_root_check_environment">環境チェックを無効にする</string>
+    <string name="security_center_disable_root_check_environment">環境チェックを無効化</string>
     <string name="security_center_dolby_open">Dolby ポップアップウィンドウを閉じる</string>
     <string name="security_center_show_battery_temperature">バッテリーの温度を表示</string>
     <string name="security_center_show_battery_health">詳細なバッテリー健康状態を表示</string>
