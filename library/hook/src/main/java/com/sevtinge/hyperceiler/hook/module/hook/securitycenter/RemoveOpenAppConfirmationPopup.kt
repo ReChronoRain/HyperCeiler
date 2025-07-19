@@ -30,9 +30,8 @@ class RemoveOpenAppConfirmationPopup : BaseHook() {
     override fun init() {
         loadClass("android.widget.TextView").methodFinder()
             .filterByName("setText")
-            .filterByParamTypes {
-                it[0] == CharSequence::class.java
-            }.first().createHook {
+            .filterByParamTypes(CharSequence::class.java)
+            .first().createHook {
                 after {
                     val textView = it.thisObject as TextView
                     if (it.args.isNotEmpty() && it.args[0]?.toString().equals(

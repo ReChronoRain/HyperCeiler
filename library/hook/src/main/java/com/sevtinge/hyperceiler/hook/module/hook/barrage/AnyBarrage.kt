@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hook.module.hook.barrage
 
 
+import android.app.Notification
 import android.service.notification.StatusBarNotification
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
@@ -35,12 +36,36 @@ object AnyBarrage : BaseHook() {
                 before { param ->
                     val statusBarNotification =
                         param.args[0] as StatusBarNotification
-                    param.thisObject.getObjectFieldOrNullAs<ArrayList<String>>("mBarragePackageList")!!.let {
-                        if (!it.contains(statusBarNotification.packageName)) {
-                            it.add(statusBarNotification.packageName)
+                    val packageName = statusBarNotification.packageName
+
+                    param.thisObject.getObjectFieldOrNullAs<ArrayList<String>>("mBarragePackageList")!!.apply {
+                        if (!contains(packageName)) {
+                            add(statusBarNotification.packageName)
                         }
+                    }
+
+                    if (statusBarNotification.shouldBeFiltered()) {
+                        param.result = true
                     }
                 }
             }
     }
+
+    object NotificationCache {
+        private const val MAX_SIZE = 100
+        private val cache = LinkedHashSet<String>()
+        fun check(string: String): Boolean {
+            val result = cache.add(string)
+            if (cache.size > MAX_SIZE) cache.remove(cache.first())
+            return result
+        }
+    }
+
+    private fun StatusBarNotification.shouldBeFiltered(): Boolean {
+        val extras = notification.extras
+        val key = "${extras.getCharSequence("android.title")}: ${extras.getCharSequence("android.text")}"
+        val isGroupSummary = notification.flags and Notification.FLAG_GROUP_SUMMARY != 0
+        return !isClearable || isGroupSummary || !NotificationCache.check(key)
+    }
+
 }
