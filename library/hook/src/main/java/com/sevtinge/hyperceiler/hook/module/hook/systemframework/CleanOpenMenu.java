@@ -125,9 +125,33 @@ public class CleanOpenMenu extends BaseHook {
             }
         };
 
-        String ActQueryService = isMoreAndroidVersion(33) ? "com.android.server.pm.ComputerEngine" : "com.android.server.pm.PackageManagerService$ComputerEngine";
-        hookAllMethods(ActQueryService, lpparam.classLoader, "queryIntentActivitiesInternal", hook);
+        hookAllMethods("com.android.server.pm.ComputerEngine", lpparam.classLoader, "queryIntentActivitiesInternal", hook);
 
+        hookAllMethods("miui.securityspace.XSpaceResolverActivityHelper.ResolverActivityRunner", null, "run", new MethodHook() {
+            @Override
+            protected void after(MethodHookParam param) throws Throwable {
+                Intent mOriginalIntent = (Intent) XposedHelpers.getObjectField(param.thisObject, "mOriginalIntent");
+                if (mOriginalIntent == null) return;
+                String action = mOriginalIntent.getAction();
+                if (!Intent.ACTION_VIEW.equals(action)) return;
+                // if (mOriginalIntent.getDataString() != null && mOriginalIntent.getDataString().contains(":")) return;
+
+                Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                String mAimPackageName = (String) XposedHelpers.getObjectField(param.thisObject, "mAimPackageName");
+                if (mContext == null || mAimPackageName == null) return;
+                Set<String> selectedApps = PrefsUtils.getSharedStringSetPrefs(mContext, "system_framework_clean_open_apps");
+                String mimeType = getContentType(mContext, mOriginalIntent);
+                Pair<Boolean, Boolean> isRemove = isRemoveApp(true, mContext, mAimPackageName, selectedApps, mimeType);
+
+                View mRootView = (View) XposedHelpers.getObjectField(param.thisObject, "mRootView");
+                int appResId1 = mContext.getResources().getIdentifier("app1", "id", "android.miui");
+                int appResId2 = mContext.getResources().getIdentifier("app2", "id", "android.miui");
+                View originalApp = mRootView.findViewById(appResId1);
+                View dualApp = mRootView.findViewById(appResId2);
+                if (isRemove.first) dualApp.performClick();
+                else if (isRemove.second) originalApp.performClick();
+            }
+        });
         // if (!findAndHookMethodSilently(mPackageManagerService, "queryIntentActivitiesInternal", Intent.class, String.class, int.class, int.class, int.class, boolean.class, boolean.class, hook))
         // findAndHookMethod(mPackageManagerService, "queryIntentActivitiesInternal", Intent.class, String.class, int.class, int.class, hook);//error
     }
@@ -193,34 +217,6 @@ public class CleanOpenMenu extends BaseHook {
                 dataType = AppsTool.MimeType.ARCHIVE;
             else if (mimeType.startsWith("link/")) dataType = AppsTool.MimeType.LINK;
         return (mimeFlags & dataType) == dataType;
-    }
-
-    public static void initRes() {
-        hookAllMethods("miui.securityspace.XSpaceResolverActivityHelper.ResolverActivityRunner", null, "run", new MethodHook() {
-            @Override
-            protected void after(MethodHookParam param) throws Throwable {
-                Intent mOriginalIntent = (Intent) XposedHelpers.getObjectField(param.thisObject, "mOriginalIntent");
-                if (mOriginalIntent == null) return;
-                String action = mOriginalIntent.getAction();
-                if (!Intent.ACTION_VIEW.equals(action)) return;
-                // if (mOriginalIntent.getDataString() != null && mOriginalIntent.getDataString().contains(":")) return;
-
-                Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                String mAimPackageName = (String) XposedHelpers.getObjectField(param.thisObject, "mAimPackageName");
-                if (mContext == null || mAimPackageName == null) return;
-                Set<String> selectedApps = PrefsUtils.getSharedStringSetPrefs(mContext, "system_framework_clean_open_apps");
-                String mimeType = getContentType(mContext, mOriginalIntent);
-                Pair<Boolean, Boolean> isRemove = isRemoveApp(true, mContext, mAimPackageName, selectedApps, mimeType);
-
-                View mRootView = (View) XposedHelpers.getObjectField(param.thisObject, "mRootView");
-                int appResId1 = mContext.getResources().getIdentifier("app1", "id", "android.miui");
-                int appResId2 = mContext.getResources().getIdentifier("app2", "id", "android.miui");
-                View originalApp = mRootView.findViewById(appResId1);
-                View dualApp = mRootView.findViewById(appResId2);
-                if (isRemove.first) dualApp.performClick();
-                else if (isRemove.second) originalApp.performClick();
-            }
-        });
     }
 
 

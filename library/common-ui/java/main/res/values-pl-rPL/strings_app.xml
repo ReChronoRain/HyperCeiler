@@ -373,8 +373,6 @@
     <string name="system_framework_shortcut_title">Udostępnianie</string>
     <string name="system_framework_screen_all_rotations">Rotacja ekranu</string>
     <string name="system_framework_allow_untrusted_touch">Zezwalaj na niezaufany dotyk</string>
-    <string name="system_framework_allow_uninstall">Zezwól na odinstalowanie niektórych wstępnie zainstalowanych aplikacji</string>
-    <string name="system_framework_allow_uninstall_desc">Ta funkcja jest niebezpieczna</string>
     <string name="system_framework_clipboard_whitelist">Zezwól aplikacji na odczyt schowka w tle</string>
     <string name="system_framework_clipboard_whitelist_desc">Zezwala aplikacjom na uzyskanie uprawnień READ_LOGS</string>
     <string name="system_framework_clipboard_whitelist_list">Biała lista, która może odczytać schowek w tle</string>

@@ -24,17 +24,16 @@ import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import android.content.Context;
 import android.view.View;
 
-import de.robv.android.xposed.IXposedHookZygoteInit;
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
-public class ToastBlur implements IXposedHookZygoteInit {
+public class ToastBlur extends BaseHook {
     private static final String TAG = "ToastBlur";
 
     @Override
-    public void initZygote(StartupParam startupParam) throws Throwable {
-        ClassLoader classLoader = startupParam.getClass().getClassLoader();
+    public void init() {
         /*findAndHookMethod("android.widget.ToastStubImpl", classLoader, "addBlur",
                 View.class, Context.class, boolean.class,
                 new XC_MethodHook() {
@@ -45,7 +44,7 @@ public class ToastBlur implements IXposedHookZygoteInit {
                 }
         );*/
 
-        findAndHookMethod("android.widget.ToastPresenter", classLoader, "trySendAccessibilityEvent",
+        findAndHookMethod("android.widget.ToastPresenter", lpparam.classLoader, "trySendAccessibilityEvent",
                 View.class, String.class,
                 new XC_MethodHook() {
                     @Override
@@ -57,7 +56,7 @@ public class ToastBlur implements IXposedHookZygoteInit {
                             mCustomizeView = true;
                         }
                         Object toastStub;
-                        Class<?> ToastStub = findClassIfExists("android.widget.ToastStub", classLoader);
+                        Class<?> ToastStub = findClassIfExists("android.widget.ToastStub", lpparam.classLoader);
                         Context mContext = mView.getContext();
                         if (ToastStub != null) {
                             toastStub = XposedHelpers.callStaticMethod(ToastStub, "get");
@@ -80,7 +79,4 @@ public class ToastBlur implements IXposedHookZygoteInit {
         );*/
     }
 
-    private void logE(String tag, String mag) {
-        XposedBridge.log(tag + " " + mag);
-    }
 }

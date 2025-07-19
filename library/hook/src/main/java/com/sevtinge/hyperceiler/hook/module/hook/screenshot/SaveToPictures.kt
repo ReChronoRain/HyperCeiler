@@ -19,11 +19,12 @@
 package com.sevtinge.hyperceiler.hook.module.hook.screenshot
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import de.robv.android.xposed.XposedHelpers
+import com.sevtinge.hyperceiler.hook.utils.setStaticObjectField
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 object SaveToPictures : BaseHook() {
     override fun init() {
-        val clazz = XposedHelpers.findClass("android.os.Environment", lpparam.classLoader)
-        XposedHelpers.setStaticObjectField(clazz, "DIRECTORY_DCIM", "Pictures")
+        val clazz = loadClass("android.os.Environment", lpparam.classLoader)
+        clazz.setStaticObjectField("DIRECTORY_DCIM", "Pictures")
     }
 }

@@ -18,21 +18,20 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework;
 
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool;
+import static com.sevtinge.hyperceiler.hook.module.base.tool.HookTool.MethodHook.returnConstant;
 
-import de.robv.android.xposed.IXposedHookZygoteInit;
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedHelpers;
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
-public class AllowManageAllNotifications implements IXposedHookZygoteInit  {
+public class AllowManageAllNotifications extends BaseHook {
+
     @Override
-    public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws NoSuchMethodException {
+    public void init() {
 
-        XposedHelpers.findAndHookMethod("android.app.NotificationChannel", startupParam.getClass().getClassLoader(), "isBlockable", HookTool.MethodHook.returnConstant(true));
+        findAndHookMethod("android.app.NotificationChannel", lpparam.classLoader, "isBlockable", returnConstant(true));
 
-        XposedHelpers.findAndHookMethod("android.app.NotificationChannel", startupParam.getClass().getClassLoader(), "setBlockable", boolean.class, new XC_MethodHook() {
+        findAndHookMethod("android.app.NotificationChannel", lpparam.classLoader, "setBlockable", boolean.class, new MethodHook() {
             @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            public void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 param.args[0] = true;
             }
         });

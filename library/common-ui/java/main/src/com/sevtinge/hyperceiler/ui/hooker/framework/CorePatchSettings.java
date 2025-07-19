@@ -57,7 +57,7 @@ public class CorePatchSettings extends DashboardFragment {
                 mDisableIntegrity.setChecked(false);
                 mDisableIntegrity.setVisible(false);
             } else {
-                mDisableIntegrity.setVisible(isMoreAndroidVersion(33));
+                mDisableIntegrity.setVisible(true);
             }
             return true;
         });

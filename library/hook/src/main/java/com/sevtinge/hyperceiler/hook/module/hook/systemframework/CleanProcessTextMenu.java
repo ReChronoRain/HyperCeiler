@@ -100,10 +100,7 @@ public class CleanProcessTextMenu extends BaseHook {
             }
         };
 
-        String ActQueryService = isMoreAndroidVersion(33) ?
-                "com.android.server.pm.ComputerEngine" :
-                "com.android.server.pm.PackageManagerService$ComputerEngine";
-        hookAllMethods(ActQueryService, lpparam.classLoader, "queryIntentActivitiesInternal", hook);
+        hookAllMethods("com.android.server.pm.ComputerEngine", lpparam.classLoader, "queryIntentActivitiesInternal", hook);
         logD("hook query PROCESS_TEXT success");
     }
 }

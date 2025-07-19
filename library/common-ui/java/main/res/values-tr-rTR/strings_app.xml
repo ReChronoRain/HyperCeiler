@@ -313,8 +313,6 @@
     <string name="system_framework_shortcut_title">Kısayolları paylaş</string>
     <string name="system_framework_screen_all_rotations">Ekran döndürme</string>
     <string name="system_framework_allow_untrusted_touch">Güvenilmeyen dokunuşa izin ver</string>
-    <string name="system_framework_allow_uninstall">Bazı ön yükleme uygulamalarını kaldırmaya izin ver</string>
-    <string name="system_framework_allow_uninstall_desc">Bu özellik tehlikelidir</string>
     <string name="system_framework_clipboard_whitelist">Uygulamanın arka planda panoyu okumasına izin ver</string>
     <string name="system_framework_clipboard_whitelist_desc">Uygulamaların READ_LOGS izni almasına izin ver</string>
     <string name="system_framework_clipboard_whitelist_list">Arka planda panoyu okuyabilenler için beyaz liste</string>

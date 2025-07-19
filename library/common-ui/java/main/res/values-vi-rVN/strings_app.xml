@@ -380,8 +380,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_shortcut_title">Chia sẻ lối tắt</string>
     <string name="system_framework_screen_all_rotations">Xoay màn hình</string>
     <string name="system_framework_allow_untrusted_touch">Cho phép chạm không tin cậy</string>
-    <string name="system_framework_allow_uninstall">Cho phép gỡ cài đặt một số App được cài đặt sẵn</string>
-    <string name="system_framework_allow_uninstall_desc">Tính năng này nguy hiểm</string>
     <string name="system_framework_clipboard_whitelist">Cho phép ứng dụng đọc bảng nhớ tạm trong nền</string>
     <string name="system_framework_clipboard_whitelist_desc">Cho phép ứng dụng có quyền READ_LOGS</string>
     <string name="system_framework_clipboard_whitelist_list">Danh sách cho phép có thể đọc bảng nhớ tạm ở chế độ nền</string>

@@ -19,27 +19,31 @@
 package com.sevtinge.hyperceiler.hook.module.hook.screenrecorder
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedHelpers
+import com.sevtinge.hyperceiler.hook.utils.setStaticObjectField
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 import java.util.*
+import kotlin.getValue
 
 object SaveToMovies : BaseHook() {
-    override fun init() {
-        val clazz = XposedHelpers.findClass("android.os.Environment", lpparam.classLoader)
-        XposedHelpers.setStaticObjectField(clazz, "DIRECTORY_DCIM", "Movies")
+    private val clazz by lazy {
+        loadClass("android.os.Environment", lpparam.classLoader)
+    }
 
-        XposedHelpers.findAndHookMethod("android.content.ContentValues",
-            lpparam.classLoader,
-            "put",
-            String::class.java,
-            String::class.java,
-            object : XC_MethodHook() {
-                override fun beforeHookedMethod(param: MethodHookParam) {
-                    val param0 = param.args[0] as String
-                    if (Objects.equals(param0, "relative_path")) {
-                        param.args[1] = (param.args[1] as String).replace("DCIM", "Movies")
-                    }
+    override fun init() {
+        clazz.setStaticObjectField("DIRECTORY_DCIM", "Movies")
+
+        loadClass("android.content.ContentValues", lpparam.classLoader)
+            .methodFinder().filterByName("put")
+            .filterByParamTypes {
+                it[0] == String::class.java && it[1] == String::class.java
+            }.single().createBeforeHook { param ->
+                val param0 = param.args[0] as String
+
+                if (Objects.equals(param0, "relative_path")) {
+                    param.args[1] = (param.args[1] as String).replace("DCIM", "Movies")
                 }
-            })
+            }
     }
 }

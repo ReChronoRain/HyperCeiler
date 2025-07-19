@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.GlobalActions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowAutoStart;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowDisableProtectedPackage;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowUntrustedTouch;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AntiQues;
@@ -126,7 +127,7 @@ public class SystemFrameworkU extends BaseModule {
         initHook(new AllowDisableProtectedPackage(), mPrefsMap.getBoolean("system_framework_allow_disable_protected_package"));
         // 允许应用后台读取剪切板
         initHook(new ClipboardWhitelist(), mPrefsMap.getBoolean("system_framework_clipboard_whitelist"));
-
+        initHook(new AllowManageAllNotifications(), mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"));
         initHook(new BypassUnknownSourcesRestrictions(), mPrefsMap.getBoolean("system_framework_bypass_unknown_sources_restrictions"));
 
         initHook(new BypassForceMiAppStore(), mPrefsMap.getBoolean("system_framework_bypass_force_mi_appstore") || mPrefsMap.getBoolean("system_framework_market_use_detailmini"));

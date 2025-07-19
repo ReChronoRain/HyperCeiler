@@ -35,14 +35,7 @@ import android.os.Process;
 import com.hchen.hooktool.HCInit;
 import com.sevtinge.hyperceiler.hook.module.app.VariousThirdApps;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowManageAllNotifications;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowUninstall;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BackgroundBlurDrawable;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.CleanOpenMenu;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.CleanShareMenu;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ScreenRotation;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ToastBlur;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.hook.module.skip.SystemFrameworkForCorePatch;
 import com.sevtinge.hyperceiler.hook.safe.CrashHook;
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
@@ -92,7 +85,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         HCInit.initStartupParam(startupParam);
 
         // load ZygoteHook
-        loadZygoteHook(startupParam);
+        // new BackgroundBlurDrawable().initZygote(startupParam); 留档
     }
 
     @Override
@@ -106,25 +99,6 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
         // load Module hook apps
         init(lpparam);
-    }
-
-    private static void loadZygoteHook(StartupParam startupParam) throws Throwable {
-        if (mPrefsMap.getBoolean("system_framework_screen_all_rotations")) ScreenRotation.initRes();
-        if (mPrefsMap.getBoolean("system_framework_clean_share_menu")) CleanShareMenu.initRes();
-        if (mPrefsMap.getBoolean("system_framework_clean_open_menu")) CleanOpenMenu.initRes();
-
-        if (startupParam != null) {
-            new BackgroundBlurDrawable().initZygote(startupParam);
-
-            if (mPrefsMap.getBoolean("system_framework_allow_uninstall"))
-                new AllowUninstall().initZygote(startupParam);
-            if (mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"))
-                new AllowManageAllNotifications().initZygote(startupParam);
-            if (mPrefsMap.getBoolean("system_framework_background_blur_toast"))
-                new ToastBlur().initZygote(startupParam);
-            if (mPrefsMap.getBoolean("aod_unlock_always_on_display_hyper"))
-                new UnlockAlwaysOnDisplay().initZygote(startupParam);
-        }
     }
 
     private void setXSharedPrefs() {

@@ -299,8 +299,6 @@
     <string name="system_framework_shortcut_title">Bagikan pintasan</string>
     <string name="system_framework_screen_all_rotations">Perputaran layar</string>
     <string name="system_framework_allow_untrusted_touch">Izinkan sentuhan yang tidak tepercaya</string>
-    <string name="system_framework_allow_uninstall">Izinkan uninstall beberapa aplikasi pra-instal</string>
-    <string name="system_framework_allow_uninstall_desc">Fitur ini berbahaya</string>
     <string name="system_framework_clipboard_whitelist">Izinkan aplikasi membaca papan klip di latar belakang</string>
     <string name="system_framework_clipboard_whitelist_desc">Izinkan aplikasi mendapatkan izin READ_LOGS</string>
     <string name="system_framework_clipboard_whitelist_list">Daftar putih yang dapat membaca clipboard di latar belakang</string>

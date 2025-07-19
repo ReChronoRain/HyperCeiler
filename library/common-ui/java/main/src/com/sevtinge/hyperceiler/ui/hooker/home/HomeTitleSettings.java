@@ -36,6 +36,8 @@ import com.sevtinge.hyperceiler.ui.sub.AppPickerFragment;
 import com.sevtinge.hyperceiler.ui.sub.SubPickerActivity;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 
+import java.util.Objects;
+
 import fan.preference.SeekBarPreferenceCompat;
 
 public class HomeTitleSettings extends DashboardFragment {
@@ -62,10 +64,8 @@ public class HomeTitleSettings extends DashboardFragment {
         mIconSize = findPreference("prefs_key_home_title_icon_size_enable");
         mTitleFontSize = findPreference("prefs_key_home_drawer_title_font_size");
 
-        mDisableMonoChrome.setVisible(isMoreAndroidVersion(33));
         mDisableMonoChrome.setOnPreferenceChangeListener((preference, o) -> true);
         mDisableMonetColor = findPreference("prefs_key_home_other_icon_monet_color");
-        mDisableMonetColor.setVisible(isMoreAndroidVersion(33));
         mDisableMonetColor.setOnPreferenceChangeListener((preference, o) -> true);
         mDisableHideTheme = findPreference("prefs_key_home_title_disable_hide_theme");
         mDisableHideTheme.setVisible(isPad());
@@ -84,7 +84,7 @@ public class HomeTitleSettings extends DashboardFragment {
 
         Bundle args1 = new Bundle();
         Bundle args2 = new Bundle();
-        mRecommend = new RecommendPreference(getContext());
+        mRecommend = new RecommendPreference(requireContext());
         getPreferenceScreen().addPreference(mRecommend);
 
         args1.putString(":settings:fragment_args_key", "prefs_key_home_other_shortcut_background_blur");
