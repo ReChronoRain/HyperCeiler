@@ -22,16 +22,16 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSm
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.aod.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.hook.module.hook.aod.UnlockAodAon;
 import com.sevtinge.hyperceiler.hook.module.hook.aod.UnlockShortCuts;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UnlockAlwaysOnDisplay;
 
 @HookBase(targetPackage = "com.miui.aod")
 public class Aod extends BaseModule {
     @Override
     public void handleLoadPackage() {
         initHook(UnlockShortCuts.INSTANCE, isMoreSmallVersion(200, 2f));
-        initHook(UnlockAlwaysOnDisplay.INSTANCE, mPrefsMap.getBoolean("aod_unlock_always_on_display"));
+        initHook(new UnlockAlwaysOnDisplay(), mPrefsMap.getBoolean("aod_unlock_always_on_display_hyper"));
         initHook(new UnlockAodAon(), mPrefsMap.getBoolean("aod_unlock_aon"));
     }
 }

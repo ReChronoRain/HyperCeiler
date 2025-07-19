@@ -379,8 +379,6 @@
     <string name="system_framework_shortcut_title">Atalhos de compartilhamento</string>
     <string name="system_framework_screen_all_rotations">Rotação da tela</string>
     <string name="system_framework_allow_untrusted_touch">Permitir toque não confiável</string>
-    <string name="system_framework_allow_uninstall">Permitir desinstalar alguns apps pré-instalados</string>
-    <string name="system_framework_allow_uninstall_desc">Este recurso é perigoso</string>
     <string name="system_framework_clipboard_whitelist">Permitir que o app leia a área de transferência em segundo plano</string>
     <string name="system_framework_clipboard_whitelist_desc">Permite que apps obtenham a permissão READ_LOGS</string>
     <string name="system_framework_clipboard_whitelist_list">Lista de permissões que pode ler a área de transferência em segundo plano</string>

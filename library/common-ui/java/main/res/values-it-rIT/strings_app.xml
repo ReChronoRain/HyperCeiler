@@ -298,8 +298,6 @@
     <string name="system_framework_shortcut_title">Condividi scorciatoie</string>
     <string name="system_framework_screen_all_rotations">Rotazione schermo</string>
     <string name="system_framework_allow_untrusted_touch">Consenti tocco non sicuro</string>
-    <string name="system_framework_allow_uninstall">Consenti la disinstallazione di alcune applicazioni preinstallate</string>
-    <string name="system_framework_allow_uninstall_desc">Questa funzione è pericolosa</string>
     <string name="system_framework_clipboard_whitelist">Consenti all\'app di leggere gli appunti in background</string>
     <string name="system_framework_clipboard_whitelist_desc">Consenti alle app di ottenere i permessi READ_LOGS</string>
     <string name="system_framework_clipboard_whitelist_list">La whitelist che può leggere gli appunti in background</string>

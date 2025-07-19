@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.GlobalActions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowAutoStart;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowDisableProtectedPackage;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowUntrustedTouch;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AntiQues;
@@ -130,7 +131,7 @@ public class SystemFrameworkV extends BaseModule {
         initHook(new AllowDisableProtectedPackage(), mPrefsMap.getBoolean("system_framework_allow_disable_protected_package"));
         // 允许应用后台读取剪切板
         initHook(new ClipboardWhitelist(), mPrefsMap.getBoolean("system_framework_clipboard_whitelist"));
-
+        initHook(new AllowManageAllNotifications(), mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"));
         initHook(new BypassUnknownSourcesRestrictions(), mPrefsMap.getBoolean("system_framework_bypass_unknown_sources_restrictions"));
 
         initHook(new BypassForceMiAppStore(), mPrefsMap.getBoolean("system_framework_bypass_force_mi_appstore") || mPrefsMap.getBoolean("system_framework_market_use_detailmini"));
@@ -147,6 +148,8 @@ public class SystemFrameworkV extends BaseModule {
         initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));
         initHook(new BypassIsolationViolation(), mPrefsMap.getBoolean("system_framework_core_patch_bypass_isolation_violation"));
         initHook(new AllowUpdateSystemApp(), mPrefsMap.getBoolean("system_framework_core_patch_allow_update_system_app"));
+        initHook(new DisableLowApiCheckForU(), mPrefsMap.getBoolean("system_framework_disable_low_api_check"));
+        initHook(new DisablePersistent(), mPrefsMap.getBoolean("system_framework_disable_persistent"));
 
         // 网络
         initHook(DualNRSupport.INSTANCE, mPrefsMap.getBoolean("phone_double_5g_nr"));
@@ -155,7 +158,6 @@ public class SystemFrameworkV extends BaseModule {
         initHook(N5N8Band.INSTANCE, mPrefsMap.getBoolean("phone_n5_n8"));
         initHook(N28Band.INSTANCE, mPrefsMap.getBoolean("phone_n28"));
 
-        // Other
         initHook(new PackagePermissions(), true);
         initHook(new GlobalActions(), mLoadPackageParam.processName.equals("android"));
         initHook(new ThermalBrightness(), mPrefsMap.getBoolean("system_framework_other_thermal_brightness"));
@@ -167,9 +169,6 @@ public class SystemFrameworkV extends BaseModule {
         initHook(new UseAndroidPackageInstaller(), mPrefsMap.getBoolean("system_framework_use_android_package_installer"));
         initHook(new QuickScreenshot(), mPrefsMap.getBoolean("system_framework_quick_screenshot"));
         initHook(new LinkTurboToast(), mPrefsMap.getBoolean("system_framework_disable_link_turbo_toast"));
-
-        initHook(new DisableLowApiCheckForU(), mPrefsMap.getBoolean("system_framework_disable_low_api_check"));
-        initHook(new DisablePersistent(), mPrefsMap.getBoolean("system_framework_disable_persistent"));
 
         initHook(new EffectBinderProxy(), mPrefsMap.getBoolean("misound_bluetooth"));
         initHook(new AutoEffectSwitchForSystem(), mPrefsMap.getBoolean("misound_bluetooth"));

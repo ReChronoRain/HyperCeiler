@@ -317,8 +317,6 @@
     <string name="system_framework_shortcut_title">共享快捷方式</string>
     <string name="system_framework_screen_all_rotations">螢幕旋轉</string>
     <string name="system_framework_allow_untrusted_touch">允許不受信任的觸摸操作</string>
-    <string name="system_framework_allow_uninstall">允許卸載部分預裝 APP</string>
-    <string name="system_framework_allow_uninstall_desc">該功能具有一定危險性</string>
     <string name="system_framework_clipboard_whitelist">允許應用程式後台讀取剪貼簿</string>
     <string name="system_framework_clipboard_whitelist_desc">允許應用程式取得 READ_LOGS 權限</string>
     <string name="system_framework_clipboard_whitelist_list">後台讀取剪貼簿白名單</string>

@@ -20,7 +20,10 @@ package com.sevtinge.hyperceiler.hook.module.app.SystemFramework.Phone;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowManageAllNotifications;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableLowApiCheckForU;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableMiuiWatermark;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisablePersistent;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableThermal;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightness;
@@ -38,9 +41,12 @@ public class SystemFrameworkB extends BaseModule {
         initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));
         initHook(new BypassIsolationViolation(), mPrefsMap.getBoolean("system_framework_core_patch_bypass_isolation_violation"));
         initHook(new AllowUpdateSystemApp(), mPrefsMap.getBoolean("system_framework_core_patch_allow_update_system_app"));
+        initHook(new DisableLowApiCheckForU(), mPrefsMap.getBoolean("system_framework_disable_low_api_check"));
+        initHook(new DisablePersistent(), mPrefsMap.getBoolean("system_framework_disable_persistent"));
 
         // 其它-显示与通知
         initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
+        initHook(new AllowManageAllNotifications(), mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"));
 
         // 其它-底层
         initHook(DisableThermal.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_thermal"));

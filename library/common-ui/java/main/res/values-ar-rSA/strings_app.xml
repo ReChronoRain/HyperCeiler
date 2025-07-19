@@ -379,8 +379,6 @@
     <string name="system_framework_shortcut_title">مشاركة الاختصارات</string>
     <string name="system_framework_screen_all_rotations">تدوير الشاشة</string>
     <string name="system_framework_allow_untrusted_touch">السماح باللمس الغير موثوق به</string>
-    <string name="system_framework_allow_uninstall">السماح بإلغاء تثبيت بعض التطبيقات المثبتة مسبقاً</string>
-    <string name="system_framework_allow_uninstall_desc">هذه الميزة خطيرة</string>
     <string name="system_framework_clipboard_whitelist">السماح للتطبيق بقراءة الحافظة في الخلفية</string>
     <string name="system_framework_clipboard_whitelist_desc">السماح للتطبيقات بالحصول على إذن READ_LOGS (قراءة السجلات)</string>
     <string name="system_framework_clipboard_whitelist_list">القائمة البيضاء التي يمكنها قراءة الحافظة في الخلفية</string>

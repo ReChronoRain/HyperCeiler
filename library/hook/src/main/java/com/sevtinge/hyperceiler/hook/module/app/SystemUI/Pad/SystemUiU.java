@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app.SystemUI.Pad;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ToastBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoCollapse;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoSEffSwitchForSystemUi;
@@ -292,6 +293,8 @@ public class SystemUiU extends BaseModule {
         initHook(DisableBottomBar.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_bottombar"));
         initHook(UnlockClipboard.INSTANCE, mPrefsMap.getBoolean("system_ui_unlock_clipboard"));
         initHook(new VolumeTimerValuesHook(), mPrefsMap.getBoolean("system_ui_volume_timer"));
+
+        initHook(new ToastBlur(), mPrefsMap.getBoolean("system_framework_background_blur_toast"));
 
         // 锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));

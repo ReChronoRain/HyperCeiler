@@ -182,12 +182,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_framework_allow_uninstall"
-            android:summary="@string/system_framework_allow_uninstall_desc"
-            android:title="@string/system_framework_allow_uninstall" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_framework_clipboard_whitelist"
             android:summary="@string/system_framework_clipboard_whitelist_desc"
             android:title="@string/system_framework_clipboard_whitelist" />

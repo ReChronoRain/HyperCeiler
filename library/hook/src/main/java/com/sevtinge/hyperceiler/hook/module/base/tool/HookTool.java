@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hook.module.base.tool;
 
+import com.sevtinge.hyperceiler.hook.BuildConfig;
 import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsMap;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
@@ -53,27 +54,31 @@ public class HookTool extends XposedLogUtils {
         try {
             return findClass(className);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            // logE("findClassIfExists", "find " + className + " is Null: " + e);
-            return null;
+            if (BuildConfig.DEBUG)
+                logE(TAG, "find " + className + " is Null: " + e);
         }
+        return null;
     }
 
     public Class<?> findClassIfExists(String newClassName, String oldClassName) {
         try {
             return findClass(findClassIfExists(newClassName) != null ? newClassName : oldClassName);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            // logE("findClassIfExists", "find " + newClassName + " and " + oldClassName + " is Null: " + e);
-            return null;
+            if (BuildConfig.DEBUG)
+                logE(TAG, "find " + newClassName + " and " + oldClassName + " is Null: " + e);
+
         }
+        return null;
     }
 
     public Class<?> findClassIfExists(String className, ClassLoader classLoader) {
         try {
             return findClass(className, classLoader);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            // logE("findClassIfExists", "find " + className + " is Null: " + e);
-            return null;
+            if (BuildConfig.DEBUG)
+                logE(TAG, "find " + className + " is Null: " + e);
         }
+        return null;
     }
 
     public static class MethodHook extends XC_MethodHook {
@@ -167,7 +172,7 @@ public class HookTool extends XposedLogUtils {
         try {
             hookMethod(method, callback);
         } catch (Throwable e) {
-
+            logE(TAG, "safeHookMethod failed: " + e);
         }
     }
 
@@ -183,7 +188,7 @@ public class HookTool extends XposedLogUtils {
         try {
             findAndHookMethod(className, methodName, parameterTypesAndCallback);
         } catch (Throwable e) {
-            logE(TAG, "safeHook: " + e);
+            logE(TAG, "safeFindAndHookMethod failed: " + e);
         }
     }
 

@@ -379,8 +379,6 @@
     <string name="system_framework_shortcut_title">共有ショートカット</string>
     <string name="system_framework_screen_all_rotations">画面の回転</string>
     <string name="system_framework_allow_untrusted_touch">信頼されていないタッチ操作を許可</string>
-    <string name="system_framework_allow_uninstall">一部のプリインストールアプリのアンインストールを許可する</string>
-    <string name="system_framework_allow_uninstall_desc">この機能は危険です</string>
     <string name="system_framework_clipboard_whitelist">アプリにバックグラウンドでのクリップボードの読み取りを許可する</string>
     <string name="system_framework_clipboard_whitelist_desc">アプリに READ_LOGS 権限の取得を許可する</string>
     <string name="system_framework_clipboard_whitelist_list">クリップボードをバックグラウンドで読み取りできるホワイトリスト</string>

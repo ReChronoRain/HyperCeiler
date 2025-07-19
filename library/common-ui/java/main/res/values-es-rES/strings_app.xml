@@ -356,8 +356,6 @@ aplicaciones del sistema</string>
     <string name="system_framework_shortcut_title">Accesos directos de compartir</string>
     <string name="system_framework_screen_all_rotations">Rotación de pantalla</string>
     <string name="system_framework_allow_untrusted_touch">Permitir toques no confiables</string>
-    <string name="system_framework_allow_uninstall">Permitir que se desinstalen algunas aplicaciones de preinstalación</string>
-    <string name="system_framework_allow_uninstall_desc">Esta función es peligrosa</string>
     <string name="system_framework_clipboard_whitelist">Se permite que las aplicaciones lean el portapapeles en segundo plano</string>
     <string name="system_framework_clipboard_whitelist_desc">Se permite que las aplicaciones obtengan READ_LOGS</string>
     <string name="system_framework_clipboard_whitelist_list">La lista blanca que puede leer el portapapeles en segundo plano</string>

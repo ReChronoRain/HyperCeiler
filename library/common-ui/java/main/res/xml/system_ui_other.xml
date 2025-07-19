@@ -151,6 +151,11 @@
     <PreferenceCategory android:title="@string/system_ui_another_title">
         <SwitchPreference
             android:defaultValue="false"
+            android:title="@string/system_framework_background_blur_toast"
+            android:key="prefs_key_system_framework_background_blur_toast" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_disable_volume"
             android:summary="@string/system_ui_disable_volume_desc"
             android:title="@string/system_ui_disable_volume" />

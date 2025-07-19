@@ -337,8 +337,6 @@
     <string name="system_framework_shortcut_title">分享捷径</string>
     <string name="system_framework_screen_all_rotations">瘦鸡反转</string>
     <string name="system_framework_allow_untrusted_touch">都可以摸摸</string>
-    <string name="system_framework_allow_uninstall">允许精简系统</string>
-    <string name="system_framework_allow_uninstall_desc">精简是个谎言！</string>
     <string name="system_framework_clipboard_whitelist">允许俺婆婆不提醒即可窃取你的隐私</string>
     <string name="system_framework_clipboard_whitelist_desc">允许应用获得 READ_LOGS 权限</string>
     <string name="system_framework_clipboard_whitelist_list">👁你会让谁在后台看你的剪贴板呢👁</string>
@@ -408,7 +406,7 @@
     <string name="system_framework_core_patch_use_pre_signature_desc">容易被打，但是如果真的需要可以试试</string>
     <string name="system_framework_disable_low_api_check">低版本API怎么你了</string>
     <string name="system_framework_disable_low_api_check_desc">TargetSDK 低于23也得干活</string>
-    <string name="system_framework_disable_persistent">启用持久检查</string>
+    <string name="system_framework_disable_persistent">不许持久检查喵</string>
     <string name="system_framework_disable_persistent_more">允许主人直接更新系统应用喵，比如系统界面什么的都可以哦喵</string>
     <string name="system_framework_disable_verification_agent">启用包验证代理服务器</string>
     <string name="system_framework_disable_verification_agent_desc">例如：谷歌商店针对流氓阿婆婆们的检测</string>

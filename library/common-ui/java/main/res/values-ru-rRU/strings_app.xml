@@ -379,8 +379,6 @@
     <string name="system_framework_shortcut_title">Поделиться ярлыками</string>
     <string name="system_framework_screen_all_rotations">Вращение экрана</string>
     <string name="system_framework_allow_untrusted_touch">Разрешить не доверенное нажатие</string>
-    <string name="system_framework_allow_uninstall">Разрешить удаление некоторых предустановленных приложений</string>
-    <string name="system_framework_allow_uninstall_desc">Эта функция опасна</string>
     <string name="system_framework_clipboard_whitelist">Разрешить чтение буфера обмена в фоновом режиме</string>
     <string name="system_framework_clipboard_whitelist_desc">Разрешить приложениям получать разрешение READ_LOGS</string>
     <string name="system_framework_clipboard_whitelist_list">Белый список, который может читать буфер обмена в фоновом режиме</string>

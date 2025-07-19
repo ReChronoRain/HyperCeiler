@@ -66,7 +66,7 @@ object FolderColumns : HomeBaseHook() {
             }
         }
 
-        findClass(FOLDER).hookAfterAllMethods("onOpen") { param ->
+        findClassIfExists(FOLDER).hookAfterAllMethods("onOpen") { param ->
             param.thisObject.getObjectFieldAs<TextView>("mTitleText").also { mTitleText ->
                 if (mTitleText.ellipsize == TextUtils.TruncateAt.MARQUEE) {
                     return@also
@@ -82,7 +82,7 @@ object FolderColumns : HomeBaseHook() {
         }
 
         val firstItemRect = Rect()
-        findClass(FOLDER).hookAfterAllMethods("bind") { param ->
+        findClassIfExists(FOLDER).hookAfterAllMethods("bind") { param ->
             val folder = param.thisObject as ViewGroup
 
             val mBackgroundView = folder.getObjectFieldAs<ViewGroup>("mBackgroundView")
@@ -121,7 +121,7 @@ object FolderColumns : HomeBaseHook() {
                 if (titlePosition == 0) {
                     val setTitlePadding = {
                         if (firstItemRect.left >= sidePadding) {
-                            val configClass = findClass(DEVICE_CONFIG)
+                            val configClass = findClassIfExists(DEVICE_CONFIG)
                             val space = (configClass.callStaticMethodAs<Int>("getCellWidth") -
                                     configClass.callStaticMethodAs<Int>("getIconWidth")) / 2
 

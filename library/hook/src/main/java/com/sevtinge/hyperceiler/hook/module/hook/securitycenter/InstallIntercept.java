@@ -46,10 +46,6 @@ public class InstallIntercept extends BaseHook {
             }
         });
 
-        long etime = System.currentTimeMillis();
-        logE(TAG, "time: " + (etime - stime));
-        logE(TAG, "find: " + method);
-
         hookMethod(method,
                 new MethodHook() {
                     @Override
