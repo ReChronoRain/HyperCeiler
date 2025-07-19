@@ -8,97 +8,59 @@ from typing import Optional
 import time
 import urllib.parse
 
-# Tuple of GitHub login ID to string resource ID
-GITHUB_USERS = [
-    ("Adlyq", "contributors_adlyq"),
-    ("CC0126", "contributors_cc0126"),
-    ("CECoffee", "contributors_cecoffee"),
-    ("DeepChirp", "contributors_deepchirp"),
-    ("ItzDFPlayer", "contributors_itzdfplayer"),
-    ("heinu123", "contributors_heinu123"),
-    ("Fan095", "contributors_fan095"),
-    ("frank-782", "contributors_frank-782"),
-    ("GMerge01", "contributors_GMerge01"),
-    ("GSWXXN", "contributors_GSWXXN"),
-    ("ghhccghk", "contributors_ghhccghk"),
-    ("hamjin", "contributors_hamjin"),
-    ("Horange321", "contributors_Horange321"),
-    ("hrsthrt74", "contributors_hrsthrt74"),
-    ("igormiguell", "contributors_igormiguell"),
-    ("LiuBodong", "contributors_LiuBodong"),
-    ("LuoYunXi0407", "contributors_LuoYunXi0407"),
-    ("Memory2314", "contributors_Memory2314"),
-    ("NahidaBuer", "contributors_NahidaBuer"),
-    ("nakixii", "contributors_nakixii"),
-    ("Henvy-Mango", "contributors_Henvy_Mango"),
-    ("NextAlone", "contributors_NextAlone"),
-    ("nxibjzC", "contributors_nxibjzC"),
-    ("oufm", "contributors_oufm"),
-    ("pzcn", "contributors_pzcn"),
-    ("qdsp6sw", "contributors_qdsp6sw"),
-    ("ri-char", "contributors_ri_char"),
-    ("FurryRbl", "contributors_FurryRbl"),
-    ("SmartJQ", "contributors_SmartJQ"),
-    ("SpaceVector", "contributors_SpaceVector"),
-    ("yxsra", "contributors_yxsra"),
-    ("v5u871", "contributors_v5u871"),
-    ("Voemp", "contributors_Voemp"),
-    ("hosizoraru", "contributors_hosizoraru"),
-    ("Wansn-w", "contributors_wansn-w"),
-    ("weigui404", "contributors_weigui404"),
-    ("Weverses", "contributors_Weverses"),
-    ("wushidia", "contributors_wushidia"),
-    ("Xander-C", "contributors_Xander-C"),
-    ("xueshiji", "contributors_xueshiji"),
-    ("xzakota", "contributors_xzakota"),
-    ("YifePlayte", "contributors_YifePlayte"),
-    ("YunZiA", "contributors_YunZiA"),
-    ("Nep-Timeline", "contributors_Nep_Timeline"),
-    ("zcarroll4", "contributors_zcarroll4"),
-    ("lightsummer233", "contributors_lightsummer233"),
-    ("HChenX", "contributors_HChenX"),
-    ("klxiaoniu", "contributors_klxiaoniu"),
-    ("lingqiqi5211", "contributors_lingqiqi5211"),
-    ("HolyBearTW", "contributors_HolyBearTW"),
-    ("Meetingfate", "contributors_Meetingfate"),
-    ("xing0meng", "contributors_xing0meng"),
-    ("lswlc33", "contributors_lswlc33"),
-    ("zjw2017", "contributors_zjw2017"),
-    ("YuKongA", "contributors_YuKongA"),
-    ("pomelohan", "contributors_pomelohan"),
-    ("CLOUDERHEM","contributors_CLOUDERHEM"),
-    ("Voyager","contributors_Voyager"),
-    ("xiefei-github","contributors_xiefei_github"),
-    ("tehcneko","contributors_tehcneko"),
-    ("hosizoraru","contributors_hosizoraru")
-]
 
 DRAWABLE_DIR = "library/common-ui/java/main/res/drawable"
-OUTPUT_KT = "library/common-ui/java/main/java/org/akanework/gramophone/logic/utils/data/Contributors.kt"
 API_BASE = "https://api.github.com/users/"
+OUTPUT_KT = "library/common-ui/java/main/src/com/sevtinge/hyperceiler/common/data/Contributors.kt"
+REPO = "ReChronoRain/HyperCeiler"
+URL = f"https://api.github.com/repos/{REPO}/contributors?per_page=100"
+
 
 HEADERS = {
     "Accept": "application/vnd.github+json",
 }
+def read_property(file_path: str, key: str) -> Optional[str]:
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "=" in line:
+                    k, v = line.split("=", 1)
+                    if k.strip() == key:
+                        return v.strip()
+    except FileNotFoundError:
+        print(f"文件 {file_path} 未找到")
+    return None
 
 try:
-    with open("fastlane/creds.txt", "r", encoding="utf-8") as f:
-        HEADERS["Authorization"] = "Bearer " + f.read().strip()
+    gpr_key = read_property("signing.properties", "gpr.key")
+    HEADERS["Authorization"] = "Bearer " + gpr_key
 except Exception as e:
-    print("Not using auth, may be subject to rate limits")
+    print(f"Not using auth, may be subject to rate limits, error code {e}")
 
 def sanitize_login(login: str) -> str:
     return ''.join(c if c.isalnum() else '_' for c in login.lower())
 
-def fetch_user_data(login: str) -> Optional[dict]:
+def get_user_profile(login: str) -> dict:
     url = f"{API_BASE}{login}"
-    try:
-        response = requests.get(url, headers=HEADERS, timeout=10)
-        response.raise_for_status()
+    response = requests.get(url, headers=HEADERS)
+    if response.status_code == 200:
         return response.json()
-    except Exception as e:
-        print(f"❌ get users error {login}: {e}")
-        return None
+    else:
+        print(f"Failed to fetch user profile for {login}: {response.status_code}")
+        return {}
+
+def fetch_contributors():
+    response = requests.get(URL, headers=HEADERS)
+    if response.status_code != 200:
+        print(f"Error: {response.status_code} - {response.text}")
+        return []
+
+    contributors = response.json()
+    return contributors
+
 
 def download_and_save_avatar(url: str, filename: str):
     response = requests.get(url, timeout=10)
@@ -111,16 +73,38 @@ def download_and_save_avatar(url: str, filename: str):
     print(f"✅ download ok: {filepath}")
 
 def main():
-    for user in GITHUB_USERS:
-        login = user[0]
-        print(f"📦 Processing users: {login}")
-        user_data = fetch_user_data(login)
-        if not user_data:
-            continue
+    result = """// ===== 请不要编辑，此文件为自动生成 =====
+// 使用 get_contributor_user_info.py 来生成此文件
 
-        filename = f"contributor_{sanitize_login(login)}"
-        avatar_url = user_data.get("avatar_url", "")
-        download_and_save_avatar(avatar_url, filename)
+package com.sevtinge.hyperceiler.common.data
+
+import android.net.Uri
+import com.sevtinge.hyperceiler.ui.R
+
+object Contributors {
+    private fun decode(text: String) = text.let { Uri.decode(it) }
+    val LIST = listOf("""
+
+
+    users = fetch_contributors()
+    for user in users:
+        login = user["login"].lower()
+        type = user["type"].lower()
+        if type != "bot" and login not in ["sevtinge", "crowdin-bot"]:
+            print(f"✅ Get user ok: {login}，type：{type}")
+            filename = f"contributor_{sanitize_login(login)}"
+            nickname = get_user_profile(login).get("name", login) or login
+            name = ("\"" + urllib.parse.quote(nickname) + "\"")
+            print(f"✅ Get nickname ok: {nickname}，login: {login}")
+            avatar_url = user["avatar_url"]
+            download_and_save_avatar(avatar_url, filename)
+            result += f"\n        GitHubUser(login = \"{login}\", name = decode({name}), avatar = R.drawable.{filename}),"
+
+    result += "\n    )\n}\n"
+    with open(OUTPUT_KT, "w", encoding="utf-8") as f:
+        f.write(result)
+
+    print(f"\n✅ All user processing is complete and results have been saved to {OUTPUT_KT}")
 
 if __name__ == "__main__":
     main()
