@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
 }
 
 val srcDir = arrayOf (
@@ -47,6 +48,9 @@ android {
             consumerProguardFiles(libs.versions.proguard.rules.get())
         }
     }
+    kotlinOptions {
+        jvmTarget = "21"
+    }
 }
 
 java {
@@ -83,4 +87,5 @@ dependencies {
     api(libs.miuix.visualcheck)
 
     api(projects.library.hook)
+    implementation(libs.core.ktx)
 }

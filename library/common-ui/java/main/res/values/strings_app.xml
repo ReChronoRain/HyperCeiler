@@ -87,6 +87,7 @@
     <string name="about_use_desc">HyperCeiler uses some or all of the following projects, thanks to the developers of these projects for their support (in no particular order)</string>
     <string name="about_contributer">Contributors</string>
     <string name="about_contributer_desc">Thanks to the following contributors for their help in the development of HyperCeiler (in no particular order)</string>
+    <string name="about_contributer_nogithub_desc">The following users are not GitHub users, but are thanked for their contributions</string>
     <string name="about_donation">Sponsor</string>
     <string name="about_donation_desc">You can support us by donating here</string>
     <string name="about_device_info_device">Device</string>

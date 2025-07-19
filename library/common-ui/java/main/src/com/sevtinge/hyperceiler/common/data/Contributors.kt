@@ -1,0 +1,73 @@
+// ===== 请不要编辑，此文件为自动生成 =====
+// 使用 get_contributor_user_info.py 来生成此文件
+
+package com.sevtinge.hyperceiler.common.data
+
+import android.net.Uri
+import com.sevtinge.hyperceiler.ui.R
+
+object Contributors {
+    private fun decode(text: String) = text.let { Uri.decode(it) }
+    val LIST = listOf(
+        GitHubUser(login = "lingqiqi5211", name = decode("%E9%93%83%E6%9F%92%E6%9F%92"), avatar = R.drawable.contributor_lingqiqi5211),
+        GitHubUser(login = "hchenx", name = decode("%E7%84%95%E6%99%A8HChen"), avatar = R.drawable.contributor_hchenx),
+        GitHubUser(login = "fan095", name = decode("Fan"), avatar = R.drawable.contributor_fan095),
+        GitHubUser(login = "hosizoraru", name = decode("hosizoraru"), avatar = R.drawable.contributor_hosizoraru),
+        GitHubUser(login = "elysias123", name = decode("Elysia"), avatar = R.drawable.contributor_elysias123),
+        GitHubUser(login = "igormiguell", name = decode("igor"), avatar = R.drawable.contributor_igormiguell),
+        GitHubUser(login = "lightsummer233", name = decode("Light_summer"), avatar = R.drawable.contributor_lightsummer233),
+        GitHubUser(login = "nakixii", name = decode("nakixii"), avatar = R.drawable.contributor_nakixii),
+        GitHubUser(login = "xzakota", name = decode("xzakota"), avatar = R.drawable.contributor_xzakota),
+        GitHubUser(login = "yifeplayte", name = decode("yifeplayte"), avatar = R.drawable.contributor_yifeplayte),
+        GitHubUser(login = "yukonga", name = decode("yukonga"), avatar = R.drawable.contributor_yukonga),
+        GitHubUser(login = "voemp", name = decode("Voemp"), avatar = R.drawable.contributor_voemp),
+        GitHubUser(login = "hamjin", name = decode("hamjin"), avatar = R.drawable.contributor_hamjin),
+        GitHubUser(login = "qdsp6sw", name = decode("qdsp6sw"), avatar = R.drawable.contributor_qdsp6sw),
+        GitHubUser(login = "chase535", name = decode("%E8%AF%BA%E9%B8%A1%E9%B8%AD"), avatar = R.drawable.contributor_chase535),
+        GitHubUser(login = "xing0meng", name = decode("%E6%98%9F%E5%A4%9C%E8%90%8C"), avatar = R.drawable.contributor_xing0meng),
+        GitHubUser(login = "nxibjzc", name = decode("nxibjz"), avatar = R.drawable.contributor_nxibjzc),
+        GitHubUser(login = "adlyq", name = decode("Adlyq"), avatar = R.drawable.contributor_adlyq),
+        GitHubUser(login = "nep-timeline", name = decode("YuSaki%E4%B8%B6Kanade"), avatar = R.drawable.contributor_nep_timeline),
+        GitHubUser(login = "oufm", name = decode("oufm"), avatar = R.drawable.contributor_oufm),
+        GitHubUser(login = "v5u871", name = decode("v5u871"), avatar = R.drawable.contributor_v5u871),
+        GitHubUser(login = "holybeartw", name = decode("%E8%81%96%E5%B0%8F%E7%86%8A"), avatar = R.drawable.contributor_holybeartw),
+        GitHubUser(login = "yunzia", name = decode("YunZiA"), avatar = R.drawable.contributor_yunzia),
+        GitHubUser(login = "pomelohan", name = decode("1f2003d5"), avatar = R.drawable.contributor_pomelohan),
+        GitHubUser(login = "memory2314", name = decode("Memory"), avatar = R.drawable.contributor_memory2314),
+        GitHubUser(login = "devm1na", name = decode("TruE"), avatar = R.drawable.contributor_devm1na),
+        GitHubUser(login = "horange321", name = decode("Horange321"), avatar = R.drawable.contributor_horange321),
+        GitHubUser(login = "1shin-7", name = decode("1Shin"), avatar = R.drawable.contributor_1shin_7),
+        GitHubUser(login = "clouderhem", name = decode("CLOUDERHEM"), avatar = R.drawable.contributor_clouderhem),
+        GitHubUser(login = "nextalone", name = decode("Next%20Alone"), avatar = R.drawable.contributor_nextalone),
+        GitHubUser(login = "henvy-mango", name = decode("Naomi"), avatar = R.drawable.contributor_henvy_mango),
+        GitHubUser(login = "lswlc33", name = decode("%E9%9B%AA%E4%B8%AD%E6%98%8E%E6%9C%88"), avatar = R.drawable.contributor_lswlc33),
+        GitHubUser(login = "dinopig1219", name = decode("DinoPig"), avatar = R.drawable.contributor_dinopig1219),
+        GitHubUser(login = "deepchirp", name = decode("deepchirp"), avatar = R.drawable.contributor_deepchirp),
+        GitHubUser(login = "zjw2017", name = decode("%E6%9F%9A%E7%A8%9A"), avatar = R.drawable.contributor_zjw2017),
+        GitHubUser(login = "ghhccghk", name = decode("%E6%9D%8E%E5%A4%AA%E7%99%BD"), avatar = R.drawable.contributor_ghhccghk),
+        GitHubUser(login = "wuyou-123", name = decode("%E6%97%A0%E5%BF%A7"), avatar = R.drawable.contributor_wuyou_123),
+        GitHubUser(login = "klxiaoniu", name = decode("%E5%BF%AB%E4%B9%90%E5%B0%8F%E7%89%9B"), avatar = R.drawable.contributor_klxiaoniu),
+        GitHubUser(login = "howard20181", name = decode("Howard%20Wu"), avatar = R.drawable.contributor_howard20181),
+        GitHubUser(login = "g0246", name = decode("Veutexus"), avatar = R.drawable.contributor_g0246),
+        GitHubUser(login = "xander-c", name = decode("xander-c"), avatar = R.drawable.contributor_xander_c),
+        GitHubUser(login = "weigui404", name = decode("weigui404"), avatar = R.drawable.contributor_weigui404),
+        GitHubUser(login = "ri-char", name = decode("riChar"), avatar = R.drawable.contributor_ri_char),
+        GitHubUser(login = "hrsthrt74", name = decode("hrsthrt74"), avatar = R.drawable.contributor_hrsthrt74),
+        GitHubUser(login = "frank-782", name = decode("frank-782"), avatar = R.drawable.contributor_frank_782),
+        GitHubUser(login = "cecoffee", name = decode("CECoffee0v0"), avatar = R.drawable.contributor_cecoffee),
+        GitHubUser(login = "androplus-org", name = decode("AndroPlus"), avatar = R.drawable.contributor_androplus_org),
+        GitHubUser(login = "gswxxn", name = decode("gswxxn"), avatar = R.drawable.contributor_gswxxn),
+        GitHubUser(login = "kittyskj", name = decode("Kitty"), avatar = R.drawable.contributor_kittyskj),
+        GitHubUser(login = "young-lord", name = decode("LY"), avatar = R.drawable.contributor_young_lord),
+        GitHubUser(login = "liubodong", name = decode("LiuBodong"), avatar = R.drawable.contributor_liubodong),
+        GitHubUser(login = "luoyunxi0407", name = decode("LuoYunXi"), avatar = R.drawable.contributor_luoyunxi0407),
+        GitHubUser(login = "yxsra", name = decode("SUMUS"), avatar = R.drawable.contributor_yxsra),
+        GitHubUser(login = "xueshiji", name = decode("xueshiji"), avatar = R.drawable.contributor_xueshiji),
+        GitHubUser(login = "smartjq", name = decode("smartjq"), avatar = R.drawable.contributor_smartjq),
+        GitHubUser(login = "spacevector", name = decode("spacevector"), avatar = R.drawable.contributor_spacevector),
+        GitHubUser(login = "weverses", name = decode("Weverse"), avatar = R.drawable.contributor_weverses),
+        GitHubUser(login = "zym013579", name = decode("ZYM"), avatar = R.drawable.contributor_zym013579),
+        GitHubUser(login = "tehcneko", name = decode("tehcneko"), avatar = R.drawable.contributor_tehcneko),
+        GitHubUser(login = "xiefei-github", name = decode("xiefei-github"), avatar = R.drawable.contributor_xiefei_github),
+    )
+}

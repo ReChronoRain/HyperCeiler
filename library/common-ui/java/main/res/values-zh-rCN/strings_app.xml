@@ -39,6 +39,7 @@
     <string name="about_use_desc">HyperCeiler 使用了以下项目的部分或全部内容，感谢这些项目的开发者提供的大力支持（排名顺序不分先后）</string>
     <string name="about_contributer">贡献者</string>
     <string name="about_contributer_desc">感谢以下贡献者为 HyperCeiler 的开发提供了不同程度的帮助（排名顺序不分先后）</string>
+    <string name="about_contributer_nogithub_desc">以下用户并非GitHub用户，但是也要感谢他们的付出</string>
     <string name="about_donation">支持</string>
     <string name="about_donation_desc">您可以在此处捐赠以支持我们</string>
     <string name="about_device_info_device">设备型号</string>
