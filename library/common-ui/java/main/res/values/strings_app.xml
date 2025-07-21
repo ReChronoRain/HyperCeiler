@@ -1519,6 +1519,8 @@
     <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">Allow all apps to use barrage notification</string>
+    <string name="barrage_global_enable">Allow global use of barrage notifications</string>
+    <string name="barrage_not_touchable">Barrage notification not touchable</string>
     <string name="barrage_custom_barrage_length">Custom barrage notification length</string>
     <!--Joyose-->
     <string name="joyose">Joyose</string>

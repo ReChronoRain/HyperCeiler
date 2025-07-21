@@ -1594,6 +1594,8 @@
     <!--弹幕通知-->
     <string name="barrage">弹幕通知</string>
     <string name="barrage_any_barrage">允许所有应用使用弹幕通知</string>
+    <string name="barrage_global_enable">允许全局使用弹幕通知</string>
+    <string name="barrage_not_touchable">弹幕通知不可点击</string>
     <string name="barrage_custom_barrage_length">自定义弹幕长度</string>
     <!--Joyose-->
     <string name="joyose">Joyose</string>
