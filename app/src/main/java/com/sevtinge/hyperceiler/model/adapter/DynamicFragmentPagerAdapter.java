@@ -95,7 +95,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
             mCurTransaction = mFragmentManager.beginTransaction();
         }
         Fragment fragment = getFragment(tag, true);
-        if (fragment.getParentFragment() != null) {
+        if (fragment.isAdded()) {
             mCurTransaction.attach(fragment);
         } else {
             mCurTransaction.add(container.getId(), fragment, tag);
@@ -134,10 +134,8 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
                 mCurrentPrimaryItem.setMenuVisibility(false);
                 // mCurrentPrimaryItem.setUserVisibleHint(false);
             }
-            if (fragment != null) {
-                fragment.setMenuVisibility(true);
-                // fragment.setUserVisibleHint(true);
-            }
+            fragment.setMenuVisibility(true);
+            // fragment.setUserVisibleHint(true);
             mCurrentPrimaryItem = fragment;
         }
     }

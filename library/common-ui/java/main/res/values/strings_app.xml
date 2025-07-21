@@ -1380,6 +1380,7 @@
     <!--Screenshot-->
     <string name="screenshot">Screenshot</string>
     <string name="screenshot_unlock_minimum_crop_limit">Remove the minimum crop image limit</string>
+    <string name="screenshot_unlock_copy_to_clipboard">Unlock screenshot auto-copy to clipboard</string>
     <string name="screenshot_unlock_privacy_marking_title">Unlock privacy marking</string>
     <string name="screenshot_unlock_privacy_marking_desc">A higher version of the Mi AI Engine app needs to be pre-installed for normal usage</string>
     <string name="screenshot_save_to_pictures_desc">Set screenshot save location to /Pictures/Screenshots</string>
