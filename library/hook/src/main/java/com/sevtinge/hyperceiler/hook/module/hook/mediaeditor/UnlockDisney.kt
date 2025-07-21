@@ -20,7 +20,9 @@ package com.sevtinge.hyperceiler.hook.module.hook.mediaeditor
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import java.lang.reflect.Field
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
@@ -55,14 +57,17 @@ object UnlockDisney : BaseHook() {
         }
     }
 
-    private val princess by lazy<Method> {
+    private val princess by lazy<Field> {
+        // 2.0 改成了内联，只能拿字段去解析了
+        // .field public static final n:Lak/a$i;
+        // 里面的 method public final c(Ljava/lang/Object;)Ljava/lang/Object; 返回 true 即可解锁
         DexKit.findMember("UnlockDisneyPrincess") {
             it.findField {
                 matcher {
                     declaredClass = mickey.declaringClass.name
                     modifiers = Modifier.STATIC or Modifier.FINAL
                 }
-            }.last().readers.single()
+            }.last()
         }
     }
 
@@ -89,25 +94,37 @@ object UnlockDisney : BaseHook() {
                 1 -> {
                     isHook(mickey, true)
                     isHook(bear, false)
-                    isHook(princess, false)
+                    isHook(
+                        princess.type.methodFinder().filterByReturnType(Object::class.java).first(),
+                        false
+                    )
                 }
 
                 2 -> {
                     isHook(mickey, false)
                     isHook(bear, true)
-                    isHook(princess, false)
+                    isHook(
+                        princess.type.methodFinder().filterByReturnType(Object::class.java).first(),
+                        false
+                    )
                 }
 
                 3 -> {
                     isHook(mickey, false)
                     isHook(bear, false)
-                    isHook(princess, true)
+                    isHook(
+                        princess.type.methodFinder().filterByReturnType(Object::class.java).first(),
+                        true
+                    )
                 }
             }
         } else if (isHookType == 2) {
             isHook(mickey, isMickey)
             isHook(bear, isBear)
-            isHook(princess, isPrincess)
+            isHook(
+                princess.type.methodFinder().filterByReturnType(Object::class.java).first(),
+                isPrincess
+            )
         }
     }
 
