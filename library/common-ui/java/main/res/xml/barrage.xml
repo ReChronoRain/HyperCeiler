@@ -27,11 +27,21 @@
             android:key="prefs_key_barrage_any_barrage"
             android:defaultValue="false" />
 
+        <SwitchPreference
+            android:title="@string/barrage_global_enable"
+            android:key="prefs_key_barrage_global_enable"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/barrage_not_touchable"
+            android:key="prefs_key_barrage_not_touchable"
+            android:defaultValue="false" />
+
         <SeekBarPreferenceCompat
             android:key="prefs_key_barrage_custom_barrage_length"
             android:title="@string/barrage_custom_barrage_length"
             android:defaultValue="36"
-            app:format="%s"
+            app:format="%s dp"
             app:defaultValueTitle="@string/array_default"
             app:maxValue="108"
             app:minValue="12" />
