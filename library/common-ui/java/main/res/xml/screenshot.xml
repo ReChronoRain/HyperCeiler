@@ -27,6 +27,11 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:title="@string/screenshot_unlock_copy_to_clipboard"
+            android:key="prefs_key_screenshot_unlock_copy_to_clipboard"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:title="@string/screenshot_unlock_privacy_marking_title"
             android:summary="@string/screenshot_unlock_privacy_marking_desc"
             android:key="prefs_key_screenshot_unlock_privacy_marking"
