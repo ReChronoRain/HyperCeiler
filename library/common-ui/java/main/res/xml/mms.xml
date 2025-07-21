@@ -44,6 +44,11 @@
             android:key="prefs_key_mms_im_old_device"
             android:title="@string/mms_im_old_device" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_mms_verification_code_auto_copy"
+            android:title="@string/mms_verification_code_auto_copy" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
