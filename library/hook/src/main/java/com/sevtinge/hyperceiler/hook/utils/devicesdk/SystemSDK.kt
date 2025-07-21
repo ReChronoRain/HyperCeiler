@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hook.utils.devicesdk
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
@@ -55,10 +56,13 @@ private val smallVersion: Int by lazy {
     }
 }
 private val mSupportHyperOsVersion: List<Float> by lazy {
-    mutableListOf(-1.0f, 1.0f, 2.0f)
+    mutableListOf(1.0f)
+}
+private val mSupportSmallVersion: List<Float> by lazy {
+    mutableListOf(2.0f, 2.1f, 2.2f)
 }
 private val mSupportAndroidVersion: List<Int> by lazy {
-    mutableListOf(33, 34, 35)
+    mutableListOf(34, 35)
 }
 
 /**
@@ -106,8 +110,16 @@ fun isMoreSmallVersion(code: Int, osVersion: Float): Boolean {
     }
 }
 
+@SuppressLint("DefaultLocale")
 fun isFullSupport(): Boolean {
-    val isHyperOsVersionSupport = mSupportHyperOsVersion.contains(hyperOSSDK)
+    val isBigVersionSupport = mSupportHyperOsVersion.contains(hyperOSSDK)
+    val isSmallVersionSupport = mSupportSmallVersion.contains(String.format("%.1f", hyperOSSDK + smallVersion * 0.001f).toFloatOrNull())
     val isAndroidVersionSupport = mSupportAndroidVersion.contains(androidSDK)
+
+    val isHyperOsVersionSupport = if (hyperOSSDK >= 2f) {
+        isSmallVersionSupport
+    } else {
+        isBigVersionSupport
+    }
     return isHyperOsVersionSupport && isAndroidVersionSupport
 }

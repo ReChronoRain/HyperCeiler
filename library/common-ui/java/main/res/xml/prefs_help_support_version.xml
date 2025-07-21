@@ -19,15 +19,23 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory>
+    <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
+        android:enabled="false"
+        android:key="prefs_key_textview_full_support_version"
+        android:layout="@layout/headtip_tip"
+        android:title="@string/help_support_version_desc_3" />
 
-        <Preference
-            android:enabled="false"
-            android:key="prefs_key_textview_help_support_version"
-            android:layout="@layout/preference_help"
-            android:summary=""
-            android:title="@string/help_support_version_title" />
+    <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
+        android:enabled="false"
+        android:key="prefs_key_textview_not_support_version"
+        android:layout="@layout/headtip_warn"
+        android:title="@string/help_support_version_desc_4" />
 
-    </PreferenceCategory>
+    <Preference
+        android:enabled="false"
+        android:key="prefs_key_textview_help_support_version"
+        android:layout="@layout/preference_help"
+        android:summary=""
+        android:title="@string/help_support_version_title" />
 
 </PreferenceScreen>

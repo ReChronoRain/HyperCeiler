@@ -22,17 +22,20 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isFullSu
 
 import androidx.preference.Preference;
 
+import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.R;
 
 public class SupportVersionFragment extends SettingsPreferenceFragment {
 
-    private static final String mFSupportHyperOsVersion = "1.0 / 2.0";
-    private static final String mFSupportAndroidVersion = "13(T, 33) / 14(U, 34) / 15(V, 35)";
-    private static final String mNSupportHyperOsVersion = "1.1";
-    private static final String mNSupportAndroidVersion = ""; // 暂定名
+    private static final String mFSupportHyperOsVersion = "1.0 / 2.0 / 2.0.100 / 2.0.200";
+    private static final String mFSupportAndroidVersion = "14(U, 34) / 15(V, 35)";
+    private static final String mNSupportHyperOsVersion = "1.1 / 2.0.230";
+    private static final String mNSupportAndroidVersion = "16(B, 36)"; // 暂定名
 
     Preference mHelpSupportVersion;
+    LayoutPreference mSupportFullVersion;
+    LayoutPreference mSupportNotVersion;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -43,6 +46,17 @@ public class SupportVersionFragment extends SettingsPreferenceFragment {
     public void initPrefs() {
         setTitle(R.string.help);
         mHelpSupportVersion = findPreference("prefs_key_textview_help_support_version");
+        mSupportFullVersion = findPreference("prefs_key_textview_full_support_version");
+        mSupportNotVersion = findPreference("prefs_key_textview_not_support_version");
+
+        if (isFullSupport()) {
+            mSupportFullVersion.setVisible(true);
+            mSupportNotVersion.setVisible(false);
+        } else {
+            mSupportFullVersion.setVisible(false);
+            mSupportNotVersion.setVisible(true);
+        }
+
         if (mHelpSupportVersion != null) {
             mHelpSupportVersion.setSummary(stringBuilder());
         }
@@ -63,11 +77,6 @@ public class SupportVersionFragment extends SettingsPreferenceFragment {
                 stringBuilder.append("\n - Android ").append(mNSupportAndroidVersion);
             }
         }
-
-        stringBuilder.append("\n\n")
-                .append(isFullSupport() ?
-                        getString(R.string.help_support_version_desc_3) :
-                        getString(R.string.help_support_version_desc_4));
 
         return stringBuilder.toString();
     }
