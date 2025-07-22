@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.title
 
 import android.annotation.SuppressLint
 import android.content.res.Resources
-import com.hchen.hooktool.utils.ResInjectTool
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 
 object EnableIconMonetColor : BaseHook() {
@@ -33,7 +32,7 @@ object EnableIconMonetColor : BaseHook() {
         if (mPrefsMap.getBoolean("home_other_use_edit_color")) {
             monoColor = mPrefsMap.getInt("home_other_your_color_qwq", -1)
         }
-        ResInjectTool.setObjectReplacement(
+        mResHook.setObjectReplacement(
             "com.miui.home",
             "color",
             "monochrome_default",

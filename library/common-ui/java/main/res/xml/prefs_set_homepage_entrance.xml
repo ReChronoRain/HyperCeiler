@@ -18,7 +18,10 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference android:summary="@string/set_homepage_entrance_about" />
+    <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
+        android:enabled="false"
+        android:layout="@layout/headtip_tip"
+        android:title="@string/set_homepage_entrance_about" />
 
     <PreferenceCategory>
 

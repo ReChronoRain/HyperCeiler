@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.navigation;
 
-import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 public class HandleLineCustom extends BaseHook {
@@ -26,7 +25,7 @@ public class HandleLineCustom extends BaseHook {
     public void init() throws NoSuchMethodException {
         float mNavigationHandleRadius = (float) mPrefsMap.getInt("system_ui_navigation_handle_custom_thickness", 185) / 100;
         try {
-            ResInjectTool.setDensityReplacement("com.android.systemui", "dimen", "navigation_handle_radius", mNavigationHandleRadius);
+            mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_handle_radius", mNavigationHandleRadius);
         } catch (Exception e) {
             logE(TAG, e.toString());
         }
@@ -34,9 +33,9 @@ public class HandleLineCustom extends BaseHook {
                 mPrefsMap.getInt("system_ui_navigation_handle_custom_color", -872415232);
         int mNavigationHandleDarkColor =
                 mPrefsMap.getInt("system_ui_navigation_handle_custom_color_dark", -1);
-        ResInjectTool.setObjectReplacement("com.android.systemui", "color",
+        mResHook.setObjectReplacement("com.android.systemui", "color",
                 "navigation_bar_home_handle_dark_color", mNavigationHandleLightColor);
-        ResInjectTool.setObjectReplacement("com.android.systemui", "color",
+        mResHook.setObjectReplacement("com.android.systemui", "color",
                 "navigation_bar_home_handle_light_color", mNavigationHandleDarkColor);
     }
 }

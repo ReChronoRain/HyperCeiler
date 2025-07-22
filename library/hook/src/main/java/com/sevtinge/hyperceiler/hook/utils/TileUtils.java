@@ -31,9 +31,9 @@ import android.widget.Switch;
 
 import androidx.annotation.CallSuper;
 
-import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.R;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool;
 
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedHelpers;
@@ -317,13 +317,13 @@ public abstract class TileUtils extends BaseHook {
                             String stockTiles = mContext.getString(stockTilesResId) + "," + custom; // 追加自定义的磁贴
                             // 将拼接后的字符串分别替换下面原有的字符串。
                             if (isPad()) {
-                                ResInjectTool.setObjectReplacement(lpparam.packageName, "string", "miui_quick_settings_tiles_stock_pad", stockTiles);
-                                ResInjectTool.setObjectReplacement("miui.systemui.plugin", "string", "miui_quick_settings_tiles_stock_pad", stockTiles);
-                                ResInjectTool.setObjectReplacement("miui.systemui.plugin", "string", "quick_settings_tiles_stock", stockTiles);
+                                mResHook.setObjectReplacement(lpparam.packageName, "string", "miui_quick_settings_tiles_stock_pad", stockTiles);
+                                mResHook.setObjectReplacement("miui.systemui.plugin", "string", "miui_quick_settings_tiles_stock_pad", stockTiles);
+                                mResHook.setObjectReplacement("miui.systemui.plugin", "string", "quick_settings_tiles_stock", stockTiles);
                             } else {
-                                ResInjectTool.setObjectReplacement(lpparam.packageName, "string", "miui_quick_settings_tiles_stock", stockTiles);
-                                ResInjectTool.setObjectReplacement("miui.systemui.plugin", "string", "miui_quick_settings_tiles_stock", stockTiles);
-                                ResInjectTool.setObjectReplacement("miui.systemui.plugin", "string", "quick_settings_tiles_stock", stockTiles);
+                                mResHook.setObjectReplacement(lpparam.packageName, "string", "miui_quick_settings_tiles_stock", stockTiles);
+                                mResHook.setObjectReplacement("miui.systemui.plugin", "string", "miui_quick_settings_tiles_stock", stockTiles);
+                                mResHook.setObjectReplacement("miui.systemui.plugin", "string", "quick_settings_tiles_stock", stockTiles);
                             }
                         }
                     }
@@ -460,7 +460,7 @@ public abstract class TileUtils extends BaseHook {
                         if (tileName != null) {
                             if (tileName.equals(custom)) {
                                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                                Resources modRes = ResInjectTool.injectModuleRes(mContext.getResources());
+                                Resources modRes = ResourcesTool.loadModuleRes(mContext.getResources());
                                 param.setResult(modRes.getString(customValue));
                             }
                         }

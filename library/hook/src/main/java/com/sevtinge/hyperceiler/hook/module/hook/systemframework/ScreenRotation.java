@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemframework;
 
 import android.content.Context;
 
-import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -40,6 +39,6 @@ public class ScreenRotation extends BaseHook {
             }
         });
 
-        ResInjectTool.setObjectReplacement("android", "bool", "config_allowAllRotations", mPrefsMap.getBoolean("system_framework_screen_all_rotations"));
+        mResHook.setObjectReplacement("android", "bool", "config_allowAllRotations", mPrefsMap.getBoolean("system_framework_screen_all_rotations"));
     }
 }

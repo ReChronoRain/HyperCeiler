@@ -25,7 +25,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
 
-import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 import java.util.ArrayList;
@@ -160,7 +159,7 @@ public class StatusBarIconPositionAdjust extends BaseHook {
                     if (blockList != null) {
                         XposedHelpers.setStaticObjectField(MiuiEndIconManager, "RIGHT_BLOCK_LIST", rightBlockList);
                     } else {
-                        ResInjectTool.setObjectReplacement(lpparam.packageName, "array", "config_drip_right_block_statusBarIcons", rightBlockList.toArray(new String[0]));
+                        mResHook.setObjectReplacement(lpparam.packageName, "array", "config_drip_right_block_statusBarIcons", rightBlockList.toArray(new String[0]));
                     }
                 }
             });
