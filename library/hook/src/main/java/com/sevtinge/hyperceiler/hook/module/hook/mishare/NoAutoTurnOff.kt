@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.hook.module.hook.mishare
 
 import android.content.Context
-import com.hchen.hooktool.utils.ResInjectTool
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
@@ -283,12 +282,7 @@ object NoAutoTurnOff : BaseHook() {
                         null
                 }
             }
-            ResInjectTool.setResReplacement(
-                "com.miui.mishare.connectivity",
-                "string",
-                "switch_mode_all",
-                R.string.mishare_hook_switch_mode_all
-            )
+            mResHook.setResReplacement("com.miui.mishare.connectivity", "string", "switch_mode_all", R.string.mishare_hook_switch_mode_all)
         }
     }
 }

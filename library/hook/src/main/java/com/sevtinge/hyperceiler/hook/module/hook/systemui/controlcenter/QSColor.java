@@ -25,7 +25,6 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -48,14 +47,14 @@ public class QSColor extends BaseHook {
                 XposedHelpers.findAndHookConstructor("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, Context.class, Context.class, AttributeSet.class, new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) {
-                        ResInjectTool.setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", color);
+                        mResHook.setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", color);
                     }
                 });
             } catch (Exception | Error ignore) {
                 XposedHelpers.findAndHookConstructor("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, Context.class, Context.class, boolean.class, new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) {
-                        ResInjectTool.setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", color);
+                        mResHook.setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", color);
                     }
                 });
             }
@@ -84,7 +83,7 @@ public class QSColor extends BaseHook {
             XposedHelpers.findAndHookConstructor("miui.systemui.controlcenter.qs.tileview.QSCardItemIconView", classLoader, Context.class, Context.class, AttributeSet.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    ResInjectTool.setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", bigColor);
+                    mResHook.setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", bigColor);
                 }
             });
 
@@ -172,7 +171,7 @@ public class QSColor extends BaseHook {
                 @Override
                 protected void after(MethodHookParam param) {
                     XposedHelpers.setObjectField(param.thisObject, "mIconColorEnabled", color);
-                    ResInjectTool.setObjectReplacement("com.android.systemui", "color", "qs_tile_icon_enabled_color", color);
+                    mResHook.setObjectReplacement("com.android.systemui", "color", "qs_tile_icon_enabled_color", color);
                 }
             });
         }

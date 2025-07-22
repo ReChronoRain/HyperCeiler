@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter
 
-import com.hchen.hooktool.utils.ResInjectTool
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 
 object SidebarLineCustom : BaseHook() {
@@ -37,19 +36,19 @@ object SidebarLineCustom : BaseHook() {
         )
         logI(TAG, "com.miui.securitycenter", "mSidebarLineColorDark is $mSidebarLineColorDark")
         logI(TAG, "com.miui.securitycenter", "mSidebarLineColorLight is $mSidebarLineColorLight")
-        ResInjectTool.setObjectReplacement(
+        mResHook.setResReplacement(
             "com.miui.securitycenter",
             "color",
             "sidebar_line_color",
             mSidebarLineColorDefault
         )
-        ResInjectTool.setObjectReplacement(
+        mResHook.setResReplacement(
             "com.miui.securitycenter",
             "color",
             "sidebar_line_color_dark",
             mSidebarLineColorLight
         )
-        ResInjectTool.setObjectReplacement(
+        mResHook.setResReplacement(
             "com.miui.securitycenter",
             "color",
             "sidebar_line_color_light",

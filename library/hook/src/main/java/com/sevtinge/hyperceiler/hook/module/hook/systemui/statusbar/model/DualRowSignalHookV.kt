@@ -26,7 +26,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.hchen.hooktool.utils.ResInjectTool
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes
@@ -97,19 +96,19 @@ class DualRowSignalHookV : BaseHook() {
 
     override fun init() {
         if (!showMobileType) {
-            ResInjectTool.setDensityReplacement(
+            mResHook.setDensityReplacement(
                 "com.android.systemui",
                 "dimen",
                 "status_bar_mobile_type_half_to_top_distance",
                 3f
             )
-            ResInjectTool.setDensityReplacement(
+            mResHook.setDensityReplacement(
                 "com.android.systemui",
                 "dimen",
                 "status_bar_mobile_left_inout_over_strength",
                 0f
             )
-            ResInjectTool.setDensityReplacement(
+            mResHook.setDensityReplacement(
                 "com.android.systemui",
                 "dimen",
                 "status_bar_mobile_type_middle_to_strength_start",

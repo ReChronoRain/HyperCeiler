@@ -20,9 +20,12 @@ package com.sevtinge.hyperceiler.hook.module.base;
 
 import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.HCInit;
+import com.sevtinge.hyperceiler.hook.XposedInit;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.hook.safe.CrashData;
+import com.sevtinge.hyperceiler.hook.utils.ContextUtils;
+import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsMap;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
@@ -53,18 +56,17 @@ public abstract class BaseModule {
         }
         HCInit.initLoadPackageParam(lpparam);
         // 把模块资源加载到目标应用
-        // 不需要了
-        // try {
-        //     if (!ProjectApi.mAppModulePkg.equals(lpparam.packageName)) {
-        //         ContextUtils.getWaitContext(context -> {
-        //             if (context != null) {
-        //                 XposedInit.mResHook.loadModuleRes(context);
-        //             }
-        //         }, "android".equals(lpparam.packageName));
-        //     }
-        // } catch (Throwable e) {
-        //     XposedLogUtils.logE(TAG, "get context failed!" + e);
-        // }
+        try {
+            if (!ProjectApi.mAppModulePkg.equals(lpparam.packageName)) {
+                ContextUtils.getWaitContext(context -> {
+                    if (context != null) {
+                        XposedInit.mResHook.loadModuleRes(context);
+                    }
+                }, "android".equals(lpparam.packageName));
+            }
+        } catch (Throwable e) {
+            XposedLogUtils.logE(TAG, "get context failed!" + e);
+        }
 
         mLoadPackageParam = lpparam;
         DexKit.ready(lpparam, TAG);

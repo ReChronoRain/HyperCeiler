@@ -36,7 +36,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.R;
 import com.sevtinge.hyperceiler.hook.utils.ContextUtils;
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtils;
@@ -56,7 +55,7 @@ public class OtherTool {
 
     public static Resources getModuleRes(Context context)
             throws PackageManager.NameNotFoundException {
-        return ResInjectTool.injectModuleRes(context.getResources());
+        return ResourcesTool.loadModuleRes(context);
     }
 
     public static Context findContext(@ContextUtils.Duration int flag) {
