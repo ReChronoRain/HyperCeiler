@@ -30,7 +30,7 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13 e ROM Hyper
 >
 > Para ROM MIUI no Android 13 e ROM HyperOS 1.0, use [esta versão](https://github.com/Xposed-Modules-Repo/com.sevtinge.hyperceiler/releases/download/3866-2.5.156_20250118/HyperCeiler_2.5.156_20250118_3866_release_miui.apk).
 >
-> O HyperOS 1.0/2.0 do Android 14 foi arquivado e, após o lançamento da versão 2.6.160, nenhum outro feedback ou correção será aceito.
+> O HyperOS 1.0/2.0 do Android 14 foi arquivado e o suporte para o Android 14 será removido a partir da versão 2.6.162.
 
 ## Planejamento do projeto
 
@@ -166,7 +166,7 @@ Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler)
 - [「HyperOSXXL」 por YuKongA](https://github.com/YuKongA/HyperOS_XXL)
 - [「MIUI 通知修复」 por tehcneko](https://github.com/Xposed-Modules-Repo/io.github.tehcneko.miuinotificationfix)
 - [「ModemPro」 por Weverse](https://github.com/Weverses/ModemPro)
-- [「HookTool」 by 焕晨HChen](https://github.com/HChenX/HookTool)
+- [「HookTool」 por 焕晨HChen](https://github.com/HChenX/HookTool)
 - [「NoStorageRestrict」 por DanGLES3](https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict)
 - [「PortalHook」 por Haocen2004](https://github.com/Haocen2004/PortalHook)
 - [「PinningApp」 por 焕晨HChen](https://github.com/HChenX/PinningApp)
