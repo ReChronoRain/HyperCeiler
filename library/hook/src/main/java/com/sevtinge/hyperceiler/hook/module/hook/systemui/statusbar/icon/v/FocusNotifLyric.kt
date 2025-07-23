@@ -38,6 +38,9 @@ import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 // author git@wuyou-123
 // co-author git@lingqiqi5211
@@ -142,10 +145,10 @@ object FocusNotifLyric : MusicBaseHook() {
                 }
                 if (XposedHelpers.getAdditionalStaticField(textView, "is_scrolling") == 1) {
                     val m0 = textView.getObjectFieldOrNull("mMarquee")
-                    if (m0 != null) {
+                    m0!!.apply {
                         // 设置速度并且调用停止函数,重置歌词位置
-                        m0.setFloatField("mPixelsPerMs", 0f)
-                        m0.callMethod("stop")
+                        setFloatField("mPixelsPerMs", 0f)
+                        callMethod("stop")
                     }
                 }
                 val startScroll = runnablePool.getOrPut(textView.hashCode()) {
@@ -156,13 +159,9 @@ object FocusNotifLyric : MusicBaseHook() {
             }
         }
 
-        if (!isShowApp) {
-            runCatching {
-                if (data.lyric != "") {
-                    sendNotification(data.lyric, data)
-                }
-            }.onFailure {
-                logE(TAG, lpparam.packageName, it.message)
+        if (!isShowApp && data.lyric.isNotEmpty()) {
+            CoroutineScope(Dispatchers.Main).launch {
+                sendNotification(data.lyric, data)
             }
         }
     }

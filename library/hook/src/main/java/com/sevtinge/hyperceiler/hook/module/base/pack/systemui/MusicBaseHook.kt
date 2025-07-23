@@ -93,13 +93,12 @@ abstract class MusicBaseHook : BaseHook() {
 
     @SuppressLint("NotificationPermission", "LaunchActivityFromNotification")
     fun sendNotification(text: String, extraData: SuperLyricData) {
-        //  logE("sendNotification: " + context.packageName + ": " + text)
         createNotificationChannel()
         val modRes = OtherTool.getModuleRes(context)
         val isClickClock = mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
         val launchIntent = context.packageManager.getLaunchIntentForPackage(extraData.packageName)
         val base64icon = extraData.base64Icon
-        val bitmap = context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
+        val bitmap = base64ToDrawable(base64icon) ?: context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         val intent = Intent("$CHANNEL_ID.actions.switchClockStatus")
         // 需要重启音乐软件生效
@@ -109,26 +108,27 @@ abstract class MusicBaseHook : BaseHook() {
             PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_MUTABLE)
         }
         builder.setContentTitle(text)
-        val iconc: IconCompat = base64ToDrawable(base64icon)?.let { IconCompat.createWithBitmap(it) }
-            ?: IconCompat.createWithBitmap(bitmap)
-        builder.setSmallIcon(iconc)
-        builder.setTicker(text).setPriority(NotificationCompat.PRIORITY_LOW)
-        builder.setOngoing(true) // 设置为常驻通知
-        builder.setContentIntent(pendingIntent)
-        val icon: Icon = base64ToDrawable(base64icon)?.let { Icon.createWithBitmap(it) }
-            ?: Icon.createWithBitmap(bitmap)
+            .setSmallIcon(IconCompat.createWithBitmap(bitmap))
+            .setTicker(text)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setOngoing(true)
+            .setContentIntent(pendingIntent)
+
+        val icon: Icon = Icon.createWithBitmap(bitmap)
+
+        fun buildRemoteViews(textColor: Int): RemoteViews {
+            val layoutId = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
+            val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
+            return RemoteViews(ProjectApi.mAppModulePkg, layoutId).apply {
+                setTextViewText(textId, text)
+                setTextColor(textId, textColor)
+                setTextViewTextSize(textId, TypedValue.COMPLEX_UNIT_SP, nSize)
+            }
+        }
+
         runCatching {
-            val focuslyric_layout = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
-            val focuslyric = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
-            val remoteViews = RemoteViews(ProjectApi.mAppModulePkg, focuslyric_layout)
-            remoteViews.setTextViewText(focuslyric, text)
-            remoteViews.setTextColor(focuslyric, Color.WHITE) // 字体颜色
-            remoteViews.setTextViewTextSize(focuslyric, TypedValue.COMPLEX_UNIT_SP, nSize) // 字体大小 为第三个
-            // 浅色模式下的
-            val remoteViewsrv = RemoteViews(ProjectApi.mAppModulePkg, focuslyric_layout)
-            remoteViewsrv.setTextViewText(focuslyric, text)
-            remoteViewsrv.setTextColor(focuslyric, Color.BLACK) // 字体颜色
-            remoteViewsrv.setTextViewTextSize(focuslyric, TypedValue.COMPLEX_UNIT_SP, nSize) // 字体大小 为第三个
+            val remoteViewsNight = buildRemoteViews(Color.WHITE)
+            val remoteViewsDay = buildRemoteViews(Color.BLACK)
             val api = if (!isAodShow) {
                 FocusApi.senddiyFocus(
                     ticker = text,
@@ -136,8 +136,8 @@ abstract class MusicBaseHook : BaseHook() {
                     aodTitle = text,
                     aodPic = icon,
                     enableFloat = false,
-                    rv = remoteViewsrv,
-                    rvNight = remoteViews,
+                    rv = remoteViewsDay,
+                    rvNight = remoteViewsNight,
                     timeout = 999999,
                     picticker = icon
                 )
@@ -146,8 +146,8 @@ abstract class MusicBaseHook : BaseHook() {
                     ticker = text,
                     updatable = true,
                     enableFloat = false,
-                    rv = remoteViewsrv,
-                    rvNight = remoteViews,
+                    rv = remoteViewsDay,
+                    rvNight = remoteViewsNight,
                     timeout = 999999,
                     picticker = icon
                 )
@@ -155,14 +155,14 @@ abstract class MusicBaseHook : BaseHook() {
             builder.addExtras(api)
             builder.extras.putString("app_package", extraData.packageName)
             val notification = builder.build()
-            (context.getSystemService("notification") as NotificationManager).notify(
-                CHANNEL_ID.hashCode(), notification
-            )
+            (context.getSystemService("notification") as NotificationManager)
+                .notify(CHANNEL_ID.hashCode(), notification)
         }.onFailure {
-            logE(TAG, lpparam.packageName, "发送焦点通知时出错,切换为默认模式，以下为报错内容 ${it.message}")
+            logE(TAG, lpparam.packageName, "send focus failed, ${it.message}")
             val baseinfo = FocusApi.baseinfo(
                 basetype = 1,
-                title = text,)
+                title = text
+            )
             val api = if (!isAodShow) {
                 FocusApi.sendFocus(
                     ticker = text,
@@ -187,9 +187,8 @@ abstract class MusicBaseHook : BaseHook() {
             builder.addExtras(api)
             builder.extras.putString("app_package", extraData.packageName)
             val notification = builder.build()
-            (context.getSystemService("notification") as NotificationManager).notify(
-                CHANNEL_ID.hashCode(), notification
-            )
+            (context.getSystemService("notification") as NotificationManager)
+                .notify(CHANNEL_ID.hashCode(), notification)
         }
     }
 
