@@ -36,6 +36,7 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import java.lang.reflect.Method
 import java.util.function.Consumer
@@ -50,10 +51,19 @@ object DockCustomNew : BaseHook() {
     }
 
     private val showAnimationLambda by lazy {
+        val isNewAnimationCompat =
+            loadClassOrNull("com.miui.home.launcher.compat.UserPresentAnimationCompatV12Phone") == null
+
+        val targetAnimationCompatName = if (isNewAnimationCompat) {
+            "com.miui.home.launcher.compat.UserPresentAnimationCompatPhone"
+        } else {
+            "com.miui.home.launcher.compat.UserPresentAnimationCompatV12Phone"
+        }
+
         DexKit.findMember("ShowAnimationLambda") { bridge ->
             bridge.findMethod {
                 matcher {
-                    declaredClass("com.miui.home.launcher.compat.UserPresentAnimationCompatV12Phone")
+                    declaredClass(targetAnimationCompatName)
                     addInvoke {
                         name = "conversionValueFrom3DTo2D"
                     }
