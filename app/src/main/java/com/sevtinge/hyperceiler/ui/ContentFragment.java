@@ -29,10 +29,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.model.adapter.DynamicFragmentPagerAdapter;
-import com.sevtinge.hyperceiler.model.TabViewModel;
-import com.sevtinge.hyperceiler.common.view.DraggableViewPager;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
+import com.sevtinge.hyperceiler.common.view.DraggableViewPager;
+import com.sevtinge.hyperceiler.model.TabViewModel;
+import com.sevtinge.hyperceiler.model.adapter.DynamicFragmentPagerAdapter;
 
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
@@ -176,7 +176,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
             mViewPager.setCurrentItem(position);
             switchTabState(position);
         }
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             String leftTab;
             float offSet = 1.0f;
             boolean isHandUp = false;

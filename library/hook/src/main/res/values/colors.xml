@@ -18,7 +18,7 @@
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
   -->
 <resources>
-    <color name="color_surface_variant">#DC9A9B9D</color>
+    <color name="color_surface_variant">#D09A9B9D</color>
 
     <color name="pa_widget_blur_color_lab">#2EF200</color>
     <color name="pa_widget_blur_color_linear_light">#66B4B4B4</color>

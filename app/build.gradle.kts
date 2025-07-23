@@ -119,6 +119,10 @@ android {
     }
     val gitCode = getVersionCode()
     val gitHash = getGitHash()
+    val sdf = SimpleDateFormat("MMddHHmm").apply {
+        timeZone = TimeZone.getTimeZone("Asia/Shanghai")
+    }
+    val buildTime = sdf.format(Date())
 
     signingConfigs {
         create("hasProperties") {
@@ -183,7 +187,7 @@ android {
             }
         }
         debug {
-            versionNameSuffix = "_${gitHash}_r${gitCode}"
+            versionNameSuffix = "_${buildTime}_r${gitCode}"
             buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
             if (properties != null) {
