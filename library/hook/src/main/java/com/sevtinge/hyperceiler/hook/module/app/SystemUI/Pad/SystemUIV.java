@@ -1,26 +1,28 @@
 /*
  * This file is part of HyperCeiler.
-
+ *
  * HyperCeiler is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License.
-
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
-
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+ *
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
+
 package com.sevtinge.hyperceiler.hook.module.app.SystemUI.Pad;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ToastBlur;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoCollapse;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoSEffSwitchForSystemUi;
@@ -33,27 +35,29 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnimportantNotificatio
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnlockClipboard;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnlockCustomActions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.ZenModeFix;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.AllowAllThemesNotificationBlur;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.AutoDismissExpandedPopupsHook;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ControlCenterStyle;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.DisableDeviceManaged;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ExpandNotificationKt;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.FiveGTile;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.FixTilesList;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.FlashLight;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.GmsTile;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.HideDelimiter;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.MuteVisibleNotifications;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NewFlashLight;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationImportanceHyperOSFix;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationRowMenu;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationWeather;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.OldWeather;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QQSGrid;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSGrid;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSGridLabels;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.RedirectToNotificationChannelSetting;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ReduceBrightColorsTile;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.RemoveNotifNumLimit;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ShadeHeaderGradientBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SnowLeopardModeTile;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SunlightMode;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SunlightModeHigh;
@@ -67,17 +71,12 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.Me
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaSeekBarColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.UseSquigglyProgress;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.AllowThirdLockScreenUseFace;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.BlockEditor;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.BlurButton;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.ChargingCVP;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.DisableUnlockByBleToast;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.HideLockScreenHint;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.HideLockScreenStatusBar;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.HideLockscreenZenMode;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.LinkageAnimCustomer;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.LockScreenDoubleTapToSleep;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.RemoveCamera;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.RemoveSmartScreen;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.ScramblePIN;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.navigation.HandleLineCustom;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.navigation.HideNavigationBar;
@@ -90,14 +89,12 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableMiuiMulti
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.MonetThemeOverlay;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.NotificationFreeform;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.RemoveMiuiMultiWinSwitch;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.VolumeTimerValuesHook;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.NewPluginHelperKt;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.BlurEnable;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.HideStatusBarBeforeScreenshot;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.SelectiveHideIconForAlarmClock;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.clock.DisableAnim;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.clock.FixColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.clock.StatusBarClockNew;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.BatteryStyle;
@@ -106,26 +103,21 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.Hid
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.HideVoWiFiIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.IconsFromSystemManager;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.StatusBarIcon;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.WifiStandard;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model.DualRowSignalHook;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model.MobileNetwork;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model.MobilePublicHook;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model.MobileTypeSingleHook;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model.MobileTypeTextCustom;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.FocusNotifLyric;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.WifiStandard;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.network.NetworkSpeedSec;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.network.NetworkSpeedSpacing;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.network.NewNetworkSpeed;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.network.NewNetworkSpeedStyle;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.strongtoast.HideStrongToast;
 
-import java.util.Objects;
-
-@HookBase(targetPackage = "com.android.systemui", isPad = 1, targetSdk = 34)
-public class SystemUiU extends BaseModule {
+@HookBase(targetPackage = "com.android.systemui", isPad = 1, targetSdk = 35)
+public class SystemUIV extends BaseModule {
     @Override
     public void handleLoadPackage() {
+        MiuiStub.createHook();
+
         // PluginHelper
         initHook(NewPluginHelperKt.INSTANCE);
         /*initHook(new NewPluginHelper());
@@ -143,31 +135,14 @@ public class SystemUiU extends BaseModule {
         initHook(new StatusBarIcon(), true);
         initHook(new IconsFromSystemManager(), true);
         initHook(new UnlockCustomActions(), mPrefsMap.getBoolean("system_ui_control_center_media_control_unlock_custom_actions"));
-        initHook(new WifiStandard(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
+        initHook(WifiStandard.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
         initHook(new SelectiveHideIconForAlarmClock(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
         initHook(new NotificationIconColumns(), mPrefsMap.getBoolean("system_ui_status_bar_notification_icon_maximum_enable"));
         initHook(new HideStatusBarBeforeScreenshot(), mPrefsMap.getBoolean("system_ui_status_bar_hide_icon"));
         initHook(new DataSaverIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_data_saver", 0) != 0);
-        initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0) > 0);
+        initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_wifi_network_indicator_new"));
         initHook(HideVoWiFiIcon.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi") || mPrefsMap.getBoolean("system_ui_status_bar_icon_volte"));
         initHook(new StickyFloatingWindowsForSystemUI(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
-
-        // 移动网络图标
-        boolean isEnableMobilePublic = mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
-                mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2") ||
-                mPrefsMap.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0) != 0 ||
-                mPrefsMap.getBoolean("system_ui_status_bar_mobile_hide_roaming_icon") ||
-                mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable") ||
-                mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator");
-        boolean isEnableMobileNetwork = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_small_hd", 0) != 0 ||
-                mPrefsMap.getStringAsInt("system_ui_status_bar_icon_big_hd", 0) != 0 ||
-                mPrefsMap.getStringAsInt("system_ui_status_bar_icon_new_hd", 0) != 0;
-
-        initHook(MobilePublicHook.INSTANCE, isEnableMobilePublic);
-        initHook(new MobileNetwork(), isEnableMobileNetwork);
-        initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
-        initHook(MobileTypeSingleHook.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
-        initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
 
         // 电池相关
         boolean isHideBatteryIcon = mPrefsMap.getBoolean("system_ui_status_bar_battery_icon") ||
@@ -188,36 +163,16 @@ public class SystemUiU extends BaseModule {
         }
 
         // 时钟指示器
-        boolean isEnableTime = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0 ||
-                mPrefsMap.getInt("system_ui_statusbar_clock_left_margin", 0) != 0 ||
-                mPrefsMap.getInt("system_ui_statusbar_clock_right_margin", 0) != 0 ||
-                mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset", 12) != 12 ||
-                mPrefsMap.getBoolean("system_ui_statusbar_clock_bold");
-
         initHook(StatusBarClockNew.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_clock_all_status_enable"));
-        initHook(new DisableAnim(), mPrefsMap.getBoolean("system_ui_disable_clock_anim"));
         initHook(new FixColor(), mPrefsMap.getBoolean("system_ui_statusbar_clock_fix_color"));
 
         // initHook(new DisplayHardwareDetailForHyper(), true);
 
+        // 焦点歌词
+        initHook(FocusNotifLyric.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch"));
+
         // 灵动舞台
         initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_hide_smart_strong_toast"));
-
-        // 居右显示
-        boolean isWiFiAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");
-        boolean isMobileNetworkAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_mobile_network_at_left");
-
-        boolean isNetworkSpeedAtRight = mPrefsMap.getBoolean("system_ui_status_bar_network_speed_at_right");
-        boolean isAlarmClockAtRight = mPrefsMap.getBoolean("system_ui_status_bar_alarm_clock_at_right");
-        boolean isNFCAtRight = mPrefsMap.getBoolean("system_ui_status_bar_nfc_at_right");
-        boolean isVolumeAtRight = mPrefsMap.getBoolean("system_ui_status_bar_volume_at_right");
-        boolean isZenAtRight = mPrefsMap.getBoolean("system_ui_status_bar_zen_at_right");
-
-        boolean isSwapWiFiAndMobileNetwork = mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network");
-
-        boolean isStatusBarIconAtRightEnable = isWiFiAtLeft || isMobileNetworkAtLeft || isSwapWiFiAndMobileNetwork || isNetworkSpeedAtRight || isAlarmClockAtRight || isNFCAtRight || isVolumeAtRight || isZenAtRight;
-
-        initHook(new StatusBarIconPositionAdjust(), isStatusBarIconAtRightEnable);
 
         // 导航栏
         initHook(new HandleLineCustom(), mPrefsMap.getBoolean("system_ui_navigation_handle_custom"));
@@ -229,19 +184,21 @@ public class SystemUiU extends BaseModule {
         // initHook(new SwitchControlPanel(), false);
         // initHook(new MiuiGxzwSize(), false);
 
-        // 控制中心
+        // 通知与控制中心
         // initHook(new SmartHome(), false);
+        initHook(new ShadeHeaderGradientBlur(), mPrefsMap.getBoolean("system_ui_shade_header_gradient_blur"));
         initHook(new QSColor(), mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") || mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color"));
         initHook(new UnimportantNotification(), mPrefsMap.getBoolean("system_ui_control_center_unimportant_notification"));
         initHook(new BlurEnable(), mPrefsMap.getBoolean("system_ui_control_center_statusbar_blur"));
         initHook(ExpandNotificationKt.INSTANCE, !mPrefsMap.getStringSet("system_ui_control_center_expand_notification").isEmpty());
+        initHook(AutoDismissExpandedPopupsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_auto_clean_expand_notification"));
         initHook(new HideDelimiter(), mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) != 0);
         initHook(new GmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));
         initHook(new TaplusTile(), mPrefsMap.getBoolean("security_center_taplus"));
         initHook(new ReduceBrightColorsTile(), mPrefsMap.getBoolean("security_center_reduce_bright_colors_tile"));
         initHook(new FiveGTile(), mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) != 0);
         initHook(new SnowLeopardModeTile(), mPrefsMap.getBoolean("system_ui_control_center_snow_leopard_mode"));
-        initHook(new FlashLight(), mPrefsMap.getStringAsInt("security_flash_light_switch", 0) != 0);
+        initHook(NewFlashLight.INSTANCE, mPrefsMap.getStringAsInt("security_flash_light_switch", 0) != 0);
         if (mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode_high", 0) != 0) {
             initHook(new SunlightModeHigh());
         } else {
@@ -256,15 +213,15 @@ public class SystemUiU extends BaseModule {
         initHook(new QSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
         initHook(new QQSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));
-        initHook(RedirectToNotificationChannelSetting.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_redirect_notice"));
+        // initHook(RedirectToNotificationChannelSetting.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_redirect_notice"));
         initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));
         initHook(NotificationImportanceHyperOSFix.INSTANCE, mPrefsMap.getBoolean("system_settings_more_notification_settings"));
-        initHook(new NotificationRowMenu(), mPrefsMap.getBoolean("system_ui_control_center_notifrowmenu"));
         initHook(new FixTilesList(), mPrefsMap.getBoolean("system_ui_control_center_fix_tiles_list"));
         initHook(new AllowAllThemesNotificationBlur(), mPrefsMap.getBoolean("system_ui_control_center_unlock_blur_supported"));
         initHook(new DisableTransparent(), mPrefsMap.getBoolean("system_ui_control_center_notification_disable_transparent"));
         initHook(new DisableDeviceManaged(), mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"));
         initHook(new RemoveNotifNumLimit(), mPrefsMap.getBoolean("system_ui_control_center_remove_notif_num_limit"));
+        initHook(new NotificationColor(), mPrefsMap.getBoolean("system_ui_control_center_opt_notification_element_background_color"));
         initHook(new ZenModeFix(), mPrefsMap.getBoolean("system_ui_control_center_zen_fix"));
 
         // Media Card
@@ -292,25 +249,20 @@ public class SystemUiU extends BaseModule {
         initHook(DisableInfinitymodeGesture.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_infinitymode_gesture"));
         initHook(DisableBottomBar.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_bottombar"));
         initHook(UnlockClipboard.INSTANCE, mPrefsMap.getBoolean("system_ui_unlock_clipboard"));
-        initHook(new VolumeTimerValuesHook(), mPrefsMap.getBoolean("system_ui_volume_timer"));
 
         initHook(new ToastBlur(), mPrefsMap.getBoolean("system_framework_background_blur_toast"));
+        initHook(new UnlockAlwaysOnDisplay(), mPrefsMap.getBoolean("aod_unlock_always_on_display_hyper"));
 
         // 锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
         initHook(ChargingCVP.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_cv"));
-        initHook(RemoveCamera.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera"));
-        initHook(RemoveSmartScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen"));
         initHook(LockScreenDoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_double_lock"));
         initHook(HideLockscreenZenMode.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_not_disturb_mode"));
-        initHook(HideLockScreenHint.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_unlock_tip"));
         initHook(HideLockScreenStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_status_bar"));
-        initHook(new BlockEditor(), mPrefsMap.getBoolean("system_ui_lock_screen_block_editor"));
+        // initHook(new BlockEditor(), mPrefsMap.getBoolean("system_ui_lock_screen_block_editor"));
         initHook(AllowThirdLockScreenUseFace.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_allow_third_face"));
         initHook(new DisableUnlockByBleToast(), mPrefsMap.getBoolean("system_ui_lock_screen_disable_unlock_by_ble_toast"));
         initHook(new LinkageAnimCustomer(), mPrefsMap.getBoolean("system_ui_lock_screen_linkage_anim"));
-
-        initHook(BlurButton.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));
 
         initHook(DoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_double_tap_to_sleep"));
 
