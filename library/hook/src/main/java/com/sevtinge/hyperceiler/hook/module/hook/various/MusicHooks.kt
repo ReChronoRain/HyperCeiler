@@ -20,6 +20,9 @@ package com.sevtinge.hyperceiler.hook.module.hook.various
 
 import com.hchen.superlyricapi.SuperLyricData
 import com.sevtinge.hyperceiler.hook.module.base.pack.systemui.MusicBaseHook
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 object MusicHooks : MusicBaseHook() {
 
@@ -48,12 +51,10 @@ object MusicHooks : MusicBaseHook() {
     override fun onSuperLyric(data: SuperLyricData) {
         val pkgName = data.packageName
         if (pkgName == context.packageName) {
-            runCatching {
-                if (data.lyric != "") {
+            if (data.lyric.isNotEmpty()) {
+                CoroutineScope(Dispatchers.Main).launch {
                     sendNotification(data.lyric, data)
                 }
-            }.onFailure {
-                logE(TAG, lpparam.packageName, it.message)
             }
         }
     }

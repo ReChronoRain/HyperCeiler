@@ -37,6 +37,7 @@ import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 import java.util.function.Consumer
 
@@ -53,7 +54,7 @@ object DockCustomNew : BaseHook() {
         DexKit.findMember("ShowAnimationLambda") { bridge ->
             bridge.findMethod {
                 matcher {
-                    declaredClass("com.miui.home.launcher.compat.UserPresentAnimationCompatV12Phone")
+                    declaredClass("com.miui.home.launcher.compat.UserPresentAnimationCompat", StringMatchType.StartsWith)
                     addInvoke {
                         name = "conversionValueFrom3DTo2D"
                     }
