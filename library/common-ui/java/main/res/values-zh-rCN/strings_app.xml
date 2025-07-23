@@ -854,6 +854,8 @@
     <string name="system_ui_control_center_unimportant_notification">禁止折叠为历史通知</string>
     <string name="system_ui_control_center_mute_visible_notice">亮屏时静音</string>
     <string name="system_ui_control_center_expand_notification">展开通知</string>
+    <string name="system_ui_control_center_auto_clean_expand_notification">自动隐藏展开的通知</string>
+    <string name="system_ui_control_center_expand_notification_show_time">显示时长</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">亮屏时弹出通知不播放提示音</string>
     <string name="system_ui_control_center_rounded_rect">圆角矩形磁贴</string>
     <string name="system_ui_control_center_statusbar_blur">强制背景模糊</string>
@@ -907,7 +909,7 @@
     <string name="system_ui_others_pct_title">数据显示</string>
     <string name="system_cc_showpct_style">数据百分比显示样式</string>
     <string name="system_showpct_title">显示亮度百分比</string>
-    <string name="system_cc_volume_showpct_title">显示声音百分比</string>
+    <string name="system_cc_volume_showpct_title">显示音量百分比</string>
     <string name="system_ui_others_showpct_top">顶部边距</string>
     <string name="system_ui_others_showpct_top_desc">百分比提示框距屏幕顶部的距离</string>
     <string name="system_showpct_use_blur">使用高级材质效果</string>

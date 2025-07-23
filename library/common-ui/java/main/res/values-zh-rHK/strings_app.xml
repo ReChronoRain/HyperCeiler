@@ -669,7 +669,7 @@
     <string name="system_ui_disable_bottombar">隱藏小窗嘅手勢提示線</string>
     <string name="system_ui_others_pct_title">數據顯示</string>
     <string name="system_showpct_title">顯示亮度百分比</string>
-    <string name="system_cc_volume_showpct_title">顯示聲音百分比</string>
+    <string name="system_cc_volume_showpct_title">顯示音量百分比</string>
     <string name="system_ui_others_showpct_top">頂部邊距</string>
     <string name="system_ui_others_showpct_top_desc">距離螢幕頂部的百分比距離</string>
     <string name="system_showpct_use_blur">使用模糊</string>
