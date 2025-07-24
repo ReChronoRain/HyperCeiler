@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.ui.hooker;
 import static android.os.Looper.getMainLooper;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
 
 import android.os.Handler;
 
@@ -53,7 +54,12 @@ public class VariousFragment extends DashboardFragment {
         mClipboard = findPreference("prefs_key_sogou_xiaomi_clipboard");
         mClipboardClear = findPreference("prefs_key_add_clipboard_clear");
         mMipad.setVisible(isPad());
-        mClipboardClear.setVisible(isMoreHyperOSVersion(2f));
+
+        if (isMoreSmallVersion(200, 2f)) {
+            setFuncHint(mClipboardClear, 2);
+        } else {
+            mClipboardClear.setVisible(isMoreHyperOSVersion(2f));
+        }
         handler = new Handler(getMainLooper());
 
         mClipboard.setOnPreferenceChangeListener((preference, o) -> {

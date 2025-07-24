@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.various.dialog;
 
-import android.os.Build;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
@@ -40,9 +39,7 @@ public class DialogBlur extends BaseHook {
 
                 if (mParentPanel != null) {
                     /*new BlurUtils(mParentPanel);*/
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        new BlurUtils(mParentPanel, "default");
-                    }
+                    new BlurUtils(mParentPanel, "default");
                 }
             }
         });

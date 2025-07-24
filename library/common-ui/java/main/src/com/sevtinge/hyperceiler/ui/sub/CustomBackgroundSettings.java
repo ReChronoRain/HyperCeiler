@@ -26,8 +26,8 @@ import androidx.preference.SeekBarPreference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.pickerwidget.color.HSLColor;
 import fan.preference.ColorPickerPreference;

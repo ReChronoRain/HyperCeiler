@@ -18,56 +18,58 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory>
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_various_dialog_gravity"
+            android:title="@string/various_dialog_gravity"
+            app:entries="@array/dialog_gravity"
+            app:entryValues="@array/dialog_gravity_value" />
 
-    <fan.preference.DropDownPreference
-        android:defaultValue="0"
-        android:key="prefs_key_various_dialog_gravity"
-        android:title="@string/various_dialog_gravity"
-        app:entries="@array/dialog_gravity"
-        app:entryValues="@array/dialog_gravity_value" />
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_various_dialog_margin_horizontal"
+            android:summary="@string/various_dialog_margin_horizontal_desc"
+            android:title="@string/various_dialog_margin_horizontal"
+            app:defaultValue="0"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="100"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
-    <SeekBarPreferenceCompat
-        android:key="prefs_key_various_dialog_margin_horizontal"
-        android:title="@string/various_dialog_margin_horizontal"
-        android:summary="@string/various_dialog_margin_horizontal_desc"
-        android:defaultValue="0"
-        app:defaultValueTitle="@string/array_default"
-        app:maxValue="100"
-        app:format="%d dp"
-        app:showSeekBarValue="true" />
-
-    <SeekBarPreferenceCompat
-        android:key="prefs_key_various_dialog_margin_bottom"
-        android:title="@string/various_dialog_margin_bottom"
-        android:summary="@string/various_dialog_margin_bottom_desc"
-        android:defaultValue="0"
-        app:format="%d dp"
-        app:maxValue="100"
-        app:showSeekBarValue="true" />
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_various_dialog_margin_bottom"
+            android:summary="@string/various_dialog_margin_bottom_desc"
+            android:title="@string/various_dialog_margin_bottom"
+            app:defaultValue="0"
+            app:format="%s dp"
+            app:maxValue="100"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/various_dialog_window_blur_title">
         <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_various_dialog_window_blur"
-            android:title="@string/various_dialog_window_blur" />
+            android:title="@string/various_dialog_window_blur"
+            app:defaultValue="false" />
 
         <SeekBarPreferenceCompat
-            android:key="prefs_key_various_dialog_window_blur_radius"
             android:dependency="prefs_key_various_dialog_window_blur"
+            android:key="prefs_key_various_dialog_window_blur_radius"
             android:title="@string/various_dialog_window_blur_radius"
-            android:defaultValue="60"
-            app:format="%d dp"
+            app:defaultValue="60"
+            app:format="%s dp"
             app:maxValue="300"
-            app:showSeekBarValue="true" />
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.sub.CustomBackgroundSettings"
             android:key="prefs_key_various_dialog_bg_blur"
             android:title="@string/custom_background" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

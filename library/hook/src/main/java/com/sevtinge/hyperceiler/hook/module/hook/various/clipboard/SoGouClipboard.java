@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.hook.clipboard;
+package com.sevtinge.hyperceiler.hook.module.hook.various.clipboard;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
@@ -26,7 +26,6 @@ import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.MethodData;
 import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
@@ -36,23 +35,18 @@ public class SoGouClipboard extends BaseHook {
 
     @Override
     public void init() {
-        long stime = System.currentTimeMillis();
         Method method = DexKit.findMember("sogou", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .declaredClass(ClassMatcher.create()
-                                        .usingStrings("sogou_clipboard_tmp"))
-                                .usingNumbers("com.sohu.inputmethod.sogou.xiaomi".equals(lpparam.packageName) ? 150 : 80064)
-                        )).singleOrNull();
-                return methodData;
+                return bridge.findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .declaredClass(ClassMatcher.create()
+                            .usingStrings("sogou_clipboard_tmp"))
+                        .usingNumbers("com.sohu.inputmethod.sogou.xiaomi".equals(lpparam.packageName) ? 150 : 80064)
+                    )).single();
             }
         });
-        long etime = System.currentTimeMillis();
-        //logE(TAG, "代码执行时间（毫秒）: " + (etime - stime));
-        // logE("find class: " + lpparam.packageName);
-        // logE(TAG, "method: " + method);
+
         hookMethod(method, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {

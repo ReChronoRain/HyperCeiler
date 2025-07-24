@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.hook.clipboard;
+package com.sevtinge.hyperceiler.hook.module.hook.various.clipboard;
 
 import com.hchen.hooktool.HCBase;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;

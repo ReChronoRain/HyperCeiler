@@ -1581,6 +1581,7 @@
     <string name="voicetrigger_accuracy_percent_description" formatted="false">Higher values are more difficult to detect. The default value is 70%, for the keyword XATX it\'s 0%. After setting up, you need to record wake-up phrase again.</string>
     <!--Other-->
     <string name="various">Others</string>
+    <string name="input_method">Input methods</string>
     <string name="app_version_not_supported">Unsupported version</string>
     <string name="various_dialog_title">Dialog</string>
     <string name="various_mipad_title">Mi Pad</string>

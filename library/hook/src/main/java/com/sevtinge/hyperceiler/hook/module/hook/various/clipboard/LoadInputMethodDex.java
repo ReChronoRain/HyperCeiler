@@ -22,8 +22,6 @@ package com.sevtinge.hyperceiler.hook.module.hook.various.clipboard;
 import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.hook.IHook;
 
-import java.util.Arrays;
-
 /**
  * 获取常用语的 classloader。
  * from <a href="https://github.com/HChenX/ClipboardList">ClipboardList</a>
@@ -31,29 +29,28 @@ import java.util.Arrays;
  * @author 焕晨HChen
  */
 public class LoadInputMethodDex extends HCBase {
-    private final OnInputMethodDexLoad[] mOnInputMethodDexLoad;
-    private boolean isHooked;
-
-    public LoadInputMethodDex(OnInputMethodDexLoad... dexLoads) {
-        mOnInputMethodDexLoad = dexLoads;
-    }
+    private boolean isLoaded;
 
     @Override
     public void init() {
         hookMethod("android.inputmethodservice.InputMethodModuleManager",
-                "loadDex", ClassLoader.class, String.class,
-                new IHook() {
-                    @Override
-                    public void after() {
-                        if (isHooked) return;
-                        Arrays.stream(mOnInputMethodDexLoad).forEach(load -> load.load((ClassLoader) getArg(0)));
-                        isHooked = true;
-                    }
+            "loadDex",
+            ClassLoader.class, String.class,
+            new IHook() {
+                @Override
+                public void after() {
+                    if (isLoaded) return;
+
+                    ClassLoader classLoader = (ClassLoader) getArg(0);
+                    NewUnlockIme.unlock(classLoader);
+                    ClipboardLimit.unlock(classLoader);
+
+                    logI(TAG, "Input method classloader: " + classLoader);
+                    isLoaded = true;
                 }
+            }
         );
+
     }
 
-    public interface OnInputMethodDexLoad {
-        void load(ClassLoader classLoader);
-    }
 }

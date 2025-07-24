@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.folder;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -89,9 +88,7 @@ public class BigFolderIconBlur extends BaseHook {
                 mIconImageView.setVisibility(View.GONE);
                 mDockBlur.addView(view);
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    new BlurUtils(mDockBlur, "home_big_folder_icon_bg_custom");
-                }
+                new BlurUtils(mDockBlur, "home_big_folder_icon_bg_custom");
 
                 mIconContainer.addView(mDockBlur, 0);
                 FrameLayout.LayoutParams lp1 = (FrameLayout.LayoutParams) mDockBlur.getLayoutParams();
@@ -172,9 +169,7 @@ public class BigFolderIconBlur extends BaseHook {
                 boolean isFolderShowing = (boolean) XposedHelpers.callMethod(mLauncher, "isFolderShowing");
 
                 if (!isFolderShowing && itemType == 21) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        new BlurUtils(mDragView, "home_big_folder_icon_bg_custom");
-                    }
+                    new BlurUtils(mDragView, "home_big_folder_icon_bg_custom");
                 }
             }
         });

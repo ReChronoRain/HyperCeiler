@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.hook.module.hook.various.dialog;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -89,9 +88,7 @@ public class DialogGravity extends BaseHook {
                         mParentPanel.setLayoutParams(layoutParams);
 
                         /*new BlurUtils(mParentPanel);*/
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                            new BlurUtils(mParentPanel, "default");
-                        }
+                        new BlurUtils(mParentPanel, "default");
 
                     }
                 });
@@ -123,9 +120,7 @@ public class DialogGravity extends BaseHook {
                             mParentPanel.setLayoutParams(layoutParams);
 
                             /*new BlurUtils(mParentPanel);*/
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                                new BlurUtils(mParentPanel, "default");
-                            }
+                            new BlurUtils(mParentPanel, "default");
                         }
                     });
                 }

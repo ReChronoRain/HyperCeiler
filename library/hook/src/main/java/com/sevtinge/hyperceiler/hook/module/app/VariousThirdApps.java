@@ -25,13 +25,13 @@ import android.view.inputmethod.InputMethodManager;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool;
-import com.sevtinge.hyperceiler.hook.module.hook.clipboard.BaiduClipboard;
-import com.sevtinge.hyperceiler.hook.module.hook.clipboard.SoGouClipboard;
 import com.sevtinge.hyperceiler.hook.module.hook.various.MusicHooks;
+import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.BaiduClipboard;
 import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.ClearClipboard;
+import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.ClipboardLimit;
 import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.LoadInputMethodDex;
-import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.NewClipboardList;
-import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.UnlockIme;
+import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.NewUnlockIme;
+import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.SoGouClipboard;
 import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
 
 import java.util.ArrayList;
@@ -51,11 +51,11 @@ public class VariousThirdApps extends BaseModule {
         mPackageName = mLoadPackageParam.packageName;
         if (mPrefsMap.getBoolean("various_phrase_clipboardlist")) {
             if (isInputMethod(mPackageName)) {
-                initHook(new UnlockIme());
-                new LoadInputMethodDex(new NewClipboardList()).onLoadPackage();
+                initHook(new LoadInputMethodDex());
+                initHook(new ClipboardLimit().onApplication());
             }
         }
-        initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName) && !mPrefsMap.getBoolean("various_phrase_clipboardlist"));
+        initHook(new NewUnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
         initHook(new SoGouClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
                 ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
         initHook(new BaiduClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&

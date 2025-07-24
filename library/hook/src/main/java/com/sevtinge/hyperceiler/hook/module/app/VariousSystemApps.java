@@ -21,11 +21,9 @@ package com.sevtinge.hyperceiler.hook.module.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.various.CollapseMiuiTitle;
+import com.sevtinge.hyperceiler.hook.module.hook.various.MiuiAppNoOverScroll;
 import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.NewUnPhraseLimit;
 import com.sevtinge.hyperceiler.hook.module.hook.various.dialog.DialogCustom;
-import com.sevtinge.hyperceiler.hook.module.hook.various.MiuiAppNoOverScroll;
-
-import org.luckypray.dexkit.DexKitBridge;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -41,37 +39,12 @@ public class VariousSystemApps extends BaseModule {
         mPackageName = mLoadPackageParam.packageName;
         isMiuiApps = mPackageName.startsWith("com.miui") || mPackageName.startsWith("com.xiaomi") || miuiDialogCustomApps.contains(mPackageName);
 
-        if (mPrefsMap.getBoolean("various_phrase_clipboardlist")) {
-            if (mPackageName.equals("com.miui.phrase")) {
-                System.loadLibrary("dexkit");
-                DexKitBridge dexKitBridge = DexKitBridge.create(mLoadPackageParam.appInfo.sourceDir);
-                new NewUnPhraseLimit(dexKitBridge).onLoadPackage();
-                dexKitBridge.close();
-                return;
-            }
-        }
+        initHook(new NewUnPhraseLimit(), mPrefsMap.getBoolean("various_phrase_clipboardlist") && mPackageName.equals("com.miui.phrase"));
         initHook(new MiuiAppNoOverScroll(), isMiuiOverScrollApps());
         initHook(new DialogCustom(), isMiuiDialogCustom());
 
         initHook(new CollapseMiuiTitle(), isCollapseMiuiTitleApps());
 
-        // initHook(new NoBrightness(), isPay(mPackageName));
-    }
-
-    private boolean isPay(String param) {
-        return mPrefsMap.getBoolean("various_nobrightness") && checkPay(param);
-    }
-
-    private boolean checkPay(String packageParam) {
-        switch (packageParam) {
-            case "com.tencent.mobileqq", "com.tencent.mm",
-                    "com.eg.android.AlipayGphone" -> {
-                return true;
-            }
-            default -> {
-                return false;
-            }
-        }
     }
 
     private boolean isMiuiOverScrollApps() {
