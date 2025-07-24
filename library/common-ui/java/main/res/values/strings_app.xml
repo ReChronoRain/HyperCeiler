@@ -563,7 +563,7 @@
     <string name="mms_disable_overseas_risk_tip">Disable overseas risk tip</string>
     <string name="mms_disable_overseas_risk_tip_desc">Disable \"Might be overseas fraud\" tip</string>
     <string name="mms_im_old_device">Prohibition of identification as a new device</string>
-    <string name="mms_verification_code_auto_copy">Verification code auto copied to clipboard</string>
+    <string name="mms_verification_code_auto_copy">Auto-copy verification code to clipboard</string>
     <!--Phone Service-->
     <string name="phone">Phone Service</string>
     <string name="phone_smart_dual_sim">Unlock Smart dual SIM</string>
@@ -1383,7 +1383,7 @@
     <!--Screenshot-->
     <string name="screenshot">Screenshot</string>
     <string name="screenshot_unlock_minimum_crop_limit">Remove the minimum crop image limit</string>
-    <string name="screenshot_unlock_copy_to_clipboard">Unlock screenshot auto-copy to clipboard</string>
+    <string name="screenshot_unlock_copy_to_clipboard">Unlock auto-copy screenshot to clipboard</string>
     <string name="screenshot_unlock_privacy_marking_title">Unlock privacy marking</string>
     <string name="screenshot_unlock_privacy_marking_desc">A higher version of the Mi AI Engine app needs to be pre-installed for normal usage</string>
     <string name="screenshot_save_to_pictures_desc">Set screenshot save location to /Pictures/Screenshots</string>
