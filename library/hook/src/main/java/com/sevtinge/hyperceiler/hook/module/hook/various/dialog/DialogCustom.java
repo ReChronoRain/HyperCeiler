@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.hook.module.hook.various.dialog;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -66,9 +65,7 @@ public class DialogCustom extends BaseHook {
                 @Override
                 protected void after(MethodHookParam param) {
                     Window mWindow = (Window) XposedHelpers.getObjectField(param.thisObject, "mWindow");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        mWindow.getAttributes().setBlurBehindRadius(mPrefsMap.getInt("various_dialog_window_blur_radius", 60)); // android.R.styleable.Window_windowBlurBehindRadius
-                    }
+                    mWindow.getAttributes().setBlurBehindRadius(mPrefsMap.getInt("various_dialog_window_blur_radius", 60)); // android.R.styleable.Window_windowBlurBehindRadius
                     mWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
                 }
             });
@@ -108,9 +105,7 @@ public class DialogCustom extends BaseHook {
                         layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dp2px(mDialogBottomMargin);
                     }
                     mParentPanel.setLayoutParams(layoutParams);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        new BlurUtils(mParentPanel, "various_dialog_bg_blur");
-                    }
+                    new BlurUtils(mParentPanel, "various_dialog_bg_blur");
                 }
             });
 
@@ -130,9 +125,7 @@ public class DialogCustom extends BaseHook {
                         layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dp2px(mDialogBottomMargin);
                     }
                     mParentPanel.setLayoutParams(layoutParams);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        new BlurUtils(mParentPanel, "various_dialog_bg_blur");
-                    }
+                    new BlurUtils(mParentPanel, "various_dialog_bg_blur");
                 }
             });
         }

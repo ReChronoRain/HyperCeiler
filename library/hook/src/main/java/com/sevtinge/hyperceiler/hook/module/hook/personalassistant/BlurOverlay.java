@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.hook.module.hook.personalassistant;
 
 import android.content.res.Configuration;
-import android.os.Build;
 import android.view.Window;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
@@ -67,9 +66,7 @@ public class BlurOverlay extends BaseHook {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
                             window = (Window) XposedHelpers.getObjectField(param.thisObject, "b");
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                                window.setBackgroundBlurRadius((int) f);
-                            }
+                            window.setBackgroundBlurRadius((int) f);
                         }
                     });
                 }

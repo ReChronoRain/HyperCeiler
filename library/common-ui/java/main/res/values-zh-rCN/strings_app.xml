@@ -1660,6 +1660,7 @@
     <string name="sim_activation_service_disable_activate_when_roaming_radical">使用更激进的漫游过滤方法</string>
     <!--其他-->
     <string name="various">其他</string>
+    <string name="input_method">输入法</string>
     <string name="share_center">小米妙享中心</string>
     <string name="new_task">多开</string>
     <string name="custom_hook">自定义</string>

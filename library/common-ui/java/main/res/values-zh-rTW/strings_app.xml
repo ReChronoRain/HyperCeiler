@@ -1524,6 +1524,7 @@
     <string name="voicetrigger_accuracy_percent_description" formatted="false">數值越高越難以被偵測。預設值為 70%，對於「小愛同學」為 0%。設定完成後，您需要重新啟動目標應用程式並重新錄入您的喚醒詞。</string>
     <!--Other-->
     <string name="various">其他</string>
+    <string name="input_method">輸入法</string>
     <string name="app_version_not_supported">不受支援的版本</string>
     <string name="various_dialog_title">跳出視窗</string>
     <string name="various_mipad_title">平板相關</string>

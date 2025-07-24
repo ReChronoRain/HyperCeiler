@@ -26,26 +26,26 @@
 
         <ColorPickerPreference
             android:defaultValue="-1"
-            android:key="prefs_key_custom_background_color"
             android:dependency="prefs_key_custom_background_enabled"
+            android:key="prefs_key_custom_background_color"
             android:persistent="false"
             android:title="@string/custom_background_color" />
 
         <SeekBarPreference
-            android:key="prefs_key_custom_background_corner_radius"
             android:dependency="prefs_key_custom_background_enabled"
+            android:key="prefs_key_custom_background_corner_radius"
             android:persistent="false"
             android:title="@string/custom_background_corner_radius"
             app:defaultValue="20"
-            app:format="%d dp"
-            app:showSeekBarValue="true"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
             app:maxValue="60"
-            android:max="60"
-            app:defaultValueTitle="@string/array_default"/>
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
         <SwitchPreference
-            android:key="prefs_key_custom_background_blur_enabled"
             android:dependency="prefs_key_custom_background_enabled"
+            android:key="prefs_key_custom_background_blur_enabled"
             android:persistent="false"
             android:title="@string/custom_background_blur_enabled" />
 
@@ -54,12 +54,12 @@
             android:key="prefs_key_custom_background_blur_radius"
             android:persistent="false"
             android:title="@string/custom_background_blur_radius"
-            android:max="100"
-            android:defaultValue="60"
-            app:format="%d dp"
-            app:showSeekBarValue="true"
+            app:defaultValue="60"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
             app:maxValue="100"
-            app:defaultValueTitle="@string/array_default"/>
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
     </PreferenceCategory>
 
