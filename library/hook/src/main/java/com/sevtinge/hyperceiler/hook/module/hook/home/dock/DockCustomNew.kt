@@ -66,6 +66,7 @@ object DockCustomNew : BaseHook() {
         } as Method?
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun init() {
         val dockBgStyle = mPrefsMap.getStringAsInt("home_dock_add_blur", 0)
         var dockBlurView: View? = null
@@ -139,10 +140,18 @@ object DockCustomNew : BaseHook() {
     }
 
     private fun View.addBlur() {
+        val isDarkMode by lazy {
+            if (AppsTool.isDarkMode(context) && mPrefsMap.getStringAsInt("home_other_home_mode", 0) == 0) {
+                AppsTool.isDarkMode(context)
+            } else {
+                mPrefsMap.getStringAsInt("home_other_home_mode", 0) == 2
+            }
+        }
+
         clearMiBackgroundBlendColor()
         setMiViewBlurMode(1)
 
-        if (AppsTool.isDarkMode(context)) {
+        if (isDarkMode) {
             addMiBackgroundBlendColor(0xB3767676.toInt(), 100)
             addMiBackgroundBlendColor(0xFF149400.toInt(), 106)
         } else {
