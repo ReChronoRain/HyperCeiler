@@ -739,7 +739,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_qs_open_color">Đã bật tùy chỉnh màu ô</string>
     <string name="system_ui_control_center_qs_big_open_color">Đã bật tùy chỉnh màu ô lớn</string>
     <string name="system_ui_control_auto_close_more">Sau khi bật, bấm vào biểu tượng thanh trạng thái sẽ tự động thu gọn thanh trạng thái</string>
-    <string name="system_control_center_qs_tile_label">Loại bỏ tiêu đề</string>
     <string name="system_control_center_qs_rows">Hàng</string>
     <string name="system_control_center_qs_rows_format">%d dòng</string>
     <string name="system_control_center_qs_rows_horizontal">Hàng (màn hình ngang)</string>

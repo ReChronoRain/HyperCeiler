@@ -700,7 +700,6 @@
     <string name="system_ui_control_center_qs_open_color">Włącz dostosowywanie małych kafelków</string>
     <string name="system_ui_control_center_qs_big_open_color">Włącz dostosowywanie dużych kafelków</string>
     <string name="system_ui_control_auto_close_more">Dotknięcie bloku na pasku stanu spowoduje automatyczne jego zwinięcie.</string>
-    <string name="system_control_center_qs_tile_label">Usuń tytuł</string>
     <string name="system_control_center_qs_rows">Wiersze</string>
     <string name="system_control_center_qs_rows_format">%d linii</string>
     <string name="system_control_center_qs_rows_horizontal">Wiersze (poziomo)</string>

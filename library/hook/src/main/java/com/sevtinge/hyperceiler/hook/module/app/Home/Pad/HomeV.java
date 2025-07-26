@@ -51,7 +51,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.folder.BigFolderIconBlur2x
 import com.sevtinge.hyperceiler.hook.module.hook.home.folder.BigFolderItemMaxCount;
 import com.sevtinge.hyperceiler.hook.module.hook.home.folder.FolderAnimation;
 import com.sevtinge.hyperceiler.hook.module.hook.home.folder.FolderAutoClose;
-import com.sevtinge.hyperceiler.hook.module.hook.home.folder.FolderBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.home.folder.FolderColumns;
 import com.sevtinge.hyperceiler.hook.module.hook.home.folder.FolderShade;
 import com.sevtinge.hyperceiler.hook.module.hook.home.folder.FolderVerticalSpacing;
@@ -91,7 +90,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.other.ShowAllHideApp;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.TasksShortcutMenu;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.AlwaysShowCleanUp;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.BackgroundBlur;
-import com.sevtinge.hyperceiler.hook.module.hook.home.recent.BlurLevel;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.CardTextColor;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.CardTextSize;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.FreeformCardBackgroundColor;
@@ -112,7 +110,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewVertical;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.UnlockPin;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.AnimParamCustom;
-import com.sevtinge.hyperceiler.hook.module.hook.home.title.AppBlurAnim;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.BigIconCorner;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.DisableHideFile;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.DisableHideTheme;
@@ -197,7 +194,6 @@ public class HomeV extends BaseModule {
         initHook(new BigFolderIconBlur(), mPrefsMap.getBoolean("home_big_folder_icon_bg"));
         initHook(new BigFolderItemMaxCount(), mPrefsMap.getBoolean("home_big_folder_item_max_count"));
         initHook(new UnlockBlurSupported(), mPrefsMap.getBoolean("home_folder_unlock_blur_supported"));
-        // initHook(new RecommendAppsSwitch(), mPrefsMap.getBoolean("home_folder_recommend_apps_switch"));
 
         // 抽屉
         initHook(AppDrawer.INSTANCE, mPrefsMap.getBoolean("home_drawer_all") ||
@@ -207,7 +203,6 @@ public class HomeV extends BaseModule {
         initHook(new PinyinArrangement(), mPrefsMap.getBoolean("home_drawer_pinyin"));
 
         // 最近任务
-        initHook(BlurLevel.INSTANCE, mPrefsMap.getStringAsInt("home_recent_blur_level", 6) != 6 && !mPrefsMap.getBoolean("home_title_app_blur_enable"));
         initHook(HideStatusBarWhenEnterRecent.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_status_bar_in_task_view"));
         initHook(RemoveCardAnim.INSTANCE, mPrefsMap.getBoolean("home_recent_modify_animation"));
         initHook(TaskViewHorizontal.INSTANCE, true);
@@ -239,8 +234,6 @@ public class HomeV extends BaseModule {
         initHook(DisableHideGoogle.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_google"));
         initHook(new FakeNonDefaultIcon(), mPrefsMap.getBoolean("fake_non_default_icon"));
         initHook(new AnimParamCustom(), mPrefsMap.getBoolean("home_title_custom_anim_param_main"));
-        initHook(AppBlurAnim.INSTANCE, mPrefsMap.getBoolean("home_title_app_blur_enable"));
-        // initHook(new IconScaleHook()/*, mPrefsMap.getInt("home_title_icon_scale", 100) != 100*/);
 
         // 标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));
@@ -291,7 +284,6 @@ public class HomeV extends BaseModule {
 
         // 实验性功能
         initHook(BlurWhenShowShortcutMenu.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));
-        initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur") && !mPrefsMap.getBoolean("home_title_app_blur_enable"));
         initHook(new FoldDock(), mPrefsMap.getBoolean("home_other_fold_dock"));
         // initHook(new AllAppsBlur); // ??
         initHook(new LargeIconCornerRadius(), mPrefsMap.getBoolean("home_large_icon_enable"));

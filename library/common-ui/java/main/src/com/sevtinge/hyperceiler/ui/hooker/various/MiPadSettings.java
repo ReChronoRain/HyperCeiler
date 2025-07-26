@@ -37,7 +37,6 @@ public class MiPadSettings extends DashboardFragment {
         magic = findPreference("prefs_key_mipad_input_close_magic");
 
         if (isMoreHyperOSVersion(2f)) {
-            magic.setChecked(false);
             setFuncHint(magic, 2);
         }
     }

@@ -42,7 +42,6 @@ public class LoadInputMethodDex extends HCBase {
                     if (isLoaded) return;
 
                     ClassLoader classLoader = (ClassLoader) getArg(0);
-                    NewUnlockIme.unlock(classLoader);
                     ClipboardLimit.unlock(classLoader);
 
                     logI(TAG, "Input method classloader: " + classLoader);

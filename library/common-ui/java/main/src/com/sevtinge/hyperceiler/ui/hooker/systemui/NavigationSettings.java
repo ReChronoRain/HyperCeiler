@@ -20,9 +20,9 @@ package com.sevtinge.hyperceiler.ui.hooker.systemui;
 
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.KillApp;
+import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
+import com.sevtinge.hyperceiler.ui.R;
 
 public class NavigationSettings extends DashboardFragment {
     SwitchPreference navigation;
@@ -36,7 +36,7 @@ public class NavigationSettings extends DashboardFragment {
     public void initPrefs() {
         navigation = findPreference("prefs_key_system_ui_hide_navigation_bar");
         navigation.setOnPreferenceChangeListener((preference, o) -> {
-            KillApp.killApps("com.miui.home", "com.android.systemui");
+            AppsTool.killApps("com.miui.home", "com.android.systemui");
             return true;
         });
     }

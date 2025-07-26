@@ -24,13 +24,12 @@ import android.widget.EditText;
 
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Map;
 
 import fan.appcompat.app.AlertDialog;
 
@@ -57,7 +56,7 @@ public class DevelopmentPrefsFragment extends SettingsPreferenceFragment {
             preference -> {
                 showInDialog(
                     userInput -> {
-                        if (cleanPrefs(userInput)) {
+                        if (cleanKey(userInput)) {
                             showOutDialog(getResources().getString(R.string.prefs_2) + userInput);
                         } else {
                             showOutDialog(getResources().getString(R.string.prefs_3) + userInput);
@@ -70,7 +69,7 @@ public class DevelopmentPrefsFragment extends SettingsPreferenceFragment {
             preference -> {
                 showInDialog(
                     userInput -> {
-                        if (havePrefs(userInput)) {
+                        if (hasKey(userInput)) {
                             Object prefs = getPrefs(userInput, false,
                                 getType("prefs_key_development_prefs_type"));
                             // https://stackoverflow.com/a/78608931
@@ -97,19 +96,6 @@ public class DevelopmentPrefsFragment extends SettingsPreferenceFragment {
 
     private int getType(String key) {
         return Integer.parseInt((String) getPrefs(key, true, 0));
-    }
-
-    private boolean havePrefs(String key) {
-        Map<String, ?> prefs = PrefsUtils.mSharedPreferences.getAll();
-        return !(prefs.get(key) == null);
-    }
-
-    private boolean cleanPrefs(String key) {
-        if (havePrefs(key)) {
-            PrefsUtils.mSharedPreferences.edit().remove(key).apply();
-            return true;
-        }
-        return havePrefs(key);
     }
 
     private Object getPrefs(String key, boolean type, int needType) {

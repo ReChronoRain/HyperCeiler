@@ -42,45 +42,35 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
 
     private static final String TAG = "HC:DynamicFragmentPagerAdapter";
 
-    private String mCurrTab;
-    private final int mFragmentSize;
-
+    private final int mFragmentSize = 3;
     private final AppCompatActivity mActivity;
-    private FragmentManager mFragmentManager;
+    private final FragmentManager mFragmentManager;
     private Fragment mCurrentPrimaryItem = null;
     private FragmentTransaction mCurTransaction = null;
-
-    private final Map<String, FragmentInfo> mFragmentCache;
+    private final Map<String, FragmentInfo> mFragmentCache = new ArrayMap<>(mFragmentSize);
 
     static class FragmentInfo {
+        final String tag;
+        final Class<? extends Fragment> clazz;
+        Fragment fragment;
 
-        String tag;
-        boolean lazyInit;
-        Class<? extends Fragment> clazz;
-
-        Fragment fragment = null;
-
-       FragmentInfo(String tag, Class<? extends Fragment> clazz, boolean lazyInit) {
+        FragmentInfo(String tag, Class<? extends Fragment> clazz) {
             this.tag = tag;
             this.clazz = clazz;
-            this.lazyInit = lazyInit;
         }
     }
 
     public DynamicFragmentPagerAdapter(Fragment fragment, String tag) {
         Log.d(TAG, "init, currTab: " + tag);
-        mCurrTab = tag;
-        mActivity = ((fan.appcompat.app.Fragment)fragment).getAppCompatActivity();
+        mActivity = ((fan.appcompat.app.Fragment) fragment).getAppCompatActivity();
         mFragmentManager = fragment.getChildFragmentManager();
-        mFragmentCache = new ArrayMap<>(getCount());
         addFragment(TabViewModel.TAB_HOME, HomePageFragment.class);
         addFragment(TabViewModel.TAB_SETTINGS, SettingsPageFragment.class);
         addFragment(TabViewModel.TAB_ABOUT, AboutPageFragment.class);
-        mFragmentSize = 3;
     }
 
     public void addFragment(String tag, Class<? extends Fragment> clazz) {
-        mFragmentCache.put(tag, new FragmentInfo(tag, clazz, false));
+        mFragmentCache.put(tag, new FragmentInfo(tag, clazz));
     }
 
     private String getTabAt(int position) {
@@ -102,7 +92,6 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         }
         if (fragment != mCurrentPrimaryItem) {
             fragment.setMenuVisibility(false);
-            // fragment.setUserVisibleHint(false);
         }
         return fragment;
     }
@@ -132,10 +121,8 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         if (fragment != mCurrentPrimaryItem) {
             if (mCurrentPrimaryItem != null) {
                 mCurrentPrimaryItem.setMenuVisibility(false);
-                // mCurrentPrimaryItem.setUserVisibleHint(false);
             }
             fragment.setMenuVisibility(true);
-            // fragment.setUserVisibleHint(true);
             mCurrentPrimaryItem = fragment;
         }
     }
@@ -153,11 +140,12 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
     @Override
     public int getItemPosition(@NonNull Object object) {
         for (int i = 0; i < getCount(); i++) {
-            if (object == mFragmentCache.get(getTabAt(i)).fragment) {
+            FragmentInfo info = mFragmentCache.get(getTabAt(i));
+            if (info != null && object == info.fragment) {
                 return i;
             }
         }
-        return -2;
+        return POSITION_NONE;
     }
 
     public Fragment getFragment(String tag, boolean z) {
@@ -172,38 +160,31 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
             }
             return fragmentInfo.fragment;
         }
-        String name = "";
-        if (z) {
-            switch (tag) {
-                case TabViewModel.TAB_HOME -> name = HomePageFragment.class.getName();
-                case TabViewModel.TAB_SETTINGS -> name = SettingsPageFragment.class.getName();
-                case TabViewModel.TAB_ABOUT -> name = AboutPageFragment.class.getName();
-            }
-            return mFragmentManager.getFragmentFactory()
-                .instantiate(mActivity.getClassLoader(), name);
-        }
-        return mFragmentManager.findFragmentByTag(tag);
+        return null;
     }
 
     public void reCreateFragment() {
         for (String tag : TabViewModel.TABS) {
-            Fragment fragment = getFragment(tag, false);
-            int id = ((View) fragment.getView().getParent()).getId();
+            Fragment oldFragment = getFragment(tag, false);
+            if (oldFragment == null) continue;
+            View view = oldFragment.getView();
+            if (view == null || view.getParent() == null) continue;
+            int id = ((View) view.getParent()).getId();
             FragmentInfo fragmentInfo = mFragmentCache.get(tag);
-            FragmentTransaction beginTransaction = mFragmentManager.beginTransaction();
-            beginTransaction.remove(fragment);
+            FragmentTransaction transaction = mFragmentManager.beginTransaction();
+            transaction.remove(oldFragment);
             Fragment newFragment = getNewFragment(tag);
             fragmentInfo.fragment = newFragment;
-            fragmentInfo.lazyInit = false;
-            beginTransaction.add(id, newFragment, tag);
-            beginTransaction.commitAllowingStateLoss();
-            notifyDataSetChanged();
+            transaction.add(id, newFragment, tag);
+            transaction.commitAllowingStateLoss();
         }
+        notifyDataSetChanged();
     }
 
-    private Fragment getNewFragment(String str) {
-        ClassLoader classLoader = mActivity.getClassLoader();
-        String className = mFragmentCache.get(str).clazz.getName();
-        return mFragmentManager.getFragmentFactory().instantiate(classLoader, className);
+    private Fragment getNewFragment(String tag) {
+        FragmentInfo info = mFragmentCache.get(tag);
+        if (info == null) return null;
+        return mFragmentManager.getFragmentFactory()
+            .instantiate(mActivity.getClassLoader(), info.clazz.getName());
     }
 }

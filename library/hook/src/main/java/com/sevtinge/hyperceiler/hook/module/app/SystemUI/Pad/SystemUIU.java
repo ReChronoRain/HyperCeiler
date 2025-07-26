@@ -51,7 +51,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.OldWeath
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QQSGrid;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSGrid;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSGridLabels;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.RedirectToNotificationChannelSetting;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ReduceBrightColorsTile;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.RemoveNotifNumLimit;
@@ -249,8 +248,6 @@ public class SystemUIU extends BaseModule {
         } else {
             initHook(new SunlightMode(), mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode", 0) != 0);
         }
-        initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_row", 1) > 1 ||
-                mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
         initHook(new SwitchCCAndNotification(), mPrefsMap.getBoolean("system_ui_control_center_switch_cc_and_notification"));
         initHook(OldWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));

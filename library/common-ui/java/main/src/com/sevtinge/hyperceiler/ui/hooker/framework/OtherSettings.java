@@ -26,13 +26,13 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
+import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
+import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.sub.AppPickerFragment;
 import com.sevtinge.hyperceiler.ui.sub.SubPickerActivity;
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.KillApp;
-import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 
 import java.util.concurrent.ExecutorService;
 
@@ -144,11 +144,11 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
         ExecutorService executorService = ThreadPoolManager.getInstance();
         switch (preference.getKey()) {
             case "prefs_key_system_framework_guided_access" -> initApp(executorService, () -> {
-                KillApp.killApps("com.miui.home", "com.android.systemui");
+                AppsTool.killApps("com.miui.home", "com.android.systemui");
             });
-            case "prefs_key_system_framework_guided_access_sc" -> initApp(executorService, () -> KillApp.killApps("com.miui.securitycenter"));
-            case "prefs_key_system_framework_guided_access_screen_int" -> initApp(executorService, () -> KillApp.killApps("com.android.systemui"));
-            case "prefs_key_system_framework_guided_access_status" -> initApp(executorService, () -> KillApp.killApps("com.miui.home","com.android.systemui"));
+            case "prefs_key_system_framework_guided_access_sc" -> initApp(executorService, () -> AppsTool.killApps("com.miui.securitycenter"));
+            case "prefs_key_system_framework_guided_access_screen_int" -> initApp(executorService, () -> AppsTool.killApps("com.android.systemui"));
+            case "prefs_key_system_framework_guided_access_status" -> initApp(executorService, () -> AppsTool.killApps("com.miui.home","com.android.systemui"));
         }
         return true;
     }

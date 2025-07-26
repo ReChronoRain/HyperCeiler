@@ -19,13 +19,14 @@
 
 package com.sevtinge.hyperceiler.hook.module.hook.various.clipboard;
 
+import static com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getProp;
+
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 
 import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.hook.IHook;
-import com.hchen.hooktool.utils.SystemPropTool;
 
 import java.util.Arrays;
 import java.util.List;
@@ -61,7 +62,7 @@ public class NewUnlockIme extends HCBase {
 
     @Override
     public void init() {
-        if (SystemPropTool.getProp("ro.miui.support_miui_ime_bottom", "0").equals("1")) {
+        if (getProp("ro.miui.support_miui_ime_bottom", "0").equals("1")) {
             startHook();
         }
     }
@@ -143,7 +144,7 @@ public class NewUnlockIme extends HCBase {
     }
 
     /**
-     * 针对A10的修复切换输入法列表
+     * 针对 A10 的修复切换输入法列表
      */
     private static void notDeleteNotSupportIme(@NonNull Class<?> clazz) {
         if (existsMethod(clazz, "deleteNotSupportIme")) {

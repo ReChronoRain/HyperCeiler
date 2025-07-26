@@ -21,8 +21,8 @@ package com.sevtinge.hyperceiler.ui.hooker;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.DropDownPreference;
 
@@ -36,6 +36,6 @@ public class HomeFragment extends DashboardFragment {
     @Override
     public void initPrefs() {
         DropDownPreference mBlurLevel = findPreference("prefs_key_home_recent_blur_level");
-        mBlurLevel.setVisible(!isMoreHyperOSVersion(2f));
+        setHide(mBlurLevel, !isMoreHyperOSVersion(2f));
     }
 }

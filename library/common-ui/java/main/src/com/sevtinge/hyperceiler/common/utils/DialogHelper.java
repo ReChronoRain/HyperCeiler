@@ -25,12 +25,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.common.view.RestartAlertDialog;
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
-import com.sevtinge.hyperceiler.common.view.RestartAlertDialog;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.appcompat.app.AlertDialog;
 
@@ -205,7 +205,7 @@ public class DialogHelper {
         if (isRestartSystem) {
             result = ShellInit.getShell().run("reboot").sync().isResult();
         } else {
-            result = AppsTool.handlePackages(packageName);
+            result = AppsTool.killApps(packageName);
             pid = result;
         }
 

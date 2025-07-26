@@ -29,11 +29,11 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.common.utils.PackagesUtils;
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -41,12 +41,16 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.function.BiConsumer;
 
+import fan.preference.TextButtonPreference;
+
 public class HomepageEntrance extends DashboardFragment implements Preference.OnPreferenceChangeListener {
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
 
     private boolean isInit = false;
     private static final String TAG = "HomepageEntrance";
     private static EntranceState entranceState = null;
+
+    private TextButtonPreference mShowAppTips;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -59,11 +63,17 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
 
     @Override
     public void initPrefs() {
-        super.initPrefs();
         if (isInit) return;
+        super.initPrefs();
         Resources resources = getResources();
         parseXmlResource(resources, R.xml.prefs_set_homepage_entrance, this::processSwitchPreference);
         parseXmlResource(resources, R.xml.prefs_set_homepage_entrance, this::processSwitchPreferenceHeader);
+
+        mShowAppTips = findPreference("prefs_key_help_cant_see_app");
+        boolean isHideTip = getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false);
+        if (isHideTip && mShowAppTips != null) {
+            mShowAppTips.setVisible(false);
+        }
 
         isInit = true;
     }
@@ -74,7 +84,9 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
             while (event != XmlPullParser.END_DOCUMENT) {
                 if (event == XmlPullParser.START_TAG && "SwitchPreference".equals(xml.getName())) {
                     String key = xml.getAttributeValue(ANDROID_NS, "key");
-                    processor.accept(xml, key);
+                    if (key != null) {
+                        processor.accept(xml, key);
+                    }
                 }
                 event = xml.next();
             }
@@ -86,30 +98,26 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
     private void processSwitchPreference(XmlResourceParser xml, String key) {
         SwitchPreference switchPreference = findPreference(key);
         if (switchPreference != null) {
-            String summary = (String) switchPreference.getSummary();
-            if (summary != null && !summary.equals("android") && PackagesUtils.checkAppStatus(getContext(), summary)) {
+            String summary = String.valueOf(switchPreference.getSummary());
+            if (!"android".equals(summary) && PackagesUtils.checkAppStatus(getContext(), summary)) {
                 switchPreference.setVisible(false);
             }
-            switchPreference.setOnPreferenceChangeListener(HomepageEntrance.this);
+            switchPreference.setOnPreferenceChangeListener(this);
         }
     }
 
     private void processSwitchPreferenceHeader(XmlResourceParser xml, String key) {
         String summary = xml.getAttributeValue(ANDROID_NS, "summary");
-        if (key != null && summary != null) {
-            SwitchPreference preferenceHeader = findPreference(key);
-            if (!scope.contains(summary)) {
-                if (preferenceHeader != null) {
-                    preferenceHeader.setVisible(false);
-                }
-            } else {
-                Drawable icon = getPackageIcon(summary);
-                String name = getPackageName(summary);
-                if (preferenceHeader != null) {
-                    preferenceHeader.setIcon(icon);
-                    if (!summary.equals("android")) preferenceHeader.setTitle(name);
-                }
-            }
+        if (key == null || summary == null) return;
+        SwitchPreference preferenceHeader = findPreference(key);
+        if (preferenceHeader == null) return;
+        if (!scope.contains(summary)) {
+            preferenceHeader.setVisible(false);
+        } else {
+            Drawable icon = getPackageIcon(summary);
+            String name = getPackageName(summary);
+            if (icon != null) preferenceHeader.setIcon(icon);
+            if (!"android".equals(summary) && name != null) preferenceHeader.setTitle(name);
         }
     }
 
@@ -117,17 +125,20 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
         try {
             return requireContext().getPackageManager().getApplicationIcon(packageName);
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            AndroidLogUtils.logE(TAG, "Package icon not found: " + packageName, e);
             return null;
         }
     }
 
     private String getPackageName(String packageName) {
         try {
-            return (String) requireContext().getPackageManager().getApplicationLabel(requireContext().getPackageManager().getApplicationInfo(packageName, 0));
+            return String.valueOf(requireContext().getPackageManager()
+                    .getApplicationLabel(
+                            requireContext().getPackageManager()
+                                    .getApplicationInfo(packageName, 0)));
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return null; // 如果包名找不到则返回 null
+            AndroidLogUtils.logE(TAG, "Package name not found: " + packageName, e);
+            return null;
         }
     }
 
@@ -137,7 +148,9 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
             ToastHelper.makeText(getContext(), "Loading. Please wait.");
             return false;
         }
-        entranceState.onEntranceStateChange(preference.getKey(), (boolean) o);
+        if (entranceState != null) {
+            entranceState.onEntranceStateChange(preference.getKey(), (boolean) o);
+        }
         return true;
     }
 

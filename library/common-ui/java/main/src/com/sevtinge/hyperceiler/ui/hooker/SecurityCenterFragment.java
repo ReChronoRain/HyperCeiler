@@ -18,23 +18,13 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker;
 
-import androidx.preference.Preference;
-
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.R;
 
 public class SecurityCenterFragment extends DashboardFragment {
-
-    Preference mPrivacy;
 
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.security_center;
-    }
-
-    @Override
-    public void initPrefs() {
-        mPrivacy = findPreference("prefs_key_security_center_privacy_safety");
-        // mPrivacy.setVisible(!isMoreHyperOSVersion(1f));
     }
 }

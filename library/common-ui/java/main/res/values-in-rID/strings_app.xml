@@ -558,7 +558,6 @@
     <string name="system_ui_control_center_qs_bg_color">Warna latar belakang</string>
     <string name="system_ui_control_center_qs_color">Warna ikon</string>
     <string name="system_ui_control_auto_close_more">Setelah dibuka, mengklik ubin bilah status akan secara otomatis menarik kembali bilah status</string>
-    <string name="system_control_center_qs_tile_label">Hapus judul</string>
     <string name="system_control_center_qs_rows">Baris</string>
     <string name="system_control_center_qs_rows_format">%d baris</string>
     <string name="system_control_center_qs_rows_horizontal">Baris (Lanskap)</string>

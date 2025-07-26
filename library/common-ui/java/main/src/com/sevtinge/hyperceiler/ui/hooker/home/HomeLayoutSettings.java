@@ -24,8 +24,8 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHy
 import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.DropDownPreference;
 
@@ -56,22 +56,20 @@ public class HomeLayoutSettings extends DashboardFragment {
 
         if (isMoreHyperOSVersion(2f)) {
             mOldFunc.setVisible(false);
+            cleanKey("prefs_key_home_other_show_clock");
+            cleanKey("prefs_key_personal_assistant_overlap_mode");
         }
 
         if (isPad()) {
-            mIconLayout.setVisible(false);
-            mIconLayoutNew.setVisible(false);
+            setHide(mIconLayout, false);
+            setHide(mIconLayoutNew, false);
         } else if (isMoreHyperOSVersion(2f)) {
-            mIconLayout.setVisible(false);
-            mIconLayoutNew.setVisible(true);
-            mHotseatsMarginTopSwitchPref.setEnabled(false);
-            mHotseatsMarginTopSwitchPref.setVisible(false);
+            setHide(mIconLayout, false);
+            setHide(mHotseatsMarginTopSwitchPref, false);
         } else {
-            mIconLayout.setVisible(true);
-            mIconLayoutNew.setVisible(false);
-            mFolderTitlePosDropDownPref.setVisible(false);
-            mFolderHorPaddingSwitchPref.setEnabled(false);
-            mFolderHorPaddingSwitchPref.setVisible(false);
+            setHide(mIconLayoutNew, false);
+            setHide(mFolderTitlePosDropDownPref, false);
+            setHide(mFolderHorPaddingSwitchPref, false);
         }
     }
 }

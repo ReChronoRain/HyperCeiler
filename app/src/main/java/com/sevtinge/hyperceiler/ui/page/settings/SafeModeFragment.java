@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.ui.page.settings;
 
 import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
+import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isDebug;
 import static com.sevtinge.hyperceiler.ui.page.settings.helper.HomepageEntrance.ANDROID_NS;
 
 import android.content.pm.PackageManager;
@@ -31,26 +32,27 @@ import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.ui.BuildConfig;
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.ui.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class SafeModeFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
-    String mPkgList = getProp("persist.hyperceiler.crash.report");
-
-    SwitchPreference mHome;
-    SwitchPreference mSettings;
-    SwitchPreference mSystemUi;
-    SwitchPreference mSecurityCenter;
-    SwitchPreference mDemo;
+    private String mPkgList;
+    private SwitchPreference mHome;
+    private SwitchPreference mSettings;
+    private SwitchPreference mSystemUi;
+    private SwitchPreference mSecurityCenter;
+    private SwitchPreference mDemo;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -59,17 +61,16 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
 
     @Override
     public void initPrefs() {
+        mPkgList = getProp("persist.hyperceiler.crash.report");
         mHome = findPreference("prefs_key_home_safe_mode_enable");
         mSettings = findPreference("prefs_key_system_settings_safe_mode_enable");
         mSystemUi = findPreference("prefs_key_system_ui_safe_mode_enable");
         mSecurityCenter = findPreference("prefs_key_security_center_safe_mode_enable");
         mDemo = findPreference("prefs_key_demo_safe_mode_enable");
-        mDemo.setVisible(Objects.equals(BuildConfig.BUILD_TYPE, "debug"));
-        mSystemUi.setChecked(mPkgList.contains("systemui"));
-        mSettings.setChecked(mPkgList.contains("settings"));
-        mHome.setChecked(mPkgList.contains("home"));
-        mSecurityCenter.setChecked(mPkgList.contains("center"));
-        mDemo.setChecked(mPkgList.contains("demo"));
+        Objects.requireNonNull(mDemo).setVisible(isDebug());
+
+        setCheckedState();
+
         mHome.setOnPreferenceChangeListener(this);
         mDemo.setOnPreferenceChangeListener(this);
         mSettings.setOnPreferenceChangeListener(this);
@@ -79,12 +80,23 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
         setPreference();
     }
 
+    private void setCheckedState() {
+        // 用逗号分割避免 contains 误判
+        String[] pkgs = mPkgList == null ? new String[0] : mPkgList.split(",");
+        Set<String> pkgSet = new HashSet<>(Arrays.asList(pkgs));
+        mSystemUi.setChecked(pkgSet.contains("systemui"));
+        mSettings.setChecked(pkgSet.contains("settings"));
+        mHome.setChecked(pkgSet.contains("home"));
+        mSecurityCenter.setChecked(pkgSet.contains("center"));
+        mDemo.setChecked(pkgSet.contains("demo"));
+    }
+
     private void setPreference() {
         Resources resources = getResources();
         try (XmlResourceParser xml = resources.getXml(R.xml.prefs_settings_safe_mode)) {
             int event = xml.getEventType();
             while (event != XmlPullParser.END_DOCUMENT) {
-                if (event == XmlPullParser.START_TAG && xml.getName().equals("SwitchPreference")) {
+                if (event == XmlPullParser.START_TAG && "SwitchPreference".equals(xml.getName())) {
                     String key = xml.getAttributeValue(ANDROID_NS, "key");
                     String summary = xml.getAttributeValue(ANDROID_NS, "summary");
                     if (key != null && summary != null) {
@@ -92,8 +104,8 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
                         String name = getPackageName(summary);
                         SwitchPreference preferenceHeader = findPreference(key);
                         if (preferenceHeader != null) {
-                            preferenceHeader.setIcon(icon);
-                            if (!summary.equals("android")) preferenceHeader.setTitle(name);
+                            if (icon != null) preferenceHeader.setIcon(icon);
+                            if (!"android".equals(summary) && name != null) preferenceHeader.setTitle(name);
                         }
                     }
                 }
@@ -108,23 +120,22 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
         try {
             return requireContext().getPackageManager().getApplicationIcon(packageName);
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
             return null;
         }
     }
 
     private String getPackageName(String packageName) {
         try {
-            return (String) requireContext().getPackageManager().getApplicationLabel(requireContext().getPackageManager().getApplicationInfo(packageName, 0));
+            return (String) requireContext().getPackageManager()
+                    .getApplicationLabel(requireContext().getPackageManager().getApplicationInfo(packageName, 0));
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return null; // 如果包名找不到则返回 null
+            return null;
         }
     }
 
     @Override
     public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
-        String key = "";
+        String key = null;
         if (preference == mHome) {
             key = "home";
         } else if (preference == mSettings) {
@@ -136,20 +147,20 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
         } else if (preference == mDemo) {
             key = "demo";
         }
-        if (!key.isEmpty()) {
+        if (key != null) {
             String mPkgList = getProp("persist.hyperceiler.crash.report");
-            if ((boolean) o) {
-                if (mPkgList.isEmpty()) {
-                    mPkgList = key;
-                } else {
-                    mPkgList += "," + key;
-                }
-            } else {
-                mPkgList = mPkgList.replace("," + key, "").replace(key, "");
+            Set<String> pkgSet = new HashSet<>();
+            if (mPkgList != null && !mPkgList.isEmpty()) {
+                pkgSet.addAll(Arrays.asList(mPkgList.split(",")));
             }
-            ShellInit.getShell().run("setprop persist.hyperceiler.crash.report \"" + mPkgList + "\"").sync();
+            if ((boolean) o) {
+                pkgSet.add(key);
+            } else {
+                pkgSet.remove(key);
+            }
+            String newPkgList = String.join(",", pkgSet);
+            ShellInit.getShell().run("setprop persist.hyperceiler.crash.report \"" + newPkgList + "\"").sync();
         }
         return true;
     }
-
 }

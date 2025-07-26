@@ -28,13 +28,11 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.hook.safe.CrashData;
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
+import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.ui.R;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,15 +49,18 @@ public class CrashActivity extends AppCompatActivity {
     private int throwLineNumber;
     private String throwMethodName;
 
-    private static HashMap<String, String> swappedMap = CrashData.swappedData();
+    private static Map<String, String> swappedMap = CrashData.swappedData();
 
     @SuppressLint({"SetTextI18n", "StringFormatInvalid"})
     @Override
     public void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
         ShellInit.init();
-        if (swappedMap.isEmpty()) swappedMap = CrashData.swappedData();
+        if (swappedMap == null || swappedMap.isEmpty()) {
+            swappedMap = CrashData.swappedData();
+        }
         setContentView(R.layout.activity_crash_dialog);
+
         Intent intent = getIntent();
         String code = intent.getStringExtra("key_pkg");
         longMsg = intent.getStringExtra("key_longMsg");
@@ -68,45 +69,58 @@ public class CrashActivity extends AppCompatActivity {
         throwFileName = intent.getStringExtra("key_throwFileName");
         throwLineNumber = intent.getIntExtra("key_throwLineNumber", -1);
         throwMethodName = intent.getStringExtra("key_throwMethodName");
-        Map<String, String> appNameMap = new HashMap<>();
-        appNameMap.put("com.android.systemui", getString(R.string.system_ui));
-        appNameMap.put("com.android.settings", getString(R.string.system_settings));
-        appNameMap.put("com.miui.home", getString(R.string.mihome));
-        appNameMap.put("com.hchen.demo", getString(R.string.demo));
-        appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_hyperos));
+
+        Map<String, String> appNameMap = getAppNameMap();
         String pkg = getReportCrashPkg(code);
-        String appName = appNameMap.get(pkg);
-        String msg = getString(R.string.safe_mode_desc, " " + appName + " (" + pkg + ") ");
-        msg = msg.replace("  ", " ");
-        msg = msg.replace("， ", "，");
-        msg = msg.replace("、 ", "、");
-        msg = msg.replaceAll("^\\s+|\\s+$", "");
+        String appName = appNameMap.getOrDefault(pkg, pkg != null ? pkg : "unknown");
+        String msg = formatSafeModeDesc(appName, pkg);
+
         View view = LayoutInflater.from(this).inflate(R.layout.crash_report_dialog, null);
         mMessageTv = view.findViewById(R.id.tv_message);
         mMessageTv.setText(msg);
+
         mCrashRecordTv = view.findViewById(R.id.tv_record);
-        mCrashRecordTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);// 下划线并加清晰
-        mCrashRecordTv.getPaint().setAntiAlias(true);
-        mCrashRecordTv.setOnClickListener(v -> DialogHelper.showCrashMsgDialog(this, throwClassName,
-                throwFileName, throwLineNumber, throwMethodName, longMsg, stackTrace));
+        Paint paint = mCrashRecordTv.getPaint();
+        paint.setFlags(Paint.UNDERLINE_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+        paint.setAntiAlias(true);
+
+        mCrashRecordTv.setOnClickListener(v -> DialogHelper.showCrashMsgDialog(
+                this, throwClassName, throwFileName, throwLineNumber, throwMethodName, longMsg, stackTrace
+        ));
+
         DialogHelper.showCrashReportDialog(this, view);
     }
 
+    private Map<String, String> getAppNameMap() {
+        Map<String, String> map = new HashMap<>();
+        map.put("com.android.systemui", getString(R.string.system_ui));
+        map.put("com.android.settings", getString(R.string.system_settings));
+        map.put("com.miui.home", getString(R.string.mihome));
+        map.put("com.hchen.demo", getString(R.string.demo));
+        map.put("com.miui.securitycenter", getString(R.string.security_center_hyperos));
+        return map;
+    }
+
+    private String formatSafeModeDesc(String appName, String pkg) {
+        String msg = getString(R.string.safe_mode_desc, " " + appName + " (" + pkg + ") ");
+        return msg.replace("  ", " ")
+                  .replace("， ", "，")
+                  .replace("、 ", "、")
+                  .replaceAll("^\\s+|\\s+$", "");
+    }
+
     private String getReportCrashPkg(String data) {
-        if (data == null) return null;
+        if (data == null || swappedMap == null) return null;
         String[] sp = data.split(",");
-        ArrayList<String> report = new ArrayList<>(Arrays.asList(sp));
-        StringBuilder string = null;
-        for (String s : report) {
+        StringBuilder result = new StringBuilder();
+        for (String s : sp) {
             String mPkg = swappedMap.get(s);
             if (mPkg != null) {
-                if (string == null) string = new StringBuilder(mPkg);
-                else
-                    string.append("\n").append(mPkg);
+                if (result.length() > 0) result.append("\n");
+                result.append(mPkg);
             }
         }
-        if (string == null) return null;
-        return string.toString();
+        return result.length() == 0 ? null : result.toString();
     }
 
     @Override

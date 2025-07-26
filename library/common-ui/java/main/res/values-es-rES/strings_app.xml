@@ -620,7 +620,6 @@ aplicaciones del sistema</string>
     <string name="system_ui_control_center_qs_open_color">Habilitar la personalización del mosaico pequeño</string>
     <string name="system_ui_control_center_qs_big_open_color">Habilitar la personalización del mosaico grande</string>
     <string name="system_ui_control_auto_close_more">Después de abrir, hacer clic en pegatinas y automáticamente se vuelve la barra de estado</string>
-    <string name="system_control_center_qs_tile_label">Eliminar títulos</string>
     <string name="system_control_center_qs_rows">Filas</string>
     <string name="system_control_center_qs_rows_format">%d Filas</string>
     <string name="system_control_center_qs_rows_horizontal">Filas (Horizontal)</string>

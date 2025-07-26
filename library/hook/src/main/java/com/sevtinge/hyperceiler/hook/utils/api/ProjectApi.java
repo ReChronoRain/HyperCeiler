@@ -43,19 +43,19 @@ public class ProjectApi {
         }
     }
 
-    public static boolean isRelease() {
-        return "release".equals(BuildConfig.BUILD_TYPE);
-    }
+   public static boolean isRelease() {
+       return "release".equals(getBuildType());
+   }
 
-    public static boolean isBeta() {
-        return "beta".equals(BuildConfig.BUILD_TYPE);
-    }
+   public static boolean isBeta() {
+       return "beta".equals(getBuildType());
+   }
 
-    public static boolean isCanary() {
-        return "canary".equals(BuildConfig.BUILD_TYPE);
-    }
+   public static boolean isCanary() {
+       return "canary".equals(getBuildType());
+   }
 
-    public static boolean isDebug() {
-        return "debug".equals(BuildConfig.BUILD_TYPE);
-    }
+   public static boolean isDebug() {
+       return "debug".equals(getBuildType());
+   }
 }

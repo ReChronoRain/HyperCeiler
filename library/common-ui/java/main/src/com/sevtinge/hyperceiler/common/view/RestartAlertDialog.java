@@ -22,9 +22,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.hook.module.hook.GlobalActions;
-import com.sevtinge.hyperceiler.hook.utils.KillApp;
+import com.sevtinge.hyperceiler.ui.R;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,8 +33,8 @@ import fan.appcompat.app.AlertDialog;
 
 public class RestartAlertDialog extends AlertDialog {
 
-    List<String> mAppNameList;
-    List<String> mAppPackageNameList;
+    private List<String> mAppNameList;
+    private List<String> mAppPackageNameList;
 
     public RestartAlertDialog(Context context) {
         super(context);
@@ -51,12 +51,13 @@ public class RestartAlertDialog extends AlertDialog {
         view.deselectAll();
         view.setOnCheckedListener(sparseBooleanArray -> {
             dismiss();
-            for (int i = 0; i < sparseBooleanArray.size(); i++) {
+            int size = sparseBooleanArray.size();
+            for (int i = 0; i < size; i++) {
                 if (sparseBooleanArray.get(i)) {
                     // ShellUtils.execCommand("pkill -l 9 -f " + mAppPackageNameList.get(i), true, false);
                     // String test = "XX";
                     String packageGet = mAppPackageNameList.get(i);
-                    KillApp.killApps(packageGet);
+                    AppsTool.killApps(packageGet);
                 }
             }
         });

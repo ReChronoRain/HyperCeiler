@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.ui.hooker.various;
 
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.DropDownPreference;
@@ -42,7 +41,7 @@ public class AlertDialogSettings extends DashboardFragment {
         mDialogHorizontalMargin = findPreference("prefs_key_various_dialog_margin_horizontal");
         mDialogBottomMargin = findPreference("prefs_key_various_dialog_margin_bottom");
 
-        int gialogGravity = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getActivity(), "prefs_key_various_dialog_gravity", "0"));
+        int gialogGravity = Integer.parseInt(getSharedPreferences().getString("prefs_key_various_dialog_gravity", "0"));
 
         mDialogHorizontalMargin.setVisible(gialogGravity != 0);
         mDialogBottomMargin.setVisible(gialogGravity == 2);

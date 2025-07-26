@@ -73,17 +73,11 @@ public abstract class BaseSettingsActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        if (mFragment != null) {
-            mFragment.onCreateOptionsMenu(menu, getMenuInflater());
-        }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (mFragment != null) {
-            mFragment.onOptionsItemSelected(item);
-        }
         return super.onOptionsItemSelected(item);
     }
 }

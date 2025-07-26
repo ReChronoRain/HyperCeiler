@@ -19,6 +19,7 @@
 
 package com.sevtinge.hyperceiler.safemode.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -43,6 +44,7 @@ public class CrashInfoItem extends LinearLayout {
         this(context, null);
     }
 
+    @SuppressLint("CustomViewStyleable")
     public CrashInfoItem(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CrashInfoCard);
