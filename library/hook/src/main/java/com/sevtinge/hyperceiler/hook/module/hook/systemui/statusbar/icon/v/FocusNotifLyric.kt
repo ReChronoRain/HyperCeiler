@@ -139,17 +139,18 @@ object FocusNotifLyric : MusicBaseHook() {
         val lyric = data.lyric
         focusTextViewList.forEach { textView ->
             textView.post {
-                if (lastLyric == textView.text) {
+                // 仅当歌词内容发生变化时才重置滚动，避免每次都闪现到头部
+                if (lastLyric != lyric) {
+                    if (XposedHelpers.getAdditionalStaticField(textView, "is_scrolling") == 1) {
+                        val m0 = textView.getObjectFieldOrNull("mMarquee")
+                        m0?.apply {
+                            // 设置速度并且调用停止函数,重置歌词位置
+                            setFloatField("mPixelsPerMs", 0f)
+                            callMethod("stop")
+                        }
+                    }
                     textView.text = lyric
                     lastLyric = lyric
-                }
-                if (XposedHelpers.getAdditionalStaticField(textView, "is_scrolling") == 1) {
-                    val m0 = textView.getObjectFieldOrNull("mMarquee")
-                    m0!!.apply {
-                        // 设置速度并且调用停止函数,重置歌词位置
-                        setFloatField("mPixelsPerMs", 0f)
-                        callMethod("stop")
-                    }
                 }
                 val startScroll = runnablePool.getOrPut(textView.hashCode()) {
                     Runnable { startScroll(textView) }
