@@ -23,15 +23,16 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.XmlRes;
+import androidx.core.view.MenuProvider;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceScreen;
 
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
@@ -46,7 +47,7 @@ import fan.preference.PreferenceFragment;
 public class DashboardFragment extends SettingsPreferenceFragment {
 
     private static final String TAG = "DashboardFragment";
-    public static final String APP_NS = "http://schemas.android.com/apk/res-auto";
+    private static final String APP_NS = "http://schemas.android.com/apk/res-auto";
 
     private String mQuickRestartPackageName;
 
@@ -62,53 +63,60 @@ public class DashboardFragment extends SettingsPreferenceFragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        if (!TextUtils.isEmpty(mQuickRestartPackageName)) {
-            inflater.inflate(R.menu.navigation_immersion, menu);
-        }
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.quick_restart && !TextUtils.isEmpty(mQuickRestartPackageName)) {
-            if (mQuickRestartPackageName.equals("system")) {
-                DialogHelper.showRestartSystemDialog(getContext());
-            } else {
-                DialogHelper.showRestartDialog(getContext(), mQuickRestartPackageName);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        requireActivity().addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                if (!TextUtils.isEmpty(mQuickRestartPackageName)) {
+                    menuInflater.inflate(R.menu.navigation_immersion, menu);
+                }
             }
-        }
-        return super.onOptionsItemSelected(item);
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.quick_restart && !TextUtils.isEmpty(mQuickRestartPackageName)) {
+                    if ("system".equals(mQuickRestartPackageName)) {
+                        DialogHelper.showRestartSystemDialog(getContext());
+                    } else {
+                        DialogHelper.showRestartDialog(getContext(), mQuickRestartPackageName);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        }, getViewLifecycleOwner());
     }
 
     private String getQuickRestartPackageName(Context context, @XmlRes int xmlResId) {
+        if (xmlResId == 0) return null;
         Resources res = context.getResources();
         try (XmlResourceParser xml = res.getXml(xmlResId)) {
             int eventType = xml.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG && xml.getName().equals(PreferenceScreen.class.getSimpleName())) {
+                if (eventType == XmlPullParser.START_TAG && "PreferenceScreen".equals(xml.getName())) {
                     return xml.getAttributeValue(APP_NS, "quick_restart");
                 }
                 eventType = xml.next();
             }
-            return null;
-        } catch (Throwable t) {
-            AndroidLogUtils.logE(TAG, "Failed to access XML resource!", t);
-            return null;
+        } catch (Exception e) {
+            AndroidLogUtils.logE(TAG, "Failed to access XML resource!", e);
         }
+        return null;
     }
 
     protected void setOverlayMode() {
         try {
             Field declaredField = PreferenceFragment.class.getDeclaredField("mIsOverlayMode");
             declaredField.setAccessible(true);
-            declaredField.set(this, Boolean.FALSE);
+            declaredField.set(this, false);
         } catch (Exception e) {
-            Log.e("AboutFragment", "declaredField", e);
+            AndroidLogUtils.logE(TAG, "setOverlayMode error", e);
         }
     }
 
     public void setFuncHint(Preference p, int value) {
+        cleanKey(p.getKey());
         p.setEnabled(false);
         switch (value) {
             case 1 -> p.setSummary(R.string.unsupported_system_func);
@@ -116,5 +124,12 @@ public class DashboardFragment extends SettingsPreferenceFragment {
             case 3 -> p.setSummary(R.string.feature_doing_func);
             default -> throw new IllegalStateException("Unexpected value: " + value);
         };
+    }
+
+    public void setHide(Preference p, boolean b) {
+        if (!b) {
+            cleanKey(p.getKey());
+            p.setVisible(false);
+        }
     }
 }

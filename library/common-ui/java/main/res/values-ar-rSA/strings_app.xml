@@ -735,7 +735,6 @@
     <string name="system_ui_control_center_qs_open_color">تمكين تخصيص البلاطة الصغيرة</string>
     <string name="system_ui_control_center_qs_big_open_color">تمكين تخصيص البلاطة الكبيرة</string>
     <string name="system_ui_control_auto_close_more">عن طريق النقر على كتلة شريط الحالة، سيتم إغلاق شريط الحالة تلقائيًا.</string>
-    <string name="system_control_center_qs_tile_label">إزالة العنوان</string>
     <string name="system_control_center_qs_rows">الصفوف</string>
     <string name="system_control_center_qs_rows_format">%d خطوط</string>
     <string name="system_control_center_qs_rows_horizontal">الصفوف (بالعرض)</string>

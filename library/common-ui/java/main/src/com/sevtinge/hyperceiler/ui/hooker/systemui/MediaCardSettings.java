@@ -22,9 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.ColorPickerPreference;
 import fan.preference.DropDownPreference;
@@ -54,11 +53,11 @@ public class MediaCardSettings extends DashboardFragment implements Preference.O
         mSliderColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_thumb_color");
         mProgressBarColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_color");
 
-        mProgressModeThickness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
-        mProgressModeCornerRadius.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
+        mProgressModeThickness.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
+        mProgressModeCornerRadius.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
 
-        mSliderColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
-        mProgressBarColor.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
+        mSliderColor.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
+        mProgressBarColor.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
 
 
         mRemoveMediaCardBackFix.setOnPreferenceChangeListener((preference, o) -> {

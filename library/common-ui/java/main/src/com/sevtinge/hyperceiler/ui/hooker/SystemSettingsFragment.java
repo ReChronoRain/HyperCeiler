@@ -52,7 +52,6 @@ public class SystemSettingsFragment extends DashboardFragment {
         mUiMode.setVisible(isPad());
 
         if (isMoreHyperOSVersion(2f)) {
-            mLangShow.setChecked(false);
             setFuncHint(mLangShow, 1);
         }
 

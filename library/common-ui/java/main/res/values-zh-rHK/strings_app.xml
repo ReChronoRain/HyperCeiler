@@ -600,7 +600,6 @@
     <string name="system_ui_control_center_qs_open_color">已啟用磁貼顏色自定義</string>
     <string name="system_ui_control_center_qs_big_open_color">已啟用卡片磁貼顏色自定義</string>
     <string name="system_ui_control_auto_close_more">開啟後點擊狀態欄磁貼會自動收起狀態欄</string>
-    <string name="system_control_center_qs_tile_label">移除標題</string>
     <string name="system_control_center_qs_rows">行數</string>
     <string name="system_control_center_qs_rows_format">%d 行</string>
     <string name="system_control_center_qs_rows_horizontal">行 (橫向)</string>

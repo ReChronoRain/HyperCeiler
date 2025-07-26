@@ -18,25 +18,13 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-
-import androidx.preference.SwitchPreference;
-
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.R;
 
 public class ContentExtensionFragment extends DashboardFragment {
-    SwitchPreference mUnlockTaplus;
 
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.content_extension;
-    }
-
-    @Override
-    public void initPrefs() {
-        mUnlockTaplus= findPreference("prefs_key_content_extension_unlock_taplus");
-
-        mUnlockTaplus.setVisible(!isAndroidVersion(30));
     }
 }

@@ -22,9 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
@@ -46,7 +45,7 @@ public class NetworkSpeedIndicatorSettings extends DashboardFragment
 
     @Override
     public void initPrefs() {
-        int mNetworkMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_system_ui_statusbar_network_speed_style", "0"));
+        int mNetworkMode = Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_statusbar_network_speed_style", "0"));
         mNetworkStyle = findPreference("prefs_key_system_ui_statusbar_network_speed_style");
         mNetworkAlign = findPreference("prefs_key_system_ui_statusbar_network_speed_align");
         mNetworkIcon = findPreference("prefs_key_system_ui_statusbar_network_speed_icon");

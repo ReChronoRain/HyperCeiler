@@ -23,9 +23,9 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHy
 
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 public class CorePatchSettings extends DashboardFragment {
 
@@ -49,7 +49,7 @@ public class CorePatchSettings extends DashboardFragment {
 
         mDisableIntegrity.setVisible(!mCreak);
 
-        mAllowUpdateSystemApps.setVisible(isMoreAndroidVersion(35));
+        setHide(mAllowUpdateSystemApps, isMoreAndroidVersion(35));
         mIsolationViolation.setVisible(isMoreHyperOSVersion(2f));
 
         mDisableCreak.setOnPreferenceChangeListener((preference, o) -> {

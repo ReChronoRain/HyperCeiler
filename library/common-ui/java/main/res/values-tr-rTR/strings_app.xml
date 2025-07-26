@@ -589,7 +589,6 @@
     <string name="system_ui_control_center_qs_bg_color">Arka plan rengi</string>
     <string name="system_ui_control_center_qs_color">Simge rengi</string>
     <string name="system_ui_control_auto_close_more">Açıldıktan sonra durum çubuğuna tıklamak durum çubuğunu otomatik olarak geri çekecek</string>
-    <string name="system_control_center_qs_tile_label">Başlığı kaldır</string>
     <string name="system_control_center_qs_rows">Satırlar</string>
     <string name="system_control_center_qs_rows_format">%d satır</string>
     <string name="system_control_center_qs_rows_horizontal">Satırlar (Yatay)</string>

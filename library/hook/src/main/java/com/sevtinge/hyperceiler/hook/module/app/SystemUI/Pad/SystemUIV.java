@@ -54,7 +54,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.OldWeath
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QQSGrid;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSGrid;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSGridLabels;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ReduceBrightColorsTile;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.RemoveNotifNumLimit;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ShadeHeaderGradientBlur;
@@ -204,8 +203,6 @@ public class SystemUIV extends BaseModule {
         } else {
             initHook(new SunlightMode(), mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode", 0) != 0);
         }
-        initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_row", 1) > 1 ||
-                mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
         initHook(new SwitchCCAndNotification(), mPrefsMap.getBoolean("system_ui_control_center_switch_cc_and_notification"));
         initHook(OldWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
@@ -259,7 +256,6 @@ public class SystemUIV extends BaseModule {
         initHook(LockScreenDoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_double_lock"));
         initHook(HideLockscreenZenMode.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_not_disturb_mode"));
         initHook(HideLockScreenStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_status_bar"));
-        // initHook(new BlockEditor(), mPrefsMap.getBoolean("system_ui_lock_screen_block_editor"));
         initHook(AllowThirdLockScreenUseFace.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_allow_third_face"));
         initHook(new DisableUnlockByBleToast(), mPrefsMap.getBoolean("system_ui_lock_screen_disable_unlock_by_ble_toast"));
         initHook(new LinkageAnimCustomer(), mPrefsMap.getBoolean("system_ui_lock_screen_linkage_anim"));

@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.common.prefs;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getLanguage;
-import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -29,7 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.common.utils.MainActivityContextHelper;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,8 +40,7 @@ import java.util.Random;
 
 public class TipsPreference extends Preference {
 
-    Context mContext;
-    MainActivityContextHelper mainActivityContextHelper;
+    private final Context mContext;
 
     public TipsPreference(@NonNull Context context) {
         this(context, null);
@@ -54,7 +52,7 @@ public class TipsPreference extends Preference {
 
     public TipsPreference(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mContext = context;
+        mContext = context.getApplicationContext();
         setEnabled(false);
         updateTips();
     }
@@ -64,46 +62,68 @@ public class TipsPreference extends Preference {
         setSummary("Tip: " + tip);
     }
 
+    private static final Object tipsCacheLock = new Object();
+    private static List<String> cachedTips = null;
+    private static String cachedLanguage = null;
+
     public static String getRandomTip(Context context) {
+        String language = getLanguage();
+        List<String> tipsList;
+
+        synchronized (tipsCacheLock) {
+            if (cachedTips != null && language.equals(cachedLanguage)) {
+                tipsList = new ArrayList<>(cachedTips);
+            } else {
+                tipsList = loadTips(context, language);
+                if (!tipsList.isEmpty()) {
+                    cachedTips = new ArrayList<>(tipsList);
+                    cachedLanguage = language;
+                }
+            }
+        }
+
+        if (tipsList.isEmpty()) {
+            return "Get random tip is empty.";
+        }
+
+        Random random = new Random();
+        String randomTip = "";
+        int attempts = 0;
+        while (randomTip.isEmpty() && !tipsList.isEmpty() && attempts < tipsList.size()) {
+            int randomIndex = random.nextInt(tipsList.size());
+            randomTip = tipsList.get(randomIndex);
+            tipsList.remove(randomIndex);
+            attempts++;
+        }
+
+        return !randomTip.isEmpty() ? randomTip : "Get random tip is empty.";
+    }
+
+    private static List<String> loadTips(Context context, String language) {
         AssetManager assetManager = context.getAssets();
-        String fileName = "tips/tips-" + getLanguage();
+        String fileName = "tips/tips-" + language;
         List<String> tipsList = new ArrayList<>();
 
-        try {
-            InputStream inputStream;
-            try {
-                inputStream = assetManager.open(fileName);
-            } catch (IOException ex) {
-                inputStream = assetManager.open("tips/tips");
-            }
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try (InputStream inputStream = openTipsFile(assetManager, fileName);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                if (!line.trim().startsWith("//")) {
+                if (!line.trim().startsWith("//") && !line.trim().isEmpty()) {
                     tipsList.add(line);
                 }
             }
-
-            reader.close();
-            inputStream.close();
-
-            Random random = new Random();
-            String randomTip = "";
-            while (randomTip.isEmpty() && !tipsList.isEmpty()) {
-                int randomIndex = random.nextInt(tipsList.size());
-                randomTip = tipsList.get(randomIndex);
-                tipsList.remove(randomIndex);
-            }
-
-            if (!randomTip.isEmpty()) {
-                return randomTip;
-            } else {
-                return "Get random tip is empty.";
-            }
         } catch (IOException e) {
-            logE("MainActivityContextHelper", "getRandomTip() error: " + e.getMessage());
-            return "error";
+            AndroidLogUtils.logE("MainActivityContextHelper", "getRandomTip() error: " + e.getMessage());
+        }
+        return tipsList;
+    }
+
+    private static InputStream openTipsFile(AssetManager assetManager, String fileName) throws IOException {
+        try {
+            return assetManager.open(fileName);
+        } catch (IOException ex) {
+            return assetManager.open("tips/tips");
         }
     }
 }

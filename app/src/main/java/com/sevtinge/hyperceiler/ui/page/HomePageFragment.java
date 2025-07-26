@@ -36,18 +36,18 @@ import androidx.preference.PreferenceCategory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sevtinge.hyperceiler.common.callback.ModSearchCallback;
+import com.sevtinge.hyperceiler.common.model.adapter.ModSearchAdapter;
+import com.sevtinge.hyperceiler.common.model.data.ModData;
 import com.sevtinge.hyperceiler.common.prefs.PreferenceHeader;
+import com.sevtinge.hyperceiler.common.utils.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.common.utils.SettingLauncherHelper;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.dashboard.SubSettings;
-import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.common.callback.ModSearchCallback;
-import com.sevtinge.hyperceiler.common.model.data.ModData;
-import com.sevtinge.hyperceiler.common.model.adapter.ModSearchAdapter;
-import com.sevtinge.hyperceiler.ui.page.settings.helper.HomepageEntrance;
-import com.sevtinge.hyperceiler.ui.ContentFragment.IFragmentChange;
-import com.sevtinge.hyperceiler.common.utils.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.ui.ContentFragment.IFragmentChange;
+import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.ui.page.settings.helper.HomepageEntrance;
 import com.sevtinge.hyperceiler.utils.banner.HomePageBannerHelper;
 import com.sevtinge.hyperceiler.widget.ListContainerView;
 
@@ -61,36 +61,44 @@ import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
 import fan.navigator.NavigatorFragmentListener;
 import fan.nestedheader.widget.NestedHeaderLayout;
+import fan.preference.TextButtonPreference;
 import fan.springback.view.SpringBackLayout;
 
 public class HomePageFragment extends DashboardFragment
         implements HomepageEntrance.EntranceState, ModSearchCallback.OnSearchListener,
         NavigatorFragmentListener, IFragmentChange {
 
-    ListContainerView mContainerView;
-    ViewGroup mPrefsContainer;
-    NestedHeaderLayout mNestedHeaderLayout;
+    private ListContainerView mContainerView;
+    private NestedHeaderLayout mNestedHeaderLayout;
 
-    View mSearchBar;
-    TextView mSearchInputView;
-    RecyclerView mSearchResultView;
-    ModSearchAdapter mSearchAdapter;
-    ModSearchCallback mSearchCallBack;
+    private View mSearchBar;
+    private TextView mSearchInputView;
+    private RecyclerView mSearchResultView;
+    private ModSearchAdapter mSearchAdapter;
+    private ModSearchCallback mSearchCallBack;
+    private TextButtonPreference mShowAppTips;
+
+    private PreferenceCategory mHeadtipGround;
+    private MainActivityContextHelper mainActivityContextHelper;
+    private static final String TAG = "MainFragment";
+    public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
 
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mContainerView = new ListContainerView(requireContext());
-        mNestedHeaderLayout = mContainerView.getNestedHeader();
-        mContainerView.addPrefsContainer(super.onCreateView(inflater, container, savedInstanceState));
-        setOverlayMode();
-        registerCoordinateScrollView(mNestedHeaderLayout);
+        if (mContainerView == null) {
+            mContainerView = new ListContainerView(requireContext());
+            mNestedHeaderLayout = mContainerView.getNestedHeader();
+            mContainerView.addPrefsContainer(super.onCreateView(inflater, container, savedInstanceState));
+            setOverlayMode();
+            registerCoordinateScrollView(mNestedHeaderLayout);
 
-        RecyclerView listView = getListView();
-        View parent = (View) listView.getParent();
-        if (parent instanceof SpringBackLayout) {
-            parent.setEnabled(false);
-            listView.setPaddingRelative(listView.getPaddingStart(), 0, listView.getPaddingEnd(), 0);
+            RecyclerView listView = getListView();
+            View parent = (View) listView.getParent();
+            if (parent instanceof SpringBackLayout) {
+                parent.setEnabled(false);
+                listView.setPaddingRelative(listView.getPaddingStart(), 0, listView.getPaddingEnd(), 0);
+            }
         }
         return mContainerView;
     }
@@ -108,15 +116,17 @@ public class HomePageFragment extends DashboardFragment
         mSearchInputView = mSearchBar.findViewById(android.R.id.input);
         mSearchResultView = mContainerView.getRecyclerView();
 
-        mSearchAdapter = new ModSearchAdapter();
+        if (mSearchAdapter == null) {
+            mSearchAdapter = new ModSearchAdapter();
+            mSearchResultView.setLayoutManager(new LinearLayoutManager(requireContext()));
+            mSearchResultView.setAdapter(mSearchAdapter);
+            mSearchAdapter.setOnItemClickListener((v, ad) -> onSearchItemClickListener(ad));
+        }
         mSearchInputView.setHint(getResources().getString(R.string.search));
-        mSearchResultView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        mSearchResultView.setAdapter(mSearchAdapter);
 
         onTextSearch();
 
         mSearchBar.setOnClickListener(v -> startSearchMode());
-        mSearchAdapter.setOnItemClickListener((v, ad) -> onSearchItemClickListener(ad));
     }
 
     public void onTextSearch() {
@@ -129,12 +139,12 @@ public class HomePageFragment extends DashboardFragment
         if (mSearchCallBack == null) {
             mSearchCallBack = new ModSearchCallback(getActivity(), mSearchResultView, this);
         }
-        mSearchCallBack.setup(view, mNestedHeaderLayout.getScrollableView(),mContainerView.findViewById(com.sevtinge.hyperceiler.R.id.search_result_ll));
+        mSearchCallBack.setup(view, mNestedHeaderLayout.getScrollableView(),
+                mContainerView.findViewById(com.sevtinge.hyperceiler.R.id.search_result_ll));
     }
 
     @Override
     public void onCreateSearchMode(ActionMode mode, Menu menu) {
-        //mInSearchMode = true;
         if (isAdded()) {
             mNestedHeaderLayout.setInSearchMode(true);
             mContainerView.setRefreshEnable(false);
@@ -144,32 +154,29 @@ public class HomePageFragment extends DashboardFragment
 
     @Override
     public void onDestroySearchMode(ActionMode mode) {
-        //mInSearchMode = false;
         mNestedHeaderLayout.setInSearchMode(false);
         mContainerView.setRefreshEnable(false);
         mContainerView.showPrefsContainer();
     }
 
     @Override
-    public void onSearchModeAnimStart(boolean z) {
-
-    }
+    public void onSearchModeAnimStart(boolean z) {}
 
     @Override
-    public void onSearchModeAnimStop(boolean z) {
-
-    }
+    public void onSearchModeAnimStop(boolean z) {}
 
     @Override
-    public void onSearchModeAnimUpdate(boolean z, float f) {
-
-    }
+    public void onSearchModeAnimUpdate(boolean z, float f) {}
 
     private void startSearchMode() {
-        ((Fragment) getParentFragment()).startActionMode(mSearchCallBack);
+        Fragment parent = (Fragment) getParentFragment();
+        if (parent != null && mSearchCallBack != null) {
+            parent.startActionMode(mSearchCallBack);
+        }
     }
 
     private void onSearchItemClickListener(ModData ad) {
+        if (ad == null) return;
         Bundle args = new Bundle();
         args.putString(":settings:fragment_args_key", ad.key);
         args.putInt(":settings:fragment_resId", ad.xml);
@@ -182,11 +189,6 @@ public class HomePageFragment extends DashboardFragment
         );
     }
 
-    PreferenceCategory mHeadtipGround;
-    MainActivityContextHelper mainActivityContextHelper;
-    private static final String TAG = "MainFragment";
-    public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
-
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.prefs_main;
@@ -197,8 +199,14 @@ public class HomePageFragment extends DashboardFragment
         HomepageEntrance.setEntranceStateListen(this);
         setPreference();
         mHeadtipGround = findPreference("prefs_key_headtip_ground");
+        mShowAppTips = findPreference("prefs_key_help_cant_see_app");
         mainActivityContextHelper = new MainActivityContextHelper(requireContext());
         HomePageBannerHelper.init(requireContext(), mHeadtipGround);
+
+        boolean isHideTip = getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false);
+        if (isHideTip && mShowAppTips != null) {
+            mShowAppTips.setVisible(false);
+        }
     }
 
     private void setPreference() {
@@ -214,14 +222,16 @@ public class HomePageFragment extends DashboardFragment
         try (XmlResourceParser xml = getResources().getXml(xmlResId)) {
             int event = xml.getEventType();
             while (event != XmlPullParser.END_DOCUMENT) {
-                if (event == XmlPullParser.START_TAG && "SwitchPreference".equals(xml.getName())) {
-                    String key = xml.getAttributeValue(ANDROID_NS, "key");
-                    processor.accept(key, null);
-                }
-                if (event == XmlPullParser.START_TAG && isPreferenceHeaderTag(xml)) {
-                    String key = xml.getAttributeValue(ANDROID_NS, "key");
-                    String summary = xml.getAttributeValue(ANDROID_NS, "summary");
-                    processor.accept(key, summary);
+                if (event == XmlPullParser.START_TAG) {
+                    String name = xml.getName();
+                    if ("SwitchPreference".equals(name)) {
+                        String key = xml.getAttributeValue(ANDROID_NS, "key");
+                        processor.accept(key, null);
+                    } else if (isPreferenceHeaderTag(xml)) {
+                        String key = xml.getAttributeValue(ANDROID_NS, "key");
+                        String summary = xml.getAttributeValue(ANDROID_NS, "summary");
+                        processor.accept(key, summary);
+                    }
                 }
                 event = xml.next();
             }
@@ -233,44 +243,44 @@ public class HomePageFragment extends DashboardFragment
     }
 
     private void processSwitchPreference(String key) {
-        if (key != null) {
-            String checkKey = key.replace("_state", "");
-            boolean state = getSharedPreferences().getBoolean(key, true);
-            if (!state) {
-                PreferenceHeader preferenceHeader = findPreference(checkKey);
-                if (preferenceHeader != null && preferenceHeader.isVisible()) {
-                    preferenceHeader.setVisible(false);
-                }
+        if (key == null) return;
+        String checkKey = key.replace("_state", "");
+        boolean state = getSharedPreferences().getBoolean(key, true);
+        if (!state) {
+            PreferenceHeader preferenceHeader = findPreference(checkKey);
+            if (preferenceHeader != null && preferenceHeader.isVisible()) {
+                preferenceHeader.setVisible(false);
             }
         }
     }
 
     private void processPreferenceHeader(String key, String summary) {
-        if (key != null && summary != null) {
-            PreferenceHeader header = findPreference(key);
-            if (header != null) {
-                setIconAndTitle(header, summary);
-            }
+        if (key == null || summary == null) return;
+        PreferenceHeader header = findPreference(key);
+        if (header != null) {
+            setIconAndTitle(header, summary);
         }
     }
 
     private void setIconAndTitle(PreferenceHeader header, String packageName) {
+        if (header == null || packageName == null) return;
         try {
             PackageManager pm = requireContext().getPackageManager();
             ApplicationInfo applicationInfo = pm.getApplicationInfo(packageName, 0);
             Drawable icon = applicationInfo.loadIcon(pm);
             CharSequence name = applicationInfo.loadLabel(pm);
             header.setIcon(icon);
-            if (!packageName.equals("android")) {
+            if (!"android".equals(packageName)) {
                 header.setTitle(name);
             }
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            AndroidLogUtils.logE(TAG, "Package not found: " + packageName, e);
         }
     }
 
     @Override
     public void onEntranceStateChange(String key, boolean state) {
+        if (key == null) return;
         String mainKey = key.replace("_state", "");
         PreferenceHeader preferenceHeader = findPreference(mainKey);
         if (preferenceHeader != null) {
@@ -281,12 +291,8 @@ public class HomePageFragment extends DashboardFragment
     }
 
     @Override
-    public void onEnter(ActionBar actionBar) {
-
-    }
+    public void onEnter(ActionBar actionBar) {}
 
     @Override
-    public void onLeave(ActionBar actionBar) {
-
-    }
+    public void onLeave(ActionBar actionBar) {}
 }

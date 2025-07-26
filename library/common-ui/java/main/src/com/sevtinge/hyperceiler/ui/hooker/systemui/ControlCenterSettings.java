@@ -82,12 +82,10 @@ public class ControlCenterSettings extends DashboardFragment {
             setFuncHint(mNotifrowMenu, 1);
             setFuncHint(mSwitchCCAN, 1);
             setFuncHint(mRedirectNotice, 2);
-            mOldCCGrid.setVisible(false);
             mSpotlightNotifColorMix.setVisible(isMoreAndroidVersion(35));
             mShadeHeaderBlur.setVisible(isMoreAndroidVersion(35));
         } else {
             setFuncHint(mAllFocus, 1);
-            mOldCCGrid.setVisible(true);
             mSpotlightNotifColorMix.setVisible(false);
             mShadeHeaderBlur.setVisible(false);
         }

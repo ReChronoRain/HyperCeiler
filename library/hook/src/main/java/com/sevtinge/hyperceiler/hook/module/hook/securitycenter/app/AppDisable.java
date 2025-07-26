@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.app;
 
-import static com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes;
 import static com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.getPackageVersionCode;
+import static com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 
 import android.annotation.SuppressLint;
@@ -218,7 +218,7 @@ public class AppDisable extends BaseHook {
             } else {
                 Toast.makeText(act, getModuleRes(act).getString(R.string.disable_app_fail), Toast.LENGTH_LONG).show();
             }
-            new Handler().postDelayed(act::invalidateOptionsMenu, 500);
+            new Handler(act.getMainLooper()).postDelayed(act::invalidateOptionsMenu, 500);
         } catch (Throwable t) {
             logW(TAG, "", t);
         }

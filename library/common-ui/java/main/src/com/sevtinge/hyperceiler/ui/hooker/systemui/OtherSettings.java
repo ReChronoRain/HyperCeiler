@@ -83,22 +83,19 @@ public class OtherSettings extends DashboardFragment
 
         if (isMoreHyperOSVersion(2f)) {
             if (isMoreSmallVersion(200, 2f)) {
-                mFuckSG.setChecked(false);
                 setFuncHint(mFuckSG, 2);
             }
-            mTimer.setVisible(false);
-            mCollpasedColumnPress.setVisible(true);
+            setHide(mTimer, false);
 
             setStyleMode(mPct);
             mPctStyle.setOnPreferenceChangeListener(this);
         } else {
-            mFuckSG.setVisible(false);
-            mTimer.setVisible(true);
-            mCollpasedColumnPress.setVisible(false);
+            setHide(mFuckSG, false);
+            setHide(mCollpasedColumnPress, false);
 
-            mPctStyle.setVisible(false);
-            mBrightness1.setVisible(false);
-            mVolume1.setVisible(false);
+            setHide(mPctStyle, false);
+            setHide(mBrightness1, false);
+            setHide(mVolume1, false);
         }
 
         mVolume.setOnPreferenceChangeListener(generateListener(

@@ -28,14 +28,15 @@ import com.sevtinge.hyperceiler.ui.R;
 
 public class SupportVersionFragment extends SettingsPreferenceFragment {
 
-    private static final String mFSupportHyperOsVersion = "1.0 / 2.0 / 2.0.100 / 2.0.200";
-    private static final String mFSupportAndroidVersion = "14(U, 34) / 15(V, 35)";
-    private static final String mNSupportHyperOsVersion = "1.1 / 2.0.230";
-    private static final String mNSupportAndroidVersion = "16(B, 36)"; // 暂定名
+    private static final String F_SUPPORT_HYPER_OS_VERSION = "1.0 / 2.0 / 2.0.100 / 2.0.200";
+    private static final String F_SUPPORT_ANDROID_VERSION = "14(U, 34) / 15(V, 35)";
+    private static final String N_SUPPORT_HYPER_OS_VERSION = "1.1 / 2.0.230";
+    private static final String N_SUPPORT_ANDROID_VERSION = "16(B, 36)"; // 暂定名
 
-    Preference mHelpSupportVersion;
-    LayoutPreference mSupportFullVersion;
-    LayoutPreference mSupportNotVersion;
+    Preference helpSupportVersion;
+    LayoutPreference supportFullVersion;
+    LayoutPreference supportNotVersion;
+    private String cachedSummary;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -45,39 +46,38 @@ public class SupportVersionFragment extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         setTitle(R.string.help);
-        mHelpSupportVersion = findPreference("prefs_key_textview_help_support_version");
-        mSupportFullVersion = findPreference("prefs_key_textview_full_support_version");
-        mSupportNotVersion = findPreference("prefs_key_textview_not_support_version");
+        helpSupportVersion = findPreference("prefs_key_textview_help_support_version");
+        supportFullVersion = findPreference("prefs_key_textview_full_support_version");
+        supportNotVersion = findPreference("prefs_key_textview_not_support_version");
 
-        if (isFullSupport()) {
-            mSupportFullVersion.setVisible(true);
-            mSupportNotVersion.setVisible(false);
-        } else {
-            mSupportFullVersion.setVisible(false);
-            mSupportNotVersion.setVisible(true);
-        }
+        boolean fullSupport = isFullSupport();
+        if (supportFullVersion != null) supportFullVersion.setVisible(fullSupport);
+        if (supportNotVersion != null) supportNotVersion.setVisible(!fullSupport);
 
-        if (mHelpSupportVersion != null) {
-            mHelpSupportVersion.setSummary(stringBuilder());
+        if (helpSupportVersion != null) {
+            if (cachedSummary == null) {
+                cachedSummary = buildSummary();
+            }
+            helpSupportVersion.setSummary(cachedSummary);
         }
     }
 
-    private String stringBuilder() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(getString(R.string.help_support_version_desc_1))
-                .append("\n - HyperOS ").append(mFSupportHyperOsVersion)
-                .append("\n - Android ").append(mFSupportAndroidVersion);
+    private String buildSummary() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getString(R.string.help_support_version_desc_1))
+          .append("\n - HyperOS ").append(F_SUPPORT_HYPER_OS_VERSION)
+          .append("\n - Android ").append(F_SUPPORT_ANDROID_VERSION);
 
-        if (!mNSupportHyperOsVersion.isEmpty() || !mNSupportAndroidVersion.isEmpty()) {
-            stringBuilder.append("\n\n").append(getString(R.string.help_support_version_desc_2));
-            if (!mNSupportHyperOsVersion.isEmpty()) {
-                stringBuilder.append("\n\n - HyperOS ").append(mNSupportHyperOsVersion);
+        boolean hasNSupport = !N_SUPPORT_HYPER_OS_VERSION.isEmpty() || !N_SUPPORT_ANDROID_VERSION.isEmpty();
+        if (hasNSupport) {
+            sb.append("\n\n").append(getString(R.string.help_support_version_desc_2));
+            if (!N_SUPPORT_HYPER_OS_VERSION.isEmpty()) {
+                sb.append("\n\n - HyperOS ").append(N_SUPPORT_HYPER_OS_VERSION);
             }
-            if (!mNSupportAndroidVersion.isEmpty()) {
-                stringBuilder.append("\n - Android ").append(mNSupportAndroidVersion);
+            if (!N_SUPPORT_ANDROID_VERSION.isEmpty()) {
+                sb.append("\n - Android ").append(N_SUPPORT_ANDROID_VERSION);
             }
         }
-
-        return stringBuilder.toString();
+        return sb.toString();
     }
 }

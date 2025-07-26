@@ -30,7 +30,7 @@ import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.KillApp;
+import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.ui.R;
 
@@ -58,7 +58,7 @@ public class VariousFragment extends DashboardFragment {
         if (isMoreSmallVersion(200, 2f)) {
             setFuncHint(mClipboardClear, 2);
         } else {
-            mClipboardClear.setVisible(isMoreHyperOSVersion(2f));
+            setHide(mClipboardClear, isMoreHyperOSVersion(2f));
         }
         handler = new Handler(getMainLooper());
 
@@ -71,7 +71,7 @@ public class VariousFragment extends DashboardFragment {
     private void initKill() {
         ThreadPoolManager.getInstance().submit(() -> {
             handler.post(() ->
-                KillApp.killApps("com.sohu.inputmethod.sogou.xiaomi",
+                AppsTool.killApps("com.sohu.inputmethod.sogou.xiaomi",
                     "com.sohu.inputmethod.sogou"));
         });
     }

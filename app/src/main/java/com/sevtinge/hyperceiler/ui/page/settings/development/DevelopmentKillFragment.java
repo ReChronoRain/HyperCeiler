@@ -26,16 +26,16 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.common.model.data.AppData;
-import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.hook.utils.ContextUtils;
-import com.sevtinge.hyperceiler.hook.utils.KillApp;
 import com.sevtinge.hyperceiler.common.utils.PackagesUtils;
+import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
+import com.sevtinge.hyperceiler.hook.utils.ContextUtils;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.ui.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,7 +184,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
     }
 
     private boolean killPackage(String kill) {
-        return KillApp.killApps(kill);
+        return AppsTool.killApps(kill);
     }
 
     private void initApp(ExecutorService executorService) {

@@ -30,8 +30,8 @@ import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.BaiduClipboar
 import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.ClearClipboard;
 import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.ClipboardLimit;
 import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.LoadInputMethodDex;
-import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.NewUnlockIme;
 import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.SoGouClipboard;
+import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.UnlockIme;
 import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class VariousThirdApps extends BaseModule {
                 initHook(new ClipboardLimit().onApplication());
             }
         }
-        initHook(new NewUnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
+        initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
         initHook(new SoGouClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
                 ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
         initHook(new BaiduClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&

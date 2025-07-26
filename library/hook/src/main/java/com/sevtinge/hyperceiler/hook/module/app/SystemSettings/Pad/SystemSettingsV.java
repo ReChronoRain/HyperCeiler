@@ -30,7 +30,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.DisableInstallUn
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.EnableSpeedMode;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.HyperCeilerSettings;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.InternationalBuild;
-import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.LanguageMenuShowAllApps;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.LinkTurbo;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.ModifySystemVersion;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.MoreNotificationSettings;
@@ -88,7 +87,6 @@ public class SystemSettingsV extends BaseModule {
         initHook(NoveltyHaptic.INSTANCE, mPrefsMap.getBoolean("system_settings_novelty_haptic"));
         initHook(new MoreNotificationSettings(), mPrefsMap.getBoolean("system_settings_more_notification_settings"));
         initHook(new AllowManageAllNotifications(), mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"));
-        initHook(new LanguageMenuShowAllApps(), mPrefsMap.getBoolean("system_settings_lang_menu_shouw_all_app"));
 
         initHook(new ControlCenterStyle(), mPrefsMap.getBoolean("system_control_center_unlock_old"));
 

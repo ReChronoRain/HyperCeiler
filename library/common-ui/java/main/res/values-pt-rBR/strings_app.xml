@@ -737,7 +737,6 @@
     <string name="system_ui_control_center_qs_open_color">Ativar personalização do bloco pequeno</string>
     <string name="system_ui_control_center_qs_big_open_color">Ativar personalização do bloco grande</string>
     <string name="system_ui_control_auto_close_more">Ao tocar no bloco da barra de status, a barra de status será automaticamente retraída.</string>
-    <string name="system_control_center_qs_tile_label">Remover nomes</string>
     <string name="system_control_center_qs_rows">Linhas</string>
     <string name="system_control_center_qs_rows_format">%d linhas</string>
     <string name="system_control_center_qs_rows_horizontal">Linhas (Horizontal)</string>

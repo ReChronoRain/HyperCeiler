@@ -45,8 +45,7 @@ public class NewClockIndicatorSettings extends DashboardFragment {
         mPadClock = findPreference("prefs_key_system_ui_statusbar_clock_pad_show");
 
         if (isMoreHyperOSVersion(2f)) {
-            mClockAnim.setVisible(false);
-            mClockColor.setChecked(false);
+            setFuncHint(mClockAnim, 1);
             setFuncHint(mClockColor, 1);
         }
         mPadClock.setVisible(isPad());

@@ -545,7 +545,6 @@
     <string name="system_control_center_5g_tile">Commutatore di rete 5G</string>
     <string name="system_ui_control_auto_close">Le piastrelle magnetiche si chiudono automaticamente</string>
     <string name="system_ui_control_auto_close_more">Dopo l\'apertura, facendo clic sul tile della barra di stato verrà automaticamente ritratta la barra di stato</string>
-    <string name="system_control_center_qs_tile_label">Rimuovi titolo</string>
     <string name="system_control_center_qs_rows">Righe</string>
     <string name="system_control_center_qs_rows_format">%d linee</string>
     <string name="system_control_center_qs_rows_horizontal">Righe (orizzontale)</string>

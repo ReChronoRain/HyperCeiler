@@ -210,55 +210,71 @@ public class AppsTool {
         }
     }
 
-    public static boolean handlePackages(String[] packageName) {
-        if (packageName == null) {
-            AndroidLogUtils.logE("doRestart: ", "packageName is null");
+    public static boolean killApps(String[] packageNames, int signal) {
+        if (packageNames == null || packageNames.length == 0) {
+            AndroidLogUtils.logE(TAG, "packageNames is null or empty");
             return false;
         }
-
-        boolean result = false;
-        for (String packageGet : packageName) {
-            if (packageGet == null) continue;
-
-            boolean getResult =
-                    ShellInit.getShell().add("pid=$(pgrep -f \"" + packageGet + "\" | grep -v $$)")
-                            .add("if [[ $pid == \"\" ]]; then")
-                            .add(" pids=\"\"")
-                            .add(" pid=$(ps -A -o PID,ARGS=CMD | grep \"" + packageGet + "\" | grep -v \"grep\")")
-                            .add("  for i in $pid; do")
-                            .add("   if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
-                            .add("    if [[ $pids == \"\" ]]; then")
-                            .add("      pids=$i")
-                            .add("    else")
-                            .add("      pids=\"$pids $i\"")
-                            .add("    fi")
-                            .add("   fi")
-                            .add("  done")
-                            .add("fi")
-                            .add("if [[ $pids != \"\" ]]; then")
-                            .add(" pid=$pids")
-                            .add("fi")
-                            .add("if [[ $pid != \"\" ]]; then")
-                            .add(" for i in $pid; do")
-                            .add("  kill -s 15 $i &>/dev/null")
-                            .add(" done")
-                            .add("else")
-                            .add(" echo \"No Find Pid!\"")
-                            .add("fi").over().sync().isResult();
-
+        boolean hasSuccess = false;
+        for (String pkg : packageNames) {
+            if (pkg == null || pkg.trim().isEmpty()) {
+                AndroidLogUtils.logE(TAG, "packageName item is null or empty");
+                continue;
+            }
+            boolean shellResult;
+            try {
+                shellResult =
+                    ShellInit.getShell().add("pid=$(pgrep -f \"" + pkg + "\" | grep -v $$)")
+                        .add("if [[ $pid == \"\" ]]; then")
+                        .add(" pids=\"\"")
+                        .add(" pid=$(ps -A -o PID,ARGS=CMD | grep \"" + pkg + "\" | grep -v \"grep\")")
+                        .add("  for i in $pid; do")
+                        .add("   if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
+                        .add("    if [[ $pids == \"\" ]]; then")
+                        .add("      pids=$i")
+                        .add("    else")
+                        .add("      pids=\"$pids $i\"")
+                        .add("    fi")
+                        .add("   fi")
+                        .add("  done")
+                        .add("fi")
+                        .add("if [[ $pids != \"\" ]]; then")
+                        .add(" pid=$pids")
+                        .add("fi")
+                        .add("if [[ $pid != \"\" ]]; then")
+                        .add(" for i in $pid; do")
+                        .add("  kill -s " + signal + " $i &>/dev/null")
+                        .add(" done")
+                        .add("else")
+                        .add(" echo \"No Find Pid!\"")
+                        .add("fi").over().sync().isResult();
+            } catch (Exception e) {
+                AndroidLogUtils.logE(TAG, "Exception: " + e.getMessage() + " package: " + pkg);
+                continue;
+            }
             ArrayList<String> outPut = ShellInit.getShell().getOutPut();
             ArrayList<String> error = ShellInit.getShell().getError();
-
-            if (getResult) {
-                if (!outPut.isEmpty() && outPut.get(0).equals("No Find Pid!")) {
-                    return false;
+            if (shellResult) {
+                if (outPut != null && !outPut.isEmpty() && "No Find Pid!".equals(outPut.get(0))) {
+                    AndroidLogUtils.logW(TAG, "Didn't find a pid that can kill: " + pkg);
                 } else {
-                    result = true;
+                    hasSuccess = true;
                 }
             } else {
-                AndroidLogUtils.logE("doRestart: ", "result: " + ShellInit.getShell().getResult() + " errorMsg: " + error + " package: " + packageGet);
+                AndroidLogUtils.logE(TAG, "Shell failed, errorMsg: " + error + " package: " + pkg);
+            }
+            if (error != null && !error.isEmpty()) {
+                AndroidLogUtils.logE(TAG, "Shell error output: " + error + " package: " + pkg);
             }
         }
-        return result;
+        return hasSuccess;
+    }
+
+    public static boolean killApps(String packageName) {
+        return killApps(new String[]{packageName});
+    }
+
+    public static boolean killApps(String... packageNames) {
+        return killApps(packageNames, 15);
     }
 }

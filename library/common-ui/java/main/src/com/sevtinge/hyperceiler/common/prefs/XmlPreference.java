@@ -25,8 +25,8 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.TextPreference;
 
@@ -45,8 +45,11 @@ public class XmlPreference extends TextPreference {
     public XmlPreference(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Preference, defStyleAttr, 0);
-        mInflatedXml = a.getResourceId(R.styleable.Preference_inflatedXml, 0);
-        a.recycle();
+        try {
+            mInflatedXml = a.getResourceId(R.styleable.Preference_inflatedXml, 0);
+        } finally {
+            a.recycle();
+        }
         if (getFragment() == null) {
             setFragment(DashboardFragment.class.getName());
         }

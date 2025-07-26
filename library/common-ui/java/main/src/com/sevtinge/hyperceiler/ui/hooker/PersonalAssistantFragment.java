@@ -18,15 +18,14 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.ColorPickerPreference;
 import fan.preference.DropDownPreference;
@@ -55,10 +54,12 @@ public class PersonalAssistantFragment extends DashboardFragment
         mBlurColor = findPreference("prefs_key_personal_assistant_color");
         mTvNotifWidth = findPreference("prefs_key_personal_assistant_set_tv_notif_info_max_width");
 
-        mBlurBackground.setVisible(!isAndroidVersion(30)); // 负一屏背景设置
-        mBlurRadius.setVisible(!isAndroidVersion(30));
-        mBlurColor.setVisible(!isAndroidVersion(30));
-        mTvNotifWidth.setVisible(isHyperOSVersion(1f));
+        if (isMoreHyperOSVersion(2f)) {
+            setFuncHint(mBlurBackground, 2);
+            setFuncHint(mTvNotifWidth,1);
+            setHide(mBlurRadius, false);
+            setHide(mBlurColor, false);
+        }
 
         setBlurMode(mBlurMode);
         mBlurBackgroundStyle.setOnPreferenceChangeListener(this);

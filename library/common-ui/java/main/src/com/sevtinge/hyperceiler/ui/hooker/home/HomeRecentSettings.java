@@ -53,9 +53,8 @@ public class HomeRecentSettings extends DashboardFragment {
         mHideCleanIcon = findPreference("prefs_key_home_recent_hide_clean_up");
         mNotHideCleanIcon = findPreference("prefs_key_always_show_clean_up");
 
-        if (isPad()) {
-            mTaskViewHeight.setVisible(false);
-        }
+        mTaskViewHeight.setVisible(isPad());
+        mShowMenInfo.setVisible(isPad());
 
         mHideRecentCard.setOnPreferenceClickListener(
                 preference -> {
@@ -66,8 +65,6 @@ public class HomeRecentSettings extends DashboardFragment {
                     return true;
                 }
         );
-
-        mShowMenInfo.setVisible(isPad());
 
         mHideCleanIcon.setOnPreferenceChangeListener((preference, o) -> {
             if (!(boolean) o) {

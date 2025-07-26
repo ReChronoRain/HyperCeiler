@@ -18,7 +18,9 @@
 */
 package com.sevtinge.hyperceiler.ui.hooker.systemui;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
 
 import androidx.preference.SwitchPreference;
@@ -32,6 +34,7 @@ public class LockScreenSettings extends DashboardFragment {
     SwitchPreference mHideLeftButton; // 隐藏左侧按钮
     SwitchPreference mHideRightButton; // 隐藏右侧按钮
     SwitchPreference mBlockEditor; // 禁用长按进入锁屏编辑
+    SwitchPreference mBlurButton; // 锁屏模糊按钮
     DropDownPreference mHideLeftButtonNew; // 左侧按钮自定义
 
     @Override
@@ -47,15 +50,18 @@ public class LockScreenSettings extends DashboardFragment {
         mHideLeftButton = findPreference("prefs_key_system_ui_lock_screen_hide_smart_screen");
         mHideRightButton = findPreference("prefs_key_system_ui_lock_screen_hide_camera");
         mHideLeftButtonNew = findPreference("prefs_key_system_ui_lock_screen_bottom_left_button");
+        mBlurButton = findPreference("prefs_key_system_ui_lock_screen_blur_button");
 
-        mBlockEditor.setVisible(!moreAndroidVersion);
+        if (isMoreHyperOSVersion(2f)) setFuncHint(mBlockEditor, 2);
         mHideLeftButton.setVisible(!moreAndroidVersion);
         mHideLeftButtonNew.setVisible(moreAndroidVersion);
 
-        if (isMoreSmallVersion(200, 2f)) {
-            mHideLeftButtonNew.setValue("0");
-            mHideRightButton.setChecked(false);
-
+        if (isPad()) {
+            setFuncHint(mHideLeftButton, 1);
+            setFuncHint(mHideLeftButtonNew, 1);
+            setFuncHint(mHideRightButton, 1);
+            setFuncHint(mBlurButton, 1);
+        } else if (isMoreSmallVersion(200, 2f)) {
             setFuncHint(mHideLeftButtonNew, 2);
             setFuncHint(mHideRightButton, 2);
         }

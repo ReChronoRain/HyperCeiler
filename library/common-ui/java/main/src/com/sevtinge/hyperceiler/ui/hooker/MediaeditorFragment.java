@@ -22,9 +22,9 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.DropDownPreference;
 
@@ -77,8 +77,8 @@ public class MediaeditorFragment extends DashboardFragment
         } else if (mode == 2) {
             mAuthoringV1.setVisible(false);
             mAuthoringV2.setVisible(true);
-            mCustomPhoto.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_mediaeditor_unlock_custom_photo_frames_v2", false));
-            mCustomDisney.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_mediaeditor_unlock_disney_some_func_v2", false));
+            mCustomPhoto.setVisible(getSharedPreferences().getBoolean("prefs_key_mediaeditor_unlock_custom_photo_frames_v2", false));
+            mCustomDisney.setVisible(getSharedPreferences().getBoolean("prefs_key_mediaeditor_unlock_disney_some_func_v2", false));
         }
     }
 }

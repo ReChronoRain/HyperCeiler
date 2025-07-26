@@ -20,9 +20,8 @@ package com.sevtinge.hyperceiler.ui.hooker;
 
 import androidx.preference.EditTextPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.DropDownPreference;
 
@@ -45,7 +44,7 @@ public class GetAppsFragment extends DashboardFragment {
         mModel = findPreference("prefs_key_market_device_modify_model");
         mManufacturer = findPreference("prefs_key_market_device_modify_manufacturer");
 
-        if (Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_market_device_modify_new", "0")) == 1) {
+        if (Integer.parseInt(getSharedPreferences().getString("prefs_key_market_device_modify_new", "0")) == 1) {
             mDevice.setVisible(true);
             mModel.setVisible(true);
             mManufacturer.setVisible(true);

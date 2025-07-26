@@ -391,6 +391,13 @@
                 android:data="https://github.com/hosizoraru/StarVoyager" />
         </Preference>
         <Preference
+            android:summary="HChenX | GPL-3.0"
+            android:title="SuperLyric">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/HChenX/SuperLyric" />
+        </Preference>
+        <Preference
             android:summary="ouhoukyo | MIT"
             android:title="WINI">
             <intent

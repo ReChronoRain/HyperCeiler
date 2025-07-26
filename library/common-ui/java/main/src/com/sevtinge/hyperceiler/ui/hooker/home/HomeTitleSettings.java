@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.ui.hooker.home;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
@@ -31,12 +30,10 @@ import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.sub.AppPickerFragment;
 import com.sevtinge.hyperceiler.ui.sub.SubPickerActivity;
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-
-import java.util.Objects;
 
 import fan.preference.SeekBarPreferenceCompat;
 
@@ -68,10 +65,10 @@ public class HomeTitleSettings extends DashboardFragment {
         mDisableMonetColor = findPreference("prefs_key_home_other_icon_monet_color");
         mDisableMonetColor.setOnPreferenceChangeListener((preference, o) -> true);
         mDisableHideTheme = findPreference("prefs_key_home_title_disable_hide_theme");
-        mDisableHideTheme.setVisible(isPad());
-        mAppBlur.setVisible(isHyperOSVersion(1f));
-        mIconSize.setVisible(isHyperOSVersion(2f));
-        mTitleFontSize.setVisible(isMoreHyperOSVersion(2f));
+        setHide(mDisableHideTheme, isPad());
+        setHide(mAppBlur, isHyperOSVersion(1f));
+        setHide(mIconSize, isHyperOSVersion(2f));
+        setHide(mTitleFontSize, isMoreHyperOSVersion(2f));
 
         mIconTitleCustomization.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);

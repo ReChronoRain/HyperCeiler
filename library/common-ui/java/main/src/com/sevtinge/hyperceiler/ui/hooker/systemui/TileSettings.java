@@ -28,19 +28,17 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.KillApp;
+import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.TelephonyManager;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
 
 public class TileSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
     SwitchPreference mTaplus;
-    SwitchPreference mNewCCGridLabel;
     SwitchPreference mRoundedRect;
     SeekBarPreferenceCompat mRoundedRectRadius;
     SeekBarPreferenceCompat mSunshineModeHighBrightness;
@@ -62,7 +60,6 @@ public class TileSettings extends DashboardFragment implements Preference.OnPref
         mRoundedRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
         mRoundedRectRadius = findPreference("prefs_key_system_ui_control_center_rounded_rect_radius");
         mTaplus = findPreference("prefs_key_security_center_taplus");
-        mNewCCGridLabel = findPreference("prefs_key_system_control_center_qs_tile_label");
         mSunshineMode = findPreference("prefs_key_system_control_center_sunshine_new_mode");
         mSunshineModeHigh = findPreference("prefs_key_system_control_center_sunshine_new_mode_high");
         mSunshineModeHighBrightness = findPreference("prefs_key_system_control_center_sunshine_mode_brightness");
@@ -90,10 +87,9 @@ public class TileSettings extends DashboardFragment implements Preference.OnPref
             mSunshineModeHighBrightness.setVisible(false);
         }
 
-        mRoundedRectRadius.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false));
-        mNewCCGridLabel.setVisible(false);
+        mRoundedRectRadius.setVisible(getSharedPreferences().getBoolean("prefs_key_system_ui_control_center_rounded_rect", false));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
-        mSunshineModeHighBrightness.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_control_center_sunshine_new_mode_high", "0")) == 3);;
+        mSunshineModeHighBrightness.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_control_center_sunshine_new_mode_high", "0")) == 3);;
 
         mRoundedRect.setOnPreferenceChangeListener(this);
 
@@ -111,7 +107,7 @@ public class TileSettings extends DashboardFragment implements Preference.OnPref
 
     public void killTaplus() {
         ThreadPoolManager.getInstance().submit(() -> handler.post(() ->
-                KillApp.killApps("com.miui.contentextension")));
+                AppsTool.killApps("com.miui.contentextension")));
     }
 
     private void setCanBeVisibleRoundedRect(boolean mode) {

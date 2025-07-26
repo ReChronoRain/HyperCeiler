@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2025 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2025 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
@@ -25,9 +25,8 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isSuppor
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
@@ -87,34 +86,34 @@ public class IconManageNewSettings extends DashboardFragment {
         mMobileType = findPreference("prefs_key_system_ui_status_bar_mobile_type");
         mIconMobileNetwork = findPreference("prefs_key_system_ui_statusbar_iconmanage_mobile_network");
 
-        mAlarmClockIconN.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
+        mAlarmClockIconN.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
 
         if (isMoreSmallVersion(200, 2f)) {
-            mSmallHD.setVisible(false);
-            mBigHD.setVisible(false);
-            mNewHD.setVisible(false);
+            setFuncHint(mSmallHD, 1);
+            setFuncHint(mBigHD, 1);
+            setFuncHint(mNewHD, 1);
         }
 
         if (getContext() != null) {
 
             if (!isSupportWifi(getContext())) {
-                mHideWifiIndicator.setVisible(false);
-                mHideWifi.setVisible(false);
-                mHideWifiStandard.setVisible(false);
+               setHide(mHideWifiIndicator, false);
+               setHide(mHideWifi, false);
+               setHide(mHideWifiStandard, false);
             }
 
             if (!isSupportTelephony(getContext())) {
-                mSmallHD.setVisible(false);
-                mBigHD.setVisible(false);
-                mNewHD.setVisible(false);
-                mHideNoSIM.setVisible(false);
-                mHideCard1.setVisible(false);
-                mHideCard2.setVisible(false);
-                mHideRoaming.setVisible(false);
-                mHideVoWiFi.setVisible(false);
-                mHideVoLTE.setVisible(false);
-                mMobileType.setVisible(false);
-                mIconMobileNetwork.setVisible(false);
+                setHide(mSmallHD, false);
+                setHide(mBigHD, false);
+                setHide(mNewHD, false);
+                setHide(mHideNoSIM, false);
+                setHide(mHideCard1, false);
+                setHide(mHideCard2, false);
+                setHide(mHideRoaming, false);
+                setHide(mHideVoWiFi, false);
+                setHide(mHideVoLTE, false);
+                setHide(mMobileType, false);
+                setHide(mIconMobileNetwork, false);
             }
 
         }

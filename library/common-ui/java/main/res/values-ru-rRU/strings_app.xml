@@ -737,7 +737,6 @@
     <string name="system_ui_control_center_qs_open_color">Настройка цвета маленькой плитки включена</string>
     <string name="system_ui_control_center_qs_big_open_color">Настройка цвета большой плитки включена</string>
     <string name="system_ui_control_auto_close_more">После открытия, нажатие на магнитной плитке на панели состояния автоматически свернет панель состояния</string>
-    <string name="system_control_center_qs_tile_label">Удалить название</string>
     <string name="system_control_center_qs_rows">Строки</string>
     <string name="system_control_center_qs_rows_format">Линий: %d</string>
     <string name="system_control_center_qs_rows_horizontal">Кол-во строк (ландшафт)</string>
