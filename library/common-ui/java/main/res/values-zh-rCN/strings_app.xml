@@ -787,6 +787,7 @@
     <string name="system_ui_statusbar_music_cusiom_notific_title">通知栏显示设置</string>
     <string name="system_ui_statusbar_music_show_notific_title">显示通知歌词</string>
     <string name="system_ui_statusbar_music_hide_aod_title">不在息屏下显示焦点通知</string>
+    <string name="system_ui_statusbar_music_show_aod_mode_title">使用自定义焦点息屏布局</string>
     <string name="system_ui_statusbar_music_cusiom_statusbar_title">状态栏显示设置</string>
     <string name="system_ui_statusbar_music_hide_clock_title">隐藏状态栏时钟</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">显示焦点歌词时隐藏状态栏时钟，并调整下拉通知中心的动画</string>

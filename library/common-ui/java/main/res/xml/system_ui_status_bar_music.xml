@@ -56,13 +56,20 @@
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="prefs_key_system_ui_statusbar_music_show_notific"
+            android:disableDependentsState="true"
             android:key="prefs_key_system_ui_statusbar_music_hide_aod"
             android:title="@string/system_ui_statusbar_music_hide_aod_title" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_music_hide_aod"
+            android:key="prefs_key_system_ui_statusbar_music_show_aod_mode"
+            android:title="@string/system_ui_statusbar_music_show_aod_mode_title" />
+
         <SeekBarPreferenceCompat
-            app:defaultValue="15"
             android:key="prefs_key_system_ui_statusbar_music_size_n"
             android:title="@string/system_ui_statusbar_mobile_type_font_size"
+            app:defaultValue="15"
             app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
             app:maxValue="32"
@@ -88,32 +95,32 @@
             android:title="@string/system_ui_statusbar_music_click_clock_title" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="18"
             android:key="prefs_key_system_ui_statusbar_music_speed"
             android:title="@string/system_ui_statusbar_music_speed_title"
+            app:defaultValue="18"
             app:defaultValueTitle="@string/array_default"
-            app:showDividerValue="10"
-            app:format="%s f"
+            app:format="%s x"
             app:maxValue="48"
             app:minValue="5"
+            app:showDividerValue="10"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="12"
             android:key="prefs_key_system_ui_statusbar_music_scroll_delay"
             android:title="@string/system_ui_statusbar_music_scroll_delay_title"
+            app:defaultValue="12"
             app:defaultValueTitle="@string/array_default"
-            app:showDividerValue="10"
-            app:format="%s f"
+            app:format="%s x"
             app:maxValue="24"
             app:minValue="3"
+            app:showDividerValue="10"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_music_width"
             android:summary="@string/system_ui_statusbar_music_width_desc"
             android:title="@string/system_ui_statusbar_music_width_title"
+            app:defaultValue="0"
             app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
             app:maxValue="32"
