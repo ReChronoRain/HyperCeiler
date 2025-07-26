@@ -100,7 +100,7 @@ abstract class MusicBaseHook : BaseHook() {
         val modRes = OtherTool.getModuleRes(context)
         val isClickClock = mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
         val launchIntent = context.packageManager.getLaunchIntentForPackage(extraData.packageName)
-        //图标处理
+        // 图标处理
         val basebitmap = base64ToDrawable(extraData.base64Icon)
         val bitmap = basebitmap ?: context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
         val icon: Icon = Icon.createWithBitmap(bitmap).apply { if (basebitmap != null) setTint(Color.WHITE) }
