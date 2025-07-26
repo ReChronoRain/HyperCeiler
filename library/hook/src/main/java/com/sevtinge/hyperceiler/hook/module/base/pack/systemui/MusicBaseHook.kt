@@ -56,6 +56,9 @@ abstract class MusicBaseHook : BaseHook() {
     private val isAodShow by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_music_hide_aod")
     }
+    private val isAodMode by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_music_show_aod_mode")
+    }
 
     private val receiver = object : ISuperLyric.Stub() {
         override fun onSuperLyric(data: SuperLyricData) {
@@ -97,10 +100,15 @@ abstract class MusicBaseHook : BaseHook() {
         val modRes = OtherTool.getModuleRes(context)
         val isClickClock = mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
         val launchIntent = context.packageManager.getLaunchIntentForPackage(extraData.packageName)
-        val base64icon = extraData.base64Icon
-        val bitmap = base64ToDrawable(base64icon) ?: context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
+        //图标处理
+        val basebitmap = base64ToDrawable(extraData.base64Icon)
+        val bitmap = basebitmap ?: context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
+        val icon: Icon = Icon.createWithBitmap(bitmap).apply { if (basebitmap != null) setTint(Color.WHITE) }
+        val dartIcon : Icon = Icon.createWithBitmap(bitmap).apply { if (basebitmap != null) setTint(Color.BLACK) }
+
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         val intent = Intent("$CHANNEL_ID.actions.switchClockStatus")
+
         // 需要重启音乐软件生效
         val pendingIntent = if (isClickClock) {
             PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
@@ -114,8 +122,6 @@ abstract class MusicBaseHook : BaseHook() {
             .setOngoing(true)
             .setContentIntent(pendingIntent)
 
-        val icon: Icon = Icon.createWithBitmap(bitmap)
-
         fun buildRemoteViews(textColor: Int): RemoteViews {
             val layoutId = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
             val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
@@ -126,21 +132,50 @@ abstract class MusicBaseHook : BaseHook() {
             }
         }
 
+        fun buildAodRemoteViews(textColor: Int): RemoteViews {
+            val layoutId = modRes.getIdentifier("focusaodlyric_layout", "layout", ProjectApi.mAppModulePkg)
+            val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
+            val iconId = modRes.getIdentifier("focusicon", "id", ProjectApi.mAppModulePkg)
+            return RemoteViews(ProjectApi.mAppModulePkg, layoutId).apply {
+                setTextViewText(textId, text)
+                setTextColor(textId, textColor)
+                setTextViewTextSize(textId, TypedValue.COMPLEX_UNIT_SP, nSize)
+                setTextViewTextSize(textId, TypedValue.COMPLEX_UNIT_SP, nSize)
+                setImageViewBitmap(iconId, icon.loadDrawable(context)?.toBitmap())
+            }
+        }
+
         runCatching {
             val remoteViewsNight = buildRemoteViews(Color.WHITE)
             val remoteViewsDay = buildRemoteViews(Color.BLACK)
+            val remoteViewsAod = buildAodRemoteViews(Color.WHITE)
             val api = if (!isAodShow) {
-                FocusApi.senddiyFocus(
-                    ticker = text,
-                    updatable = true,
-                    aodTitle = text,
-                    aodPic = icon,
-                    enableFloat = false,
-                    rv = remoteViewsDay,
-                    rvNight = remoteViewsNight,
-                    timeout = 999999,
-                    picticker = icon
-                )
+                if (isAodMode) {
+                    FocusApi.senddiyFocus(
+                        ticker = text,
+                        updatable = true,
+                        rvAod = remoteViewsAod,
+                        enableFloat = false,
+                        rv = remoteViewsDay,
+                        rvNight = remoteViewsNight,
+                        timeout = 999999,
+                        picticker = icon,
+                        pictickerdark = dartIcon
+                    )
+                } else {
+                    FocusApi.senddiyFocus(
+                        ticker = text,
+                        updatable = true,
+                        aodPic = icon,
+                        aodTitle = text,
+                        enableFloat = false,
+                        rv = remoteViewsDay,
+                        rvNight = remoteViewsNight,
+                        timeout = 999999,
+                        picticker = icon,
+                        pictickerdark = dartIcon
+                    )
+                }
             } else {
                 FocusApi.senddiyFocus(
                     ticker = text,
@@ -149,7 +184,8 @@ abstract class MusicBaseHook : BaseHook() {
                     rv = remoteViewsDay,
                     rvNight = remoteViewsNight,
                     timeout = 999999,
-                    picticker = icon
+                    picticker = icon,
+                    pictickerdark = dartIcon
                 )
             }
             builder.addExtras(api)
@@ -172,7 +208,8 @@ abstract class MusicBaseHook : BaseHook() {
                     updatable = true,
                     enableFloat = false,
                     timeout = 999999,
-                    picticker = icon
+                    picticker = icon,
+                    pictickerdark = dartIcon
                 )
             } else {
                 FocusApi.sendFocus(
@@ -181,7 +218,8 @@ abstract class MusicBaseHook : BaseHook() {
                     updatable = true,
                     enableFloat = false,
                     timeout = 999999,
-                    picticker = icon
+                    picticker = icon,
+                    pictickerdark = dartIcon
                 )
             }
             builder.addExtras(api)

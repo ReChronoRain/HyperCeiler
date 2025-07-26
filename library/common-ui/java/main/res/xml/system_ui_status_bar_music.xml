@@ -52,6 +52,12 @@
             android:key="prefs_key_system_ui_statusbar_music_hide_aod"
             android:title="@string/system_ui_statusbar_music_hide_aod_title" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_music_show_notific"
+            android:key="prefs_key_system_ui_statusbar_music_show_aod_mode"
+            android:title="@string/system_ui_statusbar_music_show_aod_mode_title" />
+
         <SeekBarPreferenceCompat
             app:defaultValue="15"
             android:key="prefs_key_system_ui_statusbar_music_size_n"
