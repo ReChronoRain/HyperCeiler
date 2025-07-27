@@ -140,6 +140,14 @@ object FocusNotifLyric : MusicBaseHook() {
         focusTextViewList.forEach { textView ->
             textView.post {
                 if (lastLyric == textView.text) {
+                    if (XposedHelpers.getAdditionalStaticField(textView, "is_scrolling") == 1) {
+                        val m0 = textView.getObjectFieldOrNull("mMarquee")
+                        m0?.apply {
+                            // 设置速度并且调用停止函数,重置歌词位置
+                            setFloatField("mPixelsPerMs", 0f)
+                            callMethod("stop")
+                        }
+                    }
                     textView.text = lyric
                     lastLyric = lyric
                 }
@@ -184,12 +192,9 @@ object FocusNotifLyric : MusicBaseHook() {
                 m.setFloatField("mPixelsPerMs", speed)
                 // 移除回调,防止滚动结束之后重置滚动位置
                 m.setObjectField("mRestartCallback", Choreographer.FrameCallback {})
-
-                XposedHelpers.setAdditionalStaticField(textView, "is_scrolling", 1)
-
                 // 滚动完成后清理状态
                 textView.postDelayed({
-                    XposedHelpers.setAdditionalStaticField(textView, "is_scrolling", 0)
+                    XposedHelpers.setAdditionalStaticField(textView, "is_scrolling", 1)
                     runnablePool.remove(key) //移除任务引用
                 }, computeScrollDuration(lineWidth, width, speed)) // 根据速度和距离计算时长
             }
