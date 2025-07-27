@@ -199,9 +199,11 @@ object FocusNotifLyric : MusicBaseHook() {
     }
 
     private fun computeScrollDuration(lineWidth: Float, width: Float, speed: Float): Long {
-        val distance = (lineWidth - width).coerceAtLeast(0f)
-        return (distance / speed).toLong()
+        val maxScroll = (lineWidth - width).coerceAtLeast(0f) // 与 mMaxScroll 一致
+        val pixelsPerMs = speed // 与 mPixelsPerMs 一致
+        return if (pixelsPerMs > 0) (maxScroll / pixelsPerMs).toLong() else 0L
     }
+
 
 
     override fun onStop() {
