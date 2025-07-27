@@ -139,21 +139,16 @@ object FocusNotifLyric : MusicBaseHook() {
         val lyric = data.lyric
         focusTextViewList.forEach { textView ->
             textView.post {
-                // 仅当歌词内容发生变化时才重置滚动，避免每次都闪现到头部
-                if (lastLyric != lyric) {
-                    if (XposedHelpers.getAdditionalStaticField(textView, "is_scrolling") == 1) {
-                        val m0 = textView.getObjectFieldOrNull("mMarquee")
-                        m0?.apply {
-                            // 设置速度并且调用停止函数,重置歌词位置
-                            setFloatField("mPixelsPerMs", 0f)
-                            callMethod("stop")
-                        }
-                    }
+                if (lastLyric == textView.text) {
                     textView.text = lyric
                     lastLyric = lyric
                 }
-                val startScroll = runnablePool.getOrPut(textView.hashCode()) {
-                    Runnable { startScroll(textView) }
+                val key = textView.hashCode()
+                val startScroll = runnablePool.getOrPut(key) {
+                    Runnable {
+                        startScroll(textView)
+                        runnablePool.remove(key)
+                    }
                 }
                 textView.handler?.removeCallbacks(startScroll)
                 textView.postDelayed(startScroll, MARQUEE_DELAY)
@@ -172,28 +167,39 @@ object FocusNotifLyric : MusicBaseHook() {
             // 开始滚动
             textView.callMethod("setMarqueeRepeatLimit", 1)
             textView.callMethod("startMarqueeLocal")
-
+            val key = textView.hashCode()
             val m = textView.getObjectFieldOrNull("mMarquee") ?: return
             if (speed == -0.1f) {
                 // 初始化滚动速度
                 speed = m.getFloatField("mPixelsPerMs") * SPEED_INCREASE
             }
-            val width =
-                (textView.width - textView.compoundPaddingLeft - textView.compoundPaddingRight - textViewWidth).toFloat()
+
+            val width = (textView.width - textView.compoundPaddingLeft - textView.compoundPaddingRight - textViewWidth).toFloat()
             val lineWidth = textView.layout?.getLineWidth(0)
+
             if (lineWidth != null) {
-                // 重设最大滚动宽度,只能滚动到文本结束
                 m.setFloatField("mMaxScroll", lineWidth - width)
-                // 重设速度
                 m.setFloatField("mPixelsPerMs", speed)
-                // 移除回调,防止滚动结束之后重置滚动位置
                 m.setObjectField("mRestartCallback", Choreographer.FrameCallback {})
+
                 XposedHelpers.setAdditionalStaticField(textView, "is_scrolling", 1)
+
+                // 滚动完成后清理状态
+                textView.postDelayed({
+                    XposedHelpers.setAdditionalStaticField(textView, "is_scrolling", 0)
+                    runnablePool.remove(key) //移除任务引用
+                }, computeScrollDuration(lineWidth, width, speed)) // 根据速度和距离计算时长
             }
         }.onFailure {
             logE(TAG, lpparam.packageName, "error: ${it.message}")
         }
     }
+
+    private fun computeScrollDuration(lineWidth: Float, width: Float, speed: Float): Long {
+        val distance = (lineWidth - width).coerceAtLeast(0f)
+        return (distance / speed).toLong() + 100L // 加100ms缓冲
+    }
+
 
     override fun onStop() {
         if (!isShowApp) cancelNotification()
