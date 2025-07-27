@@ -178,8 +178,11 @@ object FocusNotifLyric : MusicBaseHook() {
             val lineWidth = textView.layout?.getLineWidth(0)
 
             if (lineWidth != null) {
+                // 重设最大滚动宽度,只能滚动到文本结束
                 m.setFloatField("mMaxScroll", lineWidth - width)
+                // 重设速度
                 m.setFloatField("mPixelsPerMs", speed)
+                // 移除回调,防止滚动结束之后重置滚动位置
                 m.setObjectField("mRestartCallback", Choreographer.FrameCallback {})
 
                 XposedHelpers.setAdditionalStaticField(textView, "is_scrolling", 1)
