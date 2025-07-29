@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v
 
 import android.service.notification.StatusBarNotification
+import android.util.Log
 import android.view.Choreographer
 import android.widget.TextView
 import com.hchen.superlyricapi.SuperLyricData
@@ -31,7 +32,6 @@ import com.sevtinge.hyperceiler.hook.utils.setFloatField
 import com.sevtinge.hyperceiler.hook.utils.setLongField
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
 import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedHelpers
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -46,6 +46,7 @@ import kotlinx.coroutines.launch
 // co-author git@lingqiqi5211
 object FocusNotifLyric : MusicBaseHook() {
     private var speed = -0.1f
+    private var lyricgundonjiesu = true
     private var lastLyric = ""
     private val runnablePool = mutableMapOf<Int, Runnable>()
     private val focusTextViewList = mutableListOf<TextView>()
@@ -140,13 +141,14 @@ object FocusNotifLyric : MusicBaseHook() {
         focusTextViewList.forEach { textView ->
             textView.post {
                 if (lastLyric == textView.text) {
-                    if (XposedHelpers.getAdditionalStaticField(textView, "is_scrolling") == 1) {
-                        val m0 = textView.getObjectFieldOrNull("mMarquee")
-                        m0?.apply {
+                    lyricgundonjiesu = true
+                    val m0 = textView.getObjectFieldOrNull("mMarquee")
+                    m0?.apply {
                             // 设置速度并且调用停止函数,重置歌词位置
                             setFloatField("mPixelsPerMs", 0f)
                             callMethod("stop")
-                        }
+                            lyricgundonjiesu = true
+
                     }
                     textView.text = lyric
                     lastLyric = lyric
@@ -154,7 +156,15 @@ object FocusNotifLyric : MusicBaseHook() {
                 val key = textView.hashCode()
                 val startScroll = runnablePool.getOrPut(key) {
                     Runnable {
-                        startScroll(textView)
+                        if (lyricgundonjiesu) { startScroll(textView) } else {
+                            val m0 = textView.getObjectFieldOrNull("mMarquee")
+                            m0?.apply {
+                                // 停止滚动并重置位置
+                                setFloatField("mPixelsPerMs", 0f)
+                                callMethod("stop")
+                            }
+                            startScroll(textView)
+                        }
                         runnablePool.remove(key)
                     }
                 }
@@ -172,13 +182,25 @@ object FocusNotifLyric : MusicBaseHook() {
 
     private fun startScroll(textView: TextView) {
         runCatching {
+
+
+            if (!lyricgundonjiesu) {
+                val m0 = textView.getObjectFieldOrNull("mMarquee")
+                m0?.apply {
+                    // 停止滚动并重置位置
+                    setFloatField("mPixelsPerMs", 0f)
+                    callMethod("stop")
+                }
+            }
+
             // 开始滚动
             textView.callMethod("setMarqueeRepeatLimit", 1)
             textView.callMethod("startMarqueeLocal")
+            lyricgundonjiesu = false
+            Log.d(TAG, "歌词滚动开始")
             val key = textView.hashCode()
             val m = textView.getObjectFieldOrNull("mMarquee") ?: return
             if (speed == -0.1f) {
-                // 初始化滚动速度
                 speed = m.getFloatField("mPixelsPerMs") * SPEED_INCREASE
             }
 
@@ -186,15 +208,13 @@ object FocusNotifLyric : MusicBaseHook() {
             val lineWidth = textView.layout?.getLineWidth(0)
 
             if (lineWidth != null) {
-                // 重设最大滚动宽度,只能滚动到文本结束
                 m.setFloatField("mMaxScroll", lineWidth - width)
-                // 重设速度
                 m.setFloatField("mPixelsPerMs", speed)
-                // 移除回调,防止滚动结束之后重置滚动位置
                 m.setObjectField("mRestartCallback", Choreographer.FrameCallback {})
                 // 滚动完成后清理状态
                 textView.postDelayed({
-                    XposedHelpers.setAdditionalStaticField(textView, "is_scrolling", 1)
+                    lyricgundonjiesu = true
+                    Log.d(TAG, "歌词滚动结束")
                     runnablePool.remove(key) //移除任务引用
                 }, computeScrollDuration(lineWidth, width, speed)) // 根据速度和距离计算时长
             }
@@ -204,11 +224,9 @@ object FocusNotifLyric : MusicBaseHook() {
     }
 
     private fun computeScrollDuration(lineWidth: Float, width: Float, speed: Float): Long {
-        val maxScroll = (lineWidth - width).coerceAtLeast(0f) // 与 mMaxScroll 一致
-        val pixelsPerMs = speed // 与 mPixelsPerMs 一致
-        return if (pixelsPerMs > 0) (maxScroll / pixelsPerMs).toLong() else 0L
+        val distance = (lineWidth - width).coerceAtLeast(0f)
+        return (distance / speed).toLong()
     }
-
 
 
     override fun onStop() {
