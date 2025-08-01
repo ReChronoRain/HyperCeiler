@@ -74,9 +74,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         mHandler = new Handler(getMainLooper());
         LogManager.init();
-        if (isNeedGrayView) {
-            applyGrayScaleFilter();
-        }
+        applyGrayScaleFilter(this);
         HolidayHelper.init(this);
         LanguageHelper.init(this);
         PermissionUtils.init(this);
@@ -89,15 +87,6 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
         appCrash = CrashData.toPkgList();
         mHandler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
-    }
-
-    private void applyGrayScaleFilter() {
-        View decorView = getWindow().getDecorView();
-        Paint paint = new Paint();
-        ColorMatrix cm = new ColorMatrix();
-        cm.setSaturation(0);
-        paint.setColorFilter(new ColorMatrixColorFilter(cm));
-        decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -184,7 +173,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
             savedInstanceState.putString("FragmentName", mFragmentName);
             Navigator.get(caller).navigate(new UpdateDetailFragmentNavInfo(-1, DetailFragment.class, savedInstanceState));
         } else {
-            mProxy.onStartSettingsForArguments(SubSettings.class, pref, false);
+            onStartSubSettingsForArguments(this, pref, false);
         }
         return true;
     }

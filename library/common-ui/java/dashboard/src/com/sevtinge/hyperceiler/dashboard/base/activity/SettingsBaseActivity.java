@@ -25,50 +25,42 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.hyperceiler.ui.R;
 
-import java.util.ArrayList;
-import java.util.List;
+import fan.appcompat.app.AppCompatActivity;
 
-public abstract class BaseSettingsActivity extends BaseActivity {
-
-    private String initialFragmentName;
-    public Fragment mFragment;
-    public static List<BaseSettingsActivity> mActivityList = new ArrayList<>();
+public class SettingsBaseActivity extends AppCompatActivity implements ActivityCallback {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         Intent intent = getIntent();
-        initialFragmentName = mProxy.getInitialFragmentName(intent);
-        if (TextUtils.isEmpty(initialFragmentName)) {
-            initialFragmentName = intent.getStringExtra(":android:show_fragment");
-        }
+        super.onCreate(savedInstanceState);
+        applyGrayScaleFilter(this);
+        registerObserver(getApplicationContext());
         createUiFromIntent(savedInstanceState, intent);
     }
 
     protected void createUiFromIntent(Bundle savedInstanceState, Intent intent) {
-        mProxy.setupContentView();
-        mActivityList.add(this);
-        Fragment targetFragment = mProxy.getTargetFragment(this, initialFragmentName, savedInstanceState);
-        if (targetFragment != null) {
-            targetFragment.setArguments(mProxy.getArguments(intent));
-            setFragment(targetFragment);
+        setContentView(R.layout.settings_sub);
+        String initialFragmentName = getInitialFragmentName(intent);
+        if (!TextUtils.isEmpty(initialFragmentName)) {
+            Fragment targetFragment = getTargetFragment(this, initialFragmentName, savedInstanceState);
+            if (targetFragment != null) {
+                targetFragment.setArguments(getArguments(intent));
+                setFragment(targetFragment);
+            }
         }
     }
 
+
     public void setFragment(Fragment fragment) {
-        mFragment = fragment;
         getSupportFragmentManager()
             .beginTransaction()
             .replace(R.id.frame_content, fragment)
             .commit();
-    }
-
-    public Fragment getFragment() {
-        return mFragment;
     }
 
     @Override

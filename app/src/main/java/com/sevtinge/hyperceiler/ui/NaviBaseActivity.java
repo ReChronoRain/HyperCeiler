@@ -23,8 +23,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.dashboard.base.fragment.BaseSettingsProxy;
-import com.sevtinge.hyperceiler.dashboard.base.fragment.SettingsProxy;
+import com.sevtinge.hyperceiler.dashboard.base.activity.ActivityCallback;
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
@@ -36,9 +35,7 @@ import fan.navigator.app.NavigatorActivity;
 import fan.navigator.navigatorinfo.NavigatorInfoProvider;
 import fan.navigator.navigatorinfo.UpdateFragmentNavInfo;
 
-public class NaviBaseActivity extends NavigatorActivity {
-
-    protected BaseSettingsProxy mProxy;
+public class NaviBaseActivity extends NavigatorActivity implements ActivityCallback {
 
     public void checkTheme() {
         if (AttributeResolver.resolve(this, fan.navigator.R.attr.isNavigatorTheme) < 0) {
@@ -50,15 +47,8 @@ public class NaviBaseActivity extends NavigatorActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         checkTheme();
-        mProxy = new SettingsProxy(this);
         super.onCreate(savedInstanceState);
-        registerObserver();
-    }
-
-    private void registerObserver() {
-        PrefsUtils.registerOnSharedPreferenceChangeListener(getApplicationContext());
-        AppsTool.fixPermissionsAsync(getApplicationContext());
-        AppsTool.registerFileObserver(getApplicationContext());
+        registerObserver(getApplicationContext());
     }
 
     @Override

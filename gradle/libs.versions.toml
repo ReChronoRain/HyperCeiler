@@ -1,5 +1,5 @@
 [versions]
-agp = "8.11.1"
+agp = "8.12.0"
 kotlin-android = "2.2.0"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
@@ -21,8 +21,8 @@ dexkit = "2.0.6"
 ezxhelper = "3.0.1"
 hiddenapibypass = "6.1"
 hyperfocusapi = "1.3"
-hooktool = "v.2.1.7"
-superLyricApi = "2.2"
+hooktool = "v.2.1.9"
+superLyricApi = "2.3"
 mmkv = "2.2.2"
 coreKtx = "1.16.0"
 

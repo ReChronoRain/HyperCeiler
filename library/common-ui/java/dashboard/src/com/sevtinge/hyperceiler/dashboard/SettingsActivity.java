@@ -24,7 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.sevtinge.hyperceiler.dashboard.base.activity.BaseSettingsActivity;
+import com.sevtinge.hyperceiler.dashboard.base.activity.SettingsBaseActivity;
 import com.sevtinge.hyperceiler.ui.hooker.framework.OtherSettings;
 import com.sevtinge.hyperceiler.ui.hooker.home.HomeDockSettings;
 import com.sevtinge.hyperceiler.ui.hooker.home.HomeFolderSettings;
@@ -34,7 +34,8 @@ import com.sevtinge.hyperceiler.ui.sub.MultiActionSettings;
 
 import fan.preference.PreferenceFragment;
 
-public abstract class SettingsActivity extends BaseSettingsActivity implements PreferenceFragment.OnPreferenceStartFragmentCallback {
+public abstract class SettingsActivity extends SettingsBaseActivity
+    implements PreferenceFragment.OnPreferenceStartFragmentCallback {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,12 +43,7 @@ public abstract class SettingsActivity extends BaseSettingsActivity implements P
         initCreate();
     }
 
-    public void initCreate() {
-    }
-
-    public void onStartSettingsForArguments(Preference preference, boolean isAddPreferenceKey) {
-        mProxy.onStartSettingsForArguments(SubSettings.class, preference, isAddPreferenceKey);
-    }
+    public void initCreate() {}
 
     @Override
     public boolean onPreferenceStartFragment(@NonNull PreferenceFragmentCompat caller, @NonNull Preference pref) {
@@ -60,6 +56,10 @@ public abstract class SettingsActivity extends BaseSettingsActivity implements P
 
         onStartSettingsForArguments(pref, isAddPreferenceKey);
         return true;
+    }
+
+    public void onStartSettingsForArguments(Preference preference, boolean isAddPreferenceKey) {
+        onStartSubSettingsForArguments(this, preference, isAddPreferenceKey);
     }
 
     @Override
