@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.holiday;
+package com.sevtinge.hyperceiler.main.holiday;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -24,12 +24,12 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import com.sevtinge.hyperceiler.ui.holiday.weather.ConfettiManager;
-import com.sevtinge.hyperceiler.ui.holiday.weather.PrecipType;
-import com.sevtinge.hyperceiler.ui.holiday.weather.WeatherData;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetti.MutableRectSource;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetti.WeatherConfettoGenerator;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetto.ConfettoInfo;
+import com.sevtinge.hyperceiler.main.holiday.weather.ConfettiManager;
+import com.sevtinge.hyperceiler.main.holiday.weather.PrecipType;
+import com.sevtinge.hyperceiler.main.holiday.weather.WeatherData;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetti.MutableRectSource;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetti.WeatherConfettoGenerator;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.ConfettoInfo;
 
 public class WeatherView extends FrameLayout {
 

@@ -16,15 +16,12 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.main.page.about;
+package com.sevtinge.hyperceiler.main.holiday.weather;
 
-import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
+public interface WeatherData {
+    float getEmissionRate();
 
-public class AboutUseFragment extends SettingsPreferenceFragment {
+    PrecipType getPrecipType();
 
-    @Override
-    public int getPreferenceScreenResId() {
-        return R.xml.prefs_about_use;
-    }
+    int getSpeed();
 }

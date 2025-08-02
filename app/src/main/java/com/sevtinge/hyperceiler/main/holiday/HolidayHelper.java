@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.holiday;
+package com.sevtinge.hyperceiler.main.holiday;
 
 import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
 
@@ -31,9 +31,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.ui.holiday.weather.ConfettiManager;
-import com.sevtinge.hyperceiler.ui.holiday.weather.PrecipType;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetto.ConfettoGenerator;
+import com.sevtinge.hyperceiler.main.holiday.weather.ConfettiManager;
+import com.sevtinge.hyperceiler.main.holiday.weather.PrecipType;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.ConfettoGenerator;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;

@@ -34,7 +34,7 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

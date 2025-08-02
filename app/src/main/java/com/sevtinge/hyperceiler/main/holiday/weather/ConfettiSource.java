@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.holiday.weather;
+package com.sevtinge.hyperceiler.main.holiday.weather;
 
 /**
  * The source from which confetti will appear. This can be either a line or a point.

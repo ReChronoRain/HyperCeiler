@@ -16,14 +16,28 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.main.page.about;
+package com.sevtinge.hyperceiler.main.holiday.weather.confetti;
 
-import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.Confetto;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.ConfettoGenerator;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.ConfettoInfo;
 
-public class AboutContributerFragment extends SettingsPreferenceFragment {
+import java.util.Random;
+
+public class WeatherConfettoGenerator implements ConfettoGenerator {
+
+    private final ConfettoInfo mConfettoInfo;
+
+    public WeatherConfettoGenerator(ConfettoInfo confettoInfo) {
+        mConfettoInfo = confettoInfo;
+    }
+
+    public final ConfettoInfo getConfettoInfo() {
+        return mConfettoInfo;
+    }
+
     @Override
-    public int getPreferenceScreenResId() {
-        return R.xml.prefs_about_contributor;
+    public Confetto generateConfetto(Random random) {
+        return new MotionBlurBitmapConfetto(mConfettoInfo);
     }
 }

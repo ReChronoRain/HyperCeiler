@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.holiday;
+package com.sevtinge.hyperceiler.main.holiday;
 
 import android.content.Context;
 import android.hardware.Sensor;

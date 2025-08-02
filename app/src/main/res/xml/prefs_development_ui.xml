@@ -44,12 +44,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="PreferenceCategory">
-        <RadioSetPreferenceCategory>
-            <RadioButtonPreference
-                android:persistent="false"
-                android:title="RadioButtonPreference" />
-
-        </RadioSetPreferenceCategory>
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:icon="@drawable/ic_hyperceiler_settings_v140"
@@ -70,5 +64,19 @@
             app:maxValue="100"
             app:minValue="0" />
     </PreferenceCategory>
+
+    <fan.preference.RadioButtonPreferenceCategory>
+
+        <fan.preference.RadioButtonPreference
+            android:persistent="false"
+            android:title="RadioButtonPreference" />
+
+        <fan.preference.RadioSetPreferenceCategory>
+            <fan.preference.RadioButtonPreference
+                android:persistent="false"
+                android:title="RadioButtonPreference2" />
+
+        </fan.preference.RadioSetPreferenceCategory>
+    </fan.preference.RadioButtonPreferenceCategory>
 
 </PreferenceScreen>

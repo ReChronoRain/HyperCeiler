@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 public class HelpFragment extends SettingsPreferenceFragment {
     @Override
     public int getPreferenceScreenResId() {
-        return R.xml.prefs_help;
+        return com.sevtinge.hyperceiler.R.xml.prefs_help;
     }
 
 }

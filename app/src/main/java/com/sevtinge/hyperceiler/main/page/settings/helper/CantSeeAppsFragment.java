@@ -30,7 +30,7 @@ public class CantSeeAppsFragment extends SettingsPreferenceFragment {
 
     @Override
     public int getPreferenceScreenResId() {
-        return R.xml.prefs_help_cant_see_apps;
+        return com.sevtinge.hyperceiler.R.xml.prefs_help_cant_see_apps;
     }
 
     @Override

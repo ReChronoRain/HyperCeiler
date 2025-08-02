@@ -45,7 +45,7 @@ import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.main.fragment.DetailFragment;
 import com.sevtinge.hyperceiler.main.NaviBaseActivity;
-import com.sevtinge.hyperceiler.ui.holiday.HolidayHelper;
+import com.sevtinge.hyperceiler.main.holiday.HolidayHelper;
 import com.sevtinge.hyperceiler.utils.LogServiceUtils;
 import com.sevtinge.hyperceiler.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.utils.XposedActivateHelper;

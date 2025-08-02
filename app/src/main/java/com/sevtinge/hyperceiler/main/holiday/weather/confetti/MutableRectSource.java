@@ -16,9 +16,9 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.holiday.weather.confetti;
+package com.sevtinge.hyperceiler.main.holiday.weather.confetti;
 
-import com.sevtinge.hyperceiler.ui.holiday.weather.ConfettiSource;
+import com.sevtinge.hyperceiler.main.holiday.weather.ConfettiSource;
 
 public class MutableRectSource extends ConfettiSource {
 

@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.holiday.weather.confetto;
+package com.sevtinge.hyperceiler.main.holiday.weather.confetto;
 
 import android.graphics.Canvas;
 import android.graphics.Matrix;

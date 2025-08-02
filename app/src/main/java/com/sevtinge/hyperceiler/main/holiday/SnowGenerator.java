@@ -16,29 +16,29 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.holiday;
+package com.sevtinge.hyperceiler.main.holiday;
 
 import android.content.Context;
 
-import com.sevtinge.hyperceiler.ui.holiday.weather.PrecipType;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetto.Confetto;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetto.ConfettoGenerator;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetto.ConfettoInfo;
+import com.sevtinge.hyperceiler.main.holiday.weather.PrecipType;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.Confetto;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.ConfettoGenerator;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.ConfettoInfo;
 
 import java.util.Random;
 
-public class CoinGenerator implements ConfettoGenerator {
+public class SnowGenerator implements ConfettoGenerator {
 	private final ConfettoInfo confettoInfo;
 	private final Context context;
 
-	public CoinGenerator(Context ctx) {
+	public SnowGenerator(Context ctx) {
 		super();
 		this.context = ctx;
-		this.confettoInfo = new ConfettoInfo(PrecipType.CLEAR);
+		this.confettoInfo = new ConfettoInfo(PrecipType.SNOW);
 	}
 
 	public Confetto generateConfetto(Random random) {
-		return new CoinParticle(this.context, this.confettoInfo);
+		return new SnowParticle(this.context, this.confettoInfo);
 	}
 
 	public final ConfettoInfo getConfettoInfo() {

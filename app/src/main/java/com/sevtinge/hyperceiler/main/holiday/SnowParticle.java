@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.holiday;
+package com.sevtinge.hyperceiler.main.holiday;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -26,8 +26,8 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 
 import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetto.Confetto;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetto.ConfettoInfo;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.Confetto;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.ConfettoInfo;
 
 public class SnowParticle extends Confetto {
 	private Float prevX;

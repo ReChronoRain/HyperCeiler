@@ -40,7 +40,7 @@ public class SupportVersionFragment extends SettingsPreferenceFragment {
 
     @Override
     public int getPreferenceScreenResId() {
-        return R.xml.prefs_help_support_version;
+        return com.sevtinge.hyperceiler.R.xml.prefs_help_support_version;
     }
 
     @Override

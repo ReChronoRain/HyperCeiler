@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.holiday.weather;
+package com.sevtinge.hyperceiler.main.holiday.weather;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -26,7 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetto.Confetto;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.Confetto;
 
 import java.util.List;
 

@@ -74,10 +74,10 @@
                 android:data="https://github.com/sevtinge" />
         </Preference>
 
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.main.page.about.AboutContributerFragment"
+        <com.sevtinge.hyperceiler.common.prefs.XmlPreference
             android:key="prefs_key_about_contributer"
-            android:title="@string/about_contributer" />
+            android:title="@string/about_contributer"
+            app:inflatedXml="@xml/prefs_about_contributor"/>
 
     </PreferenceCategory>
 
@@ -132,10 +132,10 @@
                 android:data="https://hyperceiler.sevtinge.com" />
         </Preference>
 
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.main.page.about.AboutUseFragment"
+        <com.sevtinge.hyperceiler.common.prefs.XmlPreference
             android:key="prefs_key_about_use"
-            android:title="@string/about_use" />
+            android:title="@string/about_use"
+            app:inflatedXml="@xml/prefs_about_use"/>
 
         <Preference
             android:summary="@string/about_donation_desc"

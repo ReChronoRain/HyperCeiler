@@ -43,7 +43,7 @@ public class DevelopmentPrefsFragment extends SettingsPreferenceFragment {
 
     @Override
     public int getPreferenceScreenResId() {
-        return R.xml.prefs_development_prefs;
+        return com.sevtinge.hyperceiler.R.xml.prefs_development_prefs;
     }
 
     @Override

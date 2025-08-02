@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.holiday.weather.confetti;
+package com.sevtinge.hyperceiler.main.holiday.weather.confetti;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -26,9 +26,9 @@ import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 
-import com.sevtinge.hyperceiler.ui.holiday.weather.PrecipType;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetto.Confetto;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetto.ConfettoInfo;
+import com.sevtinge.hyperceiler.main.holiday.weather.PrecipType;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.Confetto;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.ConfettoInfo;
 
 public final class MotionBlurBitmapConfetto extends Confetto {
 

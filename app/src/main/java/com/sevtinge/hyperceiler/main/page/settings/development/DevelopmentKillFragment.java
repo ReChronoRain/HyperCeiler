@@ -59,7 +59,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
 
     @Override
     public int getPreferenceScreenResId() {
-        return R.xml.prefs_development_kill;
+        return com.sevtinge.hyperceiler.R.xml.prefs_development_kill;
     }
 
     @Override

@@ -16,14 +16,14 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.ui.holiday;
+package com.sevtinge.hyperceiler.main.holiday;
 
 import android.content.Context;
 
-import com.sevtinge.hyperceiler.ui.holiday.weather.PrecipType;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetto.Confetto;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetto.ConfettoGenerator;
-import com.sevtinge.hyperceiler.ui.holiday.weather.confetto.ConfettoInfo;
+import com.sevtinge.hyperceiler.main.holiday.weather.PrecipType;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.Confetto;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.ConfettoGenerator;
+import com.sevtinge.hyperceiler.main.holiday.weather.confetto.ConfettoInfo;
 
 import java.util.Random;
 
