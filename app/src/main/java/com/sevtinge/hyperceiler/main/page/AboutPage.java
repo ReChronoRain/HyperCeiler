@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.main.fragment.page;
+package com.sevtinge.hyperceiler.main.page;
 
 import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getDeviceToken;
@@ -41,8 +41,8 @@ import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.common.utils.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.main.fragment.ContentFragment.IFragmentChange;
-import com.sevtinge.hyperceiler.main.fragment.page.about.view.BgEffectPainter;
-import com.sevtinge.hyperceiler.main.fragment.page.about.widget.VersionCard;
+import com.sevtinge.hyperceiler.main.page.about.view.BgEffectPainter;
+import com.sevtinge.hyperceiler.main.page.about.widget.VersionCard;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.expansion.utils.ClickCountsUtils;
 import com.sevtinge.hyperceiler.widget.ListContainerView;
@@ -57,7 +57,7 @@ import fan.internal.utils.ViewUtils;
 import fan.navigator.NavigatorFragmentListener;
 import fan.springback.view.SpringBackLayout;
 
-public class AboutPageFragment extends DashboardFragment
+public class AboutPage extends DashboardFragment
         implements View.OnScrollChangeListener, NavigatorFragmentListener, IFragmentChange {
 
     private int lIIlIll = 100 >>> 7;

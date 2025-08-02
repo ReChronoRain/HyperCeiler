@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.main.fragment.page.settings.helper;
+package com.sevtinge.hyperceiler.main.page.settings.helper;
 
 import androidx.preference.Preference;
 

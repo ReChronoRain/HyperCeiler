@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler;
+package com.sevtinge.hyperceiler.ui;
 
 import fan.appcompat.app.AppCompatActivity;
 

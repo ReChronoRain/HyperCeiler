@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.main.fragment.page.about.widget;
+package com.sevtinge.hyperceiler.main.page.about.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;

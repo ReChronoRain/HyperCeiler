@@ -16,14 +16,15 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.main.fragment.page.settings.development;
+package com.sevtinge.hyperceiler.main.page.about;
 
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 
-public class DevelopmentUIFragment extends SettingsPreferenceFragment {
+public class AboutUseFragment extends SettingsPreferenceFragment {
+
     @Override
     public int getPreferenceScreenResId() {
-        return R.xml.prefs_development_ui;
+        return R.xml.prefs_about_use;
     }
 }

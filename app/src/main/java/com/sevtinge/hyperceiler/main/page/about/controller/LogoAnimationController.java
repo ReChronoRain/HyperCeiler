@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.main.fragment.page.about.controller;
+package com.sevtinge.hyperceiler.main.page.about.controller;
 
 import android.content.Context;
 import android.view.View;

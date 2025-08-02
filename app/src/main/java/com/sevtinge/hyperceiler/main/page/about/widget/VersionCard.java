@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.main.fragment.page.about.widget;
+package com.sevtinge.hyperceiler.main.page.about.widget;
 
 import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isAprilFoolsThemeView;
 
@@ -52,7 +52,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.SettingsFeatures;
 import com.sevtinge.hyperceiler.common.view.CubicEaseOutInterpolater;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils;
-import com.sevtinge.hyperceiler.main.fragment.page.about.controller.LogoAnimationController;
+import com.sevtinge.hyperceiler.main.page.about.controller.LogoAnimationController;
 
 import fan.cardview.HyperCardView;
 import fan.core.utils.MiuiBlurUtils;

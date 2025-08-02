@@ -17,7 +17,7 @@
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
   -->
-<com.sevtinge.hyperceiler.main.fragment.page.about.widget.VersionCard xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sevtinge.hyperceiler.main.page.about.widget.VersionCard xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/version_card_view"
     android:layout_width="match_parent"
     android:layout_height="@dimen/logo_area_height"

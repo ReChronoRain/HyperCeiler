@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.main.fragment.page;
+package com.sevtinge.hyperceiler.main.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -49,7 +49,7 @@ public abstract class PageFragment extends PreferenceFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View onCreateView = super.onCreateView(inflater, container, savedInstanceState);
 
-        mRootView = inflater.inflate(com.sevtinge.hyperceiler.ui.R.layout.fragment_page, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_page, container, false);
         mContainerView = mRootView.findViewById(R.id.container);
         if (getContentLayoutResId() != 0) {
             mContainerView.addView(LayoutInflater.from(requireContext()).inflate(getContentLayoutResId(), mContainerView, false));

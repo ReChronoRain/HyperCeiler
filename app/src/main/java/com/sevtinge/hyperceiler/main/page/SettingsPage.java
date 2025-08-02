@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.main.fragment.page;
+package com.sevtinge.hyperceiler.main.page;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -29,8 +29,9 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
+import com.sevtinge.hyperceiler.main.fragment.PageFragment;
 import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.LauncherActivity;
+import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.main.fragment.ContentFragment.IFragmentChange;
 import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
@@ -42,7 +43,7 @@ import fan.appcompat.app.AppCompatActivity;
 import fan.navigator.NavigatorFragmentListener;
 import fan.preference.DropDownPreference;
 
-public class SettingsPageFragment extends PageFragment
+public class SettingsPage extends PageFragment
     implements Preference.OnPreferenceChangeListener,
     NavigatorFragmentListener, IFragmentChange {
 
@@ -55,7 +56,7 @@ public class SettingsPageFragment extends PageFragment
 
     @Override
     public int getPreferenceScreenResId() {
-        return R.xml.prefs_settings;
+        return com.sevtinge.hyperceiler.R.xml.prefs_settings;
     }
 
     @Override

@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.main.fragment.page;
+package com.sevtinge.hyperceiler.main.page;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -44,8 +44,9 @@ import com.sevtinge.hyperceiler.dashboard.SubSettings;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.main.banner.HomePageBannerHelper;
 import com.sevtinge.hyperceiler.main.fragment.ContentFragment.IFragmentChange;
-import com.sevtinge.hyperceiler.main.fragment.page.settings.helper.HomepageEntrance;
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.main.fragment.PageFragment;
+import com.sevtinge.hyperceiler.main.page.settings.helper.HomepageEntrance;
+import com.sevtinge.hyperceiler.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -58,7 +59,7 @@ import fan.appcompat.app.Fragment;
 import fan.navigator.NavigatorFragmentListener;
 import fan.preference.TextButtonPreference;
 
-public class HomePageFragment extends PageFragment
+public class HomePage extends PageFragment
     implements HomepageEntrance.EntranceState, IFragmentChange, ModSearchCallback.OnSearchListener,
     SearchView.OnQueryTextListener, NavigatorFragmentListener {
 
@@ -91,7 +92,7 @@ public class HomePageFragment extends PageFragment
             mSearchResultView.setAdapter(mSearchAdapter);
             mSearchAdapter.setOnItemClickListener((v, ad) -> onSearchItemClickListener(ad));
         }
-        mSearchInputView.setHint(getResources().getString(R.string.search));
+        mSearchInputView.setHint(getResources().getString(com.sevtinge.hyperceiler.ui.R.string.search));
 
         mSearchBar.setOnClickListener(v -> onTextSearch());
     }

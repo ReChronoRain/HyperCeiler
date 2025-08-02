@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.main.fragment.page.settings.helper;
+package com.sevtinge.hyperceiler.main.page.settings.helper;
 
 import static com.sevtinge.hyperceiler.common.prefs.PreferenceHeader.scope;
 
@@ -33,7 +33,7 @@ import com.sevtinge.hyperceiler.common.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

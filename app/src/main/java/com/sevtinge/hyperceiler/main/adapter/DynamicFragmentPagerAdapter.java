@@ -30,9 +30,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.sevtinge.hyperceiler.main.model.TabViewModel;
-import com.sevtinge.hyperceiler.main.fragment.page.AboutPageFragment;
-import com.sevtinge.hyperceiler.main.fragment.page.HomePageFragment;
-import com.sevtinge.hyperceiler.main.fragment.page.SettingsPageFragment;
+import com.sevtinge.hyperceiler.main.page.AboutPage;
+import com.sevtinge.hyperceiler.main.page.HomePage;
+import com.sevtinge.hyperceiler.main.page.SettingsPage;
 
 import java.util.Map;
 
@@ -64,9 +64,9 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         Log.d(TAG, "init, currTab: " + tag);
         mActivity = ((fan.appcompat.app.Fragment) fragment).getAppCompatActivity();
         mFragmentManager = fragment.getChildFragmentManager();
-        addFragment(TabViewModel.TAB_HOME, HomePageFragment.class);
-        addFragment(TabViewModel.TAB_SETTINGS, SettingsPageFragment.class);
-        addFragment(TabViewModel.TAB_ABOUT, AboutPageFragment.class);
+        addFragment(TabViewModel.TAB_HOME, HomePage.class);
+        addFragment(TabViewModel.TAB_SETTINGS, SettingsPage.class);
+        addFragment(TabViewModel.TAB_ABOUT, AboutPage.class);
     }
 
     public void addFragment(String tag, Class<? extends Fragment> clazz) {

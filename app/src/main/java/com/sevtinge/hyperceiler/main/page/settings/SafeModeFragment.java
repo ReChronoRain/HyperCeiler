@@ -16,11 +16,11 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.main.fragment.page.settings;
+package com.sevtinge.hyperceiler.main.page.settings;
 
 import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isDebug;
-import static com.sevtinge.hyperceiler.main.fragment.page.settings.helper.HomepageEntrance.ANDROID_NS;
+import static com.sevtinge.hyperceiler.main.page.settings.helper.HomepageEntrance.ANDROID_NS;
 
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
