@@ -32,6 +32,8 @@ import android.graphics.drawable.Icon
 import android.media.session.PlaybackState
 import android.util.Base64
 import android.util.TypedValue
+import android.view.Gravity
+import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -59,6 +61,7 @@ abstract class MusicBaseHook : BaseHook() {
     private val isAodMode by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_music_show_aod_mode")
     }
+    private val KEY_DUTE: String = "key_duet"
 
     private val receiver = object : ISuperLyric.Stub() {
         override fun onSuperLyric(data: SuperLyricData) {
@@ -108,6 +111,10 @@ abstract class MusicBaseHook : BaseHook() {
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         val intent = Intent("$CHANNEL_ID.actions.switchClockStatus")
+        //翻译
+        val tf = extraData.translation
+        //对唱对齐方式
+        val dule = extraData.extra?.getBoolean(KEY_DUTE,false)?:false
 
         // 需要重启音乐软件生效
         val pendingIntent = if (isClickClock) {
@@ -125,7 +132,20 @@ abstract class MusicBaseHook : BaseHook() {
         fun buildRemoteViews(textColor: Int): RemoteViews {
             val layoutId = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
             val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
+            val tf_text_id = modRes.getIdentifier("focustflyric", "id", ProjectApi.mAppModulePkg)
             return RemoteViews(ProjectApi.mAppModulePkg, layoutId).apply {
+                if (tf != null){
+                    setInt(tf_text_id, "setGravity",
+                        if (dule) Gravity.END else Gravity.START)
+                    setViewVisibility(tf_text_id, View.VISIBLE)
+                    setTextViewText(tf_text_id, tf)
+                    setTextColor(tf_text_id, textColor)
+                    setTextViewTextSize(tf_text_id, TypedValue.COMPLEX_UNIT_SP, nSize)
+                } else {
+                    setViewVisibility(tf_text_id, View.GONE)
+                }
+                setInt(textId, "setGravity",
+                    if (dule) Gravity.END else Gravity.START)
                 setTextViewText(textId, text)
                 setTextColor(textId, textColor)
                 setTextViewTextSize(textId, TypedValue.COMPLEX_UNIT_SP, nSize)
@@ -136,7 +156,16 @@ abstract class MusicBaseHook : BaseHook() {
             val layoutId = modRes.getIdentifier("focusaodlyric_layout", "layout", ProjectApi.mAppModulePkg)
             val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
             val iconId = modRes.getIdentifier("focusicon", "id", ProjectApi.mAppModulePkg)
+            val tf_text_id = modRes.getIdentifier("focustflyric", "id", ProjectApi.mAppModulePkg)
             return RemoteViews(ProjectApi.mAppModulePkg, layoutId).apply {
+                if (tf != null){
+                    setViewVisibility(tf_text_id, View.VISIBLE)
+                    setTextViewText(tf_text_id, tf)
+                    setTextColor(tf_text_id, textColor)
+                    setTextViewTextSize(tf_text_id, TypedValue.COMPLEX_UNIT_SP, nSize)
+                } else {
+                    setViewVisibility(tf_text_id, View.GONE)
+                }
                 setTextViewText(textId, text)
                 setTextColor(textId, textColor)
                 setTextViewTextSize(textId, TypedValue.COMPLEX_UNIT_SP, nSize)
