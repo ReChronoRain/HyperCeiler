@@ -30,59 +30,59 @@ import com.sevtinge.hyperceiler.common.model.data.ModData;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.hooker.securitycenter.OtherSettings;
 import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.ui.hooker.AodFragment;
-import com.sevtinge.hyperceiler.ui.hooker.CameraNewFragment;
-import com.sevtinge.hyperceiler.ui.hooker.ContentExtensionFragment;
-import com.sevtinge.hyperceiler.ui.hooker.MiCloudServiceFragment;
-import com.sevtinge.hyperceiler.ui.hooker.MiLinkFragment;
-import com.sevtinge.hyperceiler.ui.hooker.MiShareFragment;
-import com.sevtinge.hyperceiler.ui.hooker.NfcFragment;
-import com.sevtinge.hyperceiler.ui.hooker.PersonalAssistantFragment;
-import com.sevtinge.hyperceiler.ui.hooker.PhoneFragment;
-import com.sevtinge.hyperceiler.ui.hooker.SecurityAddFragment;
-import com.sevtinge.hyperceiler.ui.hooker.SystemSettingsFragment;
-import com.sevtinge.hyperceiler.ui.hooker.UpdaterFragment;
-import com.sevtinge.hyperceiler.ui.hooker.VariousFragment;
-import com.sevtinge.hyperceiler.ui.hooker.WeatherFragment;
-import com.sevtinge.hyperceiler.ui.hooker.framework.CorePatchSettings;
-import com.sevtinge.hyperceiler.ui.hooker.framework.DisplaySettings;
-import com.sevtinge.hyperceiler.ui.hooker.framework.FreeFormSettings;
-import com.sevtinge.hyperceiler.ui.hooker.framework.NetworkSettings;
-import com.sevtinge.hyperceiler.ui.hooker.framework.VolumeSettings;
-import com.sevtinge.hyperceiler.ui.hooker.home.HomeDockSettings;
-import com.sevtinge.hyperceiler.ui.hooker.home.HomeDrawerSettings;
-import com.sevtinge.hyperceiler.ui.hooker.home.HomeFolderSettings;
-import com.sevtinge.hyperceiler.ui.hooker.home.HomeGestureSettings;
-import com.sevtinge.hyperceiler.ui.hooker.home.HomeLayoutSettings;
-import com.sevtinge.hyperceiler.ui.hooker.home.HomeOtherSettings;
-import com.sevtinge.hyperceiler.ui.hooker.home.HomeRecentSettings;
-import com.sevtinge.hyperceiler.ui.hooker.home.HomeTitleAnimSettings;
-import com.sevtinge.hyperceiler.ui.hooker.home.HomeTitleSettings;
-import com.sevtinge.hyperceiler.ui.hooker.home.HomeWidgetSettings;
-import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim2Settings;
-import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim3Settings;
-import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim4Settings;
-import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim5Settings;
-import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim7Settings;
-import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim8Settings;
-import com.sevtinge.hyperceiler.ui.hooker.home.anim.HomeTitleAnim9Settings;
-import com.sevtinge.hyperceiler.ui.hooker.securitycenter.ApplicationsSettings;
-import com.sevtinge.hyperceiler.ui.hooker.securitycenter.PrivacySafetySettings;
-import com.sevtinge.hyperceiler.ui.hooker.securitycenter.SidebarSettings;
-import com.sevtinge.hyperceiler.ui.hooker.systemui.ControlCenterSettings;
-import com.sevtinge.hyperceiler.ui.hooker.systemui.LockScreenSettings;
-import com.sevtinge.hyperceiler.ui.hooker.systemui.NavigationSettings;
-import com.sevtinge.hyperceiler.ui.hooker.systemui.OtherSettings;
-import com.sevtinge.hyperceiler.ui.hooker.systemui.StatusBarSettings;
-import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.BatteryStyleSettings;
-import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.DoubleLineNetworkSettings;
-import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.IconManageNewSettings;
-import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.MobileNetworkTypeSettings;
-import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.NetworkSpeedIndicatorSettings;
-import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.NewClockIndicatorSettings;
-import com.sevtinge.hyperceiler.ui.hooker.systemui.statusbar.StrongToastSettings;
-import com.sevtinge.hyperceiler.ui.hooker.various.AOSPSettings;
+import com.sevtinge.hyperceiler.hooker.AodFragment;
+import com.sevtinge.hyperceiler.hooker.CameraNewFragment;
+import com.sevtinge.hyperceiler.hooker.ContentExtensionFragment;
+import com.sevtinge.hyperceiler.hooker.MiCloudServiceFragment;
+import com.sevtinge.hyperceiler.hooker.MiLinkFragment;
+import com.sevtinge.hyperceiler.hooker.MiShareFragment;
+import com.sevtinge.hyperceiler.hooker.NfcFragment;
+import com.sevtinge.hyperceiler.hooker.PersonalAssistantFragment;
+import com.sevtinge.hyperceiler.hooker.PhoneFragment;
+import com.sevtinge.hyperceiler.hooker.SecurityAddFragment;
+import com.sevtinge.hyperceiler.hooker.SystemSettingsFragment;
+import com.sevtinge.hyperceiler.hooker.UpdaterFragment;
+import com.sevtinge.hyperceiler.hooker.VariousFragment;
+import com.sevtinge.hyperceiler.hooker.WeatherFragment;
+import com.sevtinge.hyperceiler.hooker.framework.CorePatchSettings;
+import com.sevtinge.hyperceiler.hooker.framework.DisplaySettings;
+import com.sevtinge.hyperceiler.hooker.framework.FreeFormSettings;
+import com.sevtinge.hyperceiler.hooker.framework.NetworkSettings;
+import com.sevtinge.hyperceiler.hooker.framework.VolumeSettings;
+import com.sevtinge.hyperceiler.hooker.home.HomeDockSettings;
+import com.sevtinge.hyperceiler.hooker.home.HomeDrawerSettings;
+import com.sevtinge.hyperceiler.hooker.home.HomeFolderSettings;
+import com.sevtinge.hyperceiler.hooker.home.HomeGestureSettings;
+import com.sevtinge.hyperceiler.hooker.home.HomeLayoutSettings;
+import com.sevtinge.hyperceiler.hooker.home.HomeOtherSettings;
+import com.sevtinge.hyperceiler.hooker.home.HomeRecentSettings;
+import com.sevtinge.hyperceiler.hooker.home.HomeTitleAnimSettings;
+import com.sevtinge.hyperceiler.hooker.home.HomeTitleSettings;
+import com.sevtinge.hyperceiler.hooker.home.HomeWidgetSettings;
+import com.sevtinge.hyperceiler.hooker.home.anim.HomeTitleAnim2Settings;
+import com.sevtinge.hyperceiler.hooker.home.anim.HomeTitleAnim3Settings;
+import com.sevtinge.hyperceiler.hooker.home.anim.HomeTitleAnim4Settings;
+import com.sevtinge.hyperceiler.hooker.home.anim.HomeTitleAnim5Settings;
+import com.sevtinge.hyperceiler.hooker.home.anim.HomeTitleAnim7Settings;
+import com.sevtinge.hyperceiler.hooker.home.anim.HomeTitleAnim8Settings;
+import com.sevtinge.hyperceiler.hooker.home.anim.HomeTitleAnim9Settings;
+import com.sevtinge.hyperceiler.hooker.securitycenter.ApplicationsSettings;
+import com.sevtinge.hyperceiler.hooker.securitycenter.PrivacySafetySettings;
+import com.sevtinge.hyperceiler.hooker.securitycenter.SidebarSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.ControlCenterSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.LockScreenSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.NavigationSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.StatusBarSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.statusbar.BatteryStyleSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.statusbar.DoubleLineNetworkSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.statusbar.IconManageNewSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.statusbar.MobileNetworkTypeSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.statusbar.NetworkSpeedIndicatorSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.statusbar.NewClockIndicatorSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.statusbar.StrongToastSettings;
+import com.sevtinge.hyperceiler.hooker.various.AOSPSettings;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -120,7 +120,7 @@ public class SearchHelper {
         parsePrefXmlForFramework(context, VolumeSettings.class, R.xml.framework_volume);
         parsePrefXmlForFramework(context, NetworkSettings.class, R.xml.framework_phone);
         parsePrefXmlForFramework(context, DisplaySettings.class, R.xml.framework_display);
-        parsePrefXmlForFramework(context, com.sevtinge.hyperceiler.ui.hooker.framework.OtherSettings.class, R.xml.framework_other);
+        parsePrefXmlForFramework(context, com.sevtinge.hyperceiler.hooker.framework.OtherSettings.class, R.xml.framework_other);
         parsePrefXmlForFramework(context, CorePatchSettings.class, R.xml.framework_core_patch);
 
         // 系统界面页面相关
@@ -182,7 +182,7 @@ public class SearchHelper {
                 R.string.system_ui
         );
 
-        parsePrefXml(context, OtherSettings.class,
+        parsePrefXml(context, com.sevtinge.hyperceiler.hooker.systemui.OtherSettings.class,
                 R.xml.system_ui_other,
                 R.string.system_ui);
 
@@ -296,7 +296,7 @@ public class SearchHelper {
         parsePrefXmlForDashboardFragment(context, R.xml.security_center_battery);
         parsePrefXmlForSecurityCenter(context, PrivacySafetySettings.class, R.xml.security_center_privacy_safety);
         parsePrefXmlForSecurityCenter(context, SidebarSettings.class, R.xml.security_center_sidebar);
-        parsePrefXmlForSecurityCenter(context, com.sevtinge.hyperceiler.ui.hooker.securitycenter.OtherSettings.class, R.xml.security_center_other);
+        parsePrefXmlForSecurityCenter(context, OtherSettings.class, R.xml.security_center_other);
 
         parsePrefXmlForDashboardFragment(context, R.xml.tsmclient);
         parsePrefXmlForDashboardFragment(context, R.xml.soundrecorder);

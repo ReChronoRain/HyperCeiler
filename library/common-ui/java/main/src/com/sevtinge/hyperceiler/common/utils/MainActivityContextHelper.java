@@ -30,18 +30,12 @@ import java.util.zip.ZipFile;
 
 public class MainActivityContextHelper {
 
-    private Context context;
-
-    public MainActivityContextHelper(Context context) {
-        this.context = context;
-    }
-
     @SuppressLint("HardwareIds")
-    public String getAndroidId() {
+    public static String getAndroidId(Context context) {
         return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
-    public boolean verifyDexCRC() {
+    public static boolean verifyDexCRC(Context context) {
         String dexCrcStr = context.getResources().getString(R.string.crc_value);
         if(dexCrcStr.startsWith("Error")) return false;
         //long dexCrc = Long.parseLong("613BD799");
@@ -68,7 +62,7 @@ public class MainActivityContextHelper {
         }
     }
 
-    public String getDexCRC() {
+    public static String getDexCRC(Context context) {
         String dexCrcStr = context.getResources().getString(R.string.crc_value);
         if(dexCrcStr.startsWith("Error")) return dexCrcStr;
         //long dexCrc = Long.parseLong("613BD799");

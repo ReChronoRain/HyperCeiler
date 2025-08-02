@@ -1,4 +1,5 @@
 -keep class com.sevtinge.hyperceiler.ui.**{ *; }
+-keep class com.sevtinge.hyperceiler.main.**{ *; }
 
 -keep class androidx.preference.**{ *; }
 -keep class fan.**{ *; }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AboutInfoItem">
+        <attr name="android:title" />
+        <attr name="android:value" />
+    </declare-styleable>
+</resources>

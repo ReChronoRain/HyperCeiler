@@ -40,13 +40,6 @@
 
     <color name="card_tile_disabled_color_legacy">#3A3A3A</color>
 
-    <color name="logo_color1">#e6a1a1a1</color>
-    <color name="logo_color2">#4de6e6e6</color>
-    <color name="logo_color3">#1af500</color>
-
-    <color name="logo_overlay_shade_color">#55FFFFFF</color>
-    <color name="logo_overlay_color">#FFFFFFFF</color>
-
     <color name="my_card_bg_color">#1fffffff</color>
     <color name="my_card_shadow_color">#4d000000</color>
 
