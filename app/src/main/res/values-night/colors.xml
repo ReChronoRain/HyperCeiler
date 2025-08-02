@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="logo_color1">#e6a1a1a1</color>
+    <color name="logo_color2">#4de6e6e6</color>
+    <color name="logo_color3">#1af500</color>
+
+    <color name="logo_overlay_shade_color">#55FFFFFF</color>
+    <color name="logo_overlay_color">#FFFFFFFF</color>
+</resources>

@@ -85,7 +85,7 @@
         android:allowNativeHeapPointerTagging="true">
 
         <activity
-            android:name=".ui.HyperCeilerTabActivity"
+            android:name=".HyperCeilerTabActivity"
             android:exported="true"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
@@ -95,10 +95,10 @@
         </activity>
 
         <activity-alias
-            android:name=".ui.LauncherActivity"
+            android:name=".LauncherActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:targetActivity=".ui.HyperCeilerTabActivity"
+            android:targetActivity=".HyperCeilerTabActivity"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -117,7 +117,7 @@
         </activity>
 
         <activity
-            android:name=".ui.sub.SubPickerActivity"
+            android:name=".sub.SubPickerActivity"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
         <meta-data
