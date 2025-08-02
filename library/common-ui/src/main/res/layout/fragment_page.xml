@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fan.nestedheader.widget.NestedHeaderLayout
+        android:id="@+id/nested_header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        app:headerAutoClose="false"
+        app:headerView="@id/search_bar"
+        app:rangeOffset="1px"
+        app:scrollableView="@id/scrollable_view_group">
+
+        <include
+            android:id="@+id/search_bar"
+            layout="@layout/miuix_appcompat_search_stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <fan.springback.view.SpringBackLayout
+            android:id="@+id/scrollable_view_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:scrollOrientation="vertical|angle"
+            app:scrollableView="@id/scrollview">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <FrameLayout
+                        android:id="@+id/container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <FrameLayout
+                        android:id="@+id/prefs_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_weight="1.0"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:smoothScrollbar="false" />
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </fan.springback.view.SpringBackLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="ifContentScrolls"
+            android:visibility="gone"/>
+
+    </fan.nestedheader.widget.NestedHeaderLayout>
+
+</FrameLayout>

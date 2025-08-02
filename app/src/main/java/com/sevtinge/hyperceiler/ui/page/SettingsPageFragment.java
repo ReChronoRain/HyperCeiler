@@ -21,23 +21,17 @@ package com.sevtinge.hyperceiler.ui.page;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.ContentFragment.IFragmentChange;
@@ -45,20 +39,15 @@ import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
-import com.sevtinge.hyperceiler.widget.ListContainerView;
 
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.AppCompatActivity;
-import fan.internal.utils.ViewUtils;
 import fan.navigator.NavigatorFragmentListener;
 import fan.preference.DropDownPreference;
-import fan.springback.view.SpringBackLayout;
 
-public class SettingsPageFragment extends DashboardFragment
-        implements Preference.OnPreferenceChangeListener, NavigatorFragmentListener, IFragmentChange {
-
-    NestedScrollView mScrollView;
-    ListContainerView mContainerView;
+public class SettingsPageFragment extends PageFragment
+    implements Preference.OnPreferenceChangeListener,
+    NavigatorFragmentListener, IFragmentChange {
 
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
@@ -66,47 +55,6 @@ public class SettingsPageFragment extends DashboardFragment
 
     DropDownPreference mLogLevel;
     DropDownPreference mLanguage;
-
-    @NonNull
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mContainerView = new ListContainerView(requireContext());
-        mScrollView = mContainerView.getNestedScrollView();
-        mContainerView.addPrefsContainer(super.onCreateView(inflater, container, savedInstanceState));
-        setOverlayMode();
-        registerCoordinateScrollView(mContainerView.getNestedHeader());
-        return mContainerView;
-    }
-
-    @Override
-    public void onContentInsetChanged(Rect rect) {
-        super.onContentInsetChanged(rect);
-        if (mScrollView != null) {
-            mScrollView.setClipToPadding(false);
-            ViewUtils.RelativePadding relativePadding = new ViewUtils.RelativePadding(mScrollView);
-            boolean isLayoutRtl = ViewUtils.isLayoutRtl(mScrollView);
-            relativePadding.start += isLayoutRtl ? rect.right : rect.left;
-            relativePadding.end += isLayoutRtl ? rect.left : rect.right;
-            relativePadding.bottom = rect.bottom;
-            relativePadding.applyToView(mScrollView);
-            setRecyclerViewPadding();
-        }
-    }
-
-    private void setRecyclerViewPadding() {
-        RecyclerView listView = getListView();
-        if (listView == null) return;
-        View view = (View) listView.getParent();
-        if (view instanceof SpringBackLayout) {
-            view.setEnabled(false);
-            listView.post(() -> listView.setPaddingRelative(
-                listView.getPaddingStart(),
-                0,
-                listView.getPaddingEnd(),
-                0)
-            );
-        }
-    }
 
     @Override
     public int getPreferenceScreenResId() {
@@ -228,11 +176,5 @@ public class SettingsPageFragment extends DashboardFragment
     @Override
     public void onLeave(ActionBar actionBar) {
 
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterCoordinateScrollView(mContainerView.getNestedHeader());
     }
 }

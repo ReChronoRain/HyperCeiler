@@ -218,7 +218,6 @@ public class AboutPageFragment extends DashboardFragment
     @Override
     public void initPrefs() {
         int lIIlllI = ClickCountsUtils.getClickCounts();
-        MainActivityContextHelper mainActivityContextHelper = new MainActivityContextHelper(requireContext());
         Preference lIIllII = findPreference("prefs_key_various_enable_super_function");
         mDeviceName = findPreference("prefs_key_about_device_name");
         mDeviceInfoDevice = findPreference("prefs_key_about_device_info_device");
@@ -236,7 +235,7 @@ public class AboutPageFragment extends DashboardFragment
         mDeviceInfoDevice.setTitle(marketName);
         mDeviceInfoAndroid.setTitle(androidVersion);
         mDeviceInfoOs.setTitle(osVersion);
-        mDeviceInfoPadding.setTitle(getDeviceToken(mainActivityContextHelper.getAndroidId()));
+        mDeviceInfoPadding.setTitle(getDeviceToken(MainActivityContextHelper.getAndroidId(requireContext())));
 
         if (lIIllII != null) {
             lIIllII.setTitle(BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE);

@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,14 +43,12 @@ import com.sevtinge.hyperceiler.common.model.data.ModData;
 import com.sevtinge.hyperceiler.common.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.common.utils.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.common.utils.SettingLauncherHelper;
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.dashboard.SubSettings;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.ui.ContentFragment.IFragmentChange;
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.ui.page.settings.helper.HomepageEntrance;
 import com.sevtinge.hyperceiler.utils.banner.HomePageBannerHelper;
-import com.sevtinge.hyperceiler.widget.ListContainerView;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -60,61 +59,33 @@ import java.util.function.BiConsumer;
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
 import fan.navigator.NavigatorFragmentListener;
-import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.preference.TextButtonPreference;
-import fan.springback.view.SpringBackLayout;
 
-public class HomePageFragment extends DashboardFragment
-        implements HomepageEntrance.EntranceState, ModSearchCallback.OnSearchListener,
-        NavigatorFragmentListener, IFragmentChange {
-
-    private ListContainerView mContainerView;
-    private NestedHeaderLayout mNestedHeaderLayout;
+public class HomePageFragment extends PageFragment implements HomepageEntrance.EntranceState, IFragmentChange,
+    ModSearchCallback.OnSearchListener, SearchView.OnQueryTextListener, NavigatorFragmentListener {
 
     private View mSearchBar;
     private TextView mSearchInputView;
     private RecyclerView mSearchResultView;
     private ModSearchAdapter mSearchAdapter;
     private ModSearchCallback mSearchCallBack;
-    private TextButtonPreference mShowAppTips;
 
+    private TextButtonPreference mShowAppTips;
     private PreferenceCategory mHeadtipGround;
-    private MainActivityContextHelper mainActivityContextHelper;
     private static final String TAG = "MainFragment";
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
-
-    @NonNull
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (mContainerView == null) {
-            mContainerView = new ListContainerView(requireContext());
-            mNestedHeaderLayout = mContainerView.getNestedHeader();
-            mContainerView.addPrefsContainer(super.onCreateView(inflater, container, savedInstanceState));
-            setOverlayMode();
-            registerCoordinateScrollView(mNestedHeaderLayout);
-
-            RecyclerView listView = getListView();
-            View parent = (View) listView.getParent();
-            if (parent instanceof SpringBackLayout) {
-                parent.setEnabled(false);
-                listView.setPaddingRelative(listView.getPaddingStart(), 0, listView.getPaddingEnd(), 0);
-            }
-        }
-        return mContainerView;
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initSearchView();
+        initSearchView(view);
     }
 
-    private void initSearchView() {
-        mContainerView.showHeaderView();
-        mContainerView.setRefreshEnable(false);
-        mSearchBar = mContainerView.getHeaderView();
-        mSearchInputView = mSearchBar.findViewById(android.R.id.input);
-        mSearchResultView = mContainerView.getRecyclerView();
+    private void initSearchView(View view) {
+        setSearchViewEnabled(true);
+        mSearchBar = view.findViewById(R.id.search_bar);
+        mSearchInputView = view.findViewById(android.R.id.input);
+        mSearchResultView = view.findViewById(R.id.search_result);
 
         if (mSearchAdapter == null) {
             mSearchAdapter = new ModSearchAdapter();
@@ -124,9 +95,14 @@ public class HomePageFragment extends DashboardFragment
         }
         mSearchInputView.setHint(getResources().getString(R.string.search));
 
-        onTextSearch();
+        mSearchBar.setOnClickListener(v -> onTextSearch());
+    }
 
-        mSearchBar.setOnClickListener(v -> startSearchMode());
+    void findMod(String filter) {
+        mSearchResultView.setVisibility(filter.isEmpty() ? View.GONE : View.VISIBLE);
+        ModSearchAdapter adapter = (ModSearchAdapter) mSearchResultView.getAdapter();
+        if (adapter == null) return;
+        adapter.getFilter(requireContext()).filter(filter);
     }
 
     public void onTextSearch() {
@@ -137,36 +113,11 @@ public class HomePageFragment extends DashboardFragment
 
     protected void onSearchRequest(View view) {
         if (mSearchCallBack == null) {
-            mSearchCallBack = new ModSearchCallback(getActivity(), mSearchResultView, this);
+            mSearchCallBack = new ModSearchCallback(this, this);
         }
-        mSearchCallBack.setup(view, mNestedHeaderLayout.getScrollableView(),
-                mContainerView.findViewById(com.sevtinge.hyperceiler.R.id.search_result_ll));
+        mSearchCallBack.setup(view, getRootView());
+        startSearchMode();
     }
-
-    @Override
-    public void onCreateSearchMode(ActionMode mode, Menu menu) {
-        if (isAdded()) {
-            mNestedHeaderLayout.setInSearchMode(true);
-            mContainerView.setRefreshEnable(false);
-            mContainerView.showRecyclerView();
-        }
-    }
-
-    @Override
-    public void onDestroySearchMode(ActionMode mode) {
-        mNestedHeaderLayout.setInSearchMode(false);
-        mContainerView.setRefreshEnable(false);
-        mContainerView.showPrefsContainer();
-    }
-
-    @Override
-    public void onSearchModeAnimStart(boolean z) {}
-
-    @Override
-    public void onSearchModeAnimStop(boolean z) {}
-
-    @Override
-    public void onSearchModeAnimUpdate(boolean z, float f) {}
 
     private void startSearchMode() {
         Fragment parent = (Fragment) getParentFragment();
@@ -174,6 +125,32 @@ public class HomePageFragment extends DashboardFragment
             parent.startActionMode(mSearchCallBack);
         }
     }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        findMod(newText);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+
+    @Override
+    public void onCreateSearchMode(ActionMode mode, Menu menu) {
+        if (isAdded()) {
+            mNestedHeaderLayout.getScrollableView().setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onDestroySearchMode(ActionMode mode) {
+        mNestedHeaderLayout.getScrollableView().setVisibility(View.VISIBLE);
+    }
+
+
 
     private void onSearchItemClickListener(ModData ad) {
         if (ad == null) return;
@@ -200,7 +177,6 @@ public class HomePageFragment extends DashboardFragment
         setPreference();
         mHeadtipGround = findPreference("prefs_key_headtip_ground");
         mShowAppTips = findPreference("prefs_key_help_cant_see_app");
-        mainActivityContextHelper = new MainActivityContextHelper(requireContext());
         HomePageBannerHelper.init(requireContext(), mHeadtipGround);
 
         boolean isHideTip = getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false);

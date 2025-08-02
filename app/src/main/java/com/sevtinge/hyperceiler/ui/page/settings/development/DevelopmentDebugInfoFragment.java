@@ -60,7 +60,6 @@ import java.util.Map;
 public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
 
     private Preference mDebugInfo;
-    MainActivityContextHelper mainActivityContextHelper;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -70,7 +69,6 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mDebugInfo = findPreference("prefs_key_debug_info");
-        mainActivityContextHelper = new MainActivityContextHelper(requireContext());
         if (mDebugInfo != null) {
             mDebugInfo.setTitle(getDebugInfo());
         }
@@ -110,9 +108,9 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesDevice.put("FingerPrint", getFingerPrint());
             propertiesDevice.put("Locale", getLocale());
             propertiesDevice.put("Language", getLanguage());
-            propertiesDevice.put("AndroidId", mainActivityContextHelper.getAndroidId());
+            propertiesDevice.put("AndroidId", MainActivityContextHelper.getAndroidId(requireContext()));
             // propertiesDevice.put("Serial", getSerial());
-            propertiesDevice.put("DeviceToken", getDeviceToken(mainActivityContextHelper.getAndroidId()));
+            propertiesDevice.put("DeviceToken", getDeviceToken(MainActivityContextHelper.getAndroidId(requireContext())));
         } catch (Exception ignored) {
         }
         try {
