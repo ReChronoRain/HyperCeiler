@@ -19,7 +19,7 @@
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="100dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal">
@@ -33,14 +33,32 @@
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription" />
 
-    <TextView
-        android:id="@id/focuslyric"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:breakStrategy="simple"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:maxLines="5"
-        android:textSize="18sp" />
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/focuslyric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:breakStrategy="simple"
+            android:maxLines="5"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/focustflyric"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:breakStrategy="simple"
+            android:maxLines="5"
+            android:textSize="18sp" />
+    </LinearLayout>
 
 </LinearLayout>

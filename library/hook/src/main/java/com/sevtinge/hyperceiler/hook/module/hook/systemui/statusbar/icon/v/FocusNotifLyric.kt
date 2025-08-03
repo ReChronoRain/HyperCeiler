@@ -210,7 +210,6 @@ object FocusNotifLyric : MusicBaseHook() {
     }
 
 
-
     override fun onStop() {
         if (!isShowApp) cancelNotification()
     }
