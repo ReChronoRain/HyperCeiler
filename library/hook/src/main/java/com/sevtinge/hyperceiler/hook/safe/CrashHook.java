@@ -115,7 +115,28 @@ public class CrashHook extends HookTool {
                     }
             );
         } catch (Throwable e) {
-            if (SystemSDKKt.isMoreAndroidVersion(35)) {
+            if (SystemSDKKt.isMoreAndroidVersion(36)) {
+                HookTool.findAndHookMethod("com.android.server.wm.BackgroundActivityStartController", classLoader, "checkBackgroundActivityStart",
+                    int.class, int.class, String.class, int.class, int.class,
+                    "com.android.server.wm.WindowProcessController", "com.android.server.am.PendingIntentRecord", boolean.class,
+                    "com.android.server.wm.ActivityRecord", Intent.class, ActivityOptions.class,
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            String pkg = (String) param.args[2];
+                            if (pkg == null) return;
+                            if (ProjectApi.mAppModulePkg.equals(pkg)) {
+                                Object balAllowDefault = XposedHelpers.getStaticObjectField(
+                                    XposedHelpers.findClass("com.android.server.wm.BackgroundActivityStartController$BalVerdict",
+                                        lpparam.classLoader),
+                                    "BAL_ALLOW_DEFAULT"
+                                );
+                                param.setResult(balAllowDefault);
+                            }
+                        }
+                    }
+                );
+            } else if (SystemSDKKt.isAndroidVersion(35)) {
                 HookTool.findAndHookMethod("com.android.server.wm.BackgroundActivityStartController", classLoader, "checkBackgroundActivityStart",
                         int.class, int.class, String.class, int.class, int.class,
                         "com.android.server.wm.WindowProcessController", "com.android.server.am.PendingIntentRecord",
