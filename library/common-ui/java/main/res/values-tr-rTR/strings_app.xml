@@ -596,7 +596,6 @@
     <string name="system_control_center_qs_columns_format">%d liste</string>
     <string name="system_control_center_qs_columns_horizontal">Sütunlar (Yatay)</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Bildirim arka planının şeffaf olarak ayarlanmasını devre dışı bırak</string>
-    <string name="system_ui_control_center_media_control_panel_background_mix">Medya kontrol panelinin renk karıştırma etkisini optimize edin</string>
     <string name="system_ui_control_center_media_control_progress">İlerleme çubuğu</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Dalgalı</string>
     <string name="system_ui_control_center_media_control_progress_sleek">Gösterişli</string>
@@ -605,9 +604,7 @@
     <string name="system_ui_control_center_media_control_seekbar_color">İlerleme çubuğu rengi</string>
     <string name="system_ui_control_center_media_control_seekbar_thumb_color">Kaydırıcı rengi</string>
     <string name="system_ui_control_center_media_control_media_button">Control merkezi media düğmeleri boyutu</string>
-    <string name="system_ui_control_center_remove_media_control_panel_background">Karttan karışık renkli arka planı kaldırma</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Arka plan bulanıklaştırma yarıçapı</string>
-    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Arka plan kaplama katmanının opaklığı</string>
     <string name="system_ui_control_center_redirect_notice">Yönlendirme bildirimi ayarları</string>
     <string name="system_ui_control_center_show_weather">Hava durumunu göster</string>
     <string name="system_ui_control_center_show_weather_city">Şehri göster</string>

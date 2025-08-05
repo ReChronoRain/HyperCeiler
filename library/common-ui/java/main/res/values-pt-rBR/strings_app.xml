@@ -745,9 +745,7 @@
     <string name="system_control_center_qs_columns_horizontal">Colunas (Horizontal)</string>
     <string name="system_ui_control_center_notification_disable_transparent">Desativar modo transparente</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Desative a configuração do plano de fundo da notificação para ser transparente</string>
-    <string name="system_ui_control_center_media_control_panel_background_mix">Otimizar mistura de cores no painel de controle de mídia</string>
     <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Otimizar transição de cantos arredondados das imagens do álbum</string>
-    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">Remover identificador da fonte de áudio do álbum</string>
     <string name="system_ui_control_center_media_control_progress">Barra de progresso</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Remover restrições personalizadas para notificação de mídia</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Ondulado</string>
@@ -759,9 +757,7 @@
     <string name="system_ui_control_center_media_control_seekbar_thumb_color">Cor do slider</string>
     <string name="system_ui_control_center_media_control_media_button_custom">Personalizar tamanho do botão de ação</string>
     <string name="system_ui_control_center_media_control_media_button">Tamanho do botão de ação intrínseca</string>
-    <string name="system_ui_control_center_remove_media_control_panel_background">Remover fundo de cores misturadas</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Raio do blur da imagem de fundo</string>
-    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacidade da camada de sobreposição do fundo</string>
     <string name="system_ui_control_center_media_control_media_button_title">Botão de mídia</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">Barra de busca de mídia</string>
     <string name="system_ui_control_center_redirect_notice">Redirecionar configurações de notificação</string>

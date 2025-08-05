@@ -745,9 +745,7 @@
     <string name="system_control_center_qs_columns_horizontal">列数 (横画面)</string>
     <string name="system_ui_control_center_notification_disable_transparent">透明モードを無効化</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">通知の背景を透明にする設定を無効にします</string>
-    <string name="system_ui_control_center_media_control_panel_background_mix">メディアコントロールパネルの色混合効果を最適化</string>
     <string name="system_ui_control_center_media_control_album_picture_rounded_corners">アルバム画像の角丸トランジションを最適化</string>
-    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">アルバムのオーディオソースの識別子を削除</string>
     <string name="system_ui_control_center_media_control_progress">プログレスバー</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">一部の音楽アプリのカスタムアクション制限を削除</string>
     <string name="system_ui_control_center_media_control_progress_wavy">波状</string>
@@ -759,9 +757,7 @@
     <string name="system_ui_control_center_media_control_seekbar_thumb_color">スライダーの色</string>
     <string name="system_ui_control_center_media_control_media_button_custom">アクションボタンのサイズをカスタマイズ</string>
     <string name="system_ui_control_center_media_control_media_button">組込みアクションボタンのサイズ</string>
-    <string name="system_ui_control_center_remove_media_control_panel_background">カードから混在色の背景を削除</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景画像のぼかし半径</string>
-    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景オーバーレイレイヤーの不透明度</string>
     <string name="system_ui_control_center_media_control_media_button_title">メディアボタン</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">メディアシークバー</string>
     <string name="system_ui_control_center_redirect_notice">通知設定をリダイレクト</string>

@@ -708,9 +708,7 @@
     <string name="system_control_center_qs_columns_horizontal">Kolumny (poziomo)</string>
     <string name="system_ui_control_center_notification_disable_transparent">Wyłącz tryb przezroczysty</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Wyłącza ustawienie tła powiadomienia na przezroczyste</string>
-    <string name="system_ui_control_center_media_control_panel_background_mix">Optymalizuj efekt mieszania kolorów w panelu sterowania multimediami</string>
     <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Optymalizuj przejście zaokrąglonych rogów obrazów albumu</string>
-    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">Usuń identyfikator źródła dźwięku albumu</string>
     <string name="system_ui_control_center_media_control_progress">Pasek postępu</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Usuń ograniczenia niestandardowych akcji dla kart powiadomień multimediów</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Falisty</string>
@@ -722,9 +720,7 @@
     <string name="system_ui_control_center_media_control_seekbar_thumb_color">Kolor suwaka</string>
     <string name="system_ui_control_center_media_control_media_button_custom">Dostosuj rozmiar przycisku akcji</string>
     <string name="system_ui_control_center_media_control_media_button">Wbudowany rozmiar przycisku akcji</string>
-    <string name="system_ui_control_center_remove_media_control_panel_background">Usuń mieszane tło kolorów z karty</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Promień rozmycia tła</string>
-    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Przezroczystość warstwy tła nakładki</string>
     <string name="system_ui_control_center_media_control_media_button_title">Przycisk multimedialny</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">Suwak multimediów</string>
     <string name="system_ui_control_center_redirect_notice">Przekieruj ustawienia powiadomień</string>

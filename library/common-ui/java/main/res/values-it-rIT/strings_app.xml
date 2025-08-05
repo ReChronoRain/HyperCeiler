@@ -553,7 +553,6 @@
     <string name="system_control_center_qs_columns_horizontal">Colonne (orizzontale)</string>
     <string name="system_ui_control_center_notification_disable_transparent">Disabilita Modalità Trasparente</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Disabilita l\'impostazione trasparenza nello sfondo delle notifiche</string>
-    <string name="system_ui_control_center_media_control_panel_background_mix">Ottimizza l\'effetto di miscelazione dei colori del pannello di controllo multimediale</string>
     <string name="system_ui_control_center_media_control_progress">Barra di avanzamento</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Rimuovi la restrizione sull\'applicazione di azioni personalizzate per le schede di notifica multimediale</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Ondulato</string>
@@ -564,9 +563,7 @@
     <string name="system_ui_control_center_media_control_seekbar_thumb_color">Colore del cursore</string>
     <string name="system_ui_control_center_media_control_media_button_custom">Personalizza la dimensione del pulsante di azione</string>
     <string name="system_ui_control_center_media_control_media_button">Dimensione intrinseca del pulsante di azione</string>
-    <string name="system_ui_control_center_remove_media_control_panel_background">Rimuovi lo sfondo a colori misti dalla carta</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Raggio di sfocatura dello sfondo</string>
-    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacità della sovrapposizione dello sfondo layer</string>
     <string name="system_ui_control_center_redirect_notice">Reindirizza le impostazioni di notifica</string>
     <string name="system_ui_control_center_redirect_notice_desc">L\'apertura delle impostazioni del menu di notifica ti reindirizza alle impostazioni del canale di notifica dell\'app di destinazione invece di applicare le impostazioni di notifica</string>
     <string name="system_ui_control_center_show_weather">Mostra meteo</string>

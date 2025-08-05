@@ -18,16 +18,37 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter
 
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isAndroidVersion
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 
 object PublicClass {
+
+    // Android 16
+    val mediaViewHolderNew by lazy {
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewHolder")
+    }
+    val miuiMediaViewControllerImpl by lazy {
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewControllerImpl")
+    }
+    val seekBarObserverNew by lazy {
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewControllerImpl\$seekBarObserver$1")
+    }
+    val miuiMediaNotificationControllerImpl by lazy {
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaNotificationControllerImpl")
+    }
+
+    // Android 15-
     val miuiMediaControlPanel by lazy {
         loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaControlPanel")
     }
 
+    val mediaControlPanel by lazy {
+        loadClassOrNull("com.android.systemui.media.controls.ui.controller.MediaControlPanel")
+            ?: loadClassOrNull("com.android.systemui.media.controls.ui.MediaControlPanel")
+    }
+
     val notificationUtil by lazy {
-        if (isMoreAndroidVersion(35)) {
+        if (isAndroidVersion(35)) {
             loadClassOrNull("com.miui.systemui.notification.MiuiBaseNotifUtil")
         } else {
             loadClassOrNull("com.android.systemui.statusbar.notification.NotificationUtil")
@@ -35,7 +56,7 @@ object PublicClass {
     }
 
     val mediaViewHolder by lazy {
-        if (isMoreAndroidVersion(35)) {
+        if (isAndroidVersion(35)) {
             loadClassOrNull("com.android.systemui.media.controls.ui.view.MediaViewHolder")
         } else {
             loadClassOrNull("com.android.systemui.media.controls.models.player.MediaViewHolder")
@@ -49,7 +70,7 @@ object PublicClass {
     }
 
     val playerTwoCircleView by lazy {
-        if (isMoreAndroidVersion(35)) {
+        if (isAndroidVersion(35)) {
             loadClassOrNull("com.miui.systemui.notification.media.PlayerTwoCircleView")
         } else {
             loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.PlayerTwoCircleView")

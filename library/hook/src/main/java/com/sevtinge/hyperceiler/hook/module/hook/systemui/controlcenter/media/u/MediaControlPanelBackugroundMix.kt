@@ -16,40 +16,23 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media
+package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.u
 
 import android.annotation.SuppressLint
 import android.app.AndroidAppHelper
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.ColorMatrix
-import android.graphics.ColorMatrixColorFilter
-import android.graphics.HardwareRenderer
-import android.graphics.Matrix
 import android.graphics.Paint
-import android.graphics.PixelFormat
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.graphics.RenderEffect
-import android.graphics.RenderNode
-import android.graphics.Shader
-import android.graphics.drawable.Icon
-import android.hardware.HardwareBuffer
-import android.media.ImageReader
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.core.graphics.createBitmap
-import androidx.core.graphics.drawable.toDrawable
-import androidx.core.graphics.scale
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.miuiMediaControlPanel
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.notificationUtil
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.playerTwoCircleView
@@ -65,46 +48,19 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import de.robv.android.xposed.XposedHelpers
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import kotlin.math.sqrt
-import kotlin.random.Random
 
-private var artwork: Icon? = null
 
 // from https://github.com/YuKongA/MediaControl-BlurBg/blob/752de17a31d940683648cee7b957d4ff48d381a3/app/src/main/kotlin/top/yukonga/mediaControlBlur/MainHook.kt
 class MediaControlPanelBackgroundMix : BaseHook() {
-    private val radius by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_blur_radius", 40)
-    }
-    private val overlay by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_overlay", 20)
+
+    private val isMode by lazy {
+        mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2
     }
 
     override fun init() {
-        // 部分代码来自 Hyper Helper (https://github.com/HowieHChen/XiaomiHelper/blob/master/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/systemui/CustomMusicControl.kt)
-        val miuiStubClass = loadClassOrNull("miui.stub.MiuiStub")
-        val miuiStubInstance = XposedHelpers.getStaticObjectField(miuiStubClass, "INSTANCE")
-
-        if (mPrefsMap.getBoolean("system_ui_control_center_remove_media_control_panel_background")) {
-            removeBackground(notificationUtil, miuiMediaControlPanel, playerTwoCircleView, seekBarObserver, statusBarStateControllerImpl, miuiStubInstance)
-        } else {
-            setBlurBackground(miuiMediaControlPanel, playerTwoCircleView)
-        }
-    }
-
-    // https://github.com/YuKongA/MediaControl-BlurBg
-    private fun removeBackground(
-        notificationUtil: Class<*>?,
-        miuiMediaControlPanel: Class<*>?,
-        playerTwoCircleView: Class<*>?,
-        seekBarObserver: Class<*>?,
-        statusBarStateControllerImpl: Class<*>?,
-        miuiStubInstance: Any
-    ) {
-        try {
+        runCatching {
             var lockScreenStatus: Boolean? = null
             var darkModeStatus: Boolean? = null
 
@@ -141,7 +97,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
 
                     val isBackgroundBlurOpened =
                         XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context)
-                                as Boolean
+                            as Boolean
 
                     val mMediaViewHolder =
                         it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder")
@@ -161,7 +117,9 @@ class MediaControlPanelBackgroundMix : BaseHook() {
 
                     val grey = if (isDarkMode()) Color.LTGRAY else Color.DKGRAY
                     val color = if (isDarkMode()) Color.WHITE else Color.BLACK
-                    seekBar?.thumb?.colorFilter = colorFilter(Color.TRANSPARENT)
+                    seekBar?.thumb?.colorFilter = colorFilter(
+                        if (isMode) Color.TRANSPARENT else grey
+                    )
                     elapsedTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11f)
                     totalTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11f)
                     if (!isBackgroundBlurOpened) {
@@ -174,11 +132,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         seamlessIcon?.setColorFilter(Color.WHITE)
                         seekBar?.progressDrawable?.colorFilter = colorFilter(grey)
                         seekBar?.thumb?.colorFilter = colorFilter(
-                            if (mPrefsMap.getStringAsInt(
-                                    "system_ui_control_center_media_control_progress_mode",
-                                    0
-                                ) == 2
-                            ) Color.TRANSPARENT else grey
+                            if (isMode) Color.TRANSPARENT else grey
                         )
                     } else {
                         artistText?.setTextColor(grey)
@@ -194,11 +148,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         seamlessIcon?.setColorFilter(color)
                         seekBar?.progressDrawable?.colorFilter = colorFilter(grey)
                         seekBar?.thumb?.colorFilter = colorFilter(
-                            if (mPrefsMap.getStringAsInt(
-                                    "system_ui_control_center_media_control_progress_mode",
-                                    0
-                                ) == 2
-                            ) Color.TRANSPARENT else grey
+                            if (isMode) Color.TRANSPARENT else grey
                         )
                     }
                 }
@@ -224,8 +174,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         getNotificationElementRoundRect(context)
                     )
 
-                    val mSysUIProvider = XposedHelpers.getObjectField(miuiStubInstance, "mSysUIProvider")
-                    val mStatusBarStateController = XposedHelpers.getObjectField(mSysUIProvider, "mStatusBarStateController")
+                    val mStatusBarStateController = XposedHelpers.getObjectField(MiuiStub.sysUIProvider, "mStatusBarStateController")
                     val getLazyClass = XposedHelpers.callMethod(mStatusBarStateController, "get")
                     val getState = XposedHelpers.callMethod(getLazyClass, "getState")
 
@@ -281,7 +230,9 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                                             titleText?.setTextColor(color)
                                             seamlessIcon?.setColorFilter(color)
                                             seekBar?.progressDrawable?.colorFilter =
-                                                colorFilter(grey)
+                                                colorFilter(
+                                                    if (isMode) Color.TRANSPARENT else grey
+                                                )
                                         }
                                     }
                                 }
@@ -297,160 +248,6 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     if (!isBackgroundBlurOpened) return@createBeforeHook
                     (it.thisObject as ImageView).background = null
                     it.result = null
-                }
-        } catch (t: Throwable) {
-           logE(TAG, lpparam.packageName, t)
-        }
-    }
-
-
-    private fun setBlurBackground(
-        miuiMediaControlPanel: Class<*>?,
-        playerTwoCircleView: Class<*>?
-    ) {
-        runCatching {
-            //  获取 Icon
-            miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()?.createBeforeHook {
-                artwork = it.args[0].getObjectFieldOrNullAs<Icon>("artwork")
-                    ?: return@createBeforeHook
-            }
-
-            // 重写 onDraw
-            playerTwoCircleView?.methodFinder()?.filterByName("onDraw")?.first()?.createBeforeHook {
-                (it.thisObject.getObjectFieldOrNullAs<Paint>("mPaint1"))?.alpha = 0
-                (it.thisObject.getObjectFieldOrNullAs<Paint>("mPaint2"))?.alpha = 0
-                it.thisObject.objectHelper().setObject("mRadius", 0.0f)
-            }
-
-            // 重写 setBackground
-            playerTwoCircleView?.methodFinder()?.filterByName("setBackground")?.first()
-                ?.createHook {
-                    replace {
-                        if (artwork == null) return@replace it
-                        val imageView = it.thisObject as ImageView
-                        val backgroundColors = it.args[0] as IntArray
-
-                        // 获取 Bitmap
-                        var artworkLayer =
-                            artwork?.loadDrawable(imageView.context) ?: return@replace it
-                        val artworkBitmap =
-                            createBitmap(artworkLayer.intrinsicWidth, artworkLayer.intrinsicHeight)
-                        val canvas = Canvas(artworkBitmap)
-                        artworkLayer.setBounds(
-                            0,
-                            0,
-                            artworkLayer.intrinsicWidth,
-                            artworkLayer.intrinsicHeight
-                        )
-                        artworkLayer.draw(canvas)
-
-                        // 缩小图片
-                        val tmpBitmap = artworkBitmap.scale(132, 132)
-                        val tmpBitmapXS =
-                            artworkBitmap.scale(tmpBitmap.width / 2, tmpBitmap.height / 2)
-
-                        // 创建混合图
-                        val bigBitmap = createBitmap(tmpBitmap.width * 2, tmpBitmap.height * 2)
-                        val canvas2 = Canvas(bigBitmap)
-
-                        // 生成随机图
-                        val rotImages = mutableListOf<Bitmap>()
-                        for (i in 1..5) {
-
-                            // 中心点随机旋转 90°
-                            val rotateMatrix = Matrix()
-                            val pivotX = tmpBitmap.width / 2f
-                            val pivotY = tmpBitmap.height / 2f
-                            val rotationAngle = Random.nextInt(4) * 90f
-                            rotateMatrix.postRotate(rotationAngle, pivotX, pivotY)
-
-                            // 随机进行翻转和镜像
-                            val flipHorizontal = Random.nextBoolean()
-                            val flipVertical = Random.nextBoolean()
-                            rotateMatrix.postScale(
-                                if (flipHorizontal) -1f else 1f,
-                                if (flipVertical) -1f else 1f,
-                                pivotX,
-                                pivotY
-                            )
-
-                            val rotatedImage = if (i <= 4) {
-                                Bitmap.createBitmap(
-                                    tmpBitmap,
-                                    0,
-                                    0,
-                                    tmpBitmap.width,
-                                    tmpBitmap.height,
-                                    rotateMatrix,
-                                    true
-                                )
-                            } else {
-                                Bitmap.createBitmap(
-                                    tmpBitmapXS,
-                                    0,
-                                    0,
-                                    tmpBitmapXS.width,
-                                    tmpBitmapXS.height,
-                                    rotateMatrix,
-                                    true
-                                )
-                            }
-                            rotImages.add(rotatedImage)
-                        }
-
-                        // 将随机图绘制到混合大图上
-                        canvas2.drawBitmap(rotImages[0], 0f, 0f, null) // 左上角
-                        canvas2.drawBitmap(rotImages[1], tmpBitmap.width.toFloat(), 0f, null) // 右上角
-                        canvas2.drawBitmap(
-                            rotImages[2],
-                            0f,
-                            tmpBitmap.height.toFloat(),
-                            null
-                        ) // 左下角
-                        canvas2.drawBitmap(
-                            rotImages[3],
-                            tmpBitmap.width.toFloat(),
-                            tmpBitmap.height.toFloat(),
-                            null
-                        ) // 右下角
-                        canvas2.drawBitmap(
-                            rotImages[4],
-                            tmpBitmap.width / 4f * 3f,
-                            tmpBitmap.height / 4f * 3f,
-                            null
-                        ) // 中心
-
-                        // 颜色处理
-                        val brightness = bigBitmap.brightness()
-                        val colorMatrix = brightness.colorMatrix()
-                        val paint = Paint()
-                        paint.colorFilter = ColorMatrixColorFilter(colorMatrix)
-                        canvas2.drawBitmap(bigBitmap, 0f, 0f, paint)
-                        canvas2.drawColor(backgroundColors[0] and 0x6FFFFFFF)
-
-                        val backgroundColorMode = if (isDarkMode()) 0 else 248
-                        val backgroundColor = Color.argb(
-                            overlay, backgroundColorMode, backgroundColorMode, backgroundColorMode
-                        )
-
-                        // 应用颜色过滤器
-                        val paintOverlay = Paint()
-                        paintOverlay.colorFilter =
-                            PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP)
-
-                        // 叠加颜色
-                        canvas2.drawBitmap(bigBitmap, 0f, 0f, null)
-                        canvas2.drawColor(backgroundColor)
-
-                        // 模糊处理
-                        artworkLayer = bigBitmap.blur(
-                            radius.toFloat()
-                        ).toDrawable(imageView.resources)
-
-                        // 绘制到 ImageView 上
-                        imageView.setImageDrawable(artworkLayer)
-                    }
-
                 }
         }.onFailure { t ->
             logE(TAG, lpparam.packageName, t)
@@ -534,83 +331,4 @@ class MediaControlPanelBackgroundMix : BaseHook() {
             resources.getIdentifier("notification_item_bg_radius", "dimen", "com.android.systemui")
         return resources.getDimensionPixelSize(dimenId)
     }
-}
-
-private fun Bitmap.blur(radius: Float): Bitmap {
-    // 该部分来自 Google (https://developer.android.google.cn/guide/topics/renderscript/migrate)
-    val imageReader =
-        ImageReader.newInstance(
-            this.width,
-            this.height,
-            PixelFormat.RGBA_8888,
-            1,
-            HardwareBuffer.USAGE_GPU_SAMPLED_IMAGE or HardwareBuffer.USAGE_GPU_COLOR_OUTPUT
-        )
-    val renderNode = RenderNode("BlurEffect")
-    val hardwareRenderer = HardwareRenderer()
-
-    hardwareRenderer.setSurface(imageReader.surface)
-    hardwareRenderer.setContentRoot(renderNode)
-    renderNode.setPosition(0, 0, imageReader.width, imageReader.height)
-    val blurRenderEffect = RenderEffect.createBlurEffect(
-        radius, radius, Shader.TileMode.MIRROR
-    )
-    renderNode.setRenderEffect(blurRenderEffect)
-
-    val renderCanvas = renderNode.beginRecording()
-    renderCanvas.drawBitmap(this, 0f, 0f, null)
-    renderNode.endRecording()
-    hardwareRenderer.createRenderRequest().setWaitForPresent(true).syncAndDraw()
-
-    val image = imageReader.acquireNextImage() ?: throw RuntimeException("No Image")
-    val hardwareBuffer = image.hardwareBuffer ?: throw RuntimeException("No HardwareBuffer")
-    val bitmap = Bitmap.wrapHardwareBuffer(hardwareBuffer, null)
-        ?: throw RuntimeException("Create Bitmap Failed")
-
-    hardwareBuffer.close()
-    image.close()
-    imageReader.close()
-    renderNode.discardDisplayList()
-    hardwareRenderer.destroy()
-
-    return bitmap
-}
-
-fun Bitmap.brightness(): Float {
-    var totalBrightness = 0f
-    val totalPixels = this.width * this.height
-
-    for (x in 0 until this.width) {
-        for (y in 0 until this.height) {
-            val pixel = this.getPixel(x, y)
-            val red = Color.red(pixel)
-            val green = Color.green(pixel)
-            val blue = Color.blue(pixel)
-            val brightness =
-                sqrt(0.299f * red * red + 0.587f * green * green + 0.114f * blue * blue)
-            totalBrightness += brightness
-        }
-    }
-
-    return totalBrightness / totalPixels
-}
-
-fun Float.colorMatrix(): ColorMatrix {
-    val colorMatrix = ColorMatrix()
-    val adjustment = when {
-        this < 50 -> 40f
-        this < 100 -> 20f
-        this > 200 -> -40f
-        this > 150 -> -20f
-        else -> 0f
-    }
-    colorMatrix.set(
-        floatArrayOf(
-            1f, 0f, 0f, 0f, adjustment, // red
-            0f, 1f, 0f, 0f, adjustment, // green
-            0f, 0f, 1f, 0f, adjustment, // blue
-            0f, 0f, 0f, 1f, 0f          // alpha
-        )
-    )
-    return colorMatrix
 }

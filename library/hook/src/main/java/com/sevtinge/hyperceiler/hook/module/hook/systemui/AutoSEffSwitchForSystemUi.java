@@ -49,7 +49,7 @@ public class AutoSEffSwitchForSystemUi extends HCBase {
     }
 
     @Override
-    protected void onApplicationAfter(Context context) {
+    protected void initApplicationAfter(Context context) {
         Intent intent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         if (intent == null) return;
         Bundle bundle = intent.getBundleExtra("effect_info");

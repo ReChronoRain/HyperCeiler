@@ -109,10 +109,10 @@ abstract class MusicBaseHook : BaseHook() {
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         val intent = Intent("$CHANNEL_ID.actions.switchClockStatus")
-        //翻译
+        // 翻译
         val tf = extraData.translation
-        //对唱对齐方式，有性能问题放弃
-        //val dule = extraData.extra?.getBoolean(KEY_DUTE,false)?:false
+        // 对唱对齐方式，有性能问题放弃
+        // val dule = extraData.extra?.getBoolean(KEY_DUTE,false)?:false
 
         // 需要重启音乐软件生效
         val pendingIntent = if (isClickClock) {

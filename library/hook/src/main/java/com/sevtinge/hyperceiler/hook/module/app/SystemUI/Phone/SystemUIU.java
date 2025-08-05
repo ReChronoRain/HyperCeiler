@@ -32,8 +32,8 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.StickyFloatingWindowsF
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UiLockApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnimportantNotification;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnlockClipboard;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnlockCustomActions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.ZenModeFix;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.MediaControlBgFactory;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.AllowAllThemesNotificationBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.AutoDismissExpandedPopupsHook;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ControlCenterStyle;
@@ -60,13 +60,13 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.Sunlight
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SunlightModeHigh;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SwitchCCAndNotification;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.TaplusTile;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaButton;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaControlPanelBackgroundMix;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaControlPanelTimeViewTextSize;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaPicture;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaSeekBar;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaSeekBarColor;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.UseSquigglyProgress;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.CustomBackground;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaViewLayout;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaViewSize;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.UnlockCustomActions;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.u.MediaControlPanelBackgroundMix;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.u.MediaPicture;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.u.MediaSeekBar;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.AllowThirdLockScreenUseFace;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.BlockEditor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.BlurButton;
@@ -140,7 +140,6 @@ public class SystemUIU extends BaseModule {
         // 状态栏图标
         initHook(new StatusBarIcon(), true);
         initHook(new IconsFromSystemManager(), true);
-        initHook(new UnlockCustomActions(), mPrefsMap.getBoolean("system_ui_control_center_media_control_unlock_custom_actions"));
         initHook(new WifiStandard(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
         initHook(new SelectiveHideIconForAlarmClock(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
         initHook(new NotificationIconColumns(), mPrefsMap.getBoolean("system_ui_status_bar_notification_icon_maximum_enable"));
@@ -259,17 +258,18 @@ public class SystemUIU extends BaseModule {
         initHook(new ZenModeFix(), mPrefsMap.getBoolean("system_ui_control_center_zen_fix"));
 
         // Media Card
-        initHook(new MediaControlPanelBackgroundMix(), mPrefsMap.getBoolean("system_ui_control_center_media_control_panel_background_mix"));
-        initHook(new MediaButton(), mPrefsMap.getInt("system_ui_control_center_media_control_media_button", 140) != 140
-                || mPrefsMap.getInt("system_ui_control_center_media_control_media_button_custom", 140) != 140);
-        initHook(new MediaSeekBarColor(), mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_color", -1) != -1
-                || mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1) != -1);
-        initHook(UseSquigglyProgress.INSTANCE, mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 1);
-        initHook(new MediaControlPanelTimeViewTextSize(), mPrefsMap.getInt("system_ui_control_center_media_control_time_view_text_size", 13) != 13);
+        initHook(MediaControlBgFactory.INSTANCE, mPrefsMap.getStringAsInt("system_ui_control_center_media_control_background_mode", 0) != 0);
+        initHook(CustomBackground.INSTANCE, mPrefsMap.getStringAsInt("system_ui_control_center_media_control_background_mode", 0) != 0);
+        initHook(new MediaControlPanelBackgroundMix(), mPrefsMap.getStringAsInt("system_ui_control_center_media_control_background_mode", 0) == 5);
+        initHook(new UnlockCustomActions(), mPrefsMap.getBoolean("system_ui_control_center_media_control_unlock_custom_actions"));
+        initHook(MediaViewLayout.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_media_control_media_button_layout_switch"));
+        initHook(MediaViewSize.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_media_control_media_button_size_switch"));
         initHook(MediaPicture.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_media_control_album_picture_rounded_corners") ||
                 mPrefsMap.getBoolean("system_ui_control_center_media_control_remove_album_audio_source_identifie"));
-        initHook(MediaSeekBar.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_remove_media_control_panel_background") ||
-                mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2);
+        initHook(MediaSeekBar.INSTANCE, mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_color", -1) != -1
+            || mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1) != -1 ||
+            mPrefsMap.getStringAsInt("system_ui_control_center_media_control_background_mode", 0) == 5 ||
+                mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) != 0);
 
 
         // Actions

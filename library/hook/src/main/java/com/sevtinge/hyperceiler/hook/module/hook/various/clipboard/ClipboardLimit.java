@@ -66,7 +66,7 @@ public class ClipboardLimit extends HCBase {
     }
 
     @Override
-    protected void onApplicationAfter(@NonNull Context context) {
+    protected void initApplicationAfter(@NonNull Context context) {
         if (isRegistered) return;
 
         context.getContentResolver().registerContentObserver(

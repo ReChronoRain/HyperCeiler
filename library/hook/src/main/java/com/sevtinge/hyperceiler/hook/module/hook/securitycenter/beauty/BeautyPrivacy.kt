@@ -37,11 +37,12 @@ object BeautyPrivacy : BaseHook() {
 
     private val invokeMethod by lazy<List<Method>> {
         DexKit.findMemberList("BeautyPrivacyList") {
-            it.findMethod {
+            it.findClass {
                 matcher {
-                    declaredClass {
-                        usingEqStrings("persist.sys.privacy_camera")
-                    }
+                    usingEqStrings("persist.sys.privacy_camera")
+                }
+            }.findMethod {
+                matcher {
                     paramTypes = emptyList()
                     returnType = "boolean"
                     addInvoke {

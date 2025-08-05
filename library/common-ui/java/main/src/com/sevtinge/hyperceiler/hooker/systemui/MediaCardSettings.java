@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hooker.systemui;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
+
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
@@ -30,8 +32,13 @@ import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
 
 public class MediaCardSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
-    SwitchPreference mRemoveMediaCardBackFix;
-    SwitchPreference mRemoveMediaCardBack;
+
+    DropDownPreference mMediaBackgroundMode;
+    SwitchPreference mColorAnim;
+    SwitchPreference mInverseColor;
+    SeekBarPreferenceCompat mBlurRadius;
+    DropDownPreference mAlbumMode;
+    SwitchPreference mOptAlbum;
     DropDownPreference mProgressMode;
     SeekBarPreferenceCompat mProgressModeThickness;
     SeekBarPreferenceCompat mProgressModeCornerRadius;
@@ -45,43 +52,71 @@ public class MediaCardSettings extends DashboardFragment implements Preference.O
 
     @Override
     public void initPrefs() {
-        mRemoveMediaCardBackFix = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix");
-        mRemoveMediaCardBack = findPreference("prefs_key_system_ui_control_center_remove_media_control_panel_background");
+        mMediaBackgroundMode = findPreference("prefs_key_system_ui_control_center_media_control_background_mode");
+        mColorAnim = findPreference("prefs_key_system_ui_control_center_media_control_control_color_anim");
+        mInverseColor = findPreference("prefs_key_system_ui_control_center_media_control_inverse_color");
+        mBlurRadius = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_blur");
+
+        mAlbumMode = findPreference("prefs_key_system_ui_control_center_media_control_media_album_mode");
+        mOptAlbum = findPreference("prefs_key_system_ui_control_center_media_control_album_picture_rounded_corners");
+
         mProgressMode = findPreference("prefs_key_system_ui_control_center_media_control_progress_mode");
         mProgressModeThickness = findPreference("prefs_key_system_ui_control_center_media_control_progress_thickness");
         mProgressModeCornerRadius = findPreference("prefs_key_system_ui_control_center_media_control_progress_corner_radius");
         mSliderColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_thumb_color");
         mProgressBarColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_color");
 
-        mProgressModeThickness.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
-        mProgressModeCornerRadius.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) == 2);
+        int mediaBackgroundModeValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_background_mode", "0"));
+        if (isMoreSmallVersion(200, 2f)) {
+            mMediaBackgroundMode.setEntries(R.array.system_ui_control_center_media_control_background_mode_new);
+            mMediaBackgroundMode.setEntryValues(R.array.system_ui_control_center_media_control_background_mode_new_value);
 
-        mSliderColor.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
-        mProgressBarColor.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0")) != 2);
-
-
-        mRemoveMediaCardBackFix.setOnPreferenceChangeListener((preference, o) -> {
-            if (!(boolean) o) {
-                mRemoveMediaCardBack.setChecked(false);
+            if (mediaBackgroundModeValue == 5) {
+                cleanKey("prefs_key_system_ui_control_center_media_control_background_mode");
             }
-            return true;
-        });
+        }
+        mColorAnim.setVisible(mediaBackgroundModeValue != 0 && mediaBackgroundModeValue != 5);
+        mInverseColor.setVisible(mediaBackgroundModeValue == 4);
+        mBlurRadius.setVisible(mediaBackgroundModeValue == 2);
 
+        int mediaAlbumModeValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_media_album_mode", "0"));
+        mOptAlbum.setVisible(mediaAlbumModeValue != 2);
+
+        int progressModeValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0"));
+        mProgressModeThickness.setVisible(progressModeValue == 2);
+        mProgressModeCornerRadius.setVisible(progressModeValue == 2);
+        mSliderColor.setVisible(mediaBackgroundModeValue != 5 && progressModeValue != 2);
+        mProgressBarColor.setVisible(mediaBackgroundModeValue != 5);
+
+        mMediaBackgroundMode.setOnPreferenceChangeListener(this);
+        mAlbumMode.setOnPreferenceChangeListener(this);
         mProgressMode.setOnPreferenceChangeListener(this);
     }
 
     @Override
     public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
-        if (preference == mProgressMode) {
+        if (preference == mMediaBackgroundMode) {
+            setMediaBackgroundMode(Integer.parseInt((String) o));
+        } else if (preference == mAlbumMode) {
+            mOptAlbum.setVisible(Integer.parseInt((String) o) != 2);
+        } else if (preference == mProgressMode) {
             setCanBeVisibleProgressMode(Integer.parseInt((String) o));
         }
         return true;
     }
 
+    private void setMediaBackgroundMode(int mode) {
+        mColorAnim.setVisible(mode != 0 && mode != 5);
+        mInverseColor.setVisible(mode == 4);
+        mBlurRadius.setVisible(mode == 2);
+        mProgressBarColor.setVisible(mode != 5);
+    }
+
     private void setCanBeVisibleProgressMode(int mode) {
+        int mediaBackgroundModeValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_background_mode", "0"));
+
         mProgressModeThickness.setVisible(mode == 2);
         mProgressModeCornerRadius.setVisible(mode == 2);
-        mSliderColor.setVisible(mode != 2);
-        mProgressBarColor.setVisible(mode != 2);
+        mSliderColor.setVisible(mode != 2 && mediaBackgroundModeValue != 5);
     }
 }

@@ -745,9 +745,7 @@
     <string name="system_control_center_qs_columns_horizontal">Кол-во столбцов (ландшафт)</string>
     <string name="system_ui_control_center_notification_disable_transparent">Отключить прозрачный режим</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Отключить настройку прозрачности фона уведомлений</string>
-    <string name="system_ui_control_center_media_control_panel_background_mix">Оптимизировать эффект смешивания цветов на панели управления мультимедиа</string>
     <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Оптимизировать закругленный переход к изображениям альбомов</string>
-    <string name="system_ui_control_center_media_control_remove_album_audio_source_identifie">Удалить идентификатор источника звука альбома</string>
     <string name="system_ui_control_center_media_control_progress">Индикатор выполнения</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Удалить ограничение на применение специальных действий для карточек мультимедийных уведомлений</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Волнистый</string>
@@ -759,9 +757,7 @@
     <string name="system_ui_control_center_media_control_seekbar_thumb_color">Цвет ползунка</string>
     <string name="system_ui_control_center_media_control_media_button_custom">Настроить размер кнопки действия</string>
     <string name="system_ui_control_center_media_control_media_button">Размер встроенной кнопки действия</string>
-    <string name="system_ui_control_center_remove_media_control_panel_background">Удалить смешанный цветной фон с карты</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Радиус размытия фонового изображения</string>
-    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Непрозрачность слоя наложения фона</string>
     <string name="system_ui_control_center_media_control_media_button_title">Кнопка \"Медиа\"</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">Панель поиска медиа</string>
     <string name="system_ui_control_center_redirect_notice">Перенаправить настройки уведомлений</string>

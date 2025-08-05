@@ -44,6 +44,15 @@
     <string name="tiles_sunshine_mode">Sunlight mode</string>
     <string name="system_cc_showpct_style_1">Inline</string>
     <string name="system_cc_showpct_style_2">Explicit</string>
+    <string name="media_control_ground_mode_1">Cover art</string>
+    <string name="media_control_ground_mode_2">Blurry cover</string>
+    <string name="media_control_ground_mode_3">Radial gradient</string>
+    <string name="media_control_ground_mode_4">Linear gradient</string>
+    <string name="media_control_ground_mode_5">Material blur</string>
+    <string name="media_control_album_mode_1">Hide source identifier</string>
+    <string name="media_control_album_mode_2">Invisible</string>
+    <string name="media_control_button_mode_1">The custom button is on the far right</string>
+    <string name="media_control_button_mode_2">The play button is on the far left</string>
     <!--System Framework-->
     <string name="system_framework_phone_network_title">Network settings</string>
     <string name="system_ui_hide_navigation_bar">Hide gesture line</string>

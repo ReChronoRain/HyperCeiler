@@ -46,7 +46,11 @@ public class NotificationIconColumns extends BaseHook {
     }
 
     public void mHyperOS(int maxIconsNum) {
-        hookAllConstructors("com.android.systemui.statusbar.policy.NotificationIconObserver",
+        String mObserverClass = isMoreAndroidVersion(36)
+            ? "com.android.systemui.statusbar.policy.StatusBarIconObserver"
+            : "com.android.systemui.statusbar.policy.NotificationIconObserver";
+
+        hookAllConstructors(mObserverClass,
                 new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
@@ -58,7 +62,7 @@ public class NotificationIconColumns extends BaseHook {
                 }
         );
 
-        findAndHookMethod("com.android.systemui.statusbar.policy.NotificationIconObserver$1",
+        findAndHookMethod(mObserverClass + "$1",
                 "onUserChanged", int.class, Context.class,
                 new MethodHook() {
                     @Override

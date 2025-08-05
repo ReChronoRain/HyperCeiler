@@ -48,7 +48,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:dependency="prefs_key_system_ui_statusbar_clock_all_status_enable"
         android:key="prefs_key_system_ui_statusbar_clock_pad_show"
         android:title="@string/system_ui_statusbar_clock_pad_show">
         <SwitchPreference

@@ -66,7 +66,7 @@ public class NewAutoSEffSwitch extends HCBase {
     }
 
     @Override
-    protected void onApplicationAfter(@NonNull Context context) {
+    protected void initApplicationAfter(@NonNull Context context) {
         mContext = context;
         Intent intent = mContext.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         if (intent == null) return;

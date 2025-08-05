@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media
+package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.u
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -35,42 +35,44 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.scale
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.miuiMediaControlPanel
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import de.robv.android.xposed.XC_MethodHook
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 object MediaPicture : BaseHook() {
     private val albumPictureCorners by lazy {
         mPrefsMap.getBoolean("system_ui_control_center_media_control_album_picture_rounded_corners")
     }
-    private val albumPictureIdentifier by lazy {
-        mPrefsMap.getBoolean("system_ui_control_center_media_control_remove_album_audio_source_identifie")
+    private val mode by lazy {
+        mPrefsMap.getStringAsInt("system_ui_control_center_media_control_media_album_mode", 0)
     }
 
     override fun init() {
+
         miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()
             ?.createAfterHook {
                 val context =
-                    it.thisObject.objectHelper()
-                        .getObjectOrNullUntilSuperclass("mContext") as? Context
+                    it.thisObject.getObjectFieldOrNullAs<Context>("mContext")
                         ?: return@createAfterHook
                 val mMediaViewHolder =
-                    it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder")
+                    it.thisObject.getObjectFieldOrNull("mMediaViewHolder")
                         ?: return@createAfterHook
 
-                if (albumPictureIdentifier) {
+                if (mode == 1) {
                     val appIcon =
                         mMediaViewHolder.getObjectFieldOrNullAs<ImageView>("appIcon")
                     (appIcon?.parent as ViewGroup?)?.removeView(appIcon)
-                } else if (albumPictureCorners) {
+                }
+
+                if (albumPictureCorners && mode != 2) {
                     optPicture(mMediaViewHolder, it, context)
                 }
-            }
+        }
     }
 
-    private fun optPicture(
+    fun optPicture(
         mMediaViewHolder: Any,
         param: XC_MethodHook.MethodHookParam,
         context: Context
