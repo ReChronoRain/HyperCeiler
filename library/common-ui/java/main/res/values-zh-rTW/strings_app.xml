@@ -188,6 +188,7 @@
     <string name="miuix_navigator_content_switch_description">顯示側邊欄</string>
     <string name="miuix_navigator_multiple_choice">選擇</string>
     <string name="miuix_navigator_navigator_switch_description">隱藏側邊欄</string>
+    <string name="miuix_preference_text_hint">預設值：%1$s</string>
     <string name="miuix_preference_textentry_erro_entry">無效值。請檢查並重新輸入。</string>
     <string name="miuix_sbl_tracking_progress_labe_pull_to_refresh">下拉重新整理</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshed">重新整理成功</string>

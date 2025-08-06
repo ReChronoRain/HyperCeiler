@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.main.page;
 
+import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isCanary;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
@@ -27,16 +29,15 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.BuildConfig;
-import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
-import com.sevtinge.hyperceiler.main.fragment.PageFragment;
-import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.ui.LauncherActivity;
-import com.sevtinge.hyperceiler.main.fragment.ContentFragment.IFragmentChange;
-import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
+import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
+import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.main.fragment.ContentFragment.IFragmentChange;
+import com.sevtinge.hyperceiler.main.fragment.PageFragment;
+import com.sevtinge.hyperceiler.ui.LauncherActivity;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.AppCompatActivity;
@@ -73,35 +74,27 @@ public class SettingsPage extends PageFragment
         String language = LanguageHelper.getLanguage(requireContext());
         int value = LanguageHelper.resultIndex(LanguageHelper.appLanguages, language);
         mLanguage.setValueIndex(value);
-        mLanguage.setOnPreferenceChangeListener(
+        mLanguage.setOnPreferenceChangeListener((preference, o) -> {
+            LanguageHelper.setIndexLanguage(getActivity(), Integer.parseInt((String) o), true);
+            return true;
+        });
+
+        if (isCanary()) {
+            mLogLevel.setDefaultValue(3);
+            mLogLevel.setEntries(new CharSequence[]{"Info", "Debug"});
+            mLogLevel.setEntryValues(new CharSequence[]{"3", "4"});
+            mLogLevel.setOnPreferenceChangeListener(
                 (preference, o) -> {
-                    LanguageHelper.setIndexLanguage(getActivity(), Integer.parseInt((String) o), true);
+                    setLogLevel(Integer.parseInt((String) o));
                     return true;
                 }
-        );
-
-        switch (BuildConfig.BUILD_TYPE) {
-            case "canary" -> {
-                mLogLevel.setDefaultValue(3);
-                mLogLevel.setEntries(new CharSequence[]{"Info", "Debug"});
-                mLogLevel.setEntryValues(new CharSequence[]{"3", "4"});
-                mLogLevel.setOnPreferenceChangeListener(
-                        (preference, o) -> {
-                            setLogLevel(Integer.parseInt((String) o));
-                            return true;
-                        }
-                );
-            }
-            /*case "debug" -> {
-                mLogLevel.setEnabled(false);
-                mLogLevel.setValueIndex(4);
-                mLogLevel.setSummary(R.string.disable_detailed_log_more);
-            }*/
-            default -> mLogLevel.setOnPreferenceChangeListener(
-                    (preference, o) -> {
-                        setLogLevel(Integer.parseInt((String) o));
-                        return true;
-                    }
+            );
+        } else {
+            mLogLevel.setOnPreferenceChangeListener(
+                (preference, o) -> {
+                    setLogLevel(Integer.parseInt((String) o));
+                    return true;
+                }
             );
         }
 

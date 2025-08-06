@@ -143,6 +143,7 @@
     <string name="color_picker_view_page_text_hue">色調</string>
     <string name="color_picker_view_page_text_lightness">亮度</string>
     <string name="color_picker_view_page_text_saturation">飽和度</string>
+    <string name="miuix_preference_text_hint">預設值：%1$s</string>
     <!--String reuse-->
     <string name="top_margin">頂部邊距</string>
     <string name="bottom_margin">底部邊距</string>

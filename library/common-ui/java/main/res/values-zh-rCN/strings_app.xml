@@ -203,6 +203,7 @@
     <string name="color_picker_view_page_text_saturation">饱和度</string>
     <string name="miuix_appcompat_color_picker_custom_color">自定义颜色</string>
     <string name="miuix_appcompat_color_erro_entry">非法数值，请检查后重新输入</string>
+    <string name="miuix_preference_text_hint">默认值: %1$s</string>
     <string name="miuix_preference_textentry_erro_entry">非法数值，请检查后重新输入</string>
     <!--字符串复用-->
     <string name="top_margin">顶部边距</string>

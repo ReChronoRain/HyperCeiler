@@ -222,6 +222,7 @@
     <string name="miuix_alphabet_indexer_name">Index bar</string>
     <string name="miuix_appcompat_action_mode_cancel">Cancel</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">Clear</string>
+    <string name="miuix_preference_text_hint">Default value: %1$s</string>
     <string name="miuix_appcompat_color_erro_entry">Invalid value. Please check it and re-enter.</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">Transparency</string>
     <string name="miuix_appcompat_color_picker_custom_color">Custom color</string>
