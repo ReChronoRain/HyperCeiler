@@ -29,7 +29,6 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.mediaControlPanel
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.miuiMediaNotificationControllerImpl
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.miuiMediaViewControllerImpl
-import com.sevtinge.hyperceiler.hook.utils.api.dp
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
@@ -309,7 +308,7 @@ object MediaViewLayout : BaseHook() {
     }
 
     private fun updateConstraintSet(constraintSet: Any) {
-        val standardMargin = 26.dp
+        val standardMargin = 26
         if (album == 2) {
 //                            connect?.invoke(expandedLayout,
 //                                header_title, ConstraintSet.START,
@@ -328,19 +327,19 @@ object MediaViewLayout : BaseHook() {
 //                                ConstraintSet.PARENT_ID, ConstraintSet.TOP
 //                            )
             setVisibility.invoke(constraintSet, icon, View.GONE)
-            setGoneMargin.invoke(constraintSet, headerTitle, ConstraintSet.START, standardMargin)
-            setGoneMargin.invoke(constraintSet, headerArtist, ConstraintSet.START, standardMargin)
+            setGoneMargin.invoke(constraintSet, headerTitle, ConstraintSet.START, dp2px(standardMargin))
+            setGoneMargin.invoke(constraintSet, headerArtist, ConstraintSet.START, dp2px(standardMargin))
             setGoneMargin.invoke(constraintSet, actions, ConstraintSet.TOP, dp2px(68.5f))
             setGoneMargin.invoke(constraintSet, action0, ConstraintSet.TOP, dp2px(79.5f))
             setVisibility.invoke(constraintSet, albumArt, View.GONE)
         }
         if (headerMargin != 21.0f) {
-            val headerMarginTop = headerMargin.dp
-            setMargin.invoke(constraintSet, headerTitle, ConstraintSet.TOP, headerMarginTop)
-            setGoneMargin.invoke(constraintSet, headerTitle, ConstraintSet.TOP, headerMarginTop)
+            val headerMarginTop = dp2px(headerMargin)
+            setMargin.invoke(constraintSet, headerTitle, ConstraintSet.TOP, dp2px(headerMarginTop))
+            setGoneMargin.invoke(constraintSet, headerTitle, ConstraintSet.TOP, dp2px(headerMarginTop))
         }
         if (headerPadding != 2.0f) {
-            setMargin.invoke(constraintSet, headerArtist, ConstraintSet.TOP, headerPadding.dp)
+            setMargin.invoke(constraintSet, headerArtist, ConstraintSet.TOP, dp2px(headerPadding))
         }
         if (actionsLeftAligned) {
             clear.invoke(constraintSet, action4, ConstraintSet.RIGHT)
@@ -355,8 +354,8 @@ object MediaViewLayout : BaseHook() {
 //                                header_artist, ConstraintSet.END,
 //                                ConstraintSet.PARENT_ID, ConstraintSet.END
 //                            )
-            setGoneMargin.invoke(constraintSet, headerTitle, ConstraintSet.END, standardMargin)
-            setGoneMargin.invoke(constraintSet, headerArtist, ConstraintSet.END, standardMargin)
+            setGoneMargin.invoke(constraintSet, headerTitle, ConstraintSet.END, dp2px(standardMargin))
+            setGoneMargin.invoke(constraintSet, headerArtist, ConstraintSet.END, dp2px(standardMargin))
         }
     }
 
