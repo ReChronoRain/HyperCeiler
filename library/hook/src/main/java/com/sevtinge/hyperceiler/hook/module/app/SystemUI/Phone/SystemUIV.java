@@ -25,6 +25,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ToastBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UnlockAlwaysOnDisplay;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoCollapse;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoSEffSwitchForSystemUi;
@@ -280,6 +281,7 @@ public class SystemUIV extends BaseModule {
 
         initHook(new ToastBlur(), mPrefsMap.getBoolean("system_framework_background_blur_toast"));
         initHook(new UnlockAlwaysOnDisplay(), mPrefsMap.getBoolean("aod_unlock_always_on_display_hyper"));
+        initHook(new VolumeMediaSteps(), mPrefsMap.getBoolean("system_framework_volume_media_steps_enable"));
 
         // 锁屏
         initHook(CustomizeBottomButton.INSTANCE, Keyguard.getLeftButtonType() != 0);

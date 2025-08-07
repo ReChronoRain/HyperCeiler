@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.app.SystemUI.Pad;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ToastBlur;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoCollapse;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoSEffSwitchForSystemUi;
@@ -294,6 +295,7 @@ public class SystemUIU extends BaseModule {
         initHook(new VolumeTimerValuesHook(), mPrefsMap.getBoolean("system_ui_volume_timer"));
 
         initHook(new ToastBlur(), mPrefsMap.getBoolean("system_framework_background_blur_toast"));
+        initHook(new VolumeMediaSteps(), mPrefsMap.getBoolean("system_framework_volume_media_steps_enable"));
 
         // 锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
