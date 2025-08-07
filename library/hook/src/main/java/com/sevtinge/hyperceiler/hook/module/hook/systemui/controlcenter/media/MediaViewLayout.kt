@@ -114,6 +114,15 @@ object MediaViewLayout : BaseHook() {
     private val action0 by lazy {
         appContext.resources.getIdentifier("action0", "id", lpparam.packageName)
     }
+    private val action1 by lazy {
+        appContext.resources.getIdentifier("action1", "id", lpparam.packageName)
+    }
+    private val action2 by lazy {
+        appContext.resources.getIdentifier("action2", "id", lpparam.packageName)
+    }
+    private val action3 by lazy {
+        appContext.resources.getIdentifier("action3", "id", lpparam.packageName)
+    }
     private val action4 by lazy {
         appContext.resources.getIdentifier("action4", "id", lpparam.packageName)
     }
@@ -148,29 +157,6 @@ object MediaViewLayout : BaseHook() {
     }
 
     override fun init() {
-        /*mediaButtonClass!!.methodFinder()
-            .filterByName("getActionById")
-            .first()
-            .createBeforeHook {
-                val id = it.args[0] as Int
-                logD(TAG, "getActionById: $id, actionsOrder: $actionsOrder")
-                when (id) {
-                    action0 -> {
-                        it.result =
-                            if (actionsOrder == 1) it.thisObject.getObjectField("prevOrCustom")
-                            else it.thisObject.getObjectField("playOrPause")
-                    }
-                    action1 -> {
-                        it.result =
-                            if (actionsOrder == 1) it.thisObject.getObjectField("playOrPause")
-                            else it.thisObject.getObjectField("prevOrCustom")
-                    }
-                    action2 -> it.result = it.thisObject.getObjectField("nextOrCustom")
-                    action3 -> it.result = it.thisObject.getObjectField("custom0")
-                    action4 -> it.result = it.thisObject.getObjectField("custom1")
-                }
-            }*/
-
         // a16
         // 虽然可以但还是太抽象了
         /*if (actionsOrder != 0) {
@@ -217,33 +203,58 @@ object MediaViewLayout : BaseHook() {
         }*/
 
         if (actionsOrder != 0) {
-            mediaButtonClass!!.constructorFinder().first()
-                .createAfterHook {
-                    val media = it.thisObject
-                    val custom0 = media.getObjectField("custom0")
-                    val prevOrCustom = media.getObjectField("prevOrCustom")
-                    val playOrPause = media.getObjectField("playOrPause")
-                    val nextOrCustom = media.getObjectField("nextOrCustom")
-                    val custom1 = media.getObjectField("custom1")
+            if (isAndroidB) {
+                mediaButtonClass!!.constructorFinder().first()
+                    .createAfterHook {
+                        val media = it.thisObject
+                        val custom0 = media.getObjectField("custom0")
+                        val prevOrCustom = media.getObjectField("prevOrCustom")
+                        val playOrPause = media.getObjectField("playOrPause")
+                        val nextOrCustom = media.getObjectField("nextOrCustom")
+                        val custom1 = media.getObjectField("custom1")
 
-                    when (actionsOrder) {
-                        1 -> {
-                            media.setObjectField("custom0", prevOrCustom)
-                            media.setObjectField("prevOrCustom", playOrPause)
-                            media.setObjectField("playOrPause", nextOrCustom)
-                            media.setObjectField("nextOrCustom", custom0)
-                            media.setObjectField("custom1", custom1)
-                        }
+                        when (actionsOrder) {
+                            1 -> {
+                                media.setObjectField("custom0", prevOrCustom)
+                                media.setObjectField("prevOrCustom", playOrPause)
+                                media.setObjectField("playOrPause", nextOrCustom)
+                                media.setObjectField("nextOrCustom", custom0)
+                                media.setObjectField("custom1", custom1)
+                            }
 
-                        2 -> {
-                            media.setObjectField("custom0", playOrPause)
-                            media.setObjectField("prevOrCustom", prevOrCustom)
-                            media.setObjectField("playOrPause", nextOrCustom)
-                            media.setObjectField("nextOrCustom", custom0)
-                            media.setObjectField("custom1", custom1)
+                            2 -> {
+                                media.setObjectField("custom0", playOrPause)
+                                media.setObjectField("prevOrCustom", prevOrCustom)
+                                media.setObjectField("playOrPause", nextOrCustom)
+                                media.setObjectField("nextOrCustom", custom0)
+                                media.setObjectField("custom1", custom1)
+                            }
                         }
                     }
-                }
+            } else {
+                mediaButtonClass!!.methodFinder()
+                    .filterByName("getActionById")
+                    .first()
+                    .createBeforeHook {
+                        val id = it.args[0] as Int
+                        logD(TAG, "getActionById: $id, actionsOrder: $actionsOrder")
+                        when (id) {
+                            action0 -> {
+                                it.result =
+                                    if (actionsOrder == 1) it.thisObject.getObjectField("prevOrCustom")
+                                    else it.thisObject.getObjectField("playOrPause")
+                            }
+                            action1 -> {
+                                it.result =
+                                    if (actionsOrder == 1) it.thisObject.getObjectField("playOrPause")
+                                    else it.thisObject.getObjectField("prevOrCustom")
+                            }
+                            action2 -> it.result = it.thisObject.getObjectField("nextOrCustom")
+                            action3 -> it.result = it.thisObject.getObjectField("custom0")
+                            action4 -> it.result = it.thisObject.getObjectField("custom1")
+                        }
+                    }
+            }
         }
 
 
