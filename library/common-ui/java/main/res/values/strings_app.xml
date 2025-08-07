@@ -222,7 +222,7 @@
     <string name="miuix_alphabet_indexer_name">Index bar</string>
     <string name="miuix_appcompat_action_mode_cancel">Cancel</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">Clear</string>
-    <string name="miuix_preference_text_hint">Default value: %1$s</string>
+    <string name="miuix_preference_text_hint">Range: %1$s ~ %2$s, default value: %3$s</string>
     <string name="miuix_appcompat_color_erro_entry">Invalid value. Please check it and re-enter.</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">Transparency</string>
     <string name="miuix_appcompat_color_picker_custom_color">Custom color</string>
@@ -684,7 +684,7 @@
     <string name="system_ui_status_bar_icon_mic">Microphone</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Alarm clock</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Show alarm icon only before alarm goes off</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d hours</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s hours</string>
     <string name="system_ui_status_bar_icon_airplane">Airplane mode</string>
     <string name="system_ui_status_bar_icon_roaming">Hide roaming icon</string>
     <string name="system_ui_status_bar_icon_vowifi">Hide VoWiFi icon</string>
@@ -1158,7 +1158,8 @@
     <string name="home_folder_shade_gradient">Middle only</string>
     <string name="home_folder_shade_level_title">Color intensity</string>
     <string name="home_folder_cols_title">Number of columns in folders</string>
-    <string name="home_folder_cols_format">%d cols</string>
+    <string name="home_folder_cols_format">%s cols</string>
+    <string name="home_folder_rows_format">%s rows</string>
     <string name="home_folder_horizontal_padding_desc">Folder distance from screen side margin</string>
     <string name="home_folder_vertical_spacing_desc">The spacing between the rows of the folder</string>
     <string name="home_folder_title_pos">Position of the title</string>

@@ -605,7 +605,7 @@
     <string name="system_ui_status_bar_icon_mic">Mikrofon</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Budzik</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Wyświetlaj ikonę alarmu tylko przed włączeniem alarmu</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d godz.</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s godz</string>
     <string name="system_ui_status_bar_icon_airplane">Tryb samolotowy</string>
     <string name="system_ui_status_bar_icon_roaming">Ukryj ikonę roamingu</string>
     <string name="system_ui_status_bar_icon_vowifi">Ukryj ikonę VoWiFi</string>
@@ -1034,7 +1034,7 @@
     <string name="home_folder_shade_gradient">Tylko na środku</string>
     <string name="home_folder_shade_level_title">Intensywność koloru</string>
     <string name="home_folder_cols_title">Liczba kolumn w folderach</string>
-    <string name="home_folder_cols_format">%d kolumn</string>
+    <string name="home_folder_cols_format">%s kolumn</string>
     <string name="home_folder_horizontal_padding_desc">Odległość folderu od bocznego marginesu ekranu</string>
     <string name="home_folder_vertical_spacing_desc">Odstęp między wierszami folderu</string>
     <string name="home_folder_title_pos">Pozycja tytułu</string>

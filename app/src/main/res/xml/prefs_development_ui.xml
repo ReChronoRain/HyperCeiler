@@ -44,29 +44,29 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="PreferenceCategory">
-
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:icon="@drawable/ic_hyperceiler_settings_v140"
             android:title="PreferenceHeader" />
 
-        <SeekBarPreferenceCompat
-            app:defaultValue="50"
+        <SeekBarPreference
+            android:defaultValue="50"
             android:format="%d"
             android:title="SeekBarPreference"
             app:maxValue="100"
             app:showSeekBarValue="true" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="50"
             android:title="SeekBarPreferenceCompat"
+            android:key="prefs_key_development_ui_test_seekbar_compat"
+            app:defaultValue="50"
             app:defaultValueTitle="@string/array_default"
             app:format="%s"
             app:maxValue="100"
-            app:minValue="0" />
+            app:stepValue="1" />
+
     </PreferenceCategory>
 
     <fan.preference.RadioButtonPreferenceCategory>
-
         <fan.preference.RadioButtonPreference
             android:persistent="false"
             android:title="RadioButtonPreference" />

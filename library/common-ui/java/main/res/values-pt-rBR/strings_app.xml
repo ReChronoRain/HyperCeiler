@@ -631,7 +631,7 @@
     <string name="system_ui_status_bar_icon_mic">Microfone</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Alarme</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Exibir ícone do alarme apenas antes do alarme disparar</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d horas</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s horas</string>
     <string name="system_ui_status_bar_icon_airplane">Modo avião</string>
     <string name="system_ui_status_bar_icon_roaming">Ocultar ícone de roaming</string>
     <string name="system_ui_status_bar_icon_vowifi">Ocultar ícone VoWiFi</string>

@@ -631,7 +631,7 @@
     <string name="system_ui_status_bar_icon_mic">マイク</string>
     <string name="system_ui_status_bar_icon_alarm_clock">時計のアラーム</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">アラームが鳴る前にのみアラームアイコンを表示する</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 時間</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s 時間</string>
     <string name="system_ui_status_bar_icon_airplane">機内モード</string>
     <string name="system_ui_status_bar_icon_roaming">ローミングアイコンを非表示</string>
     <string name="system_ui_status_bar_icon_vowifi">VoWiFi アイコンを非表示</string>
@@ -1086,7 +1086,7 @@
     <string name="home_folder_shade_gradient">中央のみ</string>
     <string name="home_folder_shade_level_title">色彩強度</string>
     <string name="home_folder_cols_title">フォルダー配置の数</string>
-    <string name="home_folder_cols_format">%d 件のリスト</string>
+    <string name="home_folder_cols_format">%s 件のリスト</string>
     <string name="home_folder_horizontal_padding_desc">画面側の余白からのフォルダーの距離</string>
     <string name="home_folder_vertical_spacing_desc">フォルダーの水平方向の間隔</string>
     <string name="home_folder_title_pos">タイトルの位置</string>

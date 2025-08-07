@@ -81,7 +81,7 @@
             android:key="prefs_key_security_center_blurradius"
             android:title="@string/security_center_blurradius"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d %%"
+            app:format="%s %%"
             app:maxValue="99"
             app:minValue="30"
             app:stepValue="1" />

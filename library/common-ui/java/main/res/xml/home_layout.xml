@@ -55,22 +55,23 @@
             android:title="@string/home_layout_unlock_grids" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="0"
             android:dependency="prefs_key_home_layout_unlock_grids_new"
             android:key="prefs_key_home_layout_unlock_grids_cell_x"
             android:title="@string/home_layout_unlock_grids_new_x"
-            app:format="%d"
+            app:defaultValue="4"
+            app:defaultValueTitle="@string/array_default"
+            app:format="@string/home_folder_cols_format"
             app:maxValue="9"
             app:minValue="3"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="0"
             android:dependency="prefs_key_home_layout_unlock_grids_new"
             android:key="prefs_key_home_layout_unlock_grids_cell_y"
             android:title="@string/home_layout_unlock_grids_new_y"
+            app:defaultValue="6"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d"
+            app:format="@string/home_folder_rows_format"
             app:maxValue="13"
             app:minValue="4"
             app:stepValue="1" />
@@ -89,12 +90,12 @@
             android:title="@string/top_margin" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:defaultValue="30"
             android:dependency="prefs_key_home_layout_workspace_padding_top_enable"
             android:key="prefs_key_home_layout_workspace_padding_top"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="150"
             app:stepValue="1" />
 
@@ -105,12 +106,12 @@
             android:title="@string/bottom_margin" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:defaultValue="120"
             android:dependency="prefs_key_home_layout_workspace_padding_bottom_enable"
             android:key="prefs_key_home_layout_workspace_padding_bottom"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="240"
             app:stepValue="1" />
 
@@ -121,12 +122,12 @@
             android:title="@string/horizontal_margin" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:defaultValue="20"
             android:dependency="prefs_key_home_layout_workspace_padding_horizontal_enable"
             android:key="prefs_key_home_layout_workspace_padding_horizontal"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="100"
             app:stepValue="1" />
     </PreferenceCategory>
@@ -139,12 +140,12 @@
             android:title="@string/bottom_margin" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:defaultValue="70"
             android:dependency="prefs_key_home_layout_indicator_margin_bottom_enable"
             android:key="prefs_key_home_layout_indicator_margin_bottom"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="150"
             app:stepValue="1" />
     </PreferenceCategory>
@@ -156,12 +157,12 @@
             android:title="@string/home_layout_hotseats_height" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="80"
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:dependency="prefs_key_home_layout_hotseats_height_enable"
             android:key="prefs_key_home_layout_hotseats_height"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValue="80"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="150"
             app:minValue="60"
             app:showSeekBarValue="true" />
@@ -173,12 +174,12 @@
             android:title="@string/top_margin" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:defaultValue="20"
             android:dependency="prefs_key_home_layout_hotseats_margin_top_enable"
             android:key="prefs_key_home_layout_hotseats_margin_top"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="150"
             app:stepValue="1" />
 
@@ -189,12 +190,12 @@
             android:title="@string/bottom_margin" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:defaultValue="70"
             android:dependency="prefs_key_home_layout_hotseats_margin_bottom_enable"
             android:key="prefs_key_home_layout_hotseats_margin_bottom"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="150"
             app:stepValue="1" />
 
@@ -207,12 +208,12 @@
             android:title="@string/home_layout_searchbar_width" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:defaultValue="30"
             android:dependency="prefs_key_home_layout_searchbar_width_enable"
             android:key="prefs_key_home_layout_searchbar_width"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="400"
             app:stepValue="1" />
 
@@ -223,12 +224,12 @@
             android:title="@string/bottom_margin" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:defaultValue="30"
             android:dependency="prefs_key_home_layout_searchbar_margin_bottom_enable"
             android:key="prefs_key_home_layout_searchbar_margin_bottom"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="150"
             app:stepValue="1" />
 
@@ -255,20 +256,20 @@
             android:title="@string/horizontal_margin" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:defaultValue="0"
             android:dependency="prefs_key_home_folder_horizontal_padding_enable"
             android:key="prefs_key_home_folder_horizontal_padding"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="50"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="3"
             android:key="prefs_key_home_folder_columns"
             android:title="@string/home_folder_cols_title"
+            app:defaultValue="3"
             app:defaultValueTitle="@string/array_default"
             app:format="@string/home_folder_cols_format"
             app:maxValue="6"
@@ -283,12 +284,12 @@
             android:title="@string/spacing_margin" />
 
         <SeekBarPreferenceCompat
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:defaultValue="0"
             android:dependency="prefs_key_home_folder_vertical_spacing_enable"
             android:key="prefs_key_home_folder_vertical_spacing"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="100"
             app:showSeekBarValue="true"
             app:stepValue="1" />

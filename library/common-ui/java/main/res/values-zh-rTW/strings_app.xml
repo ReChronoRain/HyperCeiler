@@ -188,8 +188,8 @@
     <string name="miuix_navigator_content_switch_description">顯示側邊欄</string>
     <string name="miuix_navigator_multiple_choice">選擇</string>
     <string name="miuix_navigator_navigator_switch_description">隱藏側邊欄</string>
-    <string name="miuix_preference_text_hint">預設值：%1$s</string>
-    <string name="miuix_preference_textentry_erro_entry">無效值。請檢查並重新輸入。</string>
+    <string name="miuix_preference_text_hint">範圍：%1$s ~ %2$s，預設值：%3$s</string>
+    <string name="miuix_preference_textentry_erro_entry">無效值，請檢查並重新輸入。</string>
     <string name="miuix_sbl_tracking_progress_labe_pull_to_refresh">下拉重新整理</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshed">重新整理成功</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshing">重新整理中…</string>
@@ -632,7 +632,7 @@
     <string name="system_ui_status_bar_icon_mic">麥克風</string>
     <string name="system_ui_status_bar_icon_alarm_clock">鬧鐘</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">僅在鬧鐘響鈴前顯示鬧鐘圖示</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 分鐘</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s 分鐘</string>
     <string name="system_ui_status_bar_icon_airplane">飛行模式</string>
     <string name="system_ui_status_bar_icon_roaming">隱藏漫遊圖示</string>
     <string name="system_ui_status_bar_icon_vowifi">隱藏 VoWiFi 圖示</string>
@@ -1087,7 +1087,8 @@
     <string name="home_folder_shade_gradient">僅中間</string>
     <string name="home_folder_shade_level_title">色彩強度</string>
     <string name="home_folder_cols_title">資料夾欄位數量</string>
-    <string name="home_folder_cols_format">%d 列</string>
+    <string name="home_folder_cols_format">%s 列</string>
+    <string name="home_folder_rows_format">%s 行</string>
     <string name="home_folder_horizontal_padding_desc">資料夾距離螢幕左右兩邊邊距</string>
     <string name="home_folder_vertical_spacing_desc">資料夾水平間距</string>
     <string name="home_folder_title_pos">標題位置</string>

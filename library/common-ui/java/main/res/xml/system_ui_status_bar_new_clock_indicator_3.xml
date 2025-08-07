@@ -31,7 +31,7 @@
             android:key="prefs_key_system_ui_statusbar_clock_size_3"
             android:title="@string/system_ui_statusbar_clock_size"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="32"
             app:minValue="9"
             app:showSeekBarValue="true"

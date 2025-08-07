@@ -128,7 +128,7 @@
             android:enabled="false"
             android:key="prefs_key_system_ui_navigation_handle_custom_width"
             android:title="@string/system_ui_navigation_handle_custom_width"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="400"
             app:minValue="0"
             app:showSeekBarValue="true" />
@@ -140,7 +140,7 @@
             android:enabled="false"
             android:key="prefs_key_system_ui_navigation_handle_custom_width_land"
             android:title="@string/system_ui_navigation_handle_custom_width_land"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="600"
             app:minValue="0"
             app:showSeekBarValue="true" />

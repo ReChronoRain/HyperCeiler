@@ -631,7 +631,7 @@
     <string name="system_ui_status_bar_icon_mic">Микрофон</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Будильник</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Показывать значок будильника только перед его отключением</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d час</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s час</string>
     <string name="system_ui_status_bar_icon_airplane">Режим полета</string>
     <string name="system_ui_status_bar_icon_roaming">Скрыть иконку роуминга</string>
     <string name="system_ui_status_bar_icon_vowifi">Скрыть значок VoWiFi</string>
@@ -1086,7 +1086,7 @@
     <string name="home_folder_shade_gradient">Градиент</string>
     <string name="home_folder_shade_level_title">Интенсивность цвета</string>
     <string name="home_folder_cols_title">Количество упорядоченных папок</string>
-    <string name="home_folder_cols_format">Ряд: %d</string>
+    <string name="home_folder_cols_format">Ряд: %s</string>
     <string name="home_folder_horizontal_padding_desc">Расстояние папки от края экрана</string>
     <string name="home_folder_vertical_spacing_desc">Расстояние между папками по горизонтали</string>
     <string name="home_folder_title_pos">Позиция заголовка</string>

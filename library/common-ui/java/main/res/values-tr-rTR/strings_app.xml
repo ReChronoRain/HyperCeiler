@@ -526,7 +526,7 @@
     <string name="system_ui_status_bar_icon_mic">Mikrofon</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Alarm saati</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Alarm simgesini yalnızca alarm çalmadan önce göster</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d saat</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s saat</string>
     <string name="system_ui_status_bar_icon_airplane">Uçak modu</string>
     <string name="system_ui_status_bar_icon_roaming">Dolaşım simgesini gizle</string>
     <string name="system_ui_status_bar_icon_vowifi">VoWiFi simgesini gizle</string>
@@ -859,7 +859,7 @@
     <string name="home_folder_shade_gradient">Sadece Orta</string>
     <string name="home_folder_shade_level_title">Renk Yoğunluğu</string>
     <string name="home_folder_cols_title">Klasör Düzenlemelerinin Sayısı</string>
-    <string name="home_folder_cols_format">%d Liste</string>
+    <string name="home_folder_cols_format">%s Liste</string>
     <string name="home_folder_vertical_spacing_desc">Klasör yatay aralığı</string>
     <string name="home_folder_width_title">Tüm klasörün genişliğini kullanın</string>
     <string name="home_folder_space_title">Kenar boşluklarını azalt</string>

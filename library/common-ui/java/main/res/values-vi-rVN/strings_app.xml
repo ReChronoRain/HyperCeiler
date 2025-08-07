@@ -633,7 +633,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_icon_mic">Micrô</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Báo thức</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Chỉ hiển thị biểu tượng báo thức trước khi báo thức kêu</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d phút</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s phút</string>
     <string name="system_ui_status_bar_icon_airplane">Chế độ máy bay</string>
     <string name="system_ui_status_bar_icon_roaming">Ẩn biểu tượng chuyển vùng</string>
     <string name="system_ui_status_bar_icon_vowifi">Ẩn biểu tượng VoWiFi</string>
@@ -1092,7 +1092,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_folder_shade_gradient">Chỉ ở giữa</string>
     <string name="home_folder_shade_level_title">Cường độ màu</string>
     <string name="home_folder_cols_title">Số lượng sắp xếp thư mục</string>
-    <string name="home_folder_cols_format">%d Danh sách</string>
+    <string name="home_folder_cols_format">%s Danh sách</string>
     <string name="home_folder_horizontal_padding_desc">Khoảng cách thư mục từ lề bên màn hình</string>
     <string name="home_folder_vertical_spacing_desc">Khoảng cách ngang thư mục</string>
     <string name="home_folder_title_pos">Vị trí của tiêu đề</string>

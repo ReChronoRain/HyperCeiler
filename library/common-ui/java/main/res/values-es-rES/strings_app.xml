@@ -547,7 +547,7 @@ aplicaciones del sistema</string>
     <string name="system_ui_status_bar_icon_mic">Micrófono</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Alarma</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Se muestra icono de alarma solo antes de que suena la alarma</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d horas</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s horas</string>
     <string name="system_ui_status_bar_icon_airplane">Modo de avión</string>
     <string name="system_ui_status_bar_icon_roaming">Se oculta el icono de itinerancia</string>
     <string name="system_ui_status_bar_icon_vowifi">Ocultar icono de VoWiFi</string>
@@ -909,7 +909,7 @@ aplicaciones del sistema</string>
     <string name="home_folder_shade_gradient">Solo el centro</string>
     <string name="home_folder_shade_level_title">Insensidad de color</string>
     <string name="home_folder_cols_title">Cantidad de aplicaciones en una columna de carpeta</string>
-    <string name="home_folder_cols_format">%d Columnas</string>
+    <string name="home_folder_cols_format">%s Columnas</string>
     <string name="home_folder_horizontal_padding_desc">Distancia de carpeta desde el margen lateral de la pantalla</string>
     <string name="home_folder_vertical_spacing_desc">Espacio horizontal de carpeta</string>
     <string name="home_folder_title_pos">Posición del título</string>

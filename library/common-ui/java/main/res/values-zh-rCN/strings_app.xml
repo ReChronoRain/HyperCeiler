@@ -203,7 +203,7 @@
     <string name="color_picker_view_page_text_saturation">饱和度</string>
     <string name="miuix_appcompat_color_picker_custom_color">自定义颜色</string>
     <string name="miuix_appcompat_color_erro_entry">非法数值，请检查后重新输入</string>
-    <string name="miuix_preference_text_hint">默认值: %1$s</string>
+    <string name="miuix_preference_text_hint">范围: %1$s ~ %2$s, 默认值: %3$s</string>
     <string name="miuix_preference_textentry_erro_entry">非法数值，请检查后重新输入</string>
     <!--字符串复用-->
     <string name="top_margin">顶部边距</string>
@@ -710,7 +710,7 @@
     <string name="system_ui_status_bar_icon_mic">麦克风</string>
     <string name="system_ui_status_bar_icon_alarm_clock">闹钟</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">仅在闹钟响铃前显示闹钟图标</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 小时</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s 小时</string>
     <string name="system_ui_status_bar_icon_airplane">飞行模式</string>
     <string name="system_ui_status_bar_icon_roaming">隐藏漫游图标</string>
     <string name="system_ui_status_bar_icon_vowifi">隐藏 VoWiFi 图标</string>
@@ -1202,7 +1202,8 @@
     <string name="home_folder_shade_gradient">仅中间</string>
     <string name="home_folder_shade_level_title">色彩强度</string>
     <string name="home_folder_cols_title">文件夹排列数量</string>
-    <string name="home_folder_cols_format">%d 列</string>
+    <string name="home_folder_cols_format">%s 列</string>
+    <string name="home_folder_rows_format">%s 行</string>
     <string name="home_folder_horizontal_padding_desc">文件夹距离屏幕左右两边边距</string>
     <string name="home_folder_vertical_spacing_desc">文件夹各行之间的间距</string>
     <string name="home_folder_title_pos">标题位置</string>

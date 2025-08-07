@@ -143,7 +143,8 @@
     <string name="color_picker_view_page_text_hue">色調</string>
     <string name="color_picker_view_page_text_lightness">亮度</string>
     <string name="color_picker_view_page_text_saturation">飽和度</string>
-    <string name="miuix_preference_text_hint">預設值：%1$s</string>
+    <string name="miuix_preference_text_hint">範圍：%1$s ~ %2$s，預設值：%3$s</string>
+    <string name="miuix_preference_textentry_erro_entry">無效值，請檢查並重新輸入。</string>
     <!--String reuse-->
     <string name="top_margin">頂部邊距</string>
     <string name="bottom_margin">底部邊距</string>
@@ -519,7 +520,7 @@
     <string name="system_ui_status_bar_icon_mic">麥克風</string>
     <string name="system_ui_status_bar_icon_alarm_clock">鬧鐘</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">僅在鬧鐘響鈴前顯示鬧鐘圖示</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 分鐘</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s 分鐘</string>
     <string name="system_ui_status_bar_icon_airplane">飛行模式</string>
     <string name="system_ui_status_bar_icon_roaming">隱藏漫遊圖示</string>
     <string name="system_ui_status_bar_icon_vowifi">隱藏 VoWiFi 圖示</string>
@@ -909,7 +910,8 @@
     <string name="home_folder_shade_gradient">僅中間</string>
     <string name="home_folder_shade_level_title">色彩強度</string>
     <string name="home_folder_cols_title">文件夾排列數量</string>
-    <string name="home_folder_cols_format">%d 列</string>
+    <string name="home_folder_cols_format">%s 列</string>
+    <string name="home_folder_rows_format">%s 行</string>
     <string name="home_folder_vertical_spacing_desc">文件夾水平間距</string>
     <string name="home_folder_width_title">使用整個文件夾嘅寬度</string>
     <string name="home_folder_space_title">減少邊距</string>

@@ -86,7 +86,7 @@
             android:title="@string/system_ui_others_showpct_top"
             app:defaultValue="54"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="1024"
             app:showSeekBarValue="true"
             app:stepValue="1" />

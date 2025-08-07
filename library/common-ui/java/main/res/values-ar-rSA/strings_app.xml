@@ -629,7 +629,7 @@
     <string name="system_ui_status_bar_icon_mic">الميكروفون</string>
     <string name="system_ui_status_bar_icon_alarm_clock">منبه</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">إظهار أيقونة التنبيه فقط قبل انطلاق التنبيه</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d ساعات</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s ساعات</string>
     <string name="system_ui_status_bar_icon_airplane">وضع الطيران</string>
     <string name="system_ui_status_bar_icon_roaming">إخفاء أيقونة التجوال</string>
     <string name="system_ui_status_bar_icon_vowifi">إخفاء أيقونة VoWiFi</string>
@@ -1083,7 +1083,7 @@
     <string name="home_folder_shade_gradient">المنتصف فقط</string>
     <string name="home_folder_shade_level_title">شدة اللون</string>
     <string name="home_folder_cols_title">عدد الأعمدة في المجلدات</string>
-    <string name="home_folder_cols_format">%d عمود</string>
+    <string name="home_folder_cols_format">%s عمود</string>
     <string name="home_folder_horizontal_padding_desc">مسافة المجلد عن الحافة الجانبية للشاشة</string>
     <string name="home_folder_vertical_spacing_desc">المسافة بين صفوف المجلد</string>
     <string name="home_folder_title_pos">موقع العنوان</string>

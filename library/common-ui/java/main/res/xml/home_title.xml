@@ -32,7 +32,7 @@
             android:key="prefs_key_home_large_icon_corner_radius"
             android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="90"
             app:minValue="0"
             app:stepValue="1" />
@@ -46,7 +46,7 @@
             android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             android:dependency="prefs_key_home_title_icon_size_enable"
             android:key="prefs_key_home_title_icon_size"
-            app:format="%d"
+            app:format="%s"
             app:maxValue="360"
             app:minValue="50"
             app:stepValue="1" />
@@ -267,7 +267,7 @@
             android:key="prefs_key_home_title_font_size"
             android:title="@string/home_title_font_size"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d sp"
+            app:format="%s sp"
             app:maxValue="20"
             app:minValue="0"
             app:stepValue="1" />
@@ -278,7 +278,7 @@
             android:key="prefs_key_home_drawer_title_font_size"
             android:title="@string/home_drawer_title_font_size"
             app:defaultValueTitle="@string/array_default"
-            app:format="%d sp"
+            app:format="%s sp"
             app:maxValue="20"
             app:minValue="0"
             app:stepValue="1" />

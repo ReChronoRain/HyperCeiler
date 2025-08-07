@@ -472,7 +472,7 @@
     <string name="system_ui_status_bar_icon_mic">Microfono</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Sveglia</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Mostra l\'icona della sveglia solo prima che la sveglia si spenga</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d ore</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s ore</string>
     <string name="system_ui_status_bar_icon_airplane">Modalità aereo</string>
     <string name="system_ui_status_bar_icon_roaming">Nascondi icona roaming</string>
     <string name="system_ui_status_bar_icon_vowifi">Nascondi icona VoWiFi</string>
@@ -818,7 +818,7 @@
     <string name="home_folder_shade_gradient">Solo metà</string>
     <string name="home_folder_shade_level_title">Intensità colore</string>
     <string name="home_folder_cols_title">Numero di disposizioni delle cartelle</string>
-    <string name="home_folder_cols_format">%d Elenco</string>
+    <string name="home_folder_cols_format">%s Elenco</string>
     <string name="home_folder_vertical_spacing_desc">Spaziatura orizzontale cartella</string>
     <string name="home_folder_width_title">Utilizza la larghezza dell\'intera cartella</string>
     <string name="home_folder_space_title">Riduci i margini</string>
