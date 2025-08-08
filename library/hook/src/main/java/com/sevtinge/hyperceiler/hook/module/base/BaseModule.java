@@ -55,17 +55,19 @@ public abstract class BaseModule {
             return;
         }
         HCInit.initLoadPackageParam(lpparam);
-        // 把模块资源加载到目标应用
-        try {
-            if (!ProjectApi.mAppModulePkg.equals(lpparam.packageName)) {
-                ContextUtils.getWaitContext(context -> {
-                    if (context != null) {
-                        XposedInit.mResHook.loadModuleRes(context);
-                    }
-                }, "android".equals(lpparam.packageName));
+        if (!PrefsUtils.mPrefsMap.getBoolean("module_settings_reshook_new")) {
+            // 把模块资源加载到目标应用
+            try {
+                if (!ProjectApi.mAppModulePkg.equals(lpparam.packageName)) {
+                    ContextUtils.getWaitContext(context -> {
+                        if (context != null) {
+                            XposedInit.mResHook.loadModuleRes(context);
+                        }
+                    }, "android".equals(lpparam.packageName));
+                }
+            } catch (Throwable e) {
+                XposedLogUtils.logE(TAG, "get context failed!" + e);
             }
-        } catch (Throwable e) {
-            XposedLogUtils.logE(TAG, "get context failed!" + e);
         }
 
         mLoadPackageParam = lpparam;

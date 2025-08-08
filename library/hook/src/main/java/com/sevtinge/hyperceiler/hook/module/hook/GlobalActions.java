@@ -49,6 +49,19 @@ public class GlobalActions extends BaseHook {
         setupRestartActions();
     }
 
+    // 统一常量管理
+    static final class GlobalActionConstants {
+        static final String ACTION_PREFIX = "com.sevtinge.hyperceiler.action.";
+        static final String ACTION_TOGGLE_COLOR_INVERSION = ACTION_PREFIX + "ToggleColorInversion";
+        static final String ACTION_LOCK_SCREEN = ACTION_PREFIX + "LockScreen";
+        static final String ACTION_GO_TO_SLEEP = ACTION_PREFIX + "GoToSleep";
+        static final String ACTION_SCREEN_CAPTURE = ACTION_PREFIX + "ScreenCapture";
+        static final String ACTION_OPEN_POWER_MENU = ACTION_PREFIX + "OpenPowerMenu";
+        static final String ACTION_LAUNCH_INTENT = ACTION_PREFIX + "LaunchIntent";
+        static final String ACTION_RESTART_APPS = ACTION_PREFIX + "RestartApps";
+        private GlobalActionConstants() {}
+    }
+
     // GlobalActions
     public void setupGlobalActions() {
         hookAllConstructors("com.android.server.accessibility.AccessibilityManagerService", new MethodHook() {
@@ -57,12 +70,12 @@ public class GlobalActions extends BaseHook {
                 Context mGlobalContext = (Context) param.args[0];
                 IntentFilter mFilter = new IntentFilter();
                 // Actions
-                mFilter.addAction(ACTION_PREFIX + "ToggleColorInversion");
-                mFilter.addAction(ACTION_PREFIX + "LockScreen");
-                mFilter.addAction(ACTION_PREFIX + "GoToSleep");
-                mFilter.addAction(ACTION_PREFIX + "ScreenCapture");
-                mFilter.addAction(ACTION_PREFIX + "OpenPowerMenu");
-                mFilter.addAction(ACTION_PREFIX + "LaunchIntent");
+                mFilter.addAction(GlobalActionConstants.ACTION_TOGGLE_COLOR_INVERSION);
+                mFilter.addAction(GlobalActionConstants.ACTION_LOCK_SCREEN);
+                mFilter.addAction(GlobalActionConstants.ACTION_GO_TO_SLEEP);
+                mFilter.addAction(GlobalActionConstants.ACTION_SCREEN_CAPTURE);
+                mFilter.addAction(GlobalActionConstants.ACTION_OPEN_POWER_MENU);
+                mFilter.addAction(GlobalActionConstants.ACTION_LAUNCH_INTENT);
                 mGlobalContext.registerReceiver(mGlobalReceiver, mFilter);
             }
         });
@@ -78,8 +91,9 @@ public class GlobalActions extends BaseHook {
 
                 String action = intent.getAction();
 
+                if (action == null) return;
                 switch (action) {
-                    case ACTION_PREFIX + "ToggleColorInversion" -> {
+                    case GlobalActionConstants.ACTION_TOGGLE_COLOR_INVERSION -> {
                         int opt = Settings.Secure.getInt(context.getContentResolver(), "accessibility_display_inversion_enabled");
                         int conflictProp = (int) proxySystemProperties("getInt", "ro.df.effect.conflict", 0, null);
                         int conflictProp2 = (int) proxySystemProperties("getInt", "ro.vendor.df.effect.conflict", 0, null);
@@ -94,24 +108,25 @@ public class GlobalActions extends BaseHook {
                         }
                     }
 
-                    case ACTION_PREFIX + "LockScreen" -> {
+                    case GlobalActionConstants.ACTION_LOCK_SCREEN -> {
                         XposedHelpers.callMethod(context.getSystemService(Context.POWER_SERVICE), "goToSleep", SystemClock.uptimeMillis());
                         XposedHelpers.callMethod(wms, "lockNow", (Object) null);
                     }
-                    case ACTION_PREFIX + "GoToSleep" ->
+
+                    case GlobalActionConstants.ACTION_GO_TO_SLEEP ->
                         XposedHelpers.callMethod(context.getSystemService(Context.POWER_SERVICE), "goToSleep", SystemClock.uptimeMillis());
 
-                    case ACTION_PREFIX + "ScreenCapture" ->
+                    case GlobalActionConstants.ACTION_SCREEN_CAPTURE ->
                         context.sendBroadcast(new Intent("android.intent.action.CAPTURE_SCREENSHOT"));
 
-                    case ACTION_PREFIX + "OpenPowerMenu" -> {
+                    case GlobalActionConstants.ACTION_OPEN_POWER_MENU -> {
                         clsWMG = findClass("android.view.WindowManagerGlobal");
                         wms = XposedHelpers.callStaticMethod(clsWMG, "getWindowManagerService");
                         XposedHelpers.callMethod(wms, "showGlobalActions");
                     }
 
-                    case ACTION_PREFIX + "LaunchIntent" -> {
-                        Intent launchIntent = intent.getParcelableExtra("intent");
+                    case GlobalActionConstants.ACTION_LAUNCH_INTENT -> {
+                        Intent launchIntent = intent.getParcelableExtra("intent", Intent.class);
                         if (launchIntent != null) {
                             int user = 0;
                             if (launchIntent.hasExtra("user")) {
@@ -141,7 +156,7 @@ public class GlobalActions extends BaseHook {
             protected void after(MethodHookParam param) {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 IntentFilter intentfilter = new IntentFilter();
-                intentfilter.addAction(ACTION_PREFIX + "RestartApps");
+                intentfilter.addAction(GlobalActionConstants.ACTION_RESTART_APPS);
                 mContext.registerReceiver(mRestartReceiver, intentfilter);
             }
         });
@@ -287,7 +302,7 @@ public class GlobalActions extends BaseHook {
         if (intent == null) {
             return false;
         }
-        Intent bIntent = new Intent(ACTION_PREFIX + "LaunchIntent");
+        Intent bIntent = new Intent(GlobalActionConstants.ACTION_LAUNCH_INTENT);
         bIntent.putExtra("intent", intent);
         context.sendBroadcast(bIntent);
         return true;

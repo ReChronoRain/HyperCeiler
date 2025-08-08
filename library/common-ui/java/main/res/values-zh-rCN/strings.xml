@@ -50,6 +50,9 @@
     <string name="restart_app_desc">确定要立即重启%1$s吗？</string>
     <string name="tip">提示</string>
     <string name="root">未授予Root/Su权限部分功能不可用</string>
+    <string name="experimental_features">实验性功能</string>
+    <string name="experimental_reshook_new">启用新版资源挂钩</string>
+    <string name="experimental_reshook_new_desc">新版资源挂钩对于资源注入有更好的性能，但可能会有存在一些问题，仅供测试\n开关此功能需重启生效</string>
 
     <string name="hook_failed">模块暂未激活，请检查 Xposed 管理器是否启用，如有请重启或重新优化模块</string>
     <string name="kill_failed">结束进程失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限</string>

@@ -32,7 +32,7 @@ object EnableIconMonetColor : BaseHook() {
         if (mPrefsMap.getBoolean("home_other_use_edit_color")) {
             monoColor = mPrefsMap.getInt("home_other_your_color_qwq", -1)
         }
-        mResHook.setObjectReplacement(
+        setObjectReplacement(
             "com.miui.home",
             "color",
             "monochrome_default",

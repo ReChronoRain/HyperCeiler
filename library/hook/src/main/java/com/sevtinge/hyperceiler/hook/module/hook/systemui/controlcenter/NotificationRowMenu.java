@@ -50,10 +50,10 @@ public class NotificationRowMenu extends BaseHook {
         int appInfoDescId = R.string.system_notifrowmenu_appinfo;
         int forceCloseDescId = R.string.system_notifrowmenu_forceclose;
         int openInFwDescId = R.string.system_notifrowmenu_openinfw;
-        mResHook.setDensityReplacement("com.android.systemui", "dimen", "notification_menu_icon_padding", 0);
-        mResHook.setDensityReplacement("com.android.systemui", "dimen", "miui_notification_modal_menu_margin_left_right", 3);
-        mResHook.setResReplacement("com.android.systemui", "drawable", "miui_notification_menu_ic_bg_active", R.drawable.miui_notification_menu_ic_bg_active);
-        mResHook.setResReplacement("com.android.systemui", "drawable", "miui_notification_menu_ic_bg_inactive", R.drawable.miui_notification_menu_ic_bg_inactive);
+        setDensityReplacement("com.android.systemui", "dimen", "notification_menu_icon_padding", 0);
+        setDensityReplacement("com.android.systemui", "dimen", "miui_notification_modal_menu_margin_left_right", 3);
+        setResReplacement("com.android.systemui", "drawable", "miui_notification_menu_ic_bg_active", R.drawable.miui_notification_menu_ic_bg_active);
+        setResReplacement("com.android.systemui", "drawable", "miui_notification_menu_ic_bg_inactive", R.drawable.miui_notification_menu_ic_bg_inactive);
 
         Class<?> MiuiNotificationMenuItem = findClass("com.android.systemui.statusbar.notification.row.MiuiNotificationMenuRow.MiuiNotificationMenuItem", lpparam.classLoader);
         hookAllMethods("com.android.systemui.statusbar.notification.row.MiuiNotificationMenuRow", "createMenuViews", new MethodHook() {

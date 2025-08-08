@@ -18,6 +18,9 @@
  */
 package com.sevtinge.hyperceiler.hook.module.base.tool;
 
+import static com.sevtinge.hyperceiler.hook.module.base.BaseHook.mResHook;
+
+import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.BuildConfig;
 import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsMap;
@@ -35,6 +38,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookTool extends XposedLogUtils {
     public static final PrefsMap<String, Object> mPrefsMap = PrefsUtils.mPrefsMap;
+    public static final boolean isNewResHook = mPrefsMap.getBoolean("module_settings_reshook_new");
     private final String TAG = getClass().getSimpleName();
 
     public XC_LoadPackage.LoadPackageParam lpparam;
@@ -457,6 +461,48 @@ public class HookTool extends XposedLogUtils {
             logI(setObject + " Success! set " + fieldName + " to " + value);
         } else {
             // logE(setObject + " Failed! set " + fieldName + " to " + value + " hope: " + value + " but: " + last);
+        }
+    }
+
+    // resHook
+    // 过渡方案期间保留两套资源 hook，待整体使用无异常后移除旧版资源挂钩
+    public static int getFakeResId(String resourceName) {
+        if (isNewResHook) {
+            return ResInjectTool.createFakeResId(resourceName);
+        }
+        return ResourcesTool.getFakeResId(resourceName);
+    }
+
+    /**
+     * 设置资源 ID 类型的替换
+     */
+    public static void setResReplacement(String pkg, String type, String name, int replacementResId) {
+        if (isNewResHook) {
+            ResInjectTool.setResReplacement(pkg, type, name, replacementResId);
+        } else {
+            mResHook.setResReplacement(pkg, type, name, replacementResId);
+        }
+    }
+
+    /**
+     * 设置密度类型的资源
+     */
+    public static void setDensityReplacement(String pkg, String type, String name, float replacementResValue) {
+        if (isNewResHook) {
+            ResInjectTool.setDensityReplacement(pkg, type, name, replacementResValue);
+        } else {
+            mResHook.setDensityReplacement(pkg, type, name, replacementResValue);
+        }
+    }
+
+    /**
+     * 设置 Object 类型的资源
+     */
+    public static void setObjectReplacement(String pkg, String type, String name, Object replacementResValue) {
+        if (isNewResHook) {
+            ResInjectTool.setObjectReplacement(pkg, type, name, replacementResValue);
+        } else {
+            mResHook.setObjectReplacement(pkg, type, name, replacementResValue);
         }
     }
 }

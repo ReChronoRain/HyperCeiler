@@ -26,7 +26,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool
+import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
@@ -64,7 +64,7 @@ class ClearClipboard : BaseHook() {
                 it.thisObject.getObjectFieldAs<ImageView>("addButton").apply {
                     addButton = this
                     addButtonIcon = drawable
-                    removeIcon = ResourcesTool.loadModuleRes(context.resources)
+                    removeIcon = OtherTool.getModuleRes(context)
                         .getDrawable(R.drawable.ic_remove, context.theme)
 
                     callMethod("setVisibility", 0)

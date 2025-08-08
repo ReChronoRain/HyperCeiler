@@ -31,7 +31,7 @@ import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool.MethodHook.returnConstant
-import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool
+import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.FlashlightController
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.lockscreen.Keyguard.keyguardBottomAreaInjector
@@ -174,7 +174,7 @@ object CustomizeBottomButton : BaseHook() {
                 flashlightController = MiuiStub.sysUIProvider.flashlightController
 
                 val context = MiuiStub.baseProvider.context
-                ResourcesTool.loadModuleRes(context)
+                OtherTool.getModuleRes(context)
                 chargeImage(param, context)
             }
         })

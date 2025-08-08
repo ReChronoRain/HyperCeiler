@@ -96,19 +96,19 @@ class DualRowSignalHookV : BaseHook() {
 
     override fun init() {
         if (!showMobileType) {
-            mResHook.setDensityReplacement(
+            setDensityReplacement(
                 "com.android.systemui",
                 "dimen",
                 "status_bar_mobile_type_half_to_top_distance",
                 3f
             )
-            mResHook.setDensityReplacement(
+            setDensityReplacement(
                 "com.android.systemui",
                 "dimen",
                 "status_bar_mobile_left_inout_over_strength",
                 0f
             )
-            mResHook.setDensityReplacement(
+            setDensityReplacement(
                 "com.android.systemui",
                 "dimen",
                 "status_bar_mobile_type_middle_to_strength_start",

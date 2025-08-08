@@ -39,6 +39,6 @@ public class ScreenRotation extends BaseHook {
             }
         });
 
-        mResHook.setObjectReplacement("android", "bool", "config_allowAllRotations", mPrefsMap.getBoolean("system_framework_screen_all_rotations"));
+        setObjectReplacement("android", "bool", "config_allowAllRotations", mPrefsMap.getBoolean("system_framework_screen_all_rotations"));
     }
 }

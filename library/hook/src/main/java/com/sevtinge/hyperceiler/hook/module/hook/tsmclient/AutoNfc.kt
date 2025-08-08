@@ -68,13 +68,13 @@ object AutoNfc : BaseHook() {
             }
         })
 
-        mResHook.setResReplacement(
+        setResReplacement(
             "com.miui.tsmclient",
             "string",
             "nfc_off_hint",
             R.string.tsmclient_nfc_turning_on
         )
-        mResHook.setResReplacement(
+        setResReplacement(
             "com.miui.tsmclient",
             "string",
             "immediately_open",

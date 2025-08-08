@@ -143,8 +143,8 @@ object DisableAppInfoUpload : BaseHook() {
             }
         }
 
-        mResHook.setResReplacement("com.miui.packageinstaller", "layout", "layout_network_error", R.layout.replacement_empty)
-        mResHook.setResReplacement("com.miui.packageinstaller", "layout", "safe_mode_layout_network_error", R.layout.replacement_empty)
+        setResReplacement("com.miui.packageinstaller", "layout", "layout_network_error", R.layout.replacement_empty)
+        setResReplacement("com.miui.packageinstaller", "layout", "safe_mode_layout_network_error", R.layout.replacement_empty)
     }
 
     private fun logD(prefix: String, list:  List<Method>) {

@@ -24,12 +24,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 
 object NewNetworkSpeedStyle : BaseHook() {
-    private val viewInitedTag = ResourcesTool.getFakeResId("view_inited_tag")
+    private val viewInitedTag = getFakeResId("view_inited_tag")
 
     private val fixedWidth by lazy {
         mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10)

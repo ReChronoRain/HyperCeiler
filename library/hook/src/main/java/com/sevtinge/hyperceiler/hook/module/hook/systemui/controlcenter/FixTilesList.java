@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 public class FixTilesList extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        mResHook.setResReplacement("com.android.systemui", "string", "miui_quick_settings_tiles_stock", R.string.miui_quick_settings_tiles_stock);
-        mResHook.setResReplacement("com.android.systemui", "string", "miui_quick_settings_tiles_stock_pad", R.string.miui_quick_settings_tiles_stock_pad);
+        setResReplacement("com.android.systemui", "string", "miui_quick_settings_tiles_stock", R.string.miui_quick_settings_tiles_stock);
+        setResReplacement("com.android.systemui", "string", "miui_quick_settings_tiles_stock_pad", R.string.miui_quick_settings_tiles_stock_pad);
     }
 }

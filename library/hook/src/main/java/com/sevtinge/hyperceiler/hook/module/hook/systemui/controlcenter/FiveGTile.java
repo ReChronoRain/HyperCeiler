@@ -25,6 +25,7 @@ import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.ContentObserver;
@@ -38,7 +39,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.hook.R;
-import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool;
+import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool;
 import com.sevtinge.hyperceiler.hook.utils.TileUtils;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.TelephonyManager;
@@ -62,7 +63,7 @@ public class FiveGTile extends TileUtils {
                     "com.android.systemui.statusbar.policy.MiuiFiveGServiceClient", "update5GIcon",
                     new MethodHook() {
                         @Override
-                        protected void after(MethodHookParam param) {
+                        protected void after(MethodHookParam param) throws PackageManager.NameNotFoundException {
                             if (TelephonyManager.getDefault().isFiveGCapable() && !isInitFinished[0]) {
                                 initStyle3();
                                 isInitFinished[0] = true;
@@ -77,8 +78,8 @@ public class FiveGTile extends TileUtils {
         super.init();
     }
 
-    private void initStyle3() {
-        Resources modRes = ResourcesTool.loadModuleRes(getAppContext());
+    private void initStyle3() throws PackageManager.NameNotFoundException {
+        Resources modRes = OtherTool.getModuleRes(getAppContext());
         String fiveG = modRes.getString(customRes());
 
         String detailContentClzName = "com.android.systemui.qs.QSDetailContent";

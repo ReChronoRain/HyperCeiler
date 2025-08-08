@@ -25,8 +25,8 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 public class WidgetBlurOpt extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        mResHook.setResReplacement("com.miui.personalassistant", "color", "pa_widget_blur_color_lab", R.color.pa_widget_blur_color_lab);
-        mResHook.setResReplacement("com.miui.personalassistant", "color", "pa_widget_blur_color_linear_light", R.color.pa_widget_blur_color_linear_light);
-        mResHook.setResReplacement("com.miui.personalassistant", "color", "pa_widget_blur_color_src_over", R.color.pa_widget_blur_color_src_over);
+        setResReplacement("com.miui.personalassistant", "color", "pa_widget_blur_color_lab", R.color.pa_widget_blur_color_lab);
+        setResReplacement("com.miui.personalassistant", "color", "pa_widget_blur_color_linear_light", R.color.pa_widget_blur_color_linear_light);
+        setResReplacement("com.miui.personalassistant", "color", "pa_widget_blur_color_src_over", R.color.pa_widget_blur_color_src_over);
     }
 }

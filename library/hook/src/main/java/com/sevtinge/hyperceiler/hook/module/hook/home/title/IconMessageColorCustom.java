@@ -24,6 +24,6 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 public class IconMessageColorCustom extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        mResHook.setObjectReplacement("com.miui.home", "color", "icon_notification_message_bg_color", mPrefsMap.getInt("home_title_notif_color_picker", -1));
+        setObjectReplacement("com.miui.home", "color", "icon_notification_message_bg_color", mPrefsMap.getInt("home_title_notif_color_picker", -1));
     }
 }

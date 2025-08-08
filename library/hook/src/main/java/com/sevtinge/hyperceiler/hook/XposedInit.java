@@ -33,6 +33,7 @@ import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mPrefsMap;
 import android.os.Process;
 
 import com.hchen.hooktool.HCInit;
+import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.module.app.VariousThirdApps;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool;
@@ -69,10 +70,6 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
-        // load ResourcesTool
-        mResHook = new ResourcesTool(startupParam.modulePath);
-        mModulePath = startupParam.modulePath;
-        // mXmlTool = new XmlTool(startupParam);
         // load New XSPrefs
         setXSharedPrefs();
 
@@ -82,11 +79,19 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
         // load HCInit
         HCInit.initBasicData(new HCInit.BasicData()
-                .setModulePackageName(BuildConfig.APP_MODULE_ID)
-                .setLogLevel(LogManager.getLogLevel())
-                .setTag("HyperCeiler")
+            .setModulePackageName(BuildConfig.APP_MODULE_ID)
+            .setLogLevel(LogManager.getLogLevel())
+            .setTag("HyperCeiler")
         );
         HCInit.initStartupParam(startupParam);
+
+        // get module path
+        mModulePath = startupParam.modulePath;
+        // mXmlTool = new XmlTool(startupParam);
+        // load ResourcesTool
+        if (!PrefsUtils.mPrefsMap.getBoolean("module_settings_reshook_new")) {
+            mResHook = new ResourcesTool(startupParam.modulePath);
+        }
 
         // load ZygoteHook
         // new BackgroundBlurDrawable().initZygote(startupParam); 留档
@@ -101,6 +106,10 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
         // load CorePatch
         new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
+        // load ResourcesTool
+        if (PrefsUtils.mPrefsMap.getBoolean("module_settings_reshook_new")) {
+            ResInjectTool.injectModuleRes();
+        }
         // load Module hook apps
         init(lpparam);
     }

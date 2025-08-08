@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hook.utils.log;
 
+import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isCanary;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getSerial;
 import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mPrefsMap;
 import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mSharedPreferences;
@@ -25,9 +26,7 @@ import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
 
 import android.util.Log;
 
-import com.sevtinge.hyperceiler.hook.BuildConfig;
 import com.sevtinge.hyperceiler.hook.utils.PropUtils;
-import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -52,13 +51,13 @@ public class LogManager {
 
     public static void setLogLevel() {
         int logLevel = Integer.parseInt(mSharedPreferences.getString("prefs_key_log_level", "3"));
-        int effectiveLogLevel = ProjectApi.isCanary() ? (logLevel != 3 && logLevel != 4 ? 3 : logLevel) : logLevel;
+        int effectiveLogLevel = isCanary() ? (logLevel != 3 && logLevel != 4 ? 3 : logLevel) : logLevel;
         PropUtils.setProp(PROP_HYPERCEILER_LOG_LEVEL, effectiveLogLevel);
     }
 
     public static int getLogLevel() {
         int level = mPrefsMap.getStringAsInt("log_level", 3);
-        return BuildConfig.BUILD_TYPE.equals("canary") ? (level != 3 && level != 4 ? 3 : level) : level;
+        return isCanary() ? (level != 3 && level != 4 ? 3 : level) : level;
     }
 
     public static String logLevelDesc() {

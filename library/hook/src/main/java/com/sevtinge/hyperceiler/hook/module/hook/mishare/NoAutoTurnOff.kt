@@ -282,7 +282,7 @@ object NoAutoTurnOff : BaseHook() {
                         null
                 }
             }
-            mResHook.setResReplacement("com.miui.mishare.connectivity", "string", "switch_mode_all", R.string.mishare_hook_switch_mode_all)
+            setResReplacement("com.miui.mishare.connectivity", "string", "switch_mode_all", R.string.mishare_hook_switch_mode_all)
         }
     }
 }

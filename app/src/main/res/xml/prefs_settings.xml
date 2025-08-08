@@ -70,7 +70,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_bug_title">
-
         <Preference
             android:fragment="com.sevtinge.hyperceiler.main.page.settings.SafeModeFragment"
             android:key="prefs_key_safe_mode"
@@ -89,6 +88,15 @@
             android:fragment="com.sevtinge.hyperceiler.main.page.settings.development.DevelopmentFragment"
             android:key="prefs_key_development"
             android:title="@string/development" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/experimental_features">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_module_settings_reshook_new"
+            android:summary="@string/experimental_reshook_new_desc"
+            android:title="@string/experimental_reshook_new" />
 
     </PreferenceCategory>
 

@@ -39,7 +39,7 @@ public class MoreVpnTypes extends BaseHook {
         if (isMoreAndroidVersion(35)) {
             setStaticObjectField(findClassIfExists("com.android.settings.vpn2.MiuiVpnEditFragment"), "VPN_TYPES", List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
             setStaticObjectField(findClassIfExists("com.android.settings.vpn2.ConfigDialog"), "VPN_TYPES", List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
-            mResHook.setResReplacement("com.android.settings", "array", "vpn_types", R.array.hook_system_settings_vpn_types);
+            setResReplacement("com.android.settings", "array", "vpn_types", R.array.hook_system_settings_vpn_types);
         }
     }
 }
