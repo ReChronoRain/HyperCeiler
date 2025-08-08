@@ -29,7 +29,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoCollapse;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoSEffSwitchForSystemUi;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.DisableTransparent;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.NotificationFix;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.StatusBarActions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.StickyFloatingWindowsForSystemUI;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UiLockApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnimportantNotification;
@@ -109,6 +108,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.network.Netw
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.network.NewNetworkSpeed;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.network.NewNetworkSpeedStyle;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.strongtoast.HideStrongToast;
+import com.sevtinge.hyperceiler.hook.module.skip.StatusBarActions;
 
 @HookBase(targetPackage = "com.android.systemui", isPad = 1, targetSdk = 35)
 public class SystemUIV extends BaseModule {

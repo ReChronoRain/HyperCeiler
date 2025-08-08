@@ -28,7 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
-import com.sevtinge.hyperceiler.hook.module.hook.GlobalActions;
+import com.sevtinge.hyperceiler.hook.module.skip.GlobalActions;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefType;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsChangeObserver;

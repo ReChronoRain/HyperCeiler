@@ -23,7 +23,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
-import com.sevtinge.hyperceiler.hook.module.hook.GlobalActions;
+import com.sevtinge.hyperceiler.hook.module.skip.GlobalActions;
 
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;

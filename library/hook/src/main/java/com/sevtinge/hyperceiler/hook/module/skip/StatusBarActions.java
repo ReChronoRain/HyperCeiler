@@ -16,9 +16,7 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.hook.module.hook.systemui;
-
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+package com.sevtinge.hyperceiler.hook.module.skip;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -27,30 +25,48 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.os.Binder;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Process;
 import android.view.View;
+
+import androidx.core.content.ContextCompat;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
+// com.android.systemui
 public class StatusBarActions extends BaseHook {
 
-    Class<?> mStatusBarClass;
+    // 统一常量管理
+    static final class StatusBarActionConstants {
+        static final String ACTION_OPEN_NOTIFICATION_CENTER = ACTION_PREFIX + "OpenNotificationCenter";
+        static final String ACTION_EXPAND_SETTINGS = ACTION_PREFIX + "ExpandSettings";
+        static final String ACTION_OPEN_RECENTS = ACTION_PREFIX + "OpenRecents";
+        static final String ACTION_OPEN_VOLUME_DIALOG = ACTION_PREFIX + "OpenVolumeDialog";
+        static final String ACTION_TOGGLE_GPS = ACTION_PREFIX + "ToggleGPS";
+        static final String ACTION_TOGGLE_HOTSPOT = ACTION_PREFIX + "ToggleHotspot";
+        static final String ACTION_TOGGLE_FLASHLIGHT = ACTION_PREFIX + "ToggleFlashlight";
+        static final String ACTION_SHOW_QUICK_RECENTS = ACTION_PREFIX + "ShowQuickRecents";
+        static final String ACTION_HIDE_QUICK_RECENTS = ACTION_PREFIX + "HideQuickRecents";
+        static final String ACTION_CLEAR_MEMORY = ACTION_PREFIX + "ClearMemory";
+        static final String ACTION_COLLECT_XPOSED_LOG = ACTION_PREFIX + "CollectXposedLog";
+        static final String ACTION_RESTART_LAUNCHER = ACTION_PREFIX + "RestartLauncher";
+        static final String ACTION_COPY_TO_EXTERNAL = ACTION_PREFIX + "CopyToExternal";
+        static final String ACTION_RESTART_SYSTEM_UI = ACTION_PREFIX + "RestartSystemUI";
+
+        static final String INTENT_CLEAR_MEMORY = "com.android.systemui.taskmanager.Clear";
+        static final String INTENT_SYSTEM_ACTION_RECENTS = "SYSTEM_ACTION_RECENTS";
+        static final String INTENT_SYSTEMUI_PACKAGE = "com.android.systemui";
+        static final String EXTRA_SHOW_TOAST = "show_toast";
+        static final String EXTRA_EXPAND_ONLY = "expand_only";
+        private StatusBarActionConstants() {}
+    }
     public static Object mStatusBar = null;
 
     @Override
     public void init() {
-
-        if (isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU)) {
-            mStatusBarClass = findClassIfExists("com.android.systemui.statusbar.phone.CentralSurfacesImpl");
-        } else {
-            mStatusBarClass = findClassIfExists("com.android.systemui.statusbar.phone.StatusBar");
-        }
-
         setupStatusBarAction();
         setupRestartSystemUIAction();
     }
@@ -58,30 +74,30 @@ public class StatusBarActions extends BaseHook {
     // StatusBarActions
     public void setupStatusBarAction() {
 
-        findAndHookMethod(mStatusBarClass, "start", new MethodHook() {
+        findAndHookMethod("com.android.systemui.statusbar.phone.CentralSurfacesImpl", "start", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) {
                 mStatusBar = param.thisObject;
                 Context mStatusBarContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 IntentFilter intentfilter = new IntentFilter();
 
-                intentfilter.addAction(ACTION_PREFIX + "OpenNotificationCenter");
-                intentfilter.addAction(ACTION_PREFIX + "ExpandSettings");
-                intentfilter.addAction(ACTION_PREFIX + "OpenRecents");
-                intentfilter.addAction(ACTION_PREFIX + "OpenVolumeDialog");
+                intentfilter.addAction(StatusBarActionConstants.ACTION_OPEN_NOTIFICATION_CENTER);
+                intentfilter.addAction(StatusBarActionConstants.ACTION_EXPAND_SETTINGS);
+                intentfilter.addAction(StatusBarActionConstants.ACTION_OPEN_RECENTS);
+                intentfilter.addAction(StatusBarActionConstants.ACTION_OPEN_VOLUME_DIALOG);
 
-                intentfilter.addAction(ACTION_PREFIX + "ToggleGPS");
-                intentfilter.addAction(ACTION_PREFIX + "ToggleHotspot");
-                intentfilter.addAction(ACTION_PREFIX + "ToggleFlashlight");
-                intentfilter.addAction(ACTION_PREFIX + "ShowQuickRecents");
-                intentfilter.addAction(ACTION_PREFIX + "HideQuickRecents");
+                intentfilter.addAction(StatusBarActionConstants.ACTION_TOGGLE_GPS);
+                intentfilter.addAction(StatusBarActionConstants.ACTION_TOGGLE_HOTSPOT);
+                intentfilter.addAction(StatusBarActionConstants.ACTION_TOGGLE_FLASHLIGHT);
+                intentfilter.addAction(StatusBarActionConstants.ACTION_SHOW_QUICK_RECENTS);
+                intentfilter.addAction(StatusBarActionConstants.ACTION_HIDE_QUICK_RECENTS);
 
-                intentfilter.addAction(ACTION_PREFIX + "ClearMemory");
-                intentfilter.addAction(ACTION_PREFIX + "CollectXposedLog");
-                intentfilter.addAction(ACTION_PREFIX + "RestartLauncher");
-                intentfilter.addAction(ACTION_PREFIX + "CopyToExternal");
+                intentfilter.addAction(StatusBarActionConstants.ACTION_CLEAR_MEMORY);
+                intentfilter.addAction(StatusBarActionConstants.ACTION_COLLECT_XPOSED_LOG);
+                intentfilter.addAction(StatusBarActionConstants.ACTION_RESTART_LAUNCHER);
+                intentfilter.addAction(StatusBarActionConstants.ACTION_COPY_TO_EXTERNAL);
 
-                mStatusBarContext.registerReceiver(mStatusBarReceiver, intentfilter);
+                ContextCompat.registerReceiver(mStatusBarContext, mStatusBarReceiver, intentfilter, ContextCompat.RECEIVER_NOT_EXPORTED);
             }
         });
     }
@@ -95,26 +111,26 @@ public class StatusBarActions extends BaseHook {
             if (action == null) return;
 
             switch (action) {
-                case ACTION_PREFIX + "ClearMemory" -> {
-                    Intent clearIntent = new Intent("com.android.systemui.taskmanager.Clear");
-                    clearIntent.putExtra("show_toast", true);
+                case StatusBarActionConstants.ACTION_CLEAR_MEMORY -> {
+                    Intent clearIntent = new Intent(StatusBarActionConstants.INTENT_CLEAR_MEMORY);
+                    clearIntent.putExtra(StatusBarActionConstants.EXTRA_SHOW_TOAST, true);
                     // clearIntent.putExtra("clean_type", -1);
                     context.sendBroadcast(clearIntent);
                 }
-                case ACTION_PREFIX + "OpenRecents" -> {
-                    Intent recentIntent = new Intent("SYSTEM_ACTION_RECENTS");
-                    recentIntent.setPackage("com.android.systemui");
+                case StatusBarActionConstants.ACTION_OPEN_RECENTS -> {
+                    Intent recentIntent = new Intent(StatusBarActionConstants.INTENT_SYSTEM_ACTION_RECENTS);
+                    recentIntent.setPackage(StatusBarActionConstants.INTENT_SYSTEMUI_PACKAGE);
                     context.sendBroadcast(recentIntent);
                 }
 
-                case ACTION_PREFIX + "OpenVolumeDialog" -> OpenVolumeDialogs(context);
+                case StatusBarActionConstants.ACTION_OPEN_VOLUME_DIALOG -> OpenVolumeDialogs(context);
 
-                case ACTION_PREFIX + "OpenNotificationCenter" -> {
+                case StatusBarActionConstants.ACTION_OPEN_NOTIFICATION_CENTER -> {
                     try {
                         Object mNotificationPanel = XposedHelpers.getObjectField(mStatusBar, "mNotificationPanel");
                         boolean mPanelExpanded = (boolean) XposedHelpers.getObjectField(mNotificationPanel, "mPanelExpanded");
                         boolean mQsExpanded = (boolean) XposedHelpers.getObjectField(mNotificationPanel, "mQsExpanded");
-                        boolean expandOnly = intent.getBooleanExtra("expand_only", false);
+                        boolean expandOnly = intent.getBooleanExtra(StatusBarActionConstants.EXTRA_EXPAND_ONLY, false);
                         if (mPanelExpanded) {
                             if (!expandOnly) {
                                 if (mQsExpanded) {
@@ -181,16 +197,15 @@ public class StatusBarActions extends BaseHook {
     }
 
     public void setupRestartSystemUIAction() {
-        if (mStatusBarClass == null) return;
-        findAndHookMethod(mStatusBarClass, "start", new MethodHook() {
+        findAndHookMethod("com.android.systemui.statusbar.phone.CentralSurfacesImpl", "start", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) {
                 mStatusBar = param.thisObject;
                 Context mStatusBarContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 IntentFilter intentfilter = new IntentFilter();
 
-                intentfilter.addAction(ACTION_PREFIX + "RestartSystemUI");
-                mStatusBarContext.registerReceiver(mRestartSystemUIReceiver, intentfilter);
+                intentfilter.addAction(StatusBarActionConstants.ACTION_RESTART_SYSTEM_UI);
+                ContextCompat.registerReceiver(mStatusBarContext, mRestartSystemUIReceiver, intentfilter, ContextCompat.RECEIVER_NOT_EXPORTED);
             }
         });
     }
@@ -200,7 +215,7 @@ public class StatusBarActions extends BaseHook {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action == null) return;
-            if (action.equals(ACTION_PREFIX + "RestartSystemUI")) {
+            if (action.equals(StatusBarActionConstants.ACTION_RESTART_SYSTEM_UI)) {
                 Process.sendSignal(Process.myPid(), Process.SIGNAL_KILL);
             }
         }

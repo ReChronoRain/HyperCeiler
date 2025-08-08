@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.hook.module.hook;
+package com.sevtinge.hyperceiler.hook.module.skip;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -39,9 +39,9 @@ import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
+// android
 @SuppressLint("UnspecifiedRegisterReceiverFlag")
 public class GlobalActions extends BaseHook {
-
 
     @Override
     public void init() {
@@ -51,7 +51,6 @@ public class GlobalActions extends BaseHook {
 
     // 统一常量管理
     static final class GlobalActionConstants {
-        static final String ACTION_PREFIX = "com.sevtinge.hyperceiler.action.";
         static final String ACTION_TOGGLE_COLOR_INVERSION = ACTION_PREFIX + "ToggleColorInversion";
         static final String ACTION_LOCK_SCREEN = ACTION_PREFIX + "LockScreen";
         static final String ACTION_GO_TO_SLEEP = ACTION_PREFIX + "GoToSleep";

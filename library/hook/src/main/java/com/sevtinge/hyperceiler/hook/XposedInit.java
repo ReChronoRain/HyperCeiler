@@ -106,34 +106,27 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
         // load CorePatch
         new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
-        // load ResourcesTool
-        if (PrefsUtils.mPrefsMap.getBoolean("module_settings_reshook_new")) {
-            ResInjectTool.injectModuleRes();
-        }
         // load Module hook apps
         init(lpparam);
     }
 
     private void setXSharedPrefs() {
         if (mPrefsMap.isEmpty()) {
-            XSharedPreferences mXSharedPreferences;
             try {
-                mXSharedPreferences = new XSharedPreferences(ProjectApi.mAppModulePkg, PrefsUtils.mPrefsName);
+                XSharedPreferences mXSharedPreferences = new XSharedPreferences(ProjectApi.mAppModulePkg, PrefsUtils.mPrefsName);
                 mXSharedPreferences.makeWorldReadable();
                 Map<String, ?> allPrefs = mXSharedPreferences.getAll();
+
+                if (allPrefs == null || allPrefs.isEmpty()) {
+                    mXSharedPreferences = new XSharedPreferences(new File(PrefsUtils.mPrefsFile));
+                    mXSharedPreferences.makeWorldReadable();
+                    allPrefs = mXSharedPreferences.getAll();
+                }
 
                 if (allPrefs != null && !allPrefs.isEmpty()) {
                     mPrefsMap.putAll(allPrefs);
                 } else {
-                    mXSharedPreferences = new XSharedPreferences(new File(PrefsUtils.mPrefsFile));
-                    mXSharedPreferences.makeWorldReadable();
-                    allPrefs = mXSharedPreferences.getAll();
-
-                    if (allPrefs != null && !allPrefs.isEmpty()) {
-                        mPrefsMap.putAll(allPrefs);
-                    } else {
-                        logE("[UID" + Process.myUid() + "]", "Cannot read SharedPreferences, some mods might not work!");
-                    }
+                    logE("[UID" + Process.myUid() + "]", "Cannot read SharedPreferences, some mods might not work!");
                 }
             } catch (Throwable t) {
                 logE("setXSharedPrefs", t);
@@ -152,6 +145,11 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
             logI(packageName, "androidVersion = " + getAndroidVersion() + ", hyperosVersion = " + getHyperOSVersion());
         else
             logI(packageName, "versionName = " + getPackageVersionName(lpparam) + ", versionCode = " + getPackageVersionCode(lpparam));
+
+        // load ResourcesTool
+        if (PrefsUtils.mPrefsMap.getBoolean("module_settings_reshook_new")) {
+            ResInjectTool.injectModuleRes();
+        }
 
         invokeInit(lpparam);
         androidCrashEventHook(lpparam);

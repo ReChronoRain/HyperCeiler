@@ -25,11 +25,13 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.RadioButtonPreference;
 
@@ -106,7 +108,7 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
         } else {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
             intent.putExtra("mode", AppPickerFragment.CALLBACK_MODE);
-            startActivityForResult(intent, 0);
+            appPickerLauncher.launch(intent);
         }
         return true;
     }
@@ -173,14 +175,14 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
         return null;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 1) {
-            String mAppPackageName = data.getStringExtra("appPackageName");
-            String mAppActivityName = data.getStringExtra("appActivityName");
-            PrefsUtils.mSharedPreferences.edit().putString(mKey + "_app", mAppPackageName + "|" + mAppActivityName).apply();
-            updateAppSelectorTitle();
-        }
-    }
+    private final ActivityResultLauncher<Intent> appPickerLauncher =
+        registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == 1 && result.getData() != null) {
+                Intent data = result.getData();
+                String mAppPackageName = data.getStringExtra("appPackageName");
+                String mAppActivityName = data.getStringExtra("appActivityName");
+                getSharedPreferences().edit().putString(mKey + "_app", mAppPackageName + "|" + mAppActivityName).apply();
+                updateAppSelectorTitle();
+            }
+        });
 }

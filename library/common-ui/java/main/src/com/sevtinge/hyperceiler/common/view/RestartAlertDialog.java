@@ -23,7 +23,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
-import com.sevtinge.hyperceiler.hook.module.hook.GlobalActions;
+import com.sevtinge.hyperceiler.hook.module.skip.GlobalActions;
 import com.sevtinge.hyperceiler.ui.R;
 
 import java.util.Arrays;

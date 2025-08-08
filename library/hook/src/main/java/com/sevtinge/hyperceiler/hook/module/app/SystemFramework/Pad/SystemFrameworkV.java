@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.hook.module.app.SystemFramework.Pad;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.GlobalActions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowAutoStart;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowDisableProtectedPackage;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowManageAllNotifications;
@@ -89,6 +88,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeFi
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.various.NoAccessDeviceLogsRequest;
+import com.sevtinge.hyperceiler.hook.module.skip.GlobalActions;
 
 @HookBase(targetPackage = "android", isPad = 1, targetSdk = 35)
 public class SystemFrameworkV extends BaseModule {
@@ -168,7 +168,7 @@ public class SystemFrameworkV extends BaseModule {
 
         // Other
         initHook(new PackagePermissions(), true);
-        initHook(new GlobalActions(), mLoadPackageParam.processName.equals("android"));
+        initHook(new GlobalActions(), true);
         initHook(new ThermalBrightness(), mPrefsMap.getBoolean("system_framework_other_thermal_brightness"));
         initHook(DisableCleaner.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_cleaner"));
         initHook(DisableGestureMonitor.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_gesture_monitor"));
