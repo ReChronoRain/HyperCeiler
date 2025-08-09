@@ -61,6 +61,9 @@
     <string name="start_failed">アクティビティの開始に失敗しました。HyperCeiler に root/su 権限を付与しているか確認してください。</string>
     <string name="pid_failed">対象のアプリは現在実行されていないため、再起動する必要はありません。</string>
     <string name="reboot_failed">再起動に失敗しました。HyperCeiler に root/su 権限が付与されているか確認してください。</string>
+    <string name="experimental_features">実験的な機能</string>
+    <string name="experimental_reshook_new">新しいリソースフックを有効化</string>
+    <string name="experimental_reshook_new_desc">新しいバージョンのリソースフックでは、リソースインジェクションのパフォーマンスが向上していますが、いくつかの問題が発生する可能性があります。これはテスト目的のみです。\nこの機能をオンまたはオフにするには、デバイスを再起動する必要があります。</string>
     <!--HyperCeiler Tips-->
     <string name="error">エラー</string>
     <string name="warn">警告</string>
