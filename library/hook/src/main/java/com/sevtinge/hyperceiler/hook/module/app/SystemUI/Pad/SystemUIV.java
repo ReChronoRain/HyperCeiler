@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.app.SystemUI.Pad;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ToastBlur;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.ToastBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AllowManageAllNotifications;
