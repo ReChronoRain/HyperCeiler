@@ -22,7 +22,7 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperO
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ToastBlur;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.ToastBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AllowManageAllNotifications;
