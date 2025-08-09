@@ -22,7 +22,7 @@
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">デバイスの内部ストレージ上のファイルを追加および削除</string>
     <string name="new_permission_location_desc">緯度や経度などのサービスを提供するために使用</string>
-    <string name="new_cta_agree_desc">使用中、より多くの機能を提供するために root/su 権限の許可を求める場合があります。アクセス許可の管理に移動すると、いつでもすべてのアクセス許可を変更できます。root/su 権限については、お使いの root/su マネージャーにアクセスして変更してください。</string>
+    <string name="new_cta_agree_desc">使用中により多くの機能を提供するために Root/Su 権限の許可を求める場合があります。権限管理からいつでも権限の許可状況を調整できます。お使いの Root/Su マネージャーにアクセスして Root/Su 権限を付与してください。</string>
     <string name="new_cta_app_main_purpose">システムアプリの変更</string>
     <string name="new_cta_app_all_purpose_title">HyperCeiler へようこそ！このアプリは Xposed フレームワークを使用して動作します。このアプリを使用すると、対応アプリを乗っ取ったり改変したりしてシステムを強化することができます。使用中により多くの機能を提供するために Root/Su 権限の許可を求める場合があります。お使いの Root/Su マネージャーにアクセスして許可してください。</string>
     <!--HyperCeiler Settings/About Page-->
@@ -171,6 +171,7 @@
     <string name="miuix_alphabet_indexer_name">インデックスバー</string>
     <string name="miuix_appcompat_action_mode_cancel">キャンセル</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">消去</string>
+    <string name="miuix_preference_text_hint">範囲：%1$s ~ %2$s、デフォルト値：%3$s</string>
     <string name="miuix_appcompat_color_erro_entry">無効な値です。確認して再入力してください。</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">透過</string>
     <string name="miuix_appcompat_color_picker_custom_color">カスタムカラー</string>
@@ -346,7 +347,7 @@
     <string name="system_framework_freeform_recents_to_small_freeform_desc">最近のタスクですべてのフリーフォームをミニフリーフォームにします。この機能は実験的なもので非常に不安定です。</string>
     <string name="system_framework_freeform_jump">別のアプリに移動したときにフリーフォームで開く</string>
     <string name="system_framework_freeform_foreground_pin">スモールウィンドウを強制的に前面化</string>
-    <string name="system_framework_freeform_title_desc">以下の選択したアクション時に、他のアプリに移動する必要がある場合はフリーフォームを使用して開きます</string>
+    <string name="system_framework_freeform_title_desc">以下のシナリオでは、他のアプリに移動する必要がある場合、フリーフォームを使用して開きます。</string>
     <string name="system_framework_freeform_content_extension_desc">リンクのみ対応</string>
     <string name="system_framework_default_volume_stream">デフォルトで音量を調整</string>
     <string name="system_framework_volume_first_press">即座な音量調整</string>
@@ -368,7 +369,7 @@
     <string name="phone_n28">n28 バンド</string>
     <string name="phone_n28_desc">n28 バンド (NR) 対応を有効化します</string>
     <string name="phone_n5_n8">n5/n8 バンド</string>
-    <string name="phone_n5_n8_desc">電話アプリで *#*#65686633#*#* と入力して n5/n8 バンド対応を有効化できるようにします。「N5とN8モードを有効化しました」と表示されれば、機能は正常に有効になっています</string>
+    <string name="phone_n5_n8_desc">電話アプリで *#*#65686633#*#* と入力して N5/N8 バンドの対応を有効にします。「N5およびN8モードを有効にします」と表示されれば、アクティベートは成功です。</string>
     <string name="phone_flightmode_hotspot">機内モードでポータブルホットスポットを許可</string>
     <string name="phone_flightmode_hotspot_desc">機内モード中に Wi-Fi ポータブルホットスポットの有効化を許可します</string>
     <string name="phone_additional_network_settings">追加のネットワーク設定</string>
@@ -400,11 +401,11 @@
     <string name="system_other_flag_secure">スクリーンショットを許可</string>
     <string name="system_other_flag_secure_desc">あらゆるアプリでのスクリーンショットや画面録画を許可します</string>
     <string name="system_other_delete_on_post_notification">オーバーレイアプリの通知を無効化</string>
-    <string name="system_other_delete_on_post_notification_desc">「他のアプリの上に表示されています」の通知を無効化します</string>
+    <string name="system_other_delete_on_post_notification_desc">「他のアプリの上に表示されています」の通知を削除</string>
     <string name="system_framework_share_menu_test">共有メニューをテスト</string>
     <string name="system_framework_open_with_menu_test">「アプリで開く」メニューのテスト</string>
     <string name="system_framework_other_speed_install">スピードインストール</string>
-    <string name="system_framework_other_speed_install_desc">インストール速度を上げるためにメモリへインストールします</string>
+    <string name="system_framework_other_speed_install_desc">インストールを高速化するために RAM を使用します。システムコアのサポートが必要です。</string>
     <string name="system_framework_other_rotation_button">画面の回転の提案</string>
     <string name="system_framework_other_thermal_brightness">自動的な明るさ制限を無効化</string>
     <string name="system_framework_other_thermal_brightness_more">高温時でも明るさを減少させないようにします</string>
@@ -415,7 +416,7 @@
     <string name="system_framework_enhance_recents_visibility_desc">システムによって非表示になっている「最近使ったアプリ」画面を再び表示する</string>
     <string name="system_framework_enhance_recents_visibility">最近のタスクを強化する</string>
     <string name="system_framework_other_disable_gesture_monitor">ジェスチャの監視を無効にする</string>
-    <string name="system_framework_other_disable_gesture_monitor_desc">CPU 負荷は軽減されますが、3 本指のスクリーンショットなどの入力関連の機能は機能しません</string>
+    <string name="system_framework_other_disable_gesture_monitor_desc">CPU 負荷は軽減されますが、3 本指のスクリーンショットなどの入力関連機能やジェスチャーショートカット機能は機能しません。</string>
     <string name="system_framework_disable_72h_verify">72時間ごとのロック画面の認証を無効化</string>
     <string name="system_framework_disable_verify_can_ve_disabled">アプリ検証の無効化を許可</string>
     <string name="system_framework_allow_all_dark_mode">すべてのアプリにダークモードの使用を許可</string>
@@ -430,38 +431,38 @@
     <string name="system_framework_disable_link_turbo_toast">LinkTurbo トーストを隠す</string>
     <string name="system_framework_allow_third_theme">サードパーティテーマの使用を許可</string>
     <string name="system_framework_allow_disable_protected_package">保護されたアプリの無効化を許可</string>
-    <string name="system_framework_disable_miui_watermark">グローバルの透かしを無効化する</string>
-    <string name="system_framework_bypass_unknown_sources_restrictions">不明なソースの制限を回避する</string>
+    <string name="system_framework_disable_miui_watermark">全画面の透かしを無効化</string>
+    <string name="system_framework_bypass_unknown_sources_restrictions">すべてのアプリに対して不明なアプリのインストールを許可</string>
     <string name="system_framework_bypass_force_mi_appstore">App Store にリダイレクトする際にサードパーティのアプリを選択できるようにする</string>
     <string name="system_framework_market_use_detailmini">GetApps を起動する際に常にフローティングウィンドウで開く</string>
     <string name="system_framework_market_use_detailmini_desc">appClientId を使用せずにアプリが GetApps 内の他のアプリの詳細ページにリダイレクトすることを妨げる制限を削除します。</string>
-    <string name="system_framework_bypass_force_downloadui">ダウンロードのリダイレクトを修正する</string>
+    <string name="system_framework_bypass_force_downloadui">ダウンロードのリダイレクトを修正</string>
     <string name="system_framework_bypass_force_downloadui_desc">Quick Share で「ダウンロードを表示」をクリックした時に誤ったリダイレクトが発生する問題を修正する</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">パッケージマネージャーサービス</string>
-    <string name="system_framework_core_patch_downgr">ダウングレードを許可</string>
-    <string name="system_framework_core_patch_downgr_desc">アプリのダウングレードを許可します</string>
-    <string name="system_framework_core_patch_auth_creak">ダイジェスト認証を無効にする</string>
+    <string name="system_framework_core_patch_downgr">アプリのダウングレードを許可</string>
+    <string name="system_framework_core_patch_downgr_desc">アプリのバージョンが上位の場合、アプリのダウングレードを許可する</string>
+    <string name="system_framework_core_patch_auth_creak">ダイジェスト検証を無効化</string>
     <string name="system_framework_core_patch_auth_creak_desc">アプリのインストール時の署名検証を無効にします。改変されたアプリをインストールできます。</string>
     <string name="system_framework_disable_integrity">システムの整合性チェックを無効化</string>
-    <string name="system_framework_disable_integrity_desc">改ざんされたコンテンツの自動復元を禁止します。「ダイジェスト認証を無効にする」機能をオンにすると、デフォルトで有効になります。</string>
-    <string name="system_framework_core_patch_shared_user">共有ユーザー署名検証をバイパスする</string>
+    <string name="system_framework_disable_integrity_desc">改ざんされたコンテンツの自動復元を禁止します。これは、「ダイジェスト検証を無効化」が有効になっている場合、デフォルトで有効になります。</string>
+    <string name="system_framework_core_patch_shared_user">共有ユーザー署名検証をバイパス</string>
     <string name="system_framework_core_patch_shared_user_desc">共有ユーザー署名と異なる署名を持つアプリのインストールを許可します。この機能はやや危険であるため、必要な場合にのみ有効にしてください。</string>
-    <string name="system_framework_core_patch_digest_creak">比較署名を無効にする</string>
+    <string name="system_framework_core_patch_digest_creak">APK 署名検証を無効化</string>
     <string name="system_framework_core_patch_digest_creak_desc">異なる署名を持つアプリの再インストールを許可します</string>
-    <string name="system_framework_core_patch_use_pre_signature">インストール済みの署名を使用</string>
+    <string name="system_framework_core_patch_use_pre_signature">インストール済みアプリの署名を使用</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">この機能は非常に危険であるため、絶対に必要な場合のみ有効にしてください</string>
     <string name="system_framework_disable_low_api_check">低 API チェックを無効化</string>
     <string name="system_framework_disable_low_api_check_desc">API 23 未満のアプリを許可します</string>
     <string name="system_framework_disable_persistent">常に稼働するアプリのチェックを無効化</string>
     <string name="system_framework_disable_persistent_more">システム UI などの常に稼働するアプリを直接更新できるようになります。</string>
-    <string name="system_framework_disable_verification_agent">パッケージ検証エージェントを無効化する</string>
+    <string name="system_framework_disable_verification_agent">パッケージ検証エージェントを無効化</string>
     <string name="system_framework_disable_verification_agent_desc">例: Google Play プロテクト</string>
     <string name="system_framework_use_android_package_installer">Android のパッケージインストーラーを使用する</string>
     <string name="system_framework_use_android_package_installer_desc">壊れたパッケージインストーラー API を復元します</string>
     <string name="system_framework_core_patch_bypass_isolation_violation">隔離違反をバイパス</string>
     <string name="system_framework_core_patch_bypass_isolation_violation_desc">サードパーティーのアプリでシステムアプリのインストールを許可</string>
-    <string name="system_framework_core_patch_allow_update_system_app">システムアプリの更新を許可する</string>
+    <string name="system_framework_core_patch_allow_update_system_app">システムアプリの更新を許可</string>
     <string name="system_framework_core_patch_allow_update_system_app_desc">システムアプリの更新が無効化されている場合にシステムアプリのインストールを許可</string>
     <!--Browser-->
     <string name="browser">ブラウザー</string>
@@ -512,6 +513,7 @@
     <string name="mms_disable_overseas_risk_tip">海外リスクのヒントを無効化</string>
     <string name="mms_disable_overseas_risk_tip_desc">\"海外の詐欺の可能性あり\"ヒントを無効にします</string>
     <string name="mms_im_old_device">新しいデバイスとしての識別を禁止する</string>
+    <string name="mms_verification_code_auto_copy">確認コードをクリップボードに自動的にコピー</string>
     <!--Phone Service-->
     <string name="phone">電話サービス</string>
     <string name="phone_smart_dual_sim">スマートデュアル SIM をアンロック</string>
@@ -563,8 +565,8 @@
     <string name="system_ui_lock_screen_linkage_anim_on">画面オン時のアニメーション速度</string>
     <string name="system_ui_lock_screen_linkage_anim_off">画面オフ時のアニメーション速度</string>
     <string name="system_ui_navigation_title">ナビゲーション</string>
-    <string name="system_ui_navigation_handle_title">ハンドルライン</string>
-    <string name="system_ui_navigation_handle_custom">カスタムハンドルライン</string>
+    <string name="system_ui_navigation_handle_title">ジェスチャーライン</string>
+    <string name="system_ui_navigation_handle_custom">ジェスチャーラインをカスタマイズ</string>
     <string name="system_ui_navigation_handle_custom_height">高さ</string>
     <string name="system_ui_navigation_handle_custom_width">縦向き時の幅</string>
     <string name="system_ui_navigation_handle_custom_width_land">横向き時の幅</string>
@@ -677,7 +679,7 @@
     <string name="system_ui_statusbar_network_speed_hide_all">アップリンクとダウンリンクの両方が遅いときは非表示にする</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">ネットワーク速度が遅いときは、ネットワーク速度インジケーターを非表示にします</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">低速とみなすネットワーク速度</string>
-    <string name="system_ui_statusbar_network_speed_hide_slow_desc">このレベルを下回るネットワーク速度値は低速とみなされ、別のインジケーターアイコンが表示されます（一部のアイコンのみ）</string>
+    <string name="system_ui_statusbar_network_speed_hide_slow_desc">このレベルを下回るネットワーク速度値は低速とみなされ、別のインジケーターアイコンが表示されます (一部のアイコンのみ)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">バイト毎秒の接尾辞 (*b/s) を非表示</string>
     <string name="system_ui_statusbar_network_speed_icon">インジケーターアイコン</string>
     <string name="system_ui_statusbar_clock_double_mode_title">二行の配置</string>
@@ -715,6 +717,7 @@
     <string name="system_ui_statusbar_music_cusiom_notific_title">通知バーの表示設定</string>
     <string name="system_ui_statusbar_music_show_notific_title">通知に歌詞を表示する</string>
     <string name="system_ui_statusbar_music_hide_aod_title">ロック画面にフォーカス通知を表示しない</string>
+    <string name="system_ui_statusbar_music_show_aod_mode_title">カスタムフォーカススクリーンオフレイアウトを使用</string>
     <string name="system_ui_statusbar_music_cusiom_statusbar_title">ステータスバーの表示設定</string>
     <string name="system_ui_statusbar_music_hide_clock_title">ステータスバーの時計を非表示</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">フォーカスされた歌詞を表示しているときにステータスバーの時計を非表示にする</string>
@@ -734,8 +737,8 @@
     <string name="system_ui_control_auto_close">タップ後に閉じる</string>
     <string name="system_ui_control_center_qs_bg_color">背景の色</string>
     <string name="system_ui_control_center_qs_color">アイコンの色</string>
-    <string name="system_ui_control_center_qs_open_color">小さいタイルの色のカスタマイズが有効です</string>
-    <string name="system_ui_control_center_qs_big_open_color">大きいタイルの色のカスタマイズが有効です</string>
+    <string name="system_ui_control_center_qs_open_color">小さなタイルのカスタマイズを有効化</string>
+    <string name="system_ui_control_center_qs_big_open_color">大きなタイルのカスタマイズを有効化</string>
     <string name="system_ui_control_auto_close_more">ステータスバーのタイルをタップしたとき、自動的にステータスバーを閉じるようにします</string>
     <string name="system_control_center_qs_rows">行</string>
     <string name="system_control_center_qs_rows_format">%d 行</string>
@@ -758,7 +761,23 @@
     <string name="system_ui_control_center_media_control_media_button_custom">アクションボタンのサイズをカスタマイズ</string>
     <string name="system_ui_control_center_media_control_media_button">組込みアクションボタンのサイズ</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景画像のぼかし半径</string>
-    <string name="system_ui_control_center_media_control_media_button_title">メディアボタン</string>
+    <string name="system_ui_control_center_media_control_media_background_title">メディアカバーと背景</string>
+    <string name="system_ui_control_center_media_control_background_mode">背景のスタイル</string>
+    <string name="system_ui_control_center_media_control_color_anim">カラーアニメーション</string>
+    <string name="system_ui_control_center_media_control_color_anim_desc">アニメーションを使用してテキストの色を更新</string>
+    <string name="system_ui_control_center_media_control_inverse_color">色を自動的に反転</string>
+    <string name="system_ui_control_center_media_control_media_album_mode">メディアカバー</string>
+    <string name="system_ui_control_center_media_control_media_album_mode_desc">「非表示」を選択した後、レイアウトの変更スイッチも有効にする必要があります。</string>
+    <string name="system_ui_control_center_media_control_media_button_title">メディアコントロール</string>
+    <string name="system_ui_control_center_media_control_media_button_layout_switch">レイアウトの変更を有効化</string>
+    <string name="system_ui_control_center_media_control_media_button_size_switch">フォントの変更を有効化</string>
+    <string name="system_ui_control_center_media_control_media_button_actions_left_aligned">アクションボタンを左に配置</string>
+    <string name="system_ui_control_center_media_control_media_button_hide_seamless">デバイス切り替えボタンを非表示</string>
+    <string name="system_ui_control_center_media_control_media_button_mode">メディアボタンの順序</string>
+    <string name="system_ui_control_center_media_control_title_margin">タイトルの上の余白</string>
+    <string name="system_ui_control_center_media_control_title_padding">タイトルのパディング</string>
+    <string name="system_ui_control_center_media_control_title_size">タイトルのフォントサイズ</string>
+    <string name="system_ui_control_center_media_control_artist_size">アーティストのフォントサイズ</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">メディアシークバー</string>
     <string name="system_ui_control_center_redirect_notice">通知設定をリダイレクト</string>
     <string name="system_ui_control_center_redirect_notice_desc">通知設定のメニューを開いたとき、アプリの通知設定ではなく、目的のアプリの通知チャンネルに移動します。</string>
@@ -770,6 +789,8 @@
     <string name="system_ui_control_center_mute_visible_notice">画面点灯時にミュート</string>
     <string name="system_ui_control_center_unimportant_notification">重要度の低い通知を自動的にブロック</string>
     <string name="system_ui_control_center_expand_notification">通知を展開</string>
+    <string name="system_ui_control_center_auto_clean_expand_notification">展開された通知を自動的に隠す</string>
+    <string name="system_ui_control_center_expand_notification_show_time">表示時間</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">画面が点灯している場合、ポップアップ通知はアラート音を再生しません。</string>
     <string name="system_ui_control_center_rounded_rect">丸みを帯びた長方形のタイル</string>
     <string name="system_ui_control_center_statusbar_blur">強制的に背景をぼかす</string>
@@ -789,7 +810,7 @@
     <string name="system_ui_controlcenter_enable_title">行数と列数をカスタマイズ</string>
     <string name="system_control_center_old_qs_grid_columns">折りたたまれたパネルの行数</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折りたたまれたパネル内の列数 (横画面)</string>
-    <string name="system_ui_control_center_card_tiles_customization">カスタマイズカードタイル</string>
+    <string name="system_ui_control_center_card_tiles_customization">カードタイルをカスタマイズ</string>
     <string name="system_ui_control_center_card_tiles_customization_desc">追加したカードを長押ししてドラッグすると順序を調整できます</string>
     <string name="system_ui_control_center_card_tiles_customization_add">追加済み</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">未追加</string>
@@ -852,7 +873,7 @@
     <string name="system_settings_international_build">グローバルバージョンの設定を使用</string>
     <string name="system_settings_safe_wifi">保存された Wi-Fi パスワードを表示</string>
     <string name="system_settings_safe_wifi_desc">保存したネットワークの管理を有効化します\n場所: 設定 &gt; Wi-Fi &gt; 追加設定 &gt; 保存したネットワークを管理</string>
-    <string name="system_settings_novelty_haptic_title">新しいバージョンのタッチ調整ページをアンロック</string>
+    <string name="system_settings_novelty_haptic_title">新しいバージョンの触覚フィードバックページをアンロック</string>
     <string name="system_settings_novelty_haptic_desc">サウンドとバイブレーション - 触覚フィードバックの設定があるデバイスのみ対応しています</string>
     <string name="system_settings_unlock_google_header">Google 項目をアンロック</string>
     <string name="system_settings_unlock_ui_mode">アプリのレイアウト最適化をアンロック</string>
@@ -1086,7 +1107,8 @@
     <string name="home_folder_shade_gradient">中央のみ</string>
     <string name="home_folder_shade_level_title">色彩強度</string>
     <string name="home_folder_cols_title">フォルダー配置の数</string>
-    <string name="home_folder_cols_format">%s 件のリスト</string>
+    <string name="home_folder_cols_format">%s 列</string>
+    <string name="home_folder_rows_format">%s 行</string>
     <string name="home_folder_horizontal_padding_desc">画面側の余白からのフォルダーの距離</string>
     <string name="home_folder_vertical_spacing_desc">フォルダーの水平方向の間隔</string>
     <string name="home_folder_title_pos">タイトルの位置</string>
@@ -1130,8 +1152,8 @@
     <string name="home_title_drawer_font_hidden">すべてのアプリのタイトルを隠す</string>
     <string name="home_title_drawer_font_hidden_more">ドロワー内のアプリ名も非表示になります。ドロワーにアプリ名を表示させたい場合は、フォントサイズを調整してください。</string>
     <string name="home_title_title_new_install_more">新しくアプリをインストールしたとき、アプリタイトルの横にインジケーターを表示させないようにします</string>
-    <string name="home_title_font_size">フォントのサイズ (Desktop)</string>
-    <string name="home_drawer_title_font_size">フォントのサイズ (Drawer)</string>
+    <string name="home_title_font_size">フォントサイズ (デスクトップ)</string>
+    <string name="home_drawer_title_font_size">フォントサイズ (ドロワー)</string>
     <string name="home_title_title_color">タイトルの色</string>
     <string name="home_title_animation_speed">アニメーションの速度</string>
     <string name="home_title_big_icon_corner">中程度のアイコン角丸をフォロー</string>
@@ -1151,7 +1173,7 @@
     <string name="home_title_icon_size">アイコンのサイズ</string>
     <string name="home_recent">最近のタスク</string>
     <string name="home_recent_animation_speed">アニメーションの速度</string>
-    <string name="home_recent_unlock_pin">固定アプリのロックを解除</string>
+    <string name="home_recent_unlock_pin">アプリのピン留めをアンロック</string>
     <string name="home_recent_hide_status_bar_in_task_view">最近のタスクでステータスバーを非表示</string>
     <string name="home_recent_hide_world_circulate">ミラーリング時にフローティングウィンドウを非表示</string>
     <string name="home_recent_hide_freeform">フリーフォームボタンを非表示</string>
@@ -1161,7 +1183,7 @@
     <string name="home_recent_text">最近のタスクがないときに表示されるテキスト</string>
     <string name="home_recent_app_name_distance_task_view_card">アプリ名とアプリのプレビューカードの距離</string>
     <string name="home_recent_card_header_horizontal_position">アプリカードヘッダーの水平位置</string>
-    <string name="home_recent_task_view_height">アプリ履歴のカードの高さ</string>
+    <string name="home_recent_task_view_height">アプリのプレビューカードの高さ</string>
     <string name="home_recent_task_view_card_rounded_corners">アプリのプレビューカードの角の丸み</string>
     <string name="home_recent_horizontal_task_view_card_size1">垂直方向のサムネイルサイズ</string>
     <string name="home_recent_horizontal_task_view_card_size2">横向き時の水平方向のサムネイルサイズ</string>
@@ -1237,7 +1259,7 @@
     <string name="home_other_shortcut_background_blur_custom">ショートカットメニューのぼかし値</string>
     <string name="home_other_high_models">ランチャーをハイエンドモデルとして偽装</string>
     <string name="home_recent_blur_level">ぼかしのレベル</string>
-    <string name="home_recent_complete_blur_plus">完全なぼかしプラス（実験的）</string>
+    <string name="home_recent_complete_blur_plus">完全なぼかしプラス (実験的)</string>
     <string name="home_recent_complete_blur">完全なぼかしを使用</string>
     <string name="home_recent_test_blur">ぼかしをテスト</string>
     <string name="home_recent_simple_blur">簡易的なぼかし</string>
@@ -1324,6 +1346,7 @@
     <!--Screenshot-->
     <string name="screenshot">スクリーンショット</string>
     <string name="screenshot_unlock_minimum_crop_limit">画像の最小トリミング制限を削除</string>
+    <string name="screenshot_unlock_copy_to_clipboard">スクリーンショットをクリップボードに自動コピーをアンロック</string>
     <string name="screenshot_unlock_privacy_marking_title">プライバシーマークをアンロック</string>
     <string name="screenshot_unlock_privacy_marking_desc">「Mi AI Engine」のより新しいバージョンがプリインストールされている必要があります</string>
     <string name="screenshot_save_to_pictures_desc">スクリーンショットの保存場所を /Pictures/Screenshots に設定します</string>
@@ -1461,6 +1484,8 @@
     <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">すべてのアプリが弾幕通知を使用できるようにする</string>
+    <string name="barrage_global_enable">弾幕通知のグローバル使用を許可</string>
+    <string name="barrage_not_touchable">弾幕通知をタッチできないようにする</string>
     <string name="barrage_custom_barrage_length">弾幕通知の長さをカスタマイズ</string>
     <!--Joyose-->
     <string name="joyose">Joyose</string>
@@ -1519,6 +1544,7 @@
     <string name="voicetrigger_accuracy_percent_description" formatted="false">値が高いほど検出が困難になります。デフォルト値は 70% で、キーワード「XATX」の場合は 0% です。設定後、起動ワードを再度登録する必要があります。</string>
     <!--Other-->
     <string name="various">その他</string>
+    <string name="input_method">入力方式</string>
     <string name="app_version_not_supported">非対応のバージョン</string>
     <string name="various_dialog_title">ダイアログ</string>
     <string name="various_mipad_title">MiPad</string>
@@ -1538,7 +1564,7 @@
     <string name="various_open_aosp_running_services">実行中のサービス</string>
     <string name="various_open_aosp_notification_title">通知設定</string>
     <string name="various_open_aosp_app_manage_title">アプリを管理</string>
-    <string name="various_open_aosp_language_title">アプリの言語</string>
+    <string name="various_open_aosp_language_title">言語、入力とジェスチャー</string>
     <string name="various_open_aosp_extremely_dark_title">さらに輝度を下げる</string>
     <string name="various_open_aosp_default_apps_title">デフォルトのアプリ</string>
     <string name="various_mipad_input_title">入力</string>
@@ -1553,7 +1579,7 @@
     <string name="various_mipad_input_ingore_gesture_title">スタイラスボタンジェスチャーを無視</string>
     <string name="various_mipad_input_ingore_gesture_desc">スタイラスボタンの長押しジェスチャーを無視します</string>
     <string name="various_mipad_input_need_finger_num_title">ジェスチャーに必要な指の数を変更</string>
-    <string name="various_mipad_input_need_finger_num_desc">三本指のスクリーンショット・部分的なスクリーンショット・横分割ジェスチャーを四本指で実行し、アプリの切り替えジェスチャーを三本指で実行するように変更します</string>
+    <string name="various_mipad_input_need_finger_num_desc">スクリーンショットジェスチャー、部分的なスクリーンショットジェスチャー、水平分割画面ジェスチャーを 4 本の指でトリガーするように変更し、アプリの切り替えジェスチャーを 3 本の指でトリガーするように変更します。</string>
     <string name="custom_background">カスタム背景</string>
     <string name="custom_background_blur_enabled">背景のぼかし</string>
     <string name="custom_background_blur_radius">ぼかし半径</string>

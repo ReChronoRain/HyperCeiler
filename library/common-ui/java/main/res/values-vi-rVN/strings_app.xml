@@ -171,6 +171,7 @@
     <string name="miuix_alphabet_indexer_name">Thanh chỉ mục</string>
     <string name="miuix_appcompat_action_mode_cancel">Hủy bỏ</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">Xóa</string>
+    <string name="miuix_preference_text_hint">Phạm vi: %1$s ~ %2$s, giá trị mặc định: %3$s</string>
     <string name="miuix_appcompat_color_erro_entry">Giá trị không hợp lệ. Vui lòng kiểm tra và nhập lại.</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">Trong suốt</string>
     <string name="miuix_appcompat_color_picker_custom_color">Tuỳ chỉnh màu</string>
@@ -514,6 +515,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="mms_disable_overseas_risk_tip">Tắt lời nhắc rủi ro ở nước ngoài</string>
     <string name="mms_disable_overseas_risk_tip_desc">Tắt lời nhắc \"nghi ngờ gian lận ở nước ngoài\"</string>
     <string name="mms_im_old_device">Cấm cho biết là thiết bị mới</string>
+    <string name="mms_verification_code_auto_copy">Tự động sao chép mã xác nhận vào bảng ghi tạm</string>
     <!--Phone Service-->
     <string name="phone">Dịch vụ điện thoại</string>
     <string name="phone_smart_dual_sim">Mở khóa SIM kép thông minh</string>
@@ -717,6 +719,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_music_cusiom_notific_title">Tùy chọn hiển thị</string>
     <string name="system_ui_statusbar_music_show_notific_title">Hiển thị thông báo lời bài hát</string>
     <string name="system_ui_statusbar_music_hide_aod_title">Không hiển thị thông báo tập trung dưới màn hình</string>
+    <string name="system_ui_statusbar_music_show_aod_mode_title">Sử dụng bố cục màn hình lấy nét tùy chỉnh</string>
     <string name="system_ui_statusbar_music_cusiom_statusbar_title">Cài đặt hiển thị thanh trạng thái</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Ẩn đồng hồ thanh trạng thái</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">Ẩn đồng hồ trên thanh trạng thái khi hiển thị lời bài hát focus và điều chỉnh hoạt ảnh của mục Thông báo thả xuống.</string>
@@ -760,7 +763,23 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_media_control_media_button_custom">Tùy chỉnh kích thước nút hành động</string>
     <string name="system_ui_control_center_media_control_media_button">Kích thước nút hành động có sẵn</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Bán kính mờ ảnh nền</string>
+    <string name="system_ui_control_center_media_control_media_background_title">Bìa phương tiện và ảnh nền</string>
+    <string name="system_ui_control_center_media_control_background_mode">Kiểu nền</string>
+    <string name="system_ui_control_center_media_control_color_anim">Hoạt ảnh màu</string>
+    <string name="system_ui_control_center_media_control_color_anim_desc">Cập nhật màu văn bản với hoạt ảnh động</string>
+    <string name="system_ui_control_center_media_control_inverse_color">Tự động đảo ngược màu sắc</string>
+    <string name="system_ui_control_center_media_control_media_album_mode">Bìa phương tiện</string>
+    <string name="system_ui_control_center_media_control_media_album_mode_desc">Sau khi chọn \"Vô hình\", bạn cũng phải bật công tắc sửa đổi bố cục để nó có hiệu lực.</string>
     <string name="system_ui_control_center_media_control_media_button_title">Phím phương tiện</string>
+    <string name="system_ui_control_center_media_control_media_button_layout_switch">Cho phép sửa đổi bố cục</string>
+    <string name="system_ui_control_center_media_control_media_button_size_switch">Cho phép sửa đổi font chữ</string>
+    <string name="system_ui_control_center_media_control_media_button_actions_left_aligned">Các nút hành động được căn chỉnh bên trái</string>
+    <string name="system_ui_control_center_media_control_media_button_hide_seamless">Ẩn nút công tắc thiết bị</string>
+    <string name="system_ui_control_center_media_control_media_button_mode">Thứ tự nút phương tiện</string>
+    <string name="system_ui_control_center_media_control_title_margin">Lề trên của tiêu đề</string>
+    <string name="system_ui_control_center_media_control_title_padding">Khoảng đệm tiêu đề</string>
+    <string name="system_ui_control_center_media_control_title_size">Kích thước phông chữ tiêu đề</string>
+    <string name="system_ui_control_center_media_control_artist_size">Kích thước phông chữ nghệ sĩ</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">Phím tua</string>
     <string name="system_ui_control_center_redirect_notice">Chuyển hướng cài đặt thông báo</string>
     <string name="system_ui_control_center_redirect_notice_desc">Mở chuyển hướng cài đặt thông báo đích thay vì áp dụng cài đặt thông báo</string>
@@ -772,6 +791,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_mute_visible_notice">Tắt âm thông báo khi màn hình bật</string>
     <string name="system_ui_control_center_unimportant_notification">Thu gọn vào thông báo lịch sử bị cấm</string>
     <string name="system_ui_control_center_expand_notification">Mở rộng thông báo</string>
+    <string name="system_ui_control_center_auto_clean_expand_notification">Tự động ẩn thông báo đã mở rộng</string>
+    <string name="system_ui_control_center_expand_notification_show_time">Hiện thời gian</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Khi màn hình đang bật, thông báo không phát âm thanh</string>
     <string name="system_ui_control_center_rounded_rect">Ô hình chữ nhật bo tròn</string>
     <string name="system_ui_control_center_statusbar_blur">Buộc làm mờ nền</string>
@@ -1093,6 +1114,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_folder_shade_level_title">Cường độ màu</string>
     <string name="home_folder_cols_title">Số lượng sắp xếp thư mục</string>
     <string name="home_folder_cols_format">%s Danh sách</string>
+    <string name="home_folder_rows_format">%s hàng</string>
     <string name="home_folder_horizontal_padding_desc">Khoảng cách thư mục từ lề bên màn hình</string>
     <string name="home_folder_vertical_spacing_desc">Khoảng cách ngang thư mục</string>
     <string name="home_folder_title_pos">Vị trí của tiêu đề</string>
@@ -1330,6 +1352,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Screenshot-->
     <string name="screenshot">Chụp ảnh màn hình</string>
     <string name="screenshot_unlock_minimum_crop_limit">Mở khóa Giới hạn cắt hình</string>
+    <string name="screenshot_unlock_copy_to_clipboard">Mở khóa tự động sao chép ảnh chụp màn hình đến bảng ghi tạm</string>
     <string name="screenshot_unlock_privacy_marking_title">Mở khóa Đánh dấu quyền riêng tư</string>
     <string name="screenshot_unlock_privacy_marking_desc">Cần cài đặt bản cao hơn của ứng dụng \"Mi AI Engine\"  để sử dụng</string>
     <string name="screenshot_save_to_pictures_desc">Vị trí lưu ảnh chụp màn hình /Pictures/Screenshots</string>
@@ -1474,6 +1497,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Barrage-->
     <string name="barrage">Rào cản</string>
     <string name="barrage_any_barrage">Cho phép tất cả ứng dụng sử dụng barrage</string>
+    <string name="barrage_global_enable">Cho phép sử dụng thông báo global</string>
+    <string name="barrage_not_touchable">Thông báo hiệu ứng không thể chạm vào</string>
     <string name="barrage_custom_barrage_length">Tùy chỉnh độ dài barrage</string>
     <!--Joyose-->
     <string name="joyose">Trí tuệ xuất sắc</string>
@@ -1532,6 +1557,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="voicetrigger_accuracy_percent_description" formatted="false">Giá trị lớn hơn có nghĩa là khó phát hiện hơn. Đối với \"XiaoAI\", giá trị mặc định của nó là 0%. Sau khi thiết lập xong cần nhập lại từ đánh thức</string>
     <!--Other-->
     <string name="various">Khác</string>
+    <string name="input_method">Phương thức nhập</string>
     <string name="app_version_not_supported">Phiên bản không hỗ trợ</string>
     <string name="various_dialog_title">Hộp thoại</string>
     <string name="various_mipad_title">MiPad</string>
