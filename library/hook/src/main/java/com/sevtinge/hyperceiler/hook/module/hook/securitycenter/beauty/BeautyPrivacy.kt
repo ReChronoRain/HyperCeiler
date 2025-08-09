@@ -46,9 +46,7 @@ object BeautyPrivacy : BaseHook() {
                     paramTypes = emptyList()
                     returnType = "boolean"
                     addInvoke {
-                        declaredClass {
-                            usingEqStrings("persist.sys.privacy_camera")
-                        }
+                        declaredClass = R0.declaringClass.name
                         returnType = R0.returnType.name
                         paramTypes = listOf(R0.parameterTypes[0].name)
                     }

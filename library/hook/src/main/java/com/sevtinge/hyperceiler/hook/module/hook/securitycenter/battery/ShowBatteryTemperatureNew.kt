@@ -24,7 +24,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
 import android.content.res.Configuration
-import android.graphics.Color
 import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.Gravity
@@ -32,6 +31,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
@@ -63,7 +63,7 @@ object ShowBatteryTemperatureNew : BaseHook() {
     override fun init() {
         try {
             newBatteryTemperature()
-        } catch (t: Throwable) {
+        } catch (_: Throwable) {
             oldBatteryTemperature()
         }
     }
@@ -152,7 +152,7 @@ object ShowBatteryTemperatureNew : BaseHook() {
                             (layoutParams as LinearLayout.LayoutParams).marginStart =
                                 dp2px(3.6f)
                             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13.1f)
-                            setTextColor(Color.parseColor(if (isDarkMode) "#e6e6e6" else "#333333"))
+                            setTextColor(if (isDarkMode) "#e6e6e6".toColorInt() else "#333333".toColorInt())
                             setPadding(0, dp2px(26f), 0, 0)
                             text = "℃"
                             gravity = Gravity.NO_GRAVITY
@@ -191,7 +191,7 @@ object ShowBatteryTemperatureNew : BaseHook() {
                             }
                             setPadding(dp2px(3.6f), 0, 0, dp2px(5.9f))
                             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13.1f)
-                            setTextColor(Color.parseColor(if (isDarkMode) "#e6e6e6" else "#333333"))
+                            setTextColor(if (isDarkMode) "#e6e6e6".toColorInt() else "#333333".toColorInt())
                             text = "℃"
                             gravity = Gravity.NO_GRAVITY
                             typeface = Typeface.create(null, 700, false)

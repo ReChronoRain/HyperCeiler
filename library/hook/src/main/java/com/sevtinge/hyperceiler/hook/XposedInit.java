@@ -89,7 +89,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         mModulePath = startupParam.modulePath;
         // mXmlTool = new XmlTool(startupParam);
         // load ResourcesTool
-        if (!PrefsUtils.mPrefsMap.getBoolean("module_settings_reshook_new")) {
+        if (!mPrefsMap.getBoolean("module_settings_reshook_new")) {
             mResHook = new ResourcesTool(startupParam.modulePath);
         }
 
@@ -147,7 +147,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
             logI(packageName, "versionName = " + getPackageVersionName(lpparam) + ", versionCode = " + getPackageVersionCode(lpparam));
 
         // load ResourcesTool
-        if (PrefsUtils.mPrefsMap.getBoolean("module_settings_reshook_new")) {
+        if (mPrefsMap.getBoolean("module_settings_reshook_new")) {
             ResInjectTool.injectModuleRes();
         }
 

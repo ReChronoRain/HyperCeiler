@@ -33,7 +33,6 @@ import com.sevtinge.hyperceiler.hook.module.base.pack.systemui.MusicBaseHook
 import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.miuiConfigs
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.getBooleanFieldOrNull
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
@@ -115,7 +114,7 @@ object HideFakeStatusBar : MusicBaseHook() {
 
         loadClass("com.android.systemui.statusbar.phone.MiuiPhoneStatusBarView").methodFinder()
             .filterByName("onFinishInflate").first().createAfterHook {
-                logD(TAG, lpparam.packageName, "onFinishInflate")
+                // logD(TAG, lpparam.packageName, "onFinishInflate")
                 // 通知栏左边部分(包含时间和通知图标)
                 mStatusBarLeftContainer =
                     it.thisObject.getObjectFieldOrNullAs<View>("mStatusBarLeftContainer") ?: return@createAfterHook
@@ -123,15 +122,15 @@ object HideFakeStatusBar : MusicBaseHook() {
             }
         loadClass("com.android.systemui.statusbar.phone.fragment.CollapsedStatusBarFragment").methodFinder()
             .filterByName("onViewCreated").first().createAfterHook {
-                val isObj = if (isAndroidVersion(34)) {
-                    loadClass("com.android.systemui.statusbar.phone.fragment.CollapsedStatusBarFragment")
+                /*val isObj = if (isAndroidVersion(34)) {
+                    loadClass("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment")
                 } else {
                     it.thisObject
-                }
+                }*/
                 // 焦点通知左边竖线
-                mFocusedNotLine = isObj.getObjectFieldOrNullAs<View>("mFocusedNotLine") ?: return@createAfterHook
+                mFocusedNotLine = it.thisObject.getObjectFieldOrNullAs<View>("mFocusedNotLine") ?: return@createAfterHook
                 // 焦点通知左边占位布局
-                mClockSeat = isObj.getObjectFieldOrNullAs<View>("mClockSeat") ?: return@createAfterHook
+                mClockSeat = it.thisObject.getObjectFieldOrNullAs<View>("mClockSeat") ?: return@createAfterHook
             }
 
         miuiNotificationClass.methodFinder()
@@ -198,7 +197,7 @@ object HideFakeStatusBar : MusicBaseHook() {
                     unhook0?.unhook()
                 }
             }
-        loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController\$notificationCallback\$1").methodFinder()
+        loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController\$notificationCallback$1").methodFinder()
             .filterByName("onAppearanceChanged").first().createHook {
                 before {
                 }

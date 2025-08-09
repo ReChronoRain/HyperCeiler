@@ -27,15 +27,15 @@ import java.lang.reflect.Method
 object BypassSimLockMiAccountAuth : BaseHook() {
     private val findMethod by lazy<List<Method>> {
         DexKit.findMemberList("BypassSimLockMiAccountAuth") {
-            it.findMethod {
+            it.findClass {
                 matcher {
-                    declaredClass {
-                        addUsingString("SimLockUtils", StringMatchType.Contains)
-                    }
+                    addUsingString("SimLockUtils", StringMatchType.Contains)
+                }
+            }.findMethod {
+                matcher {
                     addCaller {
                         addUsingString("SimLockStartFragment::simLockSetUpFlow::step =", StringMatchType.Contains)
                     }
-                    paramCount = 1
                     paramTypes("android.content.Context")
                     returnType = "boolean"
                 }
@@ -44,7 +44,6 @@ object BypassSimLockMiAccountAuth : BaseHook() {
     }
 
     override fun init() {
-        logD(TAG, lpparam.packageName, "BypassSimLockMiAccountAuth find method is ${findMethod.last()}")
         findMethod.last().createHook {
             returnConstant(true)
         }

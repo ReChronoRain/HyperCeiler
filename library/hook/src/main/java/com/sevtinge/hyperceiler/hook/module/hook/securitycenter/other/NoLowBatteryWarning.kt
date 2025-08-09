@@ -31,12 +31,12 @@ object NoLowBatteryWarning : BaseHook() {
                 else if ("low_battery_sound" == key) param.result = null
             }
         }
-        HookTool.hookAllMethods(
+        hookAllMethods(
             Settings.System::class.java,
             "getInt",
             settingHook
         )
-        HookTool.hookAllMethods(
+        hookAllMethods(
             Settings.Global::class.java,
             "getString",
             settingHook

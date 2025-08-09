@@ -30,7 +30,9 @@ import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
+import org.luckypray.dexkit.query.FindClass;
 import org.luckypray.dexkit.query.FindMethod;
+import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
 import org.luckypray.dexkit.result.base.BaseData;
@@ -43,11 +45,11 @@ public class SkipCountDownLimit extends BaseHook {
         Method method = DexKit.findMember("SkipCountDownLimitFragment", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .declaredClass("com.miui.permcenter.privacymanager.InterceptBaseFragment")
-                                .usingNumbers(-1, 0)
-                        )).singleOrNull();
+                MethodData methodData = bridge.findClass(FindClass.create()
+                    .matcher(ClassMatcher.create().className("com.miui.permcenter.privacymanager.InterceptBaseFragment"))
+                ).findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create().usingNumbers(-1, 0))
+                ).singleOrNull();
                 return methodData;
             }
         });

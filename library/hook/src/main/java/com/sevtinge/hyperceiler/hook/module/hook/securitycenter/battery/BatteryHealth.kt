@@ -18,12 +18,10 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter.battery
 
-import android.os.Bundle
 import android.os.Message
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
 import com.sevtinge.hyperceiler.hook.utils.callMethod
-import de.robv.android.xposed.XC_MethodHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
@@ -40,19 +38,29 @@ object BatteryHealth : BaseHook() {
         }
     }
 
-    private val cc by lazy<List<Class<*>>> {
-        DexKit.findMemberList("SecurityBatteryHealthClass") {
-            it.findClass {
+    private val cc by lazy<Method> {
+        DexKit.findMember("SecurityBatteryHealthMethod") {
+            it.findMethod {
                 searchPackages("com.miui.powercenter.nightcharge")
                 findFirst = true
                 matcher {
-                    methods {
-                        add {
-                            name = "handleMessage"
-                        }
-                    }
+                    name = "handleMessage"
+                    paramTypes = listOf(Message::class.java.name)
                 }
-            }
+            }.single()
+        }
+    }
+
+    private val findMethod by lazy<Method> {
+        DexKit.findMember("ChargeFragmentMethod") {
+            it.findMethod {
+                searchPackages("com.miui.powercenter.nightcharge")
+                findFirst = true
+                matcher {
+                    name = "onCreatePreferences"
+                    paramCount = 2
+                }
+            }.single()
         }
     }
 
@@ -65,42 +73,14 @@ object BatteryHealth : BaseHook() {
             health = param.args[0] as Int // 获取手机管家内部的健康度
         }
 
-        try {
-            findAndHookMethod(
-                "com.miui.powercenter.nightcharge.SmartChargeFragment",
-                "onCreatePreferences",
-                Bundle::class.java, String::class.java,
-                object : XC_MethodHook() {
-                    override fun afterHookedMethod(param: MethodHookParam) {
-                        gff = param.thisObject
-                            .callMethod("findPreference", "reference_battery_health")!!
-                    }
-                }
-            )
-
-        } catch (_: Exception) {
-            findAndHookMethod(
-                "com.miui.powercenter.nightcharge.ChargeProtectFragment",
-                "onCreatePreferences",
-                Bundle::class.java, String::class.java,
-                object : XC_MethodHook() {
-                    override fun afterHookedMethod(param: MethodHookParam) {
-                        gff = param.thisObject
-                            .callMethod("findPreference", "reference_battery_health")!!
-                    }
-                }
-            )
+        findMethod.createAfterHook { param ->
+            gff = param.thisObject
+                .callMethod("findPreference", "reference_battery_health")!!
         }
 
-        val nameClass = cc.first().name
-        findAndHookMethod(
-            nameClass,
-            "handleMessage",
-            Message::class.java,
-            object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    gff.callMethod("setText", "$health %")
-                }
-            })
+        cc.createAfterHook {
+            gff.callMethod("setText", "$health %")
+        }
+
     }
 }

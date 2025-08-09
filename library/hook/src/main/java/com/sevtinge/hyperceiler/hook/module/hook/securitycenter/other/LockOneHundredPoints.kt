@@ -70,7 +70,6 @@ object LockOneHundredPoints : BaseHook() {
                         type = "java.util.Map"
                     }
                     addInvoke {
-                        declaredClass = "com.miui.securityscan.scanner.ScoreManager"
                         addUsingField {
                             type = "int"
                         }

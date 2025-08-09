@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hook.module.app.SystemUI.Pad;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
+
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ToastBlur;
@@ -109,6 +111,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.Sta
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.WifiStandard;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.FocusNotifLyric;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model.DualRowSignalHook;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model.MobileNetwork;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model.MobilePublicHook;
@@ -199,6 +202,9 @@ public class SystemUIU extends BaseModule {
         initHook(new FixColor(), mPrefsMap.getBoolean("system_ui_statusbar_clock_fix_color"));
 
         // initHook(new DisplayHardwareDetailForHyper(), true);
+
+        // 焦点歌词
+        initHook(FocusNotifLyric.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch") && isHyperOSVersion(2f));
 
         // 灵动舞台
         initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_hide_smart_strong_toast"));

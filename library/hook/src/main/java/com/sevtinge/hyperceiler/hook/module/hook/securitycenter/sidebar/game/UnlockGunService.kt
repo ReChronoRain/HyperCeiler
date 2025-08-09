@@ -26,11 +26,12 @@ import java.lang.reflect.Method
 object UnlockGunService : BaseHook() {
     override fun init() {
         DexKit.findMember<Method>("UnlockGunService") {
-            it.findMethod {
+            it.findClass {
                 matcher {
-                    declaredClass {
-                        addEqString("gb_game_collimator_status")
-                    }
+                    addEqString("gb_game_collimator_status")
+                }
+            }.findMethod {
+                matcher {
                     returnType = "boolean"
                     paramTypes = listOf("java.lang.String")
                 }
