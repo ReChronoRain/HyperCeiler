@@ -20,13 +20,13 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.downloads.FuckXlDownload;
+import com.sevtinge.hyperceiler.hook.module.hook.downloads.RemoveXlDownload;
 
 @HookBase(targetPackage = "com.android.providers.downloads")
 public class Downloads extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        initHook(new FuckXlDownload(), mPrefsMap.getBoolean("various_fuck_xlDownload"));
+        initHook(RemoveXlDownload.INSTANCE, mPrefsMap.getBoolean("various_fuck_xlDownload"));
     }
 }
