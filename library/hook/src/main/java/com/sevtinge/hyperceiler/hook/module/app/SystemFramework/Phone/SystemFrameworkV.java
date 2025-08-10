@@ -53,6 +53,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.HookEntry;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.LinkTurboToast;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.MultiFreeFormSupported;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.NoAccessDeviceLogsRequest;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.PackagePermissions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.PstedClipboard;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.QuickScreenshot;
@@ -83,7 +84,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDi
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeFirstPress;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeSteps;
-import com.sevtinge.hyperceiler.hook.module.hook.various.NoAccessDeviceLogsRequest;
 import com.sevtinge.hyperceiler.hook.module.skip.GlobalActions;
 
 @HookBase(targetPackage = "android", isPad = 2, targetSdk = 35)

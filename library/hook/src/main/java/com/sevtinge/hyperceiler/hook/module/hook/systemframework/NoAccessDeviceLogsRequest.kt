@@ -1,35 +1,15 @@
-/*
-  * This file is part of HyperCeiler.
-
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
-
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
-
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-  * Copyright (C) 2023-2025 HyperCeiler Contributions
-*/
-package com.sevtinge.hyperceiler.hook.module.hook.various
+package com.sevtinge.hyperceiler.hook.module.hook.systemframework
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil
 
 object NoAccessDeviceLogsRequest : BaseHook() {
     private lateinit var mActivityManagerInternal: Any
     private lateinit var mLogcatManagerService: Any
     override fun init() {
-        val logAccessClient = loadClass(
+        val logAccessClient = ClassUtil.loadClass(
             "com.android.server.logcat.LogcatManagerService\$LogAccessClient",
             lpparam.classLoader
         )
@@ -69,7 +49,7 @@ object NoAccessDeviceLogsRequest : BaseHook() {
                             client
                         )
                         // debug 用，取消禁用详细日志输出可进行调试
-                        logI(
+                        logD(
                             TAG,
                             this@NoAccessDeviceLogsRequest.lpparam.packageName,
                             "NoAccessDeviceLogsRequest bypass for package=$packageName uid=$uid"
