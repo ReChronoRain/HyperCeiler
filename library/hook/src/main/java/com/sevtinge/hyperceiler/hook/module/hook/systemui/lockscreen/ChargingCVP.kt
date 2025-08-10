@@ -19,23 +19,20 @@
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen
 
 import android.annotation.SuppressLint
-import android.app.AndroidAppHelper
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.BatteryManager
 import android.os.Handler
 import android.os.PowerManager
 import android.util.ArrayMap
 import android.widget.TextView
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.Dependency
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull
+import com.sevtinge.hyperceiler.hook.utils.getStaticObjectFieldOrNull
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
 import de.robv.android.xposed.XC_MethodHook
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -78,9 +75,7 @@ object ChargingCVP : BaseHook() {
                 }
                 if (showSpacingValue) {
                     // 是否更改刷新频率
-                    runCatching {
-                        setShowSpacing(clazzDependency, clazzKeyguardIndicationController, param)
-                    }
+                    setShowSpacing(clazzDependency, clazzKeyguardIndicationController, param)
                 }
             }
         }
@@ -109,18 +104,26 @@ object ChargingCVP : BaseHook() {
             val keyguardIndicationController = runCatching {
                 invokeStaticMethodBestMatch(clazzDependency, "get", null, clazzKeyguardIndicationController)!!
             }.getOrElse {
+                val clazzMiuiStub = loadClass("miui.stub.MiuiStub")
+                val instanceMiuiStub =
+                    clazzMiuiStub.getStaticObjectFieldOrNull("INSTANCE")!!
+                val mSysUIProvider =
+                    instanceMiuiStub.getObjectFieldOrNull("mSysUIProvider")!!
                 val mKeyguardIndicationController =
-                    MiuiStub.sysUIProvider.getObjectFieldOrNull("mKeyguardIndicationController")!!
+                    mSysUIProvider.getObjectFieldOrNull("mKeyguardIndicationController")!!
                 invokeMethodBestMatch(mKeyguardIndicationController, "get")!!
             }
             val handler = Handler((param.thisObject as TextView).context.mainLooper)
             val runnable = object : Runnable {
+                val clazzMiuiDependency =
+                    loadClass("com.miui.systemui.MiuiDependency")
                 val clazzMiuiChargeController =
                     loadClass("com.miui.charge.MiuiChargeController")
+                val sDependency =
+                    clazzMiuiDependency.getStaticObjectFieldOrNull("sDependency")!!
                 val mProviders =
-                    Dependency.INSTANCE.getObjectFieldOrNull("mProviders") as ArrayMap<*, *>
-                val mMiuiChargeControllerProvider =
-                    mProviders[clazzMiuiChargeController]!!
+                    sDependency.getObjectFieldOrNull("mProviders") as ArrayMap<*, *>
+                val mMiuiChargeControllerProvider = mProviders[clazzMiuiChargeController]!!
                 val instanceMiuiChargeController = if (isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35)) {
                     mMiuiChargeControllerProvider
                         .getObjectFieldOrNull("f$0")!!
@@ -203,58 +206,60 @@ object ChargingCVP : BaseHook() {
     private fun getTemp(): String {
         var temp = 0.0
 
-        runCatching {
-            // 获取电池温度信息
-            val temNow =
-                BufferedReader(FileReader("/sys/class/power_supply/battery/temp"))
-            temp =
-                BigDecimal(temNow.readLine().toDouble() / 10.0).setScale(1, RoundingMode.HALF_UP).toDouble()
+        try {
+            BufferedReader(FileReader("/sys/class/power_supply/battery/temp")).use { reader ->
+                temp = BigDecimal(reader.readLine().toDouble() / 10.0)
+                    .setScale(1, RoundingMode.HALF_UP)
+                    .toDouble()
+            }
+        } catch (_: Exception) {
+            temp = 0.0
         }
 
-        // 电池温度是否展示
-        val mTemp = if (isShowTemp) "$temp ℃ · " else ""
-
-        return mTemp
+        return if (isShowTemp) "$temp ℃ · " else ""
     }
 
     @SuppressLint("DefaultLocale")
     private fun getCVP(): String {
-        // 获取电流信息
-        val batteryManager =
-            AndroidAppHelper.currentApplication()
-                .getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-        val current =
-            abs(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) / 1000)
-        var voltage = 0.0
-
         runCatching {
-            // 获取电压信息
-            val voltageNow =
-                BufferedReader(FileReader("/sys/class/power_supply/battery/voltage_now"))
-            voltage =
-                BigDecimal(voltageNow.readLine().toDouble() / 1000.0).setScale(1, RoundingMode.HALF_UP).toDouble()
+            var current = 0.0
+            var voltage = 0.0
+            val watt: Double by lazy {
+                current * voltage
+            }
+
+            current = FileReader("/sys/class/power_supply/battery/current_now").use { fileReader ->
+                BufferedReader(fileReader).use { bufferedReader ->
+                    -1.0 * bufferedReader.readLine().toDouble() / 1000000.0
+                }
+            }
+            voltage = FileReader("/sys/class/power_supply/battery/voltage_now").use { fileReader ->
+                BufferedReader(fileReader).use { bufferedReader ->
+                    bufferedReader.readLine().toDouble() / 1000000.0
+                }
+            }
+
+            // 计算功率信息
+            val power = String.format("%.2f", watt)
+
+            // 电流展示逻辑设置
+            val mCurrent = if (isShowMoreC) {
+                "${(current * 1000).toInt()} mA"
+            } else {
+                "${String.format("%.1f", abs(current))} A"
+            }
+            val mVoltage = "${String.format("%.1f", voltage)} V"
+
+            // 判断充满信息是否归零
+            val showBattery = if (current == 0.0) {
+                ""
+            } else {
+                "$mCurrent · $mVoltage · $power W"
+            }
+
+            // 输出展示信息
+            return showBattery
         }
-
-        // 计算功率信息
-        val powerAll = abs((current * voltage) / 1000f / 1000f)
-        val power = String.format("%.2f", powerAll)
-
-        // 电流展示逻辑设置
-        val mCurrent = if (isShowMoreC) {
-            "$current mA"
-        } else {
-            "${String.format("%.1f", abs(current / 1000f))} A"
-        }
-        val mVoltage = "${String.format("%.1f", abs(voltage / 1000f))} V"
-
-        // 判断充满信息是否归零
-        val showBattery = if (current == 0) {
-            ""
-        } else {
-            "$mCurrent · $mVoltage · $power W"
-        }
-
-        // 输出展示信息
-        return showBattery
+        return ""
     }
 }
