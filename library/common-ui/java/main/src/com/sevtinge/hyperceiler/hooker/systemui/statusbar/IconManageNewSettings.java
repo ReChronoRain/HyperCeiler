@@ -38,7 +38,6 @@ public class IconManageNewSettings extends DashboardFragment {
 
     DropDownPreference mAlarmClockIcon;
     SeekBarPreferenceCompat mAlarmClockIconN;
-    SeekBarPreferenceCompat mNotificationIconMaximum;
     SwitchPreference mBatteryNumber;
     SwitchPreference mBatteryPercentage;
 
@@ -68,7 +67,6 @@ public class IconManageNewSettings extends DashboardFragment {
 
         mAlarmClockIcon = findPreference("prefs_key_system_ui_status_bar_icon_alarm_clock");
         mAlarmClockIconN = findPreference("prefs_key_system_ui_status_bar_icon_alarm_clock_n");
-        mNotificationIconMaximum = findPreference("prefs_key_system_ui_status_bar_notification_icon_maximum");
 
         mBatteryNumber = findPreference("prefs_key_system_ui_status_bar_battery_percent");
         mBatteryPercentage = findPreference("prefs_key_system_ui_status_bar_battery_percent_mark");
@@ -120,13 +118,6 @@ public class IconManageNewSettings extends DashboardFragment {
 
         mAlarmClockIcon.setOnPreferenceChangeListener((preference, o) -> {
             mAlarmClockIconN.setVisible(Integer.parseInt((String) o) == 3);
-            return true;
-        });
-
-        mNotificationIconMaximum.setOnPreferenceChangeListener((preference, o) -> {
-            if ((int) o == 16) {
-                mNotificationIconMaximum.setValue(R.string.unlimited);
-            }
             return true;
         });
 

@@ -1585,7 +1585,6 @@
     <string name="location_simulation_work_base_station">المحطة الأساسية</string>
     <string name="location_simulation_work_longitude_latitude">خطوط الطول والعرض</string>
     <string name="location_simulation_work_remarks">ملاحظات</string>
-    <string name="unlimited">غير محدود</string>
     <string name="calls">مكالمات</string>
     <string name="system_volume">النظام</string>
     <string name="notification_volume">الإشعارات</string>

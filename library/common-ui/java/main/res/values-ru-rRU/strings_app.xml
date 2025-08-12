@@ -1592,7 +1592,6 @@
     <string name="location_simulation_work_base_station">Базовая станция</string>
     <string name="location_simulation_work_longitude_latitude">Долгота и широта</string>
     <string name="location_simulation_work_remarks">Отметить</string>
-    <string name="unlimited">Безлимитно</string>
     <string name="calls">Вызовы</string>
     <string name="system_volume">Система</string>
     <string name="notification_volume">Уведомления</string>

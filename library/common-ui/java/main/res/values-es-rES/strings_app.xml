@@ -1344,7 +1344,6 @@ aplicaciones del sistema</string>
     <string name="location_simulation_work_base_station">Estación base</string>
     <string name="location_simulation_work_longitude_latitude">Longitud y latitud</string>
     <string name="location_simulation_work_remarks">Marca</string>
-    <string name="unlimited">Ilimitado</string>
     <string name="calls">Llamada</string>
     <string name="system_volume">Sistema</string>
     <string name="notification_volume">Notificación</string>

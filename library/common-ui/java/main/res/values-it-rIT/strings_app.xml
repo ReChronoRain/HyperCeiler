@@ -1225,7 +1225,6 @@
     <string name="location_simulation_work_title">Titolo</string>
     <string name="location_simulation_work_base_station">Stazione base</string>
     <string name="location_simulation_work_longitude_latitude">Longitudine e latitude</string>
-    <string name="unlimited">Illimitato</string>
     <string name="calls">Chiama</string>
     <string name="system_volume">Sistema</string>
     <string name="notification_volume">Notifica</string>

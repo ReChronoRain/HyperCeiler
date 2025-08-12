@@ -1231,7 +1231,6 @@
     <string name="location_simulation_work_base_station">Baz istasyonu</string>
     <string name="location_simulation_work_longitude_latitude">Boylam ve enlem</string>
     <string name="location_simulation_work_remarks">İşaretle</string>
-    <string name="unlimited">Sınırsız</string>
     <string name="calls">Ara</string>
     <string name="system_volume">Sistem</string>
     <string name="notification_volume">Bildirim</string>

@@ -114,14 +114,14 @@
             app:isPreferenceVisible="false" />
 
         <Preference
-            android:title="@string/system_ui_status_bar_mobile_type_single_title"
+            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.MobileNetworkTypeSettings"
             android:key="prefs_key_system_ui_status_bar_mobile_type"
-            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.MobileNetworkTypeSettings" />
+            android:title="@string/system_ui_status_bar_mobile_type_single_title" />
 
         <Preference
-            android:title="@string/system_ui_statusbar_iconmanage_mobile_network_title"
+            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.DoubleLineNetworkSettings"
             android:key="prefs_key_system_ui_statusbar_iconmanage_mobile_network"
-            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.DoubleLineNetworkSettings" />
+            android:title="@string/system_ui_statusbar_iconmanage_mobile_network_title" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_bluetooth_title">
@@ -169,14 +169,14 @@
             app:entryValues="@array/status_bar_icon_alarm_clock_value" />
 
         <SeekBarPreferenceCompat
+            android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_alarm_clock_n"
             android:title="@string/system_ui_status_bar_icon_alarm_clock_n"
-            android:defaultValue="0"
             app:defaultValueTitle="@string/array_default"
+            app:format="@string/system_ui_status_bar_icon_alarm_clock_n_format"
             app:maxValue="48"
             app:minValue="0"
-            app:stepValue="1"
-            app:format="@string/system_ui_status_bar_icon_alarm_clock_n_format" />
+            app:stepValue="1" />
 
         <fan.preference.DropDownPreference
             android:defaultValue="0"
@@ -230,12 +230,12 @@
             android:dependency="prefs_key_system_ui_status_bar_notification_icon_maximum_enable"
             android:key="prefs_key_system_ui_status_bar_notification_icon_maximum"
             android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
-            app:dialogTitle="@string/system_ui_status_bar_notification_icon_maximum"
-            android:defaultValue="3"
+            app:defaultValue="3"
             app:defaultValueTitle="@string/array_default"
+            app:dialogTitle="@string/system_ui_status_bar_notification_icon_maximum"
+            app:format="%s"
             app:maxValue="15"
-            app:stepValue="1"
-            app:format="%s" />
+            app:stepValue="1" />
 
     </PreferenceCategory>
 
@@ -263,8 +263,8 @@
             android:title="@string/system_ui_status_bar_battery_icon" />
 
         <Preference
-            android:title="@string/system_ui_status_bar_battery_style_title"
-            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.BatteryStyleSettings" />
+            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.BatteryStyleSettings"
+            android:title="@string/system_ui_status_bar_battery_style_title" />
 
     </PreferenceCategory>
 

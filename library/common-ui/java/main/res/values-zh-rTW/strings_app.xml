@@ -1595,7 +1595,6 @@
     <string name="location_simulation_work_base_station">基地台</string>
     <string name="location_simulation_work_longitude_latitude">經緯度</string>
     <string name="location_simulation_work_remarks">備註</string>
-    <string name="unlimited">無限制</string>
     <string name="calls">通話</string>
     <string name="system_volume">系統</string>
     <string name="notification_volume">通知</string>

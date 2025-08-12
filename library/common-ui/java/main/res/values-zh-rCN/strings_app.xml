@@ -1790,8 +1790,6 @@
     <string name="disable_app_text">如果这是一个必要的系统应用，将其禁用可能会造成损坏</string>
     <string name="disable_app_fail">更改应用状态失败</string>
 
-    <string name="unlimited">无限制</string>
-
     <string name="calls">通话</string>
     <string name="system_volume">系统</string>
     <string name="notification_volume">通知</string>

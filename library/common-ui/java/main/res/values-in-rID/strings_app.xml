@@ -1263,7 +1263,6 @@
     <string name="location_simulation_work_base_station">Stasiun pangkalan</string>
     <string name="location_simulation_work_longitude_latitude">Bujur dan lintang</string>
     <string name="location_simulation_work_remarks">Tanda</string>
-    <string name="unlimited">Tak terbatas</string>
     <string name="calls">Panggilan</string>
     <string name="system_volume">Sistem</string>
     <string name="notification_volume">Pemberitahuan</string>

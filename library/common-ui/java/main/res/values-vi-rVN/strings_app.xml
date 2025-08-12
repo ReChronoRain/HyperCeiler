@@ -1605,7 +1605,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="location_simulation_work_base_station">Trạm cơ sở</string>
     <string name="location_simulation_work_longitude_latitude">Vĩ độ và kinh độ</string>
     <string name="location_simulation_work_remarks">Nhận xét</string>
-    <string name="unlimited">Không giới hạn</string>
     <string name="calls">Cuộc gọi</string>
     <string name="system_volume">Hệ thống</string>
     <string name="notification_volume">Thông báo</string>

@@ -1671,7 +1671,6 @@
     <string name="location_simulation_work_base_station">Base station</string>
     <string name="location_simulation_work_longitude_latitude">Longitude and latitude</string>
     <string name="location_simulation_work_remarks">Mark</string>
-    <string name="unlimited">Unlimited</string>
     <string name="calls">Call</string>
     <string name="system_volume">System</string>
     <string name="notification_volume">Notification</string>

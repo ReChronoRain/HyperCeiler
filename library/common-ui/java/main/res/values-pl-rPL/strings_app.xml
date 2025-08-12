@@ -1522,7 +1522,6 @@
     <string name="location_simulation_work_base_station">Stacja bazowa</string>
     <string name="location_simulation_work_longitude_latitude">Długość i szerokość geograficzna</string>
     <string name="location_simulation_work_remarks">Ocena</string>
-    <string name="unlimited">Nieograniczony</string>
     <string name="calls">Połączenia</string>
     <string name="notification_volume">Powiadomienie</string>
     <string name="freeform_notification">Pływające okno powiadomień</string>
