@@ -25,7 +25,6 @@ import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -270,65 +269,115 @@ public class ShellUtils {
         }
     }
 
-    public static String rootExecCmd(String cmd) {
+    // 保留旧实现方式
+    /* public static String rootExecCmd(String cmd) {
         if (!isSafeCommand(cmd)) return "Cannot exec this command: Dangerous operation";
         StringBuilder result = new StringBuilder();
         ProcessBuilder pb = new ProcessBuilder("su");
-        Process p;
+        pb.redirectErrorStream(true);
+        Process p = null;
         DataOutputStream dos = null;
-        DataInputStream dis = null;
+        BufferedReader reader = null;
         try {
-            pb.redirectErrorStream(true);
             p = pb.start();
             dos = new DataOutputStream(p.getOutputStream());
-            dis = new DataInputStream(p.getInputStream());
+            reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             dos.writeBytes("nsenter --mount=/proc/1/ns/mnt -- " + cmd + "\n");
-            dos.flush();
             dos.writeBytes("exit\n");
             dos.flush();
             String line;
-            while ((line = dis.readLine()) != null) {
-                result.append(line).append("\n");
+            while ((line = reader.readLine()) != null) {
+                result.append(line).append('\n');
             }
             p.waitFor();
         } catch (Exception e) {
-            if (!cmd.contains("nsenter") && String.valueOf(e).contains("nsenter: exec ")) {
-                return String.valueOf(e).replace("nsenter: exec ", "");
-            } else {
-                return String.valueOf(e);
+            String errMsg = String.valueOf(e);
+            if (!cmd.contains("nsenter") && errMsg.contains("nsenter: exec ")) {
+                return errMsg.replace("nsenter: exec ", "");
             }
+            return errMsg;
         } finally {
-            if (dos != null) {
-                try {
-                    dos.close();
-                } catch (IOException e) {
-                    if (!cmd.contains("nsenter") && String.valueOf(e).contains("nsenter: exec ")) {
-                        return String.valueOf(e).replace("nsenter: exec ", "");
-                    } else {
-                        return String.valueOf(e);
-                    }
+            String finallyErrMsg = null;
+            try {
+                if (dos != null) dos.close();
+            } catch (IOException e) {
+                String errMsg = String.valueOf(e);
+                if (!cmd.contains("nsenter") && errMsg.contains("nsenter: exec ")) {
+                    finallyErrMsg = errMsg.replace("nsenter: exec ", "");
+                } else {
+                    finallyErrMsg = errMsg;
                 }
             }
-            if (dis != null) {
-                try {
-                    dis.close();
-                } catch (IOException e) {
-                    if (!cmd.contains("nsenter") && String.valueOf(e).contains("nsenter: exec ")) {
-                        return String.valueOf(e).replace("nsenter: exec ", "");
-                    } else {
-                        return String.valueOf(e);
-                    }
+            try {
+                if (reader != null) reader.close();
+            } catch (IOException e) {
+                String errMsg = String.valueOf(e);
+                if (!cmd.contains("nsenter") && errMsg.contains("nsenter: exec ")) {
+                    finallyErrMsg = errMsg.replace("nsenter: exec ", "");
+                } else {
+                    finallyErrMsg = errMsg;
                 }
             }
+            if (p != null) p.destroy();
+            if (finallyErrMsg != null) return finallyErrMsg;
         }
         if (result.length() > 0) {
-            result = new StringBuilder(result.substring(0, result.length() - 1));
+            result.setLength(result.length() - 1);
         }
-        if (!cmd.contains("nsenter") && result.toString().contains("nsenter: exec ")) {
-            return result.toString().replace("nsenter: exec ", "");
-        } else {
-            return result.toString();
+        String resStr = result.toString();
+        if (!cmd.contains("nsenter") && resStr.contains("nsenter: exec ")) {
+            return resStr.replace("nsenter: exec ", "");
         }
+        return resStr;
+    } */
+
+    public static String rootExecCmd(String cmd) {
+        if (!isSafeCommand(cmd)) return "Cannot exec this command: Dangerous operation";
+        // 构建完整命令：通过 su -c 在 root 下执行 nsenter + 原命令
+        final String fullCmd = "nsenter --mount=/proc/1/ns/mnt -- " + cmd;
+        ProcessBuilder pb = new ProcessBuilder("su", "-c", fullCmd);
+        pb.redirectErrorStream(true); // 合并 stderr 到 stdout
+
+        StringBuilder result = new StringBuilder();
+
+        try {
+            Process p = pb.start();
+            // 读取合并后的标准输出
+            try (java.io.BufferedReader reader = new java.io.BufferedReader(
+                new java.io.InputStreamReader(p.getInputStream(), java.nio.charset.StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    result.append(line).append('\n');
+                }
+            }
+
+            p.waitFor(); // 如需超时可改为 p.waitFor(timeout, unit) 并根据结果处理
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // 恢复中断标志
+            String msg = e.toString();
+            if (!cmd.contains("nsenter") && msg.contains("nsenter: exec ")) {
+                return msg.replace("nsenter: exec ", "");
+            }
+            return msg;
+        } catch (java.io.IOException e) {
+            String msg = e.toString();
+            if (!cmd.contains("nsenter") && msg.contains("nsenter: exec ")) {
+                return msg.replace("nsenter: exec ", "");
+            }
+            return msg;
+        }
+
+        // 去掉最后一个换行
+        String out = result.toString();
+        if (!out.isEmpty() && out.charAt(out.length() - 1) == '\n') {
+            out = out.substring(0, out.length() - 1);
+        }
+
+        // 保留原来的 nsenter 错误前缀清理逻辑
+        if (!cmd.contains("nsenter") && out.contains("nsenter: exec ")) {
+            return out.replace("nsenter: exec ", "");
+        }
+        return out;
     }
 
 }

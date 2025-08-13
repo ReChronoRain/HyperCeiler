@@ -29,10 +29,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
-import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
+import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.appcompat.app.AlertDialog;
 
@@ -65,15 +65,10 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
     public boolean onPreferenceClick(@NonNull Preference preference) {
         switch (preference.getKey()) {
             case "prefs_key_development_cmd_r" ->
-                    showInDialog(new DevelopmentKillFragment.EditDialogCallback() {
-                        @Override
-                        public void onInputReceived(String command) {
-                            showOutDialog(rootExecCmd(command));
-                        }
-                    });
+                    showInDialog(command -> showOutDialog(rootExecCmd(command)));
             case "prefs_key_development_delete_all_dexkit_cache" ->
                     DialogHelper.showDialog(getActivity(), R.string.warn, R.string.delete_all_dexkit_cache_desc, (dialog, which) -> {
-                        DexKit.deleteAllCache(getActivity());
+                        DexKit.deleteAllCache(requireActivity());
                         Toast.makeText(getActivity(), R.string.delete_all_dexkit_cache_success, Toast.LENGTH_LONG).show();
                     });
             case "prefs_key_development_fix_lsposed_log" -> {
@@ -91,26 +86,33 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
     private void showInDialog(DevelopmentKillFragment.EditDialogCallback callback) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.edit_dialog, null);
         EditText input = view.findViewById(R.id.title);
-        new AlertDialog.Builder(getActivity())
+
+        AlertDialog dialog = new AlertDialog.Builder(requireActivity())
                 .setTitle("# root@HyperCeiler > Input")
                 .setView(view)
                 .setCancelable(false)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                    String userInput = input.getText().toString();
-                    if (userInput.isEmpty()) {
-                        dialog.dismiss();
-                        showInDialog(callback);
-                        return;
-                    }
+                .setPositiveButton(android.R.string.ok, null)
+                .setNegativeButton(android.R.string.cancel, (d, w) -> d.dismiss())
+                .create();
+
+        dialog.setOnShowListener(d -> {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+                String userInput = input.getText().toString().trim();
+                if (userInput.isEmpty()) {
+                    dialog.dismiss();
+                    showInDialog(callback);
+                } else {
                     callback.onInputReceived(userInput);
                     dialog.dismiss();
-                })
-                .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
-                .show();
+                }
+            });
+        });
+
+        dialog.show();
     }
 
     private void showOutDialog(String show) {
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(requireActivity())
                 .setCancelable(false)
                 .setTitle("# root@HyperCeiler > Output")
                 .setMessage(show)
