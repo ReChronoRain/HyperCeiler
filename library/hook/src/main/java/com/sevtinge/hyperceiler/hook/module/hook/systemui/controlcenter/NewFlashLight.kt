@@ -46,15 +46,16 @@ import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 import java.io.IOException
+import kotlin.math.roundToInt
 
 
 object NewFlashLight : TileUtils() {
-    private const val mtk: String = "/sys/class/flashlight_core/flashlight/torchbrightness"
-    private const val torch: String = "/sys/class/leds/led:torch_0/brightness"
-    private const val other: String = "/sys/class/leds/flashlight/brightness"
-    private const val flashSwitch: String = "/sys/class/leds/led:switch_0/brightness"
-    private const val maxBrightness: String = "/sys/class/leds/led:torch_0/max_brightness"
-    private var mode: Int = 0
+    private const val MTK = "/sys/class/flashlight_core/flashlight/torchbrightness"
+    private const val TORCH = "/sys/class/leds/led:torch_0/brightness"
+    private const val OTHER = "/sys/class/leds/flashlight/brightness"
+    private const val FLASH_SWITCH = "/sys/class/leds/led:switch_0/brightness"
+    private const val MAX_BRIGHTNESS = "/sys/class/leds/led:torch_0/max_brightness"
+    private var mode: Int = mPrefsMap.getStringAsInt("security_flash_light_switch", 0)
     private var lastFlash: Int = -1
     private var isListening: Boolean = false
     private var isHook: Boolean = false
@@ -65,10 +66,9 @@ object NewFlashLight : TileUtils() {
 
     override fun init() {
         super.init()
-        mode = mPrefsMap.getStringAsInt("security_flash_light_switch", 0)
-        setPermission(mtk)
-        setPermission(torch)
-        setPermission(other)
+        setPermission(MTK)
+        setPermission(TORCH)
+        setPermission(OTHER)
         initListen()
         hookBrightness()
     }
@@ -206,7 +206,7 @@ object NewFlashLight : TileUtils() {
                 }
                 param.thisObject.setObjectField("mExternalChange", false)
             }
-            ofInt.setDuration(3000)
+            ofInt.duration = 3000
             ofInt.start()
         }
     }
@@ -220,7 +220,7 @@ object NewFlashLight : TileUtils() {
                 Float::class.javaPrimitiveType
             )
             convertGammaToLinearFloat(BrightnessUtils, true)
-        } catch (e: NoSuchMethodException) {
+        } catch (_: NoSuchMethodException) {
             try {
                 BrightnessUtils.getDeclaredMethod(
                     "convertGammaToLinearFloat",
@@ -230,7 +230,7 @@ object NewFlashLight : TileUtils() {
                 )
                 convertGammaToLinearFloat(BrightnessUtils, false)
             } catch (ex: NoSuchMethodException) {
-                logE(TAG, lpparam.packageName, "Find Method convertGammaToLinearFloat is null!!")
+                logE(TAG, lpparam.packageName, "Find Method convertGammaToLinearFloat is null!!, throw: $ex")
             }
         }
     }
@@ -252,8 +252,8 @@ object NewFlashLight : TileUtils() {
                     if (min < 0.001f) {
                         min = 0.00114514f
                     }
-                    min = Math.round(min * 500).toFloat()
-                    max = Math.round(max * 500).toFloat()
+                    min = (min * 500).roundToInt().toFloat()
+                    max = (max * 500).roundToInt().toFloat()
                     val exp: Float
                     val GAMMA_SPACE_MAX =
                         XposedHelpers.getStaticIntField(BrightnessUtils, "GAMMA_SPACE_MAX")
@@ -293,16 +293,16 @@ object NewFlashLight : TileUtils() {
         var line: String?
         var reader: BufferedReader? = null
         var builder: StringBuilder? = null
-        val file = File(maxBrightness)
+        val file = File(MAX_BRIGHTNESS)
         if (file.exists()) {
             try {
-                reader = BufferedReader(FileReader(maxBrightness))
+                reader = BufferedReader(FileReader(MAX_BRIGHTNESS))
                 builder = StringBuilder()
                 while ((reader.readLine().also { line = it }) != null) {
                     builder.append(line)
                 }
             } catch (e: IOException) {
-                logE(TAG, lpparam.packageName, "Error to read: $maxBrightness", e)
+                logE(TAG, lpparam.packageName, "Error to read: $MAX_BRIGHTNESS", e)
             } finally {
                 try {
                     reader?.close()
@@ -311,7 +311,7 @@ object NewFlashLight : TileUtils() {
                 }
             }
         } else {
-            logE(TAG, lpparam.packageName, "Not Found FlashLight File: $maxBrightness")
+            logE(TAG, lpparam.packageName, "Not Found FlashLight File: $MAX_BRIGHTNESS")
         }
 
         if (builder != null) {
@@ -325,31 +325,31 @@ object NewFlashLight : TileUtils() {
     }
 
     private fun writeFile(flash: Int) {
-        val bmtk = exists(mtk)
-        val btorch = exists(torch)
-        val bother = exists(other)
+        val brightMTK = exists(MTK)
+        val brightTorch = exists(TORCH)
+        val bother = exists(OTHER)
         when (mode) {
             0, 1 -> {
-                if (bmtk) write(mtk, flash)
-                if (btorch) write(torch, flash)
-                if (bother) write(other, flash)
+                if (brightMTK) write(MTK, flash)
+                if (brightTorch) write(TORCH, flash)
+                if (bother) write(OTHER, flash)
             }
 
             2 -> {
-                if (bmtk) zero(mtk, flash)
+                if (brightMTK) zero(MTK, flash)
                 if (bother) {
-                    zero(other, flash)
+                    zero(OTHER, flash)
                 }
-                if (btorch) zero(torch, flash)
+                if (brightTorch) zero(TORCH, flash)
             }
 
             3 -> {
-                if (bmtk) flashSwitch(mtk, flash)
+                if (brightMTK) flashSwitch(MTK, flash)
 
                 if (bother) {
-                    flashSwitch(other, flash)
+                    flashSwitch(OTHER, flash)
                 }
-                if (btorch) flashSwitch(torch, flash)
+                if (brightTorch) flashSwitch(TORCH, flash)
             }
         }
     }
@@ -361,8 +361,8 @@ object NewFlashLight : TileUtils() {
 
     private fun flashSwitch(path: String, flash: Int) {
         write(path, flash)
-        write(flashSwitch, 1)
-        write(flashSwitch, 0)
+        write(FLASH_SWITCH, 1)
+        write(FLASH_SWITCH, 0)
     }
 
     private fun exists(path: String): Boolean {

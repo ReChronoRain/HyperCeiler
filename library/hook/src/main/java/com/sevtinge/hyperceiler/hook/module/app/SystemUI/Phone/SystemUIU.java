@@ -22,7 +22,6 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperO
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.ToastBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AllowManageAllNotifications;
@@ -47,6 +46,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.FlashLig
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.GmsTile;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.HideDelimiter;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.MuteVisibleNotifications;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NewFlashLight;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationImportanceHyperOSFix;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationRowMenu;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationWeather;
@@ -93,6 +93,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableMiuiMulti
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.MonetThemeOverlay;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.NotificationFreeform;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.RemoveMiuiMultiWinSwitch;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.ToastBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.VolumeTimerValuesHook;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.NewPluginHelperKt;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.BlurEnable;
@@ -240,7 +241,11 @@ public class SystemUIU extends BaseModule {
         initHook(new ReduceBrightColorsTile(), mPrefsMap.getBoolean("security_center_reduce_bright_colors_tile"));
         initHook(new FiveGTile(), mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) != 0);
         initHook(new SnowLeopardModeTile(), mPrefsMap.getBoolean("system_ui_control_center_snow_leopard_mode"));
-        initHook(new FlashLight(), mPrefsMap.getStringAsInt("security_flash_light_switch", 0) != 0);
+        if (isHyperOSVersion(2f)) {
+            initHook(NewFlashLight.INSTANCE, mPrefsMap.getStringAsInt("security_flash_light_switch", 0) != 0);
+        } else {
+            initHook(new FlashLight(), mPrefsMap.getStringAsInt("security_flash_light_switch", 0) != 0);
+        }
         if (mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode_high", 0) != 0) {
             initHook(new SunlightModeHigh());
         } else {
