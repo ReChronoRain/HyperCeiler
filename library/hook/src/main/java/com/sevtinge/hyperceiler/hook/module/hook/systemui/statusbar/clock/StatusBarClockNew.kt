@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.clock
 
 import android.content.Context
 import android.graphics.Typeface
-import android.os.Handler
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
@@ -41,13 +40,28 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfte
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
+import java.util.Collections
 import java.util.Timer
 import java.util.TimerTask
+import java.util.WeakHashMap
+import java.util.concurrent.ConcurrentHashMap
 
 object StatusBarClockNew : BaseHook() {
     private val statusBarClass by lazy {
         loadClass("com.android.systemui.statusbar.views.MiuiClock")
     }
+
+    private val ssRegex by lazy { Regex("(ss|s)") }
+
+    private val sharedTimer by lazy { Timer("StatusBarClockNewTimer", true) }
+
+    private val updateTimeMethodCache = ConcurrentHashMap<Class<*>, Method?>()
+
+    private val scheduledTasks: MutableMap<TextView, TimerTask> =
+        Collections.synchronizedMap(WeakHashMap())
+
+    private val threadSb = ThreadLocal.withInitial { StringBuilder(128) }
+    private val threadFormatSb = ThreadLocal.withInitial { StringBuilder(128) }
 
     private val sBold by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_clock_bold")
@@ -177,17 +191,18 @@ object StatusBarClockNew : BaseHook() {
                 it[0] == Context::class.java
             }.first().createAfterHook { param ->
                 runCatching {
-                    val regex = Regex("(ss|s)")
                     val miuiClock = param.thisObject as TextView
                     val miuiClockName = miuiClock.resources.getResourceEntryName(miuiClock.id)
                         ?: return@createAfterHook
+
                     val isSec = setOf(
-                        regex.containsMatchIn(getFormatS) && isSync && miuiClockName == "clock",
-                        regex.containsMatchIn(getFormatS) && !isSync && miuiClockName in setOf("clock", "big_time"),
-                        regex.containsMatchIn(getFormatB) && isSync && miuiClockName == "big_time",
-                        regex.containsMatchIn(getFormatN) && miuiClockName == "date_time",
-                        regex.containsMatchIn(getFormatP) && miuiClockName == "pad_clock"
+                        ssRegex.containsMatchIn(getFormatS) && isSync && miuiClockName == "clock",
+                        ssRegex.containsMatchIn(getFormatS) && !isSync && miuiClockName in setOf("clock", "big_time"),
+                        ssRegex.containsMatchIn(getFormatB) && isSync && miuiClockName == "big_time",
+                        ssRegex.containsMatchIn(getFormatN) && miuiClockName == "date_time",
+                        ssRegex.containsMatchIn(getFormatP) && miuiClockName == "pad_clock"
                     ).any { it }
+
                     // miuiClockName 内部标签分类如下
                     // clock 竖屏状态栏时钟
                     // big_time 通知中心时钟
@@ -212,20 +227,49 @@ object StatusBarClockNew : BaseHook() {
                     if (getClockStyle != 0 && miuiClockName == "clock")
                         miuiClock.isSingleLine = false
 
+                    // 在 constructor hook 内，当识别为 isSec:
                     if (isSec) {
-                        val updateTimeMethod: Method = miuiClock.javaClass.getDeclaredMethod("updateTime")
+                        // 如果已经有定时任务在运行，则不再创建新的任务
+                        if (scheduledTasks.containsKey(miuiClock)) return@createAfterHook
+
+                        val updateTimeMethod = updateTimeMethodCache.computeIfAbsent(miuiClock.javaClass) { cls ->
+                            runCatching {
+                                findMethodInHierarchy(cls, "updateTime")
+                            }.getOrNull()
+                        } ?: return@createAfterHook
+
+                        // Runnable：在主线程上调用 updateTime（使用 post 保证在 view 所在的 Looper）
                         val runnable = Runnable {
-                            updateTimeMethod.isAccessible = true
-                            updateTimeMethod.invoke(miuiClock)
+                            runCatching {
+                                updateTimeMethod.isAccessible = true
+                                updateTimeMethod.invoke(miuiClock)
+                            }
                         }
 
                         val timerTask = object : TimerTask() {
                             override fun run() {
-                                Handler(miuiClock.context.mainLooper).post(runnable)
+                                runCatching {
+                                    miuiClock.post(runnable)
+                                }
                             }
                         }
 
-                        Timer().schedule(timerTask, 1000 - System.currentTimeMillis() % 1000, 1000)
+                        val attachListener = object : View.OnAttachStateChangeListener {
+                            override fun onViewAttachedToWindow(p0: View) {}
+
+                            override fun onViewDetachedFromWindow(p0: View) {
+                                runCatching {
+                                    timerTask.cancel()
+                                }
+                                scheduledTasks.remove(miuiClock)
+                                miuiClock.removeOnAttachStateChangeListener(this)
+                            }
+                        }
+                        miuiClock.addOnAttachStateChangeListener(attachListener)
+
+                        val delay = 1000 - System.currentTimeMillis() % 1000
+                        sharedTimer.schedule(timerTask, delay, 1000)
+                        scheduledTasks[miuiClock] = timerTask
                     }
                 }
             }
@@ -309,10 +353,6 @@ object StatusBarClockNew : BaseHook() {
         }
 
         // 设置时钟边距
-        setClockMargin(name, text)
-    }
-
-    private fun setClockMargin(name: String, text: TextView) {
         when (name) {
             "clock" -> {
                 setClockMargin(text, sClockLeftMargin, sClockRightMargin, sClockVerticalOffset)
@@ -375,30 +415,41 @@ object StatusBarClockNew : BaseHook() {
             textV.getObjectField("mMiuiStatusBarClockController")
                 ?.getObjectField("mCalendar") ?: return
 
-        val (textSb, formatSb) = when (name) {
-            "clock" -> Pair(StringBuilder(), StringBuilder(sClockName))
+        val textSb = threadSb.get()?.apply { setLength(0) }
+        val formatSb = threadFormatSb.get()?.apply { setLength(0) }
 
-            "big_time" -> Pair(
-                StringBuilder(),
-                if (isSync) StringBuilder(safeFormatB)
-                else StringBuilder(safeFormatS)
-            )
-
-            "pad_clock" -> Pair(
-                StringBuilder(), StringBuilder(safeFormatP)
-            )
-
-            else -> Pair(StringBuilder(), StringBuilder(safeFormatN))
+        when (name) {
+            "clock" -> formatSb?.append(sClockName)
+            "big_time" -> if (isSync) formatSb?.append(safeFormatB) else formatSb?.append(safeFormatS)
+            "pad_clock" -> formatSb?.append(safeFormatP)
+            else -> formatSb?.append(safeFormatN)
         }
 
         mCalendar.apply {
             callMethod("setTimeInMillis", System.currentTimeMillis())
             callMethod("format", context, textSb, formatSb)
-            textV.text = textSb.toString()
         }
+
+        textV.text = textSb.toString()
     }
+
 
     private fun safeSplitFirst(str: String?): String {
         return str?.split("\n")?.firstOrNull() ?: ""
+    }
+
+    // 向上遍历类层次查找方法（find declared in class or any superclass）
+    private fun findMethodInHierarchy(cls: Class<*>, name: String, vararg params: Class<*>): Method? {
+        var c: Class<*>? = cls
+        while (c != null) {
+            try {
+                val m = c.getDeclaredMethod(name, *params)
+                return m
+            } catch (_: NoSuchMethodException) {
+                // continue to superclass
+            }
+            c = c.superclass
+        }
+        return null
     }
 }
