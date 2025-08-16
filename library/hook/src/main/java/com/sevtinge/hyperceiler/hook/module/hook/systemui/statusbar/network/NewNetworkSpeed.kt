@@ -36,7 +36,6 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 import java.net.NetworkInterface
-import kotlin.math.pow
 import kotlin.math.roundToLong
 
 object NewNetworkSpeed : BaseHook() {
@@ -79,9 +78,12 @@ object NewNetworkSpeed : BaseHook() {
         mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_style", 0)
     }
 
+    private const val KB = 1024.0
+    private const val MB = KB * KB
+
     private fun getTrafficBytes(): Pair<Long, Long> {
-        var tx = -1L
-        var rx = -1L
+        var tx = 0L
+        var rx = 0L
         runCatching {
             val list = NetworkInterface.getNetworkInterfaces()
             list?.asSequence()
@@ -108,24 +110,19 @@ object NewNetworkSpeed : BaseHook() {
             val hideSecUnit = mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit")
             val unitSuffix = if (hideSecUnit) "" else modRes.getString(R.string.system_ui_statusbar_network_speed_Bs)
             val units = modRes.getString(R.string.system_ui_statusbar_network_speed_speedunits)
-            val kb = 1024.0f
-            val mb = kb * kb
 
-            val value: Float
+            val value: Double
             val expIndex: Int
 
-            when {
-                bytes >= mb -> {
-                    value = bytes / mb
-                    expIndex = 1
-                }
-                else -> {
-                    value = bytes / kb
-                    expIndex = 0
-                }
+            if (bytes >= MB) {
+                value = bytes / MB
+                expIndex = 1
+            } else {
+                value = bytes / KB
+                expIndex = 0
             }
 
-            val valueStr = if (value < 100.0f) String.format("%.1f", value) else String.format("%.0f", value)
+            val valueStr = if (value < 100.0) String.format("%.1f", value) else String.format("%.0f", value)
             val pre = units[expIndex]
             if (networkStyle == 2) {
                 "$valueStr\n${pre}$unitSuffix"
@@ -175,55 +172,57 @@ object NewNetworkSpeed : BaseHook() {
                     else -> ""
                 }
 
-                // 计算上/下行网速字符串
-                val tx = if (hideLow && !allHideLow && txLow) "" else {
+                val needTotal = (networkStyle == 1 || networkStyle == 2)
+                val txStr = if (hideLow && !allHideLow && txLow) "" else {
                     if (swapPlaces) "$txArrow${humanReadableByteCount(mContext, txSpeed)}"
                     else "${humanReadableByteCount(mContext, txSpeed)}$txArrow"
                 }
-                val rx = if (hideLow && !allHideLow && rxLow) "" else {
+                val rxStr = if (hideLow && !allHideLow && rxLow) "" else {
                     if (swapPlaces) "$rxArrow${humanReadableByteCount(mContext, rxSpeed)}"
                     else "${humanReadableByteCount(mContext, rxSpeed)}$rxArrow"
                 }
-                // 计算总网速
-                val ax = humanReadableByteCount(mContext, txSpeed + rxSpeed)
-                // 存储是否隐藏慢速的条件的结果
+                val totalStr = if (needTotal) humanReadableByteCount(mContext, txSpeed + rxSpeed) else ""
+
+                // 存储隐藏慢速判断结果
                 val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
                 val isAllLowSpeed = hideLow && allHideLow && txLow && rxLow
 
                 runCatching {
                     when (networkStyle) {
-                        // 如果开启值和单位单双排显示，返回总网速的字符串
                         1, 2 -> {
+                            // 单/双排显示总速率
                             if (isLowSpeed) {
                                 strArr[0] = ""
                             } else {
-                                strArr[0] = ax
+                                strArr[0] = totalStr
                             }
                             it.args[0] = strArr
                         }
-                        // 如果显示上下行网速显示，返回上下行网速的字符串
                         3 -> {
+                            // 同一行显示上/下行
                             if (isAllLowSpeed) {
                                 strArr[0] = ""
                             } else {
-                                if (rx.isNotEmpty()) {
-                                    strArr[0] = "$tx $rx"
-                                } else{
-                                    strArr[0] = tx
+                                // 若 rxStr 为空只显示 txStr，避免多余空格
+                                if (rxStr.isNotEmpty()) {
+                                    strArr[0] = "$txStr $rxStr"
+                                } else {
+                                    strArr[0] = txStr
                                 }
                             }
                             it.args[0] = strArr
                         }
                         4 -> {
+                            // 上下两行显示
                             if (isAllLowSpeed) {
                                 strArr[0] = ""
                             } else {
-                                strArr[0] = "$tx\n$rx"
+                                strArr[0] = "$txStr\n$rxStr"
                             }
                             it.args[0] = strArr
                         }
-                        // 其他情况，对隐藏慢速判定，返回空字符串，其余不返回
                         else -> {
+                            // 其他情况，对隐藏慢速判定，返回空字符串，其余不返回
                             if (isLowSpeed) {
                                 strArr[0] = ""
                                 it.args[0] = strArr
@@ -231,7 +230,7 @@ object NewNetworkSpeed : BaseHook() {
                         }
                     }
                 }.onFailure { e ->
-                    logE(TAG, lpparam.packageName, "NetSpeedHook: hook failed by network speed, ${e.printStackTrace()}")
+                    logE(TAG, lpparam.packageName, "hook failed by network speed: ${e.message}", e)
                 }
             }
         }
@@ -256,24 +255,32 @@ object NewNetworkSpeed : BaseHook() {
             // 计算两次获取时间的差值
             var interval = nanoTime - measureTime
             measureTime = nanoTime
+
             // 如果 interval 小于等于 0，说明时间间隔太短或异常，那么将 interval 设为 4 秒
-            if (interval <= 0L) interval = (4 * 10.0.pow(9.0)).roundToLong()
-            // 调用一个函数，返回一个包含两个元素的列表，第一个元素是发送的字节数，第二个元素是接收的字节数
+            if (interval <= 0L) {
+                interval = 4_000_000_000L // 4 seconds in nanoseconds
+            }
+
             val (newTxBytes, newRxBytes) = getTrafficBytes()
-            // 计算两次获取字节数的差值
-            newTxBytesFixed = (newTxBytes - txBytesTotal).takeIf { it >= 0 && txBytesTotal != 0L } ?: 0
-            newRxBytesFixed = (newRxBytes - rxBytesTotal).takeIf { it >= 0 && rxBytesTotal != 0L } ?: 0
-            // 计算发送和接收的速度，单位是字节每秒，用差值除以时间再取整数
-            val seconds = interval / 10.0.pow(9.0)
-            txSpeed = (newTxBytesFixed / seconds).roundToLong()
-            rxSpeed = (newRxBytesFixed / seconds).roundToLong()
-            // 更新总的发送和接收的字节数
+
+            if (txBytesTotal != 0L) { // 首次运行时不计算速度
+                newTxBytesFixed = (newTxBytes - txBytesTotal).takeIf { it >= 0 } ?: 0
+                newRxBytesFixed = (newRxBytes - rxBytesTotal).takeIf { it >= 0 } ?: 0
+
+                val seconds = interval / 1_000_000_000.0
+                txSpeed = (newTxBytesFixed / seconds).roundToLong()
+                rxSpeed = (newRxBytesFixed / seconds).roundToLong()
+            }
+
             txBytesTotal = newTxBytes
             rxBytesTotal = newRxBytes
         } else {
             // 如果 isConnected 为 false，说明网络未连接，那么将发送和接收的速度设为 0
             txSpeed = 0
             rxSpeed = 0
+            // 重置流量统计，以便在网络重新连接时从零开始计算
+            txBytesTotal = 0
+            rxBytesTotal = 0
         }
     }
- }
+}

@@ -48,11 +48,6 @@ public class LanguageHelper {
         String languageSetting = mSharedPreferences.getString("prefs_key_settings_app_language", "-1");
         currentLocale = getCachedLocaleFromPrefs(languageSetting);
 
-        // 写一次日志，便于排查（打印类加载器信息）
-        AndroidLogUtils.logI("Language", "[init] LanguageHelper classloader=" + LanguageHelper.class.getClassLoader());
-        AndroidLogUtils.logI("Language", "[init] prefs_key_settings_app_language = " + languageSetting);
-        AndroidLogUtils.logI("Language", "[init] resolved initial locale = " + (currentLocale != null ? currentLocale.toLanguageTag() : "null"));
-
         // 应用到 application resources（尝试更新 app 资源）
         setLanguage(app.getApplicationContext(), currentLocale);
 
@@ -91,9 +86,6 @@ public class LanguageHelper {
             }
             Context localized = base.createConfigurationContext(config);
 
-            AndroidLogUtils.logI("Language", "wrapContext -> locale=" + (useLocale != null ? useLocale.toLanguageTag() : "null")
-                + " (prefs=" + languageSetting + ")"
-                + " classloader=" + LanguageHelper.class.getClassLoader());
             return localized;
         } catch (Throwable t) {
             AndroidLogUtils.logE("Language", "wrapContext failed", t);
@@ -112,18 +104,6 @@ public class LanguageHelper {
     public static void setLanguage(Context context, Locale locale) {
         if (context == null || locale == null) return;
         try {
-            Locale old = Locale.getDefault();
-            AndroidLogUtils.logI("Language", "[setLanguage] caller locale default = " + old.toLanguageTag());
-            AndroidLogUtils.logI("Language", "[setLanguage] requested locale = " + locale.toLanguageTag());
-            // 简单打印调用栈前几行帮助定位是谁触发的
-            StackTraceElement[] st = Thread.currentThread().getStackTrace();
-            StringBuilder sb = new StringBuilder();
-            sb.append("[setLanguage] stack: ");
-            for (int i = Math.min(6, st.length - 1); i >= 2; i--) {
-                sb.append(st[i].getClassName()).append("#").append(st[i].getMethodName()).append(" -> ");
-            }
-            AndroidLogUtils.logI("Language", sb.toString());
-
             Resources resources = context.getResources();
             Configuration configuration = new Configuration(resources.getConfiguration());
             Locale.setDefault(locale);
