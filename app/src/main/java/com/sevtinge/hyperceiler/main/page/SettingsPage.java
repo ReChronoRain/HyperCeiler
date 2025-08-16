@@ -75,6 +75,10 @@ public class SettingsPage extends PageFragment
         int value = LanguageHelper.resultIndex(LanguageHelper.appLanguages, language);
         mLanguage.setValueIndex(value);
         mLanguage.setOnPreferenceChangeListener((preference, o) -> {
+            getSharedPreferences()
+                .edit()
+                .putString("prefs_key_settings_app_language", (String) o)
+                .apply();
             LanguageHelper.setIndexLanguage(getActivity(), Integer.parseInt((String) o), true);
             return true;
         });

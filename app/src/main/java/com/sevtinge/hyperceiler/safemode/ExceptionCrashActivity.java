@@ -30,17 +30,16 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.main.BaseActivity;
 import com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem;
 import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.BuildConfig;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
 
-import fan.appcompat.app.AppCompatActivity;
-
-public class ExceptionCrashActivity extends AppCompatActivity implements View.OnLongClickListener {
+public class ExceptionCrashActivity extends BaseActivity implements View.OnLongClickListener {
     private String buildMsg;
     private String fullMsg;
     private String stackMsg;

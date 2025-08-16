@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler;
 import android.content.Context;
 import android.content.Intent;
 
+import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.safemode.ExceptionCrashActivity;
 
@@ -30,12 +31,14 @@ public class Application extends android.app.Application {
     @Override
     protected void attachBaseContext(Context base) {
         PrefsUtils.mSharedPreferences = PrefsUtils.getSharedPrefs(base);
-        super.attachBaseContext(base);
+        Context wrapped = LanguageHelper.wrapContext(base);
+        super.attachBaseContext(wrapped);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        LanguageHelper.init(this);
         setupCrashHandler();
     }
 

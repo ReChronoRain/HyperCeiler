@@ -18,11 +18,13 @@
  */
 package com.sevtinge.hyperceiler.main;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.dashboard.base.activity.ActivityCallback;
 import com.sevtinge.hyperceiler.main.fragment.ContentFragment;
 
@@ -41,6 +43,12 @@ public class NaviBaseActivity extends NavigatorActivity implements ActivityCallb
             Log.d("NotesNaviActivityTAG", "reset Theme");
             setTheme(com.sevtinge.hyperceiler.ui.R.style.NavigatorActivityTheme);
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        Context wrapped = LanguageHelper.wrapContext(newBase);
+        super.attachBaseContext(wrapped);
     }
 
     @Override

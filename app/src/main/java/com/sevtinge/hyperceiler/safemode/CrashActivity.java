@@ -31,14 +31,14 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.main.BaseActivity;
 import com.sevtinge.hyperceiler.ui.R;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import fan.appcompat.app.AppCompatActivity;
 
-public class CrashActivity extends AppCompatActivity {
+public class CrashActivity extends BaseActivity {
 
     TextView mMessageTv;
     TextView mCrashRecordTv;
