@@ -39,6 +39,15 @@
     <string name="tiles_sunshine_mode">サンライトモード</string>
     <string name="system_cc_showpct_style_1">インライン</string>
     <string name="system_cc_showpct_style_2">明示的</string>
+    <string name="media_control_ground_mode_1">カバーアート</string>
+    <string name="media_control_ground_mode_2">ファジーカバー</string>
+    <string name="media_control_ground_mode_3">放射状グラデーション</string>
+    <string name="media_control_ground_mode_4">線形グラデーション</string>
+    <string name="media_control_ground_mode_5">マテリアルブラー</string>
+    <string name="media_control_album_mode_1">ソース識別子を非表示</string>
+    <string name="media_control_album_mode_2">非表示</string>
+    <string name="media_control_button_mode_1">カスタムボタンが右端</string>
+    <string name="media_control_button_mode_2">再生ボタンが左端</string>
     <!--System Framework-->
     <string name="system_framework_phone_network_title">ネットワーク設定</string>
     <string name="system_ui_hide_navigation_bar">ジェスチャーラインを非表示にする</string>
