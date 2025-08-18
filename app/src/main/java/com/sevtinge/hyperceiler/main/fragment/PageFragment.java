@@ -1,6 +1,5 @@
 package com.sevtinge.hyperceiler.main.fragment;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import java.lang.reflect.Field;
 
@@ -20,7 +19,8 @@ import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.preference.PreferenceFragment;
 import fan.springback.view.SpringBackLayout;
 
-public abstract class PageFragment extends PreferenceFragment {
+// 存在 Context 同步问题
+public class PageFragment extends SettingsPreferenceFragment {
 
     private static final String TAG = "PageFragment";
 
@@ -32,9 +32,9 @@ public abstract class PageFragment extends PreferenceFragment {
         return R.style.Theme_Navigator_ContentChild_Home;
     }
 
-    public abstract int getPreferenceScreenResId();
-
     @Override
+    public int getPreferenceScreenResId() { return 0; }
+
     public void onCreate(@Nullable Bundle savedInstanceState) {
         if (getThemeRes() != 0) setThemeRes(R.style.AppTheme);
         super.onCreate(savedInstanceState);
@@ -95,8 +95,6 @@ public abstract class PageFragment extends PreferenceFragment {
         }
     }
 
-    public void initPrefs() {}
-
     protected void setOverlayMode() {
         try {
             Field declaredField = PreferenceFragment.class.getDeclaredField("mIsOverlayMode");
@@ -105,10 +103,6 @@ public abstract class PageFragment extends PreferenceFragment {
         } catch (Exception e) {
             AndroidLogUtils.logE(TAG, "setOverlayMode error", e);
         }
-    }
-
-    public SharedPreferences getSharedPreferences() {
-        return PrefsUtils.mSharedPreferences;
     }
 
     @Override

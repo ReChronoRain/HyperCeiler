@@ -45,11 +45,16 @@ public class HyperCeilerSettings extends BaseHook {
 
     private Class<?> mPreferenceHeader;
 
+    int opt = mPrefsMap.getStringAsInt("settings_icon", 0);
     int mIconModeInt = mPrefsMap.getStringAsInt("settings_icon_mode", 0);
 
     @Override
     public void init() {
-        addIconResource();
+        if (mIconModeInt == 0) {
+            settingsIconResId = R.drawable.ic_hyperceiler_settings_v140;
+        } else {
+            settingsIconResId = R.drawable.ic_hyperceiler_settings_v130;
+        }
 
         Class<?> mMiuiSettings = findClassIfExists("com.android.settings.MiuiSettings");
 
@@ -60,7 +65,6 @@ public class HyperCeilerSettings extends BaseHook {
                 if (param.args[0] == null) return;
 
                 Context mContext = ((Activity) param.thisObject).getBaseContext();
-                int opt = Integer.parseInt(mPrefsMap.getString("settings_icon", "0"));
                 if (opt == 0) return;
 
                 Resources modRes = getModuleRes(mContext);
@@ -114,12 +118,4 @@ public class HyperCeilerSettings extends BaseHook {
         });
     }
 
-
-    private void addIconResource() {
-        if (mIconModeInt == 0) {
-            settingsIconResId = R.drawable.ic_hyperceiler_settings_v140;
-        } else {
-            settingsIconResId = R.drawable.ic_hyperceiler_settings_v130;
-        }
-    }
 }

@@ -47,12 +47,12 @@ import static com.sevtinge.hyperceiler.utils.XposedActivateHelper.isModuleActive
 import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt;
-import com.sevtinge.hyperceiler.R;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -85,7 +85,6 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesModule.put("BuildTime", "CST " + BuildConfig.BUILD_TIME);
             propertiesModule.put("BuildType", BuildConfig.BUILD_TYPE);
             propertiesModule.put("BuildOsName", BuildConfig.BUILD_OS_NAME);
-            propertiesModule.put("BuildUserName", BuildConfig.BUILD_USER_NAME);
             propertiesModule.put("BuildJavaVersion", BuildConfig.BUILD_JAVA_VERSION);
             propertiesModule.put("GitHash", BuildConfig.GIT_HASH);
             propertiesModule.put("GitCode", BuildConfig.GIT_CODE);
@@ -103,8 +102,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesDevice.put("Soc", getSoc());
             propertiesDevice.put("ModDevice", getModDevice());
             propertiesDevice.put("Characteristics", getCharacteristics());
-            propertiesDevice.put("Pad", String.valueOf(isPad()));
-            propertiesDevice.put("LargeScreen", String.valueOf(isLargeUI()));
+            propertiesDevice.put("LargeScreen", String.valueOf(isPad() || isLargeUI()));
             propertiesDevice.put("FingerPrint", getFingerPrint());
             propertiesDevice.put("Locale", getLocale());
             propertiesDevice.put("Language", getLanguage());

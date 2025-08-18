@@ -38,13 +38,13 @@ import androidx.preference.SwitchPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.expansion.utils.ClickCountsUtils;
 import com.sevtinge.hyperceiler.main.fragment.ContentFragment.IFragmentChange;
 import com.sevtinge.hyperceiler.main.page.about.view.BgEffectPainter;
 import com.sevtinge.hyperceiler.main.page.about.widget.VersionCard;
-import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.expansion.utils.ClickCountsUtils;
 import com.sevtinge.hyperceiler.widget.ListContainerView;
 import com.sevtinge.hyperceiler.widget.VersionCardClickView;
 
@@ -263,7 +263,7 @@ public class AboutPage extends DashboardFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mHandler != null) mHandler.removeCallbacks(runnableBgEffect);
+        mHandler.removeCallbacks(runnableBgEffect);
         if (mContainerView != null) unregisterCoordinateScrollView(mContainerView.getNestedHeader());
         mContainerView = null;
     }

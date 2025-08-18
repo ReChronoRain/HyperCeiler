@@ -35,6 +35,7 @@ import androidx.preference.PreferenceCategory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.callback.ModSearchCallback;
 import com.sevtinge.hyperceiler.common.model.adapter.ModSearchAdapter;
 import com.sevtinge.hyperceiler.common.model.data.ModData;
@@ -46,7 +47,6 @@ import com.sevtinge.hyperceiler.main.banner.HomePageBannerHelper;
 import com.sevtinge.hyperceiler.main.fragment.ContentFragment.IFragmentChange;
 import com.sevtinge.hyperceiler.main.fragment.PageFragment;
 import com.sevtinge.hyperceiler.main.page.settings.helper.HomepageEntrance;
-import com.sevtinge.hyperceiler.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -148,8 +148,6 @@ public class HomePage extends PageFragment
     public void onDestroySearchMode(ActionMode mode) {
         mNestedHeaderLayout.getScrollableView().setVisibility(View.VISIBLE);
     }
-
-
 
     private void onSearchItemClickListener(ModData ad) {
         if (ad == null) return;

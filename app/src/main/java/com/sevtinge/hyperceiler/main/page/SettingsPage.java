@@ -31,11 +31,11 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
+import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.main.fragment.ContentFragment.IFragmentChange;
-import com.sevtinge.hyperceiler.main.fragment.PageFragment;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.R;
 
@@ -44,7 +44,7 @@ import fan.appcompat.app.AppCompatActivity;
 import fan.navigator.NavigatorFragmentListener;
 import fan.preference.DropDownPreference;
 
-public class SettingsPage extends PageFragment
+public class SettingsPage extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener,
     NavigatorFragmentListener, IFragmentChange {
 
@@ -74,6 +74,7 @@ public class SettingsPage extends PageFragment
         String language = LanguageHelper.getLanguage(requireContext());
         int value = LanguageHelper.resultIndex(LanguageHelper.appLanguages, language);
         mLanguage.setValueIndex(value);
+
         mLanguage.setOnPreferenceChangeListener((preference, o) -> {
             LanguageHelper.setIndexLanguage(getActivity(), Integer.parseInt((String) o), true);
             return true;
