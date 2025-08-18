@@ -32,7 +32,6 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.miuiMediaControlPanel
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.notificationUtil
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.PublicClass.playerTwoCircleView
@@ -48,6 +47,7 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import de.robv.android.xposed.XposedHelpers
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 
@@ -174,7 +174,10 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         getNotificationElementRoundRect(context)
                     )
 
-                    val mStatusBarStateController = XposedHelpers.getObjectField(MiuiStub.sysUIProvider, "mStatusBarStateController")
+                    val miuiStubClass = loadClassOrNull("miui.stub.MiuiStub")
+                    val miuiStubInstance = XposedHelpers.getStaticObjectField(miuiStubClass, "INSTANCE")
+                    val mSysUIProvider = XposedHelpers.getObjectField(miuiStubInstance, "mSysUIProvider")
+                    val mStatusBarStateController = XposedHelpers.getObjectField(mSysUIProvider, "mStatusBarStateController")
                     val getLazyClass = XposedHelpers.callMethod(mStatusBarStateController, "get")
                     val getState = XposedHelpers.callMethod(getLazyClass, "getState")
 
