@@ -85,13 +85,14 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            android:key="prefs_key_system_ui_statusbar_network_speed_update_spacing"
+            android:key="prefs_key_system_ui_statusbar_network_speed_update_spacings"
             android:title="@string/system_ui_statusbar_network_speed_update_spacing"
-            app:defaultValue="3"
+            app:defaultValue="40"
             app:defaultValueTitle="@string/array_default"
             app:format="%s s"
-            app:maxValue="10"
-            app:minValue="1"
+            app:maxValue="100"
+            app:minValue="10"
+            app:showDividerValue="10"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
@@ -133,7 +134,7 @@
             app:defaultValue="10"
             app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
-            app:maxValue="120"
+            app:maxValue="150"
             app:minValue="10"
             app:showSeekBarValue="true"
             app:stepValue="1" />
@@ -155,8 +156,7 @@
             app:defaultValue="0"
             app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
-            app:maxValue="10"
-            app:minValue="0"
+            app:maxValue="16"
             app:showDividerValue="2"
             app:stepValue="1" />
 
@@ -166,8 +166,7 @@
             app:defaultValue="0"
             app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
-            app:maxValue="10"
-            app:minValue="0"
+            app:maxValue="16"
             app:showDividerValue="2"
             app:stepValue="1" />
 

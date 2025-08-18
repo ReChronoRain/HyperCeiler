@@ -185,7 +185,7 @@ public class SystemUIU extends BaseModule {
         if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_all_status_enable")) {
             initHook(NewNetworkSpeed.INSTANCE, true);
             initHook(NewNetworkSpeedStyle.INSTANCE, true);
-            initHook(new NetworkSpeedSpacing(), mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacing", 3) != 3);
+            initHook(new NetworkSpeedSpacing(), mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacings", 40) != 40);
             initHook(new NetworkSpeedSec(), mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit"));
         }
 
@@ -277,7 +277,7 @@ public class SystemUIU extends BaseModule {
         initHook(MediaViewLayout.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_media_control_media_button_layout_switch"));
         initHook(MediaViewSize.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_media_control_media_button_size_switch"));
         initHook(MediaPicture.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_media_control_album_picture_rounded_corners") ||
-                mPrefsMap.getBoolean("system_ui_control_center_media_control_remove_album_audio_source_identifie"));
+            mPrefsMap.getStringAsInt("system_ui_control_center_media_control_media_album_mode", 0) == 1);
         initHook(MediaSeekBar.INSTANCE, mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_color", -1) != -1
             || mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1) != -1 ||
             mPrefsMap.getStringAsInt("system_ui_control_center_media_control_background_mode", 0) == 5 ||

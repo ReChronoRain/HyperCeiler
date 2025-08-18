@@ -38,9 +38,9 @@ public class NetworkSpeedSpacing extends BaseHook {
                             long originInterval = (long) param.args[0];
                             if (originInterval == 4000L) {
                                 originInterval = mPrefsMap.getInt(
-                                    "system_ui_statusbar_network_speed_update_spacing",
-                                    4
-                                ) * 1000L;
+                                    "system_ui_statusbar_network_speed_update_spacings",
+                                    40
+                                ) * 100L;
                                 param.args[0] = originInterval;
                             }
                         }
@@ -85,9 +85,9 @@ public class NetworkSpeedSpacing extends BaseHook {
         XposedHelpers.callMethod(mBgHandler, "removeMessages", 200001);
         if (z) {
             XposedHelpers.callMethod(mBgHandler, "sendEmptyMessageDelayed", 200001,
-                mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacing",
-                    4
-                ) * 1000L
+                mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacings",
+                    40
+                ) * 100L
             );
         }
     }
