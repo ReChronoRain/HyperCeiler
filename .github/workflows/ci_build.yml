@@ -28,11 +28,21 @@ on:
 
 jobs:
   build_app:
+    if: |
+      (
+        startsWith(github.event.head_commit.message, 'app: update version ')
+        ||
+        (
+          !contains(github.event.head_commit.message, '[release]')
+          && !contains(github.event.head_commit.message, '[beta]')
+          && !contains(github.event.head_commit.message, 'app: update version')
+        )
+      )
     runs-on: macos-latest
     name: Build App
     steps:
       - name: Checkout Git Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           submodules: true
@@ -105,7 +115,21 @@ jobs:
           compression-level: 9
 
   push_to_canary_group:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && !contains(github.event.head_commit.message, '[skp]') && !contains(github.event.head_commit.message, 's#')
+    if: |
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.ref_type != 'tag' &&
+      !contains(github.event.head_commit.message, '[skp]') &&
+      !contains(github.event.head_commit.message, 's#') &&
+      (
+        startsWith(github.event.head_commit.message, 'app: update version ')
+        ||
+        (
+          !contains(github.event.head_commit.message, '[release]')
+          && !contains(github.event.head_commit.message, '[beta]')
+          && !contains(github.event.head_commit.message, 'app: update version')
+        )
+      )
     runs-on: ubuntu-latest
     name: Push to Canary Group
     needs: build_app
@@ -136,7 +160,17 @@ jobs:
           curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID}&media=%5B%7B%22type%22:%22document%22,%20%22media%22:%22attach://canary%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D" -F canary="@${CANARY}"
 
   push_to_debug_group:
-    if: github.event_name == 'pull_request'
+    if: |
+      github.event_name == 'pull_request' &&
+      (
+        startsWith(github.event.head_commit.message, 'app: update version ')
+        ||
+        (
+          !contains(github.event.head_commit.message, '[release]')
+          && !contains(github.event.head_commit.message, '[beta]')
+          && !contains(github.event.head_commit.message, 'app: update version')
+        )
+      )
     runs-on: ubuntu-latest
     name: Push to Debug Group
     needs: build_app

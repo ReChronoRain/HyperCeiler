@@ -1,8 +1,8 @@
 name: Release Build
-# 待修改
+
 on:
   push:
-    branches: [ "main2" ]
+    branches: [ "main" ]
     paths-ignore:
       - ".github/**"
       - "!.github/workflows/**"
@@ -15,12 +15,37 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  set_tag_version:
+    if: |
+      startsWith(github.event.head_commit.message, 'app: update version ')
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Auto Tag if version update commit
+        run: |
+          set -e
+          MSG="${{ github.event.head_commit.message }}"
+          if [[ "$MSG" =~ app:\ update\ version\ ([^[:space:]]+)\ to\ ([^[:space:]]+) ]]; then
+            PREV_VER="${BASH_REMATCH[1]}"
+            NEXT_VER="${BASH_REMATCH[2]}"
+            git config user.name "${{ github.actor }}"
+            git config user.email "${{ github.actor }}@users.noreply.github.com"
+            git tag "$NEXT_VER" ${{ github.sha }}
+            git push origin "$NEXT_VER"
+          fi
+
+  build:
+    if: |
+      contains(github.event.head_commit.message, '[release]') || contains(github.event.head_commit.message, '[beta]')
+    runs-on: macos-latest
     name: Build App
     steps:
       - name: Checkout Git Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           submodules: true
@@ -37,7 +62,6 @@ jobs:
           cache-overwrite-existing: true
 
       - name: Create Sign File
-        if: github.ref == 'refs/heads/main'
         run: |
           touch signing.properties
           echo storePassword=${{ secrets.KEY_STORE_PASSWORD }} >> signing.properties
@@ -46,13 +70,22 @@ jobs:
           echo storeFile=../key.jks >> signing.properties
           echo ${{ secrets.SIGNING_KEY }} | base64 --decode > key.jks
 
-      - name: Build with Gradle
-        shell: bash
-        run: ./gradlew assembleCanary
+      - name: Build Release APK
+        if: contains(github.event.head_commit.message, '[release]')
+        run: ./gradlew assembleRelease
+
+      - name: Build Beta APK
+        if: contains(github.event.head_commit.message, '[beta]')
+        run: ./gradlew assembleBeta
 
       - name: Find APKs
         run: |
-          echo "APK_FILE_CANARY=$(find app/build/outputs/apk/canary -name '*.apk')" >> $GITHUB_ENV
+          if [[ "${{ github.event.head_commit.message }}" == *"[release]"* ]]; then
+            echo "APK_FILE_RELEASE=$(find app/build/outputs/apk/release -name '*.apk')" >> $GITHUB_ENV
+          fi
+          if [[ "${{ github.event.head_commit.message }}" == *"[beta]"* ]]; then
+            echo "APK_FILE_BETA=$(find app/build/outputs/apk/beta -name '*.apk')" >> $GITHUB_ENV
+          fi
 
       - name: Show APKs SHA256
         if: success()
@@ -60,31 +93,76 @@ jobs:
           echo "### Build Success" >> $GITHUB_STEP_SUMMARY
           echo "|Artifact|SHA256|" >> $GITHUB_STEP_SUMMARY
           echo "|:--------:|:----------|" >> $GITHUB_STEP_SUMMARY
-          canary=$(sha256sum "${{ env.APK_FILE_CANARY }}")
-          echo "SHA256=$canary" >> $GITHUB_ENV
-          echo "|Canary|$canary" >> $GITHUB_STEP_SUMMARY
+          if [[ -n "${{ env.APK_FILE_RELEASE }}" ]]; then
+            release=$(shasum -a 256 "${{ env.APK_FILE_RELEASE }}")
+            echo "|Release|$release" >> $GITHUB_STEP_SUMMARY
+          fi
+          if [[ -n "${{ env.APK_FILE_BETA }}" ]]; then
+            beta=$(shasum -a 256 "${{ env.APK_FILE_BETA }}")
+            echo "|Beta|$beta" >> $GITHUB_STEP_SUMMARY
+          fi
 
-      - name: Upload Canary APK
-        if: ${{ contains(github.event.head_commit.message, '[unupload]') == false && contains(github.event.head_commit.message, '[skp]') == false }}
+      - name: Upload Release APK
+        if: env.APK_FILE_RELEASE
         uses: actions/upload-artifact@v4
         with:
-          name: HyperCeiler Canary
-          path: ${{ env.APK_FILE_CANARY }}
+          name: HyperCeiler Release
+          path: ${{ env.APK_FILE_RELEASE }}
 
-      - name: Post to Canary Channel
-        if: ${{ github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skp]') == false && contains(github.event.head_commit.message, 's#') == false }}
-        shell: bash
-        env:
-          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          CANARY: ${{ env.APK_FILE_CANARY }}
-          COMMIT_MESSAGE: |+
-            New push to GitHub
-            ```
-            ${{ github.event.head_commit.message }}
-            ```by `${{ github.event.head_commit.author.name }}`
-            See commit detail [here](${{ github.event.head_commit.url }})
+      - name: Upload Beta APK
+        if: env.APK_FILE_BETA
+        uses: actions/upload-artifact@v4
+        with:
+          name: HyperCeiler Beta
+          path: ${{ env.APK_FILE_BETA }}
+
+  post_release:
+    if: |
+      contains(github.event.head_commit.message, '[release]') || contains(github.event.head_commit.message, '[beta]')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Get Tag Info
+        id: taginfo
         run: |
-          ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')
-          cd ${{ github.workspace }}
-          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22:%22document%22,%20%22media%22:%22attach://canary%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D" -F canary="@${CANARY}"
+          git fetch --tags
+          CUR_TAG=$(git describe --tags --abbrev=0)
+          PREV_TAG=$(git tag --sort=-creatordate | grep -v "^$CUR_TAG$" | head -n1)
+          echo "CUR_TAG=$CUR_TAG" >> $GITHUB_ENV
+          echo "PREV_TAG=$PREV_TAG" >> $GITHUB_ENV
+
+      - name: Generate Release Notes
+        id: notes
+        run: |
+          CONTRIBUTORS=$(git log ${{ env.PREV_TAG }}..${{ env.CUR_TAG }} --format='%aN' | sort | uniq | tr '\n' ',' | sed 's/,$//')
+          echo "RELEASE_TITLE=${{ env.CUR_TAG }}" >> $GITHUB_ENV
+          {
+            echo "RELEASE_BODY=此打包为自动自动触发，更新日志等待修改"
+            echo
+            echo "本次更新的贡献者们如下："
+            echo "$CONTRIBUTORS"
+            echo
+            echo "完整更新日志见：${{ env.PREV_TAG }}..${{ env.CUR_TAG }}"
+            echo
+            echo "注意事项："
+            echo "- 出现任何问题请将日志等级设置为 Debug 后携带日志及必要信息提交至 GitHub issue。"
+            echo "Copyright © 2023-2025 Re.chronoRain & Sevtinge & HyperCeiler Contributions"
+          } | sed ':a;N;$!ba;s/\n/\\n/g' >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        if: env.RELEASE_TYPE != 'none'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.CUR_TAG }}
+          name: ${{ env.RELEASE_TITLE }}
+          body: ${{ env.RELEASE_BODY }}
+          files: |
+            ${{ env.APK_FILE_RELEASE }}
+            ${{ env.APK_FILE_BETA }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
