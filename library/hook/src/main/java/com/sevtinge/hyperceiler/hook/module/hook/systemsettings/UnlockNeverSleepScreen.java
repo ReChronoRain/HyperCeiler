@@ -26,13 +26,16 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 public class UnlockNeverSleepScreen extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookConstructor("com.android.settings.KeyguardTimeoutListPreference", Context.class, AttributeSet.class, new MethodHook(){
+        findAndHookConstructor("com.android.settings.KeyguardTimeoutListPreference", Context.class, AttributeSet.class, new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 findAndHookMethod("android.os.SystemProperties", "get", String.class, new MethodHook(){
                     @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        param.setResult("lcd");
+                    protected void before(MethodHookParam param) {
+                        String key = (String) param.args[0];
+                        if ("ro.vendor.display.type".equals(key) || "ro.display.type".equals(key)) {
+                            param.setResult("lcd");
+                        }
                     }
                 });
             }
