@@ -51,4 +51,12 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/system_ui_display_cutout_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/system_ui_display_hide_cutout"
+            android:key="prefs_key_system_ui_display_hide_cutout_enable" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

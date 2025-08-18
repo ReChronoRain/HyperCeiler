@@ -408,6 +408,8 @@
     <string name="system_framework_volume_media_steps">Media volume level</string>
     <string name="system_framework_volume_media_steps_desc">It may cause the scrolling of the volume bar to freeze or the Bluetooth volume to be abnormal</string>
     <string name="system_framework_volume_steps">Volume level multiplier</string>
+    <string name="system_ui_display_cutout_title">Display cutout</string>
+    <string name="system_ui_display_hide_cutout">Hide display cutout</string>
     <string name="system_ui_display_use_aosp_screenshot">Use AOSP screenshot</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Redirect the screenshot app to use the AOSP screenshot capture. The screenshot app in HyperOS won\'t respond to the screenshot operation.</string>
     <string name="phone_double_5g_nr">Dual SIM use 5G (SA+NSA)</string>

@@ -357,6 +357,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_volume_media_steps">Mức âm lượng</string>
     <string name="system_framework_volume_media_steps_desc">Nó có thể khiến cuộn thanh âm lượng bị đơ hoặc âm lượng Bluetooth bất thường</string>
     <string name="system_framework_volume_steps">Hệ số bước âm lượng</string>
+    <string name="system_ui_display_cutout_title">Màn hình khuyết</string>
+    <string name="system_ui_display_hide_cutout">Ẩn màn hình khuyết</string>
     <string name="system_ui_display_use_aosp_screenshot">Sử dụng trình chụp ảnh màn hình AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Chuyển ứng dụng chụp ảnh màn hình sang chụp ảnh màn hình AOSP, ứng dụng chụp màn hình trong HyperOS sẽ không phản hồi thao tác chụp màn hình</string>
     <string name="phone_double_5g_nr">Sử dụng 5G kép (SA+NSA)</string>

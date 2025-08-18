@@ -290,6 +290,8 @@
     <string name="system_framework_volume_media_steps">Medya ses seviyesi</string>
     <string name="system_framework_volume_media_steps_desc">Ses çubuğunun kaydırılmasının donmasına veya Bluetooth ses seviyesinin anormal olmasına neden olabilir</string>
     <string name="system_framework_volume_steps">Ses seviyesi çarpanı</string>
+    <string name="system_ui_display_cutout_title">Ekran kesimi</string>
+    <string name="system_ui_display_hide_cutout">Ekran kesimini gizle</string>
     <string name="system_ui_display_use_aosp_screenshot">AOSP Ekran Görüntüsü kullanın</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Ekran görüntüsü uygulamasını AOSP ekran görüntüsüne yönlendirin, HyperOS\'taki ekran görüntüsü uygulaması ekran görüntüsü işlemine yanıt vermeyecektir.</string>
     <string name="phone_double_5g_nr">Çift sim 5G kullansın (SA+NSA)</string>

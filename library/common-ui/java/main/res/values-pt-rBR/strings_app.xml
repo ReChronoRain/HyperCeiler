@@ -356,6 +356,8 @@
     <string name="system_framework_volume_media_steps">Nível do volume de mídia</string>
     <string name="system_framework_volume_media_steps_desc">Isso pode fazer com que a rolagem da barra de volume congele ou o volume do Bluetooth fique anormal</string>
     <string name="system_framework_volume_steps">Multiplicador de nível de volume</string>
+    <string name="system_ui_display_cutout_title">Recorte de exibição</string>
+    <string name="system_ui_display_hide_cutout">Ocultar recorte de exibição</string>
     <string name="system_ui_display_use_aosp_screenshot">Usar captura de tela AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Redirecione o app de captura de tela para a captura de tela AOSP. O app de captura de tela no HyperOS não responderá à operação de captura de tela.</string>
     <string name="phone_double_5g_nr">Dual SIM usa 5G (SA+NSA)</string>

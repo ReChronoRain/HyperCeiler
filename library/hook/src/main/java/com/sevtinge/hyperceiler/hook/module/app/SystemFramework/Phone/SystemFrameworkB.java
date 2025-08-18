@@ -30,6 +30,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightne
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassIsolationViolation;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassSignCheckForT;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.DisplayCutout;
 
 @HookBase(targetPackage = "android", isPad = 2, targetSdk = 36)
 public class SystemFrameworkB extends BaseModule {
@@ -43,6 +44,9 @@ public class SystemFrameworkB extends BaseModule {
         initHook(new AllowUpdateSystemApp(), mPrefsMap.getBoolean("system_framework_core_patch_allow_update_system_app"));
         initHook(new DisableLowApiCheckForU(), mPrefsMap.getBoolean("system_framework_disable_low_api_check"));
         initHook(new DisablePersistent(), mPrefsMap.getBoolean("system_framework_disable_persistent"));
+
+        // 显示
+        initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));
 
         // 其它-显示与通知
         initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));

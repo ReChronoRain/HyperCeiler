@@ -356,6 +356,8 @@
     <string name="system_framework_volume_media_steps">メディアの音量レベル</string>
     <string name="system_framework_volume_media_steps_desc">オンにすると、音量バーのスクロールがフリーズしたり、Bluetooth の音量が異常になったりする場合があります</string>
     <string name="system_framework_volume_steps">音量のステップ数</string>
+    <string name="system_ui_display_cutout_title">画面のノッチ</string>
+    <string name="system_ui_display_hide_cutout">画面のノッチを隠す</string>
     <string name="system_ui_display_use_aosp_screenshot">AOSP スクリーンショットを使用</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">スクリーンショットアプリを AOSP スクリーンショットにリダイレクトします。HyperOS のスクリーンショットアプリはスクリーンショット操作に応答しなくなります</string>
     <string name="phone_double_5g_nr">2枚の SIM で 5G を使用 (SA+NSA)</string>

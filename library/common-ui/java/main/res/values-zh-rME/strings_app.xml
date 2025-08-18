@@ -314,9 +314,11 @@
     <string name="system_framework_volume_media_steps">媒体体积关卡</string>
     <string name="system_framework_volume_media_steps_desc">它可能会导致系统的音量栏冻结或蓝牙音量丸啦！</string>
     <string name="system_framework_volume_steps">音量电平乘法器</string>
-    <string name="system_ui_display_use_aosp_screenshot">不使用HyperOS自带的垃圾截屏</string>
+    <string name="system_ui_display_cutout_title">显示保险开关</string>
+    <string name="system_ui_display_hide_cutout">隐藏显示保险开关</string>
+    <string name="system_ui_display_use_aosp_screenshot">不使用 HyperOS 自带的垃圾截屏</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">重定向截图应用以解封 AOSP 截图。HyperOS 中截图功能将被封印。</string>
-    <string name="phone_double_5g_nr">双卡 5只因（SA+NSA）</string>
+    <string name="phone_double_5g_nr">双卡 5 只因（SA+NSA）</string>
     <string name="phone_double_5g_nr_desc">双卡同时使用 5只因 网络 (卡 2 仅支持 NSA)</string>
     <string name="phone_double_5g_sa">双卡双排（SA+SA）</string>
     <string name="phone_double_5g_sa_desc">不是很好的功能，尝试使我的第二卡槽支持霍格沃兹信号。</string>

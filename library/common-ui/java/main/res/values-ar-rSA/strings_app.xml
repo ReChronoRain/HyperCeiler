@@ -356,6 +356,8 @@
     <string name="system_framework_volume_media_steps">مستوى صوت الوسائط</string>
     <string name="system_framework_volume_media_steps_desc">قد تتسبب في تجميد شريط تمرير الصوت أو أن يكون مستوى صوت البلوتوث غير طبيعي</string>
     <string name="system_framework_volume_steps">مضاعف مستوى الصوت</string>
+    <string name="system_ui_display_cutout_title">قطع الشاشة</string>
+    <string name="system_ui_display_hide_cutout">إخفاء قطع الشاشة</string>
     <string name="system_ui_display_use_aosp_screenshot">استخدام لقطة الشاشة AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">إعادة توجيه تطبيق لقطة الشاشة لاستخدام وظيفة AOSP لالتقاط الصور. تطبيق لقطة الشاشة في HyperOS لن يستجيب لأوامر لقطة الشاشة.</string>
     <string name="phone_double_5g_nr">استخدام بطاقة مزدوجة 5G (SA+NSA )</string>

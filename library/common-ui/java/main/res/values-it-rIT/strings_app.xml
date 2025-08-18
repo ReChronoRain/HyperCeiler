@@ -278,6 +278,8 @@
     <string name="system_framework_volume_media_steps">Livello volume multimediale</string>
     <string name="system_framework_volume_media_steps_desc">Può causare il blocco dello scorrimento della barra del volume o l\'anomalia del volume del Bluetooth</string>
     <string name="system_framework_volume_steps">Moltiplicatore del livello volume</string>
+    <string name="system_ui_display_cutout_title">Ritaglio display</string>
+    <string name="system_ui_display_hide_cutout">Nascondi ritaglio display</string>
     <string name="system_ui_display_use_aosp_screenshot">Usa Screenshot AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Reindirizza l\'applicazione screenshot allo screenshot AOSP, l\'applicazione screenshot in HyperOS non risponderà all\'operazione screenshot</string>
     <string name="phone_double_5g_nr">Doppia scheda 5G (SA+NSA)</string>

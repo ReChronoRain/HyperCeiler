@@ -278,6 +278,8 @@
     <string name="system_framework_volume_media_steps">Tingkat volume media</string>
     <string name="system_framework_volume_media_steps_desc">Hal ini dapat menyebabkan pengguliran bilah volume terhenti atau volume Bluetooth menjadi tidak normal</string>
     <string name="system_framework_volume_steps">Pengganda tingkat volume</string>
+    <string name="system_ui_display_cutout_title">Potongan Tampilan</string>
+    <string name="system_ui_display_hide_cutout">Sembunyikan Potongan Tampilan</string>
     <string name="system_ui_display_use_aosp_screenshot">Gunakan Tangkapan Layar AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Arahkan ulang aplikasi tangkapan layar ke tangkapan layar AOSP, aplikasi tangkapan layar di HyperOS tidak akan merespons operasi tangkapan layar</string>
     <string name="phone_double_5g_nr">Kartu ganda menggunakan 5G (SA+NSA)</string>

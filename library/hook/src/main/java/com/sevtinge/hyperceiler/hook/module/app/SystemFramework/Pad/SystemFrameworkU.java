@@ -65,6 +65,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightne
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UseAndroidPackageInstaller;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassSignCheckForT;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.AllDarkMode;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.DisplayCutout;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.ThemeProvider;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.UseAOSPScreenShot;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.FreeFormCount;
@@ -139,6 +140,7 @@ public class SystemFrameworkU extends BaseModule {
         initHook(new BypassForceDownloadui(), mPrefsMap.getBoolean("system_framework_bypass_force_downloadui"));
 
         // 显示
+        initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));
         initHook(new BackgroundBlur(), mPrefsMap.getBoolean("system_framework_background_blur_supported"));
         initHook(UseAOSPScreenShot.INSTANCE, mPrefsMap.getBoolean("system_ui_display_use_aosp_screenshot_enable"));
         initHook(new AllDarkMode(), mPrefsMap.getBoolean("system_framework_allow_all_dark_mode"));

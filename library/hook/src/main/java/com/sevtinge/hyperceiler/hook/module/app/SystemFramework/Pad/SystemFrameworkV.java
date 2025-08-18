@@ -68,6 +68,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.Allow
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassIsolationViolation;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassSignCheckForT;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.AllDarkMode;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.DisplayCutout;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.EnhanceRecentsVisibility;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.ThemeProvider;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.UseAOSPScreenShot;
@@ -142,6 +143,7 @@ public class SystemFrameworkV extends BaseModule {
         initHook(new BypassForceDownloadui(), mPrefsMap.getBoolean("system_framework_bypass_force_downloadui"));
 
         // 显示
+        initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));
         initHook(new BackgroundBlur(), mPrefsMap.getBoolean("system_framework_background_blur_supported"));
         initHook(EnhanceRecentsVisibility.INSTANCE, mPrefsMap.getBoolean("system_framework_enhance_recents_visibility"));
         initHook(UseAOSPScreenShot.INSTANCE, mPrefsMap.getBoolean("system_ui_display_use_aosp_screenshot_enable"));

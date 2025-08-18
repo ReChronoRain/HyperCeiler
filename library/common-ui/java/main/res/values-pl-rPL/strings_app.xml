@@ -350,6 +350,8 @@
     <string name="system_framework_volume_media_steps">Poziom głośności multimediów</string>
     <string name="system_framework_volume_media_steps_desc">Po włączeniu przewijanie paska głośności może się zawiesić lub głośność Bluetooth może działać nieprawidłowo</string>
     <string name="system_framework_volume_steps">Mnożnik poziomu głośności</string>
+    <string name="system_ui_display_cutout_title">Wcięcie ekranu</string>
+    <string name="system_ui_display_hide_cutout">Ukryj wcięcie ekranu</string>
     <string name="system_ui_display_use_aosp_screenshot">Użyj zrzutu ekranu AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Przekieruję aplikację do zrzutów ekranu, aby używała przechwytywania zrzutów ekranu AOSP. Aplikacja do zrzutów ekranu w HyperOS nie będzie reagować na operację zrzutu ekranu.</string>
     <string name="phone_double_5g_nr">Użycie 5G z obu kart SIM (SA+NSA)</string>

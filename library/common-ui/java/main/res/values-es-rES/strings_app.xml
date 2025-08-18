@@ -336,6 +336,8 @@ aplicaciones del sistema</string>
     <string name="system_framework_volume_media_steps">Nivel de volumen de media</string>
     <string name="system_framework_volume_media_steps_desc">Puede causar que el desplazamiento de la barra de volumen se congele o que el volumen de Bluetooth sea anormal</string>
     <string name="system_framework_volume_steps">Ajustar el volumen de media con niveles</string>
+    <string name="system_ui_display_cutout_title">Mostrar recorte de la pantalla</string>
+    <string name="system_ui_display_hide_cutout">Ocultar recorte de la pantalla</string>
     <string name="system_ui_display_use_aosp_screenshot">Usar captura de pantalla AOSP</string>
     <string name="phone_double_5g_nr">Usar 5G con tarjetas dobles (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">Activar 5G al mismo tiempo para la tarjeta SIM principal y secundaria (la secundaria solo soporta NSA)</string>

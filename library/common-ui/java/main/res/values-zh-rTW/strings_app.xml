@@ -357,6 +357,8 @@
     <string name="system_framework_volume_media_steps">媒體音量階數</string>
     <string name="system_framework_volume_media_steps_desc">可能會導致音量條的滾動卡頓或藍牙音量異常</string>
     <string name="system_framework_volume_steps">音量級數倍增</string>
+    <string name="system_ui_display_cutout_title">顯示瀏海</string>
+    <string name="system_ui_display_hide_cutout">隱藏螢幕瀏海</string>
     <string name="system_ui_display_use_aosp_screenshot">使用原生截圖</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">將截圖指令重新導向到原生截圖，HyperOS 中的截圖應用程式不會回應截圖操作</string>
     <string name="phone_double_5g_nr">雙卡 5G (SA+NSA)</string>
