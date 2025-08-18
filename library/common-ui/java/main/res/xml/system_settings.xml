@@ -23,11 +23,6 @@
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_settings_international_build"
-            android:title="@string/system_settings_international_build" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_control_center_unlock_old"
             android:title="@string/system_ui_controlcenter_unlock_old_title"
             android:summary="@string/system_settings_restart_systemui_desc"/>
@@ -40,30 +35,32 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_settings_unlock_google_header"
-            android:title="@string/system_settings_unlock_google_header" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_settings_unlock_ui_mode"
             android:title="@string/system_settings_unlock_ui_mode" />
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_settings_lang_menu_shouw_all_app"
+            android:key="prefs_key_system_settings_lang_menu_show_all_app"
             android:title="@string/system_settings_lang_menu_shouw_all_app" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_international_build"
+            android:title="@string/system_settings_international_build" />
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_settings_usb_mode"
-            android:title="@string/system_settings_usb_mode" />
+            android:key="prefs_key_system_settings_unlock_google_header"
+            android:title="@string/system_settings_unlock_google_header" />
 
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_settings_usb_mode_choose"
-            android:title="@string/system_settings_usb_mode_choose"
-            app:entries="@array/usb_mode_choose"
-            app:entryValues="@array/usb_mode_choose_value" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_unlock_xiaomihyperai_entrance"
+            android:summary="@string/system_settings_unlock_xiaomihyperai_entrance_desc"
+            android:title="@string/system_settings_unlock_xiaomihyperai_entrance" />
 
     </PreferenceCategory>
 
@@ -92,22 +89,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_settings_xiaomihyperai">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_settings_unlock_xiaomihyperai_entrance"
-            android:summary="@string/system_settings_unlock_xiaomihyperai_entrance_desc"
-            android:title="@string/system_settings_unlock_xiaomihyperai_entrance" />
+    <!--<PreferenceCategory android:title="@string/system_settings_lab_title">
 
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/system_settings_lab_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_settings_voip_assistant_controller"
-            android:title="@string/system_settings_voip_assistant_controller" />
-
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 
     <PreferenceCategory android:title="@string/system_settings_display_and_lockscreen_title">
         <SwitchPreference
@@ -164,6 +148,18 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_settings_develop_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_usb_mode"
+            android:title="@string/system_settings_usb_mode" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_settings_usb_mode_choose"
+            android:title="@string/system_settings_usb_mode_choose"
+            app:entries="@array/usb_mode_choose"
+            app:entryValues="@array/usb_mode_choose_value" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_settings_apps_freezer"

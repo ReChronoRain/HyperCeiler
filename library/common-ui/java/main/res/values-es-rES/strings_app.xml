@@ -713,10 +713,8 @@ aplicaciones del sistema</string>
     <string name="system_settings_connection_sharing_title">Conexión &amp; compartimiento</string>
     <string name="system_settings_new_nfc_page">Nueva página de NFC</string>
     <string name="system_settings_new_nfc_page_desc">Después de abrirse, la aplicación de pago predeterminada en los modelos no soportados no puede ser Xiaomi Monedero</string>
-    <string name="system_settings_xiaomihyperai">HyperAI de Xiaomi</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">Desbloquear HyperAI de Xiaomi</string>
     <string name="system_settings_lab_title">Funciones destacadas</string>
-    <string name="system_settings_voip_assistant_controller">Asistente de VoIP</string>
     <string name="system_settings_display_and_lockscreen_title">Mostrar &amp; Pantalla de bloqueo</string>
     <string name="system_settings_ai_image_unlock_sr">Desbloquear súperresolución</string>
     <string name="system_settings_ai_image_unlock_ai">Desbloquear la mejora de imagen de IA y de IA HDR</string>

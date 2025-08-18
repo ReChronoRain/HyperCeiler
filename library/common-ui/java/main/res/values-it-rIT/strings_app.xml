@@ -636,7 +636,6 @@
     <string name="system_settings_new_nfc_page">Nuova pagina NFC</string>
     <string name="system_settings_new_nfc_page_desc">Dopo l\'apertura, l\'applicazione di pagamento predefinita per i modelli non supportati non può selezionare Xiaomi Wallet</string>
     <string name="system_settings_lab_title">Funzioni in primo piano</string>
-    <string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
     <string name="system_settings_display_and_lockscreen_title">Visualizza e amp; Schermata di blocco</string>
     <string name="system_settings_ai_image_unlock_sr">Sblocca risoluzione super</string>
     <string name="system_settings_ai_image_unlock_ai">Sblocca il miglioramento dell\'immagine AI e il miglioramento dell\'HDR AI</string>

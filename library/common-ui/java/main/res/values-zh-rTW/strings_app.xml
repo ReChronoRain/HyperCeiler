@@ -870,11 +870,9 @@
     <string name="system_settings_lang_menu_shouw_all_app">在原生的語言管理選單中顯示所有應用程式</string>
     <string name="system_settings_new_nfc_page">新版 NFC 頁面</string>
     <string name="system_settings_new_nfc_page_desc">開啟後，不支援的裝置預設付款應用程式無法選中小米錢包</string>
-    <string name="system_settings_xiaomihyperai">小米澎湃 AI</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">解鎖小米澎湃 AI</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance_desc">開啟後，設定中會顯示小米澎湃 AI 選項。 對裝置 AI 功能的支援由小米決定。</string>
     <string name="system_settings_lab_title">特色功能</string>
-    <string name="system_settings_voip_assistant_controller">網路通話助手</string>
     <string name="system_settings_display_and_lockscreen_title">顯示與鎖定螢幕</string>
     <string name="system_settings_ai_image_unlock_sr">解鎖超解析度增強</string>
     <string name="system_settings_ai_image_unlock_ai">解鎖 AI 智慧場景最佳化與影片畫質增強</string>

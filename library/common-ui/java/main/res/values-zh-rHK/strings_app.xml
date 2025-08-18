@@ -711,7 +711,6 @@
     <string name="system_settings_new_nfc_page">新版 NFC 頁面</string>
     <string name="system_settings_new_nfc_page_desc">此功能會導致唔支持嘅機型默認付款應用無法選中小米錢包</string>
     <string name="system_settings_lab_title">特色功能</string>
-    <string name="system_settings_voip_assistant_controller">網絡通話助手</string>
     <string name="system_settings_display_and_lockscreen_title">顯示與鎖屏</string>
     <string name="system_settings_ai_image_unlock_sr">解鎖超解析度增強</string>
     <string name="system_settings_ai_image_unlock_ai">解鎖 AI 智慧場景最佳化與影片畫質增強</string>

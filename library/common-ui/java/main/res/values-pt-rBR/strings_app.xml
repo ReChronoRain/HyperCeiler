@@ -869,11 +869,9 @@
     <string name="system_settings_lang_menu_shouw_all_app">Mostrar todos os apps no menu de gerenciamento de idiomas</string>
     <string name="system_settings_new_nfc_page">Nova página NFC</string>
     <string name="system_settings_new_nfc_page_desc">Esse recurso impedirá que o Xiaomi Wallet seja selecionado pelo app padrão em modelos não suportados</string>
-    <string name="system_settings_xiaomihyperai">Xiaomi HyperAI</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">Desbloquear Xiaomi HyperAI</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance_desc">A opção Xiaomi HyperAI é exibida nas Configurações após ativar. O suporte para os recursos de IA do dispositivo é determinado pela Xiaomi.</string>
     <string name="system_settings_lab_title">Recursos especiais</string>
-    <string name="system_settings_voip_assistant_controller">Desbloquear assistente VoIP</string>
     <string name="system_settings_display_and_lockscreen_title">Tela e brilho</string>
     <string name="system_settings_ai_image_unlock_sr">Desbloquear Super resolução</string>
     <string name="system_settings_ai_image_unlock_ai">Desbloquear Aprimoramento de imagens IA e o Aprimoramento HDR por IA</string>

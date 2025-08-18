@@ -684,7 +684,6 @@
     <string name="system_settings_new_nfc_page">Yeni NFC sayfası</string>
     <string name="system_settings_new_nfc_page_desc">Açıldıktan sonra, desteklenmeyen modeller için varsayılan ödeme uygulaması Xiaomi Cüzdan\'ı seçemiyor</string>
     <string name="system_settings_lab_title">Öne çıkan işlevler</string>
-    <string name="system_settings_voip_assistant_controller">VoIP asistanı</string>
     <string name="system_settings_display_and_lockscreen_title">Ekran ve parlaklık</string>
     <string name="system_settings_ai_image_unlock_sr">Süper çözünürlüğün kilidini aç</string>
     <string name="system_settings_ai_image_unlock_ai">AI görüntü iyileştirme ve AI HDR iyileştirmenin kilidini açın</string>

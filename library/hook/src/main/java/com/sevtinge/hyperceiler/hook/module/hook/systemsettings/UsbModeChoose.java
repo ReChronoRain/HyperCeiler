@@ -74,16 +74,16 @@ public class UsbModeChoose extends BaseHook {
                         long[] jArr = {0, 8, 4, 16, 128};
                         if (addAll) return;
                         setLanguage(activity);
-                        for (int i2 = 0; i2 < jArr.length; i2++) {
+                        for (long l : jArr) {
                             int getTitle = (int) XposedHelpers.callStaticMethod(
                                 findClassIfExists("com.android.settings.connecteddevice.usb.UsbModeChooserActivity"),
-                                "getTitleMiui12", jArr[i2]);
+                                "getTitleMiui12", l);
                             if (getTitle != 0) {
                                 String get = (String) XposedHelpers.callMethod(
                                     param.thisObject, "getString", getTitle
                                 );
                                 mode.put(get,
-                                    (int) jArr[i2]);
+                                    (int) l);
                                 // logE(TAG, "get: " + get);
                             }
                         }

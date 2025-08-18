@@ -828,7 +828,6 @@
     <string name="system_settings_unlock_xiaomihyperai_entrance">Odblokuj Xiaomi HyperAI</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance_desc">Po włączeniu tej opcji w Ustawieniach zostanie wyświetlona opcja Xiaomi HyperAI. Wsparcie dla funkcji AI urządzenia jest określone przez Xiaomi.</string>
     <string name="system_settings_lab_title">Wyróżnione funkcje</string>
-    <string name="system_settings_voip_assistant_controller">Asystent VoIP</string>
     <string name="system_settings_display_and_lockscreen_title">Wyświetlanie i jasność</string>
     <string name="system_settings_ai_image_unlock_sr">Odblokuj superrozdzielczość</string>
     <string name="system_settings_ai_image_unlock_ai">Odblokuj poprawę obrazu SI i HDR</string>

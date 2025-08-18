@@ -19,24 +19,28 @@
 package com.sevtinge.hyperceiler.hooker;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.os.Bundle;
-import android.provider.Settings;
 import android.widget.SeekBar;
 
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils;
 import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.SeekBarPreferenceCompat;
 
 public class SystemSettingsFragment extends DashboardFragment {
     SwitchPreference mUiMode;
+    SwitchPreference mSuperAI;
     SwitchPreference mLangShow; // 显示所有应用语言菜单
+    SwitchPreference mUnknownAppSources;
     RecommendPreference mRecommend;
 
     @Override
@@ -47,12 +51,18 @@ public class SystemSettingsFragment extends DashboardFragment {
     @Override
     public void initPrefs() {
         mUiMode = findPreference("prefs_key_system_settings_unlock_ui_mode");
-        mLangShow = findPreference("prefs_key_system_settings_lang_menu_shouw_all_app");
+        mSuperAI = findPreference("prefs_key_system_settings_unlock_xiaomihyperai_entrance");
+        mLangShow = findPreference("prefs_key_system_settings_lang_menu_show_all_app");
+        mUnknownAppSources = findPreference("prefs_key_system_settings_permission_unknown_origin_app");
 
         mUiMode.setVisible(isPad());
 
         if (isMoreHyperOSVersion(2f)) {
             setFuncHint(mLangShow, 1);
+            setFuncHint(mUnknownAppSources, 2);
+        }
+        if (!isMoreAndroidVersion(35)) {
+            setFuncHint(mSuperAI, 1);
         }
 
         Bundle args1 = new Bundle();
@@ -84,9 +94,15 @@ public class SystemSettingsFragment extends DashboardFragment {
 
     public void setOnSeekBarChangeListener(SeekBarPreferenceCompat mySeekBarPreference, String name) {
         mySeekBarPreference.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            private int lastProgress = 0;
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                setAnimator(progress, name);
+                lastProgress = progress;
+                // 如果不是用户手动滑动（如通过对话框改变数值），也立即设置
+                if (!fromUser) {
+                    setAnimator(lastProgress, name);
+                }
             }
 
             @Override
@@ -95,6 +111,7 @@ public class SystemSettingsFragment extends DashboardFragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                setAnimator(lastProgress, name);
             }
         });
     }
@@ -102,8 +119,11 @@ public class SystemSettingsFragment extends DashboardFragment {
     public void setAnimator(int i, String name) {
         float mFloat = ((float) i) / 100;
         try {
-            Settings.Global.putFloat(requireContext().getContentResolver(), name, mFloat);
+            // Settings.Global.putFloat(requireContext().getContentResolver(), name, mFloat);
+            ShellUtils.rootExecCmd("settings put global " + name + " " + mFloat);
+            AndroidLogUtils.logI("setAnimator", "set: " + name + " float: " + mFloat + " success");
         } catch (Throwable e) {
+            ToastHelper.makeText(getContext(), getString(R.string.system_settings_set_failed_toast, name, String.valueOf(mFloat)));
             AndroidLogUtils.logE("setAnimator", "set: " + name + " float: " + mFloat, e);
         }
     }

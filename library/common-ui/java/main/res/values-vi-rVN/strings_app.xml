@@ -871,11 +871,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_lang_menu_shouw_all_app">Hiển thị tất cả ứng dụng trong Thực đơn quản lý ngôn ngữ</string>
     <string name="system_settings_new_nfc_page">Trang NFC mới</string>
     <string name="system_settings_new_nfc_page_desc">Sau khi mở, ứng dụng thanh toán mặc định không được hỗ trợ không thể chọn Ví Xiaomi</string>
-    <string name="system_settings_xiaomihyperai">Xiaomi HyperAI</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">Mở khóa Xiaomi HyperAI</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance_desc">Sau khi bật, tùy chọn Xiaomi HyperAI sẽ hiển thị trong Cài đặt. Việc hỗ trợ các tính năng AI của thiết bị sẽ do Xiaomi quyết định.</string>
     <string name="system_settings_lab_title">Tính năng đặc biệt</string>
-    <string name="system_settings_voip_assistant_controller">Trợ lý VoIP</string>
     <string name="system_settings_display_and_lockscreen_title">Hiển thị &amp; Màn hình khóa</string>
     <string name="system_settings_ai_image_unlock_sr">Mở khoá Siêu phân giải</string>
     <string name="system_settings_ai_image_unlock_ai">Mở khóa Tăng cường hình ảnh AI và Tăng cường HDR AI</string>

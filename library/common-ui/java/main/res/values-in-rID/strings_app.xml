@@ -654,7 +654,6 @@
     <string name="system_settings_new_nfc_page">Halaman NFC Baru</string>
     <string name="system_settings_new_nfc_page_desc">Setelah dibuka, aplikasi pembayaran default untuk model yang tidak didukung tidak dapat memilih Xiaomi Wallet</string>
     <string name="system_settings_lab_title">Fungsi unggulan</string>
-    <string name="system_settings_voip_assistant_controller">Asisten VoIP</string>
     <string name="system_settings_display_and_lockscreen_title">Tampilan &amp; Layar kunci</string>
     <string name="system_settings_ai_image_unlock_sr">Buka kunci resolusi Super</string>
     <string name="system_settings_ai_image_unlock_ai">Buka kunci peningkatan gambar AI dan peningkatan AI HDR</string>

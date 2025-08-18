@@ -943,11 +943,9 @@
     <string name="system_settings_lang_menu_shouw_all_app">Show all apps in language manage menu</string>
     <string name="system_settings_new_nfc_page">New NFC page</string>
     <string name="system_settings_new_nfc_page_desc">This feature will prevent Xiaomi Wallet from being selected by the default app on unsupported models</string>
-    <string name="system_settings_xiaomihyperai">Xiaomi HyperAI</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">Unlock Xiaomi HyperAI</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance_desc">The Xiaomi HyperAI option is displayed in the Settings after turned it on. Support for the device\'s AI features is determined by Xiaomi.</string>
     <string name="system_settings_lab_title">Special features</string>
-    <string name="system_settings_voip_assistant_controller">Unlock VoIP assistant</string>
     <string name="system_settings_display_and_lockscreen_title">Display &amp; brightness</string>
     <string name="system_settings_ai_image_unlock_sr">Unlock Super resolution</string>
     <string name="system_settings_ai_image_unlock_ai">Unlock AI image enhancement and AI HDR enhancement</string>
@@ -970,6 +968,7 @@
     <string name="system_settings_window_animation_scale">Window animation scale</string>
     <string name="system_settings_transition_animation_scale">Transition animation scale</string>
     <string name="system_settings_animator_duration_scale">Animator duration scale</string>
+    <string name="system_settings_set_failed_toast">Failed to set %1$s value to %2$s.</string>
     <string name="system_settings_allow_never_lock_screen">Allow never lock screen</string>
     <string name="system_settings_anti_ques">Disable sensitive word check in device name</string>
     <string name="system_settings_anti_ques_desc">You may not use this feature in violation of local or national laws</string>
