@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethodAs
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isLargeUI
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.view.WeatherView
@@ -74,7 +75,7 @@ object NotificationWeather : BaseHook() {
     }
 
     override fun init() {
-        if (isMoreHyperOSVersion(2f)) {
+        if (isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35)) {
             newNotificationWeather()
         } else {
             oldNotificationWeather()
@@ -128,7 +129,7 @@ object NotificationWeather : BaseHook() {
 
                 orientation = configuration.orientation
 
-                val isVerticalMode = if (isMoreHyperOSVersion(2f)) {
+                val isVerticalMode = if (isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35)) {
                     miuiConfigs.callStaticMethodAs("isVerticalMode", context)
                 } else {
                     orientation == ORIENTATION_PORTRAIT || isLargeUI()
