@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.hooker;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.os.Bundle;
 import android.widget.SeekBar;
@@ -40,6 +39,7 @@ public class SystemSettingsFragment extends DashboardFragment {
     SwitchPreference mUiMode;
     SwitchPreference mSuperAI;
     SwitchPreference mLangShow; // 显示所有应用语言菜单
+    SwitchPreference mOriginAppSources;
     SwitchPreference mUnknownAppSources;
     RecommendPreference mRecommend;
 
@@ -53,16 +53,17 @@ public class SystemSettingsFragment extends DashboardFragment {
         mUiMode = findPreference("prefs_key_system_settings_unlock_ui_mode");
         mSuperAI = findPreference("prefs_key_system_settings_unlock_xiaomihyperai_entrance");
         mLangShow = findPreference("prefs_key_system_settings_lang_menu_show_all_app");
-        mUnknownAppSources = findPreference("prefs_key_system_settings_permission_unknown_origin_app");
+        mOriginAppSources = findPreference("prefs_key_system_settings_permission_unknown_origin_app");
+        mUnknownAppSources = findPreference("prefs_key_system_settings_permission_disable_install_unknown_verify");
 
         mUiMode.setVisible(isPad());
 
-        if (isMoreHyperOSVersion(2f)) {
-            setFuncHint(mLangShow, 1);
-            setFuncHint(mUnknownAppSources, 2);
-        }
         if (!isMoreAndroidVersion(35)) {
             setFuncHint(mSuperAI, 1);
+        } else {
+            setFuncHint(mLangShow, 1);
+            setFuncHint(mOriginAppSources, 2);
+            setFuncHint(mUnknownAppSources, 1);
         }
 
         Bundle args1 = new Bundle();

@@ -103,5 +103,6 @@ public class SystemSettingsU extends BaseModule {
         // A14
         initHook(new LanguageMenuShowAllApps(), mPrefsMap.getBoolean("system_settings_lang_menu_show_all_app"));
         initHook(new QuickManageUnknownAppSources(), mPrefsMap.getBoolean("system_settings_permission_unknown_origin_app"));
+        initHook(new DisableInstallUnknownVerify(), mPrefsMap.getBoolean("system_settings_permission_disable_install_unknown_verify"));
     }
 }

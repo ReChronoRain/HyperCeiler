@@ -25,7 +25,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.AllowManageAllNo
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.AntiQues;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.AppsFreezerEnable;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.ControlCenterStyle;
-import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.DisableInstallUnknownVerify;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.EnableSpeedMode;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.HyperCeilerSettings;
 import com.sevtinge.hyperceiler.hook.module.hook.systemsettings.InternationalBuild;
@@ -81,7 +80,6 @@ public class SystemSettingsV extends BaseModule {
         initHook(new MoreNotificationSettings(), mPrefsMap.getBoolean("system_settings_more_notification_settings"));
         initHook(new QuickManageOverlayPermission(), mPrefsMap.getBoolean("system_settings_permission_show_app_up"));
         initHook(new QuickManagerAccessibilityPermission(), mPrefsMap.getBoolean("system_settings_permission_accessibility"));
-        initHook(new DisableInstallUnknownVerify(), mPrefsMap.getBoolean("system_settings_permission_disable_install_unknown_verify"));
 
         // 开发者选项
         initHook(new UsbModeChoose(), mPrefsMap.getStringAsInt("system_settings_usb_mode_choose", 0) != 0
