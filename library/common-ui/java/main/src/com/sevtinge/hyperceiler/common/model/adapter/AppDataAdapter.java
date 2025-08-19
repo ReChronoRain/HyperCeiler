@@ -101,7 +101,7 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
             }
         } else
             appName.setText(appInfo.label);
-        appIcon.setImageBitmap(appInfo.icon);
+        appIcon.setImageDrawable(appInfo.icon);
 
         // appEdit.setText(appInfo.packageName);
         mSelecte.setChecked(shouldSelect(appInfo.packageName));

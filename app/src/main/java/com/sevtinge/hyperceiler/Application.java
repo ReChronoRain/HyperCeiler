@@ -22,7 +22,9 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.model.data.AppInfoCache;
 import com.sevtinge.hyperceiler.safemode.ExceptionCrashActivity;
+import com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper;
 
 public class Application extends android.app.Application {
     private static final String TAG = "HyperCeiler:Application";
@@ -36,6 +38,10 @@ public class Application extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // 初始化所有应用信息到缓存
+        AppInfoCache.getInstance(this).initAllAppInfos();
+
+        LSPosedScopeHelper.init(this);
         setupCrashHandler();
     }
 

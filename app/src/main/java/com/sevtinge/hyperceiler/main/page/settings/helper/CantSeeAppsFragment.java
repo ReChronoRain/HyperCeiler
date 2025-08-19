@@ -18,9 +18,12 @@
  */
 package com.sevtinge.hyperceiler.main.page.settings.helper;
 
+import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mDisableOrHiddenApp;
+import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mNoScoped;
+import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mUninstallApp;
+
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.common.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 
@@ -40,9 +43,9 @@ public class CantSeeAppsFragment extends SettingsPreferenceFragment {
         String summary;
         if (mHelpCantSeeApps != null) {
             summary = getString(R.string.help_cant_see_apps_desc);
-            if (!PreferenceHeader.mUninstallApp.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_uninstall) + String.join("\n", PreferenceHeader.mUninstallApp);
-            if (!PreferenceHeader.mDisableOrHiddenApp.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_disable) + String.join("\n", PreferenceHeader.mDisableOrHiddenApp);
-            if (!PreferenceHeader.mNoScoped.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_scope) + String.join("\n", PreferenceHeader.mNoScoped);
+            if (!mUninstallApp.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_uninstall) + String.join("\n", mUninstallApp);
+            if (!mDisableOrHiddenApp.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_disable) + String.join("\n", mDisableOrHiddenApp);
+            if (!mNoScoped.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_scope) + String.join("\n", mNoScoped);
             if (!summary.equals(getString(R.string.help_cant_see_apps_desc))) mHelpCantSeeApps.setSummary(summary);
         }
     }

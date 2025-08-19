@@ -19,9 +19,12 @@
 package com.sevtinge.hyperceiler.sub;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 import com.sevtinge.hyperceiler.common.callback.IAppSelectCallback;
 import com.sevtinge.hyperceiler.dashboard.SettingsActivity;
+import com.sevtinge.hyperceiler.hook.utils.BitmapUtils;
 
 public class SubPickerActivity extends SettingsActivity {
     AppPickerFragment mAppSelectFragment = new AppPickerFragment();
@@ -30,9 +33,10 @@ public class SubPickerActivity extends SettingsActivity {
     public void initCreate() {
         mAppSelectFragment.setAppSelectCallback(new IAppSelectCallback() {
             @Override
-            public void sendMsgToActivity(byte[] appIcon, String appName, String appPackageName, String appVersion, String appActivityName) {
+            public void sendMsgToActivity(Drawable appIcon, String appName, String appPackageName, String appVersion, String appActivityName) {
+                Bitmap bitmap = BitmapUtils.drawableToBitmap(appIcon);
                 Intent intent = new Intent();
-                intent.putExtra("appIcon", appIcon);
+                intent.putExtra("appIcon", BitmapUtils.Bitmap2Bytes(bitmap));
                 intent.putExtra("appName", appName);
                 intent.putExtra("appPackageName", appPackageName);
                 intent.putExtra("appVersion", appVersion);

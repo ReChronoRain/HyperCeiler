@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.main.page.settings.helper;
 
-import static com.sevtinge.hyperceiler.common.prefs.PreferenceHeader.scope;
+import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mScope;
 
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -34,6 +34,8 @@ import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.model.data.AppInfoCache;
+import com.sevtinge.hyperceiler.utils.XmlResourceParserHelper;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -48,7 +50,7 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
 
     private boolean isInit = false;
     private static final String TAG = "HomepageEntrance";
-    private static EntranceState entranceState = null;
+    private static EntranceState mEntranceState = null;
 
     private TextButtonPreference mShowAppTips;
 
@@ -58,17 +60,19 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
     }
 
     public static void setEntranceStateListen(EntranceState entranceState) {
-        HomepageEntrance.entranceState = entranceState;
+        mEntranceState = entranceState;
     }
 
     @Override
     public void initPrefs() {
         if (isInit) return;
-        super.initPrefs();
         Resources resources = getResources();
-        parseXmlResource(resources, R.xml.prefs_set_homepage_entrance, this::processSwitchPreference);
-        parseXmlResource(resources, R.xml.prefs_set_homepage_entrance, this::processSwitchPreferenceHeader);
-
+        try {
+            XmlResourceParserHelper.processCachedXmlResource(resources, R.xml.prefs_set_homepage_entrance, (key, summary) -> processSwitchPreference(key));
+            XmlResourceParserHelper.processCachedXmlResource(resources, R.xml.prefs_set_homepage_entrance, this::processSwitchPreferenceHeader);
+        } catch (XmlPullParserException | IOException e) {
+            AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
+        }
         mShowAppTips = findPreference("prefs_key_help_cant_see_app");
         boolean isHideTip = getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false);
         if (isHideTip && mShowAppTips != null) {
@@ -78,24 +82,7 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
         isInit = true;
     }
 
-    private void parseXmlResource(Resources resources, int xmlResId, BiConsumer<XmlResourceParser, String> processor) {
-        try (XmlResourceParser xml = resources.getXml(xmlResId)) {
-            int event = xml.getEventType();
-            while (event != XmlPullParser.END_DOCUMENT) {
-                if (event == XmlPullParser.START_TAG && "SwitchPreference".equals(xml.getName())) {
-                    String key = xml.getAttributeValue(ANDROID_NS, "key");
-                    if (key != null) {
-                        processor.accept(xml, key);
-                    }
-                }
-                event = xml.next();
-            }
-        } catch (XmlPullParserException | IOException e) {
-            AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
-        }
-    }
-
-    private void processSwitchPreference(XmlResourceParser xml, String key) {
+    private void processSwitchPreference(String key) {
         SwitchPreference switchPreference = findPreference(key);
         if (switchPreference != null) {
             String summary = String.valueOf(switchPreference.getSummary());
@@ -106,12 +93,11 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
         }
     }
 
-    private void processSwitchPreferenceHeader(XmlResourceParser xml, String key) {
-        String summary = xml.getAttributeValue(ANDROID_NS, "summary");
+    private void processSwitchPreferenceHeader(String key, String summary) {
         if (key == null || summary == null) return;
         SwitchPreference preferenceHeader = findPreference(key);
         if (preferenceHeader == null) return;
-        if (!scope.contains(summary)) {
+        if (!mScope.contains(summary)) {
             preferenceHeader.setVisible(false);
         } else {
             Drawable icon = getPackageIcon(summary);
@@ -122,24 +108,11 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
     }
 
     private Drawable getPackageIcon(String packageName) {
-        try {
-            return requireContext().getPackageManager().getApplicationIcon(packageName);
-        } catch (PackageManager.NameNotFoundException e) {
-            AndroidLogUtils.logE(TAG, "Package icon not found: " + packageName, e);
-            return null;
-        }
+        return AppInfoCache.getInstance(requireContext()).getAppInfo(packageName).loadIcon(requireContext().getPackageManager());
     }
 
     private String getPackageName(String packageName) {
-        try {
-            return String.valueOf(requireContext().getPackageManager()
-                    .getApplicationLabel(
-                            requireContext().getPackageManager()
-                                    .getApplicationInfo(packageName, 0)));
-        } catch (PackageManager.NameNotFoundException e) {
-            AndroidLogUtils.logE(TAG, "Package name not found: " + packageName, e);
-            return null;
-        }
+        return String.valueOf(AppInfoCache.getInstance(requireContext()).getAppInfo(packageName).loadLabel(requireContext().getPackageManager()));
     }
 
     @Override
@@ -148,8 +121,8 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
             ToastHelper.makeText(getContext(), "Loading. Please wait.");
             return false;
         }
-        if (entranceState != null) {
-            entranceState.onEntranceStateChange(preference.getKey(), (boolean) o);
+        if (mEntranceState != null) {
+            mEntranceState.onEntranceStateChange(preference.getKey(), (boolean) o);
         }
         return true;
     }

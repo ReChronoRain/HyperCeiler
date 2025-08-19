@@ -21,8 +21,8 @@ package com.sevtinge.hyperceiler.main.banner;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isFullSupport;
-import static com.sevtinge.hyperceiler.common.prefs.PreferenceHeader.notInSelectedScope;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
+import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mNotInSelectedScope;
 
 import android.content.Context;
 import android.widget.TextView;
@@ -136,7 +136,7 @@ public class HomePageBannerHelper {
     }
 
     private void isSupportAutoSafeMode(Context context, PreferenceCategory preference) {
-        if (notInSelectedScope.contains("android")) {
+        if (mNotInSelectedScope.contains("android")) {
             preference.addPreference(createBannerPreference(
                 context,
                 R.layout.headtip_tip

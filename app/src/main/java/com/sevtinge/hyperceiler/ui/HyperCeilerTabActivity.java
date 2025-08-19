@@ -20,6 +20,8 @@ package com.sevtinge.hyperceiler.ui;
 
 import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isTablet;
+import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mDisableOrHiddenApp;
+import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mUninstallApp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -32,7 +34,6 @@ import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.sevtinge.hyperceiler.common.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.common.prefs.XmlPreference;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
@@ -254,7 +255,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         super.onDestroy();
         ShellInit.destroy();
         ThreadPoolManager.shutdown();
-        PreferenceHeader.mUninstallApp.clear();
-        PreferenceHeader.mDisableOrHiddenApp.clear();
+        mUninstallApp.clear();
+        mDisableOrHiddenApp.clear();
     }
 }

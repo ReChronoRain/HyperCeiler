@@ -27,15 +27,20 @@ import androidx.preference.PreferenceCategory;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.prefs.PreferenceHeader;
+import com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.main.banner.HomePageBannerHelper;
 import com.sevtinge.hyperceiler.main.fragment.PagePreferenceFragment;
 import com.sevtinge.hyperceiler.main.page.settings.helper.HomepageEntrance;
+import com.sevtinge.hyperceiler.model.data.AppInfoCache;
+import com.sevtinge.hyperceiler.utils.XmlResourceParserHelper;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiConsumer;
 
 import fan.preference.TextButtonPreference;
@@ -55,10 +60,10 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
 
     @Override
     public void initPrefs() {
-        HomepageEntrance.setEntranceStateListen(this);
-        setPreference();
         mHeadtipGround = findPreference("prefs_key_headtip_ground");
         mShowAppTips = findPreference("prefs_key_help_cant_see_app");
+        HomepageEntrance.setEntranceStateListen(this);
+        setPreference();
         HomePageBannerHelper.init(requireContext(), mHeadtipGround);
 
         boolean isHideTip = getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false);
@@ -69,35 +74,11 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
 
     private void setPreference() {
         try {
-            processXmlResource(R.xml.prefs_set_homepage_entrance, (key, summary) -> processSwitchPreference(key));
-            processXmlResource(R.xml.prefs_main, this::processPreferenceHeader);
+            XmlResourceParserHelper.processCachedXmlResource(getResources(), R.xml.prefs_set_homepage_entrance, (key, summary) -> processSwitchPreference(key));
+            XmlResourceParserHelper.processCachedXmlResource(getResources(), R.xml.prefs_main, this::processPreferenceHeader);
         } catch (XmlPullParserException | IOException e) {
             AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
         }
-    }
-
-    private void processXmlResource(int xmlResId, BiConsumer<String, String> processor) throws XmlPullParserException, IOException {
-        try (XmlResourceParser xml = getResources().getXml(xmlResId)) {
-            int event = xml.getEventType();
-            while (event != XmlPullParser.END_DOCUMENT) {
-                if (event == XmlPullParser.START_TAG) {
-                    String name = xml.getName();
-                    if ("SwitchPreference".equals(name)) {
-                        String key = xml.getAttributeValue(ANDROID_NS, "key");
-                        processor.accept(key, null);
-                    } else if (isPreferenceHeaderTag(xml)) {
-                        String key = xml.getAttributeValue(ANDROID_NS, "key");
-                        String summary = xml.getAttributeValue(ANDROID_NS, "summary");
-                        processor.accept(key, summary);
-                    }
-                }
-                event = xml.next();
-            }
-        }
-    }
-
-    private boolean isPreferenceHeaderTag(XmlResourceParser xml) {
-        return "com.sevtinge.hyperceiler.common.prefs.PreferenceHeader".equals(xml.getName());
     }
 
     private void processSwitchPreference(String key) {
@@ -117,22 +98,26 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
         PreferenceHeader header = findPreference(key);
         if (header != null) {
             setIconAndTitle(header, summary);
+            header.setVisible(LSPosedScopeHelper.isInSelectedScope(
+                requireContext(),
+                (String) header.getTitle(),
+                (String) header.getSummary()))
+            ;
         }
     }
 
     private void setIconAndTitle(PreferenceHeader header, String packageName) {
         if (header == null || packageName == null) return;
-        try {
-            PackageManager pm = requireContext().getPackageManager();
-            ApplicationInfo applicationInfo = pm.getApplicationInfo(packageName, 0);
-            Drawable icon = applicationInfo.loadIcon(pm);
-            CharSequence name = applicationInfo.loadLabel(pm);
+        // 根据包名获取
+        PackageManager pm = requireContext().getPackageManager();
+        ApplicationInfo appInfo = AppInfoCache.getInstance(getContext()).getAppInfo(packageName);
+        if (appInfo != null) {
+            Drawable icon = appInfo.loadIcon(pm);
+            CharSequence name = appInfo.loadLabel(pm);
             header.setIcon(icon);
             if (!"android".equals(packageName)) {
                 header.setTitle(name);
             }
-        } catch (PackageManager.NameNotFoundException e) {
-            AndroidLogUtils.logE(TAG, "Package not found: " + packageName, e);
         }
     }
 

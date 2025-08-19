@@ -150,7 +150,7 @@ public class AppPickerFragment extends Fragment {
                 // Log.e(TAG, "onItemClick: " + appData.packageName, null);
                 switch (modeSelection) {
                     case CALLBACK_MODE -> {
-                        mAppSelectCallback.sendMsgToActivity(BitmapUtils.Bitmap2Bytes(appData.icon),
+                        mAppSelectCallback.sendMsgToActivity(appData.icon,
                                 appData.label,
                                 appData.packageName,
                                 appData.versionName + "(" + appData.versionCode + ")",
