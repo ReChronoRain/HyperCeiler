@@ -18,155 +18,23 @@
  */
 package com.sevtinge.hyperceiler.main.page;
 
-import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isCanary;
-
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.pm.PackageManager;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.preference.Preference;
-import androidx.preference.SwitchPreference;
-
-import com.sevtinge.hyperceiler.common.utils.DialogHelper;
-import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
-import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
-import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.main.fragment.ContentFragment.IFragmentChange;
-import com.sevtinge.hyperceiler.ui.LauncherActivity;
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.main.fragment.PageFragment;
+import com.sevtinge.hyperceiler.main.page.settings.SettingsFragment;
 
 import fan.appcompat.app.ActionBar;
-import fan.appcompat.app.AppCompatActivity;
-import fan.navigator.NavigatorFragmentListener;
-import fan.preference.DropDownPreference;
+import fan.preference.PreferenceFragment;
 
-public class SettingsPage extends SettingsPreferenceFragment
-    implements Preference.OnPreferenceChangeListener,
-    NavigatorFragmentListener, IFragmentChange {
-
-    DropDownPreference mIconModePreference;
-    DropDownPreference mIconModeValue;
-    SwitchPreference mHideAppIcon;
-
-    DropDownPreference mLogLevel;
-    DropDownPreference mLanguage;
+public class SettingsPage extends PageFragment implements IFragmentChange {
 
     @Override
-    public int getPreferenceScreenResId() {
-        return com.sevtinge.hyperceiler.R.xml.prefs_settings;
+    public PreferenceFragment getPreferenceFragment() {
+        return new SettingsFragment();
     }
 
     @Override
-    public void initPrefs() {
-        int mIconMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_settings_icon", "0"));
-        mIconModePreference = findPreference("prefs_key_settings_icon");
-        mIconModeValue = findPreference("prefs_key_settings_icon_mode");
-        mLanguage = findPreference("prefs_key_settings_app_language");
-        mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
-        mLogLevel = findPreference("prefs_key_log_level");
-
-        setIconMode(mIconMode);
-        mIconModePreference.setOnPreferenceChangeListener(this);
-        String language = LanguageHelper.getLanguage(requireContext());
-        int value = LanguageHelper.resultIndex(LanguageHelper.appLanguages, language);
-        mLanguage.setValueIndex(value);
-
-        mLanguage.setOnPreferenceChangeListener((preference, o) -> {
-            LanguageHelper.setIndexLanguage(getActivity(), Integer.parseInt((String) o), true);
-            return true;
-        });
-
-        if (isCanary()) {
-            mLogLevel.setDefaultValue(3);
-            mLogLevel.setEntries(new CharSequence[]{"Info", "Debug"});
-            mLogLevel.setEntryValues(new CharSequence[]{"3", "4"});
-            mLogLevel.setOnPreferenceChangeListener(
-                (preference, o) -> {
-                    setLogLevel(Integer.parseInt((String) o));
-                    return true;
-                }
-            );
-        } else {
-            mLogLevel.setOnPreferenceChangeListener(
-                (preference, o) -> {
-                    setLogLevel(Integer.parseInt((String) o));
-                    return true;
-                }
-            );
-        }
-
-        if (mHideAppIcon != null) {
-            mHideAppIcon.setOnPreferenceChangeListener((preference, o) -> {
-
-                PackageManager pm = requireActivity().getPackageManager();
-                int mComponentEnabledState;
-
-                if ((Boolean) o) {
-                    mComponentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
-                } else {
-                    mComponentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-                }
-
-                pm.setComponentEnabledSetting(new ComponentName(requireActivity(), LauncherActivity.class), mComponentEnabledState, PackageManager.DONT_KILL_APP);
-                return true;
-            });
-        }
-
-        findPreference("prefs_key_back").setOnPreferenceClickListener(preference -> {
-            final AppCompatActivity activity = (AppCompatActivity) getActivity();
-            backupSettings(activity);
-            return true;
-        });
-
-        findPreference("prefs_key_rest").setOnPreferenceClickListener(preference -> {
-            restoreSettings(getActivity());
-            return true;
-        });
-
-        findPreference("prefs_key_reset").setOnPreferenceClickListener(preference -> {
-            DialogHelper.showDialog(getActivity(), R.string.reset_title, R.string.reset_desc, (dialog, which) -> {
-                PrefsUtils.mSharedPreferences.edit().clear().apply();
-                Toast.makeText(getActivity(), R.string.reset_okay, Toast.LENGTH_LONG).show();
-            });
-            return true;
-        });
-    }
+    public void onEnter(ActionBar actionBar) {}
 
     @Override
-    public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
-        if (preference == mIconModePreference) {
-            setIconMode(Integer.parseInt((String) o));
-        }
-        return true;
-    }
-
-    private void setLogLevel(int level) {
-        ShellInit.getShell().run("setprop persist.hyperceiler.log.level " + level);
-    }
-
-    private void setIconMode(int mode) {
-        mIconModeValue.setVisible(mode != 0);
-    }
-
-    public void backupSettings(Activity activity) {
-        BackupUtils.backup(activity);
-    }
-
-    public void restoreSettings(Activity activity) {
-        BackupUtils.restore(activity);
-    }
-
-    @Override
-    public void onEnter(ActionBar actionBar) {
-
-    }
-
-    @Override
-    public void onLeave(ActionBar actionBar) {
-
-    }
+    public void onLeave(ActionBar actionBar) {}
 }

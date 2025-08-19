@@ -18,6 +18,8 @@
         <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_dark</item>
     </style>
 
+    <style name="Theme.Navigator.ContentChild.Page" />
+
     <style name="Theme.Navigator.ContentChild.Home">
         <item name="bgBlurOptions">splitActionBar</item>
 

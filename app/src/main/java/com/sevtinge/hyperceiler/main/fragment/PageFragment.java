@@ -7,107 +7,78 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.main.page.HomePage;
 
-import java.lang.reflect.Field;
-
+import fan.appcompat.app.Fragment;
 import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.preference.PreferenceFragment;
-import fan.springback.view.SpringBackLayout;
 
-// 存在 Context 同步问题
-public class PageFragment extends SettingsPreferenceFragment {
-
-    private static final String TAG = "PageFragment";
+public class PageFragment extends Fragment {
 
     protected View mRootView;
-    protected ViewGroup mContainerView;
+    protected ViewGroup mContainer;
+    protected ViewGroup mPrefsContainer;
     protected NestedHeaderLayout mNestedHeaderLayout;
 
     public int getThemeRes() {
-        return R.style.Theme_Navigator_ContentChild_Home;
+        return R.style.Theme_Navigator_ContentChild_Page;
     }
 
     @Override
-    public int getPreferenceScreenResId() { return 0; }
-
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        if (getThemeRes() != 0) setThemeRes(R.style.AppTheme);
+        if (getThemeRes() != 0) setThemeRes(getThemeRes());
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onInflateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mRootView = inflater.inflate(R.layout.fragment_page, container, false);
+
+        mNestedHeaderLayout = mRootView.findViewById(R.id.nested_header_layout);
+        mContainer = mRootView.findViewById(R.id.container);
+        mPrefsContainer = mRootView.findViewById(R.id.prefs_container);
+
+        if (getContentLayoutResId() != 0) {
+            mContainer.addView(LayoutInflater.from(requireContext()).inflate(getContentLayoutResId(), mContainer, false));
+        }
+
+        registerCoordinateScrollView(mNestedHeaderLayout);
+        setSearchViewEnabled();
+        setPreferenceFragment();
+        return mRootView;
+    }
+
+    @Override
+    public void onViewInflated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewInflated(view, savedInstanceState);
+    }
+
+    public void setSearchViewEnabled() {
+        mNestedHeaderLayout.setHeaderViewVisible(this instanceof HomePage);
     }
 
     public int getContentLayoutResId() {
         return 0;
     }
 
-    @NonNull
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View onCreateView = super.onCreateView(inflater, container, savedInstanceState);
-
-        mRootView = inflater.inflate(R.layout.fragment_page, container, false);
-        mContainerView = mRootView.findViewById(R.id.container);
-        if (getContentLayoutResId() != 0) {
-            mContainerView.addView(LayoutInflater.from(requireContext()).inflate(getContentLayoutResId(), mContainerView, false));
-        }
-
-        ViewGroup prefsContainer = mRootView.findViewById(R.id.prefs_container);
-        prefsContainer.addView(onCreateView);
-
-        setOverlayMode();
-
-        mNestedHeaderLayout = mRootView.findViewById(R.id.nested_header_layout);
-        setSearchViewEnabled(false);
-        registerCoordinateScrollView(mNestedHeaderLayout);
-
-        RecyclerView listView = getListView();
-        View parent = (View) listView.getParent();
-        if (parent instanceof SpringBackLayout) {
-            parent.setEnabled(false);
-            listView.setPaddingRelative(listView.getPaddingStart(), 0, listView.getPaddingEnd(), 0);
-        }
-
-        return mRootView;
+    public PreferenceFragment getPreferenceFragment() {
+        return null;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    public View getRootView() {
-        return mRootView;
-    }
-
-    public void setSearchViewEnabled(boolean enabled) {
-        mNestedHeaderLayout.setHeaderViewVisible(enabled);
-    }
-
-    @Override
-    public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
-        if (getPreferenceScreenResId() != 0) {
-            setPreferencesFromResource(getPreferenceScreenResId(), rootKey);
-            initPrefs();
-        }
-    }
-
-    protected void setOverlayMode() {
-        try {
-            Field declaredField = PreferenceFragment.class.getDeclaredField("mIsOverlayMode");
-            declaredField.setAccessible(true);
-            declaredField.set(this, false);
-        } catch (Exception e) {
-            AndroidLogUtils.logE(TAG, "setOverlayMode error", e);
+    public void setPreferenceFragment() {
+        if (getPreferenceFragment() != null) {
+            getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.prefs_container, getPreferenceFragment())
+                .commit();
         }
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         unregisterCoordinateScrollView(mNestedHeaderLayout);
     }
 }
