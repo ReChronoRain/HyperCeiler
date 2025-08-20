@@ -193,16 +193,22 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
     private void requestCta() {
         if (!CtaUtils.getCtaValue(this)) {
-            if (CtaBypassForHyperceiler.IS_HOOKED) {
+            boolean isHooked = false;
+            try {
+                isHooked = CtaBypassForHyperceiler.IS_HOOKED;
+            } catch (Error ignore) {}
+            if (isHooked) {
                 try {
                     ActivityResultLauncher<Intent> ctaLauncher = registerForActivityResult(
                         new ActivityResultContracts.StartActivityForResult(),
                         result -> {
-                            if (result.getResultCode() != 1) {
-                                finishAffinity();
-                                System.exit(0);
+                            if (result != null) {
+                                if (result.getResultCode() != 1) {
+                                    finishAffinity();
+                                    System.exit(0);
+                                }
+                                setCtaValue(getApplicationContext(), result.getResultCode() == 1);
                             }
-                            setCtaValue(getApplicationContext(), result.getResultCode() == 1);
                         }
                     );
                     CtaUtils.showCtaDialog(ctaLauncher, this);

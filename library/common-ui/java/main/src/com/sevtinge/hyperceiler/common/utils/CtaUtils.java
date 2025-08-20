@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.CtaBypassForHyperceiler;
+import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.ui.R;
 
 import androidx.activity.result.ActivityResult;
@@ -57,15 +58,22 @@ public class CtaUtils {
         SharedPreferences.Editor edit = context.getSharedPreferences("HyperCeilerPermission", 0).edit();
         edit.putBoolean("key_user_agree", value);
         edit.apply();
+        try {
+            PrefsUtils.mSharedPreferences.edit().putBoolean("prefs_key_allow_hook", true).apply();
+        } catch (Exception ignore) {}
     }
 
 
     public static boolean getCtaValue(Context context) {
-        return context.getSharedPreferences("HyperCeilerPermission", 0).getBoolean("key_user_agree", false);
+        return context.getSharedPreferences("HyperCeilerPermission", 0).getBoolean("key_user_agree", false) && PrefsUtils.mSharedPreferences.getBoolean("prefs_key_allow_hook", false);
     }
 
-    public static boolean isCtaNeedShow(Context context) {
-        return !getCtaValue(context) && CtaBypassForHyperceiler.IS_HOOKED;
+    public static boolean isAgree(Context context) {
+        boolean isHooked = false;
+        try {
+            isHooked = CtaBypassForHyperceiler.IS_HOOKED;
+        } catch (Exception ignore) {}
+        return !getCtaValue(context) && isHooked;
     }
 
     public static boolean showCtaDialog(ActivityResultLauncher<Intent> launcher, Activity activity) {

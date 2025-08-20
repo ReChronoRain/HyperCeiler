@@ -72,6 +72,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
     public void initZygote(StartupParam startupParam) throws Throwable {
         // load New XSPrefs
         setXSharedPrefs();
+        if (!mPrefsMap.getBoolean("prefs_key_allow_hook")) return;
 
         // load EzXHelper
         EzXposed.initZygote(startupParam);
@@ -100,12 +101,14 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if (isInSafeMode(lpparam.packageName)) return;
+        if (mPrefsMap.getBoolean("prefs_key_allow_hook")) {
 
-        // load EzXHelper and set log tag
-        EzXposed.initHandleLoadPackage(lpparam);
+            // load EzXHelper and set log tag
+            EzXposed.initHandleLoadPackage(lpparam);
 
-        // load CorePatch
-        new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
+            // load CorePatch
+            new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
+        }
         // load Module hook apps
         init(lpparam);
     }
@@ -140,6 +143,8 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
             moduleActiveHook(lpparam);
             return;
         }
+
+        if (!mPrefsMap.getBoolean("prefs_key_allow_hook")) return;
 
         if (Objects.equals(packageName, "android"))
             logI(packageName, "androidVersion = " + getAndroidVersion() + ", hyperosVersion = " + getHyperOSVersion());

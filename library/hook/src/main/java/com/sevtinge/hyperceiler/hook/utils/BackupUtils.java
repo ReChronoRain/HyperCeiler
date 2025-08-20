@@ -74,6 +74,9 @@ public class BackupUtils {
         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
         JSONObject jsonObject = new JSONObject();
         for (Map.Entry<String, ?> entry : PrefsUtils.mSharedPreferences.getAll().entrySet()) {
+            if ("prefs_key_allow_hook".equals(entry.getKey())) {
+                continue;
+            }
             jsonObject.put(entry.getKey(), entry.getValue());
         }
         bufferedWriter.write(jsonObject.toString());
@@ -96,6 +99,9 @@ public class BackupUtils {
         Iterator<String> keys = jsonObject.keys();
         while (keys.hasNext()) {
             String key = keys.next();
+            if ("prefs_key_allow_hook".equals(key)) {
+                continue;
+            }
             Object value = jsonObject.get(key);
             // https://stackoverflow.com/a/78608931
             //noinspection IfCanBeSwitch
