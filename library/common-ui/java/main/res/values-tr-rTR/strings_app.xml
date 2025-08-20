@@ -23,7 +23,6 @@
     <string name="new_permission_location_desc">enlem ve boylam gibi hizmetleri sağlamak için kullanılır</string>
     <string name="new_cta_agree_desc">Kullanım sırasında, size daha fazla özellik sunabilmek için sizden Root/Su izni talep edebiliriz. Tüm izinlerin yetki durumunu ayarlamak için istediğiniz zaman İzin Yönetimi\'ne gidebilirsiniz ve Root/Su izinlerini vermek için lütfen Root/Su yöneticinize gidin.</string>
     <string name="new_cta_app_main_purpose">sistem uygulamalarını değiştir</string>
-    <string name="new_cta_app_all_purpose_title">HyperCeiler\'a hoş geldiniz! Bu uygulama çalışmak için Xposed çerçevesine dayanır. Bu uygulamayı, sistemi geliştirmek için desteklenen diğer uygulamaları değiştirmek için kullanabilirsiniz. Kullanım sırasında, size daha fazla işlev sağlamak için sizden Root izinleri talep edebiliriz. İstediğiniz zaman Root Yöneticinize giderek bunu yönetebilirsiniz.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">İngilizce</string>
     <string name="translator">can1gulle</string>

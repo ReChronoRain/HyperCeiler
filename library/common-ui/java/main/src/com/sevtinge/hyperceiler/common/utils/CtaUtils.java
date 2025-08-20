@@ -22,8 +22,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
+import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.CtaBypassForHyperceiler;
 import com.sevtinge.hyperceiler.ui.R;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+
+import java.util.function.BiConsumer;
 
 public class CtaUtils {
     private static final String APP_PERMISSION_MANAGE_PKG = "com.miui.securitycenter";
@@ -40,17 +48,27 @@ public class CtaUtils {
     private static final String KEY_AGREE_DESC = "agree_desc";
 
     public static void setCtaEnabled(Context context) {
-        SharedPreferences.Editor edit = context.getSharedPreferences("HyperCeiler_Permission", 0).edit();
+        SharedPreferences.Editor edit = context.getSharedPreferences("HyperCeilerPermission", 0).edit();
         edit.putBoolean("key_new_cta_open", true);
         edit.apply();
     }
 
-
-    public static boolean isCtaEnabled(Context context) {
-        return context.getSharedPreferences("HyperCeiler_Permission", 0).getBoolean("key_new_cta_open", false);
+    public static void setCtaValue(Context context, boolean value) {
+        SharedPreferences.Editor edit = context.getSharedPreferences("HyperCeilerPermission", 0).edit();
+        edit.putBoolean("key_user_agree", value);
+        edit.apply();
     }
 
-    public static boolean showCtaDialog(Activity activity, int requestCode) {
+
+    public static boolean getCtaValue(Context context) {
+        return context.getSharedPreferences("HyperCeilerPermission", 0).getBoolean("key_user_agree", false);
+    }
+
+    public static boolean isCtaNeedShow(Context context) {
+        return !getCtaValue(context) && CtaBypassForHyperceiler.IS_HOOKED;
+    }
+
+    public static boolean showCtaDialog(ActivityResultLauncher<Intent> launcher, Activity activity) {
         Intent intent = new Intent();
         int mActivities = activity.getPackageManager().queryIntentActivities(intent, 0).size();
         intent.setAction(mActivities > 0 ? ACTION_START_CTA_V2_NEW : ACTION_START_CTA_V2);
@@ -61,21 +79,28 @@ public class CtaUtils {
         intent.putExtra("runtime_perm_desc", getRuntimePermissionDesc(activity));
         intent.putExtra(KEY_OPTIONAL_PERM, getOptionalPermission());
         intent.putExtra(KEY_OPTIONAL_PERM_DESC, getOptionalPermissionDesc(activity));
-        intent.putExtra(KEY_OPTIONAL_PERM_SHOW, false);
+        intent.putExtra(KEY_OPTIONAL_PERM_SHOW, true);
         intent.putExtra(KEY_AGREE_DESC, activity.getResources().getString(R.string.new_cta_agree_desc));
         intent.putExtra("user_agreement", "https://hyperceiler.sevtinge.com/Protocol");
         intent.putExtra("privacy_policy", "https://hyperceiler.sevtinge.com/Privacy");
         intent.putExtra(KEY_USE_NETWORK, false);
         intent.putExtra(KEY_SHOW_LOCK, false);
         try {
-            /*if (!supportNewPermissionStyle() || activity.getPackageManager().queryIntentActivities(intent, 0).size() <= 0) {
+            launcher.launch(intent);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        /*try {
+            *//*if (!supportNewPermissionStyle() || activity.getPackageManager().queryIntentActivities(intent, 0).size() <= 0) {
                 return false;
-            }*/
+            }*//*
             activity.startActivityForResult(intent, requestCode);
             return true;
         } catch (Exception unused) {
             return false;
-        }
+        }*/
     }
 
     private static String[] getRuntimePermission() {

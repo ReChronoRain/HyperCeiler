@@ -23,7 +23,6 @@
     <string name="new_permission_location_desc">digunakan untuk menyediakan layanan latitude dan longitude</string>
     <string name="new_cta_agree_desc">Selama penggunaan, untuk memberi Anda lebih banyak fitur, kami mungkin meminta izin Root/Su dari Anda. Anda dapat membuka Manajemen Izin kapan saja untuk menyesuaikan status otorisasi semua izin, dan silakan buka manajer Root/Su Anda untuk meng-izinkan.</string>
     <string name="new_cta_app_main_purpose">midifikasi sistem aplikasi</string>
-    <string name="new_cta_app_all_purpose_title">Selamat datang di HyperCeiler. Aplikasi ini mengandalkan framework Xpose untuk dijalankan. Anda dapat menggunakan aplikasi ini untuk merombak dan memodifikasi aplikasi lain yang didukung untuk menyempurnakan sistem. Selama penggunaan, untuk memberi Anda lebih banyak fungsi, kami mungkin meminta izin Root/Su dari Anda. Anda dapat mengelolanya kapan saja dengan membuka Root/Su Manager Anda.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Bahasa Indonesia</string>
     <string name="translator">Local Lion</string>

@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.ui;
 
+import static com.sevtinge.hyperceiler.common.utils.CtaUtils.setCtaValue;
+import static com.sevtinge.hyperceiler.common.utils.DialogHelper.showUserAgreeDialog;
 import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isTablet;
 import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mDisableOrHiddenApp;
@@ -28,20 +30,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.sevtinge.hyperceiler.common.prefs.XmlPreference;
+import com.sevtinge.hyperceiler.common.utils.CtaUtils;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.common.utils.search.SearchHelper;
 import com.sevtinge.hyperceiler.hook.callback.IResult;
+import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.CtaBypassForHyperceiler;
 import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.main.fragment.DetailFragment;
@@ -84,6 +92,8 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
         appCrash = CrashData.toPkgList();
         mHandler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
+
+        requestCta();
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -179,13 +189,31 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         requestCta();
-    }
+    }*/
 
     private void requestCta() {
-        if (!CtaUtils.isCtaEnabled(this)) {
-            CtaUtils.showCtaDialog(this, 10001);
+        if (!CtaUtils.getCtaValue(this)) {
+            if (CtaBypassForHyperceiler.IS_HOOKED) {
+                try {
+                    ActivityResultLauncher<Intent> ctaLauncher = registerForActivityResult(
+                        new ActivityResultContracts.StartActivityForResult(),
+                        result -> {
+                            if (result.getResultCode() != 1) {
+                                finishAffinity();
+                                System.exit(0);
+                            }
+                            setCtaValue(getApplicationContext(), result.getResultCode() == 1);
+                        }
+                    );
+                    CtaUtils.showCtaDialog(ctaLauncher, this);
+                } catch (Exception ignore) {
+                    showUserAgreeDialog(this);
+                }
+            } else {
+                showUserAgreeDialog(this);
+            }
         }
-    }*/
+    }
 
     /*public void test() {
         boolean ls = shellExec.append("ls").sync().isResult();

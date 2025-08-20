@@ -18,12 +18,27 @@
  */
 package com.sevtinge.hyperceiler.common.utils;
 
+import static com.sevtinge.hyperceiler.common.utils.CtaUtils.setCtaValue;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.LOGGER_CHECKER_ERR_CODE;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.sevtinge.hyperceiler.common.view.RestartAlertDialog;
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
@@ -32,6 +47,7 @@ import com.sevtinge.hyperceiler.hook.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.ui.R;
 
+import fan.androidbase.widget.LinkMovementMethod;
 import fan.appcompat.app.AlertDialog;
 
 public class DialogHelper {
@@ -76,6 +92,67 @@ public class DialogHelper {
                 .setPositiveButton(R.string.exit, (dialogInterface, i) -> System.exit(0))
                 .setNegativeButton(R.string.ignore, null)
                 .show();
+    }
+
+    public static void showUserAgreeDialog(Context context) {
+        String s = context.getString(R.string.new_cta_app_all_purpose_title);
+        String protocol = context.getString(R.string.new_cta_app_all_purpose_protocol);
+        String privacy = context.getString(R.string.new_cta_app_all_purpose_privacy);
+        int textColor = ContextCompat.getColor(context, R.color.textview_black);
+        int linkColor = ContextCompat.getColor(context, R.color.provision_item_policy_text_color);
+
+        SpannableString ss = new SpannableString(s);
+
+        ss.setSpan(new ForegroundColorSpan(textColor), 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        int startA = ss.toString().indexOf(protocol);
+        int endA = startA + protocol.length();
+        ss.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://hyperceiler.sevtinge.com/Protocol"));
+                context.startActivity(intent);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(linkColor);
+                ds.setUnderlineText(true);
+            }
+        }, startA, endA, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        int startB = ss.toString().indexOf(privacy);
+        int endB = startB + privacy.length();
+        ss.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://hyperceiler.sevtinge.com/Privacy"));
+                context.startActivity(intent);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(linkColor);
+                ds.setUnderlineText(true);
+            }
+        }, startB, endB, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        TextView msgView = new TextView(context);
+        msgView.setText(ss);
+        msgView.setMovementMethod(LinkMovementMethod.getInstance());
+        msgView.setPadding(100, 20, 100, 60);
+        msgView.setTextSize(16);
+
+        AlertDialog dialog = new AlertDialog.Builder(context)
+            .setCancelable(false)
+            .setTitle(R.string.new_cta_app_all_purpose_welcome)
+            .setView(msgView)
+            .setPositiveButton(R.string.new_cta_app_all_purpose_agree, (d, w) ->  setCtaValue(context, true))
+            .setNegativeButton(R.string.new_cta_app_all_purpose_reject, (d, w) -> System.exit(0))
+            .create();
+        dialog.show();
     }
 
     public static void showCrashReportDialog(Activity activity, View view) {

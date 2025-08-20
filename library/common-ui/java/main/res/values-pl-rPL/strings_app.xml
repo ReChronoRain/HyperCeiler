@@ -24,7 +24,6 @@
     <string name="new_permission_location_desc">używane do świadczenia usług takich jak szerokość i długość geograficzna</string>
     <string name="new_cta_agree_desc">Podczas użytkowania, w celu zapewnienia Ci większej liczby funkcji, możemy poprosić o uprawnienia Root. Możesz w dowolnym momencie przejść do menedżera uprawnień, aby dostosować status autoryzacji wszystkich uprawnień, a także prosimy o przejście do swojego menedżera Root, aby przyznać uprawnienia Root.</string>
     <string name="new_cta_app_main_purpose">modyfikacja aplikacji systemowych</string>
-    <string name="new_cta_app_all_purpose_title">Witaj w HyperCeiler! Ta aplikacja opiera się na frameworku Xposed do działania. Możesz używać tej aplikacji do modyfikowania innych obsługiwanych aplikacji w celu ulepszenia systemu. Podczas użytkowania, aby zapewnić Ci więcej funkcji, możemy poprosić o uprawnienia Root. Możesz nimi zarządzać w dowolnym momencie, przechodząc do swojego menedżera Root.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Polski</string>
     <string name="translator">xAzvest</string>

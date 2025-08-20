@@ -24,7 +24,6 @@
     <string name="new_permission_location_desc">Usado para fornecer serviços como latitude e longitude</string>
     <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciador de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
     <string name="new_cta_app_main_purpose">Modificar apps do sistema</string>
-    <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler! Este app depende do LSPosed para ser executado. Você pode usar este app para sequestrar e modificar outros apps suportados para aprimorar o sistema. Durante o uso, para fornecer mais funções, podemos solicitar suas permissões Root/Su. Você pode gerenciá-lo a qualquer momento acessando seu gerenciador Root/Su.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Português (Brasil)</string>
     <string name="translator">Igor</string>

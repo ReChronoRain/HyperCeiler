@@ -24,7 +24,6 @@
     <string name="new_permission_location_desc">تستخدم لتقديم خدمات مثل خطوط العرض وخطوط الطول</string>
     <string name="new_cta_agree_desc">أثناء الاستخدام، من أجل تزويدك بالمزيد من الميزات، قد نتقدم بطلب للحصول على إذن الجذر منك. يمكنك الذهاب إلى إدارة الأذونات في أي وقت لتعديل حالة التفويض لجميع الأذونات، يرجى الذهاب إلى مدير الروت الخاص بك للحصول على أذونات الجذر.</string>
     <string name="new_cta_app_main_purpose">تعديل تطبيقات النظام</string>
-    <string name="new_cta_app_all_purpose_title">مرحبا بكم في HyperCeiler. يعتمد هذا التطبيق على إطار LSposed للتشغيل. يمكنك استخدام هذا التطبيق لتعديل التطبيقات الأخرى المدعومة وتعديلها لتعزيز النظام. أثناء الاستخدام، من أجل تزويدك بمزيد من الوظائف، قد نتقدم بطلب أذونات الجذر منك. يمكنك إدارتها في أي وقت عن طريق الذهاب إلى مدير الجذر.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">العربية</string>
     <string name="translator">Mohamed Zeroug</string>

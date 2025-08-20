@@ -22,6 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.AppLockPinScramble;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.BypassAdbInstallVerify;
+import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.CtaBypassForHyperceiler;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.DisableReport;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.DisableRootedCheck;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.GetBubbleAppString;
@@ -78,6 +79,8 @@ public class SecurityCenterV extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+
+        initHook(new CtaBypassForHyperceiler());
 
         // 应用管理
         initHook(new AppDefaultSort(), mPrefsMap.getStringAsInt("security_center_app_default_sort", 0) > 0);

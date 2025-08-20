@@ -25,7 +25,6 @@
     <string name="new_cta_agree_desc">En el uso, para proporcionarle más características, es posible que solicitemos permiso de Root/Su. Puede ir a administración de permisos en cualquier momento para ajustar el estado de autorización de todos los permisos, y por favor vaya a su administrador de Root/Su para obtener permisos.</string>
     <string name="new_cta_app_main_purpose">modificar
 aplicaciones del sistema</string>
-    <string name="new_cta_app_all_purpose_title">Bienvenido a HyperCeiler, que funciona en Xposed framework, por eso puede utilizarla para descifrar y modificar otras aplicaciones soportadas para obtener mejoras de HyperOS/MIUI. En el uso, para proporcionarle más características, es posible que le solicitemos permiso de Root/Su. Puede ir a su administrador de Root/Su para obtener permisos.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Español</string>
     <string name="translator">Mateo795</string>
