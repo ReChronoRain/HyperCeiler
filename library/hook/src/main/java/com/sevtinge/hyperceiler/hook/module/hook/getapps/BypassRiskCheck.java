@@ -32,7 +32,7 @@ public class BypassRiskCheck extends BaseHook {
     public void init() throws NoSuchMethodException {
         boolean isNew = getPackageVersionCode(lpparam) >= 40005740;
         if (isNew) {
-            findAndHookMethod("com.xiaomi.market.business_ui.main.mine.app_security.check_page.risk_app.AppSecurityRiskAppView", "updateResultStatus", int.class, new MethodHook() {
+            hookAllMethods("com.xiaomi.market.business_ui.main.mine.app_security.check_page.risk_app.AppSecurityRiskAppView", "updateResultStatus", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) throws Throwable {
                     param.args[0] = 0;
