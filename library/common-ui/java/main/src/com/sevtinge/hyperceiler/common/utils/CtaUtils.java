@@ -22,19 +22,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.CtaBypassForHyperceiler;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.ui.R;
 
-import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-
-import java.util.function.BiConsumer;
 
 public class CtaUtils {
+
     private static final String APP_PERMISSION_MANAGE_PKG = "com.miui.securitycenter";
     public static final String ACTION_START_CTA_V2 = "miui.intent.action.SYSTEM_PERMISSION_DECLARE";
     public static final String ACTION_START_CTA_V2_NEW = "miui.intent.action.SYSTEM_PERMISSION_DECLARE_NEW";
@@ -65,15 +61,21 @@ public class CtaUtils {
 
 
     public static boolean getCtaValue(Context context) {
-        return context.getSharedPreferences("HyperCeilerPermission", 0).getBoolean("key_user_agree", false) && PrefsUtils.mSharedPreferences.getBoolean("prefs_key_allow_hook", false);
+        return context.getSharedPreferences("HyperCeilerPermission", 0)
+            .getBoolean("key_user_agree", false) &&
+            PrefsUtils.mSharedPreferences.getBoolean("prefs_key_allow_hook", false);
     }
 
-    public static boolean isAgree(Context context) {
-        boolean isHooked = false;
+    public static boolean isCtaNeedShow(Context context) {
+        return !getCtaValue(context);
+    }
+
+    public static boolean isCtaBypass() {
         try {
-            isHooked = CtaBypassForHyperceiler.IS_HOOKED;
-        } catch (Exception ignore) {}
-        return !getCtaValue(context) && isHooked;
+            return CtaBypassForHyperceiler.IS_HOOKED;
+        } catch (Error ignore) {
+            return false;
+        }
     }
 
     public static boolean showCtaDialog(ActivityResultLauncher<Intent> launcher, Activity activity) {
@@ -100,15 +102,6 @@ public class CtaUtils {
             e.printStackTrace();
             return false;
         }
-        /*try {
-            *//*if (!supportNewPermissionStyle() || activity.getPackageManager().queryIntentActivities(intent, 0).size() <= 0) {
-                return false;
-            }*//*
-            activity.startActivityForResult(intent, requestCode);
-            return true;
-        } catch (Exception unused) {
-            return false;
-        }*/
     }
 
     private static String[] getRuntimePermission() {

@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.ui;
 
-import static com.sevtinge.hyperceiler.common.utils.CtaUtils.setCtaValue;
 import static com.sevtinge.hyperceiler.common.utils.DialogHelper.showUserAgreeDialog;
 import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isTablet;
@@ -30,7 +29,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -45,11 +43,9 @@ import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.common.utils.search.SearchHelper;
 import com.sevtinge.hyperceiler.hook.callback.IResult;
-import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.CtaBypassForHyperceiler;
 import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.main.fragment.DetailFragment;
@@ -185,36 +181,28 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         return true;
     }
 
-    /*@Override
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         requestCta();
-    }*/
+    }
 
     private void requestCta() {
-        if (!CtaUtils.getCtaValue(this)) {
-            boolean isHooked = false;
-            try {
-                isHooked = CtaBypassForHyperceiler.IS_HOOKED;
-            } catch (Error ignore) {}
-            if (isHooked) {
-                try {
-                    ActivityResultLauncher<Intent> ctaLauncher = registerForActivityResult(
-                        new ActivityResultContracts.StartActivityForResult(),
-                        result -> {
-                            if (result != null) {
-                                if (result.getResultCode() != 1) {
-                                    finishAffinity();
-                                    System.exit(0);
-                                }
-                                setCtaValue(getApplicationContext(), result.getResultCode() == 1);
+        if (CtaUtils.isCtaNeedShow(this)) {
+            if (CtaUtils.isCtaBypass()) {
+                ActivityResultLauncher<Intent> ctaLauncher = registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result != null) {
+                            if (result.getResultCode() != 1) {
+                                finishAffinity();
+                                System.exit(0);
                             }
+                            CtaUtils.setCtaValue(getApplicationContext(), result.getResultCode() == 1);
                         }
-                    );
-                    CtaUtils.showCtaDialog(ctaLauncher, this);
-                } catch (Exception ignore) {
-                    showUserAgreeDialog(this);
-                }
+                    }
+                );
+                CtaUtils.showCtaDialog(ctaLauncher, this);
             } else {
                 showUserAgreeDialog(this);
             }
