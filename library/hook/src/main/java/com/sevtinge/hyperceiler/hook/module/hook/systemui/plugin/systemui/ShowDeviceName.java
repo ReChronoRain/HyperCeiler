@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin;
+package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui;
 
 import static com.sevtinge.hyperceiler.hook.module.base.tool.HookTool.hookMethod;
 import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;

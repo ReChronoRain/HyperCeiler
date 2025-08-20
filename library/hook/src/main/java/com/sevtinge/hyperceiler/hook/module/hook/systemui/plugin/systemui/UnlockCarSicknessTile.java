@@ -16,15 +16,21 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin;
+package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui;
 
-import static de.robv.android.xposed.XC_MethodReplacement.returnConstant;
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
-import de.robv.android.xposed.XposedHelpers;
+import android.content.Context;
 
-public class HideEditButton {
-    public static void initHideEditButton(ClassLoader classLoader) {
-        XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.panel.main.qs.EditButtonController", classLoader, "available", boolean.class, returnConstant(false));
-        XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.panel.main.qs.EditButtonController", classLoader, "available", boolean.class, "miui.systemui.controlcenter.panel.main.MainPanelModeController$MainPanelMode", returnConstant(false));
+import de.robv.android.xposed.XC_MethodHook;
+
+public class UnlockCarSicknessTile {
+    public static void initUnlockCarSicknessTile(ClassLoader classLoader) {
+        findAndHookMethod("miui.systemui.util.DeviceUtils", classLoader, "isSupportCarSickness", Context.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                param.setResult(true);
+            }
+        });
     }
 }

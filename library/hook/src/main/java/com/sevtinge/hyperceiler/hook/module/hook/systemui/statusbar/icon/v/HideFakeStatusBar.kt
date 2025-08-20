@@ -33,6 +33,7 @@ import com.sevtinge.hyperceiler.hook.module.base.pack.systemui.MusicBaseHook
 import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.miuiConfigs
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.getBooleanFieldOrNull
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
@@ -139,17 +140,15 @@ object HideFakeStatusBar : MusicBaseHook() {
                 mBigTime = it.thisObject.getObjectFieldOrNullAs<TextView>("mBigTime") ?: return@createAfterHook
             }
 
-        runCatching {
-            miuiNotificationClass.methodFinder()
-                .filterByName("updateBigTimeColor").first().replaceMethod {
-                    if (isShowingFocusedLyric) {
-                        // 显示歌词的时候取消设置大时钟颜色(假时钟动画会设置颜色,显示歌词的时候取消了假时钟动画,所以可能会下拉通知栏之后时间是黑色)
-                        null
-                    } else {
-                        it.invokeOriginalMethod()
-                    }
+        miuiNotificationClass.methodFinder()
+            .filterByName("updateBigTimeColor").first().replaceMethod {
+                if (isShowingFocusedLyric) {
+                    // 显示歌词的时候取消设置大时钟颜色(假时钟动画会设置颜色,显示歌词的时候取消了假时钟动画,所以可能会下拉通知栏之后时间是黑色)
+                    null
+                } else {
+                    it.invokeOriginalMethod()
                 }
-        }
+            }
 
         var unhook0: XC_MethodHook.Unhook? = null
         loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController\$notificationCallback$1").methodFinder()
@@ -232,8 +231,11 @@ object HideFakeStatusBar : MusicBaseHook() {
                 }
             }
 
-        loadClass("com.android.systemui.recents.OverviewProxyService").methodFinder()
-            .filterByName("onFocusedNotifUpdate").first()
+        if (isMoreAndroidVersion(36)) {
+            loadClass("com.android.systemui.recents.LauncherProxyService")
+        } else {
+            loadClass("com.android.systemui.recents.OverviewProxyService")
+        }.methodFinder().filterByName("onFocusedNotifUpdate").first()
             .createBeforeHook { m ->
                 // 代码中的动画目标位置
                 val rect = m.args[2] as Rect

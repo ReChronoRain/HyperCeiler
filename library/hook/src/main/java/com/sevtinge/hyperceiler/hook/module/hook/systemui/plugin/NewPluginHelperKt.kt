@@ -19,18 +19,29 @@
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin
 
 import android.content.ContextWrapper
-import android.text.TextUtils
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.hook.aod.AodBlurButton
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.CCGridForHyperOSKt
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.CustomCardTiles
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSColor
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DefaultPluginTheme
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.aod.AodBlurButton
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.DisableDeviceManagedNew
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.EnableVolumeBlur
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.HideCollpasedFootButton
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.HideEditButton
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.NewBrightnessPct
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.NewShowVolumePct
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.QsTileSuperBlur
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.ShowDeviceName
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.StartCollpasedColumnPress
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.UnlockCarSicknessTile
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.VolumeOrQSBrightnessValue
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.VolumeTimerValuesHook
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.FocusNotifLyric
 import com.sevtinge.hyperceiler.hook.utils.api.PluginFactory
+import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isDebug
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreSmallVersion
-import com.sevtinge.hyperceiler.hook.utils.log.LogManager.logLevel
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -72,151 +83,163 @@ object NewPluginHelperKt : BaseHook() {
 
     private fun onPluginLoaded(factory: PluginFactory) {
         val mCardStyleTiles = getTileList()
+        val prefs = mPrefsMap
 
-        when (factory.mComponentName) {
+        val componentName = factory.mComponentName
+        val pluginCtx = factory.pluginCtxRef.get()
+        if (pluginCtx == null) {
+            logE(TAG, lpparam.packageName, "plugin context is null for $componentName")
+            return
+        }
+        val classLoader: ClassLoader = pluginCtx.classLoader
+
+        when (componentName) {
             factory.componentNames(1, "miui.systemui.volume.VolumeDialogPlugin") -> {
-                val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 logD(TAG, lpparam.packageName, "Plugin for sysui volume loaded.")
 
-                val loaders = listOf(
-                    Triple(
-                        "VolumeTimerValuesHook",
-                        mPrefsMap.getBoolean("system_ui_volume_timer") && isHyperOSVersion(1f),
-                        VolumeTimerValuesHook::initVolumeTimerValuesHook
-                    ),
-                    Triple(
-                        "NewShowVolumePct",
-                        (isHyperOSVersion(1f) || isStyle == 2) && mPrefsMap.getBoolean("system_cc_volume_showpct_title"),
-                        NewShowVolumePct::initLoader
-                    ),
-                    Triple(
-                        "EnableVolumeBlur",
-                        mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"),
-                        EnableVolumeBlur::initEnableVolumeBlur
-                    ),
-                    Triple(
-                        "StartCollpasedColumnPress",
-                        mPrefsMap.getBoolean("system_ui_volume_collpased_column_press"),
-                        StartCollpasedColumnPress::initLoaderHook
-                    ),
-                    Triple(
-                        "StartCollpasedFootButton",
-                        mPrefsMap.getBoolean("system_ui_volume_hide_foot_button"),
-                        HideCollpasedFootButton::initLoaderHook
-                    ),
-                    Triple(
-                        "DefaultPluginTheme",
-                        mPrefsMap.getBoolean("system_ui_other_default_plugin_theme"),
-                        DefaultPluginTheme::initDefaultPluginTheme
-                    ),
-                )
-                loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
+                val enabledLoaders = ArrayList<Pair<String, (ClassLoader) -> Unit>>(6)
+
+                if (prefs.getBoolean("system_ui_volume_timer") && isHyperOSVersion(1f)) {
+                    enabledLoaders.add(
+                        Pair(
+                            "VolumeTimerValuesHook",
+                            VolumeTimerValuesHook::initVolumeTimerValuesHook
+                        )
+                    )
+                }
+
+                if ((isHyperOSVersion(1f) || isStyle == 2) && prefs.getBoolean("system_cc_volume_showpct_title")) {
+                    enabledLoaders.add(
+                        Pair(
+                            "NewShowVolumePct",
+                            NewShowVolumePct::initLoader
+                        )
+                    )
+                }
+
+                if (prefs.getBoolean("system_ui_plugin_enable_volume_blur")) {
+                    enabledLoaders.add(
+                        Pair(
+                            "EnableVolumeBlur",
+                            EnableVolumeBlur::initEnableVolumeBlur
+                        )
+                    )
+                }
+
+                if (prefs.getBoolean("system_ui_volume_collpased_column_press")) {
+                    enabledLoaders.add(
+                        Pair(
+                            "StartCollpasedColumnPress",
+                            StartCollpasedColumnPress::initLoaderHook
+                        )
+                    )
+                }
+
+                if (prefs.getBoolean("system_ui_volume_hide_foot_button")) {
+                    enabledLoaders.add(
+                        Pair(
+                            "StartCollpasedFootButton",
+                            HideCollpasedFootButton::initLoaderHook
+                        )
+                    )
+                }
+
+                if (prefs.getBoolean("system_ui_other_default_plugin_theme")) {
+                    enabledLoaders.add(
+                        Pair(
+                            "DefaultPluginTheme",
+                            DefaultPluginTheme::initDefaultPluginTheme
+                        )
+                    )
+                }
+
+                loadClassLoaders(componentName.toString(), classLoader, enabledLoaders)
             }
 
             factory.componentNames(1, "miui.systemui.quicksettings.LocalMiuiQSTilePlugin"),
             factory.componentNames(1, "miui.systemui.controlcenter.MiuiControlCenter") -> {
-                val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
-                logD(
-                    TAG,
-                    lpparam.packageName,
-                    "Plugin for sysui qs tiles && control center loaded."
-                )
+                logD(TAG, lpparam.packageName, "Plugin for sysui qs tiles && control center loaded.")
 
-                val loaders = listOf(
-                    Triple(
-                        "VolumeOrQSBrightnessValue",
-                        (isStyle == 1) && (mPrefsMap.getBoolean("system_ui_control_center_qs_brightness_top_value_show") || mPrefsMap.getBoolean(
-                            "system_ui_control_center_qs_volume_top_value_show"
-                        )),
-                        VolumeOrQSBrightnessValue::initVolumeOrQSBrightnessValue
-                    ),
-                    Triple(
-                        "CustomCardTiles",
-                        mPrefsMap.getBoolean("systemui_plugin_card_tiles_enabled") &&
-                            mPrefsMap.getString("systemui_plugin_card_tiles", "").isNotEmpty()
-                    ) { cl -> CustomCardTiles.initCustomCardTiles(cl, mCardStyleTiles) },
-                    Triple(
-                        "HideEditButton",
-                        mPrefsMap.getBoolean("system_ui_control_center_hide_edit_botton"),
-                        HideEditButton::initHideEditButton
-                    ),
-                    Triple(
-                        "QsTileSuperBlur",
-                        mPrefsMap.getBoolean("system_ui_control_center_tile_super_blur"),
-                        QsTileSuperBlur::initQsTileSuperBlur
-                    ),
-                    Triple(
-                        "CCGridForHyperOS",
-                        mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"),
-                        CCGridForHyperOSKt::initCCGridForHyperOS
-                    ),
-                    Triple(
-                        "QSColor",
-                        mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") ||
-                            mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color"),
-                        QSColor::pluginHook
-                    ),
-                    Triple(
-                        "NewBrightnessPct",
-                        (isHyperOSVersion(1f) || isStyle == 2) && mPrefsMap.getBoolean("system_showpct_title"),
-                        NewBrightnessPct::initLoaderHook
-                    ),
-                    Triple(
-                        "DisableDeviceManaged",
-                        mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"),
-                        DisableDeviceManagedNew::initDisableDeviceManaged
-                    ),
-                    Triple(
-                        "UnlockCarSicknessTile",
-                        mPrefsMap.getBoolean("security_center_unlock_car_sickness")
-                    ) { cl -> UnlockCarSicknessTile.initUnlockCarSicknessTile(cl) },
-                )
-                loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
+                val enabledLoaders = ArrayList<Pair<String, (ClassLoader) -> Unit>>(10)
+
+                if ((isStyle == 1) && (prefs.getBoolean("system_ui_control_center_qs_brightness_top_value_show") || prefs.getBoolean("system_ui_control_center_qs_volume_top_value_show"))) {
+                    enabledLoaders.add(
+                        Pair(
+                            "VolumeOrQSBrightnessValue",
+                            VolumeOrQSBrightnessValue::initVolumeOrQSBrightnessValue
+                        )
+                    )
+                }
+
+                if (prefs.getBoolean("systemui_plugin_card_tiles_enabled")) {
+                    val tileStr = prefs.getString("systemui_plugin_card_tiles", "")
+                    if (!tileStr.isNullOrEmpty()) {
+                        enabledLoaders.add(
+                            Pair("CustomCardTiles") { cl ->
+                                CustomCardTiles.initCustomCardTiles(cl, mCardStyleTiles)
+                            }
+                        )
+                    }
+                }
+
+                if (prefs.getBoolean("system_ui_control_center_hide_edit_botton")) {
+                    enabledLoaders.add(Pair("HideEditButton", HideEditButton::initHideEditButton))
+                }
+
+                if (prefs.getBoolean("system_ui_control_center_tile_super_blur")) {
+                    enabledLoaders.add(Pair("QsTileSuperBlur", QsTileSuperBlur::initQsTileSuperBlur))
+                }
+
+                if (prefs.getBoolean("system_ui_control_center_rounded_rect")) {
+                    enabledLoaders.add(Pair("CCGridForHyperOS", CCGridForHyperOSKt::initCCGridForHyperOS))
+                }
+
+                if (prefs.getBoolean("system_ui_control_center_qs_open_color") || prefs.getBoolean("system_ui_control_center_qs_big_open_color")) {
+                    enabledLoaders.add(Pair("QSColor", QSColor::pluginHook))
+                }
+
+                if ((isHyperOSVersion(1f) || isStyle == 2) && prefs.getBoolean("system_showpct_title")) {
+                    enabledLoaders.add(Pair("NewBrightnessPct", NewBrightnessPct::initLoaderHook))
+                }
+
+                if (prefs.getBoolean("system_ui_control_center_disable_device_managed")) {
+                    enabledLoaders.add(Pair("DisableDeviceManaged", DisableDeviceManagedNew::initDisableDeviceManaged))
+                }
+
+                if (prefs.getBoolean("security_center_unlock_car_sickness")) {
+                    enabledLoaders.add(Pair("UnlockCarSicknessTile") { cl -> UnlockCarSicknessTile.initUnlockCarSicknessTile(cl) })
+                }
+
+                loadClassLoaders(componentName.toString(), classLoader, enabledLoaders)
             }
 
             factory.componentNames(1, "miui.systemui.notification.NotificationStatPluginImpl"),
             factory.componentNames(1, "miui.systemui.notification.FocusNotificationPluginImpl") -> {
-                val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
-                logD(
-                    TAG,
-                    lpparam.packageName,
-                    "Plugin for sysui NotificationStatPluginImpl loaded."
-                )
+                logD(TAG, lpparam.packageName, "Plugin for sysui NotificationStatPluginImpl loaded.")
 
-                val loaders = listOf(
-                    Triple(
-                        "FocusNotifLyric",
-                        mPrefsMap.getBoolean("system_ui_statusbar_music_switch") || mPrefsMap.getBoolean("system_ui_unlock_all_focus"),
-                        FocusNotifLyric::initLoader
-                    ),
-                )
-                loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
+                val enabledLoaders = ArrayList<Pair<String, (ClassLoader) -> Unit>>(1)
+                if (prefs.getBoolean("system_ui_statusbar_music_switch") || prefs.getBoolean("system_ui_unlock_all_focus")) {
+                    enabledLoaders.add(Pair("FocusNotifLyric", FocusNotifLyric::initLoader))
+                }
+                loadClassLoaders(componentName.toString(), classLoader, enabledLoaders)
             }
 
             factory.componentNames(0, "com.miui.keyguard.shortcuts.ShortcutPluginImpl") -> {
-                val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
                 logD(TAG, lpparam.packageName, "Plugin for aod ShortcutPluginImpl loaded.")
 
-                val loaders = listOf(
-                    Triple(
-                        "AodBlurButton",
-                        mPrefsMap.getBoolean("system_ui_lock_screen_blur_button") && isMoreSmallVersion(200, 2f),
-                        AodBlurButton::initLoader
-                    ),
-                )
-                loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
+                val enabledLoaders = ArrayList<Pair<String, (ClassLoader) -> Unit>>(1)
+                if (prefs.getBoolean("system_ui_lock_screen_blur_button") && isMoreSmallVersion(200, 2f)) {
+                    enabledLoaders.add(Pair("AodBlurButton", AodBlurButton::initLoader))
+                }
+                loadClassLoaders(componentName.toString(), classLoader, enabledLoaders)
             }
 
             else -> {
-                val classLoader: ClassLoader = factory.pluginCtxRef.get()!!.classLoader
-                val loaders = listOf(
-                    Triple(
-                        "ShowDeviceName",
-                        mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3 && isHyperOSVersion(1f),
-                        ShowDeviceName::initShowDeviceName
-                    ),
-                )
-                loadClassLoaders(factory.mComponentName.toString(), classLoader, loaders)
+                val enabledLoaders = ArrayList<Pair<String, (ClassLoader) -> Unit>>(1)
+                if (prefs.getStringAsInt("system_ui_control_center_hide_operator", 0) == 3 && isHyperOSVersion(1f)) {
+                    enabledLoaders.add(Pair("ShowDeviceName", ShowDeviceName::initShowDeviceName))
+                }
+                loadClassLoaders(componentName.toString(), classLoader, enabledLoaders)
 
                 // logD(TAG, lpparam.packageName, "Plugin is ${factory.mComponentName}")
                 // 仅备份当前可用注入 ClassLoader
@@ -241,25 +264,21 @@ object NewPluginHelperKt : BaseHook() {
     private fun loadClassLoaders(
         tag: String,
         classLoader: ClassLoader,
-        loaders: List<Triple<String, Boolean, (ClassLoader) -> Unit>>
+        loaders: List<Pair<String, (ClassLoader) -> Unit>>
     ) {
-        loaders.forEach { (name, prefKey, loader) ->
+        for ((name, loader) in loaders) {
             runCatching {
-                if (prefKey) {
-                    loader(classLoader)
-                }
-                if (logLevel >= 3) logI(TAG, lpparam.packageName, "$name is loaded success.")
+                loader(classLoader)
+                if (isDebug()) logI(TAG, lpparam.packageName, "$name is loaded success.")
             }.onFailure {
-                if (logLevel >= 1) logE(TAG, lpparam.packageName, "[$tag] $name is fail loaded, log: $it")
+                logE(TAG, lpparam.packageName, "[$tag] $name is fail loaded, log: $it")
             }
         }
     }
 
     private fun getTileList(): List<String> {
-        val cardTiles =
-            mPrefsMap.getString("systemui_plugin_card_tiles", "").replace("List_", "")
-
-        return if (TextUtils.isEmpty(cardTiles.replace("List_", ""))) ArrayList()
-        else listOf(*cardTiles.split("\\|".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
+        val raw = mPrefsMap.getString("systemui_plugin_card_tiles", "")?.removePrefix("List_") ?: ""
+        if (raw.isBlank()) return emptyList()
+        return raw.split('|').filter { it.isNotEmpty() }
     }
 }

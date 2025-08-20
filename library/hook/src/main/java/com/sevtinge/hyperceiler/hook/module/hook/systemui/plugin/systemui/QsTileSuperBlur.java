@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin;
+package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui;
 
 import android.content.Context;
 import android.util.AttributeSet;

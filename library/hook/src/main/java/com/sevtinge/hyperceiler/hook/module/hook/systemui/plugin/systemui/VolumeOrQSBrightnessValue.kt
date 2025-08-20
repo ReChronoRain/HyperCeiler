@@ -17,7 +17,7 @@
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
 
-package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin
+package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui
 
 import android.content.Context
 import android.content.res.Resources
@@ -39,7 +39,6 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mPrefsMap
 import com.sevtinge.hyperceiler.hook.utils.replaceMethod
-import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.XposedHelpers.getStaticBooleanField
 import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.findViewByIdName
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
