@@ -20,17 +20,17 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin
 
 import android.content.ContextWrapper
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.CCGridForHyperOSKt
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.CustomCardTiles
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSColor
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DefaultPluginTheme
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.aod.AodBlurButton
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.CCGridForHyperOSKt
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.CustomCardTiles
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.DisableDeviceManagedNew
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.EnableVolumeBlur
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.HideCollpasedFootButton
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.HideEditButton
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.NewBrightnessPct
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.NewShowVolumePct
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.QSColor
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.QsTileSuperBlur
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.ShowDeviceName
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.StartCollpasedColumnPress

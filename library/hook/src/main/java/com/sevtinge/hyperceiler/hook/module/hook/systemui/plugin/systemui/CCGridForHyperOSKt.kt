@@ -1,26 +1,26 @@
 /*
  * This file is part of HyperCeiler.
-
+ *
  * HyperCeiler is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License.
-
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
-
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+ *
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter
+package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui
 
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE
+import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
@@ -69,7 +69,7 @@ object CCGridForHyperOSKt {
                     if (drawable is GradientDrawable) drawable.cornerRadius = radius
                     param.args[0] = drawable
                 }.onFailure {
-                    logE("initCCGridForHyperOS", "radius 1 crash, $it")
+                    XposedLogUtils.logE("initCCGridForHyperOS", "radius 1 crash, $it")
                 }
             }
         })
@@ -81,7 +81,7 @@ object CCGridForHyperOSKt {
                     if (drawable is GradientDrawable) drawable.cornerRadius = radius
                     param.args[0] = drawable
                 }.onFailure {
-                    logE("initCCGridForHyperOS", "radius 2 crash, $it")
+                    XposedLogUtils.logE("initCCGridForHyperOS", "radius 2 crash, $it")
                 }
             }
         })
@@ -94,7 +94,7 @@ object CCGridForHyperOSKt {
                     runCatching {
                         param?.args?.set(0, radius)
                     }.onFailure {
-                        logE("initCCGridForHyperOS", "radius 3 crash, $it")
+                        XposedLogUtils.logE("initCCGridForHyperOS", "radius 3 crash, $it")
                     }
                 }
             }
@@ -109,7 +109,7 @@ object CCGridForHyperOSKt {
                     }
                 })
         }.onFailure {
-            logE("initCCGridForHyperOS", "radius 4 crash, $it")
+            XposedLogUtils.logE("initCCGridForHyperOS", "radius 4 crash, $it")
         }
     }
 }

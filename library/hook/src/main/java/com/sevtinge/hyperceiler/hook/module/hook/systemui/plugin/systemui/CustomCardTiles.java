@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter;
+package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
@@ -80,6 +80,7 @@ public class CustomCardTiles {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) {
                         Object state = XposedHelpers.getObjectField(param.thisObject, "state");
+                        if (state == null) return;  // 系统界面组件会先 null 几次才会获取到值，应该是官方写法有问题
                         String spec = (String) XposedHelpers.getObjectField(state, "spec");
                         int i = XposedHelpers.getIntField(state, "state");
                         switch (spec) {

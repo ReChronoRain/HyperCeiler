@@ -47,6 +47,7 @@ import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFi
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHooks
+import java.lang.reflect.Method
 import java.util.WeakHashMap
 
 object VolumeOrQSBrightnessValue {
@@ -64,8 +65,7 @@ object VolumeOrQSBrightnessValue {
     private val sliderSeekBarCache = WeakHashMap<Any, SeekBar>()
     private val controllerTopTextCache = WeakHashMap<Any, TextView>()
     private val colorArrayCache = HashMap<String, IntArray>()
-
-    private var supportSV: Boolean = false
+    private var progressToLevelMethod: Method? = null
 
     private fun setTextIfChanged(tv: TextView, newText: String) {
         if (tv.text.toString() != newText) {
@@ -78,35 +78,31 @@ object VolumeOrQSBrightnessValue {
         if (view.visibility != want) view.visibility = want
     }
 
-    private fun getValidCachedTextView(
-        cache: WeakHashMap<Any, TextView>,
-        key: Any,
-        supplier: () -> TextView?
-    ): TextView? {
-        val cached = cache[key]
-        if (cached != null) {
-            try {
-                if (cached.isAttachedToWindow && cached.parent != null) {
-                    return cached
+    private fun normalizeTopTextViewLayout(tv: TextView) {
+        try {
+            tv.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13f)
+            val desiredWidth = dpToPx(50f, tv.resources.displayMetrics).toInt()
+            val lp = tv.layoutParams?.apply {
+                if (width != desiredWidth) width = desiredWidth
+            } ?: ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT)
+            tv.layoutParams = lp
+            tv.post {
+                try {
+                    val wSpec = View.MeasureSpec.makeMeasureSpec(desiredWidth, View.MeasureSpec.EXACTLY)
+                    val hSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+                    tv.measure(wSpec, hSpec)
+                    tv.requestLayout()
+                    tv.invalidate()
+                } catch (_: Throwable) {
                 }
-            } catch (_: Throwable) {
             }
-        }
-        val fresh = try {
-            supplier()
         } catch (_: Throwable) {
-            null
         }
-        if (fresh != null) {
-            cache[key] = fresh
-        }
-        return fresh
     }
 
     fun initVolumeOrQSBrightnessValue(classLoader: ClassLoader) {
         if (!brightnessShow && !volumeShow) return
-
-        supportSV = mSupportSV
 
         val controlCenterUtils = ControlCenterUtils(classLoader)
         val miBlurCompat = MiBlurCompat(classLoader)
@@ -115,54 +111,32 @@ object VolumeOrQSBrightnessValue {
             val volumeUtils = loadClass("miui.systemui.util.VolumeUtils", classLoader)
             val volumeSliderController =
                 loadClass("miui.systemui.controlcenter.panel.main.volume.VolumeSliderController", classLoader)
-            val volumePanelViewController =
-                loadClass("com.android.systemui.miui.volume.VolumePanelViewController", classLoader)
-            val util = Util(classLoader)
 
-            val progressToLevelCall: (Int, Int) -> Int = { max, value ->
-                volumeUtils.callStaticMethod("progressToLevel", max, value) as Int
+            runCatching {
+                progressToLevelMethod = volumeUtils.getMethod(
+                    "progressToLevel",
+                    Int::class.javaPrimitiveType,
+                    Int::class.javaPrimitiveType
+                )
+            }.onFailure {
+                logE("VolumeOrQSBrightnessValue", "cache progressToLevel method failed: ${it.message}")
+                progressToLevelMethod = null
             }
 
-            // 有超大音量功能的拦截隐藏
-            if (supportSV) {
-                volumePanelViewController
-                    .methodFinder().filterByName("updateSuperVolumeView")
-                    .first().replaceMethod {
-                        null
+            val progressToLevelCall: (Int, Int) -> Int = { max, value ->
+                progressToLevelMethod?.let { m ->
+                    try {
+                        (m.invoke(null, max, value) as? Int) ?: value
+                    } catch (_: Throwable) {
+                        value
                     }
-
-                runCatching {
-                    // 你米还是太抽象了
-                    volumeSliderController
-                        .methodFinder().filterByName("updateSuperVolume")
-                        .first().createAfterHook { param ->
-                            val sliderHolder = param.thisObject.callMethod("getHolder") ?: return@createAfterHook
-
-                            val topValue = getValidCachedTextView(topTextCache, sliderHolder) {
-                                val item = sliderHolder.getObjectField("itemView") as? View ?: return@getValidCachedTextView null
-                                item.findViewByIdName("top_text") as? TextView
-                            } ?: return@createAfterHook
-
-                            val sliderMaxValue = param.thisObject.getObjectField("sliderMaxValue") as Int
-                            val value = param.thisObject.callMethod("getTargetValue")!! as Int
-
-                            val level = try {
-                                progressToLevelCall(sliderMaxValue, value)
-                            } catch (_: Throwable) {
-                                value
-                            }
-
-                            val newText = convertToPercentageProgress(level, sliderMaxValue / 1000, 1)
-                            setVisibilityIfNeeded(topValue, true)
-                            setTextIfChanged(topValue, newText)
-                        }
-                }.onFailure {
-                    logE("VolumeOrQSBrightnessValue", "updateSuperVolume replace failed: ${it.message}")
+                } ?: run {
+                    value
                 }
             }
 
             // 控制中心音量条百分比进度值计算
-            if (!supportSV) {
+            if (!mSupportSV) {
                 volumeSliderController.methodFinder()
                     .filterByName("updateIconProgress")
                     .filterByParamTypes {
@@ -171,15 +145,28 @@ object VolumeOrQSBrightnessValue {
                         val sliderHolder =
                             param.thisObject.callMethod("getHolder") ?: return@createAfterHook
 
-                        val topValue = getValidCachedTextView(topTextCache, sliderHolder) {
-                            val item = sliderHolder.getObjectField("itemView") as? View
-                                ?: return@getValidCachedTextView null
-                            item.findViewByIdName("top_text") as? TextView
-                        } ?: return@createAfterHook
+                        val topValue = topTextCache.getOrPut(sliderHolder) {
+                            val item = sliderHolder.getObjectFieldOrNullAs<View>("itemView")
+                                ?: return@getOrPut TextView(param.thisObject.getObjectField("mContext") as Context)
+                            item.findViewByIdName("top_text") as TextView
+                        }
+
+                        if (!topValue.isAttachedToWindow) {
+                            runCatching {
+                                val item = sliderHolder.getObjectFieldOrNullAs<View>("itemView")
+                                val newTv = item?.findViewByIdName("top_text") as? TextView
+                                if (newTv != null) topTextCache[sliderHolder] = newTv
+                            }
+                        }
+
+                        val effectiveTop = topTextCache[sliderHolder] ?: return@createAfterHook
+                        if (!effectiveTop.isAttachedToWindow) return@createAfterHook
 
                         val sliderMaxValue =
-                            param.thisObject.getObjectField("sliderMaxValue") as Int
-                        val value = param.thisObject.callMethod("getTargetValue")!! as Int
+                            param.thisObject.getObjectFieldOrNullAs<Int>("sliderMaxValue")
+                                ?: return@createAfterHook
+                        val value = param.thisObject.callMethod("getTargetValue") as? Int
+                            ?: return@createAfterHook
 
                         val level = try {
                             progressToLevelCall(sliderMaxValue, value)
@@ -187,25 +174,44 @@ object VolumeOrQSBrightnessValue {
                             value
                         }
 
-                        val newText = convertToPercentageProgress(level, sliderMaxValue / 1000, 1)
-                        setVisibilityIfNeeded(topValue, true)
-                        setTextIfChanged(topValue, newText)
+                        val percent = sliderMaxValue / 1000
+                        val newText = convertToPercentageVolumeProgress(level, percent)
+
+                        normalizeTopTextViewLayout(effectiveTop)
+                        setVisibilityIfNeeded(effectiveTop, true)
+                        setTextIfChanged(effectiveTop, newText)
                     }
             }
 
             // 侧边音量条进度值 && All 场景二级音量条进度值 UI 启用
+            val volumePanelViewController =
+                loadClass("com.android.systemui.miui.volume.VolumePanelViewController", classLoader)
+            val util = Util(classLoader)
+
             volumePanelViewController.methodFinder()
                 .filterByName("updateSuperVolumeView")
                 .filterByParamTypes {
                     it[0] == loadClass("com.android.systemui.miui.volume.VolumePanelViewController\$VolumeColumn", classLoader)
                 }.first().createAfterHook { param ->
                     val thisObj = param.thisObject
-                    val mExpanded = thisObj.getObjectField("mExpanded") as Boolean
-                    val volumeColumn = param.args[0]
-                    val superVolume = getValidCachedTextView(superVolumeCache, volumeColumn) {
-                        (volumeColumn.getObjectField("superVolume") as? TextView)
+                    val mExpanded = thisObj.getObjectFieldOrNullAs<Boolean>("mExpanded") ?: false
+                    val volumeColumn = param.args[0] ?: return@createAfterHook
+
+                    // 获取或刷新 superVolume TextView
+                    val superVolume = try {
+                        val cached = superVolumeCache[volumeColumn]
+                        if (cached != null && cached.isAttachedToWindow) cached
+                        else {
+                            val found = volumeColumn.getObjectFieldOrNullAs<TextView>("superVolume")
+                            if (found != null) superVolumeCache[volumeColumn] = found
+                            found
+                        }
+                    } catch (e: Throwable) {
+                        logE("VolumeOrQSBrightnessValue", "get superVolume failed: ${e.message}")
+                        null
                     } ?: return@createAfterHook
-                    val mSuperVolumeBg = thisObj.getObjectField("mSuperVolumeBg") as View
+                    val mSuperVolumeBg = thisObj.getObjectFieldOrNullAs<View>("mSuperVolumeBg") ?: return@createAfterHook
+                    normalizeTopTextViewLayout(superVolume)
 
                     util.setVisOrGone(mSuperVolumeBg, !mExpanded) // 侧边音量条进度值 UI 显示
                     util.setVisOrGone(superVolume, mExpanded) // All 场景二级音量条进度值 UI 显示
@@ -217,26 +223,33 @@ object VolumeOrQSBrightnessValue {
                 .filterByParamTypes {
                     it[0] == loadClass("com.android.systemui.miui.volume.VolumePanelViewController\$VolumeColumn", classLoader)
                 }.first().createAfterHook { param ->
-                    val volumeColumn = param.args[0]
-                    val mState = param.thisObject.getObjectField("mState")
-                    val states = mState?.getObjectField("states") as? SparseArray<*>
-                    val stream = volumeColumn.getObjectField("stream") as Int
+                    val volumeColumn = param.args[0] ?: return@createAfterHook
+                    val mState = param.thisObject.getObjectFieldOrNullAs<Any>("mState")
+                    val states = mState?.getObjectFieldOrNullAs<SparseArray<*>>("states")
+                    val stream = volumeColumn.getObjectFieldOrNullAs<Int>("stream") ?: -1
                     val streamState = states?.get(stream)
-                    val mActiveStream = param.thisObject.getObjectField("mActiveStream") as Int
+                    val mActiveStream = param.thisObject.getObjectFieldOrNullAs<Int>("mActiveStream") ?: -1
 
                     if (streamState != null) {
-                        val maxLevel = streamState.getObjectField("levelMax") as Int
-                        val level = streamState.getObjectField("level") as Int
+                        val maxLevel = streamState.getObjectFieldOrNullAs<Int>("levelMax") ?: return@createAfterHook
+                        val level = streamState.getObjectFieldOrNullAs<Int>("level") ?: return@createAfterHook
 
-                        val superVolumeTv = getValidCachedTextView(superVolumeCache, volumeColumn) {
-                            (volumeColumn.getObjectField("superVolume") as? TextView)
-                        } ?: return@createAfterHook
-                        val newText = convertToPercentageProgress(level, maxLevel, 1)
+                        val superVolumeTv = runCatching {
+                            val cached = superVolumeCache[volumeColumn]
+                            if (cached != null && cached.isAttachedToWindow) cached
+                            else {
+                                val found = volumeColumn.getObjectFieldOrNullAs<TextView>("superVolume")
+                                if (found != null) superVolumeCache[volumeColumn] = found
+                                found
+                            }
+                        }.getOrNull() ?: return@createAfterHook
+
+                        val newText = convertToPercentageVolumeProgress(level, maxLevel)
                         setTextIfChanged(superVolumeTv, newText)
 
                         if (stream == mActiveStream) {
-                            val mSuperVolumeTv = param.thisObject.getObjectField("mSuperVolume") as TextView
-                            setTextIfChanged(mSuperVolumeTv, newText)
+                            val mSuperVolumeTv = param.thisObject.getObjectFieldOrNullAs<TextView>("mSuperVolume")
+                            mSuperVolumeTv?.let { setTextIfChanged(it, newText) }
                         }
                     }
                 }
@@ -259,8 +272,18 @@ object VolumeOrQSBrightnessValue {
                     } else {
                         "miui_seekbar_icon_blend_colors_expanded_cc"
                     }
-                    val superVolume = getValidCachedTextView(superVolumeCache, volumeColumn) {
-                        (volumeColumn.getObjectField("superVolume") as? TextView)
+
+                    val superVolume = try {
+                        val cached = superVolumeCache[volumeColumn]
+                        if (cached != null && cached.isAttachedToWindow) cached
+                        else {
+                            val found = (volumeColumn as Any).getObjectFieldOrNullAs<TextView>("superVolume")
+                            if (found != null) superVolumeCache[volumeColumn] = found
+                            found
+                        }
+                    } catch (e: Throwable) {
+                        logE("VolumeOrQSBrightnessValue", "get superVolume in blend color failed: ${e.message}")
+                        null
                     } ?: return@createAfterHook
                     superVolume.setTextColor(Color.WHITE)
                     val cacheKey = "$plugin:$colorArrayName"
@@ -270,6 +293,66 @@ object VolumeOrQSBrightnessValue {
                     util.setMiViewBlurAndBlendColor(superVolume, mExpanded, mContext, 3, colorArray, false)
                 }
 
+            // 有超大音量功能的拦截隐藏
+            if (mSupportSV) {
+                volumePanelViewController
+                    .methodFinder().filterByName("updateSuperVolumeView")
+                    .first().replaceMethod {
+                        null
+                    }
+
+                try {
+                    // 你米还是太抽象了
+                    volumeSliderController
+                        .methodFinder().filterByName("updateSuperVolume")
+                        .first()
+                } catch (_: Throwable) {
+                    volumeSliderController.methodFinder()
+                        .filterByName("updateIconProgress")
+                        .filterByParamTypes {
+                            it[0] == Boolean::class.java
+                        }.first()
+                }.createAfterHook { param ->
+                    val sliderHolder =
+                        param.thisObject.callMethod("getHolder") ?: return@createAfterHook
+
+                    val topValue = topTextCache.getOrPut(sliderHolder) {
+                        val item = sliderHolder.getObjectFieldOrNullAs<View>("itemView")
+                            ?: return@getOrPut TextView(param.thisObject.getObjectField("mContext") as Context)
+                        item.findViewByIdName("top_text") as TextView
+                    }
+
+                    if (!topValue.isAttachedToWindow) {
+                        runCatching {
+                            val item = sliderHolder.getObjectFieldOrNullAs<View>("itemView")
+                            val newTv = item?.findViewByIdName("top_text") as? TextView
+                            if (newTv != null) topTextCache[sliderHolder] = newTv
+                        }
+                    }
+
+                    val effectiveTop = topTextCache[sliderHolder] ?: return@createAfterHook
+                    if (!effectiveTop.isAttachedToWindow) return@createAfterHook
+
+                    val sliderMaxValue =
+                        param.thisObject.getObjectFieldOrNullAs<Int>("sliderMaxValue")
+                            ?: return@createAfterHook
+                    val value = param.thisObject.callMethod("getTargetValue") as? Int
+                        ?: return@createAfterHook
+
+                    val level = try {
+                        progressToLevelCall(sliderMaxValue, value)
+                    } catch (_: Throwable) {
+                        value
+                    }
+
+                    val percent = sliderMaxValue / 1000
+                    val newText = convertToPercentageVolumeProgress(level, percent)
+
+                    normalizeTopTextViewLayout(effectiveTop)
+                    setVisibilityIfNeeded(effectiveTop, true)
+                    setTextIfChanged(effectiveTop, newText)
+                }
+            }
         }
 
         if (brightnessShow) {
@@ -288,15 +371,15 @@ object VolumeOrQSBrightnessValue {
                 .first().createAfterHook { param ->
                     val sliderHolder = param.thisObject.callMethod("getSliderHolder") ?: return@createAfterHook
 
-                    val topValue = getValidCachedTextView(topTextCache, sliderHolder) {
-                        val item = sliderHolder.getObjectField("itemView") as? View ?: return@getValidCachedTextView null
-                        item.findViewByIdName("top_text") as? TextView
+                    val topValue = topTextCache.getOrPut(sliderHolder) {
+                        val item = sliderHolder.getObjectField("itemView") as View
+                        item.findViewByIdName("top_text") as TextView
                     } ?: return@createAfterHook
 
                     val seekBar = sliderSeekBarCache.getOrPut(param.thisObject) {
                         param.thisObject.callMethod("getSlider") as SeekBar
                     }
-                    val newText = convertToPercentageProgress(seekBar.progress, seekBar.max, 2)
+                    val newText = convertToPercentageBrightProgress(seekBar.progress, seekBar.max)
                     setVisibilityIfNeeded(topValue, true)
                     setTextIfChanged(topValue, newText)
                 }
@@ -310,12 +393,12 @@ object VolumeOrQSBrightnessValue {
                     val seekBar = sliderSeekBarCache.getOrPut(controller) {
                         controller.callMethod("getVSlider") as SeekBar
                     }
-                    val topValue = getValidCachedTextView(topTextCache, vToggleSliderInner) {
-                        vToggleSliderInner.findViewByIdName("top_text") as? TextView
+                    val topValue = topTextCache.getOrPut(vToggleSliderInner) {
+                        vToggleSliderInner.findViewByIdName("top_text") as TextView
                     } ?: return@createAfterHook
 
                     setVisibilityIfNeeded(topValue, true)
-                    setTextIfChanged(topValue, convertToPercentageProgress(seekBar.progress, seekBar.max, 2))
+                    setTextIfChanged(topValue, convertToPercentageBrightProgress(seekBar.progress, seekBar.max))
                 }
 
             // 控制中心二级亮度条进度值高级材质适配
@@ -324,9 +407,7 @@ object VolumeOrQSBrightnessValue {
                 .first().createAfterHook { param ->
                     val context = param.thisObject.callMethod("getContext") as Context
                     val vToggleSliderInner = param.thisObject.callMethod("getVToggleSliderInner") as ViewGroup
-                    val topValue = getValidCachedTextView(topTextCache, vToggleSliderInner) {
-                        vToggleSliderInner.findViewByIdName("top_text") as? TextView
-                    } ?: return@createAfterHook
+                    val topValue = vToggleSliderInner.findViewByIdName("top_text") as TextView
 
                     if (!controlCenterUtils.getBackgroundBlurOpenedInDefaultTheme(context)) {
                         val color = vToggleSliderInner.resources.getColorBy("toggle_slider_top_text_color", plugin)
@@ -350,9 +431,7 @@ object VolumeOrQSBrightnessValue {
                 .filterByName("updateLargeSize")
                 .first().createAfterHook { param ->
                     val item = param.thisObject.callMethod("getVToggleSliderInner") as ViewGroup
-                    val topValue = getValidCachedTextView(topTextCache, item) {
-                        item.findViewByIdName("top_text") as? TextView
-                    } ?: return@createAfterHook
+                    val topValue = item.findViewByIdName("top_text") as TextView
                     topValue.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                     topValue.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15f)
                 }
@@ -362,9 +441,7 @@ object VolumeOrQSBrightnessValue {
                 .filterByName("updateSmallSize")
                 .first().createAfterHook { param ->
                     val item = param.thisObject.callMethod("getVToggleSliderInner") as ViewGroup
-                    val topValue = getValidCachedTextView(topTextCache, item) {
-                        item.findViewByIdName("top_text") as? TextView
-                    } ?: return@createAfterHook
+                    val topValue = item.findViewByIdName("top_text") as TextView
                     topValue.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                     topValue.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13f)
                 }
@@ -377,12 +454,14 @@ object VolumeOrQSBrightnessValue {
                 .filterByName("frameCallback")
                 .first().createAfterHook { param ->
                     val sliderController = param.thisObject.getObjectField("sliderController") ?: return@createAfterHook
-                    val topValue = getValidCachedTextView(controllerTopTextCache, sliderController) {
-                        val item = sliderController.callMethod("getVToggleSliderInner") as? ViewGroup ?: return@getValidCachedTextView null
-                        item.findViewByIdName("top_text") as? TextView
-                    } ?: return@createAfterHook
-                    val icon = sliderController.callMethod("getVIcon") as View
 
+                    val topValue = controllerTopTextCache.getOrPut(sliderController) {
+                        val item = sliderController.callMethod("getVToggleSliderInner") as? ViewGroup
+                            ?: throw IllegalStateException("no vToggleSliderInner")
+                        item.findViewByIdName("top_text") as TextView
+                    }
+
+                    val icon = sliderController.callMethod("getVIcon") as View
                     val sizeBgX = param.thisObject.getObjectFieldAs<Float>("sizeBgX")
                     val left = (dpToPx(50f, topValue.resources.displayMetrics) - icon.layoutParams.width).toInt() / 2
                     topValue.left = icon.left - left
@@ -393,9 +472,9 @@ object VolumeOrQSBrightnessValue {
             // 修复展开动画错位之一
             brightnessPanelSliderController.constructorFinder()
                 .toList().createAfterHooks { param ->
-                    val brightnessPanel = param.args[0] as FrameLayout
+                    val brightnessPanel = param.args.getOrNull(0) as? FrameLayout ?: return@createAfterHooks
+                    val topText = brightnessPanel.findViewByIdName("top_text") as? TextView ?: return@createAfterHooks
 
-                    val topText = brightnessPanel.findViewByIdName("top_text") as TextView
                     topText.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                     val mLayoutParams =
                         (topText.layoutParams as ViewGroup.LayoutParams).apply {
@@ -434,21 +513,20 @@ object VolumeOrQSBrightnessValue {
             filterByName("updateSize")
                 .first().createAfterHook { param ->
                     val item = param.thisObject.getObjectField("itemView") as View
-                    val topValue = getValidCachedTextView(topTextCache, item) {
-                        item.findViewByIdName("top_text") as? TextView
-                    } ?: return@createAfterHook
+                    val topValue = topTextCache.getOrPut(item) {
+                        item.findViewByIdName("top_text") as TextView
+                    }
                     topValue.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                     topValue.setTextSize(TypedValue.COMPLEX_UNIT_DIP,13f)
-
                 }
             filterByName("updateBlendBlur")
                 .first().createAfterHook { param ->
                     val context = param.thisObject.callMethod("getContext") as Context
 
                     val item = param.thisObject.getObjectField("itemView") as View
-                    val topValue = getValidCachedTextView(topTextCache, item) {
-                        item.findViewByIdName("top_text") as? TextView
-                    } ?: return@createAfterHook
+                    val topValue = topTextCache.getOrPut(item) {
+                        item.findViewByIdName("top_text") as TextView
+                    }
 
                     if (!controlCenterUtils.getBackgroundBlurOpenedInDefaultTheme(context)) {
                         val colorId = context.resources.getIdentifier(
@@ -484,18 +562,16 @@ object VolumeOrQSBrightnessValue {
                             context.resources.getIntArrayBy("toggle_slider_icon_blend_colors", plugin)
                         }
                     miBlurCompat.setMiBackgroundBlendColors(topValue, colorArray, 1f)
-
                 }
         }
     }
 
-    private fun convertToPercentageProgress(
+    private fun convertToPercentageVolumeProgress(
         progress: Int,
-        max: Int,
-        progressbar: Int
+        max: Int
     ): String {
         val value = progress * 100 / max
-        val result = if (supportSV && value >= 100 && progressbar == 1) {
+        val result = if (mSupportSV && value >= 100) {
             "100%+" // 因为有 200% 300% 400% 的显示逻辑，不想搞，统一 100%+
         } else {
             "$value%"
@@ -503,6 +579,13 @@ object VolumeOrQSBrightnessValue {
         return result
     }
 
+    private fun convertToPercentageBrightProgress(
+        progress: Int,
+        max: Int
+    ): String {
+        val percent = (progress * 100 / max)
+        return "${percent}%"
+    }
 
     class ControlCenterUtils(classLoader: ClassLoader?) {
 

@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter;
+package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -106,9 +106,10 @@ public class QSColor extends BaseHook {
 
             XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader, "updateBackground", new XC_MethodHook() {
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) {
+                protected void afterHookedMethod(MethodHookParam param) throws NoSuchFieldException {
                     Object state = XposedHelpers.getObjectField(param.thisObject, "state");
-                    // String spec = (String) XposedHelpers.getObjectField(state, "spec");                       // unused
+                    // String spec = (String) XposedHelpers.getObjectField(state, "spec");
+                    if (state == null) return; // 系统界面组件会先 null 几次才会获取到值，应该是官方写法有问题
                     int i = XposedHelpers.getIntField(state, "state");
                     LinearLayout linearLayout = (LinearLayout) param.thisObject;
                     if (i == 2) {
@@ -139,10 +140,21 @@ public class QSColor extends BaseHook {
                     int i = XposedHelpers.getIntField(state, "state");
                     if (i == 2) {
                         Context context = ((LinearLayout) param.thisObject).getContext();
-                        int title = context.getResources().getIdentifier("title", "id", "miui.systemui.plugin");
-                        int status = context.getResources().getIdentifier("status", "id", "miui.systemui.plugin");
-                        TextView textView = (TextView) XposedHelpers.callMethod(param.thisObject, "_$_findCachedViewById", title);
-                        TextView textView1 = (TextView) XposedHelpers.callMethod(param.thisObject, "_$_findCachedViewById", status);
+                        TextView textView, textView1;
+
+                        try {
+                            int title = context.getResources().getIdentifier("title", "id", "miui.systemui.plugin");
+                            int status = context.getResources().getIdentifier("status", "id", "miui.systemui.plugin");
+
+                            textView = (TextView) XposedHelpers.callMethod(param.thisObject, "_$_findCachedViewById", title);
+                            textView1 = (TextView) XposedHelpers.callMethod(param.thisObject, "_$_findCachedViewById", status);
+                        } catch (Throwable ignore) {
+                            // 17.0.1.19.4 变更
+                            Object binding = XposedHelpers.callMethod(param.thisObject, "getBinding");
+
+                            textView = (TextView) XposedHelpers.getObjectField(binding, "title");
+                            textView1 = (TextView) XposedHelpers.getObjectField(binding, "status");
+                        }
                         textView.setTextColor(bigColor);
                         textView1.setTextColor(bigColor);
                     }

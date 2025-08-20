@@ -51,7 +51,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.Notifica
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationWeather;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.OldWeather;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QQSGrid;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.QSGrid;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.RedirectToNotificationChannelSetting;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ReduceBrightColorsTile;
@@ -95,6 +94,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.RemoveMiuiMultiW
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.ToastBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.VolumeTimerValuesHook;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.NewPluginHelperKt;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.QSColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.BlurEnable;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.HideStatusBarBeforeScreenshot;
