@@ -1,8 +1,7 @@
 -keep class com.sevtinge.hyperceiler.ui.**{ *; }
 -keep class com.sevtinge.hyperceiler.main.**{ *; }
+-keep class com.sevtinge.hyperceiler.utils.XposedActivateHelper { *; }
 
--keep class androidx.preference.**{ *; }
--keep class fan.**{ *; }
 -keep class com.fan.**{ *; }
 
 -keepattributes SourceFile,LineNumberTable

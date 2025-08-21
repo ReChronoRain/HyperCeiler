@@ -20,18 +20,15 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class androidx.preference.**{ *; }
+-keep class androidx.preference.** { *; }
 
--keep class com.sevtinge.hyperceiler.hooker.**{ *; }
--keep class com.sevtinge.hyperceiler.sub.**{ *; }
--keep class com.sevtinge.hyperceiler.utils.XposedActivateHelper { *; }
--keep class * extends com.sevtinge.hyperceiler.dashboard.base.fragment.BasePreferenceFragment
-
-
+-keep class com.sevtinge.hyperceiler.hooker.** { *; }
+-keep class com.sevtinge.hyperceiler.sub.** { *; }
+-keep class * extends com.sevtinge.hyperceiler.dashboard.base.fragment.BasePreferenceFragment { *; }
 -keep class com.sevtinge.hyperceiler.provision.activity.** { *; }
 -keep class com.sevtinge.hyperceiler.provision.fragment.** { *; }
 
--keep class fan.**{ *; }
+-keep class fan.** { *; }
 -keep class miuix.mgl.** { *; }
 
 -dontwarn miui.util.HapticFeedbackUtil

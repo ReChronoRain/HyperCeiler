@@ -19,26 +19,24 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.hchen.superlyricapi.** {*;}
--keep class org.luckypray.dexkit.**{ *; }
--keep class org.lsposed.**{ *; }
+-keep class com.hchen.superlyricapi.** { *; }
+-keep class org.luckypray.dexkit.** { *; }
+-keep class org.lsposed.** { *; }
+-keep class io.github.kyuubiran.ezxhelper.** { *; }
+-keep class com.hchen.hooktool.** { *; }
+-keep class * extends com.hchen.hooktool.HCBase
 
 -keep class com.sevtinge.hyperceiler.hook.XposedInit { *; }
 -keep class com.sevtinge.hyperceiler.hook.module.** { *; }
-
--keep class * extends com.sevtinge.hyperceiler.hook.module.base.BaseHook { <init>(); }
-
--keep class com.sevtinge.hyperceiler.hook.module.base.dexkit.**{ *; }
--keep class * extends com.sevtinge.hyperceiler.hook.module.base.BaseModule
+-keep class com.sevtinge.hyperceiler.hook.module.base.dexkit.** { *; }
 -keep class com.sevtinge.hyperceiler.hook.module.base.BaseModule { *; }
+-keep class * extends com.sevtinge.hyperceiler.hook.module.base.BaseModule
+-keep class * extends com.sevtinge.hyperceiler.hook.module.base.BaseHook { <init>(); }
 
 -keep class com.sevtinge.hyperceiler.hook.utils.blur.*
 -keep class com.sevtinge.hyperceiler.hook.utils.api.miuiStringToast.res.** { *; }
--keep class com.sevtinge.hyperceiler.hook.utils.input.ContentModel {*;}
--keep class com.sevtinge.hyperceiler.hook.utils.input.FileHelper {*;}
-
--keep class io.github.kyuubiran.ezxhelper.** { *; }
--keep class com.hchen.hooktool.** { *; }
+-keep class com.sevtinge.hyperceiler.hook.utils.input.ContentModel { *; }
+-keep class com.sevtinge.hyperceiler.hook.utils.input.FileHelper { *; }
 
 -dontwarn de.robv.android.xposed.**
 -dontwarn miui.**

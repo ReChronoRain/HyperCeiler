@@ -23,7 +23,7 @@ hiddenapibypass = "6.1"
 hyperfocusapi = "1.4"
 hooktool = "v.2.2.1"
 superLyricApi = "2.3"
-mmkv = "2.2.2"
+mmkv = "2.2.3"
 coreKtx = "1.17.0"
 
 proguard-rules = "proguard-rules.pro"
