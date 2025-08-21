@@ -131,7 +131,7 @@ jobs:
         )
       )
     runs-on: ubuntu-latest
-    name: Push to Canary Group
+    name: Push to Canary Channel
     needs: build_app
     steps:
       - name: Download Artifacts
@@ -143,9 +143,9 @@ jobs:
         run: |
           echo "APK_FILE_CANARY=$(find artifacts -name '*.apk')" >> $GITHUB_ENV
 
-      - name: Post to Canary Group
+      - name: Post to Canary Channel
         env:
-          GROUP_ID: ${{ secrets.GROUP_ID }}
+          GROUP_ID: ${{ secrets.CHANNEL_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CANARY: ${{ env.APK_FILE_CANARY }}
           COMMIT_MESSAGE: |+
