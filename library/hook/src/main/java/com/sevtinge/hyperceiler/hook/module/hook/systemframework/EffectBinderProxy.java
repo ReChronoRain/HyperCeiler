@@ -23,7 +23,6 @@ import static com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffe
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.IBinder;
 
 import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.hook.IHook;
@@ -52,7 +51,7 @@ public class EffectBinderProxy extends HCBase {
 
                             Bundle bundle = new Bundle();
                             if (mEffectInfoService == null) return;
-                            bundle.putBinder("effect_info", (IBinder) mEffectInfoService);
+                            bundle.putBinder("effect_info", mEffectInfoService);
                             intent.putExtra("effect_info", bundle);
                             setResult(intent);
                         }

@@ -29,8 +29,6 @@ import com.hchen.hooktool.hook.IHook;
 import com.hchen.hooktool.utils.SystemPropTool;
 import com.sevtinge.hyperceiler.hook.IEffectInfo;
 
-import java.util.function.Supplier;
-
 public class AutoSEffSwitchForSystemUi extends HCBase {
     private static final String TAG = "AutoSEffSwitchForSystemUi";
     private boolean isInit = false;
@@ -38,10 +36,7 @@ public class AutoSEffSwitchForSystemUi extends HCBase {
 
     @Override
     protected void init() {
-        if (isSupportFW())
-            onSupportFW();
-        else
-            onNotSupportFW();
+        if (isSupportFW()) onSupportFW();
     }
 
     public static boolean isSupportFW() {
@@ -87,34 +82,20 @@ public class AutoSEffSwitchForSystemUi extends HCBase {
         );
     }
 
-    private void onNotSupportFW() {
-        hookMethod("com.android.systemui.shared.plugins.PluginInstance$PluginFactory",
-                "createPluginContext",
-                new IHook() {
-                    @Override
-                    public void after() {
-                        if (isInit) return;
-                        Supplier<?> mClassLoaderFactory = (Supplier<?>) getThisField("mClassLoaderFactory");
-                        load((ClassLoader) mClassLoaderFactory.get());
-                        isInit = true;
+
+    public static void onNotSupportFW(ClassLoader classLoader) {
+        hookMethod("miui.systemui.quicksettings.soundeffect.DolbyAtomsSoundEffectTile", classLoader,
+            "handleClick",
+            new IHook() {
+                @Override
+                public void before() {
+                    if (getEarPhoneStateFinal()) {
+                        logI(TAG, "earphone is connection, skip set effect: " + getArg(0) + "!!");
+                        returnNull();
                     }
                 }
+            }
         );
     }
 
-    private void load(ClassLoader classLoader) {
-        hookMethod("miui.systemui.quicksettings.soundeffect.DolbyAtomsSoundEffectTile",
-                classLoader,
-                "handleClick",
-                new IHook() {
-                    @Override
-                    public void before() {
-                        if (getEarPhoneStateFinal()) {
-                            logI(TAG, "earphone is connection, skip set effect: " + getArg(0) + "!!");
-                            returnNull();
-                        }
-                    }
-                }
-        );
-    }
 }

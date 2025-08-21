@@ -24,7 +24,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_misound_bluetooth"
-            android:summary="@string/disable_detailed_log_desc"
+            android:summary="@string/misound_bluetooth_desc"
             android:title="@string/misound_bluetooth" />
 
         <SwitchPreference

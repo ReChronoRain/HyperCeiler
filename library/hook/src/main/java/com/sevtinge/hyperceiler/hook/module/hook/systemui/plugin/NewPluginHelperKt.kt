@@ -20,6 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin
 
 import android.content.ContextWrapper
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoSEffSwitchForSystemUi
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoSEffSwitchForSystemUi.isSupportFW
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DefaultPluginTheme
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.aod.AodBlurButton
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.CCGridForHyperOSKt
@@ -167,6 +169,14 @@ object NewPluginHelperKt : BaseHook() {
                         Pair(
                             "VolumeOrQSBrightnessValue",
                             VolumeOrQSBrightnessValue::initVolumeOrQSBrightnessValue
+                        )
+                    )
+                }
+
+                if (prefs.getBoolean("misound_bluetooth") && !isSupportFW()) {
+                    enabledLoaders.add(
+                        Pair("AutoSEffSwitchForSystemUi",
+                            AutoSEffSwitchForSystemUi::onNotSupportFW
                         )
                     )
                 }

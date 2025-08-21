@@ -33,6 +33,7 @@ import static com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem.EFFECT_M
 import static com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem.EFFECT_MISOUND_CONTROL;
 import static com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem.EFFECT_SPATIAL_AUDIO;
 import static com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem.EFFECT_SURROUND;
+import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
 
 import android.content.Context;
 
@@ -156,18 +157,24 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
     // -------- Dolby --------
     private void setEnableDolbyEffect(boolean enable) {
         if (mDolbyClass == null) return;
-        mDolbyInstance = initEffectInstance(mDolbyInstance, mDolbyClass);
+        try {
+            mDolbyInstance = initEffectInstance(mDolbyInstance, mDolbyClass);
 
-        if (isIntactDolbyClass) {
-            callMethod(mDolbyInstance, "setBoolParam", 0, enable);
-        } else {
-            byte[] bArr = new byte[12];
-            int int32ToByteArray = int32ToByteArray(0, bArr, 0);
-            int32ToByteArray(enable ? 1 : 0, bArr, int32ToByteArray + int32ToByteArray(1, bArr, int32ToByteArray));
-            callMethod(mDolbyInstance, "checkReturnValue", callMethod(mDolbyInstance, "setParameter", 5, bArr));
+            if (isIntactDolbyClass) {
+                callMethod(mDolbyInstance, "setBoolParam", 0, enable);
+            } else {
+                byte[] bArr = new byte[12];
+                int int32ToByteArray = int32ToByteArray(0, bArr, 0);
+                int32ToByteArray(enable ? 1 : 0, bArr, int32ToByteArray + int32ToByteArray(1, bArr, int32ToByteArray));
+                callMethod(mDolbyInstance, "checkReturnValue", callMethod(mDolbyInstance, "setParameter", 5, bArr));
+            }
+
+            setEnableEffect(mDolbyInstance, enable);
+        } catch (UnsupportedOperationException e) {
+            logE(TAG, "setEnableDolbyEffect: UnsupportedOperationException", e.getMessage());
+        } catch (Exception e) {
+            logE(TAG, "setEnableDolbyEffect: Exception", e.getMessage());
         }
-
-        setEnableEffect(mDolbyInstance, enable);
     }
 
     private boolean isEnabledDolbyEffect() {
@@ -196,10 +203,16 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
     // -------- MiSound --------
     private void setEnableMiSound(boolean enable) {
         if (mMiSoundInstance == null) return;
-        mMiSoundInstance = initEffectInstance(mMiSoundInstance, mMiSoundClass);
+        try {
+            mMiSoundInstance = initEffectInstance(mMiSoundInstance, mMiSoundClass);
 
-        callMethod(mMiSoundInstance, "checkStatus", callMethod(mMiSoundInstance, "setParameter", 25, enable ? 1 : 0));
-        setEnableEffect(mMiSoundInstance, enable);
+            callMethod(mMiSoundInstance, "checkStatus", callMethod(mMiSoundInstance, "setParameter", 25, enable ? 1 : 0));
+            setEnableEffect(mMiSoundInstance, enable);
+        } catch (UnsupportedOperationException e) {
+            logE(TAG, "setEnableMiSound: UnsupportedOperationException: " + e.getMessage());
+        } catch (Exception e) {
+            logE(TAG, "setEnableMiSound: Exception: " + e.getMessage());
+        }
     }
 
     private boolean isEnabledMiSound() {

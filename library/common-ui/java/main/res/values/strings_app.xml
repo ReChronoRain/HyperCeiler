@@ -1393,6 +1393,7 @@
     <string name="powerkeeper_disable_get_display_ctrl_code">Disable fetching display control code</string>
     <string name="powerkeeper_gms_doze_fix">Allow GMS to connect to network at any time</string>
     <string name="powerkeeper_conservative_millet">Make Millet conservative</string>
+    <string name="powerkeeper_conservative_millet_desc">Make the backend management policy more conservative</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">Screen Recorder</string>
     <string name="screen_recorder_force_support_playback_capture">Force enable AOSP screen recording support</string>
@@ -1567,6 +1568,7 @@
     <!--Mi sound-->
     <string name="misound">Earphones</string>
     <string name="misound_bluetooth">Change headphone status to the original sound</string>
+    <string name="misound_bluetooth_desc">You need to check enable System Framework, System UI, and Earphones scopes, then reboot to apply the changes.</string>
     <string name="misound_increase_sampling_rate">Increase sampling rate</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi Settings</string>
