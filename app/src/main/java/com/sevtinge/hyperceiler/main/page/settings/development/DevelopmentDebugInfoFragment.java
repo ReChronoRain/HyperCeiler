@@ -33,7 +33,6 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getModel
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getSoc;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isInternational;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isLargeUI;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getBuildDate;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getCurrentUserId;
@@ -102,7 +101,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesDevice.put("Soc", getSoc());
             propertiesDevice.put("ModDevice", getModDevice());
             propertiesDevice.put("Characteristics", getCharacteristics());
-            propertiesDevice.put("LargeScreen", String.valueOf(isPad() || isLargeUI()));
+            propertiesDevice.put("LargeScreen", String.valueOf(isLargeUI()));
             propertiesDevice.put("FingerPrint", getFingerPrint());
             propertiesDevice.put("Locale", getLocale());
             propertiesDevice.put("Language", getLanguage());

@@ -18,7 +18,10 @@
 */
 package com.sevtinge.hyperceiler.hooker;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isLargeUI;
+
 import androidx.preference.EditTextPreference;
+import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.R;
@@ -31,6 +34,7 @@ public class GetAppsFragment extends DashboardFragment {
     EditTextPreference mModel;
     EditTextPreference mDevice;
     EditTextPreference mManufacturer;
+    SwitchPreference mRiskCheck;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -43,6 +47,11 @@ public class GetAppsFragment extends DashboardFragment {
         mDevice = findPreference("prefs_key_market_device_modify_device");
         mModel = findPreference("prefs_key_market_device_modify_model");
         mManufacturer = findPreference("prefs_key_market_device_modify_manufacturer");
+        mRiskCheck = findPreference("prefs_key_market_bypass_risk_check");
+
+        if (isLargeUI()) {
+            setFuncHint(mRiskCheck, 1);
+        }
 
         if (Integer.parseInt(getSharedPreferences().getString("prefs_key_market_device_modify_new", "0")) == 1) {
             mDevice.setVisible(true);

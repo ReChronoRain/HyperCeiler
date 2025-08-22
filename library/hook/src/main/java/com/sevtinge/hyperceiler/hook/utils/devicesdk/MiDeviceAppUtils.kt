@@ -40,7 +40,7 @@ val IS_INTERNATIONAL_BUILD by lazy {
  */
 fun isLargeUI(): Boolean {
     return runCatching {
-        !(!IS_PAD && (!IS_FOLD || !isTablet()))
+        IS_PAD || IS_FOLD || IS_TABLET
     }.getOrElse {
         isPad()
     }

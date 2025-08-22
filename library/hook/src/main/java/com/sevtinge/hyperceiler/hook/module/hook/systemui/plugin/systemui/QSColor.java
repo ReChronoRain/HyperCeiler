@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -87,12 +89,14 @@ public class QSColor extends BaseHook {
                 }
             });
 
-            XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemIconView", classLoader, "setIcon", "com.android.systemui.plugins.qs.QSTile$State", boolean.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) {
-                    XposedHelpers.setObjectField(param.thisObject, "iconColor", bigColor);
-                }
-            });
+            if (!isMoreAndroidVersion(35)) {
+                XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemIconView", classLoader, "setIcon", "com.android.systemui.plugins.qs.QSTile$State", boolean.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) {
+                        XposedHelpers.setObjectField(param.thisObject, "iconColor", bigColor);
+                    }
+                });
+            }
 
             XposedHelpers.findAndHookConstructor("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader, Context.class, AttributeSet.class, new XC_MethodHook() {
                 @Override

@@ -19,6 +19,8 @@
 
 package com.sevtinge.hyperceiler.hook.module.hook.getapps;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isLargeUI;
+
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 public class DisableAds extends BaseHook {
@@ -27,6 +29,10 @@ public class DisableAds extends BaseHook {
         Class<?> appDetailV3Cls = findClassIfExists("com.xiaomi.market.common.network.retrofit.response.bean.AppDetailV3");
         Class<?> detailSplashAdManagerCls = findClassIfExists("com.xiaomi.market.ui.splash.DetailSplashAdManager");
         Class<?> splashManagerCls = findClassIfExists("com.xiaomi.market.ui.splash.SplashManager");
+
+        if (isLargeUI()) {
+            appDetailV3Cls = findClassIfExists("com.xiaomi.market.retrofit.response.bean.AppDetailV3");
+        }
 
         String[] appDetailMethodsTrue = {
                 "isBrowserMarketAdOff",
@@ -81,6 +87,16 @@ public class DisableAds extends BaseHook {
             });
         }
 
+        for (String method : splashMethodsFalse) {
+            hookAllMethods(splashManagerCls, method, new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) throws Throwable {
+                    param.setResult(false);
+                }
+            });
+        }
+
+        if (isLargeUI()) return;
         for (String method : new String[]{
                 "canRequestSplashAd",
                 "isRequesting",
@@ -100,14 +116,5 @@ public class DisableAds extends BaseHook {
                 param.setResult(null);
             }
         });
-
-        for (String method : splashMethodsFalse) {
-            hookAllMethods(splashManagerCls, method, new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) throws Throwable {
-                    param.setResult(false);
-                }
-            });
-        }
     }
 }
