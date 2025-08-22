@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.hook.module.hook.getapps
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isLargeUI
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -28,7 +27,19 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 object DisableStartPushDialog : BaseHook() {
     override fun init() {
         // 禁用开启推送弹窗
-        if (!isLargeUI()) {
+        runCatching {
+            loadClass("com.xiaomi.market.data.NotificationRecallController").methodFinder().apply {
+                filterByName("tryShowDialog")
+                    .first().createHook {
+                        interrupt()
+                    }
+
+                filterByName("checkAndTryShowDialog")
+                    .first().createHook {
+                        returnConstant(false)
+                    }
+            }
+        }.onFailure {
             loadClass("com.xiaomi.market.ui.UpdateListFragment").methodFinder()
                 .filterByName("tryShowDialog")
                 .first().createHook {
@@ -39,12 +50,6 @@ object DisableStartPushDialog : BaseHook() {
                 .first().createHook {
                     interrupt()
                 }
-        } else {
-            loadClass("com.xiaomi.market.data.NotificationRecallController").methodFinder()
-                .filterByName("tryShowDialog")
-                    .first().createHook {
-                        interrupt()
-                    }
         }
     }
 }

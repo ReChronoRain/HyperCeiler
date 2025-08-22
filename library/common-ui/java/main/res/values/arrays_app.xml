@@ -614,15 +614,15 @@
         <item>Xiaomi MIX Alpha</item>
         <item>Xiaomi Pad 7S Pro 12.5</item>
         <item>Xiaomi Pad 7 Ultra</item>
-        <item>Xiaomi Pad 7 Pro</item>
-        <item>Xiaomi Pad 7</item>
+        <item>Xiaomi Pad 8 Pro</item>
+        <item>Xiaomi Pad 8</item>
         <item>REDMI K80 Ultra</item>
         <item>REDMI K80 Pro Champion Edition</item>
         <item>REDMI K80 Pro</item>
         <item>REDMI K80</item>
         <item>Redmi K70 Ultra</item>
         <item>Redmi Turbo 4 Pro</item>
-        <item>Redmi Note 14 Pro+</item>
+        <item>Redmi Note 15 Pro+</item>
         <item>Redmi 14C</item>
         <item>REDMI K Pad</item>
         <item>@string/customization</item>
@@ -630,28 +630,28 @@
 
     <string-array name="market_device_modify_value">
         <item>0</item>
-        <item>108</item>
-        <item>107</item>
-        <item>106</item>
-        <item>105</item>
-        <item>156</item>
-        <item>202</item>
-        <item>224</item>
-        <item>190</item>
-        <item>213</item>
-        <item>212</item>
-        <item>211</item>
-        <item>210</item>
-        <item>209</item>
-        <item>314</item>
-        <item>313</item>
-        <item>312</item>
-        <item>311</item>
-        <item>310</item>
-        <item>337</item>
-        <item>354</item>
-        <item>403</item>
-        <item>1</item>
+        <item>108</item>  <!-- Xiaomi 15S Pro -->
+        <item>107</item>  <!-- Xiaomi 15 Ultra -->
+        <item>106</item>  <!-- Xiaomi 15 Pro -->
+        <item>105</item>  <!-- Xiaomi 15 -->
+        <item>156</item>  <!-- Xiaomi CIVI 5 Pro -->
+        <item>202</item>  <!-- Xiaomi MIX Flip 2 -->
+        <item>224</item>  <!-- Xiaomi MIX Fold 4 -->
+        <item>190</item>  <!-- Xiaomi MIX Alpha -->
+        <item>213</item>  <!-- Xiaomi Pad 7S Pro 12.5 -->
+        <item>212</item>  <!-- Xiaomi Pad 7 Ultra -->
+        <item>215</item>  <!-- Xiaomi Pad 8 Pro -->
+        <item>214</item>  <!-- Xiaomi Pad 8 -->
+        <item>314</item>  <!-- REDMI K80 Ultra -->
+        <item>313</item>  <!-- REDMI K80 Pro Champion Edition -->
+        <item>312</item>  <!-- REDMI K80 Pro -->
+        <item>311</item>  <!-- REDMI K80 -->
+        <item>310</item>  <!-- Redmi K70 Ultra -->
+        <item>335</item>  <!-- Redmi Turbo 4 Pro -->
+        <item>355</item>  <!-- Redmi Note 15 Pro+ -->
+        <item>403</item>  <!-- Redmi 14C -->
+        <item>380</item>    <!-- REDMI K Pad -->
+        <item>1</item>    <!-- Other -->
     </string-array>
 
     <string-array name="link_open_mode">

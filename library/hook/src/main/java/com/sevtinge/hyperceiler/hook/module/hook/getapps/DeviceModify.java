@@ -72,15 +72,15 @@ public class DeviceModify extends BaseHook {
             mDevice = "avenger";
             mModel = "MIX Alpha";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 210) {
-            // pad7
-            mDevice = "uke"; // O81
-            mModel = "2410CRP4CC";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 214) {
+            // pad8
+            mDevice = "yupei"; // P82
+            mModel = "25097RP43C";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 211) {
-            // pad7p
-            mDevice = "muyu"; // O82
-            mModel = "24091RPADC";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 215) {
+            // pad8p
+            mDevice = "piano"; // P81
+            mModel = "25091RP04C";
             mManufacturer = "Xiaomi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 212) {
             // pad7u
@@ -92,11 +92,6 @@ public class DeviceModify extends BaseHook {
             mDevice = "violin";
             mModel = "25053RP5CC";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 354) {
-            // n14pp
-            mDevice = "amethyst";
-            mModel = "24090RA29C"; // O16U
-            mManufacturer = "Redmi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 314) {
             // k80u
             mDevice = "dali";
@@ -122,10 +117,20 @@ public class DeviceModify extends BaseHook {
             mDevice = "rothko";
             mModel = "2407FRK8EC";
             mManufacturer = "Redmi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 380) {
+            // k Pad
+            mDevice = "turner";
+            mModel = "25079RPDCC";
+            mManufacturer = "Redmi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 335) {
             // t4p
             mDevice = "onyx";
             mModel = "25053RT47C";
+            mManufacturer = "Redmi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 355) {
+            // n15p+
+            mDevice = "flourite";
+            mModel = "2510ERA8BC"; // P16U
             mManufacturer = "Redmi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 403) {
             // 14c
@@ -137,6 +142,8 @@ public class DeviceModify extends BaseHook {
             mDevice = mPrefsMap.getString("market_device_modify_device", "");
             mModel = mPrefsMap.getString("market_device_modify_model", "");
             mManufacturer = mPrefsMap.getString("market_device_modify_manufacturer", "");
+        } else {
+            return;
         }
         findAndHookConstructor("com.xiaomi.market.MarketApp", new MethodHook() {
             @Override
