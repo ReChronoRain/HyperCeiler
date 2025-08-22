@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -61,13 +59,6 @@ public class QSColor extends BaseHook {
                 });
             }
 
-            XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "updateIcon", "com.android.systemui.plugins.qs.QSTile$State", boolean.class, boolean.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) {
-                    XposedHelpers.setObjectField(param.thisObject, "iconColor", color);
-                }
-            });
-
             // from YunZiA
             XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "getActiveBackgroundDrawable", "com.android.systemui.plugins.qs.QSTile$State", new XC_MethodHook() {
                 @Override
@@ -79,6 +70,16 @@ public class QSColor extends BaseHook {
                     }
                 }
             });
+
+            // @deprecated 16.0.4.83.0
+            try {
+                XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "updateIcon", "com.android.systemui.plugins.qs.QSTile$State", boolean.class, boolean.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) {
+                        XposedHelpers.setObjectField(param.thisObject, "iconColor", color);
+                    }
+                });
+            } catch (Throwable ignore) {}
         }
 
         if (big) {
@@ -88,15 +89,6 @@ public class QSColor extends BaseHook {
                     setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", bigColor);
                 }
             });
-
-            if (!isMoreAndroidVersion(35)) {
-                XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemIconView", classLoader, "setIcon", "com.android.systemui.plugins.qs.QSTile$State", boolean.class, new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) {
-                        XposedHelpers.setObjectField(param.thisObject, "iconColor", bigColor);
-                    }
-                });
-            }
 
             XposedHelpers.findAndHookConstructor("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader, Context.class, AttributeSet.class, new XC_MethodHook() {
                 @Override
@@ -164,6 +156,16 @@ public class QSColor extends BaseHook {
                     }
                 }
             });
+
+            // @deprecated unknown version
+            try {
+                XposedHelpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemIconView", classLoader, "setIcon", "com.android.systemui.plugins.qs.QSTile$State", boolean.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) {
+                        XposedHelpers.setObjectField(param.thisObject, "iconColor", bigColor);
+                    }
+                });
+            } catch (Throwable ignore) {}
         }
     }
 

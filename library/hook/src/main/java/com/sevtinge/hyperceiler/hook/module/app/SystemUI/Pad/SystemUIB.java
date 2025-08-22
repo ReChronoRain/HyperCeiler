@@ -16,6 +16,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.Un
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.b.MediaPicture;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.b.MediaSeekBar;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.NewPluginHelperKt;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.QSColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.clock.StatusBarClockNew;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.FocusNotifLyric;
@@ -55,6 +56,7 @@ public class SystemUIB extends BaseModule {
         }
 
         // 控制与通知中心
+        initHook(new QSColor(), mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") || mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color"));
         initHook(OldWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(AutoDismissExpandedPopupsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_auto_clean_expand_notification"));
