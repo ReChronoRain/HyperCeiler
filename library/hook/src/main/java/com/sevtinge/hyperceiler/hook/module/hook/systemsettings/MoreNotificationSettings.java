@@ -23,6 +23,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 import java.lang.reflect.InvocationHandler;
@@ -68,6 +70,19 @@ public class MoreNotificationSettings extends BaseHook {
                     boolean isHybrid = (boolean)XposedHelpers.callStaticMethod(nuCls, "isHybrid", notification);
                     if (isHybrid) return;
                 }
+                Intent intent = getIntent(notification, id);
+                try {
+                    XposedHelpers.callMethod(mContext, "startActivityAsUser", intent, android.os.Process.myUserHandle());
+                    param.setResult(null);
+                    Object ModalController = XposedHelpers.callStaticMethod(findClass("com.android.systemui.Dependency", mContext.getClassLoader()), "get", findClass("com.android.systemui.statusbar.notification.modal.ModalController", mContext.getClassLoader()));
+                    XposedHelpers.callMethod(ModalController, "animExitModelCollapsePanels");
+                } catch (Throwable ignore) {
+                    logE(TAG, lpparam.packageName, "onClickInfoItem hook error", ignore);
+                }
+            }
+
+            @NonNull
+            private static Intent getIntent(Object notification, String id) {
                 String pkgName = (String)XposedHelpers.callMethod(notification, "getPackageName");
                 int user = (int)XposedHelpers.callMethod(notification, "getAppUid");
 
@@ -82,14 +97,7 @@ public class MoreNotificationSettings extends BaseHook {
                 intent.putExtra(":android:show_fragment", "com.android.settings.notification.ChannelNotificationSettings");
                 intent.putExtra(":android:show_fragment_args", bundle);
                 intent.setClassName("com.android.settings", "com.android.settings.SubSettings");
-                try {
-                    XposedHelpers.callMethod(mContext, "startActivityAsUser", intent, android.os.Process.myUserHandle());
-                    param.setResult(null);
-                    Object ModalController = XposedHelpers.callStaticMethod(findClass("com.android.systemui.Dependency", mContext.getClassLoader()), "get", findClass("com.android.systemui.statusbar.notification.modal.ModalController", mContext.getClassLoader()));
-                    XposedHelpers.callMethod(ModalController, "animExitModelCollapsePanels");
-                } catch (Throwable ignore) {
-                    logE(TAG, lpparam.packageName, "onClickInfoItem hook error", ignore);
-                }
+                return intent;
             }
         });
 

@@ -1506,8 +1506,9 @@
     <string name="security_center_simplify_home">精简手机管家首页</string>
     <string name="security_center_simplify_home_desc">移除以下卡片:\n - 功能推荐\n - 大家都在用</string>
     <string name="security_center_applock_pin_scramble">应用锁乱序 PIN</string>
-    <string name="security_center_power_saver">禁止妙享省电</string>
     <string name="security_center_privacy_thumbnail_blur">禁止自启模糊预览图</string>
+    <string name="security_center_privacy_thumbnail_blur_desc">开启后将锁定后台模糊预览图相关设置，建议先设置需要关闭预览图的应用再开启此功能</string>
+    <string name="security_center_power_saver">禁止妙享省电</string>
     <string name="security_center_power_saver_desc">禁止在通过小米妙享镜像流转屏幕时开启省电模式</string>
     <string name="security_center_applock_pin_scramble_desc">随机更改应用锁 PIN 键盘顺序</string>
     <string name="security_center_beauty_light_auto">解锁智能调节补光灯亮度</string>
