@@ -4,6 +4,7 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperO
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoSEffSwitchForSystemUi;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.MediaControlBgFactory;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.AutoDismissExpandedPopupsHook;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationImportanceHyperOSFix;
@@ -73,5 +74,8 @@ public class SystemUIB extends BaseModule {
             || mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1) != -1 ||
             mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) != 0);
 
+        if (mPrefsMap.getBoolean("misound_bluetooth") && isHyperOSVersion(2f)) {
+            initHook(new AutoSEffSwitchForSystemUi().onApplication());
+        }
     }
 }

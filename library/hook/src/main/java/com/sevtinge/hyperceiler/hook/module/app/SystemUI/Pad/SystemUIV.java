@@ -262,6 +262,8 @@ public class SystemUIV extends BaseModule {
 
         initHook(new AllowManageAllNotifications(), mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"));
 
-        initHook(new AutoSEffSwitchForSystemUi(), mPrefsMap.getBoolean("misound_bluetooth"));
+        if (mPrefsMap.getBoolean("misound_bluetooth")) {
+            initHook(new AutoSEffSwitchForSystemUi().onApplication());
+        }
     }
 }

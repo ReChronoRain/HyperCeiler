@@ -34,8 +34,6 @@ import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.utils.SystemPropTool;
 import com.sevtinge.hyperceiler.hook.IEffectInfo;
 
-import org.luckypray.dexkit.DexKitBridge;
-
 /**
  * 新版连接耳机自动切换原声
  *
@@ -44,7 +42,6 @@ import org.luckypray.dexkit.DexKitBridge;
 public class NewAutoSEffSwitch extends HCBase {
     public static final String TAG = "NewAutoSEffSwitch";
     private Context mContext;
-    public static DexKitBridge mDexKit;
     public static AudioManager mAudioManager;
     private static IEffectInfo mIEffectInfo;
     private NewFWAudioEffectControl mNewFWAudioEffectControl = null;

@@ -54,7 +54,7 @@ public abstract class BaseModule {
             XposedLogUtils.logI(TAG, "Entry safe mode: " + lpparam.packageName);
             return;
         }
-        HCInit.initLoadPackageParam(lpparam);
+
         if (!PrefsUtils.mPrefsMap.getBoolean("module_settings_reshook_new")) {
             // 把模块资源加载到目标应用
             try {
@@ -72,6 +72,7 @@ public abstract class BaseModule {
 
         mLoadPackageParam = lpparam;
         DexKit.ready(lpparam, TAG);
+        HCInit.initLoadPackageParam(lpparam);
         try {
             initZygote();
             handleLoadPackage();

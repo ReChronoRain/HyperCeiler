@@ -304,6 +304,8 @@ public class SystemUIV extends BaseModule {
 
         initHook(new FuckStatusbarGestures(), mPrefsMap.getBoolean("system_ui_move_log_to_miui"));
 
-        initHook(new AutoSEffSwitchForSystemUi(), mPrefsMap.getBoolean("misound_bluetooth"));
+        if (mPrefsMap.getBoolean("misound_bluetooth")) {
+            initHook(new AutoSEffSwitchForSystemUi().onApplication());
+        }
     }
 }

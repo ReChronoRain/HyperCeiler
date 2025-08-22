@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.misound;
 
-import static com.hchen.hooktool.HCBase.classLoader;
 import static com.hchen.hooktool.core.CoreTool.callMethod;
 import static com.hchen.hooktool.core.CoreTool.findClass;
 import static com.hchen.hooktool.core.CoreTool.getField;
@@ -28,7 +27,6 @@ import static com.hchen.hooktool.log.XposedLog.logE;
 import static com.hchen.hooktool.log.XposedLog.logI;
 import static com.sevtinge.hyperceiler.hook.module.hook.misound.NewAutoSEffSwitch.getEarPhoneStateFinal;
 import static com.sevtinge.hyperceiler.hook.module.hook.misound.NewAutoSEffSwitch.isSupportFW;
-import static com.sevtinge.hyperceiler.hook.module.hook.misound.NewAutoSEffSwitch.mDexKit;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -36,14 +34,21 @@ import android.os.RemoteException;
 
 import com.hchen.hooktool.hook.IHook;
 import com.sevtinge.hyperceiler.hook.IEffectInfo;
+import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.hook.module.base.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem;
 
+import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindClass;
 import org.luckypray.dexkit.query.FindField;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.FieldMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
+import org.luckypray.dexkit.result.ClassData;
+import org.luckypray.dexkit.result.FieldData;
+import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -57,12 +62,18 @@ public class NewAudioEffectControl {
 
     public void init() {
         try {
-            Method dolbySwitch = mDexKit.findMethod(FindMethod.create()
-                    .matcher(MethodMatcher.create()
-                            .declaredClass(ClassMatcher.create().usingStrings("setDsOnSafely: enter"))
-                            .usingStrings("setDsOnSafely: enter")
-                    )
-            ).singleOrNull().getMethodInstance(classLoader);
+            Method dolbySwitch = DexKit.findMember("setDsOnSafely", new IDexKit() {
+                    @Override
+                    public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                        MethodData methodData = bridge.findMethod(FindMethod.create()
+                            .matcher(MethodMatcher.create()
+                                .declaredClass(ClassMatcher.create().usingStrings("setDsOnSafely: enter"))
+                                .usingStrings("setDsOnSafely: enter")
+                            )
+                        ).singleOrThrow(() -> new IllegalStateException(TAG + ": Cannot found setDsOnSafely()"));
+                        return methodData;
+                    }
+            });
             hook(dolbySwitch, new IHook() {
                 @Override
                 public void before() {
@@ -73,12 +84,18 @@ public class NewAudioEffectControl {
                 }
             });
 
-            Method miSoundSwitch = mDexKit.findMethod(FindMethod.create()
-                    .matcher(MethodMatcher.create()
+            Method miSoundSwitch = DexKit.findMember("setEffectEnable", new IDexKit() {
+                @Override
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
                             .declaredClass(ClassMatcher.create().usingStrings("setEffectEnable() fail, exception: "))
                             .usingStrings("setEffectEnable() fail, exception: ")
-                    )
-            ).singleOrNull().getMethodInstance(classLoader);
+                        )
+                    ).singleOrThrow(() -> new IllegalStateException(TAG + ": Cannot found setEffectEnable()"));
+                    return methodData;
+                }
+            });
             hook(miSoundSwitch, new IHook() {
                 @Override
                 public void before() {
@@ -89,20 +106,35 @@ public class NewAudioEffectControl {
                 }
             });
 
-            Class<?> activityClass = mDexKit.findClass(FindClass.create()
-                    .matcher(ClassMatcher.create().usingStrings("supports spatial audio 3.0 "))
-            ).singleOrNull().getInstance(classLoader);
+            Class<?> activityClass = DexKit.findMember("spatialAudio", new IDexKit() {
+                @Override
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    ClassData classData = bridge.findClass(FindClass.create()
+                        .matcher(
+                            ClassMatcher.create().usingStrings("supports spatial audio 3.0 ")
+                        )
+                    ).singleOrThrow(() -> new IllegalStateException(TAG + ": Cannot found Class spatialAudio"));
+                    return classData;
+                }
+            });
             Method create = activityClass.getDeclaredMethod("onCreatePreferences", Bundle.class, String.class);
             Method onResume = activityClass.getDeclaredMethod("onResume");
-            Field effectSelectionField = mDexKit.findField(FindField.create()
-                    .matcher(FieldMatcher.create()
+            Field effectSelectionField = DexKit.findMember("preference", new IDexKit() {
+                @Override
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    FieldData fieldData = bridge.findField(FindField.create()
+                        .matcher(FieldMatcher.create()
                             .declaredClass(activityClass)
                             .type(findClass("miuix.preference.DropDownPreference"))
                             .addReadMethod(MethodMatcher.create()
-                                    .declaredClass(activityClass)
-                                    .usingStrings("updateEffectSelectionPreference(): set as ")
+                                .declaredClass(activityClass)
+                                .usingStrings("updateEffectSelectionPreference(): set as ")
                             )
-                    )).singleOrNull().getFieldInstance(classLoader);
+                        )
+                    ).singleOrThrow(() -> new IllegalStateException(TAG + ": Cannot found field preference"));
+                    return fieldData;
+                }
+            });
 
             Class<?> preferenceCategoryClass = findClass("miuix.preference.PreferenceCategory");
             Class<?> preferenceClass = findClass("androidx.preference.Preference");
@@ -112,11 +144,11 @@ public class NewAudioEffectControl {
                     Context context = (Context) callThisMethod("requireContext");
                     Object preferenceScreen = callThisMethod("getPreferenceScreen");
                     Object preferenceCategory = newInstance(preferenceCategoryClass, context, null);
-                    callMethod(preferenceCategory, "setTitle", "AutoSEffSwitch");
+                    callMethod(preferenceCategory, "setTitle", "HyperCeiler (AutoSEffSwitch)");
                     callMethod(preferenceCategory, "setKey", "auto_effect_switch");
 
                     mPreference = newInstance(preferenceClass, context, null);
-                    callMethod(mPreference, "setTitle", "基本信息:");
+                    // callMethod(mPreference, "setTitle", "基本信息:");
                     callMethod(mPreference, "setKey", "auto_effect_switch_pref");
                     updateAutoSEffSwitchInfo();
 
@@ -138,12 +170,18 @@ public class NewAudioEffectControl {
                 }
             });
 
-            Method broadcastReceiver = mDexKit.findMethod(FindMethod.create()
-                    .matcher(MethodMatcher.create()
+            Method broadcastReceiver = DexKit.findMember("onReceive", new IDexKit() {
+                @Override
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
                             .declaredClass(ClassMatcher.create().usingStrings("onReceive: to refreshEnable"))
                             .usingStrings("onReceive: to refreshEnable")
-                    )
-            ).singleOrNull().getMethodInstance(classLoader);
+                        )
+                    ).singleOrThrow(() -> new IllegalStateException(TAG + ": Cannot found onReceive()"));
+                    return methodData;
+                }
+            });
             hook(broadcastReceiver, new IHook() {
                 @Override
                 public void before() {

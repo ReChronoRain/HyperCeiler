@@ -18,13 +18,17 @@
  */
 package com.sevtinge.hyperceiler.hook.module.app.SystemFramework.Phone;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
+
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowManageAllNotifications;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitchForSystem;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableLowApiCheckForU;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableMiuiWatermark;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisablePersistent;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableThermal;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.EffectBinderProxy;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.AllowUpdateSystemApp;
@@ -37,7 +41,6 @@ public class SystemFrameworkB extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-
         // 核心破解
         initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));
         initHook(new BypassIsolationViolation(), mPrefsMap.getBoolean("system_framework_core_patch_bypass_isolation_violation"));
@@ -56,5 +59,10 @@ public class SystemFrameworkB extends BaseModule {
         initHook(DisableThermal.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_thermal"));
         initHook(new ThermalBrightness(), mPrefsMap.getBoolean("system_framework_other_thermal_brightness"));
         initHook(new DisableMiuiWatermark(), mPrefsMap.getBoolean("system_framework_disable_miui_watermark"));
+
+        if (mPrefsMap.getBoolean("misound_bluetooth") && isHyperOSVersion(2f)) {
+            initHook(new EffectBinderProxy());
+            initHook(new AutoEffectSwitchForSystem());
+        }
     }
 }

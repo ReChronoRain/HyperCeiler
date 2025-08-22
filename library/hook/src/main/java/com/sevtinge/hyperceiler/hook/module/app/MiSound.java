@@ -28,7 +28,7 @@ public class MiSound extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        initHook(new NewAutoSEffSwitch(), mPrefsMap.getBoolean("misound_bluetooth"));
+        initHook(new NewAutoSEffSwitch().onApplication(), mPrefsMap.getBoolean("misound_bluetooth"));
         initHook(IncreaseSamplingRate.INSTANCE, mPrefsMap.getBoolean("misound_increase_sampling_rate"));
     }
 }

@@ -184,8 +184,10 @@ public class SystemFrameworkV extends BaseModule {
         initHook(new DisableLowApiCheckForU(), mPrefsMap.getBoolean("system_framework_disable_low_api_check"));
         initHook(new DisablePersistent(), mPrefsMap.getBoolean("system_framework_disable_persistent"));
 
-        initHook(new EffectBinderProxy(), mPrefsMap.getBoolean("misound_bluetooth"));
-        initHook(new AutoEffectSwitchForSystem(), mPrefsMap.getBoolean("misound_bluetooth"));
+        if (mPrefsMap.getBoolean("misound_bluetooth")) {
+            initHook(new EffectBinderProxy());
+            initHook(new AutoEffectSwitchForSystem());
+        }
     }
 
 }

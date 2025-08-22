@@ -34,6 +34,7 @@
 -keep class * extends com.sevtinge.hyperceiler.hook.module.base.BaseHook { <init>(); }
 
 -keep class com.sevtinge.hyperceiler.hook.utils.blur.*
+-keep class com.sevtinge.hyperceiler.hook.utils.api.effect.** { *; }
 -keep class com.sevtinge.hyperceiler.hook.utils.api.miuiStringToast.res.** { *; }
 -keep class com.sevtinge.hyperceiler.hook.utils.input.ContentModel { *; }
 -keep class com.sevtinge.hyperceiler.hook.utils.input.FileHelper { *; }
