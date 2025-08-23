@@ -185,9 +185,9 @@ object LayoutRules : HomeBaseHook() {
 
             if (isUnlockGridsHook || isSetWSPaddingSideHook) {
                 currentCellWidth = (mMaxGridWidth - if (isSetWSPaddingSideHook) {
-                    sWorkspaceCellSide
+                    sWorkspaceCellSide * 2
                 } else {
-                    mWorkspaceCellSideDefault
+                    mWorkspaceCellSideDefault * 2
                 }) / currentCellCountX
             }
 
