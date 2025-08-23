@@ -202,7 +202,7 @@ object LayoutRules : HomeBaseHook() {
                 }) / currentCellCountY
             }
 
-            rules.setIntField("mCellSize", max(currentCellWidth, currentCellHeight))
+            rules.setIntField("mCellSize", min(currentCellWidth, currentCellHeight))
 
             if (isSetWSPaddingTopHook) {
                 rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
