@@ -1,7 +1,6 @@
 // file:noinspection DependencyNotationArgument
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import com.android.build.gradle.tasks.PackageAndroidArtifact
-import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -16,31 +15,36 @@ plugins {
 
 val apkId = "HyperCeiler"
 
-val getGitCommitCount: () -> Int = {
-    val output = ByteArrayOutputStream()
-    ProcessBuilder("git", "rev-list", "--count", "HEAD").start().apply {
-        inputStream.copyTo(output)
-        waitFor()
+fun runGitCommand(vararg args: String): String? {
+    return try {
+        val process = ProcessBuilder(listOf("git") + args)
+            .redirectErrorStream(true)
+            .start()
+        val output = process.inputStream.bufferedReader().use { it.readText() }.trim()
+        val exit = process.waitFor()
+        if (exit == 0 && output.isNotBlank()) output else null
+    } catch (_: Throwable) {
+        null
     }
-    output.toString().trim().toInt()
+}
+
+fun getGitCommitCount(): Int {
+    val out = runGitCommand("rev-list", "--count", "HEAD")
+    return out?.trim()?.toIntOrNull() ?: 0
+}
+
+fun getGitHash(): String {
+    return runGitCommand("rev-parse", "--short", "HEAD") ?: "unknown"
+}
+
+fun getGitHashLong(): String {
+    return runGitCommand("rev-parse", "HEAD") ?: "unknown"
 }
 
 val getVersionCode: () -> Int = {
     val commitCount = getGitCommitCount()
     val major = 5
     major + commitCount
-}
-
-fun getGitHash(): String {
-    val process = ProcessBuilder("git", "rev-parse", "--short", "HEAD").start()
-    val output = process.inputStream.bufferedReader().use { it.readText().trim() }
-    return output
-}
-
-fun getGitHashLong(): String {
-    val process = ProcessBuilder("git", "rev-parse", "HEAD").start()
-    val output = process.inputStream.bufferedReader().use { it.readText().trim() }
-    return output
 }
 
 fun loadPropertiesFromFile(fileName: String): Properties? {
@@ -140,56 +144,58 @@ android {
     }
 
     buildTypes {
+        val applyBase: com.android.build.api.dsl.BuildType.() -> Unit = {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
+        }
+
         release {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-                "proguard-log.pro"
-            )
-            versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
+            applyBase()
             buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
-            buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
-            signingConfig = if (properties != null) {
-                signingConfigs["hasProperties"]
-            } else {
-                signingConfigs["debug"]
-            }
-        }
-        create("beta") {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles("proguard-log.pro")
+
             versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
-            buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
-            buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
             signingConfig = if (properties != null) {
                 signingConfigs["hasProperties"]
             } else {
                 signingConfigs["debug"]
             }
         }
+
+        create("beta") {
+            applyBase()
+            buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
+
+            versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
+            signingConfig = if (properties != null) {
+                signingConfigs["hasProperties"]
+            } else {
+                signingConfigs["debug"]
+            }
+        }
+
         create("canary") {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-            versionNameSuffix = "_${gitHash}_r${gitCode}"
+            applyBase()
             buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
-            buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
+
+            versionNameSuffix = "_${gitHash}_r${gitCode}"
             signingConfig = if (properties != null) {
                 signingConfigs["hasProperties"]
             } else {
                 signingConfigs["debug"]
             }
         }
+
         debug {
-            versionNameSuffix = "_${buildTime}_r${gitCode}"
             buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
             buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
+
+            isMinifyEnabled = false
+            versionNameSuffix = "_${buildTime}_r${gitCode}"
             if (properties != null) {
                 signingConfig = signingConfigs["hasProperties"]
             }

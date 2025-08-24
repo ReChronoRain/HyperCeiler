@@ -1,11 +1,12 @@
 [versions]
-agp = "8.12.0"
+agp = "8.12.1"
 kotlin-android = "2.2.10"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 
 annotation = "1.9.1"
 core = "1.17.0"
+coreKtx = "1.17.0"
 fragment = "1.8.9"
 lunarcalendar = "latest.release"
 miuix = "1.0.9.1"
@@ -24,13 +25,13 @@ hyperfocusapi = "1.4"
 hooktool = "v.2.2.1"
 superLyricApi = "2.3"
 mmkv = "2.2.3"
-coreKtx = "1.17.0"
 
 proguard-rules = "proguard-rules.pro"
 
 [libraries]
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
 core = { group = "androidx.core", name = "core", version.ref = "core" }
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
 hooktool = { module = "com.github.HChenX:HookTool", version.ref = "hooktool" }
 lunarcalendar = { module = "com.xhinliang:LunarCalendar", version.ref = "lunarcalendar" }
@@ -76,7 +77,6 @@ hyperfocusapi = { module = "com.github.ghhccghk:HyperFocusApi", version.ref = "h
 hiddenapibypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "hiddenapibypass" }
 superlyricapi = { module = "com.github.HChenX:SuperLyricApi", version.ref = "superLyricApi" }
 mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

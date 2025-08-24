@@ -62,7 +62,7 @@
                 android:data="https://github.com/Xposed-Modules-Repo/io.github.tehcneko.hyperos.aospinstaller" />
         </Preference>
         <Preference
-            android:summary="焕晨HChen | GPL-3.0"
+            android:summary="HChenX | GPL-3.0"
             android:title="AutoSEffSwitch">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -104,7 +104,7 @@
                 android:data="https://github.com/liyafe1997/CustoMIUIzerMod" />
         </Preference>
         <Preference
-            android:summary="焕晨HChen | GPL-3.0"
+            android:summary="HChenX | GPL-3.0"
             android:title="ClipboardList">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -167,7 +167,7 @@
                 android:data="https://github.com/wuyou-123/FocusNotifLyric" />
         </Preference>
         <Preference
-            android:summary="焕晨HChen | GPL-3.0"
+            android:summary="HChenX | GPL-3.0"
             android:title="ForegroundPin">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -209,7 +209,14 @@
                 android:data="https://github.com/zerorooot/HideMiuiClipboardDialog" />
         </Preference>
         <Preference
-            android:summary="焕晨HChen | GPL-3.0"
+            android:summary="ghhccghk | No License"
+            android:title="HyperFocusApi">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/ghhccghk/HyperFocusApi" />
+        </Preference>
+        <Preference
+            android:summary="HChenX | GPL-3.0"
             android:title="HookTool">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -328,13 +335,6 @@
                 android:data="https://github.com/Weverses/ModemPro" />
         </Preference>
         <Preference
-            android:summary="HChenX | GPL-3.0"
-            android:title="HookTool">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/HChenX/HookTool" />
-        </Preference>
-        <Preference
             android:summary="DanGLES3 | GPL-3.0"
             android:title="NoStorageRestrict">
             <intent
@@ -349,7 +349,7 @@
                 android:data="https://github.com/Haocen2004/PortalHook" />
         </Preference>
         <Preference
-            android:summary="焕晨HChen | GPL-3.0"
+            android:summary="HChenX | GPL-3.0"
             android:title="PinningApp">
             <intent
                 android:action="android.intent.action.VIEW"
