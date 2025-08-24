@@ -28,6 +28,7 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.setIntField
 import kotlin.math.max
+import kotlin.math.min
 
 object LayoutRules : HomeBaseHook() {
     private const val PHONE_RULES = "com.miui.home.launcher.compat.PhoneDeviceRules"
@@ -184,9 +185,9 @@ object LayoutRules : HomeBaseHook() {
 
             if (isUnlockGridsHook || isSetWSPaddingSideHook) {
                 currentCellWidth = (mMaxGridWidth - if (isSetWSPaddingSideHook) {
-                    sWorkspaceCellSide
+                    sWorkspaceCellSide * 2
                 } else {
-                    mWorkspaceCellSideDefault
+                    mWorkspaceCellSideDefault * 2
                 }) / currentCellCountX
             }
 
@@ -202,7 +203,7 @@ object LayoutRules : HomeBaseHook() {
                 }) / currentCellCountY
             }
 
-            rules.setIntField("mCellSize", max(currentCellWidth, currentCellHeight))
+            rules.setIntField("mCellSize", min(currentCellWidth, currentCellHeight))
 
             if (isSetWSPaddingTopHook) {
                 rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
