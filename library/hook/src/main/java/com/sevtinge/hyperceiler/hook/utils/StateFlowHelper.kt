@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hook.utils
 
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import de.robv.android.xposed.XposedHelpers
 import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.classLoader
 
@@ -34,8 +35,16 @@ object StateFlowHelper {
         XposedHelpers.findClass("kotlinx.coroutines.flow.ReadonlyStateFlow", classLoader)
     }
 
+    private val MUTABLE_STATE_FLOW by lazy {
+        XposedHelpers.findClass("kotlinx.coroutines.flow.MutableStateFlow", classLoader)
+    }
+
     private val READONLY_STATE_FLOW_CONSTRUCTOR by lazy {
-        READONLY_STATE_FLOW.getConstructor(STATE_FLOW)
+        if (isMoreAndroidVersion(36)) {
+            READONLY_STATE_FLOW.getConstructor(MUTABLE_STATE_FLOW)
+        } else {
+            READONLY_STATE_FLOW.getConstructor(STATE_FLOW)
+        }
     }
 
     @JvmStatic
@@ -53,7 +62,13 @@ object StateFlowHelper {
         stateFlow ?: return
 
         when (stateFlow::class.java.simpleName) {
-            "ReadonlyStateFlow" -> stateFlow.getFirstFieldByExactType(STATE_FLOW)
+            "ReadonlyStateFlow" -> {
+                if (isMoreAndroidVersion(36)) {
+                    stateFlow.getFirstFieldByExactType(MUTABLE_STATE_FLOW)
+                } else {
+                    stateFlow.getFirstFieldByExactType(STATE_FLOW)
+                }
+            }
             "StateFlowImpl" -> stateFlow
             else -> null
         }?.callMethod("setValue", value)
