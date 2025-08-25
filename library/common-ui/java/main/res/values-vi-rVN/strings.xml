@@ -61,6 +61,9 @@
     <string name="start_failed">Không thể bắt đầu hoạt động. Vui lòng kiểm tra xem HyperCeiler đã được cấp quyền Root/Su chưa.</string>
     <string name="pid_failed">Ứng dụng mục tiêu không chạy và không cần phải khởi động lại.</string>
     <string name="reboot_failed">Khởi động lại không thành công. Vui lòng kiểm tra xem HyperCeiler đã được cấp quyền Root/Su chưa.</string>
+    <string name="experimental_features">Tính năng thử nghiệm</string>
+    <string name="experimental_reshook_new">Bật hook tài nguyên mới</string>
+    <string name="experimental_reshook_new_desc">Phiên bản mới của hook tài nguyên mang lại hiệu suất tốt hơn cho việc chèn tài nguyên, nhưng có thể có một số vấn đề; chỉ dành cho mục đích thử nghiệm.\nBật hoặc tắt tính năng này yêu cầu khởi động lại thiết bị để có hiệu lực.</string>
     <!--HyperCeiler Tips-->
     <string name="error">Lỗi</string>
     <string name="warn">Cảnh báo</string>

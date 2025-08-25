@@ -61,6 +61,9 @@
     <string name="start_failed">فشل في بدء النشاط. يرجى التحقق مما إذا تم منح HyperCeiler صلاحيات الجذر/المستخدم الخارق.</string>
     <string name="pid_failed">التطبيق المستهدف ليس قيد التشغيل ولا يحتاج إلى إعادة تشغيله.</string>
     <string name="reboot_failed">فشل إعادة التشغيل. يرجى التحقق مما إذا تم منح HyperCeiler صلاحيات الجذر/المستخدم الخارق.</string>
+    <string name="experimental_features"></string>
+    <string name="experimental_reshook_new"></string>
+    <string name="experimental_reshook_new_desc">.</string>
     <!--HyperCeiler Tips-->
     <string name="error">خطأ</string>
     <string name="warn">تنبيه</string>
