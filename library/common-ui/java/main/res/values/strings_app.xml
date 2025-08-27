@@ -227,7 +227,7 @@
     <string name="miuix_alphabet_indexer_name">Index bar</string>
     <string name="miuix_appcompat_action_mode_cancel">Cancel</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">Clear</string>
-    <string name="miuix_preference_text_hint">Range: %1$s ~ %2$s, default value: %3$s</string>
+    <string name="miuix_preference_text_hint">Range: %1$s ~ %2$s | Default value: %3$s</string>
     <string name="miuix_appcompat_color_erro_entry">Invalid value. Please check it and re-enter.</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">Transparency</string>
     <string name="miuix_appcompat_color_picker_custom_color">Custom color</string>
@@ -825,7 +825,7 @@
     <string name="system_ui_control_center_media_control_color_anim_desc">Update text color with animation</string>
     <string name="system_ui_control_center_media_control_inverse_color">Auto color inversion</string>
     <string name="system_ui_control_center_media_control_media_album_mode">Media cover</string>
-    <string name="system_ui_control_center_media_control_media_album_mode_desc">After selecting "Invisible", you must also enable the layout modification switch for it to take effect.</string>
+    <string name="system_ui_control_center_media_control_media_album_mode_desc">After selecting \"Invisible\", you must also enable the layout modification option for it to take effect.</string>
     <string name="system_ui_control_center_media_control_media_button_title">Media controls</string>
     <string name="system_ui_control_center_media_control_media_button_layout_switch">Enable layout modification</string>
     <string name="system_ui_control_center_media_control_media_button_size_switch">Enable font modification</string>
@@ -833,7 +833,7 @@
     <string name="system_ui_control_center_media_control_media_button_hide_seamless">Hide device switch button</string>
     <string name="system_ui_control_center_media_control_media_button_mode">Media button order</string>
     <string name="system_ui_control_center_media_control_title_margin">Top margin of the title</string>
-    <string name="system_ui_control_center_media_control_title_padding">Title Padding</string>
+    <string name="system_ui_control_center_media_control_title_padding">Title padding</string>
     <string name="system_ui_control_center_media_control_title_size">Title font size</string>
     <string name="system_ui_control_center_media_control_artist_size">Artist font size</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">Media seekbar</string>
@@ -879,8 +879,8 @@
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Allow display 10, 17 or more notifications.</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">Optimize focus notification background color mixing</string>
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">Restore the default notifications color mixing style, and check the flashlight focus notification simultaneously.</string>
-    <string name="system_ui_control_center_opt_notification_element_background_color_advanced">Further optimize focus notification background color mixing</string>
-    <string name="system_ui_control_center_opt_notification_element_background_color_advanced_desc">Maybe not compatible with the Full-Screen AOD</string>
+    <string name="system_ui_control_center_opt_notification_element_background_color_advanced">Enhance focus on the notification background</string>
+    <string name="system_ui_control_center_opt_notification_element_background_color_advanced_desc">May be incompatible with full-screen AOD</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">Display brightness value</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">Display volume value</string>
     <string name="system_ui_control_center_zen_fix">DND mode fix</string>
@@ -1435,9 +1435,9 @@
     <string name="security_center_simplify_home">Simplify the Security home screen</string>
     <string name="security_center_simplify_home_desc">Remove function recommendation card</string>
     <string name="security_center_applock_pin_scramble">App lock with scrambled PIN</string>
-    <string name="security_center_power_saver">Remove restrictions when screen mirroring</string>
     <string name="security_center_privacy_thumbnail_blur">Disable auto-enable blurred preview images</string>
-    <string name="security_center_privacy_thumbnail_blur_desc">Once enabled, background blurred preview image settings will be locked. It is recommended to first configure which apps should have their previews disabled before turning on this feature.</string>
+    <string name="security_center_privacy_thumbnail_blur_desc">Once enabled, the preview image background blur will be locked. It\'s recommended to first specify which apps should have their previews disabled before turning on this feature.</string>
+    <string name="security_center_power_saver">Remove restrictions when screen mirroring</string>
     <string name="security_center_power_saver_desc">Disable Battery saver mode when screen mirroring via Xiaomi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Randomly change App lock PIN keypad sequence</string>
     <string name="security_center_beauty_light_auto">Unlock Front fill light</string>
@@ -1569,7 +1569,7 @@
     <!--Mi sound-->
     <string name="misound">Earphones</string>
     <string name="misound_bluetooth">Change headphone status to the original sound</string>
-    <string name="misound_bluetooth_desc">You need to check enable System Framework, System UI, and Earphones scopes, then reboot to apply the changes.</string>
+    <string name="misound_bluetooth_desc">You need to enable the System Framework, System UI, and Earphones scopes, then reboot your device to apply the changes.</string>
     <string name="misound_increase_sampling_rate">Increase sampling rate</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi Settings</string>
