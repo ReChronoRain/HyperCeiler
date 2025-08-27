@@ -45,4 +45,7 @@ object MobileClass {
     val modernStatusBarMobileView by lazy {
         loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.view.ModernStatusBarMobileView")
     }
+    val statusBarIconControllerImpl by lazy {
+        loadClass("com.android.systemui.statusbar.phone.ui.StatusBarIconControllerImpl")
+    }
 }

@@ -625,8 +625,6 @@
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">SIM カード1のシグナルアイコンを非表示</string>
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">SIM カード2のシグナルアイコンを非表示</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">表示ロジック</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type_compatibility">互換モード</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type_compatibility_desc">一部の端末でステータスバーのアイコン表示が誤っている問題を修正</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大きなネットワークタイプアイコン</string>
     <string name="system_ui_status_bar_icon_location">位置情報</string>
     <string name="system_ui_status_bar_icon_mic">マイク</string>

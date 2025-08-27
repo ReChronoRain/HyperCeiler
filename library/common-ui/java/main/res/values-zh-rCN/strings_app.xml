@@ -708,8 +708,6 @@
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">隐藏 SIM 卡 1 信号图标</string>
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">隐藏 SIM 卡 2 信号图标</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">显示逻辑</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type_compatibility">兼容模式</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type_compatibility_desc">修复部分设备上状态栏图标显示异常</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大网络类型图标</string>
     <string name="system_ui_status_bar_icon_location">位置信息</string>
     <string name="system_ui_status_bar_icon_mic">麦克风</string>

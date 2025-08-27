@@ -626,8 +626,6 @@
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">隱藏 SIM 卡 1 訊號圖示</string>
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">隱藏 SIM 卡 2 訊號圖示</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">顯示邏輯</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type_compatibility">兼容模式</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type_compatibility_desc">修復某些設備上不正確的狀態欄圖標顯示</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大網路類型圖示</string>
     <string name="system_ui_status_bar_icon_location">位置訊息</string>
     <string name="system_ui_status_bar_icon_mic">麥克風</string>

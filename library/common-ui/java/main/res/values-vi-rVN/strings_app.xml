@@ -627,8 +627,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Ẩn biểu tượng tín hiệu SIM 1</string>
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Ẩn biểu tượng tín hiệu SIM 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Biểu tượng mạng</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type_compatibility">Chế độ tương thích</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type_compatibility_desc">Đối với một số thiết bị, biểu tượng thanh trạng thái hiển thị sai</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Biểu tượng mạng lớn</string>
     <string name="system_ui_status_bar_icon_location">Vị trí</string>
     <string name="system_ui_status_bar_icon_mic">Micrô</string>

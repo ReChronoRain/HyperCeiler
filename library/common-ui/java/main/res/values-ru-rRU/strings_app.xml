@@ -625,8 +625,6 @@
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Скрыть иконку сигнала SIM-карты 1</string>
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Скрыть иконку сигнала SIM-карты 1</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Логика отображения</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type_compatibility">Режим совместимости</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type_compatibility_desc">Для некоторых устройств показывать неправильную иконку строки состояния</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Большая иконка типа сети</string>
     <string name="system_ui_status_bar_icon_location">Местоположение</string>
     <string name="system_ui_status_bar_icon_mic">Микрофон</string>

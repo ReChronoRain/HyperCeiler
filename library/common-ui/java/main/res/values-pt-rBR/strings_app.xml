@@ -625,8 +625,6 @@
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Ocultar ícone de sinal do SIM 1</string>
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Ocultar ícone de sinal do SIM 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Lógica de exibição</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type_compatibility">Modo de compatibilidade</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type_compatibility_desc">Corrige a exibição incorreta dos ícones da barra de status em alguns dispositivos</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Ícone do tipo de rede grande</string>
     <string name="system_ui_status_bar_icon_location">Localização</string>
     <string name="system_ui_status_bar_icon_mic">Microfone</string>
