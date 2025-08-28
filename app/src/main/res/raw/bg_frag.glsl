@@ -220,5 +220,7 @@ vec4 main(vec2 fragCoord){
     //            return texColor;
 //    return vec4(noiseValue.rrr,1.0);
     return vec4(fragColor.rgb*fragColor.a, fragColor.a);
+    //color += (10.0 / 255.0) * gradientNoise(fragCoord.xy) - (5.0 / 255.0);
+    color += (1.0 / 255.0) * gradientNoise(fragCoord.xy) - (0.5 / 255.0);
     return vec4(color.rgb*color.a, color.a);
 }

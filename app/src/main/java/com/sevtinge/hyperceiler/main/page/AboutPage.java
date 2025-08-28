@@ -22,6 +22,7 @@ import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getDeviceToken;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,12 +38,14 @@ import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hchen.hooktool.log.AndroidLog;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.expansion.utils.ClickCountsUtils;
 import com.sevtinge.hyperceiler.main.fragment.ContentFragment.IFragmentChange;
+import com.sevtinge.hyperceiler.main.page.about.controller.BgEffectController;
 import com.sevtinge.hyperceiler.main.page.about.view.BgEffectPainter;
 import com.sevtinge.hyperceiler.main.page.about.widget.VersionCard;
 import com.sevtinge.hyperceiler.widget.ListContainerView;
@@ -77,24 +80,23 @@ public class AboutPage extends DashboardFragment
     private Preference mDeviceInfoOs;
     private Preference mDeviceInfoPadding;
 
+
     private View mBgEffectView;
     private BgEffectPainter mBgEffectPainter;
-    private float startTime = (float) System.nanoTime();
+    private BgEffectController mBgEffectController;
+    private boolean isRunning = false;
+    private boolean isReboot = false;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
-    Runnable runnableBgEffect = new Runnable() {
-        @Override
-        public void run() {
-            mBgEffectPainter.setAnimTime(((((float) System.nanoTime()) - startTime) / 1.0E9f) % 62.831852f);
-            mBgEffectPainter.setResolution(new float[]{mBgEffectView.getWidth(), mBgEffectView.getHeight()});
-            mBgEffectPainter.updateMaterials();
-            mBgEffectView.setRenderEffect(mBgEffectPainter.getRenderEffect());
-            mHandler.postDelayed(runnableBgEffect, 16L);
-        }
-    };
 
     @Override
     public int getThemeRes() {
         return R.style.Theme_Navigator_ContentChild_About;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        isReboot = true;
     }
 
     @NonNull
@@ -150,16 +152,30 @@ public class AboutPage extends DashboardFragment
             mBgEffectView = LayoutInflater.from(getContext()).inflate(R.layout.layout_effect_bg, mContainerView, false);
             mContainerView.addView(mBgEffectView, 0);
             mBgEffectView = mContainerView.findViewById(R.id.bgEffectView);
+            mBgEffectController = new BgEffectController(mBgEffectView);
         }
-        mBgEffectView.post(() -> {
-            if (getContext() != null) {
-                mBgEffectPainter = new BgEffectPainter(getContext().getApplicationContext());
-                mBgEffectPainter.showRuntimeShader(getContext().getApplicationContext(),
-                        mBgEffectView, getAppCompatActionBar());
+        startRuntimeShader();
+    }
 
-                mHandler.post(runnableBgEffect);
-            }
-        });
+    private void startRuntimeShader() {
+        if (mBgEffectView != null) {
+            mBgEffectView.post(() -> {
+                if (getContext() != null) {
+                    mBgEffectController.start();
+                    mBgEffectPainter = new BgEffectPainter(getContext().getApplicationContext());
+                    mBgEffectController.setType(getContext().getApplicationContext(), mBgEffectView, getAppCompatActionBar());
+                    isRunning = true;
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //setActionBar();
+        startRuntimeShader();
+        setRecyclerViewPadding();
     }
 
     @Override
@@ -174,6 +190,23 @@ public class AboutPage extends DashboardFragment
             relativePadding.bottom = (int) (getResources().getDimension(R.dimen.my_card_bottom) + rect.bottom);
             relativePadding.applyToView(mScrollView);
             setRecyclerViewPadding();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mHandler != null && !isReboot) {
+            startRuntimeShader();
+        }
+        isReboot = false;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mBgEffectController != null && isRunning) {
+            mBgEffectController.stop();
         }
     }
 
@@ -263,7 +296,6 @@ public class AboutPage extends DashboardFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mHandler.removeCallbacks(runnableBgEffect);
         if (mContainerView != null) unregisterCoordinateScrollView(mContainerView.getNestedHeader());
         mContainerView = null;
     }
