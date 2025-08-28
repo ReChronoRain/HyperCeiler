@@ -1436,7 +1436,7 @@
     <string name="security_center_simplify_home_desc">Remove function recommendation card</string>
     <string name="security_center_applock_pin_scramble">App lock with scrambled PIN</string>
     <string name="security_center_privacy_thumbnail_blur">Disable auto-enable blurred preview images</string>
-    <string name="security_center_privacy_thumbnail_blur_desc">Once enabled, background blurred preview image settings will be locked. It is recommended to first configure which apps should have their previews disabled before turning on this feature.</string>
+    <string name="security_center_privacy_thumbnail_blur_desc">Once enabled, the preview image background blur will be locked. It\'s recommended to first specify which apps should have their previews disabled before turning on this feature.</string>
     <string name="security_center_power_saver">Remove restrictions when screen mirroring</string>
     <string name="security_center_power_saver_desc">Disable Battery saver mode when screen mirroring via Xiaomi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Randomly change App lock PIN keypad sequence</string>
