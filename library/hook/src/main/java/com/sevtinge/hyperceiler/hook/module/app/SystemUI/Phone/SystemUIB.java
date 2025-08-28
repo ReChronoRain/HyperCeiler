@@ -21,6 +21,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.NewPluginHelper
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.QSColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.clock.StatusBarClockNew;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.FocusNotifLyric;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.HideFakeStatusBar;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model.DualRowSignalHookV;
@@ -62,6 +63,11 @@ public class SystemUIB extends BaseModule {
                 mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
             initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
         }
+
+        // WiFi与移动网络图标位置互换
+        boolean isSwapWiFiAndMobileNetwork = mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network");
+        // 仅开启交换时初始化
+        initHook(new StatusBarIconPositionAdjust(), isSwapWiFiAndMobileNetwork);
 
         // 网速指示器
         if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_all_status_enable")) {

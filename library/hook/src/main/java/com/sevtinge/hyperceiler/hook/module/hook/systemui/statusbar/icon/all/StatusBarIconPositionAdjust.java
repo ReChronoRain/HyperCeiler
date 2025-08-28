@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.annotation.SuppressLint;
@@ -69,17 +70,18 @@ public class StatusBarIconPositionAdjust extends BaseHook {
         mMiuiDripLeftStatusBarIconControllerImpl = findClassIfExists("com.android.systemui.statusbar.phone.MiuiDripLeftStatusBarIconControllerImpl");
 
         ArrayList<String> dripLeftIcons = new ArrayList<>();
+        if (!isMoreHyperOSVersion(3f)) {
+            // 3.0+ 版本暂不支持以下功能
+            isWiFiAtLeftEnable = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");
+            isMobileNetworkAtLeftEnable = mPrefsMap.getBoolean("system_ui_status_bar_mobile_network_at_left");
 
-        isWiFiAtLeftEnable = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");
-        isMobileNetworkAtLeftEnable = mPrefsMap.getBoolean("system_ui_status_bar_mobile_network_at_left");
-
-        isNetworkSpeedAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_network_speed_at_right");
-        isAlarmClockAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_alarm_clock_at_right");
-        isNFCAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_nfc_at_right");
-        isVolmeAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_volume_at_right");
-        isZenAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_zen_at_right");
-        isHeadsetAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_headset_at_right");
-
+            isNetworkSpeedAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_network_speed_at_right");
+            isAlarmClockAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_alarm_clock_at_right");
+            isNFCAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_nfc_at_right");
+            isVolmeAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_volume_at_right");
+            isZenAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_zen_at_right");
+            isHeadsetAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_headset_at_right");
+        }
         isSwapWiFiAndMobileNetwork = mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network");
 
         isMoveLeft = isWiFiAtLeftEnable || isMobileNetworkAtLeftEnable;
@@ -88,7 +90,11 @@ public class StatusBarIconPositionAdjust extends BaseHook {
         if (isWiFiAtLeftEnable && isMobileNetworkAtLeftEnable && !isSwapWiFiAndMobileNetwork) {
             mSignalIcons = new String[]{"no_sim", "mobile", "demo_mobile", "airplane", "hotspot", "slave_wifi", "wifi", "demo_wifi"};
         } else {
-            mSignalIcons = new String[]{"hotspot", "slave_wifi", "wifi", "demo_wifi", "no_sim", "mobile", "demo_mobile", "airplane"};
+            if (isHyperOSVersion(3f)) {
+                mSignalIcons = new String[]{"wifi", "demo_wifi", "mobile", "demo_mobile", "no_sim"};
+            } else {
+                mSignalIcons = new String[]{"hotspot", "slave_wifi", "wifi", "demo_wifi", "no_sim", "mobile", "demo_mobile", "airplane"};
+            }
             /*if (isWiFiAtLeftEnable) {
                 mSignalIcons = new String[]{"hotspot", "slave_wifi", "wifi", "demo_wifi"};
             }
@@ -177,7 +183,11 @@ public class StatusBarIconPositionAdjust extends BaseHook {
                         List<String> removedIcons = allStatusIcons.subList(startIndex, endIndex);
                         removedIcons.clear();
                         if (!isMoveLeft) {
-                            startIndex = allStatusIcons.indexOf("hd");
+                            if (isHyperOSVersion(3f)) {
+                                startIndex = allStatusIcons.indexOf("network_speed");
+                            } else {
+                                startIndex = allStatusIcons.indexOf("hd");
+                            }
                             allStatusIcons.addAll(startIndex + 1, mSignalRelatedIcons);
                         }
                         param.args[0] = allStatusIcons.toArray(new String[0]);
