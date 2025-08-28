@@ -19,8 +19,10 @@
 package com.sevtinge.hyperceiler.main.page;
 
 import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
+import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getPropSu;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getDeviceToken;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.content.res.Configuration;
 import android.graphics.Rect;
@@ -38,7 +40,6 @@ import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hchen.hooktool.log.AndroidLog;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.MainActivityContextHelper;
@@ -257,13 +258,22 @@ public class AboutPage extends DashboardFragment
         mDeviceInfoAndroid = findPreference("prefs_key_about_device_info_android");
         mDeviceInfoOs = findPreference("prefs_key_about_device_info_os");
         mDeviceInfoPadding = findPreference("prefs_key_about_device_info_padding");
-        String deviceName = getProp("persist.sys.device_name");
+
+        String deviceName;
+        if (isMoreAndroidVersion(36)) {
+            // 我就说我设备名字怎么就对不上了，这玩意还要 Root 获取，破烂
+            deviceName = getPropSu("persist.private.device_name");
+        } else {
+            deviceName = getProp("persist.sys.device_name");
+        }
         String marketName = getProp("ro.product.marketname");
         String androidVersion = getProp("ro.build.version.release");
         String osVersion = getSystemVersionIncremental();
+
         if (Objects.equals(marketName, "")) marketName = android.os.Build.MODEL;
         if (Objects.equals(deviceName, "")) deviceName = marketName;
         if (Objects.equals(osVersion, "")) osVersion = androidVersion;
+
         mDeviceName.setTitle(deviceName);
         mDeviceInfoDevice.setTitle(marketName);
         mDeviceInfoAndroid.setTitle(androidVersion);
