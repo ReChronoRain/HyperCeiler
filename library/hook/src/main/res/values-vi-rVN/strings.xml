@@ -39,6 +39,15 @@
     <string name="tiles_sunshine_mode">Chế độ ánh sáng mặt trời</string>
     <string name="system_cc_showpct_style_1">Nội tuyến</string>
     <string name="system_cc_showpct_style_2">Rõ ràng</string>
+    <string name="media_control_ground_mode_1">Ảnh bìa</string>
+    <string name="media_control_ground_mode_2">Bìa mờ ảo</string>
+    <string name="media_control_ground_mode_3">Độ dốc xuyên tâm</string>
+    <string name="media_control_ground_mode_4">Độ dốc tuyến tính</string>
+    <string name="media_control_ground_mode_5">Độ mờ vật liệu</string>
+    <string name="media_control_album_mode_1">Ẩn định danh nguồn</string>
+    <string name="media_control_album_mode_2">Ẩn</string>
+    <string name="media_control_button_mode_1">Nút tùy chỉnh nằm ở ngoài cùng bên phải</string>
+    <string name="media_control_button_mode_2">Nút phát nằm ở phía ngoài cùng bên trái</string>
     <!--System Framework-->
     <string name="system_framework_phone_network_title">Cài đặt mạng</string>
     <string name="system_ui_hide_navigation_bar">Ẩn thanh cử chỉ</string>

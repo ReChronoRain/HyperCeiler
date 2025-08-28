@@ -39,6 +39,15 @@
     <string name="tiles_sunshine_mode">Modo luz solar</string>
     <string name="system_cc_showpct_style_1">Na linha</string>
     <string name="system_cc_showpct_style_2">Explícito</string>
+    <string name="media_control_ground_mode_1">Arte da capa</string>
+    <string name="media_control_ground_mode_2">Capa embaçada</string>
+    <string name="media_control_ground_mode_3">Gradiente radial</string>
+    <string name="media_control_ground_mode_4">Gradiente linear</string>
+    <string name="media_control_ground_mode_5">Blur do material</string>
+    <string name="media_control_album_mode_1">Ocultar identificador de fonte</string>
+    <string name="media_control_album_mode_2">Invisível</string>
+    <string name="media_control_button_mode_1">O botão personalizado está na extrema direita</string>
+    <string name="media_control_button_mode_2">O botão de reprodução está na extrema esquerda</string>
     <!--System Framework-->
     <string name="system_framework_phone_network_title">Configurações de rede</string>
     <string name="system_ui_hide_navigation_bar">Ocultar indicador de tela infinita</string>

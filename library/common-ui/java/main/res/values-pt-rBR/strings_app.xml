@@ -24,6 +24,11 @@
     <string name="new_permission_location_desc">Usado para fornecer serviços como latitude e longitude</string>
     <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciador de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
     <string name="new_cta_app_main_purpose">Modificar apps do sistema</string>
+    <string name="new_cta_app_all_purpose_welcome">Contrato do Usuário &amp; Política de Privacidade</string>
+    <string name="new_cta_app_all_purpose_protocol">Contrato do Usuário</string>
+    <string name="new_cta_app_all_purpose_privacy">Política de Privacidade</string>
+    <string name="new_cta_app_all_purpose_agree">Aceitar e continuar</string>
+    <string name="new_cta_app_all_purpose_reject">Rejeitar e sair</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Português (Brasil)</string>
     <string name="translator">Igor</string>
@@ -513,6 +518,7 @@
     <string name="mms_disable_overseas_risk_tip">Desativar alerta de fraude no exterior</string>
     <string name="mms_disable_overseas_risk_tip_desc">Desative o alerta \"Pode ser fraude no exterior\"</string>
     <string name="mms_im_old_device">Proibir identificação como um novo dispositivo</string>
+    <string name="mms_verification_code_auto_copy">Copiar código de verificação automaticamente para a área de transferência</string>
     <!--Phone Service-->
     <string name="phone">Serviços do smartphone</string>
     <string name="phone_smart_dual_sim">Desbloquear SIM duplo inteligente</string>
@@ -714,6 +720,7 @@
     <string name="system_ui_statusbar_music_cusiom_notific_title">Configurações de exibição</string>
     <string name="system_ui_statusbar_music_show_notific_title">Mostrar letras de notificação</string>
     <string name="system_ui_statusbar_music_hide_aod_title">Não mostrar notificações de foco na tela bloqueada</string>
+    <string name="system_ui_statusbar_music_show_aod_mode_title">Usar layout personalizado da tela de foco desativada</string>
     <string name="system_ui_statusbar_music_cusiom_statusbar_title">Configurações de exibição da barra de status</string>
     <string name="system_ui_statusbar_music_hide_clock_title">Ocultar relógio da barra de status</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">Oculte o relógio da barra de status ao mostrar as letras em foco</string>
@@ -757,7 +764,21 @@
     <string name="system_ui_control_center_media_control_media_button_custom">Personalizar tamanho do botão de ação</string>
     <string name="system_ui_control_center_media_control_media_button">Tamanho do botão de ação intrínseca</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Raio do blur da imagem de fundo</string>
+    <string name="system_ui_control_center_media_control_media_background_title">Capa e plano de fundo da mídia</string>
+    <string name="system_ui_control_center_media_control_background_mode">Estilo do fundo</string>
+    <string name="system_ui_control_center_media_control_color_anim">Animação colorida</string>
+    <string name="system_ui_control_center_media_control_color_anim_desc">Atualize a cor do texto com animação</string>
+    <string name="system_ui_control_center_media_control_inverse_color">Inversão automática de cores</string>
+    <string name="system_ui_control_center_media_control_media_album_mode">Capa da mídia</string>
     <string name="system_ui_control_center_media_control_media_button_title">Botão de mídia</string>
+    <string name="system_ui_control_center_media_control_media_button_layout_switch">Ativar modificação de layout</string>
+    <string name="system_ui_control_center_media_control_media_button_size_switch">Ativar modificação de fonte</string>
+    <string name="system_ui_control_center_media_control_media_button_actions_left_aligned">Botões de ação alinhados à esquerda</string>
+    <string name="system_ui_control_center_media_control_media_button_hide_seamless">Ocultar botão de troca de dispositivo</string>
+    <string name="system_ui_control_center_media_control_media_button_mode">Ordem dos botões de mídia</string>
+    <string name="system_ui_control_center_media_control_title_margin">Margem superior do título</string>
+    <string name="system_ui_control_center_media_control_title_size">Tamanho da fonte do título</string>
+    <string name="system_ui_control_center_media_control_artist_size">Tamanho da fonte do artista</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">Barra de busca de mídia</string>
     <string name="system_ui_control_center_redirect_notice">Redirecionar configurações de notificação</string>
     <string name="system_ui_control_center_redirect_notice_desc">Ao abrir o menu de configurações de notificação, ele navega para o canal de notificação do app de destino em vez das configurações de notificação do app.</string>
@@ -769,6 +790,8 @@
     <string name="system_ui_control_center_mute_visible_notice">Silenciar quando a tela estiver ligada</string>
     <string name="system_ui_control_center_unimportant_notification">Bloquear notificação sem importância automaticamente</string>
     <string name="system_ui_control_center_expand_notification">Expandir notificações</string>
+    <string name="system_ui_control_center_auto_clean_expand_notification">Ocultar automaticamente notificações expandidas</string>
+    <string name="system_ui_control_center_expand_notification_show_time">Duração da exibição</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Quando a tela está ligada, a notificação pop-up não reproduzirá o som de alerta.</string>
     <string name="system_ui_control_center_rounded_rect">Retângulo arredondado</string>
     <string name="system_ui_control_center_statusbar_blur">Forçar blur de fundo</string>
@@ -1084,6 +1107,7 @@
     <string name="home_folder_shade_level_title">Intensidade da cor</string>
     <string name="home_folder_cols_title">Número de colunas nas pastas</string>
     <string name="home_folder_cols_format">%d colunas</string>
+    <string name="home_folder_rows_format">%s linhas</string>
     <string name="home_folder_horizontal_padding_desc">Distância da pasta da margem lateral da tela</string>
     <string name="home_folder_vertical_spacing_desc">O espaçamento entre as linhas da pasta</string>
     <string name="home_folder_title_pos">Posição do título</string>
@@ -1321,6 +1345,7 @@
     <!--Screenshot-->
     <string name="screenshot">Captura de tela</string>
     <string name="screenshot_unlock_minimum_crop_limit">Remover limite mínimo de corte de imagem</string>
+    <string name="screenshot_unlock_copy_to_clipboard">Desbloquear cópia automática de capturas de tela para a área de transferência</string>
     <string name="screenshot_unlock_privacy_marking_title">Desbloquear marcação de privacidade</string>
     <string name="screenshot_unlock_privacy_marking_desc">Uma versão superior do app Motor Mi IA precisa ser pré-instalada para uso normal</string>
     <string name="screenshot_save_to_pictures_desc">Defina o local para salvar capturas de tela em /Pictures/Screenshots</string>
@@ -1350,7 +1375,7 @@
     <string name="security_center_simplify_home_desc">Remove o cartão de recomendação de funções</string>
     <string name="security_center_applock_pin_scramble">Bloqueio de apps com PIN embaralhado</string>
     <string name="security_center_power_saver">Remover restrições ao espelhar tela</string>
-    <string name="security_center_privacy_thumbnail_blur">Desativar pré-visualização em imagens desfocadas</string>
+    <string name="security_center_privacy_thumbnail_blur">Desativar prévia em imagens desfocadas</string>
     <string name="security_center_power_saver_desc">Desative a Economia de bateria ao espelhar a tela via Xiaomi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Altere aleatoriamente a sequência do PIN do Bloqueio de apps</string>
     <string name="security_center_beauty_light_auto">Desbloquear Luz de preenchimento frontal</string>
@@ -1458,6 +1483,8 @@
     <!--Barrage-->
     <string name="barrage">Barragem</string>
     <string name="barrage_any_barrage">Permitir que todos os apps usem notificações de barragem</string>
+    <string name="barrage_global_enable">Permitir uso global de notificações de barragem</string>
+    <string name="barrage_not_touchable">Notificação de barragem não tocável</string>
     <string name="barrage_custom_barrage_length">Duração da notificação de barragem personalizada</string>
     <!--Joyose-->
     <string name="joyose">Joyose</string>
@@ -1516,6 +1543,7 @@
     <string name="voicetrigger_accuracy_percent_description" formatted="false">Valores maiores são mais difíceis de detectar. O valor padrão é 70%, para a palavra-chave XATX é 0%. Após a configuração, você precisa gravar a frase de ativação novamente.</string>
     <!--Other-->
     <string name="various">Outros</string>
+    <string name="input_method">Métodos de entrada</string>
     <string name="app_version_not_supported">Versão não suportada</string>
     <string name="various_dialog_title">Caixa de diálogo</string>
     <string name="various_mipad_title">Mi Pad</string>

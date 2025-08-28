@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <!--Introduction to Xposed Modules-->
+    <string name="xposed_description">讓 HyperOS 再次偉大！</string>
+    <!--String reuse-->
+    <string name="floating_window">小窗</string>
+    <!--Multi-list Array-->
+    <string name="tiles_gms">Google Play 服務</string>
+    <string name="tiles_snow_leopard_mode">雪豹模式</string>
+    <string name="tiles_taplus">傳送門</string>
+    <string name="tiles_5g">5G 網路</string>
+    <string name="system_ui_statusbar_music_notification">焦點通知歌詞</string>
+    <string name="open_by_default">默認打開方式</string>
+    <string name="security_center_aosp_app_info_label">原生安卓應用程式信息</string>
+    <string name="security_center_aosp_app_info">添加 \"原生應用程式信息\" 入口</string>
+    <string name="security_center_aosp_app_manager_label">原生應用管理</string>
+    <!--System Framework-->
+    <!--System UI-->
+    <!--Settings-->
+    <!--Mi Share-->
+    <!--Smart cards-->
+    <!--Other-->
+</resources>

@@ -28,60 +28,62 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class AllowAllThemesNotificationBlur extends BaseHook {
+    private final MethodHook FORCE_THEME_HOOK = new MethodHook() {
+        XC_MethodHook.Unhook isDefaultLockScreenThemeHook;
+
+        @Override
+        protected void before(MethodHookParam param) throws Throwable {
+            XposedHelpers.setStaticBooleanField(findClass("com.miui.utils.MiuiThemeUtils"), "sDefaultSysUiTheme", true);
+            isDefaultLockScreenThemeHook = findAndHookMethodUseUnhook(
+                "com.miui.systemui.util.CommonUtil",
+                lpparam.classLoader,
+                "isDefaultLockScreenTheme",
+                new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        param.setResult(true);
+                    }
+                });
+        }
+
+        @Override
+        protected void after(MethodHookParam param) throws Throwable {
+            if (isDefaultLockScreenThemeHook != null) isDefaultLockScreenThemeHook.unhook();
+        }
+    };
+
+    private final MethodHook BLUR_HOOK = new MethodHook() {
+        XC_MethodHook.Unhook isDefaultLockScreenThemeHook;
+
+        @Override
+        protected void before(MethodHookParam param) throws Throwable {
+            XposedHelpers.setStaticBooleanField(findClass("com.miui.utils.MiuiThemeUtils"), "sDefaultSysUiTheme", true);
+            isDefaultLockScreenThemeHook = findAndHookMethodUseUnhook(
+                "com.miui.systemui.util.CommonUtil",
+                lpparam.classLoader,
+                "isDefaultLockScreenTheme",
+                new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        param.setResult(true);
+                    }
+                });
+        }
+
+        @Override
+        protected void after(MethodHookParam param) throws Throwable {
+            if (isDefaultLockScreenThemeHook != null) isDefaultLockScreenThemeHook.unhook();
+        }
+    };
+
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookMethod("com.android.systemui.shade.MiuiNotificationPanelViewController$MiuiConfigurationListener", "onMiBlurChanged", boolean.class,new MethodHook(){
-            XC_MethodHook.Unhook isDefaultLockScreenThemeHook;
-
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                XposedHelpers.setStaticBooleanField(findClass("com.miui.utils.MiuiThemeUtils"), "sDefaultSysUiTheme", true);
-                isDefaultLockScreenThemeHook = findAndHookMethodUseUnhook("com.miui.systemui.util.CommonUtil", lpparam.classLoader, "isDefaultLockScreenTheme", new MethodHook(){
-                    @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        param.setResult(true);
-                    }
-                });
-            }
-
-            @Override
-            protected void after(MethodHookParam param) throws Throwable {
-                if (isDefaultLockScreenThemeHook != null) isDefaultLockScreenThemeHook.unhook();
-                isDefaultLockScreenThemeHook = null;
-            }
-        });
-        findAndHookMethod("com.miui.systemui.util.MiBlurCompat","getBackgroundBlurOpened", Context.class, new MethodHook(){
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(true);
-            }
-        });
-
-        MethodHook blurHook = new MethodHook(){
-            XC_MethodHook.Unhook isDefaultLockScreenThemeHook;
-
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                XposedHelpers.setStaticBooleanField(findClass("com.miui.utils.MiuiThemeUtils"), "sDefaultSysUiTheme", true);
-                isDefaultLockScreenThemeHook = findAndHookMethodUseUnhook("com.miui.systemui.util.CommonUtil", lpparam.classLoader, "isDefaultLockScreenTheme", new MethodHook(){
-                    @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        param.setResult(true);
-                    }
-                });
-            }
-
-            @Override
-            protected void after(MethodHookParam param) throws Throwable {
-                if (isDefaultLockScreenThemeHook != null) isDefaultLockScreenThemeHook.unhook();
-                isDefaultLockScreenThemeHook = null;
-            }
-        };
+        findAndHookMethod("com.android.systemui.shade.MiuiNotificationPanelViewController$MiuiConfigurationListener", "onMiBlurChanged", boolean.class, FORCE_THEME_HOOK);
 
         if (isMoreHyperOSVersion(2f)) {
-            findAndHookMethod("com.miui.systemui.notification.MiuiBaseNotifUtil", "isBackgroundBlurOpened", Context.class, blurHook);
+            findAndHookMethod("com.miui.systemui.notification.MiuiBaseNotifUtil", "isBackgroundBlurOpened", Context.class, BLUR_HOOK);
         } else {
-            findAndHookMethod("com.android.systemui.statusbar.notification.NotificationUtil", "isBackgroundBlurOpened", Context.class, blurHook);
+            findAndHookMethod("com.android.systemui.statusbar.notification.NotificationUtil", "isBackgroundBlurOpened", Context.class, BLUR_HOOK);
         }
     }
 }

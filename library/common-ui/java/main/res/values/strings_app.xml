@@ -67,6 +67,8 @@
     <string name="settings_app_tr_tr" translatable="false">Türkçe</string>
     <string name="settings_app_vi_vn" translatable="false">Tiếng Việt</string>
     <string name="settings_app_it_it" translatable="false">Italiano</string>
+    <string name="settings_app_de_de" translatable="false">Deutsch</string>
+    <string name="settings_app_uk_ua" translatable="false">українська мова</string>
     <string name="settings_app_zh_me" translatable="false">梗体中文</string>
     <!--Introduction to Xposed Modules-->
     <string name="description_hyperos" translatable="false">Make HyperOS Great Again!</string>

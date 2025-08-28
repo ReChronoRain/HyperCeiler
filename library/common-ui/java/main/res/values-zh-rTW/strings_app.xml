@@ -170,6 +170,7 @@
     <string name="miuix_alphabet_indexer_name">索引條</string>
     <string name="miuix_appcompat_action_mode_cancel">取消</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">清除</string>
+    <string name="miuix_preference_text_hint">範圍：%1$s ~ %2$s，預設值：%3$s</string>
     <string name="miuix_appcompat_color_erro_entry">無效值。請檢查並重新輸入。</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">透明度</string>
     <string name="miuix_appcompat_color_picker_custom_color">自訂顏色</string>
@@ -187,7 +188,6 @@
     <string name="miuix_navigator_content_switch_description">顯示側邊欄</string>
     <string name="miuix_navigator_multiple_choice">選擇</string>
     <string name="miuix_navigator_navigator_switch_description">隱藏側邊欄</string>
-    <string name="miuix_preference_text_hint">範圍：%1$s ~ %2$s，預設值：%3$s</string>
     <string name="miuix_preference_textentry_erro_entry">無效值，請檢查並重新輸入。</string>
     <string name="miuix_sbl_tracking_progress_labe_pull_to_refresh">下拉重新整理</string>
     <string name="miuix_sbl_tracking_progress_labe_refreshed">重新整理成功</string>

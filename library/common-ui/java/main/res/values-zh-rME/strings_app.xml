@@ -588,7 +588,6 @@
     <!--Gallery Editor-->
     <!--Wallpaper-->
     <string name="miwallpaper_unlock_super_wallpaper">解锁高耗电+烧屏壁纸</string>
-    <!--Notes-->
     <!--Package installer-->
     <!--NFC-->
     <string name="nfc">近一点，再近一点</string>
@@ -635,7 +634,6 @@
     <!--Sogou input method-->
     <!--Sim Activation Service-->
     <!--Scanner-->
-    <!--MI AI-->
     <!--Voice Trigger-->
     <!--Other-->
     <string name="various_nobrightness">不自由，毋宁死</string>
