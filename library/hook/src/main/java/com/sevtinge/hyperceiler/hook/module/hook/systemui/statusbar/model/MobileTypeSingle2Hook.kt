@@ -234,6 +234,15 @@ object MobileTypeSingle2Hook : BaseHook() {
                             "mobileTypeSingleVisible",
                             newReadonlyStateFlow(false)
                         )
+
+                        MiuiStub.javaAdapter.alwaysCollectFlow(
+                            viewModel.getObjectFieldAs("wifiAvailable"),
+                            Consumer<Boolean> {
+                                setStateFlowValue(
+                                    viewModel.getObjectField("mobileTypeSingleVisible"), !it
+                                )
+                            }
+                        )
                     } else if (mobileNetworkType != 4) {
                         viewModel.setObjectField(
                             "mobileTypeSingleVisible",
