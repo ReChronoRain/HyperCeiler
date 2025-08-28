@@ -275,6 +275,13 @@
                 android:data="https://github.com/tehcneko" />
         </Preference>
         <Preference
+            android:summary="GitHub@mynna404"
+            android:title="TruE">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/mynna404" />
+        </Preference>
+        <Preference
             android:summary="GitHub@v5u871"
             android:title="v5u87">
             <intent
