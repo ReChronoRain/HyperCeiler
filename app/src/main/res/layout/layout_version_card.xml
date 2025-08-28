@@ -32,6 +32,7 @@
             android:id="@+id/logo_view_linear_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/logo_margin_top"
             android:orientation="vertical">
 
             <ImageView
@@ -58,6 +59,7 @@
             android:id="@+id/logo_view_linear_layout_shade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/logo_margin_top"
             android:orientation="vertical"
             android:visibility="invisible">
 
