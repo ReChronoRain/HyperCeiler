@@ -100,7 +100,9 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if (isInSafeMode(lpparam.packageName)) return;
+        String packageName = lpparam.packageName;
+
+        if (isInSafeMode(packageName)) return;
         if (mPrefsMap.getBoolean("allow_hook")) {
 
             // load EzXHelper and set log tag
@@ -108,9 +110,27 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
             // load CorePatch
             new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
+
+            // load Module active hook
+            if (ProjectApi.mAppModulePkg.equals(packageName)) {
+                moduleActiveHook(lpparam);
+                return;
+            }
+
+            // load Module hook apps
+            if (Objects.equals(packageName, "android"))
+                logI(packageName, "androidVersion = " + getAndroidVersion() + ", hyperosVersion = " + getHyperOSVersion());
+            else
+                logI(packageName, "versionName = " + getPackageVersionName(lpparam) + ", versionCode = " + getPackageVersionCode(lpparam));
+
+            // load ResourcesTool
+            if (mPrefsMap.getBoolean("module_settings_reshook_new")) {
+                ResInjectTool.injectModuleRes();
+            }
+
+            invokeInit(lpparam);
+            androidCrashEventHook(lpparam);
         }
-        // load Module hook apps
-        init(lpparam);
     }
 
     private void setXSharedPrefs() {
@@ -135,29 +155,6 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
                 logE("setXSharedPrefs", t);
             }
         }
-    }
-
-    private void init(XC_LoadPackage.LoadPackageParam lpparam) {
-        String packageName = lpparam.packageName;
-        if (ProjectApi.mAppModulePkg.equals(packageName)) {
-            moduleActiveHook(lpparam);
-            return;
-        }
-
-        if (!mPrefsMap.getBoolean("allow_hook")) return;
-
-        if (Objects.equals(packageName, "android"))
-            logI(packageName, "androidVersion = " + getAndroidVersion() + ", hyperosVersion = " + getHyperOSVersion());
-        else
-            logI(packageName, "versionName = " + getPackageVersionName(lpparam) + ", versionCode = " + getPackageVersionCode(lpparam));
-
-        // load ResourcesTool
-        if (mPrefsMap.getBoolean("module_settings_reshook_new")) {
-            ResInjectTool.injectModuleRes();
-        }
-
-        invokeInit(lpparam);
-        androidCrashEventHook(lpparam);
     }
 
     private void invokeInit(XC_LoadPackage.LoadPackageParam lpparam) {

@@ -147,7 +147,7 @@ jobs:
             echo "本次更新的贡献者们如下："
             echo "$CONTRIBUTORS"
             echo
-            echo "完整更新日志见：${{ env.PREV_TAG }}..${{ env.CUR_TAG }}"
+            echo "完整更新日志见：${{ env.PREV_TAG }}...${{ github.sha }}"
             echo
             echo "注意事项："
             echo "- 出现任何问题请将日志等级设置为 Debug 后携带日志及必要信息提交至 GitHub issue。"
