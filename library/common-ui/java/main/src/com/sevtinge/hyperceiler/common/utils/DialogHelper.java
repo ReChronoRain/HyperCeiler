@@ -20,22 +20,19 @@ package com.sevtinge.hyperceiler.common.utils;
 
 import static com.sevtinge.hyperceiler.common.utils.CtaUtils.setCtaValue;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.LOGGER_CHECKER_ERR_CODE;
+import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -282,8 +279,12 @@ public class DialogHelper {
         if (isRestartSystem) {
             result = ShellInit.getShell().run("reboot").sync().isResult();
         } else {
-            result = AppsTool.killApps(packageName);
-            pid = result;
+            if (checkRootPermission() != 0) {
+                result = false;
+            } else {
+                result = AppsTool.killApps(packageName);
+                pid = result;
+            }
         }
 
         if (!result) {
@@ -291,7 +292,7 @@ public class DialogHelper {
         }
     }
 
-    private static void showAlertDialog(Context context, boolean isRestartSystem, boolean pid) {
+    public static void showAlertDialog(Context context, boolean isRestartSystem, boolean pid) {
         new AlertDialog.Builder(context)
             .setCancelable(false)
             .setTitle(R.string.tip)

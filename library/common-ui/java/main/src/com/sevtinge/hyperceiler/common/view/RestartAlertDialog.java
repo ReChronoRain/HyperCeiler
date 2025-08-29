@@ -18,6 +18,9 @@
  */
 package com.sevtinge.hyperceiler.common.view;
 
+import static com.sevtinge.hyperceiler.common.utils.DialogHelper.showAlertDialog;
+import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -52,6 +55,10 @@ public class RestartAlertDialog extends AlertDialog {
         view.setOnCheckedListener(sparseBooleanArray -> {
             dismiss();
             int size = sparseBooleanArray.size();
+            if (checkRootPermission() != 0) {
+                showAlertDialog(context, false, true);
+                return;
+            }
             for (int i = 0; i < size; i++) {
                 if (sparseBooleanArray.get(i)) {
                     // ShellUtils.execCommand("pkill -l 9 -f " + mAppPackageNameList.get(i), true, false);
