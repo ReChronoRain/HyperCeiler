@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.home;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -58,7 +60,7 @@ public class SeekPoints extends BaseHook {
         );
 
         findAndHookMethod("com.miui.home.launcher.ScreenView",
-            "updateSeekPoints", int.class,
+            "updateSeekPoints", isMoreHyperOSVersion(3f) ? float.class : int.class,
             new MethodHook() {
                 @Override
                 protected void before(final MethodHookParam param) {

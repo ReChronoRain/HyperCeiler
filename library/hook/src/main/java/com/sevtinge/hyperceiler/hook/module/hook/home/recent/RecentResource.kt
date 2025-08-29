@@ -22,7 +22,6 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 import com.sevtinge.hyperceiler.hook.utils.ResourcesHookData
 import com.sevtinge.hyperceiler.hook.utils.ResourcesHookMap
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
@@ -34,13 +33,12 @@ import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
 object RecentResource : BaseHook() {
     private val hookMap = ResourcesHookMap<String, ResourcesHookData>()
     private fun hook(param: XC_MethodHook.MethodHookParam) {
-        try {
+        runCatching {
             val resName = appContext.resources.getResourceEntryName(param.args[0] as Int)
             val resType = appContext.resources.getResourceTypeName(param.args[0] as Int)
             if (hookMap.isKeyExist(resName)) if (hookMap[resName]?.type == resType) {
                 param.result = hookMap[resName]?.afterValue
             }
-        } catch (ignore: Exception) {
         }
     }
 
@@ -49,12 +47,17 @@ object RecentResource : BaseHook() {
     }
 
     override fun init() {
+        hookAllMethods("com.miui.home.recents.util.WindowCornerRadiusUtil", "setWindowRadius",
+            object : MethodHook() {
+                override fun after(param: MethodHookParam) {
+                    runCatching {
+                        val f = param.method.declaringClass.getDeclaredField("sTaskViewCornerRadius")
+                        f.isAccessible = true
+                        f.setInt(null, sRoundedCorner)
+                    }
+                }
+            })
 
-        findAndHookMethod("com.miui.home.recents.util.WindowCornerRadiusUtil", "getTaskViewCornerRadius", object : HookTool.MethodHook(){
-            override fun before(param: MethodHookParam?) {
-                param?.result = sRoundedCorner
-            }
-        })
         Application::class.java.hookBeforeMethod("attach", Context::class.java) { it ->
             EzXposed.initHandleLoadPackage(lpparam)
             EzXposed.initAppContext(it.args[0] as Context)
