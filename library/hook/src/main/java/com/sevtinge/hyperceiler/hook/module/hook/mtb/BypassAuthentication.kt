@@ -25,9 +25,9 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfte
 
 object BypassAuthentication : BaseHook() {
     override fun init() {
-        // 在 HyperOS2 上
+        // 在 HyperOS3 上
         runCatching {
-            loadClass("com.xiaomi.mtb.MtbApp").methodFinder()
+            loadClass("com.xiaomi.mtb.MtbAppBase").methodFinder()
                 .filterByName("getMiServerPermissionClass")
                 .single().createAfterHook {
                     it.result = 0L
