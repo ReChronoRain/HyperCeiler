@@ -1382,9 +1382,9 @@
     <string name="security_center_simplify_home">セキュリティのホーム画面を簡略化する</string>
     <string name="security_center_simplify_home_desc">機能推奨カードを削除する</string>
     <string name="security_center_applock_pin_scramble">アプリロックの PIN の順序をランダムにする</string>
-    <string name="security_center_power_saver">ミラーリング時の制限を削除</string>
     <string name="security_center_privacy_thumbnail_blur">プレビュー画像のぼかしを無効化</string>
     <string name="security_center_privacy_thumbnail_blur_desc">この機能を有効にすると、背景をぼかしたプレビュー画像の設定がロックされます。この機能を有効にする前に、プレビューを無効にするアプリを設定することをお勧めします。</string>
+    <string name="security_center_power_saver">ミラーリング時の制限を削除</string>
     <string name="security_center_power_saver_desc">Xiaomi Smart Hub 経由で画面をミラーリングする際にバッテリーセーバーモードを無効にする</string>
     <string name="security_center_applock_pin_scramble_desc">アプリロックの PIN キーパッドの配列をランダムに変更する</string>
     <string name="security_center_beauty_light_auto">フィルライトの明るさの自動調整をアンロック</string>

@@ -1388,9 +1388,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_simplify_home">Đơn giản hóa trang chủ của Trung tâm bảo mật</string>
     <string name="security_center_simplify_home_desc">Xóa thẻ đề xuất tính năng</string>
     <string name="security_center_applock_pin_scramble">Mã PIN khoá ứng dụng ngẫu nhiên</string>
-    <string name="security_center_power_saver">Dịch vụ bảo mật không tiết kiệm pin</string>
     <string name="security_center_privacy_thumbnail_blur">Tắt hình ảnh xem trước bị mờ</string>
     <string name="security_center_privacy_thumbnail_blur_desc">Sau khi bật, cài đặt hình ảnh xem trước làm mờ nền sẽ bị khóa. Bạn nên cấu hình ứng dụng nào sẽ bị tắt tính năng xem trước trước khi bật tính năng này.</string>
+    <string name="security_center_power_saver">Dịch vụ bảo mật không tiết kiệm pin</string>
     <string name="security_center_power_saver_desc">Tắt chế độ tiết kiệm pin khi phản chiếu màn hình qua Mi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Thay đổi ngẫu nhiên thứ tự bàn phím mã PIN khóa ứng dụng</string>
     <string name="security_center_beauty_light_auto">Mở khóa Độ sáng Flash tự động</string>
