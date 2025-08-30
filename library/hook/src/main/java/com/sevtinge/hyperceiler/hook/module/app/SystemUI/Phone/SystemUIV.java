@@ -33,7 +33,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.FuckStatusbarGestures;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.NotificationFix;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.StickyFloatingWindowsForSystemUI;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UiLockApp;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnimportantNotification;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnlockClipboard;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.ZenModeFix;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub;
@@ -63,6 +62,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SnowLeop
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SunlightMode;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SunlightModeHigh;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.TaplusTile;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.UnimportantNotification;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.CustomBackground;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaViewLayout;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaViewSize;
@@ -109,7 +109,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.Hid
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.HideVoWiFiIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.IconsFromSystemManager;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.StatusBarIcon;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.SwapWiFiAndMobileNetwork;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.FocusNotifLyric;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.HideFakeStatusBar;
@@ -154,7 +154,7 @@ public class SystemUIV extends BaseModule {
         initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_wifi_network_indicator_new"));
         initHook(HideVoWiFiIcon.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi") || mPrefsMap.getBoolean("system_ui_status_bar_icon_volte"));
         initHook(new StickyFloatingWindowsForSystemUI(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
-        initHook(new StatusBarIconPositionAdjust(), mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network"));
+        initHook(SwapWiFiAndMobileNetwork.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network"));
 
         // 移动网络图标
         boolean isEnabledDualRowSignal = mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable");

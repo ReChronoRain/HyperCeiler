@@ -19,6 +19,7 @@
 
 package com.sevtinge.hyperceiler.hook.module.hook.mms;
 
+import static com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.getPackageVersionCode;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
@@ -42,7 +43,7 @@ public class DisableRiskTip extends BaseHook {
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .usingStrings("fillSmartContactByB2c: old smart contact is not null")
+                            .usingStrings("fillSmartContactByB2c: old smart contact is not null")
                         )).singleOrNull();
                 return methodData;
             }
@@ -52,9 +53,9 @@ public class DisableRiskTip extends BaseHook {
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .usingStrings("11", "460", "12", "")
-                                .returnType(void.class)
-                                .paramTypes("com.miui.smsextra.sdk.SmartContact", "")
+                            .usingStrings("fillYellowPageContact: ", "ContactFetcher")
+                            .returnType(void.class)
+                            .paramCount(2)
                         )).singleOrNull();
                 return methodData;
             }
@@ -65,6 +66,27 @@ public class DisableRiskTip extends BaseHook {
                 param.setResult(false);
             }
         });
+        if (mPrefsMap.getBoolean("mms_disable_fraud_risk_tip")) findAndHookMethod("com.miui.smsextra.sdk.SmartContact", "isDefraudNumber", new MethodHook(){
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                param.setResult(false);
+            }
+        });
+        if (getPackageVersionCode(lpparam) >= 170000000) {
+            findAndHookMethod("com.miui.smsextra.internal.sdk.xiaomi.YellowPagePhone", "isRiskyNumber", new MethodHook(){
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    param.setResult(false);
+                }
+            });
+            if (mPrefsMap.getBoolean("mms_disable_fraud_risk_tip"))
+                findAndHookMethod("com.miui.smsextra.internal.sdk.xiaomi.YellowPagePhone", "isDefraudNumber", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        param.setResult(false);
+                    }
+                });
+        }
         hookMethod(method1, new MethodHook(){
             @Override
             protected void after(MethodHookParam param) throws Throwable {

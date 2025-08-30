@@ -20,9 +20,9 @@ package com.sevtinge.hyperceiler.main.page.settings.helper;
 
 import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mScope;
 
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
@@ -37,11 +37,9 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.model.data.AppInfoCache;
 import com.sevtinge.hyperceiler.utils.XmlResourceParserHelper;
 
-import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.function.BiConsumer;
 
 import fan.preference.TextButtonPreference;
 
@@ -100,19 +98,23 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
         if (!mScope.contains(summary)) {
             preferenceHeader.setVisible(false);
         } else {
-            Drawable icon = getPackageIcon(summary);
-            String name = getPackageName(summary);
-            if (icon != null) preferenceHeader.setIcon(icon);
-            if (!"android".equals(summary) && name != null) preferenceHeader.setTitle(name);
+            setIconAndTitle(preferenceHeader, summary);
         }
     }
 
-    private Drawable getPackageIcon(String packageName) {
-        return AppInfoCache.getInstance(requireContext()).getAppInfo(packageName).loadIcon(requireContext().getPackageManager());
-    }
-
-    private String getPackageName(String packageName) {
-        return String.valueOf(AppInfoCache.getInstance(requireContext()).getAppInfo(packageName).loadLabel(requireContext().getPackageManager()));
+    private void setIconAndTitle(SwitchPreference header, String packageName) {
+        if (header == null || packageName == null) return;
+        // 根据包名获取
+        PackageManager pm = requireContext().getPackageManager();
+        ApplicationInfo appInfo = AppInfoCache.getInstance(getContext()).getAppInfo(packageName);
+        if (appInfo != null) {
+            Drawable icon = appInfo.loadIcon(pm);
+            CharSequence name = appInfo.loadLabel(pm);
+            header.setIcon(icon);
+            if (!"android".equals(packageName)) {
+                header.setTitle(name);
+            }
+        }
     }
 
     @Override

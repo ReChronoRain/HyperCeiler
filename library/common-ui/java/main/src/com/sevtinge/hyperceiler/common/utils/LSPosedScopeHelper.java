@@ -112,6 +112,7 @@ public class LSPosedScopeHelper {
 
             cursor = db.query(tableName, columns, selection, selectionArgs, null, null, null);
 
+            List<String> totalScope = new ArrayList<>();
             if (cursor.moveToFirst()) {
                 List<String> scopeMid;
                 List<String> scopeUid;
@@ -122,11 +123,17 @@ public class LSPosedScopeHelper {
                     scopeMid = queryList(db, "app_pkg_name", "scope", "mid = ?", new String[]{mid}, true);
                     scopeUid = queryList(db, "app_pkg_name", "scope", "user_id = ?", new String[]{String.valueOf(userId)}, true);
 
-                    mScope = new ArrayList<>(scopeMid);
-                    mScope.retainAll(scopeUid);
+                    List<String> intersection = new ArrayList<>(scopeMid);
+                    intersection.retainAll(scopeUid);
 
+                    for (String pkg : intersection) {
+                        if (!totalScope.contains(pkg)) {
+                            totalScope.add(pkg);
+                        }
+                    }
                 } while (cursor.moveToNext());
             }
+            mScope = totalScope;
         } catch (Exception e) {
             isScopeGetFailed = true;
             AndroidLogUtils.logW("PreferenceHeader", "Database error: ", e);

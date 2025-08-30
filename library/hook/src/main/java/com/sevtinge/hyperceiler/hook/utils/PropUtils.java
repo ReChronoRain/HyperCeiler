@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hook.utils;
 
+import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
@@ -85,6 +87,19 @@ public class PropUtils {
                     "get", new Class[]{String.class}, name);
         } catch (Throwable e) {
             Log.e(TAG, "PropUtils getProp String no def", e);
+            return "";
+        }
+    }
+
+    public static String getPropSu(String name) {
+        try {
+            if (checkRootPermission() == 0) {
+                return ShellUtils.rootExecCmd("getprop " + name);
+            } else {
+                return "";
+            }
+        } catch (Throwable e) {
+            Log.e(TAG, "PropUtils getPropSu String no def", e);
             return "";
         }
     }

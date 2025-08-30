@@ -46,6 +46,9 @@ import java.lang.reflect.Method;
 import de.robv.android.xposed.XposedHelpers;
 
 public class BlackLeica extends BaseHook {
+    Method method1 = null;
+    Class<?> clazz1 = null;
+
     @Override
     public void init() throws NoSuchMethodException {
         Class<?> clazz2 = DexKit.findMember("TextColorMakerClazz", new IDexKit() {
@@ -58,28 +61,62 @@ public class BlackLeica extends BaseHook {
                 return clazzData;
             }
         });
-        Method method1 = DexKit.findMember("WaterMakerLeica", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
+
+
+        try {
+            method1 = DexKit.findMember("WaterMakerLeicaNew", new IDexKit() {
+                @Override
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .paramTypes(int.class, int.class, float.class, String.class, String.class, String.class, boolean.class, String.class, boolean.class, Drawable.class)
+                            .usingStrings("deviceNameLengthType")
+                            .returnType(clazz2)
                         )).singleOrNull();
-                return methodData;
-            }
-        });
-        Class<?> clazz1 = DexKit.findMember("DescStringColorMakerClazz", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                ClassData clazzData = bridge.findClass(FindClass.create()
+                    return methodData;
+                }
+            });
+        } catch (Throwable ignore) {
+            method1 = DexKit.findMember("WaterMakerLeica", new IDexKit() {
+                @Override
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                            .paramTypes(int.class, int.class, float.class, String.class, String.class, String.class, boolean.class, String.class, boolean.class, Drawable.class)
+                        )).singleOrNull();
+                    return methodData;
+                }
+            });
+        }
+
+        try {
+            clazz1 = DexKit.findMember("DescStringColorMakerClazzNew", new IDexKit() {
+                @Override
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    ClassData clazzData = bridge.findClass(FindClass.create()
                         .matcher(ClassMatcher.create()
-                                .addMethod(MethodMatcher.create()
-                                        .paramTypes(int.class, int.class, float.class, String.class, String.class, String.class, boolean.class, String.class, boolean.class, Drawable.class)
-                                )
+                            .addMethod(MethodMatcher.create()
+                                .usingStrings("deviceNameLengthType")
+                                .returnType(clazz2)
+                            )
                         )).singleOrNull();
-                return clazzData;
-            }
-        });
+                    return clazzData;
+                }
+            });
+        } catch (Throwable ignore) {
+            clazz1 = DexKit.findMember("DescStringColorMakerClazz", new IDexKit() {
+                @Override
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    ClassData clazzData = bridge.findClass(FindClass.create()
+                        .matcher(ClassMatcher.create()
+                            .addMethod(MethodMatcher.create()
+                                .paramTypes(int.class, int.class, float.class, String.class, String.class, String.class, boolean.class, String.class, boolean.class, Drawable.class)
+                            )
+                        )).singleOrNull();
+                    return clazzData;
+                }
+            });
+        }
+
         // Class<?> clazz1 = method1.getClass();
         Method method2 = DexKit.findMember("TextPainter", new IDexKit() {
             @Override
@@ -111,6 +148,7 @@ public class BlackLeica extends BaseHook {
                         .matcher(FieldMatcher.create()
                                 .declaredClass(clazz1)
                                 .type(int.class)
+                                .addReadMethod(MethodMatcher.create().name(method1.getName()))
                         )).singleOrNull();
                 return fieldData;
             }

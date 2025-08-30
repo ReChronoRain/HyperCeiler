@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.main.page.main;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 
 import androidx.preference.PreferenceCategory;
@@ -35,13 +34,9 @@ import com.sevtinge.hyperceiler.main.page.settings.helper.HomepageEntrance;
 import com.sevtinge.hyperceiler.model.data.AppInfoCache;
 import com.sevtinge.hyperceiler.utils.XmlResourceParserHelper;
 
-import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BiConsumer;
 
 import fan.preference.TextButtonPreference;
 
@@ -98,11 +93,13 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
         PreferenceHeader header = findPreference(key);
         if (header != null) {
             setIconAndTitle(header, summary);
-            header.setVisible(LSPosedScopeHelper.isInSelectedScope(
-                requireContext(),
-                (String) header.getTitle(),
-                (String) header.getSummary()))
-            ;
+            header.setVisible(
+                LSPosedScopeHelper.isInSelectedScope(
+                    requireContext(),
+                    (String) header.getTitle(),
+                    (String) header.getSummary()
+                )
+            );
         }
     }
 

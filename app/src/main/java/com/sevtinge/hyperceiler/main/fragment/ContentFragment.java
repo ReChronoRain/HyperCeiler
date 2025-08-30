@@ -64,6 +64,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
 
     MenuItem mQuickRestartMenuItem;
 
+    private String mAppName;
     private String mPage1Name;
     private String mPage2Name;
     private String mPage3Name;
@@ -75,6 +76,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
         if (savedInstanceState != null) {
             mCurrTab = savedInstanceState.getString(CURRENT_TAB);
         }
+        mAppName = getString(com.sevtinge.hyperceiler.ui.R.string.app_name);
         mPage1Name = getString(com.sevtinge.hyperceiler.ui.R.string.navigation_home_title);
         mPage2Name = getString(com.sevtinge.hyperceiler.ui.R.string.navigation_settings_title);
         mPage3Name = getString(com.sevtinge.hyperceiler.ui.R.string.navigation_about_title);
@@ -252,7 +254,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
 
     private void setActionBarTitle(int position) {
         switch (position) {
-            case 0 -> mActionBar.setTitle(mPage1Name);
+            case 0 -> mActionBar.setTitle(mAppName);
             case 1 -> mActionBar.setTitle(mPage2Name);
             case 2 -> mActionBar.setTitle(mPage3Name);
         }

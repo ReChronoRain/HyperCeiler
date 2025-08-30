@@ -103,7 +103,9 @@ fun isMoreHyperOSVersion(code: Float): Boolean = hyperOSSDK >= code
  * @return 一个 Boolean 值
  */
 fun isMoreSmallVersion(code: Int, osVersion: Float): Boolean {
-    return if (isMoreHyperOSVersion(osVersion)) {
+    return if (hyperOSSDK > osVersion) {
+        true
+    } else if (isMoreHyperOSVersion(osVersion)) {
         smallVersion >= code
     } else {
         false

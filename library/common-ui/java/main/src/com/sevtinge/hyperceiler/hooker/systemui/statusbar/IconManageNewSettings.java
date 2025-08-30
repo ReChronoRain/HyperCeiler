@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hooker.systemui.statusbar;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isSupportTelephony;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isSupportWifi;
@@ -51,6 +52,7 @@ public class IconManageNewSettings extends DashboardFragment {
     SwitchPreference mHideRoaming;
     SwitchPreference mHideVoWiFi;
     SwitchPreference mHideVoLTE;
+    SwitchPreference mSwitchSwap;
     Preference mMobileType;
     Preference mIconMobileNetwork;
 
@@ -83,10 +85,15 @@ public class IconManageNewSettings extends DashboardFragment {
         mHideVoLTE = findPreference("prefs_key_system_ui_status_bar_icon_volte");
         mMobileType = findPreference("prefs_key_system_ui_status_bar_mobile_type");
         mIconMobileNetwork = findPreference("prefs_key_system_ui_statusbar_iconmanage_mobile_network");
+        mSwitchSwap = findPreference("prefs_key_system_ui_status_bar_swap_wifi_and_mobile_network");
 
         mAlarmClockIconN.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
 
-        if (isMoreSmallVersion(200, 2f)) {
+        if (isMoreHyperOSVersion(3f)) {
+            setHide(mSmallHD, false);
+            setHide(mBigHD, false);
+            setHide(mNewHD, false);
+        } else if (isMoreSmallVersion(200, 2f)) {
             setFuncHint(mSmallHD, 1);
             setFuncHint(mBigHD, 1);
             setFuncHint(mNewHD, 1);
@@ -112,6 +119,7 @@ public class IconManageNewSettings extends DashboardFragment {
                 setHide(mHideVoLTE, false);
                 setHide(mMobileType, false);
                 setHide(mIconMobileNetwork, false);
+                setHide(mSwitchSwap, false);
             }
 
         }

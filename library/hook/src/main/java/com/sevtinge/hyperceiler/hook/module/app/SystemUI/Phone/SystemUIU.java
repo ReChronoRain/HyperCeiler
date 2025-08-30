@@ -31,7 +31,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.DisableTransparent;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.NotificationFix;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.StickyFloatingWindowsForSystemUI;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UiLockApp;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnimportantNotification;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnlockClipboard;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.ZenModeFix;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.MediaControlBgFactory;
@@ -61,6 +60,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.Sunlight
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SunlightModeHigh;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SwitchCCAndNotification;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.TaplusTile;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.UnimportantNotification;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.CustomBackground;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaViewLayout;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaViewSize;
@@ -110,7 +110,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.Hid
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.HideVoWiFiIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.IconsFromSystemManager;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.StatusBarIcon;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.SwapWiFiAndMobileNetwork;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.WifiStandard;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.FocusNotifLyric;
@@ -153,6 +153,7 @@ public class SystemUIU extends BaseModule {
         initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_wifi_network_indicator_new"));
         initHook(HideVoWiFiIcon.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi") || mPrefsMap.getBoolean("system_ui_status_bar_icon_volte"));
         initHook(new StickyFloatingWindowsForSystemUI(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
+        initHook(SwapWiFiAndMobileNetwork.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network"));
 
         // 移动网络图标
         boolean isEnableMobilePublic = mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
@@ -201,22 +202,6 @@ public class SystemUIU extends BaseModule {
 
         // 灵动舞台
         initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_hide_smart_strong_toast"));
-
-        // 居右显示
-        boolean isWiFiAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");
-        boolean isMobileNetworkAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_mobile_network_at_left");
-
-        boolean isNetworkSpeedAtRight = mPrefsMap.getBoolean("system_ui_status_bar_network_speed_at_right");
-        boolean isAlarmClockAtRight = mPrefsMap.getBoolean("system_ui_status_bar_alarm_clock_at_right");
-        boolean isNFCAtRight = mPrefsMap.getBoolean("system_ui_status_bar_nfc_at_right");
-        boolean isVolumeAtRight = mPrefsMap.getBoolean("system_ui_status_bar_volume_at_right");
-        boolean isZenAtRight = mPrefsMap.getBoolean("system_ui_status_bar_zen_at_right");
-
-        boolean isSwapWiFiAndMobileNetwork = mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network");
-
-        boolean isStatusBarIconAtRightEnable = isWiFiAtLeft || isMobileNetworkAtLeft || isSwapWiFiAndMobileNetwork || isNetworkSpeedAtRight || isAlarmClockAtRight || isNFCAtRight || isVolumeAtRight || isZenAtRight;
-
-        initHook(new StatusBarIconPositionAdjust(), isStatusBarIconAtRightEnable);
 
         // 导航栏
         initHook(new HandleLineCustom(), mPrefsMap.getBoolean("system_ui_navigation_handle_custom"));

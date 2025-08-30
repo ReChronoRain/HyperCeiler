@@ -23,6 +23,7 @@ import android.content.res.Resources;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
@@ -33,10 +34,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.provision.text.style.ClickSpan;
 import com.sevtinge.hyperceiler.provision.text.style.TermsTitleSpan;
 import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
+import com.sevtinge.hyperceiler.ui.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,10 +47,10 @@ public class TermsAndStatementAdapter extends BaseAdapter {
     public static int TYPE_SERVICE_ITEM = 1;
     public static int TYPE_TERMS_ITEM = 2;
 
-    private Context mContext;
-    private LayoutInflater mInflater;
-    private HashMap<String, Integer> mPrivacyTypeMap;
-    private ArrayList<ServiceItem> mServiceItems;
+    private final Context mContext;
+    private final LayoutInflater mInflater;
+    private final HashMap<String, Integer> mPrivacyTypeMap;
+    private final ArrayList<ServiceItem> mServiceItems;
 
     public TermsAndStatementAdapter(Context context) {
         mContext = context;
@@ -162,7 +163,7 @@ public class TermsAndStatementAdapter extends BaseAdapter {
             if (serviceItem.policyExist) {
                 holder.policy.setVisibility(View.VISIBLE);
                 if (serviceItem.name.equals(mContext.getString(R.string.provision_service_name_download))) {
-                    holder.policy.setText(Html.fromHtml(mContext.getString(R.string.provision_service_policy_download)));
+                    holder.policy.setText(Html.fromHtml(mContext.getString(R.string.provision_service_policy_download), Html.FROM_HTML_MODE_LEGACY));
                     holder.policy.setMovementMethod(LinkMovementMethod.getInstance());
                     CharSequence text = holder.policy.getText();
                     if (text instanceof Spannable) {
@@ -172,12 +173,17 @@ public class TermsAndStatementAdapter extends BaseAdapter {
                         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
                         spannableStringBuilder.clearSpans();
                         for (URLSpan uRLSpan : uRLSpanArr) {
-                            spannableStringBuilder.setSpan(new ClickSpan(mContext, mPrivacyTypeMap), spannable.getSpanStart(uRLSpan), spannable.getSpanEnd(uRLSpan), 33);
+                            int start = spannable.getSpanStart(uRLSpan);
+                            int end = spannable.getSpanEnd(uRLSpan);
+                            if (start >= 0 && end <= length && start < end) {
+                                spannableStringBuilder.setSpan(new ClickSpan(mContext, mPrivacyTypeMap), spannable.getSpanStart(uRLSpan), spannable.getSpanEnd(uRLSpan), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            }
+
                         }
                         holder.policy.setText(spannableStringBuilder);
                     }
                 } else {
-                    holder.policy.setText(Html.fromHtml(serviceItem.privacyPolicy, 63));
+                    holder.policy.setText(Html.fromHtml(serviceItem.privacyPolicy, Html.FROM_HTML_MODE_COMPACT));
                     holder.policy.setMovementMethod(LinkMovementMethod.getInstance());
                     holder.policy.setOnClickListener(v -> {
                         OobeUtils.startActivity(mContext, OobeUtils.getLicenseIntent("https://limestart.cn/"));
@@ -206,7 +212,7 @@ public class TermsAndStatementAdapter extends BaseAdapter {
         Resources res = mContext.getResources();
         String userAgreement = res.getString(R.string.provision_user_agreement);
         String privacyPolicy = res.getString(R.string.provision_privacy_policy);
-        String spanned = Html.fromHtml(str).toString();
+        String spanned = Html.fromHtml(str, Html.FROM_HTML_MODE_LEGACY).toString();
         int lastIndexOf = spanned.lastIndexOf(userAgreement);
         int length = userAgreement.length() + lastIndexOf;
         if (lastIndexOf >= 0 && length <= spanned.length()) {
@@ -214,11 +220,11 @@ public class TermsAndStatementAdapter extends BaseAdapter {
             int length2 = privacyPolicy.length() + indexOf;
             if (indexOf >= 0 && length2 <= spanned.length()) {
                 SpannableStringBuilder builder = new SpannableStringBuilder(spanned);
-                int color = res.getColor(R.color.provision_button_text_high_color_light);
-                builder.setSpan(new ForegroundColorSpan(color), lastIndexOf, length, 33);
-                builder.setSpan(new ForegroundColorSpan(color), indexOf, length2, 33);
-                builder.setSpan(new TermsTitleSpan(mContext, 2), lastIndexOf, length, 33);
-                builder.setSpan(new TermsTitleSpan(mContext, 1), indexOf, length2, 33);
+                int color = res.getColor(R.color.provision_button_text_high_color_light, mContext.getTheme());
+                builder.setSpan(new ForegroundColorSpan(color), lastIndexOf, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new ForegroundColorSpan(color), indexOf, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new TermsTitleSpan(mContext, 2), lastIndexOf, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new TermsTitleSpan(mContext, 1), indexOf, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 return builder;
             }
         }
@@ -226,7 +232,7 @@ public class TermsAndStatementAdapter extends BaseAdapter {
     }
 
 
-    private class ItemViewHolder {
+    private static class ItemViewHolder {
         TextView termsDescription;
         TextView termsName;
         TextView termsTitle;
@@ -238,7 +244,7 @@ public class TermsAndStatementAdapter extends BaseAdapter {
         }
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
         TextView agree;
         TextView introduction;
         TextView name;

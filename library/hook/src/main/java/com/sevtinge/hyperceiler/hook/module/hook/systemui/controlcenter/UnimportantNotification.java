@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.hook.systemui;
+package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
@@ -63,18 +63,15 @@ public class UnimportantNotification extends BaseHook {
                 clazz = findClassIfExists("com.android.systemui.statusbar.notification.NotificationUtil");
             }
 
-            findAndHookMethod(clazz, "shouldIgnoreEntry",
-                    "com.android.systemui.statusbar.notification.collection.NotificationEntry",
-                    new MethodHook() {
-                        @Override
-                        protected void after(MethodHookParam param) {
-                            // Object mSbn = XposedHelpers.getObjectField(param.args[1], "mSbn");
-                            // String getPackageName = (String) XposedHelpers.callMethod(mSbn, "getPackageName");
-                            // logE(TAG, "after: " + param.getResult() + " pkg: " + getPackageName);
-                            param.setResult(true);
-                        }
-                    }
-            );
+            hookAllMethods(clazz, "shouldIgnoreEntry", new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) {
+                    // Object mSbn = XposedHelpers.getObjectField(param.args[1], "mSbn");
+                    // String getPackageName = (String) XposedHelpers.callMethod(mSbn, "getPackageName");
+                    // logE(TAG, "after: " + param.getResult() + " pkg: " + getPackageName);
+                    param.setResult(true);
+                }
+            });
         }
     }
 }

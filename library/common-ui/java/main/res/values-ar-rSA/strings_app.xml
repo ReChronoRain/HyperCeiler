@@ -714,6 +714,7 @@
     <string name="system_ui_statusbar_music_cusiom_notific_title">إعدادات العرض</string>
     <string name="system_ui_statusbar_music_show_notific_title">إظهار كلمات الإشعارات</string>
     <string name="system_ui_statusbar_music_hide_aod_title">عدم عرض إشعارات التركيز أسفل الشاشة</string>
+    <string name="system_ui_statusbar_music_show_aod_mode_title">عربي</string>
     <string name="system_ui_statusbar_music_cusiom_statusbar_title">إعدادات عرض شريط الحالة</string>
     <string name="system_ui_statusbar_music_hide_clock_title">إخفاء ساعة شريط الحالة</string>
     <string name="system_ui_statusbar_music_hide_clock_desc">إخفاء ساعة شريط الحالة عند عرض كلمات الأغاني المركزة، وضبط حركة الرسوم المتحركة في شريط الإشعارات المنسدل.</string>
@@ -757,7 +758,19 @@
     <string name="system_ui_control_center_media_control_media_button_custom">تخصيص حجم زر الإجراء</string>
     <string name="system_ui_control_center_media_control_media_button">حجم زر الإجراء الافتراضي</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">نصف قطر خلفية التشويش</string>
+    <string name="system_ui_control_center_media_control_media_background_title">عربي</string>
+    <string name="system_ui_control_center_media_control_background_mode">عربي</string>
+    <string name="system_ui_control_center_media_control_color_anim">عربي</string>
+    <string name="system_ui_control_center_media_control_color_anim_desc">عربي</string>
+    <string name="system_ui_control_center_media_control_inverse_color">عربي</string>
+    <string name="system_ui_control_center_media_control_media_album_mode">عربي</string>
     <string name="system_ui_control_center_media_control_media_button_title">زر الوسائط</string>
+    <string name="system_ui_control_center_media_control_media_button_layout_switch">عربي</string>
+    <string name="system_ui_control_center_media_control_media_button_size_switch">عربي</string>
+    <string name="system_ui_control_center_media_control_media_button_actions_left_aligned">عربي</string>
+    <string name="system_ui_control_center_media_control_media_button_hide_seamless">عربي</string>
+    <string name="system_ui_control_center_media_control_media_button_mode">عربي</string>
+    <string name="system_ui_control_center_media_control_title_margin">عربي</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">شريط البحث عن الوسائط</string>
     <string name="system_ui_control_center_redirect_notice">إعادة توجيه إعدادات الإشعارات</string>
     <string name="system_ui_control_center_redirect_notice_desc">عند فتح قائمة إعدادات الإشعارات، يتم التوجيه إلى إعدادات التطبيق الوجهة بدلاً من تطبيق إعدادات الإشعارات.</string>

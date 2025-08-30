@@ -19,19 +19,29 @@
 package com.sevtinge.hyperceiler.hook.module.hook.mtb
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 object BypassAuthentication : BaseHook() {
     override fun init() {
-        // 在 HyperOS2 上
-        runCatching {
-            loadClass("com.xiaomi.mtb.MtbApp").methodFinder()
-                .filterByName("getMiServerPermissionClass")
-                .single().createAfterHook {
-                    it.result = 0L
-                }
+        if (isMoreHyperOSVersion(3f)) {
+            runCatching {
+                loadClass("com.xiaomi.mtb.MtbAppBase").methodFinder()
+                    .filterByName("getMiServerPermissionClass")
+                    .single().createAfterHook {
+                        it.result = 0L
+                    }
+            }
+        } else {
+            runCatching {
+                loadClass("com.xiaomi.mtb.MtbApp").methodFinder()
+                    .filterByName("getMiServerPermissionClass")
+                    .single().createAfterHook {
+                        it.result = 0L
+                    }
+            }
         }
     }
 }

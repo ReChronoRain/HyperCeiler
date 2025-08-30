@@ -30,7 +30,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.DisableTransparent;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.NotificationFix;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.StickyFloatingWindowsForSystemUI;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UiLockApp;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnimportantNotification;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnlockClipboard;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.ZenModeFix;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub;
@@ -59,6 +58,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SnowLeop
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SunlightMode;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SunlightModeHigh;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.TaplusTile;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.UnimportantNotification;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.CustomBackground;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaViewLayout;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaViewSize;

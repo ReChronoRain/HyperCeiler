@@ -31,7 +31,7 @@ import java.util.Locale;
 
 public class LanguageHelper {
     public static final String[] appLanguages = {
-            "en", "zh_CN", "zh_TW", "zh_HK", "ja_JP", "pl_PL", "ru_RU", "ar_SA", "es_ES", "pt_BR", "id_ID", "tr_TR", "vi_VN", "it_IT", "zh_ME"
+            "en", "zh_CN", "zh_TW", "zh_HK", "ja_JP", "pl_PL", "ru_RU", "ar_SA", "es_ES", "pt_BR", "id_ID", "tr_TR", "vi_VN", "it_IT", "de_DE", "uk_UA", "zh_ME"
     };
 
     private static final java.util.Map<String, Locale> localeCache = new java.util.HashMap<>();

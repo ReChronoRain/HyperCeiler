@@ -46,7 +46,8 @@ public class DisablePersistent extends BaseHook {
             logE(TAG, lpparam.packageName, "Not found class: " + packageName);
         }
 
-        findAndHookMethod("com.android.server.pm.InstallPackageHelper", "preparePackageLI", "com.android.server.pm.InstallRequest", new MethodHook() {
+        findAndHookMethod("com.android.server.pm.InstallPackageHelper", isMoreAndroidVersion(36) ?
+            "preparePackage" : "preparePackageLI", "com.android.server.pm.InstallRequest", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 isInstall = true;

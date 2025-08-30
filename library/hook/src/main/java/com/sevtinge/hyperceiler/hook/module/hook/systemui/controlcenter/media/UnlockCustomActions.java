@@ -37,7 +37,7 @@ public class UnlockCustomActions extends BaseHook {
                     @Override
                     protected void before(MethodHookParam param) {
                         Object INSTANCE = XposedHelpers.getStaticObjectField(
-                            findClassIfExists("com.miui.systemui.notification.NotificationSettingsManager;"),
+                            findClassIfExists("com.miui.systemui.notification.NotificationSettingsManager"),
                             "sINSTANCE");
                         XposedHelpers.setObjectField(INSTANCE, "mHiddenCustomActionsList", new ArrayList<>());
                         XposedHelpers.setObjectField(INSTANCE, "mHiddenCustomActionsListLocal", new ArrayList<>());
@@ -51,9 +51,21 @@ public class UnlockCustomActions extends BaseHook {
                 , new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
+                        Class<?> NotificationSettingsManager;
+                        if (isMoreAndroidVersion(35)) {
+                            // k60u
+                            NotificationSettingsManager = findClassIfExists("com.miui.systemui.notification.NotificationSettingsManager");
+                            if (NotificationSettingsManager == null) {
+                                // other
+                                NotificationSettingsManager = findClassIfExists("com.android.systemui.statusbar.notification.NotificationSettingsManager");
+                            }
+                        } else {
+                            NotificationSettingsManager = findClassIfExists("com.android.systemui.statusbar.notification.NotificationSettingsManager$Holder");
+                        }
+
                         Object INSTANCE = XposedHelpers.getStaticObjectField(
-                            findClassIfExists(isMoreAndroidVersion(35) ? "com.android.systemui.statusbar.notification.NotificationSettingsManager" : "com.android.systemui.statusbar.notification.NotificationSettingsManager$Holder"),
-                            isMoreAndroidVersion(35) ? "sINSTANCE" : "INSTANCE");
+                            NotificationSettingsManager, isMoreAndroidVersion(35) ? "sINSTANCE" : "INSTANCE"
+                        );
                         XposedHelpers.setObjectField(INSTANCE, "mHiddenCustomActionsList", new ArrayList<>());
                     }
 

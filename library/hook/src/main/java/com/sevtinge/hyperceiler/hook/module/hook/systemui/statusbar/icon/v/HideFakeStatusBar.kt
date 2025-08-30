@@ -74,6 +74,8 @@ object HideFakeStatusBar : MusicBaseHook() {
         loadClass("com.android.systemui.qs.MiuiNotificationHeaderView")
     }
 
+    private var unhook0: XC_MethodHook.Unhook? = null
+
     private fun updateLayout() {
         if (isShowingFocused.value && isLyric.value && !showCLock) {
             isShowingFocusedLyric = true
@@ -150,7 +152,7 @@ object HideFakeStatusBar : MusicBaseHook() {
                 }
             }
 
-        var unhook0: XC_MethodHook.Unhook? = null
+
         loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController\$notificationCallback$1").methodFinder()
             .filterByName("onExpansionChanged").first().createHook {
                 before {
