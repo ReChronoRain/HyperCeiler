@@ -5,7 +5,6 @@ import android.content.pm.VersionedPackage
 import android.os.SystemProperties
 import android.provider.Settings
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.utils.PropUtils
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.getAdditionalInstanceFieldAs
 import com.sevtinge.hyperceiler.hook.utils.hidden.PackageWatchdog
@@ -114,11 +113,11 @@ object RescuePartyPlus : BaseHook() {
     }
 
     private fun checkDisableRescuePartyPlus(): Boolean {
-        if (PropUtils.getProp("persist.sys.rescuepartyplus.disable", false)) {
+        if (SystemProperties.getBoolean("persist.sys.rescuepartyplus.disable", false)) {
             return true
         }
 
-        if (!PropUtils.getProp("persist.sys.rescuepartyplus.enable", false)) {
+        if (!SystemProperties.getBoolean("persist.sys.rescuepartyplus.enable", false)) {
             return false
         }
 
