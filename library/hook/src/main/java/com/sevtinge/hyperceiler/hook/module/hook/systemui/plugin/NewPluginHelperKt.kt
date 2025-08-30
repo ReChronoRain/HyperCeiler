@@ -281,7 +281,7 @@ object NewPluginHelperKt : BaseHook() {
                 loader(classLoader)
                 if (isDebug()) logI(TAG, lpparam.packageName, "$name is loaded success.")
             }.onFailure {
-                logE(TAG, lpparam.packageName, "[$tag] $name is fail loaded, log: ${it.message}" )
+                logE(TAG, lpparam.packageName, "[$tag] $name is fail loaded, log: ${it.stackTraceToString()}" )
             }
         }
     }
