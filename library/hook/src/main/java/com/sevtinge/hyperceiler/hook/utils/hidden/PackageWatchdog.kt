@@ -7,11 +7,15 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.BaseReflectOb
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethodAs
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil
+import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logI
+import de.robv.android.xposed.XposedHelpers
 
 object PackageWatchdog {
+    private lateinit var classLoader: ClassLoader
+
     private val PACKAGE_WATCHDOG by lazy {
-        ClassUtil.loadClass("com.android.server.PackageWatchdog")
+        logI(classLoader.toString())
+        XposedHelpers.findClass("com.android.server.PackageWatchdog", classLoader)
     }
 
     fun getInstance(context: Context): Stub = Stub(
@@ -25,15 +29,19 @@ object PackageWatchdog {
         }
     }
 
-    class Stub(instance: Any): BaseReflectObject(instance) {
+    fun setClassLoader(cl: ClassLoader) {
+        classLoader = cl
+    }
+
+    class Stub(instance: Any) : BaseReflectObject(instance) {
         val allObservers by lazy {
-            getObjectFieldAs<ArrayMap<String, *>>("mAllObservers")
+            instance.getObjectFieldAs<ArrayMap<String, *>>("mAllObservers")
         }
     }
 
-    class MonitoredPackageStub(instance: Any): BaseReflectObject(instance) {
+    class MonitoredPackageStub(instance: Any) : BaseReflectObject(instance) {
         val mitigationCalls by lazy {
-            getObjectFieldAs<LongArrayQueue>("mMitigationCalls")
+            instance.getObjectFieldAs<LongArrayQueue>("mMitigationCalls")
         }
     }
 }

@@ -25,8 +25,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.provider.Settings;
 
-import androidx.annotation.NonNull;
-
 import com.sevtinge.hyperceiler.hook.callback.ITAG;
 import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool;
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
@@ -34,7 +32,6 @@ import com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt;
 import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
@@ -49,7 +46,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * 推荐使用的方法，直接 Hook 系统，
  * 可能误报，但是很稳定。
  */
-public class CrashHook extends HookTool implements RescuePartyPlus.CrashHandler {
+public class CrashHook extends HookTool {
     private static final String TAG = ITAG.TAG + ": CrashHook";
     private static HashMap<String, String> scopeMap = new HashMap<>();
     private static HashMap<String, String> swappedMap = new HashMap<>();
@@ -200,32 +197,6 @@ public class CrashHook extends HookTool implements RescuePartyPlus.CrashHandler 
         );
     }
 
-    @Override
-    public boolean onHandleCrash(@NotNull Context context, @NonNull String pkgName, int mitigationCount) {
-        mContext = context;
-        mPkg = pkgName;
-
-        if (!isScopeApp()) {
-            return false;
-        }
-
-        if (mitigationCount < 1) {
-            return false;
-        }
-
-        if (isInSafeMode()) {
-            return false;
-        }
-
-        // TODO: 设置安全模式
-        return true;
-    }
-
-    // TODO: 是否为安全模式
-    private boolean isInSafeMode() {
-        return true;
-    }
-
     private String mPkg;
     private String longMsg;
     private String stackTrace;
@@ -347,7 +318,7 @@ public class CrashHook extends HookTool implements RescuePartyPlus.CrashHandler 
     private Intent getIntent(String abbr) {
         Intent intent = new Intent();
         intent.setPackage("com.sevtinge.hyperceiler");
-        intent.setClassName("com.sevtinge.hyperceiler", "com.sevtinge.hyperceiler.safe.CrashActivity");
+        intent.setClassName("com.sevtinge.hyperceiler", "com.sevtinge.hyperceiler.safemode.CrashActivity");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("key_longMsg", longMsg);
         intent.putExtra("key_stackTrace", stackTrace);

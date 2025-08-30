@@ -38,8 +38,10 @@ import com.sevtinge.hyperceiler.hook.module.app.VariousThirdApps;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.hook.module.skip.SystemFrameworkForCorePatch;
+import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.hook.safe.CrashHook;
 import com.sevtinge.hyperceiler.hook.safe.RescuePartyPlus;
+import com.sevtinge.hyperceiler.hook.safe.SafeMode;
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
@@ -103,7 +105,11 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         String packageName = lpparam.packageName;
 
-        if (isInSafeMode(packageName)) return;
+        if (SafeMode.isInSafeModeOnHook(packageName) || SafeMode.isInSafeModeByProp(packageName)) {
+            logI(packageName, "Entry safe mode");
+            return;
+        }
+
         if (mPrefsMap.getBoolean("allow_hook")) {
 
             // load EzXHelper and set log tag
@@ -197,32 +203,14 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         if ("android".equals(lpparam.packageName)) {
             XposedBridge.log("[HyperCeiler][I]: Log level is " + logLevelDesc());
             try {
-                CrashHook crashHook = new CrashHook(lpparam);
+                new CrashHook(lpparam);
                 RescuePartyPlus rescuePartyPlus = RescuePartyPlus.INSTANCE;
-                rescuePartyPlus.setHandler(crashHook);
+                rescuePartyPlus.setHandler(SafeMode.INSTANCE);
                 rescuePartyPlus.onCreate(lpparam);
             } catch (Exception e) {
                 logE(TAG, e);
             }
         }
-    }
-
-    private boolean isInSafeMode(String pkg) {
-        switch (pkg) {
-            case "com.android.systemui" -> {
-                return isSafeModeEnable("system_ui_safe_mode_enable");
-            }
-            case "com.miui.home" -> {
-                return isSafeModeEnable("home_safe_mode_enable");
-            }
-            case "com.android.settings" -> {
-                return isSafeModeEnable("system_settings_safe_mode_enable");
-            }
-            case "com.miui.securitycenter" -> {
-                return isSafeModeEnable("security_center_safe_mode_enable");
-            }
-        }
-        return false;
     }
 
     private boolean isOtherRestrictions(String pkg) {
@@ -244,9 +232,4 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         XposedHelpers.setStaticIntField(AppsTool, "XposedVersion", XposedBridge.getXposedVersion());
         XposedBridge.log("[HyperCeiler][I]: Log level is " + logLevelDesc());
     }
-
-    private boolean isSafeModeEnable(String key) {
-        return mPrefsMap.getBoolean(key);
-    }
-
 }

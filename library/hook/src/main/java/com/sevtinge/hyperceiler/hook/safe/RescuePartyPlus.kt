@@ -4,8 +4,9 @@ import android.content.Context
 import android.content.pm.VersionedPackage
 import android.os.SystemProperties
 import android.provider.Settings
+import com.sevtinge.hyperceiler.hook.module.HostConstant.HOST_HOME
+import com.sevtinge.hyperceiler.hook.module.HostConstant.HOST_SYSTEM_UI
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.utils.PropUtils
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.getAdditionalInstanceFieldAs
 import com.sevtinge.hyperceiler.hook.utils.hidden.PackageWatchdog
@@ -15,15 +16,14 @@ import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFi
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 
 object RescuePartyPlus : BaseHook() {
-    const val HOST_SYSTEM_UI = "com.android.systemui"
-    const val HOST_HOME = "com.miui.home"
-
     private lateinit var handler: CrashHandler
 
     override fun init() {
         if (!::handler.isInitialized) {
             return
         }
+
+        PackageWatchdog.setClassLoader(lpparam.classLoader)
 
         val packageWatchdogImpl = findClass("com.android.server.PackageWatchdogImpl")
         packageWatchdogImpl.methodFinder()
@@ -47,7 +47,7 @@ object RescuePartyPlus : BaseHook() {
                 val packageName = versionedPackage.packageName
                 when (packageName) {
                     HOST_SYSTEM_UI -> {
-                        if (handler.onHandleCrash(context, HOST_SYSTEM_UI, mitigationCount)) {
+                        if (handler.onHandleCrash(context, packageName, mitigationCount)) {
                             putGlobalSettings(context, "sys.rescueparty.systemui.level", 0)
                             putGlobalSettings(context, "sys.anr.rescue.systemui.level", 0)
                             onAfterSetAppCrashLevel(context, packageName, param.thisObject)
@@ -56,7 +56,7 @@ object RescuePartyPlus : BaseHook() {
                     }
 
                     HOST_HOME -> {
-                        if (handler.onHandleCrash(context, HOST_HOME, mitigationCount)) {
+                        if (handler.onHandleCrash(context, packageName, mitigationCount)) {
                             putGlobalSettings(context, "sys.rescueparty.home.level", 0)
                             onAfterSetAppCrashLevel(context, packageName, param.thisObject)
                             param.result = true
@@ -72,30 +72,37 @@ object RescuePartyPlus : BaseHook() {
             .filterByParamTypes(Int::class.java, VersionedPackage::class.java, Context::class.java)
             .first().createBeforeHook { param ->
                 val watchdog = param.thisObject
-                if (watchdog.getAdditionalInstanceFieldAs<Boolean?>("isSkipDoRescuePartyPlusStep") == true) {
-                    watchdog.removeAdditionalInstanceField("isSkipDoRescuePartyPlusStep")
-                    val versionedPackage = param.args[1] as VersionedPackage?
-                    if (versionedPackage == null) {
-                        param.result = false
-                        return@createBeforeHook
-                    }
-
-                    val mitigationCount = param.args[0] as Int
-                    val packageName = versionedPackage.packageName
-                    if (mitigationCount > 1) {
-                        watchdog.callMethod(
-                            "removeMessage",
-                            if (mitigationCount <= 7) {
-                                mitigationCount - 1
-                            } else {
-                                7
-                            },
-                            packageName
-                        )
-                    }
-
-                    param.result = true
+                val flag = watchdog.getAdditionalInstanceFieldAs<String?>("flag")
+                if (flag == null) {
+                    return@createBeforeHook
                 }
+
+                watchdog.removeAdditionalInstanceField("flag")
+                val versionedPackage = param.args[1] as VersionedPackage?
+                if (versionedPackage == null) {
+                    param.result = false
+                    return@createBeforeHook
+                }
+
+                val mitigationCount = param.args[0] as Int
+                val packageName = versionedPackage.packageName
+                if (packageName != flag) {
+                    return@createBeforeHook
+                }
+
+                if (mitigationCount > 1) {
+                    watchdog.callMethod(
+                        "removeMessage",
+                        if (mitigationCount <= 7) {
+                            mitigationCount - 1
+                        } else {
+                            7
+                        },
+                        packageName
+                    )
+                }
+
+                param.result = true
             }
     }
 
@@ -110,15 +117,15 @@ object RescuePartyPlus : BaseHook() {
     private fun onAfterSetAppCrashLevel(context: Context, packageName: String, watchdog: Any) {
         SystemProperties.set("sys.set_app_crash_level.flag", "true")
         PackageWatchdog.clearRecord(context, packageName)
-        watchdog.setAdditionalInstanceField("isSkipDoRescuePartyPlusStep", true)
+        watchdog.setAdditionalInstanceField("flag", packageName)
     }
 
     private fun checkDisableRescuePartyPlus(): Boolean {
-        if (PropUtils.getProp("persist.sys.rescuepartyplus.disable", false)) {
+        if (SystemProperties.getBoolean("persist.sys.rescuepartyplus.disable", false)) {
             return true
         }
 
-        if (!PropUtils.getProp("persist.sys.rescuepartyplus.enable", false)) {
+        if (!SystemProperties.getBoolean("persist.sys.rescuepartyplus.enable", false)) {
             return false
         }
 

@@ -51,11 +51,6 @@ public abstract class BaseModule {
             swappedMap = CrashData.swappedData();
         }
 
-        if (CrashData.toPkgList(lpparam.packageName)) {
-            XposedLogUtils.logI(TAG, "Entry safe mode: " + lpparam.packageName);
-            return;
-        }
-
         if (!PrefsUtils.mPrefsMap.getBoolean("module_settings_reshook_new")) {
             // 把模块资源加载到目标应用
             try {
