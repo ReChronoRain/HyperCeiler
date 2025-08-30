@@ -185,9 +185,9 @@ object LayoutRules : HomeBaseHook() {
 
             if (isUnlockGridsHook || isSetWSPaddingSideHook) {
                 currentCellWidth = (mMaxGridWidth - if (isSetWSPaddingSideHook) {
-                    sWorkspaceCellSide * 2
+                    sWorkspaceCellSide
                 } else {
-                    mWorkspaceCellSideDefault * 2
+                    mWorkspaceCellSideDefault
                 }) / currentCellCountX
             }
 
@@ -212,13 +212,13 @@ object LayoutRules : HomeBaseHook() {
             
             if (isSetWSPaddingBottomHook) {
                 rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
-                    .callMethod("setValue", 507) //sWorkspacePaddingBottom)
+                    .callMethod("setValue", sWorkspacePaddingBottom)
             }
 
             if (isSetWSPaddingSideHook) {
                 rules.setIntField(
                     "mWorkspaceCellSide",
-                    (mMaxGridWidth - currentCellWidth * currentCellCountX) / 2
+                    (mMaxGridWidth - (currentCellWidth * currentCellCountX))
                 )
             }
 
