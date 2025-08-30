@@ -39,6 +39,7 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.hook.module.skip.SystemFrameworkForCorePatch;
 import com.sevtinge.hyperceiler.hook.safe.CrashHook;
+import com.sevtinge.hyperceiler.hook.safe.RescuePartyPlus;
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
@@ -196,7 +197,10 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         if ("android".equals(lpparam.packageName)) {
             XposedBridge.log("[HyperCeiler][I]: Log level is " + logLevelDesc());
             try {
-                new CrashHook(lpparam);
+                CrashHook crashHook = new CrashHook(lpparam);
+                RescuePartyPlus rescuePartyPlus = RescuePartyPlus.INSTANCE;
+                rescuePartyPlus.setHandler(crashHook);
+                rescuePartyPlus.onCreate(lpparam);
             } catch (Exception e) {
                 logE(TAG, e);
             }
