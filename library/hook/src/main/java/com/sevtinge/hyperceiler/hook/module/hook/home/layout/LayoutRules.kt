@@ -199,7 +199,7 @@ object LayoutRules : HomeBaseHook() {
                 } + if (isSetWSPaddingBottomHook) {
                     mWorkspaceCellPaddingBottom - sWorkspacePaddingBottom
                 } else {
-                    0
+                    mWorkspaceCellPaddingBottom //0
                 }) / currentCellCountY
             }
 
