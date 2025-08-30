@@ -30,6 +30,8 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.hook.safe.CrashData;
+import com.sevtinge.hyperceiler.hook.safe.SafeMode;
+import com.sevtinge.hyperceiler.hook.utils.PropUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.ui.R;
 
@@ -63,6 +65,11 @@ public class CrashActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String code = intent.getStringExtra("key_pkg");
+        boolean isNeedSetProp = intent.getBooleanExtra("key_is_need_set_prop", false);
+        if (isNeedSetProp) {
+            PropUtils.setProp(SafeMode.PROP_REPORT_PACKAGE, code);
+        }
+
         longMsg = intent.getStringExtra("key_longMsg");
         stackTrace = intent.getStringExtra("key_stackTrace");
         throwClassName = intent.getStringExtra("key_throwClassName");
