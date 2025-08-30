@@ -813,7 +813,7 @@
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_disable_miui_multi_win_switch">隱藏快捷視窗按鈕</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">隱藏常駐的三個小點，包括小窗應用程式頂部和 HyperOS for Pad 橫向螢幕下頂部中間的快速視窗按鈕（不影響功能使用）</string>
-    <string name="system_ui_remove_miui_multi_win_switch">隱藏快捷視窗按鈕</string>
+    <string name="system_ui_remove_miui_multi_win_switch">禁用快捷視窗按鈕</string>
     <string name="system_ui_disable_infinitymode_gesture">停用無限縮放手勢</string>
     <string name="system_ui_disable_infinitymode_gesture_sum">平板裝置專用</string>
     <string name="system_ui_disable_bottombar">隱藏小窗應用程式的手勢提示線</string>

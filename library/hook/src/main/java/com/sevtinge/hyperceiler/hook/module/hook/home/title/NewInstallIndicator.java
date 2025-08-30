@@ -18,12 +18,15 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.title;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 public class NewInstallIndicator extends BaseHook {
     @Override
     public void init() {
-        findAndHookMethod("com.miui.home.launcher.TitleTextView",
+        findAndHookMethod(isMoreHyperOSVersion(3f) ?
+                "com.miui.home.icon.TitleTextView" : "com.miui.home.launcher.TitleTextView",
             "updateNewInstallIndicator",
             boolean.class, new MethodHook() {
                 @Override

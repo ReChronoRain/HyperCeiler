@@ -24,23 +24,36 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitchForSystem;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableFreeformBlackList;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableLowApiCheckForB;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableMiuiWatermark;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisablePersistent;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableThermal;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.EffectBinderProxy;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FlagSecure;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.MultiFreeFormSupported;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.RemoveSmallWindowRestrictions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassIsolationViolation;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassSignCheckForT;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.DisplayCutout;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.FreeFormCount;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.OpenAppInFreeForm;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.UnForegroundPin;
 
 @HookBase(targetPackage = "android", isPad = 1, targetSdk = 36)
 public class SystemFrameworkB extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        // 小窗
+        initHook(new DisableFreeformBlackList(), mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
+        initHook(RemoveSmallWindowRestrictions.INSTANCE, mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
+        initHook(MultiFreeFormSupported.INSTANCE, mPrefsMap.getBoolean("system_framework_freeform_recents_to_small_freeform"));
+        initHook(new FreeFormCount(), mPrefsMap.getBoolean("system_framework_freeform_count"));
+        initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_jump"));
+        initHook(new UnForegroundPin(), mPrefsMap.getBoolean("system_framework_freeform_foreground_pin"));
 
         // 核心破解
         initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));

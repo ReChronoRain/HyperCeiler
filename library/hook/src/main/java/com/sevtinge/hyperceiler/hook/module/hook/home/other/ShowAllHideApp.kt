@@ -28,7 +28,7 @@ object ShowAllHideApp : BaseHook() {
         DexKit.findMember("ShowAllHideApp") { bridge ->
             bridge.findClass {
                 matcher {
-                    usingStrings("appInfo.packageName", "com.android.fileexplorer")
+                    className("com.miui.home.settings.HideAppController")
                 }
             }.single()
         }

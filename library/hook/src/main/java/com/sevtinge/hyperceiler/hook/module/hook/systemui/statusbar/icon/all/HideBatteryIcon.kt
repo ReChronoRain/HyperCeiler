@@ -36,7 +36,7 @@ object HideBatteryIcon : BaseHook() {
             loadClass("com.android.systemui.statusbar.views.MiuiBatteryMeterView")
         }
 
-        if(isMoreAndroidVersion(35)) {
+        if (isMoreAndroidVersion(35)) {
             mBatteryMeterViewClass.methodFinder()
                 .filterByName("onBatteryStyleChanged")
                 .first().createHook {
@@ -57,7 +57,7 @@ object HideBatteryIcon : BaseHook() {
                 }
         }
 
-        if (isMoreAndroidVersion(35)) {
+        if (isMoreAndroidVersion(35) && !isMoreAndroidVersion(36)) {
             mBatteryMeterViewClass.methodFinder()
                 .filterByName("updateAll\$1")
         } else {
