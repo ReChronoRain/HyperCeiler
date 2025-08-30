@@ -41,6 +41,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.NewPluginHelper
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.QSColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.clock.StatusBarClockNew;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.SwapWiFiAndMobileNetwork;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.FocusNotifLyric;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.HideFakeStatusBar;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model.MobilePublicHookV;
@@ -63,6 +64,7 @@ public class SystemUIB extends BaseModule {
         initHook(NewPluginHelperKt.INSTANCE);
 
         // 状态栏图标
+        initHook(SwapWiFiAndMobileNetwork.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network"));
         initHook(new NotificationIconColumns(), mPrefsMap.getBoolean("system_ui_status_bar_notification_icon_maximum_enable"));
         initHook(NotificationImportanceHyperOSFix.INSTANCE, mPrefsMap.getBoolean("system_settings_more_notification_settings"));
 
