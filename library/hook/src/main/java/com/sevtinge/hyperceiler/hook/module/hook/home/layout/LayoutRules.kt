@@ -145,7 +145,7 @@ object LayoutRules : HomeBaseHook() {
                 -1
             }
 
-            val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
+            /* val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
                 DisplayUtils.dp2px(
                     mPrefsMap.getInt(
                         "home_layout_workspace_padding_bottom",
@@ -154,7 +154,8 @@ object LayoutRules : HomeBaseHook() {
                 )
             } else {
                 -1
-            }
+            }*/
+            val sWorkspacePaddingBottom = 0
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
                 DisplayUtils.dp2px(
@@ -199,7 +200,7 @@ object LayoutRules : HomeBaseHook() {
                 } + if (isSetWSPaddingBottomHook) {
                     mWorkspaceCellPaddingBottom - sWorkspacePaddingBottom
                 } else {
-                    mWorkspaceCellPaddingBottom //0
+                    0
                 }) / currentCellCountY
             }
 
@@ -209,8 +210,7 @@ object LayoutRules : HomeBaseHook() {
                 rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
                     .callMethod("setValue", sWorkspacePaddingTop)
             }
-            rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
-                    .callMethod("setValue", 0)
+            
             if (isSetWSPaddingBottomHook) {
                 rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
                     .callMethod("setValue", sWorkspacePaddingBottom)
