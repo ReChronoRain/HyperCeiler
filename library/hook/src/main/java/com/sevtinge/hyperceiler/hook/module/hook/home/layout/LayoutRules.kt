@@ -209,7 +209,7 @@ object LayoutRules : HomeBaseHook() {
                 rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
                     .callMethod("setValue", sWorkspacePaddingTop)
             }
-
+	sWorkspacePaddingBottom = 507
             if (isSetWSPaddingBottomHook) {
                 rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
                     .callMethod("setValue", sWorkspacePaddingBottom)
