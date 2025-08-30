@@ -203,13 +203,14 @@ object LayoutRules : HomeBaseHook() {
                 }) / currentCellCountY
             }
 
-            rules.setIntField("mCellSize", min(currentCellWidth, currentCellHeight))
+            rules.setIntField("mCellSize", max(currentCellWidth, currentCellHeight))
 
             if (isSetWSPaddingTopHook) {
                 rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
                     .callMethod("setValue", sWorkspacePaddingTop)
             }
-            
+            rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
+                    .callMethod("setValue", 0)
             if (isSetWSPaddingBottomHook) {
                 rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
                     .callMethod("setValue", sWorkspacePaddingBottom)
