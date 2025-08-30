@@ -46,6 +46,7 @@ public abstract class BaseModule {
     }
 
     public void init(LoadPackageParam lpparam) {
+        if (!lpparam.isFirstApplication) return;
         if (swappedMap.isEmpty()) {
             swappedMap = CrashData.swappedData();
         }
