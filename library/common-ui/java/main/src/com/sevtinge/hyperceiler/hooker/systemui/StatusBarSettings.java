@@ -25,8 +25,8 @@ import android.os.Bundle;
 import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.R;
 
 public class StatusBarSettings extends DashboardFragment {
 
@@ -41,7 +41,9 @@ public class StatusBarSettings extends DashboardFragment {
     @Override
     public void initPrefs() {
         mMusic = findPreference("prefs_key_system_ui_status_bar_music");
-        mMusic.setVisible(isMoreHyperOSVersion(2f));
+        if (!isMoreHyperOSVersion(2f)) {
+            setFuncHint(mMusic, 1);
+        }
 
         Bundle args1 = new Bundle();
         mRecommend = new RecommendPreference(requireContext());

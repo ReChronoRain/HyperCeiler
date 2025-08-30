@@ -36,37 +36,44 @@ object ExpandNotificationKt : BaseHook() {
     }
 
     override fun init() {
-        mExpandNotificationRowClass.methodFinder().filterByName("setFeedbackIcon")
-            .first().createBeforeHook {
-                val mOnKeyguard =
-                    it.thisObject.getObjectField("mOnKeyguard") as Boolean
-                if (!mOnKeyguard) {
-                    val notification = it.thisObject.callMethod("getEntry")!!.getObjectField("mSbn")
-                    val pkgName =
-                        notification!!.callMethod("getPackageName") as String?
-                    if (mPkg.contains(pkgName)) it.thisObject.callMethod("setSystemExpanded", true)
-                }
-            }
-
-        mExpandNotificationRowClass.methodFinder().filterByName("setHeadsUp")
-            .first().createAfterHook {
-                val mOnKeyguard =
-                    it.thisObject.getObjectField("mOnKeyguard") as Boolean
-                val showHeadsUp = it.args[0] as Boolean
-                if (!mOnKeyguard && showHeadsUp) {
-                    val notifyRow = it.thisObject as View
-                    val notification = it.thisObject.callMethod("getEntry")!!.getObjectField("mSbn")
-                    val pkgName =
-                        notification!!.callMethod("getPackageName") as String?
-                    if (mPkg.contains(pkgName)) {
-                        val expandNotify = Runnable {
-                            val mExpandClickListener =
-                                it.thisObject.getObjectField("mExpandClickListener") as View.OnClickListener
-                            mExpandClickListener.onClick(notifyRow)
-                        }
-                        notifyRow.postDelayed(expandNotify, 60)
+        mExpandNotificationRowClass.methodFinder().apply {
+            filterByName("setFeedbackIcon")
+                .first().createBeforeHook {
+                    val mOnKeyguard =
+                        it.thisObject.getObjectField("mOnKeyguard") as Boolean
+                    if (!mOnKeyguard) {
+                        val notification =
+                            it.thisObject.callMethod("getEntry")!!.getObjectField("mSbn")
+                        val pkgName =
+                            notification!!.callMethod("getPackageName") as String?
+                        if (mPkg.contains(pkgName)) it.thisObject.callMethod(
+                            "setSystemExpanded",
+                            true
+                        )
                     }
                 }
-            }
+
+            filterByName("setHeadsUp")
+                .first().createAfterHook {
+                    val mOnKeyguard =
+                        it.thisObject.getObjectField("mOnKeyguard") as Boolean
+                    val showHeadsUp = it.args[0] as Boolean
+                    if (!mOnKeyguard && showHeadsUp) {
+                        val notifyRow = it.thisObject as View
+                        val notification =
+                            it.thisObject.callMethod("getEntry")!!.getObjectField("mSbn")
+                        val pkgName =
+                            notification!!.callMethod("getPackageName") as String?
+                        if (mPkg.contains(pkgName)) {
+                            val expandNotify = Runnable {
+                                val mExpandClickListener =
+                                    it.thisObject.getObjectField("mExpandClickListener") as View.OnClickListener
+                                mExpandClickListener.onClick(notifyRow)
+                            }
+                            notifyRow.postDelayed(expandNotify, 60)
+                        }
+                    }
+                }
+        }
     }
 }

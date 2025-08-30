@@ -211,6 +211,9 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
             case "com.miui.home" -> {
                 return isSafeModeEnable("home_safe_mode_enable");
             }
+            case "com.android.settings" -> {
+                return isSafeModeEnable("system_settings_safe_mode_enable");
+            }
             case "com.miui.securitycenter" -> {
                 return isSafeModeEnable("security_center_safe_mode_enable");
             }

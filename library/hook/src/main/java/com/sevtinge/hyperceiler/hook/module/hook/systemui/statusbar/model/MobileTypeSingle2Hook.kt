@@ -56,6 +56,7 @@ import com.sevtinge.hyperceiler.hook.utils.callMethodOrNull
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.SubscriptionManagerProvider
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreSmallVersion
 import com.sevtinge.hyperceiler.hook.utils.getAdditionalInstanceFieldAs
 import com.sevtinge.hyperceiler.hook.utils.getBooleanField
@@ -75,7 +76,12 @@ import java.lang.reflect.Method
 import java.util.function.Consumer
 
 object MobileTypeSingle2Hook : BaseHook() {
-    private val isMore200SmallVersion = isMoreSmallVersion(200, 2f)
+    private val isMore200SmallVersion by lazy {
+        isMoreSmallVersion(200, 2f)
+    }
+    private val isMoreOS3 by lazy {
+        isMoreHyperOSVersion(3f)
+    }
 
     private val DarkIconDispatcherClass by lazy {
         loadClass("com.android.systemui.plugins.DarkIconDispatcher", lpparam.classLoader)
@@ -88,7 +94,7 @@ object MobileTypeSingle2Hook : BaseHook() {
 
     override fun init() {
         hookMobileViewAndVM()
-        if (!showMobileType) return
+        if (!showMobileType || isMoreOS3) return
 
         try {
             method = DarkIconDispatcherClass.getMethod(
@@ -188,12 +194,20 @@ object MobileTypeSingle2Hook : BaseHook() {
                 if (slotIndex == -1) {
                     return@createAfterHook
                 }
+                var containerLeft: ViewGroup?
+                var containerRight: ViewGroup? = null
 
                 val mobileGroup = rootView.findViewByIdName("mobile_group") as LinearLayout
-                val containerLeft =
-                    mobileGroup.findViewByIdName("mobile_container_left") as ViewGroup
-                val containerRight =
-                    mobileGroup.findViewByIdName("mobile_container_right") as ViewGroup
+
+                if (isMoreOS3) {
+                    containerLeft =
+                        mobileGroup.findViewByIdName("mobile_signal_container") as ViewGroup
+                } else {
+                    containerLeft =
+                        mobileGroup.findViewByIdName("mobile_container_left") as ViewGroup
+                    containerRight =
+                        mobileGroup.findViewByIdName("mobile_container_right") as ViewGroup
+                }
 
                 // 添加大 5G 并设置样式
                 if (showMobileType) {
@@ -258,7 +272,9 @@ object MobileTypeSingle2Hook : BaseHook() {
                                 if (subId == SubscriptionManager.getDefaultDataSubscriptionId()) {
                                     val paddingLeft = if (it || hideIndicator) 20 else 0
                                     containerLeft.setPadding(if (!it) 0 else paddingLeft, 0, 0, 0)
-                                    containerRight.setPadding(paddingLeft, 0, 0, 0)
+                                    if (!isMoreOS3) {
+                                        containerRight?.setPadding(paddingLeft, 0, 0, 0)
+                                    }
                                 }
 
                                 setStateFlowValue(
@@ -357,10 +373,18 @@ object MobileTypeSingle2Hook : BaseHook() {
         defaultConnections: Any,
         booleans: BooleanArray
     ) {
-        val containerLeft =
-            view.findViewByIdName("mobile_container_left") as ViewGroup
-        val containerRight =
-            view.findViewByIdName("mobile_container_right") as ViewGroup
+        var containerLeft: ViewGroup?
+        var containerRight: ViewGroup? = null
+
+        if (isMoreOS3) {
+            containerLeft =
+                view.findViewByIdName("mobile_signal_container") as ViewGroup
+        } else {
+            containerLeft =
+                view.findViewByIdName("mobile_container_left") as ViewGroup
+            containerRight =
+                view.findViewByIdName("mobile_container_right") as ViewGroup
+        }
 
         val b = !showMobileType && mobileNetworkType == 4
         if (subId == SubscriptionManager.getDefaultDataSubscriptionId()) {
@@ -378,7 +402,9 @@ object MobileTypeSingle2Hook : BaseHook() {
                 val type = defaultConnections == true && !isEnableDouble && !booleans[SubscriptionManager.getSlotIndex(subId)]
                 val paddingLeft = if (isNoDataConnected || type) 20 else 0
                 containerLeft.setPadding(if (!isNoDataConnected) 0 else paddingLeft, 0, 0, 0)
-                containerRight.setPadding(paddingLeft, 0, 0, 0)
+                if (!isMoreOS3) {
+                    containerRight?.setPadding(paddingLeft, 0, 0, 0)
+                }
             }
         } else if (!isEnableDouble) {
             if (b) {
@@ -387,7 +413,9 @@ object MobileTypeSingle2Hook : BaseHook() {
             }
             if (!showMobileType) {
                 containerLeft.setPadding(20, 0, 0, 0)
-                containerRight.setPadding(0, 0, 0, 0)
+                if (!isMoreOS3) {
+                    containerRight?.setPadding(0, 0, 0, 0)
+                }
             }
         }
     }
