@@ -27,11 +27,13 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 // by ljlvink
 object DisableMiuiMultiWinSwitch : BaseHook() {
     override fun init() {
-        if (isMoreAndroidVersion(35)) {
-            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiDotView", lpparam.classLoader)
+        loadClass(if (isMoreAndroidVersion(36)) {
+            "com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.decoration.MiuiDecorationDotView"
+        } else if (isMoreAndroidVersion(35)) {
+            "com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiDotView"
         } else {
-            loadClass("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiDotView", lpparam.classLoader)
-        }.methodFinder()
+            "com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiDotView"
+        }, lpparam.classLoader).methodFinder()
             .filterByName("onDraw")
             .single().createHook {
                 returnConstant(null)

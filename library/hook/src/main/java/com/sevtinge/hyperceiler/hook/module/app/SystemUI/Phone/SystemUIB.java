@@ -37,10 +37,14 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.Me
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.UnlockCustomActions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.b.MediaPicture;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.b.MediaSeekBar;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableBottomBar;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableMiuiMultiWinSwitch;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.NewPluginHelperKt;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.QSColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.clock.StatusBarClockNew;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.BatteryStyle;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.HideBatteryIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.IconsFromSystemManager;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.StatusBarIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.SwapWiFiAndMobileNetwork;
@@ -91,6 +95,15 @@ public class SystemUIB extends BaseModule {
             mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
         initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
 
+        // 电池相关
+        boolean isHideBatteryIcon = mPrefsMap.getBoolean("system_ui_status_bar_battery_icon") ||
+            mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") ||
+            mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark") ||
+            mPrefsMap.getBoolean("system_ui_status_bar_battery_charging");
+        initHook(HideBatteryIcon.INSTANCE, isHideBatteryIcon);
+        initHook(BatteryStyle.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_battery_style_enable_custom") ||
+            mPrefsMap.getBoolean("system_ui_status_bar_battery_style_change_location"));
+
         // 网速指示器
         if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_all_status_enable")) {
             initHook(NewNetworkSpeed.INSTANCE, true);
@@ -130,6 +143,10 @@ public class SystemUIB extends BaseModule {
         initHook(MediaSeekBar.INSTANCE, mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_color", -1) != -1
             || mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1) != -1 ||
             mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) != 0);
+
+        // Other
+        initHook(DisableMiuiMultiWinSwitch.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_miui_multi_win_switch"));
+        initHook(DisableBottomBar.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_bottombar"));
 
         if (mPrefsMap.getBoolean("misound_bluetooth") && isHyperOSVersion(2f)) {
             initHook(new AutoSEffSwitchForSystemUi().onApplication());
