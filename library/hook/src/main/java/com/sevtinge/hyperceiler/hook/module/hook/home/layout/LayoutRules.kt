@@ -234,6 +234,7 @@ object LayoutRules : HomeBaseHook() {
                     |  cellSizeO     => $mCellSize
                     |  cellWidth     => $currentCellWidth
                     |  cellHeight    => $currentCellHeight
+                	|  mPaddingBottom => $mWorkspacePaddingBottom
                 """.trimMargin()
             )
         }
