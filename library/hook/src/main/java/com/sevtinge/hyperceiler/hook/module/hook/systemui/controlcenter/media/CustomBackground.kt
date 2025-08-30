@@ -236,8 +236,8 @@ object CustomBackground : BaseHook() {
                         val isArtWorkUpdate =
                             param.thisObject.getBooleanField("isArtWorkUpdate")
                                 || mCurrentPkgName != packageName
-                        val mMediaViewHolder =
-                            getValueByField(param.thisObject, "holder") ?: return@createAfterHook
+                        val mMediaViewHolder = getValueByField(param.thisObject, "holder")
+                            ?: return@createAfterHook
                         val holder = initMediaViewHolder(mMediaViewHolder) ?: return@createAfterHook
 
                         updateBackground(context, isArtWorkUpdate, artwork, packageName, holder)
@@ -261,7 +261,10 @@ object CustomBackground : BaseHook() {
         val seekBar = mMediaViewHolder.getObjectFieldOrNullAs<SeekBar>("seekBar") ?: return null
         val elapsedTimeView = mMediaViewHolder.getObjectFieldOrNullAs<TextView>("elapsedTimeView") ?: return null
         val totalTimeView = mMediaViewHolder.getObjectFieldOrNullAs<TextView>("totalTimeView") ?: return null
-        val albumView = mMediaViewHolder.getObjectFieldOrNullAs<ImageView>("albumView") ?: return null
+        // OS 3.0.0.14.WOCCNXM changed "albumView" to "albumImageView"
+        val albumView = mMediaViewHolder.getObjectFieldOrNullAs<ImageView>("albumImageView")
+            ?: mMediaViewHolder.getObjectFieldOrNullAs<ImageView>("albumView")
+            ?: return null
 
         return MiuiMediaViewHolder(
             mMediaViewHolder.hashCode(),
