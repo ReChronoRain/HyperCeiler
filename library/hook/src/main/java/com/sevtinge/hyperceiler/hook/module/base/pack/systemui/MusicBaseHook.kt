@@ -127,7 +127,7 @@ abstract class MusicBaseHook : BaseHook() {
             .setOngoing(true)
             .setContentIntent(pendingIntent)
 
-        fun buildRemoteViews(textColor: Int): RemoteViews {
+        fun buildRemoteViews(): RemoteViews {
             val layoutId = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
             val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
             val tf_text_id = modRes.getIdentifier("focustflyric", "id", ProjectApi.mAppModulePkg)
@@ -135,13 +135,11 @@ abstract class MusicBaseHook : BaseHook() {
                 if (tf != null){
                     setViewVisibility(tf_text_id, View.VISIBLE)
                     setTextViewText(tf_text_id, tf)
-                    setTextColor(tf_text_id, textColor)
                     setTextViewTextSize(tf_text_id, TypedValue.COMPLEX_UNIT_SP, nSize)
                 } else {
                     setViewVisibility(tf_text_id, View.GONE)
                 }
                 setTextViewText(textId, text)
-                setTextColor(textId, textColor)
                 setTextViewTextSize(textId, TypedValue.COMPLEX_UNIT_SP, nSize)
             }
         }
@@ -169,8 +167,7 @@ abstract class MusicBaseHook : BaseHook() {
         }
 
         runCatching {
-            val remoteViewsNight = buildRemoteViews(Color.WHITE)
-            val remoteViewsDay = buildRemoteViews(Color.BLACK)
+            val remoteViewsDay = buildRemoteViews()
             val remoteViewsAod = buildAodRemoteViews(Color.WHITE)
             val api = if (!isAodShow) {
                 if (isAodMode) {
@@ -180,7 +177,6 @@ abstract class MusicBaseHook : BaseHook() {
                         rvAod = remoteViewsAod,
                         enableFloat = false,
                         rv = remoteViewsDay,
-                        rvNight = remoteViewsNight,
                         timeout = 999999,
                         picticker = icon,
                         pictickerdark = dartIcon
@@ -193,7 +189,6 @@ abstract class MusicBaseHook : BaseHook() {
                         aodTitle = text,
                         enableFloat = false,
                         rv = remoteViewsDay,
-                        rvNight = remoteViewsNight,
                         timeout = 999999,
                         picticker = icon,
                         pictickerdark = dartIcon
@@ -205,7 +200,6 @@ abstract class MusicBaseHook : BaseHook() {
                     updatable = true,
                     enableFloat = false,
                     rv = remoteViewsDay,
-                    rvNight = remoteViewsNight,
                     timeout = 999999,
                     picticker = icon,
                     pictickerdark = dartIcon
