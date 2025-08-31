@@ -145,17 +145,16 @@ object LayoutRules : HomeBaseHook() {
                 -1
             }
 
-            /* val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
+            val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
                 DisplayUtils.dp2px(
                     mPrefsMap.getInt(
                         "home_layout_workspace_padding_bottom",
                         0
                     ).toFloat()
-                )
+                ).toInt()
             } else {
                 -1
-            }*/
-            val sWorkspacePaddingBottom = 0
+            }
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
                 DisplayUtils.dp2px(
