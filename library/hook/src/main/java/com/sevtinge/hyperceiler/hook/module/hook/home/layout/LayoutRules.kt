@@ -151,7 +151,7 @@ object LayoutRules : HomeBaseHook() {
                     mPrefsMap.getInt(
                         "home_layout_workspace_padding_bottom",
                         0
-                    ).toFloat()
+                    )
                 )
             } else {
                 -1
