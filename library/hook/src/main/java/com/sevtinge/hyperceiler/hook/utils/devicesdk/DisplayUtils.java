@@ -62,17 +62,17 @@ public class DisplayUtils {
     }
 
     public static int sp2px(float spValue) {
-        final float scale = getAppContext().getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * scale + 0.5f);
+        float scale = Resources.getSystem().getDisplayMetrics().scaledDensity;
+        return (int) Math.round(spValue * scale);
     }
 
     public static int sp2px(Context context, float spValue) {
-        final float scale = context.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * scale + 0.5f);
+        float scale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) Math.round(spValue * scale);
     }
 
     public static int px2dp(float pxValue) {
-        final float scale = getAppContext().getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
+        float scale = Resources.getSystem().getDisplayMetrics().density;
+        return (int) Math.round(pxValue / scale);
     }
 }
