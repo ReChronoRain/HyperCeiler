@@ -24,6 +24,10 @@
     <string name="new_permission_location_desc">用於提供緯度和經度等服務</string>
     <string name="new_cta_agree_desc">在使用過程中，為了提供您更多功能，我們可能會向您申請 Root/Su 權限。您可以隨時到權限管理調整所有權限的授權狀態，並請到您的 Root/Su 管理員管理 Root/Su 權限。</string>
     <string name="new_cta_app_main_purpose">修改系統應用程式</string>
+    <string name="new_cta_app_all_purpose_welcome">使用者條款及隱私權政策</string>
+    <string name="new_cta_app_all_purpose_title">歡迎使用 HyperCeiler，本應用程式依賴 Xposed 框架運作，您可以使用本應用程式攔截並修改其他支援的應用程式，以增強系統功能。在使用過程中，為了提供更多功能給您，我們可能會向您請求 Root 權限。您可隨時前往您的 Root 管理器進行管理。\n繼續使用 HyperCeiler 即表示您同意我們的<annotation key="protocol">《使用者條款》</annotation>及<annotation key="privacy">《隱私權政策》</annotation>。</string>
+    <string name="new_cta_app_all_purpose_agree">同意並繼續</string>
+    <string name="new_cta_app_all_purpose_reject">拒絕並退出</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">繁體中文 (台灣)</string>
     <string name="translator">聖小熊</string>

@@ -25,9 +25,7 @@
     <string name="new_cta_agree_desc">Во время использования, чтобы предоставить вам больше функций, мы можем запросить у вас разрешение Root/Su. Вы можете в любое время перейти к управлению разрешениями, чтобы настроить статус авторизации всех разрешений, а также обратиться к своему менеджеру Root/Su за разрешениями Root/Su.</string>
     <string name="new_cta_app_main_purpose">Модификация системных приложений</string>
     <string name="new_cta_app_all_purpose_welcome">Пользовательское соглашение и Политика конфиденциальности</string>
-    <string name="new_cta_app_all_purpose_title">Добро пожаловать в HyperCeiler! Это приложение создано для взлома и модификации разных поддерживаемых приложений для улучшения системы. Это приложение использует Фреймворк Xposed для работы. Чтобы предоставить вам больше функций может быть потребован root-доступ.\nПродолжая использовать HyperCeiler, вы соглашаетесь с нашим Пользовательским соглашением и Политикой конфиденциальности.</string>
-    <string name="new_cta_app_all_purpose_protocol">Пользовательское соглашение</string>
-    <string name="new_cta_app_all_purpose_privacy">Политика конфиденциальности</string>
+    <string name="new_cta_app_all_purpose_title">Добро пожаловать в HyperCeiler! Это приложение создано для взлома и модификации разных поддерживаемых приложений для улучшения системы. Это приложение использует Фреймворк Xposed для работы. Чтобы предоставить вам больше функций может быть потребован root-доступ.\nПродолжая использовать HyperCeiler, вы соглашаетесь с нашим <annotation key="protocol">Пользовательским соглашением</annotation> и <annotation key="privacy">Политикой конфиденциальности</annotation>.</string>
     <string name="new_cta_app_all_purpose_agree">Принять и продолжить</string>
     <string name="new_cta_app_all_purpose_reject">Отклонить и выйти</string>
     <!--HyperCeiler Settings/About Page-->

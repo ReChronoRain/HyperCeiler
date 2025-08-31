@@ -25,9 +25,7 @@
     <string name="new_cta_agree_desc">使用中、より多くの機能を提供するために root/su 権限の許可を求める場合があります。アクセス許可の管理に移動すると、いつでもすべてのアクセス許可を変更できます。root/su 権限については、お使いの root/su マネージャーにアクセスして変更してください。</string>
     <string name="new_cta_app_main_purpose">システムアプリの変更</string>
     <string name="new_cta_app_all_purpose_welcome">利用規約 &amp; プライバシーポリシー</string>
-    <string name="new_cta_app_all_purpose_title">HyperCeiler へようこそ！このアプリは Xposed フレームワークを使用して動作します。このアプリを使用すると、対応アプリを乗っ取ったり改変したりしてシステムを強化することができます。ご利用中に、より多くの機能を提供するために、Root 権限を申請する場合があります。この権限は Root マネージャーからいつでも管理できます。\nHyperCeiler を引き続きご利用いただくことで、利用規約およびプライバシーポリシーに同意したものとみなされます。</string>
-    <string name="new_cta_app_all_purpose_protocol">利用規約</string>
-    <string name="new_cta_app_all_purpose_privacy">プライバシーポリシー</string>
+    <string name="new_cta_app_all_purpose_title">HyperCeiler へようこそ！このアプリは Xposed フレームワークを使用して動作します。このアプリを使用すると、対応アプリを乗っ取ったり改変したりしてシステムを強化することができます。ご利用中に、より多くの機能を提供するために、Root 権限を申請する場合があります。この権限は Root マネージャーからいつでも管理できます。\nHyperCeiler を引き続きご利用いただくことで、<annotation key="protocol">利用規約</annotation>および<annotation key="privacy">プライバシーポリシー</annotation>に同意したものとみなされます。</string>
     <string name="new_cta_app_all_purpose_agree">同意 &amp; 続行</string>
     <string name="new_cta_app_all_purpose_reject">拒否 &amp; 終了</string>
     <!--HyperCeiler Settings/About Page-->

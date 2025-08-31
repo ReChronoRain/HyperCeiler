@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.common.utils;
 
 import static com.sevtinge.hyperceiler.common.utils.CtaUtils.setCtaValue;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.LOGGER_CHECKER_ERR_CODE;
 import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
 
@@ -27,6 +28,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.Annotation;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -35,6 +37,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.sevtinge.hyperceiler.common.view.RestartAlertDialog;
@@ -92,61 +95,63 @@ public class DialogHelper {
     }
 
     public static void showUserAgreeDialog(Context context) {
-        String s = context.getString(R.string.new_cta_app_all_purpose_title);
-        String protocol = context.getString(R.string.new_cta_app_all_purpose_protocol);
-        String privacy = context.getString(R.string.new_cta_app_all_purpose_privacy);
         int textColor = ContextCompat.getColor(context, R.color.textview_black);
         int linkColor = ContextCompat.getColor(context, R.color.provision_item_policy_text_color);
 
-        SpannableString ss = new SpannableString(s);
+        CharSequence raw = context.getText(R.string.new_cta_app_all_purpose_title);
+        SpannableString ss = new SpannableString(raw);
 
+        // 全文颜色
+        // 也可用 msgView.setTextColor(textColor)
         ss.setSpan(new ForegroundColorSpan(textColor), 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        int startA = ss.toString().indexOf(protocol);
-        int endA = startA + protocol.length();
-        ss.setSpan(new ClickableSpan() {
-            @Override
-            public void onClick(View widget) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://hyperceiler.sevtinge.com/Protocol"));
-                context.startActivity(intent);
-            }
+        Annotation[] anns = ss.getSpans(0, ss.length(), Annotation.class);
+        for (Annotation an : anns) {
+            int start = ss.getSpanStart(an);
+            int end = ss.getSpanEnd(an);
+            String key = an.getValue(); // "protocol" or "privacy"
+            ss.removeSpan(an);
 
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setColor(linkColor);
-                ds.setUnderlineText(true);
+            ClickableSpan span;
+            if ("protocol".equals(key)) {
+                span = new ClickableSpan() {
+                    @Override
+                    public void onClick(@NonNull View widget) {
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://hyperceiler.sevtinge.com/Protocol")));
+                    }
+                    @Override
+                    public void updateDrawState(@NonNull TextPaint ds) {
+                        ds.setColor(linkColor);
+                        ds.setUnderlineText(true);
+                    }
+                };
+            } else if ("privacy".equals(key)) {
+                span = new ClickableSpan() {
+                    @Override public void onClick(@NonNull View widget) {
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://hyperceiler.sevtinge.com/Privacy")));
+                    }
+                    @Override public void updateDrawState(@NonNull TextPaint ds) {
+                        ds.setColor(linkColor);
+                        ds.setUnderlineText(true);
+                    }
+                };
+            } else {
+                continue;
             }
-        }, startA, endA, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        int startB = ss.toString().indexOf(privacy);
-        int endB = startB + privacy.length();
-        ss.setSpan(new ClickableSpan() {
-            @Override
-            public void onClick(View widget) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://hyperceiler.sevtinge.com/Privacy"));
-                context.startActivity(intent);
-            }
-
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setColor(linkColor);
-                ds.setUnderlineText(true);
-            }
-        }, startB, endB, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ss.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
 
         TextView msgView = new TextView(context);
         msgView.setText(ss);
         msgView.setMovementMethod(LinkMovementMethod.getInstance());
-        msgView.setPadding(100, 20, 100, 60);
+        msgView.setPadding(dp2px(context, 24), dp2px(context, 12), dp2px(context, 24), dp2px(context, 24));
         msgView.setTextSize(16);
 
         AlertDialog dialog = new AlertDialog.Builder(context)
             .setCancelable(false)
             .setTitle(R.string.new_cta_app_all_purpose_welcome)
             .setView(msgView)
-            .setPositiveButton(R.string.new_cta_app_all_purpose_agree, (d, w) ->  setCtaValue(context, true))
+            .setPositiveButton(R.string.new_cta_app_all_purpose_agree, (d, w) -> setCtaValue(context, true))
             .setNegativeButton(R.string.new_cta_app_all_purpose_reject, (d, w) -> System.exit(0))
             .create();
         dialog.show();

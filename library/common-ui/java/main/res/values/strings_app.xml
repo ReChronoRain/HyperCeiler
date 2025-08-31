@@ -77,9 +77,7 @@
     <string name="new_cta_agree_desc">During usage, in order to provide you with more features, we may apply for root permission from you. You can go to Permission Management at any time to adjust the authorization status of all permissions, and please go to your root manager to grant root permissions.</string>
     <string name="new_cta_app_main_purpose">Modify system apps</string>
     <string name="new_cta_app_all_purpose_welcome">User Agreement &amp; Privacy Policy</string>
-    <string name="new_cta_app_all_purpose_title">Welcome to HyperCeiler! This app relies on the Xposed framework to run. You can use this app to hijack and modify other supported apps to enhance the system. During usage, in order to provide you with more functions, we may apply for root permissions from you. You can manage it at any time by going to your root manager.\nBy continuing to use HyperCeiler, you agree to our User Agreement and Privacy Policy.</string>
-    <string name="new_cta_app_all_purpose_protocol">User Agreement</string>
-    <string name="new_cta_app_all_purpose_privacy">Privacy Policy</string>
+    <string name="new_cta_app_all_purpose_title">Welcome to HyperCeiler! This app relies on the Xposed framework to run. You can use this app to hijack and modify other supported apps to enhance the system. During usage, in order to provide you with more functions, we may apply for root permissions from you. You can manage it at any time by going to your root manager.\nBy continuing to use HyperCeiler, you agree to our <annotation key="protocol">User Agreement</annotation> and <annotation key="privacy">Privacy Policy</annotation>.</string>
     <string name="new_cta_app_all_purpose_agree">Agree &amp; Continue</string>
     <string name="new_cta_app_all_purpose_reject">Reject &amp; Exit</string>
     <!--HyperCeiler Settings/About Page-->
