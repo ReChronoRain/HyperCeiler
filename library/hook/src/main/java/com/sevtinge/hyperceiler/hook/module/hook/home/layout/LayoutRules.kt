@@ -147,7 +147,7 @@ object LayoutRules : HomeBaseHook() {
             }
 
             val sWorkspacePaddingBottom2 = 0
-            logI(TAG, lpparam.packageName, "class1: ${sWorkspacePaddingBottom2::class}")
+            logI(TAG, lpparam.packageName, "class1: ${sWorkspacePaddingBottom2} ${sWorkspacePaddingBottom2::class}")
  
             val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
                 DisplayUtils.dp2px(
@@ -159,7 +159,7 @@ object LayoutRules : HomeBaseHook() {
             } else {
                 -1
             }
-            logI(TAG, lpparam.packageName, "class2: ${sWorkspacePaddingBottom::class}")
+            logI(TAG, lpparam.packageName, "class2: ${sWorkspacePaddingBottom} ${sWorkspacePaddingBottom::class}")
  
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
