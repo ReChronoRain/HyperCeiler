@@ -91,6 +91,7 @@ public class CrashHook extends HookTool {
                         XposedLogUtils.logE("CrashHook", "context: " + mContext + " pkg: " + mContext.getPackageName() + " proc: " + proc + " crash: " + crashInfo + " short: " + shortMsg
                                 + " long: " + longMsg + " stack: " + stackTrace + " time: " + timeMillis + " pid: " + callingPid + " uid: " + callingUid);
                         recordCrash(mContext, proc, crashInfo, shortMsg, longMsg, stackTrace, timeMillis, callingPid, callingUid);
+                        SafeMode.INSTANCE.onHandleCrash(longMsg, stackTrace, crashInfo.throwClassName, crashInfo.throwFileName, crashInfo.throwLineNumber, crashInfo.throwMethodName);
                     }
                 }
         );

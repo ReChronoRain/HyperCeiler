@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.hook.safe;
 
-import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
-
 import com.sevtinge.hyperceiler.hook.callback.ITAG;
 import com.sevtinge.hyperceiler.hook.utils.PropUtils;
 
