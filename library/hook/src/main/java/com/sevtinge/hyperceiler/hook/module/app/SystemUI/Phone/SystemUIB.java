@@ -44,7 +44,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.clock.Status
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.SwapWiFiAndMobileNetwork;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.FocusNotifLyric;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.HideFakeStatusBar;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model.MobilePublicHookV;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model.MobileTypeSingle2Hook;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model.MobileTypeTextCustom;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.network.NetworkSpeedSec;
@@ -69,15 +68,15 @@ public class SystemUIB extends BaseModule {
         initHook(NotificationImportanceHyperOSFix.INSTANCE, mPrefsMap.getBoolean("system_settings_more_notification_settings"));
 
         // 移动网络图标
-        boolean isEnabledDualRowSignal = mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable");
+        // boolean isEnabledDualRowSignal = mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable");
         // initHook(new DualRowSignalHookV(), isEnabledDualRowSignal);
-        initHook(new MobilePublicHookV(), isEnabledDualRowSignal ||
-            mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
-            mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2") ||
-            mPrefsMap.getBoolean("system_ui_status_bar_mobile_hide_roaming_icon") ||
-            mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator") ||
-            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_small_hd", 0) != 0 ||
-            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_big_hd", 0) != 0);
+        // initHook(new MobilePublicHookV(), isEnabledDualRowSignal ||
+        //     mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
+        //     mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2") ||
+        //     mPrefsMap.getBoolean("system_ui_status_bar_mobile_hide_roaming_icon") ||
+        //     mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator") ||
+        //     mPrefsMap.getStringAsInt("system_ui_status_bar_icon_small_hd", 0) != 0 ||
+        //     mPrefsMap.getStringAsInt("system_ui_status_bar_icon_big_hd", 0) != 0);
         initHook(MobileTypeSingle2Hook.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0) != 0 ||
             mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
         initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
