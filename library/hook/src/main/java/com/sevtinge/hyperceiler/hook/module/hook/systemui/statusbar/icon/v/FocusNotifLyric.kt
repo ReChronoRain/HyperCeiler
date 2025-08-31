@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v
 
+import android.os.Bundle
 import android.service.notification.StatusBarNotification
 import android.view.Choreographer
 import android.widget.TextView
@@ -26,6 +27,7 @@ import com.sevtinge.hyperceiler.hook.module.base.pack.systemui.MusicBaseHook
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.getFloatField
+import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.hook.utils.setFloatField
