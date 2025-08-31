@@ -146,7 +146,7 @@ object LayoutRules : HomeBaseHook() {
                 -1
             }
 
-            val sWorkspacePaddingBottom = 0 as int
+            val sWorkspacePaddingBottom = 0 as Int
             /* val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
                 DisplayUtils.dp2px(
                     mPrefsMap.getInt(
