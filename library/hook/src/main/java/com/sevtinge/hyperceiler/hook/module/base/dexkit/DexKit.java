@@ -107,15 +107,19 @@ public class DexKit {
             mMMKV.putInt("version", mVersion);
 
         String osVersion = getSystemVersionIncremental();
-        String pkgVersion = getPackageVersionName(mParam) + "(" + getPackageVersionCode(mParam) + ")";
-        if (mMMKV.containsKey("pkgVersion")) {
-            String oldPkgVersion = mMMKV.getString("pkgVersion", "null");
-            if (!Objects.equals(pkgVersion, oldPkgVersion)) {
-                mMMKV.clear();
+        String pkgVersionName = getPackageVersionName(mParam);
+        int pkgVersionCode = getPackageVersionCode(mParam);
+        if (!Objects.equals(pkgVersionName, "null") && !Objects.equals(pkgVersionCode, -1)) {
+            String pkgVersion = pkgVersionName + "(" + pkgVersionCode + ")";
+            if (mMMKV.containsKey("pkgVersion")) {
+                String oldPkgVersion = mMMKV.getString("pkgVersion", "null");
+                if (!Objects.equals(pkgVersion, oldPkgVersion)) {
+                    mMMKV.clear();
+                    mMMKV.putString("pkgVersion", pkgVersion + "\n");
+                }
+            } else
                 mMMKV.putString("pkgVersion", pkgVersion + "\n");
-            }
-        } else
-            mMMKV.putString("pkgVersion", pkgVersion + "\n");
+        }
 
         // 对于长时间恒定不变的应用版本号但内部有改动的简易处理方式
         if (mParam.packageName.equals("com.android.systemui")) {

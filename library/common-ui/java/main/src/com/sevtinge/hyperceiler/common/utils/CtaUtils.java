@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.CtaBypassForHyperceiler;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.ui.R;
 
@@ -71,11 +70,7 @@ public class CtaUtils {
     }
 
     public static boolean isCtaBypass() {
-        try {
-            return CtaBypassForHyperceiler.IS_HOOKED;
-        } catch (Error ignore) {
-            return false;
-        }
+        return false;
     }
 
     public static boolean showCtaDialog(ActivityResultLauncher<Intent> launcher, Activity activity) {
