@@ -51,12 +51,12 @@ public class DisplayUtils {
     }
 
     public static int dp2px(float dipValue) {
-        final float scale = getAppContext().getResources().getDisplayMetrics().density;
+        float scale = getAppContext().getResources().getDisplayMetrics().density;
         return (int) Math.round(dipValue * scale);
     }
 
     public static int dp2px(Context context, float dipValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
+        float scale = context.getResources().getDisplayMetrics().density;
         return (int) Math.round(dipValue * scale);
     }
 
