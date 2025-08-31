@@ -151,7 +151,7 @@ object LayoutRules : HomeBaseHook() {
                         "home_layout_workspace_padding_bottom",
                         0
                     ).toFloat()
-                ).toInt()
+                ).roundToInt()
             } else {
                 -1
             }
