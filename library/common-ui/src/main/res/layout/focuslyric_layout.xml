@@ -21,8 +21,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp"
-    android:background="@android:color/transparent">
+    android:layout_centerVertical="true"
+    android:layout_marginStart="1dp"
+    android:padding="10dp"
+    android:layout_alignParentEnd="true">
 
     <LinearLayout
         android:layout_marginTop="5dp"
@@ -34,6 +36,7 @@
 
         <TextView
             android:id="@+id/focuslyric"
+            android:textColor="@color/titleColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -44,6 +47,7 @@
 
         <TextView
             android:id="@+id/focustflyric"
+            android:textColor="@color/titleColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"

@@ -131,6 +131,20 @@ object FocusNotifLyric : MusicBaseHook() {
         }.onFailure {
             logE(TAG, "canCustomFocus failed, ${it.message}")
         }
+        runCatching {
+            loadClass("miui.systemui.notification.auth.AuthManager\$AuthServiceCallback\$onAuthResult$1",classLoader)
+                .methodFinder().filterByName("invokeSuspend")
+                .first().createHook {
+                    before { param ->
+                        val obj = param.thisObject
+                        // 访问字段 "$authBundle"
+                        val bundle = obj.getObjectField("\$authBundle") as Bundle
+                        bundle.putInt("result_code",0)
+                    }
+                }
+        }.onFailure {
+            logE(TAG, "invokeSuspend failed, ${it.message}")
+        }
         // 启用debug日志
         // setStaticObject(loadClass("miui.systemui.notification.NotificationUtil", classLoader), "DEBUG", true)
     }
