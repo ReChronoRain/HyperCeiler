@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.setIntField
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 object LayoutRules : HomeBaseHook() {
     private const val PHONE_RULES = "com.miui.home.launcher.compat.PhoneDeviceRules"
