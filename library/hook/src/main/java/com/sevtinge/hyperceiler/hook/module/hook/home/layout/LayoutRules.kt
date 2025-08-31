@@ -148,23 +148,18 @@ object LayoutRules : HomeBaseHook() {
 
             val sWorkspacePaddingBottom = 0
 
-            val sWorkspacePaddingBottom2 = mPrefsMap.getInt(
-                        "home_layout_workspace_padding_bottom",
-                        0
-                    )
-            
-           /* val sWorkspacePaddingBottom2 = if (isSetWSPaddingBottomHook) {
+            val sWorkspacePaddingBottom2 = if (isSetWSPaddingBottomHook) {
                 DisplayUtils.dp2px(
                     mPrefsMap.getInt(
                         "home_layout_workspace_padding_bottom",
                         0
-                    )
+                    ).toFloat()
                 ) 
             } else {
                 -1
             }
- */           logI(TAG, lpparam.packageName, "class1: ${sWorkspacePaddingBottom2} ${sWorkspacePaddingBottom2::class}")
- logI(TAG, lpparam.packageName, "class2: ${sWorkspacePaddingBottom} ${sWorkspacePaddingBottom::class}")
+            logI(TAG, lpparam.packageName, "class1: ${sWorkspacePaddingBottom2} ${sWorkspacePaddingBottom2::class}")
+            logI(TAG, lpparam.packageName, "class2: ${sWorkspacePaddingBottom} ${sWorkspacePaddingBottom::class}")
  
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
