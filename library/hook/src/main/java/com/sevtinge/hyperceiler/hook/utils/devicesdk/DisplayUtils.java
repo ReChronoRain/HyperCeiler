@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.hook.utils.devicesdk;
 import static io.github.kyuubiran.ezxhelper.xposed.EzXposed.getAppContext;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
 
@@ -51,7 +52,7 @@ public class DisplayUtils {
     }
 
     public static int dp2px(float dipValue) {
-        float scale = getAppContext().getResources().getDisplayMetrics().density;
+        float scale = Resources.getSystem().getDisplayMetrics().density;
         return (int) Math.round(dipValue * scale);
     }
 
