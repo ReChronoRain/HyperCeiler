@@ -91,6 +91,7 @@ public class CrashHook extends HookTool {
                         XposedLogUtils.logE("CrashHook", "context: " + mContext + " pkg: " + mContext.getPackageName() + " proc: " + proc + " crash: " + crashInfo + " short: " + shortMsg
                                 + " long: " + longMsg + " stack: " + stackTrace + " time: " + timeMillis + " pid: " + callingPid + " uid: " + callingUid);
                         recordCrash(mContext, proc, crashInfo, shortMsg, longMsg, stackTrace, timeMillis, callingPid, callingUid);
+                        SafeMode.INSTANCE.onHandleCrash(longMsg, stackTrace, crashInfo.throwClassName, crashInfo.throwFileName, crashInfo.throwLineNumber, crashInfo.throwMethodName);
                     }
                 }
         );
@@ -318,7 +319,7 @@ public class CrashHook extends HookTool {
     private Intent getIntent(String abbr) {
         Intent intent = new Intent();
         intent.setPackage("com.sevtinge.hyperceiler");
-        intent.setClassName("com.sevtinge.hyperceiler", "com.sevtinge.hyperceiler.safe.CrashActivity");
+        intent.setClassName("com.sevtinge.hyperceiler", "com.sevtinge.hyperceiler.safemode.CrashActivity");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("key_longMsg", longMsg);
         intent.putExtra("key_stackTrace", stackTrace);

@@ -30,6 +30,7 @@
 -keep class com.sevtinge.hyperceiler.hook.module.** { *; }
 -keep class com.sevtinge.hyperceiler.hook.module.base.dexkit.** { *; }
 -keep class com.sevtinge.hyperceiler.hook.module.base.BaseModule { *; }
+-keep class com.sevtinge.hyperceiler.hook.safe.** { *; }
 -keep class * extends com.sevtinge.hyperceiler.hook.module.base.BaseModule
 -keep class * extends com.sevtinge.hyperceiler.hook.module.base.BaseHook { <init>(); }
 
@@ -39,6 +40,8 @@
 -keep class com.sevtinge.hyperceiler.hook.utils.input.ContentModel { *; }
 -keep class com.sevtinge.hyperceiler.hook.utils.input.FileHelper { *; }
 
+-keep class android.os.SystemProperties { *; }
+-dontwarn android.os.SystemProperties
 -dontwarn de.robv.android.xposed.**
 -dontwarn miui.**
 -dontwarn android.app.AndroidAppHelper

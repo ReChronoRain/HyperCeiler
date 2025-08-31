@@ -46,14 +46,9 @@ public abstract class BaseModule {
     }
 
     public void init(LoadPackageParam lpparam) {
-        if (!lpparam.isFirstApplication) return;
+        // if (!lpparam.isFirstApplication) return;
         if (swappedMap.isEmpty()) {
             swappedMap = CrashData.swappedData();
-        }
-
-        if (CrashData.toPkgList(lpparam.packageName)) {
-            XposedLogUtils.logI(TAG, "Entry safe mode: " + lpparam.packageName);
-            return;
         }
 
         if (!PrefsUtils.mPrefsMap.getBoolean("module_settings_reshook_new")) {
