@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hook.module.base.tool;
 
 import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
+import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logI;
 
 import android.annotation.SuppressLint;
 import android.app.backup.BackupManager;
@@ -190,13 +191,15 @@ public class AppsTool {
             Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
             Object parser = parserCls.getDeclaredConstructor().newInstance();
             File apkPath = new File(lpparam.appInfo.sourceDir);
-            XposedHelpers.findAndHookMethod(parserCls, "setMaxAspectRatio", float.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    Object arg0 = param.args[0];
-                    if (arg0 instanceof Integer) param.args[0] = (float) (int) arg0;
-                }
-            });
+            if (apkPath.toString().contains("com.miui.securecenter")) {
+                XposedHelpers.findAndHookMethod(parserCls, "setMaxAspectRatio", float.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        Object arg0 = param.args[0];
+                        if (arg0 instanceof Integer) param.args[0] = (float) (int) arg0;
+                    }
+                });
+            }
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
             return (String) XposedHelpers.getObjectField(pkg, "mVersionName");
         } catch (Throwable e) {
@@ -210,13 +213,15 @@ public class AppsTool {
             Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
             Object parser = parserCls.getDeclaredConstructor().newInstance();
             File apkPath = new File(lpparam.appInfo.sourceDir);
-            XposedHelpers.findAndHookMethod(parserCls, "setMaxAspectRatio", float.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    Object arg0 = param.args[0];
-                    if (arg0 instanceof Integer) param.args[0] = (float) (int) arg0;
-                }
-            });
+            if (apkPath.toString().contains("com.miui.securecenter")) {
+                XposedHelpers.findAndHookMethod(parserCls, "setMaxAspectRatio", float.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        Object arg0 = param.args[0];
+                        if (arg0 instanceof Integer) param.args[0] = (float) (int) arg0;
+                    }
+                });
+            }
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
             return XposedHelpers.getIntField(pkg, "mVersionCode");
         } catch (Throwable e) {
