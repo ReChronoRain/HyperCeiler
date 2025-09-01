@@ -24,104 +24,146 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.RenderEffect;
 import android.graphics.RuntimeShader;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.main.page.about.controller.BgEffectDataManager;
 
 import java.io.InputStream;
 import java.util.Scanner;
 
-import fan.animation.Folme;
-import fan.animation.FolmeEase;
-import fan.animation.IStateStyle;
-import fan.animation.base.AnimConfig;
 import fan.appcompat.app.ActionBar;
 import fan.internal.utils.ViewUtils;
 
-
 public class BgEffectPainter {
-    AnimConfig animConfig1;
-    AnimConfig animConfig2;
-    private float cycleCount;
-    private float[] endColorValue;
-    BgEffectDataManager.BgEffectData mBgEffectData;
-    BgEffectDataManager mBgEffectDataManager;
+    private float[] bound;
     RuntimeShader mBgRuntimeShader;
-    Handler mHandler;
-    private float[] startColorValue;
-    IStateStyle stateStyle;
-    private float uAnimTime = 0.0f;
+    Context mContext;
+    Resources mResources;
+    private float[] uResolution;
+    private float uAnimTime = ((float) System.nanoTime()) / 1.0E9f;
     private float[] uBgBound = {0.0f, 0.4489f, 1.0f, 0.5511f};
+    private float uTranslateY = 0.0f;
+    private float[] uPoints = {0.67f, 0.42f, 1.0f, 0.69f, 0.75f, 1.0f, 0.14f, 0.71f, 0.95f, 0.14f, 0.27f, 0.8f};
     private float[] uColors = {0.57f, 0.76f, 0.98f, 1.0f, 0.98f, 0.85f, 0.68f, 1.0f, 0.98f, 0.75f, 0.93f, 1.0f, 0.73f, 0.7f, 0.98f, 1.0f};
-    private float prevT = 0.0f;
-    private float colorInterpT = 0.0f;
-    private float gradientSpeed = 1.0f;
+    private float uAlphaMulti = 1.0f;
+    private float uNoiseScale = 1.5f;
+    private float uPointOffset = 0.1f;
+    private float uPointRadiusMulti = 1.0f;
+    private float uSaturateOffset = 0.2f;
+    private float uLightOffset = 0.1f;
+    private float uAlphaOffset = 0.5f;
+    private float uShadowColorMulti = 0.3f;
+    private float uShadowColorOffset = 0.3f;
+    private float uShadowNoiseScale = 5.0f;
+    private float uShadowOffset = 0.01f;
 
     public BgEffectPainter(Context context) {
-        this.cycleCount = 0.0f;
-        String loadShader = loadShader(context.getResources(), R.raw.bg_frag);
-        loadShader.getClass();
-        this.mBgRuntimeShader = new RuntimeShader(loadShader);
-        this.mHandler = new Handler(Looper.getMainLooper());
-        BgEffectDataManager bgEffectDataManager = new BgEffectDataManager();
-        this.mBgEffectDataManager = bgEffectDataManager;
-        BgEffectDataManager.BgEffectData data = bgEffectDataManager.getData(BgEffectDataManager.DeviceType.PHONE, BgEffectDataManager.ThemeMode.LIGHT);
-        this.mBgEffectData = data;
-        this.cycleCount = 0.0f;
-        this.mBgRuntimeShader.setFloatUniform("uTranslateY", data.uTranslateY);
-        this.mBgRuntimeShader.setFloatUniform("uPoints", this.mBgEffectData.uPoints);
-        this.mBgRuntimeShader.setFloatUniform("uColors", this.uColors);
-        this.mBgRuntimeShader.setFloatUniform("uNoiseScale", this.mBgEffectData.uNoiseScale);
-        this.mBgRuntimeShader.setFloatUniform("uPointOffset", this.mBgEffectData.uPointOffset);
-        this.mBgRuntimeShader.setFloatUniform("uPointRadiusMulti", this.mBgEffectData.uPointRadiusMulti);
-        this.mBgRuntimeShader.setFloatUniform("uSaturateOffset", this.mBgEffectData.uSaturateOffset);
-        this.mBgRuntimeShader.setFloatUniform("uShadowColorMulti", this.mBgEffectData.uShadowColorMulti);
-        this.mBgRuntimeShader.setFloatUniform("uShadowColorOffset", this.mBgEffectData.uShadowColorOffset);
-        this.mBgRuntimeShader.setFloatUniform("uShadowOffset", this.mBgEffectData.uShadowOffset);
-        this.mBgRuntimeShader.setFloatUniform("uBound", this.uBgBound);
-        this.mBgRuntimeShader.setFloatUniform("uAlphaMulti", this.mBgEffectData.uAlphaMulti);
-        this.mBgRuntimeShader.setFloatUniform("uLightOffset", this.mBgEffectData.uLightOffset);
-        this.mBgRuntimeShader.setFloatUniform("uAlphaOffset", this.mBgEffectData.uAlphaOffset);
-        this.mBgRuntimeShader.setFloatUniform("uShadowNoiseScale", this.mBgEffectData.uShadowNoiseScale);
-        this.animConfig1 = new AnimConfig().setEase(FolmeEase.spring(0.9f, 1.3f));
-        this.animConfig2 = new AnimConfig().setEase(FolmeEase.spring(0.9f, 0.6f));
-        this.stateStyle = Folme.useValue(new Object[]{this});
-        float[] fArr = this.mBgEffectData.gradientColors2;
-        this.startColorValue = fArr;
-        this.endColorValue = fArr;
+        mContext = context;
+        mResources = context.getResources();
+        String loadShader = loadShader(mResources, R.raw.bg_frag);
+        mBgRuntimeShader = new RuntimeShader(loadShader);
+        mBgRuntimeShader.setFloatUniform("uTranslateY", uTranslateY);
+        mBgRuntimeShader.setFloatUniform("uPoints", uPoints);
+        mBgRuntimeShader.setFloatUniform("uColors", uColors);
+        mBgRuntimeShader.setFloatUniform("uNoiseScale", uNoiseScale);
+        mBgRuntimeShader.setFloatUniform("uPointOffset", uPointOffset);
+        mBgRuntimeShader.setFloatUniform("uPointRadiusMulti", uPointRadiusMulti);
+        mBgRuntimeShader.setFloatUniform("uSaturateOffset", uSaturateOffset);
+        mBgRuntimeShader.setFloatUniform("uShadowColorMulti", uShadowColorMulti);
+        mBgRuntimeShader.setFloatUniform("uShadowColorOffset", uShadowColorOffset);
+        mBgRuntimeShader.setFloatUniform("uShadowOffset", uShadowOffset);
+        mBgRuntimeShader.setFloatUniform("uBound", uBgBound);
+        mBgRuntimeShader.setFloatUniform("uAlphaMulti", uAlphaMulti);
+        mBgRuntimeShader.setFloatUniform("uLightOffset", uLightOffset);
+        mBgRuntimeShader.setFloatUniform("uAlphaOffset", uAlphaOffset);
+        mBgRuntimeShader.setFloatUniform("uShadowNoiseScale", uShadowNoiseScale);
     }
 
     public RenderEffect getRenderEffect() {
-        return RenderEffect.createShaderEffect(this.mBgRuntimeShader);
+        return RenderEffect.createRuntimeShaderEffect(mBgRuntimeShader, "uTex");
     }
 
-    public void stop() {
-        Handler handler = this.mHandler;
-        if (handler != null) {
-            handler.removeCallbacksAndMessages(null);
+    public void updateMaterials() {
+        mBgRuntimeShader.setFloatUniform("uAnimTime", uAnimTime);
+        mBgRuntimeShader.setFloatUniform("uResolution", uResolution);
+    }
+
+    public void setAnimTime(float f) {
+        uAnimTime = f;
+    }
+
+    public void setColors(float[] fArr) {
+        uColors = fArr;
+        mBgRuntimeShader.setFloatUniform("uColors", fArr);
+    }
+
+    public void setPoints(float[] fArr) {
+        uPoints = fArr;
+        mBgRuntimeShader.setFloatUniform("uPoints", fArr);
+    }
+
+    public void setBound(float[] fArr) {
+        this.uBgBound = fArr;
+        this.mBgRuntimeShader.setFloatUniform("uBound", fArr);
+    }
+
+    public void setLightOffset(float f) {
+        this.uLightOffset = f;
+        this.mBgRuntimeShader.setFloatUniform("uLightOffset", f);
+    }
+
+    public void setSaturateOffset(float f) {
+        this.uSaturateOffset = f;
+        this.mBgRuntimeShader.setFloatUniform("uSaturateOffset", f);
+    }
+
+    public void setPhoneLight(float[] fArr) {
+        setLightOffset(0.1f);
+        setSaturateOffset(0.2f);
+        setPoints(new float[]{0.67f, 0.42f, 1.0f, 0.69f, 0.75f, 1.0f, 0.14f, 0.71f, 0.95f, 0.14f, 0.27f, 0.8f});
+        if (isLunarNewYearThemeView) {
+            setColors(new float[]{1.0f, 0.83f, 0.68f, 1.0f, 0.92f, 0.56f, 0.47f, 1.0f, 0.98f, 0.74f, 0.72f, 1.0f, 1.0f, 0.62f, 0.53f, 1.0f});
+            // setColors(new float[]{0.97f, 0.67f, 0.46f, 1.0f, 0.80f, 0.12f, 0.09f, 1.0f, 0.93f, 0.47f, 0.2f, 1.0f, 0.98f, 0.36f, 0.28f, 1.0f});
+        } else {
+            setColors(new float[]{0.57f, 0.76f, 0.98f, 1.0f, 0.98f, 0.85f, 0.68f, 1.0f, 0.98f, 0.75f, 0.93f, 1.0f, 0.73f, 0.7f, 0.98f, 1.0f});
         }
-        IStateStyle iStateStyle = this.stateStyle;
-        if (iStateStyle != null) {
-            iStateStyle.cancel();
-            this.stateStyle.clean();
-            this.stateStyle = null;
+        setBound(fArr);
+        setBound(fArr);
+    }
+
+    public void setPhoneDark(float[] fArr) {
+        setLightOffset(-0.1f);
+        setSaturateOffset(0.2f);
+        setPoints(new float[]{0.63f, 0.5f, 0.88f, 0.69f, 0.75f, 0.8f, 0.17f, 0.66f, 0.81f, 0.14f, 0.24f, 0.72f});
+        if (isLunarNewYearThemeView) {
+            setColors(new float[]{0.58f, 0.4f, 0.28f, 1.0f, 0.48f, 0.12f, 0.1f, 1.0f, 0.56f, 0.28f, 0.12f, 1.0f, 0.46f, 0.16f, 0.11f, 1.0f});
+            // setColors(new float[]{0.97f, 0.67f, 0.46f, 1.0f, 0.80f, 0.12f, 0.09f, 1.0f, 0.93f, 0.47f, 0.2f, 1.0f, 0.98f, 0.36f, 0.28f, 1.0f});
+        } else {
+            setColors(new float[]{0.0f, 0.31f, 0.58f, 1.0f, 0.53f, 0.29f, 0.15f, 1.0f, 0.46f, 0.06f, 0.27f, 1.0f, 0.16f, 0.12f, 0.45f, 1.0f});
         }
+        setBound(fArr);
     }
 
-    public void updateMaterials(float f) {
-        this.uAnimTime += f * this.gradientSpeed;
-        computeGradientColor();
-        this.mBgRuntimeShader.setFloatUniform("uAnimTime", this.uAnimTime);
-        this.mBgRuntimeShader.setFloatUniform("uColors", this.uColors);
+    public void setPadLight(float[] fArr) {
+        setLightOffset(0.1f);
+        setSaturateOffset(0.0f);
+        setPoints(new float[]{0.67f, 0.37f, 0.88f, 0.54f, 0.66f, 1.0f, 0.37f, 0.71f, 0.68f, 0.28f, 0.26f, 0.62f});
+        setColors(new float[]{0.57f, 0.76f, 0.98f, 1.0f, 0.98f, 0.85f, 0.68f, 1.0f, 0.98f, 0.75f, 0.93f, 0.95f, 0.73f, 0.7f, 0.98f, 0.9f});
+        setBound(fArr);
     }
 
-    public void setResolution(float f, float f2) {
-        this.mBgRuntimeShader.setFloatUniform("uResolution", f, f2);
+    public void setPadDark(float[] fArr) {
+        setLightOffset(-0.1f);
+        setSaturateOffset(0.2f);
+        setPoints(new float[]{0.55f, 0.42f, 1.0f, 0.56f, 0.75f, 1.0f, 0.4f, 0.59f, 0.71f, 0.43f, 0.09f, 0.75f});
+        setColors(new float[]{0.0f, 0.31f, 0.58f, 1.0f, 0.53f, 0.29f, 0.15f, 1.0f, 0.46f, 0.06f, 0.27f, 1.0f, 0.16f, 0.12f, 0.45f, 1.0f});
+        setBound(fArr);
+    }
+
+    public void setResolution(float[] fArr) {
+        this.uResolution = fArr;
     }
 
     private String loadShader(Resources resources, int i) {
@@ -151,83 +193,23 @@ public class BgEffectPainter {
         }
     }
 
-    private void computeGradientColor() {
-        double d = this.uAnimTime / this.mBgEffectData.colorInterpPeriod;
-        float floor = (float) Math.floor((d - Math.floor(d)) * 2.0d);
-        if (Math.abs(this.prevT - floor) > 0.5d) {
-            float f = this.cycleCount;
-            if (f % 4.0f == 0.0f) {
-                BgEffectDataManager.BgEffectData bgEffectData = this.mBgEffectData;
-                this.startColorValue = bgEffectData.gradientColors2;
-                this.endColorValue = bgEffectData.gradientColors1;
-                executeAnim();
-            } else if (f % 4.0f == 1.0f) {
-                BgEffectDataManager.BgEffectData bgEffectData2 = this.mBgEffectData;
-                this.startColorValue = bgEffectData2.gradientColors1;
-                this.endColorValue = bgEffectData2.gradientColors2;
-                executeAnim();
-            } else if (f % 4.0f == 2.0f) {
-                BgEffectDataManager.BgEffectData bgEffectData3 = this.mBgEffectData;
-                this.startColorValue = bgEffectData3.gradientColors2;
-                this.endColorValue = bgEffectData3.gradientColors3;
-                executeAnim();
-            } else if (f % 4.0f == 3.0f) {
-                BgEffectDataManager.BgEffectData bgEffectData4 = this.mBgEffectData;
-                this.startColorValue = bgEffectData4.gradientColors3;
-                this.endColorValue = bgEffectData4.gradientColors2;
-                executeAnim();
-            }
-            this.cycleCount += 1.0f;
-        }
-        this.prevT = floor;
-        linearInterpolate(this.uColors, this.startColorValue, this.endColorValue, this.colorInterpT);
-    }
-
-    private void executeAnim() {
-        IStateStyle iStateStyle = this.stateStyle;
-        if (iStateStyle != null) {
-            iStateStyle.setTo(new Object[]{"colorInterpT", Float.valueOf(0.0f)});
-            this.stateStyle.to(new Object[]{"colorInterpT", Float.valueOf(1.0f), this.animConfig1});
-            this.stateStyle.to(new Object[]{"gradientSpeed", Float.valueOf(this.mBgEffectData.gradientSpeedChange), this.animConfig1});
-            this.mHandler.postDelayed(new GradientSpeedResetRunnable(), 300L);
+    public void showRuntimeShader(Context context, View view, ActionBar actionBar) {
+        calcAnimationBound(context, view, actionBar);
+        if (ViewUtils.isNightMode(context)) {
+            setPhoneDark(this.bound);
+        } else {
+            setPhoneLight(this.bound);
         }
     }
 
-    private class GradientSpeedResetRunnable implements Runnable {
-        @Override
-        public void run() {
-            stateStyle.to(new Object[]{"gradientSpeed", Float.valueOf(mBgEffectData.gradientSpeedRest), animConfig2});
+    private void calcAnimationBound(Context context, View view, ActionBar actionBar) {
+        float height = (actionBar != null ? actionBar.getHeight() + 0.0f : 0.0f) + context.getResources().getDimensionPixelSize(R.dimen.logo_area_height);
+        float height2 = height / ((ViewGroup) view.getParent()).getHeight();
+        float width = ((ViewGroup) view.getParent()).getWidth();
+        if (width <= height) {
+            this.bound = new float[]{0.0f, 1.0f - height2, 1.0f, height2};
+        } else {
+            this.bound = new float[]{((width - height) / 2.0f) / width, 1.0f - height2, height / width, height2};
         }
-    }
-
-    public static void linearInterpolate(float[] fArr, float[] fArr2, float[] fArr3, float f) {
-        for (int i = 0; i < fArr2.length; i++) {
-            float f2 = fArr2[i];
-            fArr[i] = f2 + ((fArr3[i] - f2) * f);
-        }
-    }
-
-    public void setType(BgEffectDataManager.DeviceType deviceType, BgEffectDataManager.ThemeMode themeMode, float[] fArr) {
-        this.uBgBound = fArr;
-        this.mBgRuntimeShader.setFloatUniform("uBound", fArr);
-        BgEffectDataManager.BgEffectData data = this.mBgEffectDataManager.getData(deviceType, themeMode);
-        this.mBgEffectData = data;
-        this.uAnimTime = 0.0f;
-        float[] fArr2 = data.gradientColors2;
-        this.startColorValue = fArr2;
-        this.endColorValue = fArr2;
-        this.mBgRuntimeShader.setFloatUniform("uTranslateY", data.uTranslateY);
-        this.mBgRuntimeShader.setFloatUniform("uPoints", this.mBgEffectData.uPoints);
-        this.mBgRuntimeShader.setFloatUniform("uNoiseScale", this.mBgEffectData.uNoiseScale);
-        this.mBgRuntimeShader.setFloatUniform("uPointOffset", this.mBgEffectData.uPointOffset);
-        this.mBgRuntimeShader.setFloatUniform("uPointRadiusMulti", this.mBgEffectData.uPointRadiusMulti);
-        this.mBgRuntimeShader.setFloatUniform("uSaturateOffset", this.mBgEffectData.uSaturateOffset);
-        this.mBgRuntimeShader.setFloatUniform("uShadowColorMulti", this.mBgEffectData.uShadowColorMulti);
-        this.mBgRuntimeShader.setFloatUniform("uShadowColorOffset", this.mBgEffectData.uShadowColorOffset);
-        this.mBgRuntimeShader.setFloatUniform("uShadowOffset", this.mBgEffectData.uShadowOffset);
-        this.mBgRuntimeShader.setFloatUniform("uAlphaMulti", this.mBgEffectData.uAlphaMulti);
-        this.mBgRuntimeShader.setFloatUniform("uLightOffset", this.mBgEffectData.uLightOffset);
-        this.mBgRuntimeShader.setFloatUniform("uAlphaOffset", this.mBgEffectData.uAlphaOffset);
-        this.mBgRuntimeShader.setFloatUniform("uShadowNoiseScale", this.mBgEffectData.uShadowNoiseScale);
     }
 }
