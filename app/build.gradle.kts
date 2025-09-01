@@ -158,7 +158,7 @@ android {
             buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
             proguardFiles("proguard-log.pro")
 
-            versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
+            versionNameSuffix = "_20250829"
             signingConfig = if (properties != null) {
                 signingConfigs["hasProperties"]
             } else {
