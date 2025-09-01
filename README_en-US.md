@@ -12,7 +12,7 @@
 
 ## Currently supported versions
 
-HyperOS for Android 14-15
+HyperOS for Android 15-16
 
 ## Pre-use instructions
 
@@ -20,11 +20,11 @@ Please enable HyperCeiler in [LSPosed](https://github.com/LSPosed/LSPosed/releas
 
 This module <b>does not support</b> `third-party Xiaomi HyperOS ROMs with a lot of modifications`, `system software with a lot of modifications`, and some `international Xiaomi HyperOS ROMs`.
 
-Currently, HyperCeiler is adapted for Xiaomi HyperOS 2.0.200 mobile devices based on Android 15. The coverage isn't very comprehensive and requires ongoing testing and improvements.
+Currently, HyperCeiler is adapted for Xiaomi HyperOS 3.0 mobile devices based on Android 16. The coverage isn't very comprehensive and requires ongoing testing and improvements.
 
 Before submitting feedback, please pay attention to whether there is already the same feedback to avoid causing trouble to developers. Spending the same energy reading the same feedback is a waste of time.
 
-HyperCeiler has stopped maintaining MIUI ROMs for Android 11-13 and HyperOS 1.0 ROM for Android 13.
+HyperCeiler has stopped maintaining MIUI ROMs for Android 11-13 and HyperOS 1.0/2.0 ROM for Android 13/14.
 
 > For MIUI ROMs on Android 11-12, please use [this version](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
 >
@@ -123,7 +123,7 @@ Join our group to report issues or get the latest updates.
 
 You can provide translations for the HyperCeiler project [here](https://crwd.in/cemiuiler).
 
-> Note: When the translation progress of the new language is greater than or equal to 90%, it will enter the merge process. If the translation progress of the added language is less than or equal to 30% of the source text, it will be temporarily removed until the translation progress is greater than or equal to 90%.
+> Note: When the translation progress of the new language is greater than or equal to 85%, it will enter the merge process. If the translation progress of the added language is less than or equal to 30% of the source text, it will be temporarily removed until the translation progress is greater than or equal to 85%.
 
 ## Thanks!
 

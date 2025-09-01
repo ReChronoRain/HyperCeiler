@@ -12,7 +12,7 @@
 
 ## Versões atualmente suportadas
 
-HyperOS para Android 13-15
+HyperOS para Android 15-16
 
 ## Instruções de pré-uso
 
@@ -20,11 +20,11 @@ Por favor, ative o HyperCeiler no [LSPosed](https://github.com/LSPosed/LSPosed/r
 
 Este módulo <b>não suporta</b> `ROM Xiaomi HyperOS de terceiros com muitas modificações`, `software de sistema com muitas modificações` e algumas `ROM Xiaomi HyperOS internacionais`.
 
-Atualmente, o HyperCeiler está adaptado para dispositivos móveis Xiaomi HyperOS 2.0.200 baseados em Android 15. A cobertura não é muito abrangente e requer testes e melhorias contínuas.
+Atualmente, o HyperCeiler está adaptado para dispositivos móveis Xiaomi HyperOS 3.0 baseados em Android 16. A cobertura não é muito abrangente e requer testes e melhorias contínuas.
 
 Antes de enviar feedback, preste atenção se já existe o mesmo feedback para evitar problemas aos desenvolvedores. Gastar a mesma energia lendo o mesmo feedback é uma perda de tempo.
 
-O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13 e ROM HyperOS 1.0 para Android 13.
+O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-13 e ROM HyperOS 1.0/2.0 para Android 13/14.
 
 > Para ROM MIUI no Android 11-12, use [esta versão](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
 >
@@ -123,7 +123,7 @@ Junte-se ao nosso grupo para relatar problemas ou obter as atualizações mais r
 
 Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler).
 
-> Observação: Quando o progresso da tradução do novo idioma for maior ou igual a 90%, ele entrará no processo de mesclagem. Se o progresso da tradução do idioma adicionado for menor ou igual a 30% do texto original, ele será removido temporariamente até que o progresso da tradução seja maior ou igual a 90%.
+> Observação: Quando o progresso da tradução do novo idioma for maior ou igual a 85%, ele entrará no processo de mesclagem. Se o progresso da tradução do idioma adicionado for menor ou igual a 30% do texto original, ele será removido temporariamente até que o progresso da tradução seja maior ou igual a 85%.
 
 ## Obrigado!
 

@@ -12,7 +12,7 @@
 
 ## 当前支持的版本
 
-Android 14-15 的 HyperOS
+Android 15-16 的 HyperOS
 
 ## 使用前说明
 
@@ -20,11 +20,11 @@ Android 14-15 的 HyperOS
 
 本模块<b>不支持</b>`修改较多的第三方 Xiaomi HyperOS ROM`、`修改较多的系统软件`，以及`部分国际 Xiaomi HyperOS ROM`。
 
-目前 HyperCeiler 是基于 Android 15 的 Xiaomi HyperOS 2.0.200 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进。
+目前 HyperCeiler 是基于 Android 16 的 Xiaomi HyperOS 3.0 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进。
 
 提交反馈前请注意是否已有相同反馈，避免给开发者造成困扰。花相同精力看相同反馈是一件很浪费时间的事情。
 
-HyperCeiler 已停止维护 Android 11-13 的 MIUI ROM 和 Android 13 的 HyperOS 1.0 ROM。
+HyperCeiler 已停止维护 Android 11-13 的 MIUI ROM 和 Android 13/14 的 HyperOS 1.0/2.0 ROM。
 
 > Android 11-12 的 MIUI ROM 请使用[此版本](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130)。
 >
@@ -123,7 +123,7 @@ Android 16 预期在 Xiaomi HyperOS 3.0 大部分设备发布后逐渐适配，�
 
 您可以在[这里](https://crwd.in/cemiuiler)为 HyperCeiler 项目贡献翻译。
 
-> 注：当新语言翻译进度大于或等于 90% 时，将会进入合并流程，如果已添加的语言，翻译进度小于或等于源文本的 30%，将会暂时被移除，直到重新满足翻译进度大于或等于 90%。
+> 注：当新语言翻译进度大于或等于 85% 时，将会进入合并流程，如果已添加的语言，翻译进度小于或等于源文本的 30%，将会暂时被移除，直到重新满足翻译进度大于或等于 85%。
 
 ## 感谢
 
