@@ -60,7 +60,7 @@ public class CrashService extends Service {
         throwFileName = intent.getStringExtra("key_throwFileName");
         throwLineNumber = intent.getIntExtra("key_throwLineNumber", -1);
         throwMethodName = intent.getStringExtra("key_throwMethodName");
-        ShellInit.getShell().run("setprop persist.hyperceiler.crash.report " + "\"" + report + "\"").sync();
+        ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report " + "\"" + report + "\"").sync();
         Intent intent1 = getIntent(abbr);
         intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

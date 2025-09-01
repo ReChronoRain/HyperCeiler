@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.hook.safe
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.SystemProperties
 import com.sevtinge.hyperceiler.hook.module.HostConstant.HOST_HOME
 import com.sevtinge.hyperceiler.hook.module.HostConstant.HOST_SECURITY_CENTER
 import com.sevtinge.hyperceiler.hook.module.HostConstant.HOST_SETTINGS
@@ -39,7 +40,7 @@ object SafeMode : RescuePartyPlus.CrashHandler {
     private lateinit var throwFileName: String
     private lateinit var throwClassName: String
     private lateinit var stackTrace: String
-    const val PROP_REPORT_PACKAGE = "persist.hyperceiler.crash.report"
+    const val PROP_REPORT_PACKAGE = "persist.service.hyperceiler.crash.report"
 
     private fun onSafeMode(context: Context, pkgName: String): Boolean {
         if (isInSafeModeOnHook(pkgName) || isInSafeModeByProp(pkgName)) {
@@ -48,22 +49,27 @@ object SafeMode : RescuePartyPlus.CrashHandler {
 
         val alias = scopeData()[pkgName] ?: return false
 
-        context.startActivity(Intent().apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            component = ComponentName(
-                "com.sevtinge.hyperceiler",
-                "com.sevtinge.hyperceiler.safemode.CrashActivity"
-            )
+        runCatching {
+            context.startActivity(Intent().apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                component = ComponentName(
+                    "com.sevtinge.hyperceiler",
+                    "com.sevtinge.hyperceiler.safemode.CrashActivity"
+                )
 
-            putExtra("key_is_need_set_prop", true)
-            putExtra("key_longMsg", longMsg)
-            putExtra("key_stackTrace", stackTrace)
-            putExtra("key_throwClassName", throwClassName)
-            putExtra("key_throwFileName", throwFileName)
-            putExtra("key_throwLineNumber", throwLineNumber)
-            putExtra("key_throwMethodName", throwMethodName)
-            putExtra("key_pkg", alias)
-        })
+                putExtra("key_is_need_set_prop", true)
+                putExtra("key_longMsg", longMsg)
+                putExtra("key_stackTrace", stackTrace)
+                putExtra("key_throwClassName", throwClassName)
+                putExtra("key_throwFileName", throwFileName)
+                putExtra("key_throwLineNumber", throwLineNumber)
+                putExtra("key_throwMethodName", throwMethodName)
+                putExtra("key_pkg", alias)
+            })
+        }.onFailure {
+            SystemProperties.set(PROP_REPORT_PACKAGE, alias)
+            logD("SafeMode", "start CrashActivity failed, try set prop")
+        }
 
         return true
     }
@@ -96,7 +102,7 @@ object SafeMode : RescuePartyPlus.CrashHandler {
             return false
         }
         val alias = scopeData()[pkgName] ?: return false
-        if (isDebug()) logD("SafeMode", "isInSafeModeByProp: $data, $alias")
+        if (isDebug()) logD("SafeMode", "data: $data, alias: $alias")
         return data.split(",").toHashSet().contains(alias)
     }
 

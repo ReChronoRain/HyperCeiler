@@ -165,7 +165,7 @@ public class DialogHelper {
         builder.setHapticFeedbackEnabled(true);
         builder.setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
                     ShellExec shellExec = ShellInit.getShell();
-                    shellExec.run("setprop persist.hyperceiler.crash.report \"\"").sync();
+                    shellExec.run("setprop persist.service.hyperceiler.crash.report \"\"").sync();
                     activity.finish();
                 });
         builder.setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> activity.finish());
@@ -212,7 +212,7 @@ public class DialogHelper {
                 .setHapticFeedbackEnabled(true)
                 .setCancelable(false)
                 .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
-                    ShellInit.getShell().run("setprop persist.hyperceiler.crash.report \"\"").sync();
+                    ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report \"\"").sync();
                     PrefsUtils.mSharedPreferences.edit().remove("prefs_key_system_ui_safe_mode_enable").apply();
                     PrefsUtils.mSharedPreferences.edit().remove("prefs_key_home_safe_mode_enable").apply();
                     PrefsUtils.mSharedPreferences.edit().remove("prefs_key_system_settings_safe_mode_enable").apply();

@@ -140,7 +140,7 @@ public class CrashData {
     }
 
     public static ArrayList<String> getReportCrashProp() {
-        String data = PropUtils.getProp("persist.hyperceiler.crash.report", "");
+        String data = PropUtils.getProp("persist.service.hyperceiler.crash.report", "");
         if (data.isEmpty()) {
             return new ArrayList<>();
         }

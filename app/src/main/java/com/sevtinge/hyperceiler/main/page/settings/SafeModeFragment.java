@@ -31,10 +31,10 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
-import com.sevtinge.hyperceiler.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -61,7 +61,7 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
 
     @Override
     public void initPrefs() {
-        mPkgList = getProp("persist.hyperceiler.crash.report");
+        mPkgList = getProp("persist.service.hyperceiler.crash.report");
         mHome = findPreference("prefs_key_home_safe_mode_enable");
         mSettings = findPreference("prefs_key_system_settings_safe_mode_enable");
         mSystemUi = findPreference("prefs_key_system_ui_safe_mode_enable");
@@ -148,7 +148,7 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
             key = "demo";
         }
         if (key != null) {
-            String mPkgList = getProp("persist.hyperceiler.crash.report");
+            String mPkgList = getProp("persist.service.hyperceiler.crash.report");
             Set<String> pkgSet = new HashSet<>();
             if (mPkgList != null && !mPkgList.isEmpty()) {
                 pkgSet.addAll(Arrays.asList(mPkgList.split(",")));
@@ -159,7 +159,7 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
                 pkgSet.remove(key);
             }
             String newPkgList = String.join(",", pkgSet);
-            ShellInit.getShell().run("setprop persist.hyperceiler.crash.report \"" + newPkgList + "\"").sync();
+            ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report \"" + newPkgList + "\"").sync();
         }
         return true;
     }

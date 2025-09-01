@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hooker.systemui;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
@@ -67,7 +67,7 @@ public class MediaCardSettings extends DashboardFragment implements Preference.O
         mProgressBarColor = findPreference("prefs_key_system_ui_control_center_media_control_seekbar_color");
 
         int mediaBackgroundModeValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_background_mode", "0"));
-        if (isMoreSmallVersion(200, 2f)) {
+        if (isMoreHyperOSVersion(3f)) {
             mMediaBackgroundMode.setEntries(R.array.system_ui_control_center_media_control_background_mode_new);
             mMediaBackgroundMode.setEntryValues(R.array.system_ui_control_center_media_control_background_mode_new_value);
 

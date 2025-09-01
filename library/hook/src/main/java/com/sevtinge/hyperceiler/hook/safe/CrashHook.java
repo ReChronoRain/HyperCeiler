@@ -23,6 +23,7 @@ import android.app.ApplicationErrorReport;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.os.SystemProperties;
 import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.hook.callback.ITAG;
@@ -305,12 +306,17 @@ public class CrashHook extends HookTool {
 
         String abbr = scopeMap.get(CrashRecord.getPkg(report.get(0)));
 
-        ShellInit.init();
-        ShellInit.getShell().run("setprop persist.hyperceiler.crash.report " + "\"" + stringBuilder + "\"").sync();
+        try {
+            ShellInit.init();
+            ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report " + "\"" + stringBuilder + "\"").sync();
 
-        Intent intent = getIntent(abbr);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+            Intent intent = getIntent(abbr);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+        } catch (Throwable ignore) {
+            SystemProperties.set("persist.service.hyperceiler.crash.report", abbr);
+            logD("SafeMode", "start CrashActivity failed, try set prop");
+        }
 
         /*Intent intent = getIntent(abbr, stringBuilder);
         mContext.startService(intent);*/
