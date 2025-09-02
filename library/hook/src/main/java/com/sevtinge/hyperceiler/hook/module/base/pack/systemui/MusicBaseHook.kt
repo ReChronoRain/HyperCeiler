@@ -30,6 +30,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.Icon
 import android.media.session.PlaybackState
+import android.os.Bundle
 import android.util.Base64
 import android.util.TypedValue
 import android.view.View
@@ -41,6 +42,7 @@ import com.hchen.superlyricapi.ISuperLyric
 import com.hchen.superlyricapi.SuperLyricData
 import com.hchen.superlyricapi.SuperLyricTool
 import com.hyperfocus.api.FocusApi
+import com.hyperfocus.api.IslandApi
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool
@@ -106,13 +108,50 @@ abstract class MusicBaseHook : BaseHook() {
         val bitmap = basebitmap ?: context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
         val icon: Icon = Icon.createWithBitmap(bitmap).apply { if (basebitmap != null) setTint(Color.WHITE) }
         val dartIcon : Icon = Icon.createWithBitmap(bitmap).apply { if (basebitmap != null) setTint(Color.BLACK) }
-
+        val (lefttext,righttext) = splitSmartToPair(text,6)
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         val intent = Intent("$CHANNEL_ID.actions.switchClockStatus")
         // 翻译
         val tf = extraData.translation
         // 对唱对齐方式，有性能问题放弃
         // val dule = extraData.extra?.getBoolean(KEY_DUTE,false)?:false
+
+        val picInfo = IslandApi.PicInfo(
+            pic = "miui.focus.icon",
+
+            )
+        val textInfoLeft = IslandApi.TextInfo(
+            title = lefttext
+        )
+        val textInfoRight = IslandApi.TextInfo(
+            title = righttext?:"群里有猫娘"
+        )
+        val left = IslandApi.ImageTextInfo(
+            picInfo = picInfo,
+            textInfo = textInfoLeft
+        )
+
+        val right = IslandApi.ImageTextInfo(
+            textInfo =  textInfoRight,
+            type = 2
+        )
+
+        val bigIsland = IslandApi.BigIslandArea(
+            imageTextInfoLeft = left,
+            imageTextInfoRight = right
+
+        )
+
+        val smallIsland = IslandApi.SmallIslandArea(
+            picInfo = picInfo
+        )
+
+        val Island = IslandApi.IslandTemplate(
+            bigIslandArea = bigIsland,
+            smallIslandArea = smallIsland
+        )
+
+
 
         // 需要重启音乐软件生效
         val pendingIntent = if (isClickClock) {
@@ -169,10 +208,17 @@ abstract class MusicBaseHook : BaseHook() {
         runCatching {
             val remoteViewsDay = buildRemoteViews()
             val remoteViewsAod = buildAodRemoteViews(Color.WHITE)
+
+            val iconsAdd = Bundle()
+            iconsAdd.putParcelable("miui.focus.icon",icon)
+
+
+
             val api = if (!isAodShow) {
                 if (isAodMode) {
                     FocusApi.senddiyFocus(
                         ticker = text,
+                        island = Island,
                         updatable = true,
                         rvAod = remoteViewsAod,
                         enableFloat = false,
@@ -184,6 +230,7 @@ abstract class MusicBaseHook : BaseHook() {
                 } else {
                     FocusApi.senddiyFocus(
                         ticker = text,
+                        island = Island,
                         updatable = true,
                         aodPic = icon,
                         aodTitle = text,
@@ -197,6 +244,7 @@ abstract class MusicBaseHook : BaseHook() {
             } else {
                 FocusApi.senddiyFocus(
                     ticker = text,
+                    island = Island,
                     updatable = true,
                     enableFloat = false,
                     rv = remoteViewsDay,
@@ -221,6 +269,7 @@ abstract class MusicBaseHook : BaseHook() {
                     ticker = text,
                     aodTitle = text,
                     aodPic = icon,
+                    island = Island,
                     baseInfo = baseinfo,
                     updatable = true,
                     enableFloat = false,
@@ -231,6 +280,7 @@ abstract class MusicBaseHook : BaseHook() {
             } else {
                 FocusApi.sendFocus(
                     ticker = text,
+                    island = Island,
                     baseInfo = baseinfo,
                     updatable = true,
                     enableFloat = false,
@@ -282,4 +332,55 @@ abstract class MusicBaseHook : BaseHook() {
     companion object {
         const val CHANNEL_ID: String = "channel_id_focusNotifLyrics"
     }
+
+
+    fun splitSmartToPair(input: String, maxLength: Int): Pair<String, String?> {
+        if (input.isEmpty()) return "" to null
+
+        // 计算实际字符数（按 code point，不会拆汉字/emoji）
+        val codePointCount = input.codePointCount(0, input.length)
+
+        // 情况1：超过 maxLength，安全切分
+        if (codePointCount > maxLength) {
+            val sb = StringBuilder()
+            var count = 0
+            var splitIndex = -1
+
+            input.codePoints().forEach { cp ->
+                val char = String(Character.toChars(cp))
+                sb.append(char)
+                count++
+                if (count == maxLength && splitIndex == -1) {
+                    splitIndex = sb.length
+                }
+            }
+
+            return if (splitIndex in 1 until input.length) {
+                input.substring(0, splitIndex) to input.substring(splitIndex)
+            } else {
+                input to null
+            }
+        }
+
+        // 情况2：没超过 maxLength，但有空格 → 找最接近中间的空格
+        val mid = input.length / 2
+        val leftSpace = input.lastIndexOf(' ', mid)
+        val rightSpace = input.indexOf(' ', mid)
+
+        val splitIndex = when {
+            leftSpace != -1 && rightSpace != -1 ->
+                if (mid - leftSpace <= rightSpace - mid) leftSpace else rightSpace
+            leftSpace != -1 -> leftSpace
+            rightSpace != -1 -> rightSpace
+            else -> -1
+        }
+
+        if (splitIndex in 1 until input.length - 1) {
+            return input.substring(0, splitIndex) to input.substring(splitIndex + 1)
+        }
+
+        // 情况3：不切
+        return input to null
+    }
+
 }
