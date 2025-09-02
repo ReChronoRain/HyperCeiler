@@ -24,12 +24,14 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitchForSystem;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ConservativeMilletFramework;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableLowApiCheckForB;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableMiuiWatermark;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisablePersistent;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableThermal;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.EffectBinderProxy;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FlagSecure;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.GMSDozeFixFramework;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassIsolationViolation;
@@ -59,6 +61,8 @@ public class SystemFrameworkB extends BaseModule {
         initHook(DisableThermal.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_thermal"));
         initHook(new ThermalBrightness(), mPrefsMap.getBoolean("system_framework_other_thermal_brightness"));
         initHook(new DisableMiuiWatermark(), mPrefsMap.getBoolean("system_framework_disable_miui_watermark"));
+        initHook(ConservativeMilletFramework.INSTANCE, mPrefsMap.getBoolean("powerkeeper_conservative_millet"));
+        initHook(GMSDozeFixFramework.INSTANCE, mPrefsMap.getBoolean("powerkeeper_gms_doze_fix"));
 
         if (mPrefsMap.getBoolean("misound_bluetooth") && isHyperOSVersion(2f)) {
             initHook(new EffectBinderProxy());
