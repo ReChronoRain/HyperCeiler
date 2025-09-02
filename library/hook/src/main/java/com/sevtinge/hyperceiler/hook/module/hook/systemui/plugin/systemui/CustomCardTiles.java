@@ -27,6 +27,8 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
+import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool;
+
 import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -75,10 +77,10 @@ public class CustomCardTiles {
                 }
         );
 
-        findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader,
-                "updateBackground", new XC_MethodHook(XCallback.PRIORITY_HIGHEST) {
+        HookTool.hookAllMethods("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader,
+                "updateBackground", new HookTool.MethodHook(XCallback.PRIORITY_HIGHEST) {
                     @Override
-                    protected void afterHookedMethod(MethodHookParam param) {
+                    protected void after(MethodHookParam param) {
                         Object state = XposedHelpers.getObjectField(param.thisObject, "state");
                         if (state == null) return;  // 系统界面组件会先 null 几次才会获取到值，应该是官方写法有问题
                         String spec = (String) XposedHelpers.getObjectField(state, "spec");

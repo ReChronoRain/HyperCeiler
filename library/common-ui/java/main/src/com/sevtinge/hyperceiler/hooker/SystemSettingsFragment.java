@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.hooker;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.os.Bundle;
 import android.widget.SeekBar;
@@ -41,6 +42,7 @@ public class SystemSettingsFragment extends DashboardFragment {
     SwitchPreference mLangShow; // 显示所有应用语言菜单
     SwitchPreference mOriginAppSources;
     SwitchPreference mUnknownAppSources;
+    SwitchPreference mControlCenter;
     RecommendPreference mRecommend;
 
     @Override
@@ -55,10 +57,14 @@ public class SystemSettingsFragment extends DashboardFragment {
         mLangShow = findPreference("prefs_key_system_settings_lang_menu_show_all_app");
         mOriginAppSources = findPreference("prefs_key_system_settings_permission_unknown_origin_app");
         mUnknownAppSources = findPreference("prefs_key_system_settings_permission_disable_install_unknown_verify");
+        mControlCenter = findPreference("prefs_key_system_control_center_unlock_old");
 
         mUiMode.setVisible(isPad());
 
         if (!isMoreAndroidVersion(35)) {
+            if (isMoreHyperOSVersion(3f)) {
+                setFuncHint(mControlCenter, 1);
+            }
             setFuncHint(mSuperAI, 1);
         } else {
             setFuncHint(mLangShow, 1);

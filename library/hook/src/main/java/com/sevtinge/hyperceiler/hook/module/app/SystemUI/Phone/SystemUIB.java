@@ -22,14 +22,23 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperO
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoCollapse;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoSEffSwitchForSystemUi;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.MediaControlBgFactory;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.AutoDismissExpandedPopupsHook;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ExpandNotificationKt;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.FiveGTile;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.FixTilesList;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.GmsTile;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NewFlashLight;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationImportanceHyperOSFix;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.NotificationWeather;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.OldWeather;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ReduceBrightColorsTile;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SnowLeopardModeTile;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SunlightMode;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.SunlightModeHigh;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.UnimportantNotification;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.CustomBackground;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.MediaViewLayout;
@@ -105,6 +114,21 @@ public class SystemUIB extends BaseModule {
         initHook(AutoDismissExpandedPopupsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_auto_clean_expand_notification"));
         initHook(ExpandNotificationKt.INSTANCE, !mPrefsMap.getStringSet("system_ui_control_center_expand_notification").isEmpty());
         initHook(new UnimportantNotification(), mPrefsMap.getBoolean("system_ui_control_center_unimportant_notification"));
+
+        // 磁贴
+        initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));
+        initHook(new SnowLeopardModeTile(), mPrefsMap.getBoolean("system_ui_control_center_snow_leopard_mode"));
+        initHook(new GmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));
+        // initHook(new TaplusTile(), mPrefsMap.getBoolean("security_center_taplus"));
+        initHook(new ReduceBrightColorsTile(), mPrefsMap.getBoolean("security_center_reduce_bright_colors_tile"));
+        initHook(new FiveGTile(), mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) != 0);
+        initHook(NewFlashLight.INSTANCE, mPrefsMap.getStringAsInt("security_flash_light_switch", 0) != 0);
+        if (mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode_high", 0) != 0) {
+            initHook(new SunlightModeHigh());
+        } else {
+            initHook(new SunlightMode(), mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode", 0) != 0);
+        }
+        initHook(new FixTilesList(), mPrefsMap.getBoolean("system_ui_control_center_fix_tiles_list"));
 
         // Media Card
         initHook(new UnlockCustomActions(), mPrefsMap.getBoolean("system_ui_control_center_media_control_unlock_custom_actions"));

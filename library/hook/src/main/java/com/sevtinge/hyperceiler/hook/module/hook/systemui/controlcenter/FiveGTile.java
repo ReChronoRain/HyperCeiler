@@ -102,7 +102,12 @@ public class FiveGTile extends TileUtils {
                             @Override
                             public void onViewAttachedToWindow(@NonNull View v) {
                                 View view = content;
-                                while ((view = (View) view.getParent()) != null) {
+                                while (true) {
+                                    Object parent = view.getParent();
+                                    if (!(parent instanceof View)) {
+                                        break;
+                                    }
+                                    view = (View) parent;
                                     int id = view.getId();
                                     if (id == View.NO_ID) {
                                         break;
@@ -112,7 +117,7 @@ public class FiveGTile extends TileUtils {
                                     if (idName.endsWith("detail_container")) {
                                         int maxHeight = (int) XposedHelpers.callMethod(view, "getMaxHeight");
                                         XposedHelpers.callMethod(view, "setMaxHeight", maxHeight +
-                                                DisplayUtils.dp2px(45f)
+                                            DisplayUtils.dp2px(45f)
                                         );
                                         break;
                                     }
@@ -261,7 +266,7 @@ public class FiveGTile extends TileUtils {
         // 切换5G状态
         manager.setUserFiveGEnabled(!manager.isUserFiveGEnabled());
 
-        logD(TAG, lpparam.packageName, "5G" + manager.isUserFiveGEnabled());
+        logD(TAG, lpparam.packageName, "5G " + manager.isUserFiveGEnabled());
         // 更新磁贴状态
         XposedHelpers.callMethod(param.thisObject, "refreshState");
     }

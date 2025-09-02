@@ -488,6 +488,7 @@ public abstract class TileUtils extends BaseHook {
     /*这是另一个长按动作代码
      * 可能不是很严谨，仅在上面长按动作失效时使用
      * 在 HyperOS2 已无此方法，请改用 tileLongClickIntent 方法*/
+    @Deprecated
     public Intent tileHandleLongClick(MethodHookParam param, String tileName) {
         return null;
     }
