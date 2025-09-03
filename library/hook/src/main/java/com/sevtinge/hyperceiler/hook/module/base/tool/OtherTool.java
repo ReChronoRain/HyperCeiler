@@ -97,27 +97,6 @@ public class OtherTool {
         return context;
     }
 
-    public static String getProp(String key, String defaultValue) {
-        try {
-            return (String) XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.os.SystemProperties",
-                            null),
-                    "get", key, defaultValue);
-        } catch (Throwable throwable) {
-            logE("getProp", "key get e: " + key + " will return default: " + defaultValue + " e:" + throwable);
-            return defaultValue;
-        }
-    }
-
-    public static void setProp(String key, String val) {
-        try {
-            XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.os.SystemProperties",
-                            null),
-                    "set", key, val);
-        } catch (Throwable throwable) {
-            logE("setProp", "set key e: " + key + " e:" + throwable);
-        }
-    }
-
     public static void initPct(ViewGroup container, int source) {
         Resources res = container.getContext().getResources();
         if (mPct == null) {

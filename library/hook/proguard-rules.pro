@@ -40,19 +40,4 @@
 -keep class com.sevtinge.hyperceiler.hook.utils.input.ContentModel { *; }
 -keep class com.sevtinge.hyperceiler.hook.utils.input.FileHelper { *; }
 
--keep class android.os.SystemProperties { *; }
--dontwarn android.os.SystemProperties
--dontwarn de.robv.android.xposed.**
--dontwarn miui.**
--dontwarn android.app.AndroidAppHelper
--dontwarn android.content.res.**
-
--dontwarn android.app.ActivityTaskManager$RootTaskInfo
--dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo
--dontwarn javax.annotation.processing.AbstractProcessor
--dontwarn javax.annotation.processing.SupportedAnnotationTypes
--dontwarn javax.annotation.processing.SupportedOptions
--dontwarn javax.annotation.processing.SupportedSourceVersion
--dontwarn javax.annotation.processing.Processor
-
 -allowaccessmodification

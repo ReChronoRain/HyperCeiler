@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.various.clipboard;
 
-import static com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getProp;
+import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 

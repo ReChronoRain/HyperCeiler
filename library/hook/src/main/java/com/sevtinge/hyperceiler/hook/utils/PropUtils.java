@@ -18,10 +18,12 @@
  */
 package com.sevtinge.hyperceiler.hook.utils;
 
+import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.SystemProperties;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.hook.callback.ITAG;
@@ -43,8 +45,7 @@ public class PropUtils {
 
     public static boolean getProp(String name, boolean def) {
         try {
-            Class<?> cls = Class.forName("android.os.SystemProperties");
-            return Boolean.TRUE.equals(invokeMethod(cls, "getBoolean", new Class[]{String.class, boolean.class}, name, def));
+            return SystemProperties.getBoolean(name, def);
         } catch (Throwable e) {
             Log.e(TAG, "PropUtils getProp int", e);
             return false;
@@ -53,8 +54,7 @@ public class PropUtils {
 
     public static int getProp(String name, int def) {
         try {
-            Class<?> cls = Class.forName("android.os.SystemProperties");
-            return invokeMethod(cls, "getInt", new Class[]{String.class, int.class}, name, def);
+            return SystemProperties.getInt(name, def);
         } catch (Throwable e) {
             Log.e(TAG, "PropUtils getProp int", e);
             return 0;
@@ -63,28 +63,25 @@ public class PropUtils {
 
     public static long getProp(String name, long def) {
         try {
-            Class<?> cls = Class.forName("android.os.SystemProperties");
-            return invokeMethod(cls, "getLong", new Class[]{String.class, long.class}, name, def);
+            return SystemProperties.getLong(name, def);
         } catch (Throwable e) {
             Log.e(TAG, "PropUtils getProp long", e);
             return 0L;
         }
     }
 
-    public static String getProp(String name, String def) {
+    public static String getProp(String key, String defaultValue) {
         try {
-            return invokeMethod(Class.forName("android.os.SystemProperties"),
-                    "get", new Class[]{String.class, String.class}, name, def);
-        } catch (Throwable e) {
-            Log.e(TAG, "PropUtils getProp String", e);
-            return "";
+            return SystemProperties.get(key, defaultValue);
+        } catch (Throwable throwable) {
+            logE("getProp", "key get e: " + key + " will return default: " + defaultValue + " e:" + throwable);
+            return defaultValue;
         }
     }
 
     public static String getProp(String name) {
         try {
-            return invokeMethod(Class.forName("android.os.SystemProperties"),
-                    "get", new Class[]{String.class}, name);
+            return SystemProperties.get(name);
         } catch (Throwable e) {
             Log.e(TAG, "PropUtils getProp String no def", e);
             return "";
@@ -101,6 +98,14 @@ public class PropUtils {
         } catch (Throwable e) {
             Log.e(TAG, "PropUtils getPropSu String no def", e);
             return "";
+        }
+    }
+
+    public static void setProp(String key, String val) {
+        try {
+            SystemProperties.set(key, val);
+        } catch (Throwable throwable) {
+            logE("setProp", "set key e: " + key + " e:" + throwable);
         }
     }
 
@@ -121,9 +126,5 @@ public class PropUtils {
         ClassLoader classLoader = context.getClassLoader();
         return InvokeUtils.callStaticMethod("android.os.SystemProperties", classLoader,
                 "get", new Class[]{String.class}, name);
-    }
-
-    private static <T> T invokeMethod(Class<?> cls, String str, Class<?>[] clsArr, Object... objArr) throws Throwable {
-        return InvokeUtils.callStaticMethod(cls, str, clsArr, objArr);
     }
 }
