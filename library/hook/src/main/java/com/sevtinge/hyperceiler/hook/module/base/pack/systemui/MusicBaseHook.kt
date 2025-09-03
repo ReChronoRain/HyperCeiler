@@ -63,6 +63,8 @@ abstract class MusicBaseHook : BaseHook() {
         mPrefsMap.getBoolean("system_ui_statusbar_music_show_aod_mode")
     }
 
+
+
     private val receiver = object : ISuperLyric.Stub() {
         override fun onSuperLyric(data: SuperLyricData) {
             runCatching {
@@ -108,7 +110,9 @@ abstract class MusicBaseHook : BaseHook() {
         val bitmap = basebitmap ?: context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
         val icon: Icon = Icon.createWithBitmap(bitmap).apply { if (basebitmap != null) setTint(Color.WHITE) }
         val dartIcon : Icon = Icon.createWithBitmap(bitmap).apply { if (basebitmap != null) setTint(Color.BLACK) }
-        val (lefttext,righttext) = splitSmartToPair(text,6)
+        val (lefttext,righttext) = splitSmart(text,SplitConfig(
+            maxLength = 6
+        ))
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         val intent = Intent("$CHANNEL_ID.actions.switchClockStatus")
         // 翻译
@@ -147,11 +151,13 @@ abstract class MusicBaseHook : BaseHook() {
         )
 
         val Island = IslandApi.IslandTemplate(
+            islandOrder = true,
             bigIslandArea = bigIsland,
             smallIslandArea = smallIsland
         )
 
-
+        val iconsAdd = Bundle()
+        iconsAdd.putParcelable("miui.focus.icon",icon)
 
         // 需要重启音乐软件生效
         val pendingIntent = if (isClickClock) {
@@ -168,6 +174,23 @@ abstract class MusicBaseHook : BaseHook() {
 
         fun buildRemoteViews(): RemoteViews {
             val layoutId = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
+            val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
+            val tf_text_id = modRes.getIdentifier("focustflyric", "id", ProjectApi.mAppModulePkg)
+            return RemoteViews(ProjectApi.mAppModulePkg, layoutId).apply {
+                if (tf != null){
+                    setViewVisibility(tf_text_id, View.VISIBLE)
+                    setTextViewText(tf_text_id, tf)
+                    setTextViewTextSize(tf_text_id, TypedValue.COMPLEX_UNIT_SP, nSize)
+                } else {
+                    setViewVisibility(tf_text_id, View.GONE)
+                }
+                setTextViewText(textId, text)
+                setTextViewTextSize(textId, TypedValue.COMPLEX_UNIT_SP, nSize)
+            }
+        }
+
+        fun buildRemoteViewsIsLand(): RemoteViews {
+            val layoutId = modRes.getIdentifier("focuslyricisland_layout", "layout", ProjectApi.mAppModulePkg)
             val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
             val tf_text_id = modRes.getIdentifier("focustflyric", "id", ProjectApi.mAppModulePkg)
             return RemoteViews(ProjectApi.mAppModulePkg, layoutId).apply {
@@ -208,19 +231,17 @@ abstract class MusicBaseHook : BaseHook() {
         runCatching {
             val remoteViewsDay = buildRemoteViews()
             val remoteViewsAod = buildAodRemoteViews(Color.WHITE)
-
-            val iconsAdd = Bundle()
-            iconsAdd.putParcelable("miui.focus.icon",icon)
-
-
+            val remoteViewsIsLand = buildRemoteViewsIsLand()
 
             val api = if (!isAodShow) {
                 if (isAodMode) {
                     FocusApi.senddiyFocus(
+                        addpics = iconsAdd,
                         ticker = text,
                         island = Island,
                         updatable = true,
                         rvAod = remoteViewsAod,
+                        rvIsLand = remoteViewsIsLand,
                         enableFloat = false,
                         rv = remoteViewsDay,
                         timeout = 999999,
@@ -229,8 +250,10 @@ abstract class MusicBaseHook : BaseHook() {
                     )
                 } else {
                     FocusApi.senddiyFocus(
+                        addpics = iconsAdd,
                         ticker = text,
                         island = Island,
+                        rvIsLand = remoteViewsIsLand,
                         updatable = true,
                         aodPic = icon,
                         aodTitle = text,
@@ -243,7 +266,9 @@ abstract class MusicBaseHook : BaseHook() {
                 }
             } else {
                 FocusApi.senddiyFocus(
+                    addpics = iconsAdd,
                     ticker = text,
+                    rvIsLand = remoteViewsIsLand,
                     island = Island,
                     updatable = true,
                     enableFloat = false,
@@ -266,6 +291,7 @@ abstract class MusicBaseHook : BaseHook() {
             )
             val api = if (!isAodShow) {
                 FocusApi.sendFocus(
+                    addpics = iconsAdd,
                     ticker = text,
                     aodTitle = text,
                     aodPic = icon,
@@ -279,6 +305,7 @@ abstract class MusicBaseHook : BaseHook() {
                 )
             } else {
                 FocusApi.sendFocus(
+                    addpics = iconsAdd,
                     ticker = text,
                     island = Island,
                     baseInfo = baseinfo,
@@ -334,53 +361,124 @@ abstract class MusicBaseHook : BaseHook() {
     }
 
 
-    fun splitSmartToPair(input: String, maxLength: Int): Pair<String, String?> {
+    fun splitSmart(input: String, config: SplitConfig): Pair<String, String?> {
         if (input.isEmpty()) return "" to null
 
-        // 计算实际字符数（按 code point，不会拆汉字/emoji）
-        val codePointCount = input.codePointCount(0, input.length)
+        val tokens = tokenize(input, config.pairedSymbols)
+        val logicalLen = tokens.size
+        val raw = tokens.joinToString("") { it.text }
 
-        // 情况1：超过 maxLength，安全切分
-        if (codePointCount > maxLength) {
-            val sb = StringBuilder()
-            var count = 0
-            var splitIndex = -1
-
-            input.codePoints().forEach { cp ->
-                val char = String(Character.toChars(cp))
-                sb.append(char)
-                count++
-                if (count == maxLength && splitIndex == -1) {
-                    splitIndex = sb.length
-                }
-            }
-
-            return if (splitIndex in 1 until input.length) {
-                input.substring(0, splitIndex) to input.substring(splitIndex)
-            } else {
-                input to null
-            }
+        // 1. 不超过 maxLength → 尝试按空格切，否则不切
+        if (logicalLen <= config.maxLength) {
+            return splitBySpaceOrNone(tokens, raw, raw.length / 2, config)
         }
 
-        // 情况2：没超过 maxLength，但有空格 → 找最接近中间的空格
-        val mid = input.length / 2
-        val leftSpace = input.lastIndexOf(' ', mid)
-        val rightSpace = input.indexOf(' ', mid)
+        // 2. 超过 maxLength → 在 maxLength 附近切
+        val splitIndex = config.maxLength
+        val approxCharIndex = tokens.take(splitIndex).sumOf { it.text.length }
 
-        val splitIndex = when {
-            leftSpace != -1 && rightSpace != -1 ->
-                if (mid - leftSpace <= rightSpace - mid) leftSpace else rightSpace
-            leftSpace != -1 -> leftSpace
-            rightSpace != -1 -> rightSpace
-            else -> -1
-        }
-
-        if (splitIndex in 1 until input.length - 1) {
-            return input.substring(0, splitIndex) to input.substring(splitIndex + 1)
-        }
-
-        // 情况3：不切
-        return input to null
+        return splitBySpaceOrNone(tokens, raw, approxCharIndex, config)
     }
 
+
+    private fun splitBySpaceOrNone(
+        tokens: List<Token>,
+        raw: String,
+        approxCharIndex: Int,
+        config: SplitConfig
+    ): Pair<String, String?> {
+        val left = raw.lastIndexOf(' ', approxCharIndex)
+        val right = raw.indexOf(' ', approxCharIndex)
+
+        val leftValid = left != -1 && left >= approxCharIndex - config.lookahead
+        val rightValid = right != -1 && right <= approxCharIndex + config.lookahead
+
+        // 选择空格位置：优先右边（但右边超长时用左边）
+        val chosenCharIndex = when {
+            rightValid && (raw.length - right - 1) <= config.maxLength -> right
+            leftValid && (raw.length - left - 1) <= config.maxLength -> left
+            rightValid -> right
+            leftValid -> left
+            else -> approxCharIndex
+        }
+
+        val (firstTokens, secondTokens) = splitTokensByCharIndex(tokens, chosenCharIndex, config)
+
+        var first = firstTokens.joinToString("") { it.text }
+        var second = secondTokens.joinToString("") { it.text }.ifEmpty { null }
+
+        // 处理 keepSpaceInSecond
+        if (!config.keepSpaceInSecond && second != null && second.startsWith(" ")) {
+            second = second.trimStart()
+        }
+
+        // 避免过短
+        val minLen = (raw.length * config.minFraction).toInt()
+        if (first.length < minLen || (second?.length ?: 0) < minLen) {
+            val mid = tokens.size / 2
+            first = tokens.take(mid).joinToString("") { it.text }
+            second = tokens.drop(mid).joinToString("") { it.text }
+        }
+
+        return first to second
+    }
+
+    private fun splitTokensByCharIndex(
+        tokens: List<Token>,
+        charIndex: Int,
+        config: SplitConfig
+    ): Pair<List<Token>, List<Token>> {
+        var acc = 0
+        for ((i, token) in tokens.withIndex()) {
+            val nextAcc = acc + token.text.length
+            if (charIndex < nextAcc) {
+                return if (charIndex == acc) {
+                    tokens.subList(0, i) to tokens.subList(i, tokens.size)
+                } else {
+                    tokens.subList(0, i + 1) to tokens.subList(i + 1, tokens.size)
+                }
+            }
+            acc = nextAcc
+        }
+        return tokens to emptyList()
+    }
+
+    private fun tokenize(input: String, pairs: Map<Char, Char>): List<Token> {
+        val tokens = mutableListOf<Token>()
+        var i = 0
+        while (i < input.length) {
+            val c = input[i]
+            val next = if (i + 1 < input.length) input[i + 1] else null
+            if (next != null && pairs[c] == next) {
+                tokens.add(Token("$c$next"))
+                i += 2
+            } else {
+                tokens.add(Token(c.toString()))
+                i += 1
+            }
+        }
+        return tokens
+    }
 }
+
+data class SplitConfig(
+    val maxLength: Int,
+    val lookahead: Int = 2,         // 在拆分点前后多少字符内找空格
+    val minFraction: Double = 0.35, // 最小比例（避免过短）
+    val keepSpaceInSecond: Boolean = true,
+        // 配对符号表
+    val pairedSymbols: Map<Char, Char> = mapOf(
+        '(' to ')',
+        '[' to ']',
+        '{' to '}',
+        '《' to '》',
+        '“' to '”',
+        '‘' to '’',
+        '「' to '」',
+        '『' to '』'
+    )
+)
+
+data class Token(val text: String)
+
+
