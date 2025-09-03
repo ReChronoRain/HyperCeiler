@@ -120,10 +120,13 @@ abstract class MusicBaseHook : BaseHook() {
         // 对唱对齐方式，有性能问题放弃
         // val dule = extraData.extra?.getBoolean(KEY_DUTE,false)?:false
 
-        val picInfo = IslandApi.PicInfo(
-            pic = "miui.focus.icon",
-
+        val picInfo = if (lefttext.length <= 6 ){
+            IslandApi.PicInfo(
+                pic = "miui.focus.icon",
             )
+        } else {
+            null
+        }
         val textInfoLeft = IslandApi.TextInfo(
             title = lefttext
         )
@@ -360,7 +363,11 @@ abstract class MusicBaseHook : BaseHook() {
         const val CHANNEL_ID: String = "channel_id_focusNotifLyrics"
     }
 
-
+    /**
+     * 拆分字符串
+     * @param input 输入字符串
+     * @param config 拆字配置
+     * @return 拆分后的两个字符串 */
     fun splitSmart(input: String, config: SplitConfig): Pair<String, String?> {
         if (input.isEmpty()) return "" to null
 
@@ -380,7 +387,13 @@ abstract class MusicBaseHook : BaseHook() {
         return splitBySpaceOrNone(tokens, raw, approxCharIndex, config)
     }
 
-
+    /**
+     * 根据近似字符索引拆分 Token 列表
+     * @param tokens Token 列表
+     * @param raw 原始字符串
+     * @param approxCharIndex 近似字符索引
+     * @param config 拆字配置
+     * @return 拆分后的两个字符串 */
     private fun splitBySpaceOrNone(
         tokens: List<Token>,
         raw: String,
@@ -390,19 +403,20 @@ abstract class MusicBaseHook : BaseHook() {
         val left = raw.lastIndexOf(' ', approxCharIndex)
         val right = raw.indexOf(' ', approxCharIndex)
 
-        val leftValid = left != -1 && left >= approxCharIndex - config.lookahead
-        val rightValid = right != -1 && right <= approxCharIndex + config.lookahead
+        val leftValid = left != -1 && (approxCharIndex - left) <= config.lookahead
+        val rightValid = right != -1 && (right - approxCharIndex) <= config.lookahead
 
-        // 选择空格位置：优先右边（但右边超长时用左边）
         val chosenCharIndex = when {
-            rightValid && (raw.length - right - 1) <= config.maxLength -> right
-            leftValid && (raw.length - left - 1) <= config.maxLength -> left
+            // 优先空格，但如果左边长度超过 maxLength → 放弃空格，用 maxLength
+            leftValid -> {
+                val leftLen = left
+                if (leftLen > config.maxLength) approxCharIndex else left
+            }
             rightValid -> right
-            leftValid -> left
             else -> approxCharIndex
         }
 
-        val (firstTokens, secondTokens) = splitTokensByCharIndex(tokens, chosenCharIndex, config)
+        val (firstTokens, secondTokens) = splitTokensByCharIndex(tokens, chosenCharIndex)
 
         var first = firstTokens.joinToString("") { it.text }
         var second = secondTokens.joinToString("") { it.text }.ifEmpty { null }
@@ -422,11 +436,14 @@ abstract class MusicBaseHook : BaseHook() {
 
         return first to second
     }
-
+    /**
+     * 根据字符索引拆分 Token 列表
+     * @param tokens Token 列表
+     * @param charIndex 字符索引
+     * @return 拆分后的两个 Token 列表 */
     private fun splitTokensByCharIndex(
         tokens: List<Token>,
-        charIndex: Int,
-        config: SplitConfig
+        charIndex: Int
     ): Pair<List<Token>, List<Token>> {
         var acc = 0
         for ((i, token) in tokens.withIndex()) {
@@ -443,6 +460,10 @@ abstract class MusicBaseHook : BaseHook() {
         return tokens to emptyList()
     }
 
+    /**
+     * 将输入字符串拆分为 Token 列表
+     * @param input 输入字符串
+     * @param pairs 括号对 */
     private fun tokenize(input: String, pairs: Map<Char, Char>): List<Token> {
         val tokens = mutableListOf<Token>()
         var i = 0
@@ -461,12 +482,20 @@ abstract class MusicBaseHook : BaseHook() {
     }
 }
 
+
+/**
+ * 拆字配置
+ * @param maxLength 多少字符开始拆
+ * @param lookahead 在拆分点前后多少字符内找空格
+ * @param minFraction 最小比例（避免过短）
+ * @param keepSpaceInSecond 是否保留空格
+ * @param pairedSymbols 括号对
+ * */
 data class SplitConfig(
     val maxLength: Int,
-    val lookahead: Int = 2,         // 在拆分点前后多少字符内找空格
-    val minFraction: Double = 0.35, // 最小比例（避免过短）
+    val lookahead: Int = 2,
+    val minFraction: Double = 0.35,
     val keepSpaceInSecond: Boolean = true,
-        // 配对符号表
     val pairedSymbols: Map<Char, Char> = mapOf(
         '(' to ')',
         '[' to ']',
