@@ -64,7 +64,6 @@ abstract class MusicBaseHook : BaseHook() {
     }
 
 
-
     private val receiver = object : ISuperLyric.Stub() {
         override fun onSuperLyric(data: SuperLyricData) {
             runCatching {
@@ -108,59 +107,66 @@ abstract class MusicBaseHook : BaseHook() {
         // 图标处理
         val basebitmap = base64ToDrawable(extraData.base64Icon)
         val bitmap = basebitmap ?: context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
-        val icon: Icon = Icon.createWithBitmap(bitmap).apply { if (basebitmap != null) setTint(Color.WHITE) }
-        val dartIcon : Icon = Icon.createWithBitmap(bitmap).apply { if (basebitmap != null) setTint(Color.BLACK) }
-        val (lefttext,righttext) = splitSmart(text,SplitConfig(
-            maxLength = 6
-        ))
+        val icon: Icon =
+            Icon.createWithBitmap(bitmap).apply { if (basebitmap != null) setTint(Color.WHITE) }
+        val dartIcon: Icon =
+            Icon.createWithBitmap(bitmap).apply { if (basebitmap != null) setTint(Color.BLACK) }
+        val (lefttext, righttext) = splitSmart(
+            text, SplitConfig(
+                maxLength = 6
+            )
+        )
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         val intent = Intent("$CHANNEL_ID.actions.switchClockStatus")
         // 翻译
         val tf = extraData.translation
         // 对唱对齐方式，有性能问题放弃
         // val dule = extraData.extra?.getBoolean(KEY_DUTE,false)?:false
-
-        val picInfo = if (lefttext.length <= 6 ){
+        // 应用图标传入，在大于等于6个字符的时候不传
+        val picInfo = if (lefttext.length <= 6) {
             IslandApi.PicInfo(
                 pic = "miui.focus.icon",
             )
         } else {
             null
         }
+        //金凡岛展开左边文本
         val textInfoLeft = IslandApi.TextInfo(
             title = lefttext
         )
+        //金凡岛展开右边文本
         val textInfoRight = IslandApi.TextInfo(
-            title = righttext?:"群里有猫娘"
+            title = righttext ?: "群里有猫娘"
         )
+        //金凡岛展开左边布局组装
         val left = IslandApi.ImageTextInfo(
             picInfo = picInfo,
             textInfo = textInfoLeft
         )
-
+        //金凡岛展开右边布局组装
         val right = IslandApi.ImageTextInfo(
-            textInfo =  textInfoRight,
+            textInfo = textInfoRight,
             type = 2
         )
-
+        //金凡岛展开布局组装
         val bigIsland = IslandApi.BigIslandArea(
             imageTextInfoLeft = left,
             imageTextInfoRight = right
 
         )
-
+        //金凡岛未展开布局组装
         val smallIsland = IslandApi.SmallIslandArea(
-            picInfo = picInfo
+            picInfo = IslandApi.PicInfo(pic = "miui.focus.icon")
         )
-
+        //金凡岛布局组装
         val Island = IslandApi.IslandTemplate(
             islandOrder = true,
             bigIslandArea = bigIsland,
             smallIslandArea = smallIsland
         )
-
+        //金凡岛图标资源添加
         val iconsAdd = Bundle()
-        iconsAdd.putParcelable("miui.focus.icon",icon)
+        iconsAdd.putParcelable("miui.focus.icon", icon)
 
         // 需要重启音乐软件生效
         val pendingIntent = if (isClickClock) {
@@ -176,11 +182,12 @@ abstract class MusicBaseHook : BaseHook() {
             .setContentIntent(pendingIntent)
 
         fun buildRemoteViews(): RemoteViews {
-            val layoutId = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
+            val layoutId =
+                modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
             val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
             val tf_text_id = modRes.getIdentifier("focustflyric", "id", ProjectApi.mAppModulePkg)
             return RemoteViews(ProjectApi.mAppModulePkg, layoutId).apply {
-                if (tf != null){
+                if (tf != null) {
                     setViewVisibility(tf_text_id, View.VISIBLE)
                     setTextViewText(tf_text_id, tf)
                     setTextViewTextSize(tf_text_id, TypedValue.COMPLEX_UNIT_SP, nSize)
@@ -193,11 +200,12 @@ abstract class MusicBaseHook : BaseHook() {
         }
 
         fun buildRemoteViewsIsLand(): RemoteViews {
-            val layoutId = modRes.getIdentifier("focuslyricisland_layout", "layout", ProjectApi.mAppModulePkg)
+            val layoutId =
+                modRes.getIdentifier("focuslyricisland_layout", "layout", ProjectApi.mAppModulePkg)
             val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
             val tf_text_id = modRes.getIdentifier("focustflyric", "id", ProjectApi.mAppModulePkg)
             return RemoteViews(ProjectApi.mAppModulePkg, layoutId).apply {
-                if (tf != null){
+                if (tf != null) {
                     setViewVisibility(tf_text_id, View.VISIBLE)
                     setTextViewText(tf_text_id, tf)
                     setTextViewTextSize(tf_text_id, TypedValue.COMPLEX_UNIT_SP, nSize)
@@ -210,12 +218,13 @@ abstract class MusicBaseHook : BaseHook() {
         }
 
         fun buildAodRemoteViews(textColor: Int): RemoteViews {
-            val layoutId = modRes.getIdentifier("focusaodlyric_layout", "layout", ProjectApi.mAppModulePkg)
+            val layoutId =
+                modRes.getIdentifier("focusaodlyric_layout", "layout", ProjectApi.mAppModulePkg)
             val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
             val iconId = modRes.getIdentifier("focusicon", "id", ProjectApi.mAppModulePkg)
             val tf_text_id = modRes.getIdentifier("focustflyric", "id", ProjectApi.mAppModulePkg)
             return RemoteViews(ProjectApi.mAppModulePkg, layoutId).apply {
-                if (tf != null){
+                if (tf != null) {
                     setViewVisibility(tf_text_id, View.VISIBLE)
                     setTextViewText(tf_text_id, tf)
                     setTextColor(tf_text_id, textColor)
@@ -412,6 +421,7 @@ abstract class MusicBaseHook : BaseHook() {
                 val leftLen = left
                 if (leftLen > config.maxLength) approxCharIndex else left
             }
+
             rightValid -> right
             else -> approxCharIndex
         }
@@ -436,6 +446,7 @@ abstract class MusicBaseHook : BaseHook() {
 
         return first to second
     }
+
     /**
      * 根据字符索引拆分 Token 列表
      * @param tokens Token 列表
