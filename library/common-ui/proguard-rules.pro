@@ -31,5 +31,6 @@
 -keep class fan.** { *; }
 -keep class miuix.mgl.** { *; }
 
--dontwarn miui.util.HapticFeedbackUtil
+-dontwarn miui.**
+-dontwarn javax.annotation.**
 -dontwarn com.android.internal.view.menu.MenuBuilder
