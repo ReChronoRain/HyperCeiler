@@ -42,11 +42,8 @@ public class HomeTitleSettings extends DashboardFragment {
     SwitchPreference mDisableMonoChrome;
     SwitchPreference mDisableMonetColor;
     SwitchPreference mDisableHideTheme;
-    SwitchPreference mIconSize;
-    SeekBarPreferenceCompat mTitleFontSize;
     Preference mIconTitleCustomization;
     RecommendPreference mRecommend;
-    PreferenceCategory mAppBlur;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -57,18 +54,12 @@ public class HomeTitleSettings extends DashboardFragment {
     public void initPrefs() {
         mIconTitleCustomization = findPreference("prefs_key_home_title_title_icontitlecustomization");
         mDisableMonoChrome = findPreference("prefs_key_home_other_icon_mono_chrome");
-        mAppBlur = findPreference("prefs_key_home_title_app_blur_hyper");
-        mIconSize = findPreference("prefs_key_home_title_icon_size_enable");
-        mTitleFontSize = findPreference("prefs_key_home_drawer_title_font_size");
 
         mDisableMonoChrome.setOnPreferenceChangeListener((preference, o) -> true);
         mDisableMonetColor = findPreference("prefs_key_home_other_icon_monet_color");
         mDisableMonetColor.setOnPreferenceChangeListener((preference, o) -> true);
         mDisableHideTheme = findPreference("prefs_key_home_title_disable_hide_theme");
         setHide(mDisableHideTheme, isPad());
-        setHide(mAppBlur, isHyperOSVersion(1f));
-        setHide(mIconSize, isHyperOSVersion(2f));
-        setHide(mTitleFontSize, isMoreHyperOSVersion(2f));
 
         mIconTitleCustomization.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);

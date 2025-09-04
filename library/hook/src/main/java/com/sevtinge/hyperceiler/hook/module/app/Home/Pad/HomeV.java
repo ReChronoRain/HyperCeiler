@@ -67,7 +67,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.layout.HotSeatsMarginTop;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.IndicatorMarginBottom;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.SearchBarMarginBottom;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.SearchBarMarginWidth;
-import com.sevtinge.hyperceiler.hook.module.hook.home.layout.UnlockGrids;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.WorkspacePadding;
 import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.EnableHideGestureLine;
 import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.EnableMoreSetting;
@@ -77,7 +76,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureArea
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.HideNavigationBar;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.AllowShareApk;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.AlwaysBlurWallpaper;
-import com.sevtinge.hyperceiler.hook.module.hook.home.other.AlwaysShowStatusClock;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.BlurRadius;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.BlurWhenShowShortcutMenu;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.DisableHideGoogle;
@@ -161,7 +159,6 @@ public class HomeV extends BaseModule {
         initHook(new BackGestureAreaWidth(), mPrefsMap.getInt("home_navigation_back_area_width", 100) != 100);
 
         // 布局
-        initHook(new UnlockGrids(), mPrefsMap.getBoolean("home_layout_unlock_grids"));
         // initHook(new UnlockGridsNoWord(), mPrefsMap.getBoolean("home_layout_unlock_grids_no_word"));
         initHook(new WorkspacePadding(),
                 mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
@@ -267,7 +264,6 @@ public class HomeV extends BaseModule {
         // 其他
         initHook(new LockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);
-        initHook(AlwaysShowStatusClock.INSTANCE, mPrefsMap.getBoolean("home_other_show_clock"));
         initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));
         initHook(new FreeformShortcutMenu(), mPrefsMap.getBoolean("home_other_freeform_shortcut_menu"));
         initHook(new TasksShortcutMenu(), mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"));

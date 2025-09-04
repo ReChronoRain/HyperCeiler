@@ -18,16 +18,12 @@
  */
 package com.sevtinge.hyperceiler.hooker.systemui;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.SeekBar;
 
 import androidx.preference.Preference;
-import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
@@ -42,13 +38,7 @@ import fan.preference.SeekBarPreferenceCompat;
 public class ControlCenterSettings extends DashboardFragment {
 
     Preference mExpandNotification;
-    PreferenceCategory mOldCCGrid;
-    SwitchPreference mSwitchCCAN;
-    SwitchPreference mSpotlightNotifColorMix;
     SwitchPreference mRedirectNotice;
-    SwitchPreference mShadeHeaderBlur;
-    SwitchPreference mNotifrowMenu;
-    SwitchPreference mAllFocus;
     RecommendPreference mRecommend;
 
     @Override
@@ -58,15 +48,8 @@ public class ControlCenterSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
-        mOldCCGrid = findPreference("prefs_key_system_ui_controlcenter_old");
         mExpandNotification = findPreference("prefs_key_system_ui_control_center_expand_notification");
-        mSwitchCCAN = findPreference("prefs_key_system_ui_control_center_switch_cc_and_notification");
         mRedirectNotice = findPreference("prefs_key_system_ui_control_center_redirect_notice");
-        mSpotlightNotifColorMix = findPreference("prefs_key_system_ui_control_center_opt_notification_element_background_color");
-        mShadeHeaderBlur = findPreference("prefs_key_system_ui_shade_header_gradient_blur");
-
-        mNotifrowMenu = findPreference("prefs_key_system_ui_control_center_notifrowmenu");
-        mAllFocus = findPreference("prefs_key_system_ui_unlock_all_focus");
 
         mExpandNotification.setOnPreferenceClickListener(
                 preference -> {
@@ -78,17 +61,7 @@ public class ControlCenterSettings extends DashboardFragment {
                 }
         );
 
-        if (isMoreHyperOSVersion(2f)) {
-            setFuncHint(mNotifrowMenu, 1);
-            setFuncHint(mSwitchCCAN, 1);
-            setFuncHint(mRedirectNotice, 2);
-            mSpotlightNotifColorMix.setVisible(isMoreAndroidVersion(35));
-            mShadeHeaderBlur.setVisible(isMoreAndroidVersion(35));
-        } else {
-            setFuncHint(mAllFocus, 1);
-            mSpotlightNotifColorMix.setVisible(false);
-            mShadeHeaderBlur.setVisible(false);
-        }
+        setFuncHint(mRedirectNotice, 2);
 
         ((SeekBarPreferenceCompat) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

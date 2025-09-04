@@ -21,12 +21,6 @@
     app:myLocation="@string/system_ui_lockscreen_title"
     app:quick_restart="com.android.systemui">
     <PreferenceCategory android:title="@string/system_ui_lockscreen_ui_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_lock_screen_hide_smart_screen"
-            android:summary="@string/system_ui_lock_screen_default_theme"
-            android:title="@string/system_ui_lock_screen_hide_smart_screen" />
-
         <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_lock_screen_bottom_left_button"
@@ -46,11 +40,6 @@
             android:key="prefs_key_system_ui_lock_screen_unlock_tip"
             android:summary="@string/system_ui_lock_screen_default_theme"
             android:title="@string/system_ui_lock_screen_unlock_tip_title" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_lock_screen_block_editor"
-            android:title="@string/system_ui_lock_screen_block_editor_title" />
 
         <SwitchPreference
             android:defaultValue="false"

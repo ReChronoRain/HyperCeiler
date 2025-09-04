@@ -542,7 +542,6 @@
     <string name="system_ui_lock_screen_show_battery_temperature">إظهار درجة حرارة البطارية</string>
     <string name="system_ui_lock_screen_show_spacing">عرض الفاصل الزمني للتحديث</string>
     <string name="system_ui_lock_screen_hide_camera">إخفاء زر الكاميرا</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">إخفاء الشاشة الذكية</string>
     <string name="system_ui_lock_screen_bottom_left_button">الزر الأيسر في الأسفل</string>
     <string name="system_ui_lock_screen_current">الحالي</string>
     <string name="system_ui_lock_screen_blur_button">تمويه أزرار شاشة القفل</string>
@@ -556,7 +555,6 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">إخفاء إشعار وضع عدم الإزعاج</string>
     <string name="system_ui_lock_screen_unlock_tip_title">إخفاء طلب الفتح</string>
     <string name="system_ui_lock_screen_hide_status_bar">إزالة شريط الحالة من شاشة القفل</string>
-    <string name="system_ui_lock_screen_block_editor_title">تعطيل الضغط الطويل للوصول إلى محرر شاشة القفل</string>
     <string name="system_ui_lock_screen_allow_third_face">السماح للنظام بالتحقق من التعرف على الطرف الثالث</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">يسمح باستخدام التعرف على الوجه والبصمة بشكل طبيعي على شاشة القفل التي تعرضها التطبيقات الخارجية</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">تعطيل عرض رسالة فتح عبر Bluetooth</string>
@@ -683,12 +681,10 @@
     <string name="system_ui_statusbar_clock_desc">نموذج تنسيق الساعة</string>
     <string name="system_ui_statusbar_clock_size">حجم الساعة</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">صالح فقط عند عرضها في صفين</string>
-    <string name="system_ui_statusbar_clock_fix_color">إصلاح اللون</string>
     <string name="system_ui_statusbar_clock_pad_show">مرتبط بالباقة</string>
     <string name="system_ui_statusbar_clock_pad_hide">إخفاء شريط الحالة وتاريخ الساعة</string>
     <string name="system_ui_statusbar_clock_layout_p">ساعة التاريخ في شريط الحالة</string>
     <string name="system_ui_statusbar_clock_editor_p">تنسيق ساعة التاريخ لشريط الحالة</string>
-    <string name="system_ui_disable_clock_anim">تعطيل الرسوم المتحركة لتبديل الساعة في ظل الإشعارات</string>
     <string name="system_ui_disable_clock_synch">إعدادات الساعة في شريط الحالة غير متزامنة</string>
     <string name="system_ui_disable_clock_synch_desc">الساعة الكبيرة في ظل الإشعارات لم تعد متزامنة مع تنسيق ساعة شريط الحالة</string>
     <string name="system_ui_statusbar_clock_show">عرض</string>
@@ -788,13 +784,10 @@
     <string name="system_ui_control_center_rounded_rect_radius">نصف قطر الزوايا المستديرة</string>
     <string name="system_ui_control_center_fix_tiles_list">تعطيل إخفاء البلاطات الداكنة جدًا</string>
     <string name="system_ui_shade_header_gradient_blur">ضبابية تدرج رأس الظل</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">التبديل بين مركز التحكم وظل الإشعارات</string>
     <string name="system_ui_control_center_hide_operator">تخصيص اسم الشبكة</string>
     <string name="system_ui_control_center_hide_delimiter">إخفاء الفواصل فقط</string>
     <string name="system_ui_control_center_hide_display_device_name">إخفاء اسم الجهاز</string>
     <string name="system_ui_control_center_hide_name">إخفاء جميع الأسماء</string>
-    <string name="system_ui_control_center_notifrowmenu">قائمة إشعارات موسعة</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">فتح معلومات التطبيق، إغلاق التطبيق بالقوة وفتح في نافذة عائمة من قائمة الإشعارات (اسحب الإشعار لليسار لفتحه)</string>
     <string name="system_ui_controlcenter_new_title">مركز التحكم الجديد</string>
     <string name="system_ui_controlcenter_old_title">مركز التحكم القديم</string>
     <string name="system_ui_controlcenter_unlock_old_title">فتح أنماط مركز التحكم</string>
@@ -851,7 +844,6 @@
     <string name="system_ui_volume_collpased_column_press">اضغط لتوسيع شريط الصوت الثانوي</string>
     <string name="system_ui_volume_collpased_column_press_desc">عند تمكين هذه الميزة، يتم إيقاف تشغيل زر التوسيع</string>
     <string name="system_ui_volume_hide_foot_button">إخفاء أزرار كتم الصوت وعدم الإزعاج</string>
-    <string name="system_ui_volume_timer">مؤقت موسع</string>
     <string name="system_ui_plugin_enable_volume_blur">تمكين ضبابية شريط الصوت</string>
     <string name="system_ui_move_log_to_miui">نقل statusbar_gestures.dat إلى دليل MIUI</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">مخصص لنماذج MTK التي تعمل بنظام Android12+. قد يتسبب ذلك في تحميل GPU عالي.</string>
@@ -878,7 +870,6 @@
     <string name="system_usb_reverse_charge">الشحن العكسي</string>
     <string name="system_usb_tethering">مشاركة الاتصال عبر USB</string>
     <string name="system_settings_connection_sharing_title">الاتصال &amp; المشاركة</string>
-    <string name="system_settings_lang_menu_shouw_all_app">عرض جميع التطبيقات في قائمة إدارة اللغة</string>
     <string name="system_settings_new_nfc_page">صفحة NFC جديدة</string>
     <string name="system_settings_new_nfc_page_desc">بعد تفعيلها، لا يمكن اختيار تطبيق المحفظة الافتراضي للنماذج غير المدعومة من Xiaomi Wallet.</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">فتح Xiaomi HyperAI</string>
@@ -893,10 +884,7 @@
     <string name="system_settings_restart_systemui_desc">تحتاج إلى إعادة تشغيل واجهة نظام التشغيل ونطاقات الإعدادات لتطبيق التغييرات.</string>
     <string name="system_settings_permission_show_app_up">صلاحيات التطبيقات العليا بدون البحث في قائمة التطبيقات</string>
     <string name="system_settings_permission_show_app_up_desc">استعادة السلوك القديم، الانتقال مباشرة إلى مفتاح صلاحية التطبيق المعروض أعلى التطبيقات الأخرى.</string>
-    <string name="system_settings_permission_unknown_origin_app">تثبيت التطبيقات غير المعروفة دون البحث في قائمة التطبيقات</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">استخدام الإصدار الدولي، الانتقال مباشرة إلى مفتاح صلاحية التطبيق المعروض أعلى التطبيقات الأخرى.</string>
     <string name="system_settings_permission_accessibility">صلاحيات خدمات الوصول دون البحث في قائمة التطبيقات</string>
-    <string name="system_settings_permission_disable_install_unknown_verify">تعطيل التحقق عند تثبيت التطبيقات غير المعروفة</string>
     <string name="system_settings_develop_title">خيارات المطور</string>
     <string name="system_settings_apps_freezer">إجبار عرض التطبيقات المجمدة في الذاكرة المؤقتة</string>
     <string name="system_settings_apps_freezer_more">بمجرد التفعيل، يمكن العثور على هذه الميزة في خيارات المطور، ولكن لا يمكن ضمان عملها</string>
@@ -1046,8 +1034,6 @@
     <string name="home_layout_searchbar_title">شريط البحث</string>
     <string name="home_layout_searchbar_width">الارتفاع</string>
     <string name="home_layout_seek_points">مؤشر الصفحة</string>
-    <string name="home_layout_show_clock">عرض الوقت</string>
-    <string name="home_layout_show_clock_desc">الصفحة التي يوجد بها أداة الساعة تعرض الوقت دائمًا</string>
     <string name="home_layout_unlock_grids">فتح التخطيط</string>
     <string name="home_layout_unlock_grids_desc">فتح حد حجم تخطيط أيقونات الشاشة الرئيسية</string>
     <string name="home_layout_unlock_grids_new_x">الأعمدة</string>
@@ -1058,7 +1044,6 @@
     <string name="home_layout_workspace_padding_top_desc">المسافة بين الشاشة الرئيسية وحافة أعلى الشاشة</string>
     <string name="home_layout_workspace_padding_horizontal_desc">المسافة بين الشاشة الرئيسية وحافة الجانبين للشاشة</string>
     <string name="home_layout_hotseats_height">الارتفاع</string>
-    <string name="home_layout_hotseats_margin_top_desc">المسافة بين شريط التطبيقات والمؤشر</string>
     <string name="home_layout_hotseats_margin_bottom_desc">المسافة بين شريط التطبيقات وحافة أسفل الشاشة</string>
     <string name="home_layout_searchbar_margin_bottom_desc">المسافة بين شريط البحث وحافة أسفل الشاشة</string>
     <string name="home_folder">المجلد</string>
@@ -1157,7 +1142,6 @@
     <string name="home_title_hide_report_text_desc">إخفاء نص التقرير في نافذة حوار إلغاء التثبيت</string>
     <string name="home_title_notif_color">لون خلفية إشعار الرسائل المخصص</string>
     <string name="home_title_notif_color_picker">لون مخصص</string>
-    <string name="home_title_icon_size">حجم الأيقونة</string>
     <string name="home_recent">التطبيقات الحديثة</string>
     <string name="home_recent_animation_speed">سرعة الرسوم المتحركة</string>
     <string name="home_recent_unlock_pin">إلغاء تثبيت التطبيقات المثبتة</string>
@@ -1243,13 +1227,6 @@
     <string name="home_other_shortcut_remove_restrictions">إزالة قيود الاختصارات</string>
     <string name="home_other_shortcut_background_blur_custom">قيمة تمويه قائمة الاختصارات</string>
     <string name="home_other_high_models">التعرف الإجباري كنموذج عالي الجودة</string>
-    <string name="home_recent_blur_level">مستوى التمويه</string>
-    <string name="home_recent_complete_blur_plus">تمويه كامل مع إضافة</string>
-    <string name="home_recent_complete_blur">تمويه كامل</string>
-    <string name="home_recent_test_blur">تمويه تجريبي</string>
-    <string name="home_recent_simple_blur">تمويه بسيط</string>
-    <string name="home_recent_none_blur">بدون تمويه</string>
-    <string name="home_recent_none_blur_simple_anim">بدون تمويه (أنيمي بسيط)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">فتح المزيد من الخيارات لإعدادات الشاشة الرئيسية</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">الميزات التي تم فتحها قد لا تكون متاحة، وبعض الميزات تتطلب دعمًا من النظام الأساسي.</string>
     <string name="home_other_disable_prestart">إيقاف تحميل التطبيقات المسبق</string>
@@ -1299,14 +1276,7 @@
     <string name="html_viewer_disable_cloud_control">إيقاف التحكم السحابي</string>
     <!--App vault-->
     <string name="personal_assistant">خزنة التطبيقات</string>
-    <string name="personal_assistant_overlap_mode">أسلوب الطي السلبي</string>
-    <string name="personal_assistant_blur_model">نموذج التمويه للمساعد الشخصي</string>
-    <string name="personal_assistant_blur_value">أسلوب الخلفية</string>
-    <string name="personal_assistant_blurradius">قيمة تمويه المساعد الشخصي</string>
-    <string name="personal_assistant_color">لون المساعد الشخصي</string>
     <string name="personal_assistant_unlock_widget_count_limit">إلغاء حد عدد العناصر التي يمكن فتحها</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width">تعيين تركيز إشعار السفر في شريط الحالة</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width_desc">ضبط هذه القيمة بشكل مناسب لحل مشكلة محتوى العرض المفقود</string>
     <string name="personal_assistant_disable_lite_version">إيقاف النسخة الخفيفة</string>
     <string name="personal_assistant_widget_widget_blur_opt">تحسين ضبابية الأداة</string>
     <!--Battery and performance-->
@@ -1547,8 +1517,6 @@
     <string name="various_open_aosp_extremely_dark_title">إضاءة منخفضة جدًا</string>
     <string name="various_open_aosp_default_apps_title">التطبيقات الافتراضية</string>
     <string name="various_mipad_input_title">الإدخال</string>
-    <string name="various_mipad_input_close_magic_title">إلغاء المؤشر السحري</string>
-    <string name="various_mipad_input_close_magic_desc">إزالة مؤشر الفأرة الدائري والعودة إلى المؤشر الأصلي في أندرويد</string>
     <string name="various_mipad_input_restore_esc_title">استعادة وظيفة ESC</string>
     <string name="various_mipad_input_restore_esc_desc">استعادة وظيفة ESC التي تم تعيينها بشكل ثابت إلى وظيفة \"رجوع\" بواسطة نظام Xiaomi Pad.</string>
     <string name="various_mipad_input_disable_bluetooth_title">إزالة قيد البلوتوث للقلم</string>

@@ -406,7 +406,6 @@
     <string name="system_ui_lock_screen_show_battery_temperature">Tampilkan suhu baterai</string>
     <string name="system_ui_lock_screen_show_spacing">Interval penyegaran tampilan</string>
     <string name="system_ui_lock_screen_hide_camera">Sembunyikan kamera</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">Sembunyikan layar pintar</string>
     <string name="system_ui_lock_screen_current">Saat ini</string>
     <string name="system_ui_lock_screen_blur_button">Kamera buram dan tombol layar pintar</string>
     <string name="system_ui_lock_screen_double_lock">Ketuk dua kali layar kunci</string>
@@ -414,7 +413,6 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">Sembunyikan notifikasi mode zen</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Sembunyikan perintah buka kunci di bagian bawah layar</string>
     <string name="system_ui_lock_screen_hide_status_bar">Hapus bilah status dari layar kunci</string>
-    <string name="system_ui_lock_screen_block_editor_title">Nonaktifkan tekan lama untuk mengakses pengeditan layar kunci</string>
     <string name="system_ui_lock_screen_allow_third_face">Izinkan sistem dibangunkan untuk memverifikasi pengenalan pada layar kunci pihak ketiga</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Izinkan pengenalan wajah dan sidik jari digunakan secara normal pada layar kunci yang ditampilkan oleh aplikasi pihak ketiga</string>
     <string name="system_ui_navigation_title">Navigasi</string>
@@ -531,8 +529,6 @@
     <string name="system_ui_statusbar_clock_desc">Contoh format jam</string>
     <string name="system_ui_statusbar_clock_size">Ukuran jam</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Hanya valid jika ditampilkan dalam dua baris</string>
-    <string name="system_ui_statusbar_clock_fix_color">Perbaiki warna</string>
-    <string name="system_ui_disable_clock_anim">Nonaktifkan animasi transisi jam slide di Pusat Pemberitahuan</string>
     <string name="system_ui_disable_clock_synch">Pengaturan jam bilah status tidak disinkronkan</string>
     <string name="system_ui_disable_clock_synch_desc">Jam bilah notifikasi besar tidak lagi disinkronkan dengan format jam bilah status</string>
     <string name="system_ui_statusbar_clock_show">Tampilkan</string>
@@ -588,12 +584,9 @@
     <string name="system_ui_control_center_statusbar_blur">Paksa keburaman latar belakang</string>
     <string name="system_ui_control_center_rounded_rect_radius">Radius Bulat</string>
     <string name="system_ui_control_center_fix_tiles_list">Nonaktifkan sembunyikan ubin yang sangat gelap</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">Beralih pusat kendali dan laci notifikasi</string>
     <string name="system_ui_control_center_hide_operator">Kustomisasi nama operator</string>
     <string name="system_ui_control_center_hide_delimiter">Hanya pembatas yang disembunyikan</string>
     <string name="system_ui_control_center_hide_name">Sembunyikan semua nama</string>
-    <string name="system_ui_control_center_notifrowmenu">Menu notifikasi yang diperluas</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">Buka info aplikasi, tutup paksa aplikasi dan buka di jendela mengambang dari menu notifikasi (geser notifikasi ke kiri untuk membukanya)</string>
     <string name="system_ui_controlcenter_new_title">Pusat kendali baru</string>
     <string name="system_ui_controlcenter_old_title">Pusat kendali warisan</string>
     <string name="system_ui_controlcenter_unlock_old_title">Buka kunci gaya pusat kendali</string>
@@ -628,7 +621,6 @@
     <string name="system_ui_qs_label">Tab peralihan cepat</string>
     <string name="system_ui_notification_title">Pemberitahuan</string>
     <string name="system_ui_other_notification_fix">Nonaktifkan daftar putih notifikasi</string>
-    <string name="system_ui_volume_timer">Pengatur waktu diperpanjang</string>
     <string name="system_ui_plugin_enable_volume_blur">Aktifkan kekaburan bilah volume</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Hanya untuk model Android12+ MTK, mungkin terdapat beban GPU yang tinggi</string>
     <!--Telecom-->
@@ -651,7 +643,6 @@
     <string name="system_usb_reverse_charge">Biaya Terbalik</string>
     <string name="system_usb_tethering">Penambatan USB</string>
     <string name="system_settings_connection_sharing_title">Koneksi Jaringan &amp; berbagi</string>
-    <string name="system_settings_lang_menu_shouw_all_app">Tampilkan semua aplikasi di menu manajemen bahasa</string>
     <string name="system_settings_new_nfc_page">Halaman NFC Baru</string>
     <string name="system_settings_new_nfc_page_desc">Setelah dibuka, aplikasi pembayaran default untuk model yang tidak didukung tidak dapat memilih Xiaomi Wallet</string>
     <string name="system_settings_lab_title">Fungsi unggulan</string>
@@ -664,10 +655,7 @@
     <string name="system_settings_restart_systemui_desc">Anda perlu memulai ulang cakupan \"Antarmuka Sistem\" dan \"Pengaturan\" agar perubahan dapat diterapkan</string>
     <string name="system_settings_permission_show_app_up">Izin tingkat atas tanpa mencari daftar aplikasi</string>
     <string name="system_settings_permission_show_app_up_desc">Kembalikan perilaku lama, langsung ke sakelar izin aplikasi terkait “ditampilkan di atas aplikasi lain”</string>
-    <string name="system_settings_permission_unknown_origin_app">Instal izin aplikasi yang tidak dikenal tanpa mencari daftar aplikasi</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">Gunakan build internasional, langsung ke sakelar izin aplikasi terkait “ditampilkan di atas aplikasi lain”</string>
     <string name="system_settings_permission_accessibility">Izin layanan aksesibilitas tanpa mencari daftar aplikasi</string>
-    <string name="system_settings_permission_disable_install_unknown_verify">Nonaktifkan verifikasi saat memasang aplikasi yang tidak dikenal</string>
     <string name="system_settings_develop_title">Opsi pengembang</string>
     <string name="system_settings_apps_freezer">Paksa menampilkan aplikasi cache yang dibekukan</string>
     <string name="system_settings_apps_freezer_more">Setelah diaktifkan, fitur ini dapat ditemukan di \"Opsi Pengembang,\" namun fungsinya tidak dijamin</string>
@@ -802,8 +790,6 @@
     <string name="home_layout_hotseats_title">Dermaga</string>
     <string name="home_layout_searchbar_title">Bilah pencarian</string>
     <string name="home_layout_seek_points">Indikator halaman</string>
-    <string name="home_layout_show_clock">Waktu tampilan</string>
-    <string name="home_layout_show_clock_desc">Halaman tempat widget jam berada selalu menampilkan waktu</string>
     <string name="home_layout_unlock_grids">Buka kunci tata letak</string>
     <string name="home_layout_unlock_grids_desc">Buka kunci batas ukuran tata letak ikon layar beranda</string>
     <string name="home_layout_unlock_grids_no_words">Buka kunci tata letak (tanpa mode kata)</string>
@@ -812,7 +798,6 @@
     <string name="home_layout_workspace_padding_top_desc">Jarak layar beranda dari margin atas layar</string>
     <string name="home_layout_workspace_padding_horizontal_desc">Jarak layar beranda dari margin sisi layar</string>
     <string name="home_layout_hotseats_height">Tinggi</string>
-    <string name="home_layout_hotseats_margin_top_desc">Jarak dok dari margin indikator halaman</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Jarak dock dari margin bawah layar</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Jarak bilah pencarian dari margin bawah layar</string>
     <string name="home_folder">Map</string>
@@ -975,13 +960,6 @@
     <string name="home_other_shortcut_remove_restrictions">Hapus batasan pada pintasan</string>
     <string name="home_other_shortcut_background_blur_custom">Nilai blur menu pintasan</string>
     <string name="home_other_high_models">Pengakuan wajib sebagai model kelas atas</string>
-    <string name="home_recent_blur_level">Tingkat keburaman</string>
-    <string name="home_recent_complete_blur_plus">Blur Plus Lengkap</string>
-    <string name="home_recent_complete_blur">Buram Lengkap</string>
-    <string name="home_recent_test_blur">Tes Buram</string>
-    <string name="home_recent_simple_blur">Buram Sederhana</string>
-    <string name="home_recent_none_blur">Tidak ada Buram</string>
-    <string name="home_recent_none_blur_simple_anim">Tidak Ada Blur (Anim Sederhana)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">Buka lebih banyak opsi untuk pengaturan desktop</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">Fungsi yang tidak terkunci mungkin tidak tersedia, dan beberapa fungsi memerlukan dukungan sistem dasar</string>
     <!--Gallery Editor-->
@@ -1020,11 +998,6 @@
     <!--HTML Viewer-->
     <!--App vault-->
     <string name="personal_assistant">Gudang aplikasi</string>
-    <string name="personal_assistant_overlap_mode">Negatif satu layar Gaya lipat</string>
-    <string name="personal_assistant_blur_model">Model blur asisten pribadi</string>
-    <string name="personal_assistant_blur_value">Gaya latar belakang</string>
-    <string name="personal_assistant_blurradius">Nilai blur asisten pribadi</string>
-    <string name="personal_assistant_color">Warna asisten pribadi</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Baterai dan kinerja</string>
     <string name="powerkeeper_custom_refresh_rate">Aplikasi khusus dengan kecepatan refresh tinggi</string>
@@ -1217,8 +1190,6 @@
     <string name="various_open_aosp_language_title">Pengaturan Bahasa</string>
     <string name="various_open_aosp_extremely_dark_title">Sangat Gelap</string>
     <string name="various_mipad_input_title">Memasukkan</string>
-    <string name="various_mipad_input_close_magic_title">Tidak Ada Penunjuk Ajaib</string>
-    <string name="various_mipad_input_close_magic_desc">Putar penunjuk sistem Xiaomi Pad bulat ke penunjuk AOSP.</string>
     <string name="various_mipad_input_restore_esc_title">Kembalikan fungsi ESC</string>
     <string name="various_mipad_input_restore_esc_desc">Kembalikan fungsi ESC yang telah dipetakan ke fungsi \"kembali\" oleh sistem Xiaomi Pad.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Hapus pembatasan stilus bluetooth</string>

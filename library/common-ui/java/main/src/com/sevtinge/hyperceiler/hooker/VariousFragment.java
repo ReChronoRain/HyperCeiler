@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.hooker;
 
 import static android.os.Looper.getMainLooper;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
 
 import android.os.Handler;
@@ -57,8 +56,6 @@ public class VariousFragment extends DashboardFragment {
 
         if (isMoreSmallVersion(200, 2f)) {
             setFuncHint(mClipboardClear, 2);
-        } else {
-            setHide(mClipboardClear, isMoreHyperOSVersion(2f));
         }
         handler = new Handler(getMainLooper());
 

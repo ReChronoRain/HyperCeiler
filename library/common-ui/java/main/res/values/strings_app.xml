@@ -601,7 +601,6 @@
     <string name="system_ui_lock_screen_show_battery_temperature">Show battery temperature</string>
     <string name="system_ui_lock_screen_show_spacing">Display refresh interval</string>
     <string name="system_ui_lock_screen_hide_camera">Hide camera</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">Hide shortcut</string>
     <string name="system_ui_lock_screen_bottom_left_button">Left button at the bottom</string>
     <string name="system_ui_lock_screen_current">Current</string>
     <string name="system_ui_lock_screen_blur_button">Blur Lock screen buttons</string>
@@ -615,7 +614,6 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">Hide DND mode notification</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Hide unlock tips at the bottom</string>
     <string name="system_ui_lock_screen_hide_status_bar">Hide status bar at Lock screen</string>
-    <string name="system_ui_lock_screen_block_editor_title">Disable long press to access Lock screen editor</string>
     <string name="system_ui_lock_screen_allow_third_face">Allow third-party Lock screen to wake up system verify recognition</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Allow face unlock and fingerprint to be used normally on the Lock screen displayed by third-party apps</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Hide unlocked by Bluetooth devices toast</string>
@@ -742,12 +740,10 @@
     <string name="system_ui_statusbar_clock_desc">Clock format example</string>
     <string name="system_ui_statusbar_clock_size">Clock size</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Valid only when displayed in two rows</string>
-    <string name="system_ui_statusbar_clock_fix_color">Fix abnormal color when the clock inverts color</string>
     <string name="system_ui_statusbar_clock_pad_show">Pad related</string>
     <string name="system_ui_statusbar_clock_pad_hide">Hide status bar date clock</string>
     <string name="system_ui_statusbar_clock_layout_p">Status bar date clock</string>
     <string name="system_ui_statusbar_clock_editor_p">Status bar date clock format</string>
-    <string name="system_ui_disable_clock_anim">Disable the slide clock transition animation in Notification shade</string>
     <string name="system_ui_disable_clock_synch">Don\'t sync status bar clock settings</string>
     <string name="system_ui_disable_clock_synch_desc">The big Notification shade clock is no longer synchronized with the status bar clock format</string>
     <string name="system_ui_statusbar_clock_show">Show</string>
@@ -853,13 +849,10 @@
     <string name="system_ui_control_center_rounded_rect_radius">Rounded radius</string>
     <string name="system_ui_control_center_fix_tiles_list">Unlock hidden control center tiles</string>
     <string name="system_ui_shade_header_gradient_blur">Blur the top of control center and Notification shade</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">Switch control center and Notification shade</string>
     <string name="system_ui_control_center_hide_operator">Customize carrier name</string>
     <string name="system_ui_control_center_hide_delimiter">Hide carrier name dividers</string>
     <string name="system_ui_control_center_hide_display_device_name">Display device name</string>
     <string name="system_ui_control_center_hide_name">Hide all names</string>
-    <string name="system_ui_control_center_notifrowmenu">Extended notification menu</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">Open app info, force close app and open in floating window from notification menu (swipe notification to the left to open it)</string>
     <string name="system_ui_controlcenter_new_title">New control center</string>
     <string name="system_ui_controlcenter_old_title">Legacy control center</string>
     <string name="system_ui_controlcenter_unlock_old_title">Unlock control center styles</string>
@@ -918,7 +911,6 @@
     <string name="system_ui_volume_collpased_column_press">Long press to expand the secondary volume bar</string>
     <string name="system_ui_volume_collpased_column_press_desc">The expand button will turn off when this feature are enabled.</string>
     <string name="system_ui_volume_hide_foot_button">Hide Silent mode and DND button</string>
-    <string name="system_ui_volume_timer">Extended timer</string>
     <string name="system_ui_plugin_enable_volume_blur">Enable volume bar blur</string>
     <string name="system_ui_move_log_to_miui">Move statusbar_gestures.dat to MIUI directory</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">May lead to high GPU load</string>
@@ -945,7 +937,6 @@
     <string name="system_usb_reverse_charge">Reverse charging</string>
     <string name="system_usb_tethering">USB tethering</string>
     <string name="system_settings_connection_sharing_title">Connection &amp; sharing</string>
-    <string name="system_settings_lang_menu_shouw_all_app">Show all apps in language manage menu</string>
     <string name="system_settings_new_nfc_page">New NFC page</string>
     <string name="system_settings_new_nfc_page_desc">This feature will prevent Xiaomi Wallet from being selected by the default app on unsupported models</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">Unlock Xiaomi HyperAI</string>
@@ -960,10 +951,7 @@
     <string name="system_settings_restart_systemui_desc">You need to restart the System UI and Settings scopes for the changes to take effect</string>
     <string name="system_settings_permission_show_app_up">Direct display over other apps permission</string>
     <string name="system_settings_permission_show_app_up_desc">Restore the old behavior, enter directly to the corresponding app permission of display over other apps.</string>
-    <string name="system_settings_permission_unknown_origin_app">Direct install unknown apps permission</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">Use the international build behaviour, enter directly to the corresponding app permission of install unknown apps.</string>
     <string name="system_settings_permission_accessibility">Direct accessibility service permissions</string>
-    <string name="system_settings_permission_disable_install_unknown_verify">Disable verification of enable unknown source</string>
     <string name="system_settings_develop_title">Developer options</string>
     <string name="system_settings_apps_freezer">Force showing freeze cached apps</string>
     <string name="system_settings_apps_freezer_more">Once enabled, this feature can be found in Developer options, but its functionality isn\'t guaranteed.</string>
@@ -1115,8 +1103,6 @@
     <string name="home_layout_searchbar_title">Search bar</string>
     <string name="home_layout_searchbar_width">Height</string>
     <string name="home_layout_seek_points">Page indicator</string>
-    <string name="home_layout_show_clock">Display time</string>
-    <string name="home_layout_show_clock_desc">The page where the clock widget is located always displays the time</string>
     <string name="home_layout_unlock_grids">Unlock layout</string>
     <string name="home_layout_unlock_grids_desc">Unlock Home screen icon layout size limit</string>
     <string name="home_layout_unlock_grids_new_x">Columns</string>
@@ -1127,7 +1113,6 @@
     <string name="home_layout_workspace_padding_top_desc">Home screen distance from screen top margin</string>
     <string name="home_layout_workspace_padding_horizontal_desc">Home screen distance from screen side margin</string>
     <string name="home_layout_hotseats_height">Height</string>
-    <string name="home_layout_hotseats_margin_top_desc">Dock distance from page indicator margin</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Dock distance from screen bottom margin</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Search bar distance from screen bottom margin</string>
     <string name="home_folder">Folder</string>
@@ -1227,7 +1212,6 @@
     <string name="home_title_hide_report_text_desc">Hide report text in uninstall dialog</string>
     <string name="home_title_notif_color">Notification dot background color customize</string>
     <string name="home_title_notif_color_picker">Custom color</string>
-    <string name="home_title_icon_size">Icon size</string>
     <string name="home_recent">Recents</string>
     <string name="home_recent_animation_speed">Animation speed</string>
     <string name="home_recent_unlock_pin">Unlock pinned apps</string>
@@ -1315,13 +1299,6 @@
     <string name="home_other_shortcut_remove_restrictions">Remove shortcut restrictions</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut menu blur value</string>
     <string name="home_other_high_models">Spoof launcher as high-end model</string>
-    <string name="home_recent_blur_level">Blur level</string>
-    <string name="home_recent_complete_blur_plus">Complete blur plus (Experimental)</string>
-    <string name="home_recent_complete_blur">Complete blur</string>
-    <string name="home_recent_test_blur">Test blur</string>
-    <string name="home_recent_simple_blur">Simple blur</string>
-    <string name="home_recent_none_blur">None blur</string>
-    <string name="home_recent_none_blur_simple_anim">None blur (Simple anim)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">Unlock more options for Home screen settings</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">The unlocked features may not be available, and some features require support from the underlying system.</string>
     <string name="home_other_disable_prestart">Disable app preload</string>
@@ -1371,14 +1348,7 @@
     <string name="html_viewer_disable_cloud_control">Disable Cloud control</string>
     <!--App vault-->
     <string name="personal_assistant">Personal assistant</string>
-    <string name="personal_assistant_overlap_mode">Fold style Personal assistant</string>
-    <string name="personal_assistant_blur_model">Personal assistant blur settings</string>
-    <string name="personal_assistant_blur_value">Background style</string>
-    <string name="personal_assistant_blurradius">Personal assistant blur value</string>
-    <string name="personal_assistant_color">Personal assistant color</string>
     <string name="personal_assistant_unlock_widget_count_limit">Unlock widgets count limit</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width">Set travel notification focus in status bar</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width_desc">Adjust this value appropriately to solve the problem of omitted display content</string>
     <string name="personal_assistant_disable_lite_version">Disable lite version</string>
     <string name="personal_assistant_widget_widget_blur_opt">Optimize widget blur</string>
     <!--Battery and performance-->
@@ -1628,8 +1598,6 @@
     <string name="various_open_aosp_extremely_dark_title">Extra dim</string>
     <string name="various_open_aosp_default_apps_title">Default apps</string>
     <string name="various_mipad_input_title">Input</string>
-    <string name="various_mipad_input_close_magic_title">No magic pointer</string>
-    <string name="various_mipad_input_close_magic_desc">Remove the circular mouse pointer and revert to the native Android mouse pointer</string>
     <string name="various_mipad_input_restore_esc_title">Restore ESC function</string>
     <string name="various_mipad_input_restore_esc_desc">Restore ESC function which has been hard-mapped to \"Back\" function by Xiaomi Pad system.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Remove stylus Bluetooth restriction</string>

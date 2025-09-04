@@ -547,7 +547,6 @@
     <string name="system_ui_lock_screen_show_battery_temperature">顯示電池溫度</string>
     <string name="system_ui_lock_screen_show_spacing">顯示刷新間隔</string>
     <string name="system_ui_lock_screen_hide_camera">停用相機</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">停用資訊助理</string>
     <string name="system_ui_lock_screen_bottom_left_button">底部左側按鈕</string>
     <string name="system_ui_lock_screen_current">當前</string>
     <string name="system_ui_lock_screen_blur_button">相機和智慧助理按鈕背景模糊</string>
@@ -561,7 +560,6 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">隱藏勿擾模式通知</string>
     <string name="system_ui_lock_screen_unlock_tip_title">隱藏螢幕底部解鎖提示</string>
     <string name="system_ui_lock_screen_hide_status_bar">鎖定螢幕時隱藏狀態欄</string>
-    <string name="system_ui_lock_screen_block_editor_title">停用長按進入鎖定螢幕編輯</string>
     <string name="system_ui_lock_screen_allow_third_face">允許第三方螢幕鎖定介面喚醒系統驗證識別</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">允許在第三方應用程式顯示的螢幕鎖定介面時，正常使用人臉和指紋辨識</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">停用藍牙解鎖時的 Toast 提示</string>
@@ -688,12 +686,10 @@
     <string name="system_ui_statusbar_clock_desc">時鐘格式範例</string>
     <string name="system_ui_statusbar_clock_size">時鐘大小</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">僅在雙排顯示下生效</string>
-    <string name="system_ui_statusbar_clock_fix_color">修復時鐘反色時的顏色異常</string>
     <string name="system_ui_statusbar_clock_pad_show">平板相關</string>
     <string name="system_ui_statusbar_clock_pad_hide">隱藏狀態欄日期時鐘</string>
     <string name="system_ui_statusbar_clock_layout_p">狀態欄日期時鐘</string>
     <string name="system_ui_statusbar_clock_editor_p">狀態欄日期時鐘格式</string>
-    <string name="system_ui_disable_clock_anim">停用通知中心下滑時鐘過渡動畫</string>
     <string name="system_ui_disable_clock_synch">狀態欄時鐘設定不同步</string>
     <string name="system_ui_disable_clock_synch_desc">大通知欄時鐘不再與狀態欄時鐘格式同步</string>
     <string name="system_ui_statusbar_clock_show">顯示</string>
@@ -780,13 +776,10 @@
     <string name="system_ui_control_center_rounded_rect_radius">圓角大小</string>
     <string name="system_ui_control_center_fix_tiles_list">停用隱藏極暗磁貼</string>
     <string name="system_ui_shade_header_gradient_blur">通知與控制中心頭部漸變模糊</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">交換控制中心與通知中心位置</string>
     <string name="system_ui_control_center_hide_operator">運營商名稱自訂</string>
     <string name="system_ui_control_center_hide_delimiter">只隱藏分隔線</string>
     <string name="system_ui_control_center_hide_display_device_name">顯示裝置名稱</string>
     <string name="system_ui_control_center_hide_name">隱藏全部名稱</string>
-    <string name="system_ui_control_center_notifrowmenu">擴展通知選單</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">從通知選單打開應用程式資訊、強制關閉應用程式和小窗打開</string>
     <string name="system_ui_controlcenter_new_title">新控制中心</string>
     <string name="system_ui_controlcenter_old_title">經典控制中心</string>
     <string name="system_ui_controlcenter_unlock_old_title">解鎖控制中心樣式</string>
@@ -843,7 +836,6 @@
     <string name="system_ui_volume_collpased_column_press">長按展開輔助音量條</string>
     <string name="system_ui_volume_collpased_column_press_desc">啟用此功能後，擴充按鈕將關閉。</string>
     <string name="system_ui_volume_hide_foot_button">隱藏靜音與勿擾模式按鈕</string>
-    <string name="system_ui_volume_timer">擴展計時器</string>
     <string name="system_ui_plugin_enable_volume_blur">音量條模糊</string>
     <string name="system_ui_move_log_to_miui">將 statusbar_gestures.dat 移至 MIUI 目錄</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">僅供 Android 12 及以上 MTK 裝置使用，可能存在 GPU 負載較高的情形</string>
@@ -870,7 +862,6 @@
     <string name="system_usb_reverse_charge">無線反向充電</string>
     <string name="system_usb_tethering">USB 網路共用</string>
     <string name="system_settings_connection_sharing_title">連接與分享</string>
-    <string name="system_settings_lang_menu_shouw_all_app">在原生的語言管理選單中顯示所有應用程式</string>
     <string name="system_settings_new_nfc_page">新版 NFC 頁面</string>
     <string name="system_settings_new_nfc_page_desc">開啟後，不支援的裝置預設付款應用程式無法選中小米錢包</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">解鎖小米澎湃 AI</string>
@@ -885,10 +876,7 @@
     <string name="system_settings_restart_systemui_desc">需重啟「系統介面」與「設定」共兩個作用域才能生效</string>
     <string name="system_settings_permission_show_app_up">上層權限免翻應用程式列表</string>
     <string name="system_settings_permission_show_app_up_desc">還原舊版行為，直接跳轉對應應用程式「顯示在其他應用程式上層」的權限開關</string>
-    <string name="system_settings_permission_unknown_origin_app">安裝未知應用程式許可權免翻應用程式列表</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">使用國際版行為，直接跳轉對應應用程式的「安裝未知應用程式」許可權開關</string>
     <string name="system_settings_permission_accessibility">無障礙服務權限直達</string>
-    <string name="system_settings_permission_disable_install_unknown_verify">開啟允許安裝未知應用程式來源權限時停用驗證</string>
     <string name="system_settings_develop_title">開發者選項</string>
     <string name="system_settings_apps_freezer">強制顯示暫停執行快取的應用程式</string>
     <string name="system_settings_apps_freezer_more">開啟後可在「開發者選項」中找到此功能，為強制顯示，不保證可用</string>
@@ -1039,8 +1027,6 @@
     <string name="home_layout_searchbar_title">搜尋框</string>
     <string name="home_layout_searchbar_width">高度</string>
     <string name="home_layout_seek_points">頁面指示器</string>
-    <string name="home_layout_show_clock">顯示時間</string>
-    <string name="home_layout_show_clock_desc">時鐘小工具所在頁面始終顯示時間</string>
     <string name="home_layout_unlock_grids">解鎖佈局</string>
     <string name="home_layout_unlock_grids_desc">解鎖主螢幕圖示佈局大小限制</string>
     <string name="home_layout_unlock_grids_new_x">列數</string>
@@ -1051,7 +1037,6 @@
     <string name="home_layout_workspace_padding_top_desc">主螢幕距離螢幕頂部邊緣</string>
     <string name="home_layout_workspace_padding_horizontal_desc">主螢幕距離螢幕底部邊距</string>
     <string name="home_layout_hotseats_height">高度</string>
-    <string name="home_layout_hotseats_margin_top_desc">Dock 距離頁面指示器邊距</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Dock 距離螢幕底部邊距</string>
     <string name="home_layout_searchbar_margin_bottom_desc">搜尋欄距離螢幕底部邊距</string>
     <string name="home_folder">資料夾</string>
@@ -1151,7 +1136,6 @@
     <string name="home_title_hide_report_text_desc">隱藏解除安裝時彈出的檢舉選項</string>
     <string name="home_title_notif_color">通知訊息背景顏色自訂</string>
     <string name="home_title_notif_color_picker">自訂顏色</string>
-    <string name="home_title_icon_size">圖標大小</string>
     <string name="home_recent">最近任務</string>
     <string name="home_recent_animation_speed">動畫速度</string>
     <string name="home_recent_unlock_pin">解鎖應用程式固定功能</string>
@@ -1239,13 +1223,6 @@
     <string name="home_other_shortcut_remove_restrictions">解鎖 shortcut 數量限制</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut 選單背景透明度</string>
     <string name="home_other_high_models">強制識別為高端機型</string>
-    <string name="home_recent_blur_level">模糊等級</string>
-    <string name="home_recent_complete_blur_plus">完整模糊補充（實驗性）</string>
-    <string name="home_recent_complete_blur">完整模糊</string>
-    <string name="home_recent_test_blur">測試模糊</string>
-    <string name="home_recent_simple_blur">簡單模糊</string>
-    <string name="home_recent_none_blur">無模糊</string>
-    <string name="home_recent_none_blur_simple_anim">無模糊（精簡動畫）</string>
     <string name="home_other_mi_pad_enable_more_setting_title">解鎖更多的桌面設定選項</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">解鎖後的功能不一定可用，部分功能需要系統底層支援</string>
     <string name="home_other_disable_prestart">停用應用程式預先載入</string>
@@ -1295,14 +1272,7 @@
     <string name="html_viewer_disable_cloud_control">停用雲端控制</string>
     <!--App vault-->
     <string name="personal_assistant">智慧助理</string>
-    <string name="personal_assistant_overlap_mode">智慧助理 Fold 樣式</string>
-    <string name="personal_assistant_blur_model">智慧助理背景設定</string>
-    <string name="personal_assistant_blur_value">背景樣式</string>
-    <string name="personal_assistant_blurradius">智慧助理背景模糊程度</string>
-    <string name="personal_assistant_color">智慧助理背景疊加層顏色</string>
     <string name="personal_assistant_unlock_widget_count_limit">解鎖小工具數量限制</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width">在狀態列中設定行程通知焦點</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width_desc">適當調整該值可以解決顯示內容被省略的問題</string>
     <string name="personal_assistant_disable_lite_version">停用精簡版</string>
     <string name="personal_assistant_widget_widget_blur_opt">優化小工具模糊</string>
     <!--Battery and performance-->
@@ -1546,8 +1516,6 @@
     <string name="various_open_aosp_extremely_dark_title">極暗模式</string>
     <string name="various_open_aosp_default_apps_title">預設應用程式</string>
     <string name="various_mipad_input_title">輸入</string>
-    <string name="various_mipad_input_close_magic_title">關閉 Magic Pointer</string>
-    <string name="various_mipad_input_close_magic_desc">移除 Xiaomi Pad 系統破爛的圓形滑鼠指針，並恢復為安卓原生的滑鼠指針</string>
     <string name="various_mipad_input_restore_esc_title">恢復 ESC 鍵功能</string>
     <string name="various_mipad_input_restore_esc_desc">恢復被 Xiaomi Pad 系統強制映射 ESC 鍵為「返回」功能</string>
     <string name="various_mipad_input_disable_bluetooth_title">去除觸控筆藍牙限制</string>

@@ -27,7 +27,6 @@ import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.initPct
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.mPct
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.removePct
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.mSupportSV
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getIntField
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull
@@ -39,43 +38,23 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfte
 object NewShowVolumePct {
     @JvmStatic
     fun initLoader(classLoader: ClassLoader) {
-        if (isMoreHyperOSVersion(2f)) {
-            val volumePanelViewControllerClazz by lazy {
-                loadClass("com.android.systemui.miui.volume.VolumePanelViewController", classLoader)
-            }
-            val volumePanelViewControllerListener by lazy {
-                loadClass("com.android.systemui.miui.volume.VolumePanelViewController\$VolumeSeekBarChangeListener", classLoader)
-            }
-
-            volumePanelViewControllerClazz.methodFinder().filterByName("showVolumePanelH")
-                .first().createAfterHook {
-                    val mVolumeView =
-                        it.thisObject.getObjectField("mVolumeView") as View
-                    val windowView = mVolumeView.parent as FrameLayout
-                    initPct(windowView, 3)
-                }
-
-            mVolumeDisable(volumePanelViewControllerClazz)
-            onProgressChanged(volumePanelViewControllerListener, mSupportSV)
-        } else {
-            val miuiVolumeDialogImplClazz by lazy {
-                loadClass("com.android.systemui.miui.volume.MiuiVolumeDialogImpl", classLoader)
-            }
-            val miuiVolumeDialogImplListener by lazy {
-                loadClass("com.android.systemui.miui.volume.MiuiVolumeDialogImpl\$VolumeSeekBarChangeListener", classLoader)
-            }
-
-            miuiVolumeDialogImplClazz.methodFinder().filterByName("showVolumeDialogH")
-                .first().createAfterHook {
-                    val mVolumeView =
-                        it.thisObject.getObjectField("mDialogView") as View
-                    val windowView = mVolumeView.parent as FrameLayout
-                    initPct(windowView, 3)
-                }
-
-            mVolumeDisable(miuiVolumeDialogImplClazz)
-            onProgressChanged(miuiVolumeDialogImplListener, mSupportSV)
+        val volumePanelViewControllerClazz by lazy {
+            loadClass("com.android.systemui.miui.volume.VolumePanelViewController", classLoader)
         }
+        val volumePanelViewControllerListener by lazy {
+            loadClass("com.android.systemui.miui.volume.VolumePanelViewController\$VolumeSeekBarChangeListener", classLoader)
+        }
+
+        volumePanelViewControllerClazz.methodFinder().filterByName("showVolumePanelH")
+            .first().createAfterHook {
+                val mVolumeView =
+                    it.thisObject.getObjectField("mVolumeView") as View
+                val windowView = mVolumeView.parent as FrameLayout
+                initPct(windowView, 3)
+            }
+
+        mVolumeDisable(volumePanelViewControllerClazz)
+        onProgressChanged(volumePanelViewControllerListener, mSupportSV)
     }
 
     private fun mVolumeDisable(clazz: Class<*>) {
@@ -102,7 +81,8 @@ object NewShowVolumePct {
 
                 if (nowLevel == arg1 || mTag != 3 || mPct == null) return@createAfterHook
 
-                val mColumn = it.thisObject.getObjectFieldOrNull("mColumn") ?: return@createAfterHook
+                val mColumn =
+                    it.thisObject.getObjectFieldOrNull("mColumn") ?: return@createAfterHook
                 val ss = mColumn.getObjectFieldOrNull("ss") ?: return@createAfterHook
 
                 if (mColumn.getIntField("stream") == 10) return@createAfterHook
@@ -127,7 +107,8 @@ object NewShowVolumePct {
                 val maxLevel = max / 1000
                 if (currentLevel != 0) {
                     val i3 = maxLevel - 1
-                    currentLevel = if (currentLevel == max) maxLevel else (currentLevel * i3 / max) + 1
+                    currentLevel =
+                        if (currentLevel == max) maxLevel else (currentLevel * i3 / max) + 1
                 }
 
                 mPct.text = if (((currentLevel * 100) / maxLevel) == 100 && mSupportSV) {

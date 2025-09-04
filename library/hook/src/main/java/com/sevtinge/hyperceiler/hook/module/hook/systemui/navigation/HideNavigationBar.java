@@ -42,7 +42,7 @@ public class HideNavigationBar extends BaseHook {
 
     @Override
     public void init() {
-        hookAllMethods(isMoreAndroidVersion(35) ? "com.android.systemui.navigationbar.NavigationBarControllerImpl" : "com.android.systemui.navigationbar.NavigationBarController", "createNavigationBar", new MethodHook() {
+        hookAllMethods("com.android.systemui.navigationbar.NavigationBarControllerImpl", "createNavigationBar", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 Display display = (Display) param.args[0];
@@ -61,7 +61,7 @@ public class HideNavigationBar extends BaseHook {
             }
         });
 
-        findAndHookMethod(isMoreAndroidVersion(35) ? "com.android.systemui.navigationbar.NavigationBarControllerImpl" : "com.android.systemui.statusbar.phone.MiuiDockIndicatorService", "onNavigationModeChanged", int.class, new MethodHook() {
+        findAndHookMethod("com.android.systemui.navigationbar.NavigationBarControllerImpl", "onNavigationModeChanged", int.class, new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
                         setObjectField(param.thisObject, "mNavMode", param.args[0]);

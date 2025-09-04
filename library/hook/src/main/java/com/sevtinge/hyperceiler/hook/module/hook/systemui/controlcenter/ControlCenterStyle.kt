@@ -33,17 +33,5 @@ object ControlCenterStyle : BaseHook() {
                 it.thisObject.setObjectField("forceUseControlCenterPanel", false)
             }
         }
-
-        if (isHyperOSVersion(1f)) {
-            loadClass("com.miui.interfaces.SettingsObserver").methodFinder()
-                .filterByName("setValue\$default").first()
-                .createHook {
-                    before {
-                        if (it.args[1] == "force_use_control_panel") {
-                            it.args[2] = 0
-                        }
-                    }
-                }
-        }
     }
 }

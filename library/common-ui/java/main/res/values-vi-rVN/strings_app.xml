@@ -550,7 +550,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_lock_screen_show_battery_temperature">Hiển thị nhiệt độ pin</string>
     <string name="system_ui_lock_screen_show_spacing">Thời gian làm mới</string>
     <string name="system_ui_lock_screen_hide_camera">Ẩn Camera</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">Ẩn Khoá tạp chí</string>
     <string name="system_ui_lock_screen_bottom_left_button">Nút bên trái ở phía dưới</string>
     <string name="system_ui_lock_screen_current">Hiện tại</string>
     <string name="system_ui_lock_screen_blur_button">Làm mờ phím tắt và thông báo</string>
@@ -564,7 +563,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_lock_screen_not_disturb_mode_title">Ẩn thông báo chế độ không làm phiền</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Ẩn dòng \"Trượt lên để mở khoá\"</string>
     <string name="system_ui_lock_screen_hide_status_bar">Ẩn thanh trạng thái ở màn hình khóa</string>
-    <string name="system_ui_lock_screen_block_editor_title">Tắt thao tác nhấn và giữ để vào chỉnh sửa màn hình khóa</string>
     <string name="system_ui_lock_screen_allow_third_face">Cho phép đánh thức hệ thống để xác minh nhận dạng trên màn hình khóa của bên thứ ba</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Cho phép sử dụng bình thường tính năng nhận dạng khuôn mặt và vân tay hiển thị trên màn hình khóa do ứng dụng bên thứ ba</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Tắt hiển thị thông báo mở khóa bằng Bluetooth</string>
@@ -691,12 +689,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_clock_desc">Ví dụ về định dạng đồng hồ</string>
     <string name="system_ui_statusbar_clock_size">Kích thước đồng hồ (0 là giá trị gốc)</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Chỉ hợp lệ khi hiển thị ở hai hàng</string>
-    <string name="system_ui_statusbar_clock_fix_color">Cố định màu</string>
     <string name="system_ui_statusbar_clock_pad_show">Máy tính bảng</string>
     <string name="system_ui_statusbar_clock_pad_hide">Ẩn đồng hồ ngày thanh trạng thái</string>
     <string name="system_ui_statusbar_clock_layout_p">Đồng hồ ngày thanh trạng thái</string>
     <string name="system_ui_statusbar_clock_editor_p">Định dạng đồng hồ ngày thanh trạng thái</string>
-    <string name="system_ui_disable_clock_anim">Tắt hoạt ảnh chuyển tiếp đồng hồ trong trung tâm thông báo</string>
     <string name="system_ui_disable_clock_synch">Cài đặt đồng hồ trên thanh trạng thái không được đồng bộ hóa</string>
     <string name="system_ui_disable_clock_synch_desc">Đồng hồ trên thanh thông báo lớn không còn đồng bộ với định dạng đồng hồ trên thanh trạng thái</string>
     <string name="system_ui_statusbar_clock_show">Hiện</string>
@@ -802,13 +798,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_rounded_rect_radius">Góc bo tròn</string>
     <string name="system_ui_control_center_fix_tiles_list">Tắt ẩn các ô cực tối</string>
     <string name="system_ui_shade_header_gradient_blur">Làm mờ tiêu đề bóng mờ</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">Hoán đổi trung tâm điều khiển và ngăn thông báo</string>
     <string name="system_ui_control_center_hide_operator">Tùy chỉnh tên nhà mạng</string>
     <string name="system_ui_control_center_hide_delimiter">Ẩn dấu phân cách giữa tên nhà mạng</string>
     <string name="system_ui_control_center_hide_display_device_name">Hiện tên thiết bị</string>
     <string name="system_ui_control_center_hide_name">Ẩn tên tất cả</string>
-    <string name="system_ui_control_center_notifrowmenu">Menu thông báo mở rộng</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">Mở thông tin ứng dụng, buộc đóng ứng dụng và mở trong cửa sổ nổi từ menu thông báo (vuốt thông báo sang trái để mở)</string>
     <string name="system_ui_controlcenter_new_title">Trung tâm điều khiển kiểu mới</string>
     <string name="system_ui_controlcenter_old_title">Trung tâm điều khiển kiểu cũ</string>
     <string name="system_ui_controlcenter_unlock_old_title">Mở khóa các kiểu trung tâm điều khiển</string>
@@ -867,7 +860,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_volume_collpased_column_press">Nhấn để mở rộng thanh âm lượng thứ hai</string>
     <string name="system_ui_volume_collpased_column_press_desc">Khi tính năng này được bật, nút mở rộng sẽ bị tắt</string>
     <string name="system_ui_volume_hide_foot_button">Ẩn nút tắt tiếng và không làm phiền</string>
-    <string name="system_ui_volume_timer">Hẹn giờ mở rộng</string>
     <string name="system_ui_plugin_enable_volume_blur">Làm mờ thanh âm lượng</string>
     <string name="system_ui_move_log_to_miui">Di chuyển statusbar_gestures.dat vào thư mục MIUI</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Chỉ dành cho các mẫu Android12+ MTK, có thể có tải GPU cao</string>
@@ -894,7 +886,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_usb_reverse_charge">Sạc ngược</string>
     <string name="system_usb_tethering">Chia sẻ kết nối qua USB</string>
     <string name="system_settings_connection_sharing_title">Kết nối &amp; Chia sẻ</string>
-    <string name="system_settings_lang_menu_shouw_all_app">Hiển thị tất cả ứng dụng trong Thực đơn quản lý ngôn ngữ</string>
     <string name="system_settings_new_nfc_page">Trang NFC mới</string>
     <string name="system_settings_new_nfc_page_desc">Sau khi mở, ứng dụng thanh toán mặc định không được hỗ trợ không thể chọn Ví Xiaomi</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">Mở khóa Xiaomi HyperAI</string>
@@ -909,10 +900,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_restart_systemui_desc">Hiện thông báo quan trọng</string>
     <string name="system_settings_permission_show_app_up">Truy cập quyền đặc biệt nhanh</string>
     <string name="system_settings_permission_show_app_up_desc">Chuyển trực tiếp đến nơi cấp quyền của ứng dụng</string>
-    <string name="system_settings_permission_unknown_origin_app">Quyền cài đặt ứng dụng không xác định nhanh</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">Chuyển trực tiếp đến nơi cấp quyền của ứng dụng</string>
     <string name="system_settings_permission_accessibility">Quyền dịch vụ trợ năng mà không cần tìm kiếm danh sách ứng dụng</string>
-    <string name="system_settings_permission_disable_install_unknown_verify">Tắt xác minh khi cài đặt ứng dụng không xác định</string>
     <string name="system_settings_develop_title">Tùy chọn nhà phát triển</string>
     <string name="system_settings_apps_freezer">Hiển thị tạm dừng thực thi cho các ứng dụng được lưu trữ</string>
     <string name="system_settings_apps_freezer_more">Khi bật, bạn có thể tìm thấy tùy chọn này trong \"Tùy chọn nhà phát triển\", nhưng không đảm bảo tính khả dụng</string>
@@ -1068,8 +1056,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_layout_searchbar_title">Thanh tìm kiếm</string>
     <string name="home_layout_searchbar_width">Chiều cao</string>
     <string name="home_layout_seek_points">Chỉ báo trang</string>
-    <string name="home_layout_show_clock">Hiển thị thời gian</string>
-    <string name="home_layout_show_clock_desc">Trang chứa tiện ích đồng hồ luôn hiển thị thời gian</string>
     <string name="home_layout_unlock_grids">Mở khóa Bố cục</string>
     <string name="home_layout_unlock_grids_desc">Mở khóa giới hạn kích thước bố cục biểu tượng màn hình chính</string>
     <string name="home_layout_unlock_grids_new_x">Cột</string>
@@ -1080,7 +1066,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_layout_workspace_padding_top_desc">Khoảng cách màn hình chính từ lề trên cùng của màn hình</string>
     <string name="home_layout_workspace_padding_horizontal_desc">Khoảng cách màn hình chính từ lề bên màn hình</string>
     <string name="home_layout_hotseats_height">Chiều cao</string>
-    <string name="home_layout_hotseats_margin_top_desc">Khoảng cách thanh dưới cùng từ lề chỉ báo trang</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Khoảng cách dock từ lề dưới màn hình</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Khoảng cách thanh tìm kiếm từ lề dưới màn hình</string>
     <string name="home_folder">Thư mục</string>
@@ -1180,7 +1165,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_title_hide_report_text_desc">Ẩn văn bản báo cáo trong hộp thoại gỡ cài đặt</string>
     <string name="home_title_notif_color">Tùy chỉnh màu nền thông báo tin nhắn</string>
     <string name="home_title_notif_color_picker">Tùy chỉnh màu</string>
-    <string name="home_title_icon_size">Kích thước biểu tượng</string>
     <string name="home_recent">Gần đây</string>
     <string name="home_recent_animation_speed">Tốc độ của hoạt ảnh</string>
     <string name="home_recent_unlock_pin">Mở khóa các ứng dụng được ghim</string>
@@ -1268,13 +1252,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_other_shortcut_remove_restrictions">Loại bỏ giới hạn phím tắt</string>
     <string name="home_other_shortcut_background_blur_custom">Giá trị làm mờ menu phím tắt</string>
     <string name="home_other_high_models">Giả dạng thiết bị cao cấp</string>
-    <string name="home_recent_blur_level">Làm mờ</string>
-    <string name="home_recent_complete_blur_plus">Hoàn toàn làm mờ cộng</string>
-    <string name="home_recent_complete_blur">Làm mờ hoàn toàn</string>
-    <string name="home_recent_test_blur">Kiểm tra làm mờ</string>
-    <string name="home_recent_simple_blur">Làm mờ đơn giản</string>
-    <string name="home_recent_none_blur">Không làm mờ</string>
-    <string name="home_recent_none_blur_simple_anim">Không làm mờ ( Hoạt ảnh đơn giản )</string>
     <string name="home_other_mi_pad_enable_more_setting_title">Mở khóa thêm tùy chọn cho cài đặt desktop</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">Các chức năng mở khóa có thể không hoạt động và một số chức năng yêu cầu hỗ trợ hệ thống cơ bản</string>
     <string name="home_other_disable_prestart">Tắt tải trước ứng dụng</string>
@@ -1324,14 +1301,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="html_viewer_disable_cloud_control">Tắt kiểm soát đám mây</string>
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
-    <string name="personal_assistant_overlap_mode">Màn hình trợ lý thông minh kiểu Fold</string>
-    <string name="personal_assistant_blur_model">Làm mờ nền trợ lý cá nhân</string>
-    <string name="personal_assistant_blur_value">Kiểu nền</string>
-    <string name="personal_assistant_blurradius">Giá trị làm mờ nền trợ lý cá nhân</string>
-    <string name="personal_assistant_color">Màu trợ lý cá nhân</string>
     <string name="personal_assistant_unlock_widget_count_limit">Mở khóa giới hạn số lượng tiện ích</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width">Đặt tiêu điểm thông báo du lịch ở độ rộng tối đa của thanh trạng thái</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width_desc">Điều chỉnh giá trị này một cách thích hợp để giải quyết vấn đề bỏ sót nội dung hiển thị</string>
     <string name="personal_assistant_disable_lite_version">Tắt phiên bản lite</string>
     <string name="personal_assistant_widget_widget_blur_opt">Tối ưu hóa làm mờ tiện ích</string>
     <!--Battery and performance-->
@@ -1588,8 +1558,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="various_open_aosp_extremely_dark_title">Siêu tối</string>
     <string name="various_open_aosp_default_apps_title">Ứng dụng mặc định</string>
     <string name="various_mipad_input_title">Nhập</string>
-    <string name="various_mipad_input_close_magic_title">Không có con trỏ ảo</string>
-    <string name="various_mipad_input_close_magic_desc">Biến con trỏ MIUI tròn thành con trỏ AOSP.</string>
     <string name="various_mipad_input_restore_esc_title">Khôi phục chức năng ESC</string>
     <string name="various_mipad_input_restore_esc_desc">Khôi phục chức năng ESC được mặc định vào \"Back\" Hoạt động trên MIUI.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Bỏ hạn chế bluetooth bút Stylus</string>

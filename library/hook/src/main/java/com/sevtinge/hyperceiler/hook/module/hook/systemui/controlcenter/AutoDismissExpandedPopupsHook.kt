@@ -61,23 +61,16 @@ object AutoDismissExpandedPopupsHook : BaseHook() {
                 val rowPinned = mEntry.callMethod("isRowPinned") as Boolean
 
                 if (expanded && rowPinned && !remoteInputActive) {
-                    val headsUpManagerPhone = XposedHelpers.getSurroundingThis(headsUpEntry)
                     val mRemoveAlertRunnable = (
                             headsUpEntry.getObjectFieldOrNull("mRemoveRunnable") ?:
                             headsUpEntry.getObjectFieldOrNull("mRemoveAlertRunnable")
                         ) as Runnable
                     val extended = headsUpEntry.getBooleanField("extended")
 
-                    if (isMoreAndroidVersion(35)) {
-                        // Android 15 开始没有 Handler
-                        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(
-                            mRemoveAlertRunnable, if (extended) 10000 else showTime
-                        )
-                    } else {
-                        val mHandler =
-                            headsUpManagerPhone.getObjectField("mHandler") as android.os.Handler
-                        mHandler.postDelayed(mRemoveAlertRunnable, if (extended) 10000 else showTime)
-                    }
+                    // Android 15 开始没有 Handler
+                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(
+                        mRemoveAlertRunnable, if (extended) 10000 else showTime
+                    )
 
                 }
             }
@@ -108,16 +101,10 @@ object AutoDismissExpandedPopupsHook : BaseHook() {
                                     headsUpEntry.getObjectFieldOrNull("mRemoveAlertRunnable")
                                 ) as Runnable
 
-                                if (isMoreAndroidVersion(35)) {
-                                    // Android 15 开始没有 Handler
-                                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(
-                                        mRemoveAlertRunnable, showTime
-                                    )
-                                } else {
-                                    val mHandler =
-                                        headsUpManagerPhone.getObjectField("mHandler") as android.os.Handler
-                                    mHandler.postDelayed(mRemoveAlertRunnable, showTime)
-                                }
+                                // Android 15 开始没有 Handler
+                                android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(
+                                    mRemoveAlertRunnable, showTime
+                                )
                             }
                         }
                     }

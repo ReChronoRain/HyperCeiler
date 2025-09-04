@@ -475,7 +475,6 @@ aplicaciones del sistema</string>
     <string name="system_ui_lock_screen_show_battery_temperature">Mostrar temperatura de batería</string>
     <string name="system_ui_lock_screen_show_spacing">Intervalo de actualización de la muestra</string>
     <string name="system_ui_lock_screen_hide_camera">Ocultar la cámara</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">Ocultar la pantalla inteligente</string>
     <string name="system_ui_lock_screen_current">Corriente</string>
     <string name="system_ui_lock_screen_blur_button">Desenfocar los botones de cámara y pantalla inteligente</string>
     <string name="system_ui_lock_screen_blur_button_radius">Radio del fondo</string>
@@ -485,7 +484,6 @@ aplicaciones del sistema</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">Ocultar la notificación del modo No molestar</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Ocultar el indicador de desbloqueo en el fondo de pantalla</string>
     <string name="system_ui_lock_screen_hide_status_bar">Quitar la barra de estado en la pantalla de bloqueo</string>
-    <string name="system_ui_lock_screen_block_editor_title">No se permite la pulsación larga para acceder a la edición de pantalla de bloqueo</string>
     <string name="system_ui_lock_screen_allow_third_face">Se permite despertar el sistema para verificar el reconocimiento en una pantalla de bloqueo de parte tercero</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Se permite el reconocimiento de cara y huella normal en la pantalla de bloqueo que muestran las aplicaciones terceros</string>
     <string name="system_ui_navigation_title">Navegación</string>
@@ -598,8 +596,6 @@ aplicaciones del sistema</string>
     <string name="system_ui_statusbar_clock_desc">Ejemplo de formato de reloj</string>
     <string name="system_ui_statusbar_clock_size">Tamaño de reloj</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Funciona solo cuando se muestra en dos filas</string>
-    <string name="system_ui_statusbar_clock_fix_color">Corregir color</string>
-    <string name="system_ui_disable_clock_anim">Deshabilite la animación de transición del reloj deslizante en el Centro de notificaciones</string>
     <string name="system_ui_disable_clock_synch">La configuración de reloj de barra de estado no está sincronizada</string>
     <string name="system_ui_statusbar_clock_show">Mostrar</string>
     <string name="system_ui_statusbar_clock_editor_s">Formato del reloj de la barra de estado</string>
@@ -649,13 +645,10 @@ aplicaciones del sistema</string>
     <string name="system_ui_control_center_statusbar_blur">Forzar desenfoque de fondo</string>
     <string name="system_ui_control_center_rounded_rect_radius">Radio de redondeo</string>
     <string name="system_ui_control_center_fix_tiles_list">Desactivar ocultar pegatina del modo extremadamente oscuro</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">Cambiar el centro de control con el panel de notificaciones</string>
     <string name="system_ui_control_center_hide_operator">Personalización de nombre(s) de operador(es)</string>
     <string name="system_ui_control_center_hide_delimiter">Solo se oculta el divisor</string>
     <string name="system_ui_control_center_hide_display_device_name">Mostrar el nombre del dispositivo</string>
     <string name="system_ui_control_center_hide_name">Se ocultan todos</string>
-    <string name="system_ui_control_center_notifrowmenu">Menú de notificaciones extendido</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">Abrir información de la aplicación, cerrarla y abrirla en ventana flotante desde el menú de notificación (deslizar la notificación a la izquierda para abrirla)</string>
     <string name="system_ui_controlcenter_new_title">Centro de control nuevo</string>
     <string name="system_ui_controlcenter_old_title">Centro de control clásico</string>
     <string name="system_ui_controlcenter_unlock_old_title">Desbloquear estilos del centro de control</string>
@@ -689,7 +682,6 @@ aplicaciones del sistema</string>
     <string name="system_ui_qs_label">Pestaña de interruptor rápido</string>
     <string name="system_ui_notification_title">Notificación</string>
     <string name="system_ui_other_notification_fix">Desactivar lista blanca de notificaciones</string>
-    <string name="system_ui_volume_timer">Temporizador extendido</string>
     <string name="system_ui_plugin_enable_volume_blur">Activar desenfoque de la barra de volumen</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Solo para Android 12+ y MTK, pero puede causar alta carga de GPU</string>
     <!--Telecom-->
@@ -725,8 +717,6 @@ aplicaciones del sistema</string>
     <string name="system_settings_restart_systemui_desc">Mostrar importancia de las notificaciones</string>
     <string name="system_settings_permission_show_app_up">Permisos de nivel superior sin buscar en la lista de aplicaciones</string>
     <string name="system_settings_permission_show_app_up_desc">Usar el comportamiento antiguo de saltar directamente al cambio de permisos de la aplicación correspondiente \"mostrada encima de otras aplicaciones\"</string>
-    <string name="system_settings_permission_unknown_origin_app">Permisos de instalar aplicaciones desconocidas sin buscar en la lista de aplicaciones</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">Usar el comportamiento internacional de saltar directamente al cambio de permisos de la aplicación correspondiente \"mostrada encima de otras aplicaciones\"</string>
     <string name="system_settings_permission_accessibility">Permisos de accesibilidad de servicios sin buscar en la lista de aplicaciones</string>
     <string name="system_settings_develop_title">Opciones de desarrollador</string>
     <string name="system_settings_apps_freezer">Forzar mostrar aplicaciones cacheadas</string>
@@ -859,8 +849,6 @@ aplicaciones del sistema</string>
     <string name="home_layout_hotseats_title">Base</string>
     <string name="home_layout_searchbar_title">Barra de búsqueda</string>
     <string name="home_layout_seek_points">Indicador de página</string>
-    <string name="home_layout_show_clock">Se muestra la hora</string>
-    <string name="home_layout_show_clock_desc">La página donde se encuentra el widget de reloj siempre muestra la hora</string>
     <string name="home_layout_unlock_grids">Desbloquear disposición</string>
     <string name="home_layout_unlock_grids_desc">Desbloquear el límite del tamaño de icono de la pantalla de inicio</string>
     <string name="home_layout_unlock_grids_new_x">Columnas</string>
@@ -871,7 +859,6 @@ aplicaciones del sistema</string>
     <string name="home_layout_workspace_padding_top_desc">Distancia de pantalla de inicio desde la arriba de la pantalla</string>
     <string name="home_layout_workspace_padding_horizontal_desc">Distancia a la pantalla de inicio desde el margen lateral</string>
     <string name="home_layout_hotseats_height">Altura</string>
-    <string name="home_layout_hotseats_margin_top_desc">Distancia de la base desde el margen del indicador de página</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Distancia de la base desde el margen del fondo de la pantalla</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Distancia de la barra de búsqueda desde el margen del fondo de la pantalla</string>
     <string name="home_folder">Carpeta</string>
@@ -961,7 +948,6 @@ aplicaciones del sistema</string>
     <string name="home_title_hide_report_text_desc">Ocultar texto del informe en el diálogo de desinstalación</string>
     <string name="home_title_notif_color">Color de fondo del mensaje de notificación personalizado</string>
     <string name="home_title_notif_color_picker">Color personalizado</string>
-    <string name="home_title_icon_size">Tamaño de iconos</string>
     <string name="home_recent">Tareas recientes</string>
     <string name="home_recent_animation_speed">Velocidad de animación</string>
     <string name="home_recent_unlock_pin">Desbloquear aplicaciones fijadas</string>
@@ -1036,13 +1022,6 @@ aplicaciones del sistema</string>
     <string name="home_other_shortcut_remove_restrictions">Eliminar restricciones de cantidad de atajos</string>
     <string name="home_other_shortcut_background_blur_custom">Valor del desenfoque del menú de atajos</string>
     <string name="home_other_high_models">Obligar su móvil a identificarse como modelo alto</string>
-    <string name="home_recent_blur_level">Nivel de desenfoque</string>
-    <string name="home_recent_complete_blur_plus">Desenfoque completo plus</string>
-    <string name="home_recent_complete_blur">Desenfoque completo</string>
-    <string name="home_recent_test_blur">Desenfoque experimental</string>
-    <string name="home_recent_simple_blur">Desenfoque simple</string>
-    <string name="home_recent_none_blur">Sin desenfoque</string>
-    <string name="home_recent_none_blur_simple_anim">Ninguno Desenfoque (con animación simple)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">Desbloquear más opciones para configuraciones del inicio</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">Tal vez las funciones desbloqueadas no estén disponibles, y algunas funciones necesitan soporte subyacente del sistema</string>
     <string name="home_other_opt_app_launch_delay">Optimizar el retraso de inicio de la aplicación</string>
@@ -1085,11 +1064,6 @@ aplicaciones del sistema</string>
     <string name="html_viewer_disable_cloud_control">Desactivar el control de la nube</string>
     <!--App vault-->
     <string name="personal_assistant">Asistente personal</string>
-    <string name="personal_assistant_overlap_mode">Asistente personal del estilo de Fold</string>
-    <string name="personal_assistant_blur_model">Ajuste del fondo de la pantalla inteligente</string>
-    <string name="personal_assistant_blur_value">Estilo del fondo</string>
-    <string name="personal_assistant_blurradius">Valor del desenfoque del fondo de la pantalla inteligente</string>
-    <string name="personal_assistant_color">Color del fondo de la pantalla inteligente</string>
     <string name="personal_assistant_unlock_widget_count_limit">Desbloquear límite de conteo de widgets</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Batería y rendimiento</string>
@@ -1296,8 +1270,6 @@ aplicaciones del sistema</string>
     <string name="various_open_aosp_extremely_dark_title">Modo de exteriormente oscuro</string>
     <string name="various_open_aosp_default_apps_title">Aplicaciones predeterminadas</string>
     <string name="various_mipad_input_title">Tecleo</string>
-    <string name="various_mipad_input_close_magic_title">Sin Magic Pointer</string>
-    <string name="various_mipad_input_close_magic_desc">Cambiar el puntero de ratón redondo feo de MIUI for Pad en el puntero de ratón nativo de AOSP.</string>
     <string name="various_mipad_input_restore_esc_title">Restaurar la función de ESC</string>
     <string name="various_mipad_input_restore_esc_desc">Restaurar la función de ESC que se mapea como función de Atrás por MIUI.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Eliminar la restricción de Bluetooth de stylus</string>

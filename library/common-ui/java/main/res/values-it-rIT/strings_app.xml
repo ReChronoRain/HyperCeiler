@@ -404,7 +404,6 @@
     <string name="system_ui_lock_screen_show_battery_temperature">Mostra temperatura batteria</string>
     <string name="system_ui_lock_screen_show_spacing">Intervallo aggiornamento visualizzazione</string>
     <string name="system_ui_lock_screen_hide_camera">Nascondi fotocamera</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">Nascondi carrello smart</string>
     <string name="system_ui_lock_screen_current">Attuale</string>
     <string name="system_ui_lock_screen_blur_button">Sfoca pulsanti fotocamera e carrello intelligente</string>
     <string name="system_ui_lock_screen_double_lock">Doppio tocco per bloccare lo schermo</string>
@@ -412,7 +411,6 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">Nascondi notifica modalità zen</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Nascondi il prompt di sblocco nella parte inferiore dello schermo</string>
     <string name="system_ui_lock_screen_hide_status_bar">Nascondi barra di stato dalla schermata di blocco</string>
-    <string name="system_ui_lock_screen_block_editor_title">Disabilita la pressione prolungata per accedere alla modifica della schermata di blocco</string>
     <string name="system_ui_lock_screen_allow_third_face">Consenti al sistema di verificare il riconoscimento su una schermata di blocco di terze parti</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Consente il riconoscimento del volto e delle impronte digitali di essere utilizzati normalmente nella schermata di blocco di app di terze parti</string>
     <string name="system_ui_navigation_title">Navigazione</string>
@@ -523,8 +521,6 @@
     <string name="system_ui_statusbar_clock_desc">Esempio formato orologio</string>
     <string name="system_ui_statusbar_clock_size">Dimensione orologio</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Valido solo se visualizzato su due righe</string>
-    <string name="system_ui_statusbar_clock_fix_color">Fix color</string>
-    <string name="system_ui_disable_clock_anim">Disabilita l\'animazione di transizione dell\'orologio all\'apertura del centro notifiche</string>
     <string name="system_ui_disable_clock_synch">Impostazioni orologio barra di stato non sincronizzate</string>
     <string name="system_ui_disable_clock_synch_desc">Il grande orologio della barra di notifica non è più sincronizzato con il formato dell\'orologio della barra di stato</string>
     <string name="system_ui_statusbar_clock_show">Mostra</string>
@@ -578,12 +574,9 @@
     <string name="system_ui_control_center_statusbar_blur">Forza sfocatura dello sfondo</string>
     <string name="system_ui_control_center_rounded_rect_radius">Raggio arrotondato</string>
     <string name="system_ui_control_center_fix_tiles_list">Disabilita nascondi riquadri estremamente scuri</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">Cambia centro di controllo e riquadro notifiche</string>
     <string name="system_ui_control_center_hide_operator">Personalizzazione nome operatore</string>
     <string name="system_ui_control_center_hide_delimiter">Solo i divisori sono nascosti</string>
     <string name="system_ui_control_center_hide_name">Nascondi tutti i nomi</string>
-    <string name="system_ui_control_center_notifrowmenu">Menu di notifica esteso</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">Apri informazioni sull\'app, forza la chiusura dell\'app e aprila in una finestra mobile dal menu di notifica (scorri la notifica verso sinistra per aprirla)</string>
     <string name="system_ui_controlcenter_new_title">Nuovo centro di controllo</string>
     <string name="system_ui_controlcenter_old_title">Centro di controllo legacy</string>
     <string name="system_ui_controlcenter_unlock_old_title">Sblocca gli stili del centro di controllo</string>
@@ -612,7 +605,6 @@
     <string name="system_ui_qs_label">Scheda cambio rapido</string>
     <string name="system_ui_notification_title">Notifica</string>
     <string name="system_ui_other_notification_fix">Disabilita whitelist notifiche</string>
-    <string name="system_ui_volume_timer">Timer esteso</string>
     <string name="system_ui_plugin_enable_volume_blur">Abilita sfocatura barra volume</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Solo per i modelli Android12+ MTK, lì potrebbe essere elevato il carico della GPU</string>
     <!--Telecom-->
@@ -646,8 +638,6 @@
     <string name="system_settings_restart_systemui_desc">È necessario riavviare gli ambiti \"Interfaccia di sistema\" e \"Impostazioni\" affinché le modifiche abbiano effetto</string>
     <string name="system_settings_permission_show_app_up">In alto permessi a livello senza cercare nell\'elenco delle applicazioni</string>
     <string name="system_settings_permission_show_app_up_desc">Ripristina il vecchio comportamento, passa direttamente all\'interruttore dei permessi dell\'applicazione corrispondente “visualizzata sopra le altre applicazioni”</string>
-    <string name="system_settings_permission_unknown_origin_app">Installa i permessi delle app sconosciute senza cercare nell\'elenco delle applicazioni</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">Utilizza i permessi internazionali build, passa direttamente all\'interruttore di autorizzazione dell\'applicazione corrispondente “visualizzata sopra le altre applicazioni”</string>
     <string name="system_settings_permission_accessibility">Autorizzazioni dei servizi di accessibilità senza cercare nell\'elenco delle applicazioni</string>
     <string name="system_settings_develop_title">Opzioni sviluppatore</string>
     <string name="system_settings_apps_freezer">Forza la visualizzazione delle app bloccate nella cache</string>
@@ -771,8 +761,6 @@
     <string name="home_layout_home_title">Schermata Home</string>
     <string name="home_layout_searchbar_title">Barra di ricerca</string>
     <string name="home_layout_seek_points">Indicatore pagina</string>
-    <string name="home_layout_show_clock">Visualizza l\'ora</string>
-    <string name="home_layout_show_clock_desc">La pagina in cui si trova il widget orologio mostra sempre l\'ora</string>
     <string name="home_layout_unlock_grids">Sblocca layout</string>
     <string name="home_layout_unlock_grids_desc">Sblocca il limite delle dimensioni del layout dell\'icona della schermata iniziale</string>
     <string name="home_layout_unlock_grids_no_words">Sblocca layout (modalità senza parole)</string>
@@ -781,7 +769,6 @@
     <string name="home_layout_workspace_padding_top_desc">Distanza della schermata iniziale dal margine superiore dello schermo</string>
     <string name="home_layout_workspace_padding_horizontal_desc">Distanza della schermata iniziale dal margine laterale dello schermo</string>
     <string name="home_layout_hotseats_height">Altezza</string>
-    <string name="home_layout_hotseats_margin_top_desc">Distanza del dock dal margine indicatore della pagina</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Distanza del dock dal margine inferiore dello schermo</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Distanza della barra di ricerca dal margine inferiore dello schermo</string>
     <string name="home_folder">Cartella</string>
@@ -939,13 +926,6 @@
     <string name="home_other_shortcut_remove_restrictions">Rimuovi le restrizioni sulle scorciatoie</string>
     <string name="home_other_shortcut_background_blur_custom">Valore di sfocatura del menu di scelta rapida</string>
     <string name="home_other_high_models">Riconoscimento obbligatorio come modello di fascia alta</string>
-    <string name="home_recent_blur_level">Livello di sfocatura</string>
-    <string name="home_recent_complete_blur_plus">Sfocatura completa Plus</string>
-    <string name="home_recent_complete_blur">Sfocatura completa</string>
-    <string name="home_recent_test_blur">Test sfocatura</string>
-    <string name="home_recent_simple_blur">Sfocatura semplice</string>
-    <string name="home_recent_none_blur">Nessuna sfocatura</string>
-    <string name="home_recent_none_blur_simple_anim">Nessuna sfocatura (Anim semplice)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">Sblocca ulteriori opzioni per le impostazioni del desktop</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">Le funzioni sbloccate potrebbero non essere disponibili, e alcune funzioni richiedono il supporto del sistema sottostante</string>
     <!--Gallery Editor-->
@@ -984,11 +964,6 @@
     <!--HTML Viewer-->
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
-    <string name="personal_assistant_overlap_mode">Stile di piegatura di uno schermo negativo</string>
-    <string name="personal_assistant_blur_model">Modello di sfocatura dell\'assistente personale</string>
-    <string name="personal_assistant_blur_value">Stile sfondo</string>
-    <string name="personal_assistant_blurradius">Valore di sfocatura dell\'assistente personale</string>
-    <string name="personal_assistant_color">Colore dell\'assistente personale</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Batteria e prestazioni</string>
     <string name="powerkeeper_custom_refresh_rate">App personalizzate con frequenza di aggiornamento elevata</string>
@@ -1181,8 +1156,6 @@
     <string name="various_open_aosp_language_title">Impostazioni lingua</string>
     <string name="various_open_aosp_extremely_dark_title">Estremamente scuro</string>
     <string name="various_open_aosp_default_apps_title">App predefinite</string>
-    <string name="various_mipad_input_close_magic_title">Nessun puntatore magico</string>
-    <string name="various_mipad_input_close_magic_desc">Ruota il puntatore rotondo del sistema Xiaomi Pad su Puntatore AOSP.</string>
     <string name="various_mipad_input_restore_esc_title">Ripristina la funzione ESC</string>
     <string name="various_mipad_input_restore_esc_desc">Ripristina la funzione ESC che è stata mappata sulla funzione \"indietro\" dal sistema Xiaomi Pad.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Rimuovi la restrizione Bluetooth dello stilo</string>

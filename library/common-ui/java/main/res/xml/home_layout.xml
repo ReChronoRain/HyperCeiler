@@ -20,20 +20,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/home_layout"
     app:quick_restart="com.miui.home">
-    <PreferenceCategory android:key="prefs_key_home_layout_old_func">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_home_other_show_clock"
-            android:summary="@string/home_layout_show_clock_desc"
-            android:title="@string/home_layout_show_clock" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_personal_assistant_overlap_mode"
-            android:title="@string/personal_assistant_overlap_mode" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/home_layout_home_title">
         <fan.preference.DropDownPreference
             android:defaultValue="0"
@@ -41,12 +27,6 @@
             android:title="@string/home_layout_seek_points"
             app:entries="@array/seek_points"
             app:entryValues="@array/seek_points_value" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_home_layout_unlock_grids"
-            android:summary="@string/home_layout_unlock_grids_desc"
-            android:title="@string/home_layout_unlock_grids" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -166,12 +146,6 @@
             app:maxValue="150"
             app:minValue="60"
             app:showSeekBarValue="true" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_home_layout_hotseats_margin_top_enable"
-            android:summary="@string/home_layout_hotseats_margin_top_desc"
-            android:title="@string/top_margin" />
 
         <SeekBarPreferenceCompat
             android:defaultValue="20"

@@ -539,7 +539,6 @@
     <string name="system_ui_lock_screen_show_battery_temperature">Akku-Temperatur anzeigen</string>
     <string name="system_ui_lock_screen_show_spacing">Anzeige-Aktualisierungsintervall</string>
     <string name="system_ui_lock_screen_hide_camera">Kamera ausblenden</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">Verknüpfung ausblenden</string>
     <string name="system_ui_lock_screen_bottom_left_button">Linke Taste unten</string>
     <string name="system_ui_lock_screen_current">Strom</string>
     <string name="system_ui_lock_screen_blur_button">Sperrbildschirm-Buttons unscharf machen</string>
@@ -553,7 +552,6 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">Nicht-Stören-Modus-Benachrichtigung ausblenden</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Entsperr-Hinweise unten ausblenden</string>
     <string name="system_ui_lock_screen_hide_status_bar">Statusleiste auf Sperrbildschirm ausblenden</string>
-    <string name="system_ui_lock_screen_block_editor_title">Langes Drücken zum Zugriff auf Sperrbildschirm-Editor deaktivieren</string>
     <string name="system_ui_lock_screen_allow_third_face">Drittanbieter-Sperrbildschirm erlauben, Systemverifikationserkennung zu aktivieren</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Gesichtsentsprrung und Fingerabdruck normal auf dem von Drittanbieter-Apps angezeigten Sperrbildschirm verwenden</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Durch Bluetooth-Geräte entsperrt Toast ausblenden</string>
@@ -679,12 +677,10 @@
     <string name="system_ui_statusbar_clock_desc">Uhr-Format-Beispiel</string>
     <string name="system_ui_statusbar_clock_size">Uhrgröße</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Nur gültig wenn in zwei Reihen angezeigt</string>
-    <string name="system_ui_statusbar_clock_fix_color">Abnormale Farbe korrigieren wenn die Uhr die Farbe umkehrt</string>
     <string name="system_ui_statusbar_clock_pad_show">Tablet-bezogen</string>
     <string name="system_ui_statusbar_clock_pad_hide">Statusleisten-Datumsuhr ausblenden</string>
     <string name="system_ui_statusbar_clock_layout_p">Statusleisten-Datumsuhr</string>
     <string name="system_ui_statusbar_clock_editor_p">Statusleisten-Datumsuhr-Format</string>
-    <string name="system_ui_disable_clock_anim">Schiebe-Uhr-Übergangsanimation in der Benachrichtigungsleiste deaktivieren</string>
     <string name="system_ui_disable_clock_synch">Statusleisten-Uhr-Einstellungen nicht synchronisieren</string>
     <string name="system_ui_disable_clock_synch_desc">Die große Benachrichtigungsleisten-Uhr wird nicht mehr mit dem Statusleisten-Uhr-Format synchronisiert</string>
     <string name="system_ui_statusbar_clock_show">Anzeigen</string>
@@ -772,13 +768,10 @@
     <string name="system_ui_control_center_rounded_rect_radius">Abgerundeter Radius</string>
     <string name="system_ui_control_center_fix_tiles_list">Versteckte Kontrollzentrum-Kacheln freischalten</string>
     <string name="system_ui_shade_header_gradient_blur">Oberteil von Kontrollzentrum und Benachrichtigungsleiste unscharf machen</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">Kontrollzentrum und Benachrichtigungsleiste tauschen</string>
     <string name="system_ui_control_center_hide_operator">Anbieter-Name anpassen</string>
     <string name="system_ui_control_center_hide_delimiter">Anbieter-Name-Trennzeichen ausblenden</string>
     <string name="system_ui_control_center_hide_display_device_name">Gerätename anzeigen</string>
     <string name="system_ui_control_center_hide_name">Alle Namen ausblenden</string>
-    <string name="system_ui_control_center_notifrowmenu">Erweiterte Benachrichtigungsmenü</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">App-Info öffnen, App zwangsschließen und in schwebendem Fenster aus Benachrichtigungsmenü öffnen (wische Benachrichtigung nach links um es zu öffnen)</string>
     <string name="system_ui_controlcenter_new_title">Neues Kontrollzentrum</string>
     <string name="system_ui_controlcenter_old_title">Legacy Kontrollzentrum</string>
     <string name="system_ui_controlcenter_unlock_old_title">Kontrollzentrum-Stile freischalten</string>
@@ -835,7 +828,6 @@
     <string name="system_ui_volume_collpased_column_press">Langes Drücken um sekundäre Lautstärkeleiste zu erweitern</string>
     <string name="system_ui_volume_collpased_column_press_desc">Der Erweitern-Button wird ausgeschaltet wenn diese Funktion aktiviert ist.</string>
     <string name="system_ui_volume_hide_foot_button">Stumm-Modus und Nicht-Stören-Button ausblenden</string>
-    <string name="system_ui_volume_timer">Erweiterte Timer</string>
     <string name="system_ui_plugin_enable_volume_blur">Lautstärkeleiste-Unschärfe aktivieren</string>
     <string name="system_ui_move_log_to_miui">statusbar_gestures.dat in MIUI-Verzeichnis verschieben</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Kann zu hoher GPU-Last führen</string>
@@ -862,7 +854,6 @@
     <string name="system_usb_reverse_charge">Rückwärtsladen</string>
     <string name="system_usb_tethering">USB-Tethering</string>
     <string name="system_settings_connection_sharing_title">Verbindung &amp; Teilen</string>
-    <string name="system_settings_lang_menu_shouw_all_app">Alle Apps im Sprachverwaltungsmenü anzeigen</string>
     <string name="system_settings_new_nfc_page">Neue NFC-Seite</string>
     <string name="system_settings_new_nfc_page_desc">Diese Funktion verhindert, dass Xiaomi Wallet auf nicht unterstützten Modellen als Standard-App ausgewählt wird</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">Xiaomi HyperAI freischalten</string>
@@ -877,10 +868,7 @@
     <string name="system_settings_restart_systemui_desc">Du musst die System UI und Einstellungsbereiche neu starten, damit die Änderungen wirksam werden</string>
     <string name="system_settings_permission_show_app_up">Direkte Anzeige über anderen Apps-Berechtigung</string>
     <string name="system_settings_permission_show_app_up_desc">Das alte Verhalten wiederherstellen, direkt zur entsprechenden App-Berechtigung für Anzeige über anderen Apps wechseln.</string>
-    <string name="system_settings_permission_unknown_origin_app">Direkte Installation unbekannter Apps-Berechtigung</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">Das internationale Build-Verhalten verwenden, direkt zur entsprechenden App-Berechtigung für Installation unbekannter Apps wechseln.</string>
     <string name="system_settings_permission_accessibility">Direkte Barrierefreiheitsdienst-Berechtigungen</string>
-    <string name="system_settings_permission_disable_install_unknown_verify">Verifikation zum Aktivieren unbekannter Quelle deaktivieren</string>
     <string name="system_settings_develop_title">Entwickleroptionen</string>
     <string name="system_settings_apps_freezer">Eingefrorene zwischengespeicherte Apps zwangsweise anzeigen</string>
     <string name="system_settings_apps_freezer_more">Nach der Aktivierung kann diese Funktion in den Entwickleroptionen gefunden werden, aber ihre Funktionalität ist nicht garantiert.</string>
@@ -1031,8 +1019,6 @@
     <string name="home_layout_searchbar_title">Suchleiste</string>
     <string name="home_layout_searchbar_width">Höhe</string>
     <string name="home_layout_seek_points">Seiten-Indikator</string>
-    <string name="home_layout_show_clock">Zeit anzeigen</string>
-    <string name="home_layout_show_clock_desc">Die Seite, auf der sich das Uhr-Widget befindet, zeigt immer die Zeit an</string>
     <string name="home_layout_unlock_grids">Layout freischalten</string>
     <string name="home_layout_unlock_grids_desc">Größenbeschränkung des Startbildschirm-Symbol-Layouts freischalten</string>
     <string name="home_layout_unlock_grids_new_x">Spalten</string>
@@ -1043,7 +1029,6 @@
     <string name="home_layout_workspace_padding_top_desc">Startbildschirm-Abstand zum oberen Bildschirmrand</string>
     <string name="home_layout_workspace_padding_horizontal_desc">Startbildschirm-Abstand zum seitlichen Bildschirmrand</string>
     <string name="home_layout_hotseats_height">Höhe</string>
-    <string name="home_layout_hotseats_margin_top_desc">Dock-Abstand zur Seitenindikatorbegrenzung</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Dock-Abstand zum unteren Bildschirmrand</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Suchleisten-Abstand zum unteren Bildschirmrand</string>
     <string name="home_folder">Ordner</string>
@@ -1141,7 +1126,6 @@
     <string name="home_title_hide_report_text_desc">Berichtstext im Deinstallationsdialog ausblenden</string>
     <string name="home_title_notif_color">Benachrichtigungspunkt-Hintergrundfarbe anpassen</string>
     <string name="home_title_notif_color_picker">Benutzerdefinierte Farbe</string>
-    <string name="home_title_icon_size">Symbolgröße</string>
     <string name="home_recent">Anwendungsverlauf</string>
     <string name="home_recent_animation_speed">Animationsgeschwindigkeit</string>
     <string name="home_recent_unlock_pin">Angepinnte Apps entsperren</string>
@@ -1229,13 +1213,6 @@
     <string name="home_other_shortcut_remove_restrictions">Verknüpfungsbeschränkungen entfernen</string>
     <string name="home_other_shortcut_background_blur_custom">Verknüpfungsmenü-Unschärfewert</string>
     <string name="home_other_high_models">Launcher als High-End-Modell vortäuschen</string>
-    <string name="home_recent_blur_level">Unschärfe-Level</string>
-    <string name="home_recent_complete_blur_plus">Vollständige Unschärfe Plus (Experimentell)</string>
-    <string name="home_recent_complete_blur">Vollständige Unschärfe</string>
-    <string name="home_recent_test_blur">Test-Unschärfe</string>
-    <string name="home_recent_simple_blur">Einfache Unschärfe</string>
-    <string name="home_recent_none_blur">Keine Unschärfe</string>
-    <string name="home_recent_none_blur_simple_anim">Keine Unschärfe (Einfache Animation)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">Mehr Optionen für Startbildschirm-Einstellungen freischalten</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">Die freigeschalteten Funktionen sind möglicherweise nicht verfügbar, und einige Funktionen erfordern Unterstützung des zugrunde liegenden Systems.</string>
     <string name="home_other_disable_prestart">App-Vorladung deaktivieren</string>
@@ -1285,14 +1262,7 @@
     <string name="html_viewer_disable_cloud_control">Cloud-Kontrolle deaktivieren</string>
     <!--App vault-->
     <string name="personal_assistant">Persönlicher Assistent</string>
-    <string name="personal_assistant_overlap_mode">Faltbarer Stil Persönlicher Assistent</string>
-    <string name="personal_assistant_blur_model">Persönlicher Assistent Unschärfe-Einstellungen</string>
-    <string name="personal_assistant_blur_value">Hintergrund-Stil</string>
-    <string name="personal_assistant_blurradius">Persönlicher Assistent Unschärfe-Wert</string>
-    <string name="personal_assistant_color">Persönlicher Assistent Farbe</string>
     <string name="personal_assistant_unlock_widget_count_limit">Widget-Anzahl-Limit freischalten</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width">Reise-Benachrichtigungs-Fokus in Statusleiste setzen</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width_desc">Diesen Wert angemessen anpassen um das Problem weggelassener Anzeigeinhalte zu lösen</string>
     <string name="personal_assistant_disable_lite_version">Lite-Version deaktivieren</string>
     <string name="personal_assistant_widget_widget_blur_opt">Widget-Unschärfe optimieren</string>
     <!--Battery and performance-->
@@ -1538,8 +1508,6 @@
     <string name="various_open_aosp_extremely_dark_title">Extra abdunkeln</string>
     <string name="various_open_aosp_default_apps_title">Standard-Apps</string>
     <string name="various_mipad_input_title">Eingabe</string>
-    <string name="various_mipad_input_close_magic_title">Kein magischer Zeiger</string>
-    <string name="various_mipad_input_close_magic_desc">Den kreisförmigen Mauszeiger entfernen und zum nativen Android-Mauszeiger zurückkehren</string>
     <string name="various_mipad_input_restore_esc_title">ESC-Funktion wiederherstellen</string>
     <string name="various_mipad_input_restore_esc_desc">ESC-Funktion wiederherstellen, die vom Xiaomi Pad-System fest auf \"Zurück\"-Funktion abgebildet wurde.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Stylus-Bluetooth-Beschränkung entfernen</string>

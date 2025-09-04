@@ -30,8 +30,6 @@ import com.sevtinge.hyperceiler.ui.R;
 public class NewClockIndicatorSettings extends DashboardFragment {
 
     SwitchPreference mEnable;
-    SwitchPreference mClockAnim;
-    SwitchPreference mClockColor;
     PreferenceCategory mPadClock;
 
     @Override
@@ -42,14 +40,7 @@ public class NewClockIndicatorSettings extends DashboardFragment {
     @Override
     public void initPrefs() {
         mEnable = findPreference("prefs_key_system_ui_statusbar_clock_all_status_enable");
-        mClockAnim = findPreference("prefs_key_system_ui_disable_clock_anim");
-        mClockColor = findPreference("prefs_key_system_ui_statusbar_clock_fix_color");
         mPadClock = findPreference("prefs_key_system_ui_statusbar_clock_pad_show");
-
-        if (isMoreHyperOSVersion(2f)) {
-            setFuncHint(mClockAnim, 1);
-            setFuncHint(mClockColor, 1);
-        }
 
         mEnable.setOnPreferenceClickListener(preference -> {
             if (mEnable.isChecked()) {

@@ -69,7 +69,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.layout.IndicatorMarginBott
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.LayoutRules;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.SearchBarMarginBottom;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.SearchBarMarginWidth;
-import com.sevtinge.hyperceiler.hook.module.hook.home.layout.UnlockGrids;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.WorkspacePadding;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaWidth;
@@ -77,7 +76,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.DisableFullScre
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.HideNavigationBar;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.AllowShareApk;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.AlwaysBlurWallpaper;
-import com.sevtinge.hyperceiler.hook.module.hook.home.other.AlwaysShowStatusClock;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.BlurRadius;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.BlurWhenShowShortcutMenu;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.DisableHideGoogle;
@@ -118,7 +116,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.title.FakeNonDefaultIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.HiddenAllTitle;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.HideReportText;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconMessageColorCustom;
-import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconSize;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconTitleColor;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconTitleCustomization;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.LargeIconCornerRadius;
@@ -165,7 +162,6 @@ public class HomeV extends BaseModule {
                 mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
                 mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable") ||
                 mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable"));
-        initHook(new UnlockGrids(), mPrefsMap.getBoolean("home_layout_unlock_grids"));
         // initHook(new UnlockGridsNoWord(), mPrefsMap.getBoolean("home_layout_unlock_grids_no_word"));
         initHook(new WorkspacePadding(),
                 mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
@@ -238,7 +234,6 @@ public class HomeV extends BaseModule {
         initHook(new FakeNonDefaultIcon(), mPrefsMap.getBoolean("fake_non_default_icon"));
         initHook(new AnimParamCustom(), mPrefsMap.getBoolean("home_title_custom_anim_param_main"));
         // initHook(new IconScaleHook()/*, mPrefsMap.getInt("home_title_icon_scale", 100) != 100*/);
-        initHook(new IconSize(), mPrefsMap.getBoolean("home_title_icon_size_enable"));
 
         // 标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));
@@ -272,7 +267,6 @@ public class HomeV extends BaseModule {
         // 其他
         initHook(new LockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);
-        initHook(AlwaysShowStatusClock.INSTANCE, mPrefsMap.getBoolean("home_other_show_clock"));
         initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));
         initHook(new FreeformShortcutMenu(), (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu") || (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"))));
         initHook(new EnableIconMonoChrome(), mPrefsMap.getBoolean("home_other_icon_mono_chrome"));

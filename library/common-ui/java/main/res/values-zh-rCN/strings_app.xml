@@ -613,7 +613,6 @@
     <string name="system_ui_lock_screen_show_battery_temperature">显示电池温度</string>
     <string name="system_ui_lock_screen_show_spacing">显示刷新间隔</string>
     <string name="system_ui_lock_screen_hide_camera">隐藏相机</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">隐藏负一屏</string>
     <string name="system_ui_lock_screen_bottom_left_button">底部左侧按钮</string>
     <string name="system_ui_lock_screen_current">当前电流</string>
     <string name="system_ui_lock_screen_blur_button">锁屏按钮背景模糊</string>
@@ -627,7 +626,6 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">隐藏勿扰模式通知</string>
     <string name="system_ui_lock_screen_unlock_tip_title">隐藏屏幕底部解锁提示</string>
     <string name="system_ui_lock_screen_hide_status_bar">锁屏时隐藏状态栏</string>
-    <string name="system_ui_lock_screen_block_editor_title">禁用长按进入锁屏编辑</string>
     <string name="system_ui_lock_screen_allow_third_face">允许三方锁屏界面唤醒系统验证识别</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">允许在第三方应用显示的锁屏界面时，正常使用人脸及指纹识别</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">禁止显示 \"已通过蓝牙设备解锁\" Toast</string>
@@ -766,10 +764,8 @@
     <string name="system_ui_statusbar_clock_desc">时钟格式示例</string>
     <string name="system_ui_statusbar_clock_size">时钟大小</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">仅在双排显示下生效</string>
-    <string name="system_ui_disable_clock_anim">禁用通知中心下滑时钟过渡动画</string>
     <string name="system_ui_disable_clock_synch">不同步状态栏时钟设置</string>
     <string name="system_ui_disable_clock_synch_desc">通知中心大时钟不再同步状态栏时钟格式</string>
-    <string name="system_ui_statusbar_clock_fix_color">修复时钟反色时颜色异常</string>
 
     <string name="system_ui_statusbar_clock_pad_show">Pad 相关</string>
     <string name="system_ui_statusbar_clock_pad_hide">隐藏状态栏日期时钟</string>
@@ -888,13 +884,10 @@
     <string name="system_ui_control_center_rounded_rect_radius">圆角大小</string>
     <string name="system_ui_control_center_fix_tiles_list">补全磁贴列表</string>
     <string name="system_ui_shade_header_gradient_blur">通知与控制中心头部渐变模糊</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">对调控制中心与通知抽屉</string>
     <string name="system_ui_control_center_hide_operator">运营商名称自定义</string>
     <string name="system_ui_control_center_hide_delimiter">隐藏分隔线</string>
     <string name="system_ui_control_center_hide_name">隐藏全部名称</string>
     <string name="system_ui_control_center_hide_display_device_name">显示设备名称</string>
-    <string name="system_ui_control_center_notifrowmenu">扩展通知菜单</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">从通知菜单打开应用信息、强制关闭应用和浮窗打开</string>
     <string name="system_ui_control_center_unlock_blur_supported">解除通知背景模糊限制</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">仅对三方主题移除没有高级材质背景模糊的限制</string>
     <string name="system_ui_control_center_unlock_all_focus">移除焦点通知白名单</string>
@@ -955,7 +948,6 @@
     <string name="system_ui_volume_collpased_column_press">按压展开二级音量条</string>
     <string name="system_ui_volume_collpased_column_press_desc">启用此功能后，会关闭展开按钮</string>
     <string name="system_ui_volume_hide_foot_button">隐藏静音和勿扰按钮</string>
-    <string name="system_ui_volume_timer">扩展计时器</string>
     <string name="system_ui_plugin_enable_volume_blur">音量条模糊</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">可能存在 GPU 负载较高的情况</string>
     <string name="system_ui_move_log_to_miui">将 statusbar_gestures.dat 移动到 MIUI 目录</string>
@@ -984,7 +976,6 @@
     <string name="system_settings_wifipassword_btn_title">查看</string>
     <string name="system_settings_wifi_password_label">密码</string>
     <string name="system_settings_wifi_password_dlgtitle">WiFi 详情</string>
-    <string name="system_settings_lang_menu_shouw_all_app">允许管理所有应用的语言</string>
     <string name="system_settings_new_nfc_page">新版 NFC 页面</string>
     <string name="system_settings_new_nfc_page_desc">此功能会导致不支持的机型默认付款应用无法选中小米钱包</string>
     <string name="system_settings_more_vpn_types">显示更多 VPN 类型</string>
@@ -1005,10 +996,7 @@
     <string name="system_settings_restart_systemui_desc">需重启 \"系统界面\" 与 \"设置\" 共两个作用域方可生效</string>
     <string name="system_settings_permission_show_app_up">显示在其他应用上层权限直达</string>
     <string name="system_settings_permission_show_app_up_desc">恢复旧版行为，直接跳转对应应用 \"显示在其他应用上层\" 的权限开关</string>
-    <string name="system_settings_permission_unknown_origin_app">安装未知应用权限直达</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">使用国际版行为，直接跳转对应应用 \"安装未知应用\" 的权限开关</string>
     <string name="system_settings_permission_accessibility">无障碍服务权限直达</string>
-    <string name="system_settings_permission_disable_install_unknown_verify">禁用开启安装未知应用时的校验</string>
 
     <string name="system_settings_develop_title">开发者选项</string>
     <string name="system_settings_apps_freezer">强制显示暂停执行已缓存的应用</string>
@@ -1154,8 +1142,6 @@
     <string name="home_layout_searchbar_title">搜索框</string>
     <string name="home_layout_searchbar_width">宽度</string>
     <string name="home_layout_seek_points">页面指示器</string>
-    <string name="home_layout_show_clock">显示时间</string>
-    <string name="home_layout_show_clock_desc">时钟小部件所在页面始终显示时间</string>
     <string name="home_layout_unlock_grids">解锁布局</string>
     <string name="home_layout_unlock_grids_desc">解锁主屏幕图标布局行列数限制</string>
     <string name="home_layout_unlock_grids_new_x">图标列数</string>
@@ -1166,7 +1152,6 @@
     <string name="home_layout_workspace_padding_horizontal_desc">主屏幕距离屏幕左右两边边距</string>
     <string name="home_layout_workspace_padding_top_desc">主屏幕距离屏幕顶部边距</string>
     <string name="home_layout_hotseats_height">高度</string>
-    <string name="home_layout_hotseats_margin_top_desc">底栏距离页面指示器边距</string>
     <string name="home_layout_hotseats_margin_bottom_desc">底栏距离屏幕底部边距</string>
     <string name="home_layout_searchbar_margin_bottom_desc">搜索栏距离屏幕底部边距</string>
 
@@ -1269,7 +1254,6 @@
     <string name="home_title_hide_report_text_desc">隐藏部分应用在卸载对话框的 \"举报该应用\" 入口</string>
     <string name="home_title_notif_color">通知角标颜色自定义</string>
     <string name="home_title_notif_color_picker">选择颜色</string>
-    <string name="home_title_icon_size">图标大小</string>
 
     <string name="home_recent">最近任务</string>
     <string name="home_recent_animation_speed">动画速度</string>
@@ -1378,13 +1362,6 @@
     <string name="home_other_disable_prestart">禁用应用预加载</string>
     <string name="home_other_opt_app_launch_delay">优化应用启动延迟</string>
 
-    <string name="home_recent_blur_level">模糊等级</string>
-    <string name="home_recent_complete_blur_plus">完整模糊补充 (实验性)</string>
-    <string name="home_recent_complete_blur">完整模糊</string>
-    <string name="home_recent_test_blur">测试模糊</string>
-    <string name="home_recent_simple_blur">简单模糊</string>
-    <string name="home_recent_none_blur">无模糊</string>
-    <string name="home_recent_none_blur_simple_anim">无模糊 (精简动画)</string>
     <!--LPA-->
     <string name="lpa">LPA</string>
     <string name="lpa_custom_imei">自定义 IMEI</string>
@@ -1440,14 +1417,7 @@
     <string name="html_viewer_disable_cloud_control">禁用云控</string>
     <!--智能助理-->
     <string name="personal_assistant">智能助理</string>
-    <string name="personal_assistant_overlap_mode">负一屏 Fold 样式</string>
-    <string name="personal_assistant_blur_model">负一屏背景设置</string>
-    <string name="personal_assistant_blur_value">背景样式</string>
-    <string name="personal_assistant_blurradius">负一屏背景模糊程度</string>
-    <string name="personal_assistant_color">负一屏背景叠加层颜色</string>
     <string name="personal_assistant_unlock_widget_count_limit">解除小部件数量限制</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width">行程提示状态栏焦点通知最大宽度</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width_desc">适当上调该值以解决显示内容被省略</string>
     <string name="personal_assistant_disable_lite_version">禁止使用精简版</string>
     <string name="personal_assistant_widget_widget_blur_opt">优化小部件背景模糊</string>
     <!--电量与性能-->
@@ -1723,8 +1693,6 @@
     <string name="various_open_aosp_default_apps_title">默认应用</string>
 
     <string name="various_mipad_input_title">输入</string>
-    <string name="various_mipad_input_close_magic_title">关闭 Magic Pointer</string>
-    <string name="various_mipad_input_close_magic_desc">移除圆形鼠标指针，并恢复为安卓原生的鼠标指针</string>
     <string name="various_mipad_input_restore_esc_title">恢复 ESC 键功能</string>
     <string name="various_mipad_input_restore_esc_desc">恢复被 Xiaomi Pad 系统强硬射为 \"返回\" 功能的 ESC 键</string>
     <string name="various_mipad_input_disable_bluetooth_title">移除触控笔蓝牙限制</string>

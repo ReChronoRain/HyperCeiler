@@ -18,11 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen
 
-import android.widget.ImageView
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
-import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
-import de.robv.android.xposed.XposedHelpers
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -33,32 +29,12 @@ object HideLockScreenHint : BaseHook() {
     }
 
     override fun init() {
-        if (isMoreHyperOSVersion(2f)) {
-            keyguardIndicationController!!.methodFinder()
-                .filterByParamCount(1)
-                .filterByParamTypes(keyguardIndicationController)
-                .filterStatic().single().createHook {
-                    returnConstant(null)
-                }
-        } else {
-            // by Hyper Helper
-            keyguardIndicationController!!.methodFinder()
-                .filterByName("updateDeviceEntryIndication")
-                .single().createHook {
-                    after {
-                        XposedHelpers.setObjectField(it.thisObject, "mPersistentUnlockMessage", "")
-                    }
-                }
+        keyguardIndicationController!!.methodFinder()
+            .filterByParamCount(1)
+            .filterByParamTypes(keyguardIndicationController)
+            .filterStatic().single().createHook {
+                returnConstant(null)
+            }
 
-            keyguardIndicationController!!.methodFinder()
-                .filterByName("setIndicationArea")
-                .single().createHook {
-                    after {
-                        val image =
-                            it.thisObject.getObjectFieldOrNullAs<ImageView>("mUpArrow") ?: return@after
-                        image.alpha = 0.0f
-                    }
-                }
-        }
     }
 }

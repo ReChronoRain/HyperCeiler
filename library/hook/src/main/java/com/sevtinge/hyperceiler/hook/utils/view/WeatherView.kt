@@ -28,9 +28,7 @@ import android.os.Message
 import android.text.TextUtils
 import android.widget.TextView
 import androidx.core.net.toUri
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.Dependency
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 
 @SuppressLint("ViewConstructor")
 class WeatherView(context: Context?, private val showCity: Boolean) : TextView(context) {
@@ -102,11 +100,7 @@ class WeatherView(context: Context?, private val showCity: Boolean) : TextView(c
                 )
             }
 
-            if (isMoreHyperOSVersion(2f)) {
-                MiuiStub.sysUIProvider.activityStarter
-            } else {
-                Dependency.activityStarter
-            }.startActivity(intent)
+            MiuiStub.sysUIProvider.activityStarter.startActivity(intent)
         }
     }
 

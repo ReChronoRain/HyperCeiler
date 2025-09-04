@@ -155,13 +155,8 @@ public abstract class TileUtils extends BaseHook {
             }
         };
         try {
-            if (isMoreAndroidVersion(35)) {
-                myTile.getDeclaredMethod("handleLongClick", expandableClz);
-                findAndHookMethod(myTile, "handleLongClick", expandableClz, handleLongClickHook);
-            } else {
-                myTile.getDeclaredMethod("handleLongClick", View.class);
-                findAndHookMethod(myTile, "handleLongClick", View.class, handleLongClickHook);
-            }
+            myTile.getDeclaredMethod("handleLongClick", expandableClz);
+            findAndHookMethod(myTile, "handleLongClick", expandableClz, handleLongClickHook);
         } catch (NoSuchMethodException e) {
             logE(TAG, "com.android.systemui", "Don't Have handleLongClick: " + e);
         }
@@ -195,14 +190,8 @@ public abstract class TileUtils extends BaseHook {
             }
         };
         try {
-            if (isMoreAndroidVersion(35)) {
-                getDeclaredMethod(myTile, "handleClick", expandableClz);
-                findAndHookMethod(myTile, "handleClick", expandableClz, handleClickHook);
-            } else {
-                getDeclaredMethod(myTile, "handleClick", View.class);
-                // myTile.getDeclaredMethod("handleClick", View.class);
-                findAndHookMethod(myTile, "handleClick", View.class, handleClickHook);
-            }
+            getDeclaredMethod(myTile, "handleClick", expandableClz);
+            findAndHookMethod(myTile, "handleClick", expandableClz, handleClickHook);
         } catch (NoSuchMethodException e) {
             logE(TAG, "com.android.systemui", "Don't Have handleClick: " + e);
         }
@@ -374,9 +363,7 @@ public abstract class TileUtils extends BaseHook {
                                         Object mHandler = XposedHelpers.getObjectField(tile, "mHandler");
                                         XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 12);
                                         XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 11);
-                                        if (isMoreAndroidVersion(35)) {
-                                            XposedHelpers.callMethod(tile, "setTileSpec", tileName);
-                                        }
+                                        XposedHelpers.callMethod(tile, "setTileSpec", tileName);
 
                                         param.setResult(tile);
                                     }

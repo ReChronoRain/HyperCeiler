@@ -447,7 +447,6 @@
     <string name="system_ui_lock_screen_show_battery_temperature">顯示電池溫度</string>
     <string name="system_ui_lock_screen_show_spacing">顯示刷新間隔</string>
     <string name="system_ui_lock_screen_hide_camera">禁用相機</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">禁用資訊助理</string>
     <string name="system_ui_lock_screen_current">當前</string>
     <string name="system_ui_lock_screen_blur_button">相機同負一屏按鈕背景模糊</string>
     <string name="system_ui_lock_screen_double_lock">雙擊鎖屏</string>
@@ -457,7 +456,6 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">隱藏勿擾模式通知</string>
     <string name="system_ui_lock_screen_unlock_tip_title">隱藏屏幕底部解鎖提示</string>
     <string name="system_ui_lock_screen_hide_status_bar">鎖屏時隱藏狀態欄</string>
-    <string name="system_ui_lock_screen_block_editor_title">禁用長按進入鎖屏編輯</string>
     <string name="system_ui_lock_screen_allow_third_face">允許三方鎖屏界面喚醒系統驗證識別</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">允許喺第三方應用顯示嘅鎖屏界面時，正常使用人臉及指紋識別</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">禁止顯示 \"已通過藍牙設備解鎖\" Toast</string>
@@ -577,8 +575,6 @@
     <string name="system_ui_statusbar_clock_desc">時鐘格式範例</string>
     <string name="system_ui_statusbar_clock_size">時鐘大小</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">僅在雙排顯示下生效</string>
-    <string name="system_ui_statusbar_clock_fix_color">修復時鐘反色時的顏色異常</string>
-    <string name="system_ui_disable_clock_anim">禁用通知中心下滑時鐘過渡動畫</string>
     <string name="system_ui_disable_clock_synch">狀態欄時鐘設定不同步</string>
     <string name="system_ui_disable_clock_synch_desc">通知中心大時鐘唔再同步狀態欄時鐘格式</string>
     <string name="system_ui_statusbar_clock_show">顯示</string>
@@ -640,13 +636,10 @@
     <string name="system_ui_control_center_statusbar_blur">強制背景模糊</string>
     <string name="system_ui_control_center_rounded_rect_radius">圓角大小</string>
     <string name="system_ui_control_center_fix_tiles_list">停用隱藏極暗磁貼</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">對調控制中心與通知抽屜</string>
     <string name="system_ui_control_center_hide_operator">運營商名稱自定義</string>
     <string name="system_ui_control_center_hide_delimiter">僅隱藏分隔線</string>
     <string name="system_ui_control_center_hide_display_device_name">顯示設備名稱</string>
     <string name="system_ui_control_center_hide_name">隱藏全部名稱</string>
-    <string name="system_ui_control_center_notifrowmenu">擴展通知選單</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">從通知選單中打開應用程式信息、強制關閉應用程式和視窗打開</string>
     <string name="system_ui_controlcenter_new_title">新控制中心</string>
     <string name="system_ui_controlcenter_old_title">經典控制中心</string>
     <string name="system_ui_controlcenter_unlock_old_title">解鎖控制中心樣式</string>
@@ -685,7 +678,6 @@
     <string name="system_ui_qs_label">快捷開關標籤</string>
     <string name="system_ui_notification_title">通知</string>
     <string name="system_ui_other_notification_fix">禁用通知白名單</string>
-    <string name="system_ui_volume_timer">擴展計時器</string>
     <string name="system_ui_plugin_enable_volume_blur">音量條模糊</string>
     <string name="system_ui_move_log_to_miui">將 statusbar_gestures.dat 移至 MIUI 目錄</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">僅供 Android 12 及以上嘅 MTK 機型使用，可能存在 GPU 負載較高嘅情況</string>
@@ -712,7 +704,6 @@
     <string name="system_usb_reverse_charge">反向充電</string>
     <string name="system_usb_tethering">USB 網絡共享</string>
     <string name="system_settings_connection_sharing_title">網絡連接與共享</string>
-    <string name="system_settings_lang_menu_shouw_all_app">允許管理所有應用嘅語言</string>
     <string name="system_settings_new_nfc_page">新版 NFC 頁面</string>
     <string name="system_settings_new_nfc_page_desc">此功能會導致唔支持嘅機型默認付款應用無法選中小米錢包</string>
     <string name="system_settings_lab_title">特色功能</string>
@@ -725,11 +716,7 @@
     <string name="system_settings_restart_systemui_desc">需重啟 \"系統界面\" 與 \"設置\" 共兩個作用域方可生效</string>
     <string name="system_settings_permission_show_app_up">顯示喺其他應用上層權限直達</string>
     <string name="system_settings_permission_show_app_up_desc">恢復舊版行為，直接跳轉對應應用 \"顯示喺其他應用上層\" 嘅權限開關</string>
-    <string name="system_settings_permission_unknown_origin_app">安裝未知應用權限直達</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">使用國際版行為，直接跳轉對應應用 \"安裝未知應用\" 嘅權限開關</string>
-    <string name="system_settings_permission_accessibility">無障礙服務權限直達</string>
-    <string name="system_settings_permission_disable_install_unknown_verify">禁用開啟安裝未知應用時嘅校驗</string>
-    <string name="system_settings_develop_title">開發者選項</string>
+    <string name="system_settings_permission_accessibility">無障礙服務權限直達</string><string name="system_settings_develop_title">開發者選項</string>
     <string name="system_settings_apps_freezer">強制顯示暫停執行快取的應用程式</string>
     <string name="system_settings_apps_freezer_more">開啟後可喺 \"開發者選項\" 中搵到此功能，為強制顯示，唔保證可用</string>
     <string name="system_settings_develop_speed_mode">解鎖極致模式</string>
@@ -867,8 +854,6 @@
     <string name="home_layout_home_title">主屏幕</string>
     <string name="home_layout_searchbar_title">搜尋框</string>
     <string name="home_layout_seek_points">頁面指示器</string>
-    <string name="home_layout_show_clock">顯示時間</string>
-    <string name="home_layout_show_clock_desc">時鐘小工具所在頁面始終顯示時間</string>
     <string name="home_layout_unlock_grids">解鎖佈局</string>
     <string name="home_layout_unlock_grids_desc">解鎖主屏幕圖標佈局行列數限制</string>
     <string name="home_layout_unlock_grids_no_words">解鎖佈局（無字模式）</string>
@@ -877,7 +862,6 @@
     <string name="home_layout_workspace_padding_top_desc">主屏幕距離屏幕頂部邊緣</string>
     <string name="home_layout_workspace_padding_horizontal_desc">主屏幕距離屏幕底部邊距</string>
     <string name="home_layout_hotseats_height">高度</string>
-    <string name="home_layout_hotseats_margin_top_desc">Dock 距離頁面指示器邊距</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Dock 距離屏幕底部邊距</string>
     <string name="home_layout_searchbar_margin_bottom_desc">搜尋欄距離屏幕底部邊距</string>
     <string name="home_folder">資料夾</string>
@@ -1056,13 +1040,6 @@
     <string name="home_other_shortcut_remove_restrictions">解鎖快捷菜單數量限制</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut 選單背景透明度</string>
     <string name="home_other_high_models">強制識別為高端機型</string>
-    <string name="home_recent_blur_level">模糊等級</string>
-    <string name="home_recent_complete_blur_plus">完整模糊補充 (實驗性)</string>
-    <string name="home_recent_complete_blur">完整模糊</string>
-    <string name="home_recent_test_blur">測試模糊</string>
-    <string name="home_recent_simple_blur">簡單模糊</string>
-    <string name="home_recent_none_blur">無模糊</string>
-    <string name="home_recent_none_blur_simple_anim">無模糊 (精簡動畫)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">解鎖桌面設置更多選項</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">解鎖後嘅功能唔一定可用，部分功能需要系統底層支持</string>
     <!--Gallery Editor-->
@@ -1104,11 +1081,6 @@
     <string name="html_viewer_disable_cloud_control">禁用雲控</string>
     <!--App vault-->
     <string name="personal_assistant">智慧助理</string>
-    <string name="personal_assistant_overlap_mode">智慧助理 Fold 樣式</string>
-    <string name="personal_assistant_blur_model">智慧助理背景設定</string>
-    <string name="personal_assistant_blur_value">背景樣式</string>
-    <string name="personal_assistant_blurradius">智慧助理背景模糊程度</string>
-    <string name="personal_assistant_color">智慧助理背景疊加層顏色</string>
     <string name="personal_assistant_unlock_widget_count_limit">解除小部件數量限制</string>
     <!--Battery and performance-->
     <string name="powerkeeper">電量和性能</string>
@@ -1324,8 +1296,6 @@
     <string name="various_open_aosp_extremely_dark_title">極暗</string>
     <string name="various_open_aosp_default_apps_title">預設應用程式</string>
     <string name="various_mipad_input_title">輸入</string>
-    <string name="various_mipad_input_close_magic_title">關閉 Magic Pointer</string>
-    <string name="various_mipad_input_close_magic_desc">移除圓形鼠標指針，並恢復為安卓原生嘅鼠標指針</string>
     <string name="various_mipad_input_restore_esc_title">恢復 ESC 鍵功能</string>
     <string name="various_mipad_input_restore_esc_desc">恢復被 Xiaomi Pad 系統強制映射 ESC 鍵為「返回」功能</string>
     <string name="various_mipad_input_disable_bluetooth_title">移除觸控筆藍牙限制</string>

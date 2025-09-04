@@ -38,11 +38,6 @@
             android:key="prefs_key_system_settings_unlock_ui_mode"
             android:title="@string/system_settings_unlock_ui_mode" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_settings_lang_menu_show_all_app"
-            android:title="@string/system_settings_lang_menu_shouw_all_app" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home">
@@ -131,19 +126,8 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_settings_permission_unknown_origin_app"
-            android:summary="@string/system_settings_permission_unknown_origin_app_desc"
-            android:title="@string/system_settings_permission_unknown_origin_app" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_settings_permission_accessibility"
             android:title="@string/system_settings_permission_accessibility" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_settings_permission_disable_install_unknown_verify"
-            android:title="@string/system_settings_permission_disable_install_unknown_verify" />
 
     </PreferenceCategory>
 

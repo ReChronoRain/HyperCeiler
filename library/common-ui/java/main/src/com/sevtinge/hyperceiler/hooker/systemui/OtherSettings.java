@@ -44,7 +44,6 @@ public class OtherSettings extends DashboardFragment
     SwitchPreference mVolume;
     SwitchPreference mPower;
     SwitchPreference mFuckSG;
-    SwitchPreference mTimer;
     SwitchPreference mCollpasedColumnPress;
     // 数据显示
     DropDownPreference mPctStyle;
@@ -68,7 +67,6 @@ public class OtherSettings extends DashboardFragment
         mVolume = findPreference("prefs_key_system_ui_disable_volume");
         mPower = findPreference("prefs_key_system_ui_disable_power");
         mFuckSG = findPreference("prefs_key_system_ui_move_log_to_miui");
-        mTimer = findPreference("prefs_key_system_ui_volume_timer");
         mCollpasedColumnPress = findPreference("prefs_key_system_ui_volume_collpased_column_press");
 
         mPctStyle = findPreference("prefs_key_system_ui_others_pct_style");
@@ -81,22 +79,16 @@ public class OtherSettings extends DashboardFragment
 
         mDisableInfinitymodeGesture.setVisible(isPad());
 
-        if (isMoreHyperOSVersion(2f)) {
-            if (isMoreSmallVersion(200, 2f)) {
-                setFuncHint(mFuckSG, 2);
-            }
-            setHide(mTimer, false);
-
-            setStyleMode(mPct);
-            mPctStyle.setOnPreferenceChangeListener(this);
-        } else {
-            setHide(mFuckSG, false);
-            setHide(mCollpasedColumnPress, false);
-
-            setHide(mPctStyle, false);
-            setHide(mBrightness1, false);
-            setHide(mVolume1, false);
+        if (isMoreSmallVersion(200, 2f)) {
+            setFuncHint(mFuckSG, 2);
         }
+        if (isMoreHyperOSVersion(3f)) {
+            setFuncHint(mVolume, 1);
+            setFuncHint(mPower, 1);
+        }
+
+        setStyleMode(mPct);
+        mPctStyle.setOnPreferenceChangeListener(this);
 
         mVolume.setOnPreferenceChangeListener(generateListener(
             new ComponentName(

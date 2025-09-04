@@ -524,7 +524,6 @@
     <string name="system_ui_lock_screen_show_battery_temperature">Pokaż temperaturę baterii</string>
     <string name="system_ui_lock_screen_show_spacing">Częstotliwość odświeżania</string>
     <string name="system_ui_lock_screen_hide_camera">Ukryj aparat</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">Ukryj inteligentny ekran</string>
     <string name="system_ui_lock_screen_current">Przepływ</string>
     <string name="system_ui_lock_screen_blur_button">Rozmycie przycisków ekranu blokady</string>
     <string name="system_ui_lock_screen_blur_button_desc">Po włączeniu tło przycisków na ekranie blokady będą rozmyte, co może powodować wysokie zużycie energii.\nObsługiwany tylko domyślny motyw.</string>
@@ -537,7 +536,6 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">Ukryj powiadomienie o trybie \"Nie przeszkadzać\"</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Ukryj prośbę o odblokowanie</string>
     <string name="system_ui_lock_screen_hide_status_bar">Usuń pasek stanu z ekranu blokady</string>
-    <string name="system_ui_lock_screen_block_editor_title">Wyłącz długie naciśnięcie, aby uzyskać dostęp do edytora ekranu blokady</string>
     <string name="system_ui_lock_screen_allow_third_face">Zezwól systemowi na weryfikację rozpoznawania przez strony trzecie</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Umożliwia normalne używanie funkcji rozpoznawania twarzy i odcisków palców na ekranie blokady wyświetlanym przez aplikacje firm trzecich</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Wyłącz wyświetlanie powiadomienia o odblokowaniu przez Bluetooth</string>
@@ -658,8 +656,6 @@
     <string name="system_ui_statusbar_clock_desc">Przykładowy format zegara</string>
     <string name="system_ui_statusbar_clock_size">Rozmiar zegara</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Obowiązuje tylko wtedy, gdy jest wyświetlany w dwóch wierszach</string>
-    <string name="system_ui_statusbar_clock_fix_color">Napraw kolor</string>
-    <string name="system_ui_disable_clock_anim">Wyłącz animację przejścia zegara przy przewijaniu w pasku powiadomień</string>
     <string name="system_ui_disable_clock_synch">Wyłącz synchronizację zegara</string>
     <string name="system_ui_disable_clock_synch_desc">Duży zegar w pasku powiadomień nie jest już zsynchronizowany z formatem zegara na pasku stanu</string>
     <string name="system_ui_statusbar_clock_show">Pokaż</string>
@@ -739,13 +735,10 @@
     <string name="system_ui_control_center_rounded_rect_radius">Zaokrąglony promień</string>
     <string name="system_ui_control_center_fix_tiles_list">Wyłącz ukrycie niezwykle ciemnych kafelków</string>
     <string name="system_ui_shade_header_gradient_blur">Rozmycie gradientu nagłówka</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">Przełącz centrum sterowania i panel powiadomień</string>
     <string name="system_ui_control_center_hide_operator">Dostosuj nazwę operatora</string>
     <string name="system_ui_control_center_hide_delimiter">Tylko separatory są ukryte</string>
     <string name="system_ui_control_center_hide_display_device_name">Wyświetl nazwę urządzenia</string>
     <string name="system_ui_control_center_hide_name">Ukryj wszystkie nazwy</string>
-    <string name="system_ui_control_center_notifrowmenu">Rozszerzone menu powiadomień</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">Otwórz informacje o aplikacji, wymuś zamknięcie aplikacji i otwórz ją w oknie pływającym z menu powiadomień (przesuń powiadomienie w lewo, aby je otworzyć)</string>
     <string name="system_ui_controlcenter_new_title">Nowe centrum kontroli</string>
     <string name="system_ui_controlcenter_old_title">Starsze centrum kontroli</string>
     <string name="system_ui_controlcenter_unlock_old_title">Odblokuj style centrum kontroli</string>
@@ -797,7 +790,6 @@
     <string name="system_ui_volume_collpased_column_press">Naciśnij, aby rozwinąć drugi pasek głośności</string>
     <string name="system_ui_volume_collpased_column_press_desc">Gdy ta funkcja jest włączona, przycisk rozwijania jest wyłączony</string>
     <string name="system_ui_volume_hide_foot_button">Ukryj przyciski wyciszenia i trybu Nie Przeszkadzać</string>
-    <string name="system_ui_volume_timer">Rozszerzony timer</string>
     <string name="system_ui_plugin_enable_volume_blur">Włącz rozmycie paska głośności</string>
     <string name="system_ui_move_log_to_miui">Przenieś statusbar_gestures.dat do rejestru MIUI</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Tylko dla modeli Android 12+ z procesorem MTK. Może wystąpić wysokie obciążenie GPU.</string>
@@ -823,7 +815,6 @@
     <string name="system_usb_reverse_charge">Ładowanie zwrotne</string>
     <string name="system_usb_tethering">Tethering przez USB</string>
     <string name="system_settings_connection_sharing_title">Połączenie i udostępnianie</string>
-    <string name="system_settings_lang_menu_shouw_all_app">Pokaż wszystkie aplikacje w menu zarządzania językiem</string>
     <string name="system_settings_new_nfc_page">Nowa strona NFC</string>
     <string name="system_settings_new_nfc_page_desc">Po włączeniu tej opcji aplikacja domyślna do płatności dla nieobsługiwanych modeli nie będzie mogła wybrać portfela Xiaomi.</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">Odblokuj Xiaomi HyperAI</string>
@@ -838,10 +829,7 @@
     <string name="system_settings_restart_systemui_desc">Należy zrestartować zakresy Interfejsu i Ustawienia, aby zmiany zaczęły obowiązywać</string>
     <string name="system_settings_permission_show_app_up">Uprawnienia wyższego poziomu bez przeszukiwania listy aplikacji</string>
     <string name="system_settings_permission_show_app_up_desc">Przywraca starą funkcjonalność, przejdź bezpośrednio do odpowiedniego przełącznika uprawnień aplikacji wyświetlanego na górze innych aplikacji.</string>
-    <string name="system_settings_permission_unknown_origin_app">Instaluj nieznane aplikacje bez przeszukiwania listy aplikacji</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">Użyj międzynarodowej wersji, aby przejść bezpośrednio do odpowiedniego przełącznika uprawnień aplikacji wyświetlanego na górze innych aplikacji.</string>
     <string name="system_settings_permission_accessibility">Uprawnienia usługi dostępności bez przeszukiwania listy aplikacji</string>
-    <string name="system_settings_permission_disable_install_unknown_verify">Wyłącz weryfikację podczas instalowania nieznanych aplikacji</string>
     <string name="system_settings_develop_title">Opcje programisty</string>
     <string name="system_settings_apps_freezer">Wymuś wyświetlanie zablokowanych aplikacji w pamięci podręcznej</string>
     <string name="system_settings_apps_freezer_more">Po włączeniu ta funkcja będzie dostępna w opcjach programisty, ale jej funkcjonalność nie jest gwarantowana.</string>
@@ -986,8 +974,6 @@
     <string name="home_layout_searchbar_title">Pasek wyszukiwania</string>
     <string name="home_layout_searchbar_width">Wysokość</string>
     <string name="home_layout_seek_points">Wskaźnik strony</string>
-    <string name="home_layout_show_clock">Wyświetl czas</string>
-    <string name="home_layout_show_clock_desc">Strona, na której znajduje się widżet zegara, zawsze wyświetla czas</string>
     <string name="home_layout_unlock_grids">Odblokuj układ</string>
     <string name="home_layout_unlock_grids_desc">Odblokuje limit rozmiaru układu ikon ekranu głównego</string>
     <string name="home_layout_unlock_grids_new_x">Kolumny</string>
@@ -998,7 +984,6 @@
     <string name="home_layout_workspace_padding_top_desc">Odległość ekranu głównego od górnego marginesu ekranu</string>
     <string name="home_layout_workspace_padding_horizontal_desc">Odległość ekranu głównego od bocznego marginesu ekranu</string>
     <string name="home_layout_hotseats_height">Wysokość</string>
-    <string name="home_layout_hotseats_margin_top_desc">Odległość doku od marginesu wskaźnika strony</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Odległość doku od dolnego marginesu ekranu</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Odległość paska wyszukiwania od dolnego marginesu ekranu</string>
     <string name="home_small_folder_title">Mały folder</string>
@@ -1096,7 +1081,6 @@
     <string name="home_title_hide_report_text_desc">Ukrywa tekst raportu w oknie dialogowym</string>
     <string name="home_title_notif_color">Niestandardowy kolor tła wiadomości powiadomień</string>
     <string name="home_title_notif_color_picker">Własny kolor</string>
-    <string name="home_title_icon_size">Rozmiar ikon</string>
     <string name="home_recent">Ostatnie</string>
     <string name="home_recent_animation_speed">Prędkość animacji</string>
     <string name="home_recent_unlock_pin">Odblokuj przypięte aplikacje</string>
@@ -1181,13 +1165,6 @@
     <string name="home_other_shortcut_remove_restrictions">Usuń ograniczenia skrótów</string>
     <string name="home_other_shortcut_background_blur_custom">Wartość rozmycia w menu skrótów</string>
     <string name="home_other_high_models">Obowiązkowe rozpoznanie jako model high-end</string>
-    <string name="home_recent_blur_level">Poziom rozmycia</string>
-    <string name="home_recent_complete_blur_plus">Pełne rozmycie+</string>
-    <string name="home_recent_complete_blur">Pełne rozmycie</string>
-    <string name="home_recent_test_blur">Testowe rozmycie</string>
-    <string name="home_recent_simple_blur">Proste rozmycie</string>
-    <string name="home_recent_none_blur">Brak rozmycia</string>
-    <string name="home_recent_none_blur_simple_anim">Brak rozmycia (Prosta animacja)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">Odblokuj więcej opcji ustawień ekranu głównego</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">Odblokowane funkcje mogą być niedostępne, a niektóre funkcje wymagają wsparcia ze strony systemu podstawowego.</string>
     <string name="home_other_disable_prestart">Wyłącz wstępne ładowanie aplikacji</string>
@@ -1237,14 +1214,7 @@
     <string name="html_viewer_disable_cloud_control">Wyłącz kontrolę chmury</string>
     <!--App vault-->
     <string name="personal_assistant">Panel informacyjny</string>
-    <string name="personal_assistant_overlap_mode">Negatyw złożony na jeden ekran</string>
-    <string name="personal_assistant_blur_model">Model rozmycia asystenta osobistego</string>
-    <string name="personal_assistant_blur_value">Styl tła</string>
-    <string name="personal_assistant_blurradius">Wartość rozmycia asystenta osobistego</string>
-    <string name="personal_assistant_color">Kolor asystenta osobistego</string>
     <string name="personal_assistant_unlock_widget_count_limit">Odblokuj limit liczby widgetów</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width">Ustaw powiadomienie o podróży w pasku stanu</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width_desc">Dostosuj tę wartość odpowiednio, aby rozwiązać problem z pomijaniem treści wyświetlanej</string>
     <string name="personal_assistant_disable_lite_version">Wyłącz wersje Lite</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Bateria i wydajność</string>
@@ -1473,8 +1443,6 @@
     <string name="various_open_aosp_extremely_dark_title">Dodatkowe przyciemnienie</string>
     <string name="various_open_aosp_default_apps_title">Domyślne aplikacje</string>
     <string name="various_mipad_input_title">Wejście</string>
-    <string name="various_mipad_input_close_magic_title">Wyłącz magiczny kursor</string>
-    <string name="various_mipad_input_close_magic_desc">Usuwa okrągły kursor myszy i przywraca do natywnego kursora myszy Androida</string>
     <string name="various_mipad_input_restore_esc_title">Przywróć funkcję ESC</string>
     <string name="various_mipad_input_restore_esc_desc">Przywróć funkcję ESC, która została na stałe zmapowana do funkcji „wstecz” przez system Xiaomi Pad.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Usuń ograniczenie Bluetooth rysika</string>

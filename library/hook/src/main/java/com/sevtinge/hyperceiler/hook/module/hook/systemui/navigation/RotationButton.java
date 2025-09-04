@@ -194,7 +194,7 @@ public class RotationButton extends BaseHook {
                     }
             );
         } catch (Throwable e) {
-            findAndHookMethod(isMoreAndroidVersion(35) ? "com.android.systemui.shared.rotation.RotationButtonController$$ExternalSyntheticLambda5" : "com.android.systemui.shared.rotation.RotationButtonController$$ExternalSyntheticLambda1",
+            findAndHookMethod("com.android.systemui.shared.rotation.RotationButtonController$$ExternalSyntheticLambda5",
                     "onClick", View.class,
                     new MethodHook() {
                         @Override

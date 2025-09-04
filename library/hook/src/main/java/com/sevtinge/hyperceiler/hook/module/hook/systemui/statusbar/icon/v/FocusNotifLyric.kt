@@ -85,11 +85,7 @@ object FocusNotifLyric : MusicBaseHook() {
             .filterByName("onCreateView")
             .first().createHook {
                 before {
-                    unhook = if (isAndroidVersion(34)) {
-                        loadClass("com.android.systemui.statusbar.views.FocusedTextView")
-                    } else {
-                        loadClass("com.android.systemui.statusbar.widget.FocusedTextView")
-                    }.constructorFinder()
+                    unhook = loadClass("com.android.systemui.statusbar.widget.FocusedTextView").constructorFinder()
                         .filterByParamCount(3)
                         .first().createAfterHook {
                             focusTextViewList += it.thisObject as TextView

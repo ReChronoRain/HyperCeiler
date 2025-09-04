@@ -29,7 +29,6 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreSmallVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
@@ -40,7 +39,7 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfte
 
 class ClearClipboard : BaseHook() {
     override fun init() {
-        if (!isMoreHyperOSVersion(2f) || isMoreSmallVersion(200, 2f)) return
+        if (isMoreSmallVersion(200, 2f)) return
         MethodFinder.fromClass("android.inputmethodservice.InputMethodModuleManager")
             .filterByName("loadDex")
             .filterByParamTypes(ClassLoader::class.java, String::class.java)

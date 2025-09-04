@@ -31,7 +31,6 @@ import com.sevtinge.hyperceiler.ui.R;
 
 public class AOSPSettings extends DashboardFragment {
     Preference mBattery;
-    Preference mLanguage;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -41,11 +40,6 @@ public class AOSPSettings extends DashboardFragment {
     @Override
     public void initPrefs() {
         mBattery = findPreference("prefs_key_various_open_aosp_battery");
-        mLanguage = findPreference("prefs_key_various_open_aosp_language");
-
-        if (isMoreHyperOSVersion(2f)) {
-            setFuncHint(mLanguage, 1);
-        }
 
         if (mBattery != null) {
             mBattery.setOnPreferenceClickListener(preference -> {

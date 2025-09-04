@@ -460,26 +460,6 @@
         <item>3</item>
     </string-array>
 
-    <string-array name="home_recent_blur">
-        <item>@string/array_default</item>
-        <item>@string/home_recent_complete_blur_plus</item>
-        <item>@string/home_recent_complete_blur</item>
-        <item>@string/home_recent_test_blur</item>
-        <item>@string/home_recent_simple_blur</item>
-        <item>@string/home_recent_none_blur</item>
-        <item>@string/home_recent_none_blur_simple_anim</item>
-    </string-array>
-
-    <string-array name="home_recent_blur_value">
-        <item>6</item>
-        <item>5</item>
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-    </string-array>
-
     <string-array name="lock_screen_bottom_left_button">
         <item>@string/array_default</item>
         <item>@string/array_hide</item>

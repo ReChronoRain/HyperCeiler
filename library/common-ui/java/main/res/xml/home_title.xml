@@ -39,20 +39,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_home_title_icon_size_enable"
-            android:title="@string/home_title_icon_size" />
-
-        <SeekBarPreferenceCompat
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
-            android:dependency="prefs_key_home_title_icon_size_enable"
-            android:key="prefs_key_home_title_icon_size"
-            app:format="%s"
-            app:maxValue="360"
-            app:minValue="50"
-            app:stepValue="1" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_home_title_big_icon_corner"
             android:title="@string/home_title_big_icon_corner" />
 

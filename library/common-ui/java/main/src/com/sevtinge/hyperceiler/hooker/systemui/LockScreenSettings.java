@@ -31,9 +31,7 @@ import com.sevtinge.hyperceiler.ui.R;
 import fan.preference.DropDownPreference;
 
 public class LockScreenSettings extends DashboardFragment {
-    SwitchPreference mHideLeftButton; // 隐藏左侧按钮
     SwitchPreference mHideRightButton; // 隐藏右侧按钮
-    SwitchPreference mBlockEditor; // 禁用长按进入锁屏编辑
     SwitchPreference mBlurButton; // 锁屏模糊按钮
     DropDownPreference mHideLeftButtonNew; // 左侧按钮自定义
 
@@ -44,20 +42,11 @@ public class LockScreenSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
-        final boolean moreAndroidVersion = isMoreAndroidVersion(35);
-        mBlockEditor = findPreference("prefs_key_system_ui_lock_screen_block_editor");
-
-        mHideLeftButton = findPreference("prefs_key_system_ui_lock_screen_hide_smart_screen");
         mHideRightButton = findPreference("prefs_key_system_ui_lock_screen_hide_camera");
         mHideLeftButtonNew = findPreference("prefs_key_system_ui_lock_screen_bottom_left_button");
         mBlurButton = findPreference("prefs_key_system_ui_lock_screen_blur_button");
 
-        if (isMoreHyperOSVersion(2f)) setFuncHint(mBlockEditor, 2);
-        mHideLeftButton.setVisible(!moreAndroidVersion);
-        mHideLeftButtonNew.setVisible(moreAndroidVersion);
-
         if (isPad()) {
-            setFuncHint(mHideLeftButton, 1);
             setFuncHint(mHideLeftButtonNew, 1);
             setFuncHint(mHideRightButton, 1);
             setFuncHint(mBlurButton, 1);

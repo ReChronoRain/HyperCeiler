@@ -32,19 +32,11 @@ object HideLockscreenZenMode : BaseHook() {
 
     override fun init() {
         // hyperOS fix by hyper helper
-        if (isMoreAndroidVersion(35)) {
-            zenModeClass.methodFinder()
-                .filterByParamTypes(Boolean::class.java)
-                .filterFinal()
-                .first().createBeforeHook {
-                    it.thisObject.setObjectField("manuallyDismissed", true)
-                }
-        } else {
-            zenModeClass.methodFinder()
-                .filterByName("updateVisibility")
-                .single().createBeforeHook {
-                    it.thisObject.setObjectField("manuallyDismissed", true)
-                }
-        }
+        zenModeClass.methodFinder()
+            .filterByParamTypes(Boolean::class.java)
+            .filterFinal()
+            .first().createBeforeHook {
+                it.thisObject.setObjectField("manuallyDismissed", true)
+            }
     }
 }

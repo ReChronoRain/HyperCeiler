@@ -487,7 +487,6 @@
     <string name="system_ui_lock_screen_show_battery_temperature">Oppo A5的电池快热炸了</string>
     <string name="system_ui_lock_screen_show_spacing">没有时间间隔</string>
     <string name="system_ui_lock_screen_hide_camera">防止版本T0污蔑</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">隐藏并不聪明的屏幕</string>
     <string name="system_ui_lock_screen_current">当前电流</string>
     <string name="system_ui_lock_screen_blur_button">糊上锁屏按钮</string>
     <string name="system_ui_lock_screen_blur_button_radius">背景圆角</string>
@@ -593,7 +592,6 @@
     <string name="nfc">近一点，再近一点</string>
     <!--HTML Viewer-->
     <!--App vault-->
-    <string name="personal_assistant_blur_model">选择你的英雄</string>
     <!--Battery and performance-->
     <string name="powerkeeper_do_not_kill_apps">还... 还想要...</string>
     <string name="powerkeeper_do_not_kill_apps_desc">可能会让你的功耗爆炸</string>

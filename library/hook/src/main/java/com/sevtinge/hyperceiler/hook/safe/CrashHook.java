@@ -138,7 +138,7 @@ public class CrashHook extends HookTool {
                         }
                     }
                 );
-            } else if (SystemSDKKt.isAndroidVersion(35)) {
+            } else {
                 HookTool.findAndHookMethod("com.android.server.wm.BackgroundActivityStartController", classLoader, "checkBackgroundActivityStart",
                         int.class, int.class, String.class, int.class, int.class,
                         "com.android.server.wm.WindowProcessController", "com.android.server.am.PendingIntentRecord",
@@ -155,22 +155,6 @@ public class CrashHook extends HookTool {
                                             "BAL_ALLOW_DEFAULT"
                                     );
                                     param.setResult(balAllowDefault);
-                                }
-                            }
-                        }
-                );
-            } else {
-                HookTool.findAndHookMethod("com.android.server.wm.BackgroundActivityStartController", classLoader, "checkBackgroundActivityStart",
-                        int.class, int.class, String.class, int.class, int.class,
-                        "com.android.server.wm.WindowProcessController", "com.android.server.am.PendingIntentRecord",
-                        "android.app.BackgroundStartPrivileges", Intent.class, ActivityOptions.class,
-                        new MethodHook() {
-                            @Override
-                            protected void before(MethodHookParam param) {
-                                String pkg = (String) param.args[2];
-                                if (pkg == null) return;
-                                if (ProjectApi.mAppModulePkg.equals(pkg)) {
-                                    param.setResult(1);
                                 }
                             }
                         }

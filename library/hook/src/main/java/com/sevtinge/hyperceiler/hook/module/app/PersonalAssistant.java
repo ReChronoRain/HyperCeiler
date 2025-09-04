@@ -18,14 +18,9 @@
 */
 package com.sevtinge.hyperceiler.hook.module.app;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
-
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.personalassistant.BlurPersonalAssistant;
-import com.sevtinge.hyperceiler.hook.module.hook.personalassistant.BlurPersonalAssistantBackGround;
 import com.sevtinge.hyperceiler.hook.module.hook.personalassistant.DisableLiteVersion;
-import com.sevtinge.hyperceiler.hook.module.hook.personalassistant.SetTravelNotificationStatusBarInfoMaxWidth;
 import com.sevtinge.hyperceiler.hook.module.hook.personalassistant.UnlockWidgetCountLimit;
 import com.sevtinge.hyperceiler.hook.module.hook.personalassistant.WidgetBlurOpt;
 
@@ -37,14 +32,6 @@ public class PersonalAssistant extends BaseModule {
         // initHook(new BlurOverlay(), false);
         initHook(new DisableLiteVersion(), mPrefsMap.getBoolean("personal_assistant_disable_lite_version"));
         initHook(new UnlockWidgetCountLimit(), mPrefsMap.getBoolean("personal_assistant_unlock_widget_count_limit"));
-
-        if (mPrefsMap.getStringAsInt("personal_assistant_value", 0) == 2) {
-            initHook(BlurPersonalAssistant.INSTANCE , true);
-        } else if (mPrefsMap.getStringAsInt("personal_assistant_value", 0) == 1) {
-            initHook(BlurPersonalAssistantBackGround.INSTANCE, true);
-        }
-
-        initHook(new SetTravelNotificationStatusBarInfoMaxWidth(), mPrefsMap.getInt("personal_assistant_set_tv_notif_info_max_width", 60) != 60 && isHyperOSVersion(1f));
 
         initHook(new WidgetBlurOpt(), mPrefsMap.getBoolean("personal_assistant_widget_widget_blur_opt"));
     }

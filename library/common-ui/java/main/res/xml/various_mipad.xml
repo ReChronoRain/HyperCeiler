@@ -22,12 +22,6 @@
     app:quick_restart="system">
     <PreferenceCategory android:title="@string/various_mipad_input_title">
         <SwitchPreference
-            android:title="@string/various_mipad_input_close_magic_title"
-            android:summary="@string/various_mipad_input_close_magic_desc"
-            android:key="prefs_key_mipad_input_close_magic"
-            android:defaultValue="false" />
-
-        <SwitchPreference
             android:title="@string/various_mipad_input_restore_esc_title"
             android:summary="@string/various_mipad_input_restore_esc_desc"
             android:key="prefs_key_mipad_input_restore_esc"

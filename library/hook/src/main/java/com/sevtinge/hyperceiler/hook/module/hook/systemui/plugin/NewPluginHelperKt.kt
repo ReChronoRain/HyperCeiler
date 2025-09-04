@@ -38,7 +38,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.ShowDe
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.StartCollpasedColumnPress
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.UnlockCarSicknessTile
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.VolumeOrQSBrightnessValue
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.VolumeTimerValuesHook
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.FocusNotifLyric
 import com.sevtinge.hyperceiler.hook.utils.api.PluginFactory
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isDebug
@@ -100,15 +99,6 @@ object NewPluginHelperKt : BaseHook() {
                 logD(TAG, lpparam.packageName, "Plugin for sysui volume loaded.")
 
                 val enabledLoaders = ArrayList<Pair<String, (ClassLoader) -> Unit>>(6)
-
-                if (prefs.getBoolean("system_ui_volume_timer") && isHyperOSVersion(1f)) {
-                    enabledLoaders.add(
-                        Pair(
-                            "VolumeTimerValuesHook",
-                            VolumeTimerValuesHook::initVolumeTimerValuesHook
-                        )
-                    )
-                }
 
                 if ((isHyperOSVersion(1f) || isStyle == 2) && prefs.getBoolean("system_cc_volume_showpct_title")) {
                     enabledLoaders.add(

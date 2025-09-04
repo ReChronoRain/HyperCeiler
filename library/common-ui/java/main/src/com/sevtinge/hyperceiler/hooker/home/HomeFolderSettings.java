@@ -38,7 +38,6 @@ public class HomeFolderSettings extends DashboardFragment {
     SwitchPreference mSmallFolderIconBackgroundCustom1;
     SwitchPreference mSmallFolderIconBackgroundCustom2;
     SwitchPreference mSmallFolderIconBackgroundCustom3;
-    SwitchPreference mRecommendAppsSwitch;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -50,7 +49,6 @@ public class HomeFolderSettings extends DashboardFragment {
         mFolderShade = findPreference("prefs_key_home_folder_shade");
         mFolderShadeLevel = findPreference("prefs_key_home_folder_shade_level");
         mUnlockFolderBlurSupport = findPreference("prefs_key_home_folder_unlock_blur_supported");
-        mRecommendAppsSwitch = findPreference("prefs_key_home_folder_recommend_apps_switch");
 
         if (isPad()) {
             mSmallFolderIconBackgroundCustom1 = findPreference("prefs_key_home_big_folder_icon_bg_2x1");
@@ -61,7 +59,6 @@ public class HomeFolderSettings extends DashboardFragment {
             mSmallFolderIconBackgroundCustom2.setTitle(R.string.home_big_folder_icon_bg_1x2_n);
             mSmallFolderIconBackgroundCustom3.setTitle(R.string.home_big_folder_icon_bg_n);
         }
-        setHide(mRecommendAppsSwitch, !isMoreAndroidVersion(35));
         setFolderShadeLevelEnable(Integer.parseInt(getSharedPreferences().getString("prefs_key_home_folder_shade", "0")));
 
         mFolderShade.setOnPreferenceChangeListener((preference, o) -> {

@@ -548,7 +548,6 @@
     <string name="system_ui_lock_screen_show_battery_temperature">バッテリー温度を表示</string>
     <string name="system_ui_lock_screen_show_spacing">表示の更新間隔</string>
     <string name="system_ui_lock_screen_hide_camera">カメラを非表示</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">スマートスクリーンを非表示</string>
     <string name="system_ui_lock_screen_bottom_left_button">左下のボタン</string>
     <string name="system_ui_lock_screen_current">電流</string>
     <string name="system_ui_lock_screen_blur_button">ロック画面のボタンをぼかす</string>
@@ -562,7 +561,6 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">DND モードの通知を非表示</string>
     <string name="system_ui_lock_screen_unlock_tip_title">画面下部のロック解除プロンプトを非表示</string>
     <string name="system_ui_lock_screen_hide_status_bar">ロック画面でステータスバーを非表示</string>
-    <string name="system_ui_lock_screen_block_editor_title">長押しでのロック画面の編集を無効化</string>
     <string name="system_ui_lock_screen_allow_third_face">サードパーティのロック画面で、認証を検証するためのシステム起動を許可</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">サードパーティアプリにより表示されたロック画面で、顔認証と指紋認証を使えるようにします</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Bluetooth によるロック解除トーストを非表示</string>
@@ -689,12 +687,10 @@
     <string name="system_ui_statusbar_clock_desc">時計形式の例</string>
     <string name="system_ui_statusbar_clock_size">時計のサイズ</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">2 行で表示されている場合にのみ有効です</string>
-    <string name="system_ui_statusbar_clock_fix_color">時計の色が反転する際の異常な色を修正</string>
     <string name="system_ui_statusbar_clock_pad_show">Pad 関連</string>
     <string name="system_ui_statusbar_clock_pad_hide">ステータスバーの日付と時計を非表示</string>
     <string name="system_ui_statusbar_clock_layout_p">ステータスバーの日付と時計</string>
     <string name="system_ui_statusbar_clock_editor_p">ステータスバーの日付と時計の形式</string>
-    <string name="system_ui_disable_clock_anim">通知シェードのスライド時計遷移アニメーションを無効化</string>
     <string name="system_ui_disable_clock_synch">ステータスバーの時計の設定を同期しない</string>
     <string name="system_ui_disable_clock_synch_desc">通知シェードの大きな時計はステータスバーの時計の形式と同期されなくなります</string>
     <string name="system_ui_statusbar_clock_show">表示</string>
@@ -800,13 +796,10 @@
     <string name="system_ui_control_center_rounded_rect_radius">角丸の半径</string>
     <string name="system_ui_control_center_fix_tiles_list">さらに輝度を下げるタイルの非表示を無効化</string>
     <string name="system_ui_shade_header_gradient_blur">コントロールセンターと通知シェードの上部をぼかす</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">コントロールセンターと通知シェードを切り替える</string>
     <string name="system_ui_control_center_hide_operator">キャリア名のカスタマイズ</string>
     <string name="system_ui_control_center_hide_delimiter">区切り文字のみ非表示</string>
     <string name="system_ui_control_center_hide_display_device_name">デバイス名の表示</string>
     <string name="system_ui_control_center_hide_name">すべての名前を非表示</string>
-    <string name="system_ui_control_center_notifrowmenu">拡張通知メニュー</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">アプリ情報を開く、強制停止、フローティングウィンドウで開く機能を通知メニューに追加します (通知を左にスワイプすると開けます)</string>
     <string name="system_ui_controlcenter_new_title">新しいコントロールセンター</string>
     <string name="system_ui_controlcenter_old_title">従来のコントロールセンター</string>
     <string name="system_ui_controlcenter_unlock_old_title">コントロールセンターのスタイルをアンロック</string>
@@ -865,7 +858,6 @@
     <string name="system_ui_volume_collpased_column_press">長押しで二次音量バーを展開する</string>
     <string name="system_ui_volume_collpased_column_press_desc">この機能が有効な場合、展開ボタンはオフになります。</string>
     <string name="system_ui_volume_hide_foot_button">サイレントボタンと DND ボタンを非表示</string>
-    <string name="system_ui_volume_timer">拡張されたタイマー</string>
     <string name="system_ui_plugin_enable_volume_blur">音量バーのぼかしを有効化</string>
     <string name="system_ui_move_log_to_miui">statusbar_gestures.dat を MIUI ディレクトリに移動する</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">GPU 負荷が高くなる可能性があります</string>
@@ -892,7 +884,6 @@
     <string name="system_usb_reverse_charge">リバース充電</string>
     <string name="system_usb_tethering">USB テザリング</string>
     <string name="system_settings_connection_sharing_title">ネットワーク接続と共有</string>
-    <string name="system_settings_lang_menu_shouw_all_app">言語管理メニューにすべてのアプリを表示</string>
     <string name="system_settings_new_nfc_page">新しい NFC ページ</string>
     <string name="system_settings_new_nfc_page_desc">これを有効にすると、サポートされていないモデルではデフォルトの支払いアプリとしてMiウォレットを選択できません</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">Xiaomi HyperAI をアンロック</string>
@@ -907,10 +898,7 @@
     <string name="system_settings_restart_systemui_desc">変更を有効にするには、システム UI と設定のスコープを再起動する必要があります</string>
     <string name="system_settings_permission_show_app_up">アプリ一覧を検索せずに「他のアプリの上に重ねて表示」権限を表示</string>
     <string name="system_settings_permission_show_app_up_desc">「他のアプリの上に重ねて表示」の権限スイッチに直接移動する、古い動作を復元します</string>
-    <string name="system_settings_permission_unknown_origin_app">アプリ一覧を検索せずに「不明なアプリのインストール」権限を表示</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">「不明なアプリのインストール」の権限スイッチに直接移動する、グローバル版と同様の動作にします</string>
     <string name="system_settings_permission_accessibility">アプリ一覧を検索せずにユーザー補助サービスの権限を付与</string>
-    <string name="system_settings_permission_disable_install_unknown_verify">不明なパッケージのインストールの許可を有効にするときの認証を無効化</string>
     <string name="system_settings_develop_title">開発者オプション</string>
     <string name="system_settings_apps_freezer">「キャッシュに保存されたアプリの実行を停止」を強制的に表示</string>
     <string name="system_settings_apps_freezer_more">有効にすると開発者向けオプションで表示されますが、動作するかは不明です</string>
@@ -1062,8 +1050,6 @@
     <string name="home_layout_searchbar_title">検索バー</string>
     <string name="home_layout_searchbar_width">高さ</string>
     <string name="home_layout_seek_points">ページインジケーター</string>
-    <string name="home_layout_show_clock">時計を表示</string>
-    <string name="home_layout_show_clock_desc">時計ウィジェットがあるページでも、常に時刻が表示されます</string>
     <string name="home_layout_unlock_grids">レイアウトをアンロック</string>
     <string name="home_layout_unlock_grids_desc">ホーム画面のアイコンのレイアウトサイズ制限を削除します</string>
     <string name="home_layout_unlock_grids_new_x">列</string>
@@ -1074,7 +1060,6 @@
     <string name="home_layout_workspace_padding_top_desc">画面上部余白からのホーム画面の距離</string>
     <string name="home_layout_workspace_padding_horizontal_desc">画面の余白からホーム画面までの距離</string>
     <string name="home_layout_hotseats_height">高さ</string>
-    <string name="home_layout_hotseats_margin_top_desc">ページインジケーターの余白とドックの距離</string>
     <string name="home_layout_hotseats_margin_bottom_desc">画面下部余白からのドックの距離</string>
     <string name="home_layout_searchbar_margin_bottom_desc">画面下部余白と検索バーの距離</string>
     <string name="home_folder">フォルダ</string>
@@ -1174,7 +1159,6 @@
     <string name="home_title_hide_report_text_desc">アンインストールダイアログでレポートテキストを非表示にする</string>
     <string name="home_title_notif_color">通知ドットの背景色をカスタマイズ</string>
     <string name="home_title_notif_color_picker">カスタムカラー</string>
-    <string name="home_title_icon_size">アイコンのサイズ</string>
     <string name="home_recent">最近のタスク</string>
     <string name="home_recent_animation_speed">アニメーションの速度</string>
     <string name="home_recent_unlock_pin">アプリのピン留めをアンロック</string>
@@ -1262,13 +1246,6 @@
     <string name="home_other_shortcut_remove_restrictions">ショートカットの制限を削除</string>
     <string name="home_other_shortcut_background_blur_custom">ショートカットメニューのぼかし値</string>
     <string name="home_other_high_models">ランチャーをハイエンドモデルとして偽装</string>
-    <string name="home_recent_blur_level">ぼかしのレベル</string>
-    <string name="home_recent_complete_blur_plus">完全なぼかしプラス (実験的)</string>
-    <string name="home_recent_complete_blur">完全なぼかしを使用</string>
-    <string name="home_recent_test_blur">ぼかしをテスト</string>
-    <string name="home_recent_simple_blur">簡易的なぼかし</string>
-    <string name="home_recent_none_blur">ぼかしをなくす</string>
-    <string name="home_recent_none_blur_simple_anim">ぼかしをなくす (シンプルなアニメーション)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">デスクトップ設定のオプションをアンロック</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">アンロックしても機能が利用できない場合があります。一部の機能はシステムのサポートが必要です。</string>
     <string name="home_other_disable_prestart">アプリのプリロードを無効化</string>
@@ -1318,14 +1295,7 @@
     <string name="html_viewer_disable_cloud_control">クラウドコントロールを無効化</string>
     <!--App vault-->
     <string name="personal_assistant">アプリ保管庫</string>
-    <string name="personal_assistant_overlap_mode">-1画面を Fold スタイルにする</string>
-    <string name="personal_assistant_blur_model">パーソナルアシスタントのぼかし設定</string>
-    <string name="personal_assistant_blur_value">背景のスタイル</string>
-    <string name="personal_assistant_blurradius">パーソナルアシスタントのぼかし値</string>
-    <string name="personal_assistant_color">パーソナルアシスタントの色</string>
     <string name="personal_assistant_unlock_widget_count_limit">ウィジェット数の制限を解除</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width">ステータスバーのトラベル通知の最大幅を設定</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width_desc">この値を適切に調整すると、コンテンツが省略される問題を解決できます</string>
     <string name="personal_assistant_disable_lite_version">Lite バージョンを無効化</string>
     <string name="personal_assistant_widget_widget_blur_opt">ウィジェットのぼかしを最適化</string>
     <!--Battery and performance-->
@@ -1575,8 +1545,6 @@
     <string name="various_open_aosp_extremely_dark_title">さらに輝度を下げる</string>
     <string name="various_open_aosp_default_apps_title">デフォルトのアプリ</string>
     <string name="various_mipad_input_title">入力</string>
-    <string name="various_mipad_input_close_magic_title">Magic Pointer をオフにする</string>
-    <string name="various_mipad_input_close_magic_desc">Xiaomi Pad のマウスポインターを丸ではなく AOSP 版に戻します</string>
     <string name="various_mipad_input_restore_esc_title">ESC キー機能を復元</string>
     <string name="various_mipad_input_restore_esc_desc">Xiaomi Pad システムにより「戻る」機能に強制的に割り当てられた ESC キーを復元します</string>
     <string name="various_mipad_input_disable_bluetooth_title">スタイラスの Bluetooth 制限を解除</string>

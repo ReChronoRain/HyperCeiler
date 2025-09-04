@@ -514,7 +514,6 @@
     <string name="system_ui_lock_screen_show_battery_temperature">Pil sıcaklığını göster</string>
     <string name="system_ui_lock_screen_show_spacing">Ekran yenileme aralığı</string>
     <string name="system_ui_lock_screen_hide_camera">Camerayı gizle</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">Akıllı ekranı gizle</string>
     <string name="system_ui_lock_screen_current">Mevcut</string>
     <string name="system_ui_lock_screen_blur_button_radius">Arka plan bulanıklaştırma yarıçapı</string>
     <string name="system_ui_lock_screen_blur_button_bg_color">Arka plan rengi</string>
@@ -523,7 +522,6 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">DND modu bildirimini gizle</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Kilit açma isteğini gizle</string>
     <string name="system_ui_lock_screen_hide_status_bar">Durum çubuğunu kilit ekranından kaldır</string>
-    <string name="system_ui_lock_screen_block_editor_title">Kilit ekranı düzenleyicisine erişmek için uzun basmayı devre dışı bırakın</string>
     <string name="system_ui_lock_screen_allow_third_face">Sistemin üçüncü taraf tanımayı doğrulamasına izin ver</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Üçüncü taraf uygulamalar tarafından görüntülenen Kilit ekranında yüz tanıma ve parmak izinin normal şekilde kullanılmasına olanak tanır</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Bluetooth bildirimiyle kilidi açmayı devre dışı bırak</string>
@@ -643,7 +641,6 @@
     <string name="system_ui_statusbar_clock_desc">Saat biçimi örneği</string>
     <string name="system_ui_statusbar_clock_size">Saat boyutu</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Yalnızca iki satır halinde görüntülendiğinde geçerlidir</string>
-    <string name="system_ui_statusbar_clock_fix_color">Renk düzeltme</string>
     <string name="system_ui_statusbar_clock_pad_show">Pad ile alakalı</string>
     <string name="system_ui_disable_clock_synch">Durum çubuğu saat ayarları senkronize değil</string>
     <string name="system_ui_statusbar_clock_show">Göster</string>
@@ -690,12 +687,9 @@
     <string name="system_ui_control_center_rounded_rect">Yuvarlatılmış dikdörtgen döşeme</string>
     <string name="system_ui_control_center_statusbar_blur">Arka plan bulanıklığını zorla</string>
     <string name="system_ui_control_center_fix_tiles_list">Aşırı koyu döşemeleri gizlemeyi devre dışı bırak</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">Anahtar kontrol merkezi ve bildirim çekmecesi</string>
     <string name="system_ui_control_center_hide_delimiter">Yalnızca ayırıcılar gizli</string>
     <string name="system_ui_control_center_hide_display_device_name">Cihaz adını görüntüle</string>
     <string name="system_ui_control_center_hide_name">Tüm isimleri gizle</string>
-    <string name="system_ui_control_center_notifrowmenu">Genişletilmiş bildirim menüsü</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">Uygulama bilgilerini açın, uygulamayı kapatmaya zorlayın ve bildirim menüsünden kayan pencerede açın (açmak için bildirimi sola kaydırın)</string>
     <string name="system_ui_controlcenter_new_title">Yeni kontrol merkezi</string>
     <string name="system_ui_controlcenter_old_title">Eski kontrol merkezi</string>
     <string name="system_ui_controlcenter_unlock_old_title">Kontrol merkezi stillerinin kilidini aç</string>
@@ -733,7 +727,6 @@
     <string name="system_ui_qs_label">Hızlı geçiş sekmesi</string>
     <string name="system_ui_notification_title">Bildirim</string>
     <string name="system_ui_other_notification_fix">Bildirim beyaz listesini devre dışı bırak</string>
-    <string name="system_ui_volume_timer">Genişletilmiş zamanlayıcı</string>
     <string name="system_ui_plugin_enable_volume_blur">Ses çubuğu bulanıklığını etkinleştir</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Sadece Android12+ MTK modelleri için. Yüksek GPU yükü olabilir.</string>
     <!--Telecom-->
@@ -754,7 +747,6 @@
     <string name="system_usb_use_photo_transfers">Fotoğraf transferleri</string>
     <string name="system_usb_reverse_charge">Ters şarj</string>
     <string name="system_usb_tethering">USB bağlantısı</string>
-    <string name="system_settings_lang_menu_shouw_all_app">Dil yönetimi menüsündeki tüm uygulamaları göster</string>
     <string name="system_settings_new_nfc_page">Yeni NFC sayfası</string>
     <string name="system_settings_new_nfc_page_desc">Açıldıktan sonra, desteklenmeyen modeller için varsayılan ödeme uygulaması Xiaomi Cüzdan\'ı seçemiyor</string>
     <string name="system_settings_lab_title">Öne çıkan işlevler</string>
@@ -767,10 +759,7 @@
     <string name="system_settings_restart_systemui_desc">Değişikliklerin etkili olması için Sistem Kullanıcı Arayüzünü ve Ayarlar kapsamlarını yeniden başlatmanız gerekir</string>
     <string name="system_settings_permission_show_app_up">Uygulama listesinde arama yapmadan üst düzey izinler</string>
     <string name="system_settings_permission_show_app_up_desc">Eski davranışı geri yükleyin, doğrudan \"diğer uygulamaların üstünde görüntülenen” ilgili uygulamanın izin anahtarına atlayın</string>
-    <string name="system_settings_permission_unknown_origin_app">Uygulama listesini aramadan bilinmeyen uygulamaları yükleyin</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">Uluslararası yapıyı kullanın, diğer uygulamaların en üstünde görüntülenen ilgili uygulama izin anahtarına doğrudan atlayın.</string>
     <string name="system_settings_permission_accessibility">Liste uygulamalarında arama yapmadan erişilebilirlik hizmeti izinleri</string>
-    <string name="system_settings_permission_disable_install_unknown_verify">Bilinmeyen uygulamaları yüklerken doğrulamayı devre dışı bırakın</string>
     <string name="system_settings_develop_title">Geliştirici seçenekleri</string>
     <string name="system_settings_apps_freezer">Köpücü uygulamaların çalışmasını durdurmak için göstermeyi zorla</string>
     <string name="system_settings_apps_freezer_more">Qabilleştirildikten sonra, bu özelliği \"Geliştirici Seçenekleri\" içinde bulunabilir. Mevcut görüntüler için mevcut olması garantili değil</string>
@@ -888,8 +877,6 @@
     <string name="home_layout_hotseats_title">Yuva</string>
     <string name="home_layout_searchbar_title">Arama çubuğu</string>
     <string name="home_layout_seek_points">Sayfa göstergesi</string>
-    <string name="home_layout_show_clock">Görüntüleme süresi</string>
-    <string name="home_layout_show_clock_desc">Saat widget\'ının bulunduğu sayfa her zaman saati görüntüler</string>
     <string name="home_layout_unlock_grids">Düzenin kilidini aç</string>
     <string name="home_layout_unlock_grids_desc">Ana ekran simgesi düzen boyutu sınırının kilidini aç</string>
     <string name="home_layout_unlock_grids_no_words">Düzenin kilidini aç (kelime modu yok)</string>
@@ -898,7 +885,6 @@
     <string name="home_layout_workspace_padding_top_desc">Ana ekranın ekran üst kenar boşluğuna uzaklığı</string>
     <string name="home_layout_workspace_padding_horizontal_desc">Ana ekranın ekran yan kenar boşluğuna uzaklığı</string>
     <string name="home_layout_hotseats_height">Yükseklik</string>
-    <string name="home_layout_hotseats_margin_top_desc">Sayfa göstergesi kenar boşluğundan yerleştirme mesafesi</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Ekranın alt kenar boşluğundan yerleştirme mesafesi</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Ekranın alt kenar boşluğundan arama çubuğu mesafesi</string>
     <string name="home_folder">Klasör</string>
@@ -1052,13 +1038,6 @@
     <string name="home_other_shortcut_remove_restrictions">Kısayollardaki kısıtlamaları kaldırın</string>
     <string name="home_other_shortcut_background_blur_custom">Kısayol menüsü bulanıklık değeri</string>
     <string name="home_other_high_models">Üst düzey bir model olarak zorunlu tanınma</string>
-    <string name="home_recent_blur_level">Bulanıklık seviyesi</string>
-    <string name="home_recent_complete_blur_plus">Tam Bulanıklık Artı</string>
-    <string name="home_recent_complete_blur">Tam Bulanıklık</string>
-    <string name="home_recent_test_blur">Test bulanıklığı</string>
-    <string name="home_recent_simple_blur">Basit Bulanıklık</string>
-    <string name="home_recent_none_blur">Bulanıklık Yok</string>
-    <string name="home_recent_none_blur_simple_anim">Bulanıklık yok (Basit animasyon)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">Ana ekran ayarları için daha fazla seçeneğin kilidini açın</string>
     <string name="home_other_disable_prestart">Uygulama ön yüklemesini devre dışı bırak</string>
     <!--Gallery Editor-->
@@ -1099,14 +1078,7 @@
     <string name="html_viewer_disable_cloud_control">Bulut denetimini devre dışı bırak</string>
     <!--App vault-->
     <string name="personal_assistant">Uygulama kasası</string>
-    <string name="personal_assistant_overlap_mode">Negatif bir ekran Katlama stili</string>
-    <string name="personal_assistant_blur_model">Kişisel asistan bulanıklık modeli</string>
-    <string name="personal_assistant_blur_value">Arkaplan stili</string>
-    <string name="personal_assistant_blurradius">Kişisel asistan bulanıklık değeri</string>
-    <string name="personal_assistant_color">Kişisel asistan rengi</string>
     <string name="personal_assistant_unlock_widget_count_limit">Widget\'ların sayım sınırını kaldırın</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width">Seyahat bildirimi odağını durum çubuğunda ayarla</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width_desc">Görüntülenen içeriğin atlanması sorununu çözmek için bu değeri uygun şekilde ayarlayın</string>
     <string name="personal_assistant_disable_lite_version">Lite sürümünü devre dışı bırak</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Pil ve performans</string>

@@ -18,26 +18,10 @@
 */
 package com.sevtinge.hyperceiler.hooker.various;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-
-import androidx.preference.SwitchPreference;
-
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.R;
 
 public class MiPadSettings extends DashboardFragment {
-    SwitchPreference magic;
-
-
     @Override
     public int getPreferenceScreenResId() { return R.xml.various_mipad; }
-
-    @Override
-    public void initPrefs() {
-        magic = findPreference("prefs_key_mipad_input_close_magic");
-
-        if (isMoreHyperOSVersion(2f)) {
-            setFuncHint(magic, 2);
-        }
-    }
 }

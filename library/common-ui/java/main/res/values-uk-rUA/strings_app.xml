@@ -530,7 +530,6 @@
     <string name="system_ui_lock_screen_show_battery_temperature">Показувати температуру батареї</string>
     <string name="system_ui_lock_screen_show_spacing">Інтервал оновлення дисплея</string>
     <string name="system_ui_lock_screen_hide_camera">Приховати камеру</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">Приховати ярлик</string>
     <string name="system_ui_lock_screen_bottom_left_button">Ліва кнопка внизу</string>
     <string name="system_ui_lock_screen_current">Струм</string>
     <string name="system_ui_lock_screen_blur_button">Розмиття кнопок екрана блокування</string>
@@ -544,7 +543,6 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">Приховати сповіщення режиму \"Не турбувати\"</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Приховати поради щодо розблокування внизу</string>
     <string name="system_ui_lock_screen_hide_status_bar">Приховати рядок стану на екрані блокування</string>
-    <string name="system_ui_lock_screen_block_editor_title">Вимкнути доступ до редактора екрана блокування довгим натисканням</string>
     <string name="system_ui_lock_screen_allow_third_face">Дозволити стороннім екранам блокування активувати системну перевірку</string>
     <string name="system_ui_lock_screen_allow_third_face_desc">Дозволити нормальне використання розблокування обличчям та відбитком пальця на екранах блокування сторонніх додатків</string>
     <string name="system_ui_lock_screen_disable_unlock_by_ble_toast">Приховати спливаюче повідомлення про розблокування пристроями Bluetooth</string>
@@ -670,12 +668,10 @@
     <string name="system_ui_statusbar_clock_desc">Приклад формату годинника</string>
     <string name="system_ui_statusbar_clock_size">Розмір годинника</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Діє лише при відображенні у два рядки</string>
-    <string name="system_ui_statusbar_clock_fix_color">Виправити аномальний колір при інверсії кольору годинника</string>
     <string name="system_ui_statusbar_clock_pad_show">Пов\'язано з планшетом</string>
     <string name="system_ui_statusbar_clock_pad_hide">Приховати годинник з датою в рядку стану</string>
     <string name="system_ui_statusbar_clock_layout_p">Годинник з датою в рядку стану</string>
     <string name="system_ui_statusbar_clock_editor_p">Формат годинника з датою в рядку стану</string>
-    <string name="system_ui_disable_clock_anim">Вимкнути анімацію ковзання годинника в шторці сповіщень</string>
     <string name="system_ui_disable_clock_synch">Не синхронізувати налаштування годинника рядка стану</string>
     <string name="system_ui_disable_clock_synch_desc">Великий годинник у шторці сповіщень більше не синхронізується з форматом годинника в рядку стану</string>
     <string name="system_ui_statusbar_clock_show">Показати</string>
@@ -759,13 +755,10 @@
     <string name="system_ui_control_center_rounded_rect_radius">Радіус закруглення</string>
     <string name="system_ui_control_center_fix_tiles_list">Розблокувати приховані плитки центру керування</string>
     <string name="system_ui_shade_header_gradient_blur">Розмити верхню частину центру керування та шторки сповіщень</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">Перемикання центру керування та шторки сповіщень</string>
     <string name="system_ui_control_center_hide_operator">Налаштувати назву оператора</string>
     <string name="system_ui_control_center_hide_delimiter">Приховати роздільники назви оператора</string>
     <string name="system_ui_control_center_hide_display_device_name">Відображати назву пристрою</string>
     <string name="system_ui_control_center_hide_name">Приховати всі назви</string>
-    <string name="system_ui_control_center_notifrowmenu">Розширене меню сповіщень</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">Відкрити інформацію про додаток, примусово закрити додаток та відкрити у плаваючому вікні з меню сповіщень (проведіть сповіщення вліво, щоб відкрити його)</string>
     <string name="system_ui_controlcenter_new_title">Новий центр керування</string>
     <string name="system_ui_controlcenter_old_title">Старий центр керування</string>
     <string name="system_ui_controlcenter_unlock_old_title">Розблокувати стилі центру керування</string>
@@ -821,7 +814,6 @@
     <string name="system_ui_plugin_volume_title">Панель гучності</string>
     <string name="system_ui_volume_collpased_column_press">Утримуйте, щоб розгорнути додаткову панель гучності</string>
     <string name="system_ui_volume_collpased_column_press_desc">Кнопка розгортання буде вимкнена, коли ця функція увімкнена.</string>
-    <string name="system_ui_volume_timer">Розширений таймер</string>
     <string name="system_ui_plugin_enable_volume_blur">Увімкнути розмиття панелі гучності</string>
     <string name="system_ui_move_log_to_miui">Перемістити statusbar_gestures.dat до каталогу MIUI</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Може призвести до високого навантаження на ГП</string>
@@ -848,7 +840,6 @@
     <string name="system_usb_reverse_charge">Реверсивна зарядка</string>
     <string name="system_usb_tethering">USB-модем</string>
     <string name="system_settings_connection_sharing_title">Підключення та спільний доступ</string>
-    <string name="system_settings_lang_menu_shouw_all_app">Показувати всі додатки в меню керування мовою</string>
     <string name="system_settings_new_nfc_page">Нова сторінка NFC</string>
     <string name="system_settings_new_nfc_page_desc">Ця функція запобігатиме вибору Xiaomi Wallet як додатка за замовчуванням на непідтримуваних моделях</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">Розблокувати Xiaomi HyperAI</string>
@@ -863,10 +854,7 @@
     <string name="system_settings_restart_systemui_desc">Вам потрібно перезапустити області дії System UI та Налаштувань, щоб зміни набули чинності</string>
     <string name="system_settings_permission_show_app_up">Прямий дозвіл на відображення поверх інших додатків</string>
     <string name="system_settings_permission_show_app_up_desc">Відновити стару поведінку, переходячи безпосередньо до відповідного дозволу додатка на відображення поверх інших.</string>
-    <string name="system_settings_permission_unknown_origin_app">Прямий дозвіл на встановлення невідомих додатків</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">Використовувати поведінку міжнародної збірки, переходячи безпосередньо до відповідного дозволу додатка на встановлення невідомих додатків.</string>
     <string name="system_settings_permission_accessibility">Прямі дозволи служби доступності</string>
-    <string name="system_settings_permission_disable_install_unknown_verify">Вимкнути перевірку увімкнення невідомого джерела</string>
     <string name="system_settings_develop_title">Параметри розробника</string>
     <string name="system_settings_apps_freezer">Примусово показувати заморожені кешовані додатки</string>
     <string name="system_settings_apps_freezer_more">Після ввімкнення цю функцію можна знайти в параметрах розробника, але її функціональність не гарантується.</string>
@@ -1014,8 +1002,6 @@
     <string name="home_layout_searchbar_title">Панель пошуку</string>
     <string name="home_layout_searchbar_width">Висота</string>
     <string name="home_layout_seek_points">Індикатор сторінки</string>
-    <string name="home_layout_show_clock">Відображати час</string>
-    <string name="home_layout_show_clock_desc">Сторінка з віджетом годинника завжди відображатиме час</string>
     <string name="home_layout_unlock_grids">Розблокувати макет</string>
     <string name="home_layout_unlock_grids_desc">Розблокувати обмеження розміру макета іконок головного екрана</string>
     <string name="home_layout_unlock_grids_new_x">Стовпці</string>
@@ -1026,7 +1012,6 @@
     <string name="home_layout_workspace_padding_top_desc">Відстань головного екрана від верхнього краю екрана</string>
     <string name="home_layout_workspace_padding_horizontal_desc">Відстань головного екрана від бічних країв екрана</string>
     <string name="home_layout_hotseats_height">Висота</string>
-    <string name="home_layout_hotseats_margin_top_desc">Відстань док-панелі від індикатора сторінки</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Відстань док-панелі від нижнього краю екрана</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Відстань панелі пошуку від нижнього краю екрана</string>
     <string name="home_folder">Папка</string>
@@ -1123,7 +1108,6 @@
     <string name="home_title_hide_report_text_desc">Приховати текст звіту в діалоговому вікні видалення</string>
     <string name="home_title_notif_color">Налаштування кольору фону крапки сповіщень</string>
     <string name="home_title_notif_color_picker">Користувацький колір</string>
-    <string name="home_title_icon_size">Розмір іконки</string>
     <string name="home_recent">Нещодавні</string>
     <string name="home_recent_animation_speed">Швидкість анімації</string>
     <string name="home_recent_unlock_pin">Розблокувати закріплені додатки</string>
@@ -1210,13 +1194,6 @@
     <string name="home_other_shortcut_remove_restrictions">Зняти обмеження на ярлики</string>
     <string name="home_other_shortcut_background_blur_custom">Значення розмиття меню ярликів</string>
     <string name="home_other_high_models">Підмінити лаунчер на модель високого класу</string>
-    <string name="home_recent_blur_level">Рівень розмиття</string>
-    <string name="home_recent_complete_blur_plus">Повне розмиття плюс (Експериментально)</string>
-    <string name="home_recent_complete_blur">Повне розмиття</string>
-    <string name="home_recent_test_blur">Тестове розмиття</string>
-    <string name="home_recent_simple_blur">Просте розмиття</string>
-    <string name="home_recent_none_blur">Без розмиття</string>
-    <string name="home_recent_none_blur_simple_anim">Без розмиття (Проста анімація)</string>
     <string name="home_other_mi_pad_enable_more_setting_title">Розблокувати більше опцій для налаштувань головного екрана</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">Розблоковані функції можуть бути недоступні, а деякі функції вимагають підтримки на рівні системи.</string>
     <string name="home_other_disable_prestart">Вимкнути попереднє завантаження додатків</string>
@@ -1266,14 +1243,7 @@
     <string name="html_viewer_disable_cloud_control">Вимкнути хмарний контроль</string>
     <!--App vault-->
     <string name="personal_assistant">Особистий асистент</string>
-    <string name="personal_assistant_overlap_mode">Складаний стиль Особистого асистента</string>
-    <string name="personal_assistant_blur_model">Налаштування розмиття Особистого асистента</string>
-    <string name="personal_assistant_blur_value">Стиль фону</string>
-    <string name="personal_assistant_blurradius">Значення розмиття Особистого асистента</string>
-    <string name="personal_assistant_color">Колір Особистого асистента</string>
     <string name="personal_assistant_unlock_widget_count_limit">Розблокувати ліміт кількості віджетів</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width">Встановити фокус сповіщення про поїздку в рядку стану</string>
-    <string name="personal_assistant_set_tv_notif_info_max_width_desc">Налаштуйте це значення відповідним чином, щоб вирішити проблему пропущеного вмісту</string>
     <string name="personal_assistant_disable_lite_version">Вимкнути спрощену версію</string>
     <string name="personal_assistant_widget_widget_blur_opt">Оптимізувати розмиття віджетів</string>
     <!--Battery and performance-->
@@ -1511,8 +1481,6 @@
     <string name="various_open_aosp_extremely_dark_title">Екстра затемнення</string>
     <string name="various_open_aosp_default_apps_title">Додатки за замовчуванням</string>
     <string name="various_mipad_input_title">Введення</string>
-    <string name="various_mipad_input_close_magic_title">Без магічного вказівника</string>
-    <string name="various_mipad_input_close_magic_desc">Видалити круглий вказівник миші та повернутися до стандартного вказівника миші Android</string>
     <string name="various_mipad_input_restore_esc_title">Відновити функцію ESC</string>
     <string name="various_mipad_input_disable_bluetooth_title">Зняти обмеження Bluetooth для стилуса</string>
     <string name="various_mipad_input_disable_bluetooth_desc">Дозволити всім сумісним стилусам працювати без необхідності підключення до офіційного стилуса через Bluetooth.</string>

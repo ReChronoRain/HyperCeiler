@@ -36,7 +36,6 @@ import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiBackgroundBlu
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setPassWindowBlurEnabled
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.hook.utils.setBooleanField
@@ -45,9 +44,6 @@ import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFi
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 object BlurButton : BaseHook() {
-    private val removeLeft by lazy {
-        mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen")
-    }
     private val removeRight by lazy {
         mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera")
     }
@@ -93,7 +89,7 @@ object BlurButton : BaseHook() {
             context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
         if (keyguardManager.isKeyguardLocked) {
-            mLeftAffordanceView.background = if (!removeLeft) {
+            mLeftAffordanceView.background = if (leftButtonType != 1) {
                 setNewBackgroundBlur(mLeftAffordanceView)
             } else null
             mRightAffordanceView.background = if (!removeRight) {
@@ -112,7 +108,7 @@ object BlurButton : BaseHook() {
         val mRightAffordanceView: ImageView =
             param.thisObject.getObjectFieldOrNullAs<ImageView>("mRightButton")!!
 
-        if ((!removeLeft && isHyperOSVersion(1f)) || leftButtonType != 1) {
+        if (leftButtonType != 1) {
             addHyBlur(mLeftAffordanceView)
         }
         if (!removeRight) {

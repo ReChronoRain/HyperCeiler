@@ -42,7 +42,6 @@ import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiBackgroundBle
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.colorFilter
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isDarkMode
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import de.robv.android.xposed.XposedHelpers
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -65,27 +64,25 @@ class MediaControlPanelBackgroundMix : BaseHook() {
             var darkModeStatus: Boolean? = null
 
             // 导致拖动 SeekBar 改变歌曲标题/艺术家名字颜色的实际位置不在这里，目前暂时作为代替解决方案。
-            if (isMoreHyperOSVersion(2f)) {
-                seekBarObserver?.methodFinder()?.filterByName("onChanged")?.first()
-                    ?.createBeforeHook {
-                        val context = AndroidAppHelper.currentApplication().applicationContext
-                        val isBackgroundBlurOpened =
-                            XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
-                        val mMediaViewHolder =
-                            it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("holder")
-                                ?: return@createBeforeHook
-                        val titleText =
-                            mMediaViewHolder.getObjectFieldOrNullAs<TextView>("titleText")
-                        val artistText = mMediaViewHolder.getObjectFieldOrNullAs<TextView>("artistText")
-                        val grey = if (isDarkMode()) Color.LTGRAY else Color.DKGRAY
-                        val color = if (isDarkMode()) Color.WHITE else Color.BLACK
+            seekBarObserver?.methodFinder()?.filterByName("onChanged")?.first()
+                ?.createBeforeHook {
+                    val context = AndroidAppHelper.currentApplication().applicationContext
+                    val isBackgroundBlurOpened =
+                        XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
+                    val mMediaViewHolder =
+                        it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("holder")
+                            ?: return@createBeforeHook
+                    val titleText =
+                        mMediaViewHolder.getObjectFieldOrNullAs<TextView>("titleText")
+                    val artistText = mMediaViewHolder.getObjectFieldOrNullAs<TextView>("artistText")
+                    val grey = if (isDarkMode()) Color.LTGRAY else Color.DKGRAY
+                    val color = if (isDarkMode()) Color.WHITE else Color.BLACK
 
-                        if (isBackgroundBlurOpened) {
-                            artistText?.setTextColor(grey)
-                            titleText?.setTextColor(color)
-                        }
+                    if (isBackgroundBlurOpened) {
+                        artistText?.setTextColor(grey)
+                        titleText?.setTextColor(color)
                     }
-            }
+                }
 
             var mediaControlPanelInstance: Any? = null
             miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()
@@ -138,7 +135,6 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         artistText?.setTextColor(grey)
                         elapsedTimeView?.setTextColor(grey)
                         totalTimeView?.setTextColor(grey)
-                        if (!isMoreHyperOSVersion(2f)) titleText?.setTextColor(grey)
                         action0?.setColorFilter(color)
                         action1?.setColorFilter(color)
                         action2?.setColorFilter(color)

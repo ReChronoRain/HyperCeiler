@@ -35,11 +35,8 @@ object SwapWiFiAndMobileNetwork : BaseHook() {
     }
 
     override fun init() {
-        val statusBarIconListClass = if (isMoreHyperOSVersion(2f)) {
+        val statusBarIconListClass =
             loadClass("com.android.systemui.statusbar.phone.ui.StatusBarIconList")
-        } else {
-            loadClass("com.android.systemui.statusbar.phone.StatusBarIconList")
-        }
 
         statusBarIconListClass.constructorFinder()
             .filterByParamTypes { it[0] == Array<String>::class.java }

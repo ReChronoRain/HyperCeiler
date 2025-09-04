@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.hook.module.hook.systemsettings;
 
 import static com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -98,11 +97,7 @@ public class HyperCeilerSettings extends BaseHook {
                     position++;
                     long id = XposedHelpers.getLongField(head, "id");
                     if (opt == 1) {
-                        if (isMoreHyperOSVersion(2f)) {
-                            if (id == device) headers.add(position, header);
-                        } else {
-                            if (id == -1) headers.add(position - 1, header);
-                        }
+                        if (id == device) headers.add(position, header);
                     } else if (opt == 2 && id == themes) {
                         headers.add(position, header);
                     } else if (opt == 3 && id == (PropUtils.getProp("ro.miui.ui.version.code", 0) < 14 ? special : timer)) {

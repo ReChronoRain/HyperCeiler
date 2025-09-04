@@ -26,11 +26,8 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object DisableBottomBar : BaseHook() {
     override fun init() {
-        val clazzMiuiBaseWindowDecoration = if (isMoreAndroidVersion(35)) {
+        val clazzMiuiBaseWindowDecoration =
             loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiBottomDecoration", lpparam.classLoader)
-        } else {
-            loadClass("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration", lpparam.classLoader)
-        }
 
         clazzMiuiBaseWindowDecoration.methodFinder().filterByName("createBottomCaption").first()
             .createHook {

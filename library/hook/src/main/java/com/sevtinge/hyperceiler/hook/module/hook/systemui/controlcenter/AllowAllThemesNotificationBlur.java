@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
@@ -80,10 +78,6 @@ public class AllowAllThemesNotificationBlur extends BaseHook {
     public void init() throws NoSuchMethodException {
         findAndHookMethod("com.android.systemui.shade.MiuiNotificationPanelViewController$MiuiConfigurationListener", "onMiBlurChanged", boolean.class, FORCE_THEME_HOOK);
 
-        if (isMoreHyperOSVersion(2f)) {
-            findAndHookMethod("com.miui.systemui.notification.MiuiBaseNotifUtil", "isBackgroundBlurOpened", Context.class, BLUR_HOOK);
-        } else {
-            findAndHookMethod("com.android.systemui.statusbar.notification.NotificationUtil", "isBackgroundBlurOpened", Context.class, BLUR_HOOK);
-        }
+        findAndHookMethod("com.miui.systemui.notification.MiuiBaseNotifUtil", "isBackgroundBlurOpened", Context.class, BLUR_HOOK);
     }
 }
