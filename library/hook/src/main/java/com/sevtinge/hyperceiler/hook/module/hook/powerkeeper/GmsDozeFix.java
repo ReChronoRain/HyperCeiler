@@ -31,18 +31,40 @@ import de.robv.android.xposed.XposedHelpers;
 public class GmsDozeFix extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Class<?> GmsObserver = findClassIfExists("com.miui.powerkeeper.utils.GmsObserver", lpparam.classLoader);
-        findAndHookMethod(GmsObserver, "initGmsControl", new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) {
-                param.setResult(null);
-            }
-        });
+        Class<?> GmsObserver = findClassIfExists("com.miui.powerkeeper.utils.GmsObserver");
 
         findAndHookMethod(GmsObserver, "updateGmsNetWork", boolean.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
-                param.setResult(null);
+                param.args[0] = true;
+            }
+        });
+
+        findAndHookMethod(GmsObserver, "updateGmsAlarm", boolean.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                param.args[0] = true;
+            }
+        });
+
+        findAndHookMethod(GmsObserver, "updateGoogleReletivesWakelock", boolean.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                param.args[0] = true;
+            }
+        });
+
+        findAndHookMethod(GmsObserver, "updateGoogleSync", boolean.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                param.args[0] = true;
+            }
+        });
+
+        findAndHookMethod(GmsObserver, "updateGoogleBackup", boolean.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                param.args[0] = true;
             }
         });
 
@@ -54,8 +76,9 @@ public class GmsDozeFix extends BaseHook {
         });
 
         try {
-            Class<?> MilletPolicy = findClass("com.miui.powerkeeper.millet.MilletPolicy", lpparam.classLoader);
-            findAndHookConstructor("com.miui.powerkeeper.millet.MilletPolicy", Context.class, new MethodHook() {
+            Class<?> MilletPolicy = findClassIfExists("com.miui.powerkeeper.millet.MilletPolicy", lpparam.classLoader);
+            if (MilletPolicy == null) return;
+            findAndHookConstructor(MilletPolicy, Context.class, new MethodHook() {
                 protected void before(MethodHookParam methodHookParam) throws Throwable {
                     super.after(methodHookParam);
                     boolean mSystemBlackList = false;
