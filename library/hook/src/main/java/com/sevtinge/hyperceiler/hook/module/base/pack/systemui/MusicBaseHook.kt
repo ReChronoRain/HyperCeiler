@@ -103,10 +103,18 @@ abstract class MusicBaseHook : BaseHook() {
         createNotificationChannel()
         val modRes = OtherTool.getModuleRes(context)
         val isClickClock = mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
+        val musicAppName  = try {
+            val appInfo = context.packageManager.getApplicationInfo(extraData.packageName, 0)
+            context.packageManager.getApplicationLabel(appInfo).toString()
+        } catch (e: Exception) {
+            logE(TAG,e)
+            extraData.packageName
+        }
         val launchIntent = context.packageManager.getLaunchIntentForPackage(extraData.packageName)
         // 图标处理
         val basebitmap = base64ToDrawable(extraData.base64Icon)
-        val bitmap = basebitmap ?: context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
+        val musicAppIcon = context.packageManager.getActivityIcon(launchIntent!!).toBitmap()
+        val bitmap = basebitmap ?: musicAppIcon
         val icon: Icon =
             Icon.createWithBitmap(bitmap).apply { if (basebitmap != null) setTint(Color.WHITE) }
         val dartIcon: Icon =
@@ -122,6 +130,15 @@ abstract class MusicBaseHook : BaseHook() {
         val tf = extraData.translation
         // 对唱对齐方式，有性能问题放弃
         // val dule = extraData.extra?.getBoolean(KEY_DUTE,false)?:false
+
+        //分享配置
+        val shareData = IslandApi.ShareData(
+            title = "分享歌词",
+            content = "松开即发送",
+            sharePic = "miui.focus.share_icon",
+            pic = "miui.focus.share_icon",
+            shareContent = "我从$musicAppName"+"分享了如下歌词:\n$text"
+        )
         // 应用图标传入，在大于等于6个字符的时候不传
         val picInfo = if (lefttext.length <= 6) {
             IslandApi.PicInfo(
@@ -160,6 +177,7 @@ abstract class MusicBaseHook : BaseHook() {
         )
         //金凡岛布局组装
         val Island = IslandApi.IslandTemplate(
+            shareData = shareData,
             islandOrder = true,
             bigIslandArea = bigIsland,
             smallIslandArea = smallIsland
@@ -167,6 +185,7 @@ abstract class MusicBaseHook : BaseHook() {
         //金凡岛图标资源添加
         val iconsAdd = Bundle()
         iconsAdd.putParcelable("miui.focus.icon", icon)
+        iconsAdd.putParcelable("miui.focus.share_icon", Icon.createWithBitmap(musicAppIcon))
 
         // 需要重启音乐软件生效
         val pendingIntent = if (isClickClock) {
