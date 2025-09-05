@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitc
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableLowApiCheckForB;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableMiuiWatermark;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisablePersistent;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableRemoveFingerprintSensorConfig;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableThermal;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.EffectBinderProxy;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FlagSecure;
@@ -42,11 +43,17 @@ public class SystemFrameworkB extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // 核心破解
-        initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));
+        initHook(BypassSignCheckForT.INSTANCE,
+            (mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"))
+            && mPrefsMap.getBoolean("system_framework_core_patch_enable")
+        );
         initHook(new BypassIsolationViolation(), mPrefsMap.getBoolean("system_framework_core_patch_bypass_isolation_violation"));
         initHook(new AllowUpdateSystemApp(), mPrefsMap.getBoolean("system_framework_core_patch_allow_update_system_app"));
         initHook(new DisableLowApiCheckForB(), mPrefsMap.getBoolean("system_framework_disable_low_api_check"));
         initHook(new DisablePersistent(), mPrefsMap.getBoolean("system_framework_disable_persistent"));
+
+        // 修复 A16 移植包开启核心破解后掉指纹，仅作备选项
+        initHook(DisableRemoveFingerprintSensorConfig.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_unloss_fingerprint"));
 
         // 显示
         initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));

@@ -520,6 +520,8 @@
     <string name="system_framework_core_patch_shared_user_desc">允许安装与其共享用户签名不同的应用，此功能极度危险，仅在绝对需要时启用</string>
     <string name="system_framework_core_patch_digest_creak">禁用 APK 签名验证</string>
     <string name="system_framework_core_patch_digest_creak_desc">允许直接覆盖安装同包名不同签名的应用</string>
+    <string name="system_framework_core_patch_exact_signature_check">禁用分包签名匹配</string>
+    <string name="system_framework_core_patch_exact_signature_check_desc">禁用分包内多个 APK 间的签名匹配，允许每个 APK 拆分具有不同签名时进行安装，仅在需要时启用</string>
     <string name="system_framework_core_patch_use_pre_signature">安装时始终使用已安装应用的签名</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">此功能极度危险，仅在绝对需要时启用</string>
     <string name="system_framework_disable_low_api_check">禁用低 API 校验</string>
@@ -534,6 +536,8 @@
     <string name="system_framework_core_patch_bypass_isolation_violation_desc">允许第三方应用安装系统应用</string>
     <string name="system_framework_core_patch_allow_update_system_app">允许安装系统应用</string>
     <string name="system_framework_core_patch_allow_update_system_app_desc">允许在被禁用更新系统应用时安装系统应用</string>
+    <string name="system_framework_core_patch_unloss_fingerprint">禁用重置指纹</string>
+    <string name="system_framework_core_patch_unloss_fingerprint_desc">也许能解决开启包管理服务部分功能后，重启设备导致指纹被重置的问题，仅供遇到此问题的设备使用</string>
     <!--浏览器-->
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>

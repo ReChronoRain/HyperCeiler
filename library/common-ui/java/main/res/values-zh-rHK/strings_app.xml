@@ -24,7 +24,7 @@
     <string name="new_cta_agree_desc">在使用過程中，為了向您提供更多功能，我們可能會向您申請 Root/Su 權限。您可隨時前往權限管理調整所有權限的授權情况，Root 權限請前往您的 Root 管理器進行管理.</string>
     <string name="new_cta_app_main_purpose">修改系統應用程式</string>
     <string name="new_cta_app_all_purpose_welcome">使用者協議及私隱政策</string>
-    <string name="new_cta_app_all_purpose_title">歡迎使用 HyperCeiler，該應用依賴 Xposed 框架運行，您可以使用該應用程式劫持並修改其他受支持的應用以實現對系統的增強功能。在使用過程中，為了向您提供更多功能，我們可能會向您申請 Root 權限。您可隨時前往您的 Root 管理器進行管理。\n繼續使用 HyperCeiler 即代表您同意我們的《使用者協議》及《私隱政策》。</string>
+    <string name="new_cta_app_all_purpose_title">歡迎使用 HyperCeiler，該應用依賴 Xposed 框架運行，您可以使用該應用程式劫持並修改其他受支持的應用以實現對系統的增強功能。在使用過程中，為了向您提供更多功能，我們可能會向您申請 Root 權限。您可隨時前往您的 Root 管理器進行管理。\n繼續使用 HyperCeiler 即代表您同意我們的<annotation key="protocol">《使用者協議》</annotation>及<annotation key="privacy">《私隱政策》</annotation>。</string>
     <string name="new_cta_app_all_purpose_agree">同意並繼續</string>
     <string name="new_cta_app_all_purpose_reject">拒絕並退出</string>
     <!--HyperCeiler Settings/About Page-->
