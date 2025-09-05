@@ -508,6 +508,8 @@
     <string name="system_framework_core_patch_shared_user_desc">Allow installation of apps that differerent signature from shared user signatures. This feature is somewhat dangerous and should only be enabled when needed.</string>
     <string name="system_framework_core_patch_digest_creak">Disable APK signature verification</string>
     <string name="system_framework_core_patch_digest_creak_desc">Allow override app with different signatures</string>
+    <string name="system_framework_core_patch_exact_signature_check">Disable exact signature match</string>
+    <string name="system_framework_core_patch_exact_signature_check_desc">Disables exact signature match between apks, allowing installs with each apk split having a different signature. Only enable when really needed</string>
     <string name="system_framework_core_patch_use_pre_signature">Use installed app signatures</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">This feature is extremely dangerous and should only be enabled when absolutely necessary</string>
     <string name="system_framework_disable_low_api_check">Disable low API check</string>
@@ -522,6 +524,8 @@
     <string name="system_framework_core_patch_bypass_isolation_violation_desc">Allow third-party apps to install system apps</string>
     <string name="system_framework_core_patch_allow_update_system_app">Allow update system apps</string>
     <string name="system_framework_core_patch_allow_update_system_app_desc">Allow installation of system apps when updating system apps is disabled</string>
+    <string name="system_framework_core_patch_unloss_fingerprint">Disable reset fingerprint</string>
+    <string name="system_framework_core_patch_unloss_fingerprint_desc">May help resolve the issue where fingerprints are reset after reboot when certain package management services are enabled; intended for devices that encounter this problem only.</string>
     <!--Browser-->
     <string name="browser">Browser</string>
     <string name="browser_debug_mode">Unlock developer options</string>

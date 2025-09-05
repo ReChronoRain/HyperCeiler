@@ -46,7 +46,6 @@ import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.module.base.DataBase;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -115,7 +114,9 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
             EzXposed.initHandleLoadPackage(lpparam);
 
             // load CorePatch
-            new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
+            if (mPrefsMap.getBoolean("system_framework_core_patch_enable")) {
+                new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
+            }
 
             // load Module active hook
             if (ProjectApi.mAppModulePkg.equals(packageName)) {
@@ -146,16 +147,16 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
                 mXSharedPreferences.makeWorldReadable();
                 Map<String, ?> allPrefs = mXSharedPreferences.getAll();
 
-                if (allPrefs == null || allPrefs.isEmpty()) {
+                /*if (allPrefs == null || allPrefs.isEmpty()) {
                     mXSharedPreferences = new XSharedPreferences(new File(PrefsUtils.mPrefsFile));
                     mXSharedPreferences.makeWorldReadable();
                     allPrefs = mXSharedPreferences.getAll();
-                }
+                }*/
 
                 if (allPrefs != null && !allPrefs.isEmpty()) {
                     mPrefsMap.putAll(allPrefs);
                 } else {
-                    logE("[UID" + Process.myUid() + "]", "Cannot read SharedPreferences, some mods might not work!");
+                    logE("UID" + Process.myUid(), "Cannot read SharedPreferences, some mods might not work!");
                 }
             } catch (Throwable t) {
                 logE("setXSharedPrefs", t);

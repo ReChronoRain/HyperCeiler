@@ -20,7 +20,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/system_framework_corepatch_title"
     app:quick_restart="system">
-    <PreferenceCategory>
+    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_default_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_enable"
+            android:title="@string/enable" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_core_patch_downgr"
@@ -54,10 +59,19 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_exact_signature_check"
+            android:summary="@string/system_framework_core_patch_exact_signature_check_desc"
+            android:title="@string/system_framework_core_patch_exact_signature_check" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_core_patch_use_pre_signature"
             android:summary="@string/system_framework_core_patch_use_pre_signature_desc"
             android:title="@string/system_framework_core_patch_use_pre_signature" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_expand_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_disable_low_api_check"
@@ -89,4 +103,13 @@
             android:title="@string/system_framework_core_patch_allow_update_system_app" />
 
     </PreferenceCategory>
+
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_unloss_fingerprint"
+            android:summary="@string/system_framework_core_patch_unloss_fingerprint_desc"
+            android:title="@string/system_framework_core_patch_unloss_fingerprint" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
