@@ -147,16 +147,6 @@
             app:minValue="60"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceCompat
-            android:defaultValue="20"
-            android:dependency="prefs_key_home_layout_hotseats_margin_top_enable"
-            android:key="prefs_key_home_layout_hotseats_margin_top"
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
-            app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
-            app:maxValue="150"
-            app:stepValue="1" />
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_home_layout_hotseats_margin_bottom_enable"
