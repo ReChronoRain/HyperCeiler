@@ -28,6 +28,8 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.setIntField
 import kotlin.math.max
+import kotlin.math.min
+
 
 object LayoutRules : HomeBaseHook() {
     private const val PHONE_RULES = "com.miui.home.launcher.compat.PhoneDeviceRules"
@@ -138,7 +140,7 @@ object LayoutRules : HomeBaseHook() {
                     mPrefsMap.getInt(
                         "home_layout_workspace_padding_top",
                         0
-                    ).toFloat()
+                    )
                 )
             } else {
                 -1
@@ -149,18 +151,18 @@ object LayoutRules : HomeBaseHook() {
                     mPrefsMap.getInt(
                         "home_layout_workspace_padding_bottom",
                         0
-                    ).toFloat()
-                )
+                    )
+                ) 
             } else {
                 -1
-            }
+            } 
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
                 DisplayUtils.dp2px(
                     mPrefsMap.getInt(
                         "home_layout_workspace_padding_horizontal",
                         0
-                    ).toFloat()
+                    )
                 )
             } else {
                 -1
@@ -208,7 +210,7 @@ object LayoutRules : HomeBaseHook() {
                 rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
                     .callMethod("setValue", sWorkspacePaddingTop)
             }
-
+            
             if (isSetWSPaddingBottomHook) {
                 rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
                     .callMethod("setValue", sWorkspacePaddingBottom)
@@ -217,7 +219,7 @@ object LayoutRules : HomeBaseHook() {
             if (isSetWSPaddingSideHook) {
                 rules.setIntField(
                     "mWorkspaceCellSide",
-                    (mMaxGridWidth - currentCellWidth * currentCellCountX) / 2
+                    (mMaxGridWidth - (currentCellWidth * currentCellCountX))
                 )
             }
 
