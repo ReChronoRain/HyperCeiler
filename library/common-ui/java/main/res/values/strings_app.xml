@@ -98,7 +98,7 @@
     <string name="about_device_info_android">Android version</string>
     <string name="about_device_info_os">OS version</string>
     <string name="hyperceiler_notice">Pull down the status bar to display shortcut switches and system notifications</string>
-    <string name="debug_info" translatable="false">Cannot get debug info.</string>
+    <string name="debug_info">Cannot get debug info.</string>
     <string name="delete_all_dexkit_cache_desc">Are you sure you want to clear all DexKit cache?</string>
     <string name="delete_all_dexkit_cache_success">Successfully cleared all DexKit cache</string>
     <string name="set_homepage_entrance">Set up the homepage entry</string>
@@ -509,7 +509,7 @@
     <string name="system_framework_core_patch_digest_creak">Disable APK signature verification</string>
     <string name="system_framework_core_patch_digest_creak_desc">Allow override app with different signatures</string>
     <string name="system_framework_core_patch_exact_signature_check">Disable exact signature match</string>
-    <string name="system_framework_core_patch_exact_signature_check_desc">Disables exact signature match between apks, allowing installs with each apk split having a different signature. Only enable when really needed</string>
+    <string name="system_framework_core_patch_exact_signature_check_desc">Disables exact signature matching between APKs, allowing installation when each APK split has a different signature. Enable only when absolutely necessary.</string>
     <string name="system_framework_core_patch_use_pre_signature">Use installed app signatures</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">This feature is extremely dangerous and should only be enabled when absolutely necessary</string>
     <string name="system_framework_disable_low_api_check">Disable low API check</string>
@@ -525,7 +525,7 @@
     <string name="system_framework_core_patch_allow_update_system_app">Allow update system apps</string>
     <string name="system_framework_core_patch_allow_update_system_app_desc">Allow installation of system apps when updating system apps is disabled</string>
     <string name="system_framework_core_patch_unloss_fingerprint">Disable reset fingerprint</string>
-    <string name="system_framework_core_patch_unloss_fingerprint_desc">May help resolve the issue where fingerprints are reset after reboot when certain package management services are enabled; intended for devices that encounter this problem only.</string>
+    <string name="system_framework_core_patch_unloss_fingerprint_desc">May help resolve the issue of fingerprints resetting after reboot when certain package management services are enabled. Intended only for devices affected by this problem.</string>
     <!--Browser-->
     <string name="browser">Browser</string>
     <string name="browser_debug_mode">Unlock developer options</string>
@@ -1353,7 +1353,7 @@
     <!--App vault-->
     <string name="personal_assistant">Personal assistant</string>
     <string name="personal_assistant_unlock_widget_count_limit">Unlock widgets count limit</string>
-    <string name="personal_assistant_disable_lite_version">Disable lite version</string>
+    <string name="personal_assistant_disable_lite_version">Disable simplified version</string>
     <string name="personal_assistant_widget_widget_blur_opt">Optimize widget blur</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Battery and performance</string>
@@ -1364,9 +1364,9 @@
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Prevent recovery of battery optimization whitelist</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Disable fetching display control code</string>
     <string name="powerkeeper_gms_doze_fix">Allow GMS to connect to network at any time</string>
-    <string name="powerkeeper_gms_doze_fix_desc">You need to enable the System Framework and PowerKeeper scopes</string>
+    <string name="powerkeeper_gms_doze_fix_desc">You need to enable the System Framework and Battery and performance scopes</string>
     <string name="powerkeeper_conservative_millet">Make Millet conservative</string>
-    <string name="powerkeeper_conservative_millet_desc">Make the backend management policy more conservative. You need to enable the System Framework and PowerKeeper scopes</string>
+    <string name="powerkeeper_conservative_millet_desc">Make the backend management policy more conservative. You need to enable the System Framework and Battery and performance scopes.</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">Screen Recorder</string>
     <string name="screen_recorder_force_support_playback_capture">Force enable AOSP screen recording support</string>
