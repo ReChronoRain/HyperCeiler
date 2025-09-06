@@ -49,3 +49,9 @@ This module will be uninstalled in 5 seconds.
 Thank you to all the contributors.
 This app is so fast, you'll think you're on a rocket.
 Thank you for seeing this tip, I wish you a happy life.
+How can I make sure my OLED device never locks the screen? Having to keep waking the screen up is really annoying. You can go to "Settings > Allow never lock screen" to enable this feature! But be careful not to burn your screen.
+If your device doesn't have a motion sickness relief feature, you can go to "Security > Unlock Motion sickness relief" to try to ease the discomfort when riding in a car.
+Why is the volume adjustment so imprecise? You can go to "System Framework > Volume > Media volume level" to set the desired volume precision.
+The sound effect is good for the external speaker, but the original sound is better with headphones. It's really annoying to keep switching! You can go to "Earphones > Change headphone status to the original sound" to manage this.
+Why do I have fewer widgets available than others? You can go to "Personal assistant > Disable simplified version" to unlock the same access as everyone else.
+Your dock is so pretty, I want one too! You can go to "System launcher > Dock > Add background blur to dock" to customize your dock.
