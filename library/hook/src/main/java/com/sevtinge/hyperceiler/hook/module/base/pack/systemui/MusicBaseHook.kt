@@ -524,8 +524,8 @@ abstract class MusicBaseHook : BaseHook() {
 data class SplitConfig(
     val maxLength: Int,
     val lookahead: Int = 2,
-    val minFraction: Double = 0.35,
-    val keepSpaceInSecond: Boolean = true,
+    val minFraction: Double = 0.45,
+    val keepSpaceInSecond: Boolean = false,
     val pairedSymbols: Map<Char, Char> = mapOf(
         '(' to ')',
         '[' to ']',
