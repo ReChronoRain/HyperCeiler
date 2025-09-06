@@ -88,7 +88,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.navigation.NavigationC
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.navigation.RotationButton;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.BrightnessPct;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableBottomBar;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableInfinitymodeGesture;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableMiuiMultiWinSwitch;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.MonetThemeOverlay;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.NotificationFreeform;
@@ -273,7 +272,6 @@ public class SystemUIV extends BaseModule {
         initHook(new BrightnessPct(), mPrefsMap.getBoolean("system_showpct_title"));
         initHook(DisableMiuiMultiWinSwitch.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_miui_multi_win_switch"));
         initHook(RemoveMiuiMultiWinSwitch.INSTANCE, mPrefsMap.getBoolean("system_ui_remove_miui_multi_win_switch"));
-        initHook(DisableInfinitymodeGesture.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_infinitymode_gesture"));
         initHook(DisableBottomBar.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_bottombar"));
         initHook(UnlockClipboard.INSTANCE, mPrefsMap.getBoolean("system_ui_unlock_clipboard"));
 

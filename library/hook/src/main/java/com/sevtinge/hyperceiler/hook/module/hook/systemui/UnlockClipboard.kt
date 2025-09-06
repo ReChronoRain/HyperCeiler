@@ -38,7 +38,10 @@ object UnlockClipboard : BaseHook() {
             clazzClipboardListener.methodFinder().filterByName("onPrimaryClipChanged")
                 .filterNonAbstract().single().createBeforeHook { param ->
                     val mClipboardManager =
-                        param.thisObject.getObjectFieldOrNullAs<ClipboardManager>("mClipboardManager")!!
+                        // Android 16 changed mClipboardManager to mClipboardManagerForUser
+                        param.thisObject.getObjectFieldOrNullAs<ClipboardManager>("mClipboardManagerForUser")
+                            ?: param.thisObject.getObjectFieldOrNullAs<ClipboardManager>("mClipboardManager")
+                            ?: return@createBeforeHook
                     val primaryClipSource =
                         invokeMethodBestMatch(mClipboardManager, "getPrimaryClipSource") as String?
                     val oldList =

@@ -27,9 +27,16 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object DisableInfinitymodeGesture : BaseHook() {
     override fun init() {
-        loadClass("com.android.wm.shell.multitasking.miuiinfinitymode.MiuiInfinityModeSizesPolicy", lpparam.classLoader)
-            .methodFinder().filterByName("isForbiddenWindow").single().createHook {
-                returnConstant(true)
-            }
+        if (isMoreAndroidVersion(36)) {
+            loadClass("com.android.wm.shell.multitasking.stubs.infinitymode.MiuiInfinityModeStatus", lpparam.classLoader)
+                .methodFinder().filterByName("isEnabled").single().createHook {
+                    returnConstant(false)
+                }
+        } else {
+            loadClass("com.android.wm.shell.multitasking.miuiinfinitymode.MiuiInfinityModeSizesPolicy", lpparam.classLoader)
+                .methodFinder().filterByName("isForbiddenWindow").single().createHook {
+                    returnConstant(true)
+                }
+        }
     }
 }

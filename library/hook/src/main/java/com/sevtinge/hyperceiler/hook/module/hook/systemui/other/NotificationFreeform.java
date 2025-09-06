@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.other;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -25,13 +27,23 @@ import de.robv.android.xposed.XposedHelpers;
 public class NotificationFreeform extends BaseHook {
     @Override
     public void init() {
-        findAndHookMethod(findClassIfExists("com.android.systemui.statusbar.notification.row.MiuiExpandableNotificationRow"), "updateMiniWindowBar", new MethodHook() {
-            @Override
-            protected void after(MethodHookParam param) throws Throwable {
-                super.after(param);
-                XposedHelpers.setObjectField(param.thisObject, "mCanSlide", true);
-            }
-        });
+        if (isMoreAndroidVersion(36)) {
+            findAndHookMethod(findClassIfExists("com.android.systemui.statusbar.notification.row.ExpandableNotificationRowInjector"), "updateMiniWindowBar", new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) throws Throwable {
+                    super.after(param);
+                    XposedHelpers.setObjectField(param.thisObject, "canSlide", true);
+                }
+            });
+        } else {
+            findAndHookMethod(findClassIfExists("com.android.systemui.statusbar.notification.row.MiuiExpandableNotificationRow"), "updateMiniWindowBar", new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) throws Throwable {
+                    super.after(param);
+                    XposedHelpers.setObjectField(param.thisObject, "mCanSlide", true);
+                }
+            });
+        }
 
     }
 }

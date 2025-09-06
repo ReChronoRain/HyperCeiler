@@ -163,7 +163,7 @@ object NewPluginHelperKt : BaseHook() {
                     )
                 }
 
-                if (prefs.getBoolean("misound_bluetooth") && !isSupportFW()) {
+                if (prefs.getBoolean("misound_bluetooth") && !isSupportFW() && isHyperOSVersion(2f)) {
                     enabledLoaders.add(
                         Pair("AutoSEffSwitchForSystemUi",
                             AutoSEffSwitchForSystemUi::onNotSupportFW
