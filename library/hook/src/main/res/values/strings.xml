@@ -30,6 +30,9 @@
     <string name="tiles_snow_leopard_mode">S-Leo mode</string>
     <string name="tiles_taplus">Taplus</string>
     <string name="tiles_5g">5G network</string>
+    <string name="system_ui_statusbar_music_share">Share lyrics</string>
+    <string name="system_ui_statusbar_music_send">Release to send</string>
+    <string name="system_ui_statusbar_music_send_share_text">I shared the following lyrics from %1$s:\n%2$s</string>
     <string name="system_ui_statusbar_music_notification">Focus notification lyrics</string>
     <string name="system_ui_statusbar_network_speed_Bs" translatable="false">B/s</string>
     <string name="system_ui_statusbar_network_speed_speedunits" translatable="false">KMG</string>
