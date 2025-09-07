@@ -25,7 +25,7 @@ import android.widget.TextView
 import com.hchen.superlyricapi.SuperLyricData
 import com.sevtinge.hyperceiler.hook.module.base.pack.systemui.MusicBaseHook
 import com.sevtinge.hyperceiler.hook.utils.callMethod
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isAndroidVersion
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getFloatField
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull
@@ -133,6 +133,8 @@ object FocusNotifLyric : MusicBaseHook() {
         }.onFailure {
             logE(TAG, "canCustomFocus failed, ${it.message}")
         }
+
+        if (!isMoreHyperOSVersion(3f)) return
         runCatching {
             loadClass("miui.systemui.notification.auth.AuthManager\$AuthServiceCallback\$onAuthResult$1",classLoader)
                 .methodFinder().filterByName("invokeSuspend")
