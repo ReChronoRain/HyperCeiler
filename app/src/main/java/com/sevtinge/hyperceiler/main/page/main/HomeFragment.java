@@ -59,7 +59,23 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
         mShowAppTips = findPreference("prefs_key_help_cant_see_app");
         HomepageEntrance.setEntranceStateListen(this);
         setPreference();
-        HomePageBannerHelper.init(requireContext(), mHeadtipGround);
+
+        Thread thread = new Thread(() -> {
+            try {
+                HomePageBannerHelper.init(requireContext().getApplicationContext(), mHeadtipGround);
+            } catch (Exception e) {
+                AndroidLogUtils.logE(TAG, "HomePageBannerHelper.init failed on background thread, retrying on UI thread", e);
+                requireActivity().runOnUiThread(() -> {
+                    try {
+                        HomePageBannerHelper.init(requireContext(), mHeadtipGround);
+                    } catch (Exception ex) {
+                        AndroidLogUtils.logE(TAG, "HomePageBannerHelper.init failed on UI thread", ex);
+                    }
+                });
+            }
+        });
+        thread.setName("HomePageBannerInit");
+        thread.start();
 
         boolean isHideTip = getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false);
         if (isHideTip && mShowAppTips != null) {

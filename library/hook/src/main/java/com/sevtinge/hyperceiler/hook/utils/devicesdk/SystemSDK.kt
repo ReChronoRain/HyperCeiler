@@ -25,6 +25,8 @@ import android.os.Build
 import android.os.Process
 import com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd
+import java.io.File
+import java.nio.charset.Charset
 
 // 设备信息相关
 fun getSystemVersionIncremental(): String = getProp("ro.mi.os.version.incremental").ifEmpty { getProp("ro.system.build.version.incremental") }
@@ -33,11 +35,14 @@ fun getHost(): String = Build.HOST
 fun getBuilder(): String = getProp("ro.build.user")
 fun getBaseOs(): String = getProp("ro.build.version.base_os").ifEmpty { "null" }
 fun getRomAuthor(): String = getProp("ro.rom.author") + getProp("ro.romid")
-fun getWhoAmI(): String = rootExecCmd("whoami")
+fun getWhoAmI(): String = rootExecCmd("whoami") ?: "unknown"
+fun getRootGroupsInfo(): String = rootExecCmd("id") ?: "unknown"
 fun getCurrentUserId(): Int = Process.myUserHandle().hashCode()
 // 仅获取设备信息，不要用于判断
 fun getAndroidVersion(): Int = androidSDK
 fun getHyperOSVersion(): Float = hyperOSSDK
+@SuppressLint("DefaultLocale")
+fun getSmallVersion(): Float = String.format("%.1f", hyperOSSDK + smallVersion * 0.001f).toFloatOrNull() ?: -1f
 fun isSupportTelephony(context: Context): Boolean = context.packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
 fun isSupportWifi(context: Context): Boolean = context.packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI)
 
@@ -115,7 +120,7 @@ fun isMoreSmallVersion(code: Int, osVersion: Float): Boolean {
 @SuppressLint("DefaultLocale")
 fun isFullSupport(): Boolean {
     val isBigVersionSupport = mSupportHyperOsVersion.contains(hyperOSSDK)
-    val isSmallVersionSupport = mSupportSmallVersion.contains(String.format("%.1f", hyperOSSDK + smallVersion * 0.001f).toFloatOrNull())
+    val isSmallVersionSupport = mSupportSmallVersion.contains(getSmallVersion())
     val isAndroidVersionSupport = mSupportAndroidVersion.contains(androidSDK)
 
     val isHyperOsVersionSupport = if (hyperOSSDK >= 2f) {
@@ -124,4 +129,78 @@ fun isFullSupport(): Boolean {
         isBigVersionSupport
     }
     return isHyperOsVersionSupport && isAndroidVersionSupport
+}
+
+data class ModuleInfo(
+    val moduleDir: String,
+    val name: String,
+    val version: String,
+    val versionCode: String
+) {
+    fun extractName(): String = name
+
+    fun formattedVersion(): String {
+        val v = version.trim()
+        val vc = versionCode.trim()
+
+        if (v.isEmpty() && vc.isEmpty()) return ""
+        if (v.isEmpty()) return vc
+        if (vc.isEmpty()) return v
+
+        return if (v.contains(vc)) v else "$v ($vc)"
+    }
+}
+
+fun scanModules(basePath: String = "/data/adb/modules", charset: Charset = Charsets.UTF_8): List<ModuleInfo> {
+    val moduleDirs = rootExecCmd("ls -1 $basePath")?.lineSequence()
+        ?.map { it.trim() }
+        ?.filter { it.isNotEmpty() }
+        ?.toList() ?: return emptyList()
+
+    return buildList {
+        for (dirName in moduleDirs) {
+            val dirPath = "$basePath/$dirName"
+            val checkCmd = "[ -f $dirPath/module.prop ] && [ -f $dirPath/lspd ] && echo 1"
+            if (rootExecCmd(checkCmd)?.trim() != "1") continue
+
+            val tempFile = File.createTempFile("module_prop_", null)
+            try {
+                val content = rootExecCmd("cat $dirPath/module.prop") ?: ""
+                tempFile.writeText(content, charset)
+                parseModuleProp(tempFile, dirPath, charset)?.let { add(it) }
+            } finally {
+                tempFile.delete()
+            }
+        }
+    }
+}
+
+fun parseModuleProp(propFile: File, moduleDirPath: String, charset: Charset = Charsets.UTF_8): ModuleInfo? {
+    if (!propFile.exists() || !propFile.isFile) return null
+    val map = mutableMapOf<String, String>()
+
+    try {
+        propFile.useLines(charset) { lines ->
+            lines.forEach { line ->
+                val trimmed = line.trim()
+                if (trimmed.isEmpty() || trimmed.startsWith("#")) return@forEach
+                val idx = trimmed.indexOf('=')
+                if (idx <= 0) return@forEach
+                val key = trimmed.substring(0, idx).trim()
+                val value = trimmed.substring(idx + 1).trim()
+                map[key] = value
+            }
+        }
+    } catch (_: Exception) {
+        return null
+    }
+
+    fun getIgnoreCase(k: String): String =
+        map.entries.firstOrNull { it.key.equals(k, ignoreCase = true) }?.value ?: ""
+
+    val name = getIgnoreCase("name")
+    val version = getIgnoreCase("version")
+    val versionCode = getIgnoreCase("versionCode")
+
+    return ModuleInfo(moduleDirPath, name, version, versionCode)
 }

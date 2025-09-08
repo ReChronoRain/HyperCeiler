@@ -18,11 +18,12 @@
  */
 package com.sevtinge.hyperceiler.main.banner;
 
+import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mNotInSelectedScope;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isFullSupport;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.scanModules;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mNotInSelectedScope;
 
 import android.content.Context;
 import android.widget.TextView;
@@ -30,14 +31,19 @@ import android.widget.TextView;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 
+import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.ModuleInfo;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.ui.BuildConfig;
 import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
+
+import kotlin.text.Charsets;
 
 public class HomePageBannerHelper {
 
@@ -95,6 +101,7 @@ public class HomePageBannerHelper {
     private void checkWarnings(Context context, PreferenceCategory preference) {
         boolean isOfficialRom = getIsOfficialRom();
         boolean isFullSupport = isFullSupport();
+        boolean isWhileXposed = isWhileXposed();
         boolean isSignPass = SignUtils.isSignCheckPass(context);
 
         if (!isSignPass || !isFullSupport || isOfficialRom) {
@@ -107,10 +114,23 @@ public class HomePageBannerHelper {
                 titleView.setText(R.string.headtip_warn_sign_verification_failed);
             } else if (isOfficialRom) {
                 titleView.setText(R.string.headtip_warn_not_offical_rom);
+            } else if (!isWhileXposed) {
+                titleView.setText(R.string.headtip_warn_unsupport_xposed);
             } else if (!isFullSupport) {
                 titleView.setText(R.string.headtip_warn_unsupport_sysver);
             }
             preference.addPreference(layoutPreference);
+        }
+    }
+
+    private boolean isWhileXposed() {
+        try {
+            List<ModuleInfo> module = scanModules("/data/adb/modules", Charsets.UTF_8);
+            String moduleName = module.getFirst().extractName();
+            return moduleName.contains("LSPosed IT") || moduleName.contains("LSPosed - Irena");
+        } catch (Throwable e) {
+            AndroidLogUtils.logE("isWhileXposed", e);
+            return false;
         }
     }
 
