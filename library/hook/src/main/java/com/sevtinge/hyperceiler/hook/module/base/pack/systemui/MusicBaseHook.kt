@@ -180,6 +180,7 @@ abstract class MusicBaseHook : BaseHook() {
                     pictickerdark = darkIcon
                 )
                 else -> FocusApi.senddiyFocus(
+                    islandFirstFloat = false,
                     addpics = iconsAdd,
                     islandFirstFloat = false,
                     ticker = text,
