@@ -797,7 +797,7 @@
     <string name="system_ui_statusbar_music_tip">使用前注意事项：\n- 开启此功能后，请勾选并重启系统界面作用域\n- 此功能需要搭配 \"SuperLyric\" 模块使用</string>
     <string name="system_ui_statusbar_music_share">分享歌词</string>
     <string name="system_ui_statusbar_music_send">松开即发送</string>
-    <string name="system_ui_statusbar_music_send_share_text">我从 %1$s 分享了如下歌词：\n%2$s</string>
+    <string name="system_ui_statusbar_music_send_share_text">我从%1$s分享了如下歌词：\n%2$s</string>
     <string name="system_ui_statusbar_music_notification">焦点通知歌词</string>
     <string name="system_ui_statusbar_music_show_app_title">通知注册在 App 上</string>
     <string name="system_ui_statusbar_music_show_app_desc">开启后需要额外勾选音乐 App 作用域</string>

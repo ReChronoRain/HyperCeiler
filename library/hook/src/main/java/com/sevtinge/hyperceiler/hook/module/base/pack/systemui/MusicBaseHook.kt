@@ -127,25 +127,32 @@ abstract class MusicBaseHook : BaseHook() {
         val islandTemplate = buildIslandTemplate(modRes, leftText, rightText, musicAppName, text)
 
         // icons bundle: NOTE - only the "miui.focus.icon" entry should be scaled to 60% and circle-cropped.
-        val circularScaledIconBitmap = circleCropBitmap(scaleBitmap(primaryBitmap, 0.6f))
+        val circularScaledIconBitmap =
+            if (baseBitmap == null) circleCropBitmap(primaryBitmap) else primaryBitmap
         val circularIconForBundle = Icon.createWithBitmap(circularScaledIconBitmap)
+            .apply { if (baseBitmap != null) setTint(Color.WHITE) }
 
         val iconsAdd = Bundle().apply {
             putParcelable("miui.focus.icon", circularIconForBundle)
-            activityIconBitmap?.let { putParcelable("miui.focus.share_icon", Icon.createWithBitmap(it)) } // unchanged
+            putParcelable(
+                "miui.focus.share_icon",
+                Icon.createWithBitmap(activityIconBitmap)
+            )// unchanged
         }
 
-        // RemoteViews
         val tf = extraData.translation
-        val remoteDay = buildRemoteViews(modRes, tf, text)
-        val remoteAod = buildAodRemoteViews(modRes, tf, text, Color.WHITE, icon)
-        val remoteIsland = buildRemoteViewsIsland(modRes, tf, text)
 
         // senddiyFocus first, fallback to sendFocus
         runCatching {
+            // RemoteViews
+            val remoteDay = buildRemoteViews(modRes, tf, text)
+            val remoteAod = buildAodRemoteViews(modRes, tf, text, Color.WHITE, icon)
+            val remoteIsland = buildRemoteViewsIsland(modRes, tf, text)
+
             val api = when {
                 !isAodShow && isAodMode -> FocusApi.senddiyFocus(
                     addpics = iconsAdd,
+                    islandFirstFloat = false,
                     ticker = text,
                     island = islandTemplate,
                     updatable = true,
@@ -159,6 +166,7 @@ abstract class MusicBaseHook : BaseHook() {
                 )
                 !isAodShow && !isAodMode -> FocusApi.senddiyFocus(
                     addpics = iconsAdd,
+                    islandFirstFloat = false,
                     ticker = text,
                     island = islandTemplate,
                     rvIsLand = remoteIsland,
@@ -173,6 +181,7 @@ abstract class MusicBaseHook : BaseHook() {
                 )
                 else -> FocusApi.senddiyFocus(
                     addpics = iconsAdd,
+                    islandFirstFloat = false,
                     ticker = text,
                     rvIsLand = remoteIsland,
                     island = islandTemplate,
@@ -277,7 +286,6 @@ abstract class MusicBaseHook : BaseHook() {
         val smallIsland = IslandApi.SmallIslandArea(picInfo = IslandApi.PicInfo(pic = "miui.focus.icon"))
         return IslandApi.IslandTemplate(
             shareData = shareData,
-            islandOrder = true,
             bigIslandArea = bigIsland,
             smallIslandArea = smallIsland
         )

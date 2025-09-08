@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="titleColor">#ffffff</color>
+    <color name="titleColor">#000000</color>
+    <color name="IslandTitleColor">#ffffff</color>
 </resources>

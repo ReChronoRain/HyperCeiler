@@ -37,7 +37,7 @@
 
         <TextView
             android:id="@+id/focuslyric"
-            android:textColor="@color/titleColor"
+            android:textColor="@color/IslandTitleColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -48,7 +48,7 @@
 
         <TextView
             android:id="@+id/focustflyric"
-            android:textColor="@color/titleColor"
+            android:textColor="@color/IslandTitleColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
