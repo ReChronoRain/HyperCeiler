@@ -93,6 +93,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         LanguageHelper.init(this);
         PermissionUtils.init(this);
         ShellInit.init(this);
+        XposedActivateHelper.init(this);
 
         final boolean restored = (savedInstanceState != null);
 
@@ -103,12 +104,6 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
                 LogServiceUtils.init(appCtx);
             } catch (Throwable t) {
                 AndroidLogUtils.logE("HyperCeilerTab", "LogServiceUtils" + t);
-            }
-
-            try {
-                XposedActivateHelper.init(appCtx);
-            } catch (Throwable t) {
-                AndroidLogUtils.logE("HyperCeilerTab", "XposedActivateHelper" + t);
             }
 
             try {

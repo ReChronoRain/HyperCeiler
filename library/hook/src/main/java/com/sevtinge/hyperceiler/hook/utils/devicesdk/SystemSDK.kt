@@ -24,6 +24,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Process
 import com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp
+import com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd
 import java.io.File
 import java.nio.charset.Charset
@@ -152,7 +153,9 @@ data class ModuleInfo(
 }
 
 fun scanModules(basePath: String = "/data/adb/modules", charset: Charset = Charsets.UTF_8): List<ModuleInfo> {
-    val moduleDirs = rootExecCmd("ls -1 $basePath")?.lineSequence()
+    if (checkRootPermission() != 0) return emptyList()
+    
+    val moduleDirs = rootExecCmd("sh -c 'ls -1 -- \"$basePath\"'")?.lineSequence()
         ?.map { it.trim() }
         ?.filter { it.isNotEmpty() }
         ?.toList() ?: return emptyList()
@@ -160,12 +163,13 @@ fun scanModules(basePath: String = "/data/adb/modules", charset: Charset = Chars
     return buildList {
         for (dirName in moduleDirs) {
             val dirPath = "$basePath/$dirName"
-            val checkCmd = "[ -f $dirPath/module.prop ] && [ -f $dirPath/lspd ] && echo 1"
+            val checkCmd = "sh -c '[ -f \"$dirPath/module.prop\" ] && [ -f \"$dirPath/lspd\" ] && echo 1 || echo 0'"
             if (rootExecCmd(checkCmd)?.trim() != "1") continue
 
-            val tempFile = File.createTempFile("module_prop_", null)
+            val content = rootExecCmd("sh -c 'cat -- \"$dirPath/module.prop\"'") ?: continue
+
+            val tempFile = kotlin.io.path.createTempFile("module_prop_", ".tmp").toFile()
             try {
-                val content = rootExecCmd("cat $dirPath/module.prop") ?: ""
                 tempFile.writeText(content, charset)
                 parseModuleProp(tempFile, dirPath, charset)?.let { add(it) }
             } finally {

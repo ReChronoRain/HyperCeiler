@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.main.banner;
 
 import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mNotInSelectedScope;
+import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isFullSupport;
@@ -124,13 +125,14 @@ public class HomePageBannerHelper {
     }
 
     private boolean isWhileXposed() {
+        if (checkRootPermission() != 0) return true; // 没 root 就别走校验了
         try {
             List<ModuleInfo> module = scanModules("/data/adb/modules", Charsets.UTF_8);
             String moduleName = module.getFirst().extractName();
             return moduleName.contains("LSPosed IT") || moduleName.contains("LSPosed - Irena");
         } catch (Throwable e) {
             AndroidLogUtils.logE("isWhileXposed", e);
-            return false;
+            return true;
         }
     }
 

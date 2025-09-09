@@ -64,7 +64,7 @@ import kotlin.math.min
 abstract class MusicBaseHook : BaseHook() {
     val context: Application by lazy { AndroidAppHelper.currentApplication() }
     private val nSize: Float by lazy { mPrefsMap.getInt("system_ui_statusbar_music_size_n", 15).toFloat() }
-    private val isAodShow: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_hide_aod") }
+    private val hideAodShow: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_hide_aod") }
     private val isAodMode: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_show_aod_mode") }
 
     private val receiver = object : ISuperLyric.Stub() {
@@ -150,7 +150,7 @@ abstract class MusicBaseHook : BaseHook() {
             val remoteIsland = buildRemoteViewsIsland(modRes, tf, text)
 
             val api = when {
-                !isAodShow && isAodMode -> FocusApi.senddiyFocus(
+                !hideAodShow && isAodMode -> FocusApi.senddiyFocus(
                     addpics = iconsAdd,
                     islandFirstFloat = false,
                     ticker = text,
@@ -164,7 +164,7 @@ abstract class MusicBaseHook : BaseHook() {
                     picticker = icon,
                     pictickerdark = darkIcon
                 )
-                !isAodShow && !isAodMode -> FocusApi.senddiyFocus(
+                !hideAodShow && !isAodMode -> FocusApi.senddiyFocus(
                     addpics = iconsAdd,
                     islandFirstFloat = false,
                     ticker = text,
@@ -203,7 +203,7 @@ abstract class MusicBaseHook : BaseHook() {
             logE(TAG, lpparam.packageName, "send diy focus failed: ${e.message}")
             runCatching {
                 val baseinfo = FocusApi.baseinfo(basetype = 1, title = text)
-                val apiFallback = if (!isAodShow) {
+                val apiFallback = if (!hideAodShow) {
                     FocusApi.sendFocus(
                         addpics = iconsAdd,
                         ticker = text,
