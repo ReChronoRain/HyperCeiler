@@ -147,8 +147,8 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesModule.put("BuildType", BuildConfig.BUILD_TYPE);
             propertiesModule.put("BuildOsName", BuildConfig.BUILD_OS_NAME);
             propertiesModule.put("BuildJavaVersion", BuildConfig.BUILD_JAVA_VERSION);
-            propertiesModule.put("GitHash", BuildConfig.GIT_HASH);
             propertiesModule.put("GitCode", BuildConfig.GIT_CODE);
+            propertiesModule.put("GitHash", BuildConfig.GIT_HASH);
             // propertiesModule.put("Debug", String.valueOf(BuildConfig.DEBUG));
         } catch (Exception ignored) {
         }
@@ -195,12 +195,12 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
                 propertiesCheck.put("XposedManger", "N/A");
                 propertiesCheck.put("XposedMangerVersion", "N/A");
             }
-            propertiesCheck.put("ModuleActive", String.valueOf(isModuleActive));
             // propertiesCheck.put("RootPermission", String.valueOf(ShellInit.ready()));
             // propertiesCheck.put("WhoAmI", getWhoAmI());
             propertiesCheck.put("RootGroups", getRootGroupsInfo());
-            propertiesCheck.put("LoggerStatus", IS_LOGGER_ALIVE + ", " + LOGGER_CHECKER_ERR_CODE);
             propertiesCheck.put("CurrentUserId", String.valueOf(getCurrentUserId()));
+            propertiesCheck.put("ModuleActive", String.valueOf(isModuleActive));
+            propertiesCheck.put("LoggerStatus", IS_LOGGER_ALIVE + ", " + LOGGER_CHECKER_ERR_CODE);
             propertiesCheck.put("Signature", SignUtils.getSHA256Signature(requireContext()));
             propertiesCheck.put("SignCheckPass", String.valueOf(SignUtils.isSignCheckPass(requireContext())));
         } catch (Exception ignored) {

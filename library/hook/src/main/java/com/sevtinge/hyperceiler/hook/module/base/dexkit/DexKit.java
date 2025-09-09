@@ -1,19 +1,19 @@
 /*
  * This file is part of HyperCeiler.
-
+ *
  * HyperCeiler is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License.
-
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
-
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+ *
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.hook.module.base.dexkit;
@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.sevtinge.hyperceiler.hook.R;
+import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
 import com.tencent.mmkv.MMKV;
 
 import org.jetbrains.annotations.NotNull;
@@ -62,16 +63,17 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  */
 public class DexKit {
     private static String TAG = "DexKit";
-    private static boolean isInit = false;
-    private static final int mVersion = 3;
+    private static volatile boolean isInit = false;
+    private static final int mVersion = 5;
     private static final String MMKV_PATH = "/files/hyperceiler/mmkv";
     private static XC_LoadPackage.LoadPackageParam mParam;
     private static final String TYPE_METHOD = "METHOD";
     private static final String TYPE_CLASS = "CLASS";
     private static final String TYPE_FIELD = "FIELD";
-    private static MMKV mMMKV = null;
-    private static Gson mGson = null;
-    private static DexKitBridge mDexKitBridge;
+
+    private static volatile MMKV mMMKV = null;
+    private static volatile Gson mGson = null;
+    private static volatile DexKitBridge mDexKitBridge = null;
 
     public static void ready(XC_LoadPackage.LoadPackageParam param, String tag) {
         mParam = param;
@@ -80,7 +82,7 @@ public class DexKit {
     }
 
     @NotNull
-    public static DexKitBridge initDexkitBridge() {
+    public static synchronized DexKitBridge initDexkitBridge() {
         if (mDexKitBridge != null)
             return mDexKitBridge;
         if (isInit)
@@ -93,44 +95,65 @@ public class DexKit {
         mGson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
 
         // 启动 MMKV
-        MMKV.initialize(mmkvPath, System::loadLibrary);
-        mMMKV = MMKV.mmkvWithID("dexkit_cache", MMKV.MULTI_PROCESS_MODE);
+        try {
+            MMKV.initialize(mmkvPath, System::loadLibrary);
+            mMMKV = MMKV.mmkvWithID("dexkit_cache", MMKV.MULTI_PROCESS_MODE);
 
-        // 检查阶段
-        if (mMMKV.containsKey("version")) {
-            int version = mMMKV.getInt("version", 0);
-            if (version != mVersion) {
-                mMMKV.clear();
-                mMMKV.putInt("version", mVersion);
+            // 检查阶段
+            String osVersion = getSystemVersionIncremental();
+            String pkgVersionName = getPackageVersionName(mParam);
+            int pkgVersionCode = getPackageVersionCode(mParam);
+
+            boolean needClear = false;
+            boolean hasPkgVersion = !Objects.equals(pkgVersionName, "null") && pkgVersionCode != -1;
+            String pkgVersion = hasPkgVersion ? pkgVersionName + "(" + pkgVersionCode + ")" : null;
+
+            if (mMMKV.containsKey("version")) {
+                int version = mMMKV.getInt("version", 0);
+                if (version != mVersion) {
+                    XposedLogUtils.logD(TAG, "DexKit version changed, clear all cache: " + version + " -> " + mVersion);
+                    needClear = true;
+                }
             }
-        } else
+
+            // 检查应用版本
+            if (hasPkgVersion) {
+                if (mMMKV.containsKey("pkgVersion")) {
+                    String oldPkgVersion = mMMKV.getString("pkgVersion", "null");
+                    if (!oldPkgVersion.contains(pkgVersion)) {
+                        XposedLogUtils.logD(TAG, "App version changed, clear all cache: " + oldPkgVersion + " -> " + pkgVersion);
+                        needClear = true;
+                    }
+                }
+            }
+
+            // 对于 systemui 单独检查系统版本
+            boolean isSystemUI = mParam.packageName.equals("com.android.systemui");
+            if (isSystemUI) {
+                if (mMMKV.containsKey("osVersion")) {
+                    String oldOSVersion = mMMKV.getString("osVersion", "null");
+                    if (!oldOSVersion.contains(osVersion)) {
+                        XposedLogUtils.logD(TAG, "System version changed, clear all cache: " + oldOSVersion + " -> " + osVersion);
+                        needClear = true;
+                    }
+                }
+            }
+
+            // 如果任一检测触发，统一清理一次
+            if (needClear) {
+                mMMKV.clear();
+            }
+
+            // 保证必要键存在并写入最新值（覆盖写入可保持一致性）
             mMMKV.putInt("version", mVersion);
-
-        String osVersion = getSystemVersionIncremental();
-        String pkgVersionName = getPackageVersionName(mParam);
-        int pkgVersionCode = getPackageVersionCode(mParam);
-        if (!Objects.equals(pkgVersionName, "null") && !Objects.equals(pkgVersionCode, -1)) {
-            String pkgVersion = pkgVersionName + "(" + pkgVersionCode + ")";
-            if (mMMKV.containsKey("pkgVersion")) {
-                String oldPkgVersion = mMMKV.getString("pkgVersion", "null");
-                if (!Objects.equals(pkgVersion, oldPkgVersion)) {
-                    mMMKV.clear();
-                    mMMKV.putString("pkgVersion", pkgVersion + "\n");
-                }
-            } else
-                mMMKV.putString("pkgVersion", pkgVersion + "\n");
-        }
-
-        // 对于长时间恒定不变的应用版本号但内部有改动的简易处理方式
-        if (mParam.packageName.equals("com.android.systemui")) {
-            if (mMMKV.containsKey("osVersion")) {
-                String oldOSVersion = mMMKV.getString("osVersion", "null");
-                if (!Objects.equals(osVersion, oldOSVersion)) {
-                    mMMKV.clear();
-                    mMMKV.putString("osVersion", osVersion + "\n");
-                }
-            } else
-                mMMKV.putString("osVersion", osVersion + "\n");
+            if (hasPkgVersion) {
+                mMMKV.putString("pkgVersion", pkgVersion);
+            }
+            if (isSystemUI) {
+                mMMKV.putString("osVersion", osVersion);
+            }
+        } catch (Throwable t) {
+            XposedLogUtils.logE(TAG, "Failed to init MMKV: ", t);
         }
 
         // 启动 DexKit
@@ -142,7 +165,7 @@ public class DexKit {
     }
 
     /**
-     * 虽然泛型对 kt 不慎友好，但是已经是最好的方法了。
+     * 虽然泛型对 kt 不甚友好，但是已经是最好的方法了。
      */
     public static <T> T findMember(@NonNull String key, IDexKit iDexKit) {
         return findMember(key, mParam.classLoader, iDexKit);
@@ -155,13 +178,16 @@ public class DexKit {
             try {
                 BaseData baseData = iDexKit.dexkit(dexKitBridge);
                 if (baseData instanceof FieldData fieldData) {
-                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_FIELD, fieldData.toDexField().serialize())) + "\n\n");
+                    String serialized = fieldData.toDexField().serialize();
+                    safePutMember(key, new MemberData(TYPE_FIELD, serialized));
                     return (T) fieldData.getFieldInstance(classLoader);
                 } else if (baseData instanceof MethodData methodData) {
-                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_METHOD, methodData.toDexMethod().serialize())) + "\n\n");
+                    String serialized = methodData.toDexMethod().serialize();
+                    safePutMember(key, new MemberData(TYPE_METHOD, serialized));
                     return (T) methodData.getMethodInstance(classLoader);
                 } else if (baseData instanceof ClassData classData) {
-                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_CLASS, classData.toDexType().serialize())) + "\n\n");
+                    String serialized = classData.toDexType().serialize();
+                    safePutMember(key, new MemberData(TYPE_CLASS, serialized));
                     return (T) classData.getInstance(classLoader);
                 }
             } catch (ReflectiveOperationException e) {
@@ -172,15 +198,14 @@ public class DexKit {
             }.getType());
             try {
                 switch (data.type) {
-                    case TYPE_METHOD -> {
+                    case TYPE_METHOD:
                         return (T) new DexMethod(data.serialize).getMethodInstance(classLoader);
-                    }
-                    case TYPE_FIELD -> {
+                    case TYPE_FIELD:
                         return (T) new DexField(data.serialize).getFieldInstance(classLoader);
-                    }
-                    case TYPE_CLASS -> {
+                    case TYPE_CLASS:
                         return (T) new DexClass(data.serialize).getInstance(classLoader);
-                    }
+                    default:
+                        XposedLogUtils.logW(TAG, "Unknown member data type: " + data.type);
                 }
             } catch (NoSuchMethodException | NoSuchFieldException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -206,21 +231,21 @@ public class DexKit {
                         serializeList.add(f.toDexField().serialize());
                         instanceList.add((T) f.getFieldInstance(classLoader));
                     }
-                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_FIELD, serializeList)) + "\n\n");
+                    safePutMember(key, new MemberData(TYPE_FIELD, serializeList));
                     return instanceList;
                 } else if (baseDataList instanceof MethodDataList methodDataList) {
                     for (MethodData m : methodDataList) {
                         serializeList.add(m.toDexMethod().serialize());
                         instanceList.add((T) m.getMethodInstance(classLoader));
                     }
-                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_METHOD, serializeList)) + "\n\n");
+                    safePutMember(key, new MemberData(TYPE_METHOD, serializeList));
                     return instanceList;
                 } else if (baseDataList instanceof ClassDataList classDataList) {
                     for (ClassData c : classDataList) {
                         serializeList.add(c.toDexType().serialize());
                         instanceList.add((T) c.getInstance(classLoader));
                     }
-                    mMMKV.putString(key, mGson.toJson(new MemberData(TYPE_CLASS, serializeList)) + "\n\n");
+                    safePutMember(key, new MemberData(TYPE_CLASS, serializeList));
                     return instanceList;
                 }
             } catch (ReflectiveOperationException e) {
@@ -232,24 +257,17 @@ public class DexKit {
             ArrayList<T> instanceList = new ArrayList<>();
             try {
                 switch (data.type) {
-                    case TYPE_METHOD -> {
-                        for (String s : data.serializeList) {
-                            instanceList.add((T) new DexMethod(s).getMethodInstance(classLoader));
-                        }
+                    case TYPE_METHOD:
+                        for (String s : data.serializeList) instanceList.add((T) new DexMethod(s).getMethodInstance(classLoader));
                         return instanceList;
-                    }
-                    case TYPE_FIELD -> {
-                        for (String s : data.serializeList) {
-                            instanceList.add((T) new DexField(s).getFieldInstance(classLoader));
-                        }
+                    case TYPE_FIELD:
+                        for (String s : data.serializeList) instanceList.add((T) new DexField(s).getFieldInstance(classLoader));
                         return instanceList;
-                    }
-                    case TYPE_CLASS -> {
-                        for (String s : data.serializeList) {
-                            instanceList.add((T) new DexClass(s).getInstance(classLoader));
-                        }
+                    case TYPE_CLASS:
+                        for (String s : data.serializeList) instanceList.add((T) new DexClass(s).getInstance(classLoader));
                         return instanceList;
-                    }
+                    default:
+                        XposedLogUtils.logW(TAG, "Unknown member data type: " + data.type);
                 }
             } catch (NoSuchMethodException | NoSuchFieldException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -258,15 +276,28 @@ public class DexKit {
         return new ArrayList<>();
     }
 
+    private static void safePutMember(@NonNull String key, @NonNull MemberData data) {
+        if (mMMKV == null || mGson == null) return;
+        try {
+            mMMKV.putString(key, mGson.toJson(data) + "\n\n");
+        } catch (Throwable t) {
+            XposedLogUtils.logW(TAG, "Failed to write dexkit cache for key=" + key + ": " + t.getMessage(), t);
+        }
+    }
+
     public static void deleteAllCache(Context context) {
         String[] folderNames = context.getResources().getStringArray(R.array.xposed_scope);
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
             for (String folderName : folderNames) {
-                String folderPath = "/data/data/" + folderName + MMKV_PATH;
-                rootExecCmd("rm -rf " + folderPath);
-                folderPath = "/data/user_de/0/" + folderName + MMKV_PATH;
-                rootExecCmd("rm -rf " + folderPath);
+                try {
+                    String folderPath = "/data/data/" + folderName + MMKV_PATH;
+                    rootExecCmd("rm -rf " + folderPath);
+                    folderPath = "/data/user_de/0/" + folderName + MMKV_PATH;
+                    rootExecCmd("rm -rf " + folderPath);
+                } catch (Throwable t) {
+                    XposedLogUtils.logW(TAG, "Failed to delete cache for " + folderName + ": " + t.getMessage(), t);
+                }
             }
         });
     }
@@ -274,7 +305,7 @@ public class DexKit {
     /**
      * 请勿手动调用。
      */
-    public static void close() {
+    public static synchronized void close() {
         if (!isInit) return;
 
         if (mDexKitBridge != null) {
@@ -315,9 +346,9 @@ public class DexKit {
         @Override
         public boolean equals(@Nullable Object obj) {
             return obj instanceof MemberData memberData
-                    && memberData.type.equals(type)
-                    && memberData.serialize.equals(serialize)
-                    && memberData.serializeList.equals(serializeList);
+                && Objects.equals(memberData.type, type)
+                && Objects.equals(memberData.serialize, serialize)
+                && Objects.equals(memberData.serializeList, serializeList);
         }
     }
 }
