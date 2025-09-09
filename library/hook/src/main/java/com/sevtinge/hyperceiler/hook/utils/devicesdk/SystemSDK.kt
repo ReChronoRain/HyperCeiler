@@ -33,11 +33,13 @@ fun getHost(): String = Build.HOST
 fun getBuilder(): String = getProp("ro.build.user")
 fun getBaseOs(): String = getProp("ro.build.version.base_os").ifEmpty { "null" }
 fun getRomAuthor(): String = getProp("ro.rom.author") + getProp("ro.romid")
-fun getWhoAmI(): String = rootExecCmd("whoami")
+fun getRootGroupsInfo(): String = rootExecCmd("id") ?: "unknown"
 fun getCurrentUserId(): Int = Process.myUserHandle().hashCode()
 // 仅获取设备信息，不要用于判断
 fun getAndroidVersion(): Int = androidSDK
 fun getHyperOSVersion(): Float = hyperOSSDK
+@SuppressLint("DefaultLocale")
+fun getSmallVersion(): Float = String.format("%.1f", hyperOSSDK + smallVersion * 0.001f).toFloatOrNull() ?: -1f
 fun isSupportTelephony(context: Context): Boolean = context.packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
 fun isSupportWifi(context: Context): Boolean = context.packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI)
 
