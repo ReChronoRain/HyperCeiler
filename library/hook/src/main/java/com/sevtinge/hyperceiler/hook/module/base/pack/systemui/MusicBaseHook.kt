@@ -182,7 +182,6 @@ abstract class MusicBaseHook : BaseHook() {
                 else -> FocusApi.senddiyFocus(
                     islandFirstFloat = false,
                     addpics = iconsAdd,
-                    islandFirstFloat = false,
                     ticker = text,
                     rvIsLand = remoteIsland,
                     island = islandTemplate,
